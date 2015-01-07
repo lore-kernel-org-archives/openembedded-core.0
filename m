@@ -1,28 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 950B065CDB
+	by mail.openembedded.org (Postfix) with ESMTP id 9E9BF65CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 01:26:32 +0000 (UTC)
+	Wed,  7 Jan 2015 01:31:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t071QVbg025204
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t071V5qH025750
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jan 2015 17:26:32 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 6 Jan 2015 17:26:31 -0800
-Message-ID: <54AC8B46.8020206@windriver.com>
-Date: Wed, 7 Jan 2015 09:26:30 +0800
+	Tue, 6 Jan 2015 17:31:05 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 6 Jan 2015 17:31:05 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Jan 2015 17:31:03 -0800
+Message-ID: <cover.1420594233.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Chong Lu <Chong.Lu@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1414720498.git.Chong.Lu@windriver.com>
-In-Reply-To: <cover.1414720498.git.Chong.Lu@windriver.com>
-Subject: Re: [PATCH V2 0/1] libxml2: fix python path and add libxml2-python
+Subject: [PATCH 0/2] fix RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 01:26:33 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jan 2015 01:31:07 -0000
+Content-Type: text/plain
 
+The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
 
-Ping, the target createrepo can't work without this patch.
+  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
 
-// Robert
+are available in the git repository at:
 
-On 10/31/2014 09:56 AM, Chong Lu wrote:
-> Change since v1:
-> add python to PACKAGECONFIG.
->
-> The following changes since commit 4faca22b8fe63a86d820990207aaf84b3fa83e01:
->
->    ref-manual: Updates to the migrating to YP 1.7 section. (2014-10-28 22:31:18 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib chonglu/libxml2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libxml2
->
-> Robert Yang (1):
->    libxml2: fix python path and add libxml2-python
->
->   meta/recipes-core/libxml/libxml2.inc | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
->
+  git://git.openembedded.org/openembedded-core-contrib rbt/rdep
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rdep
+
+Robert Yang (2):
+  parted: parted-ptest RDEPENDS on python
+  pax-utils: RDEPENDS on python
+
+ meta/recipes-devtools/pax-utils/pax-utils_0.9.2.bb |    2 +-
+ meta/recipes-extended/parted/parted_3.2.bb         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.7.9.5
+
 
