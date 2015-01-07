@@ -1,31 +1,23 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 24559729F1
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id CE7EA706D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 11:34:11 +0000 (UTC)
-Received: from [70.30.87.145] (port=47635 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Y8osJ-0008Fd-9u for openembedded-core@lists.openembedded.org;
-	Wed, 07 Jan 2015 06:34:07 -0500
-Date: Wed, 7 Jan 2015 06:34:02 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1501070615450.5905@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Wed,  7 Jan 2015 12:11:46 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 7 Jan 2015
+	13:11:45 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 4A0B42800CB;
+	Wed,  7 Jan 2015 13:11:45 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Jan 2015 13:11:43 +0100
+Message-ID: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: summarizing how to create new core images from existing ones [pt 1]
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [dizzy][PATCH] coreutils: Fix CVE-2014-9471
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,74 +30,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 11:34:16 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 07 Jan 2015 12:11:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Fiedler Roman discovered that coreutils' parse_datetime() function
+has some flaws that may be exploitable if the date(1), touch(1),
+or potentially other programs, accept untrusted input for certain
+parameters. While researching this issue, he discovered that it
+was independently discovered by Bertrand Jacquin and reported at
+http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D16872
 
-  for purposes of tutorial, i want to clarify the two ways to create
-new core images and maybe submit a couple cleanups later (looking at
-all the core-image* recipe files under openembedded).
+$ touch '--date=3DTZ=3D"123"345" @1'
+*** Error in `touch': free(): invalid pointer: 0x00007fffd33e55e0 ***
+Aborted
 
-  first, there's just "require"ing an existing core-image recipe file
-and adding some mods. as an example, core-image-minimal-dev.bb
-consists trivially of just:
+$ date '--date=3DTZ=3D"123"345" @1'
+date[394]: segfault at 7fff24000000 ip 00007f6dd5b73404 sp 00007fff27cce8f8
+error 4 in libc-2.20.so[7f6dd5af7000+199000]
+Segmentation fault
 
-  require core-image-minimal.bb
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../coreutils/coreutils-8.22/date-tz-crash.patch   | 43 ++++++++++++++++++=
+++++
+ meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-cras=
+h.patch
 
-  DESCRIPTION = "A small image just capable of allowing a device to
-  boot and is suitable for development work."
-
-  IMAGE_FEATURES += "dev-pkgs"
-
-as i read it, using this technique, the primary variables you'd
-typically set for the new core image recipe (and, really, the
-only major ones i've seen) would be:
-
-  * DESCRIPTION = "blah blah"
-  * IMAGE_FEATURES += "additional image features"
-  * IMAGE_INSTALL += "additional packages"
-
-in addition to those canonical settings, i can see some new recipes
-that will simply set specific variables, like this in
-core-image-sato-sdk.bb:
-
-  QT4PKG = "qt4-pkgs"
-  QT4PKG_mips64 = ""
-
-beyond that, am i missing anything that might show up in a new
-core image recipe file defined this way?
-
-  the only curiosity is setting LICENSE in, say, core-image-rt.sdk.bb:
-
-  require recipes-core/images/core-image-minimal.bb
-  ... snip ...
-  LICENSE = "MIT"
-
-given that the underlying core-image-minimal.bb already sets that
-LICENSE variable:
-
-  LICENSE = "MIT"
-
-i'm assuming that variable setting in the new recipe file is
-superfluous, yes? the new core image recipe file will strictly inherit
-the underlying license, will it not?
-
-  and is there any possibility that a new core image recipe file might
-*redefine* the license value of the underlying required file, perhaps
-to something more restrictive?
-
-  i think that's it for part 1 ...
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+diff --git a/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch=
+ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+new file mode 100644
+index 0000000..570e4fd
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+@@ -0,0 +1,43 @@
++This was reported in http://bugs.gnu.org/16872
++from the coreutils command: date -d 'TZ=3D"""'
++
++The infinite loop for this case was present since the
++initial TZ=3D"" parsing support in commit de95bdc2 29-10-2004.
++This was changed to a crash or heap corruption depending
++on the platform with commit 2e3e4195 18-01-2010.
++
++* lib/parse-datetime.y (parse_datetime): Break out of the
++TZ=3D"" parsing loop once the second significant " is found.
++Also skip over any subsequent whitespace to be consistent
++with the non TZ=3D case.
++
++Fixes: CVE-2014-9471
++
++Upstream-Status: backport
++
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
++Signed-off-by: P=C3=A1draig Brady <P@draigBrady.com>
++---
++diff -Naur coreutils-8.22-origin/lib/parse-datetime.y coreutils-8.22/lib/p=
+arse-datetime.y
++--- coreutils-8.22-origin/lib/parse-datetime.y	2013-12-04 15:53:33.0000000=
+00 +0100
+++++ coreutils-8.22/lib/parse-datetime.y	2015-01-05 17:11:16.754358184 +010=
+0
++@@ -1303,8 +1303,6 @@
++             char tz1buf[TZBUFSIZE];
++             bool large_tz =3D TZBUFSIZE < tzsize;
++             bool setenv_ok;
++-            /* Free tz0, in case this is the 2nd or subsequent time throu=
+gh. */
++-            free (tz0);
++             tz0 =3D get_tz (tz0buf);
++             z =3D tz1 =3D large_tz ? xmalloc (tzsize) : tz1buf;
++             for (s =3D tzbase; *s !=3D '"'; s++)
++@@ -1317,6 +1315,10 @@
++               goto fail;
++             tz_was_altered =3D true;
++             p =3D s + 1;
+++            while (c =3D *p, c_isspace (c))
+++              p++;
+++
+++            break;
++           }
++     }
++=20
+diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-c=
+ore/coreutils/coreutils_8.22.bb
+index f85baca..4a1aee6 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.22.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
+@@ -17,6 +17,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://dummy_help2man.patch \
+            file://fix-for-dummy-man-usage.patch \
+            file://fix-selinux-flask.patch \
++           file://date-tz-crash.patch \
+           "
+=20
+ SRC_URI[md5sum] =3D "8fb0ae2267aa6e728958adc38f8163a2"
+--=20
+1.9.1
 
 
