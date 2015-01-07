@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F03472A0E
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A88EC728AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 12:53:46 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id n3so7406237wiv.5
+	Wed,  7 Jan 2015 13:08:15 +0000 (UTC)
+Received: by mail-la0-f41.google.com with SMTP id hv19so3313371lab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jan 2015 04:53:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=XpLlO5gOkOjDKgUrClRo0SzigcB0yHHBILefluuNP+A=;
-	b=I75E173MtEc2h7d+re72eP4CnSMPSm98CcXZwWJW0OpgeGNS1s13VUo6fvZZMbJvWy
-	bqAnfpRIJE8y9/nbuLjYe+WAs2htNufplROgsmIC39jGQaKM/1OdTRGXoRLY41v3NOYE
-	5d1w1rpxjEdAkjAYnQVVuFIjBfy7T0suYGglTnkiQ8iBAsYHIEiynFDZIsrzWxTcucdB
-	/wN5qTFEAAQepg5zej++N0BXa5sLmPe4Z0BlKRNB573EKxZ3mX2874KtKweKsDz6hf//
-	k8cCDfXOpflz7TOenoEiVK/Ba5bJ7oE+PuMW4rGxmd8jzNDBaXYFfE57SAUI4Wa6owYg
-	/SCQ==
-X-Gm-Message-State: ALoCoQlrhFfYgVbzCtbNaZ7fVnQu9dM701hVOuPW0I87hzuLAzhD9/XHQTSm4A+tK+fcTh4Cb4zl
-X-Received: by 10.180.81.7 with SMTP id v7mr7096845wix.74.1420635227117;
-	Wed, 07 Jan 2015 04:53:47 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id n5sm2486990wic.6.2015.01.07.04.53.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 07 Jan 2015 04:53:46 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jan 2015 12:52:34 +0000
-Message-Id: <1420635154-21522-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] cogl: fix .pc file packaging
+	Wed, 07 Jan 2015 05:08:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=33lscJeQdwfkUAQe36vFSxINXMzIwqMkzw6WWtCojoo=;
+	b=CtpRq/Z6Cfl7l5uOWyxAi6U6LloxkzvH9C89HT4ml7nHteYFQU0Wj+K0E0SfcJ2Dai
+	4lnTeT8/Fde9rclMnzHpoprgqIRAgBIyJkXK4DTS6lhJ2KowU4BIxd3bKl2p/4r4aMqu
+	i08WYwkBVSuyzKLdPly5KJjqTkdtlsrYcerDpj5xujJJ2zOvPAmKYgnyoIdg8eoqi8iQ
+	czGjgg0o4FB59xAKTSQAIfu0f6AoxL9DZKNCCxCeKpke370CGvXxsAWgpO92Q/kcu6pw
+	lTqwQOx/zMFIdV68jMsuSKZgJ3jAYXxmk/vlUvaR/NObIViMPZUQ2MZ4Uby4SEpKr/pF
+	iXJw==
+MIME-Version: 1.0
+X-Received: by 10.112.154.70 with SMTP id vm6mr4401144lbb.18.1420636094772;
+	Wed, 07 Jan 2015 05:08:14 -0800 (PST)
+Received: by 10.112.48.41 with HTTP; Wed, 7 Jan 2015 05:08:14 -0800 (PST)
+In-Reply-To: <20150107100735.GF29986@jama>
+References: <54AA4536.7030101@topic.nl> <54AA4B86.9040905@topic.nl>
+	<CADkTA4MgqEASmHgGunCkTUR=1qdgxP6dqW90PmgYmZ2HHTUWPg@mail.gmail.com>
+	<54AB8B59.7080702@topic.nl> <20150106085731.GC19402@jama>
+	<CAJTo0LaW2JLjqHCDEMggAb2QLM+Ns14qQWGq=BG5jLFu4HVRow@mail.gmail.com>
+	<20150107100735.GF29986@jama>
+Date: Wed, 7 Jan 2015 08:08:14 -0500
+Message-ID: <CADkTA4NvHwqdrU=xPA82fQuXoqT+j2rQZ0W=aJ4AOu_Yc_4mcw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: What is expected of a kernel recipe nowadays?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +47,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 12:53:47 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 13:08:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Some .pc files were not being correctly moved into the right sub-package, so fix
-this.
+On Wed, Jan 7, 2015 at 5:07 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Tue, Jan 06, 2015 at 11:08:53AM +0000, Burton, Ross wrote:
+>> On 6 January 2015 at 08:57, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>
+>> > 2) do_configure failing:
+>> >
+>> > ERROR: Function failed: do_configure (log file is located at
+>> > /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/work/mako-webos-linux-gnueabi/linux-lg-mako/3.4.0+gitrAUTOINC+38bdbfe224-r0/temp/log.do_configure.17498)
+>> > ERROR: Logfile of failure stored in:
+>> > /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/work/mako-webos-linux-gnueabi/linux-lg-mako/3.4.0+gitrAUTOINC+38bdbfe224-r0/temp/log.do_configure.17498
+>> > Log data follows:
+>> > | DEBUG: Executing python function sysroot_cleansstate
+>> > | DEBUG: Python function sysroot_cleansstate finished
+>> > | DEBUG: Executing shell function do_configure
+>> > | NOTE: make oldconfig
+>> > | make: *** No rule to make target `oldconfig'.  Stop.
+>> > | ERROR: oe_runmake failed
+>> > | WARNING: exit code 1 from a shell command.
+>> > | ERROR: Function failed: do_configure (log file is located at
+>> > /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/work/mako-webos-linux-gnueabi/linux-lg-mako/3.4.0+gitrAUTOINC+38bdbfe224-r0/temp/log.do_configure.17498)
+>> > NOTE: recipe linux-lg-mako-3.4.0+gitrAUTOINC+38bdbfe224-r0: task
+>> > do_configure: Failed
+>> > ERROR: Task 491
+>> > (/home/jenkins/workspace/luneos-unstable/webos-ports/meta-smartphone/meta-lg/recipes-kernel/linux/
+>> > linux-lg-mako_git.bb, do_configure) failed with exit code '1'
+>> >
+>>
+>> I'll Me Too here, often hitting this on rebuilds:
+>>
+>> DEBUG: Executing shell function do_configure
+>> NOTE: make -C /data/poky-master/tmp/sysroots/qemuarm64/usr/src/kernel
+>> O=/data/poky-master/tmp/work/qemuarm64-poky-linux/linux-yocto/3.14.24+gitAUTOINC+a227f20eff_902f34d361-r0/linux-qemuarm64-standard-build
+>> oldnoconfig
+>> make: Entering directory
+>> `/data/poky-master/tmp/sysroots/qemuarm64/usr/src/kernel'
+>> make: *** No rule to make target `oldnoconfig'.  Stop.
+>> make: Leaving directory
+>> `/data/poky-master/tmp/sysroots/qemuarm64/usr/src/kernel' ERROR: Task 77
+>> (/home/ross/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.14.bb,
+>> do_configure) failed with exit code '1'
+>
+> last world build revealed new kind of error:
+>
+> both qemux86 and qemux86-64 failed like this
+>
+> ERROR: Function failed: do_kernel_configme (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86_64-oe-linux/linux-yocto/3.17.6+gitAUTOINC+b81030f9ec_5ff54d8fbf-r0/temp/log.do_kernel_configme.6974)
+> ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86_64-oe-linux/linux-yocto/3.17.6+gitAUTOINC+b81030f9ec_5ff54d8fbf-r0/temp/log.do_kernel_configme.6974
+> Log data follows:
+> | DEBUG: Executing shell function do_kernel_configme
+> | NOTE: kernel configme
+> | [INFO] Configuring target/machine combo: "standard/qemux86-64"
+> | [INFO] collecting configs in .meta/meta-series
+> | ERROR: could not sanitize configuration fragments
+> |    errors are logged in /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/src/kernel/.meta/cfg/standard/common-pc-64/config.log
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_kernel_configme (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86_64-oe-linux/linux-yocto/3.17.6+gitAUTOINC+b81030f9ec_5ff54d8fbf-r0/temp/log.do_kernel_configme.6974)
+> NOTE: recipe linux-yocto-3.17.6+gitAUTOINC+b81030f9ec_5ff54d8fbf-r0: task do_kernel_configme: Failed
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/cogl/cogl-1.0.inc |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I have a fix for this one. I'll open a tracking case when I'm into the office.
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index cc51bb4..af06484 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -71,18 +71,18 @@ FILES_libcogl-gles2 = "${libdir}/libcogl-gles2${SOLIBS}"
- FILES_libcogl-gles2-dev = "${includedir}/cogl/cogl-gles2 \
-                            ${libdir}/libcogl-gles2${SOLIBSDEV} \
-                            ${libdir}/libcogl-gles2.la \
--                           ${libdir}/pkgconfig/cogl-gles2-experimental.pc"
-+                           ${libdir}/pkgconfig/cogl-gles2-*.pc"
- FILES_libcogl-pango = "${libdir}/libcogl-pango${SOLIBS}"
- FILES_libcogl-pango-dev = "${includedir}/cogl/cogl-pango \
-                            ${libdir}/libcogl-pango${SOLIBSDEV} \
-                            ${libdir}/libcogl-pango.la \
--                           ${libdir}/pkgconfig/cogl-pango-1.0.pc"
-+                           ${libdir}/pkgconfig/cogl-pango-*.pc"
- 
- FILES_libcogl-path = "${libdir}/libcogl-path${SOLIBS}"
- FILES_libcogl-path-dev = "${includedir}/cogl/cogl-path \
-                           ${libdir}/libcogl-path${SOLIBSDEV} \
-                           ${libdir}/libcogl-path.la \
--                          ${libdir}/pkgconfig/cogl-path-1.0.pc"
-+                          ${libdir}/pkgconfig/cogl-path-*.pc"
- 
- # For backwards compatibility after Debian-renaming
- RPROVIDES_libcogl = "cogl-1.0"
+Bruce
+
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-1.7.10.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
