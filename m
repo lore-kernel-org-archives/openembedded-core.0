@@ -1,40 +1,38 @@
 Return-Path: <otavio.salvador@gmail.com>
 Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
 	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id CC38C72914
+	by mail.openembedded.org (Postfix) with ESMTP id 24831729BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 17:25:23 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id i13so3553528qae.13
+	Wed,  7 Jan 2015 17:25:24 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so3553582qae.13
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 07 Jan 2015 09:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=RHUC8vs4vfFJ/P5b7Rgos4tHfzgv2vRrjYDHuSShvQc=;
-	b=Je97lxdRfKPc8kTVzIv40ricqwCHJoZCmRCSsXw0hMJ3j+bkYP6W2BRH783PJaBGLH
-	x2Sx0Au6uJNNxtaQd+bxvQEw2ggRiKTJpXbSbGxcDAhTC7oXMWvVWUmTaRPGdRuJbGIZ
-	ZVlh9d0oFoWUI2ThgyirBYnwUBUblq/c31fEHXoPfCwB6F65L1uEuJXm7S4YTMWfljAf
-	/KeyJJIFJPkAuIobGn2NtPI6vXS9IKEZmxJGGCrehNvrBP+Wn+SVQ9oh2c0mIcwxOak7
-	GmSmIMXhr2s4Lf62qhhTVJKb/PpklYdOPyD5+8lAyWW+rNrsg5SCzgsLsBa8ad/hRv1V
-	5onA==
-X-Received: by 10.224.51.11 with SMTP id b11mr6528387qag.43.1420651524124;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=Ixbhkc7h5FC0d9R+3+iBnUhV12xypwhA8USVA8I3Qa4=;
+	b=ZCCTAs7nYF1Ay7i+lniF90HvctYWexExeKTrAv2GkZNMNXHx52LNkeAn2NgkzLsqnw
+	FE8AUgid6CmeYT4/CbATigXq5/xH9Pd31LazywLgXiFHIY0Bhpughv2ppG/Qw8j9ExZ4
+	xS1HGm3IzruB6g0g0vZbs5p519hKI60yR93ZX2YjLQZceo/13V1HJsDxuO8pfVmzc7NU
+	lLo+pmWlm1squZUONqnvT+imd3Li9I4yscQHi6kz+K1Jc65vx+lkt9u+kDZwmhYhCaOu
+	kl9Be/8p23pUNQvVu+MGSWoABLLfgBmaJSJkXw9f6UV6RfFaKNkd3bhOBmA8Y/T/1wc0
+	fjhA==
+X-Received: by 10.140.41.113 with SMTP id y104mr6050218qgy.51.1420651524831;
 	Wed, 07 Jan 2015 09:25:24 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.100.225.47])
-	by mx.google.com with ESMTPSA id r9sm1799364qak.2.2015.01.07.09.25.22
+	by mx.google.com with ESMTPSA id r12sm1761169qax.38.2015.01.07.09.25.22
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Wed, 07 Jan 2015 09:25:22 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id EBDE61CA798EF; Wed,  7 Jan 2015 15:25:19 -0200 (BRST)
+	id DA89D1CA798EB; Wed,  7 Jan 2015 15:25:19 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed,  7 Jan 2015 15:25:19 -0200
-Message-Id: <1420651519-25240-3-git-send-email-otavio@ossystems.com.br>
+Date: Wed,  7 Jan 2015 15:25:17 -0200
+Message-Id: <1420651519-25240-1-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1420651519-25240-1-git-send-email-otavio@ossystems.com.br>
-References: <1420651519-25240-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 3/3] kernel.bbclass: When linux/version.h exists, copy it
+Subject: [PATCH 1/3] base.bbclass: Avoid explicit ${MAKE} in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,30 +47,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 07 Jan 2015 17:25:26 -0000
 
-Old Linux kernel versions rely on linux/version.h for modules; this
-needs to be published for external modules to use. Copy it when
-available.
+The do_configure may eventually call 'make clean' when the sstate
+signature does not match. We should respect EXTRA_OEMAKE when doing
+so, so use 'oe_runmake' for it.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/kernel.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 88356b1..78c8c7c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -252,6 +252,10 @@ kernel_do_install() {
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-+	if [ -e include/linux/version.h ]; then
-+		mkdir -p $kerneldir/include/linux
-+		cp include/linux/version.h $kerneldir/include/linux/version.h
-+	fi
- 
- 	# As of Linux kernel version 3.0.1, the clean target removes
- 	# arch/powerpc/lib/crtsavres.o which is present in
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index b8f61f3..de50be1 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -227,7 +227,7 @@ base_do_configure() {
+ 		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
+ 			cd ${B}
+ 			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
+-				${MAKE} clean
++				oe_runmake clean
+ 			fi
+ 			find ${B} -name \*.la -delete
+ 		fi
 -- 
 2.1.4
 
