@@ -1,25 +1,34 @@
-Return-Path: <noor_ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A0C4A609B2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id BFD4372882
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 13:52:18 +0000 (UTC)
-Received: from em-wv03.wv.mentorg.com ([147.34.98.30]
-	helo=em-wv-03.wv.mentorg.com) by relay1.mentorg.com with esmtp 
-	id 1Y8r22-0004AX-LG from noor_ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Jan 2015 05:52:18 -0800
-Received: from gemini.alm.mentorg.com ([134.86.102.153]) by
-	em-wv-03.wv.mentorg.com (8.8.8/CF5.40R)
-Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
-	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t07DqFGV031603; 
-	Wed, 7 Jan 2015 07:52:16 -0600
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+	Wed,  7 Jan 2015 14:06:49 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id a1so1248739wgh.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Jan 2015 06:06:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=+cg9i3eciPfJ2NyQBgzKuvBflexuFrrNOUuI5bTxVtY=;
+	b=dOlYLT4wjAWsHXp5HK9e5D9+Vb8JDi1Ko4i6UqXV5D1TbqNIn+nYgTupZuNOVQDiId
+	iJA2DEi99YWulFl/00fv3WojI91fqPzwRezkmOvB3C+dr5TAVV4e+y8b5OGIyCvDTFCa
+	XKdU653CjLLMcwGssVJjFcqcKAORZf2xgX1X/NOEj5ALy4SdmC5ENXzXZ2eFj/jFpxhU
+	Jbk8Zbbkek2iT8M1arLhOeAu1wwKTItryS0d2gG3W3YHfY/gmaGZr/K4jAHcyY7zU7la
+	1m3SVV8Ow78JMcR88J3Vk9a+zQ1es21YR3uQlG+z/NBV5PYXibtwFDjW28q219n5bfvQ
+	//ig==
+X-Received: by 10.180.198.51 with SMTP id iz19mr7546112wic.65.1420639608801;
+	Wed, 07 Jan 2015 06:06:48 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ck7sm2278560wjb.13.2015.01.07.06.06.47
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 Jan 2015 06:06:47 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jan 2015 18:51:18 +0500
-Message-Id: <1420638678-22481-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] bind: Update libxml2 check to make it deterministic.
+Date: Wed,  7 Jan 2015 15:06:48 +0100
+Message-Id: <1420639609-3198-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [PATCH 1/2] pulseaudio: use stricter PACKAGES_DYNAMIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 13:52:25 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 14:06:51 -0000
 
-From: Noor <noor_ahsan@mentor.com>
+* I don't see any usage for libpulse-* packages
+* adding '-' resolves the issue when we have separate recipe for
+  pulseaudio-modules-droid which isn't built to satisfy RDEPENDS
+  with the same name, because generic pulseaudio recipe seems to
+  RPROVIDE it through PACKAGES_DYNAMIC
 
-* Firstly configure scritp was testing files from bin folder.
-  In our case we don't copy bin folder to sysroot for target
-  recipes. So added extra check to validate .pc file from lib
-  folder via a patch to configure.in file.
-* Secondly linxml2 dependency was missing. So added PACKAGECONFIG
-  for libxml2.
-
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...d-crosscripts-search-path-for-xml2-config.patch |   35 ++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |    9 +++--
- 2 files changed, 42 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch b/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch
-new file mode 100644
-index 0000000..4f1a3f8
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch
-@@ -0,0 +1,35 @@
-+From 8fa549fe5390875d56f75e20d364394cd5ccf388 Mon Sep 17 00:00:00 2001
-+From: Joe MacDonald <joe_macdonald@mentor.com>
-+Date: Mon, 3 Nov 2014 21:52:02 -0500
-+Subject: [PATCH] bind: add crosscripts search path for xml2-config
-+
-+The configure script was testing xml2-config from bin but in openembedded
-+bin folder is not copied to sysroot so the test was failing. Added another 
-+condition to test libxml-2.0.pc which is present in lib folder. Used pkg-config
-+to get libs and cflags information.
-+
-+Upstream-Status: Inappropriate [ openembedded specific ]
-+
-+Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
-+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-+---
-+ configure.in | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/configure.in b/configure.in
-+index 3d04f4c..6032f67 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1433,6 +1433,9 @@ case "$use_libxml2" in
-+ 		if test -f "$use_libxml2/bin/xml2-config" ; then
-+ 			libxml2_libs=`$use_libxml2/bin/xml2-config --libs`
-+ 			libxml2_cflags=`$use_libxml2/bin/xml2-config --cflags`
-++		elif test -f "$use_libxml2/lib/pkgconfig/libxml-2.0.pc" ; then
-++			libxml2_libs=`pkg-config libxml-2.0 --libs`
-++			libxml2_cflags=`pkg-config libxml-2.0 --cflags`
-+ 		fi
-+ 		;;
-+ esac
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index 8e04f8a..eacb23f 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -18,6 +18,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://bind9 \
-            file://init.d-add-support-for-read-only-rootfs.patch \
-            file://bind9_9_5-CVE-2014-8500.patch \
-+           file://bind-add-crosscripts-search-path-for-xml2-config.patch \
- 	   "
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index db144a9..99cad76 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -79,7 +79,7 @@ PACKAGES =+ "libpulsecore libpulsecommon libpulse libpulse-simple libpulse-mainl
+ #upgrade path:
+ RREPLACES_pulseaudio-server = "libpulse-bin libpulse-conf"
  
- SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
-@@ -29,10 +30,14 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
-                  --disable-devpoll --disable-epoll --with-gost=no \
-                  --with-gssapi=no --with-ecdsa=yes \
-                  --sysconfdir=${sysconfdir}/bind \
--                 --with-openssl=${STAGING_LIBDIR}/.. --with-libxml2=${STAGING_LIBDIR}/.. \
-+                 --with-openssl=${STAGING_LIBDIR}/.. \
-                  --enable-exportlib --with-export-includedir=${includedir} --with-export-libdir=${libdir} \
-                "
--inherit autotools-brokensep update-rc.d systemd useradd
-+inherit autotools-brokensep update-rc.d systemd useradd pkgconfig
-+
-+PACKAGECONFIG ?= "libxml2"
-+
-+PACKAGECONFIG[libxml2] = "--with-libxml2=${STAGING_LIBDIR}/..,--with-libxml2=no,libxml2"
+-PACKAGES_DYNAMIC += "^pulseaudio-lib.* ^pulseaudio-module.* ^libpulse-lib.* ^libpulse-module.* "
++PACKAGES_DYNAMIC += "^pulseaudio-lib-.* ^pulseaudio-module-.*"
  
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
+ FILES_libpulsecore = "${libdir}/libpulsecore*.so"
+ FILES_libpulsecommon = "${libdir}/pulseaudio/libpulsecommon*.so"
 -- 
-1.7.9.5
+2.2.1
 
 
