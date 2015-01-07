@@ -1,25 +1,23 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5982E72823
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E90A72882
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 07:07:09 +0000 (UTC)
+	Wed,  7 Jan 2015 07:07:04 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t07779A3021662
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t07773H1007914
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 6 Jan 2015 23:07:09 -0800 (PST)
+	Tue, 6 Jan 2015 23:07:03 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 6 Jan 2015 23:07:09 -0800
+	14.3.174.1; Tue, 6 Jan 2015 23:07:03 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 7 Jan 2015 15:06:51 +0800
-Message-ID: <7c252e3e624e6fc7102b89e305c1dec977a9845b.1420613743.git.hongxu.jia@windriver.com>
+Date: Wed, 7 Jan 2015 15:06:48 +0800
+Message-ID: <cover.1420613743.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1420613743.git.hongxu.jia@windriver.com>
-References: <cover.1420613743.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] python3: avoid debian renaming for libpython3
+Subject: [PATCH 0/4] add variable INSTALL_ALL to install all packages in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +33,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 07 Jan 2015 07:07:11 -0000
 Content-Type: text/plain
 
-When Debian-renaming, 'libpython3' was incorrectly converted to
-'libpython3.3m1.0', it caused install 'libpython3' failed.
-(IMAGE_INSTALL_append = " python3", INSTALL_ALL_python3 = "1")
+Test Steps:
+
+Install busybox and lib32-python3 to core-image-minimal,
+and also install all available packages of recipes busybox
+and python3.
+
+1. vim local.conf
 ...
-ERROR: libpython3 not found in the base feeds (qemux86 i586 x86 noarch any all).
-libpython3.3m1.0-3.3.3-r0.0@i586
+MACHINE ?= "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+IMAGE_INSTALL_append = " busybox lib32-python3"
+INSTALL_ALL_busybox ?= "1" 
+INSTALL_ALL_lib32-python3 ?= "1"
 ...
 
-We assign DEBIAN_NOAUTONAME for 'libpython3' to avoid debian renaming.
+2. Build core-image-minimal
+$ bitbake core-image-minimal
 
-The same to 'libpython3-staticdev'.
+3. Check installed_pkgs.txt, all available packages of recipes busybox and
+lib32-python3 have been installed.
+...
+$ cat tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/installed_pkgs.txt
+...
+busybox core2-64
+busybox-hwclock core2-64
+busybox-syslog core2-64
+busybox-udhcpc core2-64
+busybox-udhcpd core2-64
+...
 
-[YOCTO #5264]
+4. Edit local.conf to assign INSTALL_ALL_busybox ?= "0"
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/python/python3_3.3.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+5. build core-image-minimal
 
-diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb b/meta/recipes-devtools/python/python3_3.3.3.bb
-index 2c1f63f..3163fbd 100644
---- a/meta/recipes-devtools/python/python3_3.3.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.3.3.bb
-@@ -204,6 +204,8 @@ FILES_${PN}-pyvenv += "${bindir}/pyvenv-${PYTHON_MAJMIN} ${bindir}/pyvenv"
- PACKAGES =+ "libpython3 libpython3-staticdev"
- FILES_libpython3 = "${libdir}/libpython*.so.*"
- FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/libpython${PYTHON_BINABI}.a"
-+DEBIAN_NOAUTONAME_libpython3 = "1"
-+DEBIAN_NOAUTONAME_libpython3-staticdev = "1"
- 
- # catch debug extensions (isn't that already in python-core-dbg?)
- FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
+6. Check installed_pkgs.txt, busybox-udhcpd not installed
+...
+$ cat tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/installed_pkgs.txt
+...
+busybox core2-64
+busybox-hwclock core2-64
+busybox-syslog core2-64
+busybox-udhcpc core2-64
+...
+
+//Hongxu
+
+The following changes since commit bfe7d3032a61a20010b5b758be07581e1bf01cba:
+
+  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 17:04:52 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/install-all
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/install-all
+
+Hongxu Jia (4):
+  scripts/oe-pkgdata-util: support rprovides for lookup-recipe
+  scripts/oe-pkgdata-util: add ability to list all produced packages
+    from a recipe
+  python3: avoid debian renaming for libpython3
+  manifest.py/image.bbclass: add var-INSTALL_ALL to install all packages
+    of a recipes.
+
+ meta/classes/image.bbclass                    |  19 ++++-
+ meta/lib/oe/manifest.py                       |  56 +++++++++++++-
+ meta/recipes-devtools/python/python3_3.3.3.bb |   2 +
+ scripts/oe-pkgdata-util                       | 101 +++++++++++++++++++++++++-
+ 4 files changed, 174 insertions(+), 4 deletions(-)
+
 -- 
 1.9.1
 
