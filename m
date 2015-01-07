@@ -1,28 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D68465CDB
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id AB5BE706D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 02:07:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0727flt005549
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed,  7 Jan 2015 03:01:04 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kq14so1827142pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jan 2015 18:07:42 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 6 Jan 2015 18:07:41 -0800
-Message-ID: <54AC94EA.6020005@windriver.com>
-Date: Wed, 7 Jan 2015 10:07:38 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1420592855-20473-1-git-send-email-liezhi.yang@windriver.com>
-In-Reply-To: <1420592855-20473-1-git-send-email-liezhi.yang@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [RFC PATCH] package.bbclass: omit .pyc and .pyo file
+	Tue, 06 Jan 2015 19:01:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=hNeTb5HHuoVYtNiLXQc6lsM4lGnIZLgaDQgh4DRCinM=;
+	b=rCHvYXkaWpRJjBa8xlGX/YpG2t1yX1/6mr3+OORSog8g+5kfO7DPhhdIxKiNca2P3o
+	xRzTRBZaEVmcCve6mOrWpTxs/Ipn/IpKtisFlv5cTedGEspQJawwR4osUXUx49GseMEq
+	0zsaSb+jWqOAZQpiLCysPvKZFfzu2+WpLPE1EL7I+PlHZyUVbJc7zbaFZq/NJBXoHPBI
+	isJetbkK2h70l27mwTZ5tVykr76KIQ1kG9dsr8tPSxTT3vi4QdPkGP6DwaAwb1qv4YAy
+	Z5Xy7NeilDeMaEI6EtEjTh+BJ15zeKY1R/F6OAZacrkcu2U2/tJDn3ru4yBzodXt3Qc1
+	0J1A==
+X-Received: by 10.70.37.166 with SMTP id z6mr1143611pdj.102.1420599664663;
+	Tue, 06 Jan 2015 19:01:04 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id q4sm202859pdh.79.2015.01.06.19.01.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Jan 2015 19:01:03 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed,  7 Jan 2015 14:15:39 +1100
+Message-Id: <1420600539-24081-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: [daisy][PATCH] systemd: backport patch to fix reading journal backwards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 02:07:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jan 2015 03:01:13 -0000
 
-On 01/07/2015 09:07 AM, Robert Yang wrote:
-> We should not ship .pyc or .pyo file, but there are a few packages
-> ship .pyc, should we:
-> 1) Ignore them in package.bbclass as this patch showes ?
-> Or
-> 2) Add a qa check  then fix it by hand one by one ?
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ ...-Fix-navigating-backwards-missing-entries.patch | 34 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_211.bb           |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
 
-3) Fix it in a bbclass that python related recipes would generally inherit.
-
-Regards,
-Chen Qi
-
-> Here is the list of oe-core's world build:
-> python-smartpm-1.4.1
-> nativesdk-python-smartpm-1.4.1
-> python3-distribute-0.6.32
-> python-pycurl-7.19.5
-> python-pyrex-0.9.9
-> python-numpy-1.7.0
-> python-distribute-0.6.32
-> python-async-0.6.1
-> python-docutils-0.12
-> python-pycairo-1.10.0
-> python-scons-2.3.2
-> python-imaging-1.1.7
-> python-gitdb-0.5.4
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/package.bbclass |    6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index fc501fc..6960221 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1022,6 +1022,9 @@ python populate_packages () {
->               files.append(file)
->   
->           for file in files:
-> +            # Skip .pyc and .pyo file.
-> +            if file.endswith('.pyc') or file.endswith('.pyo'):
-> +                continue
->               if not cpath.islink(file):
->                   if cpath.isdir(file):
->                       newfiles =  [ os.path.join(file,x) for x in os.listdir(file) ]
-> @@ -1083,6 +1086,9 @@ python populate_packages () {
->           if not dir:
->               dir = os.sep
->           for f in (files + dirs):
-> +            # Skip .pyc and .pyo file.
-> +            if f.endswith('.pyc') or f.endswith('.pyo'):
-> +                continue
->               path = os.path.join(dir, f)
->               if ('.' + path) not in seen:
->                   unshipped.append(path)
+diff --git a/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch b/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
+new file mode 100644
+index 0000000..621a0da
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
+@@ -0,0 +1,34 @@
++From 2173cbf847fc53ca24950e77958c902edecfc207 Mon Sep 17 00:00:00 2001
++From: Olivier Brunel <jjk@jjacky.com>
++Date: Fri, 5 Dec 2014 16:06:45 +0100
++Subject: [PATCH] journal: Fix navigating backwards missing entries
++
++With DIRECTION_UP (i.e. navigating backwards) in generic_array_bisect() when the
++needle was found as the last item in the array, it wasn't actually processed as
++match, resulting in entries being missed.
++
++https://bugs.freedesktop.org/show_bug.cgi?id=86855
++
++Upstream-Status: Backport
++
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++---
++ src/journal/journal-file.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/journal/journal-file.c b/src/journal/journal-file.c
++index 7858435..c5d2d19 100644
++--- a/src/journal/journal-file.c
+++++ b/src/journal/journal-file.c
++@@ -1657,7 +1657,7 @@ static int generic_array_bisect(
++                         }
++                 }
++ 
++-                if (k > n) {
+++                if (k >= n) {
++                         if (direction == DIRECTION_UP) {
++                                 i = n;
++                                 subtract_one = true;
++-- 
++2.1.3
++
+diff --git a/meta/recipes-core/systemd/systemd_211.bb b/meta/recipes-core/systemd/systemd_211.bb
+index 44b1965..567c323 100644
+--- a/meta/recipes-core/systemd/systemd_211.bb
++++ b/meta/recipes-core/systemd/systemd_211.bb
+@@ -32,6 +32,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://uclibc-sysinfo_h.patch \
+            file://uclibc-get-physmem.patch \
+            file://sd-bus-don-t-use-assert_return-to-check-for-disconne.patch \
++           file://0001-journal-Fix-navigating-backwards-missing-entries.patch \
+            \
+            file://touchscreen.rules \
+            file://00-create-volatile.conf \
+-- 
+2.2.1
 
 
