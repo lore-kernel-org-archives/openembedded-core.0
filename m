@@ -1,23 +1,27 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id CE7EA706D9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A9D8871440
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 12:11:46 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 7 Jan 2015
-	13:11:45 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 4A0B42800CB;
-	Wed,  7 Jan 2015 13:11:45 +0100 (CET)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Jan 2015 13:11:43 +0100
-Message-ID: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [dizzy][PATCH] coreutils: Fix CVE-2014-9471
+	Wed,  7 Jan 2015 12:26:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t07CQ6j5031751; Wed, 7 Jan 2015 12:26:06 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zI94vuXoAlj2; Wed,  7 Jan 2015 12:26:06 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t07CPqGO031742
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 7 Jan 2015 12:26:03 GMT
+Message-ID: <1420633589.25779.69.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Jan 2015 12:26:29 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: RFC: Further kernel build process changes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,103 +34,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 12:11:52 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 12:26:48 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Fiedler Roman discovered that coreutils' parse_datetime() function
-has some flaws that may be exploitable if the date(1), touch(1),
-or potentially other programs, accept untrusted input for certain
-parameters. While researching this issue, he discovered that it
-was independently discovered by Bertrand Jacquin and reported at
-http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D16872
+I'm hearing (somewhat justified) complaints that the recent kernel
+changes have destablised builds. Part of the question is whether the
+recent changes are as clear to users as they could be, we're also
+running into some problems due to mixing kernel source and build
+artefacts in some places and not in others.
 
-$ touch '--date=3DTZ=3D"123"345" @1'
-*** Error in `touch': free(): invalid pointer: 0x00007fffd33e55e0 ***
-Aborted
+At this point I think it may be worth looking at making some more
+invasive but decisive changes, specifically that:
 
-$ date '--date=3DTZ=3D"123"345" @1'
-date[394]: segfault at 7fff24000000 ip 00007f6dd5b73404 sp 00007fff27cce8f8
-error 4 in libc-2.20.so[7f6dd5af7000+199000]
-Segmentation fault
+STAGING_KERNEL_DIR moves 
+   from sysroots/MACHINE/usr/src/kernel
+   to work-shared/MACHINE/kernel-source
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- .../coreutils/coreutils-8.22/date-tz-crash.patch   | 43 ++++++++++++++++++=
-++++
- meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-cras=
-h.patch
+This is to make it clearer that the source here is not under the control
+of sstate. The reasons why we don't want it under the control of sstate
+are in other emails.
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch=
- b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+The second change would be to split the kernel source into two:
+
+work-shared/MACHINE/kernel-source
+work-shared/MACHINE/kernel-build
+
+where kernel-build is the kernel build output and kernel-source is kept
+"pristine".
+
+This means the defconfig, the kernel-abiversion, System.map files and
+output from "make scripts" would be in kernel-build.
+
+External module builds do work in this configuration *if* you pass in
+the correct options e.g.:
+
+make -C work-shared/MACHINE/kernel-source O=work-shared/MACHINE/kernel-build M=${S}
+
+I've put together a quick proof of concept of this below.
+
+There are two other things up for discussion. There is of confusion  on
+how the kernel source gets into STAGING_KERNEL_DIR in the first place.
+We've added in "munging" code which does this in kernel.bbclass,
+linux-yocto also has its share of "crazy" mess in this regard.
+
+We could wipe the slate clean and require that people put a parameter
+against the element in SRC_URI that represents the kernel indicating it
+should be directly extracted to STAGING_KERNEL_DIR. There is a bitbake
+issue with being unable to override the extraction directory at present
+but that can be fixed. The upside is that it would be clean, relatively
+clear and allow  fragile code to be dropped. The downside is it means
+tweaking all kernel recipes.
+
+The second issue is that of the dependency to populate
+STAGING_KERNEL_DIR which is now a "depends flag on do_install". The
+intent is to have kernelsrc.bbclass do this, looking at the things there
+(such as setting S=), I suspect it may not be fit for purpose. We could
+adjust the class to check for a variable and set up the dependency if
+its set.
+
+Anyhow, this does need thought and discussion but I'm putting it here as
+a start to that, and to let people like Bruce see and experiment with
+the code below.
+
+Cheers,
+
+Richard
+
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 9a95b72..2d43b51 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -70,7 +70,7 @@ python split_kernel_module_packages () {
+         m = kerverrexp.match(kernelver)
+         if m:
+             kernelver_stripped = m.group(1)
+-        staging_kernel_dir = d.getVar("STAGING_KERNEL_DIR", True)
++        staging_kernel_dir = d.getVar("STAGING_KERNEL_BUILDDIR", True)
+         system_map_file = "%s/boot/System.map-%s" % (dvar, kernelver)
+         if not os.path.exists(system_map_file):
+             system_map_file = "%s/System.map-%s" % (staging_kernel_dir, kernelver)
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 5cabc2c..b1a1ccf 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -249,6 +249,10 @@ kernel_do_install() {
+ 	cp .config $kerneldir/
+ 	mkdir -p $kerneldir/include/config
+ 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
++	if [ -e include/linux/version.h ]; then
++		mkdir -p $kerneldir/include/linux
++		cp include/linux/version.h $kerneldir/include/linux/version.h
++	fi
+ 
+ 	# As of Linux kernel version 3.0.1, the clean target removes
+ 	# arch/powerpc/lib/crtsavres.o which is present in
+@@ -268,6 +272,45 @@ kernel_do_install() {
+ }
+ do_install[prefuncs] += "package_get_auto_pr"
+ 
++addtask do_shared_workdir after do_compile before do_install
++
++do_shared_workdir () {
++	cd ${B}
++
++	kerneldir=${STAGING_KERNEL_BUILDDIR}
++	install -d $kerneldir
++
++	#
++	# Store the kernel version in sysroots for module-base.bbclass
++	#
++
++	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
++	
++	# Copy files required for module builds
++	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
++	cp Module.symvers $kerneldir/
++	cp .config $kerneldir/
++	mkdir -p $kerneldir/include/config
++	cp include/config/kernel.release $kerneldir/include/config/kernel.release
++
++	# As of Linux kernel version 3.0.1, the clean target removes
++	# arch/powerpc/lib/crtsavres.o which is present in
++	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
++	if [ ${ARCH} = "powerpc" ]; then
++		mkdir -p $kerneldir/arch/powerpc/lib/
++		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
++	fi
++
++	mkdir -p $kerneldir/include/generated/
++	cp -fR include/generated/* $kerneldir/include/generated/
++
++	if [ -d arch/${ARCH}/include/generated ]; then
++		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
++		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
++	fi
++}
++
++
+ python sysroot_stage_all () {
+     oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
+ }
+diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+index 9537ba9..c34eee7 100644
+--- a/meta/classes/module-base.bbclass
++++ b/meta/classes/module-base.bbclass
+@@ -3,16 +3,18 @@ inherit kernel-arch
+ export OS = "${TARGET_OS}"
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
+ 
+-export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
++export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
+ KERNEL_OBJECT_SUFFIX = ".ko"
+ 
+ # kernel modules are generally machine specific
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
++do_configure[depends] += "virtual/kernel:do_install"
++
+ # Function to ensure the kernel scripts are created. Expected to
+ # be called before do_compile. See module.bbclass for an exmaple.
+ do_make_scripts() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
+ 	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+-	           -C ${STAGING_KERNEL_DIR} scripts
++	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
+ }
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index ad6f7af..4f466d7 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -13,6 +13,7 @@ module_do_compile() {
+ 		   KERNEL_VERSION=${KERNEL_VERSION}    \
+ 		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 		   AR="${KERNEL_AR}" \
++	           O=${STAGING_KERNEL_BUILDDIR} \
+ 		   ${MAKE_TARGETS}
+ }
+ 
+@@ -21,6 +22,7 @@ module_do_install() {
+ 	oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
+ 	           KERNEL_SRC=${STAGING_KERNEL_DIR} \
+ 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
++	           O=${STAGING_KERNEL_BUILDDIR} \
+ 	           modules_install
+ }
+ 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 362d6b6..b1135c2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -394,7 +394,8 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ ##################################################################
+ 
+ OLDEST_KERNEL = "2.6.32"
+-STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
++STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
++STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build"
+ 
+ ##################################################################
+ # Specific image creation and rootfs population info.
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
 new file mode 100644
-index 0000000..570e4fd
+index 0000000..1b46558
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
-@@ -0,0 +1,43 @@
-+This was reported in http://bugs.gnu.org/16872
-+from the coreutils command: date -d 'TZ=3D"""'
-+
-+The infinite loop for this case was present since the
-+initial TZ=3D"" parsing support in commit de95bdc2 29-10-2004.
-+This was changed to a crash or heap corruption depending
-+on the platform with commit 2e3e4195 18-01-2010.
-+
-+* lib/parse-datetime.y (parse_datetime): Break out of the
-+TZ=3D"" parsing loop once the second significant " is found.
-+Also skip over any subsequent whitespace to be consistent
-+with the non TZ=3D case.
-+
-+Fixes: CVE-2014-9471
-+
-+Upstream-Status: backport
-+
-+Signed-off-by: Maxin B. John <maxin.john@enea.com>
-+Signed-off-by: P=C3=A1draig Brady <P@draigBrady.com>
-+---
-+diff -Naur coreutils-8.22-origin/lib/parse-datetime.y coreutils-8.22/lib/p=
-arse-datetime.y
-+--- coreutils-8.22-origin/lib/parse-datetime.y	2013-12-04 15:53:33.0000000=
-00 +0100
-++++ coreutils-8.22/lib/parse-datetime.y	2015-01-05 17:11:16.754358184 +010=
-0
-+@@ -1303,8 +1303,6 @@
-+             char tz1buf[TZBUFSIZE];
-+             bool large_tz =3D TZBUFSIZE < tzsize;
-+             bool setenv_ok;
-+-            /* Free tz0, in case this is the 2nd or subsequent time throu=
-gh. */
-+-            free (tz0);
-+             tz0 =3D get_tz (tz0buf);
-+             z =3D tz1 =3D large_tz ? xmalloc (tzsize) : tz1buf;
-+             for (s =3D tzbase; *s !=3D '"'; s++)
-+@@ -1317,6 +1315,10 @@
-+               goto fail;
-+             tz_was_altered =3D true;
-+             p =3D s + 1;
-++            while (c =3D *p, c_isspace (c))
-++              p++;
-++
-++            break;
-+           }
-+     }
-+=20
-diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-c=
-ore/coreutils/coreutils_8.22.bb
-index f85baca..4a1aee6 100644
---- a/meta/recipes-core/coreutils/coreutils_8.22.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
-@@ -17,6 +17,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://dummy_help2man.patch \
-            file://fix-for-dummy-man-usage.patch \
-            file://fix-selinux-flask.patch \
-+           file://date-tz-crash.patch \
-           "
-=20
- SRC_URI[md5sum] =3D "8fb0ae2267aa6e728958adc38f8163a2"
---=20
-1.9.1
++++ b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
+@@ -0,0 +1,17 @@
++Index: git/Makefile
++===================================================================
++--- git.orig/Makefile
+++++ git/Makefile
++@@ -67,10 +67,10 @@ else # KERNELRELEASE
++ 	CFLAGS = $(EXTCFLAGS)
++ 
++ default:
++-	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
+++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules
++ 
++ modules_install:
++-	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
+++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules_install
++ 
++ clean:
++ 	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
+index 55df07f..58a4196 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
+@@ -19,6 +19,7 @@ SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.5 \
+            file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+            file://Fix-noargs-probes-should-calculate-alignment-and-eve.patch \
+            file://Update-kvm-instrumentation-compile-on-3.17-rc1.patch \
++           file://sepbuild.patch \
+            "
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
 
 
