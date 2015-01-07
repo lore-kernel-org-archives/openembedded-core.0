@@ -1,37 +1,38 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CDD47284C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id EE51165D40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 22:30:43 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id b13so2029469wgh.17
+	Wed,  7 Jan 2015 23:04:50 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id n4so4910684qaq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jan 2015 14:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OPKTdMFUgu7JelkAaRjHuYS6E1AFfkd+H8iR9o6nXnM=;
-	b=OCJCh9KjUydZCIqoaXYNNHmsBQuFh4UkDp+CkgK1+AnUH4njKEjOpJ3o1Ee2DGCbUx
-	Rm8L3/w/jZBYei1YppJwkyYj3qDua7dGqCg2ikmPftjYZbIevjRy4U/Qhy6rjfs9pToO
-	GGfYkfe8s+6eUZyfPTC4SZ2s8FTHNbxtR/wcvYCzUMBxi0J5+JKtVY3Um0hOKb16HoOO
-	x4p47DUyTNRtC2oXe14q13SLBnSy4B3w0S2FFHiLUXNdNmb/8iHJcieKPpLm1IL5/S1V
-	pZ0/bkc7kqJeXc3KrfAc/FCVyfJ6KOTf2GCnwF1e0tmHGOf8GUuVPBHNQz/E/cJ+CN3j
-	TJbg==
-X-Received: by 10.194.104.196 with SMTP id gg4mr11040540wjb.31.1420669844410; 
-	Wed, 07 Jan 2015 14:30:44 -0800 (PST)
-Received: from Saturn.local.all (212-41-121-234.adsl.solnet.ch.
-	[212.41.121.234])
-	by mx.google.com with ESMTPSA id lg7sm4204690wic.0.2015.01.07.14.30.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 07 Jan 2015 14:30:43 -0800 (PST)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jan 2015 23:29:57 +0100
-Message-Id: <1420669797-17688-4-git-send-email-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <1420669797-17688-1-git-send-email-max.krummenacher@toradex.com>
-References: <1420669797-17688-1-git-send-email-max.krummenacher@toradex.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>
-Subject: [oe][PATCH V2 3/3] pcmanfm: update to 1.2.3
+	Wed, 07 Jan 2015 15:04:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OuqNEc9+nxfLlImILdbbl0P9I1FpXbrMbNH/p9WUolQ=;
+	b=Ricm9wZnLKB3XZlB0cz5jfC+mXeSFGT/zvUchXKk5HBBftzI9R9h7Pxae8fqtz9G8n
+	Jq0BeFqAoPYOigNfpuxY+kWpKtk7Qu+nMM+1t0SEXTwGbyX5KGvmahaclWyuDe0YFrY3
+	326LD8ncABDDzJQTE0x3KlsIriy4wByoP7Sh6dOJXkNBYxJVVL+4Q5hUwpUKTp9b8PrJ
+	t7cpDPKrAlmF0p0ZDYlwC3mR2gwBLpxM6gqABXsBnEQT0anLlBtnvExMZKqlS6X4S5z+
+	PXdt0RnOgswaTYMQZhnTpwXqKNB8yBl6Kpf3ubq1gGeCmTJdQ/T0IbjeE8GONYJEuMj4
+	+l/w==
+X-Gm-Message-State: ALoCoQmowLjChDahlfD5lhguNwDzLkc84Ip7PHmMl/wcDKw50hwSQfToRyPAhjtpYTChP5qK+fd3
+X-Received: by 10.224.93.6 with SMTP id t6mr9111164qam.93.1420671890579; Wed,
+	07 Jan 2015 15:04:50 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Wed, 7 Jan 2015 15:04:30 -0800 (PST)
+In-Reply-To: <54ADACDE.2080404@linux.intel.com>
+References: <cover.1418337489.git.alejandro.hernandez@linux.intel.com>
+	<4bedbe90e0589179b7c6010818a63596a9502671.1418337489.git.alejandro.hernandez@linux.intel.com>
+	<54ADACDE.2080404@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Jan 2015 23:04:30 +0000
+Message-ID: <CAJTo0LYCCBLaT+iAkBH7P6WaPuiePuTCTTrZDw5dV-S6m5a1DQ@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] insane.bbclass: Added QA test for expanded ${D}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,99 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 22:30:44 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 23:04:54 -0000
+Content-Type: multipart/alternative; boundary=089e01495028617742050c17f34c
 
-From: Max Krummenacher <max.oss.09@gmail.com>
+--089e01495028617742050c17f34c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Max Krummenacher <max.oss.09@gmail.com>
----
- meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb | 33 ----------------------------
- meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb | 35 ++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
- create mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
+On 7 January 2015 at 22:02, Randy Witt <randy.e.witt@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
-deleted file mode 100644
-index 14c5cd5..0000000
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--SUMMARY = "Fast lightweight tabbed filemanager"
--HOMEPAGE = "http://pcmanfm.sourceforge.net/"
--
--LICENSE = "GPLv2 & GPLv2+ & LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
--                    file://src/pcmanfm.h;endline=22;md5=417b3855771a3a87f8ad753d994491f0 \
--                    file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
--
--SECTION = "x11"
--DEPENDS = "gtk+ startup-notification libfm intltool-native"
--DEPENDS_append_poky = " libowl"
--
--
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|aarch64.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
--	   file://gnome-fs-directory.png \
--	   file://gnome-fs-regular.png \
--	   file://gnome-mime-text-plain.png \
--	   file://emblem-symbolic-link.png \
--	   file://no-desktop.patch"
--
--SRC_URI[md5sum] = "41104699e653ff2b0a9a9e80a257d6a2"
--SRC_URI[sha256sum] = "23ee33b34066ac83ce9a98bc9930049e69839438fb60489bd453bec8c2068950"
--
--inherit autotools pkgconfig
--
--do_install_append () {
--	install -d ${D}/${datadir}
--	install -d ${D}/${datadir}/pixmaps/
--
--	install -m 0644 ${WORKDIR}/*.png ${D}/${datadir}/pixmaps
--}
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
-new file mode 100644
-index 0000000..14f58ae
---- /dev/null
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "Fast lightweight tabbed filemanager"
-+HOMEPAGE = "http://pcmanfm.sourceforge.net/"
-+
-+LICENSE = "GPLv2 & GPLv2+ & LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+                    file://src/pcmanfm.h;endline=22;md5=417b3855771a3a87f8ad753d994491f0 \
-+                    file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
-+
-+SECTION = "x11"
-+DEPENDS = "gtk+ startup-notification libfm intltool-native"
-+DEPENDS_append_poky = " libowl"
-+
-+
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|aarch64.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.xz \
-+	   file://gnome-fs-directory.png \
-+	   file://gnome-fs-regular.png \
-+	   file://gnome-mime-text-plain.png \
-+	   file://emblem-symbolic-link.png \
-+	   file://no-desktop.patch"
-+
-+SRC_URI[md5sum] = "c993402d407b0a3fc076f842ac1bc5c9"
-+SRC_URI[sha256sum] = "cfa8d82fc63be147045174bef074807e1e32ce8c6bf4dbd8fad49e260bcf6380"
-+
-+inherit autotools pkgconfig
-+
-+do_install_append () {
-+	install -d ${D}/${datadir}
-+	install -d ${D}/${datadir}/pixmaps/
-+
-+	install -m 0644 ${WORKDIR}/*.png ${D}/${datadir}/pixmaps
-+}
-+
-+FILES_${PN} += "${libdir}/pcmanfm"
--- 
-1.8.4.5
+> Would it be simpler to do "bbvar = d.getVar(var + "_" + pak, False)" so
+> you don't get the expanded value, and then just check for ${D}? I suppose
+> it would save one extra variable and a couple of expansions.
+>
 
+Alejandro answered this point in the original thread:
 
+"using the existing package variable handling infrastructure within the
+class, ends up expanding the variables before being able to check them ,
+using getVar('FOO', False) is useless in this case, any suggestions?"
+
+Ross
+
+--089e01495028617742050c17f34c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 January 2015 at 22:02, Randy Witt <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@linux.inte=
+l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204=
+,204);border-left-style:solid;padding-left:1ex"><div id=3D":9ie" class=3D""=
+ style=3D"overflow:hidden">Would it be simpler to do &quot;bbvar =3D d.getV=
+ar(var + &quot;_&quot; + pak, False)&quot; so you don&#39;t get the expande=
+d value, and then just check for ${D}? I suppose it would save one extra va=
+riable and a couple of expansions.<div class=3D""><div id=3D":9hj" class=3D=
+"" tabindex=3D"0"></div></div></div></blockquote></div><br>Alejandro answer=
+ed this point in the original thread:</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra"><span style=3D"font-size:13px">&quot;using =
+the existing package variable handling infrastructure within the class, end=
+s up expanding the variables before being able to check them , using getVar=
+(&#39;FOO&#39;, False) is useless in this case, any suggestions?&quot;</spa=
+n><br></div><div class=3D"gmail_extra"><span style=3D"font-size:13px"><br><=
+/span></div><div class=3D"gmail_extra"><span style=3D"font-size:13px">Ross<=
+/span></div></div>
+
+--089e01495028617742050c17f34c--
