@@ -1,24 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5139065C66
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 950B065CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 01:07:37 +0000 (UTC)
+	Wed,  7 Jan 2015 01:26:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0717ah0005010
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t071QVbg025204
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jan 2015 17:07:36 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 6 Jan 2015 17:07:35 -0800
+	Tue, 6 Jan 2015 17:26:32 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 6 Jan 2015 17:26:31 -0800
+Message-ID: <54AC8B46.8020206@windriver.com>
+Date: Wed, 7 Jan 2015 09:26:30 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Jan 2015 17:07:35 -0800
-Message-ID: <1420592855-20473-1-git-send-email-liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: [RFC PATCH] package.bbclass: omit .pyc and .pyo file
+To: Chong Lu <Chong.Lu@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1414720498.git.Chong.Lu@windriver.com>
+In-Reply-To: <cover.1414720498.git.Chong.Lu@windriver.com>
+Subject: Re: [PATCH V2 0/1] libxml2: fix python path and add libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 01:07:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Jan 2015 01:26:33 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We should not ship .pyc or .pyo file, but there are a few packages
-ship .pyc, should we:
-1) Ignore them in package.bbclass as this patch showes ?
-Or
-2) Add a qa check  then fix it by hand one by one ?
 
-Here is the list of oe-core's world build:
-python-smartpm-1.4.1
-nativesdk-python-smartpm-1.4.1
-python3-distribute-0.6.32
-python-pycurl-7.19.5
-python-pyrex-0.9.9
-python-numpy-1.7.0
-python-distribute-0.6.32
-python-async-0.6.1
-python-docutils-0.12
-python-pycairo-1.10.0
-python-scons-2.3.2
-python-imaging-1.1.7
-python-gitdb-0.5.4
+Ping, the target createrepo can't work without this patch.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package.bbclass |    6 ++++++
- 1 file changed, 6 insertions(+)
+// Robert
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index fc501fc..6960221 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1022,6 +1022,9 @@ python populate_packages () {
-             files.append(file)
- 
-         for file in files:
-+            # Skip .pyc and .pyo file.
-+            if file.endswith('.pyc') or file.endswith('.pyo'):
-+                continue
-             if not cpath.islink(file):
-                 if cpath.isdir(file):
-                     newfiles =  [ os.path.join(file,x) for x in os.listdir(file) ]
-@@ -1083,6 +1086,9 @@ python populate_packages () {
-         if not dir:
-             dir = os.sep
-         for f in (files + dirs):
-+            # Skip .pyc and .pyo file.
-+            if f.endswith('.pyc') or f.endswith('.pyo'):
-+                continue
-             path = os.path.join(dir, f)
-             if ('.' + path) not in seen:
-                 unshipped.append(path)
--- 
-1.7.9.5
-
+On 10/31/2014 09:56 AM, Chong Lu wrote:
+> Change since v1:
+> add python to PACKAGECONFIG.
+>
+> The following changes since commit 4faca22b8fe63a86d820990207aaf84b3fa83e01:
+>
+>    ref-manual: Updates to the migrating to YP 1.7 section. (2014-10-28 22:31:18 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib chonglu/libxml2
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libxml2
+>
+> Robert Yang (1):
+>    libxml2: fix python path and add libxml2-python
+>
+>   meta/recipes-core/libxml/libxml2.inc | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+>
 
