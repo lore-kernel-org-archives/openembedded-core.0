@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6636E609B2
+	by mail.openembedded.org (Postfix) with ESMTP id 5982E72823
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 07:07:06 +0000 (UTC)
+	Wed,  7 Jan 2015 07:07:09 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t07775Uq021653
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t07779A3021662
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 6 Jan 2015 23:07:05 -0800 (PST)
+	Tue, 6 Jan 2015 23:07:09 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 6 Jan 2015 23:07:05 -0800
+	14.3.174.1; Tue, 6 Jan 2015 23:07:09 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 7 Jan 2015 15:06:49 +0800
-Message-ID: <7ae53a614634dedc2828f1ccab13fed8f0c0e5e4.1420613743.git.hongxu.jia@windriver.com>
+Date: Wed, 7 Jan 2015 15:06:51 +0800
+Message-ID: <7c252e3e624e6fc7102b89e305c1dec977a9845b.1420613743.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1420613743.git.hongxu.jia@windriver.com>
 References: <cover.1420613743.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] scripts/oe-pkgdata-util: support rprovides for lookup-recipe
+Subject: [PATCH 3/4] python3: avoid debian renaming for libpython3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,102 +35,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 07 Jan 2015 07:07:11 -0000
 Content-Type: text/plain
 
-If failed to invoke lookup-recipe while pkg not generated but provided
-by others, such as python3, it is provided by python3-core
+When Debian-renaming, 'libpython3' was incorrectly converted to
+'libpython3.3m1.0', it caused install 'libpython3' failed.
+(IMAGE_INSTALL_append = " python3", INSTALL_ALL_python3 = "1")
 ...
-$ bitbake python3
-$ oe-pkgdata-util -d lookup-recipe tmp/sysroots/qemux86/pkgdata/ "python3"
-ERROR: the following packages could not be found: python3
+ERROR: libpython3 not found in the base feeds (qemux86 i586 x86 noarch any all).
+libpython3.3m1.0-3.3.3-r0.0@i586
 ...
 
-In this situation, we search the pkg's rprovides (if available) to replace.
+We assign DEBIAN_NOAUTONAME for 'libpython3' to avoid debian renaming.
+
+The same to 'libpython3-staticdev'.
 
 [YOCTO #5264]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- scripts/oe-pkgdata-util | 54 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ meta/recipes-devtools/python/python3_3.3.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index bf87547..e43f773 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -27,6 +27,7 @@ import fnmatch
- import re
- import optparse
- from collections import defaultdict
-+import codecs
+diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb b/meta/recipes-devtools/python/python3_3.3.3.bb
+index 2c1f63f..3163fbd 100644
+--- a/meta/recipes-devtools/python/python3_3.3.3.bb
++++ b/meta/recipes-devtools/python/python3_3.3.3.bb
+@@ -204,6 +204,8 @@ FILES_${PN}-pyvenv += "${bindir}/pyvenv-${PYTHON_MAJMIN} ${bindir}/pyvenv"
+ PACKAGES =+ "libpython3 libpython3-staticdev"
+ FILES_libpython3 = "${libdir}/libpython*.so.*"
+ FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/libpython${PYTHON_BINABI}.a"
++DEBIAN_NOAUTONAME_libpython3 = "1"
++DEBIAN_NOAUTONAME_libpython3-staticdev = "1"
  
- def glob(args, usage, debug=False):
-     if len(args) < 3:
-@@ -234,6 +235,19 @@ def lookup_recipe(args, usage, debug=False):
-         print('ERROR: Unable to find pkgdata directory %s' % pkgdata_dir)
-         sys.exit(1)
- 
-+    # If the pkg not generated, search the rprovides to replace
-+    rprovides = collect_rprovides(pkgdata_dir)
-+    for pkg in pkgs[:]:
-+        pkgfile = os.path.join(pkgdata_dir, 'runtime', pkg)
-+        if not os.path.exists(pkgfile):
-+            for newpkg, oldpkg in rprovides.items():
-+                if oldpkg == pkg:
-+                    if debug:
-+                        print('%s rprovides %s' % (newpkg, pkg))
-+                    pkgs.remove(pkg)
-+                    pkgs.append(newpkg)
-+                    break
-+
-     mappings = defaultdict(list)
-     for pkg in pkgs:
-         pkgfile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
-@@ -254,6 +268,46 @@ def lookup_recipe(args, usage, debug=False):
-         items.extend(mappings.get(pkg, []))
-     print '\n'.join(items)
- 
-+def collect_rprovides(pkgdata_dir):
-+    def read_pkgdatafile(fn):
-+        pkgdata = {}
-+        def decode(str):
-+            c = codecs.getdecoder("string_escape")
-+            return c(str)[0]
-+
-+        if os.access(fn, os.R_OK):
-+            import re
-+            f = open(fn, 'r')
-+            lines = f.readlines()
-+            f.close()
-+            r = re.compile("([^:]+):\s*(.*)")
-+            for l in lines:
-+                m = r.match(l)
-+                if m:
-+                    pkgdata[m.group(1)] = decode(m.group(2))
-+        return pkgdata
-+
-+    rprovides_dict = dict()
-+    if os.path.exists(pkgdata_dir):
-+        for root, dirs, files in os.walk("%s/runtime" % pkgdata_dir):
-+            for pkgname in files:
-+                pkgdatafile = "%s/%s" % (root, pkgname)
-+                if not os.access("%s.packaged" % pkgdatafile, os.R_OK):
-+                    continue
-+
-+                try:
-+                    sdata = read_pkgdatafile(pkgdatafile)
-+                    rprovides = sdata.get('RPROVIDES_%s' % pkgname)
-+                    if rprovides:
-+                        rprovides_dict[pkgname] = rprovides
-+
-+                except Exception as e:
-+                    print("ERROR:%s: Failed to read pkgdata file %s: %s: %s" %
-+                          (pkgname, pkgdatafile, e.__class__, str(e)))
-+                    sys.exit(1)
-+
-+    return rprovides_dict
-+
- def find_path(args, usage, debug=False):
-     if len(args) < 2:
-         usage()
+ # catch debug extensions (isn't that already in python-core-dbg?)
+ FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
 -- 
 1.9.1
 
