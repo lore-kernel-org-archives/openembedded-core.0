@@ -1,26 +1,36 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C70F465CDB
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E6FAD71440
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 22:02:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 07 Jan 2015 13:58:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,717,1413270000"; d="scan'208";a="634003059"
-Received: from localhost.jf.intel.com (HELO [10.7.201.167]) ([10.7.201.167])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2015 14:02:06 -0800
-Message-ID: <54ADACDE.2080404@linux.intel.com>
-Date: Wed, 07 Jan 2015 14:02:06 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed,  7 Jan 2015 22:20:01 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id z107so1558810qgd.16
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Jan 2015 14:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ewUqUIzTalQ8L/TuPf3DFPImdiBowwhQkWtAbvVufX8=;
+	b=TYMoexHJsoP+EbA6fh/9daspVggO4fxMW4n+QCHYYNIxPXSxAj0MOJgtSzJdgYFRai
+	R5G8MaXjYMAFvjwVDvuSg6rCQCg0icVmVuhdyKKeJe1/KRoM8ORptOAAc0yHQKiBMpAK
+	cRMqD/m4pIIiViZn68v/tVw76rYDGXJRHnhgLsgIT40eayxt/fgvvPXJNMpx3g8UGeru
+	oqWXHcOvlvSWi0UgN7pJiZnAbaj/U32BRw0QgOYcHY+j3TIevtCs0dJ8oISn+YqoqWoN
+	F2yfwb+2FNtvg70TjOrMsXQmcImywKQWLg9ii8anVRTe1Pszh2ZsYDtQ8xUXTh2TWoe0
+	5dKw==
 MIME-Version: 1.0
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1418337489.git.alejandro.hernandez@linux.intel.com>
-	<4bedbe90e0589179b7c6010818a63596a9502671.1418337489.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <4bedbe90e0589179b7c6010818a63596a9502671.1418337489.git.alejandro.hernandez@linux.intel.com>
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA test for expanded ${D}
+X-Received: by 10.140.43.195 with SMTP id e61mr8180929qga.13.1420669202007;
+	Wed, 07 Jan 2015 14:20:02 -0800 (PST)
+Received: by 10.140.40.169 with HTTP; Wed, 7 Jan 2015 14:20:01 -0800 (PST)
+In-Reply-To: <CAJTo0LaTaRFC=HzC9qeU6DOnxso5re66wYvhdRdUyPdVwPkJ2g@mail.gmail.com>
+References: <1420233904-26745-1-git-send-email-max.oss.09@gmail.com>
+	<1420233904-26745-2-git-send-email-max.oss.09@gmail.com>
+	<CAJTo0LaTaRFC=HzC9qeU6DOnxso5re66wYvhdRdUyPdVwPkJ2g@mail.gmail.com>
+Date: Wed, 7 Jan 2015 23:20:01 +0100
+Message-ID: <CAEHkU3ViZ35X7ELevxRBgUtvtC_Ybe6Z=VpngjFeMr7VRXcpUQ@mail.gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][PATCH 1/3] libfm: update to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 22:02:29 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jan 2015 22:20:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 12/11/2014 02:40 PM, Alejandro Hernandez wrote:
-> Checks in FILES and pkg_* variables, solves common mistake of
->
-> using ${D} instead of $D and warns the user accordingly.
->
-> [YOCTO #6642]
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->   meta/classes/insane.bbclass | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 0b45374..8224124 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
->   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
->               split-strip packages-list pkgv-undefined var-undefined \
-> -            version-going-backwards \
-> +            version-going-backwards expanded_d \
->               "
->
->   ALL_QA = "${WARN_QA} ${ERROR_QA}"
-> @@ -906,6 +906,34 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
->
->       return sane
->
-> +QAPATHTEST[expanded_d] = "package_qa_check_expanded_d"
-> +def package_qa_check_expanded_d(path,name,d,elf,messages):
-> +    """
-> +    Check for the expanded D (${D}) value in pkg_* and FILES
-> +    variables, warn the user to use it correctly.
-> +    """
-> +
-> +    sane = True
-> +    expanded_d = d.getVar('D',True)
-> +
-> +    # Get packages for current recipe and iterate
-> +    packages = d.getVar('PACKAGES', True).split(" ")
-> +    for pak in packages:
-> +    # Go through all variables and check if expanded D is found, warn the user accordingly
-> +        for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
-> +            # Variables are actually var_${PN}
-> +            bbvar = d.getVar(var + "_" + pak)
+Hi Ross
 
-Would it be simpler to do "bbvar = d.getVar(var + "_" + pak, False)" so you 
-don't get the expanded value, and then just check for ${D}? I suppose it would 
-save one extra variable and a couple of expansions.
+Thank you for looking into this.
 
-> +            if bbvar:
-> +                # Bitbake expands ${D} within bbvar during the previous step, so we check for its expanded value
-> +                if expanded_d in bbvar:
-> +                    if var == 'FILES':
-> +                        messages["expanded_d"] = "FILES should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference"
-> +                        sane = False
-> +                    else:
-> +                        messages["expanded_d"] = "%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pak)
-> +                        sane = False
-> +    return sane
-> +
->   # The PACKAGE FUNC to scan each package
->   python do_package_qa () {
->       import subprocess
+2015-01-07 16:17 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
+> Don't use absolute paths such as /usr/lib/ as those paths are not constant -
+> multilib environments or x32 for example use different values for ${libdir}.
 >
 
+I will rework the patch along with the menu-cache one and resend a v2
+of the patch set.
+
+Regards
+Max
 
