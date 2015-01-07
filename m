@@ -1,24 +1,25 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A44C7201A
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6636E609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 06:39:21 +0000 (UTC)
+	Wed,  7 Jan 2015 07:07:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t076dLpx007691
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jan 2015 22:39:22 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t07775Uq021653
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 6 Jan 2015 23:07:05 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 6 Jan 2015 22:39:20 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Jan 2015 14:35:41 +0800
-Message-ID: <cover.1420610929.git.Chong.Lu@windriver.com>
+	14.3.174.1; Tue, 6 Jan 2015 23:07:05 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 7 Jan 2015 15:06:49 +0800
+Message-ID: <7ae53a614634dedc2828f1ccab13fed8f0c0e5e4.1420613743.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1420613743.git.hongxu.jia@windriver.com>
+References: <cover.1420613743.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] layerindex.bbclass: Add ability to fetch layers from layer index
+Subject: [PATCH 1/4] scripts/oe-pkgdata-util: support rprovides for lookup-recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,114 +32,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 06:39:25 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 07:07:11 -0000
 Content-Type: text/plain
 
-How to use this class:
+If failed to invoke lookup-recipe while pkg not generated but provided
+by others, such as python3, it is provided by python3-core
+...
+$ bitbake python3
+$ oe-pkgdata-util -d lookup-recipe tmp/sysroots/qemux86/pkgdata/ "python3"
+ERROR: the following packages could not be found: python3
+...
 
-For example:
-If you want to build python-nova, first you should know meta-openstack layer includes python-nova.
-And then, add meta-openstack to conf/bblayers.conf:
+In this situation, we search the pkg's rprovides (if available) to replace.
 
-    ...
-    BBLAYERS ?= " \
-      /buildarea2/clu1/source/poky/meta \
-      /buildarea2/clu1/source/poky/meta-yocto \
-      /buildarea2/clu1/source/poky/meta-yocto-bsp \
-      /buildarea2/clu1/source/poky/meta-cloud-services/meta-openstack \
-      "
-    ...
+[YOCTO #5264]
 
-And then, run "bitbake python-nova", we will get following error:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ scripts/oe-pkgdata-util | 54 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-    $ bitbake python-nova
-    ERROR: Layer 'meta-openstack' depends on layer 'meta-ruby', but this layer is not enabled in your configuration
-    Add '/buildarea2/clu1/source/poky/meta-openembedded/meta-ruby' to BBLAYERS. You can check conf/bblayers.conf
-    
-    Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-Check conf/bblayers.conf, the meta-ruby has already added to BBALYERS.
-
-    ...
-    BBLAYERS += "/buildarea2/clu1/source/poky/meta-openembedded/meta-ruby"
-
-And then, run "bitbake python-nova", we will get following error:
-
-    $ bitbake python-nova
-    ERROR: Layer 'ruby-layer' depends on layer 'openembedded-layer', but this layer is not enabled in your configuration
-    
-    Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-We need add meta-oe to BBLAYERS and continue to run "bitbake python-nova", still error:
-
-    $ bitbake python-nova
-    ERROR: Layer 'meta-openstack' depends on layer 'meta-networking', but this layer is not enabled in your configuration
-    Add '/buildarea2/clu1/source/poky/meta-openembedded/meta-networking' to BBLAYERS. You can check conf/bblayers.conf
-    
-    Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-Check conf/bblayers.conf, the meta-networking has already added to BBALYERS.
-
-    ...
-    BBLAYERS += "/buildarea2/clu1/source/poky/meta-openembedded/meta-networking"
-
-Continue to run, will get error:
-
-    $ bitbake python-nova
-    ERROR: Layer 'networking-layer' depends on layer 'meta-python', but this layer is not enabled in your configuration
-    
-    Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-Add meta-python to BBLAYERS manually:
-
-    ...
-    BBLAYERS ?= " \
-      /buildarea2/clu1/source/poky/meta \
-      /buildarea2/clu1/source/poky/meta-yocto \
-      /buildarea2/clu1/source/poky/meta-yocto-bsp \
-      /buildarea2/clu1/source/poky/meta-cloud-services/meta-openstack \
-      /buildarea2/clu1/source/poky/meta-openembedded/meta-oe \
-      /buildarea2/clu1/source/poky/meta-openembedded/meta-python \
-      "
-    ...
-
-Still run "bitbake python-nova", will fetch layer automatically:
-
-    $ bitbake python-nova
-    WARNING: Fetch 'meta-virtualization' to '/buildarea2/clu1/source/poky'
-    Cloning into '/buildarea2/clu1/source/poky/meta-virtualization'...
-    remote: Counting objects: 1461, done.
-    remote: Compressing objects: 100% (791/791), done.
-    remote: Total 1461 (delta 803), reused 1262 (delta 604)
-    Receiving objects: 100% (1461/1461), 303.15 KiB | 158.00 KiB/s, done.
-    Resolving deltas: 100% (803/803), done.
-    Checking connectivity... done.
-    ERROR: Layer 'meta-openstack' depends on layer 'meta-virtualization', but this layer is not enabled in your configuration
-    Add '/buildarea2/clu1/source/poky/meta-virtualization' to BBLAYERS. You can check conf/bblayers.conf
-    
-    Summary: There was 1 WARNING message shown.
-    Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-Check conf/bblayers.conf, meta-virtualization layer is added to BBLAYERS
-Finally, run "bitbake python-nova", recipes are parsed.
-
-
-The following changes since commit 2674ddb4b0c0645c91d1794cbd9166418b984351:
-
-  dev-manual: Some minor fixes to some text. (2015-01-06 14:27:03 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/layerindex
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/layerindex
-
-Chong Lu (1):
-  layerindex.bbclass: Add ability to fetch layers from layer index
-
- meta/classes/layerindex.bbclass | 154 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 154 insertions(+)
- create mode 100644 meta/classes/layerindex.bbclass
-
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index bf87547..e43f773 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -27,6 +27,7 @@ import fnmatch
+ import re
+ import optparse
+ from collections import defaultdict
++import codecs
+ 
+ def glob(args, usage, debug=False):
+     if len(args) < 3:
+@@ -234,6 +235,19 @@ def lookup_recipe(args, usage, debug=False):
+         print('ERROR: Unable to find pkgdata directory %s' % pkgdata_dir)
+         sys.exit(1)
+ 
++    # If the pkg not generated, search the rprovides to replace
++    rprovides = collect_rprovides(pkgdata_dir)
++    for pkg in pkgs[:]:
++        pkgfile = os.path.join(pkgdata_dir, 'runtime', pkg)
++        if not os.path.exists(pkgfile):
++            for newpkg, oldpkg in rprovides.items():
++                if oldpkg == pkg:
++                    if debug:
++                        print('%s rprovides %s' % (newpkg, pkg))
++                    pkgs.remove(pkg)
++                    pkgs.append(newpkg)
++                    break
++
+     mappings = defaultdict(list)
+     for pkg in pkgs:
+         pkgfile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
+@@ -254,6 +268,46 @@ def lookup_recipe(args, usage, debug=False):
+         items.extend(mappings.get(pkg, []))
+     print '\n'.join(items)
+ 
++def collect_rprovides(pkgdata_dir):
++    def read_pkgdatafile(fn):
++        pkgdata = {}
++        def decode(str):
++            c = codecs.getdecoder("string_escape")
++            return c(str)[0]
++
++        if os.access(fn, os.R_OK):
++            import re
++            f = open(fn, 'r')
++            lines = f.readlines()
++            f.close()
++            r = re.compile("([^:]+):\s*(.*)")
++            for l in lines:
++                m = r.match(l)
++                if m:
++                    pkgdata[m.group(1)] = decode(m.group(2))
++        return pkgdata
++
++    rprovides_dict = dict()
++    if os.path.exists(pkgdata_dir):
++        for root, dirs, files in os.walk("%s/runtime" % pkgdata_dir):
++            for pkgname in files:
++                pkgdatafile = "%s/%s" % (root, pkgname)
++                if not os.access("%s.packaged" % pkgdatafile, os.R_OK):
++                    continue
++
++                try:
++                    sdata = read_pkgdatafile(pkgdatafile)
++                    rprovides = sdata.get('RPROVIDES_%s' % pkgname)
++                    if rprovides:
++                        rprovides_dict[pkgname] = rprovides
++
++                except Exception as e:
++                    print("ERROR:%s: Failed to read pkgdata file %s: %s: %s" %
++                          (pkgname, pkgdatafile, e.__class__, str(e)))
++                    sys.exit(1)
++
++    return rprovides_dict
++
+ def find_path(args, usage, debug=False):
+     if len(args) < 2:
+         usage()
 -- 
 1.9.1
 
