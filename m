@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E90A72882
+	by mail.openembedded.org (Postfix) with ESMTP id 134317289F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 07:07:04 +0000 (UTC)
+	Wed,  7 Jan 2015 07:07:08 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t07773H1007914
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t07777RS007917
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 6 Jan 2015 23:07:03 -0800 (PST)
+	Tue, 6 Jan 2015 23:07:08 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 6 Jan 2015 23:07:03 -0800
+	14.3.174.1; Tue, 6 Jan 2015 23:07:07 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 7 Jan 2015 15:06:48 +0800
-Message-ID: <cover.1420613743.git.hongxu.jia@windriver.com>
+Date: Wed, 7 Jan 2015 15:06:50 +0800
+Message-ID: <b58837680ca41fb5fad61cdb2d8b13719260d9f7.1420613743.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1420613743.git.hongxu.jia@windriver.com>
+References: <cover.1420613743.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] add variable INSTALL_ALL to install all packages in recipes
+Subject: [PATCH 2/4] scripts/oe-pkgdata-util: add ability to list all produced packages from a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +35,95 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 07 Jan 2015 07:07:11 -0000
 Content-Type: text/plain
 
-Test Steps:
+Add a "list-packages" command to list all produced packages by a
+particular recipe.
 
-Install busybox and lib32-python3 to core-image-minimal,
-and also install all available packages of recipes busybox
-and python3.
+[YOCTO #5264]
 
-1. vim local.conf
-...
-MACHINE ?= "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-IMAGE_INSTALL_append = " busybox lib32-python3"
-INSTALL_ALL_busybox ?= "1" 
-INSTALL_ALL_lib32-python3 ?= "1"
-...
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ scripts/oe-pkgdata-util | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
 
-2. Build core-image-minimal
-$ bitbake core-image-minimal
-
-3. Check installed_pkgs.txt, all available packages of recipes busybox and
-lib32-python3 have been installed.
-...
-$ cat tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/installed_pkgs.txt
-...
-busybox core2-64
-busybox-hwclock core2-64
-busybox-syslog core2-64
-busybox-udhcpc core2-64
-busybox-udhcpd core2-64
-...
-
-4. Edit local.conf to assign INSTALL_ALL_busybox ?= "0"
-
-5. build core-image-minimal
-
-6. Check installed_pkgs.txt, busybox-udhcpd not installed
-...
-$ cat tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/installed_pkgs.txt
-...
-busybox core2-64
-busybox-hwclock core2-64
-busybox-syslog core2-64
-busybox-udhcpc core2-64
-...
-
-//Hongxu
-
-The following changes since commit bfe7d3032a61a20010b5b758be07581e1bf01cba:
-
-  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 17:04:52 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/install-all
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/install-all
-
-Hongxu Jia (4):
-  scripts/oe-pkgdata-util: support rprovides for lookup-recipe
-  scripts/oe-pkgdata-util: add ability to list all produced packages
-    from a recipe
-  python3: avoid debian renaming for libpython3
-  manifest.py/image.bbclass: add var-INSTALL_ALL to install all packages
-    of a recipes.
-
- meta/classes/image.bbclass                    |  19 ++++-
- meta/lib/oe/manifest.py                       |  56 +++++++++++++-
- meta/recipes-devtools/python/python3_3.3.3.bb |   2 +
- scripts/oe-pkgdata-util                       | 101 +++++++++++++++++++++++++-
- 4 files changed, 174 insertions(+), 4 deletions(-)
-
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index e43f773..984f66e 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -28,6 +28,7 @@ import re
+ import optparse
+ from collections import defaultdict
+ import codecs
++import errno
+ 
+ def glob(args, usage, debug=False):
+     if len(args) < 3:
+@@ -308,6 +309,46 @@ def collect_rprovides(pkgdata_dir):
+ 
+     return rprovides_dict
+ 
++def list_packages(args, usage, debug=False):
++    if len(args) < 2:
++        usage()
++        sys.exit(1)
++
++    pkgdata_dir = args[0]
++    if not os.path.exists(pkgdata_dir):
++        print('ERROR: Unable to find pkgdata directory %s' % pkgdata_dir)
++        sys.exit(1)
++
++    if len(args[1].split()) != 1:
++        print('ERROR: Only one recipe name is acceptable')
++        sys.exit(1)
++
++    recipe = args[1]
++    packages = ""
++    try:
++        with open(os.path.join(pkgdata_dir, recipe)) as f:
++            for line in f.readlines():
++                if line.startswith('PACKAGES: '):
++                    packages = line.split(': ', 1)[1].split()
++                    break
++    except IOError as e:
++        if e.errno == errno.ENOENT:
++            print('ERROR: The recipe %s does not exist' % recipe)
++            sys.exit(1)
++        else:
++            raise
++
++    # Filter out packages that not generated
++    for pkg in packages[:]:
++        flag_packaged = "%s/runtime/%s.packaged" % (pkgdata_dir, pkg)
++        if not os.access(flag_packaged, os.R_OK):
++            if debug:
++                print("%s not produced by %s" % (pkg, recipe))
++            packages.remove(pkg)
++
++    print '\n'.join(packages)
++
++
+ def find_path(args, usage, debug=False):
+     if len(args) < 2:
+         usage()
+@@ -354,7 +395,9 @@ Available commands:
+         find the package providing the specified path (wildcards * ? allowed)
+     read-value <pkgdatadir> <value-name> "<pkgs>"
+         read the named value from the pkgdata files for the specified
+-        packages''')
++        packages
++    list-packages <pkgdatadir> "<recipe>"
++        list all packages produced by the particular recipe''')
+ 
+     parser.add_option("-d", "--debug",
+             help = "Enable debug output",
+@@ -377,6 +420,8 @@ Available commands:
+         find_path(args[1:], parser.print_help, options.debug)
+     elif args[0] == "read-value":
+         read_value(args[1:], parser.print_help, options.debug)
++    elif args[0] == "list-packages":
++        list_packages(args[1:], parser.print_help, options.debug)
+     else:
+         parser.print_help()
+         sys.exit(1)
 -- 
 1.9.1
 
