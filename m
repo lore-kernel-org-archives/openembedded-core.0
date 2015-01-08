@@ -1,28 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 013DD706D9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 565747169F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 09:20:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t089K1im019790; Thu, 8 Jan 2015 09:20:01 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6_zGte6SbHFa; Thu,  8 Jan 2015 09:20:01 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t089JkHk019785
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 8 Jan 2015 09:19:57 GMT
-Message-ID: <1420708823.25779.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 08 Jan 2015 09:20:23 +0000
-In-Reply-To: <3fa1980018e080c112b0a92e98805a66beaa235c.1420642464.git.liezhi.yang@windriver.com>
-References: <cover.1420642464.git.liezhi.yang@windriver.com>
+	Thu,  8 Jan 2015 09:26:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t089QlPH026378
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 8 Jan 2015 01:26:47 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 8 Jan 2015 01:26:46 -0800
+Message-ID: <54AE4D54.1090603@windriver.com>
+Date: Thu, 8 Jan 2015 17:26:44 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1420642464.git.liezhi.yang@windriver.com>	
 	<3fa1980018e080c112b0a92e98805a66beaa235c.1420642464.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
+	<1420708823.25779.81.camel@linuxfoundation.org>
+In-Reply-To: <1420708823.25779.81.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] guile: fixed installed-vs-shipped error
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,40 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 09:20:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Jan 2015 09:26:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-01-07 at 06:55 -0800, Robert Yang wrote:
-> Fixed:
-> guile-2.0.11: guile: Files/directories were installed but not shipped
->   /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
-> 
-> This is because when there is no file in the directory:
-> for f in libguile-2.0*; do
->     [snip]
-> done
-> 
-> The f would be libguile-2.0* itself, make sure the libs are installed
-> firstly will fix the problem.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../guile/files/libguile-Makefile.am-depends.patch |   39 ++++++++++++++++++++
->  meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
 
-Not sure if this is as a result of this patch or a different issue but
-we saw:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/builds/153/steps/BuildImages_1/logs/stdio
+On 01/08/2015 05:20 PM, Richard Purdie wrote:
+> On Wed, 2015-01-07 at 06:55 -0800, Robert Yang wrote:
+>> Fixed:
+>> guile-2.0.11: guile: Files/directories were installed but not shipped
+>>    /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
+>>
+>> This is because when there is no file in the directory:
+>> for f in libguile-2.0*; do
+>>      [snip]
+>> done
+>>
+>> The f would be libguile-2.0* itself, make sure the libs are installed
+>> firstly will fix the problem.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../guile/files/libguile-Makefile.am-depends.patch |   39 ++++++++++++++++++++
+>>   meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+>>   2 files changed, 40 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
+>
+> Not sure if this is as a result of this patch or a different issue but
+> we saw:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/builds/153/steps/BuildImages_1/logs/stdio
+>
+> in a build containing this patch. Looks like some dependency is missing
+> and its trying to install the lib twice?
 
-in a build containing this patch. Looks like some dependency is missing
-and its trying to install the lib twice?
+OK, I will take a look it.
 
-Cheers,
+// Robert
 
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
