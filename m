@@ -1,20 +1,27 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 28E85609B2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2515B609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 08:43:50 +0000 (UTC)
-Received: from localhost.localdomain (unknown [78.10.193.111])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id F065A2D7F0F;
-	Thu,  8 Jan 2015 09:43:48 +0100 (CET)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Ross Burton <ross.burton@intel.com>, "Peter A. Bigot" <pab@pabigot.com>
-Date: Thu,  8 Jan 2015 09:43:41 +0100
-Message-Id: <1420706622-31273-1-git-send-email-maciej.borzecki@open-rnd.pl>
-X-Mailer: git-send-email 1.9.3
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH] systemd-networkd: cherry picking route handling patch
+	Thu,  8 Jan 2015 08:52:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t088pv4o025519
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 8 Jan 2015 00:51:57 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 8 Jan 2015 00:51:57 -0800
+Message-ID: <54AE4520.6020603@windriver.com>
+Date: Thu, 8 Jan 2015 16:51:44 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1417759913.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1417759913.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH V2 0/1] fix archiver missing tasks between do_unpack and do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,37 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 08:43:53 -0000
+X-List-Received-Date: Thu, 08 Jan 2015 08:52:11 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There is a problem in systemd-networkd version used in OE-core (216 as
-of now) that prevents a successful communication in a configuration
-that uses a static or IPv4 LL address alongside a dynamically obtained
-one. The setup is rather not uncommon as is makes sense to always have
-a static well known address that a technician or a support engineer
-can access while in the field.
+On 12/05/2014 02:16 PM, Hongxu Jia wrote:
+> Changed in V2:
+> As Richard Purdie suggested, use 'BB_TASKDEPDATA' to instead
+> of bitbake internal variable '_task_deps'.
 
-The current code in systed-networkd uses a clever trick to add a
-static route to the gateway, to workaround a misconfigured DHCP server
-that would assign an address from network pool that the gateway is not
-a part of. The trick was missing a source IP address specification in
-the static route, thus normally the first assigned IP address would be
-used for outgoing IP packets. In this particular case the address
-would the static one, hence the packet would most probably be dropped
-by the router. Also, it is quite common in smaller networks that the
-DHCP server, gateway router and even a DNS server are colocated. In
-these setups the current code will effectively render any
-communication to or past the router impossible.
+Ping
+
+//Hongxu
 
 
-Maciej Borzecki (1):
-  systemd: cherry-pick patch fixing networkd gateway route handling
-
- ...d-preferred-source-to-dhcp4-gateway-route.patch | 109 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_216.bb           |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch
-
--- 
-1.9.3
+> //Hongxu
+>
+>
+> The following changes since commit b8631416f12b8a904ce3deb036f9d5ce632937b0:
+>
+>    package_regex.inc: Update REGEX'es in order to find upstream versions correctly (2014-11-28 14:03:02 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib hongxu/fix-archiver
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-archiver
+>
+> Hongxu Jia (1):
+>    archiver: execute the probable tasks between do_unpack and do_patch
+>
+>   meta/classes/archiver.bbclass | 119 +++++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 112 insertions(+), 7 deletions(-)
+>
 
 
