@@ -1,31 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6681C609B2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 16C4A609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 02:14:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t082Ew1k022273
+	Thu,  8 Jan 2015 02:27:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t082Ri0q019452
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 7 Jan 2015 18:14:58 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 7 Jan 2015 18:14:58 -0800
-Message-ID: <54ADE821.8030000@windriver.com>
-Date: Thu, 8 Jan 2015 10:14:57 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Wed, 7 Jan 2015 18:27:44 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 7 Jan 2015 18:27:44 -0800
+Message-ID: <54ADEB14.9060004@windriver.com>
+Date: Thu, 8 Jan 2015 10:27:32 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <54ADE119.6060008@windriver.com>
-	<06BCD4D4-D179-401A-A39C-1881F2F69B65@gmail.com>
-	<54ADE5D2.1010200@windriver.com>
-	<796F80B8-679B-4E8F-867C-522A3CFBF88A@gmail.com>
-In-Reply-To: <796F80B8-679B-4E8F-867C-522A3CFBF88A@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: About update binutils (2.24 to 2.25)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1420613743.git.hongxu.jia@windriver.com>
+	<1420674899.25779.79.camel@linuxfoundation.org>
+In-Reply-To: <1420674899.25779.79.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] add variable INSTALL_ALL to install all packages in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 02:15:07 -0000
+X-List-Received-Date: Thu, 08 Jan 2015 02:27:54 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 01/08/2015 07:54 AM, Richard Purdie wrote:
+> This tells me what the change does. What it doesn't say is why we need
+> this?
+>
+> Its a fairly invasive set of changes but I don't see the usecase...
 
+Hi Richard,
 
-On 01/08/2015 10:10 AM, Khem Raj wrote:
->
->> On Jan 7, 2015, at 6:05 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->>
->>
->> On 01/08/2015 09:55 AM, Khem Raj wrote:
->>>
->>>> On Jan 7, 2015, at 5:44 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>>
->>>>
->>>> Hi Khem,
->>>>
->>>> I'm trying to upgrade binutils from 2.24 to 2.25, there is
->>>> a patch binutils/libtool-2.4-update.patch which has 19317
->>>> lines, do you have any ideas on how did we make it in the past,
->>>> please ?
->>>
->>> what conflicts are you seeing ? if they are just in configure files then you
->>> need to autoteconf them manually one by one using the appropriate version of auototools as recommended
->>> for bintutils 2.25 usually gcc/binutils don’t use latest auto tools.
->>
->> Conflicts in ld/configure, I fixed it manually, I was curious how we made this
->> patch, and now you have explained, thanks.
->
-> some portions are written and others are generated. since we do not autoreconf binutils, we do have to regenerate configure scripts
-> so its a special case. Usually that would not be needed for autotooled recipes
+I am sorry not to say it clearly,
 
-Thanks, got it.
+1) We have been asked many times on how to install all the PACKAGES
+    of a recipe, we can only list them one by one in the RDPENDS (or
+    IMAGE_INSTALL and so on) currently, especially like dynamic generated
+    packages (perl-modules, kernel-modules) which depends on many other
+    packages, it is not easy to remember these package names for customer.
+    It is helpful for user who does not take care the details that how many
+    packages generated in a recipe, just want to directly install all of 
+them.
 
-// Robert
+2) Providing a mechanism to install all the PACKAGES of a recipe is helpful
+    to test all generated packages of a recipe could work, such as the 
+defect
+    of '[PATCH 3/4]' was found by installing all packages of python3.
 
+3) The fix is based on the usage of IMAGE_INSTALL, so it doesn't affect the
+    users who do not want to use this feature (We disable it by default).
+
+//Hongxu
+
+> Cheers,
 >
->>
->> // Robert
->>
->>>
->>> but if they are reporting changes in other files then its a different problem needs to be looked at.
->>>
->>>
->>>>
->>>> $ diffstat ./binutils/libtool-2.4-update.patch
->>>> bfd/configure        | 1314 +++++++++++++++++-----
->>>> bfd/configure.in     |    2
->>>> binutils/configure   | 1312 +++++++++++++++++-----
->>>> configure            |    2
->>>> gas/configure        | 1312 +++++++++++++++++-----
->>>> gprof/configure      | 1317 +++++++++++++++++-----
->>>> ld/configure         | 1693 ++++++++++++++++++++++-------
->>>> libtool.m4           | 1094 +++++++++++++------
->>>> ltmain.sh            | 2925 ++++++++++++++++++++++++++++++++++-----------------
->>>> ltoptions.m4         |    2
->>>> ltversion.m4         |   12
->>>> lt~obsolete.m4       |    2
->>>> opcodes/configure    | 1314 +++++++++++++++++-----
->>>> opcodes/configure.in |    2
->>>> 14 files changed, 8937 insertions(+), 3366 deletions(-)
->>>>
->>>> --
->>>> Thanks
->>>>
->>>> Robert
->>>
->>>
->>>
+> Richard
 >
->
->
+
 
