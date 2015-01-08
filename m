@@ -1,37 +1,31 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F1A4072AE8;
-	Thu,  8 Jan 2015 20:00:02 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	t08K01Mw025643; Thu, 8 Jan 2015 14:00:01 -0600
-Received: from weregild ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015010814000103-1776484 ;
-	Thu, 8 Jan 2015 14:00:01 -0600 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-In-Reply-To: <20150108120155.GH3972@jama>
-References: <20141219180841.C5F5A503BF@opal.openembedded.org>
-	<20150107141256.GM29986@jama> <20150108120155.GH3972@jama>
-User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.1
-	(x86_64-unknown-linux-gnu)
-Date: Thu, 08 Jan 2015 14:00:00 -0600
-Message-ID: <87zj9tt54v.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+Return-Path: <pab@pabigot.com>
+X-Greylist: delayed 441 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 08 Jan 2015 20:01:51 UTC
+Received: from p3plsmtpa12-09.prod.phx3.secureserver.net
+	(p3plsmtpa12-09.prod.phx3.secureserver.net [68.178.252.238])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F7B72498
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Jan 2015 20:01:51 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa12-09.prod.phx3.secureserver.net with 
+	id dXuU1p00P0BVjqb01XuVwo; Thu, 08 Jan 2015 12:54:30 -0700
+Message-ID: <54AEE07C.2010602@pabigot.com>
+Date: Thu, 08 Jan 2015 13:54:36 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 01/08/2015 02:00:01 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 01/08/2015 02:00:01 PM,
-	Serialize complete at 01/08/2015 02:00:01 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
-	0.0.0000
-	definitions=2015-01-08_06:2015-01-07, 2015-01-08,
-	1970-01-01 signatures=0
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <1420706622-31273-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<CAP9ODKpUV8+ZvnLba83djVXeFw8cR0cBTYobf5DG9A38jMG--Q@mail.gmail.com>
+	<20150108194430.GA3617@localhost.localdomain>
+In-Reply-To: <20150108194430.GA3617@localhost.localdomain>
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-networkd: cherry picking route handling patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 20:00:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Jan 2015 20:01:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Martin Jansa <martin.jansa@gmail.com> writes:
+On 01/08/2015 01:44 PM, Maciej Borzecki wrote:
+> On 01/08 12:13, Otavio Salvador wrote:
+>> On Thu, Jan 8, 2015 at 6:43 AM, Maciej Borzecki
+>> <maciej.borzecki@open-rnd.pl> wrote:
+>>> static route to the gateway, to workaround a misconfigured DHCP server
+>>> that would assign an address from network pool that the gateway is not
+>>> a part of. The trick was missing a source IP address specification in
+>>> the static route, thus normally the first assigned IP address would be
+>>> used for outgoing IP packets. In this particular case the address
+>>> would the static one, hence the packet would most probably be dropped
+>>> by the router. Also, it is quite common in smaller networks that the
+>>> DHCP server, gateway router and even a DNS server are colocated. In
+>> collocated?
+> Yes, obviously collocated.
 
-> On Wed, Jan 07, 2015 at 03:12:56PM +0100, Martin Jansa wrote:
->> On Fri, Dec 19, 2014 at 06:08:41PM +0000, git@git.openembedded.org wrote:
->> > encoding maps are stored under a different path than OE, this will break
->> > font builds, because ucs2any will attempt to read the sysroot's encoding
->> > maps with the host paths.
->> 
->> ^ Is this description of what the patch is supposed to fix or expected
->> side-effect of this change?
->> 
->> Because all font recipes and meta-oe are failing since this change with
->> errors like this:
->> 
->> /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/ucs2any: Can't read mapping file
->> '/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/share/fonts/X11/util/map-ISO8859-1': No such file or directory!
->> 
->> See http://www.openembedded.org/wiki/Bitbake_World_Status
->
-> I can confirm that reverting this patch fixes font-* recipes
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100523.html
+Or preferably "co-located", as collocate is a technical term in 
+linguistics that is pronounced differently than the term intended here.
 
-Thanks for the heads-up, I've reproduced it and will get back with a
-fix. How soon do you need it to avoid a revert?
+http://www.grammarphobia.com/blog/2013/08/collocation-colocation-co-location.html
 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
--- 
-Richard Tollerton <rich.tollerton@ni.com>
+Peter
 
