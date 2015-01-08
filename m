@@ -1,34 +1,29 @@
-Return-Path: <soeren.brinkmann@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B31E72027
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0209272498
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 22:59:52 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id va2so10302828obc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Jan 2015 14:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=c4sUhei0BZRNbDwFyyOCEXMgVAW/sF1qqDui41Jee7w=;
-	b=Dcwej1EpZUTnKtuPfv1eigmMfsSX8mDlqdLX277EY+w6wCRqPF/ZDnr6wD3efK+pbT
-	x3KMlWixoSHSkFHXwuzZL3AzLWpz+kFELVI2mWVvRNLkWx/U1zAsKaAHkoKw+ZTuahsQ
-	YigL9sVfBY8qM6VbFDhFeeBVgsQdJQTFNMP/2S66eMVJweE+a5MihXrt93oGMH4eWqPr
-	wem44Gd99FFtPI6xgZhnh8xXpy+WwQExHTZh8NQCpjGit4gaTXVm92Y+m543Lr2k1LjX
-	dfjnnIdMIvOIrcizYGbZGCakfR+smvIcKw7w9BhsSbzu+lkKFdO2DJqvcJUAwwFswdoV
-	0izw==
-X-Received: by 10.202.193.193 with SMTP id r184mr6882639oif.6.1420757991672;
-	Thu, 08 Jan 2015 14:59:51 -0800 (PST)
-Received: from localhost ([149.199.62.254]) by mx.google.com with ESMTPSA id
-	d198sm3549830oih.12.2015.01.08.14.59.49
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Jan 2015 14:59:49 -0800 (PST)
-Sender: =?UTF-8?Q?S=C3=B6ren_Brinkmann?= <soeren.brinkmann@gmail.com>
-From: Soren Brinkmann <soren.brinkmann@xilinx.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Jan 2015 14:59:43 -0800
-Message-Id: <1420757983-26493-1-git-send-email-soren.brinkmann@xilinx.com>
-X-Mailer: git-send-email 2.2.1.1.gb42cc81
-Subject: [PATCH] shadow: securetty: Add Xilinx Zynq SoC
+	Thu,  8 Jan 2015 23:39:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t08NdhlN007804
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 8 Jan 2015 15:39:43 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 8 Jan 2015 15:39:42 -0800
+Message-ID: <54AF153D.6030602@windriver.com>
+Date: Fri, 9 Jan 2015 07:39:41 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1420642464.git.liezhi.yang@windriver.com>	
+	<3fa1980018e080c112b0a92e98805a66beaa235c.1420642464.git.liezhi.yang@windriver.com>
+	<1420708823.25779.81.camel@linuxfoundation.org>
+In-Reply-To: <1420708823.25779.81.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] guile: fixed installed-vs-shipped error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 22:59:56 -0000
+X-List-Received-Date: Thu, 08 Jan 2015 23:39:55 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add Zynq's console devices to securetty.
 
-Signed-off-by: Soren Brinkmann <soren.brinkmann@xilinx.com>
----
- meta/recipes-extended/shadow/files/securetty | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
-index ecc246f7997c..2be341a216bc 100644
---- a/meta/recipes-extended/shadow/files/securetty
-+++ b/meta/recipes-extended/shadow/files/securetty
-@@ -45,6 +45,10 @@ ttyO1
- ttyO2
- ttyO3
- 
-+# Xilinx Zynq SoC
-+ttyPS0
-+ttyPS1
-+
- # USB dongles
- ttyUSB0
- ttyUSB1
--- 
-2.2.1.1.gb42cc81
+On 01/08/2015 05:20 PM, Richard Purdie wrote:
+> On Wed, 2015-01-07 at 06:55 -0800, Robert Yang wrote:
+>> Fixed:
+>> guile-2.0.11: guile: Files/directories were installed but not shipped
+>>    /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
+>>
+>> This is because when there is no file in the directory:
+>> for f in libguile-2.0*; do
+>>      [snip]
+>> done
+>>
+>> The f would be libguile-2.0* itself, make sure the libs are installed
+>> firstly will fix the problem.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../guile/files/libguile-Makefile.am-depends.patch |   39 ++++++++++++++++++++
+>>   meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+>>   2 files changed, 40 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
+>
+> Not sure if this is as a result of this patch or a different issue but
+> we saw:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/builds/153/steps/BuildImages_1/logs/stdio
+>
+> in a build containing this patch. Looks like some dependency is missing
+> and its trying to install the lib twice?
 
+Hi RP,
+
+I found the reason:
+install-data-hook: libguile-2.0-gdb.scm install-libLTLIBRARIES
+
+would make it have another parallel issue with install-exec-am, I will
+fix it as:
+
+install-exec-hook: libguile-2.0-gdb.scm
+
+since install-exec-am depends on install-libLTLIBRARIES, rather than use
+install-data-hook.
+
+I'm sorry about this, will send an update patch after more testing.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
