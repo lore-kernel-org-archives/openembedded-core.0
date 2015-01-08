@@ -1,30 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA16A60601
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 013DD706D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 09:18:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t089ICj2025182
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 8 Jan 2015 01:18:12 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 8 Jan 2015 01:18:11 -0800
-Message-ID: <54AE4B50.6010505@windriver.com>
-Date: Thu, 8 Jan 2015 17:18:08 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1420610929.git.Chong.Lu@windriver.com>
-	<15bba8b20b0419737801a6c495d379afb8ed67b2.1420610929.git.Chong.Lu@windriver.com>
-	<1458514.BbQ6jzxGvE@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <1458514.BbQ6jzxGvE@peggleto-mobl5.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.204]
+	Thu,  8 Jan 2015 09:20:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t089K1im019790; Thu, 8 Jan 2015 09:20:01 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6_zGte6SbHFa; Thu,  8 Jan 2015 09:20:01 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t089JkHk019785
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 8 Jan 2015 09:19:57 GMT
+Message-ID: <1420708823.25779.81.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 08 Jan 2015 09:20:23 +0000
+In-Reply-To: <3fa1980018e080c112b0a92e98805a66beaa235c.1420642464.git.liezhi.yang@windriver.com>
+References: <cover.1420642464.git.liezhi.yang@windriver.com>
+	<3fa1980018e080c112b0a92e98805a66beaa235c.1420642464.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] layerindex.bbclass: Add ability to fetch layers from layer index
+Subject: Re: [PATCH 1/1] guile: fixed installed-vs-shipped error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 09:18:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 08 Jan 2015 09:20:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2015-01-07 at 06:55 -0800, Robert Yang wrote:
+> Fixed:
+> guile-2.0.11: guile: Files/directories were installed but not shipped
+>   /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
+> 
+> This is because when there is no file in the directory:
+> for f in libguile-2.0*; do
+>     [snip]
+> done
+> 
+> The f would be libguile-2.0* itself, make sure the libs are installed
+> firstly will fix the problem.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../guile/files/libguile-Makefile.am-depends.patch |   39 ++++++++++++++++++++
+>  meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
 
-On 01/07/2015 05:20 PM, Paul Eggleton wrote:
-> Hi Chong,
->
-> On Wednesday 07 January 2015 14:35:42 Chong Lu wrote:
->> It maybe depends on other layers when one layer is added to BBLAYERS. If
->> define LAYERDEPENDS variable in this layer, we will get error from bitbake.
->> But sometimes, we don't have defined. Add a mechanism to fetch layers from
->> layer index and update bblayers.conf as appropriate. The layer index stores
->> dependencies of all layers. Query dependency from layer index and fetch
->> layer repo, then add this layer to BBLAYERS.
-> Hmm, this is certainly interesting but not quite what I had in mind - I was
-> thinking rather that bitbake-layers would be extended and it would be an
-> explicit operation to add a layer from the layer index + all of its
-> dependencies. We can of course also have something semi-automatic like this
-> class, but the manual tool ought to come first IMHO (which the class could then
-> make use of).
->
-> Cheers,
-> Paul
+Not sure if this is as a result of this patch or a different issue but
+we saw:
 
-Hi Paul,
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/builds/153/steps/BuildImages_1/logs/stdio
 
-Thanks for your reply. I will try to extend bitbake-layers.
+in a build containing this patch. Looks like some dependency is missing
+and its trying to install the lib twice?
 
-Best Regards
-Chong
+Cheers,
 
->
+Richard
 
 
