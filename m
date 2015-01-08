@@ -1,40 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EF2B706D9;
-	Thu,  8 Jan 2015 12:01:51 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id em10so2773605wid.5;
-	Thu, 08 Jan 2015 04:01:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=6/YEueF19GTVqbYxQNlksk+B16LRAUKpVH6lwDS7gFA=;
-	b=GdWBfLMgWv6GYD7R13uHx//A+lIxjFVSadVfkUn2cAhHEFiHm0oOLtnigDnk7diTDg
-	7v6Djp7NLNYTeOG3D/uVtBhJjnzSplCNW8pJcVm9VxFWH39WBIFEzH+qwawZ9EwHGMfd
-	DjGdIWosHLuis5iLofiMthpanQJJoVN97RaX03BQ1IfK9SdB42d1OXwRxQuOqW5MTuOL
-	Uw8DU+5XMRbxaS9j3l2eAlSsbDfwPQu4GrRKGx4qS6nHfRC3wzKfc5huho6zlnKb5fgE
-	14I/ZlraiaymBL2QaEC6SbC5DfODfSj3JKE97nBK8Tht51b3vPhhF96MrrRaDZwoRHT1
-	bZSg==
-X-Received: by 10.181.8.66 with SMTP id di2mr58366521wid.49.1420718512319;
-	Thu, 08 Jan 2015 04:01:52 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	jr4sm5872379wjc.20.2015.01.08.04.01.51
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Jan 2015 04:01:51 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 8 Jan 2015 13:01:55 +0100
-To: openembedded-core@lists.openembedded.org,
-	Richard Tollerton <rich.tollerton@ni.com>
-Message-ID: <20150108120155.GH3972@jama>
-References: <20141219180841.C5F5A503BF@opal.openembedded.org>
-	<20150107141256.GM29986@jama>
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7637672BA2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Jan 2015 12:06:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t08C6Rrb029823
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 8 Jan 2015 04:06:28 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 8 Jan 2015 04:06:27 -0800
+Message-ID: <54AE72B7.1020803@windriver.com>
+Date: Thu, 8 Jan 2015 20:06:15 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-In-Reply-To: <20150107141256.GM29986@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1420613743.git.hongxu.jia@windriver.com>	<1420674899.25779.79.camel@linuxfoundation.org>	<54ADEB14.9060004@windriver.com>
+	<CAP9ODKrzqotT1FPxpK4x3KUmXGKXOtQtnJPCyru+ZZeQb6TJww@mail.gmail.com>
+In-Reply-To: <CAP9ODKrzqotT1FPxpK4x3KUmXGKXOtQtnJPCyru+ZZeQb6TJww@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] add variable INSTALL_ALL to install all packages in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,111 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 12:01:55 -0000
-X-Groupsio-MsgNum: 61169
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PW0Eas8rCkcu1VkF"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 Jan 2015 12:06:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---PW0Eas8rCkcu1VkF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 01/08/2015 07:55 PM, Otavio Salvador wrote:
+> On Thu, Jan 8, 2015 at 12:27 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> On 01/08/2015 07:54 AM, Richard Purdie wrote:
+>>> This tells me what the change does. What it doesn't say is why we need
+>>> this?
+>>>
+>>> Its a fairly invasive set of changes but I don't see the usecase...
+>>
+>> Hi Richard,
+>>
+>> I am sorry not to say it clearly,
+>>
+>> 1) We have been asked many times on how to install all the PACKAGES
+>>     of a recipe, we can only list them one by one in the RDPENDS (or
+>>     IMAGE_INSTALL and so on) currently, especially like dynamic generated
+>>     packages (perl-modules, kernel-modules) which depends on many other
+>>     packages, it is not easy to remember these package names for customer.
+>>     It is helpful for user who does not take care the details that how many
+>>     packages generated in a recipe, just want to directly install all of
+>> them.
+>>
+>> 2) Providing a mechanism to install all the PACKAGES of a recipe is helpful
+>>     to test all generated packages of a recipe could work, such as the defect
+>>     of '[PATCH 3/4]' was found by installing all packages of python3.
+>>
+>> 3) The fix is based on the usage of IMAGE_INSTALL, so it doesn't affect the
+>>     users who do not want to use this feature (We disable it by default).
+> For me, it seems those should have a meta package, not a new install
+> variable fo this.
 
-On Wed, Jan 07, 2015 at 03:12:56PM +0100, Martin Jansa wrote:
-> On Fri, Dec 19, 2014 at 06:08:41PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 89a29a3ad0742cd713e739d3d460be7711966679
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D89a29a3ad0742cd713e739d3d460be7711966679
-> >=20
-> > Author: Richard Tollerton <rich.tollerton@ni.com>
-> > Date:   Fri Dec 12 13:34:00 2014 -0600
-> >=20
-> > font-util: Fix incorrect PKG_CONFIG_PATH
-> >=20
-> > PKG_CONFIG_PATH always defaults to /usr/lib/pkgconfig, and the host
-> > /usr/lib/pkgconfig is always checked as a fallback; however,
-> > PKG_CONFIG_PATH is currently (incorrectly) set to /usr/lib/pkg-config in
-> > the sysroot, which doesn't exist. On host distros where the font
->=20
->=20
-> > encoding maps are stored under a different path than OE, this will break
-> > font builds, because ucs2any will attempt to read the sysroot's encoding
-> > maps with the host paths.
->=20
-> ^ Is this description of what the patch is supposed to fix or expected
-> side-effect of this change?
->=20
-> Because all font recipes and meta-oe are failing since this change with
-> errors like this:
->=20
-> /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/u=
-cs2any: Can't read mapping file
-> '/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/shar=
-e/fonts/X11/util/map-ISO8859-1': No such file or directory!
->=20
-> See http://www.openembedded.org/wiki/Bitbake_World_Status
+What meta package means? I am sorry I don't quite follow it.
 
-I can confirm that reverting this patch fixes font-* recipes
-http://lists.openembedded.org/pipermail/openembedded-core/2015-January/1005=
-23.html
-
->=20
-> >=20
-> > Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> >=20
-> > ---
-> >=20
-> >  meta/recipes-graphics/xorg-font/font-util_1.3.0.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb b/meta/=
-recipes-graphics/xorg-font/font-util_1.3.0.bb
-> > index 8b42991..cc4258a 100644
-> > --- a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
-> > +++ b/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
-> > @@ -17,7 +17,7 @@ RDEPENDS_${PN}_class-native =3D "mkfontdir-native mkf=
-ontscale-native"
-> >  PR =3D "${INC_PR}.0"
-> > =20
-> >  do_configure_prepend() {
-> > -        sed -i "s#MAPFILES_PATH=3D\`pkg-config#MAPFILES_PATH=3D\`PKG_C=
-ONFIG_PATH=3D\"${STAGING_LIBDIR_NATIVE}/pkg-config\" pkg-config#g" ${S}/fon=
-tutil.m4.in
-> > +        sed -i "s#MAPFILES_PATH=3D\`pkg-config#MAPFILES_PATH=3D\`PKG_C=
-ONFIG_PATH=3D\"${STAGING_LIBDIR_NATIVE}/pkgconfig\" pkg-config#g" ${S}/font=
-util.m4.in
-> >  }
-> > =20
-> >  BBCLASSEXTEND =3D "native"
-> >=20
-> > --=20
-> > _______________________________________________
-> > Openembedded-commits mailing list
-> > Openembedded-commits@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+//Hongxu
 
 
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---PW0Eas8rCkcu1VkF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlSucbMACgkQN1Ujt2V2gBynLwCfYYJuPlNMNTqz5FMJ4g9Oi8Fh
-sekAn39h3vtUMg9EDgIwy155nf+JoAz3
-=cNPl
------END PGP SIGNATURE-----
-
---PW0Eas8rCkcu1VkF--
