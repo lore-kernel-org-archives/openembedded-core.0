@@ -1,28 +1,22 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 16C4A609B2
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F7B72498
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Jan 2015 02:27:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t082Ri0q019452
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 7 Jan 2015 18:27:44 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 7 Jan 2015 18:27:44 -0800
-Message-ID: <54ADEB14.9060004@windriver.com>
-Date: Thu, 8 Jan 2015 10:27:32 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1420613743.git.hongxu.jia@windriver.com>
-	<1420674899.25779.79.camel@linuxfoundation.org>
-In-Reply-To: <1420674899.25779.79.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] add variable INSTALL_ALL to install all packages in recipes
+	Thu,  8 Jan 2015 08:43:51 +0000 (UTC)
+Received: from localhost.localdomain (unknown [78.10.193.111])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 4DB802DA037;
+	Thu,  8 Jan 2015 09:43:51 +0100 (CET)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Ross Burton <ross.burton@intel.com>, "Peter A. Bigot" <pab@pabigot.com>
+Date: Thu,  8 Jan 2015 09:43:42 +0100
+Message-Id: <1420706622-31273-2-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1420706622-31273-1-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1420706622-31273-1-git-send-email-maciej.borzecki@open-rnd.pl>
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH] systemd: cherry-pick patch fixing networkd gateway route handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +29,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Jan 2015 02:27:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Jan 2015 08:43:53 -0000
 
-On 01/08/2015 07:54 AM, Richard Purdie wrote:
-> This tells me what the change does. What it doesn't say is why we need
-> this?
->
-> Its a fairly invasive set of changes but I don't see the usecase...
+Cherry-picking a patch that fixes gateway route handling in
+systemd-networkd. The patch adds a source IP to the automatically added gateway
+static route, this thus allowing for proper communication in case a static or
+IPv4 LL address is used alongside a dynamically obtained one.
 
-Hi Richard,
+(From systemd rev: 46b0c76e2c355c0d0cc4792abb98cde07b28bc5)
 
-I am sorry not to say it clearly,
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+---
+ ...d-preferred-source-to-dhcp4-gateway-route.patch | 109 +++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch
 
-1) We have been asked many times on how to install all the PACKAGES
-    of a recipe, we can only list them one by one in the RDPENDS (or
-    IMAGE_INSTALL and so on) currently, especially like dynamic generated
-    packages (perl-modules, kernel-modules) which depends on many other
-    packages, it is not easy to remember these package names for customer.
-    It is helpful for user who does not take care the details that how many
-    packages generated in a recipe, just want to directly install all of 
-them.
-
-2) Providing a mechanism to install all the PACKAGES of a recipe is helpful
-    to test all generated packages of a recipe could work, such as the 
-defect
-    of '[PATCH 3/4]' was found by installing all packages of python3.
-
-3) The fix is based on the usage of IMAGE_INSTALL, so it doesn't affect the
-    users who do not want to use this feature (We disable it by default).
-
-//Hongxu
-
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-core/systemd/systemd/0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch b/meta/recipes-core/systemd/systemd/0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch
+new file mode 100644
+index 0000000..1a9e8ee
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch
+@@ -0,0 +1,109 @@
++From 46b0c76e2c355c0d0cc4792abb98cde07b28bc53 Mon Sep 17 00:00:00 2001
++From: Emil Renner Berthing <systemd@esmil.dk>
++Date: Fri, 5 Sep 2014 11:56:02 +0200
++Subject: [PATCH] networkd: add preferred source to dhcp4 gateway route
++
++This makes DHCPv4 and IPv4LL coexist peacefully.
++
++[tomegun: apply to both the dhcp routes, use in_addr_is_null() rather than a
++separate variable to indicate when prefsrc should be applied]
++---
++ src/network/networkd-dhcp4.c | 11 +++++++++++
++ src/network/networkd-route.c | 22 ++++++++++++++++++++++
++ src/network/networkd.h       |  1 +
++ 3 files changed, 34 insertions(+)
++
++diff --git a/src/network/networkd-dhcp4.c b/src/network/networkd-dhcp4.c
++index 5e4ff2b80b796ea33de24b9c80076f408f6db63d..b87fa730826daba3650477c430495523ab09054d 100644
++--- a/src/network/networkd-dhcp4.c
+++++ b/src/network/networkd-dhcp4.c
++@@ -67,9 +67,18 @@ static int link_set_dhcp_routes(Link *link) {
++                 return r;
++         }
++         if (r >= 0) {
+++                struct in_addr address;
++                 _cleanup_route_free_ Route *route = NULL;
++                 _cleanup_route_free_ Route *route_gw = NULL;
++ 
+++                r = sd_dhcp_lease_get_address(link->dhcp_lease, &address);
+++                if (r < 0) {
+++                        log_warning_link(link,
+++                                         "DHCP error: could not get address: %s",
+++                                         strerror(-r));
+++                        return r;
+++                }
+++
++                 r = route_new_dynamic(&route, RTPROT_DHCP);
++                 if (r < 0) {
++                         log_error_link(link,
++@@ -92,6 +101,7 @@ static int link_set_dhcp_routes(Link *link) {
++                 route_gw->family = AF_INET;
++                 route_gw->dst_addr.in = gateway;
++                 route_gw->dst_prefixlen = 32;
+++                route_gw->prefsrc_addr.in = address;
++                 route_gw->scope = RT_SCOPE_LINK;
++                 route_gw->metrics = DHCP_ROUTE_METRIC;
++ 
++@@ -107,6 +117,7 @@ static int link_set_dhcp_routes(Link *link) {
++ 
++                 route->family = AF_INET;
++                 route->in_addr.in = gateway;
+++                route->prefsrc_addr.in = address;
++                 route->metrics = DHCP_ROUTE_METRIC;
++ 
++                 r = route_configure(route, link, &dhcp4_route_handler);
++diff --git a/src/network/networkd-route.c b/src/network/networkd-route.c
++index aead4fbb9e8d47df66c2c892132d9c78e5650a68..10d8cd902a8c16147eb52bb4aa0d01781054ed1b 100644
++--- a/src/network/networkd-route.c
+++++ b/src/network/networkd-route.c
++@@ -144,6 +144,17 @@ int route_drop(Route *route, Link *link,
++                 }
++         }
++ 
+++        if (!in_addr_is_null(route->family, &route->prefsrc_addr)) {
+++                if (route->family == AF_INET)
+++                        r = sd_rtnl_message_append_in_addr(req, RTA_PREFSRC, &route->prefsrc_addr.in);
+++                else if (route->family == AF_INET6)
+++                        r = sd_rtnl_message_append_in6_addr(req, RTA_PREFSRC, &route->prefsrc_addr.in6);
+++                if (r < 0) {
+++                        log_error("Could not append RTA_PREFSRC attribute: %s", strerror(-r));
+++                        return r;
+++                }
+++        }
+++
++         r = sd_rtnl_message_route_set_scope(req, route->scope);
++         if (r < 0) {
++                 log_error("Could not set scope: %s", strerror(-r));
++@@ -218,6 +229,17 @@ int route_configure(Route *route, Link *link,
++                 }
++         }
++ 
+++        if (!in_addr_is_null(route->family, &route->prefsrc_addr)) {
+++                if (route->family == AF_INET)
+++                        r = sd_rtnl_message_append_in_addr(req, RTA_PREFSRC, &route->prefsrc_addr.in);
+++                else if (route->family == AF_INET6)
+++                        r = sd_rtnl_message_append_in6_addr(req, RTA_PREFSRC, &route->prefsrc_addr.in6);
+++                if (r < 0) {
+++                        log_error("Could not append RTA_PREFSRC attribute: %s", strerror(-r));
+++                        return r;
+++                }
+++        }
+++
++         r = sd_rtnl_message_route_set_scope(req, route->scope);
++         if (r < 0) {
++                 log_error("Could not set scope: %s", strerror(-r));
++diff --git a/src/network/networkd.h b/src/network/networkd.h
++index ab5df1aa3c57952dc9549f2da85332dd966771f4..c6e6b22c383e04413fffed24031410c2695dc190 100644
++--- a/src/network/networkd.h
+++++ b/src/network/networkd.h
++@@ -150,6 +150,7 @@ struct Route {
++ 
++         union in_addr_union in_addr;
++         union in_addr_union dst_addr;
+++        union in_addr_union prefsrc_addr;
++ 
++         LIST_FIELDS(Route, routes);
++ };
++-- 
++1.9.3
++
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 536b7be..d82fd7c 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -34,6 +34,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch \
+            file://0001-Make-root-s-home-directory-configurable.patch \
+            file://0001-systemd-user-avoid-using-system-auth.patch \
++           file://0001-networkd-add-preferred-source-to-dhcp4-gateway-route.patch \
+            file://touchscreen.rules \
+            file://00-create-volatile.conf \
+            file://init \
+-- 
+1.9.3
 
 
