@@ -1,28 +1,28 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DDC9072730
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6146772027
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 16:11:48 +0000 (UTC)
+	Fri,  9 Jan 2015 16:34:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t09GBmwa019026
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t09GYbgK017820
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Jan 2015 08:11:48 -0800 (PST)
+	Fri, 9 Jan 2015 08:34:38 -0800 (PST)
 Received: from Marks-MacBook-Pro.local (172.25.36.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 9 Jan 2015 08:11:47 -0800
-Message-ID: <54AFFDC3.2030601@windriver.com>
-Date: Fri, 9 Jan 2015 10:11:47 -0600
+	14.3.174.1; Fri, 9 Jan 2015 08:34:37 -0800
+Message-ID: <54B0031C.9090504@windriver.com>
+Date: Fri, 9 Jan 2015 10:34:36 -0600
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.11.1501091107110.24628@localhost>
-In-Reply-To: <alpine.LFD.2.11.1501091107110.24628@localhost>
-Subject: Re: [PATCH] BAD_RECOMMENDATIONS also works for RPM packaging.
+References: <CADV-EXEYxztudfc2a4YcGj7HC4AMQaddso5uYPjmv_Wfm-DvvA@mail.gmail.com>
+In-Reply-To: <CADV-EXEYxztudfc2a4YcGj7HC4AMQaddso5uYPjmv_Wfm-DvvA@mail.gmail.com>
+Subject: Re: DNF package manager instead of SMART for rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 16:11:51 -0000
+X-List-Received-Date: Fri, 09 Jan 2015 16:34:43 -0000
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-That is correct.. it was update to work with RPM a year or so ago.  Looks like
-the docs were never updated.
+On 1/9/15 5:32 AM, Yevhen Kyriukha wrote:
+> Hello,
+> 
+> I'd like to know if there is a chance to replace python-smart with DNF
+> (github.com/rpm-software-management/dnf)?
+> DNF already has more features than smart and is well supported (smart
+> is kind of dead project).
+> I'd like to prepare a set of patches for dnf integration.
+> 
+
+Let me start with I'm not against DNF or any other package management system..
+but there were reasons that smart was choosen.  If DNF (or another system can
+meets the requirements, we should strongly consider it.)
+
+For smart, it was chosen because it was small and compact.  It may not be
+feature rich, but it was small.  (Yes it requires python, but unlike other
+package management front ends it didn't require C++, Boost, etc.)
+
+I don't know the dependency tree for DNF, but if it's small (python and rpm)
+then it certainly meets that criteria.
+
+
+Smart also had a community that wanted to work with us.  (Small, but it was
+there.)  OE uses RPM5 as the default version of rpm.  This is because we need
+support for some of the RPM5 features.  RPM5 (and OE) use a 'recommend' as well
+as requires mechanism.
+
+This means the package manager has to be able to deal with the RPM5 API.  In the
+past the YUM developer community was -actively- against working with RPM5.
+
+This also means that the package manager has to have the ability to deal with
+both required and recommended packages.  The packages are handled via 'hints'
+(bits) in the required field as to if they are required or recommended.
+Recommended items should be sorted the same as required, but if they don't exist
+shouldn't cause an error.  (YUM was never able to do this... likely due to the
+issue above!)
+
+Finally the rest of the OE system would need to be updated to automatically
+generate the proper package feeds for this system.  It's not really difficult,
+but it has to work in a cross-compile environment.  So whatever tools can't
+embed endian and word size specific fields or problems will be created when the
+host and target represent different system types.
+
+
+With all of the above set.  If you think either DNF, or you will be able to
+reconcile that.. I'd love to see the patches.
+
+Work wise, I think the first step is figure out the dependency tree and see if
+it's reasonable.  (It likely is.)  The next step is to get it working with both
+rpm(4) and rpm5.  [including both iterations of the recommended package types]
+And finally to get the filesystem generation (cross) to work properly with the
+DNF system.
+
+If you have any question, please ask on the list or find me on IRC.. I can help
+explain some of the history and problems we'd encountered (and fixed) in the past.
 
 --Mark
-
-On 1/9/15 10:08 AM, Robert P. J. Day wrote:
-> 
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> 
-> ---
-> 
->   unless i misread, BAD_RECOMMENDATIONS works for both IPK and RPM,
-> but not for DEB.
-> 
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index 2ab86e1..3a918e8 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -77,7 +77,7 @@ AUTOREV[doc] = "When SRCREV is set to the value of this variable, it specifies t
->  #B
-> 
->  B[doc] = "The Build Directory. The OpenEmbedded build system places generated objects into the Build Directory during a recipe's build process."
-> -BAD_RECOMMENDATIONS[doc] = "A list of packages not to install despite being recommended by a recipe. Support for this variable exists only when using the IPK packaging backend."
-> +BAD_RECOMMENDATIONS[doc] = "A list of packages not to install despite being recommended by a recipe. Support for this variable exists only when using the IPK or RPM packaging backends."
->  BB_DANGLINGAPPENDS_WARNONLY[doc] = "Defines how BitBake handles situations where an append file (.bbappend) has no corresponding recipe file (.bb)."
->  BB_DISKMON_DIRS[doc] = "Monitors disk space and available inodes during the build and allows you to control the build based on these parameters."
->  BB_DISKMON_WARNINTERVAL[doc] = "Defines the disk space and free inode warning intervals. To set these intervals, define the variable in the conf/local.conf file in the Build Directory."
-> 
-
 
