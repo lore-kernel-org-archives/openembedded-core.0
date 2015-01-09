@@ -1,31 +1,36 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id EB1317169F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B9E672027
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 13:07:19 +0000 (UTC)
-Received: from [70.30.87.145] (port=56480 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Y9ZHa-00027U-Gn for openembedded-core@lists.openembedded.org;
-	Fri, 09 Jan 2015 08:07:18 -0500
-Date: Fri, 9 Jan 2015 08:07:16 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1501090801450.11009@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Fri,  9 Jan 2015 13:13:08 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id j5so8422162qga.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Jan 2015 05:13:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0h5WbwARK7TWKSieA5FYvr32kiHUDCpisQ2ud+wGT/E=;
+	b=O9NFdv02AAEXY3wWRaeRqwhY4OAtYC3hywrbTiO7ME8uLqpM8854Pnqz/5OsUk/+vS
+	JGdm69OA8H3FISRDabBd20hIU3hrEVolKOxZ8NGD++8djzH1Vgmv0SjNYfUr1U/p2ztQ
+	077EC6SltLfatwimEkVzoptGHZVcCNu/VrpJgJPYhJLm4NeZRCJ166Bq8vo+6uKHSqjl
+	+ER/zKrXgGO6hEh/PV+p9H/wj2lumaAoe+Tu2dzoq9OLMDlks8Lhzh2JkwjpEp2EB3MJ
+	jM7RxVydIyAwlH8oGpwpQftxEc75KxXuOTd/vRxxgX7Rzg8n7Tf2ZVXCxP82zJH2lzEA
+	exiw==
+X-Gm-Message-State: ALoCoQm1mFdtKGpoai8Vfx07CsIQhVVXO2hQVtrL4FXkKpvU27qweF5CkMMs1PN9nyNAMlJ5lKo+
+X-Received: by 10.229.61.5 with SMTP id r5mr26511162qch.28.1420809189207; Fri,
+	09 Jan 2015 05:13:09 -0800 (PST)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: do_install(), do_install_append() in qemu.inc
+Received: by 10.140.96.166 with HTTP; Fri, 9 Jan 2015 05:12:48 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.11.1501090801450.11009@localhost>
+References: <alpine.LFD.2.11.1501090801450.11009@localhost>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 Jan 2015 13:12:48 +0000
+Message-ID: <CAJTo0LaGfrmQ=nMtvan_sJVGVkbygMePRT9GWuwyzhTz9HpJsw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: do_install(), do_install_append() in qemu.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,53 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 13:07:32 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 09 Jan 2015 13:13:17 -0000
+Content-Type: multipart/alternative; boundary=001a1132e4b4044c99050c37ebad
 
+--001a1132e4b4044c99050c37ebad
+Content-Type: text/plain; charset=UTF-8
 
-  just a curiosity ... i notice the following snippet in qemu.inc:
+On 9 January 2015 at 13:07, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-do_install () {
-        export STRIP="true"
-        autotools_do_install
-        install -d ${D}${datadir}/qemu
-        install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
-}
+>   BTW, the only reason i tripped over this is that the YP dev manual
+> discourages one from defining both do_install() and
+> do_install_append() in the same file, so i thought i would do a quick
+> check under poky to see which files were doing just that, and there
+> are a few others. should they be adjusted? it does seem weird to
+> explicitly define do_install() then, immediately, append to it in the
+> same file.
+>
 
-# The following fragment will create a wrapper for qemu-mips user emulation
-# binary in order to work around a segmentation fault issue. Basically, by
-# default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
-# This will trigger a MMU access fault in the virtual CPU. With this change,
-# the qemu-mips works fine.
-# IMPORTANT: This piece needs to be removed once the root cause is fixed!
-do_install_append() {
-        if [ -e "${D}/${bindir}/qemu-mips" ]; then
-                create_wrapper ${D}/${bindir}/qemu-mips \
-                        QEMU_RESERVED_VA=0x0
-        fi
-}
-# END of qemu-mips workaround
+It's certainly redundant if not harmful, when I come across instances like
+that I tend to merge them.
 
-  it's kind of odd to see both a do_install() and do_install_append()
-in the same file. is this workaround still necessary?
+Ross
 
-  BTW, the only reason i tripped over this is that the YP dev manual
-discourages one from defining both do_install() and
-do_install_append() in the same file, so i thought i would do a quick
-check under poky to see which files were doing just that, and there
-are a few others. should they be adjusted? it does seem weird to
-explicitly define do_install() then, immediately, append to it in the
-same file.
+--001a1132e4b4044c99050c37ebad
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-rday
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 January 2015 at 13:07, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8hf" cla=
+ss=3D"a3s" style=3D"overflow:hidden">=C2=A0 BTW, the only reason i tripped =
+over this is that the YP dev manual<br>
+discourages one from defining both do_install() and<br>
+do_install_append() in the same file, so i thought i would do a quick<br>
+check under poky to see which files were doing just that, and there<br>
+are a few others. should they be adjusted? it does seem weird to<br>
+explicitly define do_install() then, immediately, append to it in the<br>
+same file.</div></blockquote></div><br>It&#39;s certainly redundant if not =
+harmful, when I come across instances like that I tend to merge them.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+--001a1132e4b4044c99050c37ebad--
