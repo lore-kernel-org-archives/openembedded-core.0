@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 886897169F
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FFB765CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 16:43:32 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id q58so8951846wes.12
+	Fri,  9 Jan 2015 17:20:48 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id f51so9924216qge.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Jan 2015 08:43:32 -0800 (PST)
+	Fri, 09 Jan 2015 09:20:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GmBo9DKeZ9jWevybYmWvy4Kx6vLB7bcoR1nPr6xdKb4=;
-	b=DMw9/TEnooKzYRUiD+A+yWZTq+I1E933hBeGVrRoa59qlA9/TKbEppFdQo1MRGzfnQ
-	J1x4UBKn/ANMDvmwqEeaou/XnqbWK+EEoS7lW9c4eGD4okZbsABKGWaBt/Iixm32X4EZ
-	Gf8MJVwI+hFqaFfsXdrzj6x5l9gzFNUeVoqO15XsJt3tR7QxTicCC8IdIVfmGlZvlUF/
-	TENLtuFSDq/Y24+MEKni9tkIHaisvvGnCWIrMFE/8/7LJiEeLmJccD1o+YYzqccq+g7O
-	BFBXvE5iJNX08+xRBPY/+8zeKFMvh3zk1c7lHaeyY6RJFcVfk0qPchgVicXYMuXLLq6O
-	efUA==
-X-Gm-Message-State: ALoCoQnsPEFSecgRElo+bMKi7IiPq13VLOSi3R7g3XYnYKj2DEIoHv5f5THaB7kHqooWJjzeqOJH
-X-Received: by 10.194.85.17 with SMTP id d17mr32961975wjz.61.1420821812457;
-	Fri, 09 Jan 2015 08:43:32 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id e4sm10601233wjw.48.2015.01.09.08.43.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Jan 2015 08:43:31 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jan 2015 16:42:17 +0000
-Message-Id: <1420821737-16680-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] socat: forcibly disable use of libbsd
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hsibykZ3l2chbntOJfC7CAJkHx1afmKPt1uWTmY5fUE=;
+	b=cSH600ADJwMv7hXNUZKmFoS6Vtp/PR3EVKOdsqov4VNsBhFwof9KG+DiBRzVIHbKgn
+	QWqNmR3ztU/RN5Yd2dhqJF7TvNeuXAwT7lnNVomIpihQ/j8j0icXKNi2fx680gIgOhex
+	xnOUpbUuJKV/PEYbg6oK7RYSY7hMtsiuBuDAy6wJScclT29Cfz9IaOKFQanqSV+ds5+V
+	fa1UPKeKt03HYFzE6BSp8P/aBPdBAD4qVDbEWoj5bs3vmd8/VkbnWLXYtiRNZOESHO/1
+	8g7L4wT9vk0V853mmVJzamzv2eWYaXnh4L+vpFvBn3VHA6/QzjBy1gxj0gLVWt+FALSV
+	PUkg==
+X-Gm-Message-State: ALoCoQkbaCrlIQa59Le2YGLtp5Qn0jx6Z2GTnQMzKuIGdQypf35s+N8wuzLkSL8Mbp/GDB+8RJ1U
+X-Received: by 10.224.92.205 with SMTP id s13mr28785874qam.52.1420824049176;
+	Fri, 09 Jan 2015 09:20:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Fri, 9 Jan 2015 09:20:28 -0800 (PST)
+In-Reply-To: <65b1798d9384b162e2aba3dc77cfc7e98ce1519d.1420781433.git.liezhi.yang@windriver.com>
+References: <cover.1420781433.git.liezhi.yang@windriver.com>
+	<65b1798d9384b162e2aba3dc77cfc7e98ce1519d.1420781433.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 Jan 2015 17:20:28 +0000
+Message-ID: <CAJTo0LbxRcAj-LEsaYGefk8AyF_MpwzNFznzvx3x07E7A9wyVA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] gnu-efi: upgrade to 3.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 16:43:35 -0000
+X-List-Received-Date: Fri, 09 Jan 2015 17:20:52 -0000
+Content-Type: multipart/alternative; boundary=089e015375e4bd6923050c3b60c3
 
-Socat will look for openpty() in BSD headers before Linux headers, so if libbsd
-is present at configure time then that will be used.  We don't need to depend on
-libbsd though, and leaving it floating can cause build errors, so tell configure
-that the libbsd header isn't present.
+--089e015375e4bd6923050c3b60c3
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/socat/socat_1.7.2.4.bb |    1 +
- 1 file changed, 1 insertion(+)
+Hi Robert,
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-index f4461de..9e43e16 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-@@ -27,6 +27,7 @@ EXTRA_AUTORECONF += "--exclude=autoheader"
- EXTRA_OECONF += "ac_cv_have_z_modifier=yes sc_cv_sys_crdly_shift=9 \
-         sc_cv_sys_tabdly_shift=11 sc_cv_sys_csize_shift=4 \
-         ac_cv_ispeed_offset=13 \
-+        ac_cv_header_bsd_libutil_h=no \
- "
- 
- PACKAGECONFIG ??= "tcp-wrappers"
--- 
-1.7.10.4
+On 9 January 2015 at 05:33, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+> diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb
+>
 
+You failed to update the SRC_URI and checksums.  :)
+
+Ross
+
+--089e015375e4bd6923050c3b60c3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Robert,</div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">On 9 January 2015 at 05:33, Robe=
+rt Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" =
+target=3D"_blank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><div id=3D":bm2" class=3D"a3s" style=3D"overflow:h=
+idden">diff --git a/meta/recipes-bsp/gnu-efi/<a href=3D"http://gnu-efi_3.0u=
+.bb" target=3D"_blank">gnu-efi_3.0u.bb</a> b/meta/recipes-bsp/gnu-efi/<a hr=
+ef=3D"http://gnu-efi_3.0.1.bb" target=3D"_blank">gnu-efi_3.0.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-bsp/gnu-efi/<a href=3D"http://gnu-efi_3.0u.bb" tar=
+get=3D"_blank">gnu-efi_3.0u.bb</a><br>
+rename to meta/recipes-bsp/gnu-efi/<a href=3D"http://gnu-efi_3.0.1.bb" targ=
+et=3D"_blank">gnu-efi_3.0.1.bb</a></div></blockquote><div><br></div><div>Yo=
+u failed to update the SRC_URI and checksums. =C2=A0:)</div><div><br></div>=
+<div>Ross=C2=A0</div></div></div></div>
+
+--089e015375e4bd6923050c3b60c3--
