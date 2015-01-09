@@ -1,27 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 813EC7169F
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 0AECE72027
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 11:50:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t09BopSV016587
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 9 Jan 2015 03:50:54 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 9 Jan 2015 03:50:51 -0800
-Message-ID: <54AFC08E.2040401@windriver.com>
-Date: Fri, 9 Jan 2015 19:50:38 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Fri,  9 Jan 2015 12:07:30 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Fri, 9 Jan 2015
+	13:07:24 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id EB5072800CB;
+	Fri,  9 Jan 2015 13:07:24 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Jan 2015 13:06:52 +0100
+Message-ID: <1420805212-62823-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1419823473.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1419823473.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH V2 0/4] Packages upgrade: groff and directfb
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] curl: upgrade to 7.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 11:50:57 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Jan 2015 12:07:39 -0000
+Content-Type: text/plain
 
-On 12/29/2014 01:47 PM, Hongxu Jia wrote:
-> Changed in V2:
+Bump to version 7.40
 
-Ping
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-support/curl/{curl_7.38.0.bb => curl_7.40.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.38.0.bb => curl_7.40.0.bb} (93%)
 
-//Hongxu
-
-> - Follow Saul's suggestions, investigate groff's README, double
->    check its DEPENDS;
->
-> - Follow Richard's suggestions, correctly set the path to perl
->    in the recipe.
->
-> - Fix qt4-embedded build failure which caused by the upgraded
->    directfb. (thanks Richard and Otavio for pointing it out)
->
-> //Hongxu
->
->
-> The following changes since commit e3a623bfe39fda16420d2042647af75877bb6f70:
->
->    runqemu-internal: increase memory for qemuarm64 (2014-12-25 08:27:13 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib hongxu/upgrade-packages
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-packages
->
-> Hongxu Jia (4):
->    groff: upgrade 1.22.3
->    groff: fix native perl path
->    directfb: upgrade to 1.7.6
->    qt4-embedded: support c++0x stand for directfb
->
->   ...off-1.22.2-correct-man.local-install-path.patch |  32 --
->   .../groff-correct-man.local-install-path.patch     |  45 +++
->   .../groff/{groff_1.22.2.bb => groff_1.22.3.bb}     |  23 +-
->   .../directfb/directfb/fixsepbuild.patch            |  19 --
->   .../rename-no-instrument-function-macro.patch      | 345 ---------------------
->   .../{directfb_1.7.4.bb => directfb_1.7.6.bb}       |   8 +-
->   ...figure-support-c-0x-standard-for-directfd.patch |  40 +++
->   meta/recipes-qt/qt4/qt4-embedded.inc               |   4 +-
->   8 files changed, 99 insertions(+), 417 deletions(-)
->   delete mode 100644 meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
->   create mode 100644 meta/recipes-extended/groff/groff-1.22.3/groff-correct-man.local-install-path.patch
->   rename meta/recipes-extended/groff/{groff_1.22.2.bb => groff_1.22.3.bb} (72%)
->   delete mode 100644 meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
->   delete mode 100644 meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
->   rename meta/recipes-graphics/directfb/{directfb_1.7.4.bb => directfb_1.7.6.bb} (58%)
->   create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0033-configure-support-c-0x-standard-for-directfd.patch
->
+diff --git a/meta/recipes-support/curl/curl_7.38.0.bb b/meta/recipes-support/curl/curl_7.40.0.bb
+similarity index 93%
+rename from meta/recipes-support/curl/curl_7.38.0.bb
+rename to meta/recipes-support/curl/curl_7.40.0.bb
+index 85bd3be..209ed94 100644
+--- a/meta/recipes-support/curl/curl_7.38.0.bb
++++ b/meta/recipes-support/curl/curl_7.40.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
+ 
+-SRC_URI[md5sum] = "af6b3c299bd891f43cb5f76c4091b7b4"
+-SRC_URI[sha256sum] = "035bd41e99aa1a4e64713f4cea5ccdf366ca8199e9be1b53d5a043d5165f9eba"
++SRC_URI[md5sum] = "8d30594212e65657a5c32030f0998fa9"
++SRC_URI[sha256sum] = "899109eb3900fa6b8a2f995df7f449964292776a04763e94fae640700f883fba"
+ 
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+-- 
+1.9.1
 
 
