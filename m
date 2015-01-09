@@ -1,18 +1,31 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa06-04.prod.phx3.secureserver.net
-	(p3plsmtpa06-04.prod.phx3.secureserver.net [173.201.192.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5EE72730
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EB1317169F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 12:51:58 +0000 (UTC)
-Received: from llc.pab ([75.72.225.8])
-	by p3plsmtpa06-04.prod.phx3.secureserver.net with 
-	id dorx1p00J0BVjqb01oryP9; Fri, 09 Jan 2015 05:51:58 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Jan 2015 06:51:37 -0600
-Message-Id: <1420807897-8407-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] bluez5: upgrade to 5.27
+	Fri,  9 Jan 2015 13:07:19 +0000 (UTC)
+Received: from [70.30.87.145] (port=56480 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Y9ZHa-00027U-Gn for openembedded-core@lists.openembedded.org;
+	Fri, 09 Jan 2015 08:07:18 -0500
+Date: Fri, 9 Jan 2015 08:07:16 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1501090801450.11009@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: do_install(), do_install_append() in qemu.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 12:52:06 -0000
+X-List-Received-Date: Fri, 09 Jan 2015 13:07:32 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-- Bug fixes in A2DP, OBEX, GATT, and mgmt
-- Low Energy Secure Connections with 3.19+ kernels
 
-See: http://www.bluez.org/release-of-bluez-5-27/
-See: http://www.bluez.org/release-of-bluez-5-26/
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- meta/recipes-connectivity/bluez5/{bluez5_5.25.bb => bluez5_5.27.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.25.bb => bluez5_5.27.bb} (86%)
+  just a curiosity ... i notice the following snippet in qemu.inc:
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.25.bb b/meta/recipes-connectivity/bluez5/bluez5_5.27.bb
-similarity index 86%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.25.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.27.bb
-index 7d06b16..9497ee5 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.25.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.27.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
--SRC_URI[md5sum] = "41bd0c915abde255622150ce6dcae67b"
--SRC_URI[sha256sum] = "5ca62f3f45e2638a0f7a81658d6c8813ee01487436ae8e53e9fe395e23d1fd30"
-+SRC_URI[md5sum] = "a8fc508690e497e88c2c0b373cd653a8"
-+SRC_URI[sha256sum] = "fbf33cebc76f8c81f28f0d67c71a8a1ec4b04b087460ec7353f7e0c207a1f981"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
-@@ -45,6 +45,7 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
-     tools/hex2hcd \
-     tools/ibeacon \
-     tools/btgatt-client \
-+    tools/btgatt-server \
-     tools/gatt-service \
-     profiles/iap/iapd \
- "
+do_install () {
+        export STRIP="true"
+        autotools_do_install
+        install -d ${D}${datadir}/qemu
+        install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+}
+
+# The following fragment will create a wrapper for qemu-mips user emulation
+# binary in order to work around a segmentation fault issue. Basically, by
+# default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
+# This will trigger a MMU access fault in the virtual CPU. With this change,
+# the qemu-mips works fine.
+# IMPORTANT: This piece needs to be removed once the root cause is fixed!
+do_install_append() {
+        if [ -e "${D}/${bindir}/qemu-mips" ]; then
+                create_wrapper ${D}/${bindir}/qemu-mips \
+                        QEMU_RESERVED_VA=0x0
+        fi
+}
+# END of qemu-mips workaround
+
+  it's kind of odd to see both a do_install() and do_install_append()
+in the same file. is this workaround still necessary?
+
+  BTW, the only reason i tripped over this is that the YP dev manual
+discourages one from defining both do_install() and
+do_install_append() in the same file, so i thought i would do a quick
+check under poky to see which files were doing just that, and there
+are a few others. should they be adjusted? it does seem weird to
+explicitly define do_install() then, immediately, append to it in the
+same file.
+
+rday
+
 -- 
-1.9.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
