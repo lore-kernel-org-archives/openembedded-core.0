@@ -1,30 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AD8CB7169F
+	by mail.openembedded.org (Postfix) with ESMTP id 776CA72498
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 02:02:54 +0000 (UTC)
+	Fri,  9 Jan 2015 02:37:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0922pww009135
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 8 Jan 2015 18:02:51 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 8 Jan 2015 18:02:50 -0800
-Message-ID: <54AF36CB.7000402@windriver.com>
-Date: Fri, 9 Jan 2015 10:02:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t092bnjW009441
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Jan 2015 18:37:49 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 8 Jan 2015 18:37:49 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Jan 2015 18:37:48 -0800
+Message-ID: <7eb34fc26cad5f0de01e5931d9ef079ab691b3cf.1420768476.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1420768476.git.liezhi.yang@windriver.com>
+References: <cover.1420768476.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1420359776.git.Qi.Chen@windriver.com>
-	<3e2a14de446a26cc2ae207b13f19a5b060269f17.1420359776.git.Qi.Chen@windriver.com>
-	<CAJTo0LZFKHp82NA2fzTkpWjX_hXFmaJNtVCLbjnCTabN4ObCOg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZFKHp82NA2fzTkpWjX_hXFmaJNtVCLbjnCTabN4ObCOg@mail.gmail.com>
-X-Originating-IP: [128.224.162.226]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] sysklogd: upgrade to 1.5.1
+Subject: [V2 PATCH 1/1] guile: fix installed-vs-shipped error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,77 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 02:03:04 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060509030205000202010408"
+X-List-Received-Date: Fri, 09 Jan 2015 02:37:50 -0000
+Content-Type: text/plain
 
---------------060509030205000202010408
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Fixed:
+guile-2.0.11: guile: Files/directories were installed but not shipped
+  /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
 
-On 01/09/2015 12:48 AM, Burton, Ross wrote:
->
-> On 4 January 2015 at 10:04, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     +PR = "r7"
->
->
-> Remember to drop PR when upgrading.  I've made this change locally 
-> when queuing for testing, no need to send another patch unless there's 
-> another problem.
->
-> Ross
+This is because when there is no file in the directory:
+for f in libguile-2.0*; do
+    [snip]
+done
 
-Got it!
+The f would be libguile-2.0* itself, use install-exec-hook will fix the
+problem since it depends on install-libLTLIBRARIES.
 
-Thanks,
-Chen Qi
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../guile/files/libguile-Makefile.am-hook.patch    |   42 ++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-hook.patch
 
---------------060509030205000202010408
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+diff --git a/meta/recipes-devtools/guile/files/libguile-Makefile.am-hook.patch b/meta/recipes-devtools/guile/files/libguile-Makefile.am-hook.patch
+new file mode 100644
+index 0000000..290b9d4
+--- /dev/null
++++ b/meta/recipes-devtools/guile/files/libguile-Makefile.am-hook.patch
+@@ -0,0 +1,42 @@
++From 9c4e120a7a87db34d22a50883a5a525170b480d7 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 6 Jan 2015 23:10:51 -0800
++Subject: [PATCH] libguile/Makefile.am: install-data-hook -> install-exec-hook
++
++It may install such a file:
++/usr/lib64/libguile-2.0*-gdb.scm
++
++This is because when there is no file in the directory:
++for f in libguile-2.0*; do
++    [snip]
++done
++
++The f would be libguile-2.0* itself, use install-exec-hook will fix the
++problem since it depends on install-libLTLIBRARIES.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ libguile/Makefile.am |    4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/libguile/Makefile.am b/libguile/Makefile.am
++index 5decd99..52645b7 100644
++--- a/libguile/Makefile.am
+++++ b/libguile/Makefile.am
++@@ -446,10 +446,8 @@ EXTRA_libguile_@GUILE_EFFECTIVE_VERSION@_la_SOURCES = _scm.h		\
++ ## delete guile-snarf.awk from the installation bindir, in case it's
++ ## lingering there due to an earlier guile version not having been
++ ## wiped out.
++-install-exec-hook:
+++install-exec-hook: libguile-2.0-gdb.scm
++ 	rm -f $(DESTDIR)$(bindir)/guile-snarf.awk
++-
++-install-data-hook: libguile-2.0-gdb.scm
++ 	@$(MKDIR_P) $(DESTDIR)$(libdir)
++ ## We want to install libguile-2.0-gdb.scm as SOMETHING-gdb.scm.
++ ## SOMETHING is the full name of the final library.  We want to ignore
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index f2c0759..d1578e0 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://arm_endianness.patch \
+            file://arm_aarch64.patch \
+            file://workaround-ice-ssa-corruption.patch \
++           file://libguile-Makefile.am-hook.patch \
+            "
+ 
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+-- 
+1.7.9.5
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/09/2015 12:48 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZFKHp82NA2fzTkpWjX_hXFmaJNtVCLbjnCTabN4ObCOg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 4 January 2015 at 10:04, Chen Qi <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":68c" class="a3s" style="overflow:hidden">+PR =
-                "r7"<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          Remember to drop PR when upgrading.  I've made this change
-          locally when queuing for testing, no need to send another
-          patch unless there's another problem.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    Got it!<br>
-    <br>
-    Thanks,<br>
-    Chen Qi<br>
-  </body>
-</html>
 
---------------060509030205000202010408--
