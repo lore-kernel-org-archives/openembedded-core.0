@@ -1,23 +1,25 @@
 Return-Path: <drew_moseley@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4635572A78
+	by mail.openembedded.org (Postfix) with ESMTP id 454EC72498
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 15:52:46 +0000 (UTC)
+	Fri,  9 Jan 2015 15:52:47 +0000 (UTC)
 Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
 	by relay1.mentorg.com with esmtp 
-	id 1Y9brj-0000Mp-A0 from drew_moseley@mentor.com 
+	id 1Y9brk-0000Mv-2Z from drew_moseley@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Jan 2015 07:52:47 -0800
+	Fri, 09 Jan 2015 07:52:48 -0800
 Received: from key-largo.world.mentorg.com (147.34.91.1) by
 	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 9 Jan 2015 07:52:47 -0800
+	Server id 14.3.224.2; Fri, 9 Jan 2015 07:52:48 -0800
 From: Drew Moseley <drew_moseley@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Jan 2015 10:52:44 -0500
-Message-ID: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
+Date: Fri, 9 Jan 2015 10:52:45 -0500
+Message-ID: <1420818765-28571-2-git-send-email-drew_moseley@mentor.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
+References: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] init-install.sh: Switch to using static device paths.
+Subject: [PATCH 2/2] init-install-efi.sh: Switch to using static device paths.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,14 +40,14 @@ case the device ordering changes.
 
 Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-core/initrdscripts/files/init-install.sh | 14 ++++++++++----
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 14 ++++++++++----
  1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index fb537ee..f924418 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -156,6 +156,12 @@ mkfs.ext3 $rootfs
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 89d0750..4cfe6e0 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -153,6 +153,12 @@ mkfs.ext3 $rootfs
  echo "Formatting swap partition...($swap)"
  mkswap $swap
  
@@ -58,35 +60,35 @@ index fb537ee..f924418 100644
  mkdir /tgt_root
  mkdir /src_root
  mkdir -p /boot
-@@ -166,8 +172,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
+@@ -163,8 +169,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
  echo "Copying rootfs files..."
  cp -a /src_root/* /tgt_root
  if [ -d /tgt_root/etc/ ] ; then
 -    echo "$swap                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
--    echo "$bootfs              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
-+    echo "$swap_static                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-+    echo "$bootfs_static              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
+-    echo "$bootfs              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
++    echo "$swap_static           swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
++    echo "$bootfs_static         /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
      # We dont want udev to mount our root device while we're booting...
      if [ -d /tgt_root/etc/udev/ ] ; then
  	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
-@@ -186,7 +192,7 @@ if [ -f /etc/grub.d/00_header ] ; then
-     cat >$GRUBCFG <<_EOF
- menuentry "Linux" {
-     set root=(hd0,1)
--    linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
-+    linux /vmlinuz root=PARTUUID=$rootfs_uuid $rootwait rw $5 $3 $4 quiet
- }
- _EOF
-     chmod 0444 $GRUBCFG
-@@ -201,7 +207,7 @@ if [ ! -f /boot/grub/grub.cfg ] ; then
-     echo "timeout 30" >> /boot/grub/menu.lst
-     echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
-     echo "root  (hd0,0)" >> /boot/grub/menu.lst
--    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
-+    echo "kernel /vmlinuz root=PARTUUID=$rootfs_uuid rw $3 $4 quiet" >> /boot/grub/menu.lst
+@@ -195,7 +201,7 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+     # Delete any root= strings
+     sed -i "s/ root=[^ ]*/ /" $GRUBCFG
+     # Add the root= and other standard boot options
+-    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=$rootfs rw $rootwait quiet @" $GRUBCFG
++    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$rootfs_uuid rw $rootwait quiet @" $GRUBCFG
  fi
  
- cp /run/media/$1/vmlinuz /boot/
+ if [ -d /run/media/$1/loader ]; then
+@@ -211,7 +217,7 @@ if [ -d /run/media/$1/loader ]; then
+     # delete any root= strings
+     sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
+     # add the root= and other standard boot options
+-    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $GUMMIBOOT_CFGS
++    sed -i "s@options *@options root=PARTUUID=$rootfs_uuid rw $rootwait quiet @" $GUMMIBOOT_CFGS
+ fi
+ 
+ umount /tgt_root
 -- 
 1.9.1
 
