@@ -1,29 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EFDC72498
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A455D72859
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Jan 2015 11:15:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t09BF4Vf016349
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 9 Jan 2015 03:15:04 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 9 Jan 2015 03:15:04 -0800
-Message-ID: <54AFB836.5000506@windriver.com>
-Date: Fri, 9 Jan 2015 19:15:02 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Fri,  9 Jan 2015 11:29:06 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Fri, 9 Jan 2015
+	12:29:00 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id E90052800CB;
+	Fri,  9 Jan 2015 12:29:00 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Jan 2015 12:28:15 +0100
+Message-ID: <1420802895-57586-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1420781433.git.liezhi.yang@windriver.com>
-	<dddb23918ea58dc6676fd02b20ad5ca6df2586aa.1420781433.git.liezhi.yang@windriver.com>
-	<2550081.xQ1aUrNKGO@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2550081.xQ1aUrNKGO@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] python-git: upgrade to 0.3.3
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] openssl: upgrade to 1.0.1k
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Jan 2015 11:15:11 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Jan 2015 11:29:14 -0000
+Content-Type: text/plain
 
+Upgrade includes 8 CVE bug fixes
 
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../openssl/{openssl_1.0.1j.bb => openssl_1.0.1k.bb}                  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.1j.bb => openssl_1.0.1k.bb} (92%)
 
-On 01/09/2015 06:33 PM, Paul Eggleton wrote:
-> Hi Robert,
->
-> On Thursday 08 January 2015 21:33:39 Robert Yang wrote:
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   ...python-git_0.3.2.RC1.bb => python-git_0.3.3.bb} |    5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>   rename meta/recipes-devtools/python/{python-git_0.3.2.RC1.bb =>
->> python-git_0.3.3.bb} (85%)
->>
->> diff --git a/meta/recipes-devtools/python/python-git_0.3.2.RC1.bb
->> b/meta/recipes-devtools/python/python-git_0.3.3.bb similarity index 85%
->> rename from meta/recipes-devtools/python/python-git_0.3.2.RC1.bb
->> rename to meta/recipes-devtools/python/python-git_0.3.3.bb
->> index 02a0eac..860c37b 100644
->> --- a/meta/recipes-devtools/python/python-git_0.3.2.RC1.bb
->> +++ b/meta/recipes-devtools/python/python-git_0.3.3.bb
->> @@ -10,8 +10,9 @@ LIC_FILES_CHKSUM =
->> "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183" DEPENDS =
->> "python-gitdb"
->>
->>   SRC_URI =
->> "http://pypi.python.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
->> -SRC_URI[md5sum] = "849082fe29adc653a3621465213cab96"
->> -SRC_URI[sha256sum] =
->> "fd6786684a0d0dd7ebb961da754e3312fafe0c8e88f55ceb09858aa0af6094e0" +
->> +SRC_URI[md5sum] = "c9fdde02c476c11168fd620659496aba"
->> +SRC_URI[sha256sum] =
->> "08193acf4e22b57a471cde3748ebce7c17e0f15f1e5042db74ca2c5e9e3e4db5"
->>
->>   S = "${WORKDIR}/GitPython-${PV}"
->
-> Interesting, I didn't expect this project to have come back alive again
-> upstream, as earlier it looked like it was considered deprecated in favour of
-> pygit2. Thanks for taking care of the upgrade.
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1k.bb
+similarity index 92%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.1j.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.1k.bb
+index 2da18ae..16ffc58 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1j.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1k.bb
+@@ -38,8 +38,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "f7175c9cd3c39bb1907ac8bba9df8ed3"
+-SRC_URI[sha256sum] = "1b60ca8789ba6f03e8ef20da2293b8dc131c39d83814e775069f02d26354edf3"
++SRC_URI[md5sum] = "d4f002bd22a56881340105028842ae1f"
++SRC_URI[sha256sum] = "8f9faeaebad088e772f4ef5e38252d472be4d878c6b3a2718c10a4fcebe7a41c"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
+-- 
+1.9.1
 
-You're welcome, I saw that it was not in maintainers.inc, and I have
-interests on it, so I took it and upgraded.
-
-// Robert
-
->
-> Cheers,
-> Paul
->
 
