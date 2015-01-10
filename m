@@ -1,24 +1,26 @@
-Return-Path: <milo-software@users.sourceforge.net>
-X-Greylist: delayed 413 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 10 Jan 2015 13:53:40 UTC
-Received: from smtp09.online.nl (smtp09.online.nl [194.134.42.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 64116724FF
+Return-Path: <petter@technux.se>
+Received: from bin-vsp-out-02.atm.binero.net (vsp-authed01.binero.net
+	[195.74.38.224])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C76272498
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Jan 2015 13:53:40 +0000 (UTC)
-Received: from smtp09.online.nl (localhost [127.0.0.1])
-	by smtp09.online.nl (Postfix) with ESMTP id AF7E91E383;
-	Sat, 10 Jan 2015 14:46:45 +0100 (CET)
-Received: from phenom.local (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp09.online.nl (Postfix) with ESMTP;
-	Sat, 10 Jan 2015 14:46:45 +0100 (CET)
-From: Mike Looijmans <milo-software@users.sourceforge.net>
+	Sat, 10 Jan 2015 14:46:35 +0000 (UTC)
+X-Halon-ID: 9cc53462-98d6-11e4-8a31-005056917f90
+Authorized-sender: petter@technux.se
+Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
+	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Jan 2015 15:40:24 +0100 (CET)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Jan 2015 14:46:42 +0100
-Message-Id: <1420897602-29467-1-git-send-email-milo-software@users.sourceforge.net>
-X-Mailer: git-send-email 1.7.9.5
-X-Online-Scanned: by Cloudmark authority (on smtp09.online.nl)
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] package.bbclass: Let PR server update PKGV, not PV
+Date: Sat, 10 Jan 2015 15:40:13 +0100
+Message-Id: <67a14ff42f16570d2a8dfc3c50141e6b84766d62.1420899992.git.petter@technux.se>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1420899992.git.petter@technux.se>
+References: <cover.1420899992.git.petter@technux.se>
+In-Reply-To: <cover.1420899992.git.petter@technux.se>
+References: <cover.1420899992.git.petter@technux.se>
+MIME-Version: 1.0
+Subject: [RFC PATCH 4/5] xorg-minimal-fonts: set and handle S in a proper way
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Jan 2015 13:53:46 -0000
+X-List-Received-Date: Sat, 10 Jan 2015 14:46:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Mike Looijmans <mike.looijmans@topic.nl>
+After removal of auto-creating S we must ensure that all recipes are
+using a proper value for S. Also do some minor adjustment after changing
+value of S.
 
-PV is the package version as we need it to be during the build. PKGV is the
-final version as it ends up in the package, and defaults to PV.
+[YOCTO #5627]
 
-The packager handled builds without PR-server by replacing the AUTOINC string
-in PKGV, but when the PR-server is being used, the script replaces the contents
-of PKGV with the PV if the PV contains "AUTOINC". Thus the packager overrides
-any change to PKGV the recipe might have made.
-This breaks classes like gitpkgv that provide a correctly numbered PKGV, the
-number as calculated by that class will simply be replaced with a 0-based index
-from the PR-server.
-
-This patch makes the packager look at the PKGV version instead of the PV, and
-update the PKGV only based on the PKGV contents as set by the recipe.
-
-See also the discussion here:
-http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100329.html
-
-From investigating the history of the code and changes in the past year, the
-use of "pv" instead of "pkgv" appears to be just an oversight, introduced in:
-commit b27b438221e16ac3df6ac66d761b77e3bd43db67 "prs: use the PRServer to replace the BB_URI_LOCALCOUNT functionality"
-A later commit 865d001de168915a5796e5c760f96bdd04cebd61 "package/prserv: Merge two similar functions into one"
-silently fixed this only for the case without PR-server by using pkgv there.
-
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/classes/package.bbclass |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index fc501fc..93e2461 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -403,9 +403,10 @@ python package_get_auto_pr() {
-     if not (host is None):
-         d.setVar("PRSERV_HOST", host)
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index 3688685..bee500b 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -15,13 +15,15 @@ PR = "r2"
  
-+    pkgv = d.getVar("PKGV", True)
+ inherit allarch
+ 
++S = "${WORKDIR}/misc"
 +
-     # PR Server not active, handle AUTOINC
-     if not d.getVar('PRSERV_HOST', True):
--        pkgv = d.getVar("PKGV", True)
-         if 'AUTOINC' in pkgv:
-             d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
-         return
-@@ -428,11 +429,11 @@ python package_get_auto_pr() {
-         if conn is None:
-             conn = oe.prservice.prserv_make_conn(d)
-         if conn is not None:
--            if "AUTOINC" in pv:
-+            if "AUTOINC" in pkgv:
-                 srcpv = bb.fetch2.get_srcrev(d)
-                 base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
-                 value = conn.getPR(base_ver, pkgarch, srcpv)
--                d.setVar("PKGV", pv.replace("AUTOINC", str(value)))
-+                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
+ PACKAGES = "${PN}"
+ FILES_${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
+ RDEPENDS_${PN} += "font-alias"
  
-             auto_pr = conn.getPR(version, pkgarch, checksum)
-     except Exception as e:
+ do_install() {
+ 	install -d ${D}/${datadir}/fonts/X11/misc
+-	install -m 0644 ${WORKDIR}/misc/* ${D}/${datadir}/fonts/X11/misc/
++	install -m 0644 ${S}/* ${D}/${datadir}/fonts/X11/misc/
+ 	install -d ${D}/${libdir}/X11
+ 	ln -sf ${datadir}/fonts/X11/ ${D}/${libdir}/X11/fonts -s
+ }
 -- 
-1.7.9.5
+1.9.1
 
 
