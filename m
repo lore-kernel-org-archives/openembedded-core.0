@@ -1,12 +1,10 @@
 Return-Path: <petter@technux.se>
-X-Greylist: delayed 372 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 10 Jan 2015 14:46:35 UTC
 Received: from bin-vsp-out-02.atm.binero.net (vsp-authed01.binero.net
 	[195.74.38.224])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E4B5729DA
+	by mail.openembedded.org (Postfix) with ESMTP id 4D6EF7289F
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 10 Jan 2015 14:46:35 +0000 (UTC)
-X-Halon-ID: 9c2d6863-98d6-11e4-8a31-005056917f90
+X-Halon-ID: 9bd37cb1-98d6-11e4-8a31-005056917f90
 Authorized-sender: petter@technux.se
 Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
 	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA
@@ -14,15 +12,15 @@ Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
 	Sat, 10 Jan 2015 15:40:23 +0100 (CET)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Jan 2015 15:40:11 +0100
-Message-Id: <76fb7a5cff679502f6fd30f00cd564364c09fdfc.1420899992.git.petter@technux.se>
+Date: Sat, 10 Jan 2015 15:40:10 +0100
+Message-Id: <ecf58c259c3b0bf8589a630617a0e284d647ea97.1420899992.git.petter@technux.se>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1420899992.git.petter@technux.se>
 References: <cover.1420899992.git.petter@technux.se>
 In-Reply-To: <cover.1420899992.git.petter@technux.se>
 References: <cover.1420899992.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [RFC PATCH 2/5] makedevs: set and handle S in a proper way
+Subject: [RFC PATCH 1/5] base.bbclass: detect when S has been set incorrectly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +37,86 @@ X-List-Received-Date: Sat, 10 Jan 2015 14:46:38 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-After removal of auto-creating S we must ensure that all recipes are
-using a proper value for S. Also do some cleanup of code not needed
-after changing value of S.
+Currently base.bbclass is creating S if it's not created by unpacking
+an archive or fetching a repository. If we avoid creating S we can detect
+when S hasn't been set correctly, since it will not exist. Then we can tell
+the user that they should set S to a proper value, instead of just failing
+with odd errors in later tasks.
+
+Besides removing the auto-creation of S this change will introduce a warning
+if S is set incorrectly. The reason for not display an error and return
+is due to all external layers that might have recipes that will fail otherwise
+and that might be a bit to hard to start with. So use a warning until people
+have had a chance to cleanup affected recipes.
 
 [YOCTO #5627]
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-devtools/makedevs/makedevs_1.0.1.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/classes/base.bbclass | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-index dd9bea2..92d5870 100644
---- a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-+++ b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-@@ -5,11 +5,9 @@ SECTION = "base"
- SRC_URI = "file://makedevs.c \
-            file://COPYING.patch"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index de50be1..789af3b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -113,7 +113,6 @@ python base_do_fetch() {
  
--FILES_${PN}_append_class-nativesdk = " ${datadir}"
-+S = "${WORKDIR}"
+ addtask unpack after do_fetch
+ do_unpack[dirs] = "${WORKDIR}"
+-do_unpack[cleandirs] = "${S}/patches"
+ python base_do_unpack() {
+     src_uri = (d.getVar('SRC_URI', True) or "").split()
+     if len(src_uri) == 0:
+@@ -121,11 +120,21 @@ python base_do_unpack() {
  
--do_configure() {
--	install -m 0644 ${WORKDIR}/makedevs.c ${S}/
--}
-+FILES_${PN}_append_class-nativesdk = " ${datadir}"
+     rootdir = d.getVar('WORKDIR', True)
  
- do_compile() {
- 	${CC} ${CFLAGS} ${LDFLAGS} -o ${S}/makedevs ${S}/makedevs.c
++    # Ensure that we cleanup ${S}/patches
++    # TODO: Investigate if we can remove
++    # the entire ${S} in this case.
++    s_dir = d.getVar('S', True)
++    p_dir = os.path.join(s_dir, 'patches')
++    bb.utils.remove(p_dir, True)
++
+     try:
+         fetcher = bb.fetch2.Fetch(src_uri, d)
+         fetcher.unpack(rootdir)
+     except bb.fetch2.BBFetchException as e:
+         raise bb.build.FuncFailed(e)
++
++    if not os.path.exists(s_dir):
++        bb.warn("%s ('S') don't exist, you must set 'S' to a proper value" % s_dir)
+ }
+ 
+ def pkgarch_mapping(d):
+@@ -220,7 +229,7 @@ CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+ CLEANBROKEN = "0"
+ 
+ addtask configure after do_patch
+-do_configure[dirs] = "${S} ${B}"
++do_configure[dirs] = "${B}"
+ do_configure[deptask] = "do_populate_sysroot"
+ base_do_configure() {
+ 	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+@@ -238,7 +247,7 @@ base_do_configure() {
+ }
+ 
+ addtask compile after do_configure
+-do_compile[dirs] = "${S} ${B}"
++do_compile[dirs] = "${B}"
+ base_do_compile() {
+ 	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
+ 		oe_runmake || die "make failed"
+@@ -248,7 +257,7 @@ base_do_compile() {
+ }
+ 
+ addtask install after do_compile
+-do_install[dirs] = "${D} ${S} ${B}"
++do_install[dirs] = "${D} ${B}"
+ # Remove and re-create ${D} so that is it guaranteed to be empty
+ do_install[cleandirs] = "${D}"
+ 
 -- 
 1.9.1
 
