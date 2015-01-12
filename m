@@ -1,26 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C46760670
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 870EF7246D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 12:02:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2015 03:59:58 -0800
+	Mon, 12 Jan 2015 12:04:19 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Jan 2015 03:59:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,743,1413270000"; d="scan'208";a="660453605"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="510914177"
 Received: from fcrouzet-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.81])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2015 04:02:34 -0800
+	by orsmga003.jf.intel.com with ESMTP; 12 Jan 2015 03:58:15 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Mon, 12 Jan 2015 12:02:33 +0000
-Message-ID: <4820854.OTUYMMuQ9m@peggleto-mobl5.ger.corp.intel.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 12 Jan 2015 12:04:18 +0000
+Message-ID: <2333301.OCoA7eKtKt@peggleto-mobl5.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <alpine.LFD.2.11.1501080549270.20648@localhost>
-References: <alpine.LFD.2.11.1501080549270.20648@localhost>
+In-Reply-To: <20150108181342.GB28640@crash.betafive.co.uk>
+References: <20150108181342.GB28640@crash.betafive.co.uk>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what are all the recipe reserved suffixes?
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [dylan] Backport request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 12:02:46 -0000
+X-List-Received-Date: Mon, 12 Jan 2015 12:04:24 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Robert,
+Hi Paul,
 
-On Thursday 08 January 2015 05:52:40 Robert P. J. Day wrote:
->   current YP dev manual advises to not create recipe names with
-> reserved suffixes -native, -cross, -initial or -dev. 
+On Thursday 08 January 2015 18:13:42 Paul Barker wrote:
+> I know dylan is old but it's still the recommended branch for the TI MCSDK.
+> We've ran into a problem automating deployment as symlinks aren't created
+> for the modules archives when they are deployed. This was fixed by commit
+> ef9fad8fff1c413bc0eab15625f051d4e2d0a201 in openembedded-core which looks
+> pretty simple. I've tested this on the dylan branch in our builds and it
+> works.
+> 
+> Could this be backported to the dylan branch please?
 
-That's not quite what it says, it says don't use them unless they apply for 
-the recipe (and that's really only applicable to -native, -cross and -
-initial). Strictly speaking I wouldn't really describe these as "reserved" 
-since that would suggest you could never use them.
-
-> i already know i should add -ptest to that list, what is the full list of
-> reserved suffixes so i can make sure the dev manual is accurate? thanks.
-
-I think the answer is probably to think twice before using anything in the 
-default value of PACKAGES unless it makes sense (i.e. your recipe matches with 
-the purpose of the naming convention).
+No problem, Richard has now applied this.
 
 Cheers,
 Paul
