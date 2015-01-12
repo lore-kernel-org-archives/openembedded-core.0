@@ -1,23 +1,26 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa09-02.prod.phx3.secureserver.net
-	(p3plsmtpa09-02.prod.phx3.secureserver.net [173.201.193.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 3815065C85
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8462A62252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 12:38:09 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa09-02.prod.phx3.secureserver.net with 
-	id f0e91p0070BVjqb010e90b; Mon, 12 Jan 2015 05:38:10 -0700
-Message-ID: <54B3C03C.7060609@pabigot.com>
-Date: Mon, 12 Jan 2015 06:38:20 -0600
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Mon, 12 Jan 2015 14:15:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2015 06:12:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,744,1413270000"; d="scan'208";a="636039553"
+Received: from fcrouzet-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.81])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2015 06:15:16 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 12 Jan 2015 14:15:15 +0000
+Message-ID: <5115458.ATlrg5uZUd@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <1420741450-28220-1-git-send-email-kergoth@gmail.com>
+References: <1420741450-28220-1-git-send-email-kergoth@gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
-Subject: Re: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] recipetool: add python buildsystem support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,275 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 12:38:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Jan 2015 14:15:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 01/11/2015 09:12 PM, Lei Maohui wrote:
-> fix the yocto bug #6824
-> backport from gcc
->
-> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-4.9.inc              |  12 +-
->   ...e500-double-in-SPE_SIMD_REGNO_P-registers.patch |  13 ++
->   .../0061-Fix-for-unwinder-aborts-on-e500.patch     | 161 +++++++++++++++++++++
->   3 files changed, 180 insertions(+), 6 deletions(-)
->   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
->   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-> index 2568e99..c4ec40d 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-> @@ -2,11 +2,11 @@ require gcc-common.inc
->   
->   # Third digit in PV should be incremented after a minor release
->   
-> -PV = "4.9.1"
-> +PV = "4.9.2"
->   
->   # BINV should be incremented to a revision after a minor gcc release
->   
-> -BINV = "4.9.1"
-> +BINV = "4.9.2"
->   
->   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
->   
-> @@ -69,11 +69,11 @@ SRC_URI = "\
->       file://0051-eabispe.patch \
->       file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
->       file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
-> -    file://0055-PR-rtl-optimization-61801.patch \
->       file://0056-top-level-reorder_gcc-bug-61144.patch \
-> -    file://0057-aarch64-config.patch \
->       file://0058-gcc-r212171.patch \
->       file://0059-gcc-PR-rtl-optimization-63348.patch \
-> +    file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
-> +    file://0061-Fix-for-unwinder-aborts-on-e500.patch \
->   "
->   SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
->   SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
-> @@ -125,8 +125,8 @@ EXTRA_OECONF_INTERMEDIATE = "\
->   EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
->   
->   EXTRA_OECONF_PATHS = "\
-> -    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \
-> -    --with-sysroot=/not/exist \
-> +    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \
-> +    --with-sysroot=${STAGING_DIR_TARGET} \
->       --with-build-sysroot=${STAGING_DIR_TARGET} \
->   "
->   
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+Hi Chris,
 
-As gcc is (IMO) one of the most critical components of Yocto I think we 
-need to be very clear about what changes are being made to it and why.
+On Thursday 08 January 2015 11:24:08 Christopher Larson wrote:
+> - Handles distutils & setuptools.
+> - Supports pulling metadata from PKG-INFO, .egg-info, & setup.py (via two
+>   different mechanisms).
+> - Doesn't handle python 3 yet.
+> - Optional dependencies via `extra_requires` are not currently
+>   handled.
+> - Implements scanning for dependencies by using the python ast to
+>   determine what modules/packages are being imported by the python
+>   code in question
+> 
+> See https://gist.github.com/kergoth/6cca6caa4e9b22a21f75 for the projects
+> I used to test this against, and
+> https://gist.github.com/kergoth/7fea9494e3cf60b382ff which is the result of
+> running recipetool create against every recipe that inherits distutils or
+> setuptools in my build environment.
+> 
+> https://gist.github.com/kergoth/7ad4b5102b2a5fe3a956 has my current TODO for
+> this feature.
 
-In addition to missing SOB lines, these patches at a minimum should 
-reference the upstream bug that they supposedly patch.  That would be 
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63908
+This works pretty well, thanks!
 
-Ideally, the patch would be taken from upstream, being created by 
-git-format-patch with the SHA1 of the relevant change as retrieved from: 
-git://gcc.gnu.org/git/gcc.git
+I tried this on python-mako and got this:
 
-It worries me that these patches, though present in upstream trunk, have 
-not been back-ported to gcc-4_9-branch.  There may be a reason for that, 
-and the fact backports have not (yet) been done should be noted in the 
-OE patch header.
+------------- snip --------------
+...
+# WARNING: the following rdepends are from setuptools install_requires. These
+# upstream names may not correspond exactly to bitbake package names.
+RDEPENDS_${PN} += "markupsafe"
 
-This first patch is apparently upstream commit 
-5c0092070253113cf0d9c45eacc884b3ecc34d81.
+# WARNING: the following rdepends are determined through basic analysis of the
+# python sources, and might not be 100% accurate. It is your responsibility to
+# verify that the values are complete and correct.
+RDEPENDS_${PN} += "python-core python-textutils"
 
-> new file mode 100644
-> index 0000000..810ff90
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
-> @@ -0,0 +1,13 @@
-> +diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
-> +index 512e7d6..292fb2c 100644
-> +--- a/gcc/config/rs6000/rs6000.c
-> ++++ b/gcc/config/rs6000/rs6000.c
-> +@@ -1704,7 +1704,7 @@ rs6000_hard_regno_nregs_internal (int regno, enum machine_mode mode)
-> +      SCmode so as to pass the value correctly in a pair of
-> +      registers.  */
-> +   else if (TARGET_E500_DOUBLE && FLOAT_MODE_P (mode) && mode != SCmode
-> +-	   && !DECIMAL_FLOAT_MODE_P (mode))
-> ++           && !DECIMAL_FLOAT_MODE_P (mode) && SPE_SIMD_REGNO_P (regno))
-> +     reg_size = UNITS_PER_FP_WORD;
-> +
-> +   else
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
-> new file mode 100644
+# WARNING: We were unable to map the following python package/module
+# dependencies to the bitbake packages which include them:
+#    mako.lookup
+#    mako.template
+#    sys
+------------- snip --------------
 
-This patch appears to combine c0235a33de8c4f78cce35b2a8c2035c83fe1bd14 
-with 4fd39f1329379e00f958394adde6be96f0caf21f.
+* Shouldn't it know that sys is provided by python-core (maybe this has to be 
+hardcoded)? 
 
-> index 0000000..c37a4c3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
-> @@ -0,0 +1,161 @@
-> +diff --git a/gcc/defaults.h b/gcc/defaults.h
-> +index f94ae17..80a798f 100644
-> +--- a/gcc/defaults.h
-> ++++ b/gcc/defaults.h
-> +@@ -438,6 +438,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-> + #define DWARF_FRAME_REGNUM(REG) DBX_REGISTER_NUMBER (REG)
-> + #endif
-> +
-> ++/* The mapping from dwarf CFA reg number to internal dwarf reg numbers.  */
-> ++#ifndef DWARF_REG_TO_UNWIND_COLUMN
-> ++#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
-> ++#endif
-> ++
-> + /* Map register numbers held in the call frame info that gcc has
-> +    collected using DWARF_FRAME_REGNUM to those that should be output in
-> +    .debug_frame and .eh_frame.  */
-> +diff --git a/gcc/dwarf2cfi.c b/gcc/dwarf2cfi.c
-> +index abcdeb3..4e59dfe 100644
-> +--- a/gcc/dwarf2cfi.c
-> ++++ b/gcc/dwarf2cfi.c
-> +@@ -252,7 +252,60 @@ init_return_column_size (enum machine_mode mode, rtx mem, unsigned int c)
-> + 		  gen_int_mode (size, mode));
-> + }
-> +
-> +-/* Generate code to initialize the register size table.  */
-> ++/* Datastructure used by expand_builtin_init_dwarf_reg_sizes and
-> ++   init_one_dwarf_reg_size to communicate on what has been done by the
-> ++   latter.  */
-> ++
-> ++typedef struct
-> ++{
-> ++  /* Whether the dwarf return column was initialized.  */
-> ++  bool wrote_return_column;
-> ++
-> ++  /* For each hard register REGNO, whether init_one_dwarf_reg_size
-> ++     was given REGNO to process already.  */
-> ++  bool processed_regno [FIRST_PSEUDO_REGISTER];
-> ++
-> ++} init_one_dwarf_reg_state;
-> ++
-> ++/* Helper for expand_builtin_init_dwarf_reg_sizes.  Generate code to
-> ++   initialize the dwarf register size table entry corresponding to register
-> ++   REGNO in REGMODE.  TABLE is the table base address, SLOTMODE is the mode to
-> ++   use for the size entry to initialize, and INIT_STATE is the communication
-> ++   datastructure conveying what we're doing to our caller.  */
-> ++
-> ++static
-> ++void init_one_dwarf_reg_size (int regno, machine_mode regmode,
-> ++                             rtx table, machine_mode slotmode,
-> ++                             init_one_dwarf_reg_state *init_state)
-> ++{
-> ++  const unsigned int dnum = DWARF_FRAME_REGNUM (regno);
-> ++  const unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
-> ++  const unsigned int dcol = DWARF_REG_TO_UNWIND_COLUMN (rnum);
-> ++
-> ++  const HOST_WIDE_INT slotoffset = dcol * GET_MODE_SIZE (slotmode);
-> ++  const HOST_WIDE_INT regsize = GET_MODE_SIZE (regmode);
-> ++
-> ++  init_state->processed_regno[regno] = true;
-> ++
-> ++  if (rnum >= DWARF_FRAME_REGISTERS)
-> ++    return;
-> ++
-> ++  if (dnum == DWARF_FRAME_RETURN_COLUMN)
-> ++    {
-> ++      if (regmode == VOIDmode)
-> ++       return;
-> ++      init_state->wrote_return_column = true;
-> ++    }
-> ++
-> ++  if (slotoffset < 0)
-> ++    return;
-> ++
-> ++  emit_move_insn (adjust_address (table, slotmode, slotoffset),
-> ++                 gen_int_mode (regsize, slotmode));
-> ++}
-> ++
-> ++/* Generate code to initialize the dwarf register size table located
-> ++   at the provided ADDRESS.  */
-> +
-> + void
-> + expand_builtin_init_dwarf_reg_sizes (tree address)
-> +@@ -261,37 +314,41 @@ expand_builtin_init_dwarf_reg_sizes (tree address)
-> +   enum machine_mode mode = TYPE_MODE (char_type_node);
-> +   rtx addr = expand_normal (address);
-> +   rtx mem = gen_rtx_MEM (BLKmode, addr);
-> +-  bool wrote_return_column = false;
-> ++
-> ++  init_one_dwarf_reg_state init_state;
-> ++  memset ((char *)&init_state, 0, sizeof (init_state));
-> +
-> +   for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
-> +     {
-> +-      unsigned int dnum = DWARF_FRAME_REGNUM (i);
-> +-      unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
-> ++      machine_mode save_mode;
-> ++      rtx span;
-> +
-> +-      if (rnum < DWARF_FRAME_REGISTERS)
-> +-	{
-> +-	  HOST_WIDE_INT offset = rnum * GET_MODE_SIZE (mode);
-> +-	  enum machine_mode save_mode = reg_raw_mode[i];
-> +-	  HOST_WIDE_INT size;
-> ++      /* No point in processing a register multiple times.  This could happen
-> ++         with register spans, e.g. when a reg is first processed as a piece of
-> ++         a span, then as a register on its own later on.  */
-> +
-> +-	  if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
-> +-	    save_mode = choose_hard_reg_mode (i, 1, true);
-> +-	  if (dnum == DWARF_FRAME_RETURN_COLUMN)
-> +-	    {
-> +-	      if (save_mode == VOIDmode)
-> +-		continue;
-> +-	      wrote_return_column = true;
-> +-	    }
-> +-	  size = GET_MODE_SIZE (save_mode);
-> +-	  if (offset < 0)
-> +-	    continue;
-> ++      if (init_state.processed_regno[i])
-> ++        continue;
-> +
-> +-	  emit_move_insn (adjust_address (mem, mode, offset),
-> +-			  gen_int_mode (size, mode));
-> ++      save_mode = reg_raw_mode[i];
-> ++      if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
-> ++        save_mode = choose_hard_reg_mode (i, 1, true);
-> ++
-> ++      span = targetm.dwarf_register_span (gen_rtx_REG (save_mode, i));
-> ++      if (!span)
-> ++        init_one_dwarf_reg_size (i, save_mode, mem, mode, &init_state);
-> ++      else
-> ++        {
-> ++           for (int si = 0; si < XVECLEN (span, 0); si++)
-> ++	    {
-> ++               rtx reg = XVECEXP (span, 0, si);
-> ++               init_one_dwarf_reg_size
-> ++                 (REGNO (reg), GET_MODE (reg), mem, mode, &init_state);
-> ++            }
-> + 	}
-> +     }
-> +
-> +-  if (!wrote_return_column)
-> ++  if (!init_state.wrote_return_column)
-> +     init_return_column_size (mode, mem, DWARF_FRAME_RETURN_COLUMN);
-> +
-> + #ifdef DWARF_ALT_FRAME_RETURN_COLUMN
-> +diff --git a/libgcc/unwind-dw2.c b/libgcc/unwind-dw2.c
-> +index 55fc4bc..37f0ae2 100644
-> +--- a/libgcc/unwind-dw2.c
-> ++++ b/libgcc/unwind-dw2.c
-> +@@ -55,10 +55,6 @@
-> + #define PRE_GCC3_DWARF_FRAME_REGISTERS DWARF_FRAME_REGISTERS
-> + #endif
-> +
-> +-#ifndef DWARF_REG_TO_UNWIND_COLUMN
-> +-#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
-> +-#endif
-> +-
-> + /* ??? For the public function interfaces, we tend to gcc_assert that the
-> +    column numbers are in range.  For the dwarf2 unwind info this does happen,
-> +    although so far in a case that doesn't actually matter.
+* Possibly also that "mako" is a module provided by this recipe?
 
+* Our existing recipe has "python-threading python-netclient python-html" for 
+RDEPENDS_${PN}, I don't know if all of these are correct but it does at least 
+try to import threading.
+
+* Should we just assume by convention that package names should start with 
+"python-" and thus make that prefix on all items brought in from setuptools 
+install_requires?
+
+* I think "It is your responsibility ..." is a little harsh for the dependency 
+situation - you'll soon find out at runtime if the value is insufficient. I used 
+this wording for LICENSE because if you don't check it yourself you won't find 
+out if it's incorrect.
+
+Earlier you mentioned it would be nice if the buildsystem handler could 
+replace the existing value of LICENSE - I checked and it already can; you'll 
+find the existing value in lines_before. It's all a little bit clunky API-wise 
+but it is at least possible.
+
+I also noticed when looking at this that my code wasn't replacing the version 
+with ${PV} in S (but was in SRC_URI). I'll send a patch to fix that. The way 
+the code works at the moment, I only replace it in SRC_URI if you've specified 
+a file name containing the version and then we can find that same version in the 
+SRC_URI value (I'm not sure there is any other practical way).
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
