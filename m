@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 262B660670
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C46760670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 11:59:30 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id r20so14059406wiv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 03:59:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=MuFkbnrJUuWAJHH//s//MUhnDdQE92bvse/HDWYZIsE=;
-	b=WiAm8TrwGyij1Vl+8kvkQxP47/344p+E1hQV1vHrWZ7TbtLPcnr8EQ4vfGShPU9odC
-	6VJkzbV98Luu8WN2OcrrjnIu0bzU3BAC63E0H21t3ydoQeiqENNGDIyVUE+mWM3YfLEN
-	ypFzCa+ESdpbUw+/L06dEmlBHcG+d7XjuVJ95KlymqGul17//O8UZZbKMzPSCqxdLhsg
-	84HVwHp3PoxVH1/jpT1kzP4KZ9SfvDLbt8Vz4cHoxWjmVcl4f7JiRzj5NRqt15bQ8oQs
-	0YgOA+syCT4nIUXX9njzcCus4kQGvU9Witn9NAzX9Hk4EvsSEs/qyJOUJrIshDuqSLO5
-	eUqA==
-X-Gm-Message-State: ALoCoQlckfVBTOsVr7lppB4x2vL5t+wbpQeHViyb4dhdRI3Hb/fm4/iTQW7X8jtg/W2Uin0rIA3P
-X-Received: by 10.180.7.201 with SMTP id l9mr29097842wia.80.1421063969257;
-	Mon, 12 Jan 2015 03:59:29 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id dp8sm9901400wib.20.2015.01.12.03.59.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Jan 2015 03:59:28 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Jan 2015 11:58:09 +0000
-Message-Id: <1421063889-28362-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] systemd: add missing RDEPENDS
+	Mon, 12 Jan 2015 12:02:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2015 03:59:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,743,1413270000"; d="scan'208";a="660453605"
+Received: from fcrouzet-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.81])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2015 04:02:34 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 12 Jan 2015 12:02:33 +0000
+Message-ID: <4820854.OTUYMMuQ9m@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1501080549270.20648@localhost>
+References: <alpine.LFD.2.11.1501080549270.20648@localhost>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: what are all the recipe reserved suffixes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 11:59:32 -0000
+X-List-Received-Date: Mon, 12 Jan 2015 12:02:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-systemd-ptest also needs a Python interpretter.  Also remove the redundant
-comment.
+Hi Robert,
 
-systemd-kernel-install is a bash script that can't be trivially ported to POSIX
-sh.
+On Thursday 08 January 2015 05:52:40 Robert P. J. Day wrote:
+>   current YP dev manual advises to not create recipe names with
+> reserved suffixes -native, -cross, -initial or -dev. 
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_216.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's not quite what it says, it says don't use them unless they apply for 
+the recipe (and that's really only applicable to -native, -cross and -
+initial). Strictly speaking I wouldn't really describe these as "reserved" 
+since that would suggest you could never use them.
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index eceead9..bfd5544 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -192,8 +192,7 @@ RDEPENDS_${PN}-initramfs = "${PN}"
- 
- FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
- 
--# The test cases need perl and bash to run correctly.
--RDEPENDS_${PN}-ptest += "perl bash"
-+RDEPENDS_${PN}-ptest += "perl python bash"
- FILES_${PN}-ptest += "${libdir}/udev/rules.d"
- 
- FILES_${PN}-dbg += "${libdir}/systemd/ptest/.debug"
-@@ -204,6 +203,7 @@ FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
-                               ${systemd_unitdir}/system/systemd-vconsole-setup.service \
-                               ${systemd_unitdir}/system/sysinit.target.wants/systemd-vconsole-setup.service"
- 
-+RDEPENDS_${PN}-kernel-install += "bash"
- FILES_${PN}-kernel-install = "${bindir}/kernel-install \
-                               ${sysconfdir}/kernel/ \
-                               ${exec_prefix}/lib/kernel \
+> i already know i should add -ptest to that list, what is the full list of
+> reserved suffixes so i can make sure the dev manual is accurate? thanks.
+
+I think the answer is probably to think twice before using anything in the 
+default value of PACKAGES unless it makes sense (i.e. your recipe matches with 
+the purpose of the naming convention).
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
