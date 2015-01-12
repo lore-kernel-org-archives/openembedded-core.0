@@ -1,28 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D02A27246A
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D17765D19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 02:05:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0C25Hpv015187
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Mon, 12 Jan 2015 03:13:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="55894064"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Jan 2015 11:09:37 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0C3CTpp029695
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jan 2015 18:05:17 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 11 Jan 2015 18:05:16 -0800
-Message-ID: <54B32BD4.3080209@windriver.com>
-Date: Mon, 12 Jan 2015 10:05:08 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
+	Mon, 12 Jan 2015 11:12:29 +0800
+Received: from localhost.localdomain (10.167.226.48) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Mon, 12 Jan 2015 11:13:04 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
-In-Reply-To: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 1/2] init-install.sh: Switch to using static device paths.
+Date: Mon, 12 Jan 2015 11:12:17 +0800
+Message-ID: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.48]
+Subject: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,73 +34,251 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 02:05:19 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Jan 2015 03:13:09 -0000
+Content-Type: text/plain
 
-On 01/09/2015 11:52 PM, Drew Moseley wrote:
-> Use static device paths for mounting from /dev/disk/<blah> in
-> case the device ordering changes.
->
-> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
-> ---
->   meta/recipes-core/initrdscripts/files/init-install.sh | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index fb537ee..f924418 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -156,6 +156,12 @@ mkfs.ext3 $rootfs
->   echo "Formatting swap partition...($swap)"
->   mkswap $swap
->   
-> +# Determine the static device paths
-> +sync; udevadm settle
-> +bootfs_static="$(udevadm info --query=property --name=$bootfs | grep DEVLINKS= | cut -d= -f2 | cut -d\  -f1)"
-> +swap_static="$(udevadm info --query=property --name=$swap | grep DEVLINKS= | cut -d= -f2 | cut -d\  -f1)"
-> +rootfs_uuid="$(udevadm info --query=property --name=$rootfs | grep ID_PART_ENTRY_UUID | cut -d= -f2)"
-> +
+fix the yocto bug #6824
+backport from gcc
 
-Would ID_PART_ENTRY_UUID be always there?
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  12 +-
+ ...e500-double-in-SPE_SIMD_REGNO_P-registers.patch |  13 ++
+ .../0061-Fix-for-unwinder-aborts-on-e500.patch     | 161 +++++++++++++++++++++
+ 3 files changed, 180 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
 
->   mkdir /tgt_root
->   mkdir /src_root
->   mkdir -p /boot
-> @@ -166,8 +172,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
->   echo "Copying rootfs files..."
->   cp -a /src_root/* /tgt_root
->   if [ -d /tgt_root/etc/ ] ; then
-> -    echo "$swap                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-> -    echo "$bootfs              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
-> +    echo "$swap_static                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-> +    echo "$bootfs_static              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
->       # We dont want udev to mount our root device while we're booting...
->       if [ -d /tgt_root/etc/udev/ ] ; then
->   	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
-> @@ -186,7 +192,7 @@ if [ -f /etc/grub.d/00_header ] ; then
->       cat >$GRUBCFG <<_EOF
->   menuentry "Linux" {
->       set root=(hd0,1)
-> -    linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
-> +    linux /vmlinuz root=PARTUUID=$rootfs_uuid $rootwait rw $5 $3 $4 quiet
-
-I thought PARTUUID is for GPT only.
-
-Regards,
-Chen Qi
-
->   }
->   _EOF
->       chmod 0444 $GRUBCFG
-> @@ -201,7 +207,7 @@ if [ ! -f /boot/grub/grub.cfg ] ; then
->       echo "timeout 30" >> /boot/grub/menu.lst
->       echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
->       echo "root  (hd0,0)" >> /boot/grub/menu.lst
-> -    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
-> +    echo "kernel /vmlinuz root=PARTUUID=$rootfs_uuid rw $3 $4 quiet" >> /boot/grub/menu.lst
->   fi
->   
->   cp /run/media/$1/vmlinuz /boot/
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 2568e99..c4ec40d 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -2,11 +2,11 @@ require gcc-common.inc
+ 
+ # Third digit in PV should be incremented after a minor release
+ 
+-PV = "4.9.1"
++PV = "4.9.2"
+ 
+ # BINV should be incremented to a revision after a minor gcc release
+ 
+-BINV = "4.9.1"
++BINV = "4.9.2"
+ 
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
+ 
+@@ -69,11 +69,11 @@ SRC_URI = "\
+     file://0051-eabispe.patch \
+     file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+     file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+-    file://0055-PR-rtl-optimization-61801.patch \
+     file://0056-top-level-reorder_gcc-bug-61144.patch \
+-    file://0057-aarch64-config.patch \
+     file://0058-gcc-r212171.patch \
+     file://0059-gcc-PR-rtl-optimization-63348.patch \
++    file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
++    file://0061-Fix-for-unwinder-aborts-on-e500.patch \
+ "
+ SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+ SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+@@ -125,8 +125,8 @@ EXTRA_OECONF_INTERMEDIATE = "\
+ EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
+ 
+ EXTRA_OECONF_PATHS = "\ 
+-    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \ 
+-    --with-sysroot=/not/exist \ 
++    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \ 
++    --with-sysroot=${STAGING_DIR_TARGET} \ 
+     --with-build-sysroot=${STAGING_DIR_TARGET} \
+ "
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+new file mode 100644
+index 0000000..810ff90
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+@@ -0,0 +1,13 @@
++diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
++index 512e7d6..292fb2c 100644
++--- a/gcc/config/rs6000/rs6000.c
+++++ b/gcc/config/rs6000/rs6000.c
++@@ -1704,7 +1704,7 @@ rs6000_hard_regno_nregs_internal (int regno, enum machine_mode mode)
++      SCmode so as to pass the value correctly in a pair of
++      registers.  */
++   else if (TARGET_E500_DOUBLE && FLOAT_MODE_P (mode) && mode != SCmode
++-	   && !DECIMAL_FLOAT_MODE_P (mode))
+++           && !DECIMAL_FLOAT_MODE_P (mode) && SPE_SIMD_REGNO_P (regno))
++     reg_size = UNITS_PER_FP_WORD;
++ 
++   else
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+new file mode 100644
+index 0000000..c37a4c3
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+@@ -0,0 +1,161 @@
++diff --git a/gcc/defaults.h b/gcc/defaults.h
++index f94ae17..80a798f 100644
++--- a/gcc/defaults.h
+++++ b/gcc/defaults.h
++@@ -438,6 +438,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ #define DWARF_FRAME_REGNUM(REG) DBX_REGISTER_NUMBER (REG)
++ #endif
++ 
+++/* The mapping from dwarf CFA reg number to internal dwarf reg numbers.  */
+++#ifndef DWARF_REG_TO_UNWIND_COLUMN
+++#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
+++#endif
+++
++ /* Map register numbers held in the call frame info that gcc has
++    collected using DWARF_FRAME_REGNUM to those that should be output in
++    .debug_frame and .eh_frame.  */
++diff --git a/gcc/dwarf2cfi.c b/gcc/dwarf2cfi.c
++index abcdeb3..4e59dfe 100644
++--- a/gcc/dwarf2cfi.c
+++++ b/gcc/dwarf2cfi.c
++@@ -252,7 +252,60 @@ init_return_column_size (enum machine_mode mode, rtx mem, unsigned int c)
++ 		  gen_int_mode (size, mode));
++ }
++ 
++-/* Generate code to initialize the register size table.  */
+++/* Datastructure used by expand_builtin_init_dwarf_reg_sizes and
+++   init_one_dwarf_reg_size to communicate on what has been done by the
+++   latter.  */
+++
+++typedef struct
+++{
+++  /* Whether the dwarf return column was initialized.  */
+++  bool wrote_return_column;
+++
+++  /* For each hard register REGNO, whether init_one_dwarf_reg_size
+++     was given REGNO to process already.  */
+++  bool processed_regno [FIRST_PSEUDO_REGISTER];
+++
+++} init_one_dwarf_reg_state;
+++
+++/* Helper for expand_builtin_init_dwarf_reg_sizes.  Generate code to
+++   initialize the dwarf register size table entry corresponding to register
+++   REGNO in REGMODE.  TABLE is the table base address, SLOTMODE is the mode to
+++   use for the size entry to initialize, and INIT_STATE is the communication
+++   datastructure conveying what we're doing to our caller.  */
+++
+++static
+++void init_one_dwarf_reg_size (int regno, machine_mode regmode,
+++                             rtx table, machine_mode slotmode,
+++                             init_one_dwarf_reg_state *init_state)
+++{
+++  const unsigned int dnum = DWARF_FRAME_REGNUM (regno);
+++  const unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+++  const unsigned int dcol = DWARF_REG_TO_UNWIND_COLUMN (rnum);
+++
+++  const HOST_WIDE_INT slotoffset = dcol * GET_MODE_SIZE (slotmode);
+++  const HOST_WIDE_INT regsize = GET_MODE_SIZE (regmode);
+++
+++  init_state->processed_regno[regno] = true;
+++
+++  if (rnum >= DWARF_FRAME_REGISTERS)
+++    return;
+++
+++  if (dnum == DWARF_FRAME_RETURN_COLUMN)
+++    {
+++      if (regmode == VOIDmode)
+++       return;
+++      init_state->wrote_return_column = true;
+++    }
+++
+++  if (slotoffset < 0)
+++    return;
+++
+++  emit_move_insn (adjust_address (table, slotmode, slotoffset),
+++                 gen_int_mode (regsize, slotmode));
+++}
+++
+++/* Generate code to initialize the dwarf register size table located
+++   at the provided ADDRESS.  */
++ 
++ void
++ expand_builtin_init_dwarf_reg_sizes (tree address)
++@@ -261,37 +314,41 @@ expand_builtin_init_dwarf_reg_sizes (tree address)
++   enum machine_mode mode = TYPE_MODE (char_type_node);
++   rtx addr = expand_normal (address);
++   rtx mem = gen_rtx_MEM (BLKmode, addr);
++-  bool wrote_return_column = false;
+++
+++  init_one_dwarf_reg_state init_state;
+++  memset ((char *)&init_state, 0, sizeof (init_state));
++ 
++   for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
++     {
++-      unsigned int dnum = DWARF_FRAME_REGNUM (i);
++-      unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+++      machine_mode save_mode;
+++      rtx span;
++ 
++-      if (rnum < DWARF_FRAME_REGISTERS)
++-	{
++-	  HOST_WIDE_INT offset = rnum * GET_MODE_SIZE (mode);
++-	  enum machine_mode save_mode = reg_raw_mode[i];
++-	  HOST_WIDE_INT size;
+++      /* No point in processing a register multiple times.  This could happen
+++         with register spans, e.g. when a reg is first processed as a piece of
+++         a span, then as a register on its own later on.  */
++ 
++-	  if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
++-	    save_mode = choose_hard_reg_mode (i, 1, true);
++-	  if (dnum == DWARF_FRAME_RETURN_COLUMN)
++-	    {
++-	      if (save_mode == VOIDmode)
++-		continue;
++-	      wrote_return_column = true;
++-	    }
++-	  size = GET_MODE_SIZE (save_mode);
++-	  if (offset < 0)
++-	    continue;
+++      if (init_state.processed_regno[i])
+++        continue;
++ 
++-	  emit_move_insn (adjust_address (mem, mode, offset),
++-			  gen_int_mode (size, mode));
+++      save_mode = reg_raw_mode[i];
+++      if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+++        save_mode = choose_hard_reg_mode (i, 1, true);
+++
+++      span = targetm.dwarf_register_span (gen_rtx_REG (save_mode, i));
+++      if (!span)
+++        init_one_dwarf_reg_size (i, save_mode, mem, mode, &init_state);
+++      else
+++        {
+++           for (int si = 0; si < XVECLEN (span, 0); si++)
+++	    {
+++               rtx reg = XVECEXP (span, 0, si);
+++               init_one_dwarf_reg_size
+++                 (REGNO (reg), GET_MODE (reg), mem, mode, &init_state);
+++            }
++ 	}
++     }
++ 
++-  if (!wrote_return_column)
+++  if (!init_state.wrote_return_column)
++     init_return_column_size (mode, mem, DWARF_FRAME_RETURN_COLUMN);
++ 
++ #ifdef DWARF_ALT_FRAME_RETURN_COLUMN
++diff --git a/libgcc/unwind-dw2.c b/libgcc/unwind-dw2.c
++index 55fc4bc..37f0ae2 100644
++--- a/libgcc/unwind-dw2.c
+++++ b/libgcc/unwind-dw2.c
++@@ -55,10 +55,6 @@
++ #define PRE_GCC3_DWARF_FRAME_REGISTERS DWARF_FRAME_REGISTERS
++ #endif
++ 
++-#ifndef DWARF_REG_TO_UNWIND_COLUMN
++-#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
++-#endif
++-
++ /* ??? For the public function interfaces, we tend to gcc_assert that the
++    column numbers are in range.  For the dwarf2 unwind info this does happen,
++    although so far in a case that doesn't actually matter.
+-- 
+1.8.4.2
 
 
