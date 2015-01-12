@@ -1,28 +1,41 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F052A65D19
+Return-Path: <akuster808@gmail.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 4327B60601
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 03:16:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0C3GT8n027173
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Mon, 12 Jan 2015 04:08:43 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id z107so16222283qgd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Jan 2015 19:16:29 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 11 Jan 2015 19:16:28 -0800
-Message-ID: <54B33C91.5050001@windriver.com>
-Date: Mon, 12 Jan 2015 11:16:33 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Sun, 11 Jan 2015 20:08:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=TMIY5+GH21YYfDnsgoyoQv4aZrCpNFYqjDdwPfpt7Qs=;
+	b=dufjwv9OAQJLTzgrB7m+3+D7nqFYxHDsWEYnwXdbB1r249YfkKXrtyIJYa4aKU1AAz
+	CbsIUekJL59Lb73TKUhLRvsbEATCPfkgOiRUpzLtmXkSDZYRbScz9Ru9QglSGIq/aTNL
+	LADoin6nF8WhLXCHGeRdB0grVtlm+N970avuZ3V3T8am2fsoLY3AvodxXTukXskIukev
+	h69/n6VaYfr0z2It2BhSiHoz47c/8RVBbDG3vufrV6Y0r2+sQkh/wczm+gtY7vQpjiLW
+	547CbwIqvLfDq+yodd1187jqAyR6A87MfAYdc5HDkoIfRSImg4E7o32m1ePemMmk4HDv
+	ynNw==
+X-Received: by 10.224.36.199 with SMTP id u7mr36431601qad.101.1421035724561;
+	Sun, 11 Jan 2015 20:08:44 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:a5e4:6164:5b08:6990?
+	([2601:c:a700:272f:a5e4:6164:5b08:6990])
+	by mx.google.com with ESMTPSA id
+	k102sm13844246qgd.7.2015.01.11.20.08.42
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 11 Jan 2015 20:08:43 -0800 (PST)
+Message-ID: <54B348C7.4040101@gmail.com>
+Date: Sun, 11 Jan 2015 20:08:39 -0800
+From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1402915083.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1402915083.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 0/9] initramfs and UUID support in minimal installer
+To: Lei Maohui <leimaohui@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+Subject: Re: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,69 +48,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 03:16:39 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 12 Jan 2015 04:08:44 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/16/2014 06:46 PM, Chen Qi wrote:
-> The purpose of this patchset is to add initramfs and UUID support for our minimal installer.
->
-> Previously, the installed image may not be able to boot up because we use the hardcoded disk
-> names.
->
-> To reproduce, use the following commands.
-> 1. Enable live image types and build out the minimal installer.
-> 2. runqemu qemux86 iso qemuparams="-hdb target-disk"
-> 3. qemu-system-i386 -hda target-disk
+Lei,
 
-I recently noticed that other people on mailing list also noticed the 
-problem described above.
-This patchset provides one way to solve the problem.
+I think all the two patches need an "Upstream-Status:" statement.
 
-Please help review the patches. Any comment or suggest is really welcome.
+- Armin
 
-Regards,
-Chen Qi
-
-> We can see that the installed target cannot boot up correctly.
+On 01/11/2015 07:12 PM, Lei Maohui wrote:
+> fix the yocto bug #6824
+> backport from gcc
 >
-> This patchset fixes this problem so that when executing the above commands, the target can
-> still correctly boot up as long as we configure in local.conf or some other distro config files
-> to select image-initramfs-minimal as the INITRAMFS_IMAGE.
+> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.9.inc              |  12 +-
+>   ...e500-double-in-SPE_SIMD_REGNO_P-registers.patch |  13 ++
+>   .../0061-Fix-for-unwinder-aborts-on-e500.patch     | 161 +++++++++++++++++++++
+>   3 files changed, 180 insertions(+), 6 deletions(-)
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
 >
-> //Chen Qi
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 2568e99..c4ec40d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -2,11 +2,11 @@ require gcc-common.inc
 >
-> The following changes since commit 12bab2d828836c8926f753caff80b61dbe6390a5:
+>   # Third digit in PV should be incremented after a minor release
 >
->    alsa-tools: Add missing pkgconfg dependency (2014-06-14 08:45:47 +0100)
+> -PV = "4.9.1"
+> +PV = "4.9.2"
 >
-> are available in the git repository at:
+>   # BINV should be incremented to a revision after a minor gcc release
 >
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/initramfs-uuid
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/busybox-syslog
+> -BINV = "4.9.1"
+> +BINV = "4.9.2"
 >
-> Chen Qi (9):
->    initramfs-image-minimal.bb: add recipe
->    initramfs-framework: fix an error in udev module
->    initramfs-framework: modify the fatal behaviour in init
->    initramfs-framework: fix an error in finish module
->    kernel.bbclass: also install the bundled kernel to STAGING_KERNEL_DIR
->    bootimg.bbclass: take initramfs into consideration
->    initramfs-live-install: rdepend on util-linux-blkid
->    busybox: enable uuid support by default
->    init-install.sh: add support for installing initramfs onto the target
+>   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
 >
->   meta/classes/bootimg.bbclass                       |    7 ++-
->   meta/classes/kernel.bbclass                        |    1 +
->   meta/recipes-core/busybox/busybox/defconfig        |   38 +++++++--------
->   .../recipes-core/images/initramfs-image-minimal.bb |   19 ++++++++
->   .../initrdscripts/files/init-install.sh            |   49 ++++++++++++++++----
->   .../initrdscripts/initramfs-framework/finish       |    4 +-
->   .../initrdscripts/initramfs-framework/init         |    5 +-
->   .../initrdscripts/initramfs-framework/udev         |    1 +
->   .../initrdscripts/initramfs-live-install_1.0.bb    |    2 +-
->   9 files changed, 89 insertions(+), 37 deletions(-)
->   create mode 100644 meta/recipes-core/images/initramfs-image-minimal.bb
+> @@ -69,11 +69,11 @@ SRC_URI = "\
+>       file://0051-eabispe.patch \
+>       file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+>       file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+> -    file://0055-PR-rtl-optimization-61801.patch \
+>       file://0056-top-level-reorder_gcc-bug-61144.patch \
+> -    file://0057-aarch64-config.patch \
+>       file://0058-gcc-r212171.patch \
+>       file://0059-gcc-PR-rtl-optimization-63348.patch \
+> +    file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+> +    file://0061-Fix-for-unwinder-aborts-on-e500.patch \
+>   "
+>   SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+>   SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+> @@ -125,8 +125,8 @@ EXTRA_OECONF_INTERMEDIATE = "\
+>   EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
 >
-
+>   EXTRA_OECONF_PATHS = "\
+> -    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \
+> -    --with-sysroot=/not/exist \
+> +    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \
+> +    --with-sysroot=${STAGING_DIR_TARGET} \
+>       --with-build-sysroot=${STAGING_DIR_TARGET} \
+>   "
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+> new file mode 100644
+> index 0000000..810ff90
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+> @@ -0,0 +1,13 @@
+> +diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
+> +index 512e7d6..292fb2c 100644
+> +--- a/gcc/config/rs6000/rs6000.c
+> ++++ b/gcc/config/rs6000/rs6000.c
+> +@@ -1704,7 +1704,7 @@ rs6000_hard_regno_nregs_internal (int regno, enum machine_mode mode)
+> +      SCmode so as to pass the value correctly in a pair of
+> +      registers.  */
+> +   else if (TARGET_E500_DOUBLE && FLOAT_MODE_P (mode) && mode != SCmode
+> +-	   && !DECIMAL_FLOAT_MODE_P (mode))
+> ++           && !DECIMAL_FLOAT_MODE_P (mode) && SPE_SIMD_REGNO_P (regno))
+> +     reg_size = UNITS_PER_FP_WORD;
+> +
+> +   else
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+> new file mode 100644
+> index 0000000..c37a4c3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+> @@ -0,0 +1,161 @@
+> +diff --git a/gcc/defaults.h b/gcc/defaults.h
+> +index f94ae17..80a798f 100644
+> +--- a/gcc/defaults.h
+> ++++ b/gcc/defaults.h
+> +@@ -438,6 +438,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+> + #define DWARF_FRAME_REGNUM(REG) DBX_REGISTER_NUMBER (REG)
+> + #endif
+> +
+> ++/* The mapping from dwarf CFA reg number to internal dwarf reg numbers.  */
+> ++#ifndef DWARF_REG_TO_UNWIND_COLUMN
+> ++#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
+> ++#endif
+> ++
+> + /* Map register numbers held in the call frame info that gcc has
+> +    collected using DWARF_FRAME_REGNUM to those that should be output in
+> +    .debug_frame and .eh_frame.  */
+> +diff --git a/gcc/dwarf2cfi.c b/gcc/dwarf2cfi.c
+> +index abcdeb3..4e59dfe 100644
+> +--- a/gcc/dwarf2cfi.c
+> ++++ b/gcc/dwarf2cfi.c
+> +@@ -252,7 +252,60 @@ init_return_column_size (enum machine_mode mode, rtx mem, unsigned int c)
+> + 		  gen_int_mode (size, mode));
+> + }
+> +
+> +-/* Generate code to initialize the register size table.  */
+> ++/* Datastructure used by expand_builtin_init_dwarf_reg_sizes and
+> ++   init_one_dwarf_reg_size to communicate on what has been done by the
+> ++   latter.  */
+> ++
+> ++typedef struct
+> ++{
+> ++  /* Whether the dwarf return column was initialized.  */
+> ++  bool wrote_return_column;
+> ++
+> ++  /* For each hard register REGNO, whether init_one_dwarf_reg_size
+> ++     was given REGNO to process already.  */
+> ++  bool processed_regno [FIRST_PSEUDO_REGISTER];
+> ++
+> ++} init_one_dwarf_reg_state;
+> ++
+> ++/* Helper for expand_builtin_init_dwarf_reg_sizes.  Generate code to
+> ++   initialize the dwarf register size table entry corresponding to register
+> ++   REGNO in REGMODE.  TABLE is the table base address, SLOTMODE is the mode to
+> ++   use for the size entry to initialize, and INIT_STATE is the communication
+> ++   datastructure conveying what we're doing to our caller.  */
+> ++
+> ++static
+> ++void init_one_dwarf_reg_size (int regno, machine_mode regmode,
+> ++                             rtx table, machine_mode slotmode,
+> ++                             init_one_dwarf_reg_state *init_state)
+> ++{
+> ++  const unsigned int dnum = DWARF_FRAME_REGNUM (regno);
+> ++  const unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+> ++  const unsigned int dcol = DWARF_REG_TO_UNWIND_COLUMN (rnum);
+> ++
+> ++  const HOST_WIDE_INT slotoffset = dcol * GET_MODE_SIZE (slotmode);
+> ++  const HOST_WIDE_INT regsize = GET_MODE_SIZE (regmode);
+> ++
+> ++  init_state->processed_regno[regno] = true;
+> ++
+> ++  if (rnum >= DWARF_FRAME_REGISTERS)
+> ++    return;
+> ++
+> ++  if (dnum == DWARF_FRAME_RETURN_COLUMN)
+> ++    {
+> ++      if (regmode == VOIDmode)
+> ++       return;
+> ++      init_state->wrote_return_column = true;
+> ++    }
+> ++
+> ++  if (slotoffset < 0)
+> ++    return;
+> ++
+> ++  emit_move_insn (adjust_address (table, slotmode, slotoffset),
+> ++                 gen_int_mode (regsize, slotmode));
+> ++}
+> ++
+> ++/* Generate code to initialize the dwarf register size table located
+> ++   at the provided ADDRESS.  */
+> +
+> + void
+> + expand_builtin_init_dwarf_reg_sizes (tree address)
+> +@@ -261,37 +314,41 @@ expand_builtin_init_dwarf_reg_sizes (tree address)
+> +   enum machine_mode mode = TYPE_MODE (char_type_node);
+> +   rtx addr = expand_normal (address);
+> +   rtx mem = gen_rtx_MEM (BLKmode, addr);
+> +-  bool wrote_return_column = false;
+> ++
+> ++  init_one_dwarf_reg_state init_state;
+> ++  memset ((char *)&init_state, 0, sizeof (init_state));
+> +
+> +   for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
+> +     {
+> +-      unsigned int dnum = DWARF_FRAME_REGNUM (i);
+> +-      unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+> ++      machine_mode save_mode;
+> ++      rtx span;
+> +
+> +-      if (rnum < DWARF_FRAME_REGISTERS)
+> +-	{
+> +-	  HOST_WIDE_INT offset = rnum * GET_MODE_SIZE (mode);
+> +-	  enum machine_mode save_mode = reg_raw_mode[i];
+> +-	  HOST_WIDE_INT size;
+> ++      /* No point in processing a register multiple times.  This could happen
+> ++         with register spans, e.g. when a reg is first processed as a piece of
+> ++         a span, then as a register on its own later on.  */
+> +
+> +-	  if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> +-	    save_mode = choose_hard_reg_mode (i, 1, true);
+> +-	  if (dnum == DWARF_FRAME_RETURN_COLUMN)
+> +-	    {
+> +-	      if (save_mode == VOIDmode)
+> +-		continue;
+> +-	      wrote_return_column = true;
+> +-	    }
+> +-	  size = GET_MODE_SIZE (save_mode);
+> +-	  if (offset < 0)
+> +-	    continue;
+> ++      if (init_state.processed_regno[i])
+> ++        continue;
+> +
+> +-	  emit_move_insn (adjust_address (mem, mode, offset),
+> +-			  gen_int_mode (size, mode));
+> ++      save_mode = reg_raw_mode[i];
+> ++      if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> ++        save_mode = choose_hard_reg_mode (i, 1, true);
+> ++
+> ++      span = targetm.dwarf_register_span (gen_rtx_REG (save_mode, i));
+> ++      if (!span)
+> ++        init_one_dwarf_reg_size (i, save_mode, mem, mode, &init_state);
+> ++      else
+> ++        {
+> ++           for (int si = 0; si < XVECLEN (span, 0); si++)
+> ++	    {
+> ++               rtx reg = XVECEXP (span, 0, si);
+> ++               init_one_dwarf_reg_size
+> ++                 (REGNO (reg), GET_MODE (reg), mem, mode, &init_state);
+> ++            }
+> + 	}
+> +     }
+> +
+> +-  if (!wrote_return_column)
+> ++  if (!init_state.wrote_return_column)
+> +     init_return_column_size (mode, mem, DWARF_FRAME_RETURN_COLUMN);
+> +
+> + #ifdef DWARF_ALT_FRAME_RETURN_COLUMN
+> +diff --git a/libgcc/unwind-dw2.c b/libgcc/unwind-dw2.c
+> +index 55fc4bc..37f0ae2 100644
+> +--- a/libgcc/unwind-dw2.c
+> ++++ b/libgcc/unwind-dw2.c
+> +@@ -55,10 +55,6 @@
+> + #define PRE_GCC3_DWARF_FRAME_REGISTERS DWARF_FRAME_REGISTERS
+> + #endif
+> +
+> +-#ifndef DWARF_REG_TO_UNWIND_COLUMN
+> +-#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
+> +-#endif
+> +-
+> + /* ??? For the public function interfaces, we tend to gcc_assert that the
+> +    column numbers are in range.  For the dwarf2 unwind info this does happen,
+> +    although so far in a case that doesn't actually matter.
+>
 
