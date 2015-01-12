@@ -1,31 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B6FD760670
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 303A960601
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 19:25:18 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id i138so22055090oig.0
+	Mon, 12 Jan 2015 22:25:50 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id tr6so28057705ieb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 11:25:19 -0800 (PST)
+	Mon, 12 Jan 2015 14:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:cc:content-type;
-	bh=qUory/aORCnQd/awA+CEZ/sbsxL0G7PXOwdkf1mZAag=;
-	b=NNVifGpcKBV7hxFV5gN/03vD3vWJKmgoJcyxhWfWH+BGfqcJa1V4CXrfthY/xPq66t
-	nJ0eSgWzC9TFv/5AMpCcZbvPLeKaYhk33sw8j+TG3UlzCDjMormB/K3Qx1WKVutJC3kn
-	6WMm1B80GpjLcdkEqDrRuyEq5QLVz9D/5wHRZRG603sIpea8qrD1sXQk9WtTd1gY56e0
-	pwq4pbrf7ZpyHJJMVYMyobDZR/B0k7qSC92Nk6OtRnkNzxV5ek9vg7Lu+dT5YmXgMeaX
-	BR1HiDbBUD8yWt+/3ze806US8AgroNiLZtX2KOcbKqk42jr9UKoV3RNaetIi3JLk0Y7t
-	qDMA==
-MIME-Version: 1.0
-X-Received: by 10.60.141.231 with SMTP id rr7mr18495127oeb.19.1421090719432;
-	Mon, 12 Jan 2015 11:25:19 -0800 (PST)
-Received: by 10.202.227.10 with HTTP; Mon, 12 Jan 2015 11:25:19 -0800 (PST)
-Date: Mon, 12 Jan 2015 11:25:19 -0800
-Message-ID: <CAJ86T=VV+SOyH-WW65Nb2cigL+kr+ne33RDStpOUxKZ_kiVSvA@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=NBF4xPRgzJ9hXqtU8bMKoLcZS6Zhos5pN9pdZMUHR70=;
+	b=Kw2m/UKE+lHk/D9G+8rZqx1QHCAli9r4lTuHIwVw91z3mxlccm6dSAidcVse8n0u8K
+	nNIdhrisvqUeuA0ZYU/jmN9NThkWg2VjKjsKGuzUBLDUbCoFPClJQeJwWhIqZ8xo7YG7
+	iEhKi6WSwm7x7Y9McpWIpaVKUFY5iy9ratOunYYkEPqCVAF9woupNT81AG+A8hasX4Hk
+	OV4f2F3CGqllq/Ja7n/4SWqYXgxLfgm1b2uKeR/d+GusLfJVFQhVfyipXxRPsRIut+Uj
+	Qiw2JqR0ztmQjqRSyqYQEy0vgSCTIDOmiaWzPx/KozKpgNQATr3XJaI+FDJejcIJmnYW
+	RXNg==
+X-Received: by 10.107.132.210 with SMTP id o79mr30340093ioi.50.1421101551142; 
+	Mon, 12 Jan 2015 14:25:51 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id qs2sm5014817igb.1.2015.01.12.14.25.50
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Jan 2015 14:25:50 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joe Slater <jslater@windriver.com>
-Subject: Nondeterministic acl support in coreutils 6.9
+Date: Mon, 12 Jan 2015 14:25:31 -0800
+Message-Id: <1421101531-20833-2-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1421101531-20833-1-git-send-email-armccurdy@gmail.com>
+References: <1421101531-20833-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 2/2] udev: remove obsolete dependency on acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 19:25:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 12 Jan 2015 22:25:53 -0000
 
-The GPLv2 coreutils recipe has PACKAGECONFIG support for acl, however
-the coreutils 6.9 configure script doesn't seem to support
---disable-acl.
+udev_acl was removed from udev in v182.
 
-Build Configuration:
-BB_VERSION        = "1.24.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Ubuntu-14.04"
-TARGET_SYS        = "i586-rdk-linux"
-MACHINE           = "vbox32"
-DISTRO            = "rdk"
-DISTRO_VERSION    = "2.0"
-TUNE_FEATURES     = "m32 core2"
-TARGET_FPU        = ""
-meta-bsp-vbox     = "(nobranch):0bf672f55d7566541846f32878d87d232ce9e501"
-meta-rdk          =
-"(detachedfrom74057dd):74057dd18efb19601fdad551b5dc716a1c75bf43"
-meta-metrological = "(nobranch):abbd111fee3ae1ade2fc2997ccda0eb9782da761"
-meta-multimedia
-meta-oe
-meta-python
-meta-networking
-meta-ruby         = "(nobranch):200f6cafc878d4c26871fc56d21ecc8eaa9aa61b"
-meta-qt5          =
-"(detachedfrom41c5daa):41c5daa84af4466bfc9aa61f6f772c68470a628b"
-meta              =
-"(detachedfrom93d79fc):93d79fc162bd49387958e9e4d898dc4ba50d20b0"
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-core/udev/udev.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: QA Issue: coreutils rdepends on libacl, but it isn't a build
-dependency? [build-deps]
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 31d1230..44a2d72 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ LDFLAGS += "-lrt"
+ 
+-DEPENDS = "acl glib-2.0 libusb usbutils pciutils glib-2.0-native gperf-native libxslt-native util-linux"
++DEPENDS = "glib-2.0 libusb usbutils pciutils glib-2.0-native gperf-native libxslt-native util-linux"
+ RPROVIDES_${PN} = "hotplug"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+-- 
+1.9.1
+
 
