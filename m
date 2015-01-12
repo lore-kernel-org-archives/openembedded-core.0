@@ -1,26 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 870EF7246D
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-02.prod.phx3.secureserver.net
+	(p3plsmtpa09-02.prod.phx3.secureserver.net [173.201.193.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 3815065C85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 12:04:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Jan 2015 03:59:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="510914177"
-Received: from fcrouzet-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.81])
-	by orsmga003.jf.intel.com with ESMTP; 12 Jan 2015 03:58:15 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 12 Jan 2015 12:04:18 +0000
-Message-ID: <2333301.OCoA7eKtKt@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <20150108181342.GB28640@crash.betafive.co.uk>
-References: <20150108181342.GB28640@crash.betafive.co.uk>
+	Mon, 12 Jan 2015 12:38:09 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa09-02.prod.phx3.secureserver.net with 
+	id f0e91p0070BVjqb010e90b; Mon, 12 Jan 2015 05:38:10 -0700
+Message-ID: <54B3C03C.7060609@pabigot.com>
+Date: Mon, 12 Jan 2015 06:38:20 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [dylan] Backport request
+To: openembedded-core@lists.openembedded.org
+References: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+Subject: Re: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +30,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 12:04:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 12 Jan 2015 12:38:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On 01/11/2015 09:12 PM, Lei Maohui wrote:
+> fix the yocto bug #6824
+> backport from gcc
+>
+> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.9.inc              |  12 +-
+>   ...e500-double-in-SPE_SIMD_REGNO_P-registers.patch |  13 ++
+>   .../0061-Fix-for-unwinder-aborts-on-e500.patch     | 161 +++++++++++++++++++++
+>   3 files changed, 180 insertions(+), 6 deletions(-)
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 2568e99..c4ec40d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -2,11 +2,11 @@ require gcc-common.inc
+>   
+>   # Third digit in PV should be incremented after a minor release
+>   
+> -PV = "4.9.1"
+> +PV = "4.9.2"
+>   
+>   # BINV should be incremented to a revision after a minor gcc release
+>   
+> -BINV = "4.9.1"
+> +BINV = "4.9.2"
+>   
+>   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
+>   
+> @@ -69,11 +69,11 @@ SRC_URI = "\
+>       file://0051-eabispe.patch \
+>       file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+>       file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+> -    file://0055-PR-rtl-optimization-61801.patch \
+>       file://0056-top-level-reorder_gcc-bug-61144.patch \
+> -    file://0057-aarch64-config.patch \
+>       file://0058-gcc-r212171.patch \
+>       file://0059-gcc-PR-rtl-optimization-63348.patch \
+> +    file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+> +    file://0061-Fix-for-unwinder-aborts-on-e500.patch \
+>   "
+>   SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+>   SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+> @@ -125,8 +125,8 @@ EXTRA_OECONF_INTERMEDIATE = "\
+>   EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
+>   
+>   EXTRA_OECONF_PATHS = "\
+> -    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \
+> -    --with-sysroot=/not/exist \
+> +    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \
+> +    --with-sysroot=${STAGING_DIR_TARGET} \
+>       --with-build-sysroot=${STAGING_DIR_TARGET} \
+>   "
+>   
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
 
-On Thursday 08 January 2015 18:13:42 Paul Barker wrote:
-> I know dylan is old but it's still the recommended branch for the TI MCSDK.
-> We've ran into a problem automating deployment as symlinks aren't created
-> for the modules archives when they are deployed. This was fixed by commit
-> ef9fad8fff1c413bc0eab15625f051d4e2d0a201 in openembedded-core which looks
-> pretty simple. I've tested this on the dylan branch in our builds and it
-> works.
-> 
-> Could this be backported to the dylan branch please?
+As gcc is (IMO) one of the most critical components of Yocto I think we 
+need to be very clear about what changes are being made to it and why.
 
-No problem, Richard has now applied this.
+In addition to missing SOB lines, these patches at a minimum should 
+reference the upstream bug that they supposedly patch.  That would be 
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63908
 
-Cheers,
-Paul
+Ideally, the patch would be taken from upstream, being created by 
+git-format-patch with the SHA1 of the relevant change as retrieved from: 
+git://gcc.gnu.org/git/gcc.git
 
--- 
+It worries me that these patches, though present in upstream trunk, have 
+not been back-ported to gcc-4_9-branch.  There may be a reason for that, 
+and the fact backports have not (yet) been done should be noted in the 
+OE patch header.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+This first patch is apparently upstream commit 
+5c0092070253113cf0d9c45eacc884b3ecc34d81.
+
+> new file mode 100644
+> index 0000000..810ff90
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch
+> @@ -0,0 +1,13 @@
+> +diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
+> +index 512e7d6..292fb2c 100644
+> +--- a/gcc/config/rs6000/rs6000.c
+> ++++ b/gcc/config/rs6000/rs6000.c
+> +@@ -1704,7 +1704,7 @@ rs6000_hard_regno_nregs_internal (int regno, enum machine_mode mode)
+> +      SCmode so as to pass the value correctly in a pair of
+> +      registers.  */
+> +   else if (TARGET_E500_DOUBLE && FLOAT_MODE_P (mode) && mode != SCmode
+> +-	   && !DECIMAL_FLOAT_MODE_P (mode))
+> ++           && !DECIMAL_FLOAT_MODE_P (mode) && SPE_SIMD_REGNO_P (regno))
+> +     reg_size = UNITS_PER_FP_WORD;
+> +
+> +   else
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+> new file mode 100644
+
+This patch appears to combine c0235a33de8c4f78cce35b2a8c2035c83fe1bd14 
+with 4fd39f1329379e00f958394adde6be96f0caf21f.
+
+> index 0000000..c37a4c3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500.patch
+> @@ -0,0 +1,161 @@
+> +diff --git a/gcc/defaults.h b/gcc/defaults.h
+> +index f94ae17..80a798f 100644
+> +--- a/gcc/defaults.h
+> ++++ b/gcc/defaults.h
+> +@@ -438,6 +438,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+> + #define DWARF_FRAME_REGNUM(REG) DBX_REGISTER_NUMBER (REG)
+> + #endif
+> +
+> ++/* The mapping from dwarf CFA reg number to internal dwarf reg numbers.  */
+> ++#ifndef DWARF_REG_TO_UNWIND_COLUMN
+> ++#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
+> ++#endif
+> ++
+> + /* Map register numbers held in the call frame info that gcc has
+> +    collected using DWARF_FRAME_REGNUM to those that should be output in
+> +    .debug_frame and .eh_frame.  */
+> +diff --git a/gcc/dwarf2cfi.c b/gcc/dwarf2cfi.c
+> +index abcdeb3..4e59dfe 100644
+> +--- a/gcc/dwarf2cfi.c
+> ++++ b/gcc/dwarf2cfi.c
+> +@@ -252,7 +252,60 @@ init_return_column_size (enum machine_mode mode, rtx mem, unsigned int c)
+> + 		  gen_int_mode (size, mode));
+> + }
+> +
+> +-/* Generate code to initialize the register size table.  */
+> ++/* Datastructure used by expand_builtin_init_dwarf_reg_sizes and
+> ++   init_one_dwarf_reg_size to communicate on what has been done by the
+> ++   latter.  */
+> ++
+> ++typedef struct
+> ++{
+> ++  /* Whether the dwarf return column was initialized.  */
+> ++  bool wrote_return_column;
+> ++
+> ++  /* For each hard register REGNO, whether init_one_dwarf_reg_size
+> ++     was given REGNO to process already.  */
+> ++  bool processed_regno [FIRST_PSEUDO_REGISTER];
+> ++
+> ++} init_one_dwarf_reg_state;
+> ++
+> ++/* Helper for expand_builtin_init_dwarf_reg_sizes.  Generate code to
+> ++   initialize the dwarf register size table entry corresponding to register
+> ++   REGNO in REGMODE.  TABLE is the table base address, SLOTMODE is the mode to
+> ++   use for the size entry to initialize, and INIT_STATE is the communication
+> ++   datastructure conveying what we're doing to our caller.  */
+> ++
+> ++static
+> ++void init_one_dwarf_reg_size (int regno, machine_mode regmode,
+> ++                             rtx table, machine_mode slotmode,
+> ++                             init_one_dwarf_reg_state *init_state)
+> ++{
+> ++  const unsigned int dnum = DWARF_FRAME_REGNUM (regno);
+> ++  const unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+> ++  const unsigned int dcol = DWARF_REG_TO_UNWIND_COLUMN (rnum);
+> ++
+> ++  const HOST_WIDE_INT slotoffset = dcol * GET_MODE_SIZE (slotmode);
+> ++  const HOST_WIDE_INT regsize = GET_MODE_SIZE (regmode);
+> ++
+> ++  init_state->processed_regno[regno] = true;
+> ++
+> ++  if (rnum >= DWARF_FRAME_REGISTERS)
+> ++    return;
+> ++
+> ++  if (dnum == DWARF_FRAME_RETURN_COLUMN)
+> ++    {
+> ++      if (regmode == VOIDmode)
+> ++       return;
+> ++      init_state->wrote_return_column = true;
+> ++    }
+> ++
+> ++  if (slotoffset < 0)
+> ++    return;
+> ++
+> ++  emit_move_insn (adjust_address (table, slotmode, slotoffset),
+> ++                 gen_int_mode (regsize, slotmode));
+> ++}
+> ++
+> ++/* Generate code to initialize the dwarf register size table located
+> ++   at the provided ADDRESS.  */
+> +
+> + void
+> + expand_builtin_init_dwarf_reg_sizes (tree address)
+> +@@ -261,37 +314,41 @@ expand_builtin_init_dwarf_reg_sizes (tree address)
+> +   enum machine_mode mode = TYPE_MODE (char_type_node);
+> +   rtx addr = expand_normal (address);
+> +   rtx mem = gen_rtx_MEM (BLKmode, addr);
+> +-  bool wrote_return_column = false;
+> ++
+> ++  init_one_dwarf_reg_state init_state;
+> ++  memset ((char *)&init_state, 0, sizeof (init_state));
+> +
+> +   for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
+> +     {
+> +-      unsigned int dnum = DWARF_FRAME_REGNUM (i);
+> +-      unsigned int rnum = DWARF2_FRAME_REG_OUT (dnum, 1);
+> ++      machine_mode save_mode;
+> ++      rtx span;
+> +
+> +-      if (rnum < DWARF_FRAME_REGISTERS)
+> +-	{
+> +-	  HOST_WIDE_INT offset = rnum * GET_MODE_SIZE (mode);
+> +-	  enum machine_mode save_mode = reg_raw_mode[i];
+> +-	  HOST_WIDE_INT size;
+> ++      /* No point in processing a register multiple times.  This could happen
+> ++         with register spans, e.g. when a reg is first processed as a piece of
+> ++         a span, then as a register on its own later on.  */
+> +
+> +-	  if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> +-	    save_mode = choose_hard_reg_mode (i, 1, true);
+> +-	  if (dnum == DWARF_FRAME_RETURN_COLUMN)
+> +-	    {
+> +-	      if (save_mode == VOIDmode)
+> +-		continue;
+> +-	      wrote_return_column = true;
+> +-	    }
+> +-	  size = GET_MODE_SIZE (save_mode);
+> +-	  if (offset < 0)
+> +-	    continue;
+> ++      if (init_state.processed_regno[i])
+> ++        continue;
+> +
+> +-	  emit_move_insn (adjust_address (mem, mode, offset),
+> +-			  gen_int_mode (size, mode));
+> ++      save_mode = reg_raw_mode[i];
+> ++      if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> ++        save_mode = choose_hard_reg_mode (i, 1, true);
+> ++
+> ++      span = targetm.dwarf_register_span (gen_rtx_REG (save_mode, i));
+> ++      if (!span)
+> ++        init_one_dwarf_reg_size (i, save_mode, mem, mode, &init_state);
+> ++      else
+> ++        {
+> ++           for (int si = 0; si < XVECLEN (span, 0); si++)
+> ++	    {
+> ++               rtx reg = XVECEXP (span, 0, si);
+> ++               init_one_dwarf_reg_size
+> ++                 (REGNO (reg), GET_MODE (reg), mem, mode, &init_state);
+> ++            }
+> + 	}
+> +     }
+> +
+> +-  if (!wrote_return_column)
+> ++  if (!init_state.wrote_return_column)
+> +     init_return_column_size (mode, mem, DWARF_FRAME_RETURN_COLUMN);
+> +
+> + #ifdef DWARF_ALT_FRAME_RETURN_COLUMN
+> +diff --git a/libgcc/unwind-dw2.c b/libgcc/unwind-dw2.c
+> +index 55fc4bc..37f0ae2 100644
+> +--- a/libgcc/unwind-dw2.c
+> ++++ b/libgcc/unwind-dw2.c
+> +@@ -55,10 +55,6 @@
+> + #define PRE_GCC3_DWARF_FRAME_REGISTERS DWARF_FRAME_REGISTERS
+> + #endif
+> +
+> +-#ifndef DWARF_REG_TO_UNWIND_COLUMN
+> +-#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO)
+> +-#endif
+> +-
+> + /* ??? For the public function interfaces, we tend to gcc_assert that the
+> +    column numbers are in range.  For the dwarf2 unwind info this does happen,
+> +    although so far in a case that doesn't actually matter.
+
 
