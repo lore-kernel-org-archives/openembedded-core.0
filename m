@@ -1,25 +1,51 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8332471637
+Return-Path: <B40290@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0136.outbound.protection.outlook.com [157.56.111.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 35E027162E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Jan 2015 06:52:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0C6qinN011084
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 11 Jan 2015 22:52:44 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 11 Jan 2015 22:52:44 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <paul.eggleton@linux.intel.com>
-Date: Mon, 12 Jan 2015 14:48:42 +0800
-Message-ID: <b2a5af309a2b2e6b23070ae2f2343e39b12a52df.1421044647.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1421044647.git.Chong.Lu@windriver.com>
-References: <cover.1421044647.git.Chong.Lu@windriver.com>
+	Mon, 12 Jan 2015 08:35:10 +0000 (UTC)
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB442.namprd03.prod.outlook.com (10.141.141.145) with Microsoft
+	SMTP Server (TLS) id 15.1.53.17; Mon, 12 Jan 2015 08:21:02 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
+	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
+	15.01.0053.000; Mon, 12 Jan 2015 08:21:02 +0000
+From: "B40290@freescale.com" <B40290@freescale.com>
+To: "B40290@freescale.com" <B40290@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH v4 1/2] uboot-config.bbclass: Allow multiple
+	U-Boot config for machine
+Thread-Index: AQHQFPMhs5x/zZli0UScfjgQ834zIJy8V3Xw
+Date: Mon, 12 Jan 2015 08:21:02 +0000
+Message-ID: <BY2PR03MB4412C070917B6E7A3B499F284430@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1418268755-19969-1-git-send-email-B40290@freescale.com>
+In-Reply-To: <1418268755-19969-1-git-send-email-B40290@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [123.151.195.52]
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=B40290@freescale.com; 
+x-dmarcaction-test: None
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(3005003);SRVR:BY2PR03MB442;
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB442;
+x-forefront-prvs: 0454444834
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(199003)(377454003)(13464003)(189002)(74316001)(106116001)(40100003)(122556002)(19580395003)(19580405001)(76576001)(97736003)(105586002)(54206007)(86362001)(2656002)(87936001)(106356001)(99286002)(102836002)(54356999)(50986999)(450100001)(77156002)(33656002)(2950100001)(2900100001)(64706001)(46102003)(66066001)(101416001)(76176999)(77096005)(68736005)(92566002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB442;
+	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] bitbake-layers: add a ability to query layer dependencies from layer index
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jan 2015 08:21:02.4611 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR03MB442
+Subject: Re: [PATCH v4 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,159 +58,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Jan 2015 06:52:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Jan 2015 08:35:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-It maybe depends on other layers when one layer is added to BBLAYERS. If define
-LAYERDEPENDS variable in this layer, we will get error from bitbake. But
-sometimes, we don't have defined. Add a mechanism to extend bitbake-layers and
-it will query layer dependencies from layer index
-(http://layers.openembedded.org/layerindex/api/)
-Use `bitbake-layers show-layer-dependencies' to find out dependencies and update
-bblayers.conf as appropriate.
+Ping.
 
-[YOCTO #5348]
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+-----Original Message-----
+From: Chunrong Guo [mailto:B40290@freescale.com]=20
+Sent: Thursday, December 11, 2014 11:33 AM
+To: openembedded-core@lists.openembedded.org
+Cc: Liu Ting-B28495; Luo Zhenhua-B19537; Guo Chunrong-B40290; Guo Chunrong-=
+B40290
+Subject: [OE-core][PATCH v4 1/2] uboot-config.bbclass: Allow multiple U-Boo=
+t config for machine
+
+  This adds support to build multiple U-Boot configs for a machine; this
+  is useful when we have support for different media boots which require
+  different U-Boot configuration (e.g: eMMC and NAND).
+
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
 ---
- bitbake/bin/bitbake-layers | 116 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 116 insertions(+)
+ meta/classes/uboot-config.bbclass | 37 ++++++++++++++---------------------=
+--
+ 1 file changed, 14 insertions(+), 23 deletions(-)
 
-diff --git a/bitbake/bin/bitbake-layers b/bitbake/bin/bitbake-layers
-index 9879498..0756095 100755
---- a/bitbake/bin/bitbake-layers
-+++ b/bitbake/bin/bitbake-layers
-@@ -27,6 +27,7 @@ import sys
- import fnmatch
- from collections import defaultdict
- import re
-+import httplib, urlparse, json
- 
- bindir = os.path.dirname(__file__)
- topdir = os.path.dirname(bindir)
-@@ -157,6 +158,121 @@ usage: remove-layer <layerdir>
-                 sys.stderr.write("No layers matching %s found in BBLAYERS\n" % item)
- 
- 
-+    def get_json_data(self, apiurl):
-+        proxy_settings = os.environ.get("http_proxy", None)
-+        conn = None
-+        _parsedurl = urlparse.urlparse(apiurl)
-+        path = _parsedurl.path
-+        query = _parsedurl.query
-+        def parse_url(url):
-+            parsedurl = urlparse.urlparse(url)
-+            try:
-+                (host, port) = parsedurl.netloc.split(":")
-+            except ValueError:
-+                host = parsedurl.netloc
-+                port = None
-+
-+            if port is None:
-+                port = 80
-+            else:
-+                port = int(port)
-+            return (host, port)
-+
-+        if proxy_settings is None:
-+            host, port = parse_url(apiurl)
-+            conn = httplib.HTTPConnection(host, port)
-+            conn.request("GET", path + "?" + query)
-+        else:
-+            host, port = parse_url(proxy_settings)
-+            conn = httplib.HTTPConnection(host, port)
-+            conn.request("GET", apiurl)
-+
-+        r = conn.getresponse()
-+        if r.status != 200:
-+            raise Exception("Failed to read " + path + ": %d %s" % (r.status, r.reason))
-+        return json.loads(r.read())
-+
-+
-+    def get_layer_deps(self, layername, layeritems, layerbranches, layerdependencies):
-+        def layeritems_info_id(items_name, layeritems):
-+            litems_id = ""
-+            for li in layeritems:
-+                if li['name'] == items_name:
-+                    litems_id = li['id']
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.=
+bbclass
+index b467659..cb061af 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -31,28 +31,19 @@ python () {
+         return
+=20
+     ubootconfig =3D (d.getVar('UBOOT_CONFIG', True) or "").split()
+-    if len(ubootconfig) > 1:
+-        raise bb.parse.SkipPackage('You can only have a single default for=
+ UBOOT_CONFIG.')
++    if len(ubootconfig) > 0:
++        for config in ubootconfig:
++            for f, v in ubootconfigflags.items():
++                if config =3D=3D f:=20
++                    items =3D v.split(',')
++                    if items[0] and len(items) > 2:
++                        raise bb.parse.SkipPackage('Only config,images can=
+ be specified!')
++                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
++                    # IMAGE_FSTYPES appending
++                    if len(items) > 1 and items[1]:
++                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % i=
+tems[1])
++                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
 +                    break
-+            return litems_id
-+
-+        def layerbranches_info(items_id, layerbranches):
-+            lbranch = {}
-+            for lb in layerbranches:
-+                # branch is master.
-+                if lb['layer'] == items_id and lb['branch'] == 1:
-+                    lbranch['id'] = lb['id']
-+                    lbranch['vcs_subdir'] = lb['vcs_subdir']
-+                    break
-+            if not lbranch['id']:
-+                logger.plain("The id of layerBranches is not found.")
-+                return
-+            else:
-+                return lbranch
-+
-+        def layerdependencies_info(lb_id, layerdependencies):
-+            ld_deps = []
-+            for ld in layerdependencies:
-+                if ld['layerbranch'] == lb_id and not ld['dependency'] in ld_deps:
-+                    ld_deps.append(ld['dependency'])
-+            if not ld_deps:
-+                logger.plain("The dependency of layerDependencies is not found.")
-+                return
-+            else:
-+                return ld_deps
-+
-+        def layeritems_info_name_subdir(items_id, layeritems):
-+            litems = {}
-+            for li in layeritems:
-+                if li['id'] == items_id:
-+                    litems['vcs_url'] = li['vcs_url']
-+                    litems['name'] = li['name']
-+                    break
-+            return litems
-+
-+        itemsid = layeritems_info_id(layername, layeritems)
-+        if not itemsid:
-+            return
-+        lbid = layerbranches_info(itemsid, layerbranches)['id']
-+        ldict = {}
-+        for dependency in layerdependencies_info(lbid, layerdependencies):
-+            lname = layeritems_info_name_subdir(dependency, layeritems)['name']
-+            lurl = layeritems_info_name_subdir(dependency, layeritems)['vcs_url']
-+            lsubdir = layerbranches_info(dependency, layerbranches)['vcs_subdir']
-+            ldict[lname] = lurl, lsubdir
-+        return ldict
-+
-+
-+    def do_show_layer_dependencies(self, args):
-+        """Find layer dependencies from layer index"""
-+        apilinks = self.get_json_data(apiurl = "http://layers.openembedded.org/layerindex/api/")
-+        layeritems = self.get_json_data(apilinks['layerItems'])
-+        layerbranches = self.get_json_data(apilinks['layerBranches'])
-+        layerdependencies = self.get_json_data(apilinks['layerDependencies'])
-+        self.init_bbhandler(config_only = True)
-+        bblayers_conf = os.path.join('conf', 'bblayers.conf')
-+        logger.plain("%s  %s  %s  %s" % ("Layer".ljust(20), "Dependencies".ljust(20), "Git repository".ljust(50), "Subdirectory"))
-+        logger.plain('=' * 111)
-+        if not os.path.exists(bblayers_conf):
-+            sys.stderr.write("Unable to find bblayers.conf\n")
-+            return
-+        for layerdir in self.bblayers:
-+            layername = self.get_layer_name(layerdir)
-+            if not layername == "meta":
-+                layerdict = self.get_layer_deps(layername, layeritems, layerbranches, layerdependencies)
-+                if layerdict:
-+                    for layer in layerdict:
-+                        logger.plain("%s  %s  %s  %s" % (layername.ljust(20), layer.ljust(20), layerdict[layer][0].ljust(50), layerdict[layer][1]))
-+                else:
-+                    logger.plain("%s" % layername)
-+
-+
-     def version_str(self, pe, pv, pr = None):
-         verstr = "%s" % pv
-         if pr:
--- 
-1.9.1
+     elif len(ubootconfig) =3D=3D 0:
+-        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG=
+.')
+-    ubootconfig =3D ubootconfig[0]
+-
+-    for f, v in ubootconfigflags.items():
+-        items =3D v.split(',')
+-        if items[0] and len(items) > 2:
+-            raise bb.parse.SkipPackage('Only config,images can be specifie=
+d!')
+-
+-        if ubootconfig =3D=3D f:
+-            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
+-            d.setVar('UBOOT_MACHINE', items[0])
+-
+-            # IMAGE_FSTYPES appending
+-            if len(items) > 1 and items[1]:
+-                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+-                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+-
+-            # Go out as we found a match!
+-            break
+-    else:
+-        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ub=
+ootconfig)
++       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.=
+')
+ }
+--=20
+1.9.2
 
 
