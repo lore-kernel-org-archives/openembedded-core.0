@@ -1,34 +1,34 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B67360167
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E6CE67162E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 18:47:09 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id a141so3744742oig.3
+	Tue, 13 Jan 2015 19:02:15 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id x13so4744201wgg.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 10:47:10 -0800 (PST)
+	Tue, 13 Jan 2015 11:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=1WQ/yCsbUNf2eNP/ARNGL6kkHxytiIGOOh7azMXAc7Q=;
-	b=O4O7FjMhh6lDi0pz605xeO8ytpMjSoNoUtXhHs4Js0KbdD2PfoTZE/XhFl+qhmLsye
-	V1/eNJ55WB3Vhg3CDwPbx386TuiOk+lFJle/BMyeU/LUSmsxFcMJF3zrK1Hwvls6b3h/
-	OXOz7Jm7Q9kRg0JfFqfI1JyGzMqBdqQk6sZ+LqI9+AsqAPTC6wkLWXwvNFcyuaS0eZA2
-	UnReXY/oOs82WDFifGv+2eN08eJWcnq90a9Pan+j/Vw6MJxl8KSdcRm60X6mONXvh82+
-	62c738n2U8TMJ0qAM0QIldaUxXtHVU/38s+1RxEwyaq3rgFa+7GBzjyTRE8Ks6/YbKqW
-	5ySw==
-MIME-Version: 1.0
-X-Received: by 10.182.197.163 with SMTP id iv3mr22003195obc.64.1421174830002; 
-	Tue, 13 Jan 2015 10:47:10 -0800 (PST)
-Received: by 10.202.227.10 with HTTP; Tue, 13 Jan 2015 10:47:09 -0800 (PST)
-In-Reply-To: <20150113083517.GA9496@ad.chargestorm.se>
-References: <1421110587-23245-1-git-send-email-armccurdy@gmail.com>
-	<20150113083517.GA9496@ad.chargestorm.se>
-Date: Tue, 13 Jan 2015 10:47:09 -0800
-Message-ID: <CAJ86T=XRTEYnzfPWJPR_AY9rUvE0QrH+4Wy6jZd2Qx6v-Ehx=Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] logrotate: fix missing acl and libselinux dependencies
+	h=from:to:cc:subject:date:message-id;
+	bh=UaJiqXNPzRqJgUIF4NcV4fgU7njY899QLTYmbngel2k=;
+	b=cwNj03htWFpu+3xLEDjjOx8J+Y+kMjbDLPyLnPeWtqPVEQK1F6s5U/VXYzUVpNa69B
+	mGTwo/eNeoZRetYsk6itR4r9vZNBTh87sQ2Twg8iKssOdpVd8Nk5g7jbaLShPtrviYOj
+	W/J21ERpCBBYeQqHvfzVywMbjld1WoGLxe6JUvBx/6xuTnPxVuKB052C0RlGgvyBiMCg
+	sd+B4ALHgbdPUZP2egY8dHqtvCNte9NIScM9kz3pjJeJGwoXxX1UEDc1Fc76t868lz34
+	BEo3uKDGH2Wr1PYbvv5rPywNZGNn2+gfFHka969Opp2Xn5Vg6B41QQ3D6HGsl+9RBJG8
+	b9ZA==
+X-Received: by 10.180.72.199 with SMTP id f7mr43692740wiv.53.1421175734679;
+	Tue, 13 Jan 2015 11:02:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	je12sm15415940wic.22.2015.01.13.11.02.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Jan 2015 11:02:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jan 2015 20:02:13 +0100
+Message-Id: <1421175733-22762-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [RFC][PATCH] WIP: feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,57 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 18:47:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 13 Jan 2015 19:02:22 -0000
 
-On Tue, Jan 13, 2015 at 12:35 AM, Anders Darander <anders@chargestorm.se> wrote:
-> * Andre McCurdy <armccurdy@gmail.com> [150113 01:57]:
->> +# TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
->> +# TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
->
-> It might well be worth adding autotools support right now.
->
->>  DEPENDS="coreutils popt"
->
->>  LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
->> @@ -21,6 +24,9 @@ PACKAGECONFIG ?= "\
->>      ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->>  "
->
->> +PACKAGECONFIG[acl] = ",,acl"
->> +PACKAGECONFIG[selinux] = ",,libselinux"
->
-> The problem with these two lines, are that you're not explicitly
-> enabling and disabling those two features; thus our builds won't be
-> deterministic.
+* this means that recipes with ARM_INSTRUCTION_SET explicitly changed
+  to arm will be built in feed without thumb suffix, the same does apply
+  for workdir, e.g. after "bitbake glib-2.0" you can see:
 
-Currently the configure task for logrotate is a no-op, so the normal
-way of constructing a configure command line via PACKAGECONFIG doesn't
-work.
+  tmp-glibc/work/armv5e-oe-linux-gnueabi:
+  glib-2.0  glibc  glibc-initial
 
-We do however need to include acl and libselinux in DEPENDS if enabled
-- which wasn't happening before and is what the patch attempts to fix,
+  tmp-glibc/work/armv5te-oe-linux-gnueabi:
+  acl              db              gdk-pixbuf     kmod  ....
 
-There are no floating dependencies since acl and selinux are enabled
-explicitly during compile, by options passed on the make command line
-via EXTRA_OEMAKE.
+  and
 
-> Depending on how the actual tests are performed in the logrotate
-> sources, it might happen that you're enabling the features just by
-> making sure that they're going to be built prior to logrotate. Though,
-> there's no guarantee that this will work (without looking at the source
-> code).
->
-> However, if that enabling works, then we have the problem that the
-> features will always be activated regardless of whether we add acl and
-> selinux to PACKAGECONFIG, if these exists in the sysroot. Thus, the
-> build is undeterministic.
->
-> Could you please look at enabling / disabling those features explicitly?
->
-> Cheers,
-> Anders
-> --
-> Anders Darander
-> ChargeStorm AB / eStorm AB
+  tmp-glibc/deploy/ipk:
+  all  armv5e  armv5te  qemuarm
+
+* feed config should be ok, because all default DEFAULTTUNEs always
+  include "arm" variants of all supported PACKAGE_ARCHs
+
+* for more details see
+  http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091960.html
+  the toolchain path issues were resolved in 1.8
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 8e6619d..4c4eb6d 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -32,7 +32,8 @@ python () {
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}', '', d)}"
+ OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
+ 
+-ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d)}"
++# Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
++ARMPKGSFX_THUMB .= "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
+ 
+ # Whether to compile with code to allow interworking between the two
+ # instruction sets. This allows thumb code to be executed on a primarily
+-- 
+2.2.1
+
 
