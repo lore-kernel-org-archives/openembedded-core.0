@@ -1,33 +1,32 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 99E3F60167
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3617 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 13 Jan 2015 17:10:10 UTC
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC797162E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 14:46:29 +0000 (UTC)
-Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
-	by relay1.mentorg.com with esmtp 
-	id 1YB2jl-0005RG-Mu from drew_moseley@mentor.com ;
-	Tue, 13 Jan 2015 06:46:29 -0800
-Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
-	SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) with mapi id
-	14.03.0224.002; Tue, 13 Jan 2015 06:46:29 -0800
-From: "Moseley, Drew" <drew_moseley@mentor.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Thread-Topic: [OE-core] [PATCH 1/2] init-install.sh: Switch to using static
-	device paths.
-Thread-Index: AQHQLgxNpsKdg5jNgUi5lv6szTzlFpy+qWyA
-Date: Tue, 13 Jan 2015 14:46:28 +0000
-Message-ID: <C367E4F3-C2F6-48E5-BEAF-E7D873D458BD@mentor.com>
-References: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
-	<54B32BD4.3080209@windriver.com>
-In-Reply-To: <54B32BD4.3080209@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.34.91.1]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] init-install.sh: Switch to using static device paths.
+	Tue, 13 Jan 2015 17:10:10 +0000 (UTC)
+Received: from gandalf.denix.org ([108.18.33.160]) by vms173021.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NI400CFYI8GT3B0@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 13 Jan 2015 10:09:54 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=PYxIXZlY c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10
+	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8	a=voM4FWlXAAAA:8
+	a=w4hO79aE9bMcsQFqwcMA:9 a=MQkpD8RUycDADjaD:21
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id A08082010D;	Tue,
+	13 Jan 2015 11:09:52 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Jan 2015 11:09:51 -0500
+Message-id: <1421165391-30203-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] u-boot: update to 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,86 +39,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 14:46:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B48BFF495D12FE4AAC4B68D45D2B8138@mentor.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Jan 2015 17:10:17 -0000
 
-> On Jan 11, 2015, at 9:05 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->=20
-> On 01/09/2015 11:52 PM, Drew Moseley wrote:
->> Use static device paths for mounting from /dev/disk/<blah> in
->> case the device ordering changes.
->>=20
->> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
->> ---
->>  meta/recipes-core/initrdscripts/files/init-install.sh | 14 ++++++++++--=
---
->>  1 file changed, 10 insertions(+), 4 deletions(-)
->>=20
->> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/met=
-a/recipes-core/initrdscripts/files/init-install.sh
->> index fb537ee..f924418 100644
->> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
->> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
->> @@ -156,6 +156,12 @@ mkfs.ext3 $rootfs
->>  echo "Formatting swap partition...($swap)"
->>  mkswap $swap
->>  +# Determine the static device paths
->> +sync; udevadm settle
->> +bootfs_static=3D"$(udevadm info --query=3Dproperty --name=3D$bootfs | g=
-rep DEVLINKS=3D | cut -d=3D -f2 | cut -d\  -f1)"
->> +swap_static=3D"$(udevadm info --query=3Dproperty --name=3D$swap | grep =
-DEVLINKS=3D | cut -d=3D -f2 | cut -d\  -f1)"
->> +rootfs_uuid=3D"$(udevadm info --query=3Dproperty --name=3D$rootfs | gre=
-p ID_PART_ENTRY_UUID | cut -d=3D -f2)"
->> +
->=20
-> Would ID_PART_ENTRY_UUID be always there?
+From: Denys Dmytriyenko <denys@ti.com>
 
-That's a good question.  In my test systems (two VirtualBox configs and two=
- AMD based PCs) it is always there.  Taking a second look at my developer U=
-buntu system it does not seem to have that field so maybe I'm just getting =
-lucky on my test systems.
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ ...2014.07.bb => u-boot-fw-utils-cross_2015.01.bb} | 11 ++++---
+ .../0001-tools-env-fix-build-error.patch           | 36 ++++++++++++++++++++++
+ ...utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} | 12 +++++---
+ ...kimage_2014.07.bb => u-boot-mkimage_2015.01.bb} | 20 ++++++------
+ meta/recipes-bsp/u-boot/u-boot.inc                 |  2 +-
+ .../{u-boot_2014.07.bb => u-boot_2015.01.bb}       |  6 ++--
+ 6 files changed, 62 insertions(+), 25 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils-cross_2014.07.bb => u-boot-fw-utils-cross_2015.01.bb} (76%)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} (69%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2014.07.bb => u-boot-mkimage_2015.01.bb} (45%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2014.07.bb => u-boot_2015.01.bb} (50%)
 
-Anybody have a suggestion for a replacement?
-
->>  mkdir /tgt_root
->>  mkdir /src_root
->>  mkdir -p /boot
->> @@ -166,8 +172,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2=
- /src_root
->>  echo "Copying rootfs files..."
->>  cp -a /src_root/* /tgt_root
->>  if [ -d /tgt_root/etc/ ] ; then
->> -    echo "$swap                swap             swap       defaults    =
-          0  0" >> /tgt_root/etc/fstab
->> -    echo "$bootfs              /boot            ext3       defaults    =
-          1  2" >> /tgt_root/etc/fstab
->> +    echo "$swap_static                swap             swap       defau=
-lts              0  0" >> /tgt_root/etc/fstab
->> +    echo "$bootfs_static              /boot            ext3       defau=
-lts              1  2" >> /tgt_root/etc/fstab
->>      # We dont want udev to mount our root device while we're booting...
->>      if [ -d /tgt_root/etc/udev/ ] ; then
->>  	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
->> @@ -186,7 +192,7 @@ if [ -f /etc/grub.d/00_header ] ; then
->>      cat >$GRUBCFG <<_EOF
->>  menuentry "Linux" {
->>      set root=3D(hd0,1)
->> -    linux /vmlinuz root=3D$rootfs $rootwait rw $5 $3 $4 quiet
->> +    linux /vmlinuz root=3DPARTUUID=3D$rootfs_uuid $rootwait rw $5 $3 $4=
- quiet
->=20
-> I thought PARTUUID is for GPT only.
->=20
-
-Perhaps so but it does seem to be there on my VirtualBox systems.  My Ubunt=
-u host uses "root=3DUUID=3Dblah" but that was't working for me at some poin=
-t.  I'll dig back into it and see what I can find.
-
-Drew
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb
+similarity index 76%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb
+index d1f1f9a..e826b89 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb
+@@ -1,17 +1,18 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
+ 
+-# This revision corresponds to the tag "v2014.07"
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
++           file://0001-tools-env-fix-build-error.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+new file mode 100644
+index 0000000..381b505
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+@@ -0,0 +1,36 @@
++From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
++From: Masahiro Yamada <yamada.m@jp.panasonic.com>
++Date: Wed, 3 Dec 2014 10:22:50 +0900
++Subject: [PATCH] tools: env: fix build error
++
++Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
++tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
++is defined.
++(I do not think this is the right way to fix the problem, but
++for now I do not have enough time to take a close look.)
++
++Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
++
++Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
++Reported-by: Denys Dmytriyenko <denys@ti.com>
++---
++ tools/env/fw_env.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
++index 1173eea..698fe51 100644
++--- a/tools/env/fw_env.c
+++++ b/tools/env/fw_env.c
++@@ -8,6 +8,9 @@
++  * SPDX-License-Identifier:	GPL-2.0+
++  */
++ 
+++/* FIXME: Do not include this */
+++#include <linux/kconfig.h>
+++
++ #include <errno.h>
++ #include <env_flags.h>
++ #include <fcntl.h>
++-- 
++2.2.0
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+similarity index 69%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+index a626c95..50d1974 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+@@ -1,21 +1,23 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
+ 
+-# This revision corresponds to the tag "v2014.07"
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
++           file://0001-tools-env-fix-build-error.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+ INSANE_SKIP_${PN} = "already-stripped"
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC}"'
+ 
+ inherit uboot-config
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+similarity index 45%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+index eabf680..1bfdf9d 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+@@ -1,28 +1,26 @@
+ SUMMARY = "U-Boot bootloader image creation tool"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ SECTION = "bootloader"
+ 
+-# This revision corresponds to the tag "v2014.07"
++DEPENDS = "openssl"
++
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
++EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC}" STRIP=true'
+ 
+ do_compile () {
+-	# Make sure the recompile is OK
+-	rm -f ${B}/tools/.depend
+-
+-	make HOSTCC="${BUILD_CC}" HOSTLD="${BUILD_LD}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTSTRIP=true dot-config=0 scripts_basic
+-	sed 's/^tools-only: scripts_basic /tools-only: /' -i Makefile
+-	oe_runmake tools-only
++	oe_runmake sandbox_defconfig
++	oe_runmake cross_tools NO_SDL=1
+ }
+ 
+ do_install () {
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c695b73..4edab84 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -4,7 +4,7 @@ SECTION = "bootloaders"
+ PROVIDES = "virtual/bootloader"
+ 
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+similarity index 50%
+rename from meta/recipes-bsp/u-boot/u-boot_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+index 44cc52e..6feac31 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+@@ -2,8 +2,8 @@ require u-boot.inc
+ 
+ DEPENDS += "dtc-native"
+ 
+-# This revision corresponds to the tag "v2014.07"
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+-- 
+2.2.0
 
 
