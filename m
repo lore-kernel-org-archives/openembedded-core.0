@@ -1,29 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A06A7162E
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B05C87162E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 08:30:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0D8UIvX011340
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 13 Jan 2015 00:30:18 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 13 Jan 2015 00:30:17 -0800
-Message-ID: <54B4D798.8060101@windriver.com>
-Date: Tue, 13 Jan 2015 16:30:16 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue, 13 Jan 2015 08:35:20 +0000 (UTC)
+Received: by mail-lb0-f182.google.com with SMTP id u10so1323595lbd.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=a07mHzIa7yWw7Mr1LvbRx0rdLEHwftI3grOWBOu1Zg8=;
+	b=a1o/7NH/dJHW9dgQ69iWi01oSNzYw6ChZ3AtIyalZrEARORZT/v/5S8Q/EVBIN+/Mh
+	7zIfsOiC2VX4SGEm1P8Fru/2Q6qDWjUoJyicIjF/tFylndw0H1Nx4EKsaKaayxs0Iz6t
+	cR6ZLaz1joD9TsH4DeVw8rB/ErQONKDrA8bLlJZlsiDpI4i6luluPzdL90sRjTQ9baSJ
+	QJw6KzJg1puggeG2Yrqp6R23S4Z1bBhFX1O00XrcHoBjpFpH2RLMv3BKc/gWJsYb2KQe
+	aj/C7pg0RMJhQJRRQPkrzlfGgbAG3JvZmQ97I3HvupLkaNxtGTFvWY2ZrDcSGzceb+yM
+	6YRA==
+X-Gm-Message-State: ALoCoQl0Q+FUHQumjCGG4ZQ2VGwLgfeJhG2K+9Z2PQLbA0YDtC1ACR8qUqrwV+WXSsMLXBXM9WtP
+X-Received: by 10.112.130.34 with SMTP id ob2mr41367821lbb.78.1421138119564;
+	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
+Received: from ad.chargestorm.se (c-83-233-221-90.cust.bredband2.com.
+	[83.233.221.90])
+	by mx.google.com with ESMTPSA id de5sm654210lac.33.2015.01.13.00.35.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
+Date: Tue, 13 Jan 2015 09:35:17 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20150113083517.GA9496@ad.chargestorm.se>
+Mail-Followup-To: Andre McCurdy <armccurdy@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1421110587-23245-1-git-send-email-armccurdy@gmail.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1421021113.git.liezhi.yang@windriver.com>
-	<08467c89129431bc4873964cf09e7ff865e74ae2.1421021113.git.liezhi.yang@windriver.com>
-	<CAJTo0LbrY6CRJWJOif8F1hxfHxfkdjZXqMe7x-KjcoYNV3ob7Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LbrY6CRJWJOif8F1hxfHxfkdjZXqMe7x-KjcoYNV3ob7Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gnu-efi: upgrade to 3.0.1
+In-Reply-To: <1421110587-23245-1-git-send-email-armccurdy@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] logrotate: fix missing acl and libselinux dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,204 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 08:30:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Jan 2015 08:35:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+* Andre McCurdy <armccurdy@gmail.com> [150113 01:57]:
+> +# TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
+> +# TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
 
+It might well be worth adding autotools support right now.
 
-On 01/13/2015 01:48 AM, Burton, Ross wrote:
-> On 12 January 2015 at 00:06, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     * Use the official src rather than debian.
->     * It doesn't have a general license file, the license is embedded in the
->        files, which are GPLv2+ & BSD.
->     * Supported aarch64 and arm.
->
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->
->
-> Both you and Saul have submitted this upgrade, but they're both different: Saul
-> drops patches that don't need to be applied anymore, and Robert changes the
-> COMPATIBLE_HOST assignment.  Can one of you create a One Upgrade To Rule Them
-> All and re-submit? :)
+>  DEPENDS="coreutils popt"
 
-Thanks, I took Saul's part and updated in the PULL:
-   git://git.openembedded.org/openembedded-core-contrib rbt/gnu-efi
- 
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/gnu-efi
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+> @@ -21,6 +24,9 @@ PACKAGECONFIG ?= "\
+>      ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+>  "
 
-Robert Yang (1):
-   gnu-efi: upgrade to 3.0.1
+> +PACKAGECONFIG[acl] = ",,acl"
+> +PACKAGECONFIG[selinux] = ",,libselinux"
 
- From 7a3e85cafad74e9bdcfae6171abaf745b642de3e Mon Sep 17 00:00:00 2001
-From: Robert Yang <liezhi.yang@windriver.com>
-Date: Wed, 7 Jan 2015 16:01:46 -0800
-Subject: [PATCH] gnu-efi: upgrade to 3.0.1
+The problem with these two lines, are that you're not explicitly
+enabling and disabling those two features; thus our builds won't be
+deterministic.
 
-* Use the official src rather than debian.
-* It doesn't have a general license file, the license is embedded in the
-   files, which are "GPLv2+ | BSD-2-Clause".
-* Supported aarch64 and arm.
-* Remove parallel-make.patch that was accepted upstream. (From Saul)
+Depending on how the actual tests are performed in the logrotate
+sources, it might happen that you're enabling the features just by
+making sure that they're going to be built prior to logrotate. Though,
+there's no guarantee that this will work (without looking at the source
+code). 
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
-  .../gnu-efi/gnu-efi/parallel-make.patch            |   22 -----------
-  meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb          |   40 ++++++++++++++++++++
-  meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb           |   33 ----------------
-  3 files changed, 40 insertions(+), 55 deletions(-)
-  delete mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
-  create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb
-  delete mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+However, if that enabling works, then we have the problem that the
+features will always be activated regardless of whether we add acl and
+selinux to PACKAGECONFIG, if these exists in the sysroot. Thus, the
+build is undeterministic.
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch 
-b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
-deleted file mode 100644
-index 27c94e8..0000000
---- a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Fix parallel make failure
--
--Upstream-Status: Submitted [Maintainer directly]
--
--Add a missing dependency which resulted in a race leading to failure
--on larger values of -j.
--
--Signed-off-by: Darren Hart <dvhart@linux.intel.com>
--
--Index: gnu-efi-3.0/Makefile
--===================================================================
----- gnu-efi-3.0.orig/Makefile
--+++ gnu-efi-3.0/Makefile
--@@ -42,6 +42,8 @@ include $(SRCDIR)/Make.defaults
--
-- SUBDIRS = lib gnuefi inc apps
--
--+gnuefi: lib
--+
-- all:	check_gcc $(SUBDIRS)
--
-- $(SUBDIRS):
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb 
-b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb
-new file mode 100644
-index 0000000..ad7f2e3
---- /dev/null
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.1.bb
-@@ -0,0 +1,40 @@
-+SUMMARY = "Libraries for producing EFI binaries"
-+HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
-+SECTION = "devel"
-+LICENSE = "GPLv2+ | BSD-2-Clause"
-+LIC_FILES_CHKSUM = 
-"file://gnuefi/crt0-efi-arm.S;beginline=4;endline=9;md5=2240d7bbdf0928294c2f4a68b14d6591 
-\
-+ 
-file://gnuefi/crt0-efi-aarch64.S;beginline=4;endline=16;md5=e582764a4776e60c95bf9ab617343d36 
-\
-+ 
-file://inc/efishellintf.h;beginline=13;endline=20;md5=202766b79d708eff3cc70fce15fb80c7 
-\
-+ 
-file://inc/efishellparm.h;beginline=4;endline=11;md5=468b1231b05bbc84bae3a0d5774e3bb5 
-\
-+ 
-file://lib/arm/div64.S;beginline=6;endline=12;md5=a96c84f5ad12b4f011f98b5d039242f2 \
-+ 
-file://lib/arm/math.c;beginline=4;endline=10;md5=64dd1987cee1dcf59d11aa572cfa644e \
-+ 
-file://lib/arm/initplat.c;beginline=4;endline=10;md5=64dd1987cee1dcf59d11aa572cfa644e 
-\
-+ 
-file://lib/arm/lib1funcs.S;beginline=9;endline=33;md5=f56d5ebbc87136bc66cfe24db82bcf01 
-\
-+ 
-file://lib/aarch64/math.c;beginline=9;endline=33;md5=cfade4c560e033a7bb02dab282872c7d 
-\
-+ 
-file://lib/aarch64/initplat.c;beginline=9;endline=33;md5=900cb1ffbe3e1ded344102be921830f1 
-\
-+                   "
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-+           file://parallel-make-archives.patch \
-+          "
-+SRC_URI[md5sum] = "c4099c443b6b0c2b04dedc33e7814ec0"
-+SRC_URI[sha256sum] = 
-"e2e8d5940347eebfb00eaaeef107a8ba59e7838e40bc716c74d9a36fff648f1f"
-+
-+COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
-+
-+def gnu_efi_arch(d):
-+    import re
-+    tarch = d.getVar("TARGET_ARCH", True)
-+    if re.match("i[3456789]86", tarch):
-+        return "ia32"
-+    return tarch
-+
-+EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}' 'LD=${LD}' 
-'AR=${AR}' \
-+                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}' 
-'LIBDIR=${libdir}' \
-+                "
-+
-+do_install() {
-+        oe_runmake install INSTALLROOT="${D}"
-+}
-+
-+FILES_${PN} += "${libdir}/*.lds"
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb 
-b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
-deleted file mode 100644
-index dbf2a07..0000000
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--SUMMARY = "Libraries for producing EFI binaries"
--HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
--SECTION = "devel"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=5fb358a180f484b285b0d99acdc29666"
--
--SRC_URI = "http://downloads.sourceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz \
--           file://parallel-make.patch \
--           file://parallel-make-archives.patch \
--          "
--SRC_URI[md5sum] = "d15d3c700e79a1e2938544d73edc572d"
--SRC_URI[sha256sum] = 
-"3c0d450d5829204ca05dcb3b2aae772e52c379b7c7e09146759c6315606f934e"
--
--COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
--
--S = "${WORKDIR}/gnu-efi-3.0"
--
--def gnu_efi_arch(d):
--    import re
--    tarch = d.getVar("TARGET_ARCH", True)
--    if re.match("i[3456789]86", tarch):
--        return "ia32"
--    return tarch
--
--EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}' 'LD=${LD}' 
-'AR=${AR}' \
--                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}' 
-'LIBDIR=${libdir}' \
--                "
--
--do_install() {
--        oe_runmake install INSTALLROOT="${D}"
--}
--
--FILES_${PN} += "${libdir}/*.lds"
+Could you please look at enabling / disabling those features explicitly?
+
+Cheers,
+Anders
 -- 
-1.7.9.5
-
-// Robert
-
->
-> Ross
+Anders Darander
+ChargeStorm AB / eStorm AB
 
