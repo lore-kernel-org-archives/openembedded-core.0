@@ -1,34 +1,33 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 4867260017
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E3F60167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 13:14:40 +0000 (UTC)
-Received: from [12.20.171.104] (port=34680 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YB1Is-0002sE-Rz; Tue, 13 Jan 2015 08:14:39 -0500
-Date: Tue, 13 Jan 2015 05:14:30 -0800 (PST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZSPW=igWoL+-1+dzrMB1_Cr54FOxtaq6H0XWJQmRQKAw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.11.1501130512080.23356@localhost>
-References: <alpine.LFD.2.11.1501130453440.21773@localhost>
-	<CAJTo0LZSPW=igWoL+-1+dzrMB1_Cr54FOxtaq6H0XWJQmRQKAw@mail.gmail.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Tue, 13 Jan 2015 14:46:29 +0000 (UTC)
+Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
+	by relay1.mentorg.com with esmtp 
+	id 1YB2jl-0005RG-Mu from drew_moseley@mentor.com ;
+	Tue, 13 Jan 2015 06:46:29 -0800
+Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
+	SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) with mapi id
+	14.03.0224.002; Tue, 13 Jan 2015 06:46:29 -0800
+From: "Moseley, Drew" <drew_moseley@mentor.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/2] init-install.sh: Switch to using static
+	device paths.
+Thread-Index: AQHQLgxNpsKdg5jNgUi5lv6szTzlFpy+qWyA
+Date: Tue, 13 Jan 2015 14:46:28 +0000
+Message-ID: <C367E4F3-C2F6-48E5-BEAF-E7D873D458BD@mentor.com>
+References: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
+	<54B32BD4.3080209@windriver.com>
+In-Reply-To: <54B32BD4.3080209@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.34.91.1]
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: in sysfsutils_2.1.0.bb, is 'S = "${WORKDIR}/sysfsutils-${PV}"' redundant?
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] init-install.sh: Switch to using static device paths.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,44 +40,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 13:14:49 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-1636299937-1421154880=:23356"
+X-List-Received-Date: Tue, 13 Jan 2015 14:46:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <B48BFF495D12FE4AAC4B68D45D2B8138@mentor.com>
+Content-Transfer-Encoding: quoted-printable
 
---8323328-1636299937-1421154880=:23356
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+> On Jan 11, 2015, at 9:05 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+>=20
+> On 01/09/2015 11:52 PM, Drew Moseley wrote:
+>> Use static device paths for mounting from /dev/disk/<blah> in
+>> case the device ordering changes.
+>>=20
+>> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+>> ---
+>>  meta/recipes-core/initrdscripts/files/init-install.sh | 14 ++++++++++--=
+--
+>>  1 file changed, 10 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/met=
+a/recipes-core/initrdscripts/files/init-install.sh
+>> index fb537ee..f924418 100644
+>> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+>> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+>> @@ -156,6 +156,12 @@ mkfs.ext3 $rootfs
+>>  echo "Formatting swap partition...($swap)"
+>>  mkswap $swap
+>>  +# Determine the static device paths
+>> +sync; udevadm settle
+>> +bootfs_static=3D"$(udevadm info --query=3Dproperty --name=3D$bootfs | g=
+rep DEVLINKS=3D | cut -d=3D -f2 | cut -d\  -f1)"
+>> +swap_static=3D"$(udevadm info --query=3Dproperty --name=3D$swap | grep =
+DEVLINKS=3D | cut -d=3D -f2 | cut -d\  -f1)"
+>> +rootfs_uuid=3D"$(udevadm info --query=3Dproperty --name=3D$rootfs | gre=
+p ID_PART_ENTRY_UUID | cut -d=3D -f2)"
+>> +
+>=20
+> Would ID_PART_ENTRY_UUID be always there?
 
-On Tue, 13 Jan 2015, Burton, Ross wrote:
+That's a good question.  In my test systems (two VirtualBox configs and two=
+ AMD based PCs) it is always there.  Taking a second look at my developer U=
+buntu system it does not seem to have that field so maybe I'm just getting =
+lucky on my test systems.
 
->
-> On 13 January 2015 at 12:57, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->       setting S that way in the recipe obviously doesn't do any
->       harm, but is it accurate to say that, at least in this case, it's
->       unnecessary?
->
->
-> Correct.  A patch from the student is welcome. :)
+Anybody have a suggestion for a replacement?
 
-  actually, there appears to be quite a lot of that scattered
-throughout oe-core, so i'm not sure it's worth trying to clean it up
-piecemeal as opposed to just doing it in one large patch. as i said, i
-realize it doesn't hurt, but i'm a big fan of not having lines where
-lines are unnecessary.
+>>  mkdir /tgt_root
+>>  mkdir /src_root
+>>  mkdir -p /boot
+>> @@ -166,8 +172,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2=
+ /src_root
+>>  echo "Copying rootfs files..."
+>>  cp -a /src_root/* /tgt_root
+>>  if [ -d /tgt_root/etc/ ] ; then
+>> -    echo "$swap                swap             swap       defaults    =
+          0  0" >> /tgt_root/etc/fstab
+>> -    echo "$bootfs              /boot            ext3       defaults    =
+          1  2" >> /tgt_root/etc/fstab
+>> +    echo "$swap_static                swap             swap       defau=
+lts              0  0" >> /tgt_root/etc/fstab
+>> +    echo "$bootfs_static              /boot            ext3       defau=
+lts              1  2" >> /tgt_root/etc/fstab
+>>      # We dont want udev to mount our root device while we're booting...
+>>      if [ -d /tgt_root/etc/udev/ ] ; then
+>>  	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
+>> @@ -186,7 +192,7 @@ if [ -f /etc/grub.d/00_header ] ; then
+>>      cat >$GRUBCFG <<_EOF
+>>  menuentry "Linux" {
+>>      set root=3D(hd0,1)
+>> -    linux /vmlinuz root=3D$rootfs $rootwait rw $5 $3 $4 quiet
+>> +    linux /vmlinuz root=3DPARTUUID=3D$rootfs_uuid $rootwait rw $5 $3 $4=
+ quiet
+>=20
+> I thought PARTUUID is for GPT only.
+>=20
 
-  i'll defer to the list ... is it worth tracking down all the recipes
-that are doing that and just deleting that redundant line from them?
-or is that just unnecessary code churn?
+Perhaps so but it does seem to be there on my VirtualBox systems.  My Ubunt=
+u host uses "root=3DUUID=3Dblah" but that was't working for me at some poin=
+t.  I'll dig back into it and see what I can find.
 
-rday
+Drew
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-1636299937-1421154880=:23356--
