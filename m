@@ -1,37 +1,33 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E79C172694
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by mail.openembedded.org (Postfix) with ESMTP id 6140A71637
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 02:59:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 12 Jan 2015 18:56:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,746,1413270000"; d="scan'208";a="668823387"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2015 18:59:42 -0800
-Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
-	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 12 Jan 2015 18:59:42 -0800
-Received: from fmsmsx118.amr.corp.intel.com ([169.254.1.40]) by
-	FMSMSX112.amr.corp.intel.com ([10.18.116.6]) with mapi id
-	14.03.0195.001; Mon, 12 Jan 2015 18:59:41 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: "Yang, Liezhi (Wind River)" <liezhi.yang@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] RFC: Further kernel build process changes?
-Thread-Index: AQHQKnU/pnajGB2g5UyvQYJtyvvLW5y9zzKAgAACMQD//5OjgA==
-Date: Tue, 13 Jan 2015 02:59:41 +0000
-Message-ID: <D0D9C9F9.B71A5%darren.hart@intel.com>
-References: <1420633589.25779.69.camel@linuxfoundation.org>
-	<54B472AB.1010601@windriver.com> <54B47482.5070001@windriver.com>
-In-Reply-To: <54B47482.5070001@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.90.138]
+	Tue, 13 Jan 2015 03:06:35 +0000 (UTC)
+Received: from c-50-185-54-102.hsd1.ca.comcast.net ([50.185.54.102]
+	helo=[10.79.148.146])
+	by smtp.twobit.us with esmtpsa (TLSv1.2:DHE-RSA-AES128-SHA:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1YArmt-0001gK-Vf; Tue, 13 Jan 2015 03:05:02 +0000
+Message-ID: <54B48BB1.1050806@twobit.us>
+Date: Mon, 12 Jan 2015 22:06:25 -0500
+From: Philip Tricca <flihp@twobit.us>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Icedove/31.3.0
 MIME-Version: 1.0
-Subject: Re: RFC: Further kernel build process changes?
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1421009125-13379-1-git-send-email-flihp@twobit.us>
+	<CAJTo0LaqfgwbwvN5BR3dzxP-LbgfocwZO2GjT1-Y9Qyy8xyg=w@mail.gmail.com>
+In-Reply-To: <CAJTo0LaqfgwbwvN5BR3dzxP-LbgfocwZO2GjT1-Y9Qyy8xyg=w@mail.gmail.com>
+X-SA-Exim-Connect-IP: 50.185.54.102
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-2.7-manifest: Add package for contextlib module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 02:59:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5BF26A0DED6B9F43899759D20E4487C0@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Jan 2015 03:06:48 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-
-On 1/12/15, 5:27 PM, "Robert Yang" <liezhi.yang@windriver.com> wrote:
-
->
->
->On 01/13/2015 09:19 AM, Robert Yang wrote:
+On 01/12/2015 01:15 PM, Burton, Ross wrote:
+> On 11 January 2015 at 20:45, Philip Tricca <flihp@twobit.us> wrote:
+> 
+>> This is required for python code using 'with' statements.
 >>
->>
->> On 01/07/2015 08:26 PM, Richard Purdie wrote:
->>> I'm hearing (somewhat justified) complaints that the recent kernel
->>> changes have destablised builds. Part of the question is whether the
->>> recent changes are as clear to users as they could be, we're also
->>> running into some problems due to mixing kernel source and build
->>> artefacts in some places and not in others.
->>
->> Currently, the kernel_do_install directly installs the files to sysroot,
->> then we will get the errors like the following when rebuild:
->>
->> |   Using=20
->>/buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel as
->> source for kernel
->> |   /buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel is
->>not
->> clean, please run 'make mrproper'
->> |   in the=20
->>'/buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel'
->> directory.
->> | make[3]: Nothing to be done for `relocs'.
->>
->> How about we add a kerne-src.rpm which includes the usr/src/kernel, and
->>use
->
->I just noticed that we have this which was added on Dec. 5th.
->
->meta/recipes-kernel/linux/kernel-devsrc.bb
+> 
+> This isn't applying to master, can you rebase it?
 
-Right, and there have been various issues related with that. We're working
-through those currently.
+Rebased on master before sending. No changes since. Did you mean
+master-next? I wasn't sure which was preferred but I can submit the
+patch on either.
 
+https://github.com/flihp/openembedded-core/tree/contextlib
 
---=20
-Darren Hart
-Intel Open Source Technology Center
+Thanks for taking a look at this and sorry for the confusion.
 
+Best,
+Philip
 
