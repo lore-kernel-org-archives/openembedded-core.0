@@ -1,34 +1,34 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 021C265C7B
+	by mail.openembedded.org (Postfix) with ESMTP id 6627765C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 02:19:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="55957429"
+	Tue, 13 Jan 2015 02:39:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="55958372"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2015 10:16:21 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2015 10:35:43 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0D2JD4m026991;
-	Tue, 13 Jan 2015 10:19:13 +0800
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0D2cYKI028535;
+	Tue, 13 Jan 2015 10:38:35 +0800
 Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0181.006; Tue, 13 Jan 2015 10:19:55 +0800
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0181.006; Tue, 13 Jan 2015 10:39:11 +0800
 From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Thread-Topic: [OE-core] [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
-Thread-Index: AQHQLkjONkQJdP0XiUWLcDjtyGUhvJy9T3EQ
-Date: Tue, 13 Jan 2015 02:19:55 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDAE519B@G08CNEXMBPEKD01.g08.fujitsu.local>
+Thread-Index: AQHQLmS0+510mBkRd0meRqksA+u7hJy9UlzA
+Date: Tue, 13 Jan 2015 02:39:17 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDAE51B8@G08CNEXMBPEKD01.g08.fujitsu.local>
 References: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<1421054310.31262.2.camel@linuxfoundation.org>
-In-Reply-To: <1421054310.31262.2.camel@linuxfoundation.org>
+	<54B3C03C.7060609@pabigot.com>
+In-Reply-To: <54B3C03C.7060609@pabigot.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.167.226.48]
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,217 +42,380 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 02:19:59 -0000
+X-List-Received-Date: Tue, 13 Jan 2015 02:39:15 -0000
 Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgUmljaGFyZA0KDQo+IEkgY2FuJ3Qgc3BvdCB0aGUgdXBncmFkZSBmcm9tIDQuOS4xIHRvIDQu
-OS4yIGluIGhlcmUuIFRoZSBTUkNfVVJJIGNoZWNrc3Vtcw0KPiBhcmUgdW5jaGFuZ2VkIGZvciBl
-eGFtcGxlPyBJcyB0aGVyZSBwYXJ0IG9mIHRoZSBwYXRjaCBtaXNzaW5nPw0KDQpXaGVuIEkgYml0
-YmFrZSB0aGUgZ2NjLTQuOS4yLCB0aGVyZSBpcyBubyBlcnJvciBvciB3YXJuaW5nIG1lc3NhZ2Ug
-YWJvdXQgdGhlIGNoZWNrc3Vtcy4NCkJ1dCBpdCBkaWQgd3JvbmcuDQpbZG93bmxvYWRzXSQgbWQ1
-c3VtIGdjYy00LjkuMi50YXIuYnoyID4gZ2NjLTQuOS4yLnRhci5iejIuc3VtDQpbZG93bmxvYWRz
-XSQgY2F0IGdjYy00LjkuMi50YXIuYnoyLnN1bQ0KNGRmOGVlMjUzYjdmMzg2M2FkMGI4NjM1OWNk
-MzljNDMgIGdjYy00LjkuMi50YXIuYnoyDQpbZG93bmxvYWRzXSQNCg0KSSBub3RpY2VkIHRoYXQg
-dGhlcmUgaXMgYSBmaWxlIG5hbWVkICJnY2MtNC45LjIudGFyLmJ6Ml9iYWQtY2hlY2tzdW1fNGRm
-OGVlMjUzYjdmMzg2M2FkMGI4NjM1OWNkMzljNDMiIGluIG15IGRvd25sb2FkIGRpcmVjdG9yeS4N
-CkkgZG9uJ3Qga25vdyB3aHkuIEkgdGhpbmsgbWQ1c3VtIHdpbGwgYmUgY2hlY2tlZCBhdXRvbWF0
-aWNhbGx5Lg0KSXMgaXQgYSBidWc/DQoNCkNoZWVycywNCg0KTGVpDQoNCg0KDQo+IC0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gU2VudDogTW9uZGF5LCBKYW51YXJ5IDEy
-LCAyMDE1IDU6MTkgUE0NCj4gVG86IExlaSwgTWFvaHVpL+mbtyDojILmhacNCj4gQ2M6IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0hdIGdjYzogdXBncmFkZSB0byA0LjkuMiBhbmQgZml4IHRoZSBidWcgIzY4MjQN
-Cj4gDQo+IE9uIE1vbiwgMjAxNS0wMS0xMiBhdCAxMToxMiArMDgwMCwgTGVpIE1hb2h1aSB3cm90
-ZToNCj4gPiBmaXggdGhlIHlvY3RvIGJ1ZyAjNjgyNA0KPiA+IGJhY2twb3J0IGZyb20gZ2NjDQo+
-ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9odWlAY24uZnVqaXRzdS5j
-b20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLTQuOS5pbmMg
-ICAgICAgICAgICAgIHwgIDEyICstDQo+ID4gIC4uLmU1MDAtZG91YmxlLWluLVNQRV9TSU1EX1JF
-R05PX1AtcmVnaXN0ZXJzLnBhdGNoIHwgIDEzICsrDQo+ID4gIC4uLi8wMDYxLUZpeC1mb3ItdW53
-aW5kZXItYWJvcnRzLW9uLWU1MDAucGF0Y2ggICAgIHwgMTYxDQo+ICsrKysrKysrKysrKysrKysr
-KysrKw0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDE4MCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9u
-cygtKSAgY3JlYXRlIG1vZGUNCj4gPiAxMDA2NDQNCj4gPiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Z2NjL2djYy00LjkvMDA2MC1Pbmx5LWFsbG93LWU1MDAtZG91YmxlLWluLVNQRV9TDQo+ID4gSU1E
-X1JFR05PX1AtcmVnaXN0ZXJzLnBhdGNoICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZ2NjL2djYy00LjkvMDA2MS1GaXgtZm9yLXVud2luZGVyLWFib3J0cy1v
-bi1lNTAwDQo+ID4gLnBhdGNoDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2djYy9nY2MtNC45LmluYw0KPiA+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9n
-Y2MtNC45LmluYw0KPiA+IGluZGV4IDI1NjhlOTkuLmM0ZWM0MGQgMTAwNjQ0DQo+ID4gLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtNC45LmluYw0KPiA+ICsrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9nY2MvZ2NjLTQuOS5pbmMNCj4gPiBAQCAtMiwxMSArMiwxMSBAQCByZXF1
-aXJlIGdjYy1jb21tb24uaW5jDQo+ID4NCj4gPiAgIyBUaGlyZCBkaWdpdCBpbiBQViBzaG91bGQg
-YmUgaW5jcmVtZW50ZWQgYWZ0ZXIgYSBtaW5vciByZWxlYXNlDQo+ID4NCj4gPiAtUFYgPSAiNC45
-LjEiDQo+ID4gK1BWID0gIjQuOS4yIg0KPiA+DQo+ID4gICMgQklOViBzaG91bGQgYmUgaW5jcmVt
-ZW50ZWQgdG8gYSByZXZpc2lvbiBhZnRlciBhIG1pbm9yIGdjYyByZWxlYXNlDQo+ID4NCj4gPiAt
-QklOViA9ICI0LjkuMSINCj4gPiArQklOViA9ICI0LjkuMiINCj4gDQo+IEkgY2FuJ3Qgc3BvdCB0
-aGUgdXBncmFkZSBmcm9tIDQuOS4xIHRvIDQuOS4yIGluIGhlcmUuIFRoZSBTUkNfVVJJIGNoZWNr
-c3Vtcw0KPiBhcmUgdW5jaGFuZ2VkIGZvciBleGFtcGxlPyBJcyB0aGVyZSBwYXJ0IG9mIHRoZSBw
-YXRjaCBtaXNzaW5nPw0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KPiANCj4gPg0KPiA+
-ICBGSUxFU0VYVFJBUEFUSFMgPS4gIiR7RklMRV9ESVJOQU1FfS9nY2MtNC45OiINCj4gPg0KPiA+
-IEBAIC02OSwxMSArNjksMTEgQEAgU1JDX1VSSSA9ICJcDQo+ID4gICAgICBmaWxlOi8vMDA1MS1l
-YWJpc3BlLnBhdGNoIFwNCj4gPg0KPiBmaWxlOi8vMDA1My1nY2MtZml4LXNlZ2ZhdWx0LWZyb20t
-Y2FsbGluZy1mcmVlLW9uLW5vbi1tYWxsb2MtZC1hLnBhdGNoIFwNCj4gPiAgICAgIGZpbGU6Ly8w
-MDU0LWdjYy1NYWtlZmlsZS5pbi1maXgtcGFyYWxsZWwtYnVpbGRpbmctZmFpbHVyZS5wYXRjaCBc
-DQo+ID4gLSAgICBmaWxlOi8vMDA1NS1QUi1ydGwtb3B0aW1pemF0aW9uLTYxODAxLnBhdGNoIFwN
-Cj4gPiAgICAgIGZpbGU6Ly8wMDU2LXRvcC1sZXZlbC1yZW9yZGVyX2djYy1idWctNjExNDQucGF0
-Y2ggXA0KPiA+IC0gICAgZmlsZTovLzAwNTctYWFyY2g2NC1jb25maWcucGF0Y2ggXA0KPiA+ICAg
-ICAgZmlsZTovLzAwNTgtZ2NjLXIyMTIxNzEucGF0Y2ggXA0KPiA+ICAgICAgZmlsZTovLzAwNTkt
-Z2NjLVBSLXJ0bC1vcHRpbWl6YXRpb24tNjMzNDgucGF0Y2ggXA0KPiA+ICsNCj4gZmlsZTovLzAw
-NjAtT25seS1hbGxvdy1lNTAwLWRvdWJsZS1pbi1TUEVfU0lNRF9SRUdOT19QLXJlZ2lzdGVycy5w
-YXRjaCBcDQo+ID4gKyAgICBmaWxlOi8vMDA2MS1GaXgtZm9yLXVud2luZGVyLWFib3J0cy1vbi1l
-NTAwLnBhdGNoIFwNCj4gPiAgIg0KPiA+ICBTUkNfVVJJW21kNXN1bV0gPSAiZmRkZjcxMzQ4NTQ2
-YWY1MjMzNTNiZDQzZDM0OTE5YzEiDQo+ID4gIFNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICJkMzM0
-NzgxYTEyNGFkYTZmMzhlNjNiNTQ1ZTJhM2I4YzIxODMwNDk1MTVhMWFiYWI2ZDUxM2YxMDlmMWQ3
-MTdlIg0KPiA+IEBAIC0xMjUsOCArMTI1LDggQEAgRVhUUkFfT0VDT05GX0lOVEVSTUVESUFURSA9
-ICJcDQo+ID4gRVhUUkFfT0VDT05GX2FwcGVuZF9saWJjLXVjbGliYyA9ICIgLS1kaXNhYmxlLWRl
-Y2ltYWwtZmxvYXQgIg0KPiA+DQo+ID4gIEVYVFJBX09FQ09ORl9QQVRIUyA9ICJcDQo+ID4gLSAg
-ICAtLXdpdGgtZ3h4LWluY2x1ZGUtZGlyPS9ub3QvZXhpc3R7dGFyZ2V0X2luY2x1ZGVkaXJ9L2Mr
-Ky8ke0JJTlZ9IFwNCj4gPiAtICAgIC0td2l0aC1zeXNyb290PS9ub3QvZXhpc3QgXA0KPiA+ICsN
-Cj4gLS13aXRoLWd4eC1pbmNsdWRlLWRpcj0ke1NUQUdJTkdfRElSX1RBUkdFVH0ke3RhcmdldF9p
-bmNsdWRlZGlyfS9jKysvJHtCSU4NCj4gVn0gXA0KPiA+ICsgICAgLS13aXRoLXN5c3Jvb3Q9JHtT
-VEFHSU5HX0RJUl9UQVJHRVR9IFwNCj4gPiAgICAgIC0td2l0aC1idWlsZC1zeXNyb290PSR7U1RB
-R0lOR19ESVJfVEFSR0VUfSBcICAiDQo+ID4NCj4gPiBkaWZmIC0tZ2l0DQo+ID4gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZ2NjL2djYy00LjkvMDA2MC1Pbmx5LWFsbG93LWU1MDAtZG91YmxlLWlu
-LVNQRQ0KPiA+IF9TSU1EX1JFR05PX1AtcmVnaXN0ZXJzLnBhdGNoDQo+ID4gYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ2NjL2djYy00LjkvMDA2MC1Pbmx5LWFsbG93LWU1MDAtZG91YmxlLWluLVNQ
-RQ0KPiA+IF9TSU1EX1JFR05PX1AtcmVnaXN0ZXJzLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAx
-MDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwLi44MTBmZjkwDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+
-ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLTQuOS8wMDYwLU9ubHktYWxsb3ct
-ZTUwMC1kb3VibGUtaW4NCj4gPiArKysgLVNQRV9TSU1EX1JFR05PX1AtcmVnaXN0ZXJzLnBhdGNo
-DQo+ID4gQEAgLTAsMCArMSwxMyBAQA0KPiA+ICtkaWZmIC0tZ2l0IGEvZ2NjL2NvbmZpZy9yczYw
-MDAvcnM2MDAwLmMgYi9nY2MvY29uZmlnL3JzNjAwMC9yczYwMDAuYw0KPiA+ICtpbmRleCA1MTJl
-N2Q2Li4yOTJmYjJjIDEwMDY0NA0KPiA+ICstLS0gYS9nY2MvY29uZmlnL3JzNjAwMC9yczYwMDAu
-Yw0KPiA+ICsrKysgYi9nY2MvY29uZmlnL3JzNjAwMC9yczYwMDAuYw0KPiA+ICtAQCAtMTcwNCw3
-ICsxNzA0LDcgQEAgcnM2MDAwX2hhcmRfcmVnbm9fbnJlZ3NfaW50ZXJuYWwgKGludCByZWdubywg
-ZW51bQ0KPiBtYWNoaW5lX21vZGUgbW9kZSkNCj4gPiArICAgICAgU0Ntb2RlIHNvIGFzIHRvIHBh
-c3MgdGhlIHZhbHVlIGNvcnJlY3RseSBpbiBhIHBhaXIgb2YNCj4gPiArICAgICAgcmVnaXN0ZXJz
-LiAgKi8NCj4gPiArICAgZWxzZSBpZiAoVEFSR0VUX0U1MDBfRE9VQkxFICYmIEZMT0FUX01PREVf
-UCAobW9kZSkgJiYgbW9kZSAhPSBTQ21vZGUNCj4gPiArLQkgICAmJiAhREVDSU1BTF9GTE9BVF9N
-T0RFX1AgKG1vZGUpKQ0KPiA+ICsrICAgICAgICAgICAmJiAhREVDSU1BTF9GTE9BVF9NT0RFX1Ag
-KG1vZGUpICYmIFNQRV9TSU1EX1JFR05PX1ANCj4gPiArKyAocmVnbm8pKQ0KPiA+ICsgICAgIHJl
-Z19zaXplID0gVU5JVFNfUEVSX0ZQX1dPUkQ7DQo+ID4gKw0KPiA+ICsgICBlbHNlDQo+ID4gZGlm
-ZiAtLWdpdA0KPiA+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtNC45LzAwNjEtRml4
-LWZvci11bndpbmRlci1hYm9ydHMtb24tZTUNCj4gPiAwMC5wYXRjaA0KPiA+IGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2djYy9nY2MtNC45LzAwNjEtRml4LWZvci11bndpbmRlci1hYm9ydHMtb24t
-ZTUNCj4gPiAwMC5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAw
-MDAwMC4uYzM3YTRjMw0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZ2NjL2djYy00LjkvMDA2MS1GaXgtZm9yLXVud2luZGVyLWFib3J0cy1vDQo+ID4g
-KysrIG4tZTUwMC5wYXRjaA0KPiA+IEBAIC0wLDAgKzEsMTYxIEBADQo+ID4gK2RpZmYgLS1naXQg
-YS9nY2MvZGVmYXVsdHMuaCBiL2djYy9kZWZhdWx0cy5oIGluZGV4IGY5NGFlMTcuLjgwYTc5OGYN
-Cj4gPiArMTAwNjQ0DQo+ID4gKy0tLSBhL2djYy9kZWZhdWx0cy5oDQo+ID4gKysrKyBiL2djYy9k
-ZWZhdWx0cy5oDQo+ID4gK0BAIC00MzgsNiArNDM4LDExIEBAIHNlZSB0aGUgZmlsZXMgQ09QWUlO
-RzMgYW5kIENPUFlJTkcuUlVOVElNRQ0KPiA+ICtyZXNwZWN0aXZlbHkuICBJZiBub3QsIHNlZSAg
-I2RlZmluZSBEV0FSRl9GUkFNRV9SRUdOVU0oUkVHKQ0KPiA+ICtEQlhfUkVHSVNURVJfTlVNQkVS
-IChSRUcpICAjZW5kaWYNCj4gPiArDQo+ID4gKysvKiBUaGUgbWFwcGluZyBmcm9tIGR3YXJmIENG
-QSByZWcgbnVtYmVyIHRvIGludGVybmFsIGR3YXJmIHJlZw0KPiA+ICsrbnVtYmVycy4gICovICNp
-Zm5kZWYgRFdBUkZfUkVHX1RPX1VOV0lORF9DT0xVTU4gI2RlZmluZQ0KPiA+ICsrRFdBUkZfUkVH
-X1RPX1VOV0lORF9DT0xVTU4oUkVHTk8pIChSRUdOTykgI2VuZGlmDQo+ID4gKysNCj4gPiArIC8q
-IE1hcCByZWdpc3RlciBudW1iZXJzIGhlbGQgaW4gdGhlIGNhbGwgZnJhbWUgaW5mbyB0aGF0IGdj
-YyBoYXMNCj4gPiArICAgIGNvbGxlY3RlZCB1c2luZyBEV0FSRl9GUkFNRV9SRUdOVU0gdG8gdGhv
-c2UgdGhhdCBzaG91bGQgYmUgb3V0cHV0IGluDQo+ID4gKyAgICAuZGVidWdfZnJhbWUgYW5kIC5l
-aF9mcmFtZS4gICovDQo+ID4gK2RpZmYgLS1naXQgYS9nY2MvZHdhcmYyY2ZpLmMgYi9nY2MvZHdh
-cmYyY2ZpLmMgaW5kZXggYWJjZGViMy4uNGU1OWRmZQ0KPiA+ICsxMDA2NDQNCj4gPiArLS0tIGEv
-Z2NjL2R3YXJmMmNmaS5jDQo+ID4gKysrKyBiL2djYy9kd2FyZjJjZmkuYw0KPiA+ICtAQCAtMjUy
-LDcgKzI1Miw2MCBAQCBpbml0X3JldHVybl9jb2x1bW5fc2l6ZSAoZW51bSBtYWNoaW5lX21vZGUg
-bW9kZSwgcnR4DQo+IG1lbSwgdW5zaWduZWQgaW50IGMpDQo+ID4gKyAJCSAgZ2VuX2ludF9tb2Rl
-IChzaXplLCBtb2RlKSk7DQo+ID4gKyB9DQo+ID4gKw0KPiA+ICstLyogR2VuZXJhdGUgY29kZSB0
-byBpbml0aWFsaXplIHRoZSByZWdpc3RlciBzaXplIHRhYmxlLiAgKi8NCj4gPiArKy8qIERhdGFz
-dHJ1Y3R1cmUgdXNlZCBieSBleHBhbmRfYnVpbHRpbl9pbml0X2R3YXJmX3JlZ19zaXplcyBhbmQN
-Cj4gPiArKyAgIGluaXRfb25lX2R3YXJmX3JlZ19zaXplIHRvIGNvbW11bmljYXRlIG9uIHdoYXQg
-aGFzIGJlZW4gZG9uZSBieSB0aGUNCj4gPiArKyAgIGxhdHRlci4gICovDQo+ID4gKysNCj4gPiAr
-K3R5cGVkZWYgc3RydWN0DQo+ID4gKyt7DQo+ID4gKysgIC8qIFdoZXRoZXIgdGhlIGR3YXJmIHJl
-dHVybiBjb2x1bW4gd2FzIGluaXRpYWxpemVkLiAgKi8NCj4gPiArKyAgYm9vbCB3cm90ZV9yZXR1
-cm5fY29sdW1uOw0KPiA+ICsrDQo+ID4gKysgIC8qIEZvciBlYWNoIGhhcmQgcmVnaXN0ZXIgUkVH
-Tk8sIHdoZXRoZXIgaW5pdF9vbmVfZHdhcmZfcmVnX3NpemUNCj4gPiArKyAgICAgd2FzIGdpdmVu
-IFJFR05PIHRvIHByb2Nlc3MgYWxyZWFkeS4gICovICBib29sIHByb2Nlc3NlZF9yZWdubw0KPiA+
-ICsrIFtGSVJTVF9QU0VVRE9fUkVHSVNURVJdOw0KPiA+ICsrDQo+ID4gKyt9IGluaXRfb25lX2R3
-YXJmX3JlZ19zdGF0ZTsNCj4gPiArKw0KPiA+ICsrLyogSGVscGVyIGZvciBleHBhbmRfYnVpbHRp
-bl9pbml0X2R3YXJmX3JlZ19zaXplcy4gIEdlbmVyYXRlIGNvZGUgdG8NCj4gPiArKyAgIGluaXRp
-YWxpemUgdGhlIGR3YXJmIHJlZ2lzdGVyIHNpemUgdGFibGUgZW50cnkgY29ycmVzcG9uZGluZyB0
-byByZWdpc3Rlcg0KPiA+ICsrICAgUkVHTk8gaW4gUkVHTU9ERS4gIFRBQkxFIGlzIHRoZSB0YWJs
-ZSBiYXNlIGFkZHJlc3MsIFNMT1RNT0RFIGlzIHRoZSBtb2RlDQo+IHRvDQo+ID4gKysgICB1c2Ug
-Zm9yIHRoZSBzaXplIGVudHJ5IHRvIGluaXRpYWxpemUsIGFuZCBJTklUX1NUQVRFIGlzIHRoZSBj
-b21tdW5pY2F0aW9uDQo+ID4gKysgICBkYXRhc3RydWN0dXJlIGNvbnZleWluZyB3aGF0IHdlJ3Jl
-IGRvaW5nIHRvIG91ciBjYWxsZXIuICAqLw0KPiA+ICsrDQo+ID4gKytzdGF0aWMNCj4gPiArK3Zv
-aWQgaW5pdF9vbmVfZHdhcmZfcmVnX3NpemUgKGludCByZWdubywgbWFjaGluZV9tb2RlIHJlZ21v
-ZGUsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJ0eCB0YWJsZSwgbWFjaGlu
-ZV9tb2RlIHNsb3Rtb2RlLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbml0
-X29uZV9kd2FyZl9yZWdfc3RhdGUgKmluaXRfc3RhdGUpIHsNCj4gPiArKyAgY29uc3QgdW5zaWdu
-ZWQgaW50IGRudW0gPSBEV0FSRl9GUkFNRV9SRUdOVU0gKHJlZ25vKTsNCj4gPiArKyAgY29uc3Qg
-dW5zaWduZWQgaW50IHJudW0gPSBEV0FSRjJfRlJBTUVfUkVHX09VVCAoZG51bSwgMSk7DQo+ID4g
-KysgIGNvbnN0IHVuc2lnbmVkIGludCBkY29sID0gRFdBUkZfUkVHX1RPX1VOV0lORF9DT0xVTU4g
-KHJudW0pOw0KPiA+ICsrDQo+ID4gKysgIGNvbnN0IEhPU1RfV0lERV9JTlQgc2xvdG9mZnNldCA9
-IGRjb2wgKiBHRVRfTU9ERV9TSVpFIChzbG90bW9kZSk7DQo+ID4gKysgY29uc3QgSE9TVF9XSURF
-X0lOVCByZWdzaXplID0gR0VUX01PREVfU0laRSAocmVnbW9kZSk7DQo+ID4gKysNCj4gPiArKyAg
-aW5pdF9zdGF0ZS0+cHJvY2Vzc2VkX3JlZ25vW3JlZ25vXSA9IHRydWU7DQo+ID4gKysNCj4gPiAr
-KyAgaWYgKHJudW0gPj0gRFdBUkZfRlJBTUVfUkVHSVNURVJTKQ0KPiA+ICsrICAgIHJldHVybjsN
-Cj4gPiArKw0KPiA+ICsrICBpZiAoZG51bSA9PSBEV0FSRl9GUkFNRV9SRVRVUk5fQ09MVU1OKQ0K
-PiA+ICsrICAgIHsNCj4gPiArKyAgICAgIGlmIChyZWdtb2RlID09IFZPSURtb2RlKQ0KPiA+ICsr
-ICAgICAgIHJldHVybjsNCj4gPiArKyAgICAgIGluaXRfc3RhdGUtPndyb3RlX3JldHVybl9jb2x1
-bW4gPSB0cnVlOw0KPiA+ICsrICAgIH0NCj4gPiArKw0KPiA+ICsrICBpZiAoc2xvdG9mZnNldCA8
-IDApDQo+ID4gKysgICAgcmV0dXJuOw0KPiA+ICsrDQo+ID4gKysgIGVtaXRfbW92ZV9pbnNuIChh
-ZGp1c3RfYWRkcmVzcyAodGFibGUsIHNsb3Rtb2RlLCBzbG90b2Zmc2V0KSwNCj4gPiArKyAgICAg
-ICAgICAgICAgICAgZ2VuX2ludF9tb2RlIChyZWdzaXplLCBzbG90bW9kZSkpOyB9DQo+ID4gKysN
-Cj4gPiArKy8qIEdlbmVyYXRlIGNvZGUgdG8gaW5pdGlhbGl6ZSB0aGUgZHdhcmYgcmVnaXN0ZXIg
-c2l6ZSB0YWJsZSBsb2NhdGVkDQo+ID4gKysgICBhdCB0aGUgcHJvdmlkZWQgQUREUkVTUy4gICov
-DQo+ID4gKw0KPiA+ICsgdm9pZA0KPiA+ICsgZXhwYW5kX2J1aWx0aW5faW5pdF9kd2FyZl9yZWdf
-c2l6ZXMgKHRyZWUgYWRkcmVzcykgQEAgLTI2MSwzNw0KPiA+ICsrMzE0LDQxIEBAIGV4cGFuZF9i
-dWlsdGluX2luaXRfZHdhcmZfcmVnX3NpemVzICh0cmVlIGFkZHJlc3MpDQo+ID4gKyAgIGVudW0g
-bWFjaGluZV9tb2RlIG1vZGUgPSBUWVBFX01PREUgKGNoYXJfdHlwZV9ub2RlKTsNCj4gPiArICAg
-cnR4IGFkZHIgPSBleHBhbmRfbm9ybWFsIChhZGRyZXNzKTsNCj4gPiArICAgcnR4IG1lbSA9IGdl
-bl9ydHhfTUVNIChCTEttb2RlLCBhZGRyKTsNCj4gPiArLSAgYm9vbCB3cm90ZV9yZXR1cm5fY29s
-dW1uID0gZmFsc2U7DQo+ID4gKysNCj4gPiArKyAgaW5pdF9vbmVfZHdhcmZfcmVnX3N0YXRlIGlu
-aXRfc3RhdGU7ICBtZW1zZXQgKChjaGFyICopJmluaXRfc3RhdGUsDQo+ID4gKysgMCwgc2l6ZW9m
-IChpbml0X3N0YXRlKSk7DQo+ID4gKw0KPiA+ICsgICBmb3IgKGkgPSAwOyBpIDwgRklSU1RfUFNF
-VURPX1JFR0lTVEVSOyBpKyspDQo+ID4gKyAgICAgew0KPiA+ICstICAgICAgdW5zaWduZWQgaW50
-IGRudW0gPSBEV0FSRl9GUkFNRV9SRUdOVU0gKGkpOw0KPiA+ICstICAgICAgdW5zaWduZWQgaW50
-IHJudW0gPSBEV0FSRjJfRlJBTUVfUkVHX09VVCAoZG51bSwgMSk7DQo+ID4gKysgICAgICBtYWNo
-aW5lX21vZGUgc2F2ZV9tb2RlOw0KPiA+ICsrICAgICAgcnR4IHNwYW47DQo+ID4gKw0KPiA+ICst
-ICAgICAgaWYgKHJudW0gPCBEV0FSRl9GUkFNRV9SRUdJU1RFUlMpDQo+ID4gKy0Jew0KPiA+ICst
-CSAgSE9TVF9XSURFX0lOVCBvZmZzZXQgPSBybnVtICogR0VUX01PREVfU0laRSAobW9kZSk7DQo+
-ID4gKy0JICBlbnVtIG1hY2hpbmVfbW9kZSBzYXZlX21vZGUgPSByZWdfcmF3X21vZGVbaV07DQo+
-ID4gKy0JICBIT1NUX1dJREVfSU5UIHNpemU7DQo+ID4gKysgICAgICAvKiBObyBwb2ludCBpbiBw
-cm9jZXNzaW5nIGEgcmVnaXN0ZXIgbXVsdGlwbGUgdGltZXMuICBUaGlzIGNvdWxkDQo+IGhhcHBl
-bg0KPiA+ICsrICAgICAgICAgd2l0aCByZWdpc3RlciBzcGFucywgZS5nLiB3aGVuIGEgcmVnIGlz
-IGZpcnN0IHByb2Nlc3NlZCBhcyBhIHBpZWNlDQo+IG9mDQo+ID4gKysgICAgICAgICBhIHNwYW4s
-IHRoZW4gYXMgYSByZWdpc3RlciBvbiBpdHMgb3duIGxhdGVyIG9uLiAgKi8NCj4gPiArDQo+ID4g
-Ky0JICBpZiAoSEFSRF9SRUdOT19DQUxMX1BBUlRfQ0xPQkJFUkVEIChpLCBzYXZlX21vZGUpKQ0K
-PiA+ICstCSAgICBzYXZlX21vZGUgPSBjaG9vc2VfaGFyZF9yZWdfbW9kZSAoaSwgMSwgdHJ1ZSk7
-DQo+ID4gKy0JICBpZiAoZG51bSA9PSBEV0FSRl9GUkFNRV9SRVRVUk5fQ09MVU1OKQ0KPiA+ICst
-CSAgICB7DQo+ID4gKy0JICAgICAgaWYgKHNhdmVfbW9kZSA9PSBWT0lEbW9kZSkNCj4gPiArLQkJ
-Y29udGludWU7DQo+ID4gKy0JICAgICAgd3JvdGVfcmV0dXJuX2NvbHVtbiA9IHRydWU7DQo+ID4g
-Ky0JICAgIH0NCj4gPiArLQkgIHNpemUgPSBHRVRfTU9ERV9TSVpFIChzYXZlX21vZGUpOw0KPiA+
-ICstCSAgaWYgKG9mZnNldCA8IDApDQo+ID4gKy0JICAgIGNvbnRpbnVlOw0KPiA+ICsrICAgICAg
-aWYgKGluaXRfc3RhdGUucHJvY2Vzc2VkX3JlZ25vW2ldKQ0KPiA+ICsrICAgICAgICBjb250aW51
-ZTsNCj4gPiArDQo+ID4gKy0JICBlbWl0X21vdmVfaW5zbiAoYWRqdXN0X2FkZHJlc3MgKG1lbSwg
-bW9kZSwgb2Zmc2V0KSwNCj4gPiArLQkJCSAgZ2VuX2ludF9tb2RlIChzaXplLCBtb2RlKSk7DQo+
-ID4gKysgICAgICBzYXZlX21vZGUgPSByZWdfcmF3X21vZGVbaV07DQo+ID4gKysgICAgICBpZiAo
-SEFSRF9SRUdOT19DQUxMX1BBUlRfQ0xPQkJFUkVEIChpLCBzYXZlX21vZGUpKQ0KPiA+ICsrICAg
-ICAgICBzYXZlX21vZGUgPSBjaG9vc2VfaGFyZF9yZWdfbW9kZSAoaSwgMSwgdHJ1ZSk7DQo+ID4g
-KysNCj4gPiArKyAgICAgIHNwYW4gPSB0YXJnZXRtLmR3YXJmX3JlZ2lzdGVyX3NwYW4gKGdlbl9y
-dHhfUkVHIChzYXZlX21vZGUsIGkpKTsNCj4gPiArKyAgICAgIGlmICghc3BhbikNCj4gPiArKyAg
-ICAgICAgaW5pdF9vbmVfZHdhcmZfcmVnX3NpemUgKGksIHNhdmVfbW9kZSwgbWVtLCBtb2RlLCAm
-aW5pdF9zdGF0ZSk7DQo+ID4gKysgICAgICBlbHNlDQo+ID4gKysgICAgICAgIHsNCj4gPiArKyAg
-ICAgICAgICAgZm9yIChpbnQgc2kgPSAwOyBzaSA8IFhWRUNMRU4gKHNwYW4sIDApOyBzaSsrKQ0K
-PiA+ICsrCSAgICB7DQo+ID4gKysgICAgICAgICAgICAgICBydHggcmVnID0gWFZFQ0VYUCAoc3Bh
-biwgMCwgc2kpOw0KPiA+ICsrICAgICAgICAgICAgICAgaW5pdF9vbmVfZHdhcmZfcmVnX3NpemUN
-Cj4gPiArKyAgICAgICAgICAgICAgICAgKFJFR05PIChyZWcpLCBHRVRfTU9ERSAocmVnKSwgbWVt
-LCBtb2RlLCAmaW5pdF9zdGF0ZSk7DQo+ID4gKysgICAgICAgICAgICB9DQo+ID4gKyAJfQ0KPiA+
-ICsgICAgIH0NCj4gPiArDQo+ID4gKy0gIGlmICghd3JvdGVfcmV0dXJuX2NvbHVtbikNCj4gPiAr
-KyAgaWYgKCFpbml0X3N0YXRlLndyb3RlX3JldHVybl9jb2x1bW4pDQo+ID4gKyAgICAgaW5pdF9y
-ZXR1cm5fY29sdW1uX3NpemUgKG1vZGUsIG1lbSwgRFdBUkZfRlJBTUVfUkVUVVJOX0NPTFVNTik7
-DQo+ID4gKw0KPiA+ICsgI2lmZGVmIERXQVJGX0FMVF9GUkFNRV9SRVRVUk5fQ09MVU1OIGRpZmYg
-LS1naXQNCj4gPiArYS9saWJnY2MvdW53aW5kLWR3Mi5jIGIvbGliZ2NjL3Vud2luZC1kdzIuYyBp
-bmRleCA1NWZjNGJjLi4zN2YwYWUyDQo+ID4gKzEwMDY0NA0KPiA+ICstLS0gYS9saWJnY2MvdW53
-aW5kLWR3Mi5jDQo+ID4gKysrKyBiL2xpYmdjYy91bndpbmQtZHcyLmMNCj4gPiArQEAgLTU1LDEw
-ICs1NSw2IEBADQo+ID4gKyAjZGVmaW5lIFBSRV9HQ0MzX0RXQVJGX0ZSQU1FX1JFR0lTVEVSUyBE
-V0FSRl9GUkFNRV9SRUdJU1RFUlMgICNlbmRpZg0KPiA+ICsNCj4gPiArLSNpZm5kZWYgRFdBUkZf
-UkVHX1RPX1VOV0lORF9DT0xVTU4NCj4gPiArLSNkZWZpbmUgRFdBUkZfUkVHX1RPX1VOV0lORF9D
-T0xVTU4oUkVHTk8pIChSRUdOTykgLSNlbmRpZg0KPiA+ICstDQo+ID4gKyAvKiA/Pz8gRm9yIHRo
-ZSBwdWJsaWMgZnVuY3Rpb24gaW50ZXJmYWNlcywgd2UgdGVuZCB0byBnY2NfYXNzZXJ0IHRoYXQg
-dGhlDQo+ID4gKyAgICBjb2x1bW4gbnVtYmVycyBhcmUgaW4gcmFuZ2UuICBGb3IgdGhlIGR3YXJm
-MiB1bndpbmQgaW5mbyB0aGlzIGRvZXMgaGFwcGVuLA0KPiA+ICsgICAgYWx0aG91Z2ggc28gZmFy
-IGluIGEgY2FzZSB0aGF0IGRvZXNuJ3QgYWN0dWFsbHkgbWF0dGVyLg0KPiA+IC0tDQo+ID4gMS44
-LjQuMg0KPiA+DQo+IA0KDQo=
+Hi Peter
+
+> As gcc is (IMO) one of the most critical components of Yocto I think we n=
+eed
+> to be very clear about what changes are being made to it and why.
+>=20
+
+Yes ,It does.
+
+> In addition to missing SOB lines, these patches at a minimum should refer=
+ence
+> the upstream bug that they supposedly patch.  That would be
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D63908
+
+I got it.
+
+>=20
+> Ideally, the patch would be taken from upstream, being created by
+> git-format-patch with the SHA1 of the relevant change as retrieved from:
+> git://gcc.gnu.org/git/gcc.git
+
+Yes, but the patches created by git-format-patch from upstream can't be app=
+lied to 4.9 branch directly.
+I tried to backport the patches to 4.9.1 for minimum patch, But I failed.
+
+>=20
+> It worries me that these patches, though present in upstream trunk, have =
+not
+> been back-ported to gcc-4_9-branch.  There may be a reason for that, and =
+the
+> fact backports have not (yet) been done should be noted in the OE patch h=
+eader.
+
+It does make sense. I hope these patches can be backported to gcc-4_9-branc=
+h by gcc member.
+But I didn't get the answer from gcc Bugzilla.
+I think the https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6824 is a a=
+ serious bug. So I did it by myself. :)
+
+
+
+Cheers,
+Lei
+
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Pe=
+ter
+> A. Bigot
+> Sent: Monday, January 12, 2015 8:38 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] gcc: upgrade to 4.9.2 and fix the bug #682=
+4
+>=20
+> On 01/11/2015 09:12 PM, Lei Maohui wrote:
+> > fix the yocto bug #6824
+> > backport from gcc
+> >
+> > Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> > ---
+> >   meta/recipes-devtools/gcc/gcc-4.9.inc              |  12 +-
+> >   ...e500-double-in-SPE_SIMD_REGNO_P-registers.patch |  13 ++
+> >   .../0061-Fix-for-unwinder-aborts-on-e500.patch     | 161
+> +++++++++++++++++++++
+> >   3 files changed, 180 insertions(+), 6 deletions(-)
+> >   create mode 100644
+> meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE_SIMD=
+_
+> REGNO_P-registers.patch
+> >   create mode 100644
+> > meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e500
+> > .patch
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> > b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> > index 2568e99..c4ec40d 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> > @@ -2,11 +2,11 @@ require gcc-common.inc
+> >
+> >   # Third digit in PV should be incremented after a minor release
+> >
+> > -PV =3D "4.9.1"
+> > +PV =3D "4.9.2"
+> >
+> >   # BINV should be incremented to a revision after a minor gcc release
+> >
+> > -BINV =3D "4.9.1"
+> > +BINV =3D "4.9.2"
+> >
+> >   FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/gcc-4.9:"
+> >
+> > @@ -69,11 +69,11 @@ SRC_URI =3D "\
+> >       file://0051-eabispe.patch \
+> >
+> file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+> >       file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+> > -    file://0055-PR-rtl-optimization-61801.patch \
+> >       file://0056-top-level-reorder_gcc-bug-61144.patch \
+> > -    file://0057-aarch64-config.patch \
+> >       file://0058-gcc-r212171.patch \
+> >       file://0059-gcc-PR-rtl-optimization-63348.patch \
+> > +
+> file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+> > +    file://0061-Fix-for-unwinder-aborts-on-e500.patch \
+> >   "
+> >   SRC_URI[md5sum] =3D "fddf71348546af523353bd43d34919c1"
+> >   SRC_URI[sha256sum] =3D
+> "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+> > @@ -125,8 +125,8 @@ EXTRA_OECONF_INTERMEDIATE =3D "\
+> >   EXTRA_OECONF_append_libc-uclibc =3D " --disable-decimal-float "
+> >
+> >   EXTRA_OECONF_PATHS =3D "\
+> > -    --with-gxx-include-dir=3D/not/exist{target_includedir}/c++/${BINV}=
+ \
+> > -    --with-sysroot=3D/not/exist \
+> > +
+> --with-gxx-include-dir=3D${STAGING_DIR_TARGET}${target_includedir}/c++/${=
+BIN
+> V} \
+> > +    --with-sysroot=3D${STAGING_DIR_TARGET} \
+> >       --with-build-sysroot=3D${STAGING_DIR_TARGET} \
+> >   "
+> >
+> > diff --git
+> > a/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE
+> > _SIMD_REGNO_P-registers.patch
+> > b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in-SPE
+> > _SIMD_REGNO_P-registers.patch
+>=20
+> As gcc is (IMO) one of the most critical components of Yocto I think we n=
+eed
+> to be very clear about what changes are being made to it and why.
+>=20
+> In addition to missing SOB lines, these patches at a minimum should refer=
+ence
+> the upstream bug that they supposedly patch.  That would be
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D63908
+>=20
+> Ideally, the patch would be taken from upstream, being created by
+> git-format-patch with the SHA1 of the relevant change as retrieved from:
+> git://gcc.gnu.org/git/gcc.git
+>=20
+> It worries me that these patches, though present in upstream trunk, have =
+not
+> been back-ported to gcc-4_9-branch.  There may be a reason for that, and =
+the
+> fact backports have not (yet) been done should be noted in the OE patch h=
+eader.
+>=20
+> This first patch is apparently upstream commit
+> 5c0092070253113cf0d9c45eacc884b3ecc34d81.
+>=20
+> > new file mode 100644
+> > index 0000000..810ff90
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-Only-allow-e500-double-in
+> > +++ -SPE_SIMD_REGNO_P-registers.patch
+> > @@ -0,0 +1,13 @@
+> > +diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
+> > +index 512e7d6..292fb2c 100644
+> > +--- a/gcc/config/rs6000/rs6000.c
+> > ++++ b/gcc/config/rs6000/rs6000.c
+> > +@@ -1704,7 +1704,7 @@ rs6000_hard_regno_nregs_internal (int regno, enu=
+m
+> machine_mode mode)
+> > +      SCmode so as to pass the value correctly in a pair of
+> > +      registers.  */
+> > +   else if (TARGET_E500_DOUBLE && FLOAT_MODE_P (mode) && mode !=3D SCm=
+ode
+> > +-	   && !DECIMAL_FLOAT_MODE_P (mode))
+> > ++           && !DECIMAL_FLOAT_MODE_P (mode) && SPE_SIMD_REGNO_P
+> > ++ (regno))
+> > +     reg_size =3D UNITS_PER_FP_WORD;
+> > +
+> > +   else
+> > diff --git
+> > a/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e5
+> > 00.patch
+> > b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-on-e5
+> > 00.patch
+> > new file mode 100644
+>=20
+> This patch appears to combine c0235a33de8c4f78cce35b2a8c2035c83fe1bd14
+> with 4fd39f1329379e00f958394adde6be96f0caf21f.
+>=20
+> > index 0000000..c37a4c3
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/gcc/gcc-4.9/0061-Fix-for-unwinder-aborts-o
+> > +++ n-e500.patch
+> > @@ -0,0 +1,161 @@
+> > +diff --git a/gcc/defaults.h b/gcc/defaults.h index f94ae17..80a798f
+> > +100644
+> > +--- a/gcc/defaults.h
+> > ++++ b/gcc/defaults.h
+> > +@@ -438,6 +438,11 @@ see the files COPYING3 and COPYING.RUNTIME
+> > +respectively.  If not, see  #define DWARF_FRAME_REGNUM(REG)
+> > +DBX_REGISTER_NUMBER (REG)  #endif
+> > +
+> > ++/* The mapping from dwarf CFA reg number to internal dwarf reg
+> > ++numbers.  */ #ifndef DWARF_REG_TO_UNWIND_COLUMN #define
+> > ++DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO) #endif
+> > ++
+> > + /* Map register numbers held in the call frame info that gcc has
+> > +    collected using DWARF_FRAME_REGNUM to those that should be output =
+in
+> > +    .debug_frame and .eh_frame.  */
+> > +diff --git a/gcc/dwarf2cfi.c b/gcc/dwarf2cfi.c index abcdeb3..4e59dfe
+> > +100644
+> > +--- a/gcc/dwarf2cfi.c
+> > ++++ b/gcc/dwarf2cfi.c
+> > +@@ -252,7 +252,60 @@ init_return_column_size (enum machine_mode mode, =
+rtx
+> mem, unsigned int c)
+> > + 		  gen_int_mode (size, mode));
+> > + }
+> > +
+> > +-/* Generate code to initialize the register size table.  */
+> > ++/* Datastructure used by expand_builtin_init_dwarf_reg_sizes and
+> > ++   init_one_dwarf_reg_size to communicate on what has been done by th=
+e
+> > ++   latter.  */
+> > ++
+> > ++typedef struct
+> > ++{
+> > ++  /* Whether the dwarf return column was initialized.  */
+> > ++  bool wrote_return_column;
+> > ++
+> > ++  /* For each hard register REGNO, whether init_one_dwarf_reg_size
+> > ++     was given REGNO to process already.  */  bool processed_regno
+> > ++ [FIRST_PSEUDO_REGISTER];
+> > ++
+> > ++} init_one_dwarf_reg_state;
+> > ++
+> > ++/* Helper for expand_builtin_init_dwarf_reg_sizes.  Generate code to
+> > ++   initialize the dwarf register size table entry corresponding to re=
+gister
+> > ++   REGNO in REGMODE.  TABLE is the table base address, SLOTMODE is th=
+e mode
+> to
+> > ++   use for the size entry to initialize, and INIT_STATE is the commun=
+ication
+> > ++   datastructure conveying what we're doing to our caller.  */
+> > ++
+> > ++static
+> > ++void init_one_dwarf_reg_size (int regno, machine_mode regmode,
+> > ++                             rtx table, machine_mode slotmode,
+> > ++                             init_one_dwarf_reg_state *init_state) {
+> > ++  const unsigned int dnum =3D DWARF_FRAME_REGNUM (regno);
+> > ++  const unsigned int rnum =3D DWARF2_FRAME_REG_OUT (dnum, 1);
+> > ++  const unsigned int dcol =3D DWARF_REG_TO_UNWIND_COLUMN (rnum);
+> > ++
+> > ++  const HOST_WIDE_INT slotoffset =3D dcol * GET_MODE_SIZE (slotmode);
+> > ++ const HOST_WIDE_INT regsize =3D GET_MODE_SIZE (regmode);
+> > ++
+> > ++  init_state->processed_regno[regno] =3D true;
+> > ++
+> > ++  if (rnum >=3D DWARF_FRAME_REGISTERS)
+> > ++    return;
+> > ++
+> > ++  if (dnum =3D=3D DWARF_FRAME_RETURN_COLUMN)
+> > ++    {
+> > ++      if (regmode =3D=3D VOIDmode)
+> > ++       return;
+> > ++      init_state->wrote_return_column =3D true;
+> > ++    }
+> > ++
+> > ++  if (slotoffset < 0)
+> > ++    return;
+> > ++
+> > ++  emit_move_insn (adjust_address (table, slotmode, slotoffset),
+> > ++                 gen_int_mode (regsize, slotmode)); }
+> > ++
+> > ++/* Generate code to initialize the dwarf register size table located
+> > ++   at the provided ADDRESS.  */
+> > +
+> > + void
+> > + expand_builtin_init_dwarf_reg_sizes (tree address) @@ -261,37
+> > ++314,41 @@ expand_builtin_init_dwarf_reg_sizes (tree address)
+> > +   enum machine_mode mode =3D TYPE_MODE (char_type_node);
+> > +   rtx addr =3D expand_normal (address);
+> > +   rtx mem =3D gen_rtx_MEM (BLKmode, addr);
+> > +-  bool wrote_return_column =3D false;
+> > ++
+> > ++  init_one_dwarf_reg_state init_state;  memset ((char *)&init_state,
+> > ++ 0, sizeof (init_state));
+> > +
+> > +   for (i =3D 0; i < FIRST_PSEUDO_REGISTER; i++)
+> > +     {
+> > +-      unsigned int dnum =3D DWARF_FRAME_REGNUM (i);
+> > +-      unsigned int rnum =3D DWARF2_FRAME_REG_OUT (dnum, 1);
+> > ++      machine_mode save_mode;
+> > ++      rtx span;
+> > +
+> > +-      if (rnum < DWARF_FRAME_REGISTERS)
+> > +-	{
+> > +-	  HOST_WIDE_INT offset =3D rnum * GET_MODE_SIZE (mode);
+> > +-	  enum machine_mode save_mode =3D reg_raw_mode[i];
+> > +-	  HOST_WIDE_INT size;
+> > ++      /* No point in processing a register multiple times.  This coul=
+d
+> happen
+> > ++         with register spans, e.g. when a reg is first processed as a=
+ piece
+> of
+> > ++         a span, then as a register on its own later on.  */
+> > +
+> > +-	  if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> > +-	    save_mode =3D choose_hard_reg_mode (i, 1, true);
+> > +-	  if (dnum =3D=3D DWARF_FRAME_RETURN_COLUMN)
+> > +-	    {
+> > +-	      if (save_mode =3D=3D VOIDmode)
+> > +-		continue;
+> > +-	      wrote_return_column =3D true;
+> > +-	    }
+> > +-	  size =3D GET_MODE_SIZE (save_mode);
+> > +-	  if (offset < 0)
+> > +-	    continue;
+> > ++      if (init_state.processed_regno[i])
+> > ++        continue;
+> > +
+> > +-	  emit_move_insn (adjust_address (mem, mode, offset),
+> > +-			  gen_int_mode (size, mode));
+> > ++      save_mode =3D reg_raw_mode[i];
+> > ++      if (HARD_REGNO_CALL_PART_CLOBBERED (i, save_mode))
+> > ++        save_mode =3D choose_hard_reg_mode (i, 1, true);
+> > ++
+> > ++      span =3D targetm.dwarf_register_span (gen_rtx_REG (save_mode, i=
+));
+> > ++      if (!span)
+> > ++        init_one_dwarf_reg_size (i, save_mode, mem, mode, &init_state=
+);
+> > ++      else
+> > ++        {
+> > ++           for (int si =3D 0; si < XVECLEN (span, 0); si++)
+> > ++	    {
+> > ++               rtx reg =3D XVECEXP (span, 0, si);
+> > ++               init_one_dwarf_reg_size
+> > ++                 (REGNO (reg), GET_MODE (reg), mem, mode, &init_state=
+);
+> > ++            }
+> > + 	}
+> > +     }
+> > +
+> > +-  if (!wrote_return_column)
+> > ++  if (!init_state.wrote_return_column)
+> > +     init_return_column_size (mode, mem, DWARF_FRAME_RETURN_COLUMN);
+> > +
+> > + #ifdef DWARF_ALT_FRAME_RETURN_COLUMN diff --git
+> > +a/libgcc/unwind-dw2.c b/libgcc/unwind-dw2.c index 55fc4bc..37f0ae2
+> > +100644
+> > +--- a/libgcc/unwind-dw2.c
+> > ++++ b/libgcc/unwind-dw2.c
+> > +@@ -55,10 +55,6 @@
+> > + #define PRE_GCC3_DWARF_FRAME_REGISTERS DWARF_FRAME_REGISTERS  #endif
+> > +
+> > +-#ifndef DWARF_REG_TO_UNWIND_COLUMN
+> > +-#define DWARF_REG_TO_UNWIND_COLUMN(REGNO) (REGNO) -#endif
+> > +-
+> > + /* ??? For the public function interfaces, we tend to gcc_assert that=
+ the
+> > +    column numbers are in range.  For the dwarf2 unwind info this does=
+ happen,
+> > +    although so far in a case that doesn't actually matter.
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
