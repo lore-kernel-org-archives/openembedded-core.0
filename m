@@ -1,31 +1,36 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 3544D65D3B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 769C865D3B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 12:57:59 +0000 (UTC)
-Received: from [12.20.171.104] (port=47789 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YB12i-0001uQ-Vy for openembedded-core@lists.openembedded.org;
-	Tue, 13 Jan 2015 07:57:57 -0500
-Date: Tue, 13 Jan 2015 04:57:54 -0800 (PST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1501130453440.21773@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Tue, 13 Jan 2015 13:02:15 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id bm13so1914246qab.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Jan 2015 05:02:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=eyxN87/RdVs5HwdJDEfqOs1ih8+m9Yolv3/5X/NNWB4=;
+	b=aONGzUlWHBVjHvkkPajvaxKNcXAJkPxgajNtxHU9BfhpngcvdJhlJuSK3wzCfC/gr6
+	xElppVrpOrcCmHXFH/2yNCCZMfFGb4VVtMgmqKQbA42C/izvPOLSs6H5vDaJxu67A5cW
+	HmFVPF/0Veu+cD5h3RyK/kWRNbxiogtUE6VNlRr3z6+mfMLVwMSqWXBGfRk7MftEAclx
+	CACZOM40VlcBrCXP0cTtr0W1NQCDiGkHUfbY+v9G9Yb4XoS73SCW1ztpzfmH5zy2pA5E
+	uWF8afzH4uLL9uv68ZyINnyCg7AHfRgVx6PeHbrEYewrIX0TkTeAeVPUyLBIbKNE8+0B
+	63ww==
+X-Gm-Message-State: ALoCoQlP9GgWcqVBAsVZGUX5mJDhh2lO1mQ2R5o6M9/A6tbUxkXuhG0KMpVRkIkYB9FbaTn2hvqr
+X-Received: by 10.224.92.205 with SMTP id s13mr58911754qam.52.1421154136092;
+	Tue, 13 Jan 2015 05:02:16 -0800 (PST)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: in sysfsutils_2.1.0.bb, is 'S = "${WORKDIR}/sysfsutils-${PV}"' redundant?
+Received: by 10.140.96.166 with HTTP; Tue, 13 Jan 2015 05:01:55 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.11.1501130453440.21773@localhost>
+References: <alpine.LFD.2.11.1501130453440.21773@localhost>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Jan 2015 13:01:55 +0000
+Message-ID: <CAJTo0LZSPW=igWoL+-1+dzrMB1_Cr54FOxtaq6H0XWJQmRQKAw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: in sysfsutils_2.1.0.bb, is 'S = "${WORKDIR}/sysfsutils-${PV}"' redundant?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 12:58:03 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 13 Jan 2015 13:02:27 -0000
+Content-Type: multipart/alternative; boundary=089e015375e4742519050c883b21
 
+--089e015375e4742519050c883b21
+Content-Type: text/plain; charset=UTF-8
 
-  more nitpickery, but was demonstrating OE recipe structure to class
-yesterday, arbitrarily picked sysfsutils_2.1.0.bb, going through it
-line by line, and a sharp-eyed student noticed this line:
+On 13 January 2015 at 12:57, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-S = "${WORKDIR}/sysfsutils-${PV}"
+> setting S that way in the recipe obviously doesn't do any
+> harm, but is it accurate to say that, at least in this case, it's
+> unnecessary?
+>
 
-and wondered what it was doing there, since bitbake.conf sets the
-default of:
+Correct.  A patch from the student is welcome. :)
 
-S = "${WORKDIR}/${BP}"
+Ross
 
-and since, by default:
+--089e015375e4742519050c883b21
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-BP = "${BPN}-${PV}"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 January 2015 at 12:57, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2qy" cla=
+ss=3D"a3s" style=3D"overflow:hidden"> setting S that way in the recipe obvi=
+ously doesn&#39;t do any<br>
+harm, but is it accurate to say that, at least in this case, it&#39;s<br>
+unnecessary?</div></blockquote></div><br>Correct.=C2=A0 A patch from the st=
+udent is welcome. :)</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
 
-the source directory for sysfsutils would already appear to be
-correct. setting S that way in the recipe obviously doesn't do any
-harm, but is it accurate to say that, at least in this case, it's
-unnecessary?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+--089e015375e4742519050c883b21--
