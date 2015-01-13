@@ -1,29 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 59C7660670
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D587162E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 01:27:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0D1RWLt001313
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 12 Jan 2015 17:27:32 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 12 Jan 2015 17:27:32 -0800
-Message-ID: <54B47482.5070001@windriver.com>
-Date: Tue, 13 Jan 2015 09:27:30 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue, 13 Jan 2015 02:09:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208,217";a="55956962"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2015 10:06:09 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0D290DI026239;
+	Tue, 13 Jan 2015 10:09:00 +0800
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0181.006; Tue, 13 Jan 2015 10:09:43 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: Jacob Kroon <jacob.kroon@gmail.com>, Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
+Thread-Index: AQHQLkexDwHQJ4pJNUG+BJRPhJbvrJy9RQ1A
+Date: Tue, 13 Jan 2015 02:09:43 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDAE5174@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1421032337-50265-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<CAPbeDCmTJe1TgY4kYG0+pEyz7LbhiOreMdeSsczFa6R_5a2Rzg@mail.gmail.com>
+In-Reply-To: <CAPbeDCmTJe1TgY4kYG0+pEyz7LbhiOreMdeSsczFa6R_5a2Rzg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.48]
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-References: <1420633589.25779.69.camel@linuxfoundation.org>
-	<54B472AB.1010601@windriver.com>
-In-Reply-To: <54B472AB.1010601@windriver.com>
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: Re: RFC: Further kernel build process changes?
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: upgrade to 4.9.2 and fix the bug #6824
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,280 +41,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 01:27:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Jan 2015 02:09:42 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_1B56A49860EB2D45ADE3731B15C959FDAE5174G08CNEXMBPEKD01g0_"
 
+--_000_1B56A49860EB2D45ADE3731B15C959FDAE5174G08CNEXMBPEKD01g0_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+SGkgSmFjb2IsIE1hcnRpbg0KDQpJIHRoaW5rIEkgIGJyb3VnaHQgIGJhY2sgdGhlIG9sZCB2ZXJz
+aW9uIHRoaW5ncyBhYm91dCB0aGUgc3lzcm9vdC4gSeKAmW0gc29ycnkuDQpJdCBzaG91bGQgYmUg
+dGhlIGZvbGxvd2luZzoNCg0KRVhUUkFfT0VDT05GX1BBVEhTID0gIlwNCiAgICAtLXdpdGgtZ3h4
+LWluY2x1ZGUtZGlyPS9ub3QvZXhpc3R7dGFyZ2V0X2luY2x1ZGVkaXJ9L2MrKy8ke0JJTlZ9IFwN
+CiAgICAtLXdpdGgtc3lzcm9vdD0vbm90L2V4aXN0IFwNCiAgICAtLXdpdGgtYnVpbGQtc3lzcm9v
+dD0ke1NUQUdJTkdfRElSX1RBUkdFVH0gXA0KIg0KDQoNCkZyb206IEphY29iIEtyb29uIFttYWls
+dG86amFjb2Iua3Jvb25AZ21haWwuY29tXQ0KU2VudDogTW9uZGF5LCBKYW51YXJ5IDEyLCAyMDE1
+IDU6MTEgUE0NClRvOiBMZWksIE1hb2h1aS/pm7cg6IyC5oWnDQpDYzogb3BlbmVtYmVkZGVkLWNv
+cmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnY2M6IHVwZ3JhZGUgdG8gNC45LjIg
+YW5kIGZpeCB0aGUgYnVnICM2ODI0DQoNCkhpLA0KDQpPbiBNb24sIEphbiAxMiwgMjAxNSBhdCA0
+OjEyIEFNLCBMZWkgTWFvaHVpIDxsZWltYW9odWlAY24uZnVqaXRzdS5jb208bWFpbHRvOmxlaW1h
+b2h1aUBjbi5mdWppdHN1LmNvbT4+IHdyb3RlOg0KPHNuaXA+DQoNCiBFWFRSQV9PRUNPTkZfUEFU
+SFMgPSAiXA0KLSAgICAtLXdpdGgtZ3h4LWluY2x1ZGUtZGlyPS9ub3QvZXhpc3R7dGFyZ2V0X2lu
+Y2x1ZGVkaXJ9L2MrKy8ke0JJTlZ9IFwNCi0gICAgLS13aXRoLXN5c3Jvb3Q9L25vdC9leGlzdCBc
+DQorICAgIC0td2l0aC1neHgtaW5jbHVkZS1kaXI9JHtTVEFHSU5HX0RJUl9UQVJHRVR9JHt0YXJn
+ZXRfaW5jbHVkZWRpcn0vYysrLyR7QklOVn0gXA0KKyAgICAtLXdpdGgtc3lzcm9vdD0ke1NUQUdJ
+TkdfRElSX1RBUkdFVH0gXA0KICAgICAtLXdpdGgtYnVpbGQtc3lzcm9vdD0ke1NUQUdJTkdfRElS
+X1RBUkdFVH0gXA0KICINCg0KVW5sZXNzIHRoaW5ncyBoYXZlIGNoYW5nZWQsIHRoZSBzeXNyb290
+IGlzIHN1cHBvc2VkIHRvIGJlIHBvaXNvbmVkIGJ5IGRlZmF1bHQsIHNlZSBjb21taXQgMDRiNzI1
+NTExYTUwNWM1ODJhM2FiZGY2M2QwOTY5NjdmMDMyMDc3OSBpbiBPRS1Db3JlLg0K
 
-On 01/13/2015 09:19 AM, Robert Yang wrote:
->
->
-> On 01/07/2015 08:26 PM, Richard Purdie wrote:
->> I'm hearing (somewhat justified) complaints that the recent kernel
->> changes have destablised builds. Part of the question is whether the
->> recent changes are as clear to users as they could be, we're also
->> running into some problems due to mixing kernel source and build
->> artefacts in some places and not in others.
->
-> Currently, the kernel_do_install directly installs the files to sysroot,
-> then we will get the errors like the following when rebuild:
->
-> |   Using /buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel as
-> source for kernel
-> |   /buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel is not
-> clean, please run 'make mrproper'
-> |   in the '/buildarea/lyang1/testup3/tmp/sysroots/qemux86-64/usr/src/kernel'
-> directory.
-> | make[3]: Nothing to be done for `relocs'.
->
-> How about we add a kerne-src.rpm which includes the usr/src/kernel, and use
+--_000_1B56A49860EB2D45ADE3731B15C959FDAE5174G08CNEXMBPEKD01g0_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I just noticed that we have this which was added on Dec. 5th.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Ik1TIFBHb3RoaWMiOw0KCXBhbm9zZS0xOjIg
+MTEgNiAwIDcgMiA1IDggMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6VGFob21hOw0K
+CXBhbm9zZS0xOjIgMTEgNiA0IDMgNSA0IDQgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1p
+bHk6IlxA5a6L5L2TIjsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAxO30NCkBmb250LWZh
+Y2UNCgl7Zm9udC1mYW1pbHk6IlxATVMgUEdvdGhpYyI7DQoJcGFub3NlLTE6MiAxMSA2IDAgNyAy
+IDUgOCAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29O
+b3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBtbTsNCgltYXJnaW4tYm90dG9tOi4wMDAx
+cHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiTVMgUEdvdGhpYyIsInNhbnMt
+c2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0
+ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
+CWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxT
+dHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJB
+cmlhbCIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5hcHBsZS1jb252ZXJ0
+ZWQtc3BhY2UNCgl7bXNvLXN0eWxlLW5hbWU6YXBwbGUtY29udmVydGVkLXNwYWNlO30NCnNwYW4u
+aGlnaC1saWdodA0KCXttc28tc3R5bGUtbmFtZTpoaWdoLWxpZ2h0O30NCi5Nc29DaHBEZWZhdWx0
+DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJBcmlhbCIsInNh
+bnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsN
+CgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjEN
+Cgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHht
+bD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiPg0KPHY6dGV4
+dGJveCBpbnNldD0iNS44NXB0LC43cHQsNS44NXB0LC43cHQiIC8+DQo8L286c2hhcGVkZWZhdWx0
+cz48L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
+b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9v
+OnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iSkEi
+IGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
+b3Q7O2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPkhpIEphY29iLCBN
+YXJ0aW48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJp
+YWwmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0
+LWxhbmd1YWdlOlpILUNOIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIiBzdHlsZT0idGV4dC1pbmRlbnQ6MTIuMHB0Ij48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOlpI
+LUNOIj5JIHRoaW5rIEkgJm5ic3A7YnJvdWdodCZuYnNwOyBiYWNrIHRoZSBvbGQgdmVyc2lvbiB0
+aGluZ3MgYWJvdXQgdGhlIHN5c3Jvb3QuIEnigJltIHNvcnJ5LjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWluZGVudDoxMi4wcHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtB
+cmlhbCZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6WkgtQ04iPkl0IHNob3VsZCBiZSB0aGUgZm9sbG93aW5nOjxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWluZGVudDoxMi4w
+cHQiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWls
+eTomcXVvdDtBcmlhbCZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Q7
+bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWluZGVudDoxMi4wcHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlh
+bCZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6WkgtQ04iPkVYVFJBX09FQ09ORl9QQVRIUyA9ICZxdW90O1w8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0idGV4dC1pbmRlbnQ6MTIuMHB0
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7QXJpYWwmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEO21z
+by1mYXJlYXN0LWxhbmd1YWdlOlpILUNOIj4mbmJzcDsmbmJzcDsmbmJzcDsgLS13aXRoLWd4eC1p
+bmNsdWRlLWRpcj0vbm90L2V4aXN0e3RhcmdldF9pbmNsdWRlZGlyfS9jJiM0MzsmIzQzOy8ke0JJ
+TlZ9IFw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
+dGV4dC1pbmRlbnQ6MTIuMHB0Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
+MC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
+Oztjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOlpILUNOIj4mbmJzcDsmbmJzcDsm
+bmJzcDsgLS13aXRoLXN5c3Jvb3Q9L25vdC9leGlzdCBcPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9InRleHQtaW5kZW50OjEyLjBwdCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFs
+JnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1s
+YW5ndWFnZTpaSC1DTiI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IC0td2l0aC1idWlsZC1zeXNyb290PSR7
+U1RBR0lOR19ESVJfVEFSR0VUfSBcPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCIgc3R5bGU9InRleHQtaW5kZW50OjEyLjBwdCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0
+eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LCZxdW90
+O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpaSC1D
+TiI+JnF1b3Q7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
+O0FyaWFsJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RDttc28tZmFy
+ZWFzdC1sYW5ndWFnZTpaSC1DTiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
+b3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpaSC1DTiI+PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1
+ZSAxLjVwdDtwYWRkaW5nOjBtbSAwbW0gMG1tIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJi
+b3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAw
+bW0gMG1tIDBtbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZx
+dW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPkZyb206PC9z
+cGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6WkgtQ04iPiBKYWNvYg0KIEtyb29uIFttYWlsdG86amFjb2Iua3Jvb25AZ21h
+aWwuY29tXSA8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBKYW51YXJ5IDEyLCAyMDE1IDU6MTEg
+UE08YnI+DQo8Yj5Ubzo8L2I+IExlaSwgTWFvaHVpLzwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIg
+c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPumbtzwv
+c3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6WkgtQ04iPg0KPC9zcGFuPjxzcGFuIGxhbmc9IlpILUNOIiBzdHlsZT0iZm9udC1z
+aXplOjEwLjBwdDttc28tZmFyZWFzdC1sYW5ndWFnZTpaSC1DTiI+6IyC5oWnPC9zcGFuPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
+YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Ozttc28tZmFyZWFzdC1sYW5ndWFnZTpa
+SC1DTiI+PGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZTxicj4NCjxiPlN1YmplY3Q6
+PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2NjOiB1cGdyYWRlIHRvIDQuOS4yIGFuZCBmaXgg
+dGhlIGJ1ZyAjNjgyNDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5I
+aSw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9uIE1vbiwgSmFuIDEy
+LCAyMDE1IGF0IDQ6MTIgQU0sIExlaSBNYW9odWkgJmx0OzxhIGhyZWY9Im1haWx0bzpsZWltYW9o
+dWlAY24uZnVqaXRzdS5jb20iIHRhcmdldD0iX2JsYW5rIj5sZWltYW9odWlAY24uZnVqaXRzdS5j
+b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Jmx0O3NuaXAmZ3Q7PG86cD48
+L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRl
+cjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowbW0gMG1tIDBt
+bSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MG1tIj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48YnI+DQombmJzcDtFWFRSQV9PRUNPTkZfUEFU
+SFMgPSAmcXVvdDtcPGJyPg0KLSZuYnNwOyAmbmJzcDsgLS13aXRoLWd4eC1pbmNsdWRlLWRpcj0v
+bm90L2V4aXN0e3RhcmdldF9pbmNsdWRlZGlyfS9jJiM0MzsmIzQzOy8ke0JJTlZ9IFw8YnI+DQot
+Jm5ic3A7ICZuYnNwOyAtLXdpdGgtc3lzcm9vdD0vbm90L2V4aXN0IFw8YnI+DQomIzQzOyZuYnNw
+OyAmbmJzcDsgLS13aXRoLWd4eC1pbmNsdWRlLWRpcj0ke1NUQUdJTkdfRElSX1RBUkdFVH0ke3Rh
+cmdldF9pbmNsdWRlZGlyfS9jJiM0MzsmIzQzOy8ke0JJTlZ9IFw8YnI+DQomIzQzOyZuYnNwOyAm
+bmJzcDsgLS13aXRoLXN5c3Jvb3Q9JHtTVEFHSU5HX0RJUl9UQVJHRVR9IFw8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOy0td2l0aC1idWlsZC1zeXNyb290PSR7U1RBR0lOR19ESVJfVEFSR0VUfSBc
+PGJyPg0KJm5ic3A7JnF1b3Q7PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9ibG9ja3F1b3RlPg0K
+PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIg
+c3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48c3BhbiBsYW5nPSJFTi1VUyI+VW5sZXNzIHRo
+aW5ncyBoYXZlIGNoYW5nZWQsIHRoZSBzeXNyb290IGlzIHN1cHBvc2VkIHRvIGJlIHBvaXNvbmVk
+IGJ5IGRlZmF1bHQsIHNlZSBjb21taXQgMDRiNzI1NTExYTUwNWM1ODJhM2FiZGY2M2QwOTY5Njdm
+MDMyMDc3OSBpbiBPRS1Db3JlLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-meta/recipes-kernel/linux/kernel-devsrc.bb
-
-// Robert
-
-> populate_sysroot to install the files to sysroots/qemux86-64/usr/src/kernel ?
->
-> // Robert
->
->>
->> At this point I think it may be worth looking at making some more
->> invasive but decisive changes, specifically that:
->>
->> STAGING_KERNEL_DIR moves
->>     from sysroots/MACHINE/usr/src/kernel
->>     to work-shared/MACHINE/kernel-source
->>
->> This is to make it clearer that the source here is not under the control
->> of sstate. The reasons why we don't want it under the control of sstate
->> are in other emails.
->>
->> The second change would be to split the kernel source into two:
->>
->> work-shared/MACHINE/kernel-source
->> work-shared/MACHINE/kernel-build
->>
->> where kernel-build is the kernel build output and kernel-source is kept
->> "pristine".
->>
->> This means the defconfig, the kernel-abiversion, System.map files and
->> output from "make scripts" would be in kernel-build.
->>
->> External module builds do work in this configuration *if* you pass in
->> the correct options e.g.:
->>
->> make -C work-shared/MACHINE/kernel-source O=work-shared/MACHINE/kernel-build
->> M=${S}
->>
->> I've put together a quick proof of concept of this below.
->>
->> There are two other things up for discussion. There is of confusion  on
->> how the kernel source gets into STAGING_KERNEL_DIR in the first place.
->> We've added in "munging" code which does this in kernel.bbclass,
->> linux-yocto also has its share of "crazy" mess in this regard.
->>
->> We could wipe the slate clean and require that people put a parameter
->> against the element in SRC_URI that represents the kernel indicating it
->> should be directly extracted to STAGING_KERNEL_DIR. There is a bitbake
->> issue with being unable to override the extraction directory at present
->> but that can be fixed. The upside is that it would be clean, relatively
->> clear and allow  fragile code to be dropped. The downside is it means
->> tweaking all kernel recipes.
->>
->> The second issue is that of the dependency to populate
->> STAGING_KERNEL_DIR which is now a "depends flag on do_install". The
->> intent is to have kernelsrc.bbclass do this, looking at the things there
->> (such as setting S=), I suspect it may not be fit for purpose. We could
->> adjust the class to check for a variable and set up the dependency if
->> its set.
->>
->> Anyhow, this does need thought and discussion but I'm putting it here as
->> a start to that, and to let people like Bruce see and experiment with
->> the code below.
->>
->> Cheers,
->>
->> Richard
->>
->> diff --git a/meta/classes/kernel-module-split.bbclass
->> b/meta/classes/kernel-module-split.bbclass
->> index 9a95b72..2d43b51 100644
->> --- a/meta/classes/kernel-module-split.bbclass
->> +++ b/meta/classes/kernel-module-split.bbclass
->> @@ -70,7 +70,7 @@ python split_kernel_module_packages () {
->>           m = kerverrexp.match(kernelver)
->>           if m:
->>               kernelver_stripped = m.group(1)
->> -        staging_kernel_dir = d.getVar("STAGING_KERNEL_DIR", True)
->> +        staging_kernel_dir = d.getVar("STAGING_KERNEL_BUILDDIR", True)
->>           system_map_file = "%s/boot/System.map-%s" % (dvar, kernelver)
->>           if not os.path.exists(system_map_file):
->>               system_map_file = "%s/System.map-%s" % (staging_kernel_dir,
->> kernelver)
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 5cabc2c..b1a1ccf 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -249,6 +249,10 @@ kernel_do_install() {
->>       cp .config $kerneldir/
->>       mkdir -p $kerneldir/include/config
->>       cp include/config/kernel.release $kerneldir/include/config/kernel.release
->> +    if [ -e include/linux/version.h ]; then
->> +        mkdir -p $kerneldir/include/linux
->> +        cp include/linux/version.h $kerneldir/include/linux/version.h
->> +    fi
->>
->>       # As of Linux kernel version 3.0.1, the clean target removes
->>       # arch/powerpc/lib/crtsavres.o which is present in
->> @@ -268,6 +272,45 @@ kernel_do_install() {
->>   }
->>   do_install[prefuncs] += "package_get_auto_pr"
->>
->> +addtask do_shared_workdir after do_compile before do_install
->> +
->> +do_shared_workdir () {
->> +    cd ${B}
->> +
->> +    kerneldir=${STAGING_KERNEL_BUILDDIR}
->> +    install -d $kerneldir
->> +
->> +    #
->> +    # Store the kernel version in sysroots for module-base.bbclass
->> +    #
->> +
->> +    echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
->> +
->> +    # Copy files required for module builds
->> +    cp System.map $kerneldir/System.map-${KERNEL_VERSION}
->> +    cp Module.symvers $kerneldir/
->> +    cp .config $kerneldir/
->> +    mkdir -p $kerneldir/include/config
->> +    cp include/config/kernel.release $kerneldir/include/config/kernel.release
->> +
->> +    # As of Linux kernel version 3.0.1, the clean target removes
->> +    # arch/powerpc/lib/crtsavres.o which is present in
->> +    # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
->> +    if [ ${ARCH} = "powerpc" ]; then
->> +        mkdir -p $kerneldir/arch/powerpc/lib/
->> +        cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
->> +    fi
->> +
->> +    mkdir -p $kerneldir/include/generated/
->> +    cp -fR include/generated/* $kerneldir/include/generated/
->> +
->> +    if [ -d arch/${ARCH}/include/generated ]; then
->> +        mkdir -p $kerneldir/arch/${ARCH}/include/generated/
->> +        cp -fR arch/${ARCH}/include/generated/*
->> $kerneldir/arch/${ARCH}/include/generated/
->> +    fi
->> +}
->> +
->> +
->>   python sysroot_stage_all () {
->>       oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"),
->> d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
->>   }
->> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
->> index 9537ba9..c34eee7 100644
->> --- a/meta/classes/module-base.bbclass
->> +++ b/meta/classes/module-base.bbclass
->> @@ -3,16 +3,18 @@ inherit kernel-arch
->>   export OS = "${TARGET_OS}"
->>   export CROSS_COMPILE = "${TARGET_PREFIX}"
->>
->> -export KERNEL_VERSION =
->> "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
->> +export KERNEL_VERSION =
->> "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
->>   KERNEL_OBJECT_SUFFIX = ".ko"
->>
->>   # kernel modules are generally machine specific
->>   PACKAGE_ARCH = "${MACHINE_ARCH}"
->>
->> +do_configure[depends] += "virtual/kernel:do_install"
->> +
->>   # Function to ensure the kernel scripts are created. Expected to
->>   # be called before do_compile. See module.bbclass for an exmaple.
->>   do_make_scripts() {
->>       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->>       make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
->> -               -C ${STAGING_KERNEL_DIR} scripts
->> +               -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
->>   }
->> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
->> index ad6f7af..4f466d7 100644
->> --- a/meta/classes/module.bbclass
->> +++ b/meta/classes/module.bbclass
->> @@ -13,6 +13,7 @@ module_do_compile() {
->>              KERNEL_VERSION=${KERNEL_VERSION}    \
->>              CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
->>              AR="${KERNEL_AR}" \
->> +               O=${STAGING_KERNEL_BUILDDIR} \
->>              ${MAKE_TARGETS}
->>   }
->>
->> @@ -21,6 +22,7 @@ module_do_install() {
->>       oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
->>                  KERNEL_SRC=${STAGING_KERNEL_DIR} \
->>                  CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
->> +               O=${STAGING_KERNEL_BUILDDIR} \
->>                  modules_install
->>   }
->>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 362d6b6..b1135c2 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -394,7 +394,8 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
->>   ##################################################################
->>
->>   OLDEST_KERNEL = "2.6.32"
->> -STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
->> +STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
->> +STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build"
->>
->>   ##################################################################
->>   # Specific image creation and rootfs population info.
->> diff --git a/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
->> b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
->> new file mode 100644
->> index 0000000..1b46558
->> --- /dev/null
->> +++ b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
->> @@ -0,0 +1,17 @@
->> +Index: git/Makefile
->> +===================================================================
->> +--- git.orig/Makefile
->> ++++ git/Makefile
->> +@@ -67,10 +67,10 @@ else # KERNELRELEASE
->> +     CFLAGS = $(EXTCFLAGS)
->> +
->> + default:
->> +-    $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
->> ++    $(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules
->> +
->> + modules_install:
->> +-    $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
->> ++    $(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules_install
->> +
->> + clean:
->> +     $(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
->> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
->> b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
->> index 55df07f..58a4196 100644
->> --- a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
->> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
->> @@ -19,6 +19,7 @@ SRC_URI =
->> "git://git.lttng.org/lttng-modules.git;branch=stable-2.5 \
->>              file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
->>              file://Fix-noargs-probes-should-calculate-alignment-and-eve.patch \
->>              file://Update-kvm-instrumentation-compile-on-3.17-rc1.patch \
->> +           file://sepbuild.patch \
->>              "
->>
->>   export INSTALL_MOD_DIR="kernel/lttng-modules"
->>
-
+--_000_1B56A49860EB2D45ADE3731B15C959FDAE5174G08CNEXMBPEKD01g0_--
