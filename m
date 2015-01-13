@@ -1,49 +1,28 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B05C87162E
+Return-Path: <petter@technux.se>
+Received: from bin-vsp-out-02.atm.binero.net (vsp-unauthed01.binero.net
+	[195.74.38.225])
+	by mail.openembedded.org (Postfix) with ESMTP id 4978665C85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 08:35:20 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id u10so1323595lbd.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=a07mHzIa7yWw7Mr1LvbRx0rdLEHwftI3grOWBOu1Zg8=;
-	b=a1o/7NH/dJHW9dgQ69iWi01oSNzYw6ChZ3AtIyalZrEARORZT/v/5S8Q/EVBIN+/Mh
-	7zIfsOiC2VX4SGEm1P8Fru/2Q6qDWjUoJyicIjF/tFylndw0H1Nx4EKsaKaayxs0Iz6t
-	cR6ZLaz1joD9TsH4DeVw8rB/ErQONKDrA8bLlJZlsiDpI4i6luluPzdL90sRjTQ9baSJ
-	QJw6KzJg1puggeG2Yrqp6R23S4Z1bBhFX1O00XrcHoBjpFpH2RLMv3BKc/gWJsYb2KQe
-	aj/C7pg0RMJhQJRRQPkrzlfGgbAG3JvZmQ97I3HvupLkaNxtGTFvWY2ZrDcSGzceb+yM
-	6YRA==
-X-Gm-Message-State: ALoCoQl0Q+FUHQumjCGG4ZQ2VGwLgfeJhG2K+9Z2PQLbA0YDtC1ACR8qUqrwV+WXSsMLXBXM9WtP
-X-Received: by 10.112.130.34 with SMTP id ob2mr41367821lbb.78.1421138119564;
-	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
-Received: from ad.chargestorm.se (c-83-233-221-90.cust.bredband2.com.
-	[83.233.221.90])
-	by mx.google.com with ESMTPSA id de5sm654210lac.33.2015.01.13.00.35.18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Jan 2015 00:35:19 -0800 (PST)
-Date: Tue, 13 Jan 2015 09:35:17 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20150113083517.GA9496@ad.chargestorm.se>
-Mail-Followup-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <1421110587-23245-1-git-send-email-armccurdy@gmail.com>
+	Tue, 13 Jan 2015 09:08:08 +0000 (UTC)
+X-Halon-ID: ae84560e-9b03-11e4-8a31-005056917f90
+Authorized-sender: petter@technux.se
+Received: from [192.168.1.82] (unknown [81.229.90.163])
+	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA;
+	Tue, 13 Jan 2015 10:08:03 +0100 (CET)
+Message-ID: <54B4E073.6050805@technux.se>
+Date: Tue, 13 Jan 2015 10:08:03 +0100
+From: =?windows-1252?Q?Petter_Mab=E4cker?= <petter@technux.se>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-In-Reply-To: <1421110587-23245-1-git-send-email-armccurdy@gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	Christopher Larson <kergoth@gmail.com>
+References: <cover.1420899992.git.petter@technux.se>
+	<ecf58c259c3b0bf8589a630617a0e284d647ea97.1420899992.git.petter@technux.se>
+	<2635313.PoP8bKsGIp@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2635313.PoP8bKsGIp@peggleto-mobl5.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] logrotate: fix missing acl and libselinux dependencies
+Subject: Re: [RFC PATCH 1/5] base.bbclass: detect when S has been set incorrectly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +35,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 08:35:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 13 Jan 2015 09:08:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-* Andre McCurdy <armccurdy@gmail.com> [150113 01:57]:
-> +# TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
-> +# TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
+On 01/12/2015 04:53 PM, Paul Eggleton wrote:
+> Hi Petter,
+>
+> On Saturday 10 January 2015 15:40:10 Petter Mabäcker wrote:
+>> Currently base.bbclass is creating S if it's not created by unpacking
+>> an archive or fetching a repository. If we avoid creating S we can detect
+>> when S hasn't been set correctly, since it will not exist. Then we can tell
+>> the user that they should set S to a proper value, instead of just failing
+>> with odd errors in later tasks.
+>>
+>> Besides removing the auto-creation of S this change will introduce a warning
+>> if S is set incorrectly. The reason for not display an error and return is
+>> due to all external layers that might have recipes that will fail otherwise
+>> and that might be a bit to hard to start with. So use a warning until
+>> people have had a chance to cleanup affected recipes.
+>>
+>> [YOCTO #5627]
+>>
+>> Signed-off-by: Petter Mabäcker <petter@technux.se>
+>> ---
+>>   meta/classes/base.bbclass | 17 +++++++++++++----
+>>   1 file changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index de50be1..789af3b 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -113,7 +113,6 @@ python base_do_fetch() {
+>>
+>>   addtask unpack after do_fetch
+>>   do_unpack[dirs] = "${WORKDIR}"
+>> -do_unpack[cleandirs] = "${S}/patches"
+>>   python base_do_unpack() {
+>>       src_uri = (d.getVar('SRC_URI', True) or "").split()
+>>       if len(src_uri) == 0:
+>> @@ -121,11 +120,21 @@ python base_do_unpack() {
+>>
+>>       rootdir = d.getVar('WORKDIR', True)
+>>
+>> +    # Ensure that we cleanup ${S}/patches
+>> +    # TODO: Investigate if we can remove
+>> +    # the entire ${S} in this case.
+>> +    s_dir = d.getVar('S', True)
+>> +    p_dir = os.path.join(s_dir, 'patches')
+>> +    bb.utils.remove(p_dir, True)
+>> +
+>>       try:
+>>           fetcher = bb.fetch2.Fetch(src_uri, d)
+>>           fetcher.unpack(rootdir)
+>>       except bb.fetch2.BBFetchException as e:
+>>           raise bb.build.FuncFailed(e)
+>> +
+>> +    if not os.path.exists(s_dir):
+>> +        bb.warn("%s ('S') don't exist, you must set 'S' to a proper value"
+>> % s_dir) }
+>>
+>>   def pkgarch_mapping(d):
+>> @@ -220,7 +229,7 @@ CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+>>   CLEANBROKEN = "0"
+>>
+>>   addtask configure after do_patch
+>> -do_configure[dirs] = "${S} ${B}"
+>> +do_configure[dirs] = "${B}"
+>>   do_configure[deptask] = "do_populate_sysroot"
+>>   base_do_configure() {
+>>   	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+>> @@ -238,7 +247,7 @@ base_do_configure() {
+>>   }
+>>
+>>   addtask compile after do_configure
+>> -do_compile[dirs] = "${S} ${B}"
+>> +do_compile[dirs] = "${B}"
+>>   base_do_compile() {
+>>   	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
+>>   		oe_runmake || die "make failed"
+>> @@ -248,7 +257,7 @@ base_do_compile() {
+>>   }
+>>
+>>   addtask install after do_compile
+>> -do_install[dirs] = "${D} ${S} ${B}"
+>> +do_install[dirs] = "${D} ${B}"
+>>   # Remove and re-create ${D} so that is it guaranteed to be empty
+>>   do_install[cleandirs] = "${D}"
+> This looks reasonable to me; however I'm sure I recall Chris talking about
+> some kind of complication with this issue a year or so ago - Chris do you
+> remember what that was about?
+>
+> Cheers,
+> Paul
+>
+Ok, I will wait and see if Chris remembers anything sneaky about this. I 
+have run quite some tests without seeing any problems so far. Perhaps it 
+was about removing ${S} instead of just ${S}/patches in do_unpack ? 
+Because I think there have been some discussions about that in the past. 
+I also did some test with that in the scope of 'bug 5627', but it is far 
+more complex to do such a chance, a lot of recipes didn't liked that at 
+all =/ It seems more correct to really wipe entire ${S} in that case, 
+but I guess it have to wait..
 
-It might well be worth adding autotools support right now.
-
->  DEPENDS="coreutils popt"
-
->  LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
-> @@ -21,6 +24,9 @@ PACKAGECONFIG ?= "\
->      ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->  "
-
-> +PACKAGECONFIG[acl] = ",,acl"
-> +PACKAGECONFIG[selinux] = ",,libselinux"
-
-The problem with these two lines, are that you're not explicitly
-enabling and disabling those two features; thus our builds won't be
-deterministic.
-
-Depending on how the actual tests are performed in the logrotate
-sources, it might happen that you're enabling the features just by
-making sure that they're going to be built prior to logrotate. Though,
-there's no guarantee that this will work (without looking at the source
-code). 
-
-However, if that enabling works, then we have the problem that the
-features will always be activated regardless of whether we add acl and
-selinux to PACKAGECONFIG, if these exists in the sysroot. Thus, the
-build is undeterministic.
-
-Could you please look at enabling / disabling those features explicitly?
-
-Cheers,
-Anders
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+BR,
+Petter
 
