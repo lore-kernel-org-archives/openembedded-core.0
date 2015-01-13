@@ -1,22 +1,29 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CD64872207
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E842D7162E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 23:00:34 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 13 Jan 2015 14:56:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="511822614"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.144])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jan 2015 14:54:17 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Jan 2015 17:00:40 -0600
-Message-Id: <bb45f07b598c084979e9f817bc295845b9cdc80d.1421189870.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1421189870.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1421189870.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH v2 1/1] insane.bbclass: Added QA test for expanded ${D}
+	Tue, 13 Jan 2015 23:06:55 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0DN6sU2016743
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 13 Jan 2015 15:06:54 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 13 Jan 2015 15:06:53 -0800
+Message-ID: <54B5A50C.8080206@windriver.com>
+Date: Wed, 14 Jan 2015 07:06:52 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1420642796.git.liezhi.yang@windriver.com>
+	<a4b53d0ddc7976a58e0bc5c094dab61886f84e20.1420642796.git.liezhi.yang@windriver.com>
+	<CAJTo0LaPD+YE0V37reL7brdoE8HiL=5oHz4mDL_nCr3EG5DrTg@mail.gmail.com>
+In-Reply-To: <CAJTo0LaPD+YE0V37reL7brdoE8HiL=5oHz4mDL_nCr3EG5DrTg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] libtool: upgrade to 2.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,67 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 23:00:35 -0000
+X-List-Received-Date: Tue, 13 Jan 2015 23:06:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Checks in FILES and pkg_* variables, solves common mistake of
 
-using ${D} instead of $D and warns the user accordingly.
 
-[YOCTO #6642]
+On 01/14/2015 01:44 AM, Burton, Ross wrote:
+> On 7 January 2015 at 15:02, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     * The libtool config files are put in libtool/build-aux now, it was
+>     libtool/config in the past.
+>
+>
+> This may be the cause for a pile of errors on the autobuilder:
+>
+> ross@flashheart /data/poky-master/tmp/sysroots/intel-corei7-64/usr/bin/crossscripts
+> $ grep tmp/work libtoolize
+> .
+> "/data/poky-master/tmp/work/corei7-64-poky-linux/libtool-cross/2.4.4-r0/libtool-2.4.4/build-aux/funclib.sh"
+> .
+> "/data/poky-master/tmp/work/corei7-64-poky-linux/libtool-cross/2.4.4-r0/libtool-2.4.4/build-aux/options-parser"
+> .
+> "/data/poky-master/tmp/work/corei7-64-poky-linux/libtool-cross/2.4.4-r0/libtool-2.4.4/build-aux/extract-trace"
+>
+> The libtoolize in the sysroot's /usr/bin/crossscripts refers to files in the
+> libtool-cross work directory.  Hopefully this explains most of the failures this
+> upgrade caused (between it and the kernel, my latest MUT run had 73 failures).
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/classes/insane.bbclass | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+Sorry about this, I will look at it today.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 0b45374..af141e8 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-             split-strip packages-list pkgv-undefined var-undefined \
--            version-going-backwards \
-+            version-going-backwards expanded-d \
-             "
- 
- ALL_QA = "${WARN_QA} ${ERROR_QA}"
-@@ -906,6 +906,33 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
- 
-     return sane
- 
-+QAPATHTEST[expanded-d] = "package_qa_check_expanded_d"
-+def package_qa_check_expanded_d(path,name,d,elf,messages):
-+    """
-+    Check for the expanded D (${D}) value in pkg_* and FILES
-+    variables, warn the user to use it correctly.
-+    """
-+
-+    sane = True
-+    expanded_d = d.getVar('D',True)
-+
-+    # Get packages for current recipe and iterate
-+    packages = d.getVar('PACKAGES', True).split(" ")
-+    for pak in packages:
-+    # Go through all variables and check if expanded D is found, warn the user accordingly
-+        for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
-+            bbvar = d.getVar(var + "_" + pak)
-+            if bbvar:
-+                # Bitbake expands ${D} within bbvar during the previous step, so we check for its expanded value
-+                if expanded_d in bbvar:
-+                    if var == 'FILES':
-+                        messages["expanded-d"] = "FILES in %s recipe should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference" % pak
-+                        sane = False
-+                    else:
-+                        messages["expanded-d"] = "%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pak)
-+                        sane = False
-+    return sane
-+
- # The PACKAGE FUNC to scan each package
- python do_package_qa () {
-     import subprocess
--- 
-1.9.1
+// Robert
 
+>
+> Ross
 
