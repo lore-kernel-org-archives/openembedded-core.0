@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 30CEA72BAE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C344672694
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 05:44:36 +0000 (UTC)
+	Tue, 13 Jan 2015 05:44:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0D5ia3W003254
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0D5ib1J021741
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 12 Jan 2015 21:44:36 -0800 (PST)
+	Mon, 12 Jan 2015 21:44:37 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 12 Jan 2015 21:44:35 -0800
+	14.3.174.1; Mon, 12 Jan 2015 21:44:37 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 13 Jan 2015 13:44:04 +0800
-Message-ID: <4799cf28c756059c7ce619108d4c0fc16498f25a.1421127484.git.hongxu.jia@windriver.com>
+Date: Tue, 13 Jan 2015 13:44:05 +0800
+Message-ID: <3e315694979852e4c21a128e40a23ac737f87d60.1421127484.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1421127484.git.hongxu.jia@windriver.com>
 References: <cover.1421127484.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/10] gnupg: upgrade to 2.1.1
+Subject: [PATCH 05/10] man-pages: upgrade to 3.76
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 05:44:36 -0000
+X-List-Received-Date: Tue, 13 Jan 2015 05:44:37 -0000
 Content-Type: text/plain
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.1.0.bb => gnupg_2.1.1.bb} | 4 ++--
+ .../man-pages/{man-pages_3.75.bb => man-pages_3.76.bb}                | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.1.0.bb => gnupg_2.1.1.bb} (89%)
+ rename meta/recipes-extended/man-pages/{man-pages_3.75.bb => man-pages_3.76.bb} (86%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.1.0.bb b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
-similarity index 89%
-rename from meta/recipes-support/gnupg/gnupg_2.1.0.bb
-rename to meta/recipes-support/gnupg/gnupg_2.1.1.bb
-index e9ade3b..a7c4254 100644
---- a/meta/recipes-support/gnupg/gnupg_2.1.0.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
-@@ -14,8 +14,8 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://dirmngr-uses-libgpg-error.patch \
-           "
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.75.bb b/meta/recipes-extended/man-pages/man-pages_3.76.bb
+similarity index 86%
+rename from meta/recipes-extended/man-pages/man-pages_3.75.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.76.bb
+index 18e2bca..ed8a15f 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.75.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.76.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
  
--SRC_URI[md5sum] = "43a809789a1d897f4386680be0b09d02"
--SRC_URI[sha256sum] = "16a8c3f50a15bf37d2dfb1c5e4bb3ec533e1d0b6a4043ff3680a376a3ad4058b"
-+SRC_URI[md5sum] = "9a314c3dcef0a091de90b6aa4d467db5"
-+SRC_URI[sha256sum] = "70ecd01d2875db62624c911c2fd815742f50aef5492698eb3bfc09a08690ce49"
+-SRC_URI[md5sum] = "74ad4aef657a046fe214bf981a9a2b30"
+-SRC_URI[sha256sum] = "ba23f57a98d032a742ff506f32550dfa2c3076c8bf8d5f6b59305c6b015077d3"
++SRC_URI[md5sum] = "d00cf09677caefc3e827737afc565583"
++SRC_URI[sha256sum] = "eff558c13b61a46136994514b3ec00a74dcf00414d3bde4f0edca80a36d36359"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ RDEPENDS_${PN} = "man"
+ 
 -- 
 1.9.1
 
