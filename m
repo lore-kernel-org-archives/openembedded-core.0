@@ -1,18 +1,18 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E842D7162E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A84C71634
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Jan 2015 23:06:55 +0000 (UTC)
+	Wed, 14 Jan 2015 02:22:01 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0DN6sU2016743
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E2Lxdh028858
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 13 Jan 2015 15:06:54 -0800 (PST)
+	Tue, 13 Jan 2015 18:21:59 -0800 (PST)
 Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 13 Jan 2015 15:06:53 -0800
-Message-ID: <54B5A50C.8080206@windriver.com>
-Date: Wed, 14 Jan 2015 07:06:52 +0800
+	Tue, 13 Jan 2015 18:21:59 -0800
+Message-ID: <54B5D2C5.8000405@windriver.com>
+Date: Wed, 14 Jan 2015 10:21:57 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Jan 2015 23:06:59 -0000
+X-List-Received-Date: Wed, 14 Jan 2015 02:22:07 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -65,7 +65,11 @@ On 01/14/2015 01:44 AM, Burton, Ross wrote:
 > libtool-cross work directory.  Hopefully this explains most of the failures this
 > upgrade caused (between it and the kernel, my latest MUT run had 73 failures).
 
-Sorry about this, I will look at it today.
+Hi Ross,
+
+Sorry, I've fixed the error, I will send libtool's upgrade with other
+upgrades in another thread (autogen-native, automake, gettext,
+mklibs-native).
 
 // Robert
 
