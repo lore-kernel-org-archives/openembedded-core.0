@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4081F72603
+	by mail.openembedded.org (Postfix) with ESMTP id 10C99725F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 08:47:44 +0000 (UTC)
+	Wed, 14 Jan 2015 08:47:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8li4u003258
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lehO003225
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 00:47:44 -0800 (PST)
+	Wed, 14 Jan 2015 00:47:40 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 00:47:44 -0800
+	Wed, 14 Jan 2015 00:47:39 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:30 -0800
-Message-ID: <b2280f670f4a05a6872ecdf0ea25b14d744c5148.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:14 -0800
+Message-ID: <cbf45f8798c0abbdf07a34f4fe6c2a5e13d564b1.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 19/27] neard: fix B != S
+Subject: [PATCH 03/27] ghostscript: fix B != S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +36,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 14 Jan 2015 08:47:47 -0000
 Content-Type: text/plain
 
-And bump PR to avoid:
-configure: error: source directory already configured; run "make distclean" there first
-
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/neard/neard.inc     |    4 ++--
- meta/recipes-connectivity/neard/neard_0.14.bb |    1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ .../ghostscript/ghostscript_9.15.bb                |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-index e714cad..76640d8 100644
---- a/meta/recipes-connectivity/neard/neard.inc
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
- 
--inherit autotools-brokensep pkgconfig systemd update-rc.d
-+inherit autotools pkgconfig systemd update-rc.d
- 
- EXTRA_OECONF += "--enable-tools"
- 
-@@ -35,7 +35,7 @@ do_install_append() {
- 	# Install the tests for neard-tests
- 	install -d ${D}${libdir}/neard
- 	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
--	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
-+	install -m 0755 ${B}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
- }
- 
- PACKAGES =+ "${PN}-tests"
-diff --git a/meta/recipes-connectivity/neard/neard_0.14.bb b/meta/recipes-connectivity/neard/neard_0.14.bb
-index daf3a4b..43fb589 100644
---- a/meta/recipes-connectivity/neard/neard_0.14.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.14.bb
-@@ -8,3 +8,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "692ba2653d60155255244c87396c486b"
- SRC_URI[sha256sum] = "6ea724b443d39d679168fc7776a965d1f64727c3735391df2c01469ee7cd8cca"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.15.bb b/meta/recipes-extended/ghostscript/ghostscript_9.15.bb
+index ee5483c..850ed81 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.15.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.15.bb
+@@ -34,6 +34,8 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+ SRC_URI[md5sum] = "5a78ab0990ff6ec3a103576bc8777c46"
+ SRC_URI[sha256sum] = "27f11e4fe5b89857ae745687281d1e4daf9681edc858a3f7e8e77ef09609777a"
  
 +PR = "r1"
++
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
+                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
+@@ -58,7 +60,7 @@ EXTRA_OECONF_class-native = "--without-x --with-system-libtiff=no \
+ CFLAGS += "-DHAVE_SYS_TIME_H=1"
+ BUILD_CFLAGS += "-DHAVE_SYS_TIME_H=1"
+ 
+-inherit autotools-brokensep
++inherit autotools
+ 
+ do_configure_prepend () {
+ 	mkdir -p obj
+@@ -80,8 +82,8 @@ do_configure_append () {
+ 
+ do_install_append () {
+     mkdir -p ${D}${datadir}/ghostscript/${PV}/
+-    cp -r Resource ${D}${datadir}/ghostscript/${PV}/
+-    cp -r iccprofiles ${D}${datadir}/ghostscript/${PV}/
++    cp -r ${S}/Resource ${D}${datadir}/ghostscript/${PV}/
++    cp -r ${S}/iccprofiles ${D}${datadir}/ghostscript/${PV}/
+ }
+ 
+ do_compile_class-native () {
 -- 
 1.7.9.5
 
