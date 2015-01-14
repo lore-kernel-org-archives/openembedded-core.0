@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EC4672B3F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9902272B49
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jan 2015 08:47:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lk2J003285
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lltB022135
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 00:47:46 -0800 (PST)
+	Wed, 14 Jan 2015 00:47:47 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 00:47:46 -0800
+	Wed, 14 Jan 2015 00:47:47 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:36 -0800
-Message-ID: <ebfe79ce875adc04a410e4bcf2e979c5fb9505bb.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:37 -0800
+Message-ID: <ba546f10b786ed6760324eb0df79650adb8f2ac2.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 25/27] rpm: separate B and S
+Subject: [PATCH 26/27] presentproto: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,24 +41,23 @@ configure: error: source directory already configured; run "make distclean" ther
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.11.2.bb |    4 +++-
+ .../xorg-proto/presentproto_git.bb                 |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.11.2.bb b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-index 86a14fa..4e44bc4 100644
---- a/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-@@ -39,7 +39,9 @@ SRC_URI += "http://rpm.org/releases/rpm-4.11.x/${BP}.tar.bz2 \
- SRC_URI[md5sum] = "876ac9948a88367054f8ddb5c0e87173"
- SRC_URI[sha256sum] = "403f8de632b33846ce5746f429c21a60f40dff9dcb56f1b4118f37a0652a48d4"
+diff --git a/meta/recipes-graphics/xorg-proto/presentproto_git.bb b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
+index 7fca51d..dbb6f32 100644
+--- a/meta/recipes-graphics/xorg-proto/presentproto_git.bb
++++ b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
+@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
+ SRC_URI = "git://anongit.freedesktop.org/git/xorg/proto/presentproto"
+ S = "${WORKDIR}/git"
  
 -inherit autotools-brokensep
 +PR = "r1"
 +
 +inherit autotools
- inherit pythonnative
- inherit pkgconfig
- inherit gettext
+ 
+ BBCLASSEXTEND = "native"
 -- 
 1.7.9.5
 
