@@ -1,23 +1,26 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 07ECD7237A
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5944471633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 15:14:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jan 2015 07:11:56 -0800
+	Wed, 14 Jan 2015 17:01:17 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 14 Jan 2015 08:57:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,756,1413270000"; d="scan'208";a="669798008"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2015 07:14:38 -0800
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id EFD256A408F;
-	Wed, 14 Jan 2015 07:14:32 -0800 (PST)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jan 2015 17:14:15 +0200
-Message-Id: <1421248456-2542-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 1/2] oeqa/ptest: Removed buildhistory as requirement for ptest
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="440521094"
+Received: from dvhart-mac02.jf.intel.com (HELO dvhart-mac02.local)
+	([10.24.0.215])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jan 2015 08:48:20 -0800
+Message-ID: <54B6A0DB.70706@linux.intel.com>
+Date: Wed, 14 Jan 2015 09:01:15 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: =?UTF-8?B?VmluY2VudCBHw6luaWV1eA==?= <vincent2014@startigen.fr>, 
+	openembedded-core@lists.openembedded.org
+References: <1421100601-30956-1-git-send-email-vincent2014@startigen.fr>
+In-Reply-To: <1421100601-30956-1-git-send-email-vincent2014@startigen.fr>
+Subject: Re: fix '[[: not found' error message using dash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jan 2015 15:14:43 -0000
+X-List-Received-Date: Wed, 14 Jan 2015 17:01:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/_ptest.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Hi Vincent,
 
-diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
-index 4c58dc1..01ecfe3 100644
---- a/meta/lib/oeqa/runtime/_ptest.py
-+++ b/meta/lib/oeqa/runtime/_ptest.py
-@@ -99,8 +99,6 @@ class PtestRunnerTest(oeRuntimeTest):
-         return complementary_pkgs.split()
- 
-     def setUp(self):
--        self.buildhist_dir = oeRuntimeTest.tc.d.getVar("BUILDHISTORY_DIR_IMAGE", True)
--        self.assertTrue(os.path.exists(self.buildhist_dir))
-         self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
- 
-     @skipUnlessPassed('test_ssh')
-@@ -113,12 +111,12 @@ class PtestRunnerTest(oeRuntimeTest):
- 
-         self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
-         self.target.copy_from('/tmp/ptest.log', self.ptest_log)
--        shutil.copyfile(self.ptest_log, os.path.join(self.buildhist_dir, "ptest.log"))
-+        shutil.copyfile(self.ptest_log, "ptest.log")
- 
--        result = self.parse_ptest(os.path.join(self.buildhist_dir, "ptest.log"))
-+        result = self.parse_ptest("ptest.log")
-         log_results_to_location = "./results"
-         if os.path.exists(log_results_to_location):
-             shutil.rmtree(log_results_to_location)
-         os.makedirs(log_results_to_location)
- 
--        result.log_as_files(log_results_to_location, test_status = ['fail'])
-+        result.log_as_files(log_results_to_location, test_status = ['pass','fail'])
+On 1/12/15 2:10 PM, Vincent Génieux wrote:
+> This is a fix for https://bugzilla.yoctoproject.org/show_bug.cgi?id=7112
+> bash specific syntax '[[ test ]]' replaced with '[ test ]'.
+> 
+
+Please use the tag:
+
+Fixes [YOCTO 7112]
+
+In the message body, on it's own line.
+
+> Signed-off-by: Vincent Génieux <vincent2014@startigen.fr>
+
+Here it is customary to list the people you have been working with:
+
+Cc: Darren Hart <dvhart@linux.intel.com>
+Cc: Bruce Ashfield...
+etc.
+
+Also, ensure your mailer does actually Cc those people (git send-email
+can do this automatically).
+
+> ---
+>  meta/classes/kernel.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 70ed95b..2a6ec34 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -403,7 +403,7 @@ do_strip() {
+>  			  gawk '{print $1}'`
+>  
+>  		for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
+> -			if [[ "$headers" != *"$str"* ]]; then
+> +			if [ "$headers" != *"$str"* ]; then
+>  				bbwarn "Section not found: $str";
+>  			fi
+>  
+> 
+
+Content is correct. I presume this passes your testing with the dash shell?
+
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+
 -- 
-2.1.0
-
+Darren Hart
+Intel Open Source Technology Center
 
