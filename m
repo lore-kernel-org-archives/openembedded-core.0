@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D2EE7728D0
+	by mail.openembedded.org (Postfix) with ESMTP id D317472A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 08:47:41 +0000 (UTC)
+	Wed, 14 Jan 2015 08:47:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lfeC022111
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lfw3022108
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jan 2015 00:47:41 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Wed, 14 Jan 2015 00:47:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:21 -0800
-Message-ID: <114cd5d423b3fc6ffc399ef60f25a7cb4f57ac9c.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:19 -0800
+Message-ID: <c62feb129d00f22039eef7093f3a5b8ae4f81905.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/27] bash: separate B and S
+Subject: [PATCH 08/27] libgcrypt: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +37,28 @@ X-List-Received-Date: Wed, 14 Jan 2015 08:47:48 -0000
 Content-Type: text/plain
 
 It works well now, and bump the PR to avoid:
-x86_64-poky-linux-ar: shmatch.o: No such file or directory
+configure: error: source directory already configured; run "make distclean" there first
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/bash/bash.inc    |    2 +-
- meta/recipes-extended/bash/bash_4.3.bb |    2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/libgcrypt/libgcrypt.inc |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index a00db5c..0fd5af9 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -4,7 +4,7 @@ SECTION = "base/shell"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index 43e0291..eea67aa 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -18,7 +18,9 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
  
- DEPENDS = "ncurses bison-native"
+ BINCONFIG = "${bindir}/libgcrypt-config"
  
--inherit autotools-brokensep gettext texinfo update-alternatives ptest
-+inherit autotools gettext texinfo update-alternatives ptest
- 
- PARALLEL_MAKE = ""
- 
-diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
-index 54f2101..23d3197 100644
---- a/meta/recipes-extended/bash/bash_4.3.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.bb
-@@ -1,5 +1,7 @@
- require bash.inc
- 
+-inherit autotools-brokensep texinfo binconfig-disabled pkgconfig
 +PR = "r1"
 +
- # GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++inherit autotools texinfo binconfig-disabled pkgconfig
+ 
+ EXTRA_OECONF = "--disable-asm --with-capabilities"
+ 
 -- 
 1.7.9.5
 
