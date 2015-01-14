@@ -1,36 +1,25 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B0C74721E2
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EAA78721E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 11:32:34 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id n3so10172950wiv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 03:32:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9ALVVqYykBALM60gWKC1G+HPsd8FtRbrBcgAkvkJ5Zg=;
-	b=mehlmvLsRkUhqjaSjxhxXGnAEQlVQ6afsYs95SuJdLe98HtZr5jZNc8vnG+AbSC4xO
-	YUHJPTrHA6p4iC+vLWj6QSzzahaT8WkWu75OJIfkeukl5T4wWxW1NSJA4b9zZLxwII+m
-	IKiNkVYCC4OTBHMXCqAZHrFbizigcD9lSGm8X1jx3Vm3+WT8p0SkXc9nclhaGaGDvOcz
-	YzDx4pj1JEi2CKQD6lXcLNPR1Iw679qJCIbKM863HOOCz0SlMbsPRP0cZRHZS6M9fnEZ
-	52KIjlOcI5mmp9YID2kGSmjfT+9aPG/nrbphgv7k6QVLLa32U9iNs4zSdB/yfqi/kOdS
-	vhfw==
-X-Gm-Message-State: ALoCoQnjenix6ILlxO5hMiyvKNYjI9NgI78t6q/hjp/fLJl0b1BOMvKh6MPu4yjGbI7shxUrKzyj
-X-Received: by 10.194.92.116 with SMTP id cl20mr6305773wjb.71.1421235154480;
-	Wed, 14 Jan 2015 03:32:34 -0800 (PST)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id ep9sm2990957wid.3.2015.01.14.03.32.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Jan 2015 03:32:33 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
+	Wed, 14 Jan 2015 15:14:40 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 14 Jan 2015 07:11:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="440480863"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jan 2015 07:01:47 -0800
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 129896A408F;
+	Wed, 14 Jan 2015 07:14:34 -0800 (PST)
+From: Lucian Musat <george.l.musat@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Jan 2015 12:32:29 +0100
-Message-Id: <1421235149-13079-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] libgpg-error 1.17: simplify tupple handling and add armv8b support
+Date: Wed, 14 Jan 2015 17:14:16 +0200
+Message-Id: <1421248456-2542-2-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1421248456-2542-1-git-send-email-george.l.musat@intel.com>
+References: <1421248456-2542-1-git-send-email-george.l.musat@intel.com>
+Subject: [PATCH 2/2] oeqa/ptest: Fixed complementary package install detection and added ptest-runner exit code check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jan 2015 11:32:42 -0000
+X-List-Received-Date: Wed, 14 Jan 2015 15:14:43 -0000
 
-Add a default option to the case statement and remove the duplicates. Also add support for armv8b architectures.
-
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta/recipes-support/libgpg-error/libgpg-error_1.17.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/runtime/_ptest.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-index c905bd1..843b9ae 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-@@ -28,18 +28,14 @@ do_compile_prepend() {
- 	fi
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
+index 01ecfe3..ccfbaa9 100644
+--- a/meta/lib/oeqa/runtime/_ptest.py
++++ b/meta/lib/oeqa/runtime/_ptest.py
+@@ -104,12 +104,15 @@ class PtestRunnerTest(oeRuntimeTest):
+     @skipUnlessPassed('test_ssh')
+     def test_ptestrunner(self):
+         self.add_smart_channel()
+-        cond = oeRuntimeTest.hasPackage("ptest-runner") and oeRuntimeTest.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
+-        if not cond:
++        (runnerstatus, result) = self.target.run('which ptest-runner', 0)
++        cond = oeRuntimeTest.hasPackage("ptest-runner") and oeRuntimeTest.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest") and (runnerstatus != 0)
++        if cond:
+             self.install_packages(self.install_complementary("*-ptest"))
+             self.install_packages(['ptest-runner'])
  
- 	case ${TARGET_ARCH} in
--	  aarch64)    TUPLE=aarch64-unknown-linux-gnu ;;
-+	  aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
- 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
- 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
- 	  i586)       TUPLE=i486-pc-linux-gnu ;;
--	  mipsel)     TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
--	  mips)       TUPLE=mips-unknown-linux-gnu ;;
--	  powerpc64)  TUPLE=powerpc64-unknown-linux-gnu ;;
--	  powerpc)    TUPLE=powerpc-unknown-linux-gnu ;;
--	  sh4)	      TUPLE=sh4-unknown-linux-gnu ;;
- 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-+	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;; 
- 	esac
+-        self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
++        (runnerstatus, result) = self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
++        #exit code is !=0 even if ptest-runner executes because some ptest tests fail.
++        self.assertTrue(runnerstatus != 127, msg="Cannot execute ptest-runner!")
+         self.target.copy_from('/tmp/ptest.log', self.ptest_log)
+         shutil.copyfile(self.ptest_log, "ptest.log")
  
- 	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
 -- 
-1.9.3
+2.1.0
 
 
