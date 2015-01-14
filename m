@@ -1,31 +1,62 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A54E71634
+Return-Path: <ting.liu@freescale.com>
+X-Greylist: delayed 7240 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 Jan 2015 08:00:59 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0132.outbound.protection.outlook.com [157.56.111.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FCFD71634
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 03:38:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E3bwIF005014
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 13 Jan 2015 19:37:58 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 13 Jan 2015 19:37:57 -0800
-Message-ID: <54B5E495.7020104@windriver.com>
-Date: Wed, 14 Jan 2015 11:37:57 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed, 14 Jan 2015 08:00:59 +0000 (UTC)
+Received: from BN3PR0301CA0042.namprd03.prod.outlook.com (25.160.180.180) by
+	BY1PR0301MB1189.namprd03.prod.outlook.com (25.160.195.148) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.53.17; Wed, 14 Jan 2015 05:26:18 +0000
+Received: from BL2FFO11FD008.protection.gbl (2a01:111:f400:7c09::156) by
+	BN3PR0301CA0042.outlook.office365.com (2a01:111:e400:4000::52) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.53.17 via Frontend Transport; Wed, 14 Jan 2015
+	05:26:17 +0000
+Received: from az84smr01.freescale.net (192.88.158.2) by
+	BL2FFO11FD008.mail.protection.outlook.com (10.173.161.4) with Microsoft
+	SMTP Server (TLS) id 15.1.49.13 via Frontend Transport;
+	Wed, 14 Jan 2015 05:26:17 +0000
+Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t0E5QElA000658;
+	Tue, 13 Jan 2015 22:26:15 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Jan 2015 13:26:14 +0800
+Message-ID: <1421213174-32146-1-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.9.2
+X-EOPAttributedMessage: 0
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.158.2 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.158.2)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(339900001)(199003)(189002)(33646002)(47776003)(64706001)(105606002)(48376002)(97736003)(81156004)(106466001)(92566002)(104016003)(50226001)(36756003)(50466002)(2351001)(50986999)(229853001)(69596002)(68736005)(19580405001)(6806004)(77096005)(86362001)(19580395003)(46102003)(110136001)(450100001)(77156002)(85426001)(62966003)(86152002)(575784001)(87936001)(211663006);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR0301MB1189;
+	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv;
+	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-To: "Moseley, Drew" <drew_moseley@mentor.com>
-References: <1420818765-28571-1-git-send-email-drew_moseley@mentor.com>
-	<54B32BD4.3080209@windriver.com>
-	<C367E4F3-C2F6-48E5-BEAF-E7D873D458BD@mentor.com>
-In-Reply-To: <C367E4F3-C2F6-48E5-BEAF-E7D873D458BD@mentor.com>
-X-Originating-IP: [128.224.162.226]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] init-install.sh: Switch to using static device paths.
+X-DmarcAction-Test: None
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005003);SRVR:BY1PR0301MB1189;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
+	SRVR:BY1PR0301MB1189; 
+X-Forefront-PRVS: 04569283F9
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BY1PR0301MB1189; 
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2015 05:26:17.4122 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0301MB1189
+Subject: [PATCH] libunwind: Fix test case link failure on PowerPC with Altivec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,81 +69,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jan 2015 03:38:12 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Jan 2015 08:01:06 -0000
+Content-Type: text/plain
 
-On 01/13/2015 10:46 PM, Moseley, Drew wrote:
->> On Jan 11, 2015, at 9:05 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->>
->> On 01/09/2015 11:52 PM, Drew Moseley wrote:
->>> Use static device paths for mounting from /dev/disk/<blah> in
->>> case the device ordering changes.
->>>
->>> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
->>> ---
->>>   meta/recipes-core/initrdscripts/files/init-install.sh | 14 ++++++++++----
->>>   1 file changed, 10 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
->>> index fb537ee..f924418 100644
->>> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
->>> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
->>> @@ -156,6 +156,12 @@ mkfs.ext3 $rootfs
->>>   echo "Formatting swap partition...($swap)"
->>>   mkswap $swap
->>>   +# Determine the static device paths
->>> +sync; udevadm settle
->>> +bootfs_static="$(udevadm info --query=property --name=$bootfs | grep DEVLINKS= | cut -d= -f2 | cut -d\  -f1)"
->>> +swap_static="$(udevadm info --query=property --name=$swap | grep DEVLINKS= | cut -d= -f2 | cut -d\  -f1)"
->>> +rootfs_uuid="$(udevadm info --query=property --name=$rootfs | grep ID_PART_ENTRY_UUID | cut -d= -f2)"
->>> +
->> Would ID_PART_ENTRY_UUID be always there?
-> That's a good question.  In my test systems (two VirtualBox configs and two AMD based PCs) it is always there.  Taking a second look at my developer Ubuntu system it does not seem to have that field so maybe I'm just getting lucky on my test systems.
->
-> Anybody have a suggestion for a replacement?
+From: Ting Liu <ting.liu@freescale.com>
 
-We can use blkid command.
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
+---
+ ...k-failure-on-PowerPC-systems-with-Altivec.patch | 28 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
 
->
->>>   mkdir /tgt_root
->>>   mkdir /src_root
->>>   mkdir -p /boot
->>> @@ -166,8 +172,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
->>>   echo "Copying rootfs files..."
->>>   cp -a /src_root/* /tgt_root
->>>   if [ -d /tgt_root/etc/ ] ; then
->>> -    echo "$swap                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
->>> -    echo "$bootfs              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
->>> +    echo "$swap_static                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
->>> +    echo "$bootfs_static              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
->>>       # We dont want udev to mount our root device while we're booting...
->>>       if [ -d /tgt_root/etc/udev/ ] ; then
->>>   	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
->>> @@ -186,7 +192,7 @@ if [ -f /etc/grub.d/00_header ] ; then
->>>       cat >$GRUBCFG <<_EOF
->>>   menuentry "Linux" {
->>>       set root=(hd0,1)
->>> -    linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
->>> +    linux /vmlinuz root=PARTUUID=$rootfs_uuid $rootwait rw $5 $3 $4 quiet
->> I thought PARTUUID is for GPT only.
->>
-> Perhaps so but it does seem to be there on my VirtualBox systems.  My Ubuntu host uses "root=UUID=blah" but that was't working for me at some point.  I'll dig back into it and see what I can find.
->
-> Drew
->
->
->
->
-
-root=UUID=xxx has to be resolved by an initramfs because kernel itself 
-cannot handle it.
-
-There's a patchset I sent half a year ago trying to solve this problem.
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/initramfs-uuid
-This offers one solution, maybe an ugly one.
-
-Best Regards,
-Chen Qi
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch b/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
+new file mode 100644
+index 0000000..dc0f5c1
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
+@@ -0,0 +1,28 @@
++Fix test case link failure on PowerPC systems with Altivec
++
++Upstream-Status:backport
++
++On systems where the system compiler supports Altivec by default,
++the libunwind Makefile will attempt to build an extra test case
++ppc64-test-altivec.  Unfortunately, the link step will fail since
++the Makefile does not actually link against the libunwind library.
++
++Fixed by adding the appropriate LDADD macro.
++
++Signed-off-by: Ulrich Weigand <address@hidden>
++---
++ tests/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 0e30536..9c76628 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -201,3 +201,4 @@ Lia64_test_rbs_LDADD = $(LIBUNWIND_local)
++ Lia64_test_readonly_LDADD = $(LIBUNWIND_local)
++ ia64_test_dyn1_LDADD = $(LIBUNWIND)
++ ia64_test_sig_LDADD = $(LIBUNWIND)
+++ppc64_test_altivec_LDADD = $(LIBUNWIND)
++-- 
++1.8.5
++
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 2e52430..5b54dcb 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -3,6 +3,7 @@ require libunwind.inc
+ SRC_URI += "\
+     file://Support-building-with-older-compilers.patch \
+     file://AArch64-port.patch \
++    file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+ "
+ 
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+-- 
+1.8.3.2
 
 
