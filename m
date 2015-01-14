@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B5472858
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D30A4729D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 08:47:45 +0000 (UTC)
+	Wed, 14 Jan 2015 08:47:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lkUt003273
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lePf022105
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 00:47:46 -0800 (PST)
+	Wed, 14 Jan 2015 00:47:40 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 00:47:46 -0800
+	Wed, 14 Jan 2015 00:47:40 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:34 -0800
-Message-ID: <999daadde0cbe93fcddcad6b54625d6343cb0c4c.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:17 -0800
+Message-ID: <8d0eade0380f918d1e6ffa9eb88c9128f67af362.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 23/27] libfm: separate B and S
+Subject: [PATCH 06/27] cracklib: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,24 +41,24 @@ configure: error: source directory already configured; run "make distclean" ther
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/libfm/libfm_1.2.3.bb |    4 +++-
+ meta/recipes-extended/cracklib/cracklib_2.9.2.bb |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libfm/libfm_1.2.3.bb b/meta/recipes-support/libfm/libfm_1.2.3.bb
-index 856364a..629502f 100644
---- a/meta/recipes-support/libfm/libfm_1.2.3.bb
-+++ b/meta/recipes-support/libfm/libfm_1.2.3.bb
-@@ -16,7 +16,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz"
- SRC_URI[md5sum] = "3ff38200701658f7e80e25ed395d92dd"
- SRC_URI[sha256sum] = "c692f1624a4cbc8d1dd55f3b3f3369fbf5d26f63a916e2c295230b2344e1fbf9"
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb b/meta/recipes-extended/cracklib/cracklib_2.9.2.bb
+index b66ca54..177ab27 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.2.bb
+@@ -16,7 +16,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
+ SRC_URI[md5sum] = "559072fdfc095cdb763c4de3471a889e"
+ SRC_URI[sha256sum] = "c1c899291d443e99d1aecfbc879e4ac9c0cbc265574f47b487842da11e9759f5"
  
--inherit autotools-brokensep pkgconfig gtk-doc
+-inherit autotools-brokensep gettext
 +PR = "r1"
 +
-+inherit autotools pkgconfig gtk-doc
++inherit autotools gettext
  
- do_configure[dirs] =+ "${S}/m4"
- 
+ do_install_append_class-target() {
+ 	create-cracklib-dict -o ${D}${datadir}/cracklib/pw_dict ${D}${datadir}/cracklib/cracklib-small
 -- 
 1.7.9.5
 
