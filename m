@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF3172541
+	by mail.openembedded.org (Postfix) with ESMTP id 7FC7472603
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 09:20:38 +0000 (UTC)
+	Wed, 14 Jan 2015 09:20:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9Kdox007575
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9Kgkq007581
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 01:20:39 -0800 (PST)
+	Wed, 14 Jan 2015 01:20:42 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 01:20:38 -0800
+	Wed, 14 Jan 2015 01:20:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 01:20:34 -0800
-Message-ID: <cover.1421227202.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 01:20:37 -0800
+Message-ID: <774aa51b8032c4e609ecd4e8cd07890912cd1a20.1421227202.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1421227202.git.liezhi.yang@windriver.com>
+References: <cover.1421227202.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] meta: set CLEANBROKEN for 3 recipes
+Subject: [PATCH 3/4] quilt: set CLEANBROKEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 14 Jan 2015 09:20:48 -0000
 Content-Type: text/plain
 
-The following changes since commit b61a2acc321489c3427f0afa3059486dc144a13b:
+Fix when rebuild:
+| DEBUG: Executing shell function autotools_preconfigure
+| Please run ./configure
+| make: *** [Makefile] Error 1
 
-  bind: Update libxml2 check to make it deterministic. (2015-01-08 09:21:18 +0000)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/quilt/quilt-0.63.inc |    2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/clean
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/clean
-
-Robert Yang (4):
-  slang: set CLEANBROKEN
-  mkelfimage: set CLEANBROKEN
-  quilt: set CLEANBROKEN
-  autotools.bbclass: print make clean
-
- meta/classes/autotools.bbclass                     |    1 +
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 ++
- meta/recipes-devtools/quilt/quilt-0.63.inc         |    2 ++
- meta/recipes-extended/slang/slang_2.2.4.bb         |    2 ++
- 4 files changed, 7 insertions(+)
-
+diff --git a/meta/recipes-devtools/quilt/quilt-0.63.inc b/meta/recipes-devtools/quilt/quilt-0.63.inc
+index 433d6b4..220a3bc 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.63.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.63.inc
+@@ -19,6 +19,8 @@ EXTRA_OECONF_darwin += "--without-date \
+                         --without-getopt \
+                         "
+ 
++CLEANBROKEN = "1"
++
+ PACKAGES += "guards guards-doc"
+ FILES_${PN} = "${sysconfdir} ${datadir}/quilt \
+                ${bindir}/quilt ${libdir}/quilt"
 -- 
 1.7.9.5
 
