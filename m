@@ -1,26 +1,40 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5944471633
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 62CB871634
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 17:01:17 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 14 Jan 2015 08:57:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="440521094"
-Received: from dvhart-mac02.jf.intel.com (HELO dvhart-mac02.local)
-	([10.24.0.215])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jan 2015 08:48:20 -0800
-Message-ID: <54B6A0DB.70706@linux.intel.com>
-Date: Wed, 14 Jan 2015 09:01:15 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: =?UTF-8?B?VmluY2VudCBHw6luaWV1eA==?= <vincent2014@startigen.fr>, 
-	openembedded-core@lists.openembedded.org
-References: <1421100601-30956-1-git-send-email-vincent2014@startigen.fr>
-In-Reply-To: <1421100601-30956-1-git-send-email-vincent2014@startigen.fr>
-Subject: Re: fix '[[: not found' error message using dash
+	Wed, 14 Jan 2015 17:24:47 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id r10so10879808pdi.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Jan 2015 09:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=6CBR5GPcZI/WMSHZYXxipThdwCL/+/2rIJfOqv+Nfb0=;
+	b=iqcCcVyicCItQLPV1N571ab4GnuUBJKj0HiBu/ssJ3R2aIqtCDzA4xzMPiVJQIVdOV
+	XRfxp0urolp623WA3++Nz++0Az8hgu5+ebZAuW6AXDpLnQeaHrue5xDuTaUtyDdANeRS
+	fdUFjcBlozM6GdQL8jlrZ1ZQ3fRkzYUbY8+eXTB0m8AEEZq3itzIESvJqsKxsAVcDLwT
+	PcPDCCtfYrmsuWkQNOIsFtN+i67dBt3YUtFWYilN6AXIyflIVk+S7GTQ1murl/xdhQDC
+	gPDULJ3p1pbdUDP71klN2ql1YI18h4epSWUaGvyy1dTJum1oIY6BVeBZoyVUpOtItUQZ
+	Ebog==
+X-Received: by 10.68.69.80 with SMTP id c16mr7216799pbu.125.1421256288022;
+	Wed, 14 Jan 2015 09:24:48 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:edb3:1e58:19af:ddb9?
+	([2601:9:3580:84c:edb3:1e58:19af:ddb9])
+	by mx.google.com with ESMTPSA id
+	gi3sm20154668pbc.83.2015.01.14.09.24.46
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 Jan 2015 09:24:47 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1421235149-13079-1-git-send-email-koen.kooi@linaro.org>
+Date: Wed, 14 Jan 2015 09:24:46 -0800
+Message-Id: <D4B5A5D3-8D56-4ACA-AEE0-9FD7931D9780@gmail.com>
+References: <1421235149-13079-1-git-send-email-koen.kooi@linaro.org>
+To: Koen Kooi <koen.kooi@linaro.org>
+X-Mailer: Apple Mail (2.1993)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libgpg-error 1.17: simplify tupple handling and add armv8b support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Jan 2015 17:01:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 14 Jan 2015 17:24:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vincent,
 
-On 1/12/15 2:10 PM, Vincent Génieux wrote:
-> This is a fix for https://bugzilla.yoctoproject.org/show_bug.cgi?id=7112
-> bash specific syntax '[[ test ]]' replaced with '[ test ]'.
-> 
-
-Please use the tag:
-
-Fixes [YOCTO 7112]
-
-In the message body, on it's own line.
-
-> Signed-off-by: Vincent Génieux <vincent2014@startigen.fr>
-
-Here it is customary to list the people you have been working with:
-
-Cc: Darren Hart <dvhart@linux.intel.com>
-Cc: Bruce Ashfield...
-etc.
-
-Also, ensure your mailer does actually Cc those people (git send-email
-can do this automatically).
-
+> On Jan 14, 2015, at 3:32 AM, Koen Kooi <koen.kooi@linaro.org> wrote:
+>=20
+> Add a default option to the case statement and remove the duplicates. =
+Also add support for armv8b architectures.
+>=20
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 > ---
->  meta/classes/kernel.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 70ed95b..2a6ec34 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -403,7 +403,7 @@ do_strip() {
->  			  gawk '{print $1}'`
->  
->  		for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
-> -			if [[ "$headers" != *"$str"* ]]; then
-> +			if [ "$headers" != *"$str"* ]; then
->  				bbwarn "Section not found: $str";
->  			fi
->  
-> 
+> meta/recipes-support/libgpg-error/libgpg-error_1.17.bb | 8 ++------
+> 1 file changed, 2 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb =
+b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
+> index c905bd1..843b9ae 100644
+> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
+> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
+> @@ -28,18 +28,14 @@ do_compile_prepend() {
+> 	fi
+>=20
+> 	case ${TARGET_ARCH} in
+> -	  aarch64)    TUPLE=3Daarch64-unknown-linux-gnu ;;
+> +	  aarch64_be) TUPLE=3Daarch64-unknown-linux-gnu ;;
+> 	  arm)	      TUPLE=3Darm-unknown-linux-gnueabi ;;
 
-Content is correct. I presume this passes your testing with the dash shell?
+this can move to default case too.
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+> 	  armeb)      TUPLE=3Darm-unknown-linux-gnueabi ;;
+> 	  i586)       TUPLE=3Di486-pc-linux-gnu ;;
+> -	  mipsel)     TUPLE=3Dmipsel-unknown-linux-gnu ;;
+> 	  mips64el)   TUPLE=3Dmipsel-unknown-linux-gnu ;;
+> 	  mips64)     TUPLE=3Dmips-unknown-linux-gnu ;;
+> -	  mips)       TUPLE=3Dmips-unknown-linux-gnu ;;
+> -	  powerpc64)  TUPLE=3Dpowerpc64-unknown-linux-gnu ;;
+> -	  powerpc)    TUPLE=3Dpowerpc-unknown-linux-gnu ;;
+> -	  sh4)	      TUPLE=3Dsh4-unknown-linux-gnu ;;
+> 	  x86_64)     TUPLE=3Dx86_64-pc-linux-gnu ;;
 
--- 
-Darren Hart
-Intel Open Source Technology Center
+this as well.
+
+> +	  *)          TUPLE=3D${TARGET_ARCH}-unknown-linux-gnu ;;=20
+> 	esac
+>=20
+> 	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
+> --=20
+> 1.9.3
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
