@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A73B72267
+	by mail.openembedded.org (Postfix) with ESMTP id 097E565D19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 08:47:39 +0000 (UTC)
+	Wed, 14 Jan 2015 08:47:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8leAi003228
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lhRA003252
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 00:47:40 -0800 (PST)
+	Wed, 14 Jan 2015 00:47:43 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 00:47:40 -0800
+	Wed, 14 Jan 2015 00:47:43 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:16 -0800
-Message-ID: <cffae71caacdba974d36e857b589ede7b5848caf.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:26 -0800
+Message-ID: <dc295a820761c967664f5b38037728a64e231479.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/27] cmake: fix B != S
+Subject: [PATCH 15/27] qemu: fix B != S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +37,49 @@ X-List-Received-Date: Wed, 14 Jan 2015 08:47:46 -0000
 Content-Type: text/plain
 
 And bump PR to avoid:
-| Error when bootstrapping CMake:
-| Found directory "/path/to/cmake-2.8.12.2/Bootstrap.cmk".
-| Looks like somebody did bootstrap CMake in the source tree, but now you are
-| trying to do bootstrap in the binary tree. Please remove Bootstrap.cmk
-| directory from the source tree.
+Makefile:16: *** This is an out of tree build but your source tree
+(/path/to/qemu-2.2.0) seems to have been used for an in-tree build. You
+can fix this by running "make distclean && rm -rf *-linux-user
+*-softmmu" in your source tree.  Stop.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/cmake/cmake.inc |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index fb451fd..28b7f2d 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -17,7 +17,9 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
-            file://cmake-2.8.11.2-FindFreetype.patch \
-            "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c9a5d32..49415c1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -5,9 +5,11 @@ DEPENDS = "glib-2.0 zlib pixman"
+ RDEPENDS_${PN}_class-target += "bash python"
  
+ require qemu-targets.inc
 -inherit autotools-brokensep
++inherit autotools
+ BBCLASSEXTEND = "native nativesdk"
+ 
 +PR = "r1"
 +
-+inherit autotools
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
  
- # Ugly hack to work around undefined OE_QMAKE_PATH_EXTERNAL_HOST_BINS variable
- # and possibly missing qmake binary (qtbase-native can be removed from sysroot
-@@ -45,5 +47,5 @@ do_configure_prepend() {
- CMAKE_EXTRACONF = ""
+@@ -37,13 +39,13 @@ do_configure_prepend_class-native() {
+ 	fi
  
- do_configure () {
--	./configure --prefix=${prefix} -- ${CMAKE_EXTRACONF}
-+	${S}/configure --prefix=${prefix} -- ${CMAKE_EXTRACONF}
+ 	# Undo the -lX11 added by linker-flags.patch, don't assume that host has libX11 installed
+-	sed -i 's/-lX11//g' Makefile.target
++	sed -i 's/-lX11//g' ${S}/Makefile.target
  }
+ 
+ do_configure_prepend_class-nativesdk() {
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "" ] ; then
+ 		# Undo the -lX11 added by linker-flags.patch
+-		sed -i 's/-lX11//g' Makefile.target
++		sed -i 's/-lX11//g' ${S}/Makefile.target
+ 	fi
+ }
+ 
 -- 
 1.7.9.5
 
