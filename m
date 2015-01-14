@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B5BE722E7
+	by mail.openembedded.org (Postfix) with ESMTP id 0C44772451
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 08:47:40 +0000 (UTC)
+	Wed, 14 Jan 2015 08:47:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lfZA003241
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lgfO003244
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 00:47:41 -0800 (PST)
+	Wed, 14 Jan 2015 00:47:42 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
 	Wed, 14 Jan 2015 00:47:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:20 -0800
-Message-ID: <8fa92635208a3d6428a77e94c607fa8774c13b00.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:22 -0800
+Message-ID: <0691e94424d3b85108e4fd3ddb196eec00052afd.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/27] gnutls: separate B and S
+Subject: [PATCH 11/27] pinentry: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +41,24 @@ configure: error: source directory already configured; run "make distclean" ther
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc       |    2 +-
- meta/recipes-support/gnutls/gnutls_3.3.11.bb |    2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/pinentry/pinentry_0.9.0.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 12b26cc..45fb529 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -17,7 +17,7 @@ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]
+diff --git a/meta/recipes-support/pinentry/pinentry_0.9.0.bb b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
+index 68d2478..10b329b 100644
+--- a/meta/recipes-support/pinentry/pinentry_0.9.0.bb
++++ b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
+@@ -8,7 +8,9 @@ HOMEPAGE = "http://www.gnupg.org/related_software/pinentry/index.en.html"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
  
- SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
- 
--inherit autotools-brokensep texinfo binconfig pkgconfig gettext lib_package
-+inherit autotools texinfo binconfig pkgconfig gettext lib_package
- 
- EXTRA_OECONF="--disable-rpath \
-               --with-included-libtasn1 \
-diff --git a/meta/recipes-support/gnutls/gnutls_3.3.11.bb b/meta/recipes-support/gnutls/gnutls_3.3.11.bb
-index 320c510..1cf3a74 100644
---- a/meta/recipes-support/gnutls/gnutls_3.3.11.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.3.11.bb
-@@ -1,5 +1,7 @@
- require gnutls.inc
- 
+-inherit autotools-brokensep
 +PR = "r1"
 +
- SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
-            "
- SRC_URI[md5sum] = "b657e3010c10cae2244e7ce79ee3d446"
++inherit autotools
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
 -- 
 1.7.9.5
 
