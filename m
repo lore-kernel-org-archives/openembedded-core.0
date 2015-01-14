@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BED6E72858
+	by mail.openembedded.org (Postfix) with ESMTP id BEC9B7269B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 09:20:40 +0000 (UTC)
+	Wed, 14 Jan 2015 09:20:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9KfVu022493
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9KhGG022498
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 01:20:41 -0800 (PST)
+	Wed, 14 Jan 2015 01:20:43 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 01:20:40 -0800
+	Wed, 14 Jan 2015 01:20:42 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 01:20:36 -0800
-Message-ID: <4515e28010c74411110c9ee5302bcab5ad7693b0.1421227202.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 01:20:38 -0800
+Message-ID: <72246a610d47199885008d3ed513f6bc0c3d883e.1421227202.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421227202.git.liezhi.yang@windriver.com>
 References: <cover.1421227202.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] mkelfimage: set CLEANBROKEN
+Subject: [PATCH 4/4] autotools.bbclass: print make clean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +36,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 14 Jan 2015 09:20:48 -0000
 Content-Type: text/plain
 
-Fix when rebuild:
-| DEBUG: Executing shell function autotools_preconfigure
-| Makefile:1: Makefile.conf: No such file or directory
+It makes us easier to see make clean failed.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/autotools.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index bcf68a8..28aff91 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -14,6 +14,8 @@ SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
-            file://fix-makefile-to-find-libz.patch   \
-           "
- 
-+CLEANBROKEN = "1"
-+
- S = "${WORKDIR}/git/util/mkelfImage"
- 
- CFLAGS += "-fno-stack-protector"
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index ca04e79..402ee1b 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -111,6 +111,7 @@ autotools_preconfigure() {
+ 				# regenerate them even if CFLAGS/LDFLAGS are different
+ 				cd ${S}
+ 				if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
++					echo "Running \"${MAKE} clean\" in ${S}"
+ 					${MAKE} clean
+ 				fi
+ 				find ${S} -name \*.la -delete
 -- 
 1.7.9.5
 
