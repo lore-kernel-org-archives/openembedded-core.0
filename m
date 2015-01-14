@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9902272B49
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED1AF65D19
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jan 2015 08:47:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8lltB022135
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E8llh6003288
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Jan 2015 00:47:47 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Wed, 14 Jan 2015 00:47:47 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 00:47:37 -0800
-Message-ID: <ba546f10b786ed6760324eb0df79650adb8f2ac2.1421225218.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 00:47:38 -0800
+Message-ID: <d61f0df05ec939585b8ef73c0cd164ec17cbb43d.1421225218.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421225218.git.liezhi.yang@windriver.com>
 References: <cover.1421225218.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 26/27] presentproto: separate B and S
+Subject: [PATCH 27/27] kexec-tools: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,23 +41,24 @@ configure: error: source directory already configured; run "make distclean" ther
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../xorg-proto/presentproto_git.bb                 |    4 +++-
+ meta/recipes-kernel/kexec/kexec-tools.inc |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/presentproto_git.bb b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-index 7fca51d..dbb6f32 100644
---- a/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-+++ b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
- SRC_URI = "git://anongit.freedesktop.org/git/xorg/proto/presentproto"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
+index 312424a..7797a25 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools.inc
++++ b/meta/recipes-kernel/kexec/kexec-tools.inc
+@@ -10,7 +10,9 @@ DEPENDS = "zlib xz"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz"
  
 -inherit autotools-brokensep
 +PR = "r1"
 +
 +inherit autotools
  
- BBCLASSEXTEND = "native"
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+ 
 -- 
 1.7.9.5
 
