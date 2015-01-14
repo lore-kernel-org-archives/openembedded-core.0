@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC7472603
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BED6E72858
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 09:20:41 +0000 (UTC)
+	Wed, 14 Jan 2015 09:20:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9Kgkq007581
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0E9KfVu022493
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 01:20:42 -0800 (PST)
+	Wed, 14 Jan 2015 01:20:41 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 14 Jan 2015 01:20:41 -0800
+	Wed, 14 Jan 2015 01:20:40 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Jan 2015 01:20:37 -0800
-Message-ID: <774aa51b8032c4e609ecd4e8cd07890912cd1a20.1421227202.git.liezhi.yang@windriver.com>
+Date: Wed, 14 Jan 2015 01:20:36 -0800
+Message-ID: <4515e28010c74411110c9ee5302bcab5ad7693b0.1421227202.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421227202.git.liezhi.yang@windriver.com>
 References: <cover.1421227202.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] quilt: set CLEANBROKEN
+Subject: [PATCH 2/4] mkelfimage: set CLEANBROKEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +38,26 @@ Content-Type: text/plain
 
 Fix when rebuild:
 | DEBUG: Executing shell function autotools_preconfigure
-| Please run ./configure
-| make: *** [Makefile] Error 1
+| Makefile:1: Makefile.conf: No such file or directory
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/quilt/quilt-0.63.inc |    2 ++
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.63.inc b/meta/recipes-devtools/quilt/quilt-0.63.inc
-index 433d6b4..220a3bc 100644
---- a/meta/recipes-devtools/quilt/quilt-0.63.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.63.inc
-@@ -19,6 +19,8 @@ EXTRA_OECONF_darwin += "--without-date \
-                         --without-getopt \
-                         "
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index bcf68a8..28aff91 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -14,6 +14,8 @@ SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
+            file://fix-makefile-to-find-libz.patch   \
+           "
  
 +CLEANBROKEN = "1"
 +
- PACKAGES += "guards guards-doc"
- FILES_${PN} = "${sysconfdir} ${datadir}/quilt \
-                ${bindir}/quilt ${libdir}/quilt"
+ S = "${WORKDIR}/git/util/mkelfImage"
+ 
+ CFLAGS += "-fno-stack-protector"
 -- 
 1.7.9.5
 
