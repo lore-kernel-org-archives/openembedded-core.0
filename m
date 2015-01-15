@@ -1,26 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D5DE172A3A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 08BBB72541
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 14:20:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jan 2015 06:17:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,403,1418112000"; d="scan'208";a="670420204"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com) ([10.252.5.31])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jan 2015 06:20:40 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Thu, 15 Jan 2015 14:20:39 +0000
-Message-ID: <2031560.2Rc0YuEC5v@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <b2a5af309a2b2e6b23070ae2f2343e39b12a52df.1421044647.git.Chong.Lu@windriver.com>
-References: <cover.1421044647.git.Chong.Lu@windriver.com>
-	<b2a5af309a2b2e6b23070ae2f2343e39b12a52df.1421044647.git.Chong.Lu@windriver.com>
+	Thu, 15 Jan 2015 14:35:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0FEZb6d015259
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 15 Jan 2015 06:35:37 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 15 Jan 2015 06:35:37 -0800
+Message-ID: <54B7D038.1020409@windriver.com>
+Date: Thu, 15 Jan 2015 08:35:36 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] bitbake-layers: add a ability to query layer dependencies from layer index
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1421316230.31262.51.camel@linuxfoundation.org>
+In-Reply-To: <1421316230.31262.51.camel@linuxfoundation.org>
+Subject: Re: [PATCH] cross-canadian/meta-environment: Allow modification of TARGET_OS to be optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +35,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 14:20:44 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 Jan 2015 14:35:43 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Hi Chong,
+I've verified this fixes the problem that I had (along with another patch that I
+have not yet sent.)
 
-On Monday 12 January 2015 14:48:42 Chong Lu wrote:
-> It maybe depends on other layers when one layer is added to BBLAYERS. If
-> define LAYERDEPENDS variable in this layer, we will get error from bitbake.
-> But sometimes, we don't have defined. Add a mechanism to extend
-> bitbake-layers and it will query layer dependencies from layer index
-> (http://layers.openembedded.org/layerindex/api/)
-> Use `bitbake-layers show-layer-dependencies' to find out dependencies and
-> update bblayers.conf as appropriate.
+--Mark
 
-OK, so this is actually a patch against bitbake and thus should be sent to the 
-bitbake mailing list instead.
+On 1/15/15 4:03 AM, Richard Purdie wrote:
+> There are some cases we want the manipulation cross-canadian performance
+> on TARGET_OS, there are also cases like meta-environment where we do not
+> want this manipulation.
+> 
+> We did try and use immediate expansion to avoid this problem and it
+> works in the non multilib case. If we have a multilib that used an
+> extension, like for example:
+> 
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32 multilib:lib64"
+> DEFAULTTUNE = "mips32r2"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
+> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+> 
+> then the n32 extension case will be misconfigured.
+> 
+> It turns out saving an unexpanded variable is hard. The best I could
+> come up with was:
+> 
+> SAVEDTOS := "${@d.getVar('TARGET_OS', False).replace("{", "*")}"
+> 
+> and then
+> 
+> localdata.setVar("TARGET_OS", d.getVar("SAVEDOS", False).replace('*','{'))
+> 
+> which is rather evil, I'd challenge someone to come up with a nicer way
+> of making it work though!
+> 
+> Rather than the above madness, we modify cross-canadian to make the
+> problamtic code conditional.
+> 
+> This fixes the original issue (where a linux-gnuspe target was seeing
+> 'linux') of
+> http://cgit.openembedded.org/openembedded-core/commit/?id=0038634ee6e2b6035c023a2702547f20f67c103a
+> but also fixes the multilib one.
+> 
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+> index fec6438..824be07 100644
+> --- a/meta/classes/cross-canadian.bbclass
+> +++ b/meta/classes/cross-canadian.bbclass
+> @@ -16,6 +16,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
+>  #
+>  PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
+>  CANADIANEXTRAOS = ""
+> +MODIFYTOS = "1"
+>  python () {
+>      archs = d.getVar('PACKAGE_ARCHS', True).split()
+>      sdkarchs = []
+> @@ -23,6 +24,9 @@ python () {
+>          sdkarchs.append(arch + '-${SDKPKGSUFFIX}')
+>      d.setVar('PACKAGE_ARCHS', " ".join(sdkarchs))
+>  
+> +    # Allow the following code segment to be disabled, e.g. meta-environment
+> +    if d.getVar("MODIFYTOS", True) != "1":
+> +        return
+>      # PowerPC can build "linux" and "linux-gnuspe"
+>      tarch = d.getVar("TARGET_ARCH", True)
+>      if tarch == "powerpc":
+> diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+> index b3737bb..5d72e38 100644
+> --- a/meta/recipes-core/meta/meta-environment.bb
+> +++ b/meta/recipes-core/meta/meta-environment.bb
+> @@ -6,9 +6,9 @@ PR = "r8"
+>  
+>  EXCLUDE_FROM_WORLD = "1"
+>  
+> -ORIGOS := "${TARGET_OS}"
+> +MODIFYTOS = "0"
+>  
+> -REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${ORIGOS}"
+> +REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+>  
+>  inherit toolchain-scripts
+>  TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
+> @@ -30,7 +30,6 @@ python do_generate_content() {
+>  
+>      # make sure we only use the SDKTARGETSYSROOT value from 'd'
+>      localdata.setVar('SDKTARGETSYSROOT', d.getVar('SDKTARGETSYSROOT', True))
+> -    localdata.setVar('TARGET_OS', d.getVar('ORIGOS', True))
+>      localdata.setVar('libdir', d.getVar('target_libdir', False))
+>  
+>      # Process DEFAULTTUNE
+> 
+> 
 
-Having said that, I have looked over the code. This is definitely a step in the 
-right direction, however I would make the following comments:
-
-1) Since this is for bitbake we can't really have hardcoded references to the 
-OE layer index in the code. I'd suggest we have bitbake-layers query a 
-variable e.g. BITBAKE_LAYERINDEX_URL, and then separately patch OE to set that 
-from conf/bitbake.conf. (It should also give a sensible error if the variable 
-isn't set for some reason.)
-
-2) I think this could be a bit more practical in terms of usage. As described 
-in the bug I was thinking of a command for which you would specify the name of 
-a layer you wanted to use, and then bitbake-layers would call the layer index, 
-find the specified layer and all of its dependencies, fetch them, then add them 
-to bblayers.conf. This kind of does the first part but leaves the rest to the 
-user - I think we can go a bit further than that. FWIW as you may have seen I 
-did just add some code to make clean modifications to bblayers.conf which may 
-be useful for part of this.
-
-For #2 there may be a slight problem to solve, which is that whatever 
-equivalent of OE-Core you have on your local disk needs to be considered 
-equivalent to the "oe-core" layer in the layer index so you don't end up 
-adding that. Toaster has solved this same issue, but in a way that won't work 
-here, so we might have to figure out an alternative solution.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
