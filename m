@@ -1,24 +1,41 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B36D671637
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D940860232
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 16:31:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0FGVD4Z001730
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu, 15 Jan 2015 16:36:09 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id z10so17208085pdj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 08:31:13 -0800 (PST)
-Received: from otp-ovpserver-d1.corp.ad.wrs.com (128.224.124.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 15 Jan 2015 08:31:13 -0800
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Jan 2015 18:31:11 +0200
-Message-ID: <1421339471-11486-1-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 1.8.1.4
+	Thu, 15 Jan 2015 08:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=mhXaTyEGFVhwKmj1mEcONZNVvAYQlB1l6yxulbrXLSw=;
+	b=GiCYkypaXz7KkdILYSVubEF9AttU4AJyY5ZGzVKJha0OOEGmE+/4Yb7CqsRf/fSclC
+	DunuzBZFrfPRowiBmvPmAA+Teo5Q01CEQ8U1QUfv76Rc9NX/W9Nl6Sd/j7y7CkY6RizD
+	z0hPzn58uBXsWI/Hn+5h4er6Tpf2qF896qPSFAyRwhrdFDmsbhdL1x619Vh0JjDN2Ia1
+	PX0p2yBCuJOicGDrO6vDE3fVDPCLwinKyo9WWfmUTgV1yxd90d7eqa9AnJtJevbIB4lm
+	NFOcwjtmo4rYJGprBHjEVfaZ/B1J3uuoCIPBN1mvdj6hb4ydsm8wkQazez2GbPS5x6pf
+	12hg==
+X-Received: by 10.68.100.33 with SMTP id ev1mr15587797pbb.13.1421339770471;
+	Thu, 15 Jan 2015 08:36:10 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:64cd:5fdf:a308:32c2?
+	([2601:c:a700:272f:64cd:5fdf:a308:32c2])
+	by mx.google.com with ESMTPSA id
+	ex11sm1794512pac.19.2015.01.15.08.36.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Jan 2015 08:36:09 -0800 (PST)
+Message-ID: <54B7EC76.9090306@gmail.com>
+Date: Thu, 15 Jan 2015 08:36:06 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: [PATCH] gcc-runtime: Remove libgfortran data from receipe
+To: openembedded-core@lists.openembedded.org
+References: <1421314636.31262.42.camel@linuxfoundation.org>
+In-Reply-To: <1421314636.31262.42.camel@linuxfoundation.org>
+Subject: Re: [PATCH] libxml2: Backport fix for CVE introduced entity issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,108 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 16:31:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Jan 2015 16:36:11 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove libgfortran packages from PACKAGES list and skip them at compiling
-and installing as long as libgfortran has separate receipe since commit
+this will be required for dizzy when I pull in the cve fix ( which i 
+missed)..
 
-5bde5d9b39ea67f19a1a6aedd0c08c6cfedcbe5f
-gcc: Allow fortran to build successfully in 4.8
 
-Otherwise, when fortran support will be enabled in the compiler, both
-lingfortran and gcc-runtime receipes will create the same files and will
-try to install them. This will cause errors:
 
-ERROR: The recipe libgfortran is trying to install files into a shared
-area when those files already exist. Those files and their manifest
-location are: ...
-Please verify which recipe should provide the above files.
-
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 41 ++++++++++++-------------------
- 1 file changed, 16 insertions(+), 25 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 167869e..c3b4a46 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -22,28 +22,34 @@ do_configure () {
- 	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
- 	hardlinkdir ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget ${B}
- 	for d in libgcc ${RUNTIMETARGET}; do
--		echo "Configuring $d"
--		rm -rf ${B}/$target/$d/
--		mkdir -p ${B}/$target/$d/
--		cd ${B}/$target/$d/
--		chmod a+x ${S}/$d/configure
--		${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-+		if [ "$d" != "libgfortran" ]; then
-+			echo "Configuring $d"
-+			rm -rf ${B}/$target/$d/
-+			mkdir -p ${B}/$target/$d/
-+			cd ${B}/$target/$d/
-+			chmod a+x ${S}/$d/configure
-+			${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-+		fi
- 	done
- }
- 
- do_compile () {
- 	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
- 	for d in libgcc ${RUNTIMETARGET}; do
--		cd ${B}/$target/$d/
--		oe_runmake MULTIBUILDTOP=${B}/$target/$d/
-+		if [ "$d" != "libgfortran" ]; then
-+			cd ${B}/$target/$d/
-+			oe_runmake MULTIBUILDTOP=${B}/$target/$d/
-+		fi
- 	done
- }
- 
- do_install () {
- 	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
- 	for d in ${RUNTIMETARGET}; do
--		cd ${B}/$target/$d/
--		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
-+		if [ "$d" != "libgfortran" ]; then
-+			cd ${B}/$target/$d/
-+			oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
-+		fi
- 	done
- 	rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
- 	rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir
-@@ -76,9 +82,6 @@ PACKAGES = "\
-     libssp \
-     libssp-dev \
-     libssp-staticdev \
--    libgfortran \
--    libgfortran-dev \
--    libgfortran-staticdev \
-     libmudflap \
-     libmudflap-dev \
-     libmudflap-staticdev \
-@@ -131,18 +134,6 @@ FILES_libssp-dev = "\
- "
- FILES_libssp-staticdev = "${libdir}/libssp*.a"
- 
--FILES_libgfortran = "${libdir}/libgfortran.so.*"
--FILES_libgfortran-dev = "\
--    ${libdir}/libgfortran*.so \
--    ${libdir}/libgfortran.spec \
--    ${libdir}/libgfortran.la \
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single* \
--"
--FILES_libgfortran-staticdev = "${libdir}/libgfortran.a"
--
--INSANE_SKIP_${MLPREFIX}libgfortran-dev = "staticdev"
--
- FILES_libquadmath = "${libdir}/libquadmath*.so.*"
- FILES_libquadmath-dev = "\
-     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
--- 
-1.8.1.4
-
+On 01/15/2015 01:37 AM, Richard Purdie wrote:
+> The CVE fix introduced problems with entity issues, we observed this
+> when building the Yocto Docs in particular. Backport the fix from
+> upstream so we can build our docs correctly.
+>
+> [YOCTO #7134]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
+> new file mode 100644
+> index 0000000..10a8112
+> --- /dev/null
+> +++ b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
+> @@ -0,0 +1,30 @@
+> +From 72a46a519ce7326d9a00f0b6a7f2a8e958cd1675 Mon Sep 17 00:00:00 2001
+> +From: Daniel Veillard <veillard@redhat.com>
+> +Date: Thu, 23 Oct 2014 11:35:36 +0800
+> +Subject: Fix missing entities after CVE-2014-3660 fix
+> +
+> +For https://bugzilla.gnome.org/show_bug.cgi?id=738805
+> +
+> +The fix for CVE-2014-3660 introduced a regression in some case
+> +where entity substitution is required and the entity is used
+> +first in anotther entity referenced from an attribute value
+> +
+> +Upstream-Status: Backport
+> +
+> +diff --git a/parser.c b/parser.c
+> +index 67c9dfd..a8d1b67 100644
+> +--- a/parser.c
+> ++++ b/parser.c
+> +@@ -7235,7 +7235,8 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+> +      * far more secure as the parser will only process data coming from
+> +      * the document entity by default.
+> +      */
+> +-    if ((ent->checked == 0) &&
+> ++    if (((ent->checked == 0) ||
+> ++         ((ent->children == NULL) && (ctxt->options & XML_PARSE_NOENT))) &&
+> +         ((ent->etype != XML_EXTERNAL_GENERAL_PARSED_ENTITY) ||
+> +          (ctxt->options & (XML_PARSE_NOENT | XML_PARSE_DTDVALID)))) {
+> + 	unsigned long oldnbent = ctxt->nbentities;
+> +--
+> +cgit v0.10.1
+> +
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.2.bb b/meta/recipes-core/libxml/libxml2_2.9.2.bb
+> index f0cfa59..1affff1 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.2.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.2.bb
+> @@ -1,6 +1,7 @@
+>   require libxml2.inc
+>
+> -SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar"
+> +SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
+> +            file://72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch"
+>
+>   SRC_URI[libtar.md5sum] = "9e6a9aca9d155737868b3dc5fd82f788"
+>   SRC_URI[libtar.sha256sum] = "5178c30b151d044aefb1b08bf54c3003a0ac55c59c866763997529d60770d5bc"
+>
+>
 
