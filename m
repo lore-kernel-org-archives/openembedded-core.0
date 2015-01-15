@@ -1,29 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1412A60232
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 961CA727D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 16:40:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0FGeh0X026810; Thu, 15 Jan 2015 16:40:43 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KHA6Iq4bZhJ2; Thu, 15 Jan 2015 16:40:43 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0FGeTSF026805
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 15 Jan 2015 16:40:40 GMT
-Message-ID: <1421340029.18703.0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Daniel Dragomir <daniel.dragomir@windriver.com>
-Date: Thu, 15 Jan 2015 16:40:29 +0000
-In-Reply-To: <1421339471-11486-1-git-send-email-daniel.dragomir@windriver.com>
-References: <1421339471-11486-1-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-runtime: Remove libgfortran data from receipe
+	Thu, 15 Jan 2015 17:08:11 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id z107so12657996qgd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Jan 2015 09:08:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=p2A07UJv6O1X1z1E4C9Byh5KwbUgHyvTwI79W07fJyA=;
+	b=SZo5y6xDtTa1JpTJljzgXDwaGxzjF8khCOsG/RjoI2O4wDhvi+iArk+TLuHBmw0OGb
+	NsN+oOBMJD0uIGkoIVauLhk7dinGYYzGR89UcbXMcr9flJ63JTY8sYGU4ZfM6pO3+G0t
+	BsJNcU8CVlULivSrODFoey2UWkEhUlwTPiujEklOnwcL8rloFznXzKssuiyD60SOL013
+	Ah70RDOBs5vDpVyW4A6n6N6Iw22LFn2BH/t9FihqftCMGmPQSj7OyNmoBhGnYEHttlvg
+	UX3WJ7wRskaYGK0pVI2sTNsvVW6NeBIZA6rdv9kem+RpSNOLHXzOl/BGRMkYhwF8Rsdy
+	4yHQ==
+X-Gm-Message-State: ALoCoQkBfplFUOzOyHbUztKRTPe5DOSE7q2Wv3n54oD75vt92DtewDY7AqgQzJCTtBK0s2bN9V9d
+X-Received: by 10.140.21.80 with SMTP id 74mr16712738qgk.87.1421341692363;
+	Thu, 15 Jan 2015 09:08:12 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Thu, 15 Jan 2015 09:07:52 -0800 (PST)
+In-Reply-To: <54B7EC76.9090306@gmail.com>
+References: <1421314636.31262.42.camel@linuxfoundation.org>
+	<54B7EC76.9090306@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Jan 2015 17:07:52 +0000
+Message-ID: <CAJTo0LZF6T5bA9TwAJwM1iXz3LYwij7J_nkuVFGW7=YRr4qt5A@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: Backport fix for CVE introduced entity issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,120 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 16:40:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Jan 2015 17:08:18 -0000
+Content-Type: multipart/alternative; boundary=001a11c131a4adc006050cb3e66a
 
-On Thu, 2015-01-15 at 18:31 +0200, Daniel Dragomir wrote:
-> Remove libgfortran packages from PACKAGES list and skip them at compiling
-> and installing as long as libgfortran has separate receipe since commit
-> 
-> 5bde5d9b39ea67f19a1a6aedd0c08c6cfedcbe5f
-> gcc: Allow fortran to build successfully in 4.8
-> 
-> Otherwise, when fortran support will be enabled in the compiler, both
-> lingfortran and gcc-runtime receipes will create the same files and will
-> try to install them. This will cause errors:
-> 
-> ERROR: The recipe libgfortran is trying to install files into a shared
-> area when those files already exist. Those files and their manifest
-> location are: ...
-> Please verify which recipe should provide the above files.
-> 
-> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 41 ++++++++++++-------------------
->  1 file changed, 16 insertions(+), 25 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 167869e..c3b4a46 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -22,28 +22,34 @@ do_configure () {
->  	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
->  	hardlinkdir ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget ${B}
->  	for d in libgcc ${RUNTIMETARGET}; do
-> -		echo "Configuring $d"
-> -		rm -rf ${B}/$target/$d/
-> -		mkdir -p ${B}/$target/$d/
-> -		cd ${B}/$target/$d/
-> -		chmod a+x ${S}/$d/configure
-> -		${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-> +		if [ "$d" != "libgfortran" ]; then
+--001a11c131a4adc006050cb3e66a
+Content-Type: text/plain; charset=UTF-8
 
-Why would libgfortran be in RUNTIMETARGET? Surely it would be better
-just to ensure it isn't rather than ignore it?
+On 15 January 2015 at 16:36, akuster808 <akuster808@gmail.com> wrote:
 
-Cheers,
+> this will be required for dizzy when I pull in the cve fix ( which i
+> missed)..
+>
 
-Richard
+Yes, the CVE fix was broken.
 
-> +			echo "Configuring $d"
-> +			rm -rf ${B}/$target/$d/
-> +			mkdir -p ${B}/$target/$d/
-> +			cd ${B}/$target/$d/
-> +			chmod a+x ${S}/$d/configure
-> +			${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-> +		fi
->  	done
->  }
->  
->  do_compile () {
->  	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
->  	for d in libgcc ${RUNTIMETARGET}; do
-> -		cd ${B}/$target/$d/
-> -		oe_runmake MULTIBUILDTOP=${B}/$target/$d/
-> +		if [ "$d" != "libgfortran" ]; then
-> +			cd ${B}/$target/$d/
-> +			oe_runmake MULTIBUILDTOP=${B}/$target/$d/
-> +		fi
->  	done
->  }
->  
->  do_install () {
->  	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
->  	for d in ${RUNTIMETARGET}; do
-> -		cd ${B}/$target/$d/
-> -		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
-> +		if [ "$d" != "libgfortran" ]; then
-> +			cd ${B}/$target/$d/
-> +			oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
-> +		fi
->  	done
->  	rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
->  	rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir
-> @@ -76,9 +82,6 @@ PACKAGES = "\
->      libssp \
->      libssp-dev \
->      libssp-staticdev \
-> -    libgfortran \
-> -    libgfortran-dev \
-> -    libgfortran-staticdev \
->      libmudflap \
->      libmudflap-dev \
->      libmudflap-staticdev \
-> @@ -131,18 +134,6 @@ FILES_libssp-dev = "\
->  "
->  FILES_libssp-staticdev = "${libdir}/libssp*.a"
->  
-> -FILES_libgfortran = "${libdir}/libgfortran.so.*"
-> -FILES_libgfortran-dev = "\
-> -    ${libdir}/libgfortran*.so \
-> -    ${libdir}/libgfortran.spec \
-> -    ${libdir}/libgfortran.la \
-> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \
-> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single* \
-> -"
-> -FILES_libgfortran-staticdev = "${libdir}/libgfortran.a"
-> -
-> -INSANE_SKIP_${MLPREFIX}libgfortran-dev = "staticdev"
-> -
->  FILES_libquadmath = "${libdir}/libquadmath*.so.*"
->  FILES_libquadmath-dev = "\
->      ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
-> -- 
-> 1.8.1.4
-> 
+Ross
 
+--001a11c131a4adc006050cb3e66a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 January 2015 at 16:36, akuster808 <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3tn" class=3D"a3=
+s" style=3D"overflow:hidden">this will be required for dizzy when I pull in=
+ the cve fix ( which i missed)..<div class=3D"yj6qo ajU"><div id=3D":31e" c=
+lass=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>Yes, t=
+he CVE fix was broken.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
 
+--001a11c131a4adc006050cb3e66a--
