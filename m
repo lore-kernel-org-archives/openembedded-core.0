@@ -1,32 +1,31 @@
 Return-Path: <ting.liu@freescale.com>
-X-Greylist: delayed 81461 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 Jan 2015 04:04:01 UTC
 Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bn0106.outbound.protection.outlook.com [157.56.110.106])
-	by mail.openembedded.org (Postfix) with ESMTP id 6179A72369
+	(mail-bn1bbn0107.outbound.protection.outlook.com [157.56.111.107])
+	by mail.openembedded.org (Postfix) with ESMTP id E96E37237A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 04:04:01 +0000 (UTC)
-Received: from CO2PR03CA0036.namprd03.prod.outlook.com (10.141.194.163) by
-	CY1PR0301MB0713.namprd03.prod.outlook.com (25.160.159.143) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.53.17; Thu, 15 Jan 2015 04:04:00 +0000
-Received: from BN1AFFO11FD043.protection.gbl (2a01:111:f400:7c10::153) by
-	CO2PR03CA0036.outlook.office365.com (2a01:111:e400:1414::35) with
+	Thu, 15 Jan 2015 04:04:02 +0000 (UTC)
+Received: from CO2PR03CA0034.namprd03.prod.outlook.com (10.141.194.161) by
+	DM2PR0301MB0718.namprd03.prod.outlook.com (25.160.97.139) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.53.17; Thu, 15 Jan 2015 04:04:01 +0000
+Received: from BN1BFFO11FD038.protection.gbl (2a01:111:f400:7c10::1:170) by
+	CO2PR03CA0034.outlook.office365.com (2a01:111:e400:1414::33) with
 	Microsoft
 	SMTP Server (TLS) id 15.1.59.20 via Frontend Transport; Thu, 15 Jan 2015
-	04:03:59 +0000
+	04:04:00 +0000
 Received: from az84smr01.freescale.net (192.88.158.2) by
-	BN1AFFO11FD043.mail.protection.outlook.com (10.58.52.190) with
-	Microsoft SMTP Server (TLS) id 15.1.49.13 via Frontend Transport;
-	Thu, 15 Jan 2015 04:03:58 +0000
+	BN1BFFO11FD038.mail.protection.outlook.com (10.58.144.101) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.49.13 via Frontend Transport; Thu, 15 Jan 2015
+	04:04:00 +0000
 Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
 	[10.192.208.77])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t0F43rQt001389;
-	Wed, 14 Jan 2015 21:03:57 -0700
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t0F43rQu001389;
+	Wed, 14 Jan 2015 21:03:58 -0700
 From: <ting.liu@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Jan 2015 12:03:51 +0800
-Message-ID: <1421294632-31110-3-git-send-email-ting.liu@freescale.com>
+Date: Thu, 15 Jan 2015 12:03:52 +0800
+Message-ID: <1421294632-31110-4-git-send-email-ting.liu@freescale.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1421294632-31110-1-git-send-email-ting.liu@freescale.com>
 References: <1421294632-31110-1-git-send-email-ting.liu@freescale.com>
@@ -39,27 +38,27 @@ Authentication-Results: spf=fail (sender IP is 192.88.158.2)
 	smtp.mailfrom=ting.liu@freescale.com; 
 X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(199003)(189002)(50466002)(76176999)(77156002)(450100001)(62966003)(50986999)(68736005)(64706001)(81156004)(229853001)(2351001)(105606002)(106466001)(47776003)(77096005)(86152002)(48376002)(85426001)(2950100001)(92566002)(575784001)(86362001)(97736003)(110136001)(104016003)(46102003)(36756003)(33646002)(19580405001)(19580395003)(50226001)(69596002)(87936001)(6806004);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB0713;
+	SFS:(10019020)(6009001)(339900001)(377424004)(189002)(199003)(36756003)(229853001)(77096005)(47776003)(64706001)(87936001)(48376002)(50466002)(450100001)(2351001)(2950100001)(68736005)(62966003)(77156002)(15975445007)(110136001)(76176999)(86362001)(92566002)(105606002)(104016003)(81156004)(106466001)(33646002)(19580395003)(69596002)(85426001)(6806004)(19580405001)(50986999)(50226001)(97736003)(86152002)(46102003)(211663006);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB0718;
 	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
 X-DmarcAction-Test: None
 X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005004);SRVR:CY1PR0301MB0713;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005004);SRVR:DM2PR0301MB0718;
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:CY1PR0301MB0713; 
+	SRVR:DM2PR0301MB0718; 
 X-Forefront-PRVS: 0457F11EAF
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB0713; 
+	SRVR:DM2PR0301MB0718; 
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2015 04:03:58.8992 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2015 04:04:00.1722 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB0713
-Subject: [oe-core dizzy][PATCH 2/3] bitbake.conf: add PKGDATA_DIR to BB_HASHBASE_WHITELIST
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB0718
+Subject: [oe-core dizzy][PATCH 3/3] valgrind: build with altivec only if it supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,38 +74,101 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 15 Jan 2015 04:04:06 -0000
 Content-Type: text/plain
 
-From: Ting Liu <b28495@freescale.com>
-
-In meta/conf/bitbake.conf, PKGDATA_DIR is default to:
-PKGDATA_DIR = "${STAGING_DIR_HOST}/pkgdata"
-
-But in meta/conf/multilib.conf, PKGDATA_DIR is set as:
-PKGDATA_DIR = "${STAGING_DIR}/${MACHINE}/pkgdata"
-
-When multilib enabled, linux-libc-headers cache will be machine
-specific:
-$ bitbake-diffsigs sstate-cache/1a/sstate:linux-libc-headers:ppce6500-poky-linux:3.17.7:r0:ppce6500:3:1a0c3934d91479fd7242a5b1d407d155_package.tgz.siginfo sstate-cache/28/sstate:linux-libc-headers:ppce6500-poky-linux:3.17.7:r0:ppce6500:3:28c918e8f9f4a4cfceb3a38b258f7501_package.tgz.siginfo
-basehash changed from 8d3158bbddcee612fa30badd05f47b8e to 68ac258fc6c8e489f360fde3123a5894
-Variable MACHINE value changed from 'b4420qds' to 'b4860qds'
+From: Ting Liu <ting.liu@freescale.com>
 
 Signed-off-by: Ting Liu <ting.liu@freescale.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../pass-maltivec-only-if-it-supported.patch       | 68 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 74813a2..90b64b0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -771,7 +771,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
--    WARN_QA ERROR_QA WORKDIR STAMPCLEAN"
-+    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
+diff --git a/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch b/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+new file mode 100644
+index 0000000..12ad4c3
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+@@ -0,0 +1,68 @@
++Upstream-status: Backport
++
++r14566 | florian | 2014-09-24 17:02:54 -0500 (Wed, 24 Sep 2014) | 4 lines
++
++The testbuckets none/tests/ppc{32,64} did not build in case the
++toolchain did not support -maltivec -mabi=altivec.
++This should work now. Fixes BZ #338731
++
++Index: none/tests/ppc32/Makefile.am
++===================================================================
++--- a/none/tests/ppc32/Makefile.am	(revision 14565)
+++++ b/none/tests/ppc32/Makefile.am	(revision 14566)
++@@ -72,8 +72,12 @@
++ allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++ 
++ if HAS_ALTIVEC
+++BUILD_FLAG_ALTIVEC = -maltivec
+++BUILD_FLAG_ABI_ALTIVEC = -mabi=altivec
++ ALTIVEC_FLAG = -DHAS_ALTIVEC
++ else
+++BUILD_FLAG_ALTIVEC =
+++BUILD_FLAG_ABI_ALTIVEC =
++ ALTIVEC_FLAG =
++ endif
++ 
++@@ -101,11 +105,12 @@
++ ISA_2_07_FLAG =
++ endif
++ 
++-jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames -maltivec \
++-			@FLAG_M32@ $(ALTIVEC_FLAG)
+++jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames \
+++			@FLAG_M32@ $(ALTIVEC_FLAG) $(BUILD_FLAG_ALTIVEC)
++ 
++-testVMX_CFLAGS  = $(AM_CFLAGS) -O -g -Wall -maltivec -mabi=altivec -DALTIVEC \
++-			-DGCC_COMPILER @FLAG_M32@
+++testVMX_CFLAGS  = $(AM_CFLAGS) -O -g -Wall -DALTIVEC \
+++			-DGCC_COMPILER @FLAG_M32@  $(BUILD_FLAG_ALTIVEC) \
+++			$(BUILD_FLAG_ABI_ALTIVEC)
++ 
++ test_isa_2_06_part1_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(VSX_FLAG) \
++ 			@FLAG_M32@ $(ALTIVEC_FLAG) $(BUILD_FLAG_VSX)
++Index: none/tests/ppc64/Makefile.am
++===================================================================
++--- a/none/tests/ppc64/Makefile.am	(revision 14565)
+++++ b/none/tests/ppc64/Makefile.am	(revision 14566)
++@@ -50,8 +50,10 @@
++ allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++ 
++ if HAS_ALTIVEC
+++BUILD_FLAG_ALTIVEC = -maltivec
++ ALTIVEC_FLAG = -DHAS_ALTIVEC
++ else
+++BUILD_FLAG_ALTIVEC =
++ ALTIVEC_FLAG =
++ endif
++ 
++@@ -88,8 +90,8 @@
++ test_isa_2_06_part3_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(VSX_FLAG) \
++ 			@FLAG_M64@ $(ALTIVEC_FLAG) $(BUILD_FLAG_VSX)
++ 
++-jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames -maltivec \
++-			@FLAG_M64@ $(ALTIVEC_FLAG)
+++jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames \
+++			@FLAG_M64@ $(ALTIVEC_FLAG) $(BUILD_FLAG_ALTIVEC)
++ 
++ test_dfp1_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(DFP_FLAG) \
++ 			@FLAG_M64@ $(BUILD_FLAGS_DFP)
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+index c415e77..eea81a2 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://remove-arm-variant-specific.patch \
+            file://remove-ppc-tests-failing-build.patch \
+            file://add-ptest.patch \
++           file://pass-maltivec-only-if-it-supported.patch \
+            file://run-ptest \
+           "
+ 
 -- 
 1.8.3.2
 
