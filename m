@@ -1,40 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F36D72541
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D379D72207
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 15:33:24 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id q59so15346758wes.10
+	Thu, 15 Jan 2015 15:41:14 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id z107so12224540qgd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 07:33:25 -0800 (PST)
+	Thu, 15 Jan 2015 07:41:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=03BXB6SfJUS2sqWH3kgr3L1BxOmPv9pkOydBtnGCB5M=;
-	b=GsiiYsRKTnZULhc2wJOdfWDZzgPFTof+nrtp9cyruOKfGFVgtv0CXCLm9DEC+w96Bi
-	ieopRvpdF/b+vkEZPLkZPwIkix/MU5dDnt6zgfeSledsf3p8z05IpSF065siOfISVZZ1
-	NY5ITU4aNwLle4DsGOTL377NW6LxZnm3bO37H4Nu10AuO1gI0Yuy/4bnsFaeHwKVe8F3
-	tmyDPifieggKuDhh+RQsA/Wrm5YNAQMq9/RJGVKBD3//CGFC3E0cqdKigKUjNcK8zVjY
-	wKOmpGXt7yhqgBzbxJ7Exoa4UuCEhqEKiRRuCxCDV8SJA/nlnXYpSwBSyXyX7cBiU4TY
-	yTtw==
-X-Received: by 10.180.81.169 with SMTP id b9mr20090829wiy.41.1421336004959;
-	Thu, 15 Jan 2015 07:33:24 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	fp2sm23207294wib.8.2015.01.15.07.33.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Jan 2015 07:33:23 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 15 Jan 2015 16:33:28 +0100
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150115153328.GA2482@jama>
-References: <1420737078-24121-1-git-send-email-Martin.Jansa@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=pP/tBcovdEp3p66LvefHqb0uKytVz10i03b0iGJs4t8=;
+	b=Lp0BoQPwqDTqb7p0p565CDRcrsDLqmgxybnyTvESJ4HdiJytnKFamXFbwD2fH34CuL
+	EmoIUHxVSyy4ExHcuU0/M8dLJXmR3Ve1TNjnpevGLeYJe27ERBtVwOYh+Y9Mr6ja0cw6
+	BduN+hD2FulQEjknrTMeKBddTx1Tjhptq0HytI0Xj/hB/khqEh4iCIjaJzzFrj1bhB1q
+	7R08iHktRhaR5TgYTlL63ElRTKleHg1GFqK+obdmMj+qU5kJK2kjF4QGPQEGU3+KGiO9
+	DpQGNDB5n4GuYlhdWDLpZVwfliR9qJezfelK8nWt0Yh9GZw8u2pHDbtpBAQQamNOV/XI
+	R4cQ==
 MIME-Version: 1.0
-In-Reply-To: <1420737078-24121-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] package.bbclass: Fix support for private libs
+X-Received: by 10.140.96.195 with SMTP id k61mr15783325qge.104.1421336474867; 
+	Thu, 15 Jan 2015 07:41:14 -0800 (PST)
+Received: by 10.96.35.34 with HTTP; Thu, 15 Jan 2015 07:41:14 -0800 (PST)
+In-Reply-To: <54B7D574.9030606@linux.intel.com>
+References: <CACS+7ZQe+N6mWE8uPR2nmE8dcEtFjmzH8NfGfX_iVVgsp8y6eQ@mail.gmail.com>
+	<54B7D574.9030606@linux.intel.com>
+Date: Thu, 15 Jan 2015 09:41:14 -0600
+Message-ID: <CACS+7ZTzADHseekU1d46B_iNM_dQCJwC008oxdR04rXh8Go8Jg@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH 3/3] dpkg: fix host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 15:33:32 -0000
-X-Groupsio-MsgNum: 61415
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 Jan 2015 15:41:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-On Thu, Jan 08, 2015 at 06:11:18PM +0100, Martin Jansa wrote:
-> * n is a tuple since this commit:
->   commit d3aa7668a9f001044d0a0f1ba2de425a36056102
->   Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->   Date:   Mon Jul 7 18:41:23 2014 +0100
->   Subject package.bbclass: Improve shlibs needed data structure
->=20
->   since then 'n in private_libs' was always false and private libs
->   were always processed
-> * this is bad when we have libfoo in private libs, but also some package
->   providing libfoo, that way we ship own libfoo.so, but together with
->   runtime dependency on package providing libfoo
+Force dpkg to use "tar" on the target.
 
-ping, please merge this to dizzy as well.
+The dpkg configure script looks for gnutar, gtar, and
+tar in order. If it finds gnutar or gtar on the host
+it expects to use that as its tar program on the target.
+Without this, if gtar exists (as it does on my system) then
+dpkg will consistently fail on the target with an error about
+gtar not being found.
 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/package.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index fc501fc..31c9e08 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1574,7 +1574,7 @@ python package_do_shlibs() {
->              # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc dependi=
-ng on system library libfoo.so.1
->              # but skipping it is still better alternative than providing=
- own
->              # version and then adding runtime dependency for the same sy=
-stem library
-> -            if private_libs and n in private_libs:
-> +            if private_libs and n[0] in private_libs:
->                  bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' =
-% (pkg, n[0]))
->                  continue
->              if n[0] in shlib_provider.keys():
-> --=20
-> 2.2.1
->=20
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc
+b/meta/recipes-devtools/dpkg/dpkg.inc
+index c3c51eb..11d0eea 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -36,6 +36,8 @@ EXTRA_OECONF = "\
+  --without-selinux \
+  "
 
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
++EXTRA_OECONF_append_class-target = " TAR=tar"
++
+ do_configure () {
+     echo >> ${S}/m4/compiler.m4
+     sed -i -e 's#PERL_LIBDIR=.*$#PERL_LIBDIR="${libdir}/perl"#' ${S}/configure
+-- 
+2.1.0
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlS33cgACgkQN1Ujt2V2gBxvHwCeNlziMVeS3PMDHvlRlw8iEIPC
-6+EAnRRJDGt0oa4YomcJy8sWzMKctmN/
-=4Hai
------END PGP SIGNATURE-----
-
---C7zPtVaVf+AK4Oqc--
