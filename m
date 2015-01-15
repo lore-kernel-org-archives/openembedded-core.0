@@ -1,24 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DE472541
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D34972541
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 15:05:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0FF5Y5H015629
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu, 15 Jan 2015 15:27:55 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id w8so11490331qac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 07:05:35 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 15 Jan 2015 07:05:34 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Jan 2015 09:05:32 -0600
-Message-ID: <1421334333-42766-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
+	Thu, 15 Jan 2015 07:27:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=yJSTqwRkW5dIuRnzCwWgv12A3X1n16PyFFrpypXsf8M=;
+	b=XopAddOvmSQjVMEtyCxUvOpko45i/25jLVRtmbK9EKKJqEesgh5M+/mTjJEQSEjzm5
+	bxNQ0DV7zpNjNYBIm7ZKRRWZ6ZeFjhZH6t1ZPb3pQOtX69OxRli0o6W0Kgu16BRGZOIN
+	kkgyTgTZiiOal34zeuRVNO3cTQFMzzCEkHxh22N1fDpys30woD9mGkbm2N7qFH2q7h+o
+	wgsCdQCzsbzDEfmOYOX5gd3aNWavvOvW34k2EbU+AkABhEhbH590M+wnpuG+frNtp+aF
+	rpfXV2qMdTfJvUXGWKMFD8aShreyQo2OnmBigGl5bUbkavqWlddBm09pQ/fs3Fy9nWjl
+	nnEg==
 MIME-Version: 1.0
-Subject: [PATCH] Fix compiler name for n32 SDK compiler
+X-Received: by 10.224.79.12 with SMTP id n12mr17259268qak.2.1421335675560;
+	Thu, 15 Jan 2015 07:27:55 -0800 (PST)
+Received: by 10.96.35.34 with HTTP; Thu, 15 Jan 2015 07:27:55 -0800 (PST)
+In-Reply-To: <54B7D574.9030606@linux.intel.com>
+References: <CACS+7ZQe+N6mWE8uPR2nmE8dcEtFjmzH8NfGfX_iVVgsp8y6eQ@mail.gmail.com>
+	<54B7D574.9030606@linux.intel.com>
+Date: Thu, 15 Jan 2015 09:27:55 -0600
+Message-ID: <CACS+7ZTokcoEGRFhpHLdQbrny7WFmdJDyx+EpOM9bHpn=-vECQ@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] dpkg: fix host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 15:05:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Jan 2015 15:28:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-See bug # 7143 for the details of this issue..
+Sure thing. Will update and resend.
 
-In short, when generating an SDK with the following configuration:
-
-MACHINE = "qemumips64"
-
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32 multilib:lib64"
-DEFAULTTUNE = "mips32r2"
-DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
-DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
-
-One of the multilib toolchains was missing, either the mips64 n32 or mips64.
-This was due to both cross compiler packages ending up with the same PN.
-
-The change was verified with RP's patch:
-
-cross-canadian/meta-environment: Allow modification of TARGET_OS to be optional
-
-being applied as well.
-
-Full configuration for the test was:
-
-MACHINE = "qemumips64"
-
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32 multilib:lib64"
-DEFAULTTUNE = "mips32r2"
-DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
-DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
-
-USE_LDCONFIG = '0'
-IMAGE_INSTALL_append = "lib32-libgcc lib32-libgcc-dev lib32-glibc lib32-glibc-dev lib64-libgcc lib64-libgcc-dev lib64-glibc lib64-glibc-dev"
-
-(See the bug for additional test steps.)
-
-Mark Hatle (1):
-  arch-mips.inc: Add the MIPS ABIEXTENSION to toolchain name
-
- meta/conf/machine/include/mips/arch-mips.inc | 2 ++
- 1 file changed, 2 insertions(+)
-
--- 
-1.9.3
-
+On 15 January 2015 at 08:57, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
+el.com> wrote:
+> Hi Dan,
+>
+> Can you explain in the commit message what is this change needed?
+>
+> On 14/01/15 21:51, Dan McGregor wrote:
+>>
+>> +EXTRA_OECONF_append_class-target =3D " TAR=3Dtar"
+>
+>
+> Kind regards
+>
+>     alimon
 
