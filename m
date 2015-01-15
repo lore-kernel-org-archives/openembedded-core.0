@@ -1,36 +1,36 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E8A71144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B8827210E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 10:12:00 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id rp18so13970289iec.11
+	Thu, 15 Jan 2015 11:21:42 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id x13so14263212wgg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 02:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id;
-	bh=LEvRW59wXCVfnrQZcs9r68yAVXG72amlRTb/97eJvuQ=;
-	b=XpkMaFe5wjvGXJ+3X9dVqZvGjD0lAnOBDxEqe1qLYe9densjV3W7MWdzdJ3CxMK0H6
-	0JPeaq7pM1pSC5uNP+hK23CsYHxjjsWoqXo/njTMhz9syjF+yftAIdxQf0E/VKIlqQtw
-	MT/bVSZ1Rv6o36GX0uVH4NNWvaFuj5rNUeiyKm+xlAvEoWBSYL3tzw9oXQxb9zloKnbU
-	los624T4PeJMsztf3h+3Il++J4tjemUH1yTblUx/VTzpmPneARPEHqQyBSID1VH0abZd
-	Co2To1Ye8lH/x+07DdOqKd53jbSP7gJUWr+E5M9m6DP72InIWlWbtY4BBXd61XCGgZEi
-	In3A==
-X-Received: by 10.50.66.131 with SMTP id f3mr9473040igt.7.1421316721433;
-	Thu, 15 Jan 2015 02:12:01 -0800 (PST)
-Received: from fangorn.rup.mentorg.com (nat-min.mentorg.com. [139.181.32.34])
-	by mx.google.com with ESMTPSA id
-	e63sm727872ioe.15.2015.01.15.02.12.00
+	Thu, 15 Jan 2015 03:21:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=eZcBhyhtveAYx+a9cCFkMVDiHQrM2XZpqSYPz3ew4+g=;
+	b=ZyPtN46TiFr8+48s2Mg+vn+Xzvrc4s3JcapE1BmFhHEeYBT7smyygE+jz8ek0KB4LI
+	ULx1xW/YAmzOayog3aJdOIu+SOmZMEPLsZmy1oW6JObro6aJAPS6KNfaRQc8mov7lOm0
+	BEBwW5E9LLDDaYiCE5SIAcZJqZsNi7ZzD0UfUtpmgXmq1vJ76PdIv59AtBeAETktgY+0
+	PbDSzZ6ngNi8PAI1u9Ar114QYUtvSFgKhh1GQN7Qlf6sxrQknrBFIq4Qw/KtL15Ju5N1
+	zp6lWBz8LkTqpy7OO8Xb+8oIRLDJ3JhK4oyOaqKO77iVpj0EORNcaKeLsmNUcY7S0hrd
+	QByQ==
+X-Gm-Message-State: ALoCoQl8PXgeYHhbX7N+K+2tY9ilAQQiMw0u1tLJsnFNGbbq7R4xafCwXQv58hm4xwR2F2vPBMLu
+X-Received: by 10.194.201.137 with SMTP id ka9mr17574301wjc.66.1421320903224; 
+	Thu, 15 Jan 2015 03:21:43 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id r3sm22370423wic.10.2015.01.15.03.21.42
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Jan 2015 02:12:00 -0800 (PST)
-Sender: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Jan 2015 03:21:42 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jan 2015 13:11:51 +0300
-Message-Id: <1421316711-10179-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] icecc.bbclass: properly handle disabling of icecc
+Date: Thu, 15 Jan 2015 11:20:18 +0000
+Message-Id: <1421320818-31989-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] msmtp: fix configure options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,72 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 10:12:08 -0000
+X-List-Received-Date: Thu, 15 Jan 2015 11:21:56 -0000
 
-Always use use_icc to check if IceCC should be enabled. Move
-ICECC_DISABLED variable checking to use_icc function. Also while we are
-at it, fix condition in icc_is_allarch function.
+msmtp moved from gnome-keyring to libsecret, so update EXTRA_OECONF.  Also
+explicitly disable libgsasl to avoid potential non-deterministic builds in the
+future.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/icecc.bbclass | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ meta/recipes-extended/msmtp/msmtp_1.6.1.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 3ec8c06..2f9e3cf 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -91,6 +91,10 @@ def create_path(compilers, bb, d):
-     return staging
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.1.bb b/meta/recipes-extended/msmtp/msmtp_1.6.1.bb
+index 6ce94fe..c9ad1da 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.6.1.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.6.1.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "c45d47f2dc77484e3f74c0f66aef0d5d95de6c47ed71d9f926d86d546f
  
- def use_icc(bb,d):
-+    if d.getVar('ICECC_DISABLED') == "1":
-+        # don't even try it, when explicitly disabled
-+        return "no"
-+
-     # allarch recipes don't use compiler
-     if icc_is_allarch(bb, d):
-         return "no"
-@@ -133,8 +137,7 @@ def use_icc(bb,d):
-     return "yes"
+ inherit gettext autotools update-alternatives pkgconfig
  
- def icc_is_allarch(bb, d):
--    return \
--        bb.data.inherits_class("allarch", d);
-+    return d.getVar("PACKAGE_ARCH") == "all"
+-EXTRA_OECONF += "--without-gnome-keyring --without-libidn"
++EXTRA_OECONF += "--without-libsecret --without-libgsasl --without-libidn"
  
- def icc_is_kernel(bb, d):
-     return \
-@@ -148,10 +151,6 @@ def icc_is_native(bb, d):
- # Don't pollute allarch signatures with TARGET_FPU
- icc_version[vardepsexclude] += "TARGET_FPU"
- def icc_version(bb, d):
--    if d.getVar('ICECC_DISABLED') == "1":
--        # don't even try it, when explicitly disabled
--        return ""
--
-     if use_icc(bb, d) == "no":
-         return ""
- 
-@@ -179,7 +178,7 @@ def icc_version(bb, d):
-     return tar_file
- 
- def icc_path(bb,d):
--    if d.getVar('ICECC_DISABLED') == "1":
-+    if use_icc(bb, d) == "no":
-         # don't create unnecessary directories when icecc is disabled
-         return
- 
-@@ -246,7 +245,7 @@ def set_icecc_env():
-     return
- 
- set_icecc_env() {
--    if [ "${ICECC_DISABLED}" = "1" ]
-+    if [ "${@use_icc(bb, d)}" = "no" ]
-     then
-         return
-     fi
+ ALTERNATIVE_${PN} = "sendmail"
+ ALTERNATIVE_TARGET[sendmail] = "${bindir}/msmtp"
 -- 
-2.1.4
+1.7.10.4
 
 
