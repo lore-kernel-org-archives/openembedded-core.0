@@ -1,28 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 08BBB72541
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1312572207
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 14:35:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0FEZb6d015259
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 15 Jan 2015 06:35:37 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 15 Jan 2015 06:35:37 -0800
-Message-ID: <54B7D038.1020409@windriver.com>
-Date: Thu, 15 Jan 2015 08:35:36 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-References: <1421316230.31262.51.camel@linuxfoundation.org>
-In-Reply-To: <1421316230.31262.51.camel@linuxfoundation.org>
-Subject: Re: [PATCH] cross-canadian/meta-environment: Allow modification of TARGET_OS to be optional
+	Thu, 15 Jan 2015 14:39:14 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jan 2015 06:39:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="440942419"
+Received: from unknown (HELO swold-mobl5.amr.corp.intel.com) ([10.252.252.162])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Jan 2015 06:26:16 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Jan 2015 06:39:06 -0800
+Message-Id: <1421332746-8069-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2] glibc: Fix up minimal build with libc-libm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,102 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 14:35:43 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Jan 2015 14:39:17 -0000
 
-I've verified this fixes the problem that I had (along with another patch that I
-have not yet sent.)
+This addresses 2 issues discovered trying to build a minimal libc with
+libm option.  By default nscd was always being built and without inet
+enabled there were missing symbols.
 
---Mark
+[YOCTO #7108]
 
-On 1/15/15 4:03 AM, Richard Purdie wrote:
-> There are some cases we want the manipulation cross-canadian performance
-> on TARGET_OS, there are also cases like meta-environment where we do not
-> want this manipulation.
-> 
-> We did try and use immediate expansion to avoid this problem and it
-> works in the non multilib case. If we have a multilib that used an
-> extension, like for example:
-> 
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32 multilib:lib64"
-> DEFAULTTUNE = "mips32r2"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
-> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
-> 
-> then the n32 extension case will be misconfigured.
-> 
-> It turns out saving an unexpanded variable is hard. The best I could
-> come up with was:
-> 
-> SAVEDTOS := "${@d.getVar('TARGET_OS', False).replace("{", "*")}"
-> 
-> and then
-> 
-> localdata.setVar("TARGET_OS", d.getVar("SAVEDOS", False).replace('*','{'))
-> 
-> which is rather evil, I'd challenge someone to come up with a nicer way
-> of making it work though!
-> 
-> Rather than the above madness, we modify cross-canadian to make the
-> problamtic code conditional.
-> 
-> This fixes the original issue (where a linux-gnuspe target was seeing
-> 'linux') of
-> http://cgit.openembedded.org/openembedded-core/commit/?id=0038634ee6e2b6035c023a2702547f20f67c103a
-> but also fixes the multilib one.
-> 
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-> index fec6438..824be07 100644
-> --- a/meta/classes/cross-canadian.bbclass
-> +++ b/meta/classes/cross-canadian.bbclass
-> @@ -16,6 +16,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
->  #
->  PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
->  CANADIANEXTRAOS = ""
-> +MODIFYTOS = "1"
->  python () {
->      archs = d.getVar('PACKAGE_ARCHS', True).split()
->      sdkarchs = []
-> @@ -23,6 +24,9 @@ python () {
->          sdkarchs.append(arch + '-${SDKPKGSUFFIX}')
->      d.setVar('PACKAGE_ARCHS', " ".join(sdkarchs))
->  
-> +    # Allow the following code segment to be disabled, e.g. meta-environment
-> +    if d.getVar("MODIFYTOS", True) != "1":
-> +        return
->      # PowerPC can build "linux" and "linux-gnuspe"
->      tarch = d.getVar("TARGET_ARCH", True)
->      if tarch == "powerpc":
-> diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-> index b3737bb..5d72e38 100644
-> --- a/meta/recipes-core/meta/meta-environment.bb
-> +++ b/meta/recipes-core/meta/meta-environment.bb
-> @@ -6,9 +6,9 @@ PR = "r8"
->  
->  EXCLUDE_FROM_WORLD = "1"
->  
-> -ORIGOS := "${TARGET_OS}"
-> +MODIFYTOS = "0"
->  
-> -REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${ORIGOS}"
-> +REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
->  
->  inherit toolchain-scripts
->  TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
-> @@ -30,7 +30,6 @@ python do_generate_content() {
->  
->      # make sure we only use the SDKTARGETSYSROOT value from 'd'
->      localdata.setVar('SDKTARGETSYSROOT', d.getVar('SDKTARGETSYSROOT', True))
-> -    localdata.setVar('TARGET_OS', d.getVar('ORIGOS', True))
->      localdata.setVar('libdir', d.getVar('target_libdir', False))
->  
->      # Process DEFAULTTUNE
-> 
-> 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch | 3 ++-
+ meta/recipes-core/glibc/glibc_2.20.bb                        | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+index 7136253..332b8f7 100644
+--- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+@@ -4205,7 +4205,8 @@ Index: git/nss/getent.c
+  D(gshadow)
+ -D(hosts)
+ +DN(hosts)
+- D(initgroups)
++-D(initgroups)
+++DN(initgroups)
+ -D(netgroup)
+ -D(networks)
+ +DN(netgroup)
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index 9dd5e67..f67fbfd 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -90,9 +90,12 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --without-selinux \
+                 --enable-obsolete-rpc \
+                 --with-kconfig=${STAGING_BINDIR_NATIVE} \
++                --disable-nscd \
+                 ${GLIBC_EXTRA_OECONF}"
+ 
+ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
++
+ 
+ do_patch_append() {
+     bb.build.exec_func('do_fix_readlib_c', d)
+-- 
+2.1.0
 
 
