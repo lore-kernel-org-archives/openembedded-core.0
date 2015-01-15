@@ -1,31 +1,59 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
-	[209.85.216.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D6FD722E7
+Return-Path: <ting.liu@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0120.outbound.protection.outlook.com [207.46.100.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 105CE71637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 03:51:23 +0000 (UTC)
-Received: by mail-qa0-f49.google.com with SMTP id v8so9576482qal.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Jan 2015 19:51:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=P6THty2XghjbTuhAzIWSA1pUhOKcgd+weXRD8PW2Xtg=;
-	b=jcj0MaHGvpmGFgHXPGqJQ+emsdTUi+z9bB82bP6137YKDQtIAR8F+y0TSkDwBu4KyZ
-	xeomOWAGbO40wObf0njY2bezi2lTg3nnsdSCwY+gkjmK8ULt39+C/AeyYWpzkid4SkHe
-	47I6sSzznkv3fwoy5BN7CYNtRzxJPO2DrR/mBuZp6CI/737iIFuBhtqgoMDDPNIYVY29
-	4eUuTRCGpBxM2jka3KjvpusheYf3mrjep+CB5qILau8WFR+b0qyAPzVg9TMNxS6+qy7y
-	DO7fd+Cc2lIWSqFHB0r6aoS7uNxeaAdvMwds2UDr49FsHjJrIy0ntnBZoCEuQaqxS8/a
-	3PFg==
+	Thu, 15 Jan 2015 04:03:57 +0000 (UTC)
+Received: from BY2PR03CA010.namprd03.prod.outlook.com (10.255.93.27) by
+	BN1PR0301MB0706.namprd03.prod.outlook.com (25.160.78.13) with Microsoft
+	SMTP Server (TLS) id 15.1.59.20; Thu, 15 Jan 2015 04:03:56 +0000
+Received: from BY2FFO11FD038.protection.gbl (10.255.93.4) by
+	BY2PR03CA010.outlook.office365.com (10.255.93.27) with Microsoft SMTP
+	Server (TLS) id 15.1.53.17 via Frontend Transport;
+	Thu, 15 Jan 2015 04:03:55 +0000
+Received: from az84smr01.freescale.net (192.88.158.2) by
+	BY2FFO11FD038.mail.protection.outlook.com (10.1.14.223) with Microsoft
+	SMTP Server (TLS) id 15.1.49.13 via Frontend Transport;
+	Thu, 15 Jan 2015 04:03:55 +0000
+Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
+	[10.192.208.77])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t0F43rQr001389;
+	Wed, 14 Jan 2015 21:03:53 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Jan 2015 12:03:49 +0800
+Message-ID: <1421294632-31110-1-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.8.3.2
+X-EOPAttributedMessage: 0
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.158.2 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.158.2)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(339900001)(189002)(199003)(450100001)(47776003)(64706001)(68736005)(77156002)(229853001)(33646002)(104016003)(87936001)(97736003)(46102003)(36756003)(575784001)(77096005)(86362001)(62966003)(110136001)(86152002)(50466002)(48376002)(92566002)(69596002)(50226001)(6806004)(19580395003)(19580405001)(85426001)(50986999)(106466001)(2351001)(81156004)(105606002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN1PR0301MB0706;
+	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Received: by 10.224.103.72 with SMTP id j8mr13058277qao.19.1421293883754;
-	Wed, 14 Jan 2015 19:51:23 -0800 (PST)
-Received: by 10.96.35.34 with HTTP; Wed, 14 Jan 2015 19:51:23 -0800 (PST)
-Date: Wed, 14 Jan 2015 21:51:23 -0600
-Message-ID: <CACS+7ZTyJyWJZeuNuWzSvTX=EeffZMMZ4krZ=nF2fVLDPbKVyw@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/3] packagegroup-core-sdk: add gcc-sanitizers to core SDK
+X-DmarcAction-Test: None
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005004);SRVR:BN1PR0301MB0706;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
+	SRVR:BN1PR0301MB0706; 
+X-Forefront-PRVS: 0457F11EAF
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1PR0301MB0706; 
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2015 04:03:55.6273 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1PR0301MB0706
+Subject: [oe-core dizzy][PATCH 0/3] fixes for dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +66,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 03:51:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Jan 2015 04:04:06 -0000
+Content-Type: text/plain
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+From: Ting Liu <ting.liu@freescale.com>
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+The following changes since commit e13f2681b75fd83aa3a1c823ad1c09faed0d6ae3
+    rm_work: Fix RM_WORK_EXCLUDE for image/sdk recipes
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index a544bbd..cad3439 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -4,7 +4,9 @@
+Ting Liu (3):
+  libunwind: Fix test case link failure on PowerPC with Altivec
+  bitbake.conf: add PKGDATA_DIR to BB_HASHBASE_WHITELIST
+  valgrind: build with altivec only if it supported
 
- SUMMARY = "Software development tools"
- LICENSE = "MIT"
--PR = "r9"
-+PR = "r10"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
+ meta/conf/bitbake.conf                             |  2 +-
+ .../pass-maltivec-only-if-it-supported.patch       | 68 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  1 +
+ ...k-failure-on-PowerPC-systems-with-Altivec.patch | 28 +++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  4 ++
+ 5 files changed, 102 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
 
- inherit packagegroup
-
-@@ -26,9 +28,17 @@ RDEPENDS_packagegroup-core-sdk = "\
-     file \
-     tcl"
-
-+SANITIZERS = "libasan-dev libubsan-dev"
-+SANITIZERS_aarch64 = ""
-+SANITIZERS_mips = ""
-+SANITIZERS_mips64 = ""
-+SANITIZERS_powerpc64 = ""
-+SANITIZERS_sparc = ""
-+
- RRECOMMENDS_packagegroup-core-sdk = "\
-     libgomp \
--    libgomp-dev"
-+    libgomp-dev \
-+    ${SANITIZERS}"
-
- #python generate_sdk_pkgs () {
- #    poky_pkgs = read_pkgdata('packagegroup-core', d)['PACKAGES']
 -- 
-2.1.0
+1.8.3.2
+
 
