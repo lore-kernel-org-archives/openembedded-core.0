@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D53A60232
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E3B77226D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 17:13:04 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id b13so2249010qcw.7
+	Thu, 15 Jan 2015 21:11:00 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id i8so5584646qcq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 09:13:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DHawJ73mJVJiSnGi4rMalUcnDOSUUXIKvkI9tPx/YC0=;
-	b=at7IOx7WvNQD/zpbdQqz3SUJgpaD95fLAPRgrDnt4Vj3gb6yYr8gY6c3zS15t06vFs
-	cyGzLdIDX66GyGqcGpLIyn7vyWfbW5CRIS1ihXJFo84MnL7Ut+m1xqHMUEaBBcks+R/X
-	ib0OPh9MKQUeo4jpv6h89xnt7FBxWxxVv5mqE+H1RqqaID8XOU5vryUvjkDNRX6E9e5w
-	JTH0vewPdGeynJI8S4hkc8DValI1nYVioAqRYElX+C7k9HiFp6Wri8zJYOklschyDs7K
-	eLxSUgXRTZ9A09QJAFyHEpN6MyrNVnUyqMfhL23/PDLjVhVf/KoWlSpGCX0A9Yj1g4CQ
-	2AJQ==
-X-Gm-Message-State: ALoCoQlNSigKG3CK60gcSjrGKrJ9+v1FwE9wd7KOT2z3+adjoqTohTpUQPXcX65XZhY5JVEhl1W1
-X-Received: by 10.140.92.138 with SMTP id b10mr16699926qge.59.1421341984074;
-	Thu, 15 Jan 2015 09:13:04 -0800 (PST)
+	Thu, 15 Jan 2015 13:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=+05Dhosisn31fHtSt8tELAj0bgtVivctSGyYumG+2PQ=;
+	b=00Pbf2Wym+I7cy/BVBo/lAOW9QchFbc3ogwi82emHzzQvjSSW0ysversb7R+gkTqUa
+	i0Mi8WNolLdRlex/GjZQG8bPsLbb462kyTom+6vyKjZYi/tj9eKbtZjSG+7mqBu7UwWx
+	0pkgxkuqNqIWu3IGRKeVAAL2aagGpzU5cNszNbD1Y6LK9zCUEeTY2RV8xFTkIOO2Cvgo
+	nKxXwKeXpq28lcZ3pAIdYHvV5B6UU6lr+xbLg9h8stgpul8WF2NJWuD9CxL4k0ggMMLe
+	XhPoxfEK/7Hxu/6URai37rnflBgcRxEgxD/TFt15+filT1hjD3H1iIplbg5ovU1xdGYh
+	bl7g==
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 15 Jan 2015 09:12:43 -0800 (PST)
-In-Reply-To: <b2280f670f4a05a6872ecdf0ea25b14d744c5148.1421225218.git.liezhi.yang@windriver.com>
-References: <cover.1421225218.git.liezhi.yang@windriver.com>
-	<b2280f670f4a05a6872ecdf0ea25b14d744c5148.1421225218.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Jan 2015 17:12:43 +0000
-Message-ID: <CAJTo0LapunGdo3rZfvcSTw-LRzseh9=eZdsdR2haOmegTJ4vKA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 19/27] neard: fix B != S
+X-Received: by 10.224.114.81 with SMTP id d17mr19565902qaq.27.1421356260596;
+	Thu, 15 Jan 2015 13:11:00 -0800 (PST)
+Received: by 10.96.35.34 with HTTP; Thu, 15 Jan 2015 13:11:00 -0800 (PST)
+Date: Thu, 15 Jan 2015 15:11:00 -0600
+Message-ID: <CACS+7ZRh2fq0ot_u6U0B+SGq6uCORnj9_B2shfSEunrwhPnH+g@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] openssh: configuration updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,51 +38,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 17:13:14 -0000
-Content-Type: multipart/alternative; boundary=001a113a5d5e10cd28050cb3f831
-
---001a113a5d5e10cd28050cb3f831
+X-List-Received-Date: Thu, 15 Jan 2015 21:11:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 14 January 2015 at 08:47, Robert Yang <liezhi.yang@windriver.com> wrote:
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-> And bump PR to avoid:
-> configure: error: source directory already configured; run "make
-> distclean" there first
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->
+Rebase sshd_config and ssh_config with openssh upstream.
+Check for the ed25519 key in the systemd keygen service.
 
-The autobuilder is hitting this:
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ .../openssh/openssh/ssh_config                     |  4 ++-
+ .../openssh/openssh/sshd_config                    | 30 ++++++++++++++++------
+ .../openssh/openssh/sshdgenkeys.service            |  1 +
+ 3 files changed, 26 insertions(+), 9 deletions(-)
 
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/mips32r2-poky-linux/neard/0.14-r1/neard-0.14/src/genbuiltin
-nfctype1 nfctype2 nfctype3 nfctype4 p2p > src/builtin.h
-/bin/sh: src/builtin.h: No such file or directory
+diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config
+b/meta/recipes-connectivity/openssh/openssh/ssh_config
+index 4a4a649..9e91915 100644
+--- a/meta/recipes-connectivity/openssh/openssh/ssh_config
++++ b/meta/recipes-connectivity/openssh/openssh/ssh_config
+@@ -1,4 +1,4 @@
+-# $OpenBSD: ssh_config,v 1.25 2009/02/17 01:28:32 djm Exp $
++# $OpenBSD: ssh_config,v 1.28 2013/09/16 11:35:43 sthen Exp $
 
-Ross
+ # This is the ssh client system-wide configuration file.  See
+ # ssh_config(5) for more information.  This file provides defaults for
+@@ -44,3 +44,5 @@ Host *
+ #   TunnelDevice any:any
+ #   PermitLocalCommand no
+ #   VisualHostKey no
++#   ProxyCommand ssh -q -W %h:%p gateway.example.com
++#   RekeyLimit 1G 1h
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config
+b/meta/recipes-connectivity/openssh/openssh/sshd_config
+index 4f9b626..2a45c2b 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd_config
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
+@@ -15,9 +15,7 @@
+ #ListenAddress 0.0.0.0
+ #ListenAddress ::
 
---001a113a5d5e10cd28050cb3f831
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-# Disable legacy (protocol version 1) support in the server for new
+-# installations. In future the default will change to require explicit
+-# activation of protocol 1
++# The default requires explicit activation of protocol 1
+ Protocol 2
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 January 2015 at 08:47, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><div id=3D":2kl" class=3D"" sty=
-le=3D"overflow:hidden">And bump PR to avoid:<br>
-configure: error: source directory already configured; run &quot;make distc=
-lean&quot; there first<br>
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;</div></blockquote></div><div class=3D"gm=
-ail_extra"><br></div>The autobuilder is hitting this:</div><div class=3D"gm=
-ail_extra"><br><div class=3D"gmail_extra">/home/pokybuild/yocto-autobuilder=
-/yocto-worker/nightly-mips-lsb/build/build/tmp/work/mips32r2-poky-linux/nea=
-rd/0.14-r1/neard-0.14/src/genbuiltin nfctype1 nfctype2 nfctype3 nfctype4 p2=
-p &gt; src/builtin.h</div><div class=3D"gmail_extra">/bin/sh: src/builtin.h=
-: No such file or directory</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div></div>
+ # HostKey for protocol version 1
+@@ -25,11 +23,16 @@ Protocol 2
+ # HostKeys for protocol version 2
+ #HostKey /etc/ssh/ssh_host_rsa_key
+ #HostKey /etc/ssh/ssh_host_dsa_key
++#HostKey /etc/ssh/ssh_host_ecdsa_key
++#HostKey /etc/ssh/ssh_host_ed25519_key
 
---001a113a5d5e10cd28050cb3f831--
+ # Lifetime and size of ephemeral version 1 server key
+ #KeyRegenerationInterval 1h
+ #ServerKeyBits 1024
+
++# Ciphers and keying
++#RekeyLimit default none
++
+ # Logging
+ # obsoletes QuietMode and FascistLogging
+ #SyslogFacility AUTH
+@@ -45,7 +48,15 @@ Protocol 2
+
+ #RSAAuthentication yes
+ #PubkeyAuthentication yes
+-#AuthorizedKeysFile .ssh/authorized_keys
++
++# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
++# but this is overridden so installations will only check .ssh/authorized_keys
++AuthorizedKeysFile .ssh/authorized_keys
++
++#AuthorizedPrincipalsFile none
++
++#AuthorizedKeysCommand none
++#AuthorizedKeysCommandUser nobody
+
+ # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+ #RhostsRSAAuthentication no
+@@ -74,8 +85,8 @@ Protocol 2
+ #GSSAPIAuthentication no
+ #GSSAPICleanupCredentials yes
+
+-# Set this to 'yes' to enable PAM authentication, account processing,
+-# and session processing. If this is enabled, PAM authentication will
++# Set this to 'yes' to enable PAM authentication, account processing,
++# and session processing. If this is enabled, PAM authentication will
+ # be allowed through the ChallengeResponseAuthentication and
+ # PasswordAuthentication.  Depending on your PAM configuration,
+ # PAM authentication via ChallengeResponseAuthentication may bypass
+@@ -91,20 +102,22 @@ Protocol 2
+ #X11Forwarding no
+ #X11DisplayOffset 10
+ #X11UseLocalhost yes
++#PermitTTY yes
+ #PrintMotd yes
+ #PrintLastLog yes
+ #TCPKeepAlive yes
+ #UseLogin no
+-UsePrivilegeSeparation yes
++UsePrivilegeSeparation sandbox # Default for new installations.
+ #PermitUserEnvironment no
+ Compression no
+ ClientAliveInterval 15
+ ClientAliveCountMax 4
+ #UseDNS yes
+ #PidFile /var/run/sshd.pid
+-#MaxStartups 10
++#MaxStartups 10:30:100
+ #PermitTunnel no
+ #ChrootDirectory none
++#VersionAddendum none
+
+ # no default banner path
+ #Banner none
+@@ -116,4 +129,5 @@ Subsystem sftp /usr/libexec/sftp-server
+ #Match User anoncvs
+ # X11Forwarding no
+ # AllowTcpForwarding no
++# PermitTTY no
+ # ForceCommand cvs server
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+index c21d70b..d65086f 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+@@ -3,6 +3,7 @@ Description=OpenSSH Key Generation
+ ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
+ ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
+ ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
++ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key
+
+ [Service]
+ ExecStart=@BINDIR@/ssh-keygen -A
+-- 
+2.1.0
+
