@@ -1,20 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1312572207
+	by mail.openembedded.org (Postfix) with ESMTP id 924327226D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 14:39:14 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Jan 2015 06:39:15 -0800
+	Thu, 15 Jan 2015 14:57:03 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jan 2015 06:56:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="440942419"
-Received: from unknown (HELO swold-mobl5.amr.corp.intel.com) ([10.252.252.162])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Jan 2015 06:26:16 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jan 2015 06:39:06 -0800
-Message-Id: <1421332746-8069-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH v2] glibc: Fix up minimal build with libc-libm
+X-IronPort-AV: E=Sophos;i="5.09,404,1418112000"; d="scan'208";a="662363801"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.151])
+	([10.219.4.151])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2015 06:56:54 -0800
+Message-ID: <54B7D574.9030606@linux.intel.com>
+Date: Thu, 15 Jan 2015 08:57:56 -0600
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Dan McGregor <danismostlikely@gmail.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CACS+7ZQe+N6mWE8uPR2nmE8dcEtFjmzH8NfGfX_iVVgsp8y6eQ@mail.gmail.com>
+In-Reply-To: <CACS+7ZQe+N6mWE8uPR2nmE8dcEtFjmzH8NfGfX_iVVgsp8y6eQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dpkg: fix host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,52 +34,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Jan 2015 14:39:17 -0000
+X-List-Received-Date: Thu, 15 Jan 2015 14:57:09 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This addresses 2 issues discovered trying to build a minimal libc with
-libm option.  By default nscd was always being built and without inet
-enabled there were missing symbols.
+Hi Dan,
 
-[YOCTO #7108]
+Can you explain in the commit message what is this change needed?
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch | 3 ++-
- meta/recipes-core/glibc/glibc_2.20.bb                        | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+On 14/01/15 21:51, Dan McGregor wrote:
+> +EXTRA_OECONF_append_class-target = " TAR=tar"
 
-diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-index 7136253..332b8f7 100644
---- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-+++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-@@ -4205,7 +4205,8 @@ Index: git/nss/getent.c
-  D(gshadow)
- -D(hosts)
- +DN(hosts)
-- D(initgroups)
-+-D(initgroups)
-++DN(initgroups)
- -D(netgroup)
- -D(networks)
- +DN(netgroup)
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index 9dd5e67..f67fbfd 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -90,9 +90,12 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --without-selinux \
-                 --enable-obsolete-rpc \
-                 --with-kconfig=${STAGING_BINDIR_NATIVE} \
-+                --disable-nscd \
-                 ${GLIBC_EXTRA_OECONF}"
- 
- EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
-+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
-+
- 
- do_patch_append() {
-     bb.build.exec_func('do_fix_readlib_c', d)
--- 
-2.1.0
+Kind regards
 
+     alimon
 
