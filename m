@@ -1,40 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B56071F23
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FCE772B49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 11:55:54 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id k11so14203200wes.3
+	Thu, 15 Jan 2015 11:55:52 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id z2so8816492wiv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Jan 2015 03:55:54 -0800 (PST)
+	Thu, 15 Jan 2015 03:55:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=rvwfC/LHghvgVL4nZ+wWETD1+uhM8kzGPkFYA+dIxQw=;
-	b=XQPwkW8aKw0TbSgxoGaD/a9Fw+jWg64sG3wBieh+dsQ9Wjggkxy1bvvNXTmC3QeztH
-	whkJjnT0LRd8c/uaAuUercCsUzRCsTLzStcfjuk4OEKd3ikRht/plVsKxG26gOBCLAEq
-	KJqsTiFwuNNGkkGo8WsuskMMavZdG1qlvkXkOrQz3jaRTcBF33n/nPkWSHVLi0jCPGqN
-	4GXGY+TB1oq3cGvtGKY2d3U2FdnpY48x6iJtxj+0ES6cJXDqLEfemH9sirgjrAB8CQgV
-	PGljjw5nxjcErHt1j7zO88jL+0Keq7ZsrZlR6Zkz+ZSlt6XvSIBJ5tuw0AhNsF4SZIuD
-	1eiA==
-X-Gm-Message-State: ALoCoQn8Cg+P+rB585pdQ+OWvmESzzqRewzqNeMcWBK0vV/RCalnpDIe+fkxLTgMoYjseG/4p1fD
-X-Received: by 10.194.203.234 with SMTP id kt10mr17755229wjc.88.1421322954182; 
-	Thu, 15 Jan 2015 03:55:54 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=K4lxWNkOTTPyknmrA3BY+g0PRpdxVrYZ+kbMqKPqkkw=;
+	b=YrPTqNmifBiuC1qQzxar6s6NUUl+tKYlmXyEx7OOHQac3iG1VZ96DxLlVrfjN6kp8X
+	bChqZDg74NmOGAQamutPnQIkvjmh/URA8viLiWZBilDDUEB0CiBDPHDTPL6yRzibWPcZ
+	4KuDuebDQNC2x4HljNK3LF8sjuPiG2ribawedsYLJuUbSiStei+n7UzVaW+cvIiNT7AP
+	/R4rIanJfO58Dn1oI4Ko8JeineGNydytRf2nyPRIzHhupK1torvdFkhXGMva7oqvCjD4
+	6ooCZ5vxJD0Gv3y6yql6ASJZKOo3khCyzv6lwJ9yULBUkD8T0wsiC+5ZQ6DxBRcB+zui
+	9NPw==
+X-Gm-Message-State: ALoCoQn2IoogP60RQ2qUeJJjZfkXeDkiLcTawcbxrzNstnFqDd4XT2pdJm6TtLRvfQjg7A5qCBcA
+X-Received: by 10.181.8.193 with SMTP id dm1mr24307586wid.55.1421322952886;
+	Thu, 15 Jan 2015 03:55:52 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id vh8sm1798509wjc.12.2015.01.15.03.55.52
+	by mx.google.com with ESMTPSA id vh8sm1798509wjc.12.2015.01.15.03.55.51
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Jan 2015 03:55:53 -0800 (PST)
+	Thu, 15 Jan 2015 03:55:52 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jan 2015 11:54:14 +0000
-Message-Id: <1421322860-12652-2-git-send-email-ross.burton@intel.com>
+Date: Thu, 15 Jan 2015 11:54:13 +0000
+Message-Id: <1421322860-12652-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1421322860-12652-1-git-send-email-ross.burton@intel.com>
-References: <1421322860-12652-1-git-send-email-ross.burton@intel.com>
 Cc: dvhart@linux.intel.com, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/8] kernel.bbclass: When linux/version.h exists, copy it
+Subject: [PATCH 1/8] module.bbclass: Add KERNEL_SRC in EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,31 +48,52 @@ X-List-Received-Date: Thu, 15 Jan 2015 11:55:58 -0000
 
 From: Otavio Salvador <otavio@ossystems.com.br>
 
-Old Linux kernel versions rely on linux/version.h for modules; this
-needs to be published for external modules to use. Copy it when
-available.
+When the sstate hash changes for do_configure task, the do_configure
+default implementation triggers the 'clean' to be run. For it to
+succeed we need to have KERNEL_SRC defined in EXTRA_OEMAKE. Fixes
+following error:
+
+,----
+| DEBUG: Executing shell function do_configure
+| NOTE: make -e MAKEFLAGS= clean
+| make -C  M=.../tmp/work/... clean
+| make[1]: *** M=.../tmp/work/...: No such file or directory.  Stop.
+| Makefile:20: recipe for target 'clean' failed
+| make: *** [clean] Error 2
+| ERROR: oe_runmake failed
+`----
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/kernel.bbclass |    4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/module.bbclass |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 88356b1..78c8c7c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -252,6 +252,10 @@ kernel_do_install() {
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-+	if [ -e include/linux/version.h ]; then
-+		mkdir -p $kerneldir/include/linux
-+		cp include/linux/version.h $kerneldir/include/linux/version.h
-+	fi
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index ad6f7af..5cb8623 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -6,10 +6,11 @@ addtask make_scripts after do_patch before do_compile
+ do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+ do_make_scripts[deptask] = "do_populate_sysroot"
  
- 	# As of Linux kernel version 3.0.1, the clean target removes
- 	# arch/powerpc/lib/crtsavres.o which is present in
++EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
++
+ module_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+-		   KERNEL_SRC=${STAGING_KERNEL_DIR}    \
+ 		   KERNEL_VERSION=${KERNEL_VERSION}    \
+ 		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 		   AR="${KERNEL_AR}" \
+@@ -19,7 +20,6 @@ module_do_compile() {
+ module_do_install() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
+-	           KERNEL_SRC=${STAGING_KERNEL_DIR} \
+ 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 	           modules_install
+ }
 -- 
 1.7.10.4
 
