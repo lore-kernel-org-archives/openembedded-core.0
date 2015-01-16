@@ -1,35 +1,36 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A2FE72575
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3442972ABF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 22:15:41 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id l15so6626335wiw.4
+	Fri, 16 Jan 2015 22:15:44 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id a1so818696wgh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 14:15:41 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=IhtX0N/nU4tF0cIC+5XD8ShmvmyAxgsXsHKXQbRq9/E=;
-	b=AIiLVe8pQvdV/xu4dobIBYFU6O/nmFA6QxYqutCyfKt4YbHFskgyGGdvIPRq23pGee
-	/+0jWzzS6b2SAoe/Jw1OHicBn/HDRFFN3Yv5YZtiu8B8A2ksDuLwAanuNC+buKXkMteA
-	f4dImXS42r47x9F8AvUN2z0Wem3inJmGqhIkoh7beuL4qhfFAy1FZXK2hcSuShA7qDMf
-	IG+pVvbAZEAgj67y6gg5gj284R7yP0XSY0yZp6uZglxv+lfk0yNIMOqxf6s+g+TZQuTf
-	f8toIlktkTCJPnUi3FEioSmud/RItbqJ941zTyeiDTN22HlHWwAGDIZjGgMOXGEaEJPY
-	Xlyg==
-X-Received: by 10.181.13.42 with SMTP id ev10mr10290096wid.78.1421446541531;
-	Fri, 16 Jan 2015 14:15:41 -0800 (PST)
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4rDuztZn6NjpiLuS8UrwYUxB/igzid3yXZDJ4uZNGKQ=;
+	b=glAKyiHoVf/cLgAE9uJpzoIxcWroZqlGdMzS89I9r3OZ3XWKrwjpjELAGlGez7eRKh
+	Y4kQJ1RV+BuKTHw9B+h3XTHjdVENs8c7UxQ8DtxHnlE+SsNXMguw0RMO+GIpsDLQeKbn
+	LfQ6p1RqCKymwlZzd6t66EE1U7mANhMGXAzuDkk14vlOEgEH10BsMHtUZsdJVq1Xjuvd
+	MgcxsD5H+42ctrzPbgAAWTHq2V1iiFoAwacc8R9rWQDRP8UviIqAKV+D35LHfShjFwaj
+	5WpoFE+lYCMcSybkHN0dpROcNJXfIg4deKgdkPEoAjGDHoJFfUsQa+27R+4Va8csCZRE
+	r/AA==
+X-Received: by 10.180.186.8 with SMTP id fg8mr10556990wic.40.1421446544023;
+	Fri, 16 Jan 2015 14:15:44 -0800 (PST)
 Received: from nuc.betafive.co.uk
 	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
-	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.39
+	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jan 2015 14:15:40 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:43 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 22:15:22 +0000
-Message-Id: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+Date: Fri, 16 Jan 2015 22:15:24 +0000
+Message-Id: <1421446529-24888-3-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH V2 0/7] opkg refactoring
+In-Reply-To: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+Subject: [PATCH V2 2/7] opkg-collateral: Simplify source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,85 +45,70 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Jan 2015 22:15:46 -0000
 
-Sorry it has took so long to respin these as V2, it's been a busy few weeks!
+Instead of having the source files 'opkg.conf.comments', 'dest' and 'src', we
+simply have one 'opkg.conf' file containing all the necessary configuration.
 
-Original notes:
+This does mean that replacing 'src' in a bbappend to define distro-specific
+package feeds is no longer supported, but these feed configurations should be
+packaged separately from the rest of the opkg configuration anyway so that
+things can be updated independently. The best recipe to use for managing feed
+configs is currently distro-feed-config in the meta-oe layer.
 
-    Summary of changes:
-      - The opkg recipe is cleanup up and opkg.inc is merged into opkg_0.2.4.bb.
-
-      - opkg-collateral is updated and then merged into the main opkg recipe.
-
-      - The cryptically named opkg-config-base is given the much more obvious
-        name opkg-arch-config.
-
-      - poky-feed-config-opkg is dropped, it is recommended that people use
-        distro-feed-configs from meta-oe.
-
-      - A new opkg-keyrings recipe is created to package up keys used to verify
-        packages and package feeds. The functionality within opkg which this
-        depends upon is backported.
-
-    After these changes:
-      - All generic files are in 'opkg', including the main opkg config which
-        should be upgraded in step with opkg itself.
-
-      - Arch-specific config is only in 'opkg-arch-config' which has
-        MACHINE_ARCH.  Additional arch-specific config can easily be added to
-        this package with a bbappend.
-
-      - Distro-specific config is in 'distro-feed-config' and 'opkg-keyrings'.
-        Additional distro-specific config is probably best added as extra
-        recipes.
-
-    I think this is a much cleaner layout but let me know if you disagree, I'm
-    happy to discuss/improve/respin these patches.
-
-    All these changes work locally in qemuarm and the on-target upgrade path is
-    mostly clean. opkg-collateral does get left behind on the target filesystem
-    after an upgrade but it's effectively an empty package. I don't think this
-    poses any problems.
-
-V2 changes:
-  - Add RCONFLICTS and RPROVIDES where RREPLACES is specified
-
-  - Drop lists_dir patch as this has been merged
-
-  - opkg-collateral is no longer left behind on the target filesystem after an
-    upgrade.
-
-Paul Barker (7):
-  opkg-arch-config: Renamed from opkg-config-base
-  opkg-collateral: Simplify source files
-  opkg: Merge opkg.inc into recipe and tidy up
-  opkg: Merge in opkg-collateral
-  poky-feed-config-opkg: Remove
-  opkg: Backport improvements to opkg-key
-  opkg-keyrings: New recipe
-
- meta/classes/rootfs_ipk.bbclass                    |  2 +-
- meta/conf/layer.conf                               |  2 +-
- .../feed-config/poky-feed-config-opkg_1.0.bb       | 44 -----------
- ...-config-base_1.0.bb => opkg-arch-config_1.0.bb} |  5 +-
- meta/recipes-devtools/opkg/opkg-collateral.bb      | 24 ------
- meta/recipes-devtools/opkg/opkg-collateral/dest    |  1 -
- meta/recipes-devtools/opkg/opkg-collateral/src     |  0
- meta/recipes-devtools/opkg/opkg-keyrings_1.0.bb    | 48 ++++++++++++
- meta/recipes-devtools/opkg/opkg.inc                | 76 ------------------
- .../opkg/0001-opkg-key-Backport-improvements.patch | 78 +++++++++++++++++++
- .../opkg.conf.comments => opkg/opkg.conf}          |  2 +
- meta/recipes-devtools/opkg/opkg_0.2.4.bb           | 90 +++++++++++++++++++++-
- 12 files changed, 222 insertions(+), 150 deletions(-)
- delete mode 100644 meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
- rename meta/recipes-devtools/opkg/{opkg-config-base_1.0.bb => opkg-arch-config_1.0.bb} (79%)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral.bb
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ meta/recipes-devtools/opkg/opkg-collateral.bb                      | 7 +------
+ meta/recipes-devtools/opkg/opkg-collateral/dest                    | 1 -
+ .../opkg/opkg-collateral/{opkg.conf.comments => opkg.conf}         | 2 ++
+ meta/recipes-devtools/opkg/opkg-collateral/src                     | 0
+ 4 files changed, 3 insertions(+), 7 deletions(-)
  delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/dest
+ rename meta/recipes-devtools/opkg/opkg-collateral/{opkg.conf.comments => opkg.conf} (92%)
  delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/src
- create mode 100644 meta/recipes-devtools/opkg/opkg-keyrings_1.0.bb
- delete mode 100644 meta/recipes-devtools/opkg/opkg.inc
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg-key-Backport-improvements.patch
- rename meta/recipes-devtools/opkg/{opkg-collateral/opkg.conf.comments => opkg/opkg.conf} (92%)
 
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb b/meta/recipes-devtools/opkg/opkg-collateral.bb
+index 3825ffb..b16579c 100644
+--- a/meta/recipes-devtools/opkg/opkg-collateral.bb
++++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
+@@ -4,15 +4,10 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ PR = "r2"
+ 
+-SRC_URI = "file://opkg.conf.comments \
+-	   file://dest \
+-	   file://src "
++SRC_URI = "file://opkg.conf"
+ 
+ OPKGLIBDIR = "${localstatedir}/lib"
+ do_compile () {
+-	cat ${WORKDIR}/opkg.conf.comments >${WORKDIR}/opkg.conf
+-	cat ${WORKDIR}/src	>>${WORKDIR}/opkg.conf
+-	cat ${WORKDIR}/dest	>>${WORKDIR}/opkg.conf
+ 	echo "option lists_dir ${OPKGLIBDIR}/opkg" >>${WORKDIR}/opkg.conf
+ }
+ 
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral/dest b/meta/recipes-devtools/opkg/opkg-collateral/dest
+deleted file mode 100644
+index 088ca40..0000000
+--- a/meta/recipes-devtools/opkg/opkg-collateral/dest
++++ /dev/null
+@@ -1 +0,0 @@
+-dest root /
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
+similarity index 92%
+rename from meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
+rename to meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
+index e1fdada..c2e9e92 100644
+--- a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
++++ b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
+@@ -24,3 +24,5 @@
+ # Offline mode (for use in constructing flash images offline)
+ #option offline_root target
+ 
++# Default destination for installed packages
++dest root /
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral/src b/meta/recipes-devtools/opkg/opkg-collateral/src
+deleted file mode 100644
+index e69de29..0000000
 -- 
 1.9.1
 
