@@ -1,37 +1,37 @@
 Return-Path: <andrei@gherzan.ro>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DFAF722C3
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id D45E272332
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 13:38:51 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id q58so20302110wes.4
+	Fri, 16 Jan 2015 13:44:03 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id n3so2211724wiv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 05:38:51 -0800 (PST)
+	Fri, 16 Jan 2015 05:44:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=L4MvCEFXiJKS9qQXCBp1VZy0Nh0H68+YE14DrQQ798g=;
-	b=NvXCCtj+lDdwvtDY/0aKIJ1G8X7vC68ttJrP9GuiNMUOALfK5H+xeKYcNmUAqNk216
-	mm90xUz9dixCiViRowg6CrjiyGhy+UVzetTXLyDKOq0x+wIALTWmjfJQSudIvvymaJyn
-	QSKfc1dt3JN/CJRy2QJiA8F4ZFbT37cZX+6WkjyvT/M5NU0uIlIN4Guw5h5YSGEfcf+M
-	LoJ7vI6sHk7AbIocssHDjxe9c1V1xZZM1S4qdv0gXK38IK6HmnJZw9u+u1Qf2CARihc5
-	LXAEpEqxVSdYbYQnWqvKR0lfMW1/Ab2bHgAr7aD881dZ9LcV0Hi9bpWyP6Vs/rMS4mXA
-	FFNw==
-X-Gm-Message-State: ALoCoQm1RF3iKVsxKQqOmy16v2SNEO32it0wm0KweUcKbPG0CgV29tgaX8mwvRhe99FvGoia65IW
-X-Received: by 10.194.88.131 with SMTP id bg3mr27882515wjb.99.1421415531315;
-	Fri, 16 Jan 2015 05:38:51 -0800 (PST)
-Received: from otp-agherzan-l1.corp.ad.wrs.com ([109.100.140.128])
-	by mx.google.com with ESMTPSA id q10sm2764652wjr.41.2015.01.16.05.38.50
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jan 2015 05:38:50 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0WAOrvvDMqL/ibIlDYZZoGCI7vICDA+BEP9k/9pTmGE=;
+	b=DT549jpJ2xYoWeY4+mQmF/nvY8BPjJ+8BVwV55NqRauK5efZo/fhTALm8Rv88gJdhZ
+	flJ7Nx8HhSjuX/9epPKVLSl0YGqWsM3jHXI+J/OA7kPU6Tc8rPtMOd0mFVkZU96KowEE
+	pSLe2tlMYwrbpjBiyiqXOUQDUESHL7WRRN8WPf8ArgNm/041kea1xuIWVbD68jCR2b40
+	gC3g6hgYQWEUfuuCzU1iw5zswxM0d3RY2iH3rIxMSb1u+CYMJAbNwWpcY4LSbhnURfeI
+	iGcKL7Qva99CPHNBbb1ZtzwQHDoFRFggwpWhpYHbxY/ogyXE2l0lcoSjp0nqLN2GctYP
+	McxQ==
+X-Gm-Message-State: ALoCoQmJrlzl2976MknGE5gfyZLkLlcBRAT0Md3d6qtLslZ1v1WoDAdev1b2o8XmzF53Oy0coTPe
+X-Received: by 10.180.85.35 with SMTP id e3mr6410548wiz.14.1421415843232; Fri,
+	16 Jan 2015 05:44:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.216.107.132 with HTTP; Fri, 16 Jan 2015 05:43:42 -0800 (PST)
+X-Originating-IP: [109.100.140.128]
+In-Reply-To: <1421415523-29824-1-git-send-email-andrei.gherzan@windriver.com>
+References: <1421415523-29824-1-git-send-email-andrei.gherzan@windriver.com>
 From: Andrei Gherzan <andrei@gherzan.ro>
-X-Google-Original-From: Andrei Gherzan <andrei.gherzan@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jan 2015 14:38:43 +0100
-Message-Id: <1421415523-29824-1-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.9.3
+Date: Fri, 16 Jan 2015 14:43:42 +0100
+Message-ID: <CAK18fxF0+4OvqPFq36yyaH7LFbi9P0sNHxr1xNdqd=sJdjzyQg@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
 Cc: holger@windriver.com
-Subject: [PATCH 1/1] systemd: Don't create /var/tmp, log directories
+Subject: Re: [PATCH 1/1] systemd: Don't create /var/tmp, log directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,81 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 13:39:03 -0000
+X-List-Received-Date: Fri, 16 Jan 2015 13:44:13 -0000
+Content-Type: multipart/alternative; boundary=f46d041824f66a1a1f050cc52a63
 
-/var/tmp and /var/log are symlinks created by base-files and point to their
-respective directories in /var/volatile.
-With this patch we avoid systemd-tmpfiles runtime errors like:
-systemd-tmpfiles[108]: chmod(/var/tmp) failed: No such file or directory
+--f46d041824f66a1a1f050cc52a63
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- .../0001-tmpfiles-Don-t-create-var-tmp-log.patch   | 42 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_216.bb           |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
+Hi guys,
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch b/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
-new file mode 100644
-index 0000000..a47b58d
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
-@@ -0,0 +1,42 @@
-+From f5738e5bc4e96672244d77cb6fcbdc0697d49961 Mon Sep 17 00:00:00 2001
-+From: Andrei Gherzan <andrei.gherzan@windriver.com>
-+Date: Fri, 16 Jan 2015 14:30:34 +0100
-+Subject: [PATCH] tmpfiles: Don't create /var/tmp,log
-+
-+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-+---
-+ tmpfiles.d/tmp.conf | 3 ++-
-+ tmpfiles.d/var.conf | 3 ++-
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/tmpfiles.d/tmp.conf b/tmpfiles.d/tmp.conf
-+index b80dab4..d5dfc8e 100644
-+--- a/tmpfiles.d/tmp.conf
-++++ b/tmpfiles.d/tmp.conf
-+@@ -9,7 +9,8 @@
-+ 
-+ # Clear tmp directories separately, to make them easier to override
-+ d /tmp 1777 root root 10d
-+-d /var/tmp 1777 root root 30d
-++# Already symlink to volatile/tmp from base-files
-++#d /var/tmp 1777 root root 30d
-+ 
-+ # Exclude namespace mountpoints created with PrivateTmp=yes
-+ x /tmp/systemd-private-%b-*
-+diff --git a/tmpfiles.d/var.conf b/tmpfiles.d/var.conf
-+index 4b63e41..fa74af1 100644
-+--- a/tmpfiles.d/var.conf
-++++ b/tmpfiles.d/var.conf
-+@@ -11,7 +11,8 @@ d /var 0755 - - -
-+ 
-+ L /var/run - - - - ../run
-+ 
-+-d /var/log 0755 - - -
-++# Already symlink to volatile/log from base-files
-++#d /var/log 0755 - - -
-+ f /var/log/wtmp 0664 root utmp -
-+ f /var/log/btmp 0600 root utmp -
-+ 
-+-- 
-+1.9.3
-+
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 8e1b5aa..a7cac9d 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -35,6 +35,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://0001-Make-root-s-home-directory-configurable.patch \
-            file://0001-systemd-user-avoid-using-system-auth.patch \
-            file://0001-journal-Fix-navigating-backwards-missing-entries.patch \
-+           file://0001-tmpfiles-Don-t-create-var-tmp-log.patch \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
-            file://init \
--- 
-1.9.3
+On Fri, Jan 16, 2015 at 2:38 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
 
+> /var/tmp and /var/log are symlinks created by base-files and point to their
+> respective directories in /var/volatile.
+> With this patch we avoid systemd-tmpfiles runtime errors like:
+> systemd-tmpfiles[108]: chmod(/var/tmp) failed: No such file or directory
+>
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+>
 
+Could you please cherry-pick this into the dizzy branch too? Thanks.
+
+ag
+
+--f46d041824f66a1a1f050cc52a63
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi guys,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On Fri, Jan 16, 2015 at 2:38 PM, A=
+ndrei Gherzan <span dir=3D"ltr">&lt;<a href=3D"mailto:andrei@gherzan.ro" ta=
+rget=3D"_blank">andrei@gherzan.ro</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;b=
+order-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"=
+>/var/tmp and /var/log are symlinks created by base-files and point to thei=
+r<br>
+respective directories in /var/volatile.<br>
+With this patch we avoid systemd-tmpfiles runtime errors like:<br>
+systemd-tmpfiles[108]: chmod(/var/tmp) failed: No such file or directory<br=
+>
+<br>
+Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei.gherzan@windrive=
+r.com">andrei.gherzan@windriver.com</a>&gt;<br></blockquote><div><br></div>=
+<div>Could you please cherry-pick this into the dizzy branch too? Thanks.</=
+div><div><br></div><div>ag=C2=A0</div></div>
+</div></div>
+
+--f46d041824f66a1a1f050cc52a63--
