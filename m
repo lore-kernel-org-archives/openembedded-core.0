@@ -1,34 +1,42 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7193972332
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 7110C722C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 18:31:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0GIVKVM004851
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 16 Jan 2015 10:31:21 -0800 (PST)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.42]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Fri, 16 Jan 2015 10:31:20 -0800
-From: "Dragomir, Daniel" <Daniel.Dragomir@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] gcc-runtime: Remove libgfortran data from
-	receipe
-Thread-Index: AQHQMOCtYARDNTwSJE+gye7vMnihH5zB6EyAgAEQcgE=
-Date: Fri, 16 Jan 2015 18:31:20 +0000
-Message-ID: <7805B0FACE4FCC4E84636AB320CBA4AC360C5160@ALA-MBB.corp.ad.wrs.com>
-References: <1421339471-11486-1-git-send-email-daniel.dragomir@windriver.com>,
-	<1421340029.18703.0.camel@linuxfoundation.org>
-In-Reply-To: <1421340029.18703.0.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.124.175]
+	Fri, 16 Jan 2015 18:54:33 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id l6so14411520qcy.13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jan 2015 10:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+	:user-agent:mime-version:content-type;
+	bh=NNG/1XxB8OuJ2hexCSV3RskySPTXXxmv/hAYw+hA6Sw=;
+	b=ZXRoz+lGKls7ivFyYX/jsxQVXd3UTv8Lje6GYpXg0vDY4Woqbl2rTxVjLi886h+f6q
+	dLWAp7BVu7VsRO01IdzC78CcoVs8huQBEZ3Fu2Owl7XyrD5OwXse0zWp0aN2PBZkcte9
+	Bc5mYzDa5oThx/VmuYYYPLgJkeuD3khNU6cc6JOgY+ouypuYLzpoeEjWX73GCWWPBjNj
+	vAVyReNlweW4cvKOS0LBL1SsCDgrl/YKsokAk67Pc7m4va2zi8K3Vc/g5xpd6aIaEbvE
+	3LONCrx9jPg0jIGhiiWCw1MbW9GTSOzeBt3mIXe1VLKLpO9oGOY2e5kq/2afw9Sit/O9
+	CkgA==
+X-Received: by 10.224.95.71 with SMTP id c7mr3434138qan.70.1421434474076;
+	Fri, 16 Jan 2015 10:54:34 -0800 (PST)
+Received: from email.parenteses.org.gmail.com (email.parenteses.org.
+	[198.199.72.94])
+	by mx.google.com with ESMTPSA id c7sm4868329qar.33.2015.01.16.10.54.32
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Jan 2015 10:54:32 -0800 (PST)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: Chong Lu <Chong.Lu@windriver.com>
+References: <cover.1421044647.git.Chong.Lu@windriver.com>
+	<b2a5af309a2b2e6b23070ae2f2343e39b12a52df.1421044647.git.Chong.Lu@windriver.com>
+Date: Fri, 16 Jan 2015 18:54:29 +0000
+In-Reply-To: <b2a5af309a2b2e6b23070ae2f2343e39b12a52df.1421044647.git.Chong.Lu@windriver.com>
+	(Chong Lu's message of "Mon, 12 Jan 2015 14:48:42 +0800")
+Message-ID: <87k30mo8t6.fsf@email.parenteses.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-runtime: Remove libgfortran data from receipe
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/1] bitbake-layers: add a ability to query layer dependencies from layer index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,155 +49,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 18:31:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Jan 2015 18:54:35 -0000
+Content-Type: text/plain
 
-=0A=
->On Thu, 2015-01-15 at 18:31 +0200, Daniel Dragomir wrote:=0A=
->> Remove libgfortran packages from PACKAGES list and skip them at compilin=
-g=0A=
->> and installing as long as libgfortran has separate receipe since commit=
-=0A=
->>=0A=
->> 5bde5d9b39ea67f19a1a6aedd0c08c6cfedcbe5f=0A=
->> gcc: Allow fortran to build successfully in 4.8=0A=
->>=0A=
->> Otherwise, when fortran support will be enabled in the compiler, both=0A=
->> lingfortran and gcc-runtime receipes will create the same files and will=
-=0A=
->> try to install them. This will cause errors:=0A=
->>=0A=
->> ERROR: The recipe libgfortran is trying to install files into a shared=
-=0A=
->> area when those files already exist. Those files and their manifest=0A=
->> location are: ...=0A=
->> Please verify which recipe should provide the above files.=0A=
->>=0A=
->> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>=0A=
->> ---=0A=
->>  meta/recipes-devtools/gcc/gcc-runtime.inc | 41 ++++++++++++------------=
--------=0A=
->>  1 file changed, 16 insertions(+), 25 deletions(-)=0A=
->>=0A=
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-de=
-vtools/gcc/gcc-runtime.inc=0A=
->> index 167869e..c3b4a46 100644=0A=
->> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc=0A=
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc=0A=
->> @@ -22,28 +22,34 @@ do_configure () {=0A=
->>       target=3D`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`=0A=
->>       hardlinkdir ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget $=
-{B}=0A=
->>       for d in libgcc ${RUNTIMETARGET}; do=0A=
->> -             echo "Configuring $d"=0A=
->> -             rm -rf ${B}/$target/$d/=0A=
->> -             mkdir -p ${B}/$target/$d/=0A=
->> -             cd ${B}/$target/$d/=0A=
->> -             chmod a+x ${S}/$d/configure=0A=
->> -             ${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}=0A=
->> +             if [ "$d" !=3D "libgfortran" ]; then=0A=
->=0A=
->Why would libgfortran be in RUNTIMETARGET? Surely it would be better=0A=
->just to ensure it isn't rather than ignore it?=0A=
->=0A=
->Cheers,=0A=
->=0A=
->Richard=0A=
-=0A=
-My mistake.=0A=
-I didn't noticed that I had in my layer, in a bbappend for gcc-runtime this=
- line=0A=
-=0A=
-RUNTIMETARGET +=3D "libgfortran"=0A=
-=0A=
-because I added fortran support in dora branch.=0A=
-And in dora the receipes (gcc-runtime and libgfortran) were not splited.=0A=
-=0A=
-That's why I added those "if" statements to skip libgfortran.=0A=
-=0A=
-I remove the line and iny layer I added "libgfortran" in DEPENDS for image =
-to build it.=0A=
-=0A=
-Do you thing that we still need to ensure libgfortran is not in RUNTIMETARG=
-ET?=0A=
-Or I should remove the "if" statements and create a patch just with the oth=
-er changes?=0A=
-=0A=
-BR,=0A=
-Daniel=0A=
-=0A=
-=0A=
->> +                     echo "Configuring $d"=0A=
->> +                     rm -rf ${B}/$target/$d/=0A=
->> +                     mkdir -p ${B}/$target/$d/=0A=
->> +                     cd ${B}/$target/$d/=0A=
->> +                     chmod a+x ${S}/$d/configure=0A=
->> +                     ${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}=
-=0A=
->> +             fi=0A=
->>      done=0A=
->>  }=0A=
->>=0A=
->>  do_compile () {=0A=
->>       target=3D`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`=0A=
->>       for d in libgcc ${RUNTIMETARGET}; do=0A=
->> -             cd ${B}/$target/$d/=0A=
->> -             oe_runmake MULTIBUILDTOP=3D${B}/$target/$d/=0A=
->> +             if [ "$d" !=3D "libgfortran" ]; then=0A=
->> +                     cd ${B}/$target/$d/=0A=
->> +                     oe_runmake MULTIBUILDTOP=3D${B}/$target/$d/=0A=
->> +             fi=0A=
->>       done=0A=
->>  }=0A=
->>=0A=
->>  do_install () {=0A=
->>       target=3D`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`=0A=
->>       for d in ${RUNTIMETARGET}; do=0A=
->> -             cd ${B}/$target/$d/=0A=
->> -             oe_runmake 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/$target/$=
-d/ install=0A=
->> +             if [ "$d" !=3D "libgfortran" ]; then=0A=
->> +                     cd ${B}/$target/$d/=0A=
->> +                     oe_runmake 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/$=
-target/$d/ install=0A=
->> +             fi=0A=
->>       done=0A=
->>       rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir=0A=
->>       rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir=0A=
->> @@ -76,9 +82,6 @@ PACKAGES =3D "\=0A=
->>      libssp \=0A=
->>      libssp-dev \=0A=
->>      libssp-staticdev \=0A=
->> -    libgfortran \=0A=
->> -    libgfortran-dev \=0A=
->> -    libgfortran-staticdev \=0A=
->>      libmudflap \=0A=
->>      libmudflap-dev \=0A=
->>      libmudflap-staticdev \=0A=
->> @@ -131,18 +134,6 @@ FILES_libssp-dev =3D "\=0A=
->>  "=0A=
->>  FILES_libssp-staticdev =3D "${libdir}/libssp*.a"=0A=
->>=0A=
->> -FILES_libgfortran =3D "${libdir}/libgfortran.so.*"=0A=
->> -FILES_libgfortran-dev =3D "\=0A=
->> -    ${libdir}/libgfortran*.so \=0A=
->> -    ${libdir}/libgfortran.spec \=0A=
->> -    ${libdir}/libgfortran.la \=0A=
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \=0A=
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single* \=0A=
->> -"=0A=
->> -FILES_libgfortran-staticdev =3D "${libdir}/libgfortran.a"=0A=
->> -=0A=
->> -INSANE_SKIP_${MLPREFIX}libgfortran-dev =3D "staticdev"=0A=
->> -=0A=
->>  FILES_libquadmath =3D "${libdir}/libquadmath*.so.*"=0A=
->>  FILES_libquadmath-dev =3D "\=0A=
->>      ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \=0A=
->> --=0A=
->> 1.8.1.4=0A=
->>=0A=
-=0A=
-=0A=
+Hi,
+
+On Mon, 12 Jan 2015 14:48:42 +0800 Chong Lu <Chong.Lu@windriver.com> wrote:
+
+> It maybe depends on other layers when one layer is added to BBLAYERS. If define
+> LAYERDEPENDS variable in this layer, we will get error from bitbake. But
+> sometimes, we don't have defined. Add a mechanism to extend bitbake-layers and
+> it will query layer dependencies from layer index
+> (http://layers.openembedded.org/layerindex/api/)
+> Use `bitbake-layers show-layer-dependencies' to find out dependencies and update
+> bblayers.conf as appropriate.
+>
+> [YOCTO #5348]
+>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>  bitbake/bin/bitbake-layers | 116 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+>
+> diff --git a/bitbake/bin/bitbake-layers b/bitbake/bin/bitbake-layers
+> index 9879498..0756095 100755
+> --- a/bitbake/bin/bitbake-layers
+> +++ b/bitbake/bin/bitbake-layers
+> @@ -27,6 +27,7 @@ import sys
+>  import fnmatch
+>  from collections import defaultdict
+>  import re
+> +import httplib, urlparse, json
+>  
+>  bindir = os.path.dirname(__file__)
+>  topdir = os.path.dirname(bindir)
+> @@ -157,6 +158,121 @@ usage: remove-layer <layerdir>
+>                  sys.stderr.write("No layers matching %s found in BBLAYERS\n" % item)
+>  
+>  
+> +    def get_json_data(self, apiurl):
+> +        proxy_settings = os.environ.get("http_proxy", None)
+> +        conn = None
+> +        _parsedurl = urlparse.urlparse(apiurl)
+> +        path = _parsedurl.path
+> +        query = _parsedurl.query
+> +        def parse_url(url):
+> +            parsedurl = urlparse.urlparse(url)
+> +            try:
+> +                (host, port) = parsedurl.netloc.split(":")
+> +            except ValueError:
+> +                host = parsedurl.netloc
+> +                port = None
+> +
+> +            if port is None:
+> +                port = 80
+> +            else:
+> +                port = int(port)
+> +            return (host, port)
+> +
+> +        if proxy_settings is None:
+> +            host, port = parse_url(apiurl)
+> +            conn = httplib.HTTPConnection(host, port)
+> +            conn.request("GET", path + "?" + query)
+> +        else:
+> +            host, port = parse_url(proxy_settings)
+> +            conn = httplib.HTTPConnection(host, port)
+> +            conn.request("GET", apiurl)
+> +
+> +        r = conn.getresponse()
+> +        if r.status != 200:
+> +            raise Exception("Failed to read " + path + ": %d %s" % (r.status, r.reason))
+> +        return json.loads(r.read())
+> +
+> +
+> +    def get_layer_deps(self, layername, layeritems, layerbranches, layerdependencies):
+> +        def layeritems_info_id(items_name, layeritems):
+> +            litems_id = ""
+> +            for li in layeritems:
+> +                if li['name'] == items_name:
+> +                    litems_id = li['id']
+> +                    break
+> +            return litems_id
+> +
+> +        def layerbranches_info(items_id, layerbranches):
+> +            lbranch = {}
+> +            for lb in layerbranches:
+> +                # branch is master.
+> +                if lb['layer'] == items_id and lb['branch'] == 1:
+> +                    lbranch['id'] = lb['id']
+> +                    lbranch['vcs_subdir'] = lb['vcs_subdir']
+> +                    break
+> +            if not lbranch['id']:
+> +                logger.plain("The id of layerBranches is not found.")
+> +                return
+> +            else:
+> +                return lbranch
+> +
+> +        def layerdependencies_info(lb_id, layerdependencies):
+> +            ld_deps = []
+> +            for ld in layerdependencies:
+> +                if ld['layerbranch'] == lb_id and not ld['dependency'] in ld_deps:
+> +                    ld_deps.append(ld['dependency'])
+> +            if not ld_deps:
+> +                logger.plain("The dependency of layerDependencies is not found.")
+> +                return
+> +            else:
+> +                return ld_deps
+> +
+> +        def layeritems_info_name_subdir(items_id, layeritems):
+> +            litems = {}
+> +            for li in layeritems:
+> +                if li['id'] == items_id:
+> +                    litems['vcs_url'] = li['vcs_url']
+> +                    litems['name'] = li['name']
+> +                    break
+> +            return litems
+> +
+> +        itemsid = layeritems_info_id(layername, layeritems)
+> +        if not itemsid:
+> +            return
+> +        lbid = layerbranches_info(itemsid, layerbranches)['id']
+> +        ldict = {}
+> +        for dependency in layerdependencies_info(lbid, layerdependencies):
+> +            lname = layeritems_info_name_subdir(dependency, layeritems)['name']
+> +            lurl = layeritems_info_name_subdir(dependency, layeritems)['vcs_url']
+> +            lsubdir = layerbranches_info(dependency, layerbranches)['vcs_subdir']
+> +            ldict[lname] = lurl, lsubdir
+> +        return ldict
+> +
+> +
+> +    def do_show_layer_dependencies(self, args):
+> +        """Find layer dependencies from layer index"""
+> +        apilinks = self.get_json_data(apiurl = "http://layers.openembedded.org/layerindex/api/")
+> +        layeritems = self.get_json_data(apilinks['layerItems'])
+> +        layerbranches = self.get_json_data(apilinks['layerBranches'])
+> +        layerdependencies = self.get_json_data(apilinks['layerDependencies'])
+
+This is subject to race conditions.  There's no guarantee with regard to
+atomicity between requests.
+
+
+> +        self.init_bbhandler(config_only = True)
+> +        bblayers_conf = os.path.join('conf', 'bblayers.conf')
+> +        logger.plain("%s  %s  %s  %s" % ("Layer".ljust(20), "Dependencies".ljust(20), "Git repository".ljust(50), "Subdirectory"))
+> +        logger.plain('=' * 111)
+> +        if not os.path.exists(bblayers_conf):
+> +            sys.stderr.write("Unable to find bblayers.conf\n")
+> +            return
+> +        for layerdir in self.bblayers:
+> +            layername = self.get_layer_name(layerdir)
+> +            if not layername == "meta":
+> +                layerdict = self.get_layer_deps(layername, layeritems, layerbranches, layerdependencies)
+> +                if layerdict:
+> +                    for layer in layerdict:
+> +                        logger.plain("%s  %s  %s  %s" % (layername.ljust(20), layer.ljust(20), layerdict[layer][0].ljust(50), layerdict[layer][1]))
+> +                else:
+> +                    logger.plain("%s" % layername)
+> +
+> +
+>      def version_str(self, pe, pv, pr = None):
+>          verstr = "%s" % pv
+>          if pr:
+> -- 
+> 1.9.1
+
+Best wishes.
+Mario
+-- 
+http://www.ossystems.com.br
 
