@@ -1,20 +1,37 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 209857226D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4179372858
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 10:16:10 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 16 Jan 2015 11:16:05 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 11:16:03 +0100
-Message-ID: <1421403363-60695-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Fri, 16 Jan 2015 11:18:25 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id l89so7095651qgf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jan 2015 03:18:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/vxHW86awOSzSCgeE8buxGK5+tqZRhOzOcCmO/0g4ZU=;
+	b=iBvqsNa6W41esJ5Lksk8bZLMFLdsZB8Y9yh/LECKh0HTfKaI1szExM8DpTtIbtKims
+	uX/ir2BlLWXOScKKy2DOUKNRSvD9TgIGrpEpP130oiGGzlGevkxfq6ZdXRepdV7A8uTi
+	KSUzj3CSeiWqPdUGod5XzQO60BfS/5M7qxNJjNNGEFO8dtvjbW9x6+2bdZB909RsolI8
+	8INANYHni1Pa0WsmMeZd1gDJyxU0qGbomblvbh8wOfXutFzvk1+42C6bVcxudAKnT47v
+	hCtOmzlDV+0jHpfUXtvdJdSFwvdE3wTwhP3/W9oHSSSIR5pN3b2BB213AJFn9GdD1Qfy
+	bQjg==
+X-Gm-Message-State: ALoCoQmBIvcTK6QUmzWsjytyz4XjQ9vZz+o5vnP9wuXCrK/obtH5AU/SqXFy9Z+z08ApS3yqOSr9
+X-Received: by 10.140.39.167 with SMTP id v36mr22845201qgv.77.1421407105822;
+	Fri, 16 Jan 2015 03:18:25 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [daisy][PATCH] python: Disables SSLv3
+Received: by 10.140.96.166 with HTTP; Fri, 16 Jan 2015 03:18:05 -0800 (PST)
+In-Reply-To: <20150115153328.GA2482@jama>
+References: <1420737078-24121-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150115153328.GA2482@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Jan 2015 11:18:05 +0000
+Message-ID: <CAJTo0LbLROGAtMsQ39X_12j7ujdnoOXFxK_U4OAx6k4xu7BC9g@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: Fix support for private libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,88 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 10:16:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Jan 2015 11:18:28 -0000
+Content-Type: multipart/alternative; boundary=001a11c12dd29fcbe5050cc3210b
 
-This is related to "SSLv3 POODLE vulnerability" CVE-2014-3566
+--001a11c12dd29fcbe5050cc3210b
+Content-Type: text/plain; charset=UTF-8
 
-Building python without SSLv3 support when openssl is built without
-any support for SSLv3 (e.g. by adding EXTRA_OECONF = " -no-ssl3" in
-the openssl recipes).
+On 15 January 2015 at 15:33, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Backport from:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768611#22
-[python2.7-nossl3.patch] only Modules/_ssl.c is backported.
+> ping, please merge this to dizzy as well.
+>
 
-References:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7015
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=6843
-http://bugs.python.org/issue22638
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
+This is in my MUT but we've been stalling on merging anything into master
+until the kernel builds are fixed.
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../python/python/python2.7.3-nossl3.patch         | 37 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
+Ross
 
-diff --git a/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
-new file mode 100644
-index 0000000..2d35520
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
-@@ -0,0 +1,37 @@
-+python: Building without SSLv3 support
-+
-+Building without SSLv3 support when openssl is built
-+without any support for SSLv3
-+
-+Upstream-Status: Backport
-+
-+Reference:
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=76A8611#22
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+diff -ruN a/Modules/_ssl.c b/Modules/_ssl.c
-+--- a/Modules/_ssl.c	2014-11-26 07:43:58.755679939 +0100
-++++ b/Modules/_ssl.c	2014-11-26 07:49:10.454182400 +0100
-+@@ -302,8 +302,10 @@
-+     PySSL_BEGIN_ALLOW_THREADS
-+     if (proto_version == PY_SSL_VERSION_TLS1)
-+         self->ctx = SSL_CTX_new(TLSv1_method()); /* Set up context */
-++#ifndef OPENSSL_NO_SSL3
-+     else if (proto_version == PY_SSL_VERSION_SSL3)
-+         self->ctx = SSL_CTX_new(SSLv3_method()); /* Set up context */
-++#endif
-+ #ifndef OPENSSL_NO_SSL2
-+     else if (proto_version == PY_SSL_VERSION_SSL2)
-+         self->ctx = SSL_CTX_new(SSLv2_method()); /* Set up context */
-+@@ -1777,8 +1779,10 @@
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv2",
-+                             PY_SSL_VERSION_SSL2);
-+ #endif
-++#ifndef OPENSSL_NO_SSL3
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv3",
-+                             PY_SSL_VERSION_SSL3);
-++#endif
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv23",
-+                             PY_SSL_VERSION_SSL23);
-+     PyModule_AddIntConstant(m, "PROTOCOL_TLSv1",
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 5270df9..4d2594a 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -36,6 +36,7 @@ SRC_URI += "\
-   file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
-   file://python-fix-build-error-with-Readline-6.3.patch \
-   file://python-2.7.3-CVE-2014-1912.patch \
-+  file://python2.7.3-nossl3.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.9.1
+--001a11c12dd29fcbe5050cc3210b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 January 2015 at 15:33, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":421" class=
+=3D"a3s" style=3D"overflow:hidden">ping, please merge this to dizzy as well=
+.<br></div></blockquote></div><br>This is in my MUT but we&#39;ve been stal=
+ling on merging anything into master until the kernel builds are fixed.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
+--001a11c12dd29fcbe5050cc3210b--
