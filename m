@@ -1,20 +1,36 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EA1072332
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E59272332
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 21:36:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jan 2015 13:36:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,413,1418112000"; d="scan'208";a="513479474"
-Received: from localhost.jf.intel.com ([10.7.201.167])
-	by orsmga003.jf.intel.com with ESMTP; 16 Jan 2015 13:30:17 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Jan 2015 13:36:35 -0800
-Message-Id: <1421444195-10330-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] xserver-xorg: Always disable systemd-logind.
+	Fri, 16 Jan 2015 22:15:42 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id k14so22867679wgh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jan 2015 14:15:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=qL0MDV4ZXTjzu9W/4lOAIcQwBNHZSmOlABBbEQ/AS7o=;
+	b=Yhsps+6l84hVGIk05ZHSBlrzJRuQr9IvjLs4Edg/zAKAb/WOhJyifrBUcmyEbtHmvW
+	+k2Oo4o6bonkQ8xSNtI0KNEBZaK13zWLfkwgjlHvILjSE1NHDj/WgahG5gw87qvpQCFK
+	4n5imRynqejTiF84FgH0D9+F/Xostj//F4+66dxy2xoB3LezBuUzLoOc2QqjPrFzkArH
+	+90Dca9AtECCNdqmOGFvkKqXnCtQ2nnnvSMvGN84z6UCtNkyDk7euGwGxqlWk8epn8FR
+	hWIVf29hySPr0K90xRpXLJ993tAHZv/Lo5rSqjXlF63+nlNtqG47MGOaCa0jy5g7YbUk
+	TSLQ==
+X-Received: by 10.181.13.136 with SMTP id ey8mr10562479wid.50.1421446542709;
+	Fri, 16 Jan 2015 14:15:42 -0800 (PST)
+Received: from nuc.betafive.co.uk
+	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
+	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Jan 2015 14:15:41 -0800 (PST)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Jan 2015 22:15:23 +0000
+Message-Id: <1421446529-24888-2-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+Subject: [PATCH V2 1/7] opkg-arch-config: Renamed from opkg-config-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,46 +43,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 21:36:45 -0000
+X-List-Received-Date: Fri, 16 Jan 2015 22:15:46 -0000
 
-Without a dm to handle the session management systemd-logind can make it
-difficult for X to gain ownership of devices and behave properly.
+The name 'opkg-arch-config' is much more descriptive.
 
-Since X seems to work without enabling systemd-logind, always disable it for
-now, and we can revisit it if we ever want to try to take advantage of
-multi-user sessions/seats.
-
-[Yocto # 7100]
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/conf/layer.conf                                                 | 2 +-
+ .../opkg/{opkg-config-base_1.0.bb => opkg-arch-config_1.0.bb}        | 5 ++++-
+ meta/recipes-devtools/opkg/opkg.inc                                  | 2 +-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg-config-base_1.0.bb => opkg-arch-config_1.0.bb} (79%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 5b47e34..6154295 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -114,10 +114,10 @@ EXTRA_OECONF += "--with-fop=no \
-                  --with-xkb-output=/var/lib/xkb \
-                  --with-sha1=libcrypto \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
-+                 --disable-systemd-logind \
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index de96548..4fd3a16 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -18,7 +18,7 @@ COREBASE = '${@os.path.normpath("${LAYERDIR}/../")}'
+ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   sysvinit-inittab \
+   shadow-securetty \
+-  opkg-config-base \
++  opkg-arch-config \
+   netbase \
+   init-ifupdown \
+   connman-conf \
+diff --git a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+similarity index 79%
+rename from meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
+rename to meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+index acbe129..4540de2 100644
+--- a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
++++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+@@ -1,4 +1,4 @@
+-SUMMARY = "Base configuration files for opkg"
++SUMMARY = "Architecture-dependent configuration for opkg"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+@@ -28,3 +28,6 @@ FILES_${PN} = "${sysconfdir}/opkg/ "
+ 
+ CONFFILES_${PN} += "${sysconfdir}/opkg/arch.conf"
+ 
++RREPLACES_${PN} = "opkg-config-base"
++RCONFLICTS_${PN} = "opkg-config-base"
++RPROVIDES_${PN} = "opkg-config-base"
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index 56c54b6..991c114 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -38,7 +38,7 @@ EXTRA_OECONF = "\
+   --with-opkglibdir=${OPKGLIBDIR} \
  "
  
--PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-+PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
- 
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
- PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
-@@ -128,7 +128,6 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
- PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
- PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
--PACKAGECONFIG[systemd] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,dbus-lib"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base run-postinsts"
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config run-postinsts"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+ RREPLACES_${PN} = "opkg-nogpg"
 -- 
-1.9.3
+1.9.1
 
 
