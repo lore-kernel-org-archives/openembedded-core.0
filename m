@@ -1,27 +1,37 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3AB0D722C3
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DFAF722C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 13:27:23 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 16 Jan 2015 14:27:22 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id CF9A12800CB;
-	Fri, 16 Jan 2015 14:27:22 +0100 (CET)
-Date: Fri, 16 Jan 2015 14:27:22 +0100
-From: "Maxin B. John" <maxin.john@enea.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
-Message-ID: <20150116132722.GA36106@sestofb10.enea.se>
-References: <1420805212-62823-1-git-send-email-maxin.john@enea.com>
-	<3230301C09DEF9499B442BBE162C5E482581DE20@sestoex09.enea.se>
-MIME-Version: 1.0
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E482581DE20@sestoex09.enea.se>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: upgrade to 7.40
+	Fri, 16 Jan 2015 13:38:51 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id q58so20302110wes.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Jan 2015 05:38:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=L4MvCEFXiJKS9qQXCBp1VZy0Nh0H68+YE14DrQQ798g=;
+	b=NvXCCtj+lDdwvtDY/0aKIJ1G8X7vC68ttJrP9GuiNMUOALfK5H+xeKYcNmUAqNk216
+	mm90xUz9dixCiViRowg6CrjiyGhy+UVzetTXLyDKOq0x+wIALTWmjfJQSudIvvymaJyn
+	QSKfc1dt3JN/CJRy2QJiA8F4ZFbT37cZX+6WkjyvT/M5NU0uIlIN4Guw5h5YSGEfcf+M
+	LoJ7vI6sHk7AbIocssHDjxe9c1V1xZZM1S4qdv0gXK38IK6HmnJZw9u+u1Qf2CARihc5
+	LXAEpEqxVSdYbYQnWqvKR0lfMW1/Ab2bHgAr7aD881dZ9LcV0Hi9bpWyP6Vs/rMS4mXA
+	FFNw==
+X-Gm-Message-State: ALoCoQm1RF3iKVsxKQqOmy16v2SNEO32it0wm0KweUcKbPG0CgV29tgaX8mwvRhe99FvGoia65IW
+X-Received: by 10.194.88.131 with SMTP id bg3mr27882515wjb.99.1421415531315;
+	Fri, 16 Jan 2015 05:38:51 -0800 (PST)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([109.100.140.128])
+	by mx.google.com with ESMTPSA id q10sm2764652wjr.41.2015.01.16.05.38.50
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Jan 2015 05:38:50 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+X-Google-Original-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jan 2015 14:38:43 +0100
+Message-Id: <1421415523-29824-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: git-send-email 1.9.3
+Cc: holger@windriver.com
+Subject: [PATCH 1/1] systemd: Don't create /var/tmp, log directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +44,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 13:27:25 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Jan 2015 13:39:03 -0000
 
-Hi Sona,
+/var/tmp and /var/log are symlinks created by base-files and point to their
+respective directories in /var/volatile.
+With this patch we avoid systemd-tmpfiles runtime errors like:
+systemd-tmpfiles[108]: chmod(/var/tmp) failed: No such file or directory
 
-On Fri, Jan 16, 2015 at 01:30:53PM +0100, Sona Sarmadi wrote:
-> Maxin,
-> 
-> Is this related to (URL request injection CVE-2014-8150) http://curl.haxx.se/mail/archive-2015-01/0019.html?
+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+---
+ .../0001-tmpfiles-Don-t-create-var-tmp-log.patch   | 42 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
 
-curl 7.40 contains fix for below listed CVE bugs:
-1. CVE-2014-8150
-2. CVE-2014-8151
+diff --git a/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch b/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
+new file mode 100644
+index 0000000..a47b58d
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-tmpfiles-Don-t-create-var-tmp-log.patch
+@@ -0,0 +1,42 @@
++From f5738e5bc4e96672244d77cb6fcbdc0697d49961 Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei.gherzan@windriver.com>
++Date: Fri, 16 Jan 2015 14:30:34 +0100
++Subject: [PATCH] tmpfiles: Don't create /var/tmp,log
++
++Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
++---
++ tmpfiles.d/tmp.conf | 3 ++-
++ tmpfiles.d/var.conf | 3 ++-
++ 2 files changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/tmpfiles.d/tmp.conf b/tmpfiles.d/tmp.conf
++index b80dab4..d5dfc8e 100644
++--- a/tmpfiles.d/tmp.conf
+++++ b/tmpfiles.d/tmp.conf
++@@ -9,7 +9,8 @@
++ 
++ # Clear tmp directories separately, to make them easier to override
++ d /tmp 1777 root root 10d
++-d /var/tmp 1777 root root 30d
+++# Already symlink to volatile/tmp from base-files
+++#d /var/tmp 1777 root root 30d
++ 
++ # Exclude namespace mountpoints created with PrivateTmp=yes
++ x /tmp/systemd-private-%b-*
++diff --git a/tmpfiles.d/var.conf b/tmpfiles.d/var.conf
++index 4b63e41..fa74af1 100644
++--- a/tmpfiles.d/var.conf
+++++ b/tmpfiles.d/var.conf
++@@ -11,7 +11,8 @@ d /var 0755 - - -
++ 
++ L /var/run - - - - ../run
++ 
++-d /var/log 0755 - - -
+++# Already symlink to volatile/log from base-files
+++#d /var/log 0755 - - -
++ f /var/log/wtmp 0664 root utmp -
++ f /var/log/btmp 0600 root utmp -
++ 
++-- 
++1.9.3
++
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 8e1b5aa..a7cac9d 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -35,6 +35,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://0001-Make-root-s-home-directory-configurable.patch \
+            file://0001-systemd-user-avoid-using-system-auth.patch \
+            file://0001-journal-Fix-navigating-backwards-missing-entries.patch \
++           file://0001-tmpfiles-Don-t-create-var-tmp-log.patch \
+            file://touchscreen.rules \
+            file://00-create-volatile.conf \
+            file://init \
+-- 
+1.9.3
 
-> If yes, wouldn't it be better to mention this (the CVE) in the commit message? 
-Ok, good suggestion. I will update the commit message and resent the patch.
- 
-> //Sona
-
-Best Regards,
-Maxin
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Maxin B. John
-> Sent: den 9 januari 2015 13:07
-> To: openembedded-core@lists.openembedded.org
-> Cc: Maxin John
-> Subject: [OE-core] [PATCH] curl: upgrade to 7.40
-> 
-> Bump to version 7.40
-> 
-> Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> ---
->  meta/recipes-support/curl/{curl_7.38.0.bb => curl_7.40.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)  rename meta/recipes-support/curl/{curl_7.38.0.bb => curl_7.40.0.bb} (93%)
-> 
-> diff --git a/meta/recipes-support/curl/curl_7.38.0.bb b/meta/recipes-support/curl/curl_7.40.0.bb
-> similarity index 93%
-> rename from meta/recipes-support/curl/curl_7.38.0.bb
-> rename to meta/recipes-support/curl/curl_7.40.0.bb
-> index 85bd3be..209ed94 100644
-> --- a/meta/recipes-support/curl/curl_7.38.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.40.0.bb
-> @@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \  #  SRC_URI += " file://configure_ac.patch"
->  
-> -SRC_URI[md5sum] = "af6b3c299bd891f43cb5f76c4091b7b4"
-> -SRC_URI[sha256sum] = "035bd41e99aa1a4e64713f4cea5ccdf366ca8199e9be1b53d5a043d5165f9eba"
-> +SRC_URI[md5sum] = "8d30594212e65657a5c32030f0998fa9"
-> +SRC_URI[sha256sum] = "899109eb3900fa6b8a2f995df7f449964292776a04763e94fae640700f883fba"
->  
->  inherit autotools pkgconfig binconfig multilib_header
->  
-> --
-> 1.9.1
-> 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
