@@ -1,37 +1,37 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 98FBD72575
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B86372C3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 22:15:46 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id u56so22545484wes.2
+	Fri, 16 Jan 2015 22:15:47 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id m14so813029wev.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 14:15:46 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=orKIS3F2U4Ss7d3vvvWTSF+d8Ure6jYSBf1Qw+OD3v8=;
-	b=mmgLDDYcrNi7+Jd96A+HYfJhZRADOy5v3yN9e2J3ze4l7chrRIv8daNC4y59wDrO4Z
-	RHMaeMXsHiYFT7MxSzkd2YdVgmiw+ANw/ZHivOjvQKKyKk9ZngMnoPtA9NJ262X1l6I5
-	cUouaaJ48F4VhbiaAHyjzKLeuYaNmCAI5ywfPhLPXLg3o1+OiyU0wApvpbKVCAG8/sz3
-	gZNt9hvAAoC/I4/E7D+VZ8YvEodwd+5jB3MdDRL1INgngbf/87rdNnwQB4R5yrd4Pnas
-	a7pN4c9hkEvRH+wyL7hA5oFQy/+FKBYWauqMPqHDDa7UJJNjWTwqshQUTmJpMz5aia5Q
-	mUbQ==
-X-Received: by 10.180.72.199 with SMTP id f7mr10510226wiv.53.1421446546607;
-	Fri, 16 Jan 2015 14:15:46 -0800 (PST)
+	bh=Ao+Gzy22jiVGAOkxoBUfTQXCm0wKaecmnyz/eU7uYkk=;
+	b=tk3vTJsGtDHrurnGw4pjmOWePWMDi7R/U0SW5SfreWBzmOu8UAwh3vCf0KjqC7T+vU
+	Ihb3mOXwzpMJluE+MysjcP879w5Y+e8FhTC4WYub6WbaH9ueqROvP+nfHvCZPw79rSLe
+	OznsV04ptbI3sb0bz2+7GwDQDHHfTfDFomGIQ0KiMGdloHtYO0MSg0qrbjMahR/OSUjY
+	DiZn231ckMP5e143Uo4p8s2zSQMDvpIPvuEMtvEjkzuspwNG1pncgt8UPmLgolgpydD9
+	KHpv+cxJmP+KOR1xTy7e72qn7crtGf1mU2aiPWqlFuUdzm/pm6djvWx9Aw/+2caVEOTn
+	6PfQ==
+X-Received: by 10.194.93.5 with SMTP id cq5mr32319086wjb.84.1421446547709;
+	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
 Received: from nuc.betafive.co.uk
 	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
-	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.45
+	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.46
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jan 2015 14:15:45 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 22:15:26 +0000
-Message-Id: <1421446529-24888-5-git-send-email-paul@paulbarker.me.uk>
+Date: Fri, 16 Jan 2015 22:15:27 +0000
+Message-Id: <1421446529-24888-6-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
 References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH V2 4/7] opkg: Merge in opkg-collateral
+Subject: [PATCH V2 5/7] poky-feed-config-opkg: Remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,107 +44,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 22:15:46 -0000
+X-List-Received-Date: Fri, 16 Jan 2015 22:15:47 -0000
 
-All non-arch-specific and non-distro-specific configuration is now kept in the
-main 'opkg' recipe and package.
+This recipe was not usable as-is. A much better way of configuring package feeds
+for opkg is provided by the distro-feed-config recipe in meta-oe.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/classes/rootfs_ipk.bbclass                       |  2 +-
- meta/recipes-devtools/opkg/opkg-collateral.bb         | 19 -------------------
- .../opkg/{opkg-collateral => opkg}/opkg.conf          |  0
- meta/recipes-devtools/opkg/opkg_0.2.4.bb              | 14 +++++++++++++-
- 4 files changed, 14 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral.bb
- rename meta/recipes-devtools/opkg/{opkg-collateral => opkg}/opkg.conf (100%)
+ .../feed-config/poky-feed-config-opkg_1.0.bb       | 44 ----------------------
+ 1 file changed, 44 deletions(-)
+ delete mode 100644 meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 6139cc7..dd144e4 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -6,7 +6,7 @@
- #
- 
- EXTRAOPKGCONFIG ?= ""
--ROOTFS_PKGMANAGE = "opkg opkg-collateral ${EXTRAOPKGCONFIG}"
-+ROOTFS_PKGMANAGE = "opkg ${EXTRAOPKGCONFIG}"
- ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- 
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb b/meta/recipes-devtools/opkg/opkg-collateral.bb
+diff --git a/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb b/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
 deleted file mode 100644
-index b16579c..0000000
---- a/meta/recipes-devtools/opkg/opkg-collateral.bb
+index fb312f8..0000000
+--- a/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
 +++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "Constructs the main configuration file for opkg"
--SECTION = "base"
+@@ -1,44 +0,0 @@
+-SUMMARY = "Poky example feed configuration"
 -LICENSE = "MIT"
 -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 -PR = "r2"
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+-INHIBIT_DEFAULT_DEPS = "1"
 -
--SRC_URI = "file://opkg.conf"
+-#FEEDNAMEPREFIX ?= "INVALID"
+-#FEEDURIPREFIX ?= "INVALID"
 -
--OPKGLIBDIR = "${localstatedir}/lib"
--do_compile () {
--	echo "option lists_dir ${OPKGLIBDIR}/opkg" >>${WORKDIR}/opkg.conf
+-do_compile() {
+-	mkdir -p ${S}/${sysconfdir}/opkg/
+-
+-	archconf=${S}/${sysconfdir}/opkg/arch.conf
+-
+-	rm -f $archconf
+-	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
+-	priority=1
+-	for arch in $ipkgarchs; do 
+-		echo "arch $arch $priority" >> $archconf
+-		priority=$(expr $priority + 5)
+-	done
+-
+-	basefeedconf=${S}/${sysconfdir}/opkg/base-feeds.conf
+-
+-	rm -f $basefeedconf
+-	touch $basefeedconf
+-
+-	#for arch in $ipkgarchs; do
+-	#        echo "src/gz ${FEEDNAMEPREFIX}-$arch http://pokylinux.org/${FEEDURIPREFIX}$arch" >> $basefeedconf
+-	#done
 -}
+-
 -
 -do_install () {
 -	install -d ${D}${sysconfdir}/opkg
--	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
+-	install -m 0644  ${S}/${sysconfdir}/opkg/* ${D}${sysconfdir}/opkg/
 -}
 -
--CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf b/meta/recipes-devtools/opkg/opkg/opkg.conf
-similarity index 100%
-rename from meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-rename to meta/recipes-devtools/opkg/opkg/opkg.conf
-diff --git a/meta/recipes-devtools/opkg/opkg_0.2.4.bb b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-index 573195a..0369089 100644
---- a/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://add-exclude.patch \
-            file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
-            file://opkg-configure.service \
-+           file://opkg.conf \
- "
- 
- S = "${WORKDIR}/${BPN}-${PV}"
-@@ -50,7 +51,14 @@ do_configure_prepend() {
- 	sed -i -e s:-Werror::g ${S}/libopkg/Makefile.am
- }
- 
-+do_compile_append () {
-+	echo "option lists_dir ${OPKGLIBDIR}/opkg" >>${WORKDIR}/opkg.conf
-+}
-+
- do_install_append () {
-+	install -d ${D}${sysconfdir}/opkg
-+	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
-+
- 	# We need to create the lock directory
- 	install -d ${D}${OPKGLIBDIR}/opkg
- 
-@@ -74,7 +82,9 @@ do_install_append () {
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config run-postinsts"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
--RREPLACES_${PN} = "opkg-nogpg"
-+RREPLACES_${PN} = "opkg-nogpg opkg-collateral"
-+RCONFLICTS_${PN} = "opkg-collateral"
-+RPROVIDES_${PN} = "opkg-collateral"
- 
- PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg"
- 
-@@ -84,3 +94,5 @@ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
- FILES_${PN} += "${systemd_unitdir}/system/"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
+-FILES_${PN} = "${sysconfdir}/opkg/ "
+-
+-CONFFILES_${PN} += "${sysconfdir}/opkg/base-feeds.conf \
+-                    ${sysconfdir}/opkg/arch.conf"
+-
 -- 
 1.9.1
 
