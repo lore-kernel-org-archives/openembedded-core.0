@@ -1,36 +1,37 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3442972ABF
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 485D372C06
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Jan 2015 22:15:44 +0000 (UTC)
-Received: by mail-wg0-f41.google.com with SMTP id a1so818696wgh.0
+Received: by mail-we0-f179.google.com with SMTP id m14so812902wev.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 14:15:44 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4rDuztZn6NjpiLuS8UrwYUxB/igzid3yXZDJ4uZNGKQ=;
-	b=glAKyiHoVf/cLgAE9uJpzoIxcWroZqlGdMzS89I9r3OZ3XWKrwjpjELAGlGez7eRKh
-	Y4kQJ1RV+BuKTHw9B+h3XTHjdVENs8c7UxQ8DtxHnlE+SsNXMguw0RMO+GIpsDLQeKbn
-	LfQ6p1RqCKymwlZzd6t66EE1U7mANhMGXAzuDkk14vlOEgEH10BsMHtUZsdJVq1Xjuvd
-	MgcxsD5H+42ctrzPbgAAWTHq2V1iiFoAwacc8R9rWQDRP8UviIqAKV+D35LHfShjFwaj
-	5WpoFE+lYCMcSybkHN0dpROcNJXfIg4deKgdkPEoAjGDHoJFfUsQa+27R+4Va8csCZRE
-	r/AA==
-X-Received: by 10.180.186.8 with SMTP id fg8mr10556990wic.40.1421446544023;
-	Fri, 16 Jan 2015 14:15:44 -0800 (PST)
+	bh=qCk05nuvVtcHKYUBFbDyVJ9qhI6JLbwzlvpx5DI0/1c=;
+	b=XqX3aA8bd6L6UwaDoKiLBP8fJMIrk1un5aaYPfZeRNvaHVAERNIBPpCGuiaYSLyO4p
+	fnSCJUscZX1p5zmrSyDaeQL8wVs623IQYHcrZ6bUbxjQ/N5lCcX0JxXeBIJQlIR1HTZX
+	FZcQwVIe+61C/pIjcSOMZp8N+6b6ZMDCma4rzfJOis2h98QSJ4VsS5OsIptLovvQabOC
+	hvwf/UWhB7MLj2vnxobMGXTsO3AhQMnhi+SQ2+zmeYEmYq8GCmAAHvcGCc0PQeOQM9Zu
+	UQlo1bNo1SC1favd/jF+Tucvm0Z0Ds2/3u++Dy49mGp+yrH8aD/9AxPq7agA/B1hF41F
+	6duQ==
+X-Received: by 10.180.73.143 with SMTP id l15mr10406928wiv.24.1421446545377;
+	Fri, 16 Jan 2015 14:15:45 -0800 (PST)
 Received: from nuc.betafive.co.uk
 	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
-	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.42
+	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.44
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jan 2015 14:15:43 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:44 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 22:15:24 +0000
-Message-Id: <1421446529-24888-3-git-send-email-paul@paulbarker.me.uk>
+Date: Fri, 16 Jan 2015 22:15:25 +0000
+Message-Id: <1421446529-24888-4-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
 References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH V2 2/7] opkg-collateral: Simplify source files
+Subject: [PATCH V2 3/7] opkg: Merge opkg.inc into recipe and tidy up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +46,194 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Jan 2015 22:15:46 -0000
 
-Instead of having the source files 'opkg.conf.comments', 'dest' and 'src', we
-simply have one 'opkg.conf' file containing all the necessary configuration.
+There is no benefit to having a separate .inc file when we only support one
+version of opkg.
 
-This does mean that replacing 'src' in a bbappend to define distro-specific
-package feeds is no longer supported, but these feed configurations should be
-packaged separately from the rest of the opkg configuration anyway so that
-things can be updated independently. The best recipe to use for managing feed
-configs is currently distro-feed-config in the meta-oe layer.
+The .inc file had multiple do_install_append functions and several variables
+were defined out of the usual order. This arrangement should be better.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/recipes-devtools/opkg/opkg-collateral.bb                      | 7 +------
- meta/recipes-devtools/opkg/opkg-collateral/dest                    | 1 -
- .../opkg/opkg-collateral/{opkg.conf.comments => opkg.conf}         | 2 ++
- meta/recipes-devtools/opkg/opkg-collateral/src                     | 0
- 4 files changed, 3 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/dest
- rename meta/recipes-devtools/opkg/opkg-collateral/{opkg.conf.comments => opkg.conf} (92%)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/src
+ meta/recipes-devtools/opkg/opkg.inc      | 76 -------------------------------
+ meta/recipes-devtools/opkg/opkg_0.2.4.bb | 77 +++++++++++++++++++++++++++++++-
+ 2 files changed, 75 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg.inc
 
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb b/meta/recipes-devtools/opkg/opkg-collateral.bb
-index 3825ffb..b16579c 100644
---- a/meta/recipes-devtools/opkg/opkg-collateral.bb
-+++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
-@@ -4,15 +4,10 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- PR = "r2"
- 
--SRC_URI = "file://opkg.conf.comments \
--	   file://dest \
--	   file://src "
-+SRC_URI = "file://opkg.conf"
- 
- OPKGLIBDIR = "${localstatedir}/lib"
- do_compile () {
--	cat ${WORKDIR}/opkg.conf.comments >${WORKDIR}/opkg.conf
--	cat ${WORKDIR}/src	>>${WORKDIR}/opkg.conf
--	cat ${WORKDIR}/dest	>>${WORKDIR}/opkg.conf
- 	echo "option lists_dir ${OPKGLIBDIR}/opkg" >>${WORKDIR}/opkg.conf
- }
- 
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/dest b/meta/recipes-devtools/opkg/opkg-collateral/dest
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
 deleted file mode 100644
-index 088ca40..0000000
---- a/meta/recipes-devtools/opkg/opkg-collateral/dest
+index 991c114..0000000
+--- a/meta/recipes-devtools/opkg/opkg.inc
 +++ /dev/null
-@@ -1 +0,0 @@
--dest root /
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-similarity index 92%
-rename from meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
-rename to meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-index e1fdada..c2e9e92 100644
---- a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
-+++ b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-@@ -24,3 +24,5 @@
- # Offline mode (for use in constructing flash images offline)
- #option offline_root target
+@@ -1,76 +0,0 @@
+-SUMMARY = "Open Package Manager"
+-SUMMARY_libopkg = "Open Package Manager library"
+-SECTION = "base"
+-HOMEPAGE = "http://code.google.com/p/opkg/"
+-BUGTRACKER = "http://code.google.com/p/opkg/issues/list"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://src/opkg-cl.c;beginline=1;endline=20;md5=321f658c3f6b6c832e25c8850b5dffba"
+-
+-PE = "1"
+-
+-# Werror gives all kinds bounds issuses with gcc 4.3.3
+-do_configure_prepend() {
+-	sed -i -e s:-Werror::g ${S}/libopkg/Makefile.am
+-}
+-
+-inherit autotools pkgconfig systemd
+-
+-python () {
+-    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+-        pn = d.getVar('PN', True)
+-        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
+-}
+-
+-target_localstatedir := "${localstatedir}"
+-OPKGLIBDIR = "${target_localstatedir}/lib"
+-
+-PACKAGECONFIG ??= ""
+-
+-PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,gpgme libgpg-error,gnupg"
+-PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+-PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+-PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+-PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+-PACKAGECONFIG[pathfinder] = "--enable-pathfinder,--disable-pathfinder,pathfinder"
+-
+-EXTRA_OECONF = "\
+-  --with-opkglibdir=${OPKGLIBDIR} \
+-"
+-
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config run-postinsts"
+-RDEPENDS_${PN}_class-native = ""
+-RDEPENDS_${PN}_class-nativesdk = ""
+-RREPLACES_${PN} = "opkg-nogpg"
+-
+-PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg"
+-
+-FILES_libopkg-dev = "${libdir}/*.la ${libdir}/*.so ${includedir}/libopkg"
+-FILES_libopkg-staticdev = "${libdir}/*.a"
+-FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+-FILES_${PN} += "${systemd_unitdir}/system/"
+-
+-do_install_append() {
+-	# We need to create the lock directory
+-	install -d ${D}${OPKGLIBDIR}/opkg
+-
+-	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
+-		install -d ${D}${systemd_unitdir}/system
+-		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
+-		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-			-e 's,@BINDIR@,${bindir},g' \
+-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
+-			${D}${systemd_unitdir}/system/opkg-configure.service
+-	fi
+-
+-	# The installed binary is 'opkg-cl' but people and scripts often expect
+-	# it to just be 'opkg'
+-	ln -sf opkg-cl ${D}${bindir}/opkg
+-}
+-
+-do_install_append() {
+-	rm ${D}${bindir}/update-alternatives
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/opkg/opkg_0.2.4.bb b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
+index 2cca63c..573195a 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.2.4.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
+@@ -1,13 +1,86 @@
+-require opkg.inc
++SUMMARY = "Open Package Manager"
++SUMMARY_libopkg = "Open Package Manager library"
++SECTION = "base"
++HOMEPAGE = "http://code.google.com/p/opkg/"
++BUGTRACKER = "http://code.google.com/p/opkg/issues/list"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++                    file://src/opkg-cl.c;beginline=1;endline=20;md5=321f658c3f6b6c832e25c8850b5dffba"
++
++PE = "1"
  
-+# Default destination for installed packages
-+dest root /
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/src b/meta/recipes-devtools/opkg/opkg-collateral/src
-deleted file mode 100644
-index e69de29..0000000
+ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+            file://no-install-recommends.patch \
+            file://add-exclude.patch \
+-           file://opkg-configure.service \
+            file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
++           file://opkg-configure.service \
+ "
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
+ 
+ SRC_URI[md5sum] = "40ed2aee15abc8d550539449630091bd"
+ SRC_URI[sha256sum] = "0f40c7e457d81edf9aedc07c778f4697111ab163a38ef95999faece015453086"
++
++inherit autotools pkgconfig systemd
++
++python () {
++    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
++        pn = d.getVar('PN', True)
++        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
++}
++
++target_localstatedir := "${localstatedir}"
++OPKGLIBDIR = "${target_localstatedir}/lib"
++
++PACKAGECONFIG ??= ""
++
++PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,gpgme libgpg-error,gnupg"
++PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
++PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
++PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
++PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
++PACKAGECONFIG[pathfinder] = "--enable-pathfinder,--disable-pathfinder,pathfinder"
++
++EXTRA_OECONF = "\
++  --with-opkglibdir=${OPKGLIBDIR} \
++"
++
++# Werror gives all kinds bounds issuses with gcc 4.3.3
++do_configure_prepend() {
++	sed -i -e s:-Werror::g ${S}/libopkg/Makefile.am
++}
++
++do_install_append () {
++	# We need to create the lock directory
++	install -d ${D}${OPKGLIBDIR}/opkg
++
++	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
++		install -d ${D}${systemd_unitdir}/system
++		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
++		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
++			-e 's,@BINDIR@,${bindir},g' \
++			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
++			${D}${systemd_unitdir}/system/opkg-configure.service
++	fi
++
++	# The installed binary is 'opkg-cl' but people and scripts often expect
++	# it to just be 'opkg'
++	ln -sf opkg-cl ${D}${bindir}/opkg
++
++	rm ${D}${bindir}/update-alternatives
++}
++
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config run-postinsts"
++RDEPENDS_${PN}_class-native = ""
++RDEPENDS_${PN}_class-nativesdk = ""
++RREPLACES_${PN} = "opkg-nogpg"
++
++PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg"
++
++FILES_libopkg-dev = "${libdir}/*.la ${libdir}/*.so ${includedir}/libopkg"
++FILES_libopkg-staticdev = "${libdir}/*.a"
++FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
++FILES_${PN} += "${systemd_unitdir}/system/"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.9.1
 
