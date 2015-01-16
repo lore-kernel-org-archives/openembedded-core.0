@@ -1,37 +1,36 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B86372C3B
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BEA7E72575
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 22:15:47 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id m14so813029wev.10
+	Fri, 16 Jan 2015 22:15:51 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id y19so22838491wgg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ao+Gzy22jiVGAOkxoBUfTQXCm0wKaecmnyz/eU7uYkk=;
-	b=tk3vTJsGtDHrurnGw4pjmOWePWMDi7R/U0SW5SfreWBzmOu8UAwh3vCf0KjqC7T+vU
-	Ihb3mOXwzpMJluE+MysjcP879w5Y+e8FhTC4WYub6WbaH9ueqROvP+nfHvCZPw79rSLe
-	OznsV04ptbI3sb0bz2+7GwDQDHHfTfDFomGIQ0KiMGdloHtYO0MSg0qrbjMahR/OSUjY
-	DiZn231ckMP5e143Uo4p8s2zSQMDvpIPvuEMtvEjkzuspwNG1pncgt8UPmLgolgpydD9
-	KHpv+cxJmP+KOR1xTy7e72qn7crtGf1mU2aiPWqlFuUdzm/pm6djvWx9Aw/+2caVEOTn
-	6PfQ==
-X-Received: by 10.194.93.5 with SMTP id cq5mr32319086wjb.84.1421446547709;
-	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
+	bh=JfjDcPYY1RVAgWsZojMpH5anQHyAJ4fg4xbc+lZuNzo=;
+	b=zTIfFw3AegyxffM9+V/ZXZHoKW/KKdgtD/app1hWiKnaq01+VKRX3wrKV7KIwTux/B
+	ehZcr7BnXixVnGQ4NVgtHexjn2nInDYfN5XkoTzHChFd8vE5hwU8lWuQJR+KX+BsXtSX
+	/yJ430d/bagmGt9/eZ+hdN32rsN9CLXLndQ7BThk6Mt/XRRuzkzNfFfElD88x9Zo7FpO
+	v4K589OJfUzOpXXSg9ZHxyifbaN9ClB5Bii77t1/qrlO7/Iq6zbEIkc6QAsiH1UD8r3x
+	OR+yV1dLjywla4dpk5Yb2q3YsUeto7FBL5Yaw6OfskLnp3cORPycd55mtz5oUSLXDqQb
+	UW7g==
+X-Received: by 10.194.62.235 with SMTP id b11mr6924173wjs.73.1421446551868;
+	Fri, 16 Jan 2015 14:15:51 -0800 (PST)
 Received: from nuc.betafive.co.uk
 	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
-	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.46
+	by mx.google.com with ESMTPSA id x6sm7664547wjf.24.2015.01.16.14.15.47
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Jan 2015 14:15:47 -0800 (PST)
+	Fri, 16 Jan 2015 14:15:51 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 22:15:27 +0000
-Message-Id: <1421446529-24888-6-git-send-email-paul@paulbarker.me.uk>
+Date: Fri, 16 Jan 2015 22:15:28 +0000
+Message-Id: <1421446529-24888-7-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
 References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH V2 5/7] poky-feed-config-opkg: Remove
+Subject: [PATCH V2 6/7] opkg: Backport improvements to opkg-key
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,67 +43,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Jan 2015 22:15:47 -0000
+X-List-Received-Date: Fri, 16 Jan 2015 22:15:52 -0000
 
-This recipe was not usable as-is. A much better way of configuring package feeds
-for opkg is provided by the distro-feed-config recipe in meta-oe.
+The improvements to opkg-key made for v0.3.0 are backported. The rest of v0.3.0
+needs further testing and bugfixing prior to release, but the improvements to
+opkg-key have been tested and work well.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- .../feed-config/poky-feed-config-opkg_1.0.bb       | 44 ----------------------
- 1 file changed, 44 deletions(-)
- delete mode 100644 meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
+ .../opkg/0001-opkg-key-Backport-improvements.patch | 78 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.2.4.bb           |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg-key-Backport-improvements.patch
 
-diff --git a/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb b/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
-deleted file mode 100644
-index fb312f8..0000000
---- a/meta/recipes-core/feed-config/poky-feed-config-opkg_1.0.bb
-+++ /dev/null
-@@ -1,44 +0,0 @@
--SUMMARY = "Poky example feed configuration"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r2"
--PACKAGE_ARCH = "${MACHINE_ARCH}"
--INHIBIT_DEFAULT_DEPS = "1"
--
--#FEEDNAMEPREFIX ?= "INVALID"
--#FEEDURIPREFIX ?= "INVALID"
--
--do_compile() {
--	mkdir -p ${S}/${sysconfdir}/opkg/
--
--	archconf=${S}/${sysconfdir}/opkg/arch.conf
--
--	rm -f $archconf
--	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
--	priority=1
--	for arch in $ipkgarchs; do 
--		echo "arch $arch $priority" >> $archconf
--		priority=$(expr $priority + 5)
--	done
--
--	basefeedconf=${S}/${sysconfdir}/opkg/base-feeds.conf
--
--	rm -f $basefeedconf
--	touch $basefeedconf
--
--	#for arch in $ipkgarchs; do
--	#        echo "src/gz ${FEEDNAMEPREFIX}-$arch http://pokylinux.org/${FEEDURIPREFIX}$arch" >> $basefeedconf
--	#done
--}
--
--
--do_install () {
--	install -d ${D}${sysconfdir}/opkg
--	install -m 0644  ${S}/${sysconfdir}/opkg/* ${D}${sysconfdir}/opkg/
--}
--
--FILES_${PN} = "${sysconfdir}/opkg/ "
--
--CONFFILES_${PN} += "${sysconfdir}/opkg/base-feeds.conf \
--                    ${sysconfdir}/opkg/arch.conf"
--
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg-key-Backport-improvements.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg-key-Backport-improvements.patch
+new file mode 100644
+index 0000000..ae319ce
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg-key-Backport-improvements.patch
+@@ -0,0 +1,78 @@
++From 87bec8300a1122829b2ed565db7da5bacfa88919 Mon Sep 17 00:00:00 2001
++From: Paul Barker <paul@paulbarker.me.uk>
++Date: Sun, 12 Oct 2014 09:59:53 +0000
++Subject: [PATCH] opkg-key: Backport improvements
++
++The improvements to opkg-key made for v0.3.0 are backported. The rest of v0.3.0
++needs further testing and bugfixing prior to release, but the improvements to
++opkg-key have been tested and work well.
++
++    1) opkg-key: Add 'reset' option
++
++        This option removes the keyrings used to verify package signatures,
++        effectively resetting opkg to the initial state where it recognises no
++        keys.
++
++    2) opkg-key: Add 'populate' option
++
++        This option causes all keyrings in /usr/share/opkg/keyrings to be
++        imported. Thus distributions may install their keys into this directory
++        and use 'opkg-key populate' to ensure the correct keys are loaded.
++
++    3) opkg-key: Improve usage output
++
++Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
++Upstream-status: Backport
++---
++ utils/opkg-key | 26 ++++++++++++++++++++++----
++ 1 file changed, 22 insertions(+), 4 deletions(-)
++
++diff --git a/utils/opkg-key b/utils/opkg-key
++index 266bb66..085f1e8 100755
++--- a/utils/opkg-key
+++++ b/utils/opkg-key
++@@ -10,12 +10,17 @@ usage() {
++     echo
++     echo "Manage opkg's list of trusted keys"
++     echo
++-    echo "  opkg-key add <file>          - add the key contained in <file> ('-' for stdin)"
++-    echo "  opkg-key del <keyid>         - remove the key <keyid>"
++-    echo "  opkg-key list                - list keys"
+++    echo "Commands and arguments:"
+++    echo "  add <file>          - Add the key contained in <file> ('-' for stdin)"
+++    echo "  del <keyid>         - Remove the key <keyid>"
+++    echo "  list                - List keys"
+++    echo "  fingerprint         - List keys with fingerprints"
+++    echo "  reset               - Remove all keys, resetting the keyring"
+++    echo "  populate            - Import keys from /usr/share/opkg/keyrings"
+++    echo "  help                - Print this usage message and exit"
++     echo
++     echo "Options:"
++-    echo "  -o <root>  Use <root> as the offline root directory"
+++    echo "  -o <root>           - Use <root> as the offline root directory"
++     echo
++ }
++ 
++@@ -64,6 +69,19 @@ case "$command" in
++         echo "Executing: $GPG $*"
++         $GPG $*
++         ;;
+++    reset)
+++        rm -f $ROOT/etc/opkg/trusted.gpg $ROOT/etc/opkg/trusted.gpg~
+++        rm -f $ROOT/etc/opkg/secring.gpg $ROOT/etc/opkg/secring.gpg~
+++        rm -f $ROOT/etc/opkg/trustdb.gpg $ROOT/etc/opkg/trustdb.gpg~
+++        echo "OK"
+++        ;;
+++    populate)
+++        for f in $ROOT/usr/share/opkg/keyrings/*.gpg; do
+++            echo "Importing keys from '`basename $f`'..."
+++            $GPG --quiet --batch --import "$f"
+++        done
+++        echo "OK"
+++        ;;
++     help)
++         usage
++         ;;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.2.4.bb b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
+index 0369089..f6a971b 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.2.4.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
+            file://opkg-configure.service \
+            file://opkg.conf \
++           file://0001-opkg-key-Backport-improvements.patch \
+ "
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
 -- 
 1.9.1
 
