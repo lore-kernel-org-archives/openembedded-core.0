@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A9C72D1A
+	by mail.openembedded.org (Postfix) with ESMTP id 129CF72D19
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 17 Jan 2015 00:31:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0H0VJfl000294
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0H0VKkY000297
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Jan 2015 16:31:19 -0800 (PST)
+	Fri, 16 Jan 2015 16:31:20 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 16 Jan 2015 16:31:19 -0800
+	Fri, 16 Jan 2015 16:31:20 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Jan 2015 16:31:15 -0800
-Message-ID: <548f8d74595b63706c608824bcba796ee349a259.1421454635.git.liezhi.yang@windriver.com>
+Date: Fri, 16 Jan 2015 16:31:17 -0800
+Message-ID: <8be80d110673f5cbac9a99b8d4f84fb6a7f629a8.1421454635.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421454635.git.liezhi.yang@windriver.com>
 References: <cover.1421454635.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] Revert "guile: fixed installed-vs-shipped error"
+Subject: [PATCH 3/4] neard: fix B != S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,77 +36,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 17 Jan 2015 00:31:26 -0000
 Content-Type: text/plain
 
-This reverts commit 397f27cdceaa4874d8d06aad10cd37a5817d90b8.
-
-The fix isn't correct, caused:
-install: cannot create regular file `/path/to/sysroots/x86_64-linux/usr/lib/libguile-2.0.so.22.7.2': File exists
-
-will add a new fix.
+And bump PR to avoid:
+configure: error: source directory already configured; run "make distclean" there first
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../guile/files/libguile-Makefile.am-depends.patch |   39 --------------------
- meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 -
- 2 files changed, 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
+ meta/recipes-connectivity/neard/neard.inc     |    4 ++--
+ meta/recipes-connectivity/neard/neard_0.14.bb |    1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch b/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
-deleted file mode 100644
-index 1045cbe..0000000
---- a/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 9c4e120a7a87db34d22a50883a5a525170b480d7 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Tue, 6 Jan 2015 23:10:51 -0800
--Subject: [PATCH] libguile/Makefile.am: install-data-hook: depends on
-- install-libLTLIBRARIES
--
--It may install such a file:
--/usr/lib64/libguile-2.0*-gdb.scm
--
--This is because when there is no file in the directory:
--for f in libguile-2.0*; do
--    [snip]
--done
--
--The f would be libguile-2.0* itself.
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- libguile/Makefile.am |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libguile/Makefile.am b/libguile/Makefile.am
--index 281faac..fe0a3ba 100644
----- a/libguile/Makefile.am
--+++ b/libguile/Makefile.am
--@@ -449,7 +449,7 @@ EXTRA_libguile_@GUILE_EFFECTIVE_VERSION@_la_SOURCES = _scm.h		\
-- install-exec-hook:
-- 	rm -f $(DESTDIR)$(bindir)/guile-snarf.awk
-- 
---install-data-hook: libguile-2.0-gdb.scm
--+install-data-hook: libguile-2.0-gdb.scm install-libLTLIBRARIES
-- 	@$(MKDIR_P) $(DESTDIR)$(libdir)
-- ## We want to install libguile-2.0-gdb.scm as SOMETHING-gdb.scm.
-- ## SOMETHING is the full name of the final library.  We want to ignore
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index f5388aa..f2c0759 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -21,7 +21,6 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://arm_endianness.patch \
-            file://arm_aarch64.patch \
-            file://workaround-ice-ssa-corruption.patch \
--           file://libguile-Makefile.am-depends.patch \
-            "
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
+index e714cad..76640d8 100644
+--- a/meta/recipes-connectivity/neard/neard.inc
++++ b/meta/recipes-connectivity/neard/neard.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
  
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+-inherit autotools-brokensep pkgconfig systemd update-rc.d
++inherit autotools pkgconfig systemd update-rc.d
+ 
+ EXTRA_OECONF += "--enable-tools"
+ 
+@@ -35,7 +35,7 @@ do_install_append() {
+ 	# Install the tests for neard-tests
+ 	install -d ${D}${libdir}/neard
+ 	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
+-	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
++	install -m 0755 ${B}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+ }
+ 
+ PACKAGES =+ "${PN}-tests"
+diff --git a/meta/recipes-connectivity/neard/neard_0.14.bb b/meta/recipes-connectivity/neard/neard_0.14.bb
+index daf3a4b..43fb589 100644
+--- a/meta/recipes-connectivity/neard/neard_0.14.bb
++++ b/meta/recipes-connectivity/neard/neard_0.14.bb
+@@ -8,3 +8,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "692ba2653d60155255244c87396c486b"
+ SRC_URI[sha256sum] = "6ea724b443d39d679168fc7776a965d1f64727c3735391df2c01469ee7cd8cca"
+ 
++PR = "r1"
 -- 
 1.7.9.5
 
