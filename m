@@ -1,24 +1,37 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D20772BEF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4968B722C3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Jan 2015 13:01:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0HD1VqP011869
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Sat, 17 Jan 2015 17:34:37 +0000 (UTC)
+Received: by mail-yk0-f173.google.com with SMTP id 19so11814006ykq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Jan 2015 05:01:32 -0800 (PST)
-Received: from otp-ovpserver-d1.corp.ad.wrs.com (128.224.124.67) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sat, 17 Jan 2015 05:01:31 -0800
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 17 Jan 2015 15:01:29 +0200
-Message-ID: <1421499689-4863-1-git-send-email-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 1.8.1.4
+	Sat, 17 Jan 2015 09:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=cDPYVDSABD7x9cLL6sWc2mbaTowdWq7mQJtGzuzMkKA=;
+	b=JAe0SoLbwEuX2YrKglfPX5U4n5g8Xuy6BNSu/kfH5GeuCdTbGkTR3N4KU9LPdSgvJw
+	6xH6QticA8GFsN88U2Hy6T8MiZGe37qtS9dAJNyYzAoRCM0LBUJJFOwO8OBnFy6d6/NS
+	HiinbuTk18fGSw/gCkx74bxndZIlAEhzxk19lDe8Vf2eMHY6DlusQsIRQpzaotPgo3PO
+	/PM4Vw+4N1OZUtiXicb2eTFRxLrhyJa98++yextQomy677HGw4KhaqhH7etQ5lq8RSvZ
+	ZJTBw0Gm1vhWiTk8s/MLCHCZySav/79lx6rlDdBe1rbPtoUxkP3oZ6KyKrzMTduIQ7DP
+	Vg4w==
 MIME-Version: 1.0
-Subject: [PATCH v2] gcc-runtime: Remove libgfortran data from receipe
+X-Received: by 10.236.199.103 with SMTP id w67mr13333370yhn.37.1421516078022; 
+	Sat, 17 Jan 2015 09:34:38 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Sat, 17 Jan 2015 09:34:37 -0800 (PST)
+In-Reply-To: <1421444195-10330-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1421444195-10330-1-git-send-email-randy.e.witt@linux.intel.com>
+Date: Sat, 17 Jan 2015 15:34:37 -0200
+X-Google-Sender-Auth: 4clSiVqRpVvaFrOyGEoIrBwHJ4Y
+Message-ID: <CAP9ODKqxAvmb8LoWkVzMYamJzpJa80pSeD6u1u2ftVRr2U0+8w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-xorg: Always disable systemd-logind.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Jan 2015 13:01:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 17 Jan 2015 17:34:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Remove libgfortran packages from PACKAGES list as long as libgfortran
-has separate receipe since commit
+Hello Randy,
 
-5bde5d9b39ea67f19a1a6aedd0c08c6cfedcbe5f
-gcc: Allow fortran to build successfully in 4.8
+On Fri, Jan 16, 2015 at 7:36 PM, Randy Witt
+<randy.e.witt@linux.intel.com> wrote:
+> Without a dm to handle the session management systemd-logind can make it
+> difficult for X to gain ownership of devices and behave properly.
+>
+> Since X seems to work without enabling systemd-logind, always disable it for
+> now, and we can revisit it if we ever want to try to take advantage of
+> multi-user sessions/seats.
+>
+> [Yocto # 7100]
 
-Otherwise, when fortran support will be enabled in the compiler, both
-lingfortran and gcc-runtime receipes will create the same files and will
-try to install them. This will cause errors:
+I have with the default change but not in making it harder to be
+experimented. See below...
 
-ERROR: The recipe libgfortran is trying to install files into a shared
-area when those files already exist. Those files and their manifest
-location are: ...
-Please verify which recipe should provide the above files.
+> ---
+>  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> index 5b47e34..6154295 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -114,10 +114,10 @@ EXTRA_OECONF += "--with-fop=no \
+>                   --with-xkb-output=/var/lib/xkb \
+>                   --with-sha1=libcrypto \
+>                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+> +                 --disable-systemd-logind \
+>  "
 
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 15 ---------------
- 1 file changed, 15 deletions(-)
+Drop.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 167869e..5c369f4 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -76,9 +76,6 @@ PACKAGES = "\
-     libssp \
-     libssp-dev \
-     libssp-staticdev \
--    libgfortran \
--    libgfortran-dev \
--    libgfortran-staticdev \
-     libmudflap \
-     libmudflap-dev \
-     libmudflap-staticdev \
-@@ -131,18 +128,6 @@ FILES_libssp-dev = "\
- "
- FILES_libssp-staticdev = "${libdir}/libssp*.a"
- 
--FILES_libgfortran = "${libdir}/libgfortran.so.*"
--FILES_libgfortran-dev = "\
--    ${libdir}/libgfortran*.so \
--    ${libdir}/libgfortran.spec \
--    ${libdir}/libgfortran.la \
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single* \
--"
--FILES_libgfortran-staticdev = "${libdir}/libgfortran.a"
--
--INSANE_SKIP_${MLPREFIX}libgfortran-dev = "staticdev"
--
- FILES_libquadmath = "${libdir}/libquadmath*.so.*"
- FILES_libquadmath-dev = "\
-     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
+> -PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+> +PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
+
+Ok.
+
+>  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+>  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
+> @@ -128,7 +128,6 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
+>  PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+>  PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+>  PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+> -PACKAGECONFIG[systemd] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,dbus-lib"
+
+Rename to logind
+
+So someone wanting to enable it can use:
+
+PACKAGECONFIG_append = " logind"
+
+in a bbappend file.
+
 -- 
-1.8.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
