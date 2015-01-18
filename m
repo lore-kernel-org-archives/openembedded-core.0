@@ -1,41 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EAC6728A1
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1591F7178A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Jan 2015 17:06:05 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id q58so27721588wes.4
+	Sun, 18 Jan 2015 22:55:55 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id e89so3602948qgf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Jan 2015 09:06:06 -0800 (PST)
+	Sun, 18 Jan 2015 14:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=O9EQaXg96sGnBAbPAJ4FaCBa3NBE6DOjJFXK1YpHCzk=;
-	b=tcAyVII5WyO7JGzOOJu2VAxszrIxmGrMBiDOpVtGRzGRol/w7OktQh0CKE6kIPXpDX
-	10L2gT+94F/rG9SCc8JhUnwcBzOyMaFrd8NW2UPYKtMxaipD27MqIaOimDgEKwa85dr8
-	0uVnXxHBUuGHrCSOOdSueEaXq90puF8zRR8tEfJbGs5sF8+JsdTqzPqsZU+LQJBndJVJ
-	L+LbfQdyIzDhVUZOS+Z69vGlToGGIfdWL9yNULioVIIklWm4Iv/Mk3nby7T/mhAx77Dz
-	O93IymGeEFoNqNAY//LCKrkSYkBFv09tgP8GAaL2OwIuF8WFf/1DH2Z33/fhK4e7j8Vo
-	XFGA==
-X-Received: by 10.194.192.4 with SMTP id hc4mr45018285wjc.117.1421600766044;
-	Sun, 18 Jan 2015 09:06:06 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ww4sm14025848wjc.47.2015.01.18.09.06.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Jan 2015 09:06:05 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 18 Jan 2015 18:06:15 +0100
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150118170615.GB2454@jama>
-References: <20141111171344.GA2453@jama>
-	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=wOx8xpe6fT4fxJkUqZN3EyCAXy68CgvqG/IPHINFP40=;
+	b=emlIGCWkZtTPTvgYfRwfXDRBVqSm8SeSW1JjDkY1Hu1WWfGbzn1LmyChiyp9KFCHAb
+	qywjZl5UJbk3YYp7BphR5u9EThYFGwNQ8YHudYfZLI6BVgrdlb2UNFCQSFjsi9j73FVs
+	3DnAAq+AA+atPfpGS4Gsva27edCuoKYP9ZNvzxtMFBx/S+hNuvaGAVTdwqJix+58MmKM
+	+3XcuTlx6KXmCAX12FhOTt0Dq1RUVxc309rooVHM8I+DMquFd0zuAKzrTmUhj4WNeQVP
+	nMqVQnyoAs6MSX7z3xxN4j7LHWZ+CfLlZlS0zws7hlky7WTFO4CoWf6TriutiDisjHWA
+	vTZQ==
 MIME-Version: 1.0
-In-Reply-To: <1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCHv2 1/4] xorg-app: add x11 to required DISTRO_FEATURES and cleanup dependencies
+X-Received: by 10.140.98.2 with SMTP id n2mr10740479qge.62.1421621755957; Sun,
+	18 Jan 2015 14:55:55 -0800 (PST)
+Received: by 10.140.28.227 with HTTP; Sun, 18 Jan 2015 14:55:55 -0800 (PST)
+Date: Mon, 19 Jan 2015 00:55:55 +0200
+Message-ID: <CADV-EXFaVwA2kjDo3e9VvO-sodxpxTo6HFDis1oD_36oq3NehA@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: RPM package generation architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,40 +38,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Jan 2015 17:06:06 -0000
-X-Groupsio-MsgNum: 61467
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ADZbWkCsHQ7r3kzd"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 18 Jan 2015 22:55:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
---ADZbWkCsHQ7r3kzd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-On Wed, Dec 10, 2014 at 03:18:34PM +0100, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb      | 2 +-
->  meta/recipes-graphics/xorg-app/xorg-app-common.inc | 5 ++++-
->  meta/recipes-graphics/xorg-app/xprop_1.2.2.bb      | 2 +-
->  3 files changed, 6 insertions(+), 3 deletions(-)
+I'm building RPM packages for ARM board.
+I'm getting packages generated for 3 architectures: all, raspberrypi,
+armv6hf_vfp.
+I can't install any of these packages with rpm as it uses "uname" to
+get current machine arch and "uname" outputs "armv6l" arch. Also "all"
+should be "noarch" for rpm.
+I want that packages have "proper" arch: "noarch" and "armv6l".
+Could someone give suggestions on this, please?
 
-Ping, this patchset is stalled since July 2014 :/
+-- 
+Regards,
+Yevhen
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ADZbWkCsHQ7r3kzd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlS76AcACgkQN1Ujt2V2gBznlQCfcIYDc446JJQnsi86F49Rmcpf
-LC0AnjgKvP1e51aigiTKLasGFZo581zE
-=6ubz
------END PGP SIGNATURE-----
-
---ADZbWkCsHQ7r3kzd--
