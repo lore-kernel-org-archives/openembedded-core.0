@@ -1,24 +1,25 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 12F8460670
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F9987162E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 13:57:11 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 19 Jan 2015 14:57:10 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id ED0762800CB;
-	Mon, 19 Jan 2015 14:57:10 +0100 (CET)
-Date: Mon, 19 Jan 2015 14:57:10 +0100
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20150119135710.GA21148@sestofb10.enea.se>
-References: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
-MIME-Version: 1.0
-In-Reply-To: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Subject: Re: [dizzy][PATCH] coreutils: Fix CVE-2014-9471
+	Mon, 19 Jan 2015 14:20:19 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 2E85FF811E9; Mon, 19 Jan 2015 07:20:19 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 658B7F811E8;
+	Mon, 19 Jan 2015 07:20:18 -0700 (MST)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Jan 2015 07:20:19 -0700
+Message-Id: <1421677219-27316-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] perl: Backport fix for bug #123591
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,107 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jan 2015 13:57:14 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Jan 2015 14:20:26 -0000
 
-Gentle ping on this.
+This patch fixes a crash in perl when using formatted strings @...
 
-On Wed, Jan 07, 2015 at 01:11:43PM +0100, Maxin B. John wrote:
-> Fiedler Roman discovered that coreutils' parse_datetime() function
-> has some flaws that may be exploitable if the date(1), touch(1),
-> or potentially other programs, accept untrusted input for certain
-> parameters. While researching this issue, he discovered that it
-> was independently discovered by Bertrand Jacquin and reported at
-> http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D16872
->=20
-> $ touch '--date=3DTZ=3D"123"345" @1'
-> *** Error in `touch': free(): invalid pointer: 0x00007fffd33e55e0 ***
-> Aborted
->=20
-> $ date '--date=3DTZ=3D"123"345" @1'
-> date[394]: segfault at 7fff24000000 ip 00007f6dd5b73404 sp 00007fff27cce8=
-f8
-> error 4 in libc-2.20.so[7f6dd5af7000+199000]
-> Segmentation fault
->=20
-> Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> ---
->  .../coreutils/coreutils-8.22/date-tz-crash.patch   | 43 ++++++++++++++++=
-++++++
->  meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
->  2 files changed, 44 insertions(+)
->  create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-cr=
-ash.patch
->=20
-> diff --git a/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.pat=
-ch b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
-> new file mode 100644
-> index 0000000..570e4fd
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
-> @@ -0,0 +1,43 @@
-> +This was reported in http://bugs.gnu.org/16872
-> +from the coreutils command: date -d 'TZ=3D"""'
-> +
-> +The infinite loop for this case was present since the
-> +initial TZ=3D"" parsing support in commit de95bdc2 29-10-2004.
-> +This was changed to a crash or heap corruption depending
-> +on the platform with commit 2e3e4195 18-01-2010.
-> +
-> +* lib/parse-datetime.y (parse_datetime): Break out of the
-> +TZ=3D"" parsing loop once the second significant " is found.
-> +Also skip over any subsequent whitespace to be consistent
-> +with the non TZ=3D case.
-> +
-> +Fixes: CVE-2014-9471
-> +
-> +Upstream-Status: backport
-> +
-> +Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> +Signed-off-by: P=E1draig Brady <P@draigBrady.com>
-> +---
-> +diff -Naur coreutils-8.22-origin/lib/parse-datetime.y coreutils-8.22/lib=
-/parse-datetime.y
-> +--- coreutils-8.22-origin/lib/parse-datetime.y	2013-12-04 15:53:33.00000=
-0000 +0100
-> ++++ coreutils-8.22/lib/parse-datetime.y	2015-01-05 17:11:16.754358184 +0=
-100
-> +@@ -1303,8 +1303,6 @@
-> +             char tz1buf[TZBUFSIZE];
-> +             bool large_tz =3D TZBUFSIZE < tzsize;
-> +             bool setenv_ok;
-> +-            /* Free tz0, in case this is the 2nd or subsequent time thr=
-ough. */
-> +-            free (tz0);
-> +             tz0 =3D get_tz (tz0buf);
-> +             z =3D tz1 =3D large_tz ? xmalloc (tzsize) : tz1buf;
-> +             for (s =3D tzbase; *s !=3D '"'; s++)
-> +@@ -1317,6 +1315,10 @@
-> +               goto fail;
-> +             tz_was_altered =3D true;
-> +             p =3D s + 1;
-> ++            while (c =3D *p, c_isspace (c))
-> ++              p++;
-> ++
-> ++            break;
-> +           }
-> +     }
-> +=20
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes=
--core/coreutils/coreutils_8.22.bb
-> index f85baca..4a1aee6 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.22.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
-> @@ -17,6 +17,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
->             file://dummy_help2man.patch \
->             file://fix-for-dummy-man-usage.patch \
->             file://fix-selinux-flask.patch \
-> +           file://date-tz-crash.patch \
->            "
-> =20
->  SRC_URI[md5sum] =3D "8fb0ae2267aa6e728958adc38f8163a2"
-> --=20
-> 1.9.1
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ .../perl/perl-5.20.0/fix-FF_MORE-crash.patch        | 21 +++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.20.0.bb           |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+
+diff --git a/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+new file mode 100644
+index 0000000..85cfa05
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+@@ -0,0 +1,21 @@
++Upstream-Status: Backport
++Reference: https://rt.perl.org/Public/Bug/Display.html?id=123591
++  From 62db6ea5fed19611596cbc5fc0b8a4df2c604e58 Mon Sep 17 00:00:00 2001
++  From: Tony Cook <tony@develop-help.com>
++  Date: Mon, 19 Jan 2015 16:03:18 +1100
++  Subject: [PATCH 1/1] [perl #123538] always set chophere and itembytes at the same time
++
++  Previously this would crash in FF_MORE because chophere was still NULL.
++
++Index: perl-5.20.0/pp_ctl.c
++===================================================================
++--- perl-5.20.0.orig/pp_ctl.c
+++++ perl-5.20.0/pp_ctl.c
++@@ -590,6 +590,7 @@ PP(pp_formline)
++                         break;
++                 }
++                 itembytes = s - item;
+++                chophere = s;
++ 		break;
++ 	    }
++ 
+diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
+index 3ca0f53..bc7866b 100644
+--- a/meta/recipes-devtools/perl/perl_5.20.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
+@@ -63,6 +63,7 @@ SRC_URI += " \
+ 	file://fix_bad_rpath.patch \
+ 	file://perl-archlib-exp.patch \
+ 	file://dynaloaderhack.patch \
++	file://fix-FF_MORE-crash.patch \
+ 	\
+         \
+         file://config.sh \
+-- 
+1.9.1
+
 
