@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E7A272C92
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F48872C98
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 19 Jan 2015 07:16:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0J7GhU2018155
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0J7GhUR002781
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 18 Jan 2015 23:16:43 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	Sun, 18 Jan 2015 23:16:43 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Jan 2015 23:16:37 -0800
-Message-ID: <80ce23aad577bd716ac855cd421a0537ceed3383.1421651689.git.liezhi.yang@windriver.com>
+Date: Sun, 18 Jan 2015 23:16:36 -0800
+Message-ID: <223577f184cb41cbbde265f983c30879f95eaee6.1421651689.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421651689.git.liezhi.yang@windriver.com>
 References: <cover.1421651689.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/9] automake: upgrade to 1.15
+Subject: [PATCH 3/9] mklibs-native: upgrade to 0.1.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +36,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 19 Jan 2015 07:16:47 -0000
 Content-Type: text/plain
 
+Remove the do_configure_prepend, it never worked since the sed command
+didn't use '-i'.
+
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{automake_1.14.1.bb => automake_1.15.bb}       |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/automake/{automake_1.14.1.bb => automake_1.15.bb} (89%)
+ ...bs-native_0.1.39.bb => mklibs-native_0.1.40.bb} |    8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.39.bb => mklibs-native_0.1.40.bb} (73%)
 
-diff --git a/meta/recipes-devtools/automake/automake_1.14.1.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-similarity index 89%
-rename from meta/recipes-devtools/automake/automake_1.14.1.bb
-rename to meta/recipes-devtools/automake/automake_1.15.bb
-index be73d19..d5b6e9e 100644
---- a/meta/recipes-devtools/automake/automake_1.14.1.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -22,8 +22,8 @@ SRC_URI += " file://python-libdir.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch \
-             file://buildtest.patch"
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+similarity index 73%
+rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
+rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+index 9885561..b2fcae5 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+@@ -12,11 +12,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.x
+ 	file://sysrooted-ldso.patch \
+ "
  
--SRC_URI[md5sum] = "d052a3e884631b9c7892f2efce542d75"
--SRC_URI[sha256sum] = "814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
-+SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
-+SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
+-SRC_URI[md5sum] = "38a579a531401eb76f4bab4ccfb774a2"
+-SRC_URI[sha256sum] = "fa2881ab4fe72b0504878357f1fc6b17920459b56e8a60dfb083ca28fb64e733"
++SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
++SRC_URI[sha256sum] = "1db24ae779d21ccfed49f22e49a2b7ee43ec0e9197bc206d81cd02f96e91e125"
  
- do_install_append () {
-     install -d ${D}${datadir}
+ inherit autotools gettext native pythonnative
+-
+-do_configure_prepend() {
+-	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
+-}
 -- 
 1.7.9.5
 
