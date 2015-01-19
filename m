@@ -1,28 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7869C72C30
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F8272C3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 01:36:48 +0000 (UTC)
+	Mon, 19 Jan 2015 07:11:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0J1anV9024595
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0J7BWWr002734
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Jan 2015 17:36:49 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 18 Jan 2015 17:36:48 -0800
-Message-ID: <54BC5FB9.6090206@windriver.com>
-Date: Mon, 19 Jan 2015 09:36:57 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
+	Sun, 18 Jan 2015 23:11:32 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 18 Jan 2015 23:11:31 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1420337434.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1420337434.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 0/3] Upgrade util-linux and fix related circular dependencies
+Date: Sun, 18 Jan 2015 23:11:27 -0800
+Message-ID: <cover.1421651378.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/4] meta: 4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jan 2015 01:36:49 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Jan 2015 07:11:35 -0000
+Content-Type: text/plain
 
-ping
+Hello,
 
-On 01/04/2015 10:11 AM, Chen Qi wrote:
-> The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
->
->    gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/util-linux-2.25.2
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/util-linux-2.25.2
->
-> Chen Qi (3):
->    util-linux: upgrade to 2.25.2
->    systemd: remove util-linux from DEPENDS
->    libsm: remove dependency on e2fsprogs
->
->   meta/recipes-core/systemd/systemd_216.bb           |   2 +-
->   meta/recipes-core/util-linux/util-linux.inc        |  31 +--
->   meta/recipes-core/util-linux/util-linux/MCONFIG    | 223 ---------------------
->   meta/recipes-core/util-linux/util-linux/defines.h  |  10 -
->   .../util-linux/util-linux/fix-configure.patch      |  20 --
->   .../util-linux/util-linux/make_include             |  17 --
->   meta/recipes-core/util-linux/util-linux/swapargs.h |   3 -
->   ...ensure-the-existence-of-directory-for-PAT.patch |  34 ----
->   .../util-linux/util-linux/util-linux-native.patch  |  54 ++---
->   .../util-linux-ng-replace-siginterrupt.patch       |  24 ++-
->   .../{util-linux_2.24.2.bb => util-linux_2.25.2.bb} |   8 +-
->   meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb      |   7 +-
->   12 files changed, 60 insertions(+), 373 deletions(-)
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/MCONFIG
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/defines.h
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/fix-configure.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/make_include
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/swapargs.h
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-ensure-the-existence-of-directory-for-PAT.patch
->   rename meta/recipes-core/util-linux/{util-linux_2.24.2.bb => util-linux_2.25.2.bb} (76%)
->
+I had sent the patch "cpan-base.bbclass: avoid using xxx" before, now
+send it again. The other 3 are new.
+
+// Robert
+
+The following changes since commit eaea05c88661a88a89fa6b139f7e6b243155d492:
+
+  depmodwrapper-cross: Update to use STAGING_KERNEL_BUILDDIR (2015-01-17 17:05:25 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
+
+Robert Yang (4):
+  cpan-base.bbclass: avoid using immmediate assignment for PERLLIBDIRS
+  python3: fix for cross compiling
+  gnutls: fix sed command
+  perf: fix for rebuilding
+
+ meta/classes/cpan-base.bbclass                     |    4 +-
+ .../python/python3-native_3.3.3.bb                 |    2 +
+ ...p.py-check-cross_compiling-when-get-FLAGS.patch |   50 ++++++++++++++++++
+ .../sysconfig.py-add-_PYTHON_PROJECT_SRC.patch     |   54 ++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.3.3.bb      |   10 ++--
+ meta/recipes-kernel/perf/perf.bb                   |    3 ++
+ .../gnutls/configure.ac-fix-sed-command.patch      |   31 +++++++++++
+ meta/recipes-support/gnutls/gnutls_3.3.11.bb       |    1 +
+ 8 files changed, 149 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/setup.py-check-cross_compiling-when-get-FLAGS.patch
+ create mode 100644 meta/recipes-devtools/python/python3/sysconfig.py-add-_PYTHON_PROJECT_SRC.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+
+-- 
+1.7.9.5
 
 
