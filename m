@@ -1,21 +1,34 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 15871725F0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 96F7071F23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 17:46:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 19 Jan 2015 09:42:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,428,1418112000"; d="scan'208";a="514392245"
-Received: from shirsenx-mobl3.gar.corp.intel.com (HELO
-	swold-mobl5.amr.corp.intel.com) ([10.252.252.114])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2015 09:40:19 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 19 Jan 2015 18:52:34 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id et14so40384106pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Jan 2015 10:52:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=tho0oihqgJaaGlzPgSIY5wt0eLh0AMOaLmn80hWdp6M=;
+	b=Yw1TAPb5+T/ztIe/z5btc980Tr5TuxJHxBZvTzvGVUQmvx9hIfaXJ69GJqUOvK7ZPH
+	3dKHMKK67Ga/GhsjL1QFkqNC6GWgcXA4GUq7tYOqGM4vBu0VQ3wuqbhhoXScTo9aFlEd
+	vojAEbr3KomfWUsMeXmNrn/ev95EqCfBai15JCkS4EmfE4UNlSuc72o6GtU/rtJ55NUi
+	xPmhwb3C33f82bNIKiROn11NEB+32dW9w0EZX8CLyX1FmhrZ0A0FZFqzXUV+TKGI9yiu
+	e7s+GRR5IBzkuFXnb8R/0W8LvilDvXjZRGle3lZ9TXI1ePj+MDGOmjfTKscGzDSigkXV
+	2tJQ==
+X-Received: by 10.70.89.225 with SMTP id br1mr41127308pdb.8.1421693555297;
+	Mon, 19 Jan 2015 10:52:35 -0800 (PST)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id tr8sm796508pbc.30.2015.01.19.10.52.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Jan 2015 10:52:34 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Jan 2015 09:46:44 -0800
-Message-Id: <1421689604-28787-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] core-image-kernel-dev: add a DEFAULT_TEST_SUITES
+Date: Mon, 19 Jan 2015 11:52:29 -0700
+Message-Id: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCHv2 0/2] recipetool: add python buildsystem support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,27 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jan 2015 17:46:55 -0000
+X-List-Received-Date: Mon, 19 Jan 2015 18:52:37 -0000
 
-If we do not add some additional tests, we just get the core-image-minimal
-tests which are only ping
+Changes from v1:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-extended/images/core-image-kernel-dev.bb | 2 ++
- 1 file changed, 2 insertions(+)
+- Drops the 'your responsibility' message, per Paul's request
+- Pulls in sys.builtin_module_names from the host python for now
+- Handles extra_requires both in requires.txt and setup.py. This is currently
+  implemented by a naive conversion of the optional features to
+  packageconfigs.
+- Improves the way we extract the setup keywords to make it easier to grab the
+  non-literal values, such as calls to `find_packages`, so we can implement
+  that in the future.
+- Alters the existing LICENSE line from recipetool rather than adding
+  a duplicated one, by poking at `lines_before`.
+- Moves the HOMEPAGE/SUMMARY/etc below the license info but above SRC_URI, to
+  comply with our conventions.
+- Defaults to python- prefixing the dependencies we add.
+- Fixes numerous bugs.
 
-diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
-index d14f658..5e4edd8 100644
---- a/meta/recipes-extended/images/core-image-kernel-dev.bb
-+++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
-@@ -15,3 +15,5 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
- 
- # We need extra space for things like kernel builds, etc.
- IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
-+
-+DEFAULT_TEST_SUITES = "ping ssh df syslog scp date rpm smart dmesg parselog"
+
+Example of the generated `PACKAGECONFIG` for `extra_requires` in glances:
+
+```
+# The following configs & dependencies are from setuptools extras_require.
+# These dependencies are optional, hence can be controlled via PACKAGECONFIG.
+# The upstream names may not correspond exactly to bitbake package names.
+#
+# Uncomment this line to enable all the optional features.
+#PACKAGECONFIG ?= "web batinfo snmp chart sensors browser"
+PACKAGECONFIG[web] = ",,,python-bottle"
+PACKAGECONFIG[batinfo] = ",,,python-batinfo"
+PACKAGECONFIG[snmp] = ",,,python-pysnmp"
+PACKAGECONFIG[chart] = ",,,python-matplotlib"
+PACKAGECONFIG[sensors] = ",,,python-py3sensors"
+PACKAGECONFIG[browser] = ",,,python-netifaces python-zeroconf"
+```
+
+
+Christopher Larson (2):
+  recipetool: add python buildsystem support
+  recipetool: add python dependency scanning support
+
+ scripts/lib/recipetool/create_buildsys_python.py | 720 +++++++++++++++++++++++
+ scripts/pythondeps                               | 250 ++++++++
+ 2 files changed, 970 insertions(+)
+ create mode 100644 scripts/lib/recipetool/create_buildsys_python.py
+ create mode 100755 scripts/pythondeps
+
 -- 
-2.1.0
+2.2.1
 
 
