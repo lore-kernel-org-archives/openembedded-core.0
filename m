@@ -1,34 +1,36 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 96F7071F23
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C707229E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 18:52:34 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id et14so40384106pad.3
+	Mon, 19 Jan 2015 18:52:36 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id kx10so9763992pab.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 10:52:35 -0800 (PST)
+	Mon, 19 Jan 2015 10:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=tho0oihqgJaaGlzPgSIY5wt0eLh0AMOaLmn80hWdp6M=;
-	b=Yw1TAPb5+T/ztIe/z5btc980Tr5TuxJHxBZvTzvGVUQmvx9hIfaXJ69GJqUOvK7ZPH
-	3dKHMKK67Ga/GhsjL1QFkqNC6GWgcXA4GUq7tYOqGM4vBu0VQ3wuqbhhoXScTo9aFlEd
-	vojAEbr3KomfWUsMeXmNrn/ev95EqCfBai15JCkS4EmfE4UNlSuc72o6GtU/rtJ55NUi
-	xPmhwb3C33f82bNIKiROn11NEB+32dW9w0EZX8CLyX1FmhrZ0A0FZFqzXUV+TKGI9yiu
-	e7s+GRR5IBzkuFXnb8R/0W8LvilDvXjZRGle3lZ9TXI1ePj+MDGOmjfTKscGzDSigkXV
-	2tJQ==
-X-Received: by 10.70.89.225 with SMTP id br1mr41127308pdb.8.1421693555297;
-	Mon, 19 Jan 2015 10:52:35 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=f0uhw62KcVeAXRlU+FoCJbtDmI+cG1N2cYiL2JmaTd8=;
+	b=nQDYbJYtkIqHPoQhdui1sqUHxlER+HGFI6YTlrc7opjlWyBrWsZOf3kcX26zmOUP5f
+	V6XsB9jg69DZVZNhK9h64jbovwXumcCQd8qxXMyRxk6owHyg+an6TrFQGslvv8KjeUwm
+	mXKDrymsuaP50O5MivVQp3icX9GuH5a3kSV3kFUUwh6dzCwQ5Lurc+zQRIKN4dFgFPno
+	Dnv42yAd3POZtIEBZ/Mrk0r7W21j9gNWYFRFvZoYvpEn56szNdg+SbjmlfsS6BHrD+O7
+	HQjhExuhbEPFLsPua3wKqTa4GToi91i9KOJsjrI+t1Emw49ugxhDJ/ZUi2/XC6ijcn29
+	DrCg==
+X-Received: by 10.70.131.198 with SMTP id oo6mr47303902pdb.77.1421693557175;
+	Mon, 19 Jan 2015 10:52:37 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id tr8sm796508pbc.30.2015.01.19.10.52.33
+	by mx.google.com with ESMTPSA id tr8sm796508pbc.30.2015.01.19.10.52.35
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Jan 2015 10:52:34 -0800 (PST)
+	Mon, 19 Jan 2015 10:52:36 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Jan 2015 11:52:29 -0700
-Message-Id: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
+Date: Mon, 19 Jan 2015 11:52:30 -0700
+Message-Id: <1421693551-17611-2-git-send-email-kergoth@gmail.com>
 X-Mailer: git-send-email 2.2.1
+In-Reply-To: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
+References: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCHv2 0/2] recipetool: add python buildsystem support
+Subject: [PATCHv2 1/2] recipetool: add python buildsystem support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +45,583 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Jan 2015 18:52:37 -0000
 
-Changes from v1:
+- Handles distutils & setuptools.
+- Supports pulling metadata from PKG-INFO, .egg-info, & setup.py (via two
+  different mechanisms).
+- Doesn't handle python 3 yet.
 
-- Drops the 'your responsibility' message, per Paul's request
-- Pulls in sys.builtin_module_names from the host python for now
-- Handles extra_requires both in requires.txt and setup.py. This is currently
-  implemented by a naive conversion of the optional features to
-  packageconfigs.
-- Improves the way we extract the setup keywords to make it easier to grab the
-  non-literal values, such as calls to `find_packages`, so we can implement
-  that in the future.
-- Alters the existing LICENSE line from recipetool rather than adding
-  a duplicated one, by poking at `lines_before`.
-- Moves the HOMEPAGE/SUMMARY/etc below the license info but above SRC_URI, to
-  comply with our conventions.
-- Defaults to python- prefixing the dependencies we add.
-- Fixes numerous bugs.
-
-
-Example of the generated `PACKAGECONFIG` for `extra_requires` in glances:
-
-```
-# The following configs & dependencies are from setuptools extras_require.
-# These dependencies are optional, hence can be controlled via PACKAGECONFIG.
-# The upstream names may not correspond exactly to bitbake package names.
-#
-# Uncomment this line to enable all the optional features.
-#PACKAGECONFIG ?= "web batinfo snmp chart sensors browser"
-PACKAGECONFIG[web] = ",,,python-bottle"
-PACKAGECONFIG[batinfo] = ",,,python-batinfo"
-PACKAGECONFIG[snmp] = ",,,python-pysnmp"
-PACKAGECONFIG[chart] = ",,,python-matplotlib"
-PACKAGECONFIG[sensors] = ",,,python-py3sensors"
-PACKAGECONFIG[browser] = ",,,python-netifaces python-zeroconf"
-```
-
-
-Christopher Larson (2):
-  recipetool: add python buildsystem support
-  recipetool: add python dependency scanning support
-
- scripts/lib/recipetool/create_buildsys_python.py | 720 +++++++++++++++++++++++
- scripts/pythondeps                               | 250 ++++++++
- 2 files changed, 970 insertions(+)
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ scripts/lib/recipetool/create_buildsys_python.py | 560 +++++++++++++++++++++++
+ 1 file changed, 560 insertions(+)
  create mode 100644 scripts/lib/recipetool/create_buildsys_python.py
- create mode 100755 scripts/pythondeps
 
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+new file mode 100644
+index 0000000..9e4e1eb
+--- /dev/null
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -0,0 +1,560 @@
++# Recipe creation tool - create build system handler for python
++#
++# Copyright (C) 2015 Mentor Graphics Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++import ast
++import codecs
++import collections
++import distutils.command.build_py
++import email
++import imp
++import glob
++import itertools
++import logging
++import os
++import re
++import sys
++import subprocess
++from recipetool.create import RecipeHandler
++
++logger = logging.getLogger('recipetool')
++
++tinfoil = None
++
++
++def tinfoil_init(instance):
++    global tinfoil
++    tinfoil = instance
++
++
++class PythonRecipeHandler(RecipeHandler):
++    bbvar_map = {
++        'Name': 'PN',
++        'Version': 'PV',
++        'Home-page': 'HOMEPAGE',
++        'Summary': 'SUMMARY',
++        'Description': 'DESCRIPTION',
++        'License': 'LICENSE',
++        'Requires': 'RDEPENDS_${PN}',
++        'Provides': 'RPROVIDES_${PN}',
++        'Obsoletes': 'RREPLACES_${PN}',
++    }
++    # PN/PV are already set by recipetool core & desc can be extremely long
++    excluded_fields = [
++        'Name',
++        'Version',
++        'Description',
++    ]
++    setup_parse_map = {
++        'Url': 'Home-page',
++        'Classifiers': 'Classifier',
++        'Description': 'Summary',
++    }
++    setuparg_map = {
++        'Home-page': 'url',
++        'Classifier': 'classifiers',
++        'Summary': 'description',
++        'Description': 'long-description',
++    }
++    # Values which are lists, used by the setup.py argument based metadata
++    # extraction method, to determine how to process the setup.py output.
++    setuparg_list_fields = [
++        'Classifier',
++        'Requires',
++        'Provides',
++        'Obsoletes',
++        'Platform',
++        'Supported-Platform',
++    ]
++    setuparg_multi_line_values = ['Description']
++    replacements = [
++        ('License', r' ', '-'),
++        ('License', r'-License$', ''),
++        ('License', r'^UNKNOWN$', ''),
++
++        # Remove currently unhandled version numbers from these variables
++        ('Requires', r' *\([^)]*\)', ''),
++        ('Provides', r' *\([^)]*\)', ''),
++        ('Obsoletes', r' *\([^)]*\)', ''),
++        ('Install-requires', r'^([^><= ]+).*', r'\1'),
++        ('Extras-require', r'^([^><= ]+).*', r'\1'),
++        ('Tests-require', r'^([^><= ]+).*', r'\1'),
++
++        # Remove unhandled dependency on particular features (e.g. foo[PDF])
++        ('Install-requires', r'\[[^\]]+\]$', ''),
++    ]
++
++    classifier_license_map = {
++        'License :: OSI Approved :: Academic Free License (AFL)': 'AFL',
++        'License :: OSI Approved :: Apache Software License': 'Apache',
++        'License :: OSI Approved :: Apple Public Source License': 'APSL',
++        'License :: OSI Approved :: Artistic License': 'Artistic',
++        'License :: OSI Approved :: Attribution Assurance License': 'AAL',
++        'License :: OSI Approved :: BSD License': 'BSD',
++        'License :: OSI Approved :: Common Public License': 'CPL',
++        'License :: OSI Approved :: Eiffel Forum License': 'EFL',
++        'License :: OSI Approved :: European Union Public Licence 1.0 (EUPL 1.0)': 'EUPL-1.0',
++        'License :: OSI Approved :: European Union Public Licence 1.1 (EUPL 1.1)': 'EUPL-1.1',
++        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)': 'AGPL-3.0+',
++        'License :: OSI Approved :: GNU Affero General Public License v3': 'AGPL-3.0',
++        'License :: OSI Approved :: GNU Free Documentation License (FDL)': 'GFDL',
++        'License :: OSI Approved :: GNU General Public License (GPL)': 'GPL',
++        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)': 'GPL-2.0',
++        'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)': 'GPL-2.0+',
++        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)': 'GPL-3.0',
++        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)': 'GPL-3.0+',
++        'License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)': 'LGPL-2.0',
++        'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)': 'LGPL-2.0+',
++        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)': 'LGPL-3.0',
++        'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)': 'LGPL-3.0+',
++        'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)': 'LGPL',
++        'License :: OSI Approved :: IBM Public License': 'IPL',
++        'License :: OSI Approved :: ISC License (ISCL)': 'ISC',
++        'License :: OSI Approved :: Intel Open Source License': 'Intel',
++        'License :: OSI Approved :: Jabber Open Source License': 'Jabber',
++        'License :: OSI Approved :: MIT License': 'MIT',
++        'License :: OSI Approved :: MITRE Collaborative Virtual Workspace License (CVW)': 'CVWL',
++        'License :: OSI Approved :: Motosoto License': 'Motosoto',
++        'License :: OSI Approved :: Mozilla Public License 1.0 (MPL)': 'MPL-1.0',
++        'License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)': 'MPL-1.1',
++        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)': 'MPL-2.0',
++        'License :: OSI Approved :: Nethack General Public License': 'NGPL',
++        'License :: OSI Approved :: Nokia Open Source License': 'Nokia',
++        'License :: OSI Approved :: Open Group Test Suite License': 'OGTSL',
++        'License :: OSI Approved :: Python License (CNRI Python License)': 'CNRI-Python',
++        'License :: OSI Approved :: Python Software Foundation License': 'PSF',
++        'License :: OSI Approved :: Qt Public License (QPL)': 'QPL',
++        'License :: OSI Approved :: Ricoh Source Code Public License': 'RSCPL',
++        'License :: OSI Approved :: Sleepycat License': 'Sleepycat',
++        'License :: OSI Approved :: Sun Industry Standards Source License (SISSL)': '--  Sun Industry Standards Source License (SISSL)',
++        'License :: OSI Approved :: Sun Public License': 'SPL',
++        'License :: OSI Approved :: University of Illinois/NCSA Open Source License': 'NCSA',
++        'License :: OSI Approved :: Vovida Software License 1.0': 'VSL-1.0',
++        'License :: OSI Approved :: W3C License': 'W3C',
++        'License :: OSI Approved :: X.Net License': 'Xnet',
++        'License :: OSI Approved :: Zope Public License': 'ZPL',
++        'License :: OSI Approved :: zlib/libpng License': 'Zlib',
++    }
++
++    def __init__(self):
++        pass
++
++    def process(self, srctree, classes, lines_before, lines_after, handled):
++        if 'buildsystem' in handled:
++            return False
++
++        if not RecipeHandler.checkfiles(srctree, ['setup.py']):
++            return
++
++        # setup.py is always parsed to get at certain required information, such as
++        # distutils vs setuptools
++        #
++        # If egg info is available, we use it for both its PKG-INFO metadata
++        # and for its requires.txt for install_requires.
++        # If PKG-INFO is available but no egg info is, we use that for metadata in preference to
++        # the parsed setup.py, but use the install_requires info from the
++        # parsed setup.py.
++
++        setupscript = os.path.join(srctree, 'setup.py')
++        try:
++            setup_info, uses_setuptools, setup_non_literals, extensions = self.parse_setup_py(setupscript)
++        except Exception:
++            logger.exception("Failed to parse setup.py")
++            setup_info, uses_setuptools, setup_non_literals, extensions = {}, True, [], []
++
++        egginfo = glob.glob(os.path.join(srctree, '*.egg-info'))
++        if egginfo:
++            info = self.get_pkginfo(os.path.join(egginfo[0], 'PKG-INFO'))
++            requires_txt = os.path.join(egginfo[0], 'requires.txt')
++            if os.path.exists(requires_txt):
++                with codecs.open(requires_txt) as f:
++                    inst_req = []
++                    extras_req = collections.defaultdict(list)
++                    current_feature = None
++                    for line in f.readlines():
++                        line = line.rstrip()
++                        if not line:
++                            continue
++
++                        if line.startswith('['):
++                            current_feature = line[1:-1]
++                        elif current_feature:
++                            extras_req[current_feature].append(line)
++                        else:
++                            inst_req.append(line)
++                    info['Install-requires'] = inst_req
++                    info['Extras-require'] = extras_req
++        elif RecipeHandler.checkfiles(srctree, ['PKG-INFO']):
++            info = self.get_pkginfo(os.path.join(srctree, 'PKG-INFO'))
++
++            if setup_info:
++                if 'Install-requires' in setup_info:
++                    info['Install-requires'] = setup_info['Install-requires']
++                if 'Extras-require' in setup_info:
++                    info['Extras-require'] = setup_info['Extras-require']
++        else:
++            if setup_info:
++                info = setup_info
++            else:
++                info = self.get_setup_args_info(setupscript)
++
++        self.apply_info_replacements(info)
++
++        if uses_setuptools:
++            classes.append('setuptools')
++        else:
++            classes.append('distutils')
++
++        if 'Classifier' in info:
++            licenses = []
++            for classifier in info['Classifier']:
++                if classifier in self.classifier_license_map:
++                    license = self.classifier_license_map[classifier]
++                    licenses.append(license)
++
++            if licenses:
++                info['License'] = ' & '.join(licenses)
++
++
++        # Map PKG-INFO & setup.py fields to bitbake variables
++        bbinfo = {}
++        for field, values in info.iteritems():
++            if field in self.excluded_fields:
++                continue
++
++            if field not in self.bbvar_map:
++                continue
++
++            if isinstance(values, basestring):
++                value = values
++            else:
++                value = ' '.join(str(v) for v in values if v)
++
++            bbvar = self.bbvar_map[field]
++            if bbvar not in bbinfo and value:
++                bbinfo[bbvar] = value
++
++        comment_lic_line = None
++        for pos, line in enumerate(list(lines_before)):
++            if line.startswith('#') and 'LICENSE' in line:
++                comment_lic_line = pos
++            elif line.startswith('LICENSE =') and 'LICENSE' in bbinfo:
++                if line in ('LICENSE = "Unknown"', 'LICENSE = "CLOSED"'):
++                    lines_before[pos] = 'LICENSE = "{}"'.format(bbinfo['LICENSE'])
++                    if line == 'LICENSE = "CLOSED"' and comment_lic_line:
++                        lines_before[comment_lic_line:pos] = [
++                            '# WARNING: the following LICENSE value is a best guess - it is your',
++                            '# responsibility to verify that the value is complete and correct.'
++                        ]
++                del bbinfo['LICENSE']
++
++        src_uri_line = None
++        for pos, line in enumerate(lines_before):
++            if line.startswith('SRC_URI ='):
++                src_uri_line = pos
++
++        if bbinfo:
++            mdinfo = ['']
++            for k in sorted(bbinfo):
++                v = bbinfo[k]
++                mdinfo.append('{} = "{}"'.format(k, v))
++            lines_before[src_uri_line-1:src_uri_line-1] = mdinfo
++
++        extras_req = set()
++        if 'Extras-require' in info:
++            extras_req = info['Extras-require']
++            if extras_req:
++                lines_after.append('# The following configs & dependencies are from setuptools extras_require.')
++                lines_after.append('# These dependencies are optional, hence can be controlled via PACKAGECONFIG.')
++                lines_after.append('# The upstream names may not correspond exactly to bitbake package names.')
++                lines_after.append('#')
++                lines_after.append('# Uncomment this line to enable all the optional features.')
++                lines_after.append('#PACKAGECONFIG ?= "{}"'.format(' '.join(k.lower() for k in extras_req.iterkeys())))
++                for feature, feature_reqs in extras_req.iteritems():
++                    feature_req_deps = ('python-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
++                    lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
++
++        inst_reqs = set()
++        if 'Install-requires' in info:
++            if extras_req:
++                lines_after.append('')
++            inst_reqs = info['Install-requires']
++            if inst_reqs:
++                inst_req_deps = ('python-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
++                lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
++                lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
++                lines_after.append('RDEPENDS_${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
++
++        handled.append('buildsystem')
++
++    def get_pkginfo(self, pkginfo_fn):
++        msg = email.message_from_file(open(pkginfo_fn, 'r'))
++        msginfo = {}
++        for field in msg.keys():
++            values = msg.get_all(field)
++            if len(values) == 1:
++                msginfo[field] = values[0]
++            else:
++                msginfo[field] = values
++        return msginfo
++
++    def parse_setup_py(self, setupscript='./setup.py'):
++        with codecs.open(setupscript) as f:
++            info, imported_modules, non_literals, extensions = gather_setup_info(f)
++
++        def _map(key):
++            key = key.replace('_', '-')
++            key = key[0].upper() + key[1:]
++            if key in self.setup_parse_map:
++                key = self.setup_parse_map[key]
++            return key
++
++        # Naive mapping of setup() arguments to PKG-INFO field names
++        for d in [info, non_literals]:
++            for key, value in d.items():
++                new_key = _map(key)
++                if new_key != key:
++                    del d[key]
++                    d[new_key] = value
++
++        return info, 'setuptools' in imported_modules, non_literals, extensions
++
++    def get_setup_args_info(self, setupscript='./setup.py'):
++        cmd = ['python', setupscript]
++        info = {}
++        keys = set(self.bbvar_map.keys())
++        keys |= set(self.setuparg_list_fields)
++        keys |= set(self.setuparg_multi_line_values)
++        grouped_keys = itertools.groupby(keys, lambda k: (k in self.setuparg_list_fields, k in self.setuparg_multi_line_values))
++        for index, keys in grouped_keys:
++            if index == (True, False):
++                # Splitlines output for each arg as a list value
++                for key in keys:
++                    arg = self.setuparg_map.get(key, key.lower())
++                    try:
++                        arg_info = self.run_command(cmd + ['--' + arg], cwd=os.path.dirname(setupscript))
++                    except (OSError, subprocess.CalledProcessError):
++                        pass
++                    else:
++                        info[key] = [l.rstrip() for l in arg_info.splitlines()]
++            elif index == (False, True):
++                # Entire output for each arg
++                for key in keys:
++                    arg = self.setuparg_map.get(key, key.lower())
++                    try:
++                        arg_info = self.run_command(cmd + ['--' + arg], cwd=os.path.dirname(setupscript))
++                    except (OSError, subprocess.CalledProcessError):
++                        pass
++                    else:
++                        info[key] = arg_info
++            else:
++                info.update(self.get_setup_byline(list(keys), setupscript))
++        return info
++
++    def get_setup_byline(self, fields, setupscript='./setup.py'):
++        info = {}
++
++        cmd = ['python', setupscript]
++        cmd.extend('--' + self.setuparg_map.get(f, f.lower()) for f in fields)
++        try:
++            info_lines = self.run_command(cmd, cwd=os.path.dirname(setupscript)).splitlines()
++        except (OSError, subprocess.CalledProcessError):
++            pass
++        else:
++            if len(fields) != len(info_lines):
++                logger.error('Mismatch between setup.py output lines and number of fields')
++                sys.exit(1)
++
++            for lineno, line in enumerate(info_lines):
++                line = line.rstrip()
++                info[fields[lineno]] = line
++        return info
++
++    def apply_info_replacements(self, info):
++        for variable, search, replace in self.replacements:
++            if variable not in info:
++                continue
++
++            def replace_value(search, replace, value):
++                if replace is None:
++                    if re.search(search, value):
++                        return None
++                else:
++                    new_value = re.sub(search, replace, value)
++                    if value != new_value:
++                        return new_value
++                return value
++
++            value = info[variable]
++            if isinstance(value, basestring):
++                new_value = replace_value(search, replace, value)
++                if new_value is None:
++                    del info[variable]
++                elif new_value != value:
++                    info[variable] = new_value
++            elif hasattr(value, 'iteritems'):
++                for dkey, dvalue in value.iteritems():
++                    new_list = []
++                    for pos, a_value in enumerate(dvalue):
++                        new_value = replace_value(search, replace, a_value)
++                        if new_value is not None and new_value != value:
++                            new_list.append(new_value)
++
++                    if value != new_list:
++                        value[dkey] = new_list
++            else:
++                new_list = []
++                for pos, a_value in enumerate(value):
++                    new_value = replace_value(search, replace, a_value)
++                    if new_value is not None and new_value != value:
++                        new_list.append(new_value)
++
++                if value != new_list:
++                    info[variable] = new_list
++
++    @classmethod
++    def run_command(cls, cmd, **popenargs):
++        if 'stderr' not in popenargs:
++            popenargs['stderr'] = subprocess.STDOUT
++        try:
++            return subprocess.check_output(cmd, **popenargs)
++        except OSError as exc:
++            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc)
++            raise
++        except subprocess.CalledProcessError as exc:
++            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc.output)
++            raise
++
++
++def gather_setup_info(fileobj):
++    parsed = ast.parse(fileobj.read(), fileobj.name)
++    visitor = SetupScriptVisitor()
++    visitor.visit(parsed)
++
++    non_literals, extensions = {}, []
++    for key, value in visitor.keywords.items():
++        if key == 'ext_modules':
++            if isinstance(value, list):
++                for ext in value:
++                    if  (isinstance(ext, ast.Call) and
++                         isinstance(ext.func, ast.Name) and
++                         ext.func.id == 'Extension' and
++                         not has_non_literals(ext.args)):
++                        extensions.append(ext.args[0])
++        elif has_non_literals(value):
++            non_literals[key] = value
++            del visitor.keywords[key]
++
++    return visitor.keywords, visitor.imported_modules, non_literals, extensions
++
++
++class SetupScriptVisitor(ast.NodeVisitor):
++    def __init__(self):
++        ast.NodeVisitor.__init__(self)
++        self.keywords = {}
++        self.non_literals = []
++        self.imported_modules = set()
++
++    def visit_Expr(self, node):
++        if isinstance(node.value, ast.Call) and \
++           isinstance(node.value.func, ast.Name) and \
++           node.value.func.id == 'setup':
++            self.visit_setup(node.value)
++
++    def visit_setup(self, node):
++        call = LiteralAstTransform().visit(node)
++        self.keywords = call.keywords
++        for k, v in self.keywords.iteritems():
++            if has_non_literals(v):
++               self.non_literals.append(k)
++
++    def visit_Import(self, node):
++        for alias in node.names:
++            self.imported_modules.add(alias.name)
++
++    def visit_ImportFrom(self, node):
++        self.imported_modules.add(node.module)
++
++
++class LiteralAstTransform(ast.NodeTransformer):
++    """Simplify the ast through evaluation of literals."""
++    excluded_fields = ['ctx']
++
++    def visit(self, node):
++        if not isinstance(node, ast.AST):
++            return node
++        else:
++            return ast.NodeTransformer.visit(self, node)
++
++    def generic_visit(self, node):
++        try:
++            return ast.literal_eval(node)
++        except ValueError:
++            for field, value in ast.iter_fields(node):
++                if field in self.excluded_fields:
++                    delattr(node, field)
++                if value is None:
++                    continue
++
++                if isinstance(value, list):
++                    if field in ('keywords', 'kwargs'):
++                        new_value = dict((kw.arg, self.visit(kw.value)) for kw in value)
++                    else:
++                        new_value = [self.visit(i) for i in value]
++                else:
++                    new_value = self.visit(value)
++                setattr(node, field, new_value)
++            return node
++
++    def visit_Name(self, node):
++        if hasattr('__builtins__', node.id):
++            return getattr(__builtins__, node.id)
++        else:
++            return self.generic_visit(node)
++
++    def visit_Tuple(self, node):
++        return tuple(self.visit(v) for v in node.elts)
++
++    def visit_List(self, node):
++        return [self.visit(v) for v in node.elts]
++
++    def visit_Set(self, node):
++        return set(self.visit(v) for v in node.elts)
++
++    def visit_Dict(self, node):
++        keys = (self.visit(k) for k in node.keys)
++        values = (self.visit(v) for v in node.values)
++        return dict(zip(keys, values))
++
++
++def has_non_literals(value):
++    if isinstance(value, ast.AST):
++        return True
++    elif isinstance(value, basestring):
++        return False
++    elif hasattr(value, 'itervalues'):
++        return any(has_non_literals(v) for v in value.itervalues())
++    elif hasattr(value, '__iter__'):
++        return any(has_non_literals(v) for v in value)
++
++
++def plugin_init(pluginlist):
++    pass
++
++
++def register_recipe_handlers(handlers):
++    # We need to make sure this is ahead of the makefile fallback handler
++    handlers.insert(0, PythonRecipeHandler())
 -- 
 2.2.1
 
