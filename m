@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F48872C98
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6E472C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 07:16:42 +0000 (UTC)
+	Mon, 19 Jan 2015 07:16:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0J7GhUR002781
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0J7Gjg7002790
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Jan 2015 23:16:43 -0800 (PST)
+	Sun, 18 Jan 2015 23:16:45 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 18 Jan 2015 23:16:43 -0800
+	Sun, 18 Jan 2015 23:16:45 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Jan 2015 23:16:36 -0800
-Message-ID: <223577f184cb41cbbde265f983c30879f95eaee6.1421651689.git.liezhi.yang@windriver.com>
+Date: Sun, 18 Jan 2015 23:16:42 -0800
+Message-ID: <baacb6c7c78a13a3888914bf956ee72097992643.1421651689.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1421651689.git.liezhi.yang@windriver.com>
 References: <cover.1421651689.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/9] mklibs-native: upgrade to 0.1.40
+Subject: [PATCH 9/9] texi2html: update po_document/Makefile.in.in for new gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +36,94 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 19 Jan 2015 07:16:47 -0000
 Content-Type: text/plain
 
-Remove the do_configure_prepend, it never worked since the sed command
-didn't use '-i'.
+* The autotools_do_configure updates po/Makefile.in.in, we also need
+  update po_document and po_messages.
+
+Fixed:
+ *** error: gettext infrastructure mismatch:
+using a Makefile.in.in from gettext version 0.18 but the autoconf macros are from gettext version 0.19
+
+* Remove fix_gettext_version.patch, it wasn't a correct fix.
+
+* Remove unneeded code from do_configure_append/prepend().
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...bs-native_0.1.39.bb => mklibs-native_0.1.40.bb} |    8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.39.bb => mklibs-native_0.1.40.bb} (73%)
+ .../texi2html-5.0/fix_gettext_version.patch        |   31 --------------------
+ meta/recipes-extended/texi2html/texi2html_5.0.bb   |   15 ++++------
+ 2 files changed, 5 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-similarity index 73%
-rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
-rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-index 9885561..b2fcae5 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-@@ -12,11 +12,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.x
- 	file://sysrooted-ldso.patch \
- "
- 
--SRC_URI[md5sum] = "38a579a531401eb76f4bab4ccfb774a2"
--SRC_URI[sha256sum] = "fa2881ab4fe72b0504878357f1fc6b17920459b56e8a60dfb083ca28fb64e733"
-+SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
-+SRC_URI[sha256sum] = "1db24ae779d21ccfed49f22e49a2b7ee43ec0e9197bc206d81cd02f96e91e125"
- 
- inherit autotools gettext native pythonnative
+diff --git a/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch b/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
+deleted file mode 100644
+index d1c9fe5..0000000
+--- a/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
 -
--do_configure_prepend() {
--	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: texi2html-5.0/po_document/Makefile.in.in
+-===================================================================
+---- texi2html-5.0.orig/po_document/Makefile.in.in
+-+++ texi2html-5.0/po_document/Makefile.in.in
+-@@ -9,7 +9,7 @@
+- # General Public License and is *not* in the public domain.
+- #
+- # Origin: gettext-0.17
+--GETTEXT_MACRO_VERSION = 0.17
+-+GETTEXT_MACRO_VERSION = 0.18
+- 
+- PACKAGE = @PACKAGE@
+- VERSION = @VERSION@
+-Index: texi2html-5.0/po_messages/Makefile.in.in
+-===================================================================
+---- texi2html-5.0.orig/po_messages/Makefile.in.in
+-+++ texi2html-5.0/po_messages/Makefile.in.in
+-@@ -9,7 +9,7 @@
+- # General Public License and is *not* in the public domain.
+- #
+- # Origin: gettext-0.17
+--GETTEXT_MACRO_VERSION = 0.17
+-+GETTEXT_MACRO_VERSION = 0.18
+- 
+- PACKAGE = @PACKAGE@
+- VERSION = @VERSION@
+diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+index aa5f1fd..eac289e 100644
+--- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
++++ b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ PR = "r2"
+ 
+ SRC_URI     = "${SAVANNAH_GNU_MIRROR}/texi2html/${BPN}-${PV}.tar.bz2 \
+-               file://fix_gettext_version.patch"
++               "
+ 
+ SRC_URI[md5sum] = "f15ac876fcdc8be865b16535f480aa54"
+ SRC_URI[sha256sum] = "e8a98b0ee20c495a6ab894398a065ef580272dbd5a15b1b19e8bd1bc89d9f9fa"
+@@ -15,15 +15,10 @@ SRC_URI[sha256sum] = "e8a98b0ee20c495a6ab894398a065ef580272dbd5a15b1b19e8bd1bc89
+ inherit autotools gettext texinfo
+ 
+ do_configure_prepend() {
+-	# Make a directory for the old gettext setup
+-	if [ ! -d ${S}/po ]; then
+-		mkdir ${S}/po
+-	fi
 -}
+-
+-do_configure_append() {
+-	# Clean up the phony po directory
+-	rm -rf ${S}/po
++	# autotools_do_configure updates po/Makefile.in.in, we also need
++	# update po_document.
++	cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po_document/
++	cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po_messages/
+ }
+ 
+ do_install_append () {
 -- 
 1.7.9.5
 
