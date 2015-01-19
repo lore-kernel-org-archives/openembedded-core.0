@@ -1,46 +1,29 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id C1A647229E
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DAE37162E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 09:04:36 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 647993F542
+	Mon, 19 Jan 2015 09:36:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0J9aTfH011804
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 10:04:35 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=3.5
-	tests=[BAYES_00=-2.9] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 10:04:34 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 10:04:34 +0100 (CET)
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 19 Jan 2015 10:05:58 +0100
-Message-ID: <54BCC8A1.70500@topic.nl>
-Date: Mon, 19 Jan 2015 10:04:33 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Mon, 19 Jan 2015 01:36:30 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 19 Jan 2015 01:36:29 -0800
+Message-ID: <54BCD01A.4090200@windriver.com>
+Date: Mon, 19 Jan 2015 17:36:26 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1420897602-29467-1-git-send-email-milo-software@users.sourceforge.net>
-In-Reply-To: <1420897602-29467-1-git-send-email-milo-software@users.sourceforge.net>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: [PATCH] package.bbclass: Let PR server update PKGV, not PV
+References: <cover.1419500687.git.Chong.Lu@windriver.com>
+	<d63d5ff53d6f64ac6d4a72c770283a21e0750112.1419500687.git.Chong.Lu@windriver.com>
+In-Reply-To: <d63d5ff53d6f64ac6d4a72c770283a21e0750112.1419500687.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/1] check-layers.py: some checks for distro and bsp layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,108 +36,288 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jan 2015 09:04:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Jan 2015 09:36:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-=EF=BB=BFping?
+ping
 
-On 10-01-15 14:46, Mike Looijmans wrote:
-> From: Mike Looijmans <mike.looijmans@topic.nl>
+On 12/25/2014 05:45 PM, Chong Lu wrote:
+> * Check that a BSP layer isn't making any changes when the layer is included
+>    but MACHINE is not set to point to one of the conf/machine/*.conf that the
+>    layer provides
+> * Check that a distribution layer isn't making any changes when the layer is
+>    included but DISTRO is not set to point to one of the conf/distro/*.conf that
+>    the layer provides
+> * Check that conf/distro and conf/machine don't appear in the same layer
+> * Check that BSP/distro layers don't provide their own linux-libc-headers
+> * Check that distro variables such as DISTRO_FEATURES are not being set in
+>    machine conf files
 >
-> PV is the package version as we need it to be during the build. PKGV is t=
-he
-> final version as it ends up in the package, and defaults to PV.
+> In build environment, use "../poky/scripts/contrib/check-layers.py" to
+> run script.
 >
-> The packager handled builds without PR-server by replacing the AUTOINC st=
-ring
-> in PKGV, but when the PR-server is being used, the script replaces the co=
-ntents
-> of PKGV with the PV if the PV contains "AUTOINC". Thus the packager overr=
-ides
-> any change to PKGV the recipe might have made.
-> This breaks classes like gitpkgv that provide a correctly numbered PKGV, =
-the
-> number as calculated by that class will simply be replaced with a 0-based=
- index
-> from the PR-server.
+> [YOCTO #5427]
 >
-> This patch makes the packager look at the PKGV version instead of the PV,=
- and
-> update the PKGV only based on the PKGV contents as set by the recipe.
->
-> See also the discussion here:
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-January/10=
-0329.html
->
->  From investigating the history of the code and changes in the past year,=
- the
-> use of "pv" instead of "pkgv" appears to be just an oversight, introduced=
- in:
-> commit b27b438221e16ac3df6ac66d761b77e3bd43db67 "prs: use the PRServer to=
- replace the BB_URI_LOCALCOUNT functionality"
-> A later commit 865d001de168915a5796e5c760f96bdd04cebd61 "package/prserv: =
-Merge two similar functions into one"
-> silently fixed this only for the case without PR-server by using pkgv the=
-re.
->
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > ---
->   meta/classes/package.bbclass |    7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+>   scripts/contrib/check-layers.py | 248 ++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 248 insertions(+)
+>   create mode 100755 scripts/contrib/check-layers.py
 >
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index fc501fc..93e2461 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -403,9 +403,10 @@ python package_get_auto_pr() {
->       if not (host is None):
->           d.setVar("PRSERV_HOST", host)
->
-> +    pkgv =3D d.getVar("PKGV", True)
+> diff --git a/scripts/contrib/check-layers.py b/scripts/contrib/check-layers.py
+> new file mode 100755
+> index 0000000..2d42479
+> --- /dev/null
+> +++ b/scripts/contrib/check-layers.py
+> @@ -0,0 +1,248 @@
+> +#!/usr/bin/env python
 > +
->       # PR Server not active, handle AUTOINC
->       if not d.getVar('PRSERV_HOST', True):
-> -        pkgv =3D d.getVar("PKGV", True)
->           if 'AUTOINC' in pkgv:
->               d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
->           return
-> @@ -428,11 +429,11 @@ python package_get_auto_pr() {
->           if conn is None:
->               conn =3D oe.prservice.prserv_make_conn(d)
->           if conn is not None:
-> -            if "AUTOINC" in pv:
-> +            if "AUTOINC" in pkgv:
->                   srcpv =3D bb.fetch2.get_srcrev(d)
->                   base_ver =3D "AUTOINC-%s" % version[:version.find(srcpv=
-)]
->                   value =3D conn.getPR(base_ver, pkgarch, srcpv)
-> -                d.setVar("PKGV", pv.replace("AUTOINC", str(value)))
-> +                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
->
->               auto_pr =3D conn.getPR(version, pkgarch, checksum)
->       except Exception as e:
->
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+> +# This script is used by checking layers.
+> +
+> +import sys
+> +import os
+> +import re
+> +import argparse
+> +
+> +parser = argparse.ArgumentParser(description="check-distro-machine.py [options]")
+> +parser.add_argument("-b", action="store_true", default=False, dest="bsp", help="check that a BSP layer isn't making any changes when the layer is included but MACHINE is not set to point to one of the conf/machine/*.conf that the layer provides")
+> +parser.add_argument("-d", action="store_true", default=False, dest="distro_in_machine", help="check that distro variables are not being set in machine conf files")
+> +parser.add_argument("-l", action="store_true", default=False, dest="provides_include_linux_libc_header", help="check that BSP/distro layers don't provide their own linux-libc-headers")
+> +parser.add_argument("-i", action="store_true", default=False, dest="dis", help="check that a distro layer isn't making any changes when the layer is included but DISTRO is not set to point to one of the conf/distro/*.conf that the layer provides")
+> +parser.add_argument("-s", action="store_true", default=False, dest="distro_machine_in_same_layer", help="check that conf/distro and conf/machine don't appear in the same layer")
+> +args = parser.parse_args()
+> +
+> +scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
+> +lib_path = os.path.abspath(scripts_path + '/../lib')
+> +sys.path = sys.path + [lib_path]
+> +
+> +import scriptpath
+> +
+> +# For importing the following modules
+> +bitbakepath = scriptpath.add_bitbake_lib_path()
+> +if not bitbakepath:
+> +    sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
+> +    sys.exit(1)
+> +
+> +import bb.cache
+> +import bb.cooker
+> +import bb.providers
+> +import bb.tinfoil
+> +
+> +def findExt(path, key):
+> +    confq = []
+> +    confline = ""
+> +    f = file('%s' % path, mode = 'r')
+> +    line = f.readline()
+> +    while line:
+> +        if line.find(key) != -1:
+> +            confline = line[8:-1]
+> +            confq.append(confline)
+> +        line = f.readline()
+> +    f.close()
+> +    return confq
+> +
+> +def findDistro(path, key):
+> +    f = file('%s' % path, mode = 'r')
+> +    line = f.readline()
+> +    linen = 1
+> +    while line:
+> +        if line.find(key) != -1:
+> +            bb.warn("%s:%s contains distro variables." % (path, linen))
+> +        line = f.readline()
+> +        linen += 1
+> +    f.close()
+> +
+> +def findFull(conf, bblayers):
+> +    for bblayer in bblayers:
+> +        fullpath = bblayer + "/" + conf
+> +        if os.path.exists(fullpath):
+> +            return fullpath
+> +
+> +def check_distro_in_machine(bbhandler):
+> +# Check that distro variables are not being set in machine conf files
+> +    machine = bbhandler.config_data.getVar("MACHINE")
+> +    bblayers = bbhandler.config_data.getVar("BBLAYERS").split()
+> +    lists = ["conf/machine/" + machine + ".conf"]
+> +
+> +    while lists:
+> +        for l in lists:
+> +            lists.remove(l)
+> +            fpath = findFull(l, bblayers)
+> +            if fpath:
+> +                findDistro(fpath, "DISTRO_")
+> +                lists.extend(findExt(fpath, "require conf/machine"))
+> +                lists.extend(findExt(fpath, "include conf/machine"))
+> +
+> +def check_distro_machine_in_same_layer(bbhandler):
+> +# Check that conf/distro and conf/machine don't appear in the same layer
+> +    bblayers = bbhandler.config_data.getVar("BBLAYERS").split()
+> +    for bblayer in bblayers:
+> +        if bblayer.endswith("/"):
+> +            sys.exit(1)
+> +    for bblayer in bblayers:
+> +        if bblayer.endswith("meta"):
+> +            continue
+> +        elif os.path.exists(bblayer + "/" + "conf/machine") and os.path.exists(bblayer + "/" + "conf/distro"):
+> +            bb.warn("%s shouldn't be providing both a distro and a machine" % bblayer)
+> +
+> +def get_layer_name(layerdir):
+> +    return os.path.basename(layerdir.rstrip(os.sep))
+> +
+> +def get_file_layer(bbhandler, bblayers, filename):
+> +    for layer, _, regex, _ in bbhandler.cooker.recipecache.bbfile_config_priorities:
+> +        if regex.match(filename):
+> +            for layerdir in bblayers:
+> +                if regex.match(os.path.join(layerdir, 'test')) and re.match(layerdir, filename):
+> +                    return get_layer_name(layerdir)
+> +    return "?"
+> +
+> +def check_linux_libc_headers(bbhandler):
+> +# Check that BSP/distro layers don't provide their own linux-libc-headers
+> +    bblayers = (bbhandler.config_data.getVar('BBLAYERS', True) or "").split()
+> +    pkg_pn = bbhandler.cooker.recipecache.pkg_pn
+> +    (latest_versions, preferred_versions) = bb.providers.findProviders(bbhandler.config_data, bbhandler.cooker.recipecache, pkg_pn)
+> +    for p in sorted(pkg_pn):
+> +        pref = preferred_versions[p]
+> +        preffile = bb.cache.Cache.virtualfn2realfn(pref[1])[0]
+> +        preflayer = get_file_layer(bbhandler, bblayers, preffile)
+> +        fn = pkg_pn[p].pop()
+> +        data = bb.cache.Cache.loadDataFull(fn, bbhandler.cooker.collection.get_file_appends(fn), bbhandler.config_data)
+> +        provide = data.getVar("PROVIDES", True)
+> +        if 'linux-libc-header' in provide and preflayer != 'meta':
+> +            bb.warn("%s shouldn't provide its own linux-libc-headers" % preflayer)
+> +
+> +import re
+> +
+> +__config_regexp__  = re.compile( r"""
+> +    ^
+> +    (?P<exp>export\s*)?
+> +    (?P<var>[a-zA-Z0-9\-~_+.${}/]+?)
+> +    (\[(?P<flag>[a-zA-Z0-9\-_+.]+)\])?
+> +
+> +    \s* (
+> +        (?P<colon>:=) |
+> +        (?P<lazyques>\?\?=) |
+> +        (?P<ques>\?=) |
+> +        (?P<append>\+=) |
+> +        (?P<prepend>=\+) |
+> +        (?P<predot>=\.) |
+> +        (?P<postdot>\.=) |
+> +        =
+> +    ) \s*
+> +
+> +    (?!'[^']*'[^']*'$)
+> +    (?!\"[^\"]*\"[^\"]*\"$)
+> +    (?P<apo>['\"])
+> +    (?P<value>.*)
+> +    (?P=apo)
+> +    $
+> +    """, re.X)
+> +
+> +def feeder(lineno, s, fn, statements):
+> +    m = __config_regexp__.match(s)
+> +    if m:
+> +        groupd = m.groupdict()
+> +        g = groupd['var'].replace("_","")
+> +        if not groupd['colon']:
+> +            if groupd['append'] or groupd['prepend']:
+> +                if g.isalnum() and g.isupper():
+> +                    bb.warn("The %s variable may be modified by %s:%s" % (groupd['var'], fn, lineno))
+> +                    bb.warn("%s" % s)
+> +            else:
+> +                if g.replace("append","").isupper() or g.replace("prepend","").isupper() or g.replace("remove","").isupper():
+> +                    bb.warn("The %s variable may be modified by %s:%s" % (groupd['var'], fn, lineno))
+> +                    bb.warn("%s" % s)
+> +
+> +from bb.parse import ast
+> +
+> +def handle(fn, data):
+> +
+> +    f = open(fn, 'r')
+> +
+> +    statements = ast.StatementGroup()
+> +    lineno = 0
+> +    while True:
+> +        lineno = lineno + 1
+> +        s = f.readline()
+> +        if not s:
+> +            break
+> +        w = s.strip()
+> +        # skip empty lines
+> +        if not w:
+> +            continue
+> +        s = s.rstrip()
+> +        while s[-1] == '\\':
+> +            s2 = f.readline().strip()
+> +            lineno = lineno + 1
+> +            if (not s2 or s2 and s2[0] != "#") and s[0] == "#" :
+> +                bb.fatal("There is a confusing multiline, partially commented expression on line %s of file %s (%s).\nPlease clarify whether this is all a comment or should be parsed." % (lineno, fn, s))
+> +            s = s[:-1] + s2
+> +        # skip comments
+> +        if s[0] == '#':
+> +            continue
+> +
+> +        feeder(lineno, s, fn, statements)
+> +
+> +    f.close()
+> +
+> +def check_var_in_layer(bbhandler, bsp=False, dis=False):
+> +# Check that a BSP or distro layer isn't making any changes when the layer is
+> +# included but MACHINE or DISTRO is not set to point to one of the
+> +# conf/machine/*.conf or conf/distro/*.conf that the layer provides
+> +    machine = bbhandler.config_data.getVar("MACHINE")
+> +    distro = bbhandler.config_data.getVar("DISTRO")
+> +    bblayers = (bbhandler.config_data.getVar("BBLAYERS", True) or "").split()
+> +    chklayers = []
+> +    filepaths = []
+> +
+> +    for bblayer in bblayers:
+> +        if bsp:
+> +            confpath = "/conf/machine/"
+> +            conffile = bblayer + confpath + machine + ".conf"
+> +        if dis:
+> +            confpath = "/conf/distro/"
+> +            conffile = bblayer + confpath + distro + ".conf"
+> +        if bblayer.endswith("/meta"):
+> +            continue
+> +        elif os.path.exists(conffile):
+> +            continue
+> +        elif not os.path.exists(bblayer + confpath):
+> +            continue
+> +        else:
+> +            chklayers.append(bblayer)
+> +
+> +    for layer in list(set(chklayers)):
+> +        for dirpath, dirnames, filenames in os.walk(layer):
+> +            for filename in filenames:
+> +                if os.path.splitext(filename)[1] == '.bbappend':
+> +                    filepath = os.path.join(dirpath, filename)
+> +                    if not filepath in filepaths:
+> +                        filepaths.append(filepath)
+> +
+> +    for fn in list(set(filepaths)):
+> +        handle(fn, bbhandler.config_data)
+> +
+> +def main():
+> +    bbhandler = bb.tinfoil.Tinfoil()
+> +    bbhandler.cooker.enableDataTracking()
+> +    bbhandler.prepare()
+> +    if args.distro_machine_in_same_layer:
+> +        check_distro_machine_in_same_layer(bbhandler)
+> +    if args.distro_in_machine:
+> +        check_distro_in_machine(bbhandler)
+> +    if args.provides_include_linux_libc_header:
+> +        check_linux_libc_headers(bbhandler)
+> +    if args.bsp:
+> +        check_var_in_layer(bbhandler, bsp=True)
+> +    if args.dis:
+> +        check_var_in_layer(bbhandler, dis=True)
+> +
+> +if __name__=='__main__':
+> +    if len(sys.argv) < 2:
+> +        parser.parse_args(['-h'])
+> +    else:
+> +        main()
 
 
