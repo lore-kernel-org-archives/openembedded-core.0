@@ -1,35 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 27B5060670
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F90760670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 16:31:59 +0000 (UTC)
-Received: by mail-yk0-f178.google.com with SMTP id 20so14949546yks.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Jan 2015 08:31:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=m6hQT+0CW+1aTcBxrp4Lb7qCtV2HVDis6ewJvR8NRr8=;
-	b=lU1PbzWxQp2u93dNBTOw/ANQA0c7dhe5v9yi3ImZz9wQp1pCtytxWBVAKbhuf+A89F
-	px7L09D7hAXiUtRPZ55M/hg7I9AUAKFcAtgPFVG3XZxkhBY9ZUeEzs7bHPQrPwcWzrvz
-	tKz1sHSylg7JO9ZS7wZ50a1gyyqAMrgawFNPp+uuVwjGbEPQDS2TqIBMjI1rKRwdQAna
-	3YNwYkGeBr+aPA94wjzn8nmqMXvvg+nv/6MchyVu4dBmgzooUiEGV9Ljmor1JRsJCyF6
-	uRx81msQdCqriEti1Qq8mU7WIvPJmAkq7MtkN8xl7jDj7x9+TBetsqvv7GhRF0Osi6Cm
-	wEEg==
+	Mon, 19 Jan 2015 16:48:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0JGmqeF011069
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 19 Jan 2015 08:48:52 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 19 Jan 2015 08:48:52 -0800
+Message-ID: <54BD3572.8070304@windriver.com>
+Date: Mon, 19 Jan 2015 10:48:50 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-Received: by 10.170.70.193 with SMTP id m184mr21297538ykm.50.1421685119726; 
-	Mon, 19 Jan 2015 08:31:59 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Mon, 19 Jan 2015 08:31:59 -0800 (PST)
-In-Reply-To: <54BC58EC.6070406@windriver.com>
-References: <CADV-EXFaVwA2kjDo3e9VvO-sodxpxTo6HFDis1oD_36oq3NehA@mail.gmail.com>
-	<54BC58EC.6070406@windriver.com>
-Date: Mon, 19 Jan 2015 14:31:59 -0200
-X-Google-Sender-Auth: M3jHRg50U4_udgDhsoFkOlq9c7g
-Message-ID: <CAP9ODKqmXqdf8ruM6rinkqBPZCiviQJX1ztrmjCvm2iDpGekCw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mark Hatle <mark.hatle@windriver.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <CADV-EXFaVwA2kjDo3e9VvO-sodxpxTo6HFDis1oD_36oq3NehA@mail.gmail.com>	<54BC58EC.6070406@windriver.com>
+	<CAP9ODKqmXqdf8ruM6rinkqBPZCiviQJX1ztrmjCvm2iDpGekCw@mail.gmail.com>
+In-Reply-To: <CAP9ODKqmXqdf8ruM6rinkqBPZCiviQJX1ztrmjCvm2iDpGekCw@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: RPM package generation architecture
@@ -45,34 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Jan 2015 16:32:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Jan 2015 16:48:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 18, 2015 at 11:07 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 1/18/15 4:55 PM, Yevhen Kyriukha wrote:
->> I'm building RPM packages for ARM board.
->> I'm getting packages generated for 3 architectures: all, raspberrypi,
->> armv6hf_vfp.
->> I can't install any of these packages with rpm as it uses "uname" to
->> get current machine arch and "uname" outputs "armv6l" arch. Also "all"
->> should be "noarch" for rpm.
->> I want that packages have "proper" arch: "noarch" and "armv6l".
->> Could someone give suggestions on this, please?
+On 1/19/15 10:31 AM, Otavio Salvador wrote:
+> On Sun, Jan 18, 2015 at 11:07 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 1/18/15 4:55 PM, Yevhen Kyriukha wrote:
+>>> I'm building RPM packages for ARM board.
+>>> I'm getting packages generated for 3 architectures: all, raspberrypi,
+>>> armv6hf_vfp.
+>>> I can't install any of these packages with rpm as it uses "uname" to
+>>> get current machine arch and "uname" outputs "armv6l" arch. Also "all"
+>>> should be "noarch" for rpm.
+>>> I want that packages have "proper" arch: "noarch" and "armv6l".
+>>> Could someone give suggestions on this, please?
+>>>
 >>
->
-> You are using the wrong version of RPM.  You need to use the version (RPM5) that
-> is configured by the system during the filesystem generation, along with the
-> platform file (/etc/rpm/platform) to specify to the system what is allowed.
->
-> RPM4 (which it sounds like you are using) does not have an easily adjustable
-> table of package names.  To install Yocto Project packages, you will need to
-> patch it to define the additional names.
+>> You are using the wrong version of RPM.  You need to use the version (RPM5) that
+>> is configured by the system during the filesystem generation, along with the
+>> platform file (/etc/rpm/platform) to specify to the system what is allowed.
+>>
+>> RPM4 (which it sounds like you are using) does not have an easily adjustable
+>> table of package names.  To install Yocto Project packages, you will need to
+>> patch it to define the additional names.
+> 
+> Shouldn't RPM4 to be removed from OE-Core in this case?
+> 
+> 
 
-Shouldn't RPM4 to be removed from OE-Core in this case?
+oe-core preferred version in RPM5.  The RPM4 version that was recently added
+should have this support.  So if the users have enabled the -oe-core- version of
+RPM4 and are getting these failures then bugs should be filed.
 
+I was referring to the community version of RPM 4.  I've seen people trying to
+build packages w/ OE, and then install them on their Red Hat or other ARM
+targets and it didn't work in the manner described.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--Mark
 
