@@ -1,40 +1,41 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D5377229E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 31AD97229E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 16:06:55 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 20 Jan 2015 08:00:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,434,1418112000"; d="scan'208";a="639908805"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2015 08:04:36 -0800
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Tue, 20 Jan 2015 08:04:35 -0800
-Received: from fmsmsx108.amr.corp.intel.com (10.18.124.206) by
-	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Tue, 20 Jan 2015 08:04:35 -0800
-Received: from fmsmsx118.amr.corp.intel.com ([169.254.1.250]) by
-	FMSMSX108.amr.corp.intel.com ([169.254.9.201]) with mapi id
-	14.03.0195.001; Tue, 20 Jan 2015 08:04:35 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: "Ashfield, Bruce (Wind River)" <bruce.ashfield@windriver.com>, "Richard
-	Purdie" <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
-Thread-Index: AQHQNLWwjE3by0LT2Eq8dEfPNJEU25zJlAoA//+YFgA=
-Date: Tue, 20 Jan 2015 16:04:34 +0000
-Message-ID: <D0E3BC38.B85FA%darren.hart@intel.com>
-References: <1421760783.1798.42.camel@linuxfoundation.org>
-	<54BE633A.1000306@windriver.com>
-In-Reply-To: <54BE633A.1000306@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.254.113.7]
+	Tue, 20 Jan 2015 16:08:41 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id eu11so12175702pac.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jan 2015 08:08:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=abbtyMo4LwmsDnezC7WfXHK9g17iQ2fdKujitV6SKvc=;
+	b=eiSkJnk8kG8xCA7Rwa96v/TO5eP4N5iq4KLLKl/7I6v12pvuGwT3I3zDDPVeWPHW2W
+	2l9dEz9kQzfTY6dDkQ3Ohrp/lXtztKYZshi6c9RTl6qh3sQ6KF/vQzWZL5YIlNDvblaD
+	sqnu6kObzYJ18Ea6nZvudeirc/CbCB+94Q3Lu9rhJfBsLayuHnlGeOV06YRji4PZtRNf
+	XzbFwYOtHdDBSFIsync2/j4ruCVCgmIktiT7oEeFrF9z0Mt9xEeaPF+RUgNQ2xz8/nWa
+	RRpBJEV4+k33OYZV04xoKSMR1MQoQZDl7BXpPeLB2W4XIreCtDCrIcvdie5oX2rMC4T3
+	8hAw==
+X-Received: by 10.68.101.195 with SMTP id fi3mr53848245pbb.168.1421770122394; 
+	Tue, 20 Jan 2015 08:08:42 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:85c3:ac0d:1e5c:6c15?
+	([2601:c:a700:272f:85c3:ac0d:1e5c:6c15])
+	by mx.google.com with ESMTPSA id lo3sm3663562pab.26.2015.01.20.08.08.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Jan 2015 08:08:41 -0800 (PST)
+Message-ID: <54BE7D84.5090808@gmail.com>
+Date: Tue, 20 Jan 2015 08:08:36 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
+To: "Maxin B. John" <maxin.john@enea.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
+	<20150119135710.GA21148@sestofb10.enea.se>
+In-Reply-To: <20150119135710.GA21148@sestofb10.enea.se>
+Subject: Re: [dizzy][PATCH] coreutils: Fix CVE-2014-9471
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +48,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 16:07:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <520F2C285000774790A6C845C8A35004@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Jan 2015 16:08:43 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
+thanks for the reminder.
 
+merged into my staging for dizzy-next
 
-On 1/20/15, 6:16 AM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
+- armin
 
->On 15-01-20 08:33 AM, Richard Purdie wrote:
->> With the rpm package backend enabled, running:
->>
->> bitbake <image>
->> bitbake virtual/kernel -c clean
->> bitbake <image> -c rootfs -f
->>
->> results in an image with incorrect kernel module dependency information.
->> The problem is that the System.map and kernel-abiversion files are
->>needed
->> for depmod and after the recent kernel changes, these are no longer in
->> sstate.
->>
->> Its reasonable to require the kernel to unpack/build if you're
->> about to build a module against it. It is not reasonable to require this
->> just to build a rootfs.
->>
->> Therefore stash the needed files specifically for depmod.
->>
->> Also fix some STAGING_KERNEL_DIR references which were incorrect, found
->> whilst sorting through his change.
+On 01/19/2015 05:57 AM, Maxin B. John wrote:
+> Gentle ping on this.
 >
->Now that I see the fix, the tweaks are clear (and obvious). I would have
->preferred a straight up module loading error in all cases .. since that
->would have showed in my workflows. The rootfs.py changes in particular
->would have taken me much longer to get right.
->
+> On Wed, Jan 07, 2015 at 01:11:43PM +0100, Maxin B. John wrote:
+>> Fiedler Roman discovered that coreutils' parse_datetime() function
+>> has some flaws that may be exploitable if the date(1), touch(1),
+>> or potentially other programs, accept untrusted input for certain
+>> parameters. While researching this issue, he discovered that it
+>> was independently discovered by Bertrand Jacquin and reported at
+>> http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16872
 >>
->> This patch also makes the depmod files being missing a fatal error
->>rather than
->> something the system just ignores silently.
->
->Nice improvement.
->
->Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Functionally look good. I noticed some whitespace issues (spaces in bash
-sections instead of tabs), but those may have been due to keeping a file
-internally consistent.
-
-Otherwise,
-
-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
-
-
---=20
-Darren Hart
-Intel Open Source Technology Center
-
+>> $ touch '--date=TZ="123"345" @1'
+>> *** Error in `touch': free(): invalid pointer: 0x00007fffd33e55e0 ***
+>> Aborted
+>>
+>> $ date '--date=TZ="123"345" @1'
+>> date[394]: segfault at 7fff24000000 ip 00007f6dd5b73404 sp 00007fff27cce8f8
+>> error 4 in libc-2.20.so[7f6dd5af7000+199000]
+>> Segmentation fault
+>>
+>> Signed-off-by: Maxin B. John <maxin.john@enea.com>
+>> ---
+>>   .../coreutils/coreutils-8.22/date-tz-crash.patch   | 43 ++++++++++++++++++++++
+>>   meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
+>>   2 files changed, 44 insertions(+)
+>>   create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+>>
+>> diff --git a/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+>> new file mode 100644
+>> index 0000000..570e4fd
+>> --- /dev/null
+>> +++ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+>> @@ -0,0 +1,43 @@
+>> +This was reported in http://bugs.gnu.org/16872
+>> +from the coreutils command: date -d 'TZ="""'
+>> +
+>> +The infinite loop for this case was present since the
+>> +initial TZ="" parsing support in commit de95bdc2 29-10-2004.
+>> +This was changed to a crash or heap corruption depending
+>> +on the platform with commit 2e3e4195 18-01-2010.
+>> +
+>> +* lib/parse-datetime.y (parse_datetime): Break out of the
+>> +TZ="" parsing loop once the second significant " is found.
+>> +Also skip over any subsequent whitespace to be consistent
+>> +with the non TZ= case.
+>> +
+>> +Fixes: CVE-2014-9471
+>> +
+>> +Upstream-Status: backport
+>> +
+>> +Signed-off-by: Maxin B. John <maxin.john@enea.com>
+>> +Signed-off-by: Pádraig Brady <P@draigBrady.com>
+>> +---
+>> +diff -Naur coreutils-8.22-origin/lib/parse-datetime.y coreutils-8.22/lib/parse-datetime.y
+>> +--- coreutils-8.22-origin/lib/parse-datetime.y	2013-12-04 15:53:33.000000000 +0100
+>> ++++ coreutils-8.22/lib/parse-datetime.y	2015-01-05 17:11:16.754358184 +0100
+>> +@@ -1303,8 +1303,6 @@
+>> +             char tz1buf[TZBUFSIZE];
+>> +             bool large_tz = TZBUFSIZE < tzsize;
+>> +             bool setenv_ok;
+>> +-            /* Free tz0, in case this is the 2nd or subsequent time through. */
+>> +-            free (tz0);
+>> +             tz0 = get_tz (tz0buf);
+>> +             z = tz1 = large_tz ? xmalloc (tzsize) : tz1buf;
+>> +             for (s = tzbase; *s != '"'; s++)
+>> +@@ -1317,6 +1315,10 @@
+>> +               goto fail;
+>> +             tz_was_altered = true;
+>> +             p = s + 1;
+>> ++            while (c = *p, c_isspace (c))
+>> ++              p++;
+>> ++
+>> ++            break;
+>> +           }
+>> +     }
+>> +
+>> diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-core/coreutils/coreutils_8.22.bb
+>> index f85baca..4a1aee6 100644
+>> --- a/meta/recipes-core/coreutils/coreutils_8.22.bb
+>> +++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
+>> @@ -17,6 +17,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>>              file://dummy_help2man.patch \
+>>              file://fix-for-dummy-man-usage.patch \
+>>              file://fix-selinux-flask.patch \
+>> +           file://date-tz-crash.patch \
+>>             "
+>>
+>>   SRC_URI[md5sum] = "8fb0ae2267aa6e728958adc38f8163a2"
+>> --
+>> 1.9.1
 
