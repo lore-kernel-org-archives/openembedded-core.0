@@ -1,38 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A34671144
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 03B2171144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 20:12:28 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id z107so9894452qgd.11
+	Tue, 20 Jan 2015 20:22:06 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z107so9838686qgd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 12:12:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=B3OHbxLycpsewSAj3vZmqnX7nnVIk/1779pgGVGq5kg=;
-	b=a8E4xgz5DI5DTEUInOCCddY2upIRbJL9fcByZdTXRUxqgidAYFf68XEnfN7/51no46
-	UCZuTAl5FNnMnD5VTrGapKNWEr03WYFZgw16nwKap9392sTslx3wc/8cCpCNeteYdq9d
-	wYWkZXlANX0/0boYfsrcx95CVrGRYOMT2Btiyt8u+f3uYIjoDQCHh4d5KeOtjy+9IMvo
-	4Wsrnc90b7mEcPqOvh/GVY3dZJjdZYaDz/xc8lOVnnaasR0lISIMABTlE0hmZWx5nyQ6
-	Y5MMapQeEuUrta4ZP5OZ6PFHP6FPucBz2aZ9zGrARKzl9JZXfVK8JKfSkgewGeymg0Re
-	G84Q==
-X-Gm-Message-State: ALoCoQkBWXUMaNWM+bx3hlS8jxd2JiGaVDE+VhWsVnYDAaDMH0IMaZDJEOldb1VQDOKPcFL9vmBx
-X-Received: by 10.224.93.6 with SMTP id t6mr61137587qam.93.1421784749456; Tue,
-	20 Jan 2015 12:12:29 -0800 (PST)
+	Tue, 20 Jan 2015 12:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=v6+xf/csabvnIsTucKVGUor3yFL99n4buYuJsrNt3Nk=;
+	b=YfK2oisWTMWXGaivZov9mIeWYeCWHY4fCx3Fh4tGMbSQbG4zy1BcDnDil4RmyTyjLN
+	JSNvcwDFFYs9uEY3oFiE+ccDyPCy2/SSY0OKKGrFWjWRrOHAmc02Br2d0KbVkuQBBUSb
+	x9GTnbrQ5Zg/xd9YBDucv92VFI0a/CEYAjYOV5EngD/iYtCxhjW/LFBdueNUMoSbfYSH
+	GEbqbOoWc7sNZ6RPoMPN35MDnJDJwoMHM95ITfbvW/xYzsfKkyRQmCXCy7zh3tzZvQfm
+	D0VIgXOFJmtS9VrQpHUEQOzAS6pLQzEqMq3EtMp7PioIdWHkH3t9nu9iM28ZIzlrplVe
+	01eQ==
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 12:12:09 -0800 (PST)
-In-Reply-To: <20150118170615.GB2454@jama>
-References: <20141111171344.GA2453@jama>
-	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150118170615.GB2454@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Jan 2015 20:12:09 +0000
-Message-ID: <CAJTo0LZpQTPeO4PZpDeVudqTdC84p2qmBp=JYVbyNBjSkPXsoA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/4] xorg-app: add x11 to required DISTRO_FEATURES and cleanup dependencies
+X-Received: by 10.229.225.68 with SMTP id ir4mr7374403qcb.23.1421785326787;
+	Tue, 20 Jan 2015 12:22:06 -0800 (PST)
+Received: by 10.96.35.34 with HTTP; Tue, 20 Jan 2015 12:22:06 -0800 (PST)
+In-Reply-To: <D0E3BC38.B85FA%darren.hart@intel.com>
+References: <1421760783.1798.42.camel@linuxfoundation.org>
+	<54BE633A.1000306@windriver.com>
+	<D0E3BC38.B85FA%darren.hart@intel.com>
+Date: Tue, 20 Jan 2015 14:22:06 -0600
+Message-ID: <CACS+7ZSZEnbwxb4Y7UCyRfiJuhj1H4gFcEy0VY36XSTpy1SAEw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: "Hart, Darren" <darren.hart@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 20:12:36 -0000
-Content-Type: multipart/alternative; boundary=089e01495028f0575d050d1b0e0f
-
---089e01495028f0575d050d1b0e0f
+X-List-Received-Date: Tue, 20 Jan 2015 20:22:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 January 2015 at 17:06, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> Ping, this patchset is stalled since July 2014 :/
+On 20 January 2015 at 10:04, Hart, Darren <darren.hart@intel.com> wrote:
 >
+>
+> On 1/20/15, 6:16 AM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
+>
+>>On 15-01-20 08:33 AM, Richard Purdie wrote:
+>>> With the rpm package backend enabled, running:
+>>>
+>>> bitbake <image>
+>>> bitbake virtual/kernel -c clean
+>>> bitbake <image> -c rootfs -f
+>>>
+>>> results in an image with incorrect kernel module dependency information.
+>>> The problem is that the System.map and kernel-abiversion files are
+>>>needed
+>>> for depmod and after the recent kernel changes, these are no longer in
+>>> sstate.
+>>>
+>>> Its reasonable to require the kernel to unpack/build if you're
+>>> about to build a module against it. It is not reasonable to require this
+>>> just to build a rootfs.
+>>>
+>>> Therefore stash the needed files specifically for depmod.
+>>>
+>>> Also fix some STAGING_KERNEL_DIR references which were incorrect, found
+>>> whilst sorting through his change.
+>>
+>>Now that I see the fix, the tweaks are clear (and obvious). I would have
+>>preferred a straight up module loading error in all cases .. since that
+>>would have showed in my workflows. The rootfs.py changes in particular
+>>would have taken me much longer to get right.
+>>
+>>>
+>>> This patch also makes the depmod files being missing a fatal error
+>>>rather than
+>>> something the system just ignores silently.
+>>
+>>Nice improvement.
+>>
+>>Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+> Functionally look good. I noticed some whitespace issues (spaces in bash
+> sections instead of tabs), but those may have been due to keeping a file
+> internally consistent.
+>
+> Otherwise,
+>
+> Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
-Whoops.  Merged into my mut for testing.
+It causes a build failure in meta-beagleboard's kernel recipes. That's
+due to meta-beagleboard installing the headers as a package in
+/usr/src/linux-<version>. I don't know why it does this, but I patched
+the recipe to not install the headers and it worked.
 
-Thanks for the reminder!
+I like this change.
 
-Ross
-
---089e01495028f0575d050d1b0e0f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 January 2015 at 17:06, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3nb" class=
-=3D"a3s" style=3D"overflow:hidden">Ping, this patchset is stalled since Jul=
-y 2014 :/<br></div></blockquote></div><br>Whoops.=C2=A0 Merged into my mut =
-for testing.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Thanks for the reminder!</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
-
---089e01495028f0575d050d1b0e0f--
