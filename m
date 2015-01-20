@@ -1,36 +1,38 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 03B2171144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 38F7665CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 20:22:06 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id z107so9838686qgd.10
+	Tue, 20 Jan 2015 21:17:23 +0000 (UTC)
+Received: by mail-lb0-f175.google.com with SMTP id z11so36030685lbi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 12:22:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=v6+xf/csabvnIsTucKVGUor3yFL99n4buYuJsrNt3Nk=;
-	b=YfK2oisWTMWXGaivZov9mIeWYeCWHY4fCx3Fh4tGMbSQbG4zy1BcDnDil4RmyTyjLN
-	JSNvcwDFFYs9uEY3oFiE+ccDyPCy2/SSY0OKKGrFWjWRrOHAmc02Br2d0KbVkuQBBUSb
-	x9GTnbrQ5Zg/xd9YBDucv92VFI0a/CEYAjYOV5EngD/iYtCxhjW/LFBdueNUMoSbfYSH
-	GEbqbOoWc7sNZ6RPoMPN35MDnJDJwoMHM95ITfbvW/xYzsfKkyRQmCXCy7zh3tzZvQfm
-	D0VIgXOFJmtS9VrQpHUEQOzAS6pLQzEqMq3EtMp7PioIdWHkH3t9nu9iM28ZIzlrplVe
-	01eQ==
+	Tue, 20 Jan 2015 13:17:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vxzveoWOSokqFDK2GNyQDe1PC1mKXiV1YZRA54+130U=;
+	b=Xd5NP3WJuaJIT1AXKQBBKvLcYFsXeADgYp5dr0w6pPaq1oK9yDcmdJxN9fDsKwCf5I
+	o/jeQRqEjZC2SU8TcQ3DDTlt3mHk7YQBdXxWwIvxuMbcGtlq4abEphywsWiEhcsQKIEP
+	oFW21khTIzQsMMleVxNPT8QcrnMDArlNW7MVxWZUJvOjz94R0/c6gXY9qmmjjotBNyQE
+	KW+Xh8GwP9PMd9SNduyyo3wp1JzBRWKFTgmeA12nGrJ++Eyd4o+0XZQsceBR9VrjAD9t
+	EvNRt8Oz9hhNfW31Uctqm/rvtadJcFIiS+Fak7MFqHAepi6+3G1HoJqT3xBQxbsNcom9
+	2qfg==
+X-Gm-Message-State: ALoCoQmqbdiYUfgl+UlPeGMbvcayOp1XJc2EclEj4CkHDim6KwgZOgJKcdq7QOmRLcxHz1s46IiW
+X-Received: by 10.152.3.195 with SMTP id e3mr40992964lae.8.1421788642008; Tue,
+	20 Jan 2015 13:17:22 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.229.225.68 with SMTP id ir4mr7374403qcb.23.1421785326787;
-	Tue, 20 Jan 2015 12:22:06 -0800 (PST)
-Received: by 10.96.35.34 with HTTP; Tue, 20 Jan 2015 12:22:06 -0800 (PST)
-In-Reply-To: <D0E3BC38.B85FA%darren.hart@intel.com>
-References: <1421760783.1798.42.camel@linuxfoundation.org>
-	<54BE633A.1000306@windriver.com>
-	<D0E3BC38.B85FA%darren.hart@intel.com>
-Date: Tue, 20 Jan 2015 14:22:06 -0600
-Message-ID: <CACS+7ZSZEnbwxb4Y7UCyRfiJuhj1H4gFcEy0VY36XSTpy1SAEw@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: "Hart, Darren" <darren.hart@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
+Received: by 10.112.223.164 with HTTP; Tue, 20 Jan 2015 13:17:01 -0800 (PST)
+In-Reply-To: <1418221117-12710-2-git-send-email-Martin.Jansa@gmail.com>
+References: <20141111171344.GA2453@jama>
+	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
+	<1418221117-12710-2-git-send-email-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Jan 2015 21:17:01 +0000
+Message-ID: <CAJTo0LaOzuaeWJ-AQO1Bragu_w36f-tRmwUHLOtKNoxQ4N0VKg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,62 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 20:22:12 -0000
+X-List-Received-Date: Tue, 20 Jan 2015 21:17:27 -0000
+Content-Type: multipart/alternative; boundary=089e0141a012f3f143050d1bf637
+
+--089e0141a012f3f143050d1bf637
 Content-Type: text/plain; charset=UTF-8
 
-On 20 January 2015 at 10:04, Hart, Darren <darren.hart@intel.com> wrote:
->
->
-> On 1/20/15, 6:16 AM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
->
->>On 15-01-20 08:33 AM, Richard Purdie wrote:
->>> With the rpm package backend enabled, running:
->>>
->>> bitbake <image>
->>> bitbake virtual/kernel -c clean
->>> bitbake <image> -c rootfs -f
->>>
->>> results in an image with incorrect kernel module dependency information.
->>> The problem is that the System.map and kernel-abiversion files are
->>>needed
->>> for depmod and after the recent kernel changes, these are no longer in
->>> sstate.
->>>
->>> Its reasonable to require the kernel to unpack/build if you're
->>> about to build a module against it. It is not reasonable to require this
->>> just to build a rootfs.
->>>
->>> Therefore stash the needed files specifically for depmod.
->>>
->>> Also fix some STAGING_KERNEL_DIR references which were incorrect, found
->>> whilst sorting through his change.
->>
->>Now that I see the fix, the tweaks are clear (and obvious). I would have
->>preferred a straight up module loading error in all cases .. since that
->>would have showed in my workflows. The rootfs.py changes in particular
->>would have taken me much longer to get right.
->>
->>>
->>> This patch also makes the depmod files being missing a fatal error
->>>rather than
->>> something the system just ignores silently.
->>
->>Nice improvement.
->>
->>Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->
-> Functionally look good. I noticed some whitespace issues (spaces in bash
-> sections instead of tabs), but those may have been due to keeping a file
-> internally consistent.
->
-> Otherwise,
->
-> Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+On 10 December 2014 at 14:18, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-It causes a build failure in meta-beagleboard's kernel recipes. That's
-due to meta-beagleboard installing the headers as a package in
-/usr/src/linux-<version>. I don't know why it does this, but I patched
-the recipe to not install the headers and it worked.
+>  DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+>
+> +# depends on virtual/libx11
+> +REQUIRED_DISTRO_FEATURES = "x11"
 
-I like this change.
 
+Please drop piglit from this series, as that depending on x11 is a bug and
+I've a branch that is sorting that.
+
+But this does make me wonder why we can't make bitbake handle this for
+us...  just thinking out loud... would it be possible to have a "recursive"
+exception so that libx11 can say it needs the x11 DISTRO_FEATURE and
+anything that depends on libx11 is cleanly handled instead of erroring?
+
+Ross
+
+--089e0141a012f3f143050d1bf637
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+0 December 2014 at 14:18, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">=C2=A0DE=
+PENDS =3D &quot;virtual/libx11 virtual/libgl libglu libxext libxi libxmu&qu=
+ot;<br>
+<br>
++# depends on virtual/libx11<br>
++REQUIRED_DISTRO_FEATURES =3D &quot;<span class=3D"il">x11</span>&quot;</sp=
+an></blockquote></div><br>Please drop piglit from this series, as that depe=
+nding on x11 is a bug and I&#39;ve a branch that is sorting that.</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">But this does m=
+ake me wonder why we can&#39;t make bitbake handle this for us... =C2=A0jus=
+t thinking out loud... would it be possible to have a &quot;recursive&quot;=
+ exception so that libx11 can say it needs the x11 DISTRO_FEATURE and anyth=
+ing that depends on libx11 is cleanly handled instead of erroring?</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
+
+--089e0141a012f3f143050d1bf637--
