@@ -1,27 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 097DF65D19
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 15:42:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0KFgeNP009725
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 20 Jan 2015 07:42:40 -0800 (PST)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 20 Jan 2015 07:42:40 -0800
-Message-ID: <54BE775C.40407@windriver.com>
-Date: Tue, 20 Jan 2015 10:42:20 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 18BCD65D19
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jan 2015 15:49:01 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id s11so12519814qcv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jan 2015 07:49:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CsI4NpzGN1Ee7znowIkDlJ/JCXg4B6H+Jdry/iuCikE=;
+	b=BVoTmntIAQqRezKQK98ogWjhmQ5pAbsM4E5/Xf0poLAJ2dVJTHs7OpijjahWsEqNiz
+	2ZE1fI5ZeLManqPbxhkdLsJGRWG6hXqJZPBxL8crwyPRUuBZJvsfYvugpPXBP/bOD7PK
+	r4cC3Unc1X08TZz2rwK92w+JSgFkO4hh7eas/TF6apa+gOKm5O9VO3eIwLRwsRE4rGjY
+	VWX5hgIl+vl7fJ6GszyvxmdifQObjDjWE2GMArLpmXw5qyxPRWhv4xdZ/uGhaZ6r+wUl
+	1qCyo0PZuIVWqV46o7s+rnxU7W8veQP8hTa/nrOEXIACZoDru7A4oQVvL10WgRDmBuzr
+	7WgA==
+X-Gm-Message-State: ALoCoQkBIZJsDoZArraeoT3OzOVIJ3s7Ml7PZgmyE9mgiNhSIG1/wTU5O5wfw/XM/ebiAx7Zgru8
+X-Received: by 10.229.192.5 with SMTP id do5mr59094240qcb.12.1421768941883;
+	Tue, 20 Jan 2015 07:49:01 -0800 (PST)
 MIME-Version: 1.0
-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>, Patches and discussions
-	about the oe-core layer <Openembedded-core@lists.openembedded.org>
-References: <20150120133750.1c26e442@bottazzini-ThinkPad-T430>
-In-Reply-To: <20150120133750.1c26e442@bottazzini-ThinkPad-T430>
-Subject: Re: [linux-yocto] Nothing RPROVIDES dbus-native-tools-native
+Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 07:48:41 -0800 (PST)
+In-Reply-To: <54BE21A5.1090705@digi.com>
+References: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
+	<54BE21A5.1090705@digi.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Jan 2015 15:48:41 +0000
+Message-ID: <CAJTo0LYH7rThX75FBB+mk=M1BL=Qnnh1Ng4npx4+9AtceVAzGw@mail.gmail.com>
+To: Javier Viguera <javier.viguera@digi.com>,
+	Armin Kuster <akuster808@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Dizzy backport] python: ensure all of Python is installed in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +46,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 15:42:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Jan 2015 15:49:11 -0000
+Content-Type: multipart/alternative; boundary=001a11337bfcbc0d75050d176081
 
-Adding the oe-core mailing list, since this is a non-kernel question.
+--001a11337bfcbc0d75050d176081
+Content-Type: text/plain; charset=UTF-8
 
-Anyone have ideas about the question below ?
+CC'ing Armin to ensure that he see's this.
 
-Cheers,
+Ross
 
-Bruce
+On 20 January 2015 at 09:36, Javier Viguera <javier.viguera@digi.com> wrote:
 
-On 15-01-20 10:37 AM, Bottazzini, Bruno wrote:
-> Hello,
+> Hi all,
 >
-> I have made some changes in dbus recipe.
+> Toolchains/SDK generated with Dizzy have the problem this commit fixes.
 >
-> You can it see the attached patch file.
+> So could this be cherry-picked to Dizzy?
 >
-> When running this lighter version with the line code:
-> RRECOMMENDS_${PN} = "${PN}-tools"
+> It applies just fine, there is no need to rework it.
 >
-> I receive two errors:
-> ERROR: Nothing RPROVIDES 'dbus-native-tools-native' (path RDEPENDS on
-> or otherwise requires it))
-> ERROR: Required build target 'core-image-minimal' has no buildable
-> providers.
+> -
+> Regards,
 >
-> I have looked into this error but unfortunately I couldn't find what
-> the problem is.
->
-> The patch code looks good and, If I remove the RRECOMMENDS it works
-> normally.
->
-> Can someone help me out why a RRECOMENDS causes this error ?
->
-> Best Regards,
->
-> Bruno Bottazzini
+> Javier Viguera
 >
 >
-> 0002-dbus-split-tools-package.patch
+> On 01/12/14 17:36, Ross Burton wrote:
 >
+>> If any part of Python gets installed in a SDK, we need to ensure that all
+>> of
+>> Python gets installed to avoid replacing python in the environment with a
+>> minimal package set.
+>>
+>> Signed-off-by: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.
+>> gmane.org>
+>> ---
+>>   meta/recipes-devtools/python/python_2.7.3.bb |    1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/python/python_2.7.3.bb
+>> b/meta/recipes-devtools/python/python_2.7.3.bb
+>> index 50c751e..7f13e22 100644
+>> --- a/meta/recipes-devtools/python/python_2.7.3.bb
+>> +++ b/meta/recipes-devtools/python/python_2.7.3.bb
+>> @@ -161,6 +161,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
+>>   # manual dependency additions
+>>   RPROVIDES_${PN}-core = "${PN}"
+>>   RRECOMMENDS_${PN}-core = "${PN}-readline"
+>> +RRECOMMENDS_${PN}-core_append_class-nativesdk = "
+>> nativesdk-python-modules"
+>>   RRECOMMENDS_${PN}-crypt = "openssl"
+>>   RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
+>>
+>>
+>>  --
+> _______________________________________________
 >
->  From b965f97f6f71444f7158045b346e59ca27acfa13 Mon Sep 17 00:00:00 2001
-> From: Gustavo Sverzut Barbieri<gustavo.barbieri@intel.com>
-> Date: Thu, 25 Sep 2014 14:10:09 -0300
-> Subject: [PATCH 2/4] dbus: split tools package.
->
-> most tools are not required if one is launching a simple daemon, this
-> will save space when doing minimal builds.
-> ---
->   meta/recipes-core/dbus/dbus.inc | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-> index d38ba7e..8b14647 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -39,7 +39,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
->
->   DEBIANNAME_${PN} = "dbus-1"
->
-> -PACKAGES =+ "${PN}-lib"
-> +PACKAGES =+ "${PN}-lib ${PN}-tools"
->
->   OLDPKGNAME = "dbus-x11"
->   OLDPKGNAME_class-nativesdk = ""
-> @@ -49,12 +49,7 @@ RPROVIDES_${PN} = "${OLDPKGNAME}"
->   RREPLACES_${PN} += "${OLDPKGNAME}"
->
->   FILES_${PN} = "${bindir}/dbus-daemon* \
-> -               ${bindir}/dbus-uuidgen \
-> -               ${bindir}/dbus-cleanup-sockets \
->                  ${bindir}/dbus-send \
-> -               ${bindir}/dbus-monitor \
-> -               ${bindir}/dbus-launch \
-> -               ${bindir}/dbus-run-session \
->                  ${libexecdir}/dbus* \
->                  ${sysconfdir} \
->                  ${localstatedir} \
-> @@ -64,6 +59,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
->   FILES_${PN}-lib = "${libdir}/lib*.so.*"
->   RRECOMMENDS_${PN}-lib = "${PN}"
->   FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
-> +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
-> +                      ${bindir}/dbus-cleanup-sockets \
-> +                      ${bindir}/dbus-monitor \
-> +                      ${bindir}/dbus-launch \
-> +                      ${bindir}/dbus-run-session"
-> +RRECOMMENDS_${PN} = "${PN}-tools"
->
->   pkg_postinst_dbus() {
->   	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
-> -- 2.1.0
->
->
->
-> -- _______________________________________________ linux-yocto mailing
-> list linux-yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/linux-yocto
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
+--001a11337bfcbc0d75050d176081
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">CC&#39;ing Armin to ensure that he see&#39;s this.<div><br=
+></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gm=
+ail_quote">On 20 January 2015 at 09:36, Javier Viguera <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:javier.viguera@digi.com" target=3D"_blank">javier.vigue=
+ra@digi.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi all,=
+<br>
+<br>
+Toolchains/SDK generated with Dizzy have the problem this commit fixes.<br>
+<br>
+So could this be cherry-picked to Dizzy?<br>
+<br>
+It applies just fine, there is no need to rework it.<br>
+<br>
+-<br>
+Regards,<br>
+<br>
+Javier Viguera<span class=3D""><br>
+<br>
+<br>
+On 01/12/14 17:36, Ross Burton wrote:<br>
+</span><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><span class=3D"">
+If any part of Python gets installed in a SDK, we need to ensure that all o=
+f<br>
+Python gets installed to avoid replacing python in the environment with a<b=
+r>
+minimal package set.<br>
+<br></span>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton-ral2JQCrhuEAvx=
+tiuMwx3w@public.gmane.org" target=3D"_blank">ross.burton-<u></u>ral2JQCrhuE=
+AvxtiuMwx3w@public.<u></u>gmane.org</a>&gt;<span class=3D""><br>
+---<br>
+=C2=A0 meta/recipes-devtools/python/<a href=3D"http://python_2.7.3.bb" targ=
+et=3D"_blank">p<u></u>ython_2.7.3.bb</a> |=C2=A0 =C2=A0 1 +<br>
+=C2=A0 1 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/<u></u>python/<a href=3D"http://python_2=
+.7.3.bb" target=3D"_blank">python_2.7.3.bb</a> b/meta/recipes-devtools/<u><=
+/u>python/<a href=3D"http://python_2.7.3.bb" target=3D"_blank">python_2.7.3=
+.bb</a><br>
+index 50c751e..7f13e22 100644<br>
+--- a/meta/recipes-devtools/<u></u>python/<a href=3D"http://python_2.7.3.bb=
+" target=3D"_blank">python_2.7.3.bb</a><br>
++++ b/meta/recipes-devtools/<u></u>python/<a href=3D"http://python_2.7.3.bb=
+" target=3D"_blank">python_2.7.3.bb</a><br>
+@@ -161,6 +161,7 @@ require python-${PYTHON_MAJMIN}-<u></u>manifest.inc<br>
+=C2=A0 # manual dependency additions<br>
+=C2=A0 RPROVIDES_${PN}-core =3D &quot;${PN}&quot;<br>
+=C2=A0 RRECOMMENDS_${PN}-core =3D &quot;${PN}-readline&quot;<br>
++RRECOMMENDS_${PN}-core_<u></u>append_class-nativesdk =3D &quot; nativesdk-=
+python-modules&quot;<br>
+=C2=A0 RRECOMMENDS_${PN}-crypt =3D &quot;openssl&quot;<br>
+=C2=A0 RRECOMMENDS_${PN}-crypt_class-<u></u>nativesdk =3D &quot;nativesdk-o=
+penssl&quot;<br>
+<br>
+<br>
+</span></blockquote>
+-- <br>
+______________________________<u></u>_________________<div class=3D"HOEnZb"=
+><div class=3D"h5"><br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/<u></u>mailman/listinfo/o=
+penembedded-<u></u>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a11337bfcbc0d75050d176081--
