@@ -1,26 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 876937231B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id ADDF672CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 16:35:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 20 Jan 2015 08:30:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,435,1418112000"; d="scan'208";a="664714401"
-Received: from jkan1-mobl3.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.1.52])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2015 08:35:47 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 20 Jan 2015 16:35:26 +0000
-Message-ID: <1667297.YQryn9uIt2@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
-References: <1421693551-17611-1-git-send-email-kergoth@gmail.com>
+	Tue, 20 Jan 2015 16:42:04 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z107so8750844qgd.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Jan 2015 08:42:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Ezq1rDSXYPKPCW9axf5okPQTLXLeC6FEx99hVeMCd5M=;
+	b=mUVjtQuMzpHUGQJII2ICTtQAzwDhCE0sK9EySKmwozTSDnEt0WUGwm573M4haTlpMC
+	iV8vgt4tgjftJggSJFD7rNaEvzng/qgX8ovAC1z9P7rQeqEPk8kEuWtecu7AhI3Z4lUZ
+	NeIUJnzUwa1vg2IrJW4ZaalEt/mAvlJpu8qjoX1ZeH0GERTEDnKB/+5edieuup+HoKcU
+	L6a2sGSvLsKxcbXo+6tjy1ZM1cea7d7hiz4WmFOsJKUdY/KN6ToFOvq39Ezk0D3VlZM5
+	dl3yLjiQ9MYzeUYuKaUWhwoZBZndPEG5VHZqjBEalmZIe9XO5zzcs9PCydV6CFfe2m7N
+	VF9Q==
+X-Gm-Message-State: ALoCoQkgptQwHzwcIWRpKiMZvjixK4S2okai8ypkw/47EYrUpqTn7ziGEpDtmMtQ7Z4mMHWnHLJ2
+X-Received: by 10.224.92.205 with SMTP id s13mr59643509qam.52.1421772124537;
+	Tue, 20 Jan 2015 08:42:04 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 0/2] recipetool: add python buildsystem support
+Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 08:41:44 -0800 (PST)
+In-Reply-To: <54BE7EC4.2080000@mlbassoc.com>
+References: <1421677219-27316-1-git-send-email-gary@mlbassoc.com>
+	<CAJTo0LaKbxT+9p=Er9wQvy_4Agd9R6vCoCJKaTdx+qH2vwhWqg@mail.gmail.com>
+	<54BE7EC4.2080000@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Jan 2015 16:41:44 +0000
+Message-ID: <CAJTo0LYRKLypohXXFfAS_+3XLYyvCSCB5kE1WRFrpW670LbXTQ@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perl: Backport fix for bug #123591
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 16:35:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 20 Jan 2015 16:42:13 -0000
+Content-Type: multipart/alternative; boundary=089e015375e46f615c050d181ecf
 
-On Monday 19 January 2015 11:52:29 Christopher Larson wrote:
-> Changes from v1:
-> 
-> - Drops the 'your responsibility' message, per Paul's request
-> - Pulls in sys.builtin_module_names from the host python for now
-> - Handles extra_requires both in requires.txt and setup.py. This is
-> currently implemented by a naive conversion of the optional features to
->   packageconfigs.
-> - Improves the way we extract the setup keywords to make it easier to grab
-> the non-literal values, such as calls to `find_packages`, so we can
-> implement that in the future.
-> - Alters the existing LICENSE line from recipetool rather than adding
->   a duplicated one, by poking at `lines_before`.
-> - Moves the HOMEPAGE/SUMMARY/etc below the license info but above SRC_URI,
-> to comply with our conventions.
-> - Defaults to python- prefixing the dependencies we add.
-> - Fixes numerous bugs.
-> 
-> 
-> Example of the generated `PACKAGECONFIG` for `extra_requires` in glances:
-> 
-> ```
-> # The following configs & dependencies are from setuptools extras_require.
-> # These dependencies are optional, hence can be controlled via
-> PACKAGECONFIG. # The upstream names may not correspond exactly to bitbake
-> package names. #
-> # Uncomment this line to enable all the optional features.
-> #PACKAGECONFIG ?= "web batinfo snmp chart sensors browser"
-> PACKAGECONFIG[web] = ",,,python-bottle"
-> PACKAGECONFIG[batinfo] = ",,,python-batinfo"
-> PACKAGECONFIG[snmp] = ",,,python-pysnmp"
-> PACKAGECONFIG[chart] = ",,,python-matplotlib"
-> PACKAGECONFIG[sensors] = ",,,python-py3sensors"
-> PACKAGECONFIG[browser] = ",,,python-netifaces python-zeroconf"
-> ```
-> 
-> 
-> Christopher Larson (2):
->   recipetool: add python buildsystem support
->   recipetool: add python dependency scanning support
-> 
->  scripts/lib/recipetool/create_buildsys_python.py | 720
-> +++++++++++++++++++++++ scripts/pythondeps                               |
-> 250 ++++++++
->  2 files changed, 970 insertions(+)
->  create mode 100644 scripts/lib/recipetool/create_buildsys_python.py
->  create mode 100755 scripts/pythondeps
+--089e015375e46f615c050d181ecf
+Content-Type: text/plain; charset=UTF-8
 
-This works well, great job :)
+On 20 January 2015 at 16:13, Gary Thomas <gary@mlbassoc.com> wrote:
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> This needs to be Signed-off-by.
+>>
+>
+> By whom?  There is no Signed-off-by in the perl commit.
 
-Cheers,
-Paul
 
--- 
+By you, along with the Upstream-Status.  We like to know in five years time
+who added a patch.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--089e015375e46f615c050d181ecf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 January 2015 at 16:13, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><span class=3D""><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">This needs to be Signed-off-by.<br>
+</blockquote>
+<br></span>
+By whom?=C2=A0 There is no Signed-off-by in the perl commit.</blockquote><d=
+iv><br></div><div>By you, along with the Upstream-Status.=C2=A0 We like to =
+know in five years time who added a patch.</div><div><br></div><div>Ross</d=
+iv></div></div></div>
+
+--089e015375e46f615c050d181ecf--
