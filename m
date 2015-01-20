@@ -1,38 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id ADDF672CAA
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id DA814721E2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 16:42:04 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id z107so8750844qgd.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 08:42:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Ezq1rDSXYPKPCW9axf5okPQTLXLeC6FEx99hVeMCd5M=;
-	b=mUVjtQuMzpHUGQJII2ICTtQAzwDhCE0sK9EySKmwozTSDnEt0WUGwm573M4haTlpMC
-	iV8vgt4tgjftJggSJFD7rNaEvzng/qgX8ovAC1z9P7rQeqEPk8kEuWtecu7AhI3Z4lUZ
-	NeIUJnzUwa1vg2IrJW4ZaalEt/mAvlJpu8qjoX1ZeH0GERTEDnKB/+5edieuup+HoKcU
-	L6a2sGSvLsKxcbXo+6tjy1ZM1cea7d7hiz4WmFOsJKUdY/KN6ToFOvq39Ezk0D3VlZM5
-	dl3yLjiQ9MYzeUYuKaUWhwoZBZndPEG5VHZqjBEalmZIe9XO5zzcs9PCydV6CFfe2m7N
-	VF9Q==
-X-Gm-Message-State: ALoCoQkgptQwHzwcIWRpKiMZvjixK4S2okai8ypkw/47EYrUpqTn7ziGEpDtmMtQ7Z4mMHWnHLJ2
-X-Received: by 10.224.92.205 with SMTP id s13mr59643509qam.52.1421772124537;
-	Tue, 20 Jan 2015 08:42:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 08:41:44 -0800 (PST)
-In-Reply-To: <54BE7EC4.2080000@mlbassoc.com>
-References: <1421677219-27316-1-git-send-email-gary@mlbassoc.com>
-	<CAJTo0LaKbxT+9p=Er9wQvy_4Agd9R6vCoCJKaTdx+qH2vwhWqg@mail.gmail.com>
-	<54BE7EC4.2080000@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Jan 2015 16:41:44 +0000
-Message-ID: <CAJTo0LYRKLypohXXFfAS_+3XLYyvCSCB5kE1WRFrpW670LbXTQ@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perl: Backport fix for bug #123591
+	Tue, 20 Jan 2015 16:50:25 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 35C70F811D8; Tue, 20 Jan 2015 09:50:26 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 1B2ECF811D8;
+	Tue, 20 Jan 2015 09:50:25 -0700 (MST)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Jan 2015 09:50:35 -0700
+Message-Id: <1421772635-29236-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH v2] perl: Backport fix for bug #123591
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 16:42:13 -0000
-Content-Type: multipart/alternative; boundary=089e015375e46f615c050d181ecf
+X-List-Received-Date: Tue, 20 Jan 2015 16:50:34 -0000
 
---089e015375e46f615c050d181ecf
-Content-Type: text/plain; charset=UTF-8
+This patch fixes a crash in perl when using formatted strings @...
+[v2] Added Signed-off-by line in actual patch.
 
-On 20 January 2015 at 16:13, Gary Thomas <gary@mlbassoc.com> wrote:
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ .../perl/perl-5.20.0/fix-FF_MORE-crash.patch        | 21 +++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.20.0.bb           |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
 
-> This needs to be Signed-off-by.
->>
->
-> By whom?  There is no Signed-off-by in the perl commit.
+diff --git a/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+new file mode 100644
+index 0000000..9ec041c
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+@@ -0,0 +1,21 @@
++Upstream-Status: Backport
++Reference: https://rt.perl.org/Public/Bug/Display.html?id=123591
++  From 62db6ea5fed19611596cbc5fc0b8a4df2c604e58 Mon Sep 17 00:00:00 2001
++  From: Tony Cook <tony@develop-help.com>
++  Date: Mon, 19 Jan 2015 16:03:18 +1100
++  Subject: [PATCH 1/1] [perl #123538] always set chophere and itembytes at the same time
++
++  Previously this would crash in FF_MORE because chophere was still NULL.
++
++Signed-off-by: Gary Thomas <gary@mlbassoc.com>
++Index: perl-5.20.0/pp_ctl.c
++===================================================================
++--- perl-5.20.0.orig/pp_ctl.c
+++++ perl-5.20.0/pp_ctl.c
++@@ -590,6 +590,7 @@ PP(pp_formline)
++                         break;
++                 }
++                 itembytes = s - item;
+++                chophere = s;
++ 		break;
++ 	    }
+diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
+index 3ca0f53..bc7866b 100644
+--- a/meta/recipes-devtools/perl/perl_5.20.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
+@@ -63,6 +63,7 @@ SRC_URI += " \
+ 	file://fix_bad_rpath.patch \
+ 	file://perl-archlib-exp.patch \
+ 	file://dynaloaderhack.patch \
++	file://fix-FF_MORE-crash.patch \
+ 	\
+         \
+         file://config.sh \
+-- 
+1.9.1
 
 
-By you, along with the Upstream-Status.  We like to know in five years time
-who added a patch.
-
-Ross
-
---089e015375e46f615c050d181ecf
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 January 2015 at 16:13, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><span class=3D""><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">This needs to be Signed-off-by.<br>
-</blockquote>
-<br></span>
-By whom?=C2=A0 There is no Signed-off-by in the perl commit.</blockquote><d=
-iv><br></div><div>By you, along with the Upstream-Status.=C2=A0 We like to =
-know in five years time who added a patch.</div><div><br></div><div>Ross</d=
-iv></div></div></div>
-
---089e015375e46f615c050d181ecf--
