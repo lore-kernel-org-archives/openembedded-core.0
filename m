@@ -1,36 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 556B671353
+Return-Path: <darren.hart@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D5377229E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 16:01:38 +0000 (UTC)
-Received: by mail-la0-f52.google.com with SMTP id hs14so35074544lab.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 08:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=9UvHnmHX7EBoKSyVoMMYqXkrB+BaIOyxj6QYGnICytg=;
-	b=jTBaHO+Qhl+g8ZXrfL9ODrPVAFnOtFUse4YEJQjuX/An6HnMNMFxRuGnFoeQ/SXxTz
-	kUTj/3WGJ14yN1PqCGYTqPf9dvc+foJNtXtP67xNvH27W+Ozg9FxRmjvhqkgvqxTitK4
-	o7hm+PivbydnTBp1EC1ZXB/gQ7XFNu1nvu274FfmBTRM03oB6xz986YbXBgv367AJo2c
-	G0Leeh6+3U5eVgCCEs88SPOwmhaickTC1Va0wo9vhlxnuD7NAAqpkBHNe3V5QQkE+Zc2
-	QQ9qf/HQyhaS0jj0qf+es4OBgTR7lL9ewNon0NMYi0IS1wxNVBKKlweIsJBkDFabK1pW
-	xXQQ==
-MIME-Version: 1.0
-X-Received: by 10.152.238.1 with SMTP id vg1mr39637086lac.83.1421769697671;
-	Tue, 20 Jan 2015 08:01:37 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Tue, 20 Jan 2015 08:01:37 -0800 (PST)
-In-Reply-To: <bc679bdfe35b8c0740f66a5e5f03d8ac69c59309.1421651378.git.liezhi.yang@windriver.com>
-References: <cover.1421651378.git.liezhi.yang@windriver.com>
-	<bc679bdfe35b8c0740f66a5e5f03d8ac69c59309.1421651378.git.liezhi.yang@windriver.com>
-Date: Tue, 20 Jan 2015 11:01:37 -0500
-Message-ID: <CADkTA4MRQ+GaDCxQNiS91=qRT4QVAk0cvupzf8TBRaHnwwXgvg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 20 Jan 2015 16:06:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 20 Jan 2015 08:00:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,434,1418112000"; d="scan'208";a="639908805"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2015 08:04:36 -0800
+Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
+	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Tue, 20 Jan 2015 08:04:35 -0800
+Received: from fmsmsx108.amr.corp.intel.com (10.18.124.206) by
+	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Tue, 20 Jan 2015 08:04:35 -0800
+Received: from fmsmsx118.amr.corp.intel.com ([169.254.1.250]) by
+	FMSMSX108.amr.corp.intel.com ([169.254.9.201]) with mapi id
+	14.03.0195.001; Tue, 20 Jan 2015 08:04:35 -0800
+From: "Hart, Darren" <darren.hart@intel.com>
+To: "Ashfield, Bruce (Wind River)" <bruce.ashfield@windriver.com>, "Richard
+	Purdie" <richard.purdie@linuxfoundation.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] perf: fix for rebuilding
+Thread-Topic: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
+Thread-Index: AQHQNLWwjE3by0LT2Eq8dEfPNJEU25zJlAoA//+YFgA=
+Date: Tue, 20 Jan 2015 16:04:34 +0000
+Message-ID: <D0E3BC38.B85FA%darren.hart@intel.com>
+References: <1421760783.1798.42.camel@linuxfoundation.org>
+	<54BE633A.1000306@windriver.com>
+In-Reply-To: <54BE633A.1000306@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.254.113.7]
+MIME-Version: 1.0
+Subject: Re: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,53 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 16:01:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Jan 2015 16:07:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <520F2C285000774790A6C845C8A35004@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 19, 2015 at 2:11 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Fix for rebuilding error:
-> make[3]: *** No rule to make target `/path/to/sysroots/qemuarm64/usr/src/kernel/tools/lib/traceevent//trace-seq.c',
 
-The kernel source is no longer in this location .. so at a minimum the header
-needs to be updated to log the work-shared directory .. and better, make sure
-that this is still happening with the latest master changes.
 
-Bruce
+On 1/20/15, 6:16 AM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
 
-> needed by `.trace-seq.d'.  Stop.
-> make[2]: *** [sub-make] Error 2
+>On 15-01-20 08:33 AM, Richard Purdie wrote:
+>> With the rpm package backend enabled, running:
+>>
+>> bitbake <image>
+>> bitbake virtual/kernel -c clean
+>> bitbake <image> -c rootfs -f
+>>
+>> results in an image with incorrect kernel module dependency information.
+>> The problem is that the System.map and kernel-abiversion files are
+>>needed
+>> for depmod and after the recent kernel changes, these are no longer in
+>> sstate.
+>>
+>> Its reasonable to require the kernel to unpack/build if you're
+>> about to build a module against it. It is not reasonable to require this
+>> just to build a rootfs.
+>>
+>> Therefore stash the needed files specifically for depmod.
+>>
+>> Also fix some STAGING_KERNEL_DIR references which were incorrect, found
+>> whilst sorting through his change.
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-kernel/perf/perf.bb |    3 +++
->  1 file changed, 3 insertions(+)
+>Now that I see the fix, the tweaks are clear (and obvious). I would have
+>preferred a straight up module loading error in all cases .. since that
+>would have showed in my workflows. The rootfs.py changes in particular
+>would have taken me much longer to get right.
 >
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index bd57c6c..ab7075e 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -115,6 +115,9 @@ do_install() {
->  }
+>>
+>> This patch also makes the depmod files being missing a fatal error
+>>rather than
+>> something the system just ignores silently.
 >
->  do_configure_prepend () {
-> +    # Fix for rebuilding
-> +    rm -rf ${B}/.*.d
-> +
->      #kernels before 3.1 do not support WERROR env variable
->      sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
->      if [ -e "${S}/tools/perf/config/Makefile" ]; then
-> --
-> 1.7.9.5
+>Nice improvement.
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Functionally look good. I noticed some whitespace issues (spaces in bash
+sections instead of tabs), but those may have been due to keeping a file
+internally consistent.
+
+Otherwise,
+
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
 
+--=20
+Darren Hart
+Intel Open Source Technology Center
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
