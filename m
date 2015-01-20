@@ -1,47 +1,27 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 387 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 20 Jan 2015 09:43:16 UTC
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 5242271F1B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 95E1871633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 09:43:16 +0000 (UTC)
-Received: from [216.82.249.131] by server-15.bemta-12.messagelabs.com id
-	E5/A0-02699-1B12EB45; Tue, 20 Jan 2015 09:36:49 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-15.tower-28.messagelabs.com!1421746608!37993964!1
-X-Originating-IP: [66.77.174.13]
-X-StarScan-Received: 
-X-StarScan-Version: 6.12.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23694 invoked from network); 20 Jan 2015 09:36:49 -0000
-Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
-	by server-15.tower-28.messagelabs.com with RC4-SHA encrypted SMTP;
-	20 Jan 2015 09:36:49 -0000
-Received: from MCL-VMS-XCH01.digi.com (10.5.8.49) by mail.mx1.digi.com
-	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.389.2;
-	Tue, 20 Jan 2015 03:36:47 -0600
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.210.2;
-	Tue, 20 Jan 2015 03:36:47 -0600
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.210.2;
-	Tue, 20 Jan 2015 10:36:45 +0100
-Message-ID: <54BE21A5.1090705@digi.com>
-Date: Tue, 20 Jan 2015 10:36:37 +0100
-From: Javier Viguera <javier.viguera@digi.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Subject: [Dizzy backport] python: ensure all of Python is installed in nativesdk
+	Tue, 20 Jan 2015 13:33:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t0KDXF2w029542; Tue, 20 Jan 2015 13:33:15 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id L2cM3oIsczwt; Tue, 20 Jan 2015 13:33:15 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t0KDX3gr029477
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 20 Jan 2015 13:33:14 GMT
+Message-ID: <1421760783.1798.42.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Jan 2015 13:33:03 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: [PATCH] kernel/image/depmodwrapper: Fixups for depmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +34,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 09:43:26 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 20 Jan 2015 13:33:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+With the rpm package backend enabled, running:
 
-Toolchains/SDK generated with Dizzy have the problem this commit fixes.
+bitbake <image>
+bitbake virtual/kernel -c clean
+bitbake <image> -c rootfs -f
 
-So could this be cherry-picked to Dizzy?
+results in an image with incorrect kernel module dependency information.
+The problem is that the System.map and kernel-abiversion files are needed
+for depmod and after the recent kernel changes, these are no longer in
+sstate.
 
-It applies just fine, there is no need to rework it.
+Its reasonable to require the kernel to unpack/build if you're
+about to build a module against it. It is not reasonable to require this
+just to build a rootfs.
 
--
-Regards,
+Therefore stash the needed files specifically for depmod.
 
-Javier Viguera
+Also fix some STAGING_KERNEL_DIR references which were incorrect, found
+whilst sorting through his change.
+
+This patch also makes the depmod files being missing a fatal error rather than
+something the system just ignores silently.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 07e7f99..22b6970 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -95,7 +95,7 @@ def rootfs_variables(d):
+                  'SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT','SDKTARGETSYSROOT','MULTILIBRE_ALLOW_REP',
+                  'MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
+                  'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','BUILDNAME','USE_DEVFS',
+-                 'STAGING_KERNEL_DIR','COMPRESSIONTYPES']
++                 'COMPRESSIONTYPES']
+     variables.extend(command_variables(d))
+     variables.extend(variable_depends(d))
+     return " ".join(variables)
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 2d43b51..32b8085 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -75,7 +75,7 @@ python split_kernel_module_packages () {
+         if not os.path.exists(system_map_file):
+             system_map_file = "%s/System.map-%s" % (staging_kernel_dir, kernelver)
+             if not os.path.exists(system_map_file):
+-                bb.fatal("System.map-%s does not exist in '%s/boot' nor STAGING_KERNEL_DIR '%s'" % (kernelver, dvar, staging_kernel_dir))
++                bb.fatal("System.map-%s does not exist in '%s/boot' nor STAGING_KERNEL_BUILDDIR '%s'" % (kernelver, dvar, staging_kernel_dir))
+ 
+         cmd = "depmod -n -a -b %s -F %s %s" % (dvar, system_map_file, kernelver_stripped)
+         f = os.popen(cmd, 'r')
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 805f799..2a16c71 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -231,6 +231,11 @@ kernel_do_install() {
+ 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+ 	install -d ${D}${sysconfdir}/modules-load.d
+ 	install -d ${D}${sysconfdir}/modprobe.d
++
++	# Stash data for depmod
++	install -d ${D}${datadir}/kernel-depmod/
++	echo "${KERNEL_VERSION}" > ${D}${datadir}/kernel-depmod/kernel-abiversion
++	cp System.map ${D}${datadir}/kernel-depmod/System.map-${KERNEL_VERSION}
+ }
+ do_install[prefuncs] += "package_get_auto_pr"
+ 
+@@ -280,14 +285,21 @@ do_shared_workdir () {
+ 	fi
+ }
+ 
+-# We have an empty sysroot_stage_all to keep the default routine from
+-# package.bbclass from expanding the kernel source into the sysroot and
+-# colliding with linux-firmware files
++# Only stage the files we need for depmod, not the modules/firmware
+ sysroot_stage_all () {
++	sysroot_stage_dir ${D}${datadir}/kernel-depmod ${SYSROOT_DESTDIR}${datadir}/kernel-depmod
+ }
+ 
+ KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} O=${B} oldnoconfig || yes '' | oe_runmake -C ${S} O=${B} oldconfig"
+ 
++PACKAGE_PREPROCESS_FUNCS += "kernel_package_preprocess"
++
++kernel_package_preprocess () {
++    rm -rf ${PKGD}${datadir}/kernel-depmod
++    rmdir ${PKGD}${datadir}
++    rmdir ${PKGD}${exec_prefix}
++}
++
+ kernel_do_configure() {
+ 	# fixes extra + in /lib/modules/2.6.37+
+ 	# $ scripts/setlocalversion . => +
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index f2891a7..72d32f7 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -209,16 +209,17 @@ class Rootfs(object):
+                                   'new', '-v'])
+ 
+     def _generate_kernel_module_deps(self):
+-        kernel_abi_ver_file = os.path.join(self.d.getVar('STAGING_KERNEL_BUILDDIR', True),
++        kernel_abi_ver_file = oe.path.join(self.d.getVar('STAGING_DIR_TARGET', True), self.d.getVar('datadir', True), "kernel-depmod",
+                                            'kernel-abiversion')
+-        if os.path.exists(kernel_abi_ver_file):
+-            kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
+-            modules_dir = os.path.join(self.image_rootfs, 'lib', 'modules', kernel_ver)
++        if not os.path.exists(kernel_abi_ver_file):
++            bb.fatal("No kernel-abiversion file found (%s), cannot run depmod, aborting" % kernel_abi_ver_file)
+ 
+-            bb.utils.mkdirhier(modules_dir)
++        kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
++        modules_dir = os.path.join(self.image_rootfs, 'lib', 'modules', kernel_ver)
+ 
+-            self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs,
+-                                  kernel_ver])
++        bb.utils.mkdirhier(modules_dir)
++
++        self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver])
+ 
+     """
+     Create devfs:
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 7533809..83a382a 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -19,21 +19,21 @@ if [ "\$1" != "-a" -o "\$2" != "-b" ]; then
+     echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
+     exit 1
+ fi
+-if [ ! -r ${STAGING_KERNEL_BUILDDIR}/kernel-abiversion ]; then
+-    echo "Unable to read: ${STAGING_KERNEL_BUILDDIR}/kernel-abiversion" >&2
++if [ ! -r ${STAGING_DIR_TARGET}${datadir}/kernel-depmod/kernel-abiversion ]; then
++    echo "Unable to read: ${STAGING_DIR_TARGET}${datadir}/kernel-depmod/kernel-abiversion" >&2
+ else
+-    kernelabi=\$(cat ${STAGING_KERNEL_BUILDDIR}/kernel-abiversion)
++    kernelabi=\$(cat ${STAGING_DIR_TARGET}${datadir}/kernel-depmod/kernel-abiversion)
+     if [ "\$kernelabi" != "\$4" ]; then
+         echo "Error: Kernel version \$4 does not match kernel-abiversion (\$kernelabi)" >&2
+         exit 1
+     fi
+ fi
+ 
+-if [ ! -r ${STAGING_KERNEL_BUILDDIR}/System.map-\$4 ]; then
+-    echo "Unable to read: ${STAGING_KERNEL_BUILDDIR}/System.map-\$4" >&2
++if [ ! -r ${STAGING_DIR_TARHET}${datadir}/kernel-depmod/System.map-\$4 ]; then
++    echo "Unable to read: ${STAGING_DIR_TARGET}${datadir}/kernel-depmod/System.map-\$4" >&2
+     exec env depmod "\$1" "\$2" "\$3" "\$4"
+ else
+-    exec env depmod "\$1" "\$2" "\$3" -F "${STAGING_KERNEL_BUILDDIR}/System.map-\$4" "\$4"
++    exec env depmod "\$1" "\$2" "\$3" -F "${STAGING_DIR_TARGET}${datadir}/kernel-depmod/System.map-\$4" "\$4"
+ fi
+ EOF
+ 	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
+diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+index 4d2bec4..758908b 100644
+--- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+@@ -21,7 +21,7 @@ EXTRA_OEMAKE = ""
+ # support.  Note that staprun expects it in the systemtap/runtime directory,
+ # not in /lib/modules.
+ do_compile() {
+-	if grep -q "CONFIG_UTRACE=y" ${STAGING_KERNEL_DIR}/.config
++	if grep -q "CONFIG_UTRACE=y" ${STAGING_KERNEL_BUILDDIR}/.config
+ 	then
+ 		unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS CC LD CPP
+ 		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
 
 
-On 01/12/14 17:36, Ross Burton wrote:
-> If any part of Python gets installed in a SDK, we need to ensure that all of
-> Python gets installed to avoid replacing python in the environment with a
-> minimal package set.
->
-> Signed-off-by: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> ---
->   meta/recipes-devtools/python/python_2.7.3.bb |    1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-> index 50c751e..7f13e22 100644
-> --- a/meta/recipes-devtools/python/python_2.7.3.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.3.bb
-> @@ -161,6 +161,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
->   # manual dependency additions
->   RPROVIDES_${PN}-core = "${PN}"
->   RRECOMMENDS_${PN}-core = "${PN}-readline"
-> +RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python-modules"
->   RRECOMMENDS_${PN}-crypt = "openssl"
->   RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
->
->
 
