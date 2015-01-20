@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 987CA71353
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 274BD71353
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 15:59:01 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id m20so20500124qcx.4
+	Tue, 20 Jan 2015 16:00:23 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id p6so6359841qcv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Jan 2015 07:59:01 -0800 (PST)
+	Tue, 20 Jan 2015 08:00:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=1tTyRHUsoPsftkcHNZYv2MKFXhRfssCTMp0gtzPPM7I=;
-	b=NMPFmyMPmjhl1Q0X9A4QiqIE0sn1LlQwThVQ93mzDpUTZRnIEVEVIwPbylVX91YNyZ
-	2oQDzaKBIRP0OT1VkgdZ1/MCLXfjdMZKadbdLPFwDzJOc4b4V28GalyXs/iy/NuGWCTp
-	G26eU6Z4z80VCyIEjKSHBURE4thysXuyPluscevfkpwmuuhd6EkD/xERndQyN8m47IIf
-	wARQMuO62SqbUY5xf3QugyhHY7fIcC0Soins2i3xprzyBCbFqpoJYselrZWHCAyS/wGe
-	5og4NSZD8XJ7syb5CZxsYzi83hV+alRZJBuYTw6FrEkdvwPsiIDZtAoI29q7vWTb4ZFg
-	/KIA==
-X-Gm-Message-State: ALoCoQnDJDZ4N3tGjOF3tmkywJXBFEy5WurL4opaEBeouS3nTHwQ87PQNzIH7Axb2/es/0Fl2XLd
-X-Received: by 10.224.92.205 with SMTP id s13mr59246335qam.52.1421769541620;
-	Tue, 20 Jan 2015 07:59:01 -0800 (PST)
+	bh=WoEwnfI73/vzElHtJajPIrjZpim5YNPbtRe4bBIwl/U=;
+	b=esKKs/teV9TStki2MVc/H1nF/SLt9hOsRskAZbuArEPpxEC+iDrMf4ovGjX0qOlR8x
+	uJxG25YPGuo5gwXi06ypGuBUejeOMz1lnVvB1mI9RFs+cLCe660m2aPISnfUaOfoX/Zb
+	eiH+LSA0o/rrlxQnOhnGtezZ1/T12TqCHlvR8p9ReGO/MMpvZh9Z23H0nGExhI5gSnZi
+	veOsOn8DR3Rymsy5CJPivnHWkV76kOONa5ZmaHWe8bypD7Zj8oUO86ImhlzvTTWdQzoA
+	BgPJgSOqqCSfU9/pg/xg/hpyydkfxWoryMEQI6BFSapKSJdzLmg3Hzje+X2EGYSCYb3b
+	mDJg==
+X-Gm-Message-State: ALoCoQmv5l/DqIH7GPPLx9QhU0OG6UK88RQ4r9mN5j3Bu0XZ75j7oEKDM4AK4JGnltYQAiHTtECP
+X-Received: by 10.224.7.197 with SMTP id e5mr60461675qae.64.1421769622870;
+	Tue, 20 Jan 2015 08:00:22 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 07:58:41 -0800 (PST)
-In-Reply-To: <bc679bdfe35b8c0740f66a5e5f03d8ac69c59309.1421651378.git.liezhi.yang@windriver.com>
-References: <cover.1421651378.git.liezhi.yang@windriver.com>
-	<bc679bdfe35b8c0740f66a5e5f03d8ac69c59309.1421651378.git.liezhi.yang@windriver.com>
+Received: by 10.140.96.166 with HTTP; Tue, 20 Jan 2015 08:00:02 -0800 (PST)
+In-Reply-To: <20150119135710.GA21148@sestofb10.enea.se>
+References: <1420632703-13393-1-git-send-email-maxin.john@enea.com>
+	<20150119135710.GA21148@sestofb10.enea.se>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Jan 2015 15:58:41 +0000
-Message-ID: <CAJTo0LYBoig04-HGxR=0Y0w7oM9yPjZzApJ2+Xqu-wmtARuX2g@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 20 Jan 2015 16:00:02 +0000
+Message-ID: <CAJTo0LZ2QXUwCP7B4y1ST2E0XCRozPyPgx4OqU5GrfayZ3bHiw@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@enea.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] perf: fix for rebuilding
+Subject: Re: [dizzy][PATCH] coreutils: Fix CVE-2014-9471
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Jan 2015 15:59:06 -0000
-Content-Type: multipart/alternative; boundary=089e015375e47b2b24050d1784ed
+X-List-Received-Date: Tue, 20 Jan 2015 16:00:33 -0000
+Content-Type: multipart/alternative; boundary=001a11c223f452f507050d17898c
 
---089e015375e47b2b24050d1784ed
+--001a11c223f452f507050d17898c
 Content-Type: text/plain; charset=UTF-8
 
-On 19 January 2015 at 07:11, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 19 January 2015 at 13:57, Maxin B. John <maxin.john@enea.com> wrote:
 
->  do_configure_prepend () {
-> +    # Fix for rebuilding
-> +    rm -rf ${B}/.*.d
+> On Wed, Jan 07, 2015 at 01:11:43PM +0100, Maxin B. John wrote:
+> > Fiedler Roman discovered that coreutils' parse_datetime() function
+> > has some flaws that may be exploitable if the date(1), touch(1),
+> > or potentially other programs, accept untrusted input for certain
+> > parameters. While researching this issue, he discovered that it
+> > was independently discovered by Bertrand Jacquin and reported at
+> > http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16872
+> >
 >
 
-As $B != $S, could you not just delete $B entirely and re-create it (as
-autotools.bbclass does) in do_configure()?
+Was this bug still in 8.23 so it needs to be applied to master, or is it
+dizzy-specific?
 
 Ross
 
---089e015375e47b2b24050d1784ed
+--001a11c223f452f507050d17898c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 January 2015 at 07:11, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><div id=3D":1vg" class=3D"" sty=
-le=3D"overflow:hidden">=C2=A0do_configure_prepend () {<br>
-+=C2=A0 =C2=A0 # Fix for rebuilding<br>
-+=C2=A0 =C2=A0 rm -rf ${B}/.*.d</div></blockquote></div><br>As $B !=3D $S, =
-could you not just delete $B entirely and re-create it (as autotools.bbclas=
-s does) in do_configure()?</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+On 19 January 2015 at 13:57, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@enea.com" target=3D"_blank">maxin.john@enea.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6b" class=3D"a3=
+s" style=3D"overflow:hidden">On Wed, Jan 07, 2015 at 01:11:43PM +0100, Maxi=
+n B. John wrote:<br>
+&gt; Fiedler Roman discovered that coreutils&#39; parse_datetime() function=
+<br>
+&gt; has some flaws that may be exploitable if the date(1), touch(1),<br>
+&gt; or potentially other programs, accept untrusted input for certain<br>
+&gt; parameters. While researching this issue, he discovered that it<br>
+&gt; was independently discovered by Bertrand Jacquin and reported at<br>
+&gt; <a href=3D"http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D16872" targe=
+t=3D"_blank">http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D16872</a><br>
+&gt;</div></blockquote><div><br></div><div>Was this bug still in 8.23 so it=
+ needs to be applied to master, or is it dizzy-specific?</div><div><br></di=
+v><div>Ross=C2=A0</div></div></div></div>
 
---089e015375e47b2b24050d1784ed--
+--001a11c223f452f507050d17898c--
