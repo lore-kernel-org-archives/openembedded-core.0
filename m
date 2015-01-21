@@ -1,43 +1,40 @@
-Return-Path: <rapphil@gmail.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 9342C71633
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B2E171633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 20:48:42 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id dc16so34778771qab.1
+	Wed, 21 Jan 2015 20:49:04 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id fb1so20750511pad.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 12:48:42 -0800 (PST)
+	Wed, 21 Jan 2015 12:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=IrSMdukmbVXzK7u3Nl/PFuL7pXMr7PF8ygRf3EJzjSw=;
-	b=zrPk1bWbiYeqp8NEdjwbrv2QUsP5De6yA3+9cYL0kbVL/LQXInYt9nb+r6EMxss/Mf
-	iR5AKKK4FIW6jn684lhEqoOq7Q28okD4+RFw60s7NsJGHmqDf4E9t1X4EREDfRLt9lHV
-	4Dxj9G1VxRPC+1HTMOdIGoqjJ1Jlc5sYiELgMH1KeyXSolH16V89XqsZo5D/6ZWsc6KC
-	nlNadPn63FedfqYpwzBeCnoIeA5dtPz0YThs844U5W/XVKoRl9ylcaV9rj1e1XV4cgWX
-	788WOq4xWiBcdVKblqSHviBUtlzGrltrmi04MeZhDQRBNCX/IYWgBsyn+a26GtYOtLu/
-	W1YA==
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=Gt8OQCxabWhaJCB7uvtffm8luVe+Zm9rNuSur0ClK0o=;
+	b=S82zdM+g1f2paGrH4Wj7p4FdvIQ1N5MSYxrs0z9WY+caHq4/usDhHlw9btBEHJHg6X
+	3GAMfK39G4+92RdVd3JegvQ3q7L+sw1KZcgzU5c36rDvJubMKmnwhNzO8BfK13zG65bq
+	/YUARWJcGJq2iGffXwH/8PVlvn+5neih2ciiZ72L6BglROvuenVTLOtyRPqOMdmCtHOa
+	NNKIbWOpMr65qI4O6IVszvpoV3AsYllPJQfQQdf8pX/XwrtrvZTzU/o9mjly9MWPfbbl
+	BnydFnysIQ1QQXwqgnq/1zUO7otL+LCKXubfsvwUxgIi6pC2i3uKUsAR50lQoXQ9x6lX
+	IiRQ==
+X-Received: by 10.68.135.168 with SMTP id pt8mr65925767pbb.150.1421873344719; 
+	Wed, 21 Jan 2015 12:49:04 -0800 (PST)
+Received: from [10.22.9.58] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
+	by mx.google.com with ESMTPSA id fs1sm3957402pdb.16.2015.01.21.12.49.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Jan 2015 12:49:03 -0800 (PST)
+Message-ID: <54C010BD.30904@gmail.com>
+Date: Wed, 21 Jan 2015 12:49:01 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.140.21.229 with SMTP id 92mr58013304qgl.33.1421873322772;
-	Wed, 21 Jan 2015 12:48:42 -0800 (PST)
-Received: by 10.140.240.67 with HTTP; Wed, 21 Jan 2015 12:48:42 -0800 (PST)
-In-Reply-To: <20150121203531.GM20639@denix.org>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
-	<20150121191123.GH20639@denix.org>
-	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
-	<CAENGNhc2gomqGRn3z1UantivS8wkWJn8kfDbjCL96tjTdQ4XAQ@mail.gmail.com>
-	<20150121202801.GL20639@denix.org>
-	<CAENGNheA=BVgRCcKaCSbya3O3YReTKL7cS6pJmhCm3Z8T_MTgA@mail.gmail.com>
-	<20150121203531.GM20639@denix.org>
-Date: Wed, 21 Jan 2015 18:48:42 -0200
-Message-ID: <CAENGNhex69KTSBjE=Nf6_O+bz5PcfqOfv4h4hYyJYqa1pzf4cQ@mail.gmail.com>
-From: Raphael Philipe <rapphil@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+To: openembedded-core@lists.openembedded.org
+References: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+	<c452114d4c6cb205336bc729d3fc2f57fd821bab.1421860276.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <c452114d4c6cb205336bc729d3fc2f57fd821bab.1421860276.git.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] gcc: ensure target gcc headers can be included
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,177 +47,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 20:48:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 Jan 2015 20:49:07 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Instead of HOSTCC, what is called  in your log.do_compile  ?
+Is this needed for dizzy ?
 
-Maybe it is a Yocto bug. My Linux distro is supported though.
-http://www.yoctoproject.org/docs/1.7/ref-manual/ref-manual.html#detailed-supported-distros.
+- Armin
 
-
-
-
-On Wed, Jan 21, 2015 at 6:35 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Wed, Jan 21, 2015 at 06:31:32PM -0200, Raphael Philipe wrote:
->> I just checked 2014.07, and it does not work too. Same output.
->>
->> Sorry,am I missing something?
+On 01/21/2015 09:14 AM, Paul Eggleton wrote:
+> There are a few headers installed as part of gcc-runtime (omp.h,
+> ssp/*.h). Being installed from a recipe built for the target
+> architecture, these are within the target sysroot and not
+> cross/nativesdk; thus they weren't able to be found by gcc with the
+> existing search paths. Add support for picking up these headers
+> under the sysroot supplied on the gcc command line in order to
+> resolve this.
 >
-> Looks like host-specific issue - it calls HOSTCC in there.
+> Thanks to Richard Purdie for giving me a number of pointers during
+> fixing this issue.
 >
+> Fixes [YOCTO #7141].
 >
->> On Wed, Jan 21, 2015 at 6:28 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> > On Wed, Jan 21, 2015 at 06:25:35PM -0200, Raphael Philipe wrote:
->> >> Denys, I tested your patch and It seems not to be working for
->> >> u-boot-fw-utils-cross
->> >
->> > Did the old version work for you?
->> >
->> >
->> >> $ bitbake u-boot-fw-utils-cross
->> >> Loading cache: 100%
->> >> |########################################################################################################################################################################|
->> >> ETA:  00:00:00
->> >> Loaded 1921 entries from dependency cache.
->> >> Parsing recipes: 100%
->> >> |######################################################################################################################################################################|
->> >> Time: 00:00:00
->> >> Parsing of 1451 .bb files complete (1450 cached, 1 parsed). 1914
->> >> targets, 85 skipped, 0 masked, 0 errors.
->> >> NOTE: Resolving any missing task queue dependencies
->> >>
->> >> Build Configuration:
->> >> BB_VERSION        = "1.25.0"
->> >> BUILD_SYS         = "x86_64-linux"
->> >> NATIVELSBSTRING   = "Ubuntu-14.04"
->> >> TARGET_SYS        = "arm-poky-linux-gnueabi"
->> >> MACHINE           = "beaglebone"
->> >> DISTRO            = "poky"
->> >> DISTRO_VERSION    = "1.7"
->> >> TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa8"
->> >> TARGET_FPU        = "vfp-neon"
->> >> meta
->> >> meta-yocto
->> >> meta-yocto-bsp    = "master:45d090024d7b88c434fef2e88317946449e32c2c"
->> >> meta-oe           = "mymaster:5b4413ccf329a981bee976c9fcde5d2872f0defb"
->> >>
->> >> NOTE: Preparing RunQueue
->> >> NOTE: Executing SetScene Tasks
->> >> NOTE: Executing RunQueue Tasks
->> >> ERROR: Function failed: do_compile (log file is located at
->> >> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549)
->> >> ERROR: Logfile of failure stored in:
->> >> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549
->> >> Log data follows:
->> >> | DEBUG: Executing shell function do_compile
->> >> | NOTE: make -j 4 CROSS_COMPILE=arm-poky-linux-gnueabi-
->> >> CC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfloat-abi=hard
->> >> -mfpu=neon -mtune=cortex-a8  am335x_evm_config
->> >> |   HOSTCC  scripts/basic/fixdep
->> >> |   HOSTCC  scripts/kconfig/conf.o
->> >> |   HOSTCC  scripts/kconfig/zconf.tab.o
->> >> |   HOSTLD  scripts/kconfig/conf
->> >> | #
->> >> | # configuration written to .config
->> >> | #
->> >> | #
->> >> | # configuration written to spl/.config
->> >> | #
->> >> | NOTE: make -j 4 CROSS_COMPILE=arm-poky-linux-gnueabi-
->> >> CC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfloat-abi=hard
->> >> -mfpu=neon -mtune=cortex-a8  env
->> >> | scripts/kconfig/conf --silentoldconfig Kconfig
->> >> | scripts/kconfig/conf --silentoldconfig Kconfig
->> >> |   CHK     include/config.h
->> >> |   GEN     include/autoconf.mk
->> >> |   GEN     include/autoconf.mk.dep
->> >> |   GEN     spl/include/autoconf.mk
->> >> |   HOSTCC  tools/env/fw_env.o
->> >> |   HOSTCC  tools/env/fw_env_main.o
->> >> |   HOSTCC  tools/env/crc32.o
->> >> |   HOSTCC  tools/env/ctype.o
->> >> | tools/env/fw_env_main.c:30:19: fatal error: fcntl.h: No such file or directory
->> >> |  #include <fcntl.h>
->> >> |                    ^
->> >> | compilation terminated.
->> >> | In file included from tools/env/crc32.c:1:0:
->> >> | tools/env/../../lib/crc32.c:12:23: fatal error: arpa/inet.h: No such
->> >> file or directory
->> >> |  #include <arpa/inet.h>
->> >> |                        ^
->> >> | compilation terminated.
->> >> | make[1]: *** [tools/env/fw_env_main.o] Error 1
->> >> | make[1]: *** Waiting for unfinished jobs....
->> >> | make[1]: *** [tools/env/crc32.o] Error 1
->> >> | tools/env/fw_env.c:16:19: fatal error: fcntl.h: No such file or directory
->> >> |  #include <fcntl.h>
->> >> |                    ^
->> >> | compilation terminated.
->> >> | make[1]: *** [tools/env/fw_env.o] Error 1
->> >> | make: *** [env] Error 2
->> >> | ERROR: oe_runmake failed
->> >> | WARNING: exit code 1 from a shell command.
->> >> | ERROR: Function failed: do_compile (log file is located at
->> >> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549)
->> >> ERROR: Task 6 (/home/rapphil/work/poky/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb,
->> >> do_compile) failed with exit code '1'
->> >> NOTE: Tasks Summary: Attempted 658 tasks of which 656 didn't need to
->> >> be rerun and 1 failed.
->> >> No currently running tasks (658 of 661)
->> >>
->> >> Summary: 1 task failed:
->> >>   /home/rapphil/work/poky/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb,
->> >> do_compile
->> >>
->> >> On Wed, Jan 21, 2015 at 6:11 PM, Otavio Salvador
->> >> <otavio@ossystems.com.br> wrote:
->> >> > On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> >> >> On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
->> >> >>> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> >> >>> > From: Denys Dmytriyenko <denys@ti.com>
->> >> >>> >
->> >> >>> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->> >> >>> ...
->> >> >>> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
->> >> >>> > @@ -0,0 +1,36 @@
->> >> >>> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
->> >> >>> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> >> >>> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
->> >> >>> > +Subject: [PATCH] tools: env: fix build error
->> >> >>> > +
->> >> >>> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
->> >> >>> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
->> >> >>> > +is defined.
->> >> >>> > +(I do not think this is the right way to fix the problem, but
->> >> >>> > +for now I do not have enough time to take a close look.)
->> >> >>> > +
->> >> >>> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
->> >> >>> > +
->> >> >>> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> >> >>> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
->> >> >>>
->> >> >>> Is it necessary? In meta-fsl-arm we don't have this patch and get the
->> >> >>> tools built.
->> >> >>
->> >> >> Really? The patch above is rather self-explanatory. The issue was confirmed by
->> >> >> U-boot maintainers and the workaround provided by one of the core developers.
->> >> >> I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
->> >> >> defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
->> >> >> whether your platforms are affected or not. It does affect our platforms
->> >> >> (among many others), including beaglebone.
->> >> >
->> >> > I think this is for the cross tool only.
->> >> >
->> >> > --
->> >> > Otavio Salvador                             O.S. Systems
->> >> > http://www.ossystems.com.br        http://code.ossystems.com.br
->> >> > Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->> >> > --
->> >> > _______________________________________________
->> >> > Openembedded-core mailing list
->> >> > Openembedded-core@lists.openembedded.org
->> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >>
->>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+>   .../gcc/gcc-4.9/target-gcc-includedir.patch        | 81 ++++++++++++++++++++++
+>   2 files changed, 82 insertions(+)
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 2568e99..0f407b7 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -74,6 +74,7 @@ SRC_URI = "\
+>       file://0057-aarch64-config.patch \
+>       file://0058-gcc-r212171.patch \
+>       file://0059-gcc-PR-rtl-optimization-63348.patch \
+> +    file://target-gcc-includedir.patch \
+>   "
+>   SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+>   SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+> new file mode 100644
+> index 0000000..f48c66d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+> @@ -0,0 +1,81 @@
+> +Ensure target gcc headers can be included
+> +
+> +There are a few headers installed as part of the OpenEmbedded
+> +gcc-runtime target (omp.h, ssp/*.h). Being installed from a recipe
+> +built for the target architecture, these are within the target
+> +sysroot and not cross/nativesdk; thus they weren't able to be
+> +found by gcc with the existing search paths. Add support for
+> +picking up these headers under the sysroot supplied on the gcc
+> +command line in order to resolve this.
+> +
+> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> +
+> +Upstream-Status: Pending
+> +
+> +--- a/gcc/Makefile.in	2014-12-23 11:57:33.327873331 +0000
+> ++++ b/gcc/Makefile.in	2015-01-21 11:32:35.447305394 +0000
+> +@@ -587,6 +587,7 @@
+> +
+> + # Directory in which the compiler finds libraries etc.
+> + libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(version)
+> ++libsubdir_target = gcc/$(target_noncanonical)/$(version)
+> + # Directory in which the compiler finds executables
+> + libexecsubdir = $(libexecdir)/gcc/$(target_noncanonical)/$(version)
+> + # Directory in which all plugin resources are installed
+> +@@ -2534,6 +2535,7 @@
+> +
+> + PREPROCESSOR_DEFINES = \
+> +   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
+> ++  -DGCC_INCLUDE_SUBDIR_TARGET=\"$(libsubdir_target)/include\" \
+> +   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
+> +   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
+> +   -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
+> +--- a/gcc/cppdefault.c	2015-01-13 17:40:26.131012725 +0000
+> ++++ b/gcc/cppdefault.c	2015-01-21 11:30:08.928426492 +0000
+> +@@ -59,6 +59,10 @@
+> +     /* This is the dir for gcc's private headers.  */
+> +     { GCC_INCLUDE_DIR, "GCC", 0, 0, 0, 0 },
+> + #endif
+> ++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+> ++    /* This is the dir for gcc's private headers under the specified sysroot.  */
+> ++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0 },
+> ++#endif
+> + #ifdef LOCAL_INCLUDE_DIR
+> +     /* /usr/local/include comes before the fixincluded header files.  */
+> +     { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },
+> +diff --git a/gcc/defaults.h b/gcc/defaults.h
+> +index f94ae17..d98b40b 100644
+> +--- a/gcc/defaults.h
+> ++++ b/gcc/defaults.h
+> +@@ -1390,4 +1390,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+> +
+> + #endif /* GCC_INSN_FLAGS_H  */
+> +
+> ++/* Default prefixes to attach to command names.  */
+> ++
+> ++#ifndef STANDARD_STARTFILE_PREFIX_1
+> ++#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+> ++#endif
+> ++#ifndef STANDARD_STARTFILE_PREFIX_2
+> ++#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+> ++#endif
+> ++
+> + #endif  /* ! GCC_DEFAULTS_H */
+> +diff --git a/gcc/gcc.c b/gcc/gcc.c
+> +index 9f0b781..174fca8 100644
+> +--- a/gcc/gcc.c
+> ++++ b/gcc/gcc.c
+> +@@ -1189,13 +1189,6 @@ static const char *gcc_libexec_prefix;
+> +
+> + /* Default prefixes to attach to command names.  */
+> +
+> +-#ifndef STANDARD_STARTFILE_PREFIX_1
+> +-#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+> +-#endif
+> +-#ifndef STANDARD_STARTFILE_PREFIX_2
+> +-#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+> +-#endif
+> +-
+> + #ifdef CROSS_DIRECTORY_STRUCTURE  /* Don't use these prefixes for a cross compiler.  */
+> + #undef MD_EXEC_PREFIX
+> + #undef MD_STARTFILE_PREFIX
+>
 
