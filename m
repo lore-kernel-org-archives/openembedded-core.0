@@ -1,43 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6258765C7B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C29065C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 12:27:53 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id em10so22361294wid.5
+	Wed, 21 Jan 2015 13:17:18 +0000 (UTC)
+Received: by mail-yk0-f176.google.com with SMTP id 20so7713827yks.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 04:27:54 -0800 (PST)
+	Wed, 21 Jan 2015 05:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=YneMhJDhUs0w45cu+zKAN3RY2BRQo3dBpk4WzRTLnrM=;
-	b=I5ebElzEk85GzNaLaI0DLynsr8/1kvRpjHgSsc3JWdeGrmBk0oPGitgHimTZRbZxxi
-	mnp4xBANRppcdgsIZrzAEh3/MbPh8vh+eDlzgIAN/1/+8D4W/HaBOWcveSe1q9N9w5Ms
-	2mL0YFUEOPmBF42DNKChssQtPlH/vjqT3XKM3yUmLNvchEo89owERTHhEGZJiZsumqr4
-	pbiVbfErMW03/8rOkjDxvvl+HSs1cfmxnhmaYsTRzjQt63dbSD7wAVyy4pMcp0WCAWwx
-	gXBJIxL/7JOBrbuKVHrFTeUexRQ+kUbGuymtyac8lpG4xvfaGRhf6UBtiDZwWa18zjDS
-	jPpw==
-X-Received: by 10.180.108.143 with SMTP id hk15mr57569733wib.6.1421843274140; 
-	Wed, 21 Jan 2015 04:27:54 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	a1sm25332492wjx.28.2015.01.21.04.27.53
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Jan 2015 04:27:53 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 21 Jan 2015 13:27:56 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150121122756.GA2456@jama>
-References: <20141111171344.GA2453@jama>
-	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
-	<1418221117-12710-2-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0LaOzuaeWJ-AQO1Bragu_w36f-tRmwUHLOtKNoxQ4N0VKg@mail.gmail.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=zStMLncCQNqqq7kvRK0AF4xjpgYQ31WglHUz8d+DpN4=;
+	b=DjxidPVbP3ZBbNL+ioU5wwBtZ96TueOUv78tDbf/d9/fS/vwWUqtcHRrhjy5ny5Tnh
+	O0L1pJhhzobvQ2W79vm5i2lqcnL0RBBRJq1nf3FFSKE1C/0FbA/gVW/jLqDqZ4iFsWPm
+	HEgTdnj04iWZm6cLI4kWtWnvv3sI26VD/GPlNFB/VhZMBoEsx5rM3paxXC//8KEWxX54
+	Q7g00U6kKzwxBc74ltlGi5h6jEQ4fkyV4ZPT7qS+wOrHMHtNUChpfWjnhEwbfmTjaMtt
+	7+8AKxBvvDnupXFoLcA/1flpsIqoZ2Stj931RfmwXi/bpg5rXNSEEiWWTow2joalS1BR
+	2SvA==
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaOzuaeWJ-AQO1Bragu_w36f-tRmwUHLOtKNoxQ4N0VKg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 2/4] recipes: add x11 to required DISTRO_FEATURES
+X-Received: by 10.236.199.103 with SMTP id w67mr24017177yhn.37.1421846239332; 
+	Wed, 21 Jan 2015 05:17:19 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Wed, 21 Jan 2015 05:17:19 -0800 (PST)
+In-Reply-To: <1421165391-30203-1-git-send-email-denis@denix.org>
+References: <1421165391-30203-1-git-send-email-denis@denix.org>
+Date: Wed, 21 Jan 2015 11:17:19 -0200
+X-Google-Sender-Auth: tmY4uP1a52bDetP30HxuXTlZwQE
+Message-ID: <CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,50 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 12:27:56 -0000
-X-Groupsio-MsgNum: 61550
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Jan 2015 13:17:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
---dDRMvlgZJXvWKvBx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+...
+> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+> @@ -0,0 +1,36 @@
+> +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
+> +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> +Date: Wed, 3 Dec 2014 10:22:50 +0900
+> +Subject: [PATCH] tools: env: fix build error
+> +
+> +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
+> +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
+> +is defined.
+> +(I do not think this is the right way to fix the problem, but
+> +for now I do not have enough time to take a close look.)
+> +
+> +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
+> +
+> +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> +Reported-by: Denys Dmytriyenko <denys@ti.com>
 
-On Tue, Jan 20, 2015 at 09:17:01PM +0000, Burton, Ross wrote:
-> On 10 December 2014 at 14:18, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> >  DEPENDS =3D "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
-> >
-> > +# depends on virtual/libx11
-> > +REQUIRED_DISTRO_FEATURES =3D "x11"
->=20
->=20
-> Please drop piglit from this series, as that depending on x11 is a bug and
-> I've a branch that is sorting that.
->=20
-> But this does make me wonder why we can't make bitbake handle this for
-> us...  just thinking out loud... would it be possible to have a "recursiv=
-e"
-> exception so that libx11 can say it needs the x11 DISTRO_FEATURE and
-> anything that depends on libx11 is cleanly handled instead of erroring?
+Is it necessary? In meta-fsl-arm we don't have this patch and get the
+tools built.
 
-We have discussed this in July..
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---dDRMvlgZJXvWKvBx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlS/m0wACgkQN1Ujt2V2gBx/hwCfTTkg5GMsDXax2aQ8iEaRkhxC
-IjgAn3L2rVQJ7sAI31namoSz/W8BMF09
-=CJEL
------END PGP SIGNATURE-----
-
---dDRMvlgZJXvWKvBx--
