@@ -1,38 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CCEF765C7B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6258765C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 11:48:31 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id a108so25781957qge.12
+	Wed, 21 Jan 2015 12:27:53 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id em10so22361294wid.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 03:48:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7zDI5P7h0lIrjImRh7SRhSoGoe8Yls+dW7ZloLcgjuU=;
-	b=E1uP0CyEJ3V+8pcDYXYkjA3sEBg2lNX/irOjYaxUv58so40foUmT+PUzIVVorzPwaW
-	AdmseLBEk7qH8GzG1OwgakckHvskLZnkPJu4LAmGtMPUDMsnWytHpmXQx7B7wh0asD/k
-	SFCYCfHFyNpn4lpP+zuw4tejg2YNR4kTTsC+RAPQ1ptvZAgT04w/mVo+FwINPNo5DvBq
-	s9ZHfHsMDRaLTDQ5/tYGPC62qlIGPVUetZ4sEFilv8y4aTqyuidzaq1ddO7swPtqjVY3
-	JfH5d89r54RavsEjwHAOdLdmfUABYWdluWr06bkI9bI6ZOM364JWMezR85iEd/ctTk7a
-	nM8g==
-X-Gm-Message-State: ALoCoQnlDO9Lqf5UArS6celv9IIqhN9n36mwxyNIePyz3v7KY33q2VdP/SpmEqnc8xSuxYH936DY
-X-Received: by 10.140.94.195 with SMTP id g61mr46172016qge.80.1421840912150;
-	Wed, 21 Jan 2015 03:48:32 -0800 (PST)
+	Wed, 21 Jan 2015 04:27:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=YneMhJDhUs0w45cu+zKAN3RY2BRQo3dBpk4WzRTLnrM=;
+	b=I5ebElzEk85GzNaLaI0DLynsr8/1kvRpjHgSsc3JWdeGrmBk0oPGitgHimTZRbZxxi
+	mnp4xBANRppcdgsIZrzAEh3/MbPh8vh+eDlzgIAN/1/+8D4W/HaBOWcveSe1q9N9w5Ms
+	2mL0YFUEOPmBF42DNKChssQtPlH/vjqT3XKM3yUmLNvchEo89owERTHhEGZJiZsumqr4
+	pbiVbfErMW03/8rOkjDxvvl+HSs1cfmxnhmaYsTRzjQt63dbSD7wAVyy4pMcp0WCAWwx
+	gXBJIxL/7JOBrbuKVHrFTeUexRQ+kUbGuymtyac8lpG4xvfaGRhf6UBtiDZwWa18zjDS
+	jPpw==
+X-Received: by 10.180.108.143 with SMTP id hk15mr57569733wib.6.1421843274140; 
+	Wed, 21 Jan 2015 04:27:54 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	a1sm25332492wjx.28.2015.01.21.04.27.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Jan 2015 04:27:53 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 21 Jan 2015 13:27:56 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20150121122756.GA2456@jama>
+References: <20141111171344.GA2453@jama>
+	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
+	<1418221117-12710-2-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0LaOzuaeWJ-AQO1Bragu_w36f-tRmwUHLOtKNoxQ4N0VKg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 21 Jan 2015 03:48:11 -0800 (PST)
-In-Reply-To: <54B48BB1.1050806@twobit.us>
-References: <1421009125-13379-1-git-send-email-flihp@twobit.us>
-	<CAJTo0LaqfgwbwvN5BR3dzxP-LbgfocwZO2GjT1-Y9Qyy8xyg=w@mail.gmail.com>
-	<54B48BB1.1050806@twobit.us>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Jan 2015 11:48:11 +0000
-Message-ID: <CAJTo0Laxhzq+dOO5GNMmATLKpZws059ma+TKHQr5bk3JOimx2Q@mail.gmail.com>
-To: Philip Tricca <flihp@twobit.us>
+In-Reply-To: <CAJTo0LaOzuaeWJ-AQO1Bragu_w36f-tRmwUHLOtKNoxQ4N0VKg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-2.7-manifest: Add package for contextlib module
+Subject: Re: [PATCHv2 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 11:48:39 -0000
-Content-Type: multipart/alternative; boundary=001a113a59ee7f025b050d2822e4
+X-List-Received-Date: Wed, 21 Jan 2015 12:27:56 -0000
+X-Groupsio-MsgNum: 61550
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
 
---001a113a59ee7f025b050d2822e4
-Content-Type: text/plain; charset=UTF-8
-
-On 13 January 2015 at 03:06, Philip Tricca <flihp@twobit.us> wrote:
-
-> Rebased on master before sending. No changes since. Did you mean
-> master-next? I wasn't sure which was preferred but I can submit the
-> patch on either.
->
-
-Generally, keep to master.
-
-
-> https://github.com/flihp/openembedded-core/tree/contextlib
->
-> Thanks for taking a look at this and sorry for the confusion.
->
-
-Thanks for this - I've discovered it was the very long lines being mangled
-by email or copy/paste, but taking the commit directly from there works
-fine.
-
-Cheers
-Ross
-
---001a113a59ee7f025b050d2822e4
-Content-Type: text/html; charset=UTF-8
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 January 2015 at 03:06, Philip Tricca <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:flihp@twobit.us" target=3D"_blank">flihp@twobit.us</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":2yc" class=3D"a3s" styl=
-e=3D"overflow:hidden">Rebased on master before sending. No changes since. D=
-id you mean<br>
-master-next? I wasn&#39;t sure which was preferred but I can submit the<br>
-<span class=3D"il">patch</span> on either.<br></div></blockquote><div><br><=
-/div><div>Generally, keep to master.</div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><div id=3D":2yc" class=3D"a3s" style=3D"overflow:hidden">
-<a href=3D"https://github.com/flihp/openembedded-core/tree/contextlib" targ=
-et=3D"_blank">https://github.com/flihp/openembedded-core/tree/contextlib</a=
-><br>
-<br>
-Thanks for taking a look at this and sorry for the confusion.<br></div></bl=
-ockquote></div><br>Thanks for this - I&#39;ve discovered it was the very lo=
-ng lines being mangled by email or copy/paste, but taking the commit direct=
-ly from there works fine.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Cheers</div><div class=3D"gmail_extra">Ross</div></div>
+On Tue, Jan 20, 2015 at 09:17:01PM +0000, Burton, Ross wrote:
+> On 10 December 2014 at 14:18, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> >  DEPENDS =3D "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+> >
+> > +# depends on virtual/libx11
+> > +REQUIRED_DISTRO_FEATURES =3D "x11"
+>=20
+>=20
+> Please drop piglit from this series, as that depending on x11 is a bug and
+> I've a branch that is sorting that.
+>=20
+> But this does make me wonder why we can't make bitbake handle this for
+> us...  just thinking out loud... would it be possible to have a "recursiv=
+e"
+> exception so that libx11 can say it needs the x11 DISTRO_FEATURE and
+> anything that depends on libx11 is cleanly handled instead of erroring?
 
---001a113a59ee7f025b050d2822e4--
+We have discussed this in July..
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlS/m0wACgkQN1Ujt2V2gBx/hwCfTTkg5GMsDXax2aQ8iEaRkhxC
+IjgAn3L2rVQJ7sAI31namoSz/W8BMF09
+=CJEL
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
