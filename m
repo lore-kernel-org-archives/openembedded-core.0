@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 86AFE72BCE
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A61160DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:59:50 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id w62so18090589wes.7
+	Wed, 21 Jan 2015 18:25:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0LIP3hl015982
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+r2qXVHJFkS+Ls+pc21hIOevrwOoJB8o+WLJd271pWk=;
-	b=kaUdliE087U0b2M+AgQ/KsigykoOKpcVzzDrUDyLhWMOBtFFECbJ8BP4M0/RCb8tyN
-	G7OC/AWeSh953FHuNXP0jpyvWuA5DA53snQp4kaT1yFAB0zGCidn4wx8uVhBIoibquQG
-	7ur05l4IG5J9FDQqOWaSwojg0WxnMTWt2C9o0d62DQoGRBlg7SNqoOUNO3KvnQ0cE7z9
-	CEmoXlSyJrUglkXBd5fIp2DNWG6Q3bv++nIgcy/XmZYqtQF21h78IlFhj4hRaUDJ8anZ
-	VTtWF5rh4/saOZA2A4z7BJu8ZV3ps2U/1tygip1GgzG5wwjYdJYlPU9u75s9+57JO1IA
-	o8cA==
-X-Gm-Message-State: ALoCoQmJw2zO+Jhn8jyYSOAwpjsoZnIgM7gZD9G2+YcVi+Qi4Kf2Bo6pXknn9ng99EVW97DzamNa
-X-Received: by 10.180.198.166 with SMTP id jd6mr58453493wic.18.1421863190809; 
-	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id dc1sm8202881wib.18.2015.01.21.09.59.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Jan 2015 17:58:14 +0000
-Message-Id: <1421863094-7339-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] insane: add unknown-configure-option to default WARN_QA
+	Wed, 21 Jan 2015 10:25:03 -0800 (PST)
+Received: from op3.wrs.com (128.224.56.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 21 Jan 2015 10:25:02 -0800
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Jan 2015 13:25:06 -0500
+Message-ID: <1421864706-26101-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.2.1
+MIME-Version: 1.0
+Subject: [PATCH] base-files/profile: change EDITOR to not be busybox specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 17:59:55 -0000
+X-List-Received-Date: Wed, 21 Jan 2015 18:25:04 -0000
+Content-Type: text/plain
 
+Setting "EDITOR=/bin/vi" breaks on non-busybox systems, as
+vim will populate /usr/bin/vi instead, and you get stuff like:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+  op3:~/poky/meta-builder$ git commit -s
+  error: cannot run /bin/vi: No such file or directory
+  error: unable to start editor '/bin/vi'
+  Please supply the message using either -m or -F option.
+  op3:~/poky/meta-builder$ which vi
+  /usr/bin/vi
+  op3:~/poky/meta-builder$
+
+Since we've already specified a proper path above in the profile,
+we've no need to call out where in the path vi lives, and hence
+this will work with busybox and a full vim install w/o busybox.
+
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 ---
- meta/classes/insane.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/base-files/base-files/profile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 71e94a0..06246da 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -30,6 +30,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
-             pn-overrides infodir build-deps file-rdeps pkgconfig-sysroot \
-+            unknown-configure-option \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index 88ab8d877b0d..53c2680409dd 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -2,7 +2,7 @@
+ # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+ 
+ PATH="/usr/local/bin:/usr/bin:/bin"
+-EDITOR="/bin/vi"			# needed for packages like cron
++EDITOR="vi"			# needed for packages like cron, git-commit
+ test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For screen etc.
+ 
+ if [ ! -e /etc/localtime -a ! -e /etc/TZ ]; then
 -- 
-1.7.10.4
+2.2.1
 
 
