@@ -1,32 +1,35 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5CC60670
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E7BC971144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 19:22:02 +0000 (UTC)
-Received: from gandalf.denix.org ([108.18.33.160]) by vms173021.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NIJ007UJKGNFH61@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 21 Jan 2015 13:22:00 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=Kc1larcG c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=6ohNodAXAAAA:8 a=Q4-j1AaZAAAA:8
-	a=d2NdlCup5o22426ANDkA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9C5682018E; Wed,
-	21 Jan 2015 14:21:59 -0500 (EST)
-Date: Wed, 21 Jan 2015 14:21:58 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Chunrong Guo <B40290@freescale.com>
-Message-id: <20150121192158.GI20639@denix.org>
-References: <1418268755-19969-1-git-send-email-B40290@freescale.com>
-MIME-version: 1.0
-In-reply-to: <1418268755-19969-1-git-send-email-B40290@freescale.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
+	Wed, 21 Jan 2015 19:29:22 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id x12so34348627qac.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jan 2015 11:29:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=j92YhFHsfx9UyYr6fl+5XPsYg8EzlvFBDh/Wj21EdwY=;
+	b=xboGjxTU6Ov/7aaCC7tcmW3DhamKDxHvpyZu8JWaTNYIvDgbE4AQ766pInSYYBNdrC
+	W5dGRidBC4dhDq2FokErN4dxv8/9+XgkCq80iByoiSCDDWnENoqtGc3aMPT9McQsemLp
+	1xp+3hRzHFykr1BeNUqa62WLT7crbiF9YlKlQegHilyJ0m9CWtEDXG1y3yRDDjszPKNg
+	yc5jA18Qx3o0HOHkJG3mADlEXPBOxMLEVwJphwzC/JevoBeJnSPAY2rEFUzEmSnWlb6y
+	n++VI28wlwmEupNi0B/1CQmR6BwkH62QrxEdm1DVdY0MFGfSor360kYj4WIvuQcMr243
+	NQaw==
+MIME-Version: 1.0
+X-Received: by 10.140.96.225 with SMTP id k88mr45123053qge.104.1421868563131; 
+	Wed, 21 Jan 2015 11:29:23 -0800 (PST)
+Received: by 10.96.30.35 with HTTP; Wed, 21 Jan 2015 11:29:23 -0800 (PST)
+In-Reply-To: <1421864706-26101-1-git-send-email-paul.gortmaker@windriver.com>
+References: <1421864706-26101-1-git-send-email-paul.gortmaker@windriver.com>
+Date: Wed, 21 Jan 2015 13:29:23 -0600
+Message-ID: <CACS+7ZSzfPxwYc1ksmzLk-f5dOuk_Ng4WC8BWy03ofnAx1UUmA@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base-files/profile: change EDITOR to not be busybox specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,79 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 19:22:12 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 21 Jan 2015 19:29:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Dec 11, 2014 at 11:32:35AM +0800, Chunrong Guo wrote:
->   This adds support to build multiple U-Boot configs for a machine; this
->   is useful when we have support for different media boots which require
->   different U-Boot configuration (e.g: eMMC and NAND).
-
-Any examples how to use this?
-
--- 
-Denys
-
-
-> Signed-off-by: Chunrong Guo <B40290@freescale.com>
+On 21 January 2015 at 12:25, Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+> Setting "EDITOR=/bin/vi" breaks on non-busybox systems, as
+> vim will populate /usr/bin/vi instead, and you get stuff like:
+>
+>   op3:~/poky/meta-builder$ git commit -s
+>   error: cannot run /bin/vi: No such file or directory
+>   error: unable to start editor '/bin/vi'
+>   Please supply the message using either -m or -F option.
+>   op3:~/poky/meta-builder$ which vi
+>   /usr/bin/vi
+>   op3:~/poky/meta-builder$
+>
+> Since we've already specified a proper path above in the profile,
+> we've no need to call out where in the path vi lives, and hence
+> this will work with busybox and a full vim install w/o busybox.
+>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 > ---
->  meta/classes/uboot-config.bbclass | 37 ++++++++++++++-----------------------
->  1 file changed, 14 insertions(+), 23 deletions(-)
-> 
-> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-> index b467659..cb061af 100644
-> --- a/meta/classes/uboot-config.bbclass
-> +++ b/meta/classes/uboot-config.bbclass
-> @@ -31,28 +31,19 @@ python () {
->          return
->  
->      ubootconfig = (d.getVar('UBOOT_CONFIG', True) or "").split()
-> -    if len(ubootconfig) > 1:
-> -        raise bb.parse.SkipPackage('You can only have a single default for UBOOT_CONFIG.')
-> +    if len(ubootconfig) > 0:
-> +        for config in ubootconfig:
-> +            for f, v in ubootconfigflags.items():
-> +                if config == f: 
-> +                    items = v.split(',')
-> +                    if items[0] and len(items) > 2:
-> +                        raise bb.parse.SkipPackage('Only config,images can be specified!')
-> +                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
-> +                    # IMAGE_FSTYPES appending
-> +                    if len(items) > 1 and items[1]:
-> +                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-> +                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-> +                    break
->      elif len(ubootconfig) == 0:
-> -        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
-> -    ubootconfig = ubootconfig[0]
-> -
-> -    for f, v in ubootconfigflags.items():
-> -        items = v.split(',')
-> -        if items[0] and len(items) > 2:
-> -            raise bb.parse.SkipPackage('Only config,images can be specified!')
-> -
-> -        if ubootconfig == f:
-> -            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
-> -            d.setVar('UBOOT_MACHINE', items[0])
-> -
-> -            # IMAGE_FSTYPES appending
-> -            if len(items) > 1 and items[1]:
-> -                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-> -                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-> -
-> -            # Go out as we found a match!
-> -            break
-> -    else:
-> -        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
-> +       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
->  }
-> -- 
-> 1.9.2
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  meta/recipes-core/base-files/base-files/profile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+> index 88ab8d877b0d..53c2680409dd 100644
+> --- a/meta/recipes-core/base-files/base-files/profile
+> +++ b/meta/recipes-core/base-files/base-files/profile
+> @@ -2,7 +2,7 @@
+>  # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+>
+>  PATH="/usr/local/bin:/usr/bin:/bin"
+> -EDITOR="/bin/vi"                       # needed for packages like cron
+> +EDITOR="vi"                    # needed for packages like cron, git-commit
+>  test -z "$TERM" && TERM="vt100"        # Basic terminal capab. For screen etc.
+>
+>  if [ ! -e /etc/localtime -a ! -e /etc/TZ ]; then
+
+While I agree with this change, arguably busybox should also be
+changed. Everywhere I look "vi" lives in /usr/bin. FreeBSD, NetBSD,
+Ubuntu, and Slackware all seem to put vi in /usr/bin.
+
+The same is true of getopt.
+
+What are other people's thoughs?
 
