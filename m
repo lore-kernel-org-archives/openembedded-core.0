@@ -1,35 +1,32 @@
 Return-Path: <denis@denix.org>
 Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
 	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E9A60670
+	by mail.openembedded.org (Postfix) with ESMTP id 0C5CC60670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 19:11:29 +0000 (UTC)
+	Wed, 21 Jan 2015 19:22:02 +0000 (UTC)
 Received: from gandalf.denix.org ([108.18.33.160]) by vms173021.mailsrvcs.net
 	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
 	16 2014))
-	with ESMTPSA id <0NIJ009J0JZ0M531@vms173021.mailsrvcs.net> for
+	with ESMTPSA id <0NIJ007UJKGNFH61@vms173021.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Wed, 21 Jan 2015 13:11:29 -0600 (CST)
+	Wed, 21 Jan 2015 13:22:00 -0600 (CST)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.1 cv=Kc1larcG c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
 	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8
-	a=voM4FWlXAAAA:8 a=I9YJksrXNhgdcEGocmIA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 16DDB2018E; Wed,
-	21 Jan 2015 14:11:23 -0500 (EST)
-Date: Wed, 21 Jan 2015 14:11:23 -0500
+	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=6ohNodAXAAAA:8 a=Q4-j1AaZAAAA:8
+	a=d2NdlCup5o22426ANDkA:9	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9C5682018E; Wed,
+	21 Jan 2015 14:21:59 -0500 (EST)
+Date: Wed, 21 Jan 2015 14:21:58 -0500
 From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-id: <20150121191123.GH20639@denix.org>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+To: Chunrong Guo <B40290@freescale.com>
+Message-id: <20150121192158.GI20639@denix.org>
+References: <1418268755-19969-1-git-send-email-B40290@freescale.com>
 MIME-version: 1.0
-In-reply-to: <CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+In-reply-to: <1418268755-19969-1-git-send-email-B40290@freescale.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +39,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 19:11:36 -0000
+X-List-Received-Date: Wed, 21 Jan 2015 19:22:12 -0000
 Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
 
-On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
-> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> > From: Denys Dmytriyenko <denys@ti.com>
-> >
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ...
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
-> > @@ -0,0 +1,36 @@
-> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
-> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
-> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
-> > +Subject: [PATCH] tools: env: fix build error
-> > +
-> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
-> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
-> > +is defined.
-> > +(I do not think this is the right way to fix the problem, but
-> > +for now I do not have enough time to take a close look.)
-> > +
-> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
-> > +
-> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
-> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
-> 
-> Is it necessary? In meta-fsl-arm we don't have this patch and get the
-> tools built.
+On Thu, Dec 11, 2014 at 11:32:35AM +0800, Chunrong Guo wrote:
+>   This adds support to build multiple U-Boot configs for a machine; this
+>   is useful when we have support for different media boots which require
+>   different U-Boot configuration (e.g: eMMC and NAND).
 
-Really? The patch above is rather self-explanatory. The issue was confirmed by 
-U-boot maintainers and the workaround provided by one of the core developers.
-I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's 
-defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and 
-whether your platforms are affected or not. It does affect our platforms 
-(among many others), including beaglebone.
+Any examples how to use this?
 
 -- 
 Denys
+
+
+> Signed-off-by: Chunrong Guo <B40290@freescale.com>
+> ---
+>  meta/classes/uboot-config.bbclass | 37 ++++++++++++++-----------------------
+>  1 file changed, 14 insertions(+), 23 deletions(-)
+> 
+> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+> index b467659..cb061af 100644
+> --- a/meta/classes/uboot-config.bbclass
+> +++ b/meta/classes/uboot-config.bbclass
+> @@ -31,28 +31,19 @@ python () {
+>          return
+>  
+>      ubootconfig = (d.getVar('UBOOT_CONFIG', True) or "").split()
+> -    if len(ubootconfig) > 1:
+> -        raise bb.parse.SkipPackage('You can only have a single default for UBOOT_CONFIG.')
+> +    if len(ubootconfig) > 0:
+> +        for config in ubootconfig:
+> +            for f, v in ubootconfigflags.items():
+> +                if config == f: 
+> +                    items = v.split(',')
+> +                    if items[0] and len(items) > 2:
+> +                        raise bb.parse.SkipPackage('Only config,images can be specified!')
+> +                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
+> +                    # IMAGE_FSTYPES appending
+> +                    if len(items) > 1 and items[1]:
+> +                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+> +                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+> +                    break
+>      elif len(ubootconfig) == 0:
+> -        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+> -    ubootconfig = ubootconfig[0]
+> -
+> -    for f, v in ubootconfigflags.items():
+> -        items = v.split(',')
+> -        if items[0] and len(items) > 2:
+> -            raise bb.parse.SkipPackage('Only config,images can be specified!')
+> -
+> -        if ubootconfig == f:
+> -            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
+> -            d.setVar('UBOOT_MACHINE', items[0])
+> -
+> -            # IMAGE_FSTYPES appending
+> -            if len(items) > 1 and items[1]:
+> -                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+> -                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+> -
+> -            # Go out as we found a match!
+> -            break
+> -    else:
+> -        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
+> +       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+>  }
+> -- 
+> 1.9.2
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
