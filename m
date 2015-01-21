@@ -1,33 +1,40 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 668AD71637
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E54FB71144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 20:02:32 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2015 12:01:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,443,1418112000"; d="scan'208";a="515596369"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by orsmga003.jf.intel.com with ESMTP; 21 Jan 2015 11:55:04 -0800
-Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Wed, 21 Jan 2015 12:01:45 -0800
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX156.amr.corp.intel.com (10.22.240.22) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Wed, 21 Jan 2015 12:01:45 -0800
-Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.144) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Wed, 21 Jan 2015 12:01:44 -0800
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Jan 2015 18:00:56 -0200
-Message-ID: <1421870458-9958-1-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>
+	Wed, 21 Jan 2015 20:11:23 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 19so4191860ykq.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jan 2015 12:11:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=4moRmk6s4SJGBYHsxHmDw/ezdU4YOOfRjK5aZPQ7qsg=;
+	b=NhaBUktba5GrEi1+y6xwLGITeDfPCqAuTXl67wkNpjX8W+6O19KLPPuf352Pfdf2EW
+	vwAZ87/Q5mcvwsLe18MeWCh3bO/CMhYFi1CaAIylLa7v2JkdkNzIOA56AkwhohuUqH5+
+	nn1aDGp2NMwwOBzPZPkVdrTM8zcO8dm/DTJDQodP7OSuDGR0VfmaTzAgg8vB1FOLnw7E
+	Gdd4tHhuZJWTmi9ZbtglIQknV2JISdp12DirWOKUE7/z8NS3HrVN4tBVDuWEmVYZbb8J
+	W5Ga8ZX6CejNhf53G6sv3xJjX2ote5x6bgkCX2zqP//mWVdY6cCMEnp2uayKx9EDNEDo
+	dG1w==
 MIME-Version: 1.0
-X-Originating-IP: [10.218.99.144]
-Subject: [PATCH 0/2] kmod new packageconfig and dbus split package
+X-Received: by 10.170.70.193 with SMTP id m184mr27708038ykm.50.1421871083510; 
+	Wed, 21 Jan 2015 12:11:23 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.143 with HTTP; Wed, 21 Jan 2015 12:11:23 -0800 (PST)
+In-Reply-To: <20150121191123.GH20639@denix.org>
+References: <1421165391-30203-1-git-send-email-denis@denix.org>
+	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+	<20150121191123.GH20639@denix.org>
+Date: Wed, 21 Jan 2015 18:11:23 -0200
+X-Google-Sender-Auth: qIaNuf6umrW-EocupoGH7F5vUQY
+Message-ID: <CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,24 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 20:02:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Jan 2015 20:11:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-In this patchset we include two changes:
+On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
+>> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+>> > From: Denys Dmytriyenko <denys@ti.com>
+>> >
+>> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>> ...
+>> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+>> > @@ -0,0 +1,36 @@
+>> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
+>> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
+>> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
+>> > +Subject: [PATCH] tools: env: fix build error
+>> > +
+>> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
+>> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
+>> > +is defined.
+>> > +(I do not think this is the right way to fix the problem, but
+>> > +for now I do not have enough time to take a close look.)
+>> > +
+>> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
+>> > +
+>> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
+>> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
+>>
+>> Is it necessary? In meta-fsl-arm we don't have this patch and get the
+>> tools built.
+>
+> Really? The patch above is rather self-explanatory. The issue was confirmed by
+> U-boot maintainers and the workaround provided by one of the core developers.
+> I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
+> defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
+> whether your platforms are affected or not. It does affect our platforms
+> (among many others), including beaglebone.
 
-1- kmod: new PACKAGECONFIG debug and logging to help reduce binary size.
-2- dbus: split it into two package. We will be able to choose if we want the
-         full version or a smaller one.
+I think this is for the cross tool only.
 
-Gustavo Sverzut Barbieri (2):
-  kmod: new PACKAGECONFIG debug and logging to help reduce binary size.
-  dbus: split tools package.
-
- meta/recipes-core/dbus/dbus.inc   | 13 +++++++------
- meta/recipes-kernel/kmod/kmod.inc |  5 ++++-
- 2 files changed, 11 insertions(+), 7 deletions(-)
-
---
-1.9.1
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
