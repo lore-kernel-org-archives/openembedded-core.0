@@ -1,38 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B9EA871633
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3606 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 21 Jan 2015 21:20:31 UTC
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 7829465C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 20:50:19 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id a108so28309501qge.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 12:50:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Oh4lXCrBsHujNpOrtXGbbX6aQJvBjjg81sMOYEDXKac=;
-	b=E9CNEX6160LfPUgiU4Sky6CFQHqsXGFU7uMZj0e3P+JU+pYZvz7GBs9KtutN1mk9b2
-	60FUelan9QD2Q0h6sJsM5euKPHe6WMXjuzXY+g7sRaxHvBaCwydOWPOPXsDuqYXjzA72
-	tGcitT6PJggkIkiUGPZprmm4O1ttG4VA5X6EITC4pdAhRqGCZiwfI6AOASNFKKtyVvY6
-	k8DAZcqmlroHtAjgsO5B35ZKwNTDTApDU+EtCvz9sIfas20LTwjAmrT8QJUuxDKJJ2vF
-	3S7Ax1jHqTXsZ+YCHvV/31IQi2YsrAc8zZoCTJkXToVbOur1CaJbW+x4n1Wdnpy+q4ry
-	H5uQ==
-X-Gm-Message-State: ALoCoQl4GJRqrDrx6icQzFtXfWIn8qz47rJxvXn51M/gCGp796tuNZ9xd+RydAMixLjN3f8Tduqn
-X-Received: by 10.224.92.205 with SMTP id s13mr72108137qam.52.1421873420056;
-	Wed, 21 Jan 2015 12:50:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 21 Jan 2015 12:49:59 -0800 (PST)
-In-Reply-To: <1418221027-12371-4-git-send-email-Martin.Jansa@gmail.com>
-References: <20141030082101.GE15148@jama>
-	<1418221027-12371-1-git-send-email-Martin.Jansa@gmail.com>
-	<1418221027-12371-4-git-send-email-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Jan 2015 20:49:59 +0000
-Message-ID: <CAJTo0LYMy4TdtR_QSWmvr8A0xr_AAhEpZYdyQWzO7=aMaaq-yA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/4] libpostproc: import from meta-oe
+	Wed, 21 Jan 2015 21:20:31 +0000 (UTC)
+Received: from gandalf.denix.org ([108.18.33.160]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NIJ00J1MN5H9ID0@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 21 Jan 2015 14:20:06 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=Kc1larcG c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8
+	a=voM4FWlXAAAA:8 a=ufeRZ5_ruX5nP2qKaocA:9	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4C4982018E; Wed,
+	21 Jan 2015 15:20:05 -0500 (EST)
+Date: Wed, 21 Jan 2015 15:20:05 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20150121202005.GK20639@denix.org>
+References: <1421165391-30203-1-git-send-email-denis@denix.org>
+	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+	<20150121191123.GH20639@denix.org>
+	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 20:50:21 -0000
-Content-Type: multipart/alternative; boundary=089e015375e41e7578050d2fb468
+X-List-Received-Date: Wed, 21 Jan 2015 21:20:42 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
---089e015375e41e7578050d2fb468
-Content-Type: text/plain; charset=UTF-8
+On Wed, Jan 21, 2015 at 06:11:23PM -0200, Otavio Salvador wrote:
+> On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> > On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
+> >> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> >> > From: Denys Dmytriyenko <denys@ti.com>
+> >> >
+> >> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> >> ...
+> >> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+> >> > @@ -0,0 +1,36 @@
+> >> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
+> >> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> >> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
+> >> > +Subject: [PATCH] tools: env: fix build error
+> >> > +
+> >> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
+> >> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
+> >> > +is defined.
+> >> > +(I do not think this is the right way to fix the problem, but
+> >> > +for now I do not have enough time to take a close look.)
+> >> > +
+> >> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
+> >> > +
+> >> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> >> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
+> >>
+> >> Is it necessary? In meta-fsl-arm we don't have this patch and get the
+> >> tools built.
+> >
+> > Really? The patch above is rather self-explanatory. The issue was confirmed by
+> > U-boot maintainers and the workaround provided by one of the core developers.
+> > I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
+> > defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
+> > whether your platforms are affected or not. It does affect our platforms
+> > (among many others), including beaglebone.
+> 
+> I think this is for the cross tool only.
 
-On 10 December 2014 at 14:17, Martin Jansa <martin.jansa@gmail.com> wrote:
+Versus what?
 
-> +DEPENDS = "libav"
->
+-- 
+Denys
 
-In a world build:
-
-ERROR: Nothing PROVIDES 'libav' (but
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-intel-gpl/build/meta/recipes-multimedia/libav/
-libpostproc_git.bb DEPENDS on or otherwise requires it)
-ERROR: libav was skipped: because it has a restricted license not
-whitelisted in LICENSE_FLAGS_WHITELIST
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/162/steps/BuildImages/logs/stdio
-
-Not sure what's best here: maybe add the commercial license to libpostproc
-with a comment explaining why?
-
-Ross
-
---089e015375e41e7578050d2fb468
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 December 2014 at 14:17, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
-rder-left-style:solid;padding-left:1ex"><div id=3D":5tc" class=3D"" style=
-=3D"overflow:hidden">+DEPENDS =3D &quot;libav&quot;<br></div></blockquote><=
-/div><div class=3D"gmail_extra"><br></div>In a world build:</div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_extra">ERROR: Nothing PROVIDES &#3=
-9;libav&#39; (but /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-in=
-tel-gpl/build/meta/recipes-multimedia/libav/<a href=3D"http://libpostproc_g=
-it.bb">libpostproc_git.bb</a> DEPENDS on or otherwise requires it)</div><di=
-v class=3D"gmail_extra">ERROR: libav was skipped: because it has a restrict=
-ed license not whitelisted in LICENSE_FLAGS_WHITELIST</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"https://autobuil=
-der.yoctoproject.org/main/builders/nightly-intel-gpl/builds/162/steps/Build=
-Images/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/night=
-ly-intel-gpl/builds/162/steps/BuildImages/logs/stdio</a><br></div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Not sure what&#39;s =
-best here: maybe add the commercial license to libpostproc with a comment e=
-xplaining why?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div></div>
-
---089e015375e41e7578050d2fb468--
