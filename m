@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D23A65C7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 86AFE72BCE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:40:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0LHe6BE006434 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:40:06 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lXpx82ZZog4u
+	Wed, 21 Jan 2015 17:59:50 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id w62so18090589wes.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:40:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0LHdrEa006403
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:40:05 GMT
-Message-ID: <1421861993.19798.2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Jan 2015 17:39:53 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] net-tools: Fix rerunning of do_patch task
+	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+r2qXVHJFkS+Ls+pc21hIOevrwOoJB8o+WLJd271pWk=;
+	b=kaUdliE087U0b2M+AgQ/KsigykoOKpcVzzDrUDyLhWMOBtFFECbJ8BP4M0/RCb8tyN
+	G7OC/AWeSh953FHuNXP0jpyvWuA5DA53snQp4kaT1yFAB0zGCidn4wx8uVhBIoibquQG
+	7ur05l4IG5J9FDQqOWaSwojg0WxnMTWt2C9o0d62DQoGRBlg7SNqoOUNO3KvnQ0cE7z9
+	CEmoXlSyJrUglkXBd5fIp2DNWG6Q3bv++nIgcy/XmZYqtQF21h78IlFhj4hRaUDJ8anZ
+	VTtWF5rh4/saOZA2A4z7BJu8ZV3ps2U/1tygip1GgzG5wwjYdJYlPU9u75s9+57JO1IA
+	o8cA==
+X-Gm-Message-State: ALoCoQmJw2zO+Jhn8jyYSOAwpjsoZnIgM7gZD9G2+YcVi+Qi4Kf2Bo6pXknn9ng99EVW97DzamNa
+X-Received: by 10.180.198.166 with SMTP id jd6mr58453493wic.18.1421863190809; 
+	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id dc1sm8202881wib.18.2015.01.21.09.59.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Jan 2015 09:59:50 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Jan 2015 17:58:14 +0000
+Message-Id: <1421863094-7339-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] insane: add unknown-configure-option to default WARN_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 17:40:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Jan 2015 17:59:55 -0000
 
-Rerunning the do_patch task currently fails. The code is nearly correct
-but needs to remove the quilt ".pc" directory and move the secondary
-one into place in order to rerun, not move it into the .pc directory
-as the code currently does.
 
-[YOCTO #7128]
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-25.bb b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
-index 02826a0..0e4ee75 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
-@@ -34,6 +34,7 @@ nettools_do_patch() {
- 	cd ${S}
- 	quilt pop -a || true
- 	if [ -d ${S}/.pc-nettools ]; then
-+		rm -rf ${S}/.pc
- 		mv ${S}/.pc-nettools ${S}/.pc
- 		QUILT_PATCHES=${S}/debian/patches quilt pop -a
- 		rm -rf ${S}/.pc ${S}/debian
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 71e94a0..06246da 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -30,6 +30,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+             pn-overrides infodir build-deps file-rdeps pkgconfig-sysroot \
++            unknown-configure-option \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+-- 
+1.7.10.4
 
 
