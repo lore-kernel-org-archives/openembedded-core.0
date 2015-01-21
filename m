@@ -1,36 +1,37 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E73EE6AD01
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 1907072C1A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 09:07:39 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id bs8so31600349wib.0
+	Wed, 21 Jan 2015 11:21:53 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id q108so15965257qgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 01:07:40 -0800 (PST)
+	Wed, 21 Jan 2015 03:21:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UzTvR1l6oZk26aLWcjTXdbYtVX84YDI2QHPFprrPYpI=;
-	b=gSNRuVrOQfkmqfLC2BHSfqk2pUpep0U+d9yLuahcuZAuMRpw7ZGS5QjIPJ9hD24APL
-	3FsAoQMZJGfLrgwtPTS1QUq2AMaJPs7mav7so0wMvRR28WqaWsK+hli4TQaP4H1KUpq8
-	qRPtUbqKQgQoxBEDHNp8CopKREiaN6WBVRE3CGrDxU3MvJ3Zzg8gV1vgGuWGqFUAgWAT
-	b91uwrSkMrFFCbc39691RfJFteg/oVMBJCe2QMIoDZMtWFEqnl64xiLlPBAi1EggvZCG
-	r5Bbi0N7sjV3/xEtVAU7V+QzFjK2TZdtQvnsHHp2KxL/yf2joJgtDsmAQZz4pGihcDwT
-	rDMA==
-X-Gm-Message-State: ALoCoQnFwWQ3NpFn1jbvxh5UAi7fZhSQA1rZ53vWvYh1y1TZFxdLg7WtpYivOCpzKxhBd/wktwO1
-X-Received: by 10.180.93.103 with SMTP id ct7mr826616wib.77.1421831260311;
-	Wed, 21 Jan 2015 01:07:40 -0800 (PST)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id 7sm24613598wjq.29.2015.01.21.01.07.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Jan 2015 01:07:39 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Jan 2015 10:07:35 +0100
-Message-Id: <1421831255-3639-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] linux-dummy: provide empty shared_workdir method
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Nn//AdMc6E3tx91hdVZWDtglVYVLe3o5IDHk7nX5rKA=;
+	b=XSuK1lqxWsiKuTpBeWhTGIWFt3nfYYYLgdr9+KO6dqLkNgWJ0AoUsU5ia8mTNf9DtH
+	mEXNGzEig0KH+7YpZVg0M3eclViunPnjrkRQJ6uFK9Um+dPcUszVYeukt2bn7hLj2o7w
+	//L9O1kEAJcT7uJeQWHWJB1yPXnx2cqYHVsvu97cpuGELghpU6eZrsQYPF5LU3cji+xe
+	z+ruzIQEKj5bBGVy5wAfUI9XvxNpA7iHHm3v1SwcJmRPpxwwZyYS3ShdOSKQMeLlbk4/
+	atmCWoEpZ9PsOxfcSENvCcj8BHbO6SsSL1fl4Q9UbheLEUInZpbThLObfxsin1sW+ouk
+	yOwA==
+X-Gm-Message-State: ALoCoQk2XKJYdsD5ypRfnq6BAH+U+71SQJ/g+Sk8F7/SO66HExS9V8bJb0ooxj3ooSsyuwhXjyHn
+X-Received: by 10.140.94.195 with SMTP id g61mr46008124qge.80.1421839314568;
+	Wed, 21 Jan 2015 03:21:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Wed, 21 Jan 2015 03:21:34 -0800 (PST)
+In-Reply-To: <CACS+7ZTyJyWJZeuNuWzSvTX=EeffZMMZ4krZ=nF2fVLDPbKVyw@mail.gmail.com>
+References: <CACS+7ZTyJyWJZeuNuWzSvTX=EeffZMMZ4krZ=nF2fVLDPbKVyw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Jan 2015 11:21:34 +0000
+Message-ID: <CAJTo0LZh=THzGds8cL+-m=cNL35wPBtSXH0v+FCiuXkYaTHu=g@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] packagegroup-core-sdk: add gcc-sanitizers to core SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 09:07:47 -0000
+X-List-Received-Date: Wed, 21 Jan 2015 11:22:02 -0000
+Content-Type: multipart/alternative; boundary=001a113a59ee45ddd3050d27c36f
 
-Perf.bb (among others) requires access to the kernel source, so have linux-dummy fake that as well. As before, perf will fail to build, but there are use cases where this patch is needed. For example a perf.bbappend that will always build it from the debian linux-tools tarball.
+--001a113a59ee45ddd3050d27c36f
+Content-Type: text/plain; charset=UTF-8
 
-Using linux-dummy is still a bad, bad idea, but it shouldn't start breaking existing use cases.
+On 15 January 2015 at 03:51, Dan McGregor <danismostlikely@gmail.com> wrote:
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-kernel/linux/linux-dummy.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> -PR = "r9"
+> +PR = "r10"
+>
 
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 8f25f17..cc0e4e6 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -33,6 +33,10 @@ do_compile () {
- 	:
- }
- 
-+do_shared_workdir () {
-+	:
-+}
-+
- do_install() {
- 	:
- }
-@@ -47,4 +51,4 @@ do_deploy() {
- 
- addtask bundle_initramfs after do_install before do_deploy
- addtask deploy after do_install
--
-+addtask shared_workdir after do_compile before do_install
--- 
-1.9.3
+Note that there's no need to bump PR anymore.  I've fixed this locally so
+don't bother sending an update right now.
 
+Ross
 
+--001a113a59ee45ddd3050d27c36f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 January 2015 at 03:51, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3h8"=
+ class=3D"a3s" style=3D"overflow:hidden">-PR =3D &quot;r9&quot;<br>
++PR =3D &quot;r10&quot;</div></blockquote></div><br>Note that there&#39;s n=
+o need to bump PR anymore.=C2=A0 I&#39;ve fixed this locally so don&#39;t b=
+other sending an update right now.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a59ee45ddd3050d27c36f--
