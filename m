@@ -1,41 +1,34 @@
-Return-Path: <rapphil@gmail.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 48E9965C7B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 01D6E71633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 20:31:32 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id i8so29359380qcq.3
+	Wed, 21 Jan 2015 20:43:13 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id lj1so10900044pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 12:31:33 -0800 (PST)
+	Wed, 21 Jan 2015 12:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2T6V/rLgzIlU65tHYxAkwwbpiqtDJ2SBL/DmCGK3TZQ=;
-	b=R4gEUG6vB9x/9Baz3ELqQ4k852V2NpqKoxkg+MvJytYqQM/r75osJlgf3tK/XKxLxv
-	5i6mhhOBiRNeVSl4Y8Rhy0eTS367RDcNqXsCiKPgNnZsGTssHtdVM2jHOnNkEqFf8OQF
-	2VWGaFuDe5PsXpJuQ9EK4QiRYacdS0B0t+2nNi4mH8+VuuRK2meeHV9Us1QSKrkR/HnL
-	YO67lwmEsCF0fdGLdDX4vTpGGFAa28Z1WV4T35jv12FYpt1wzYx4aZTVA3AV/sEkXztU
-	3sGioKoXAPfQRsoiKI3SMtSt72z3tKCDluLQgzZ0rM62FqigGLcbHN42+Uda1SzbRNQC
-	odUA==
-MIME-Version: 1.0
-X-Received: by 10.224.121.79 with SMTP id g15mr61750695qar.68.1421872293051;
-	Wed, 21 Jan 2015 12:31:33 -0800 (PST)
-Received: by 10.140.240.67 with HTTP; Wed, 21 Jan 2015 12:31:32 -0800 (PST)
-In-Reply-To: <20150121202801.GL20639@denix.org>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
-	<20150121191123.GH20639@denix.org>
-	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
-	<CAENGNhc2gomqGRn3z1UantivS8wkWJn8kfDbjCL96tjTdQ4XAQ@mail.gmail.com>
-	<20150121202801.GL20639@denix.org>
-Date: Wed, 21 Jan 2015 18:31:32 -0200
-Message-ID: <CAENGNheA=BVgRCcKaCSbya3O3YReTKL7cS6pJmhCm3Z8T_MTgA@mail.gmail.com>
-From: Raphael Philipe <rapphil@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+	h=from:to:cc:subject:date:message-id;
+	bh=lfuFF1paWnqpqxxdDH01TbKkPMN396LyGSfbW4oBaS8=;
+	b=cZurNCKk3vURcQlR84Xn1SrTe5JgMk0+KLtl0IdyBWF1lo4UeOAhsP7iknDRF7MjPH
+	lgGetm+5e+hy//1fPTfCcgXJTS98INsq0oniHB8Z9reKEHuKeYvlfnHEVJWCCAQEMYIg
+	rCTOiNrE+z/SDBAhu8JJ91EIIQwha8laiHG4tMZMomkChqut7n9+K+FuKtsvEsmHGNUU
+	QV/r3R/HzzTxpWjbwQe/J1Jg1iTMJMbGWkh1TjBJFrin6q6QgIbS+/mxu64y+kWyY1s+
+	JbSmzmUuJTzS8FkjsYxTCQqjvWFds2K9ER9IBpd9TKKcsdAMYSvGOjDziTTDE1G3ffWu
+	Aprw==
+X-Received: by 10.68.57.168 with SMTP id j8mr45145338pbq.160.1421872994015;
+	Wed, 21 Jan 2015 12:43:14 -0800 (PST)
+Received: from Pahoa2.mvista.com (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
+	by mx.google.com with ESMTPSA id jz5sm7109030pbc.0.2015.01.21.12.43.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 21 Jan 2015 12:43:12 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Jan 2015 12:43:11 -0800
+Message-Id: <1421872991-17898-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH] glibc: CVE-2014-9402 endless loop in getaddr_r
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,163 +41,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Jan 2015 20:31:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 Jan 2015 20:43:21 -0000
 
-I just checked 2014.07, and it does not work too. Same output.
+From: Armin Kuster <akuster@mvista.com>
 
-Sorry,am I missing something?
+The getnetbyname function in glibc 2.21 in earlier will enter an infinite loop
+if the DNS backend is activated in the system Name Service Switch
+configuration, and the DNS resolver receives a positive answer while processing
+the network name.
 
-On Wed, Jan 21, 2015 at 6:28 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Wed, Jan 21, 2015 at 06:25:35PM -0200, Raphael Philipe wrote:
->> Denys, I tested your patch and It seems not to be working for
->> u-boot-fw-utils-cross
->
-> Did the old version work for you?
->
->
->> $ bitbake u-boot-fw-utils-cross
->> Loading cache: 100%
->> |########################################################################################################################################################################|
->> ETA:  00:00:00
->> Loaded 1921 entries from dependency cache.
->> Parsing recipes: 100%
->> |######################################################################################################################################################################|
->> Time: 00:00:00
->> Parsing of 1451 .bb files complete (1450 cached, 1 parsed). 1914
->> targets, 85 skipped, 0 masked, 0 errors.
->> NOTE: Resolving any missing task queue dependencies
->>
->> Build Configuration:
->> BB_VERSION        = "1.25.0"
->> BUILD_SYS         = "x86_64-linux"
->> NATIVELSBSTRING   = "Ubuntu-14.04"
->> TARGET_SYS        = "arm-poky-linux-gnueabi"
->> MACHINE           = "beaglebone"
->> DISTRO            = "poky"
->> DISTRO_VERSION    = "1.7"
->> TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa8"
->> TARGET_FPU        = "vfp-neon"
->> meta
->> meta-yocto
->> meta-yocto-bsp    = "master:45d090024d7b88c434fef2e88317946449e32c2c"
->> meta-oe           = "mymaster:5b4413ccf329a981bee976c9fcde5d2872f0defb"
->>
->> NOTE: Preparing RunQueue
->> NOTE: Executing SetScene Tasks
->> NOTE: Executing RunQueue Tasks
->> ERROR: Function failed: do_compile (log file is located at
->> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549)
->> ERROR: Logfile of failure stored in:
->> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549
->> Log data follows:
->> | DEBUG: Executing shell function do_compile
->> | NOTE: make -j 4 CROSS_COMPILE=arm-poky-linux-gnueabi-
->> CC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfloat-abi=hard
->> -mfpu=neon -mtune=cortex-a8  am335x_evm_config
->> |   HOSTCC  scripts/basic/fixdep
->> |   HOSTCC  scripts/kconfig/conf.o
->> |   HOSTCC  scripts/kconfig/zconf.tab.o
->> |   HOSTLD  scripts/kconfig/conf
->> | #
->> | # configuration written to .config
->> | #
->> | #
->> | # configuration written to spl/.config
->> | #
->> | NOTE: make -j 4 CROSS_COMPILE=arm-poky-linux-gnueabi-
->> CC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfloat-abi=hard
->> -mfpu=neon -mtune=cortex-a8  env
->> | scripts/kconfig/conf --silentoldconfig Kconfig
->> | scripts/kconfig/conf --silentoldconfig Kconfig
->> |   CHK     include/config.h
->> |   GEN     include/autoconf.mk
->> |   GEN     include/autoconf.mk.dep
->> |   GEN     spl/include/autoconf.mk
->> |   HOSTCC  tools/env/fw_env.o
->> |   HOSTCC  tools/env/fw_env_main.o
->> |   HOSTCC  tools/env/crc32.o
->> |   HOSTCC  tools/env/ctype.o
->> | tools/env/fw_env_main.c:30:19: fatal error: fcntl.h: No such file or directory
->> |  #include <fcntl.h>
->> |                    ^
->> | compilation terminated.
->> | In file included from tools/env/crc32.c:1:0:
->> | tools/env/../../lib/crc32.c:12:23: fatal error: arpa/inet.h: No such
->> file or directory
->> |  #include <arpa/inet.h>
->> |                        ^
->> | compilation terminated.
->> | make[1]: *** [tools/env/fw_env_main.o] Error 1
->> | make[1]: *** Waiting for unfinished jobs....
->> | make[1]: *** [tools/env/crc32.o] Error 1
->> | tools/env/fw_env.c:16:19: fatal error: fcntl.h: No such file or directory
->> |  #include <fcntl.h>
->> |                    ^
->> | compilation terminated.
->> | make[1]: *** [tools/env/fw_env.o] Error 1
->> | make: *** [env] Error 2
->> | ERROR: oe_runmake failed
->> | WARNING: exit code 1 from a shell command.
->> | ERROR: Function failed: do_compile (log file is located at
->> /home/rapphil/work/poky/build/tmp/work/beaglebone-poky-linux-gnueabi/u-boot-fw-utils-cross/v2015.01+gitAUTOINC+92fa7f53f1-r0/temp/log.do_compile.31549)
->> ERROR: Task 6 (/home/rapphil/work/poky/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb,
->> do_compile) failed with exit code '1'
->> NOTE: Tasks Summary: Attempted 658 tasks of which 656 didn't need to
->> be rerun and 1 failed.
->> No currently running tasks (658 of 661)
->>
->> Summary: 1 task failed:
->>   /home/rapphil/work/poky/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2015.01.bb,
->> do_compile
->>
->> On Wed, Jan 21, 2015 at 6:11 PM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
->> > On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> >> On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
->> >>> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> >>> > From: Denys Dmytriyenko <denys@ti.com>
->> >>> >
->> >>> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->> >>> ...
->> >>> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
->> >>> > @@ -0,0 +1,36 @@
->> >>> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
->> >>> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> >>> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
->> >>> > +Subject: [PATCH] tools: env: fix build error
->> >>> > +
->> >>> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
->> >>> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
->> >>> > +is defined.
->> >>> > +(I do not think this is the right way to fix the problem, but
->> >>> > +for now I do not have enough time to take a close look.)
->> >>> > +
->> >>> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
->> >>> > +
->> >>> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> >>> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
->> >>>
->> >>> Is it necessary? In meta-fsl-arm we don't have this patch and get the
->> >>> tools built.
->> >>
->> >> Really? The patch above is rather self-explanatory. The issue was confirmed by
->> >> U-boot maintainers and the workaround provided by one of the core developers.
->> >> I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
->> >> defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
->> >> whether your platforms are affected or not. It does affect our platforms
->> >> (among many others), including beaglebone.
->> >
->> > I think this is for the cross tool only.
->> >
->> > --
->> > Otavio Salvador                             O.S. Systems
->> > http://www.ossystems.com.br        http://code.ossystems.com.br
->> > Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../CVE-2014-9402_endless-loop-in-getaddr_r.patch  | 65 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.20.bb              |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+new file mode 100644
+index 0000000..ba1da67
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+@@ -0,0 +1,65 @@
++CVE-2014-9402 endless loop in getaddr_r
++
++
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=11e3417af6e354f1942c68a271ae51e892b2814d
++
++Upstream-Status: Backport
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++From 11e3417af6e354f1942c68a271ae51e892b2814d Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Mon, 15 Dec 2014 17:41:13 +0100
++Subject: [PATCH] Avoid infinite loop in nss_dns getnetbyname [BZ #17630]
++
++---
++ ChangeLog                    | 6 ++++++
++ NEWS                         | 7 +++++--
++ resolv/nss_dns/dns-network.c | 4 ++--
++ 3 files changed, 13 insertions(+), 4 deletions(-)
++
++Index: git/NEWS
++===================================================================
++--- git.orig/NEWS
+++++ git/NEWS
++@@ -24,7 +24,10 @@ Version 2.20
++   17031, 17042, 17048, 17050, 17058, 17061, 17062, 17069, 17075, 17078,
++   17079, 17084, 17086, 17088, 17092, 17097, 17125, 17135, 17137, 17150,
++   17153, 17187, 17213, 17259, 17261, 17262, 17263, 17319, 17325, 17354,
++-  17625.
+++  17625, 17630.
+++
+++* The nss_dns implementation of getnetbyname could run into an infinite loop
+++  if the DNS response contained a PTR record of an unexpected format.
++ 
++ * CVE-2104-7817 The wordexp function could ignore the WRDE_NOCMD flag
++   under certain input conditions resulting in the execution of a shell for
++Index: git/resolv/nss_dns/dns-network.c
++===================================================================
++--- git.orig/resolv/nss_dns/dns-network.c
+++++ git/resolv/nss_dns/dns-network.c
++@@ -398,8 +398,8 @@ getanswer_r (const querybuf *answer, int
++ 
++ 	case BYNAME:
++ 	  {
++-	    char **ap = result->n_aliases++;
++-	    while (*ap != NULL)
+++	    char **ap;
+++	    for (ap = result->n_aliases; *ap != NULL; ++ap)
++ 	      {
++ 		/* Check each alias name for being of the forms:
++ 		   4.3.2.1.in-addr.arpa		= net 1.2.3.4
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,9 @@
+++2014-12-16  Florian Weimer  <fweimer@redhat.com>
+++
+++       [BZ #17630]
+++       * resolv/nss_dns/dns-network.c (getanswer_r): Iterate over alias
+++       names.
+++
++ 2014-12-15  Jeff Law  <law@redhat.com>
++ 
++    [BZ #16617]
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index f67fbfd..8a8b296 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -44,6 +44,7 @@ EGLIBCPATCHES = "\
+ CVEPATCHES = "\
+         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
+         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
++        file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
+     "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-- 
+1.9.1
+
 
