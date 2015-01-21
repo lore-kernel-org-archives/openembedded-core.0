@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E7E260DD7
+	by mail.openembedded.org (Postfix) with ESMTP id 9F60A71633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 17:23:33 +0000 (UTC)
+	Wed, 21 Jan 2015 17:23:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 21 Jan 2015 09:10:33 -0800
+	by orsmga103.jf.intel.com with ESMTP; 21 Jan 2015 09:10:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,442,1418112000"; d="scan'208";a="640509441"
+X-IronPort-AV: E=Sophos;i="5.09,442,1418112000"; d="scan'208";a="640509454"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.252.5.201])
-	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2015 09:14:32 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2015 09:14:33 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Jan 2015 17:14:05 +0000
-Message-Id: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+Date: Wed, 21 Jan 2015 17:14:06 +0000
+Message-Id: <c452114d4c6cb205336bc729d3fc2f57fd821bab.1421860276.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/1] Fix gcc for including omp.h in target sysroot
+In-Reply-To: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+References: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+References: <cover.1421860276.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] gcc: ensure target gcc headers can be included
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,23 +34,125 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Jan 2015 17:23:38 -0000
 
-The following change since commit eaea05c88661a88a89fa6b139f7e6b243155d492:
+There are a few headers installed as part of gcc-runtime (omp.h,
+ssp/*.h). Being installed from a recipe built for the target
+architecture, these are within the target sysroot and not
+cross/nativesdk; thus they weren't able to be found by gcc with the
+existing search paths. Add support for picking up these headers
+under the sysroot supplied on the gcc command line in order to
+resolve this.
 
-  depmodwrapper-cross: Update to use STAGING_KERNEL_BUILDDIR (2015-01-17 17:05:25 +0000)
+Thanks to Richard Purdie for giving me a number of pointers during
+fixing this issue.
 
-is available in the git repository at:
+Fixes [YOCTO #7141].
 
-  git://git.openembedded.org/openembedded-core-contrib paule/gcc-omp-fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/gcc-omp-fix
-
-Paul Eggleton (1):
-  gcc: ensure target gcc headers can be included
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
  .../gcc/gcc-4.9/target-gcc-includedir.patch        | 81 ++++++++++++++++++++++
  2 files changed, 82 insertions(+)
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 2568e99..0f407b7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -74,6 +74,7 @@ SRC_URI = "\
+     file://0057-aarch64-config.patch \
+     file://0058-gcc-r212171.patch \
+     file://0059-gcc-PR-rtl-optimization-63348.patch \
++    file://target-gcc-includedir.patch \
+ "
+ SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+ SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+new file mode 100644
+index 0000000..f48c66d
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+@@ -0,0 +1,81 @@
++Ensure target gcc headers can be included
++
++There are a few headers installed as part of the OpenEmbedded
++gcc-runtime target (omp.h, ssp/*.h). Being installed from a recipe
++built for the target architecture, these are within the target
++sysroot and not cross/nativesdk; thus they weren't able to be
++found by gcc with the existing search paths. Add support for
++picking up these headers under the sysroot supplied on the gcc
++command line in order to resolve this.
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++
++Upstream-Status: Pending
++
++--- a/gcc/Makefile.in	2014-12-23 11:57:33.327873331 +0000
+++++ b/gcc/Makefile.in	2015-01-21 11:32:35.447305394 +0000
++@@ -587,6 +587,7 @@
++ 
++ # Directory in which the compiler finds libraries etc.
++ libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(version)
+++libsubdir_target = gcc/$(target_noncanonical)/$(version)
++ # Directory in which the compiler finds executables
++ libexecsubdir = $(libexecdir)/gcc/$(target_noncanonical)/$(version)
++ # Directory in which all plugin resources are installed
++@@ -2534,6 +2535,7 @@
++ 
++ PREPROCESSOR_DEFINES = \
++   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
+++  -DGCC_INCLUDE_SUBDIR_TARGET=\"$(libsubdir_target)/include\" \
++   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
++   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
++   -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
++--- a/gcc/cppdefault.c	2015-01-13 17:40:26.131012725 +0000
+++++ b/gcc/cppdefault.c	2015-01-21 11:30:08.928426492 +0000
++@@ -59,6 +59,10 @@
++     /* This is the dir for gcc's private headers.  */
++     { GCC_INCLUDE_DIR, "GCC", 0, 0, 0, 0 },
++ #endif
+++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+++    /* This is the dir for gcc's private headers under the specified sysroot.  */
+++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0 },
+++#endif
++ #ifdef LOCAL_INCLUDE_DIR
++     /* /usr/local/include comes before the fixincluded header files.  */
++     { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },
++diff --git a/gcc/defaults.h b/gcc/defaults.h
++index f94ae17..d98b40b 100644
++--- a/gcc/defaults.h
+++++ b/gcc/defaults.h
++@@ -1390,4 +1390,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ 
++ #endif /* GCC_INSN_FLAGS_H  */
++ 
+++/* Default prefixes to attach to command names.  */
+++
+++#ifndef STANDARD_STARTFILE_PREFIX_1
+++#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+++#endif
+++#ifndef STANDARD_STARTFILE_PREFIX_2
+++#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+++#endif
+++
++ #endif  /* ! GCC_DEFAULTS_H */
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 9f0b781..174fca8 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -1189,13 +1189,6 @@ static const char *gcc_libexec_prefix;
++ 
++ /* Default prefixes to attach to command names.  */
++ 
++-#ifndef STANDARD_STARTFILE_PREFIX_1
++-#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
++-#endif
++-#ifndef STANDARD_STARTFILE_PREFIX_2
++-#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
++-#endif
++-
++ #ifdef CROSS_DIRECTORY_STRUCTURE  /* Don't use these prefixes for a cross compiler.  */
++ #undef MD_EXEC_PREFIX
++ #undef MD_STARTFILE_PREFIX
 -- 
 1.9.3
 
