@@ -1,39 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7708F72D26
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3605 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 22 Jan 2015 17:07:35 UTC
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id C934072C42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 16:39:54 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id w62so2845001wes.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 08:39:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=sdnprspB3QoD1mED6Ngwzkch1jHFO/2wHzOFMYponKc=;
-	b=yG0RAZeyk3rqDcBa8hcWOzTPLZiFAgu7usEzsa+ABzy41l5CciowcMKy8A3Ua2UWnt
-	y/l/+GvlQfMkJG8vCf7hA0iYw0ZGTUQaIEFFxtK7eqaGKdpalCbONcUVEnVkngXtdcp3
-	M0gttYMcCH+PXDbaO2K+ta/HuBTXg7F++/t0nSmVH6hh6bo/bMRvp7Sw93oSMwA+ywrs
-	U5GFH71PVlk/Ml6PCoKGG/BCF+B3FPvPhzQJn6gXa3saIH2sX/kupNA48Hdak5DeSzNV
-	iub38CX4RXMW3lFL74CghmNVYev2y0Do64KVLGHPSisSbELls0hhMYGlldMU43+pQfRR
-	4n/Q==
-X-Received: by 10.180.208.112 with SMTP id md16mr6645843wic.37.1421944794634; 
-	Thu, 22 Jan 2015 08:39:54 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id v7sm3709209wib.5.2015.01.22.08.39.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jan 2015 08:39:47 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Jan 2015 17:39:46 +0100
-Message-Id: <f0b5b078e4d7ffcb0060d9d27f6b5847338feb58.1421944678.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <cover.1421944678.git.Martin.Jansa@gmail.com>
-References: <cover.1421944678.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1421944678.git.Martin.Jansa@gmail.com>
-References: <cover.1421944678.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv3 4/4] recipes-qt: add x11 to required DISTRO_FEATURES
+	Thu, 22 Jan 2015 17:07:35 +0000 (UTC)
+Received: from gandalf.denix.org ([108.18.33.160]) by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NIL0039864DFMJ0@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 22 Jan 2015 10:07:30 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=B94OC1pJ c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8
+	a=voM4FWlXAAAA:8 a=C-pcdx2YfdqzLzI77oYA:9	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 97AD52018E; Thu,
+	22 Jan 2015 11:07:24 -0500 (EST)
+Date: Thu, 22 Jan 2015 11:07:24 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20150122160724.GR20639@denix.org>
+References: <1421165391-30203-1-git-send-email-denis@denix.org>
+	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
+	<20150121191123.GH20639@denix.org>
+	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
+	<20150121202005.GK20639@denix.org>
+MIME-version: 1.0
+In-reply-to: <20150121202005.GK20639@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: update to 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,50 +47,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 16:39:56 -0000
+X-List-Received-Date: Thu, 22 Jan 2015 17:07:42 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-* it's not complete, but recipes depending on virtual/libx11 are easiest
-  to spot, I've long list of PNBLACKLIST for all recipes which cannot
-  be built in distro without x11 in DISTRO_FEATURES
+On Wed, Jan 21, 2015 at 03:20:05PM -0500, Denys Dmytriyenko wrote:
+> On Wed, Jan 21, 2015 at 06:11:23PM -0200, Otavio Salvador wrote:
+> > On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> > > On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
+> > >> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> > >> > From: Denys Dmytriyenko <denys@ti.com>
+> > >> >
+> > >> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > >> ...
+> > >> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+> > >> > @@ -0,0 +1,36 @@
+> > >> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
+> > >> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> > >> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
+> > >> > +Subject: [PATCH] tools: env: fix build error
+> > >> > +
+> > >> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
+> > >> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
+> > >> > +is defined.
+> > >> > +(I do not think this is the right way to fix the problem, but
+> > >> > +for now I do not have enough time to take a close look.)
+> > >> > +
+> > >> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
+> > >> > +
+> > >> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
+> > >> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
+> > >>
+> > >> Is it necessary? In meta-fsl-arm we don't have this patch and get the
+> > >> tools built.
+> > >
+> > > Really? The patch above is rather self-explanatory. The issue was confirmed by
+> > > U-boot maintainers and the workaround provided by one of the core developers.
+> > > I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
+> > > defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
+> > > whether your platforms are affected or not. It does affect our platforms
+> > > (among many others), including beaglebone.
+> > 
+> > I think this is for the cross tool only.
+> 
+> Versus what?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/qt4x11.bbclass                                       | 5 ++++-
- meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb | 4 ++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+Otavio,
 
-diff --git a/meta/classes/qt4x11.bbclass b/meta/classes/qt4x11.bbclass
-index b06e15d..6f06d34 100644
---- a/meta/classes/qt4x11.bbclass
-+++ b/meta/classes/qt4x11.bbclass
-@@ -1,7 +1,10 @@
- QT4DEPENDS ?= "qt4-x11 "
- DEPENDS_prepend = "${QT4DEPENDS}"
- 
--inherit qmake2
-+# depends on qt4-x11
-+REQUIRED_DISTRO_FEATURES += "x11"
-+
-+inherit qmake2 distro_features_check
- 
- QT_BASE_NAME = "qt4"
- QT_DIR_NAME = "qt4"
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-index 0e7c800..772c151 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-+++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-@@ -4,6 +4,10 @@ QTLIBPREFIX = ""
- 
- require packagegroup-qt-toolchain-target.inc
- 
-+inherit distro_features_check
-+# depends on qt4-x11-free
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
- RDEPENDS_${PN} += " \
-         qt4-x11-free-dev \
-         ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'libqtopengl4-dev', '', d)} \
+Please clarify what exactly you meant with the statement above? Thanks.
+
 -- 
-2.2.1
-
+Denys
 
