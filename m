@@ -1,51 +1,37 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 379 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 22 Jan 2015 11:02:55 UTC
-Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.209])
-	by mail.openembedded.org (Postfix) with ESMTP id 4921771144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
+	[209.85.216.49])
+	by mail.openembedded.org (Postfix) with ESMTP id BEA1A71144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 11:02:55 +0000 (UTC)
-Received: from [216.82.241.132] by server-17.bemta-8.messagelabs.com id
-	33/06-13532-467D0C45; Thu, 22 Jan 2015 10:56:36 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-11.tower-45.messagelabs.com!1421924195!45661300!1
-X-Originating-IP: [66.77.174.14]
-X-StarScan-Received: 
-X-StarScan-Version: 6.12.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 26340 invoked from network); 22 Jan 2015 10:56:35 -0000
-Received: from mail.mx4.digi.com (HELO mcl-sms-ns2.DIGI.COM) (66.77.174.14)
-	by server-11.tower-45.messagelabs.com with RC4-SHA encrypted SMTP;
-	22 Jan 2015 10:56:35 -0000
-Received: from MCL-VMS-XCH01.digi.com (10.5.8.49) by mail.mx2.digi.com
-	(172.16.1.14) with Microsoft SMTP Server (TLS) id 8.3.389.2;
-	Thu, 22 Jan 2015 04:55:56 -0600
-Received: from DOR-VMS-XCH01.digi.com (10.49.8.98) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.210.2;
-	Thu, 22 Jan 2015 04:56:10 -0600
-Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
-	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0210.002;
-	Thu, 22 Jan 2015 11:56:08 +0100
-From: "Viguera, Javier" <Javier.Viguera@digi.com>
-To: 'Paul Eggleton' <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] Broken toolchain/SDK installation (master and dizzy)
-Thread-Index: AQHQNZxoqlmFthqlkkGfWMeUr/EcnZzL8t0w
-Date: Thu, 22 Jan 2015 10:56:07 +0000
-Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0AA8C2@dor-sms-xch01.digi.com>
-References: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0AA80E@dor-sms-xch01.digi.com>
-	<1466506.mcZXEbMHsI@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <1466506.mcZXEbMHsI@peggleto-mobl5.ger.corp.intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.101.2.188]
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean
+	Thu, 22 Jan 2015 11:27:15 +0000 (UTC)
+Received: by mail-qa0-f49.google.com with SMTP id v8so637017qal.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jan 2015 03:27:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=o9YjI0bqWoCDS+eF8koaeygHl/HEb9lWkWax5rJVuQ8=;
+	b=dPZW49mMbRjgDCfe8FHxVS0MOYAP8A3hGo0+VemJfPG8zgNxFKDlZnjhv2AqXADEQ+
+	16Fiib5tlQ4kPiEeNTt1Z0cSr5AxoP6iFP4u1ulhfqaul/uNbqWYdrNKKbNZD4CiPY8y
+	cLZdtk+KbiGqWXPJrs96aWdSmbY7e8CEP7RQIwbpX46BH9o9oS0borqbay1KMuH9nYrs
+	jkrVwDwTCao4S69qRVL/HhHCErH0hfKsZNixu+Kcsut2t2CH7yEFUN6BM+ZX6JLuqGcN
+	pRL7iI/umeukaXVZmghCHLYyQ43StNdalPNJdncylrGgbTCCjgsVNY6PSCA6EOSP8j6v
+	onmw==
+X-Gm-Message-State: ALoCoQlCwRZgza4HLchHvbsWIz6p+bVUNCVXNjFbAJ/z0CP/KLiX8peb4hhejIc27JFqDiUe61p4
+X-Received: by 10.140.94.195 with SMTP id g61mr1393755qge.80.1421926035789;
+	Thu, 22 Jan 2015 03:27:15 -0800 (PST)
 MIME-Version: 1.0
-Cc: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Broken toolchain/SDK installation (master and dizzy)
+Received: by 10.140.96.166 with HTTP; Thu, 22 Jan 2015 03:26:55 -0800 (PST)
+In-Reply-To: <b8134b991239e494b77a232bd723245d753c2734.1421788745.git.peter.seebach@windriver.com>
+References: <cover.1421788745.git.peter.seebach@windriver.com>
+	<b8134b991239e494b77a232bd723245d753c2734.1421788745.git.peter.seebach@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 22 Jan 2015 11:26:55 +0000
+Message-ID: <CAJTo0LYPQenCD2eMaSzPbaaUrky_Ta4cpnjFpN55D+BS5YzRJw@mail.gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pseudo_1.6.2.bb/pseudo_git.bb: Pseudo 1.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 11:03:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 22 Jan 2015 11:27:19 -0000
+Content-Type: multipart/alternative; boundary=001a113a59ee42b091050d3bf41c
+
+--001a113a59ee42b091050d3bf41c
+Content-Type: text/plain; charset=UTF-8
+
+On 20 January 2015 at 21:21, Peter Seebach <peter.seebach@windriver.com>
+wrote:
+
+> pseudo 1.6.3 merges (with some changes) the changes from
+> Peter A. Bigot to make --without-fallback-passwd work. It
+> also adds a proposed fix for Yocto bug #7097, which has
+> passed the obvious tests I could think of.
+
+
+This fails to build on *some* machines in the AB pool.
+
+http://errors.yoctoproject.org/Errors/Search/Details/7899/1/10/a6ea28e3460217496856d2d79667c4bfbd867df9
+:
+
+DEBUG: Executing shell function do_compile
+NOTE: Building/installing only 64-bit libpseudo.so for nativesdk-pseudo.
+NOTE: If you need to run 32-bit executables, ensure that NO32LIBS is set to
+0.
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-pseudo/1.6.3-r0/pseudo-1.6.3/configure:
+line 72: cd: /opt/poky/1.7/sysroots/i686-pokysdk-linux/usr: No such file or
+directory
+ERROR: Prefix is current directory. That doesn't work.
+
+Ross
+
+--001a113a59ee42b091050d3bf41c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 January 2015 at 21:21, Peter Seebach <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:peter.seebach@windriver.com" target=3D"_blank">peter.seebach@windri=
+ver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,2=
+04,204);border-left-style:solid;padding-left:1ex"><span class=3D"">pseudo</=
+span> 1.6.3 merges (with some changes) the changes from<br>
+Peter A. Bigot to make --without-fallback-passwd work. It<br>
+also adds a proposed fix for Yocto bug #7097, which has<br>
+passed the obvious tests I could think of.</blockquote></div><div class=3D"=
+gmail_extra"><br></div>This fails to build on *some* machines in the AB poo=
+l.</div><div class=3D"gmail_extra"><br><a href=3D"http://errors.yoctoprojec=
+t.org/Errors/Search/Details/7899/1/10/a6ea28e3460217496856d2d79667c4bfbd867=
+df9">http://errors.yoctoproject.org/Errors/Search/Details/7899/1/10/a6ea28e=
+3460217496856d2d79667c4bfbd867df9</a>:<br></div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">DEBUG: Exec=
+uting shell function do_compile</div><div class=3D"gmail_extra">NOTE: Build=
+ing/installing only 64-bit libpseudo.so for nativesdk-pseudo.</div><div cla=
+ss=3D"gmail_extra">NOTE: If you need to run 32-bit executables, ensure that=
+ NO32LIBS is set to 0.</div><div class=3D"gmail_extra">/home/pokybuild/yoct=
+o-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/i686-nativesdk=
+-pokysdk-linux/nativesdk-pseudo/1.6.3-r0/pseudo-1.6.3/configure: line 72: c=
+d: /opt/poky/1.7/sysroots/i686-pokysdk-linux/usr: No such file or directory=
+</div><div class=3D"gmail_extra">ERROR: Prefix is current directory. That d=
+oesn&#39;t work.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div></div>
 
-On 21/01/15 18:01, Paul Eggleton wrote:
->=20
-> I can't necessarily comment on whether this is the best fix, but FWIW I
-> had
-> noticed this and filed a bug for it already:
->=20
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7032
-
-Thanks for the heads-up. I will keep an eye on it.
-
-The thing that worries me is that Dizzy is affected, including the prebuilt=
- toolchains/buildtools from:
-
-http://downloads.yoctoproject.org/releases/yocto/yocto-1.7.1/buildtools/
-http://downloads.yoctoproject.org/releases/yocto/yocto-1.7.1/toolchain/
-
-So it's probably worth updating the bugzilla saying that Dizzy needs a back=
-port once fixed in master.
-
--
-Regards,
-
-Javier Viguera
-
-
+--001a113a59ee42b091050d3bf41c--
