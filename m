@@ -1,24 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F85F71144
+	by mail.openembedded.org (Postfix) with ESMTP id C2B7071144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 05:28:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0M5SVno021979
+	Thu, 22 Jan 2015 05:31:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0M5VZmr022006
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 21:28:31 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 21 Jan 2015 21:28:30 -0800
+	Wed, 21 Jan 2015 21:31:35 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 21 Jan 2015 21:31:34 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Jan 2015 23:28:29 -0600
-Message-ID: <1421904509-74414-1-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 21 Jan 2015 23:31:33 -0600
+Message-ID: <1421904693-115916-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Subject: [PATCH] python-smartpm: Fix attemptonly builds when file conflicts occur
+Subject: [PATCH v2] python-smartpm: Fix attemptonly builds when file conflicts occur
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,13 +31,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 05:28:39 -0000
+X-List-Received-Date: Thu, 22 Jan 2015 05:31:43 -0000
 Content-Type: text/plain
 
 [YOCTO #7299]
 
 When file conflicts occur, the RPM transaction aborts.  Instead of
-simply accepting the failure, we now identify capture, and remove
+simply accepting the failure, we now identify, capture, and remove
 the offending package(s) from the transaction and retry.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
@@ -55,7 +55,7 @@ index 45f7947..648114a 100644
  
 +If a complementary install fails, an actual error occurred, one that
 +we can't ignore without losing the entire attempted transaction.  Keep
-+this as an error so we that can can catch these cases in the futre.
++this as an error so that we can catch these cases in the futre.
 +
  Upstream-Status: Pending
  
