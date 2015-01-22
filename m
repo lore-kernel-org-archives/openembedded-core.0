@@ -1,61 +1,27 @@
-Return-Path: <B40290@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0136.outbound.protection.outlook.com [157.56.111.136])
-	by mail.openembedded.org (Postfix) with ESMTP id DCD3771144
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E81827251B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 06:27:59 +0000 (UTC)
-Received: from BN3PR0301CA0082.namprd03.prod.outlook.com (25.160.152.178) by
-	DM2PR0301MB1198.namprd03.prod.outlook.com (25.160.217.148) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.59.20; Thu, 22 Jan 2015 06:27:58 +0000
-Received: from BN1BFFO11FD023.protection.gbl (2a01:111:f400:7c10::1:131) by
-	BN3PR0301CA0082.outlook.office365.com (2a01:111:e400:401e::50) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.59.20 via Frontend Transport; Thu, 22 Jan 2015
-	06:27:58 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD023.mail.protection.outlook.com (10.58.144.86) with
-	Microsoft SMTP Server (TLS) id 15.1.75.11 via Frontend Transport;
-	Thu, 22 Jan 2015 06:27:57 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	t0M6Rrld018427; Wed, 21 Jan 2015 23:27:55 -0700
-From: Chunrong Guo <B40290@freescale.com>
+	Thu, 22 Jan 2015 06:41:55 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="56453390"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 Jan 2015 14:38:27 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0M6fIck015068
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jan 2015 14:41:18 +0800
+Received: from localhost.localdomain (10.167.226.35) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 22 Jan 2015 14:41:55 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jan 2015 14:27:49 +0800
-Message-ID: <1421908070-13605-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B40290@freescale.com; 
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(199003)(189002)(229853001)(50466002)(2351001)(105606002)(85426001)(92566002)(6806004)(19580395003)(19580405001)(106466001)(110136001)(47776003)(97736003)(86362001)(50226001)(46102003)(104016003)(68736005)(77096005)(64706001)(77156002)(48376002)(450100001)(50986999)(36756003)(62966003)(87936001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1198;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+Date: Thu, 22 Jan 2015 14:41:20 +0800
+Message-ID: <1421908880-1732-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-DmarcAction-Test: None
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005004);SRVR:DM2PR0301MB1198;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:DM2PR0301MB1198; 
-X-Forefront-PRVS: 0464DBBBC4
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:DM2PR0301MB1198; 
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2015 06:27:57.7241 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
-	Ip=[192.88.168.50]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1198
-Subject: [PATCH v5 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
+X-Originating-IP: [10.167.226.35]
+Subject: [PATCH] elfutils_0.148.bb: CVE-2014-9447 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,75 +34,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 06:28:04 -0000
+X-List-Received-Date: Thu, 22 Jan 2015 06:42:00 -0000
 Content-Type: text/plain
 
-  This adds support to build multiple U-Boot configs for a machine; this
-  is useful when we have support for different media boots which require
-  different U-Boot configuration (e.g: eMMC and NAND).
+Reference: http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9447
 
-  Below there's an usage example:
-  ,----[ i.MX6Q SABRE AUTO based example ]
-  | UBOOT_CONFIG ??= "sd eimnor nand spinor"
-  | UBOOT_CONFIG[sd] = "mx6qsabreauto_config,sdcard"
-  | UBOOT_CONFIG[eimnor] = "mx6qsabreauto_eimnor_config"
-  | UBOOT_CONFIG[nand] = "mx6qsabreauto_nand_config,ubifs"
-  | UBOOT_CONFIG[spinor] = "mx6qsabreauto_spinor_config"
-  `----
-
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta/classes/uboot-config.bbclass | 37 ++++++++++++++-----------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ .../elf_begin.c-CVE-2014-9447-fix.patch            | 36 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   | 23 +++++++-------
+ 2 files changed, 48 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index b467659..cb061af 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -31,28 +31,19 @@ python () {
-         return
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
+new file mode 100644
+index 0000000..84e8ddc
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
+@@ -0,0 +1,36 @@
++From 323ca04a0c9189544075c19b49da67f6443a8950 Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Wed, 21 Jan 2015 09:33:38 +0900
++Subject: [PATCH] elf_begin.c: CVE-2014-9447 fix
++
++this patch is from:
++ https://git.fedorahosted.org/cgit/elfutils.git/commit/?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
++
++Upstream-Status: Backport
++
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
++---
++ libelf/elf_begin.c | 7 ++-----
++ 1 file changed, 2 insertions(+), 5 deletions(-)
++
++diff --git a/libelf/elf_begin.c b/libelf/elf_begin.c
++index e46add3..e83ba35 100644
++--- a/libelf/elf_begin.c
+++++ b/libelf/elf_begin.c
++@@ -736,11 +736,8 @@ read_long_names (Elf *elf)
++ 	    break;
++ 
++ 	  /* NUL-terminate the string.  */
++-	  *runp = '\0';
++-
++-	  /* Skip the NUL byte and the \012.  */
++-	  runp += 2;
++-
+++	  *runp++ = '\0';
+++ 
++ 	  /* A sanity check.  Somebody might have generated invalid
++ 	     archive.  */
++ 	  if (runp >= newp + len)
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index ab95639..5e75f12 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libtool bzip2 zlib virtual/libintl"
  
-     ubootconfig = (d.getVar('UBOOT_CONFIG', True) or "").split()
--    if len(ubootconfig) > 1:
--        raise bb.parse.SkipPackage('You can only have a single default for UBOOT_CONFIG.')
-+    if len(ubootconfig) > 0:
-+        for config in ubootconfig:
-+            for f, v in ubootconfigflags.items():
-+                if config == f: 
-+                    items = v.split(',')
-+                    if items[0] and len(items) > 2:
-+                        raise bb.parse.SkipPackage('Only config,images can be specified!')
-+                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
-+                    # IMAGE_FSTYPES appending
-+                    if len(items) > 1 and items[1]:
-+                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-+                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+                    break
-     elif len(ubootconfig) == 0:
--        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
--    ubootconfig = ubootconfig[0]
--
--    for f, v in ubootconfigflags.items():
--        items = v.split(',')
--        if items[0] and len(items) > 2:
--            raise bb.parse.SkipPackage('Only config,images can be specified!')
--
--        if ubootconfig == f:
--            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
--            d.setVar('UBOOT_MACHINE', items[0])
--
--            # IMAGE_FSTYPES appending
--            if len(items) > 1 and items[1]:
--                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
--                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
--
--            # Go out as we found a match!
--            break
--    else:
--        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
-+       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+ PR = "r11"
+ 
+-SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
++SRC_URI = "https://fedorahosted.org/releases/e/l/${PN}/${BP}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "a0bed1130135f17ad27533b0034dba8d"
+ SRC_URI[sha256sum] = "8aebfa4a745db21cf5429c9541fe482729b62efc7e53e9110151b4169fe887da"
+@@ -25,14 +25,15 @@ SRC_URI += "\
+         file://m68k_backend.diff \
+         file://testsuite-ignore-elflint.diff \
+         file://elf_additions.diff \
+-	file://elfutils-fsize.patch \
+-	file://remove-unused.patch \
+-	file://mempcpy.patch \
+-	file://fix_for_gcc-4.7.patch \
+-	file://dso-link-change.patch \
+-	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+-	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
+-	file://Fix_elf_cvt_gunhash.patch \
++        file://elfutils-fsize.patch \
++        file://remove-unused.patch \
++        file://mempcpy.patch \
++        file://fix_for_gcc-4.7.patch \
++        file://dso-link-change.patch \
++        file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
++        file://elfutils-ar-c-fix-num-passed-to-memset.patch \
++        file://Fix_elf_cvt_gunhash.patch \
++        file://elf_begin.c-CVE-2014-9447-fix.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
+@@ -52,9 +53,9 @@ EXTRA_OECONF_append_class-native = " --without-bzlib"
+ EXTRA_OECONF_append_libc-uclibc = " --enable-uclibc"
+ 
+ do_configure_prepend() {
+-	sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
++    sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
+ 
+-	cp ${WORKDIR}/*dis.h ${S}/libcpu
++    cp ${WORKDIR}/*dis.h ${S}/libcpu
  }
+ 
+ # we can not build complete elfutils when using uclibc
 -- 
-1.9.2
+1.8.4.2
 
 
