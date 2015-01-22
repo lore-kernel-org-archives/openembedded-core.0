@@ -1,43 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 868E072C16
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 9853665C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 16:34:23 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id k48so1076175wev.12
+	Thu, 22 Jan 2015 16:39:31 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id w62so2843035wes.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 08:34:23 -0800 (PST)
+	Thu, 22 Jan 2015 08:39:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=/0BbBKNn22Jvx8JLfI44gLPHN18Xsh956ZGT48h9Ii8=;
-	b=oDXgSrqO+gXgN72D211fU4QObmTYue9vyMsNHeSEaY+EhxO61vzcwyRIDkNfh2tECz
-	kqyM5wqz20v8Zh2S2Q5lDPvWqSZLc6ueyZR66Jxbq2ZikJnPA/nV5zs5lMwzEKRjxnDg
-	xfotX1TnBo0OgblO+yqiNfL3cuOMYtp9E48Pl0TQYPV9++SpAU2fUc63TcUEB7F8/pLO
-	3U9Hz8VrSmiOf55NgPQo/+cOlrjuzRliVH/eCOajJKxzyP3aVDuX0KG1853bQ97NZLRR
-	6+x/ygXsGs7dVZfnnYlZaJUb5D1G7sZAHtkDzhLh8C3Esf1GLEoGanks9NBjmt5ySsDc
-	VXkQ==
-X-Received: by 10.180.90.233 with SMTP id bz9mr28697397wib.5.1421944463421;
-	Thu, 22 Jan 2015 08:34:23 -0800 (PST)
+	h=from:to:subject:date:message-id;
+	bh=iNQaeMwgHDNAH9y0e32izbf551LwKTPvtftLNG5LWQU=;
+	b=FXMLRCW8IYsvYEypIRlZFCPIGe9gTVNJj5wWCm0kFLWVcexnxgmrnYBJlqpWRN/six
+	VV/b1Xps2hdkEFJHkBvqfJXy1wxhOWmZiy48WFTAUKqvowTfH6Essw/0WANoJWHV+/Bv
+	sqijTsxoYDKITT8CxOXv0rgFvULrLbgfpCJ3tCGNsxIveJNv+myvz+SrwrY482UGAZoP
+	I5gGrqq2i82LD8mKTgzyFgPaiJqGFjA9RGaFFs8Qy5Tt6aXxnEBw4YsJMKhFidO0/Zpq
+	QroghJfEibZq9vYYy1ve70/EMFf5UNAk6xr1JcZvcS+54646GAJiHLK+aBnfreU2Ix4W
+	R9oA==
+X-Received: by 10.194.191.164 with SMTP id gz4mr4972176wjc.70.1421944772052;
+	Thu, 22 Jan 2015 08:39:32 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	hv5sm4629312wjb.16.2015.01.22.08.34.22
+	ej10sm7147882wib.1.2015.01.22.08.39.31
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jan 2015 08:34:22 -0800 (PST)
+	Thu, 22 Jan 2015 08:39:31 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 22 Jan 2015 17:34:28 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150122163428.GF2456@jama>
-References: <20141111171344.GA2453@jama>
-	<1418221117-12710-1-git-send-email-Martin.Jansa@gmail.com>
-	<1418221117-12710-4-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0LamxpYW0uHzTRTjyJZgw7_meZbx5L=2mZ_LwdzRcv-vkg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LamxpYW0uHzTRTjyJZgw7_meZbx5L=2mZ_LwdzRcv-vkg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/4] recipes-qt: add x11 to required DISTRO_FEATURES
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jan 2015 17:39:30 +0100
+Message-Id: <cover.1421943849.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [PATCHv4 0/4] libav-9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,52 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 16:34:25 -0000
-X-Groupsio-MsgNum: 61628
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="XStn23h1fwudRqtG"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Jan 2015 16:39:34 -0000
 
---XStn23h1fwudRqtG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v3:
+added LICENSE_FLAGS to libpostproc as requested by Ross.
 
-On Tue, Jan 20, 2015 at 09:19:32PM +0000, Burton, Ross wrote:
-> On 10 December 2014 at 14:18, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-> > @@ -8,6 +8,9 @@ DEPENDS +=3D "virtual/libgl virtual/libx11 fontconfig l=
-ibxft
-> > libxext libxrender li
-> >  PROVIDES +=3D "qt4-x11"
-> >  QT4DEPENDS =3D ""
-> >
-> > +# depends on virtual/libx11
-> > +REQUIRED_DISTRO_FEATURES =3D "x11"
-> > +
-> >
->=20
-> Isn't that redundant as qt4x11 already sets REQUIRED_DISTRO_FEATURES?
->=20
-> Also, if setting REQURED_DISTRO_FEATURES in a class, using +=3D or _append
-> seems like a sensible idea for future-proofing.
+The following changes since commit 0bcc01121e928d0be7a0550e500425852c63cf98:
 
-Done, good catch.
+  arch-mips.inc: Add the MIPS ABIEXTENSION to toolchain name (2015-01-21 14:28:43 +0000)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
 
---XStn23h1fwudRqtG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  git://git.openembedded.org/openembedded-core-contrib jansa/libav
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/libav
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Martin Jansa (4):
+  gst-ffmpeg: add dependency on libpostproc
+  libav: drop unused FFMPEG_LIBS and move libpostproc only to 0.8.11
+  libav: drop older 0.8.* and use libav-9 by default
+  libpostproc: import from meta-oe
 
-iEYEARECAAYFAlTBJpQACgkQN1Ujt2V2gBwb9QCffYuoTZ6uLjEvTT7moLHqKOJa
-JMkAn0CE6aZAHKWbAbSEYWtLIrlnCuXm
-=8/Sj
------END PGP SIGNATURE-----
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |  5 +--
+ meta/recipes-multimedia/libav/libav.inc            | 13 +++---
+ .../0001-configure-enable-pic-for-AArch64.patch    | 23 -----------
+ meta/recipes-multimedia/libav/libav_0.8.15.bb      | 18 ---------
+ meta/recipes-multimedia/libav/libav_9.16.bb        |  9 -----
+ meta/recipes-multimedia/libav/libpostproc_git.bb   | 46 ++++++++++++++++++++++
+ 6 files changed, 56 insertions(+), 58 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.patch
+ delete mode 100644 meta/recipes-multimedia/libav/libav_0.8.15.bb
+ create mode 100644 meta/recipes-multimedia/libav/libpostproc_git.bb
 
---XStn23h1fwudRqtG--
+-- 
+2.2.1
+
+
