@@ -1,43 +1,47 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E39560670
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 4528B72CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 16:12:30 +0000 (UTC)
-Received: by mail-yk0-f181.google.com with SMTP id 79so1030513ykr.12
+	Thu, 22 Jan 2015 16:13:21 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	t0MGDGwr022534
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 08:12:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=w/e262z/mp5/ALScfM26kPcxke+8b5I4/dqj3pJtJ54=;
-	b=w8GR5DMDdMaJdODZTSUjphXV6GG3O1kDtszFniP90AyTwAA951W4FXwEST9Wytdth1
-	1pWw7NS8hPh/j95XXCRtX8gLO1wcbjqh9j/pfm6DG1kFU4/3gWS1FpP9CHkLMiG9ftZz
-	5ZvHNpJy4mKtY4IiDLNbxpYlZQSAL/aCeIZ2xvBDM4g/WAL2u92v/c3JPsFtCsE5m9KU
-	bl8vlKV52DWP2DY/IIWUpx+XaEmnqsnUmZx3xptbY6Ly/7H5MuwJ1fJKIDv2UEPgTt5T
-	Eii6imJ33MyklPWJTv8KEkSDhh14rVEBVBAKhENs4kCv/6X6pnYYOBIZ2ZgEuwbHTdT8
-	Eykw==
-MIME-Version: 1.0
-X-Received: by 10.236.109.168 with SMTP id s28mr1238347yhg.67.1421943151074;
-	Thu, 22 Jan 2015 08:12:31 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Thu, 22 Jan 2015 08:12:30 -0800 (PST)
-In-Reply-To: <20150122160724.GR20639@denix.org>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
-	<20150121191123.GH20639@denix.org>
-	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
-	<20150121202005.GK20639@denix.org>
-	<20150122160724.GR20639@denix.org>
-Date: Thu, 22 Jan 2015 14:12:30 -0200
-X-Google-Sender-Auth: u9W_0HAowIYNkRHGcO4NDbRGVS8
-Message-ID: <CAP9ODKp+ERVJOzNswp7OpzE6VuOU6E7mmHg82aAVw+NKbB2JBQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+	Thu, 22 Jan 2015 17:13:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1421943199;
+	bh=Q4dfjGpwoGL17j57HMHOU8TSsbJdpBg6kCg95BvpNQQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Sender;
+	b=UVAtKkhHptUz1ySrlVxmP9F9SymjRJGZoZhDaOodMPetVKZULUszToir1iQWg4s2O
+	pPEXtAqe/6ZD85gu++Foy64l4IC7B45Nm67i4miXJHLqr0rKnPMO8EcubzWTRrHHPm
+	w9EsobJ0VlWOFDMBD7FmDB9l8tAfex61dAA1hx7c=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id t0MGD84k025902
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 22 Jan 2015 17:13:09 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1YEKNY-0008NG-BJ; Thu, 22 Jan 2015 17:13:08 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jan 2015 17:13:01 +0100
+Message-Id: <1421943181-32153-2-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1421943181-32153-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1421943181-32153-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH 2/2] image_types.bbclass: manage 'cpio_append' directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,64 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 16:12:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Jan 2015 16:13:32 -0000
 
-On Thu, Jan 22, 2015 at 2:07 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Wed, Jan 21, 2015 at 03:20:05PM -0500, Denys Dmytriyenko wrote:
->> On Wed, Jan 21, 2015 at 06:11:23PM -0200, Otavio Salvador wrote:
->> > On Wed, Jan 21, 2015 at 5:11 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> > > On Wed, Jan 21, 2015 at 11:17:19AM -0200, Otavio Salvador wrote:
->> > >> On Tue, Jan 13, 2015 at 2:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> > >> > From: Denys Dmytriyenko <denys@ti.com>
->> > >> >
->> > >> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->> > >> ...
->> > >> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
->> > >> > @@ -0,0 +1,36 @@
->> > >> > +From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
->> > >> > +From: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> > >> > +Date: Wed, 3 Dec 2014 10:22:50 +0900
->> > >> > +Subject: [PATCH] tools: env: fix build error
->> > >> > +
->> > >> > +Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
->> > >> > +tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
->> > >> > +is defined.
->> > >> > +(I do not think this is the right way to fix the problem, but
->> > >> > +for now I do not have enough time to take a close look.)
->> > >> > +
->> > >> > +Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
->> > >> > +
->> > >> > +Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
->> > >> > +Reported-by: Denys Dmytriyenko <denys@ti.com>
->> > >>
->> > >> Is it necessary? In meta-fsl-arm we don't have this patch and get the
->> > >> tools built.
->> > >
->> > > Really? The patch above is rather self-explanatory. The issue was confirmed by
->> > > U-boot maintainers and the workaround provided by one of the core developers.
->> > > I'm not familiar with meta-fsl-arm, but I guess you can grep your platform's
->> > > defconfig to see if CONFIG_ENV_VARS_UBOOT_CONFIG and others are defined and
->> > > whether your platforms are affected or not. It does affect our platforms
->> > > (among many others), including beaglebone.
->> >
->> > I think this is for the cross tool only.
->>
->> Versus what?
->
-> Please clarify what exactly you meant with the statement above? Thanks.
+For cpio images, do_rootfs() can operate on a dirty '${WORKDIR}/cpio_append'
+directory which contains e.g. files from previous builds.  This can cause
+unwanted files in the image or can break the build.
 
-The fw-utils require the machine configuration, right? So it depends
-on the machine to be setup before running the build. This is the
-reason it ends being a cross and not a native tool.
+E.g. when there is a cpio_append/init -> /sbin/init symlink symlink, the
+'ln -sf' can fail due to SELinux restrictions:
 
-I think your patch does address part of the issue. We now need to
-figure what has been lost when moving to the kbuild system.
+| $ ls -la cpio_append/init
+| lrwxrwxrwx. 1 ensc ensc 10 22. Jan 16:26 cpio_append/init -> /sbin/init
+|
+| $ strace ln -sf /sbin/init cpio_append/init
+| ...
+| stat("cpio_append/init", 0x7fffbb9ca310) = -1 EACCES (Permission denied)
+| exit_group(1)                           = ?
 
-I can try to help to debug it if you want...
+Patch cleans up 'cpio_append' before executing the 'do_rootfs' task by
+adding it to 'cleandirs'.  An alternative implementation (which avoids
+creation of this empty dir for non-cpio images) might remove it within
+IMAGE_CMD_cpio, but this might break builds where people rely on the
+existence of this directory (e.g. to add local files).
 
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 59fba32..24052ac 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -68,10 +68,10 @@ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_
+ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
+ IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
+ 
++do_rootfs[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD_cpio () {
+ 	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+ 	if [ ! -L ${IMAGE_ROOTFS}/init -a ! -e ${IMAGE_ROOTFS}/init ]; then
+-		mkdir -p ${WORKDIR}/cpio_append
+ 		if [ -L ${IMAGE_ROOTFS}/sbin/init -o -e ${IMAGE_ROOTFS}/sbin/init ]; then
+ 			ln -sf /sbin/init ${WORKDIR}/cpio_append/init
+ 		else
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.3
+
 
