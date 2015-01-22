@@ -1,39 +1,28 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id B829E71144
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 360B371144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 21:23:18 +0000 (UTC)
-Received: from gandalf.denix.org ([108.18.33.160]) by vms173021.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NIL00J8HKQUOVB0@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 22 Jan 2015 15:23:19 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=PYxIXZlY c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=lWCPPXvwfZmZfRXisigA:9
-	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 7ABFF202A1; Thu,
-	22 Jan 2015 16:23:16 -0500 (EST)
-Date: Thu, 22 Jan 2015 16:23:16 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Raphael Philipe <rapphil@gmail.com>
-Message-id: <20150122212316.GU20639@denix.org>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
-	<20150121191123.GH20639@denix.org>
-	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
-	<20150121202005.GK20639@denix.org>
-	<CAENGNheynLDPzuS6xEJTLbkuheB93cH0wsa2DY-M6i=jqHkdvA@mail.gmail.com>
-MIME-version: 1.0
-In-reply-to: <CAENGNheynLDPzuS6xEJTLbkuheB93cH0wsa2DY-M6i=jqHkdvA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+	Thu, 22 Jan 2015 22:02:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0MM2Cce004882
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 22 Jan 2015 14:02:12 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 22 Jan 2015 14:02:12 -0800
+Date: Thu, 22 Jan 2015 16:02:09 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Juro Bystricky <jurobystricky@hotmail.com>
+Message-ID: <20150122160209.2b16dd58@e6410-2>
+In-Reply-To: <BAY179-W31475BA463A068FF83E83BB490@phx.gbl>
+References: <BLU437-SMTP65FA876B595D639FFD2DD6BB750@phx.gbl>
+	<BAY179-W31475BA463A068FF83E83BB490@phx.gbl>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] eglibc-use-option-groups.patch: Various fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +35,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 21:23:26 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 22 Jan 2015 22:02:21 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 22, 2015 at 07:50:28AM -0200, Raphael Philipe wrote:
-> Hey Denys, I tested u-boot-fw-utils-cross_2014.07.bb in Ubuntu 12.04
-> and got the same error .
+On Thu, 22 Jan 2015 12:52:37 -0800
+Juro Bystricky <jurobystricky@hotmail.com> wrote:
+
+> ping.
+
+My memory (which is notoriously unreliable) was that we'd merged these
+changes, but it may be we did thim in our local tree.
+
 > 
-> Can you confirm that this recipe works for you?
+> > From: jurobystricky@hotmail.com
+> > To: openembedded-core@lists.openembedded.org
+> > CC: sgw@linux.intel.com; peter.seebach@windriver.com
+> > Subject: [PATCH] eglibc-use-option-groups.patch: Various fixups
+> > Date: Sun, 23 Nov 2014 09:44:17 -0800
+> > 
+> > Build suppport for mutibyte character handling only when
+> > __OPTION_EGLIBC_LOCALE_CODE evaluates to 1.
+> > Fixes missing .out suffix for several tests to be built.
+> > Fixes building of locales needed for several tests. Do not use
+> > cross-localedef to build locales. Use localedef built with the
+> > newly built libgc instead.
+> > 
+> > Fixes:
+> > [YOCTO #6809] [YOCTO #6796] [YOCTO #6797]
+> > 
+> > Signed-off-by: Juro Bystricky <jurobystricky@hotmail.com>
+> > ---
+> >  .../glibc/glibc/eglibc-use-option-groups.patch     | 43 ++--------------------
+> >  1 file changed, 4 insertions(+), 39 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+> > index 40c7832..0e2f0c6 100644
+> > --- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+> > +++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+> > @@ -2434,24 +2434,7 @@ Index: git/localedata/Makefile
+> >   
+> >   ifeq ($(run-built-tests),yes)
+> >   # We have to generate locales
+> > -@@ -143,9 +161,13 @@
+> > - $(addprefix $(objpfx),$(CTYPE_FILES)): %: \
+> > -   gen-locale.sh $(common-objpfx)locale/localedef Makefile \
+> > -   $(addprefix charmaps/,$(CHARMAPS)) $(addprefix locales/,$(LOCALE_SRCS))
+> > --	@$(SHELL) gen-locale.sh $(common-objpfx) \
+> > --		  '$(built-program-cmd-before-env)' '$(run-program-env)' \
+> > --		  '$(built-program-cmd-after-env)' $@; \
+> > -+	@$(SHELL) gen-locale.sh $(common-objpfx)	\
+> > -+		 '$(if $(cross-localedef), 		\
+> > -+		       $(cross-localedef),		\
+> > -+		       $(built-program-cmd-before-env)  \
+> > -+		       $(run-program-env)		\
+> > -+		       $(built-program-cmd-after-env))' \
+> > -+		       $@; \
+> > - 	$(evaluate-test)
+> > - 
+> > - $(addsuffix .out,$(addprefix $(objpfx),$(tests))): %: \
+> > -@@ -213,6 +235,11 @@
+> > +@@ -213,6 +231,11 @@
+> >   
+> >   include SUPPORTED
+> >   
+> > @@ -4783,7 +4766,7 @@ Index: git/posix/fnmatch.c
+> >   #  endif
+> >   
+> >  -#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || _LIBC
+> > -+#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || (_LIBC && __OPTION_EGLIBC_LOCALE_CODE)
+> > ++#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS && _LIBC && __OPTION_EGLIBC_LOCALE_CODE)
+> >   /* In this case we are implementing the multibyte character handling.  */
+> >   #   define HANDLE_MULTIBYTE	1
+> >   #  endif
+> > @@ -5065,8 +5048,8 @@ Index: git/posix/Makefile
+> >   		 $(objpfx)bug-glob2-mem.out $(objpfx)tst-vfork3-mem.out \
+> >   		 $(objpfx)tst-fnmatch-mem.out $(objpfx)bug-regex36-mem.out
+> >  +ifeq (y,$(OPTION_POSIX_REGEXP_GLIBC))
+> > -+tests-special += $(objpfx)bug-regex14-mem $(objpfx)tst-rxspencer-no-utf8-mem \
+> > -+  		 $(objpfx)tst-pcre-mem $(objpfx)tst-boost-mem
+> > ++tests-special += $(objpfx)bug-regex14-mem.out $(objpfx)tst-rxspencer-no-utf8-mem.out \
+> > ++  		 $(objpfx)tst-pcre-mem.out $(objpfx)tst-boost-mem.out
+> >  +endif
+> >  +
+> >   xtests-special += $(objpfx)bug-ga2-mem.out
+> > @@ -16458,24 +16441,6 @@ Index: git/sysdeps/nptl/small-macros-fns.c
+> >  +libc_hidden_def (__libc_lock_unlock_recursive_fn);
+> >  +
+> >  +#endif /*defined _LIBC && (!defined NOT_IN_libc || defined IS_IN_libpthread)*/
+> > -Index: git/include/libc-symbols.h
+> > -===================================================================
+> > ---- git.orig/include/libc-symbols.h	2014-08-29 20:00:47.144070587 -0700
+> > -+++ git/include/libc-symbols.h	2014-08-29 20:01:15.248070587 -0700
+> > -@@ -60,8 +60,11 @@
+> > - /* Define these macros for the benefit of portable GNU code that wants to check
+> > -    them.  Of course, STDC_HEADERS is never false when building libc!  */
+> > - #define STDC_HEADERS	1
+> > --#define HAVE_MBSTATE_T	1
+> > --#define HAVE_MBSRTOWCS	1
+> > -+
+> > -+#if __OPTION_EGLIBC_LOCALE_CODE
+> > -+# define HAVE_MBSTATE_T	1
+> > -+# define HAVE_MBSRTOWCS	1
+> > -+#endif
+> > - #define HAVE_LIBINTL_H	1
+> > - #define HAVE_WCTYPE_H	1
+> > - #define HAVE_ISWCTYPE	1
+> >  Index: git/crypt/crypt_common.c
+> >  ===================================================================
+> >  --- /dev/null	1970-01-01 00:00:00.000000000 +0000
+> > -- 
+> > 1.9.1
+> > 
+>  		 	   		  
 
-Ok, trying to bisect the breakage of the current 2014.07 version of 
-fw-utils-cross now:
-
-Poky snapshot from mid-September, when 2014.07 update patch was submitted and 
-when it was validated by the autobuilder - still works fine.
-
-Since it was a feature freeze time before the release, the patch was not 
-accepted and was queued for later.
-
-Poky snapshot from mid-November, when the patch was finally applied - the 
-build breaks. Again, it may not be showing the issue on the autobuilder due to 
-an earlier successful sstate.
-
-So, somewhere in between a change was introduced that breaks fw-utils-cross. 
-BTW, neither 2014.07 update nor 2015.01 change anything to the way 
-fw-utils-cross gets built.
 
 -- 
-Denys
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
