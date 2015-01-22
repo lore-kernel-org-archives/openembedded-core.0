@@ -1,36 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2E572CE7
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7708F72D26
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 16:39:42 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id fb4so4106854wid.2
+	Thu, 22 Jan 2015 16:39:54 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id w62so2845001wes.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 08:39:43 -0800 (PST)
+	Thu, 22 Jan 2015 08:39:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=SptxsRNV/3/UFVx/Bl1kFg66DELWd5ypP3mJkiSnoks=;
-	b=gnGPF2ZXm6uj9myheaTak2FeBgnvG1yhgEjLTgocUL2NlQNhxuokXG/OzT6iGEUptJ
-	PbUoNugUGPOZPFsIDlU/SdSbd7AHaJl9d0nFf6yCcXLUQyE8DSB0D1AD01Vw5kYJZPR3
-	JR+M8Sz0/dRpLAcoA2cBF9CYERiI8YumiMatrzh5q2hxD+opP69Kqm4wylHizO9/l45t
-	v8u/7SJuhLuRUcKuH36XAw5LCDre4AmO5VsFmkdubC/qi83LvWqLoewTxFVVwqJ8sC9Z
-	mB/UW2o3zelGw6+tFvirW+hOQmrdD7V4fdTdHXw8Yp+kRBx99X7cHQXK8no4Xg1iLfEV
-	vKUQ==
-X-Received: by 10.194.7.103 with SMTP id i7mr4590905wja.53.1421944783185;
-	Thu, 22 Jan 2015 08:39:43 -0800 (PST)
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=sdnprspB3QoD1mED6Ngwzkch1jHFO/2wHzOFMYponKc=;
+	b=yG0RAZeyk3rqDcBa8hcWOzTPLZiFAgu7usEzsa+ABzy41l5CciowcMKy8A3Ua2UWnt
+	y/l/+GvlQfMkJG8vCf7hA0iYw0ZGTUQaIEFFxtK7eqaGKdpalCbONcUVEnVkngXtdcp3
+	M0gttYMcCH+PXDbaO2K+ta/HuBTXg7F++/t0nSmVH6hh6bo/bMRvp7Sw93oSMwA+ywrs
+	U5GFH71PVlk/Ml6PCoKGG/BCF+B3FPvPhzQJn6gXa3saIH2sX/kupNA48Hdak5DeSzNV
+	iub38CX4RXMW3lFL74CghmNVYev2y0Do64KVLGHPSisSbELls0hhMYGlldMU43+pQfRR
+	4n/Q==
+X-Received: by 10.180.208.112 with SMTP id md16mr6645843wic.37.1421944794634; 
+	Thu, 22 Jan 2015 08:39:54 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ck7sm4650692wjb.13.2015.01.22.08.39.42
+	by mx.google.com with ESMTPSA id v7sm3709209wib.5.2015.01.22.08.39.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Jan 2015 08:39:42 -0800 (PST)
+	Thu, 22 Jan 2015 08:39:47 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Jan 2015 17:39:42 +0100
-Message-Id: <cover.1421944678.git.Martin.Jansa@gmail.com>
+Date: Thu, 22 Jan 2015 17:39:46 +0100
+Message-Id: <f0b5b078e4d7ffcb0060d9d27f6b5847338feb58.1421944678.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.2.1
-Subject: [PATCHv3 0/4] REQUIRED_DISTRO_FEATURES
+In-Reply-To: <cover.1421944678.git.Martin.Jansa@gmail.com>
+References: <cover.1421944678.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1421944678.git.Martin.Jansa@gmail.com>
+References: <cover.1421944678.git.Martin.Jansa@gmail.com>
+Subject: [PATCHv3 4/4] recipes-qt: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,53 +46,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 16:39:48 -0000
+X-List-Received-Date: Thu, 22 Jan 2015 16:39:56 -0000
 
-Changes since v2:
-Removed piglit which is supposed to get fixed.
-Removed qt4-x11-free which inherits it from qt4x11.
-Used += in qt4x11.bbclass.
+* it's not complete, but recipes depending on virtual/libx11 are easiest
+  to spot, I've long list of PNBLACKLIST for all recipes which cannot
+  be built in distro without x11 in DISTRO_FEATURES
 
-The following changes since commit 0bcc01121e928d0be7a0550e500425852c63cf98:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/qt4x11.bbclass                                       | 5 ++++-
+ meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb | 4 ++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-  arch-mips.inc: Add the MIPS ABIEXTENSION to toolchain name (2015-01-21 14:28:43 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib jansa/distro
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/distro
-
-Martin Jansa (4):
-  xorg-app: add x11 to required DISTRO_FEATURES and cleanup dependencies
-  recipes: add x11 to required DISTRO_FEATURES
-  xorg-driver: add x11 to required DISTRO_FEATURES
-  recipes-qt: add x11 to required DISTRO_FEATURES
-
- meta/classes/qt4x11.bbclass                                          | 5 ++++-
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb                     | 4 ++++
- meta/recipes-graphics/fstests/fstests_git.bb                         | 5 ++++-
- meta/recipes-graphics/glew/glew_1.11.0.bb                            | 4 +++-
- meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb                | 5 ++++-
- .../recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb | 5 ++++-
- meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb                 | 5 ++++-
- meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb                 | 5 ++++-
- meta/recipes-graphics/piglit/piglit_git.bb                           | 2 +-
- meta/recipes-graphics/pong-clock/pong-clock_1.0.bb                   | 4 ++++
- .../startup-notification/startup-notification_0.12.bb                | 5 ++++-
- meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb                        | 5 ++++-
- meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb     | 5 ++++-
- meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb                        | 2 +-
- meta/recipes-graphics/xorg-app/xorg-app-common.inc                   | 5 ++++-
- meta/recipes-graphics/xorg-app/xprop_1.2.2.bb                        | 2 +-
- meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.15.bb        | 4 ++++
- meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb       | 4 ++++
- meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb             | 4 ++++
- meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb           | 4 ++++
- meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.3.bb           | 4 ++++
- meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.2.bb        | 4 ++++
- meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb    | 4 ++++
- 23 files changed, 82 insertions(+), 14 deletions(-)
-
+diff --git a/meta/classes/qt4x11.bbclass b/meta/classes/qt4x11.bbclass
+index b06e15d..6f06d34 100644
+--- a/meta/classes/qt4x11.bbclass
++++ b/meta/classes/qt4x11.bbclass
+@@ -1,7 +1,10 @@
+ QT4DEPENDS ?= "qt4-x11 "
+ DEPENDS_prepend = "${QT4DEPENDS}"
+ 
+-inherit qmake2
++# depends on qt4-x11
++REQUIRED_DISTRO_FEATURES += "x11"
++
++inherit qmake2 distro_features_check
+ 
+ QT_BASE_NAME = "qt4"
+ QT_DIR_NAME = "qt4"
+diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
+index 0e7c800..772c151 100644
+--- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
++++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
+@@ -4,6 +4,10 @@ QTLIBPREFIX = ""
+ 
+ require packagegroup-qt-toolchain-target.inc
+ 
++inherit distro_features_check
++# depends on qt4-x11-free
++REQUIRED_DISTRO_FEATURES = "x11"
++
+ RDEPENDS_${PN} += " \
+         qt4-x11-free-dev \
+         ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'libqtopengl4-dev', '', d)} \
 -- 
 2.2.1
 
