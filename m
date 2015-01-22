@@ -1,61 +1,35 @@
-Return-Path: <B40290@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bbn0107.outbound.protection.outlook.com [157.56.111.107])
-	by mail.openembedded.org (Postfix) with ESMTP id C0A7071144
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED337251B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 07:00:38 +0000 (UTC)
-Received: from CO2PR03CA0045.namprd03.prod.outlook.com (10.141.194.172) by
-	BLUPR03MB438.namprd03.prod.outlook.com (10.141.78.149) with Microsoft
-	SMTP Server (TLS) id 15.1.59.20; Thu, 22 Jan 2015 06:28:01 +0000
-Received: from BY2FFO11FD041.protection.gbl (2a01:111:f400:7c0c::123) by
-	CO2PR03CA0045.outlook.office365.com (2a01:111:e400:1414::44) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.59.20 via Frontend Transport; Thu, 22 Jan 2015
-	06:28:00 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD041.mail.protection.outlook.com (10.1.14.226) with Microsoft
-	SMTP Server (TLS) id 15.1.59.14 via Frontend Transport;
-	Thu, 22 Jan 2015 06:28:00 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	t0M6Rrle018427; Wed, 21 Jan 2015 23:27:57 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jan 2015 14:27:50 +0800
-Message-ID: <1421908070-13605-2-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-In-Reply-To: <1421908070-13605-1-git-send-email-B40290@freescale.com>
-References: <1421908070-13605-1-git-send-email-B40290@freescale.com>
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B40290@freescale.com; 
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(189002)(199003)(106466001)(105606002)(50986999)(76176999)(85426001)(2351001)(110136001)(104016003)(50226001)(19580405001)(48376002)(229853001)(87936001)(50466002)(6806004)(19580395003)(86362001)(450100001)(77156002)(62966003)(97736003)(2950100001)(77096005)(64706001)(92566002)(36756003)(68736005)(47776003)(46102003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BLUPR03MB438;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
-MIME-Version: 1.0
-X-DmarcAction-Test: None
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(3005004);SRVR:BLUPR03MB438;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BLUPR03MB438; 
-X-Forefront-PRVS: 0464DBBBC4
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BLUPR03MB438;
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2015 06:28:00.6211 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
-	Ip=[192.88.168.50]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR03MB438
-Subject: [PATCH v5 2/2] u-boot.inc : add compile multiple u-boot feature
+	Thu, 22 Jan 2015 07:48:33 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id et14so211988pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Jan 2015 23:48:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NK7X98i+tjEQfJZLMaIP55SM+IvB8HgZzsEw9CEFuXw=;
+	b=dplKL4aeP0X2/4yEkfCXDJhku6q+7XZXZjrku57u1Swz7XJlDeFM2OBdA4l9oO0c9K
+	Age4zQ7I3ivi/ttEkToDfE5bUUv2UmR9iIUVsC9pvtOdG19W1F0oYG0yd4zIX51kVfjJ
+	Fu0GPJRmmvXl6lN0T2oN1lqXKo3Wa1HDbxYUb9sLqZdPnvDmznA93c2+jfLbb00B2UDk
+	NKvN8SDuvr29fgfkMH3TQLcDmBjRd+Wz9G7xGAbA+IQBo4H1AxbQ+OisJh6WUEdNvOGM
+	ReDmfhJMDiXXMS8otMvvUSV3JYGBP6RzkXiBUGGvjC6gr3WFy0crPJOd4SKcc/smBonF
+	wC4Q==
+X-Received: by 10.68.69.97 with SMTP id d1mr65060pbu.126.1421912914129;
+	Wed, 21 Jan 2015 23:48:34 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id jp10sm8310358pbb.2.2015.01.21.23.48.32
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 21 Jan 2015 23:48:33 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Jan 2015 23:48:21 -0800
+Message-Id: <1421912901-16466-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH] nss: update package to 3.17.3 and build fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,195 +42,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 07:00:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Jan 2015 07:48:39 -0000
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
+From: Armin Kuster <akuster@mvista.com>
+
+Update includes:
+CVE-2014-1569
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-1569
+
+for changelog information see
+https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_3.17.3_release_notes
+
+We had a build failure on 32 bit hosts so including a patch from:
+ http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/dora-misc
+
+Wenzong Fan (1):
+  nss: workaround multilib build on 32bit host
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 150 +++++++++++++++++++++++++++++++------
- 1 file changed, 129 insertions(+), 21 deletions(-)
+ meta/recipes-support/nss/nss.inc                   |  1 +
+ .../nss/nss/nss-fix-nsinstall-build.patch          | 35 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.17.2.bb             |  8 -----
+ meta/recipes-support/nss/nss_3.17.3.bb             |  7 +++++
+ 4 files changed, 43 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
+ delete mode 100644 meta/recipes-support/nss/nss_3.17.2.bb
+ create mode 100644 meta/recipes-support/nss/nss_3.17.3.bb
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index c695b73..58725fa 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -62,15 +62,56 @@ do_compile () {
- 		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
- 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
- 	fi
-+    
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-+    then
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]
-+                then
-+                    continue
-+                fi
-+                if [ -d "${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then
-+                    break
-+                else
-+                    oe_runmake O=${config} ${config}
-+                    oe_runmake O=${config} ${UBOOT_MAKE_TARGET}
-+                    cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
-+                fi
-+            done
-+        done
-+    else
-+        oe_runmake ${UBOOT_MACHINE}
-+        oe_runmake ${UBOOT_MAKE_TARGET}
-+    fi
- 
--	oe_runmake ${UBOOT_MACHINE}
--	oe_runmake ${UBOOT_MAKE_TARGET}
- }
- 
- do_install () {
--    install -d ${D}/boot
--    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
--    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-+    then
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]
-+                then
-+                    continue
-+                fi
-+                if [ -d "${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then
-+                    break
-+                else
-+                    install -d ${D}/boot
-+                    install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+                fi
-+            done
-+        done
-+    else
-+        install -d ${D}/boot
-+        install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-+        ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+    fi
- 
-     if [ -e ${WORKDIR}/fw_env.config ] ; then
-         install -d ${D}${sysconfdir}
-@@ -79,8 +120,28 @@ do_install () {
- 
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
--        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
--        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+        if [ "x${UBOOT_CONFIG}" != "x" ]   
-+        then
-+            for config in ${UBOOT_MACHINE}; do
-+                for type in in ${UBOOT_CONFIG}; do
-+                     if [ "${type}"x = "in"x ]
-+                     then
-+                         continue
-+                     fi
-+                     if [ -d "${D}/boot/${SPL_IMAGE}-${type}"]
-+                     then
-+                         break
-+                     else
-+                         install ${S}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}
-+                     fi
-+                done
-+            done
-+        else
-+            install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+        fi
-     fi
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-@@ -93,21 +154,68 @@ do_install () {
- FILES_${PN} = "/boot ${sysconfdir}"
- 
- do_deploy () {
--    install -d ${DEPLOYDIR}
--    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index e5e3096..6330f4e 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -16,6 +16,7 @@ SRC_URI = "\
+     file://nss-fix-support-cross-compiling.patch \
+     file://nss-no-rpath-for-cross-compiling.patch \
+     file://nss-fix-incorrect-shebang-of-perl.patch \
++    file://nss-fix-nsinstall-build.patch \
+ "
+ SRC_URI_append = "\
+     file://nss.pc.in \
+diff --git a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
+new file mode 100644
+index 0000000..866de07
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
+@@ -0,0 +1,35 @@
++Fix nss multilib build on openSUSE 11.x 32bit
++
++While building lib64-nss on openSUSE 11.x 32bit, the nsinstall will
++fail with error:
++
++* nsinstall.c:1:0: sorry, unimplemented: 64-bit mode not compiled
++
++It caused by the '-m64' option which passed to host gcc.
++
++The nsinstall was built first while nss starting to build, it only runs
++on host to install built files, it doesn't need any cross-compling or
++multilib build options. Just clean the ARCHFLAG and LDFLAGS to fix this
++error.
++
++Upstream-Status: Pending
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++===================================================
++diff --git a/nss/coreconf/nsinstall/Makefile b/nss/coreconf/nsinstall/Makefile
++index 1850bcb..5aee84f 100644
++--- a/nss/coreconf/nsinstall/Makefile
+++++ b/nss/coreconf/nsinstall/Makefile
++@@ -18,6 +18,12 @@ INTERNAL_TOOLS  = 1
++ 
++ include $(DEPTH)/coreconf/config.mk
++ 
+++# nsinstall is unfit for cross-compiling/multilib-build since it was
+++# always run on local host to install built files. This change intends
+++# to clean the '-m64' from ARCHFLAG and LDFLAGS.
+++ARCHFLAG =
+++LDFLAGS =
+++
++ ifeq (,$(filter-out OS2 WIN%,$(OS_TARGET)))
++ PROGRAM		=
++ else
+diff --git a/meta/recipes-support/nss/nss_3.17.2.bb b/meta/recipes-support/nss/nss_3.17.2.bb
+deleted file mode 100644
+index 039406f..0000000
+--- a/meta/recipes-support/nss/nss_3.17.2.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require nss.inc
 -
--    cd ${DEPLOYDIR}
--    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+-SRC_URI += "\
+-    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_2_RTM/src/${BPN}-${PV}.tar.gz \
+-"
 -
--    if [ "x${SPL_BINARY}" != "x" ]
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
--        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
--        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
--    fi
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]  
-+                then
-+                    continue
-+                fi
-+                if [ -d "${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then 
-+                    break
-+                else
-+                    install -d ${DEPLOYDIR}
-+                    install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}
-+                    cd ${DEPLOYDIR}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-+                fi 
-+            done 
-+        done
-+    else
-+        install -d ${DEPLOYDIR}
-+        install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+        cd ${DEPLOYDIR}
-+        rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+        ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+        ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-+   fi
-+    
+-SRC_URI[md5sum] = "d3edb6f6c3688b2fde67ec9c9a8c1214"
+-SRC_URI[sha256sum] = "134929e44e44b968a4883f4ee513a71ae45d55b486cee41ee8e26c3cc84dab8b"
+diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-support/nss/nss_3.17.3.bb
+new file mode 100644
+index 0000000..e7d0780
+--- /dev/null
++++ b/meta/recipes-support/nss/nss_3.17.3.bb
+@@ -0,0 +1,7 @@
++require nss.inc
 +
-+
-+     if [ "x${SPL_BINARY}" != "x" ]
-+     then
-+         if [ "x${UBOOT_CONFIG}" != "x" ]   
-+         then
-+             for config in ${UBOOT_MACHINE}; do
-+                 for type in in ${UBOOT_CONFIG}; do
-+                      if [ "${type}"x = "in"x ]
-+                      then
-+                          continue
-+                      fi
-+                      if [ -d "${DEPLOYDIR}/${SPL_IMAGE}-${type}"]
-+                      then
-+                          break
-+                      else
-+                          install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}
-+                          rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SYMLINK}
-+                      fi
-+                 done
-+             done
-+         else
-+             install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+             rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-+             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-+             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+         fi
-+     fi
-+
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-     then
++SRC_URI += "\
++    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_3_RTM/src/${BP}.tar.gz \
++"
++SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
++SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
 -- 
-1.9.2
+1.9.1
 
 
