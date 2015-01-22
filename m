@@ -1,35 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ED337251B
+Return-Path: <Yue.Tao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ED3871144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 07:48:33 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id et14so211988pad.1
+	Thu, 22 Jan 2015 08:29:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0M8TDRu020635
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Jan 2015 23:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=NK7X98i+tjEQfJZLMaIP55SM+IvB8HgZzsEw9CEFuXw=;
-	b=dplKL4aeP0X2/4yEkfCXDJhku6q+7XZXZjrku57u1Swz7XJlDeFM2OBdA4l9oO0c9K
-	Age4zQ7I3ivi/ttEkToDfE5bUUv2UmR9iIUVsC9pvtOdG19W1F0oYG0yd4zIX51kVfjJ
-	Fu0GPJRmmvXl6lN0T2oN1lqXKo3Wa1HDbxYUb9sLqZdPnvDmznA93c2+jfLbb00B2UDk
-	NKvN8SDuvr29fgfkMH3TQLcDmBjRd+Wz9G7xGAbA+IQBo4H1AxbQ+OisJh6WUEdNvOGM
-	ReDmfhJMDiXXMS8otMvvUSV3JYGBP6RzkXiBUGGvjC6gr3WFy0crPJOd4SKcc/smBonF
-	wC4Q==
-X-Received: by 10.68.69.97 with SMTP id d1mr65060pbu.126.1421912914129;
-	Wed, 21 Jan 2015 23:48:34 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id jp10sm8310358pbb.2.2015.01.21.23.48.32
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 21 Jan 2015 23:48:33 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Jan 2015 23:48:21 -0800
-Message-Id: <1421912901-16466-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH] nss: update package to 3.17.3 and build fix
+	Thu, 22 Jan 2015 00:29:13 -0800 (PST)
+Received: from pek-ytao-l1.corp.ad.wrs.com (128.224.162.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 22 Jan 2015 00:29:12 -0800
+From: Yue Tao <Yue.Tao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Jan 2015 16:29:12 +0800
+Message-ID: <1421915352-8485-1-git-send-email-Yue.Tao@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.154]
+Cc: yue.tao@windriver.com
+Subject: [PATCH] mmc-utils: set the optimization to -O2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,115 +33,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 07:48:39 -0000
+X-List-Received-Date: Thu, 22 Jan 2015 08:29:22 -0000
+Content-Type: text/plain
 
-From: Armin Kuster <akuster@mvista.com>
+From: Yue Tao <yue.tao@windriver.com>
 
-Update includes:
-CVE-2014-1569
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-1569
+The _FORTIFY_SOURCE > 0 must be used with optimization > 0, so force
+the optimization 2.
 
-for changelog information see
-https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_3.17.3_release_notes
+The build error (_FORTIFY_SOURCE=2 with -O0)
 
-We had a build failure on 32 bit hosts so including a patch from:
- http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/dora-misc
+"warning _FORTIFY_SOURCE requires compiling with optimization (-O)"
 
-Wenzong Fan (1):
-  nss: workaround multilib build on 32bit host
+(LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 2015-01-22
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 ---
- meta/recipes-support/nss/nss.inc                   |  1 +
- .../nss/nss/nss-fix-nsinstall-build.patch          | 35 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.17.2.bb             |  8 -----
- meta/recipes-support/nss/nss_3.17.3.bb             |  7 +++++
- 4 files changed, 43 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
- delete mode 100644 meta/recipes-support/nss/nss_3.17.2.bb
- create mode 100644 meta/recipes-support/nss/nss_3.17.3.bb
+ .../mmc/mmc-utils/0001-mmc-utils-force-O2.patch    |   42 ++++++++++++++++++++
+ meta/recipes-devtools/mmc/mmc-utils_git.bb         |    3 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc-utils-force-O2.patch
 
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index e5e3096..6330f4e 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -16,6 +16,7 @@ SRC_URI = "\
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-+    file://nss-fix-nsinstall-build.patch \
- "
- SRC_URI_append = "\
-     file://nss.pc.in \
-diff --git a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
+diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc-utils-force-O2.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc-utils-force-O2.patch
 new file mode 100644
-index 0000000..866de07
+index 0000000..07dfa78
 --- /dev/null
-+++ b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-@@ -0,0 +1,35 @@
-+Fix nss multilib build on openSUSE 11.x 32bit
++++ b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc-utils-force-O2.patch
+@@ -0,0 +1,42 @@
++From 77d73c3ac400d44e3e59283856152916d87ab055 Mon Sep 17 00:00:00 2001
++From: wrlbuild <wrlbuild@57965124ebf1.(none)>
++Date: Thu, 22 Jan 2015 05:57:10 +0000
++Subject: [PATCH] mmc-utils: set the optimization to -O2
 +
-+While building lib64-nss on openSUSE 11.x 32bit, the nsinstall will
-+fail with error:
++The _FORTIFY_SOURCE > 0 must be used with optimization > 0, so force
++the optimization 2.
 +
-+* nsinstall.c:1:0: sorry, unimplemented: 64-bit mode not compiled
++The build error (_FORTIFY_SOURCE=2 with -O0)
 +
-+It caused by the '-m64' option which passed to host gcc.
-+
-+The nsinstall was built first while nss starting to build, it only runs
-+on host to install built files, it doesn't need any cross-compling or
-+multilib build options. Just clean the ARCHFLAG and LDFLAGS to fix this
-+error.
++"warning _FORTIFY_SOURCE requires compiling with optimization (-O)"
 +
 +Upstream-Status: Pending
 +
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+===================================================
-+diff --git a/nss/coreconf/nsinstall/Makefile b/nss/coreconf/nsinstall/Makefile
-+index 1850bcb..5aee84f 100644
-+--- a/nss/coreconf/nsinstall/Makefile
-++++ b/nss/coreconf/nsinstall/Makefile
-+@@ -18,6 +18,12 @@ INTERNAL_TOOLS  = 1
-+ 
-+ include $(DEPTH)/coreconf/config.mk
-+ 
-++# nsinstall is unfit for cross-compiling/multilib-build since it was
-++# always run on local host to install built files. This change intends
-++# to clean the '-m64' from ARCHFLAG and LDFLAGS.
-++ARCHFLAG =
-++LDFLAGS =
-++
-+ ifeq (,$(filter-out OS2 WIN%,$(OS_TARGET)))
-+ PROGRAM		=
-+ else
-diff --git a/meta/recipes-support/nss/nss_3.17.2.bb b/meta/recipes-support/nss/nss_3.17.2.bb
-deleted file mode 100644
-index 039406f..0000000
---- a/meta/recipes-support/nss/nss_3.17.2.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require nss.inc
--
--SRC_URI += "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_2_RTM/src/${BPN}-${PV}.tar.gz \
--"
--
--SRC_URI[md5sum] = "d3edb6f6c3688b2fde67ec9c9a8c1214"
--SRC_URI[sha256sum] = "134929e44e44b968a4883f4ee513a71ae45d55b486cee41ee8e26c3cc84dab8b"
-diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-support/nss/nss_3.17.3.bb
-new file mode 100644
-index 0000000..e7d0780
---- /dev/null
-+++ b/meta/recipes-support/nss/nss_3.17.3.bb
-@@ -0,0 +1,7 @@
-+require nss.inc
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
++---
++ Makefile |    4 ++--
++ 1 files changed, 2 insertions(+), 2 deletions(-)
 +
-+SRC_URI += "\
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_3_RTM/src/${BP}.tar.gz \
-+"
-+SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
-+SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
++diff --git a/Makefile b/Makefile
++index ae846e2..120d422 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -1,13 +1,13 @@
++ CC ?= gcc
++ AM_CFLAGS = -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2
++-CFLAGS ?= -g -O2
+++CFLAGS_append = -g -O2
++ objects = mmc.o mmc_cmds.o
++ 
++ CHECKFLAGS = -Wall -Werror -Wuninitialized -Wundef
++ 
++ DEPFLAGS = -Wp,-MMD,$(@D)/.$(@F).d,-MT,$@
++ 
++-override CFLAGS := $(CHECKFLAGS) $(AM_CFLAGS) $(CFLAGS)
+++override CFLAGS := $(CHECKFLAGS) $(AM_CFLAGS) $(CFLAGS_append)
++ 
++ INSTALL = install
++ prefix ?= /usr/local
++-- 
++1.7.1
++
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index d88520c..771eede 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -9,7 +9,8 @@ SRCREV = "11f2ceabc4ad3f0dd568e0ce68166e4803e0615b"
+ PV = "0.1"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;protocol=git;branch=${BRANCH} \
+-           file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
++           file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch \
++           file://0001-mmc-utils-force-O2.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-1.9.1
+1.7.9.5
 
 
