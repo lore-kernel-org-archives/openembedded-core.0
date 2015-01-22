@@ -1,38 +1,51 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C617251B
+Return-Path: <Javier.Viguera@digi.com>
+X-Greylist: delayed 379 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 22 Jan 2015 11:02:55 UTC
+Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
+	[216.82.243.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 4921771144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 10:45:26 +0000 (UTC)
-Received: by mail-yh0-f50.google.com with SMTP id t59so345529yho.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 02:45:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=DXJkB7pEnSPMZqHq1LVqrSkkwIY9dWVdGXRTcveSHnM=;
-	b=dymn3sOQLehE/j7wRtX1qOo7Taj970HZIR4H/D921ygDU9DyI0SWyJlkygGmTEpDy9
-	uno0F8vhzMkThQktBqtm7btOZ7o2PmiCGxrixaaHzbPURb/K06LQQFP57zrX5eJvlYLz
-	t4ESVXJzUan5TP95FSSD0s7N4kgE99o6wzUqy58Q5wlLRhM60wAk//td1JFCGYStEBwN
-	jLZ6x06RKkZN+PomCRULosWUWjUWEgTyOuF41YIbm1YfYOvZoHPIBxANg+yXTo2wPx6I
-	0f5qZQP6meIg42JGh1Z8+kChl7iCA6N6rBVHYWEWYvfVwAHG8nPrSuF00xfzyQHvPsdM
-	mCjQ==
+	Thu, 22 Jan 2015 11:02:55 +0000 (UTC)
+Received: from [216.82.241.132] by server-17.bemta-8.messagelabs.com id
+	33/06-13532-467D0C45; Thu, 22 Jan 2015 10:56:36 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-11.tower-45.messagelabs.com!1421924195!45661300!1
+X-Originating-IP: [66.77.174.14]
+X-StarScan-Received: 
+X-StarScan-Version: 6.12.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 26340 invoked from network); 22 Jan 2015 10:56:35 -0000
+Received: from mail.mx4.digi.com (HELO mcl-sms-ns2.DIGI.COM) (66.77.174.14)
+	by server-11.tower-45.messagelabs.com with RC4-SHA encrypted SMTP;
+	22 Jan 2015 10:56:35 -0000
+Received: from MCL-VMS-XCH01.digi.com (10.5.8.49) by mail.mx2.digi.com
+	(172.16.1.14) with Microsoft SMTP Server (TLS) id 8.3.389.2;
+	Thu, 22 Jan 2015 04:55:56 -0600
+Received: from DOR-VMS-XCH01.digi.com (10.49.8.98) by MCL-VMS-XCH01.digi.com
+	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.210.2;
+	Thu, 22 Jan 2015 04:56:10 -0600
+Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
+	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0210.002;
+	Thu, 22 Jan 2015 11:56:08 +0100
+From: "Viguera, Javier" <Javier.Viguera@digi.com>
+To: 'Paul Eggleton' <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] Broken toolchain/SDK installation (master and dizzy)
+Thread-Index: AQHQNZxoqlmFthqlkkGfWMeUr/EcnZzL8t0w
+Date: Thu, 22 Jan 2015 10:56:07 +0000
+Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0AA8C2@dor-sms-xch01.digi.com>
+References: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0AA80E@dor-sms-xch01.digi.com>
+	<1466506.mcZXEbMHsI@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1466506.mcZXEbMHsI@peggleto-mobl5.ger.corp.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.101.2.188]
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean
 MIME-Version: 1.0
-X-Received: by 10.170.154.195 with SMTP id v186mr450657ykc.22.1421923526657;
-	Thu, 22 Jan 2015 02:45:26 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Thu, 22 Jan 2015 02:45:26 -0800 (PST)
-In-Reply-To: <54C0B644.5070707@topic.nl>
-References: <1421915352-8485-1-git-send-email-Yue.Tao@windriver.com>
-	<54C0B644.5070707@topic.nl>
-Date: Thu, 22 Jan 2015 08:45:26 -0200
-X-Google-Sender-Auth: AYw7qsuSFR_MWUjzHZhgo1KwW3c
-Message-ID: <CAP9ODKoqjPYkprTyU0aVcBiBb1_QxOWZD4Py3Yq=U1Ar56Pu7g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
+Cc: "'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mmc-utils: set the optimization to -O2
+Subject: Re: Broken toolchain/SDK installation (master and dizzy)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 10:45:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Jan 2015 11:03:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 22, 2015 at 6:35 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Wouldn't this cause build that use "-Os" (or -O3) to be forced to use "-O2"
-> for this package?
->
-> Using -Os makes for serious flash space savings on the MIPS settop boxes, we
-> found that the code generated with -Os isn't just smaller, but it compresses
-> into a much smaller filesystem than -O2 generated files. There appears to be
-> some synergy there between the compression algorithm (gzip or lzo) and the
-> code as generated with that option.
+Hi Paul,
 
-Agreed and this is not the right path it seems.
+On 21/01/15 18:01, Paul Eggleton wrote:
+>=20
+> I can't necessarily comment on whether this is the best fix, but FWIW I
+> had
+> noticed this and filed a bug for it already:
+>=20
+>   https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7032
 
-I think this will be used when security_flags.inc is in place. So the
-fix should be there, not in a patch.
+Thanks for the heads-up. I will keep an eye on it.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+The thing that worries me is that Dizzy is affected, including the prebuilt=
+ toolchains/buildtools from:
+
+http://downloads.yoctoproject.org/releases/yocto/yocto-1.7.1/buildtools/
+http://downloads.yoctoproject.org/releases/yocto/yocto-1.7.1/toolchain/
+
+So it's probably worth updating the bugzilla saying that Dizzy needs a back=
+port once fixed in master.
+
+-
+Regards,
+
+Javier Viguera
+
 
