@@ -1,43 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E6272B9C
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5807565C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 12:05:22 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id v10so778498qac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 04:05:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DTstKsI8D24jO2WazVynJw6b1iVsM271xyaddNjyN/c=;
-	b=X6aI6bFo91iyzy7uDF/vVtGCAO8fqoBipbgSvjQ87Wpd0Mijt3K7cdGSzwtPLsUDUl
-	4toyQ2+7snPyJnv5NMk/w/hTTnj/F9ybvCuxYKojg9GkF6uuZtT+TianAV+QjMVnwACg
-	tidV1V0xhBc1WMmbckdVYWrhOXUNbjTLdmSorJWuktuZ4KTpU6hZRNtx8/Kfok1kg0VY
-	2NXQauyQrgjkhDPnFEv9TLD9PNYMLn0lbXhfbyDiaQjH01n1bgIaxm8cQ3Zr+rxUaqMO
-	+FYId7xGwj2pZljQTRXvlEfB2NLOF6tpSOLPHHMmj21o03Jr7xqSsXUTx9pxx4V/hPYn
-	0zgA==
-X-Gm-Message-State: ALoCoQlheb156zaXrGTyOXRpc6z/evuzr8VXLqr/NxmG1OAYFq+S+6HhNtTTxgoST6wV21KIlDXE
-X-Received: by 10.224.12.19 with SMTP id v19mr1765346qav.22.1421928323211;
-	Thu, 22 Jan 2015 04:05:23 -0800 (PST)
+	Thu, 22 Jan 2015 13:32:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0MDWKtE028599
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 22 Jan 2015 05:32:20 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.42]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
+	Thu, 22 Jan 2015 05:32:20 -0800
+From: "Dragomir, Daniel" <Daniel.Dragomir@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libgcc-common: Fix file ownership for
+	installed files
+Thread-Index: AQHQM/QR6fFxoAtK8UKXzc1yXzGMnZzJsVWAgAJ1ALU=
+Date: Thu, 22 Jan 2015 13:32:19 +0000
+Message-ID: <7805B0FACE4FCC4E84636AB320CBA4AC360C55FB@ALA-MBB.corp.ad.wrs.com>
+References: <1421677653-1166-1-git-send-email-daniel.dragomir@windriver.com>,
+	<CAJTo0LY9L3vzJ+5EJsov04Dh1D9wCfVj7HHOQ-HcmA79mzG8+w@mail.gmail.com>
+In-Reply-To: <CAJTo0LY9L3vzJ+5EJsov04Dh1D9wCfVj7HHOQ-HcmA79mzG8+w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.124.175]
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 22 Jan 2015 04:05:02 -0800 (PST)
-In-Reply-To: <CAENGNheynLDPzuS6xEJTLbkuheB93cH0wsa2DY-M6i=jqHkdvA@mail.gmail.com>
-References: <1421165391-30203-1-git-send-email-denis@denix.org>
-	<CAP9ODKoygArG8C+wJm7buqgfnjU_MkvfOxoiFGKNfjhAXYgc9g@mail.gmail.com>
-	<20150121191123.GH20639@denix.org>
-	<CAP9ODKrsE7aWFdVtMrfns3DhC0XJTP=2umjhsU=EZcMmd4EVUQ@mail.gmail.com>
-	<20150121202005.GK20639@denix.org>
-	<CAENGNheynLDPzuS6xEJTLbkuheB93cH0wsa2DY-M6i=jqHkdvA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Jan 2015 12:05:02 +0000
-Message-ID: <CAJTo0LbY54BAQAx1HcgwBZNGNPSwEzmV6zhbn_mB76=vLnkWxg@mail.gmail.com>
-To: Raphael Philipe <rapphil@gmail.com>
-Cc: Denys Dmytriyenko <denys@ti.com>, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2015.01
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgcc-common: Fix file ownership for installed files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,51 +40,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Jan 2015 12:05:26 -0000
-Content-Type: multipart/alternative; boundary=089e0149cadc99fa5c050d3c7c61
+X-List-Received-Date: Thu, 22 Jan 2015 13:32:28 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_7805B0FACE4FCC4E84636AB320CBA4AC360C55FBALAMBBcorpadwrs_"
 
---089e0149cadc99fa5c050d3c7c61
-Content-Type: text/plain; charset=UTF-8
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC360C55FBALAMBBcorpadwrs_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 22 January 2015 at 09:50, Raphael Philipe <rapphil@gmail.com> wrote:
+I made a new git pull on dizzy branch and started a new build, and I see no=
+ warnings like those anymore.
+I guess this was solved by this commit:
 
-> Hey Denys, I tested u-boot-fw-utils-cross_2014.07.bb in Ubuntu 12.04
-> and got the same error .
->
-> Can you confirm that this recipe works for you?
->
+2014-11-25 17:58 Richard Purdie     o gcc: Rework shared work
+a6f2e490380581a8d4cb27bd95ec7f8d164d3b12
 
-I can confirm that it doesn't work on the autobuilder:
+Skip this patch.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/164/steps/BuildImages/logs/stdio
+BR,
+Daniel
+________________________________
+From: Burton, Ross [ross.burton@intel.com]
+Sent: Tuesday, January 20, 2015 5:55 PM
+To: Dragomir, Daniel
+Cc: OE-core
+Subject: Re: [OE-core] [PATCH] libgcc-common: Fix file ownership for instal=
+led files
 
-Didn't we discuss exactly this thing a few months ago?
+
+On 19 January 2015 at 14:27, Daniel Dragomir <daniel.dragomir@windriver.com=
+<mailto:daniel.dragomir@windriver.com>> wrote:
+Fix two QA warnings caused by setting the wrong user and group for
+files installed in the destination directory on do_install task.
+
+WARNING: log_check: There is a warn message in the logfile
+WARNING: log_check: Matched keyword: [warn]
+WARNING: log_check: warning: user xxxx does not exist - using root
+
+WARNING: log_check: There is a warn message in the logfile
+WARNING: log_check: Matched keyword: [warn]
+WARNING: log_check: warning: group xxxx does not exist - using root
+
+This worries me.  Why is libgcc installing files with the wrong owners, and=
+ is libgcc special or are other packages also installing files with the wro=
+ng owners?  If this is a libgcc-specific problem and files are installed wi=
+th the wrong owners then fixing the install process seems like a better fix=
+.
 
 Ross
 
---089e0149cadc99fa5c050d3c7c61
-Content-Type: text/html; charset=UTF-8
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC360C55FBALAMBBcorpadwrs_
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 January 2015 at 09:50, Raphael Philipe <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rapphil@gmail.com" target=3D"_blank">rapphil@gmail.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
-ft-style:solid;padding-left:1ex"><div id=3D":6q4" class=3D"" style=3D"overf=
-low:hidden">Hey Denys, I tested <a href=3D"http://u-boot-fw-utils-cross_201=
-4.07.bb" target=3D"_blank"><span class=3D"">u</span>-<span class=3D"">boot<=
-/span>-fw-utils-cross_2014.07.bb</a> in Ubuntu 12.04<br>
-and got the same error .<br>
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">I made a new git pull on dizzy branch and started a new build, and I=
+ see no warnings like those anymore.<br>
+I guess this was solved by this commit:<br>
 <br>
-Can you confirm that this recipe works for you?</div></blockquote></div><br=
->I can confirm that it doesn&#39;t work on the autobuilder:</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"https://au=
-tobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/164/steps/B=
-uildImages/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/n=
-ightly-fsl-ppc/builds/164/steps/BuildImages/logs/stdio</a><br></div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Didn&#39;t we disc=
-uss exactly this thing a few months ago?</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
+2014-11-25 17:58 Richard Purdie&nbsp;&nbsp;&nbsp;&nbsp; o gcc: Rework share=
+d work<br>
+a6f2e490380581a8d4cb27bd95ec7f8d164d3b12<br>
+<br>
+Skip this patch.<br>
+<br>
+BR,<br>
+Daniel<br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div style=3D"direction: ltr;" id=3D"divRpF140491"><font color=3D"#000000" =
+face=3D"Tahoma" size=3D"2"><b>From:</b> Burton, Ross [ross.burton@intel.com=
+]<br>
+<b>Sent:</b> Tuesday, January 20, 2015 5:55 PM<br>
+<b>To:</b> Dragomir, Daniel<br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] libgcc-common: Fix file ownership for=
+ installed files<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On 19 January 2015 at 14:27, Daniel Dragomir <sp=
+an dir=3D"ltr">
+&lt;<a href=3D"mailto:daniel.dragomir@windriver.com" target=3D"_blank">dani=
+el.dragomir@windriver.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div id=3D":31c" class=3D"a3s" style=3D"overflow:hidden">Fix two QA warning=
+s caused by setting the wrong user and group for<br>
+files installed in the destination directory on do_install task.<br>
+<br>
+WARNING: log_check: There is a warn message in the logfile<br>
+WARNING: log_check: Matched keyword: [warn]<br>
+WARNING: log_check: warning: user xxxx does not exist - using root<br>
+<br>
+WARNING: log_check: There is a warn message in the logfile<br>
+WARNING: log_check: Matched keyword: [warn]<br>
+WARNING: log_check: warning: group xxxx does not exist - using root</div>
+</blockquote>
+</div>
+<br>
+This worries me.&nbsp; Why is libgcc installing files with the wrong owners=
+, and is libgcc special or are other packages also installing files with th=
+e wrong owners?&nbsp; If this is a libgcc-specific problem and files are in=
+stalled with the wrong owners then fixing
+ the install process seems like a better fix.</div>
+<div class=3D"gmail_extra"><br>
+</div>
+<div class=3D"gmail_extra">Ross</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
 
---089e0149cadc99fa5c050d3c7c61--
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC360C55FBALAMBBcorpadwrs_--
