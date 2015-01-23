@@ -1,28 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 887726AC95
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D4FC72D14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jan 2015 17:10:05 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jan 2015 09:10:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,454,1418112000"; d="scan'208";a="516681807"
-Received: from ifranko-mobl5.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.0.176])
-	by orsmga003.jf.intel.com with ESMTP; 23 Jan 2015 09:03:09 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: akuster808 <akuster808@gmail.com>
-Date: Fri, 23 Jan 2015 17:09:52 +0000
-Message-ID: <3413995.sbGVsiYaB4@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <54C27F1C.2070606@gmail.com>
-References: <54C1AE00.6010402@windriver.com>
-	<CAP9ODKrqNOqQ1_d7iJRAcpNQgEbeNg=Ve1SLob1m2k2xZX4DkA@mail.gmail.com>
-	<54C27F1C.2070606@gmail.com>
+	Fri, 23 Jan 2015 19:05:15 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id l89so7511044qgf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Jan 2015 11:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=gE66/RQlYOe2Y5pQ5dFWYdwAqbDcgegJ/Husjdr0abg=;
+	b=tT9Hom4/lUgsZgeldryNhuFOCpDUzLgmYSWvXbBZEPBaOLqs0q4dxtmYiR9HZcXoEE
+	ERiqfDooDzOvrZX0x9TfXAaXptYWu/I1Tk4osy8e9RxnerKvIyOpBlHENwCYSIuqUMf4
+	GsGHSVh3OWzsSY31NwpGsBwWa6c+5PlCNCQJHgvqohIX1blXFZW3NXWFvd+GvebvGqEp
+	e+wx6qyrnXQIfZNKV8p1P2pzsHxvQSNe/V/aqLhdaYv7eWkqHQMt9R6/LN5htOyTLgwV
+	86nW/J/8zNDQTz9/NoP7CGoKMBq0qpDsFrSDeN1p40WIYJjQJF1xUnsmRZ7luU6dnYX8
+	fQeA==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] About GPLv2's native recipe
+X-Received: by 10.140.41.113 with SMTP id y104mr15961049qgy.51.1422039915527; 
+	Fri, 23 Jan 2015 11:05:15 -0800 (PST)
+Received: by 10.96.30.35 with HTTP; Fri, 23 Jan 2015 11:05:15 -0800 (PST)
+Date: Fri, 23 Jan 2015 13:05:15 -0600
+Message-ID: <CACS+7ZTOs5rFPB66YbJS1jNBd-hfd=jWQgkX0yGOYUDvVMGehg@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] gcc-sanitizers: fix licensing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jan 2015 17:10:13 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 Jan 2015 19:05:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Friday 23 January 2015 09:04:28 akuster808 wrote:
-> On 01/23/2015 04:47 AM, Otavio Salvador wrote:
-> > On Fri, Jan 23, 2015 at 12:12 AM, Robert Yang <liezhi.yang@windriver.com> 
-wrote:
-> >> We have several GPLv2 recipes such as m4-native_1.4.9.bb, while we also
-> >> have GPLv3's m4-native_1.4.17.bb, I think that we can remove
-> >> m4-native_1.4.9.bb if the target m4_1.4.9.bb builds well ?
-> >> 
-> >> I'd like to remove it because we don't build the lower native version by
-> >> default, and we don't know whether it works or when it would fail.
-> > 
-> > I second this; not tested recipes are always good to remove.
-> 
-> Speaking of not tested, what about 'BLACKLISTED' recipes? is there a
-> policy regarding how long to keep them around when they are in that state?
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-We don't blacklist recipes in OE-Core, so you'd have to address that question 
-to Martin or other layer maintainers who do do that.
+The sanitizer runtime library is dual-licensed under the NCSA
+and MIT licenses.
 
-Cheers,
-Paul
+Also make nativesdk-gcc-sanitizers use SDKGCCVERSION by default
+instead of GCCVERSION
 
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/conf/distro/include/tcmode-default.inc  | 2 +-
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/tcmode-default.inc
+b/meta/conf/distro/include/tcmode-default.inc
+index ae6aaf3..7428aa9 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -39,7 +39,7 @@ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-sanitizers ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-source ?= "${GCCVERSION}"
+ PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
+-PREFERRED_VERSION_nativesdk-gcc-sanitizers ?= "${GCCVERSION}"
++PREFERRED_VERSION_nativesdk-gcc-sanitizers ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
+ PREFERRED_VERSION_nativesdk-libgcc ?= "${SDKGCCVERSION}"
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index 892dfe0..35c9247 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -1,5 +1,11 @@
+ require gcc-configure-common.inc
+
++LICENSE = "NCSA | MIT"
++
++LIC_FILES_CHKSUM = "\
++    file://libsanitizer/LICENSE.TXT;md5=0249c37748936faf5b1efd5789587909 \
++"
++
+ EXTRA_OECONF_PATHS = "\
+     --with-sysroot=/not/exist \
+     --with-build-sysroot=${STAGING_DIR_TARGET} \
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+2.1.0
 
