@@ -1,37 +1,62 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 778AD6AC95
+Return-Path: <soren.brinkmann@xilinx.com>
+X-Greylist: delayed 4733 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 23 Jan 2015 01:46:42 UTC
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0057.outbound.protection.outlook.com [65.55.169.57])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A5646AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jan 2015 01:18:59 +0000 (UTC)
-Received: by mail-qc0-f180.google.com with SMTP id r5so4275990qcx.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Jan 2015 17:18:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=UilnFZR/9cG08/Zm6CmlhM89F/GjDOkvLV64Erfe5to=;
-	b=dHuvR7RzFH3/zdVlT8qCSC0CyVQTW9UtfbwhI7XqCnhDVNOVxZwQszXMUYQ7WiVQUO
-	Y/pay2O1xsHglrt0nsvayagAhm4ahcs1y22O/cmiub1Z8BpXG4SpLXdwI+x8TX1RD9uT
-	itPoI8RNa51h3hlYbybWvwNkrT++UGb4zUpEi68wBzc7E7WfO1WMzaj/BPPb0BBgLElU
-	76QWtMlldrTaJeGZ5NW5MicU+znGy/kBW0sv/IZTT24/ot3m3zJ3hmKFqXWeTIOBOJHG
-	mT6jw3Gvay0M+kRCuxzjPAkwTpsZopuCT5sA3kebS/D8yNTtLQRt/rom3R/DMM7z/Vc4
-	ujCg==
-X-Received: by 10.224.63.70 with SMTP id a6mr9141572qai.42.1421975939711;
-	Thu, 22 Jan 2015 17:18:59 -0800 (PST)
-Received: from centrium.lab.ossystems.com.br ([177.100.225.47])
-	by mx.google.com with ESMTPSA id m74sm116432qgd.17.2015.01.22.17.18.56
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 22 Jan 2015 17:18:58 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jan 2015 23:18:27 -0200
-Message-Id: <1421975907-11814-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Cc: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] u-boot-fw-utils: Fix the cross build
+	Fri, 23 Jan 2015 01:46:42 +0000 (UTC)
+Received: from BL2FFO11FD047.protection.gbl (10.173.160.33) by
+	BL2FFO11HUB067.protection.gbl (10.173.161.167) with Microsoft SMTP
+	Server (TLS) id 15.1.75.11; Fri, 23 Jan 2015 00:13:25 +0000
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2FFO11FD047.mail.protection.outlook.com (10.173.161.209) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.49.13 via Frontend Transport; Fri, 23 Jan 2015
+	00:13:25 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <soren.brinkmann@xilinx.com>)
+	id 1YERp2-0004ah-2E; Thu, 22 Jan 2015 16:10:00 -0800
+Date: Thu, 22 Jan 2015 16:13:23 -0800
+From: =?utf-8?B?U8O2cmVu?= Brinkmann <soren.brinkmann@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <1420757983-26493-1-git-send-email-soren.brinkmann@xilinx.com>
+MIME-Version: 1.0
+In-Reply-To: <1420757983-26493-1-git-send-email-soren.brinkmann@xilinx.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21276.000
+X-TM-AS-User-Approved-Sender: Yes;Yes
+Message-ID: <7b9a128c271f4104ae85652d8824e476@BL2FFO11FD047.protection.gbl>
+X-EOPAttributedMessage: 0
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=soren.brinkmann@xilinx.com; linuxfoundation.org; dkim=none
+	(message not signed) header.d=none;
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(24454002)(377424004)(51704005)(53416004)(85202003)(106466001)(76176999)(108616004)(107886001)(6806004)(62966003)(23676002)(77156002)(86362001)(104016003)(87936001)(2950100001)(54356999)(74316001)(92566002)(50986999)(50466002)(83506001)(85182001)(19580405001)(19580395003)(46102003)(47776003)(92726002)(107986001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BL2FFO11HUB067;
+	H:xsj-pvapsmtpgw01; FPR:; SPF:None; MLV:sfv; LANG:en; 
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BL2FFO11HUB067;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
+	SRVR:BL2FFO11HUB067; 
+X-Forefront-PRVS: 0465429B7F
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BL2FFO11HUB067;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2015 00:13:25.2593 (UTC)
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2FFO11HUB067
+Subject: Re: [PATCH] shadow: securetty: Add Xilinx Zynq SoC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,87 +69,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jan 2015 01:19:05 -0000
+X-List-Received-Date: Fri, 23 Jan 2015 01:46:47 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 
-This merges the u-boot-fw-utils-cross into the main u-boot-fw-utils
-recipe and fixes the build failure seen since 2014.07 update.
+ping?
 
-The cross package now is handled using an extended class instead of a
-duplicated recipe.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../u-boot/u-boot-fw-utils-cross_2014.07.bb        | 38 ----------------------
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb | 12 +++++++
- 2 files changed, 12 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-deleted file mode 100644
-index d1f1f9a..0000000
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
--SECTION = "bootloader"
--DEPENDS = "mtd-utils"
--
--# This revision corresponds to the tag "v2014.07"
--# We use the revision in order to avoid having to fetch it from the
--# repo during parse
--SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
--
--PV = "v2014.07+git${SRCPV}"
--
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
--
--S = "${WORKDIR}/git"
--
--inherit uboot-config cross
--
--EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"'
--
--do_compile () {
--	oe_runmake ${UBOOT_MACHINE}
--	oe_runmake env
--}
--
--do_install () {
--	install -d ${D}${bindir_cross}
--	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
--	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
--}
--
--SYSROOT_PREPROCESS_FUNCS = "uboot_fw_utils_cross"
--uboot_fw_utils_cross() {
--	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
--}
--
--PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-index a626c95..9a304c8 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-@@ -32,4 +32,16 @@ do_install () {
- 	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
- }
- 
-+do_install_class-cross () {
-+    install -d ${D}${bindir_cross}
-+    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
-+    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
-+uboot_fw_utils_cross() {
-+    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
-+}
-+
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-+BBCLASSEXTEND = "cross"
--- 
-2.1.4
-
+On Thu, 2015-01-08 at 02:59PM -0800, Soren Brinkmann wrote:
+> Add Zynq's console devices to securetty.
+> 
+> Signed-off-by: Soren Brinkmann <soren.brinkmann@xilinx.com>
+> ---
+>  meta/recipes-extended/shadow/files/securetty | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+> index ecc246f7997c..2be341a216bc 100644
+> --- a/meta/recipes-extended/shadow/files/securetty
+> +++ b/meta/recipes-extended/shadow/files/securetty
+> @@ -45,6 +45,10 @@ ttyO1
+>  ttyO2
+>  ttyO3
+>  
+> +# Xilinx Zynq SoC
+> +ttyPS0
+> +ttyPS1
+> +
+>  # USB dongles
+>  ttyUSB0
+>  ttyUSB1
+> -- 
+> 2.2.1.1.gb42cc81
+> 
 
