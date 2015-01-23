@@ -1,33 +1,34 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7722072D5D
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 20E6E721E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jan 2015 19:07:07 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id z107so7494691qgd.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jan 2015 11:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=o3MTe4cky0HT/XDfkgcLLJ9/JYBp4I+Ftb95V4SJEic=;
-	b=k8E0fSKMno1BDX6jRdG+XwjBwjIYWt73VJ4zYra5yYfYFrknGrMQ2eZ+xKKqHuVCl8
-	2r0N2fELJHE5qEkmepdpstjDmtHKYJG6Zx1LUVfrPmRVURoHegRRbOph6eQqoYrG1CPj
-	KsIO8mz001AxXd1almut7OhNIypLXwM3k9xke9YMoP9XsD3xxU6Tz70iF9eUoxDDAY5f
-	OCFnUYdY3vTFtW/VSLUnAM6QMg81NcaH8ZGy40VUgDmup2TooL8N6K7OEj+xzfZyfVF5
-	wy6JsPQwNDUXf1ObuYMg5ffimdN+LCLxP5ln5bYhxLOE8VU6CfXU+l/k35uzHUnRCEko
-	BmLw==
-MIME-Version: 1.0
-X-Received: by 10.140.96.225 with SMTP id k88mr15936657qge.104.1422040028378; 
-	Fri, 23 Jan 2015 11:07:08 -0800 (PST)
-Received: by 10.96.30.35 with HTTP; Fri, 23 Jan 2015 11:07:08 -0800 (PST)
-In-Reply-To: <CACS+7ZTOs5rFPB66YbJS1jNBd-hfd=jWQgkX0yGOYUDvVMGehg@mail.gmail.com>
-References: <CACS+7ZTOs5rFPB66YbJS1jNBd-hfd=jWQgkX0yGOYUDvVMGehg@mail.gmail.com>
-Date: Fri, 23 Jan 2015 13:07:08 -0600
-Message-ID: <CACS+7ZS7+_yi5MORTt+rURw7Dg8HyzJ8s7OQjnFXM-25WcpvLA@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-sanitizers: fix licensing
+	Fri, 23 Jan 2015 20:52:44 +0000 (UTC)
+Received: from gandalf.denix.org ([108.18.33.160]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NIN00BG7DZRQXA0@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 23 Jan 2015 14:52:44 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=b6gFOWC0 c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=alK4_DS-AAAA:8 a=Q4-j1AaZAAAA:8
+	a=wa_I1rZXh9tm-wQCF8AA:9	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 7C8EE20150; Fri,
+	23 Jan 2015 15:52:38 -0500 (EST)
+Date: Fri, 23 Jan 2015 15:52:38 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20150123205238.GB28747@denix.org>
+References: <1421975907-11814-1-git-send-email-otavio@ossystems.com.br>
+	<20150123035507.GW20639@denix.org>
+MIME-version: 1.0
+In-reply-to: <20150123035507.GW20639@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot-fw-utils: Fix the cross build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +41,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jan 2015 19:07:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 23 Jan 2015 20:52:45 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 23 January 2015 at 13:05, Dan McGregor <danismostlikely@gmail.com> wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
->
-> The sanitizer runtime library is dual-licensed under the NCSA
-> and MIT licenses.
->
-> Also make nativesdk-gcc-sanitizers use SDKGCCVERSION by default
-> instead of GCCVERSION
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-> ---
->  meta/conf/distro/include/tcmode-default.inc  | 2 +-
->  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 6 ++++++
->  2 files changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc
-> b/meta/conf/distro/include/tcmode-default.inc
-> index ae6aaf3..7428aa9 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -39,7 +39,7 @@ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
->  PREFERRED_VERSION_gcc-sanitizers ?= "${GCCVERSION}"
->  PREFERRED_VERSION_gcc-source ?= "${GCCVERSION}"
->  PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
-> -PREFERRED_VERSION_nativesdk-gcc-sanitizers ?= "${GCCVERSION}"
-> +PREFERRED_VERSION_nativesdk-gcc-sanitizers ?= "${SDKGCCVERSION}"
->  PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
->  PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
->  PREFERRED_VERSION_nativesdk-libgcc ?= "${SDKGCCVERSION}"
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> index 892dfe0..35c9247 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> @@ -1,5 +1,11 @@
->  require gcc-configure-common.inc
->
-> +LICENSE = "NCSA | MIT"
-> +
-> +LIC_FILES_CHKSUM = "\
-> +    file://libsanitizer/LICENSE.TXT;md5=0249c37748936faf5b1efd5789587909 \
-> +"
-> +
->  EXTRA_OECONF_PATHS = "\
->      --with-sysroot=/not/exist \
->      --with-build-sysroot=${STAGING_DIR_TARGET} \
-> --
-> 2.1.0
+On Thu, Jan 22, 2015 at 10:55:07PM -0500, Denys Dmytriyenko wrote:
+> On Thu, Jan 22, 2015 at 11:18:27PM -0200, Otavio Salvador wrote:
+> > This merges the u-boot-fw-utils-cross into the main u-boot-fw-utils
+> > recipe and fixes the build failure seen since 2014.07 update.
+> 
+> So, the actual fix is to drop unnecessary EXTRA_OEMAKE that you had there from 
+> the beginning of time... Combining it with target recipe is icing on the cake.
 
-Turns out I missed this the first time. Without this sanitizer runtime
-is assumed to be GPL3 with runtime exception. It gets caught when one
-blacklists GPL3 components.
+Well, that worked for 2014.07, but breaks now for 2015.01 :(
+Looking at it now...
+
+
+> > The cross package now is handled using an extended class instead of a
+> > duplicated recipe.
+> > 
+> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > ---
+> >  .../u-boot/u-boot-fw-utils-cross_2014.07.bb        | 38 ----------------------
+> >  meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb | 12 +++++++
+> >  2 files changed, 12 insertions(+), 38 deletions(-)
+> >  delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+> > 
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+> > deleted file mode 100644
+> > index d1f1f9a..0000000
+> > --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+> > +++ /dev/null
+> > @@ -1,38 +0,0 @@
+> > -SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+> > -LICENSE = "GPLv2+"
+> > -LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
+> > -SECTION = "bootloader"
+> > -DEPENDS = "mtd-utils"
+> > -
+> > -# This revision corresponds to the tag "v2014.07"
+> > -# We use the revision in order to avoid having to fetch it from the
+> > -# repo during parse
+> > -SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
+> > -
+> > -PV = "v2014.07+git${SRCPV}"
+> > -
+> > -SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> > -
+> > -S = "${WORKDIR}/git"
+> > -
+> > -inherit uboot-config cross
+> > -
+> > -EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"'
+> > -
+> > -do_compile () {
+> > -	oe_runmake ${UBOOT_MACHINE}
+> > -	oe_runmake env
+> > -}
+> > -
+> > -do_install () {
+> > -	install -d ${D}${bindir_cross}
+> > -	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
+> > -	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
+> > -}
+> > -
+> > -SYSROOT_PREPROCESS_FUNCS = "uboot_fw_utils_cross"
+> > -uboot_fw_utils_cross() {
+> > -	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
+> > -}
+> > -
+> > -PACKAGE_ARCH = "${MACHINE_ARCH}"
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+> > index a626c95..9a304c8 100644
+> > --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+> > @@ -32,4 +32,16 @@ do_install () {
+> >  	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+> >  }
+> >  
+> > +do_install_class-cross () {
+> > +    install -d ${D}${bindir_cross}
+> > +    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
+> > +    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
+> > +}
+> > +
+> > +SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
+> > +uboot_fw_utils_cross() {
+> > +    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
+> > +}
+> > +
+> >  PACKAGE_ARCH = "${MACHINE_ARCH}"
+> > +BBCLASSEXTEND = "cross"
+> > -- 
+> > 2.1.4
+> > 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
