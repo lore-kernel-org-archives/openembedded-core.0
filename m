@@ -1,34 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
-	[206.46.173.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 9519365C7B
+Return-Path: <Yue.Tao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EFC5E65C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Jan 2015 03:55:39 +0000 (UTC)
-Received: from gandalf.denix.org ([108.18.33.160]) by vms173023.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NIM00HRN2VVQJ90@vms173023.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 22 Jan 2015 21:55:30 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=Ko/6AtSI c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=alK4_DS-AAAA:8
-	a=l51sXLdTN7SrRVKddiUA:9 a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9C2F2202A1; Thu,
-	22 Jan 2015 22:55:07 -0500 (EST)
-Date: Thu, 22 Jan 2015 22:55:07 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-id: <20150123035507.GW20639@denix.org>
-References: <1421975907-11814-1-git-send-email-otavio@ossystems.com.br>
-MIME-version: 1.0
-In-reply-to: <1421975907-11814-1-git-send-email-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Dominic =?iso-8859-1?Q?Sacr=E9?= <dominic.sacre@gmx.de>,
-	Denys Dmytriyenko <denys@ti.com>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-fw-utils: Fix the cross build
+	Fri, 23 Jan 2015 07:53:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0N7rDbn019596
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Jan 2015 23:53:14 -0800 (PST)
+Received: from pek-ytao-l1.corp.ad.wrs.com (128.224.162.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 22 Jan 2015 23:53:13 -0800
+From: Yue Tao <Yue.Tao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Jan 2015 15:53:05 +0800
+Message-ID: <1421999585-7473-1-git-send-email-Yue.Tao@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.154]
+Cc: yue.tao@windriver.com
+Subject: [PATCH] systemtap: Adapt to glibc deprecation of _BSD_SOURCE: add _DEFAULT_SOURCE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,94 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Jan 2015 03:55:53 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 23 Jan 2015 07:53:19 -0000
+Content-Type: text/plain
 
-On Thu, Jan 22, 2015 at 11:18:27PM -0200, Otavio Salvador wrote:
-> This merges the u-boot-fw-utils-cross into the main u-boot-fw-utils
-> recipe and fixes the build failure seen since 2014.07 update.
+The _BSD_SOURCE has been deprecation in glibc 2.20 and greater, in order to
+being compatible with newer glibc version, add _DEFAULT_SOURCE.
 
-So, the actual fix is to drop unnecessary EXTRA_OEMAKE that you had there from 
-the beginning of time... Combining it with target recipe is icing on the cake.
+The build error on fedora21_64
 
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+---
+ ...pt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch |   31 ++++++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
 
-> The cross package now is handled using an extended class instead of a
-> duplicated recipe.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  .../u-boot/u-boot-fw-utils-cross_2014.07.bb        | 38 ----------------------
->  meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb | 12 +++++++
->  2 files changed, 12 insertions(+), 38 deletions(-)
->  delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-> deleted file mode 100644
-> index d1f1f9a..0000000
-> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
-> -LICENSE = "GPLv2+"
-> -LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
-> -SECTION = "bootloader"
-> -DEPENDS = "mtd-utils"
-> -
-> -# This revision corresponds to the tag "v2014.07"
-> -# We use the revision in order to avoid having to fetch it from the
-> -# repo during parse
-> -SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
-> -
-> -PV = "v2014.07+git${SRCPV}"
-> -
-> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -inherit uboot-config cross
-> -
-> -EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"'
-> -
-> -do_compile () {
-> -	oe_runmake ${UBOOT_MACHINE}
-> -	oe_runmake env
-> -}
-> -
-> -do_install () {
-> -	install -d ${D}${bindir_cross}
-> -	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
-> -	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
-> -}
-> -
-> -SYSROOT_PREPROCESS_FUNCS = "uboot_fw_utils_cross"
-> -uboot_fw_utils_cross() {
-> -	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
-> -}
-> -
-> -PACKAGE_ARCH = "${MACHINE_ARCH}"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-> index a626c95..9a304c8 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-> @@ -32,4 +32,16 @@ do_install () {
->  	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
->  }
->  
-> +do_install_class-cross () {
-> +    install -d ${D}${bindir_cross}
-> +    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
-> +    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
-> +}
-> +
-> +SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
-> +uboot_fw_utils_cross() {
-> +    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
-> +}
-> +
->  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +BBCLASSEXTEND = "cross"
-> -- 
-> 2.1.4
-> 
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch b/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
+new file mode 100644
+index 0000000..d69d3bf
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
+@@ -0,0 +1,31 @@
++From c6278d012a483d97f5ee4756406d9c88735d2838 Mon Sep 17 00:00:00 2001
++From: "Frank Ch. Eigler" <fche@redhat.com>
++Date: Tue, 25 Feb 2014 11:34:35 -0500
++Subject: [PATCH] PR16632: Adapt to glibc deprecation of _BSD_SOURCE: add
++ _DEFAULT_SOURCE
++
++(Upstream commit c6278d012a483d97f5ee4756406d9c88735d2838)
++
++Upstream-Status: Backport
++
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
++
++---
++ staprun/staprun.c                       |    1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/staprun/staprun.c b/staprun/staprun.c
++index e4ced77..8782ade 100644
++--- a/runtime/staprun/staprun.c
+++++ b/runtime/staprun/staprun.c
++@@ -21,6 +21,7 @@
++ 
++ #define _XOPEN_SOURCE
++ #define _BSD_SOURCE
+++#define _DEFAULT_SOURCE
++ #include "staprun.h"
++ #include "../privilege.h"
++ #include "../runtime/k_syms.h"
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index f81e8ba..d51fad2 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://system_map_location.patch \
+            file://tapset-linux-sendfile-syscall.patch \
+            file://configure-allow-to-disable-libvirt.patch \
++           file://0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch \
+           "
+ 
+ # systemtap doesn't support mips
+-- 
+1.7.9.5
+
 
