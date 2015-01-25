@@ -1,36 +1,35 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-X-Greylist: delayed 907 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 24 Jan 2015 17:55:12 UTC
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 0336872CD5
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EEF872A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Jan 2015 17:55:12 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1YF4gk-0000q8-NG for openembedded-core@lists.openembedded.org;
-	Sat, 24 Jan 2015 18:40:03 +0100
-Received: from client-199.115.184.47.tlo.skybeamtx.com
-	([client-199.115.184.47.tlo.skybeamtx.com])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Jan 2015 18:40:02 +0100
-Received: from walt by client-199.115.184.47.tlo.skybeamtx.com with local
-	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
+	Sun, 25 Jan 2015 15:34:41 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id l15so5494574wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Jan 2015 18:40:02 +0100
-X-Injected-Via-Gmane: http://gmane.org/
+	Sun, 25 Jan 2015 07:34:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=FoTtIt9HrTMzNUIy2Bur1DIkTyo83/ZQKj34x6P/3Ks=;
+	b=LhfJslg2lA0mDS/bd81GFcSMDx0Om+Er7vovwQS2ulL4JnCk5Ut4B+h/Aa1KEIXuVZ
+	o/1BUTVQxmc5MQJshfx/933062q0mGu8u+WFE7rsgarF6NRQmP6A1sGBhcGNi3h8I3M4
+	v8wiHELwNM2hF2LxuQcKwsffQ6Rub/zPTOrTWbBw3trYkvmNL0rkhmHr+4+UQPicct3S
+	icohDgij1rIvTRu00M4Lhs3QKBs2xGLPJrEHMMqswmcK8Sz5XafMqrrxHAIkkftMlaSA
+	XkHBl5JudF34pYdKO99n4eiBkD3PeCtvrwy4RvuJD32LDpXA0s7E6RUCo0m7a4MIy9Ai
+	ZXAA==
+X-Received: by 10.194.84.105 with SMTP id x9mr34589852wjy.17.1422200081997;
+	Sun, 25 Jan 2015 07:34:41 -0800 (PST)
+Received: from Saturn.local.all (212-41-117-31.adsl.solnet.ch. [212.41.117.31])
+	by mx.google.com with ESMTPSA id cg8sm10584279wjc.1.2015.01.25.07.34.40
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 25 Jan 2015 07:34:41 -0800 (PST)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
-From: Walt <walt@giroir.com>
-Date: Sat, 24 Jan 2015 17:30:08 +0000 (UTC)
-Message-ID: <loom.20150124T182655-678@post.gmane.org>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 199.115.184.47 (Mozilla/5.0 (Macintosh;
-	Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko)
-	Chrome/39.0.2171.99 Safari/537.36)
-Subject: create_image() fails with cannot concatenate 'str' and 'NoneType'error
+Date: Sun, 25 Jan 2015 16:33:37 +0100
+Message-Id: <1422200019-19095-1-git-send-email-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: , Max Krummenacher <max.oss.09@gmail.com>
+Subject: [oe][Patch 0/2] udev: fix ptest to not influence qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,81 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Jan 2015 17:55:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Jan 2015 15:34:43 -0000
 
+From: Max Krummenacher <max.oss.09@gmail.com<>
 
-I have search the web and found a few references to this problem but I have 
-not yet found a solution.
+Hi
 
-This is the latest commit.
---------
-commit 745cebd635002618d7edd0a109ff07dd2953621a
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Fri Jan 23 14:38:12 2015 +0000
+On a OE setup configured to build ptest packages udev's ptest test files are
+staged to the sysroot.
+A run of qemu chockes on this test files and never returns.
 
-    bitbake: siggen: Ensure taskdata default functions exist in base class
-    
-    The get/set_taskdata functions are now part of the API of the class,
-    ensure they exist in the base class definition so the noop handler
-    works.
-    
-    [YOCTO #7233]
-    
-    (Bitbake rev: 9b5b1bd7d77e3f5886f6c557d3b750de1f6d6025)
-    
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+A ptest run on the target before any changes failed.
+Patch 1/2 first fixes ptest.
+Patch 2/2 keeps the test files in its tar-ball. run-ptest unpacks it before
+a test and cleans up afterwards.
 
+This fixes the issues with qemu while the ptests can still be run witout
+failure.
 
-And here is the error
-=====================
-File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py', 
-lineno: 355, function: create_image
-     0351:        execute_pre_post_process(self.d, post_process_cmds)
-     0352:
-     0353:
-     0354:def create_image(d):
- *** 0355:    Image(d).create()
-     0356:
-     0357:if __name__ == "__main__":
-     0358:    """
-     0359:    Image creation can be called independent from bitbake 
-environment.
-File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py', 
-lineno: 333, function: create
-     0329:        execute_pre_post_process(self.d, pre_process_cmds)
-     0330:
-     0331:        self._remove_old_symlinks()
-     0332:
- *** 0333:        image_cmd_groups = self._get_imagecmds()
-     0334:
-     0335:        for image_cmds in image_cmd_groups:
-     0336:            # create the images in parallel
-     0337:            nproc = multiprocessing.cpu_count()
-File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py', 
-lineno: 303, function: _get_imagecmds
-     0299:                print "************************"
-     0300:                print localdata.getVar("IMAGE_CMD", True)
-     0301:                print "************************"
-     0302:                print "************************"
- *** 0303:                cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
-     0304:                cmds.append(localdata.expand("\tcd 
-${DEPLOY_DIR_IMAGE}"))
-     0305:
-     0306:                if type in cimages:
-     0307:                    for ctype in cimages[type]:
-Exception: TypeError: cannot concatenate 'str' and 'NoneType' objects
+Tested with distro-less oe-core master on qemux86-64 and 
+colibri-t30 (armv7a) machines
 
-ERROR: Function failed: do_rootfs
-ERROR: Logfile of failure stored in: /home/walt/workspace/wwrelay-
-rootfs/yocto/build/tmp/work/cubietruck-poky-linux-gnueabi/wigwag-prod-
-lsb/1.0-r0/temp/log.do_rootfs.13308
-ERROR: Task 6 (/home/walt/workspace/wwrelay-
-rootfs/yocto/build/recipes/images/wigwag-prod-lsb.bb, do_rootfs) failed with 
-exit code '1'
-NOTE: Tasks Summary: Attempted 3977 tasks of which 3976 didn't need to be 
-rerun and 1 failed.
+Regards
+Max
 
+Max Krummenacher (2):
+  udev: fix ptest rule syntax check
+  udev: don't keep ptest testdata laying around
+
+ meta/recipes-core/udev/udev.inc                    |  3 +-
+ .../recipes-core/udev/udev/add-install-ptest.patch | 19 +++++--
+ .../udev/udev/fix_rule-syntax-regex-ptest.patch    | 59 ++++++++++++++++++++++
+ meta/recipes-core/udev/udev/run-ptest              |  2 +
+ 4 files changed, 79 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/udev/udev/fix_rule-syntax-regex-ptest.patch
+
+-- 
+1.8.4.5
 
 
