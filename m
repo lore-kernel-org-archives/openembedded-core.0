@@ -1,37 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 56ACA718E8
+Return-Path: <eric@eukrea.com>
+X-Greylist: delayed 3300 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 25 Jan 2015 22:13:26 UTC
+Received: from 3.mo2.mail-out.ovh.net (3.mo2.mail-out.ovh.net [46.105.58.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 53D7560017
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jan 2015 19:48:28 +0000 (UTC)
-Received: by mail-yh0-f43.google.com with SMTP id 29so2145532yhl.2
+	Sun, 25 Jan 2015 22:13:26 +0000 (UTC)
+Received: from mail91.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id 30307FFA798
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jan 2015 11:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Fvam227Jz6NzHcdz/ZLpJCM1O4jsyEcNcwJUHYgHKBo=;
-	b=p9TacsZ7hcm3oY5cq/mgHVUE4MpAVKSdUD3EuwJ7EC5Z6Pbkjj8Z9Ng3MbnlTnSzw8
-	dXjNaEFcDyyshPdiXbYZsAQzAaS06AN/wRHuWl6GXG9TNqrD+lnOrZIeb6b+sZhO1Oo/
-	hpkrev4/nXtGyJiS+VzSZYv4BjfIXh48DX8qof+akZBtq1AD/5cyh3SHakN+TraFZkO5
-	akFF3U3hJsIS0/2CTmsJMTq4MeDUVs3m9YgLsoAqxZlmxGE9ZAavmU74DGzwQrcKmgKz
-	/JBWMAPqG1Ao2xv8hyWLSoNQFvcUDR5ptvkcDr2Zh1m9RTDAZUCMNK9GwwZJa7/IS4af
-	U88A==
+	Sun, 25 Jan 2015 22:18:23 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 25 Jan 2015 23:18:23 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb.localdomain)
+	(eric%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 25 Jan 2015 23:18:22 +0200
+Date: Sun, 25 Jan 2015 22:18:21 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20150125221821.07fc63b4@e6520eb.localdomain>
+In-Reply-To: <54C1AE00.6010402@windriver.com>
+References: <54C1AE00.6010402@windriver.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.24; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 10.236.44.70 with SMTP id m46mr7949663yhb.136.1422215309199;
-	Sun, 25 Jan 2015 11:48:29 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Sun, 25 Jan 2015 11:48:29 -0800 (PST)
-In-Reply-To: <1422200019-19095-1-git-send-email-max.krummenacher@toradex.com>
-References: <1422200019-19095-1-git-send-email-max.krummenacher@toradex.com>
-Date: Sun, 25 Jan 2015 17:48:29 -0200
-X-Google-Sender-Auth: hwQalEJJ_kFrAM2B4q2jReqFRqI
-Message-ID: <CAP9ODKrJaK++-fdbqx-6ynH9p4ETeh-Cqes8MthkjRM-ixc4aw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][Patch 0/2] udev: fix ptest to not influence qemu
+X-Ovh-Tracer-Id: 6745829292497284490
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejkedrudelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejkedrudelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] About GPLv2's native recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Jan 2015 19:48:29 -0000
+X-List-Received-Date: Sun, 25 Jan 2015 22:13:28 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Max,
+Hi Robert,
 
-On Sun, Jan 25, 2015 at 1:33 PM, Max Krummenacher <max.oss.09@gmail.com> wrote:
-...
-> On a OE setup configured to build ptest packages udev's ptest test files are
-> staged to the sysroot.
-> A run of qemu chockes on this test files and never returns.
-...
+Le Fri, 23 Jan 2015 10:12:16 +0800,
+Robert Yang <liezhi.yang@windriver.com> a =C3=A9crit :
+> We have several GPLv2 recipes such as m4-native_1.4.9.bb, while we also
+> have GPLv3's m4-native_1.4.17.bb, I think that we can remove
+> m4-native_1.4.9.bb if the target m4_1.4.9.bb builds well ?
+>=20
+> I'd like to remove it because we don't build the lower native version by
+> default, and we don't know whether it works or when it would fail.
+>=20
+if you want to build a system without GPLv3 ("supported for only
+minimal and base images" as stated in the manual) you may need GPLv2
+tools :
+http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#ref-ima=
+ges
+INCOMPATIBLE_LICENSE =3D "GPL-3.0 LGPL-3.0 AGPL-3.0"
 
-This fixes a hard to debug issue in meta-java as it ended triggering a
-QEMU which never ends and is eventually killed by Linux kernel by
-consuming all available memory in the system.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best regards,
+Eric
 
