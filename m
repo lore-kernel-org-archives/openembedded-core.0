@@ -1,37 +1,37 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 1847472A5A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 56ACA718E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jan 2015 15:34:59 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u56so5233379wes.0
+	Sun, 25 Jan 2015 19:48:28 +0000 (UTC)
+Received: by mail-yh0-f43.google.com with SMTP id 29so2145532yhl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jan 2015 07:35:00 -0800 (PST)
+	Sun, 25 Jan 2015 11:48:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HmEuwfX23VfMyE5hJdjaWydykNF0cgK2Mu4fiH1DxNk=;
-	b=yT9V6JhMBs9qR6KeLXFjdzbMAWPVxkrbz5SgmAe1Ajc2jnaOijfpy8RMYVY/fk253f
-	c+nHGWMts2Mt9bBLL0B5Lylx7bsGU+yYwfRZPMgLDKneiBU58s/AAfrRVjV4spWIhjpu
-	CaRWW2d+qkEruWdftZf2y54lGkQqpucPxPdSca2aLdRlPEnCJMSFMCEm0sqBjdYHlDAe
-	LMdo74f2yfrZffoyNmbJojUBiJF80lB0ZOlJSpG5FlYcZ3p+wSV53/IsFNkkv9GCFZC1
-	dM7LWI7ZAnt8rYIpHxPS0ToZjZoNDXYxtTjNnpC+jbmtQJXH4YrD7Tj0hZq6MHXmzfQf
-	eYkg==
-X-Received: by 10.194.239.233 with SMTP id vv9mr34498234wjc.90.1422200099951; 
-	Sun, 25 Jan 2015 07:34:59 -0800 (PST)
-Received: from Saturn.local.all (212-41-117-31.adsl.solnet.ch. [212.41.117.31])
-	by mx.google.com with ESMTPSA id cg8sm10584279wjc.1.2015.01.25.07.34.58
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 25 Jan 2015 07:34:59 -0800 (PST)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Jan 2015 16:33:39 +0100
-Message-Id: <1422200019-19095-3-git-send-email-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 1.8.4.5
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Fvam227Jz6NzHcdz/ZLpJCM1O4jsyEcNcwJUHYgHKBo=;
+	b=p9TacsZ7hcm3oY5cq/mgHVUE4MpAVKSdUD3EuwJ7EC5Z6Pbkjj8Z9Ng3MbnlTnSzw8
+	dXjNaEFcDyyshPdiXbYZsAQzAaS06AN/wRHuWl6GXG9TNqrD+lnOrZIeb6b+sZhO1Oo/
+	hpkrev4/nXtGyJiS+VzSZYv4BjfIXh48DX8qof+akZBtq1AD/5cyh3SHakN+TraFZkO5
+	akFF3U3hJsIS0/2CTmsJMTq4MeDUVs3m9YgLsoAqxZlmxGE9ZAavmU74DGzwQrcKmgKz
+	/JBWMAPqG1Ao2xv8hyWLSoNQFvcUDR5ptvkcDr2Zh1m9RTDAZUCMNK9GwwZJa7/IS4af
+	U88A==
+MIME-Version: 1.0
+X-Received: by 10.236.44.70 with SMTP id m46mr7949663yhb.136.1422215309199;
+	Sun, 25 Jan 2015 11:48:29 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.143 with HTTP; Sun, 25 Jan 2015 11:48:29 -0800 (PST)
 In-Reply-To: <1422200019-19095-1-git-send-email-max.krummenacher@toradex.com>
 References: <1422200019-19095-1-git-send-email-max.krummenacher@toradex.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>
-Subject: [oe][Patch 2/2] udev: don't keep ptest testdata laying around
+Date: Sun, 25 Jan 2015 17:48:29 -0200
+X-Google-Sender-Auth: hwQalEJJ_kFrAM2B4q2jReqFRqI
+Message-ID: <CAP9ODKrJaK++-fdbqx-6ynH9p4ETeh-Cqes8MthkjRM-ixc4aw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][Patch 0/2] udev: fix ptest to not influence qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Jan 2015 15:35:00 -0000
+X-List-Received-Date: Sun, 25 Jan 2015 19:48:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Max Krummenacher <max.oss.09@gmail.com>
+Hello Max,
 
-Only unpack udev's testdata right before executing the tests and cleanup
-afterwards.
+On Sun, Jan 25, 2015 at 1:33 PM, Max Krummenacher <max.oss.09@gmail.com> wrote:
+...
+> On a OE setup configured to build ptest packages udev's ptest test files are
+> staged to the sysroot.
+> A run of qemu chockes on this test files and never returns.
+...
 
-udev's testsuite can be used by ptest. However currently the testdata against
-which its functionality is tested is installed in the sysroot at udev install
-time.
-If the sysroot is used with qemu the testdata makes qemu entering an infinite
-loop.
-http://lists.openembedded.org/pipermail/openembedded-core/2014-September/097098.html
+This fixes a hard to debug issue in meta-java as it ended triggering a
+QEMU which never ends and is eventually killed by Linux kernel by
+consuming all available memory in the system.
 
-This has already been fixed for the systemd udev flavour.
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5664
-
-Signed-off-by: Max Krummenacher <max.oss.09@gmail.com>
----
- meta/recipes-core/udev/udev/add-install-ptest.patch | 2 +-
- meta/recipes-core/udev/udev/run-ptest               | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/udev/udev/add-install-ptest.patch b/meta/recipes-core/udev/udev/add-install-ptest.patch
-index 755946a..bfc2e94 100644
---- a/meta/recipes-core/udev/udev/add-install-ptest.patch
-+++ b/meta/recipes-core/udev/udev/add-install-ptest.patch
-@@ -34,7 +34,7 @@ Upstream-Status: Pending
- +	(cd $(top_srcdir) && install $(TESTS) $(DESTDIR)/test)
- +	(cd $(top_srcdir) && install test/rule-syntax-check.py $(DESTDIR)/test)
- +	(cd $(top_srcdir) && install $(RULES) $(DESTDIR)/rules)
--+	tar -C $(DESTDIR)/test/ -xJf $(top_srcdir)/test/sys.tar.xz
-++	cp $(top_srcdir)/test/sys.tar.xz $(DESTDIR)/test/
- --- a/test/udev-test.pl	2012-03-18 16:43:36.000000000 +0100
- +++ b/test/udev-test.pl	2013-02-18 10:31:29.706357321 +0100
- @@ -1459,11 +1459,13 @@
-diff --git a/meta/recipes-core/udev/udev/run-ptest b/meta/recipes-core/udev/udev/run-ptest
-index c6961ce..0e39806 100644
---- a/meta/recipes-core/udev/udev/run-ptest
-+++ b/meta/recipes-core/udev/udev/run-ptest
-@@ -1,3 +1,5 @@
- #!/bin/sh
- 
-+tar -C test/ -xJf test/sys.tar.xz
- make -k check-TESTS
-+make test-sys-distclean
 -- 
-1.8.4.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
