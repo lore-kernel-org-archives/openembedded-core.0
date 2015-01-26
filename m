@@ -1,27 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C49560670
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 32347718E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jan 2015 03:29:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0Q3TWOt010652
+	Mon, 26 Jan 2015 08:31:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0Q8VDAj028759
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Jan 2015 19:29:32 -0800 (PST)
-Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 25 Jan 2015 19:29:31 -0800
-Message-ID: <54C5B49A.30808@windriver.com>
-Date: Mon, 26 Jan 2015 11:29:30 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
+	Mon, 26 Jan 2015 00:31:13 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 26 Jan 2015 00:31:12 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1422241586-21660-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1422241586-21660-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] systemd/update-rc.d: set UPDATERCD to empty if systemd is used
+Date: Mon, 26 Jan 2015 16:31:15 +0800
+Message-ID: <cover.1422260986.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] image.bbclass: don't let do_rootfs depend on BUILDNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jan 2015 03:29:34 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Jan 2015 08:31:20 -0000
+Content-Type: text/plain
 
-Please ignore it.
-Thanks
+The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
 
--Roy
+  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
 
-On 2015年01月26日 11:06, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> if a package is using systemd to manager its start/stop, it does not need
-> UPDATERCD, so not need to add update-rc.d into its RRECOMMENDS
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/classes/systemd.bbclass     | 2 ++
->   meta/classes/update-rc.d.bbclass | 2 +-
->   2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 708ba89..58791fa 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -8,6 +8,8 @@ SYSTEMD_PACKAGES_class-nativesdk ?= ""
->   # Whether to enable or disable the services on installation.
->   SYSTEMD_AUTO_ENABLE ??= "enable"
->
-> +UPDATERCD = ""
-> +
->   # This class will be included in any recipe that supports systemd init scripts,
->   # even if systemd is not in DISTRO_FEATURES.  As such don't make any changes
->   # directly but check the DISTRO_FEATURES first.
-> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-> index bc1aa7d..81e96ea 100644
-> --- a/meta/classes/update-rc.d.bbclass
-> +++ b/meta/classes/update-rc.d.bbclass
-> @@ -3,7 +3,7 @@ UPDATERCPN ?= "${PN}"
->   DEPENDS_append = " update-rc.d-native"
->   VIRTUAL-RUNTIME_initscripts ?= "initscripts"
->   DEPENDS_append_class-target = " ${VIRTUAL-RUNTIME_initscripts}"
-> -UPDATERCD = "update-rc.d"
-> +UPDATERCD ?= "update-rc.d"
->   UPDATERCD_class-cross = ""
->   UPDATERCD_class-native = ""
->   UPDATERCD_class-nativesdk = ""
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/image-BUILDNAME
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/image-BUILDNAME
+
+Chen Qi (1):
+  image.bbclass: don't let do_rootfs depend on BUILDNAME
+
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
