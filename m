@@ -1,21 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 144186AC95
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8460B6AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jan 2015 17:49:38 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Jan 2015 09:49:39 -0800
+	Mon, 26 Jan 2015 18:46:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jan 2015 10:43:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="445330874"
-Received: from klopezde-mobl.amr.corp.intel.com (HELO
-	swold-mobl5.amr.corp.intel.com) ([10.252.252.121])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Jan 2015 09:35:59 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jan 2015 09:49:30 -0800
-Message-Id: <1422294570-11014-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] util-linux: move readprofile to match busybox
+X-IronPort-AV: E=Sophos;i="5.09,470,1418112000"; d="scan'208";a="517807903"
+Received: from jcarrol-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.24.23])
+	by orsmga003.jf.intel.com with ESMTP; 26 Jan 2015 10:39:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Walt <walt@giroir.com>
+Date: Mon, 26 Jan 2015 18:46:09 +0000
+Message-ID: <3742973.ifrIKYg27M@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <loom.20150124T182655-678@post.gmane.org>
+References: <loom.20150124T182655-678@post.gmane.org>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: create_image() fails with cannot concatenate 'str' and 'NoneType'error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,52 +33,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jan 2015 17:49:48 -0000
+X-List-Received-Date: Mon, 26 Jan 2015 18:46:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This change moves readprofile from /sbin -> /usr/sbin to match busybox,
-the change allows update-alternative to correctly setup the links
+Hi Walt,
 
-[YOCTO #7225]
+On Saturday 24 January 2015 17:30:08 Walt wrote:
+> I have search the web and found a few references to this problem but I have
+> not yet found a solution.
+> 
+> This is the latest commit.
+> --------
+> commit 745cebd635002618d7edd0a109ff07dd2953621a
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Fri Jan 23 14:38:12 2015 +0000
+> 
+>     bitbake: siggen: Ensure taskdata default functions exist in base class
+> 
+>     The get/set_taskdata functions are now part of the API of the class,
+>     ensure they exist in the base class definition so the noop handler
+>     works.
+> 
+>     [YOCTO #7233]
+> 
+>     (Bitbake rev: 9b5b1bd7d77e3f5886f6c557d3b750de1f6d6025)
+> 
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> 
+> And here is the error
+> =====================
+> File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py',
+> lineno: 355, function: create_image
+>      0351:        execute_pre_post_process(self.d, post_process_cmds)
+>      0352:
+>      0353:
+>      0354:def create_image(d):
+>  *** 0355:    Image(d).create()
+>      0356:
+>      0357:if __name__ == "__main__":
+>      0358:    """
+>      0359:    Image creation can be called independent from bitbake
+> environment.
+> File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py',
+> lineno: 333, function: create
+>      0329:        execute_pre_post_process(self.d, pre_process_cmds)
+>      0330:
+>      0331:        self._remove_old_symlinks()
+>      0332:
+>  *** 0333:        image_cmd_groups = self._get_imagecmds()
+>      0334:
+>      0335:        for image_cmds in image_cmd_groups:
+>      0336:            # create the images in parallel
+>      0337:            nproc = multiprocessing.cpu_count()
+> File: '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py',
+> lineno: 303, function: _get_imagecmds
+>      0299:                print "************************"
+>      0300:                print localdata.getVar("IMAGE_CMD", True)
+>      0301:                print "************************"
+>      0302:                print "************************"
+>  *** 0303:                cmds.append("\t" + localdata.getVar("IMAGE_CMD",
+> True)) 0304:                cmds.append(localdata.expand("\tcd
+> ${DEPLOY_DIR_IMAGE}"))
+>      0305:
+>      0306:                if type in cimages:
+>      0307:                    for ctype in cimages[type]:
+> Exception: TypeError: cannot concatenate 'str' and 'NoneType' objects
+> 
+> ERROR: Function failed: do_rootfs
+> ERROR: Logfile of failure stored in: /home/walt/workspace/wwrelay-
+> rootfs/yocto/build/tmp/work/cubietruck-poky-linux-gnueabi/wigwag-prod-
+> lsb/1.0-r0/temp/log.do_rootfs.13308
+> ERROR: Task 6 (/home/walt/workspace/wwrelay-
+> rootfs/yocto/build/recipes/images/wigwag-prod-lsb.bb, do_rootfs) failed with
+> exit code '1'
+> NOTE: Tasks Summary: Attempted 3977 tasks of which 3976 didn't need to be
+> rerun and 1 failed.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+What have you got in your value of IMAGE_FSTYPES? It looks to me like there is 
+an invalid value in there. If you aren't sure what it's set to, this command 
+should tell you: 
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index e6c00e4..125e1e1 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -74,7 +74,7 @@ FILES_util-linux-losetup = "${base_sbindir}/losetup.${BPN}"
- FILES_util-linux-mount = "${base_bindir}/mount.${BPN}"
- FILES_util-linux-mcookie = "${bindir}/mcookie"
- FILES_util-linux-umount = "${base_bindir}/umount.${BPN}"
--FILES_util-linux-readprofile = "${base_sbindir}/readprofile.${BPN}"
-+FILES_util-linux-readprofile = "${sbindir}/readprofile.${BPN}"
- FILES_util-linux-uuidgen = "${bindir}/uuidgen"
- FILES_util-linux-uuidd = "${sbindir}/uuidd"
- FILES_util-linux-reset = "${base_bindir}/reset"
-@@ -136,8 +136,8 @@ do_install () {
- 	mkdir -p ${D}${base_bindir}
- 
-         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
--        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin switch_root"
--        usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
-+        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk fsck blkid blockdev fstrim sulogin switch_root"
-+        usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt readprofile"
-         binprogs_a="dmesg kill more umount mount login reset su"
- 
-         if [ "${base_sbindir}" != "${sbindir}" ]; then
-@@ -213,7 +213,7 @@ ALTERNATIVE_util-linux-umount = "umount"
- ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
- 
- ALTERNATIVE_util-linux-readprofile = "readprofile"
--ALTERNATIVE_LINK_NAME[readprofile] = "${base_sbindir}/readprofile"
-+ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
- 
- ALTERNATIVE_util-linux-losetup = "losetup"
- ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+  bitbake -e | grep ^IMAGE_FSTYPES=
+
+Cheers,
+Paul
+
 -- 
-2.1.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
