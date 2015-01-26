@@ -1,35 +1,37 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6544E6AC95
+Return-Path: <Daniel.Dragomir@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7121765C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jan 2015 11:46:59 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id q108so6286812qgd.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Jan 2015 03:46:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=CV6oyFOFE96n8ej4pdThidj1oNCO+CsBf8Sm6w4W58M=;
-	b=sk+AbWzMkGcWKdv0eAKDWYbfz6FoKC4mzAoFSxsC6ZgIPAvSn3/tE9iF2IDH3x3Ycp
-	ZS/moWydJH3/CZWeccDyPhLfwcVVEOjkm070UGycfoy/8Oq7xVjbLXOo7BwE6jmOcSsZ
-	xOeQItt5T15OQrXN3pZoowRJDnE/YqKv+l0VeajEnaqhYYBZgp04G+RJPf/WvDKo+R7z
-	uj9IZXaebqVm6xXjlllFM7DJpYXwbNRmj+2G8gF5FCGSjDohOLSjH7Wal4htcpUBjBXn
-	W8ODgUivkEjoDXtoHWaR+xYxR2RtasmTPut0Fevwavbs1Y1pGiADbeBVBjp3alDD5tg2
-	GR5A==
-X-Received: by 10.229.80.3 with SMTP id r3mr10102256qck.23.1422272819823;
-	Mon, 26 Jan 2015 03:46:59 -0800 (PST)
-Received: from thuvia.localdomain (pool-108-44-84-240.ronkva.east.verizon.net.
-	[108.44.84.240])
-	by mx.google.com with ESMTPSA id r16sm9718981qay.10.2015.01.26.03.46.58
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 26 Jan 2015 03:46:58 -0800 (PST)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jan 2015 06:46:36 -0500
-Message-Id: <1422272796-23609-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] orc : Update to 0.4.23.
+	Mon, 26 Jan 2015 12:54:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0QCsrNG010194
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 Jan 2015 04:54:53 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.56]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 26 Jan 2015 04:54:53 -0800
+From: "Dragomir, Daniel" <Daniel.Dragomir@windriver.com>
+To: Armin Kuster <akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran data from
+	receipe
+Thread-Index: AQHQMlW30H8PTtnRK0Cs4U89IDv74ZzMK9ZngACS5oD//3u244AAh66AgAWmnKQ=
+Date: Mon, 26 Jan 2015 12:54:52 +0000
+Message-ID: <7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3@ALA-MBB.corp.ad.wrs.com>
+References: <1421499689-4863-1-git-send-email-daniel.dragomir@windriver.com>
+	<7805B0FACE4FCC4E84636AB320CBA4AC360C560B@ALA-MBB.corp.ad.wrs.com>
+	<CAJTo0Lb1jQ_1ZCY8OrL6GaZ7S6VnBf3cea2ndLT1O69OyLW46Q@mail.gmail.com>
+	<7805B0FACE4FCC4E84636AB320CBA4AC360C5636@ALA-MBB.corp.ad.wrs.com>,
+	<CAJTo0LZRj5OceJHHXRs0EnWyUOnsj4pqv=maeiEZFR69hMk1dw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZRj5OceJHHXRs0EnWyUOnsj4pqv=maeiEZFR69hMk1dw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.124.175]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] gcc-runtime: Remove libgfortran data from receipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,56 +44,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Jan 2015 11:47:08 -0000
+X-List-Received-Date: Mon, 26 Jan 2015 12:54:56 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3ALAMBBcorpadwrs_"
 
-Orc has moved to freedesktop.org, so the fetch URL changed. Dropped the .inc
-file and PR from the recipe.
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This version fixes a bug that led to problems on armhf abi builds.
+Hi Armin,
+Could you please cherry-pick this patch in dizzy branch?
+It is already in master.
 
-https://bugzilla.gnome.org/show_bug.cgi?id=727464
-
-Signed-off-by: Philip Balister <philip@balister.org>
----
- meta/recipes-devtools/orc/orc_0.4.18.bb              | 6 ------
- meta/recipes-devtools/orc/{orc.inc => orc_0.4.23.bb} | 6 +++---
- 2 files changed, 3 insertions(+), 9 deletions(-)
- delete mode 100644 meta/recipes-devtools/orc/orc_0.4.18.bb
- rename meta/recipes-devtools/orc/{orc.inc => orc_0.4.23.bb} (74%)
-
-diff --git a/meta/recipes-devtools/orc/orc_0.4.18.bb b/meta/recipes-devtools/orc/orc_0.4.18.bb
-deleted file mode 100644
-index 2375d8c..0000000
---- a/meta/recipes-devtools/orc/orc_0.4.18.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require orc.inc
--
--PR = "${INC_PR}.0"
--
--SRC_URI[orc.md5sum] = "1a2552e8d127526c48d644fe6437b377"
--SRC_URI[orc.sha256sum] = "34d3c8a7259f42bed4dcfbc106c5e3d0cc8e17eeaa73128d1c5eaf92883a6a24"
-diff --git a/meta/recipes-devtools/orc/orc.inc b/meta/recipes-devtools/orc/orc_0.4.23.bb
-similarity index 74%
-rename from meta/recipes-devtools/orc/orc.inc
-rename to meta/recipes-devtools/orc/orc_0.4.23.bb
-index b134831..0e07731 100644
---- a/meta/recipes-devtools/orc/orc.inc
-+++ b/meta/recipes-devtools/orc/orc_0.4.23.bb
-@@ -3,9 +3,9 @@ HOMEPAGE = "http://code.entropywave.com/projects/orc/"
- LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
--INC_PR = "r2"
--
--SRC_URI = "http://code.entropywave.com/download/orc/orc-${PV}.tar.gz;name=orc"
-+SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz;name=orc"
-+SRC_URI[orc.md5sum] = "72e0612ace54d77aa2f7a006348ee81a"
-+SRC_URI[orc.sha256sum] = "767eaebce2941737b43368225ec54598b3055ca78b4dc50c4092f5fcdc0bdfe7"
- 
- inherit autotools pkgconfig
- 
--- 
-2.1.0
+Thank you.
+Daniel
+________________________________
+From: Burton, Ross [ross.burton@intel.com]
+Sent: Thursday, January 22, 2015 4:33 PM
+To: Dragomir, Daniel
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran data from=
+ receipe
 
 
+On 22 January 2015 at 14:29, Dragomir, Daniel <Daniel.Dragomir@windriver.co=
+m<mailto:Daniel.Dragomir@windriver.com>> wrote:
+Thank you, Ross!
+I don't know the process.
+Sorry for insistance.
+
+No insistence noticed - when it's merged just ping Armin to ensure it gets =
+backported.
+
+Ross
+
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3ALAMBBcorpadwrs_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;"><span dir=3D"ltr">Hi
+</span><span dir=3D"ltr">Armin,<br>
+Could you please cherry-pick this patch in dizzy branch?<br>
+It is already in master.<br>
+<br>
+Thank you.<br>
+Daniel<br>
+</span>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div style=3D"direction: ltr;" id=3D"divRpF267910"><font color=3D"#000000" =
+face=3D"Tahoma" size=3D"2"><b>From:</b> Burton, Ross [ross.burton@intel.com=
+]<br>
+<b>Sent:</b> Thursday, January 22, 2015 4:33 PM<br>
+<b>To:</b> Dragomir, Daniel<br>
+<b>Cc:</b> openembedded-core@lists.openembedded.org<br>
+<b>Subject:</b> Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran da=
+ta from receipe<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On 22 January 2015 at 14:29, Dragomir, Daniel <s=
+pan dir=3D"ltr">
+&lt;<a href=3D"mailto:Daniel.Dragomir@windriver.com" target=3D"_blank">Dani=
+el.Dragomir@windriver.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
+0pt">Thank you, Ross!<br>
+I don't know the process. <br>
+Sorry for insistance.</div>
+</blockquote>
+</div>
+<br>
+No insistence noticed - when it's merged just ping Armin to ensure it gets =
+backported.</div>
+<div class=3D"gmail_extra"><br>
+</div>
+<div class=3D"gmail_extra">Ross</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3ALAMBBcorpadwrs_--
