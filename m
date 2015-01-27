@@ -1,27 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C9CA718E4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id ED336718E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 15:29:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0RFTRNB018896; Tue, 27 Jan 2015 15:29:27 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id e-7lx3I_oi2P; Tue, 27 Jan 2015 15:29:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t0RFTBg7018889
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 27 Jan 2015 15:29:22 GMT
-Message-ID: <1422372551.19798.53.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Jan 2015 15:29:11 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: [PATCH] image: Add missing depends on virtual/kernel for depmod data
+	Tue, 27 Jan 2015 15:30:14 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id i8so12421082qcq.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Jan 2015 07:30:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=W84czojcDEX3k4XrehAYmXtxbxanDAxPTkTkz0RbJ8Q=;
+	b=K94UqSSOjgXm1HXzVYdSIHQL9ZFRqcnVMjCtWwoVPBwMRuQJnCjUtu+o60Y7aFwbjA
+	rMT038xZhqAcGMPEvgcAzdrpqBL3B0Bg8jKa0mmBE4hR/5/jA4hFfwFUPbLzfuI6o9JL
+	VpYhgO4itMu+z9xennnNBvsDswICcAJCFzV/To7aDKQ1K1XTtDGze6bIMiexIG9M1hBV
+	N9X8+uTTAAzkTvLDYPbmmxSZicIMyJo2egrZ4kJzs49yp4DwS7+OEYtf/lu+tm2KytKo
+	ZePLRRnFnXacVbaiNOEDT0eO1P5PrDP1ha41PDx7gt2l/VNW1Sl9ktCCfwbMgClWLPpQ
+	2ulQ==
+X-Gm-Message-State: ALoCoQn9ovlS/eZ5/f2nr2zD2Uc75PdFHLY3iPVrC0S6wxi6R5PzMCWmyAoMD//zQ9oHz2rK0dop
+X-Received: by 10.229.80.3 with SMTP id r3mr1125631qck.23.1422372614835; Tue,
+	27 Jan 2015 07:30:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Tue, 27 Jan 2015 07:29:54 -0800 (PST)
+In-Reply-To: <54C7AC94.5040400@pseudoterminal.org>
+References: <54C7AC94.5040400@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 27 Jan 2015 15:29:54 +0000
+Message-ID: <CAJTo0LZqzaSP=3MugESPsot8RLksde3126M6LZS9AzC6gH=tEA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Should the GStreamer 1.0 _git.bb recipes be removed?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 15:29:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Jan 2015 15:30:20 -0000
+Content-Type: multipart/alternative; boundary=001a1133cb78722bf1050da3eecf
 
-We need the depmod data so that the kernel depmod command works successfully
-at rootfs time. The fact this was working inconsistently is now highlighted
-after the command was made to error out. A simple test case is:
+--001a1133cb78722bf1050da3eecf
+Content-Type: text/plain; charset=UTF-8
 
-bitbake virtual/kernel image
-bitbake vrituak/kernel -c clean
-bitbake image -c rootfs -f
+On 27 January 2015 at 15:19, Carlos Rafael Giani <dv@pseudoterminal.org>
+wrote:
 
-We fix it by adding the missing dependency.
+> right now, for each GStreamer 1.0 package, there is a .inc file, a _git
+> recipe, and a versioned recipe. The _git recipes made sense when GStreamer
+> 1.0 was first introduced, because this happened during the 1.0 -> 1.2
+> version change, and 1.2 brought many essential enhancements, so many people
+> wanted to build the git version. However, these days, I don't think the git
+> versions are in such high demand. As a result, their SRCREVs haven't been
+> updated for a very long time.
+>
+> Since this is pretty much dead, how about removing these recipes?
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+I was wondering this just this week and have no objection.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 22b6970..5b88f53 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -72,8 +72,10 @@ LDCONFIGDEPEND ?= "ldconfig-native:do_populate_sysroot"
- LDCONFIGDEPEND_libc-uclibc = ""
- LDCONFIGDEPEND_libc-musl = ""
- 
--do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
--do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
-+do_rootfs[depends] += " \
-+    makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND} \
-+    virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot \
-+    virtual/kernel:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_packagedata"
- 
- def command_variables(d):
+Ross
 
+--001a1133cb78722bf1050da3eecf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 January 2015 at 15:19, Carlos Rafael Giani <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:dv@pseudoterminal.org" target=3D"_blank">dv@pseudoterminal.or=
+g</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ub" =
+class=3D"a3s" style=3D"overflow:hidden">right now, for each GStreamer 1.0 p=
+ackage, there is a .inc file, a _git recipe, and a versioned recipe. The _g=
+it recipes made sense when GStreamer 1.0 was first introduced, because this=
+ happened during the 1.0 -&gt; 1.2 version change, and 1.2 brought many ess=
+ential enhancements, so many people wanted to build the git version. Howeve=
+r, these days, I don&#39;t think the git versions are in such high demand. =
+As a result, their SRCREVs haven&#39;t been updated for a very long time.<b=
+r>
+<br>
+Since this is pretty much dead, how about removing these recipes?<br></div>=
+</blockquote></div><br>I was wondering this just this week and have no obje=
+ction.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Ross</div></div>
 
+--001a1133cb78722bf1050da3eecf--
