@@ -1,22 +1,20 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C815E72C60
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 02CE27147D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 23:26:49 +0000 (UTC)
+	Tue, 27 Jan 2015 23:37:00 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jan 2015 15:23:36 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 27 Jan 2015 15:30:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,477,1418112000"; d="scan'208";a="668662977"
+X-IronPort-AV: E=Sophos;i="5.09,477,1418112000"; d="scan'208";a="668666488"
 Received: from aehernan-devstation.zpn.intel.com ([10.219.4.43])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2015 15:26:48 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2015 15:36:59 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jan 2015 17:26:31 -0600
-Message-Id: <9f0a61cbb1acb23cf34980e86822331715ce5131.1422400915.git.alejandro.hernandez@linux.intel.com>
+Date: Tue, 27 Jan 2015 17:36:59 -0600
+Message-Id: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1422400915.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1422400915.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] xmlto-native: fixes slow creation of yocto docs
+Subject: [PATCH] terminal.py: fixes launching multiple windows of gnome-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 23:26:55 -0000
+X-List-Received-Date: Tue, 27 Jan 2015 23:37:02 -0000
 
-Forces native RDEPENDS of xmlto-native to be built and installed
+When resolving a patch, a new process of gnome-terminal
 
-since those files are required when creating yocto-docs
+is created for every patch to be resolved, it "waits"
 
-if not found, they are downloaded from upstream everytime
+for the previous one to end, instead of launching
 
-significant time difference is achieved.
+multiple windows at the same time.
 
-[YOCTO #7148]
+[YOCTO #7254]
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.25.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
-index 2698b1c..bd57b28 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
-@@ -36,3 +36,4 @@ do_install_append() {
-     create_wrapper ${D}/${bindir}/xmlto XML_CATALOG_FILES=${sysconfdir}/xml/catalog.xml
- }
-
-+do_populate_sysroot[rdeptask] = "do_populate_sysroot"
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 0a623c7..273590b 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -52,7 +52,7 @@ class XTerminal(Terminal):
+             raise UnsupportedTerminal(self.name)
+ 
+ class Gnome(XTerminal):
+-    command = 'gnome-terminal -t "{title}" -x {command}'
++    command = 'gnome-terminal -t "{title}" --disable-factory -x {command}'
+     priority = 2
+ 
+ class Mate(XTerminal):
 -- 
 1.9.1
 
