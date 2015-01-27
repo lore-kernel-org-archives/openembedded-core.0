@@ -1,27 +1,40 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C72718E4
+Return-Path: <darren.hart@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B65718E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 15:45:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0RFjnRH023031
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Jan 2015 07:45:49 -0800 (PST)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 27 Jan 2015 07:45:49 -0800
-Message-ID: <54C7B296.5020506@windriver.com>
-Date: Tue, 27 Jan 2015 10:45:26 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	Tue, 27 Jan 2015 15:48:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Jan 2015 07:48:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,475,1418112000"; d="scan'208";a="668419029"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2015 07:48:05 -0800
+Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Tue, 27 Jan 2015 07:48:04 -0800
+Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
+	ORSMSX159.amr.corp.intel.com (10.22.240.24) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Tue, 27 Jan 2015 07:48:04 -0800
+Received: from fmsmsx118.amr.corp.intel.com ([169.254.1.250]) by
+	FMSMSX114.amr.corp.intel.com ([10.18.116.8]) with mapi id
+	14.03.0195.001; Tue, 27 Jan 2015 07:48:03 -0800
+From: "Hart, Darren" <darren.hart@intel.com>
+To: "Ashfield, Bruce (Wind River)" <bruce.ashfield@windriver.com>, "Richard
+	Purdie" <richard.purdie@linuxfoundation.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] image: Add missing depends on virtual/kernel for
+	depmod data
+Thread-Index: AQHQOkYSguxzLszzCkS23x3eeq3Eo5zUohkA//96lwA=
+Date: Tue, 27 Jan 2015 15:48:02 +0000
+Message-ID: <D0ECF2E2.B9709%darren.hart@intel.com>
 References: <1422372551.19798.53.camel@linuxfoundation.org>
-In-Reply-To: <1422372551.19798.53.camel@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>
+	<54C7B296.5020506@windriver.com>
+In-Reply-To: <54C7B296.5020506@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.74.158]
+MIME-Version: 1.0
 Subject: Re: [PATCH] image: Add missing depends on virtual/kernel for depmod data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,50 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 15:45:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Jan 2015 15:48:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <ACBA28CF7774464EAFC7A9200F8B11EE@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 15-01-27 10:29 AM, Richard Purdie wrote:
-> We need the depmod data so that the kernel depmod command works successfully
-> at rootfs time. The fact this was working inconsistently is now highlighted
-> after the command was made to error out. A simple test case is:
->
-> bitbake virtual/kernel image
-> bitbake vrituak/kernel -c clean
-> bitbake image -c rootfs -f
->
-> We fix it by adding the missing dependency.
+On 1/27/15, 7:45 AM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
 
-Looks good here.
+>On 15-01-27 10:29 AM, Richard Purdie wrote:
+>> We need the depmod data so that the kernel depmod command works
+>>successfully
+>> at rootfs time. The fact this was working inconsistently is now
+>>highlighted
+>> after the command was made to error out. A simple test case is:
+>>
+>> bitbake virtual/kernel image
+>> bitbake vrituak/kernel -c clean
+>> bitbake image -c rootfs -f
+>>
+>> We fix it by adding the missing dependency.
+>
+>Looks good here.
+>
+>Out of curiosity, was this hiding before, or did it only come about due
+>to our recent moves to the work-shared kernel builds ?
 
-Out of curiosity, was this hiding before, or did it only come about due
-to our recent moves to the work-shared kernel builds ?
+I'm being dense I guess. I went to go verify what virtual/kernel
+do_populate_sysroot is doing in the current state of things, in order to
+be sure it copied over the right files, and I couldn't find it quickly.
+Where is this defined?
 
-Bruce
+--=20
+Darren Hart
+Intel Open Source Technology Center
 
-
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 22b6970..5b88f53 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -72,8 +72,10 @@ LDCONFIGDEPEND ?= "ldconfig-native:do_populate_sysroot"
->   LDCONFIGDEPEND_libc-uclibc = ""
->   LDCONFIGDEPEND_libc-musl = ""
->
-> -do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
-> -do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
-> +do_rootfs[depends] += " \
-> +    makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND} \
-> +    virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot \
-> +    virtual/kernel:do_populate_sysroot"
->   do_rootfs[recrdeptask] += "do_packagedata"
->
->   def command_variables(d):
->
->
 
 
