@@ -1,28 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 484E9718E4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3059C718E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 15:16:09 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jan 2015 07:12:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,475,1418112000"; d="scan'208";a="676782583"
-Received: from krogon-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.16.44])
-	by orsmga002.jf.intel.com with ESMTP; 27 Jan 2015 07:16:09 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Walter Giroir <walt@giroir.com>
-Date: Tue, 27 Jan 2015 15:16:08 +0000
-Message-ID: <2979985.IVZ0R9uNM5@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <9E188571-903A-4F88-803D-D3A7CAF5BFC1@giroir.com>
-References: <loom.20150124T182655-678@post.gmane.org>
-	<3490468.1xbMJtenE6@peggleto-mobl5.ger.corp.intel.com>
-	<9E188571-903A-4F88-803D-D3A7CAF5BFC1@giroir.com>
+	Tue, 27 Jan 2015 15:18:30 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id w55so10052092wes.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Jan 2015 07:18:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Da5sk+G4vQrM9OppG9rLAtEdhMYo8s+dktAa4TP3N9Y=;
+	b=UJiTk0ayiTtMqn0wofgp6GPF/l5NO9BHr5jGAjZehFzKn6FybDpNuo+8/7lpExXYKf
+	Sa5Z2Yz2wHzCXZUFP24zORsdq89IhR6lBHCu73Jg+xMeh1bluXnMNCbJe7uh+0GMdfXb
+	rnyq38scfN/tT7rQzX+85AFrinv9rKUOiM8r4wGKCZDhpQ0j5ImPWGCwfH7FOTHA1vA8
+	+kTpr53r/EWEm0a0F3AwDsXfcj9Di5HGfil7v7I9GkeSdlDBZW3gDZvhy9tBYjvNAwFm
+	2XCE/SmBqvSyKxN2Q5cIg6MHBc6sSTDE6wLHqc22ZrX8JL7ovPCHC+NdW2MW6zLZlzCI
+	HTXQ==
+X-Received: by 10.194.104.196 with SMTP id gg4mr3633514wjb.31.1422371910868;
+	Tue, 27 Jan 2015 07:18:30 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	be2sm2194580wjb.38.2015.01.27.07.18.29
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Jan 2015 07:18:29 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 27 Jan 2015 16:18:30 +0100
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20150127151830.GA2477@jama>
+References: <54C759CD.1030905@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: create_image() fails with cannot concatenate 'str' and 'NoneType'error
+In-Reply-To: <54C759CD.1030905@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: About subversion_1.8.10.bb and subversion_1.6.15.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,200 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 15:16:11 -0000
+X-List-Received-Date: Tue, 27 Jan 2015 15:18:39 -0000
+X-Groupsio-MsgNum: 61723
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Disposition: inline
+
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Tuesday 27 January 2015 07:55:56 Walter Giroir wrote:
-> I am relatively new to the Yocto environment so I=E2=80=99m probably =
-not defining
-> something correctly here.
+On Tue, Jan 27, 2015 at 05:26:37PM +0800, Robert Yang wrote:
 >=20
-> The IMAGE_CLASSES appears to be configured properly.
->=20
-> bitbake -e | grep ^IMAGE_CLASSES
-> IMAGE_CLASSES=3D" sdcard_image-sunxi-wigwag"
->=20
->=20
->=20
-> I added a few =E2=80=9Cdebug=E2=80=9D statements in image.py around l=
-ine 300
->=20
->         for fstype_group in fstype_groups:
->             image_cmds =3D []
->             for type in fstype_group:
->                 cmds =3D []
->                 subimages =3D []
->=20
->                 localdata =3D bb.data.createCopy(self.d)
->                 localdata.setVar('OVERRIDES', '%s:%s' % (type,
-> old_overrides)) bb.data.update_data(localdata)
->                 localdata.setVar('type', type)
->                 print "************************"
->                 print "************************"
->                 print fstype_group
->                 print type
->                 print localdata.getVar("IMAGE_CMD", True)
->                 print "************************"
->                 print "************************"
->                 cmds.append("\t" + localdata.getVar("IMAGE_CMD", True=
-))
->                 cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE=
-}"))
->=20
->=20
-> And the end of the log.do_rootfs.pid shows the output of the print
-> statements File:
-> '/home/walt/workspace/wwrelay-rootfs/yocto/meta/lib/oe/image.py', lin=
-eno:
-> 305, function: _get_imagecmds 0301:                print type
->      0302:                print localdata.getVar("IMAGE_CMD", True)
->      0303:                print "************************"
->      0304:                print "************************"
->  *** 0305:                cmds.append("\t" + localdata.getVar("IMAGE_=
-CMD",
-> True)) 0306:                cmds.append(localdata.expand("\tcd
-> ${DEPLOY_DIR_IMAGE}")) 0307:
->      0308:                if type in cimages:
->      0309:                    for ctype in cimages[type]:
-> Exception: TypeError: cannot concatenate 'str' and 'NoneType' objects=
+> We have both subversion_1.8.10.bb and subversion_1.6.15.bb in oe-core
+> layer, and their license are the same (Apache-2), does anyone know why
+> we need keep subversion_1.6.15.bb, please ? I'd like to remove the old
+> one if no objections.
 
->=20
-> DEBUG: Python function do_rootfs finished
-> ERROR: Function failed: do_rootfs
-> ************************
-> ************************
-> ['tar', 'ext3', 'sunxi-sdimg']
-> tar
-> tar -cvf
-> /home/walt/workspace/wwrelay-rootfs/yocto/build/tmp/deploy/images/wig=
-wagrel
-> ay/wigwag-prod-lsb-wigwagrelay-20150127133345.rootfs.tar -C
-> /home/walt/workspace/wwrelay-rootfs/yocto/build/tmp/work/wigwagrelay-=
-poky-l
-> inux-gnueabi/wigwag-prod-lsb/1.0-r0/rootfs . ************************=
-
-> ************************
-> ************************
-> ************************
-> ['tar', 'ext3', 'sunxi-sdimg']
-> ext3
-> oe_mkext234fs ext3 -i 4096
-> ************************
-> ************************
-> ************************
-> ************************
-> ['tar', 'ext3', 'sunxi-sdimg']
-> sunxi-sdimg
-> None
-> ************************
-> ************************
->=20
->=20
-> It looks like it=E2=80=99s not looking at the second group
->=20
-> NOTE: The image creation groups are: [['tar', 'ext3', 'sunxi-sdimg'],=
-
-> ['sunxi-wigwag-sdimg']]
->=20
->=20
->=20
->=20
-> Here are my BBLAYERS
->=20
-> > bitbake -e | grep ^BBLAYERS=3D
->=20
-> BBLAYERS=3D"/home/walt/workspace/wwrelay-rootfs/yocto/meta
-> /home/walt/workspace/wwrelay-rootfs/yocto/meta-yocto
-> /home/walt/workspace/wwrelay-rootfs/yocto/meta-yocto-bsp
-> /home/walt/workspace/wwrelay-rootfs/meta-sunxi
-> /home/walt/workspace/wwrelay-rootfs/meta-wigwag-relay
-> /home/walt/workspace/wwrelay-rootfs/yocto/meta-hob"
->=20
-> Which does contain our layer:
-> /home/walt/workspace/wwrelay-rootfs/meta-wigwag-relay
->=20
-> The conf file for this layer contains:
-> > cat /home/walt/workspace/wwrelay-rootfs/meta-wigwag-relay/conf/laye=
-r.conf
->=20
-> # We have a conf and classes directory, append to BBPATH
-> BBPATH .=3D ":${LAYERDIR}"
->=20
-> # We have a recipes directory, add to BBFILES
-> BBFILES +=3D "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bb=
-append"
->=20
-> BBFILE_COLLECTIONS +=3D "wigwagrelay"
-> BBFILE_PATTERN_wigwagrelay :=3D "^${LAYERDIR}/"
-> BBFILE_PRIORITY_wigwagrelay =3D "10"
->=20
->=20
->=20
-> The machine conf;
->=20
-> > cat
-> > /home/walt/workspace/wwrelay-rootfs/meta-wigwag-relay/conf/machine/=
-wigwag
-> > relay.conf
-> #@TYPE: Machine
-> #@NAME: WigWag Relay
-> #@DESCRIPTION: Machine configuration for the WigWag Relay, based on
-> allwinner a10 CPU
->=20
-> # Only has DVI connector for external screen
-> GUI_MACHINE_CLASS =3D "bigscreen"
->=20
-> require conf/machine/include/tune-cortexa7.inc
-> require conf/machine/include/sunxi-wigwag.inc
-> require conf/machine/include/sunxi-mali.inc
->=20
-> UBOOT_MACHINE =3D "wigwag_controller_config"
-> UBOOT_ENTRYPOINT =3D "0x40008000"
-> UBOOT_LOADADDRESS =3D "0x40008000"
->=20
-> #MACH=3Dsun4i
-> #KERNEL_CONFIG=3Dsun4i_defconfig
->=20
->=20
-> SERIAL_CONSOLE =3D "115200 ttyS0"
->=20
-> MACHINE_FEATURES =3D "kernel26 apm usbgadget usbhost vfat alsa wifi"
->=20
-> And the contents of sunxi-wigwag.inc add the IMAGE_CLASSES:
->=20
->  cat
-> /home/walt/workspace/wwrelay-rootfs/meta-wigwag-relay/conf/machine/in=
-clude/
-> sunxi-wigwag.inc PREFERRED_PROVIDER_virtual/xserver =3D "xserver-xorg=
-"
-> XSERVER =3D "xserver-xorg \
->            xf86-video-fbturbo \
->            xf86-input-evdev \
->            xf86-input-mouse \
->            xf86-input-keyboard"
->=20
-> PREFERRED_PROVIDER_virtual/kernel =3D "linux"
-> PREFERRED_VERSION_linux-libc-headers =3D "3.4.61"
->=20
-> KERNEL_IMAGETYPE =3D "uImage"
->=20
-> IMAGE_CLASSES +=3D "sdcard_image-sunxi-wigwag"
-> IMAGE_FSTYPES +=3D "ext3 tar.gz sunxi-wigwag-sdimg"
->=20
-> MACHINE_EXTRA_RRECOMMENDS =3D "kernel-modules"
-
-OK, so from what I can see, no IMAGE_CMD is defined for sunxi-sdimg whi=
-ch=20
-apparently is in IMAGE_FSTYPES, that's what's actually triggering the e=
-rror.=20
-This error prevents the code from continuing on to the second group.
-
-Cheers,
-Paul
+Different checkout format.
 
 --=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlTHrEYACgkQN1Ujt2V2gBy3lQCggyoS6CURdPm/ymeoTJ0aLfAu
+pYMAnjqX101KcccgBVkQvqM+wUq5tu7f
+=7bML
+-----END PGP SIGNATURE-----
+
+--bg08WKrSYDhXBjb5--
