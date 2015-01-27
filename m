@@ -1,35 +1,24 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D762718E1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 693B36AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 05:28:03 +0000 (UTC)
-Received: from c-50-185-54-102.hsd1.ca.comcast.net ([50.185.54.102]
-	helo=[172.16.1.11])
-	by smtp.twobit.us with esmtpsa (TLSv1.2:DHE-RSA-AES128-SHA:128)
-	(Exim 4.80) (envelope-from <flihp@twobit.us>)
-	id 1YFyfF-0004iH-CU; Tue, 27 Jan 2015 05:26:13 +0000
-Message-ID: <54C721DB.6050102@twobit.us>
-Date: Tue, 27 Jan 2015 00:27:55 -0500
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Icedove/31.3.0
+	Tue, 27 Jan 2015 05:35:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0R5ZIVm014624
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Jan 2015 21:35:18 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 26 Jan 2015 21:35:18 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Jan 2015 13:35:22 +0800
+Message-ID: <cover.1422336778.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1421009125-13379-1-git-send-email-flihp@twobit.us>
-	<CAJTo0LaqfgwbwvN5BR3dzxP-LbgfocwZO2GjT1-Y9Qyy8xyg=w@mail.gmail.com>
-	<54B48BB1.1050806@twobit.us>
-	<CAJTo0Laxhzq+dOO5GNMmATLKpZws059ma+TKHQr5bk3JOimx2Q@mail.gmail.com>
-In-Reply-To: <CAJTo0Laxhzq+dOO5GNMmATLKpZws059ma+TKHQr5bk3JOimx2Q@mail.gmail.com>
-X-SA-Exim-Connect-IP: 50.185.54.102
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-2.7-manifest: Add package for contextlib module
+Subject: [PATCH 0/1] udev-cache: avoid using '-L' for stat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,35 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 05:28:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Jan 2015 05:35:23 -0000
+Content-Type: text/plain
 
-On 01/21/2015 06:48 AM, Burton, Ross wrote:
-> On 13 January 2015 at 03:06, Philip Tricca <flihp@twobit.us> wrote:
-> 
->> Rebased on master before sending. No changes since. Did you mean
->> master-next? I wasn't sure which was preferred but I can submit the
->> patch on either.
->>
-> 
-> Generally, keep to master.
+The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
 
-ACK
+  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
 
->> https://github.com/flihp/openembedded-core/tree/contextlib
->>
->> Thanks for taking a look at this and sorry for the confusion.
->>
-> 
-> Thanks for this - I've discovered it was the very long lines being mangled
-> by email or copy/paste, but taking the commit directly from there works
-> fine.
+are available in the git repository at:
 
-I should have seen that one coming. git send-email balked at the length
-of the lines in the patch and I had to pass it the --force flag to get
-the initial patch to send.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/udev-cache-stat
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/udev-cache-stat
 
-Appreciate your persistence,
-Philip
+Chen Qi (1):
+  udev-cache: avoid using '-L' for stat
+
+ meta/recipes-core/udev/udev/init       | 2 +-
+ meta/recipes-core/udev/udev/udev-cache | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.9.1
+
 
