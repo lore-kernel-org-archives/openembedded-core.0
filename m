@@ -1,35 +1,42 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DD0B7147D
+Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 87DE77147D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 17:20:54 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id j7so12379535qaq.5
+	Tue, 27 Jan 2015 17:29:58 +0000 (UTC)
+Received: by mail-ie0-f182.google.com with SMTP id ar1so16556308iec.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 09:20:53 -0800 (PST)
+	Tue, 27 Jan 2015 09:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Wb5UHyc12Iz/TvyrXicNxPUe5QgVhakSXkP2EGDT8Nk=;
-	b=oud7AbWKH+jVgr6bhe7BqUSBoJk/e+SGRZapZWH6cBZqd+zFQoYD5WodSIsF8r2C/C
-	60JRlaF08RgHEOAd3tWG5hnnbyzRm7bHgS8KSZ4PECO77ujwyHBV/ikK8F7Wf6S8PlrI
-	OVRYc1R2CvnDrl6fE5EImMJaZ9ul0bZo1RdY1fd0ljTQkEuFstqbtU3+vVRXgDuFt5uI
-	XY6m3vvX5nSXMY7YMqbVl4Hrb0VB5TLbeS5UbJfpNOQnmgRPZPyVS/6KQA9olsS9wHZG
-	yJ6unRWxnEh5Dg4NC8sNOaKJ55w5BcFDyxqDJFTFa1i1FJSQhiGXfGSBKVLJVsrzm730
-	muYw==
-MIME-Version: 1.0
-X-Received: by 10.224.46.200 with SMTP id k8mr3885206qaf.89.1422379253765;
-	Tue, 27 Jan 2015 09:20:53 -0800 (PST)
-Received: by 10.96.30.35 with HTTP; Tue, 27 Jan 2015 09:20:53 -0800 (PST)
-In-Reply-To: <1422372551.19798.53.camel@linuxfoundation.org>
-References: <1422372551.19798.53.camel@linuxfoundation.org>
-Date: Tue, 27 Jan 2015 11:20:53 -0600
-Message-ID: <CACS+7ZSWL2FTcVWwT0Yf4ydRogyxqOGmn+cMBUBgYPiuKRoJPg@mail.gmail.com>
+	h=message-id:from:date:subject:to:resent-date:resent-from:resent-to
+	:resent-subject:resent-message-id:resent-user-agent;
+	bh=BOw+enWsZVwNluBBuonIK0TYHqALjI76CdKojwePLs4=;
+	b=mXCnISKNxajy76IzdBNO1IAHIn2InOEt1+mBV+6/sG72aayK01JQDavxkKx0HbFQ6L
+	fMvtiEioI0ZgtsKgDILDuANRHkmZMT9nADhp+c/EVhMuHIh1+/1e9zt1aEQjtxa6wlm1
+	7UG8WyjkkH9nteMcSUhPPsIYcBmm3gnSjHhT8CL1H2BHjd3+nHmUl4l3KXkadNWixoQB
+	Ps+/wY3awV+Bc/0r/us49JsMzbS91S4jQfnMwJhaIUsEAMq5AmLsTNko4XJg/WsmecTn
+	eILH05OyFAXTytICEEyM4qcYsXOTTYS+DmKCpy2CUn+V+xMm8GVAEblDPG33vzkINAJY
+	2rAw==
+X-Received: by 10.50.83.10 with SMTP id m10mr4360054igy.23.1422379798088;
+	Tue, 27 Jan 2015 09:29:58 -0800 (PST)
+Received: from mediabox.local (71-17-233-74.sktn.hsdb.sasknet.sk.ca.
+	[71.17.233.74])
+	by mx.google.com with ESMTPSA id u12sm1032103ioi.15.2015.01.27.09.29.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Jan 2015 09:29:57 -0800 (PST)
+Message-ID: <54c7cb15.0c0a6b0a.1efc.2c57@mx.google.com>
 From: Dan McGregor <danismostlikely@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image: Add missing depends on virtual/kernel for depmod data
+Date: Tue, 27 Jan 2015 11:21:12 -0600
+To: openembedded-core@lists.openembedded.org
+ReSent-Date: Tue, 27 Jan 2015 11:29:30 -0600 (CST)
+ReSent-From: Dan McGregor <dan@mediabox.local>
+ReSent-To: openembedded-core@lists.openembedded.org
+ReSent-Subject: [OE-Core][PATCH] image.bbclass: make kernel depmod data
+	optional
+ReSent-Message-ID: <alpine.LFD.2.11.1501271129230.8916@mediabox.local>
+ReSent-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+Subject: [PATCH] image.bbclass: make kernel depmod data optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,23 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 17:21:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 27 Jan 2015 17:30:03 -0000
 
-On 27 January 2015 at 09:29, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> We need the depmod data so that the kernel depmod command works successfully
-> at rootfs time. The fact this was working inconsistently is now highlighted
-> after the command was made to error out. A simple test case is:
->
-> bitbake virtual/kernel image
-> bitbake vrituak/kernel -c clean
-> bitbake image -c rootfs -f
->
-> We fix it by adding the missing dependency.
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-On a similar note, I have a patch that makes kernel depmod optional
-when generating images. I used it to create an image that can be used
-as a container without also including kernel depmod info. I shall post
-it.
+This allows an image to skip the creation of kernel depmod
+data. It is useful for creating an image that will run as a
+container image inside a host with no knowledge of the parent's
+kernel.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/classes/image.bbclass | 1 +
+ meta/lib/oe/rootfs.py      | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 22b6970..b284101 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -63,6 +63,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ USE_DEVFS ?= "1"
++USE_DEPMOD ?= "1"
+ 
+ PID = "${@os.getpid()}"
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 72d32f7..ed15c95 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -124,7 +124,8 @@ class Rootfs(object):
+ 
+         self._run_ldconfig()
+ 
+-        self._generate_kernel_module_deps()
++        if self.d.getVar('USE_DEPMOD', True) != "0":
++            self._generate_kernel_module_deps()
+ 
+         self._cleanup()
+ 
+-- 
+2.1.0
+
+
 
