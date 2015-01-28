@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D55172608
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 13:09:07 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id j7so16049928qaq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 05:09:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ExDPEN8OUZg9GUaT/ChvywXWZ3tTiTgrF78J6bED//M=;
-	b=BpI1qys1jpTmuzQuOd92bEZ6OgON4ZKDbzMYKoHhxrQE4fVBiaMDYN75bkFoCalR8i
-	cVdvzXCUY8NZAjT6GLt/XXF/NT80+0RmA6YU6BzaqNd/h+iIBJXh7Q0Tpj+rZ3bpO+jY
-	hIfFDHaK4YT4mreaO04t3qSs7fiJp9Drlew+mfokPv9KubBU9GW1HC06q5e3ujIXHMJt
-	8ZTZaf575yRKc/T3dUV0ONhg3x+gHM9efH7ejHk8ukoMXCctpEfSGZJQ5qy4/s9tWCSb
-	Z2JnaUmCMy42AVfmwxjgLMON5mbXerUk1nHEwtu7WE9X7AI1ngcrCrz8lgl7oYtYhvFn
-	Z9tg==
-X-Gm-Message-State: ALoCoQlelSlBdOe5j0LupA2MU50+KKNSn0i+ljqaijhJfZfWBEM5HO7cscyrUK5Ppy9warpXI/+L
-X-Received: by 10.224.24.132 with SMTP id v4mr12968645qab.17.1422450547782;
-	Wed, 28 Jan 2015 05:09:07 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CE85872608;
+	Wed, 28 Jan 2015 13:40:41 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id k48so20870971wev.12;
+	Wed, 28 Jan 2015 05:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=LgporEVcPBvte/ZVIGEPWHQq0neBvIKvv15O++QYnsk=;
+	b=uUlFP5p1PqoIB0DNxHCQUmNPg1Wn+RgXjm4cmt7ULuDZ04wnH49+XBp4CkmA1MwIXt
+	CqnzW3Q+05cIgojTc9/hLHFt8gbvgJBBhqH2hlVa7F76TwdwAhkyHWuuFZIsZ7JrYQJz
+	LEGB1NfvlntPMVd+jX2b8+DvVj2rKiM1xloFtw2SwvG9V8s34SZsmH3asy2JutxJUG9N
+	U7UYZ4is6mfjbpEdPhxXHiQvzRTRGnGomV0e31HriBJJDjNy6nbejNNYmBbwypwLVD4f
+	j2U0bOsrKUam/024Tqzeji3lP1xEVyJCT3UuINIYo5cqbm7nGRo/CY7NGJjk/QMD2rxt
+	HtTQ==
+X-Received: by 10.194.143.12 with SMTP id sa12mr7473987wjb.101.1422452441805; 
+	Wed, 28 Jan 2015 05:40:41 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	kp10sm5921847wjc.45.2015.01.28.05.40.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 28 Jan 2015 05:40:41 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 28 Jan 2015 14:40:42 +0100
+To: openembedded-core@lists.openembedded.org,
+	Richard Tollerton <rich.tollerton@ni.com>
+Message-ID: <20150128134042.GI2477@jama>
+References: <20141219180841.C5F5A503BF@opal.openembedded.org>
+	<20150107141256.GM29986@jama> <20150108120155.GH3972@jama>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 28 Jan 2015 05:08:47 -0800 (PST)
-In-Reply-To: <20150128124700.GH2477@jama>
-References: <1422448867-9744-1-git-send-email-ross.burton@intel.com>
-	<20150128124700.GH2477@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Jan 2015 13:08:47 +0000
-Message-ID: <CAJTo0LZ4juxHbqBcSAjiPcm2htxXi=iLwWKuEOwJxk-gQbW75A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] security_flags: disable PIE on expect
+In-Reply-To: <20150108120155.GH3972@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +47,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jan 2015 13:09:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c2b49e9cb64d050db6139e
+X-List-Received-Date: Wed, 28 Jan 2015 13:40:49 -0000
+X-Groupsio-MsgNum: 61778
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="nEsDIrWrg+hrB7l1"
+Content-Disposition: inline
 
---001a11c2b49e9cb64d050db6139e
-Content-Type: text/plain; charset=UTF-8
-
-On 28 January 2015 at 12:47, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> And flac doesn't need it anymore?
->
-
-Whoops, thanks!
-
-Ross
-
---001a11c2b49e9cb64d050db6139e
-Content-Type: text/html; charset=UTF-8
+--nEsDIrWrg+hrB7l1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 January 2015 at 12:47, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ye" class=
-=3D"a3s" style=3D"overflow:hidden">And flac doesn&#39;t need it anymore?</d=
-iv></blockquote><div><br></div><div>Whoops, thanks!</div><div><br></div><di=
-v>Ross=C2=A0</div></div></div></div>
+On Thu, Jan 08, 2015 at 01:01:55PM +0100, Martin Jansa wrote:
+> On Wed, Jan 07, 2015 at 03:12:56PM +0100, Martin Jansa wrote:
+> > On Fri, Dec 19, 2014 at 06:08:41PM +0000, git@git.openembedded.org wrot=
+e:
+> > > Module: openembedded-core.git
+> > > Branch: master
+> > > Commit: 89a29a3ad0742cd713e739d3d460be7711966679
+> > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dco=
+mmit;h=3D89a29a3ad0742cd713e739d3d460be7711966679
+> > >=20
+> > > Author: Richard Tollerton <rich.tollerton@ni.com>
+> > > Date:   Fri Dec 12 13:34:00 2014 -0600
+> > >=20
+> > > font-util: Fix incorrect PKG_CONFIG_PATH
+> > >=20
+> > > PKG_CONFIG_PATH always defaults to /usr/lib/pkgconfig, and the host
+> > > /usr/lib/pkgconfig is always checked as a fallback; however,
+> > > PKG_CONFIG_PATH is currently (incorrectly) set to /usr/lib/pkg-config=
+ in
+> > > the sysroot, which doesn't exist. On host distros where the font
+> >=20
+> >=20
+> > > encoding maps are stored under a different path than OE, this will br=
+eak
+> > > font builds, because ucs2any will attempt to read the sysroot's encod=
+ing
+> > > maps with the host paths.
+> >=20
+> > ^ Is this description of what the patch is supposed to fix or expected
+> > side-effect of this change?
+> >=20
+> > Because all font recipes and meta-oe are failing since this change with
+> > errors like this:
+> >=20
+> > /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin=
+/ucs2any: Can't read mapping file
+> > '/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/sh=
+are/fonts/X11/util/map-ISO8859-1': No such file or directory!
+> >=20
+> > See http://www.openembedded.org/wiki/Bitbake_World_Status
+>=20
+> I can confirm that reverting this patch fixes font-* recipes
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-January/10=
+0523.html
 
---001a11c2b49e9cb64d050db6139e--
+Ping
+
+> > > Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > >=20
+> > > ---
+> > >=20
+> > >  meta/recipes-graphics/xorg-font/font-util_1.3.0.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb b/met=
+a/recipes-graphics/xorg-font/font-util_1.3.0.bb
+> > > index 8b42991..cc4258a 100644
+> > > --- a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
+> > > +++ b/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
+> > > @@ -17,7 +17,7 @@ RDEPENDS_${PN}_class-native =3D "mkfontdir-native m=
+kfontscale-native"
+> > >  PR =3D "${INC_PR}.0"
+> > > =20
+> > >  do_configure_prepend() {
+> > > -        sed -i "s#MAPFILES_PATH=3D\`pkg-config#MAPFILES_PATH=3D\`PKG=
+_CONFIG_PATH=3D\"${STAGING_LIBDIR_NATIVE}/pkg-config\" pkg-config#g" ${S}/f=
+ontutil.m4.in
+> > > +        sed -i "s#MAPFILES_PATH=3D\`pkg-config#MAPFILES_PATH=3D\`PKG=
+_CONFIG_PATH=3D\"${STAGING_LIBDIR_NATIVE}/pkgconfig\" pkg-config#g" ${S}/fo=
+ntutil.m4.in
+> > >  }
+> > > =20
+> > >  BBCLASSEXTEND =3D "native"
+> > >=20
+> > > --=20
+> > > _______________________________________________
+> > > Openembedded-commits mailing list
+> > > Openembedded-commits@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+> >=20
+> > --=20
+> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>=20
+>=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--nEsDIrWrg+hrB7l1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlTI5toACgkQN1Ujt2V2gBxvLwCghpQ143e24iqdY3AYGjIycOUR
+kFAAn1Ot5k+7k7YMpAMrUHkd/0E0UUUS
+=tWgs
+-----END PGP SIGNATURE-----
+
+--nEsDIrWrg+hrB7l1--
