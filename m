@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6226872D98
+	by mail.openembedded.org (Postfix) with ESMTP id 0E75172D6C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 11:55:08 +0000 (UTC)
+	Wed, 28 Jan 2015 11:55:07 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 28 Jan 2015 03:50:49 -0800
+	by orsmga103.jf.intel.com with ESMTP; 28 Jan 2015 03:50:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,480,1418112000"; d="scan'208";a="518910016"
+X-IronPort-AV: E=Sophos;i="5.09,480,1418112000"; d="scan'208";a="518910008"
 Received: from nnodonog-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.113])
-	by orsmga003.jf.intel.com with ESMTP; 28 Jan 2015 03:47:58 -0800
+	by orsmga003.jf.intel.com with ESMTP; 28 Jan 2015 03:47:57 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Jan 2015 11:54:42 +0000
-Message-Id: <2b49a3fd0f9574e1cd924e719ef9606c7a3c3532.1422445957.git.paul.eggleton@linux.intel.com>
+Date: Wed, 28 Jan 2015 11:54:41 +0000
+Message-Id: <35eaa7f0a58f17d40ec7d90e7eca66dceacc45a3.1422445957.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1422445957.git.paul.eggleton@linux.intel.com>
 References: <cover.1422445957.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1422445957.git.paul.eggleton@linux.intel.com>
 References: <cover.1422445957.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/5] classes/image: skip recipe on invalid IMAGE_FEATURES item
+Subject: [PATCH 2/5] lib/oe/rootfs.py: rename _uninstall_uneeded to fix spelling error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +34,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Jan 2015 11:55:08 -0000
 
-If you add an item to EXTRA_IMAGE_FEATURES in your local.conf that is
-not supported by image.bbclass itself (such as "tools-sdk" which is
-implemented in core-image.bbclass), it can be somewhat annoying to have
-the parse fall over if you have a recipe that inherits image.bbclass
-only. Change the error from bb.fatal to skip the recipe instead so that
-you only see the error when attempting to build the recipe, plus add a
-bit of logic to report if the feature is coming in via
-EXTRA_IMAGE_FEATURES.
-
-Fixes [YOCTO #5023].
+Rename it to _uninstall_unneeded.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/image.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 6bd3e03..62b214a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -52,7 +52,10 @@ def check_image_features(d):
-     features = set(oe.data.typed_value('IMAGE_FEATURES', d))
-     for feature in features:
-         if feature not in valid_features:
--            bb.fatal("'%s' in IMAGE_FEATURES is not a valid image feature. Valid features: %s" % (feature, ' '.join(valid_features)))
-+            if bb.utils.contains('EXTRA_IMAGE_FEATURES', feature, True, False, d):
-+                raise bb.parse.SkipRecipe("'%s' in IMAGE_FEATURES (added via EXTRA_IMAGE_FEATURES) is not a valid image feature. Valid features: %s" % (feature, ' '.join(valid_features)))
-+            else:
-+                raise bb.parse.SkipRecipe("'%s' in IMAGE_FEATURES is not a valid image feature. Valid features: %s" % (feature, ' '.join(valid_features)))
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 72d32f7..536efcc 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -118,7 +118,7 @@ class Rootfs(object):
+         if self.d.getVar('USE_DEVFS', True) != "1":
+             self._create_devfs()
  
- IMAGE_INSTALL ?= ""
- IMAGE_INSTALL[type] = "list"
+-        self._uninstall_uneeded()
++        self._uninstall_unneeded()
+ 
+         self._insert_feed_uris()
+ 
+@@ -128,7 +128,7 @@ class Rootfs(object):
+ 
+         self._cleanup()
+ 
+-    def _uninstall_uneeded(self):
++    def _uninstall_unneeded(self):
+         # Remove unneeded init script symlinks
+         delayed_postinsts = self._get_delayed_postinsts()
+         if delayed_postinsts is None:
 -- 
 1.9.3
 
