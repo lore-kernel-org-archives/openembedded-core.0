@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E916E72D84
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B20F72D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 06:52:30 +0000 (UTC)
+	Wed, 28 Jan 2015 06:52:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0S6qVNm008462
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0S6qWms001048
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 22:52:31 -0800 (PST)
+	Tue, 27 Jan 2015 22:52:32 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
 	Tue, 27 Jan 2015 22:52:31 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Jan 2015 22:52:25 -0800
-Message-ID: <4c52f4300a23288914a6a069ca05a0d19adf12fa.1422427700.git.liezhi.yang@windriver.com>
+Date: Tue, 27 Jan 2015 22:52:26 -0800
+Message-ID: <b9f96108f790662e52c6d748fe01cd0fc6b58a80.1422427700.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1422427700.git.liezhi.yang@windriver.com>
 References: <cover.1422427700.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/12] latencytop: fix SRC_URI and HOMEPAGE
+Subject: [PATCH 11/12] pcmciautils: fix SRC_URI and HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +37,34 @@ X-List-Received-Date: Wed, 28 Jan 2015 06:52:31 -0000
 Content-Type: text/plain
 
 Fixed:
-WARNING: Failed to fetch URL http://www.latencytop.org/download/latencytop-0.5.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://kernel.org/pub/linux/utils/kernel/pcmcia/pcmciautils-018.tar.bz2, attempting MIRRORS if available
 
-Its homepage is also down, but can't find a proper one atm.
+The pcmciautils-018.tar.bz2 is gone from kernel.org.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/latencytop/latencytop_0.5.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-index e910a96..cb0a3c5 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -8,7 +8,7 @@ DEPENDS = "virtual/libintl ncurses glib-2.0"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+index eafe820..04056e3 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+@@ -1,5 +1,5 @@
+ SUMMARY = "Linux kernel userland utilities for the PCMCIA subsystem"
+-HOMEPAGE = "http://kernel.org/pub/linux/utils/kernel/pcmcia/pcmcia.html"
++HOMEPAGE = "https://www.kernel.org/pub/linux/utils/kernel/pcmcia/"
+ SECTION = "kernel/userland"
  
- PR = "r3"
+ LICENSE = "GPLv2"
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ DEPENDS = "udev sysfsutils flex-native"
+ RDEPENDS_${PN} = "udev module-init-tools"
  
--SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/${BPN}/${BP}.tar.gz/73bb3371c6ee0b0e68e25289027e865c/${BP}.tar.gz \
-             file://latencytop-makefile.patch \
-             file://latencytop-fsync.patch"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/pcmcia/pcmciautils-${PV}.tar.bz2"
++SRC_URI = "http://mirror.linux.org.au/linux/utils/kernel/pcmcia/${BP}.tar.bz2"
+ 
+ S = "${WORKDIR}/pcmciautils-${PV}"
  
 -- 
 1.7.9.5
