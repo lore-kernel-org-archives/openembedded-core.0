@@ -1,20 +1,28 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 02CE27147D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B80CA7147D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 23:37:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 27 Jan 2015 15:30:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,477,1418112000"; d="scan'208";a="668666488"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.43])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2015 15:36:59 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Jan 2015 17:36:59 -0600
-Message-Id: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] terminal.py: fixes launching multiple windows of gnome-terminal
+	Wed, 28 Jan 2015 01:07:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0S17MTb029235
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Jan 2015 17:07:22 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 27 Jan 2015 17:07:21 -0800
+Message-ID: <54C83648.1060907@windriver.com>
+Date: Wed, 28 Jan 2015 09:07:20 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <54C759CD.1030905@windriver.com> <20150127151830.GA2477@jama>
+In-Reply-To: <20150127151830.GA2477@jama>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: About subversion_1.8.10.bb and subversion_1.6.15.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,37 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Jan 2015 23:37:02 -0000
+X-List-Received-Date: Wed, 28 Jan 2015 01:07:25 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When resolving a patch, a new process of gnome-terminal
 
-is created for every patch to be resolved, it "waits"
 
-for the previous one to end, instead of launching
+On 01/27/2015 11:18 PM, Martin Jansa wrote:
+> On Tue, Jan 27, 2015 at 05:26:37PM +0800, Robert Yang wrote:
+>>
+>> We have both subversion_1.8.10.bb and subversion_1.6.15.bb in oe-core
+>> layer, and their license are the same (Apache-2), does anyone know why
+>> we need keep subversion_1.6.15.bb, please ? I'd like to remove the old
+>> one if no objections.
+>
+> Different checkout format.
 
-multiple windows at the same time.
+Thanks, so I think that we need keep subversion_1.6.15.bb ?
 
-[YOCTO #7254]
+// Robert
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/lib/oe/terminal.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 0a623c7..273590b 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -52,7 +52,7 @@ class XTerminal(Terminal):
-             raise UnsupportedTerminal(self.name)
- 
- class Gnome(XTerminal):
--    command = 'gnome-terminal -t "{title}" -x {command}'
-+    command = 'gnome-terminal -t "{title}" --disable-factory -x {command}'
-     priority = 2
- 
- class Mate(XTerminal):
--- 
-1.9.1
-
+>
 
