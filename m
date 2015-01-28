@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CF85718E9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D8B272D69
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 06:52:27 +0000 (UTC)
+	Wed, 28 Jan 2015 06:52:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0S6qRiE008447
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0S6qTAJ001036
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 22:52:27 -0800 (PST)
+	Tue, 27 Jan 2015 22:52:29 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 27 Jan 2015 22:52:27 -0800
+	Tue, 27 Jan 2015 22:52:28 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Jan 2015 22:52:15 -0800
-Message-ID: <cover.1422427700.git.liezhi.yang@windriver.com>
+Date: Tue, 27 Jan 2015 22:52:18 -0800
+Message-ID: <6b8efd7987a8650ee93655d9b5f115db0a521b95.1422427700.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1422427700.git.liezhi.yang@windriver.com>
+References: <cover.1422427700.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/12] fix SRC_URI and others
+Subject: [PATCH 03/12] perf: add LIBNUMA_DEFINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,55 +36,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 28 Jan 2015 06:52:28 -0000
 Content-Type: text/plain
 
-There are still other do_ferch errors after these fixes:
-WARNING: Failed to fetch URL http://createrepo.baseurl.org/download/createrepo-0.4.11.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/n/net-tools/net-tools_1.60-25.diff.gz;apply=no;name=patch, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/h/heirloom-mailx/heirloom-mailx_12.5-1.diff.gz;name=patch, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.xinetd.org/xinetd-2.3.15.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/a/apt/apt_0.9.9.4.tar.gz, attempting MIRRORS if available
+Fixed:
+WARNING: QA Issue: perf rdepends on numactl, but it isn't a build dependency? [build-deps]
 
-I'd like to go on fixing them if this is fine, such as use
-pkgs.fedoraproject.org or yocto's mirror to instead of.
+The numactl is in meta-oe.
 
-// Robert
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-kernel/perf/perf.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-The following changes since commit 2a775ebbb175dd70fc7228607c306d4ccb9e4ba4:
-
-  net-tools: Fix rerunning of do_patch task (2015-01-23 14:32:40 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/src_uri
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/src_uri
-
-Robert Yang (12):
-  dpkg: add perl to RDEPENDS
-  screen: add PACKAGECONFIG for libutempter
-  perf: add LIBNUMA_DEFINES
-  cdrtools-native: fix HOMEPAGE and SRC_URI
-  base-passwd: fix SRC_URI
-  dosfstools: fix SRC_URI
-  cwautomacros: fix SRC_URI and HOMEPAGE
-  man: fix SRC_URI
-  pax: fix SRC_URI and HOMEPAGE
-  latencytop: fix SRC_URI and HOMEPAGE
-  pcmciautils: fix SRC_URI and HOMEPAGE
-  mingetty: fix SRC_URI
-
- meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    4 ++--
- .../recipes-core/base-passwd/base-passwd_3.5.29.bb |    2 +-
- .../cdrtools/cdrtools-native_3.01a20.bb            |    4 ++--
- .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    3 ++-
- meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
- .../cwautomacros/cwautomacros_20110201.bb          |    4 ++--
- meta/recipes-extended/man/man_1.6g.bb              |    2 +-
- meta/recipes-extended/mingetty/mingetty_1.08.bb    |    2 +-
- meta/recipes-extended/pax/pax_3.4.bb               |    4 ++--
- meta/recipes-extended/screen/screen_4.0.3.bb       |    3 +++
- meta/recipes-kernel/latencytop/latencytop_0.5.bb   |    2 +-
- meta/recipes-kernel/perf/perf.bb                   |    4 +++-
- 12 files changed, 21 insertions(+), 15 deletions(-)
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 6925eb2..fcfd0ad 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -65,6 +65,7 @@ B = "${WORKDIR}/${BPN}-${PV}"
+ SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+ LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1',d)}"
++LIBNUMA_DEFINES = "${@perf_feature_enabled('perf-libnuma', '', 'NO_LIBNUMA=1',d)}"
+ 
+ # The LDFLAGS is required or some old kernels fails due missing
+ # symbols and this is preferred than requiring patches to every old
+@@ -80,7 +81,8 @@ EXTRA_OEMAKE = '\
+     AR="${AR}" \
+     EXTRA_CFLAGS="-ldw" \
+     perfexecdir=${libexecdir} \
+-    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${LIBUNWIND_DEFINES} ${SCRIPTING_DEFINES} \
++    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${LIBUNWIND_DEFINES} \
++    ${SCRIPTING_DEFINES} ${LIBNUMA_DEFINES} \
+ '
+ 
+ EXTRA_OEMAKE += "\
 -- 
 1.7.9.5
 
