@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A45C672D84
+Return-Path: <Pengyu.Ma@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 720E57147D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 06:52:31 +0000 (UTC)
+	Wed, 28 Jan 2015 07:15:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0S6qWFW008465
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0S7FIlg001188
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Jan 2015 22:52:32 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 27 Jan 2015 22:52:32 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Jan 2015 22:52:27 -0800
-Message-ID: <bb265a9fc38c94d8412d36ee3530116b6b3875bb.1422427700.git.liezhi.yang@windriver.com>
+	Tue, 27 Jan 2015 23:15:18 -0800 (PST)
+Received: from android-OptiPlex-980.corp.ad.wrs.com (128.224.163.162) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 27 Jan 2015 23:15:18 -0800
+From: Pengyu Ma <pengyu.ma@windriver.com>
+To: <pengyu.ma@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Jan 2015 15:15:17 +0800
+Message-ID: <1422429317-19707-1-git-send-email-pengyu.ma@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1422427700.git.liezhi.yang@windriver.com>
-References: <cover.1422427700.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/12] mingetty: fix SRC_URI
+Subject: [PATCH] mesa: Upgrade to 10.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jan 2015 06:52:31 -0000
+X-List-Received-Date: Wed, 28 Jan 2015 07:15:22 -0000
 Content-Type: text/plain
 
-Fixed:
-WARNING: Failed to fetch URL http://cdnetworks-kr-1.dl.sourceforge.net/project/mingetty/mingetty/1.08/mingetty-1.08.tar.gz, attempting MIRRORS if available
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Pengyu Ma <pengyu.ma@windriver.com>
 ---
- meta/recipes-extended/mingetty/mingetty_1.08.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/mesa/mesa_10.4.0.bb |   16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/mesa_10.4.0.bb
 
-diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-index f1936af..3c16228 100644
---- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
-+++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPLv2"
- PR = "r3"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c56db0143f4f80c369ee3af7425af6e"
--SRC_URI = "http://cdnetworks-kr-1.dl.sourceforge.net/project/mingetty/mingetty/${PV}/mingetty-${PV}.tar.gz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.gz"
- 
- SRC_URI[md5sum] = "2a75ad6487ff271424ffc00a64420990"
- SRC_URI[sha256sum] = "0f55c90ba4faa913d91ef99cbf5cb2eb4dbe2780314c3bb17953f849c8cddd17"
+diff --git a/meta/recipes-graphics/mesa/mesa_10.4.0.bb b/meta/recipes-graphics/mesa/mesa_10.4.0.bb
+new file mode 100644
+index 0000000..7d3723e
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa_10.4.0.bb
+@@ -0,0 +1,16 @@
++require ${BPN}.inc
++
++SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "b7b37117eecbdfaaf3075acfb063d5a3"
++SRC_URI[sha256sum] = "98a7dff3a1a6708c79789de8b9a05d8042e867067f70e8f30387c15026233219"
++
++S = "${WORKDIR}/Mesa-${PV}"
++
++#because we cannot rely on the fact that all apps will use pkgconfig,
++#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
++do_install_append() {
++    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
++        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++    fi
++}
 -- 
 1.7.9.5
 
