@@ -1,40 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B13A718E9
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 17D36718E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 19:58:15 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id f51so18632642qge.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 11:58:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7p6unCQe3r9OX6/Jdcw1SKqkt+RyMRGnefaRvJJqkn4=;
-	b=aX0Vo72kvm2Qho8mWwZM2K67Y7rK+iLmtQEs0bUN5wePDxzM1aPEDRtisxGEm1lsni
-	jZHmAui/0I3RHIRNlJrAHe1ciDQqE+yhuAPI4Jx48WbfFG0erX5pTYa6tExTnYoUE5JG
-	vgWsvZjwW7SQYugO6RGn86iZlkN+dpzzGrgdcQ3XCNRPxYs4Uj6I4FPXdzHs/DvrVEwk
-	BgVgE6mvgqDLKso8+CeDmtMBZBmG+rdhflnAt2EhLow2XhwSWpFLeixWxHnz8kS5s2L7
-	0Wdxz8FI3NvttZ6PqAGw8chdgSvPLJVmHhXswAZqnVqbj3Cwc1O54SJVsgfyTXeK8kIp
-	5H2Q==
-X-Gm-Message-State: ALoCoQmY4xEe1dnNYaZuVpjR2NBF+sBo6KK6dT9y4HqjOh0/wQ9XpYtO7UplBvLxLIRNe5AezCox
-X-Received: by 10.140.49.5 with SMTP id p5mr5259qga.15.1422475095702; Wed, 28
-	Jan 2015 11:58:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 28 Jan 2015 11:57:55 -0800 (PST)
-In-Reply-To: <CACS+7ZQwn67gxNP0HMTxksmW1qoRu_9nas2a-Wzow8wWaWu2zQ@mail.gmail.com>
-References: <bruno.bottazzini@intel.com>
-	<1421870458-9958-1-git-send-email-bruno.bottazzini@intel.com>
-	<20150128134756.1cce32c4@bottazzini-ThinkPad-T430>
-	<CAJTo0LZhj=0AMXXbeXdiUuRBty9qTMX_ba6Z=u=dbhR+v3d+MQ@mail.gmail.com>
-	<CACS+7ZQwn67gxNP0HMTxksmW1qoRu_9nas2a-Wzow8wWaWu2zQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Jan 2015 19:57:55 +0000
-Message-ID: <CAJTo0Lb_rQxtgovsRLPALrRqtsye2f6grR1BQO7FHAYJ4x4HPA@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] kmod new packageconfig and dbus split package
+	Wed, 28 Jan 2015 23:49:42 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2015 15:49:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,483,1418112000"; d="scan'208";a="669395793"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.43])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2015 15:49:42 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Jan 2015 17:49:39 -0600
+Message-Id: <1422488980-24850-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH][RFC] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +27,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jan 2015 19:58:23 -0000
-Content-Type: multipart/alternative; boundary=001a11351944c83078050dbbcabe
+X-List-Received-Date: Wed, 28 Jan 2015 23:49:45 -0000
 
---001a11351944c83078050dbbcabe
-Content-Type: text/plain; charset=UTF-8
+This is a proposed solution for [YOCTO #7126]
 
-On 28 January 2015 at 18:55, Dan McGregor <danismostlikely@gmail.com> wrote:
+For the first item , I simply added the symlink-to-sysroot check to the QA_WARN
 
-> Is there a public place to see what you have queued?
->
+this gave me the QA warning as I belive it was supposed to.
 
-Sure it, ross/mut in poky-contrib.  As often seen on the autobuilder in all
-red. :)
+For the second item, I changed filerdepends from set() to dict(), hence methods
 
-Ross
+for adding or deleting items had to change, I believe dicts are slower than sets
 
---001a11351944c83078050dbbcabe
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+but I had to keep track of the key:value relationship, since sets are unordered
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 January 2015 at 18:55, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4y6"=
- class=3D"a3s" style=3D"overflow:hidden">Is there a public place to see wha=
-t you have queued?</div></blockquote></div><br>Sure it, ross/mut in poky-co=
-ntrib.=C2=A0 As often seen on the autobuilder in all red. :)</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+a better way didnt occur to me, all this to flag the issue along with the
 
---001a11351944c83078050dbbcabe--
+offending file accordingly, due to this rdep_rprovides isnt needed anymore.
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/classes/insane.bbclass | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 143ec46..542346a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             split-strip packages-list pkgv-undefined var-undefined \
+-            version-going-backwards \
++            version-going-backwards  symlink-to-sysroot\
+             "
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+@@ -604,7 +604,6 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+             if target.startswith(tmpdir):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
+-
+ def package_qa_check_license(workdir, d):
+     """
+     Check for changes in the license files 
+@@ -803,13 +802,14 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+             if bb.data.inherits_class('nativesdk', d):
+                 ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
+             # For Saving the FILERDEPENDS
+-            filerdepends = set()
++            filerdepends = {}
+             rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
+             for key in rdep_data:
+                 if key.startswith("FILERDEPENDS_"):
+                     for subkey in rdep_data[key].split():
+-                        filerdepends.add(subkey)
+-            filerdepends -= ignored_file_rdeps
++                        if subkey not in ignored_file_rdeps:
++                            # We already know it starts with FILERDEPENDS_
++                            filerdepends[subkey] = key[13:]
+ 
+             if filerdepends:
+                 next = rdepends
+@@ -841,31 +841,27 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                 # case there is a RDEPENDS_pkg = "python" in the recipe.
+                 for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
+                     if py in done:
+-                        filerdepends.discard("/usr/bin/python")
++                        filerdepends.pop("/usr/bin/python",None)
+                         done.remove(py)
+                 for rdep in done:
+                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+-                    rdep_rprovides = set()
+                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+                     for key in rdep_data:
+                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
+                             for subkey in rdep_data[key].split():
+-                                rdep_rprovides.add(subkey)
++                                filerdepends.pop(subkey,None)
+                         # Add the files list to the rprovides
+                         if key == "FILES_INFO":
+                             # Use eval() to make it as a dict
+                             for subkey in eval(rdep_data[key]):
+-                                rdep_rprovides.add(subkey)
+-                    filerdepends -= rdep_rprovides
++                                filerdepends.pop(subkey,None)
+                     if not filerdepends:
+                         # Break if all the file rdepends are met
+                         break
+-                    else:
+-                        # Clear it for the next loop
+-                        rdep_rprovides.clear()
+             if filerdepends:
+-                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
+-                            (pkg, ', '.join(str(e) for e in filerdepends))
++                for key in filerdepends:
++                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
++                            (filerdepends[key],pkg, key)
+                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
+ 
+     return sane
+-- 
+1.9.1
+
+
