@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F65372608
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id F17B660017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 12:42:52 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id k48so20572766wev.12
+	Wed, 28 Jan 2015 12:46:59 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id n3so11568815wiv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 04:42:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=s7r0ohdRs5e21KFAMJHwTRRO1+wCPpguqxw2Cu2RLSk=;
-	b=fk9v/XB6Kxbq3u7e3KJQr6Sn/9XTAjdi/RCNDzd500NODf54TaorlXG8Vkt43yfDe6
-	S+/xjMwfiMsry7bjWj1USxWw9XGleHRaLE0YOFc82y/z/o2d5Z9LE/ASxjn7U2/yrzUm
-	8YAxnm12UI+0mlxQCIi+l49+IJ7WagHzgDwxydCim9ZqAhlYDdxl2Pb/LErtrEtXSRqK
-	kZ/hAR0KAxg/HGY7zeoFUFWcqzV8aSPQcyWwgxSARhBffYhmjpVATdUK5J1igRnV70RW
-	f0X4FJCR1KJcWMOSLUnjzTpM6JsEHC5ikGVjf5BTIPxDXL8rEY1A5IlxGuicI2v9sfir
-	OslA==
-X-Gm-Message-State: ALoCoQnqnXg26IKC6pa5uqb/j6fUJR52/S64t/jEHKfwoV46uRTVSntjfPSnSNnrsFPByE0ZqTEX
-X-Received: by 10.194.173.233 with SMTP id bn9mr6876196wjc.123.1422448972995; 
-	Wed, 28 Jan 2015 04:42:52 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id z13sm95129wiv.8.2015.01.28.04.42.51
-	for <openembedded-core@lists.openembedded.org>
+	Wed, 28 Jan 2015 04:47:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0U3bwPEuXWN3C9hHmaNIeXObSOwN8RIWtThUMcmejPY=;
+	b=HogzuBHMyzsuUyxCteuw7iJVwnpErdmqKO2SOEifdlPxSvRGX7TB8+BP1dCDiJCxlM
+	95/Hi9XG8ciXw6HWAFn6elwIB42R3RukLxK43NL1MMpX8VrSsms5HYwF2dOl72qD1Sz0
+	AQkun1ziENEfNssVFhm1AHeHXKPXW8cp3YRVi0S6Du1kAriCgL1Hq1FnQpcVG/iIT/Rn
+	YjnhwYd3yHHL8PIEYGzB1kPtn3ZgdUIjbE/t2n4CvgtQnwpGu3/ON5YqSTiriOny2VE6
+	AE8/xFxPRQS8Q+biO7NQSOOxBQ5TCuf553I82BjuJS1Ay20z27MsB5ZQTCiy//0BNimW
+	Jpfw==
+X-Received: by 10.180.107.164 with SMTP id hd4mr6856068wib.7.1422449220104;
+	Wed, 28 Jan 2015 04:47:00 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	gl1sm2680140wib.13.2015.01.28.04.46.59
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Jan 2015 04:42:52 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Jan 2015 12:41:07 +0000
-Message-Id: <1422448867-9744-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] security_flags: disable PIE on expect
+	Wed, 28 Jan 2015 04:46:59 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 28 Jan 2015 13:47:01 +0100
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20150128124700.GH2477@jama>
+References: <1422448867-9744-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1422448867-9744-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] security_flags: disable PIE on expect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,30 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Jan 2015 12:42:56 -0000
+X-List-Received-Date: Wed, 28 Jan 2015 12:47:05 -0000
+X-Groupsio-MsgNum: 61776
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dMyqICaxQaaUjrCL"
+Content-Disposition: inline
 
-Disable PIE in expect as otherwise it tries to link the shared library as an
-executable.
+--dMyqICaxQaaUjrCL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/security_flags.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jan 28, 2015 at 12:41:07PM +0000, Ross Burton wrote:
+> Disable PIE in expect as otherwise it tries to link the shared library as=
+ an
+> executable.
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index f996184..033638c 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -27,7 +27,7 @@ SECURITY_CFLAGS_pn-directfb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-glibc = ""
- SECURITY_CFLAGS_pn-glibc-initial = ""
- SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc-runtime = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
--- 
-1.7.10.4
+And flac doesn't need it anymore?
 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/conf/distro/include/security_flags.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dist=
+ro/include/security_flags.inc
+> index f996184..033638c 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -27,7 +27,7 @@ SECURITY_CFLAGS_pn-directfb =3D "${SECURITY_NO_PIE_CFLA=
+GS}"
+>  SECURITY_CFLAGS_pn-glibc =3D ""
+>  SECURITY_CFLAGS_pn-glibc-initial =3D ""
+>  SECURITY_CFLAGS_pn-enchant =3D "${SECURITY_NO_PIE_CFLAGS}"
+> -SECURITY_CFLAGS_pn-flac =3D "${SECURITY_NO_PIE_CFLAGS}"
+> +SECURITY_CFLAGS_pn-expect =3D "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gcc-runtime =3D "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gcc-sanitizers =3D "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-gdb =3D "${SECURITY_NO_PIE_CFLAGS}"
+> --=20
+> 1.7.10.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--dMyqICaxQaaUjrCL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlTI2kQACgkQN1Ujt2V2gBz1aQCfVV2OEliUh2JXeeP+4YPeBWon
+WZAAoKUvjp7k9wibKql/MHzfzwPurt+L
+=L0ue
+-----END PGP SIGNATURE-----
+
+--dMyqICaxQaaUjrCL--
