@@ -1,35 +1,29 @@
-Return-Path: <michael.g.wood@intel.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id DFFBA60132
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 16:36:41 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id q59so23896563wes.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 08:36:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/F4nrKBfpyP9P+pPHLuMQFE+1bM6i0COlxTDf30RnEg=;
-	b=FY8edTZNjDQ5lr8ewLNBRyla3Z9LwdLOCyxGbArkCrGQCI4uisB/xG5m/lLI5IWIgj
-	9J7QU1qJWVZd4wlUmjAmninljxgMGGQX4vJt0NfnwUzN8yBtzVbF013tY7kh/vC/LYD2
-	+IQrCiccx/wteiAm1LV4VPVEU++CuxcqcKI25Cfpm2hfmf2YYecbZWM+3BKu/+EAHi7F
-	dc1DZ2xlYOJVL6yOowxbfayDYz/gwstNxktVW7QfR4JWjam9WM6JtZwKncU2P4xz81rZ
-	PoF/UCHjfw5TxJVxXycBaggRlxqxrfRnskCAjkRrPd47Kzzu+cJq8IXs9IBiH64mZV1c
-	Mc5w==
-X-Gm-Message-State: ALoCoQn/MRIyF6rxGPsHFI7Puk6izqVmKF3QqzdVWj6R8/beJ+Sz9Kgxnryg9OQD/Nx37V6xIvah
-X-Received: by 10.194.93.129 with SMTP id cu1mr2981837wjb.44.1422549401425;
-	Thu, 29 Jan 2015 08:36:41 -0800 (PST)
-Received: from draco.icx.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id d6sm3176853wic.1.2015.01.29.08.36.40
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 29 Jan 2015 08:36:40 -0800 (PST)
-From: Michael Wood <michael.g.wood@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Jan 2015 16:36:09 +0000
-Message-Id: <1422549369-23245-1-git-send-email-michael.g.wood@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] report-error: Add a check for binary log file
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CFA9F605F1;
+	Thu, 29 Jan 2015 17:25:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0THPrI2023577
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 29 Jan 2015 09:25:54 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 29 Jan 2015 09:25:53 -0800
+Message-ID: <54CA6D20.4010604@windriver.com>
+Date: Thu, 29 Jan 2015 11:25:52 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	<bitbake-devel@lists.openembedded.org>
+References: <cover.1422539142.git.paul.eggleton@linux.intel.com>
+	<e1f6bd9ed8e0a1b89277af10e0d9af17ec8efd86.1422539142.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <e1f6bd9ed8e0a1b89277af10e0d9af17ec8efd86.1422539142.git.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] [RFC bitbake][RFC PATCH 1/1] cooker: rework LAYERDEPENDS versioning so that it is actually useful
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 16:36:47 -0000
+X-List-Received-Date: Thu, 29 Jan 2015 17:26:02 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Check to see if the log file is a binary. If it is do not try to submit
-it in our error-report.
+On 1/29/15 7:49 AM, Paul Eggleton wrote:
+> We've had versioned dependency support in LAYERDEPENDS for quite a long
+> time, but I can say with pretty good certainty that almost nobody has
+> used it because it was too strict - the specified version had to exactly
+> match the version in your configuration or you would get an error; there
+> was no "greater than or equal" option, which is usually what you will
+> want given that LAYERVERSION does get bumped.
+> 
+> However, users mismatching layer branches and then having their builds
+> fail later on with some incomprehensible error is still a pretty common
+> problem. To address this, I have reworked LAYERDEPENDS version
+> specifications to use the more familiar "dependency (>= version)" syntax
+> as used with package dependencies, support non-integer versions, and
+> clarified the error message a little. If we then take care to bump the
+> version on every breaking change, it is at least possible to have layers
+> depend on these changes when they update to match; we can now even
+> support a major.minor scheme to allow retrospectively adding a version
+> limiter to old branches when a new branch is created and yet still allow
+> the old branch minor version to be bumped if needed.
+> 
+> Fixes [YOCTO #5991].
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-[YOCTO #7263]
+I've run into this exact support situation as well.  I think we need to do
+something like this >, =, <, etc.. so that we can add the necessary keys to
+layers to more clearly indicate what is and isn't supported (combination wise.)
 
-Signed-off-by: Michael Wood <michael.g.wood@intel.com>
----
- meta/classes/report-error.bbclass | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+I'm all for this!
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 8b30422..101fe9b 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -24,6 +24,15 @@ def errorreport_savedata(e, newdata, file):
-         json.dump(newdata, f, indent=4, sort_keys=True)
-     return datafile
- 
-+def errorreport_testlogforbinary(data):
-+    for c in data:
-+      # If the data contains non visible character below 10 it's a binary
-+      if (ord(c) < 10):
-+        return True
-+
-+    return False
-+
-+
- python errorreport_handler () {
-         import json
- 
-@@ -48,7 +57,13 @@ python errorreport_handler () {
-             taskdata['task'] = task
-             if log:
-                 logFile = open(log, 'r')
--                taskdata['log'] = logFile.read()
-+                # Detect binary log output
-+                logdata = logFile.read()
-+                if  errorreport_testlogforbinary(logdata):
-+                    taskdata['log'] = "Log in binary format"
-+                else:
-+                    taskdata['log'] = logdata
-+
-                 logFile.close()
-             else:
-                 taskdata['log'] = "No Log"
--- 
-2.1.0
-
+--Mark
 
