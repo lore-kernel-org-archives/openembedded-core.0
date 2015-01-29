@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 651EA60571
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8327C60571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 10:56:23 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id q108so26249084qgd.13
+	Thu, 29 Jan 2015 10:59:34 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z107so26218448qgd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 02:56:24 -0800 (PST)
+	Thu, 29 Jan 2015 02:59:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=ofrN5XX8SskAJu4nlRP7SzJWUFfNj6LV28tCETvsk34=;
-	b=crvkC12h1S/oZVwz41JtQulmZaoEWjOL57fEuRk5FrbI2P3dl7yx6cUSaAXl3T4fns
-	6xm1VaAwhL3IJOl8KXCLz4sKJu+5Tu2eBZ/258hpHICQfJJTWGpI9+zLJ5k5aV8TYVRN
-	ew2RuCnqCrLR9AcO1tDSCvCcojxd3U6YMoP1IrKvLRwp4hrKSUzRV2kPf7iN5SRNSOHw
-	/w5Iq+VZ3te21d3mLLh08+g1VAHK2999RkXIVg3ByJNEcpb/yKtEEK3+hXdv9tTrZOXI
-	De7Jt2BsLaKYa026oE4Q20AR7hc1B/t4koaK6/nPdlOeCmZsaZRZUK8aTQ4d2aLaVE32
-	oazQ==
-X-Gm-Message-State: ALoCoQlBgnLPNhGXbLZPFZSXaEqMqkzyDSqtxqOoO+5yNTvQXKgkAKXSatPVsLiP/D6WMd5sr6UK
-X-Received: by 10.224.24.132 with SMTP id v4mr1556qab.17.1422528984384; Thu,
-	29 Jan 2015 02:56:24 -0800 (PST)
+	bh=iY750Ek/duOiKq0JtsSIwmk1eTir5FzYIIbxglrMCKQ=;
+	b=V+voDk1HqhtodwpwkkWRZ2ErDBKl2Nc6ub1eHbT5pQSLyGgU+3G84G/mSONolzuaDf
+	6Tc2dv4SgtZPZgjrZmSqs2a/EYtbNyf6WPHo09gFm/87DWh8/ybn4xZ9XNXAcc16n8QL
+	lItDgbX8xGeOwcnTCJKyaLqIkzuAsxOHDGEBnowa2CWSbya1hHFV/Zm2tqOvdDN/Abzr
+	T1h481chooCHcWaS6YGDTRSHoIJN7c0zHaGX1yZIZoRXEnM6/d08cpcBGZKcHGyjLP4q
+	+Mde+F+07ZRaShMgEJcLXwMbCc68WIJTVK6/f9gnxiS+dj+kZOiwVEJCGHcRBlScCrmZ
+	8WOw==
+X-Gm-Message-State: ALoCoQl9VtsC9GdMFZ/FSMhcGys083rZedWRfaIOO6w757Z5aArELuZwpJzqLmXnaeu/5FhLAm/N
+X-Received: by 10.224.103.129 with SMTP id k1mr2950qao.93.1422529176070; Thu,
+	29 Jan 2015 02:59:36 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 02:56:04 -0800 (PST)
-In-Reply-To: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 02:57:28 -0800 (PST)
+In-Reply-To: <CACS+7ZRbDtovFdD8DBV+zx-3671pe6N2tPWADsGEe6=mMUK3Tg@mail.gmail.com>
+References: <CACS+7ZRh2fq0ot_u6U0B+SGq6uCORnj9_B2shfSEunrwhPnH+g@mail.gmail.com>
+	<CAJTo0LaHX+XQRJpj3GbgohScdYaxCLz-2qf-YXCZrTF0tO-3=Q@mail.gmail.com>
+	<CACS+7ZRbDtovFdD8DBV+zx-3671pe6N2tPWADsGEe6=mMUK3Tg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 Jan 2015 10:56:04 +0000
-Message-ID: <CAJTo0LYWqiy+dKjECTUm4pZogAwh=X7eb4P06S6Gg=ct=QcJ3g@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.py: fixes launching multiple windows of gnome-terminal
+Date: Thu, 29 Jan 2015 10:57:28 +0000
+Message-ID: <CAJTo0LYX7hrwW4deUc=8KbPqegaJCosDBYva+kyTsYW37r-fwQ@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: configuration updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 10:56:26 -0000
-Content-Type: multipart/alternative; boundary=001a11c2b49ecc2005050dc85612
+X-List-Received-Date: Thu, 29 Jan 2015 10:59:42 -0000
+Content-Type: multipart/alternative; boundary=047d7b66f74b39019a050dc86236
 
---001a11c2b49ecc2005050dc85612
+--047d7b66f74b39019a050dc86236
 Content-Type: text/plain; charset=UTF-8
 
-On 27 January 2015 at 23:36, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
+On 27 January 2015 at 17:16, Dan McGregor <danismostlikely@gmail.com> wrote:
 
-> When resolving a patch, a new process of gnome-terminal
->
-> is created for every patch to be resolved, it "waits"
->
-> for the previous one to end, instead of launching
->
-> multiple windows at the same time.
+> I rebased and sent again; part of me wonders if Gmail broke the patch;
+> the new version was sent without the help of Gmail's web interface.
 >
 
-I wish I knew what causes some of your commit messages to end up being
-double-line-spaced!
+Oh that's entirely possible.  Personally I've got my git-send-email using
+Google's SMTP servers, which neatly means my patches correctly appear in my
+Sent Mail folder.
 
 Ross
 
---001a11c2b49ecc2005050dc85612
+--047d7b66f74b39019a050dc86236
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 January 2015 at 23:36, Alejandro Hernandez <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejan=
-dro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><div id=3D":21u" class=3D"a3s" style=3D"overflow:hidden">When re=
-solving a patch, a new process of gnome-terminal<br>
-<br>
-is created for every patch to be resolved, it &quot;waits&quot;<br>
-<br>
-for the previous one to end, instead of launching<br>
-<br>
-multiple windows at the same time.</div></blockquote></div><br>I wish I kne=
-w what causes some of your commit messages to end up being double-line-spac=
-ed!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div>
+On 27 January 2015 at 17:16, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1uk"=
+ class=3D"a3s" style=3D"overflow:hidden">I rebased and sent again; part of =
+me wonders if Gmail broke the patch;<br>
+the new version was sent without the help of Gmail&#39;s web interface.</di=
+v></blockquote></div><br>Oh that&#39;s entirely possible.=C2=A0 Personally =
+I&#39;ve got my git-send-email using Google&#39;s SMTP servers, which neatl=
+y means my patches correctly appear in my Sent Mail folder.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c2b49ecc2005050dc85612--
+--047d7b66f74b39019a050dc86236--
