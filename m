@@ -1,30 +1,35 @@
-Return-Path: <denis@denix.org>
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 32F8760132
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3503E6013C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 19:34:18 +0000 (UTC)
-Received: from gandalf.denix.org ([108.28.89.130]) by vms173017.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NIY0037PECNCW20@vms173017.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 29 Jan 2015 13:34:10 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=LrklEcZZ c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=YNv0rlydsVwA:10	a=QyXUC8HyAAAA:8 a=iGHA9ds3AAAA:8
-	a=Q4-j1AaZAAAA:8 a=kWtC0CY4WrUucLGHvFYA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5F45120150; Thu,
-	29 Jan 2015 14:33:58 -0500 (EST)
-Date: Thu, 29 Jan 2015 14:33:58 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-id: <20150129193358.GB2517@denix.org>
+	Thu, 29 Jan 2015 19:59:29 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z107so33328498qgd.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Jan 2015 11:59:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qTwltpFlcW899OHSyGdf18Bwo1VZW/x//8FnoOK39qs=;
+	b=iZPk4aG7VWkPykhnp30USDm5qFxv8369wSoMSmfw+DJ4UCO6azxQSfMykUPhD0f4zL
+	q7fbFojkcWkrMPewawg2ulEVaHrpnWRR3QSdJP/+C1wMq3RAQwA3Kdc4XoIAaxAUgFbh
+	TJAVxCtddkoLcMiPd/wJqFdplhwjbAxdPMH+kLa7sVXveSGC8/lG7EWkJohTcI2uQtDw
+	Z+XHucdXp+SoxIxPvFqAIBuAoBbHJKjt/nM0Fa37CLsU9V3PU5Gdg9NN6H6nReeqPGC3
+	+ZmMC/VV93XCNIoLvomGxkBEbqM8nLdwJUkuizPN2phOGGmrCLIWEczRUj/LMYKD94gE
+	sLzg==
+X-Gm-Message-State: ALoCoQnFDF6+FE8JVyD806TosV4wezpc1et9WNvJaloBO+vEg22ZSRXO1xEfWDDkETdsm5wK7QCA
+X-Received: by 10.140.21.48 with SMTP id 45mr4284954qgk.87.1422561570133; Thu,
+	29 Jan 2015 11:59:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 11:59:09 -0800 (PST)
+In-Reply-To: <20150129193358.GB2517@denix.org>
 References: <0NIX00GV1Z8KO910@vms173019.mailsrvcs.net>
-MIME-version: 1.0
-In-reply-to: <0NIX00GV1Z8KO910@vms173019.mailsrvcs.net>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20150129193358.GB2517@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 29 Jan 2015 19:59:09 +0000
+Message-ID: <CAJTo0LYQp-tMeY+1+0tpwJ0kBZccMSWtYu1e2Tnk96RBtCYbhw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: Denys Dmytriyenko <denys@ti.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] u-boot: update to version 2015.01
@@ -40,42 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 19:34:24 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 29 Jan 2015 19:59:35 -0000
+Content-Type: multipart/alternative; boundary=001a11c129940f2dcb050dcfed89
 
-On Thu, Jan 29, 2015 at 09:07:29AM -0500, Denys Dmytriyenko wrote:
->    I believe I had that in DEPENDS... I'll check.
+--001a11c129940f2dcb050dcfed89
+Content-Type: text/plain; charset=UTF-8
 
-So, yes, the patch does have DEPENDS = "openssl"
+On 29 January 2015 at 19:33, Denys Dmytriyenko <denis@denix.org> wrote:
 
-Does it become openssl-native due to BBCLASSEXTEND = "native"? Or do I need a 
-separate DEPENDS_class-native?
-
--- 
-Denys
-
-
->    On Jan 29, 2015 8:19 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
-> 
->      On 23 January 2015 at 22:40, Denys Dmytriyenko <denis@denix.org> wrote:
-> 
->        A rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2014.07.bb =>
->        u-boot-mkimage_2015.01.bb} (45%)
-> 
->      u-book-mkimage-native is failing on some autobuilders:
->      | In file included from tools/default_image.c:18:0:
->      | include/image.h:877:27: fatal error: openssl/evp.h: No such file or
->      directory
->      | A # include A <openssl/evp.h>
->      https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/170/steps/BuildImages/logs/stdio
->      Non-deterministic build dependency on openssl?
->      Ross
-
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >    I believe I had that in DEPENDS... I'll check.
+>
+> So, yes, the patch does have DEPENDS = "openssl"
+>
+> Does it become openssl-native due to BBCLASSEXTEND = "native"? Or do I
+> need a
+> separate DEPENDS_class-native?
 
 
+Unless you have an explicit DEPENDS_class-native assignment, openssl will
+become openssl-native.
+
+Ross
+
+--001a11c129940f2dcb050dcfed89
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 January 2015 at 19:33, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt;=C2=A0 =C2=
+=A0 I believe I had that in DEPENDS... I&#39;ll check.<br>
+<br>
+</span>So, yes, the patch does have DEPENDS =3D &quot;openssl&quot;<br>
+<br>
+Does it become openssl-native due to BBCLASSEXTEND =3D &quot;native&quot;? =
+Or do I need a<br>
+separate DEPENDS_class-native?</blockquote></div><br>Unless you have an exp=
+licit DEPENDS_class-native assignment, openssl will become openssl-native.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
+
+--001a11c129940f2dcb050dcfed89--
