@@ -1,36 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8135F60132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 30F1160132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 15:21:40 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id q59so23646320wes.3
+	Thu, 29 Jan 2015 15:33:20 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id rd3so40316319pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 07:21:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7brkZSBpEUfMff4+9Oy3B2oCctMxbXhXxkVNxKXSZrU=;
-	b=bo1MfN1z+aOSmq8dHBPqrUfD5zKQNG/86BkjUbDswrS4tIYi2Xd3+2eLnw4yVMyLNl
-	x7WcPCwEUXRegrRNF6tWRq2JS0KReZ5FptWvkR0r3EuGb9eoDfvDk7dMtCseHBa/fSee
-	7ygUudF1seunk/Ntj/Gd0dhwK3+W2HlucfO6VNirb/XQbtFLylbtSD2qoO79iJ/n/G+d
-	8bLPqIYU03z2oLo9nKYXAqdgxGoIdHwPJZTtc+bNnUWMJGTfZhwzxYIT9qQYRcue8zIV
-	vPG3irhgCpSM+YIGTeurA44PtSn0AOL/X2dW0djtBe44jbqACDRdRvFNoB4Jkwz+dC4A
-	L8kw==
-X-Gm-Message-State: ALoCoQnEehXWktzci48e7ygHOGjPjpkUEpT24lx4LgemjKAu63iMNzV7tTlvzUJxInBFMRh0+7oY
-X-Received: by 10.194.94.164 with SMTP id dd4mr2331661wjb.56.1422544901436;
-	Thu, 29 Jan 2015 07:21:41 -0800 (PST)
-Received: from hackbox.linaro.org ([81.128.185.36])
-	by mx.google.com with ESMTPSA id lg7sm2919671wic.0.2015.01.29.07.21.40
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 29 Jan 2015 07:21:40 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Jan 2015 15:21:35 +0000
-Message-Id: <1422544895-17968-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 1.9.1
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] libdrm: upgrade to 2.4.59
+	Thu, 29 Jan 2015 07:33:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=wimw/ayoXbsk1mkXhtim0pepsZLb9/hR+/6bzOKhKos=;
+	b=sk+Qw/9uloMLb1xsvbIp4POzwA8uilzP7AfeRmCt7sWwM5Z4Z3OZ5tU1mbNBUj7iHj
+	k3/USVckuiSAsbUxXjmtZmEiUGgYoKrsk0jghVl+pkEGpNj2rcE32mqLv+Nl9AYrZ0KS
+	7x1wXls6NKVPW9MwMSzHsytup7c724B2ovOZx3ShCc/vNwsMSgnz8iKPd3BsoJcbscYj
+	2XlQM9mo/ohbwdkhGx6aOnrOy5auzlpUYyORgcdOAUlVtMjCdCCF+28qWB+juVsIW/vB
+	YDWdvC/d+KZqTXmU7IfYHerJPwzsYeI+T6MiLo3osMa20d4ZjJyI6ppF8gyX0/KgKUQl
+	0FzQ==
+X-Received: by 10.68.222.40 with SMTP id qj8mr1481484pbc.51.1422545602119;
+	Thu, 29 Jan 2015 07:33:22 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:3835:5cc2:4b2a:c996?
+	([2601:9:3580:84c:3835:5cc2:4b2a:c996])
+	by mx.google.com with ESMTPSA id fu1sm8094989pdb.80.2015.01.29.07.33.20
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Jan 2015 07:33:21 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LYmsTWJjH4-n-n2EvP60pOSNABkMF0sXMCY_6UdBKJuXw@mail.gmail.com>
+Date: Thu, 29 Jan 2015 07:33:19 -0800
+Message-Id: <E6CE412F-F02E-4565-AB38-442AA629FF43@gmail.com>
+References: <1422507259-14758-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LYmsTWJjH4-n-n2EvP60pOSNABkMF0sXMCY_6UdBKJuXw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1993)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Backports fixes to 216
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,73 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 15:21:44 -0000
+X-List-Received-Date: Thu, 29 Jan 2015 15:33:28 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_E2B7033F-87A1-484A-A649-060F4E7C7B2D"
 
-* Refreshed installtests.patch
-* Removed --enable-freedreno-experimental-api, since it is now enabled by
-  default upstream
-
-Tested on Snapdragon 600 with freedreno and X11.
-
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/drm/libdrm.inc                | 1 -
- meta/recipes-graphics/drm/libdrm/installtests.patch | 2 +-
- meta/recipes-graphics/drm/libdrm_2.4.58.bb          | 6 ------
- meta/recipes-graphics/drm/libdrm_2.4.59.bb          | 6 ++++++
- 4 files changed, 7 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-graphics/drm/libdrm_2.4.58.bb
- create mode 100644 meta/recipes-graphics/drm/libdrm_2.4.59.bb
-
-diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-index cfac9e2..d3e1e92 100644
---- a/meta/recipes-graphics/drm/libdrm.inc
-+++ b/meta/recipes-graphics/drm/libdrm.inc
-@@ -21,7 +21,6 @@ inherit autotools pkgconfig
- 
- EXTRA_OECONF += "--disable-cairo-tests \
-                  --enable-omap-experimental-api \
--                 --enable-freedreno-experimental-api \
-                  --enable-install-test-programs \
-                  --disable-manpages \
-                 "
-diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/recipes-graphics/drm/libdrm/installtests.patch
-index 7d443af..03d6254 100644
---- a/meta/recipes-graphics/drm/libdrm/installtests.patch
-+++ b/meta/recipes-graphics/drm/libdrm/installtests.patch
-@@ -18,6 +18,6 @@ index bf1987f..d909e19 100644
-  	drmstat
-  
- +check_PROGRAMS =
-- SUBDIRS = modeprint
-+ SUBDIRS = modeprint proptest
-  
-  if HAVE_LIBKMS
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.58.bb b/meta/recipes-graphics/drm/libdrm_2.4.58.bb
-deleted file mode 100644
-index 7b1207e..0000000
---- a/meta/recipes-graphics/drm/libdrm_2.4.58.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require libdrm.inc
--
--SRC_URI += "file://installtests.patch "
--
--SRC_URI[md5sum] = "24213913333d72b36c16463ed92e522a"
--SRC_URI[sha256sum] = "b155fae6b9c9a3b02ef8b77f58c7c219194c996a4018dc55ba66c03996a365dd"
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.59.bb b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
-new file mode 100644
-index 0000000..14bf44a
---- /dev/null
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
-@@ -0,0 +1,6 @@
-+require libdrm.inc
-+
-+SRC_URI += "file://installtests.patch "
-+
-+SRC_URI[md5sum] = "d32a1d37c2546ee11fc5924abeedb23e"
-+SRC_URI[sha256sum] = "68d26e1fd85582f4243d66864f9b43ca4ee93662825de32b5506fc8e181ea41b"
--- 
-1.9.1
+--Apple-Mail=_E2B7033F-87A1-484A-A649-060F4E7C7B2D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Jan 29, 2015, at 2:59 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 29 January 2015 at 04:54, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> Fix systemd-timesyncd assertion
+>=20
+> when networkd is disabled then we now do not
+> create /run/systemd/netif/links but timesyncd needs it. So lets
+> manually create this file when networkd is disabled so timesyncd
+> can still function
+>=20
+> When enabling systemd-timesyncd we need systemd-timesync user
+>=20
+> Backport patches to enable timesyncd when resolved and networkd
+> are disabled
+>=20
+> replace the resolv.conf symlinink patch with a proper backport
+>=20
+> Awesome, but the patches need you to add your Signed-off-by tag.
+>=20
+
+They are straight back ports and have original authors sign-offs
+so someone can bug him/her in case its needed :)
+secondly I have added upstream-status which will make it easy
+for someone working on systemd to get an idea about the patch.
+none the less I will send a v2.
+
+> Ross
+
+
+--Apple-Mail=_E2B7033F-87A1-484A-A649-060F4E7C7B2D
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Jan 29, 2015, at 2:59 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 29 January 2015 at 04:54, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1ym" class="a3s" style="overflow:hidden">Fix systemd-timesyncd assertion<br class="">
+<br class="">
+when networkd is disabled then we now do not<br class="">
+create /run/systemd/netif/links but timesyncd needs it. So lets<br class="">
+manually create this file when networkd is disabled so timesyncd<br class="">
+can still function<br class="">
+<br class="">
+When enabling systemd-timesyncd we need systemd-timesync user<br class="">
+<br class="">
+Backport patches to enable timesyncd when resolved and networkd<br class="">
+are disabled<br class="">
+<br class="">
+replace the resolv.conf symlinink patch with a proper backport</div></blockquote></div><br class="">Awesome, but the patches need you to add your Signed-off-by tag.</div><div class="gmail_extra"><br class=""></div></div></div></blockquote><div><br class=""></div><div>They are straight back ports and have original authors sign-offs</div><div>so someone can bug him/her in case its needed :)</div><div>secondly I have added upstream-status which will make it easy</div><div>for someone working on systemd to get an idea about the patch.</div><div>none the less I will send a v2.</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=""></body></html>
+
+--Apple-Mail=_E2B7033F-87A1-484A-A649-060F4E7C7B2D--
