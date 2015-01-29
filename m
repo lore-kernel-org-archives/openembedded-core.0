@@ -1,40 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9969B60024
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C9D560132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 12:41:15 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id n3so23944885wiv.3
+	Thu, 29 Jan 2015 13:20:02 +0000 (UTC)
+Received: by mail-qg0-f53.google.com with SMTP id a108so27759730qge.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 04:41:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=rWQEmNRIWih24HCJlVF22a74YsuRTdsMn0ppL6+0QUw=;
-	b=jfn7AV1dhRaHutwNTJAS7vEkNFmfecyXuj5Sy6FHGtc4rRPOyK0Tg6swRcKgcporzl
-	TNyMGD434ZnSnM2Soz1/nGjFfqjgpfkWpy5cEFjqnrfsDJwdUxs8zuVN5pO5D9BK+ydB
-	ehLn7F/AaVmUveRn1H2kcIe8bkx1D7YwaxkL1GWqsqaCd9YA3i1UmJnwIIWyYJZK+brt
-	DjyfbpARS9hs55d4TivHt3/RITtTjVmY9xlO17QXjMEvdVJdYqjV3PUDFVlLeZN8NJAa
-	HznXgVg6PVkwPXOISOqEHyoZG+agg+8cix0hv0tRHEyjQi2bR2Pclh6cdqBOPAE9nmME
-	upzQ==
-X-Received: by 10.180.205.163 with SMTP id lh3mr4007182wic.63.1422535275996;
-	Thu, 29 Jan 2015 04:41:15 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	i4sm10315897wje.20.2015.01.29.04.41.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Jan 2015 04:41:15 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 29 Jan 2015 13:41:18 +0100
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150129124118.GA2443@jama>
-References: <1421597533-7850-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 29 Jan 2015 05:20:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=3dWGQZ2nDhM7fJp1xhH/+5PoDZ3TIU30hDtt5BJsaVE=;
+	b=c3Sa9Uy/vL8MsX5JxiuKeMGrCTFyN0oK+qwLMP8zGB4bPZOgDTZqMYA37YGAMdPc4V
+	7y50CiLE8mq6iuM14a8Gknui4IeziycBgREhYSnirbP2xgATm64svb0mY6mI9aoNt78B
+	ZcfX7DcjQuRP1Ep+t6Bv0IZj4Adc+GsmlKYWzY/vH3f3VbK1Xr6n2s/yrsjKl4L8ruOE
+	nHOGmN+ho/HILjfkTEI7Henq5G0S1Fg15aL+CEqIMMsLG93hutN+H6bXKOuC/gQlvauM
+	OWhJDsufrzOpWmZJZ1M9jNLfdY3LNVS6WRHifHPtxkg6B7mnhMjsGgeyMDYx2RJ8vDQ/
+	AlQw==
+X-Gm-Message-State: ALoCoQl7KFWUqrzqdIJWYUfrKcmE3V3Zb9FY/qe8FqwlU5wZn2bKy55/yPC5YLfT/xLFln+XEe5x
+X-Received: by 10.140.39.179 with SMTP id v48mr759854qgv.77.1422537604033;
+	Thu, 29 Jan 2015 05:20:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1421597533-7850-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [dizzy][PATCH] package.bbclass: Fix support for private libs
+Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 05:19:43 -0800 (PST)
+In-Reply-To: <1422052818-3276-1-git-send-email-denis@denix.org>
+References: <1422052818-3276-1-git-send-email-denis@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 29 Jan 2015 13:19:43 +0000
+Message-ID: <CAJTo0Lau6UXJcwycbQmk0ebcp48sg9+_9G02ae=19MBhPFQ4nQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot: update to version 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,72 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 12:41:20 -0000
-X-Groupsio-MsgNum: 61807
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Jan 2015 13:20:04 -0000
+Content-Type: multipart/alternative; boundary=001a11c131f691a8dc050dca5844
 
---opJtzjQTFsWo+cga
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c131f691a8dc050dca5844
+Content-Type: text/plain; charset=UTF-8
+
+On 23 January 2015 at 22:40, Denys Dmytriyenko <denis@denix.org> wrote:
+
+>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2014.07.bb => u-boot
+> -mkimage_2015.01.bb} (45%)
+>
+
+u-book-mkimage-native is failing on some autobuilders:
+
+| In file included from tools/default_image.c:18:0:
+| include/image.h:877:27: fatal error: openssl/evp.h: No such file or
+directory
+|  # include  <openssl/evp.h>
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/170/steps/BuildImages/logs/stdio
+
+Non-deterministic build dependency on openssl?
+
+Ross
+
+--001a11c131f691a8dc050dca5844
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 18, 2015 at 05:12:13PM +0100, Martin Jansa wrote:
-> * n is a tuple since this commit:
->   commit d3aa7668a9f001044d0a0f1ba2de425a36056102
->   Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->   Date:   Mon Jul 7 18:41:23 2014 +0100
->   Subject package.bbclass: Improve shlibs needed data structure
->=20
->   since then 'n in private_libs' was always false and private libs
->   were always processed
-> * this is bad when we have libfoo in private libs, but also some package
->   providing libfoo, that way we ship own libfoo.so, but together with
->   runtime dependency on package providing libfoo
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2015 at 22:40, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D":2lp" class=3D"" style=3D"overflow=
+:hidden">=C2=A0rename meta/recipes-bsp/<span class=3D"">u</span>-<span clas=
+s=3D"">boot</span>/{<a href=3D"http://u-boot-mkimage_2014.07.bb" target=3D"=
+_blank"><span class=3D"">u</span>-<span class=3D"">boot</span>-mkimage_2014=
+.07.bb</a> =3D&gt; <a href=3D"http://u-boot-mkimage_2015.01.bb" target=3D"_=
+blank"><span class=3D"">u</span>-<span class=3D"">boot</span>-mkimage_2015.=
+01.bb</a>} (45%)</div></blockquote></div><br>u-book-mkimage-native is faili=
+ng on some autobuilders:</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra"><div class=3D"gmail_extra">| In file included from tools=
+/default_image.c:18:0:</div><div class=3D"gmail_extra">| include/image.h:87=
+7:27: fatal error: openssl/evp.h: No such file or directory</div><div class=
+=3D"gmail_extra">| =C2=A0# include =C2=A0&lt;openssl/evp.h&gt;</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"https:/=
+/autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/170/step=
+s/BuildImages/logs/stdio">https://autobuilder.yoctoproject.org/main/builder=
+s/nightly-fsl-ppc/builds/170/steps/BuildImages/logs/stdio</a><br></div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Non-determinist=
+ic build dependency on openssl?</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div></div>
 
-ping
-
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/package.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 96d7fd9..4685cd2 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1572,7 +1572,7 @@ python package_do_shlibs() {
->              # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc dependi=
-ng on system library libfoo.so.1
->              # but skipping it is still better alternative than providing=
- own
->              # version and then adding runtime dependency for the same sy=
-stem library
-> -            if private_libs and n in private_libs:
-> +            if private_libs and n[0] in private_libs:
->                  bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' =
-% (pkg, n[0]))
->                  continue
->              if n[0] in shlib_provider.keys():
-> --=20
-> 2.2.1
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---opJtzjQTFsWo+cga
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlTKKm4ACgkQN1Ujt2V2gBxFKwCggSgk/WPX+uq+KZjyvCwFeO9Y
-xf0An1CC6AdBebCnQMgTTFvVcTZx9vgA
-=5wr5
------END PGP SIGNATURE-----
-
---opJtzjQTFsWo+cga--
+--001a11c131f691a8dc050dca5844--
