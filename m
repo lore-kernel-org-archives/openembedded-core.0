@@ -1,32 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 52BFF60133
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C9D60132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 14:07:57 +0000 (UTC)
-Received: from gandalf.denix.org ([108.28.89.130]) by vms173019.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NIX00GUZZ8KO910@vms173019.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 29 Jan 2015 08:07:32 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=LrklEcZZ c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
-	a=IkcTkHD0fZMA:10 a=0gcC27t9AAAA:8	a=oR5dmqMzAAAA:8 a=-9mUelKeXuEA:10
-	a=YNv0rlydsVwA:10 a=QyXUC8HyAAAA:8	a=s53VEiODAAAA:8 a=NmKqd5MaAAAA:8
-	a=iGHA9ds3AAAA:8 a=3QzoOdLQmvHUJrfwIG4A:9	a=2cuDTHdrd7TwQx-k:21
-	a=QEXdDO2ut3YA:10
-Message-id: <0NIX00GV1Z8KO910@vms173019.mailsrvcs.net>
-Received: from [192.168.0.124] (unknown [192.168.0.124])
-	by gandalf.denix.org (Postfix) with ESMTPA id 09FFD200F0;	Thu,
-	29 Jan 2015 09:07:32 -0500 (EST)
-Date: Thu, 29 Jan 2015 09:07:29 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-MIME-version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH v2] u-boot: update to version 2015.01
+	Thu, 29 Jan 2015 14:18:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Jan 2015 06:12:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,486,1418112000"; d="scan'208";a="677996652"
+Received: from cmfiguer-mobl.amr.corp.intel.com (HELO
+	swold-mobl5.amr.corp.intel.com) ([10.252.248.194])
+	by orsmga002.jf.intel.com with ESMTP; 29 Jan 2015 06:18:38 -0800
+Message-ID: <54CA413C.6000707@linux.intel.com>
+Date: Thu, 29 Jan 2015 06:18:36 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1422488980-24850-1-git-send-email-alejandro.hernandez@linux.intel.com>
+In-Reply-To: <1422488980-24850-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Subject: Re: [PATCH][RFC] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,37 +33,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 14:08:01 -0000
-Content-type: text/html; charset=utf-8
-Content-transfer-encoding: base64
+X-List-Received-Date: Thu, 29 Jan 2015 14:18:39 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PHAgZGlyPSJsdHIiPkkgYmVsaWV2ZSBJIGhhZCB0aGF0IGluIERFUEVORFMuLi4gSSdsbCBjaGVj
-ay48L3A+CjxwIGRpcj0ibHRyIj4tLSA8YnI+CkRlbnlzPC9wPgo8ZGl2IGNsYXNzPSJnbWFpbF9x
-dW90ZSI+T24gSmFuIDI5LCAyMDE1IDg6MTkgQU0sICZxdW90O0J1cnRvbiwgUm9zcyZxdW90OyAm
-bHQ7cm9zcy5idXJ0b25AaW50ZWwuY29tJmd0OyB3cm90ZTo8YnIgdHlwZT0nYXR0cmlidXRpb24n
-PjxibG9ja3F1b3RlIGNsYXNzPSJxdW90ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4O2JvcmRl
-ci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxkaXYgZGlyPSJsdHIiPjxk
-aXY+PGJyIC8+PGRpdiBjbGFzcz0iZWxpZGVkLXRleHQiPk9uIDIzIEphbnVhcnkgMjAxNSBhdCAy
-Mjo0MCwgRGVueXMgRG15dHJpeWVua28gPHNwYW4gZGlyPSJsdHIiPiZsdDs8YSBocmVmPSJtYWls
-dG86ZGVuaXMmIzY0O2Rlbml4Lm9yZyI+ZGVuaXMmIzY0O2Rlbml4Lm9yZzwvYT4mZ3Q7PC9zcGFu
-PiB3cm90ZTo8YnIgLz48YmxvY2txdW90ZSBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4
-O2JvcmRlci1sZWZ0LXdpZHRoOjFweDtib3JkZXItbGVmdC1jb2xvcjpyZ2IoIDIwNCAsIDIwNCAs
-IDIwNCApO2JvcmRlci1sZWZ0LXN0eWxlOnNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxkaXY+wqBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvezxhIGhyZWY9Imh0dHA6Ly91LWJvb3QtbWtp
-bWFnZV8yMDE0LjA3LmJiIj51LWJvb3QtbWtpbWFnZV8yMDE0LjA3LmJiPC9hPiAmIzYxOyZndDsg
-PGEgaHJlZj0iaHR0cDovL3UtYm9vdC1ta2ltYWdlXzIwMTUuMDEuYmIiPnUtYm9vdC1ta2ltYWdl
-XzIwMTUuMDEuYmI8L2E+fSAoNDUlKTwvZGl2PjwvYmxvY2txdW90ZT48L2Rpdj48YnIgLz51LWJv
-b2stbWtpbWFnZS1uYXRpdmUgaXMgZmFpbGluZyBvbiBzb21lIGF1dG9idWlsZGVyczo8L2Rpdj48
-ZGl2PjxiciAvPjwvZGl2PjxkaXY+PGRpdj58IEluIGZpbGUgaW5jbHVkZWQgZnJvbSB0b29scy9k
-ZWZhdWx0X2ltYWdlLmM6MTg6MDo8L2Rpdj48ZGl2PnwgaW5jbHVkZS9pbWFnZS5oOjg3NzoyNzog
-ZmF0YWwgZXJyb3I6IG9wZW5zc2wvZXZwLmg6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3Rvcnk8L2Rp
-dj48ZGl2PnwgwqAjIGluY2x1ZGUgwqAmbHQ7b3BlbnNzbC9ldnAuaCZndDs8L2Rpdj48ZGl2Pjxi
-ciAvPjwvZGl2PjxkaXY+PGEgaHJlZj0iaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qu
-b3JnL21haW4vYnVpbGRlcnMvbmlnaHRseS1mc2wtcHBjL2J1aWxkcy8xNzAvc3RlcHMvQnVpbGRJ
-bWFnZXMvbG9ncy9zdGRpbyI+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL21h
-aW4vYnVpbGRlcnMvbmlnaHRseS1mc2wtcHBjL2J1aWxkcy8xNzAvc3RlcHMvQnVpbGRJbWFnZXMv
-bG9ncy9zdGRpbzwvYT48YnIgLz48L2Rpdj48ZGl2PjxiciAvPjwvZGl2PjxkaXY+Tm9uLWRldGVy
-bWluaXN0aWMgYnVpbGQgZGVwZW5kZW5jeSBvbiBvcGVuc3NsPzwvZGl2PjxkaXY+PGJyIC8+PC9k
-aXY+PGRpdj5Sb3NzPC9kaXY+PC9kaXY+PC9kaXY+DQo8L2Jsb2NrcXVvdGU+PC9kaXY+
+On 01/28/2015 03:49 PM, Alejandro Hernandez wrote:
+> This is a proposed solution for [YOCTO #7126]
+>
+> For the first item , I simply added the symlink-to-sysroot check to the QA_WARN
+>
+> this gave me the QA warning as I belive it was supposed to.
+>
+> For the second item, I changed filerdepends from set() to dict(), hence methods
+>
+> for adding or deleting items had to change, I believe dicts are slower than sets
+>
 
+Have you done before and after builds to assess the performance 
+differences if any?
+
+> but I had to keep track of the key:value relationship, since sets are unordered
+>
+> a better way didnt occur to me, all this to flag the issue along with the
+>
+> offending file accordingly, due to this rdep_rprovides isnt needed anymore.
+>
+What tool are you using that might cause double spacing in your commit 
+messages.
+
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> ---
+>   meta/classes/insane.bbclass | 26 +++++++++++---------------
+>   1 file changed, 11 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 143ec46..542346a 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+>               split-strip packages-list pkgv-undefined var-undefined \
+> -            version-going-backwards \
+> +            version-going-backwards  symlink-to-sysroot\
+>               "
+>
+We should also add this to the poky.conf, for the Poky distro since it 
+overrides the ERROR_QA setting in meta-yocto/distro/conf/poky.conf. 
+That patch should go to poky@yoctoproject.org
+
+>   ALL_QA = "${WARN_QA} ${ERROR_QA}"
+> @@ -604,7 +604,6 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+>               if target.startswith(tmpdir):
+>                   trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+>                   messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
+> -
+>   def package_qa_check_license(workdir, d):
+>       """
+>       Check for changes in the license files
+> @@ -803,13 +802,14 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+>               if bb.data.inherits_class('nativesdk', d):
+>                   ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
+>               # For Saving the FILERDEPENDS
+> -            filerdepends = set()
+> +            filerdepends = {}
+>               rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
+>               for key in rdep_data:
+>                   if key.startswith("FILERDEPENDS_"):
+>                       for subkey in rdep_data[key].split():
+> -                        filerdepends.add(subkey)
+> -            filerdepends -= ignored_file_rdeps
+> +                        if subkey not in ignored_file_rdeps:
+> +                            # We already know it starts with FILERDEPENDS_
+> +                            filerdepends[subkey] = key[13:]
+>
+>               if filerdepends:
+>                   next = rdepends
+> @@ -841,31 +841,27 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+>                   # case there is a RDEPENDS_pkg = "python" in the recipe.
+>                   for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
+>                       if py in done:
+> -                        filerdepends.discard("/usr/bin/python")
+> +                        filerdepends.pop("/usr/bin/python",None)
+>                           done.remove(py)
+>                   for rdep in done:
+>                       # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+> -                    rdep_rprovides = set()
+>                       rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+>                       for key in rdep_data:
+>                           if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
+>                               for subkey in rdep_data[key].split():
+> -                                rdep_rprovides.add(subkey)
+> +                                filerdepends.pop(subkey,None)
+Should this be a pop here since you are removing a add()?
+
+>                           # Add the files list to the rprovides
+>                           if key == "FILES_INFO":
+>                               # Use eval() to make it as a dict
+>                               for subkey in eval(rdep_data[key]):
+> -                                rdep_rprovides.add(subkey)
+> -                    filerdepends -= rdep_rprovides
+> +                                filerdepends.pop(subkey,None)
+>                       if not filerdepends:
+>                           # Break if all the file rdepends are met
+>                           break
+> -                    else:
+> -                        # Clear it for the next loop
+> -                        rdep_rprovides.clear()
+>               if filerdepends:
+> -                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
+> -                            (pkg, ', '.join(str(e) for e in filerdepends))
+> +                for key in filerdepends:
+> +                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
+> +                            (filerdepends[key],pkg, key)
+>                   sane = package_qa_handle_error("file-rdeps", error_msg, d)
+>
+>       return sane
+>
 
