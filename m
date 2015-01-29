@@ -1,41 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 434376013C
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 96EDD60701
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 21:13:15 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id b16so13680916igk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 13:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=OD8h69SK0wG7R2CTpUs2WSTspyDYy/kqR8QGDfKhGig=;
-	b=UVNFG+BjZCtsWktrEaSopBrCNjIiGxg8/zwDZ2RkZ6FmUJcnkl+VEb7npb4vGS8LLv
-	vFxhG4SGVx8J8QABRlRbBBVmahYdT+P9uwIgxzJmi2H2uh2iTMGlZJos1YbzYequYZx1
-	M6FjkyDMuCMtgzlHwYO6Rn+LdCNhF4I6g2knkH9bXzjIbWK1qqigZJycH78FwlKLzoeF
-	YSkYq0pIyqhu3rGxnhpzx7z8FryA6orNVV4h0+ru6EE5e11U13SjnFSuI0n1G8Y0YM+6
-	tjdVlSKWZupR342WslZnUZqMoe82uAX8krkrLTR44yJIgRkWBk0/UZx432qn1MbLrYjP
-	h6CQ==
-X-Received: by 10.70.130.205 with SMTP id og13mr3854620pdb.72.1422565996114;
-	Thu, 29 Jan 2015 13:13:16 -0800 (PST)
-Received: from ?IPv6:2601:c:a700:272f:edf9:51d3:8122:c109?
-	([2601:c:a700:272f:edf9:51d3:8122:c109])
-	by mx.google.com with ESMTPSA id y2sm8677824pdm.31.2015.01.29.13.13.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Jan 2015 13:13:14 -0800 (PST)
-Message-ID: <54CAA268.80207@gmail.com>
-Date: Thu, 29 Jan 2015 13:13:12 -0800
-From: akuster808 <akuster808@gmail.com>
+	Thu, 29 Jan 2015 21:20:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jan 2015 13:20:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,488,1418112000"; d="scan'208";a="669917716"
+Received: from aehernan-devstation.zpn.intel.com (HELO [10.219.4.43])
+	([10.219.4.43])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2015 13:20:01 -0800
+Message-ID: <54CAA406.7060209@linux.intel.com>
+Date: Thu, 29 Jan 2015 15:20:06 -0600
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1421597533-7850-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150129124118.GA2443@jama>
-In-Reply-To: <20150129124118.GA2443@jama>
-Subject: Re: [dizzy][PATCH] package.bbclass: Fix support for private libs
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1422488980-24850-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<54CA413C.6000707@linux.intel.com>
+In-Reply-To: <54CA413C.6000707@linux.intel.com>
+Subject: Re: [PATCH][RFC] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,53 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 21:13:22 -0000
+X-List-Received-Date: Thu, 29 Jan 2015 21:20:10 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-thanks for the reminder. I have pulled into my staging work.
 
--armin
+On 29/01/15 08:18, Saul Wold wrote:
 
-On 01/29/2015 04:41 AM, Martin Jansa wrote:
-> On Sun, Jan 18, 2015 at 05:12:13PM +0100, Martin Jansa wrote:
->> * n is a tuple since this commit:
->>    commit d3aa7668a9f001044d0a0f1ba2de425a36056102
->>    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->>    Date:   Mon Jul 7 18:41:23 2014 +0100
->>    Subject package.bbclass: Improve shlibs needed data structure
+> Have you done before and after builds to assess the performance 
+> differences if any?
+
+I checked, found no actual difference on performance.
+
+
+> What tool are you using that might cause double spacing in your commit 
+> messages.
+
+Won't be happening again.
+
+>
+>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+>> index 143ec46..542346a 100644
+>> --- a/meta/classes/insane.bbclass
+>> +++ b/meta/classes/insane.bbclass
+>> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev 
+>> libdir xorg-driver-abi \
+>>   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig 
+>> la \
+>>               perms dep-cmp pkgvarcheck perm-config perm-line 
+>> perm-link \
+>>               split-strip packages-list pkgv-undefined var-undefined \
+>> -            version-going-backwards \
+>> +            version-going-backwards  symlink-to-sysroot\
+>>               "
 >>
->>    since then 'n in private_libs' was always false and private libs
->>    were always processed
->> * this is bad when we have libfoo in private libs, but also some package
->>    providing libfoo, that way we ship own libfoo.so, but together with
->>    runtime dependency on package providing libfoo
->
-> ping
->
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->>   meta/classes/package.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 96d7fd9..4685cd2 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -1572,7 +1572,7 @@ python package_do_shlibs() {
->>               # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc depending on system library libfoo.so.1
->>               # but skipping it is still better alternative than providing own
->>               # version and then adding runtime dependency for the same system library
->> -            if private_libs and n in private_libs:
->> +            if private_libs and n[0] in private_libs:
->>                   bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' % (pkg, n[0]))
->>                   continue
->>               if n[0] in shlib_provider.keys():
->> --
->> 2.2.1
->>
->
->
->
+> We should also add this to the poky.conf, for the Poky distro since it 
+> overrides the ERROR_QA setting in meta-yocto/distro/conf/poky.conf. 
+> That patch should go to poky@yoctoproject.org
+
+Yes, a patch to poky is also required, I intended to send it once this 
+gets accepted.
+
+
+>> @@ -841,31 +841,27 @@ def package_qa_check_rdepends(pkg, pkgdest, 
+>> skip, taskdeps, packages, d):
+>>                   # case there is a RDEPENDS_pkg = "python" in the 
+>> recipe.
+>>                   for py in [ d.getVar('MLPREFIX', True) + "python", 
+>> "python" ]:
+>>                       if py in done:
+>> -                        filerdepends.discard("/usr/bin/python")
+>> + filerdepends.pop("/usr/bin/python",None)
+>>                           done.remove(py)
+>>                   for rdep in done:
+>>                       # For Saving the FILERPROVIDES, RPROVIDES and 
+>> FILES_INFO
+>> -                    rdep_rprovides = set()
+>>                       rdep_data = 
+>> oe.packagedata.read_subpkgdata(rdep, d)
+>>                       for key in rdep_data:
+>>                           if key.startswith("FILERPROVIDES_") or 
+>> key.startswith("RPROVIDES_"):
+>>                               for subkey in rdep_data[key].split():
+>> -                                rdep_rprovides.add(subkey)
+>> +                                filerdepends.pop(subkey,None)
+> Should this be a pop here since you are removing a add()?
+
+Yes, it should be a pop, because it was adding subkey to rdep_rprovides, 
+which were substracted from filerdepends afterwards, this worked on sets 
+but not on dictionaries, the same result is achieved this way.
+
 
