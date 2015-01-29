@@ -1,24 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B2972608
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D4250718E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 02:22:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0T2MEi2014272
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 29 Jan 2015 02:32:15 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="56793331"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 29 Jan 2015 10:28:43 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t0T2VW0n027204
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Jan 2015 18:22:14 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 28 Jan 2015 18:22:14 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 29 Jan 2015 10:31:32 +0800
+Received: from localhost.localdomain (10.167.226.48) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 29 Jan 2015 10:32:16 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Jan 2015 10:22:13 +0800
-Message-ID: <cover.1422498020.git.Qi.Chen@windriver.com>
+Date: Thu, 29 Jan 2015 10:31:00 +0800
+Message-ID: <1422498660-48338-1-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] package_manager.py: fix rootfs failure for package_deb with multilib enabled
+X-Originating-IP: [10.167.226.48]
+Subject: [PATCH] libidn_0.6.14: fix the QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 02:22:19 -0000
+X-List-Received-Date: Thu, 29 Jan 2015 02:32:19 -0000
 Content-Type: text/plain
 
-The following changes since commit 2a775ebbb175dd70fc7228607c306d4ccb9e4ba4:
+To fix the QA Issue as following:
+ERROR: QA Issue: libidn: Files/directories were installed but not shipped
+  /usr/share/emacs
+  /usr/share/emacs/site-lisp
+  /usr/share/emacs/site-lisp/punycode.el
+  /usr/share/emacs/site-lisp/idna.el [installed-vs-shipped]
 
-  net-tools: Fix rerunning of do_patch task (2015-01-23 14:32:40 +0000)
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/recipes-extended/libidn/libidn_0.6.14.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/debian-multilib
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/debian-multilib
-
-Chen Qi (1):
-  package_manager.py: fix rootfs failure with multilib enabled
-
- meta/lib/oe/package_manager.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-extended/libidn/libidn_0.6.14.bb b/meta/recipes-extended/libidn/libidn_0.6.14.bb
+index ff8d345..4df1d08 100644
+--- a/meta/recipes-extended/libidn/libidn_0.6.14.bb
++++ b/meta/recipes-extended/libidn/libidn_0.6.14.bb
+@@ -29,4 +29,5 @@ do_configure_prepend() {
+ 
+ do_install_append() {
+ 	rm -rf ${D}${libdir}/Libidn.dll
++	rm -rf ${D}${datadir}/emacs
+ }
 -- 
-1.9.1
+1.8.4.2
 
 
