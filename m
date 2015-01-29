@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 02FF560132
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 651EA60571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 10:51:31 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id f51so26234135qge.9
+	Thu, 29 Jan 2015 10:56:23 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id q108so26249084qgd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 02:51:32 -0800 (PST)
+	Thu, 29 Jan 2015 02:56:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=o6jWaQuEOS4OBFt5u/YVzt28h1BmBaWb1N0tgOf49qk=;
-	b=dcpT1zIix84Ng0p96feGP2o7WD+2D6EA0Tzhvzi9U/K5blcX/aep/fEYMzfgrMzk/G
-	LXX8IMkZDvO1Q71Mf6QgqQCM13VtUlEMDhQnzBaWp8gcnwm3FHyABGQYWfgpyQQsuC1C
-	R1giFVp3rog/TI3rliP5sjs3nmu8nUUZhUtLoJQYTSWa55kCllhLArsnVGXdJ46wHl5e
-	ODBmB5O7wWyJqUGD0mQjm2QO27N9/iQyKkbHR+wiAr2eup2fkWi1SbsyTd+Km2E1kUpL
-	/eiolyUEBWLQcxBv5OFWLKf3HqVF4fkL65Qa1hw7d6jcmW1QES7vewWbwJEXvXsuzfmT
-	2XXw==
-X-Gm-Message-State: ALoCoQlvQpEK1T0MHa2J4FbT8Heh04I5UZ5WBEsss4GNQwZ3AdUhvKwPBUcqsykJcBNYx0BXapr9
-X-Received: by 10.224.103.129 with SMTP id k1mr33646qao.93.1422528692689; Thu,
-	29 Jan 2015 02:51:32 -0800 (PST)
+	bh=ofrN5XX8SskAJu4nlRP7SzJWUFfNj6LV28tCETvsk34=;
+	b=crvkC12h1S/oZVwz41JtQulmZaoEWjOL57fEuRk5FrbI2P3dl7yx6cUSaAXl3T4fns
+	6xm1VaAwhL3IJOl8KXCLz4sKJu+5Tu2eBZ/258hpHICQfJJTWGpI9+zLJ5k5aV8TYVRN
+	ew2RuCnqCrLR9AcO1tDSCvCcojxd3U6YMoP1IrKvLRwp4hrKSUzRV2kPf7iN5SRNSOHw
+	/w5Iq+VZ3te21d3mLLh08+g1VAHK2999RkXIVg3ByJNEcpb/yKtEEK3+hXdv9tTrZOXI
+	De7Jt2BsLaKYa026oE4Q20AR7hc1B/t4koaK6/nPdlOeCmZsaZRZUK8aTQ4d2aLaVE32
+	oazQ==
+X-Gm-Message-State: ALoCoQlBgnLPNhGXbLZPFZSXaEqMqkzyDSqtxqOoO+5yNTvQXKgkAKXSatPVsLiP/D6WMd5sr6UK
+X-Received: by 10.224.24.132 with SMTP id v4mr1556qab.17.1422528984384; Thu,
+	29 Jan 2015 02:56:24 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 02:51:12 -0800 (PST)
-In-Reply-To: <1422417862-62783-1-git-send-email-biannm@cn.fujitsu.com>
-References: <1422417862-62783-1-git-send-email-biannm@cn.fujitsu.com>
+Received: by 10.140.96.166 with HTTP; Thu, 29 Jan 2015 02:56:04 -0800 (PST)
+In-Reply-To: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 Jan 2015 10:51:12 +0000
-Message-ID: <CAJTo0Laa12U-LZEjJh+RBt6fAiwh_LskO7xLQMXkL64Gr6pqBw@mail.gmail.com>
-To: Bian Naimeng <biannm@cn.fujitsu.com>
+Date: Thu, 29 Jan 2015 10:56:04 +0000
+Message-ID: <CAJTo0LYWqiy+dKjECTUm4pZogAwh=X7eb4P06S6Gg=ct=QcJ3g@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master]gnutls: update to 3.3.12
+Subject: Re: [PATCH] terminal.py: fixes launching multiple windows of gnome-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 10:51:39 -0000
-Content-Type: multipart/alternative; boundary=047d7b66f74b693184050dc84536
+X-List-Received-Date: Thu, 29 Jan 2015 10:56:26 -0000
+Content-Type: multipart/alternative; boundary=001a11c2b49ecc2005050dc85612
 
---047d7b66f74b693184050dc84536
+--001a11c2b49ecc2005050dc85612
 Content-Type: text/plain; charset=UTF-8
 
-Hi Bian,
+On 27 January 2015 at 23:36, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-On 28 January 2015 at 04:04, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
-
-> +PR = "r0"
+> When resolving a patch, a new process of gnome-terminal
+>
+> is created for every patch to be resolved, it "waits"
+>
+> for the previous one to end, instead of launching
+>
+> multiple windows at the same time.
 >
 
-r0 is the default value for PR, so you don't need to include this.  I've
-fixed this when merging, don't bother sending a v2.
+I wish I knew what causes some of your commit messages to end up being
+double-line-spaced!
 
 Ross
 
---047d7b66f74b693184050dc84536
+--001a11c2b49ecc2005050dc85612
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Bian,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 28 January 2015 at 04:04, Bian =
-Naimeng <span dir=3D"ltr">&lt;<a href=3D"mailto:biannm@cn.fujitsu.com" targ=
-et=3D"_blank">biannm@cn.fujitsu.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><div id=3D":1y5" class=3D"a3s" style=3D"overflow:hidden">+=
-PR =3D &quot;r0&quot;<br></div></blockquote><div><br></div><div>r0 is the d=
-efault value for PR, so you don&#39;t need to include this.=C2=A0 I&#39;ve =
-fixed this when merging, don&#39;t bother sending a v2.</div><div><br></div=
-><div>Ross=C2=A0</div></div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 January 2015 at 23:36, Alejandro Hernandez <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejan=
+dro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div id=3D":21u" class=3D"a3s" style=3D"overflow:hidden">When re=
+solving a patch, a new process of gnome-terminal<br>
+<br>
+is created for every patch to be resolved, it &quot;waits&quot;<br>
+<br>
+for the previous one to end, instead of launching<br>
+<br>
+multiple windows at the same time.</div></blockquote></div><br>I wish I kne=
+w what causes some of your commit messages to end up being double-line-spac=
+ed!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
---047d7b66f74b693184050dc84536--
+--001a11c2b49ecc2005050dc85612--
