@@ -1,28 +1,35 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BB7AF601DC
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DFFBA60132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 16:11:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 29 Jan 2015 08:07:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,486,1418112000"; 
-	d="scan'208,217";a="669770654"
-Received: from aehernan-devstation.zpn.intel.com (HELO [10.219.4.43])
-	([10.219.4.43])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2015 08:11:46 -0800
-Message-ID: <54CA5BC8.4000201@linux.intel.com>
-Date: Thu, 29 Jan 2015 10:11:52 -0600
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1422401819-24209-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<CAJTo0LYWqiy+dKjECTUm4pZogAwh=X7eb4P06S6Gg=ct=QcJ3g@mail.gmail.com>
-In-Reply-To: <CAJTo0LYWqiy+dKjECTUm4pZogAwh=X7eb4P06S6Gg=ct=QcJ3g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.py: fixes launching multiple windows of gnome-terminal
+	Thu, 29 Jan 2015 16:36:41 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id q59so23896563wes.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Jan 2015 08:36:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/F4nrKBfpyP9P+pPHLuMQFE+1bM6i0COlxTDf30RnEg=;
+	b=FY8edTZNjDQ5lr8ewLNBRyla3Z9LwdLOCyxGbArkCrGQCI4uisB/xG5m/lLI5IWIgj
+	9J7QU1qJWVZd4wlUmjAmninljxgMGGQX4vJt0NfnwUzN8yBtzVbF013tY7kh/vC/LYD2
+	+IQrCiccx/wteiAm1LV4VPVEU++CuxcqcKI25Cfpm2hfmf2YYecbZWM+3BKu/+EAHi7F
+	dc1DZ2xlYOJVL6yOowxbfayDYz/gwstNxktVW7QfR4JWjam9WM6JtZwKncU2P4xz81rZ
+	PoF/UCHjfw5TxJVxXycBaggRlxqxrfRnskCAjkRrPd47Kzzu+cJq8IXs9IBiH64mZV1c
+	Mc5w==
+X-Gm-Message-State: ALoCoQn/MRIyF6rxGPsHFI7Puk6izqVmKF3QqzdVWj6R8/beJ+Sz9Kgxnryg9OQD/Nx37V6xIvah
+X-Received: by 10.194.93.129 with SMTP id cu1mr2981837wjb.44.1422549401425;
+	Thu, 29 Jan 2015 08:36:41 -0800 (PST)
+Received: from draco.icx.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id d6sm3176853wic.1.2015.01.29.08.36.40
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 29 Jan 2015 08:36:40 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Jan 2015 16:36:09 +0000
+Message-Id: <1422549369-23245-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] report-error: Add a check for binary log file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,80 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 16:11:47 -0000
-Content-Type: multipart/alternative;
-	boundary="------------090207020106040707060303"
+X-List-Received-Date: Thu, 29 Jan 2015 16:36:47 -0000
 
---------------090207020106040707060303
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Check to see if the log file is a binary. If it is do not try to submit
+it in our error-report.
 
-On 29/01/15 04:56, Burton, Ross wrote:
->
-> On 27 January 2015 at 23:36, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->     When resolving a patch, a new process of gnome-terminal
->
->     is created for every patch to be resolved, it "waits"
->
->     for the previous one to end, instead of launching
->
->     multiple windows at the same time.
->
->
-> I wish I knew what causes some of your commit messages to end up being 
-> double-line-spaced!
->
-> Ross
+[YOCTO #7263]
 
-I was copying and pasting, will stop now.
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/classes/report-error.bbclass | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
---------------090207020106040707060303
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 8b30422..101fe9b 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -24,6 +24,15 @@ def errorreport_savedata(e, newdata, file):
+         json.dump(newdata, f, indent=4, sort_keys=True)
+     return datafile
+ 
++def errorreport_testlogforbinary(data):
++    for c in data:
++      # If the data contains non visible character below 10 it's a binary
++      if (ord(c) < 10):
++        return True
++
++    return False
++
++
+ python errorreport_handler () {
+         import json
+ 
+@@ -48,7 +57,13 @@ python errorreport_handler () {
+             taskdata['task'] = task
+             if log:
+                 logFile = open(log, 'r')
+-                taskdata['log'] = logFile.read()
++                # Detect binary log output
++                logdata = logFile.read()
++                if  errorreport_testlogforbinary(logdata):
++                    taskdata['log'] = "Log in binary format"
++                else:
++                    taskdata['log'] = logdata
++
+                 logFile.close()
+             else:
+                 taskdata['log'] = "No Log"
+-- 
+2.1.0
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    On 29/01/15 04:56, Burton, Ross wrote:<br>
-    <blockquote
-cite="mid:CAJTo0LYWqiy+dKjECTUm4pZogAwh=X7eb4P06S6Gg=ct=QcJ3g@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 27 January 2015 at 23:36,
-            Alejandro Hernandez <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:alejandro.hernandez@linux.intel.com"
-                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":21u" class="a3s" style="overflow:hidden">When
-                resolving a patch, a new process of gnome-terminal<br>
-                <br>
-                is created for every patch to be resolved, it "waits"<br>
-                <br>
-                for the previous one to end, instead of launching<br>
-                <br>
-                multiple windows at the same time.</div>
-            </blockquote>
-          </div>
-          <br>
-          I wish I knew what causes some of your commit messages to end
-          up being double-line-spaced!</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    I was copying and pasting, will stop now.<br>
-  </body>
-</html>
 
---------------090207020106040707060303--
