@@ -1,29 +1,26 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CFA9F605F1;
-	Thu, 29 Jan 2015 17:25:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0THPrI2023577
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Jan 2015 09:25:54 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 29 Jan 2015 09:25:53 -0800
-Message-ID: <54CA6D20.4010604@windriver.com>
-Date: Thu, 29 Jan 2015 11:25:52 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B3E1F6012B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Jan 2015 17:43:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jan 2015 09:43:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,487,1418112000"; d="scan'208";a="658724843"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.57])
+	([10.219.4.57])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2015 09:43:27 -0800
+Message-ID: <54CA7145.1090605@linux.intel.com>
+Date: Thu, 29 Jan 2015 11:43:33 -0600
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<bitbake-devel@lists.openembedded.org>
-References: <cover.1422539142.git.paul.eggleton@linux.intel.com>
-	<e1f6bd9ed8e0a1b89277af10e0d9af17ec8efd86.1422539142.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <e1f6bd9ed8e0a1b89277af10e0d9af17ec8efd86.1422539142.git.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [bitbake-devel] [RFC bitbake][RFC PATCH 1/1] cooker: rework LAYERDEPENDS versioning so that it is actually useful
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1422498020.git.Qi.Chen@windriver.com>
+	<b35561e993f50d52ae592feddd907881b940f312.1422498020.git.Qi.Chen@windriver.com>
+In-Reply-To: <b35561e993f50d52ae592feddd907881b940f312.1422498020.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] package_manager.py: fix rootfs failure with multilib enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Jan 2015 17:26:02 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Jan 2015 17:43:39 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 1/29/15 7:49 AM, Paul Eggleton wrote:
-> We've had versioned dependency support in LAYERDEPENDS for quite a long
-> time, but I can say with pretty good certainty that almost nobody has
-> used it because it was too strict - the specified version had to exactly
-> match the version in your configuration or you would get an error; there
-> was no "greater than or equal" option, which is usually what you will
-> want given that LAYERVERSION does get bumped.
-> 
-> However, users mismatching layer branches and then having their builds
-> fail later on with some incomprehensible error is still a pretty common
-> problem. To address this, I have reworked LAYERDEPENDS version
-> specifications to use the more familiar "dependency (>= version)" syntax
-> as used with package dependencies, support non-integer versions, and
-> clarified the error message a little. If we then take care to bump the
-> version on every breaking change, it is at least possible to have layers
-> depend on these changes when they update to match; we can now even
-> support a major.minor scheme to allow retrospectively adding a version
-> limiter to old branches when a new branch is created and yet still allow
-> the old branch minor version to be bumped if needed.
-> 
-> Fixes [YOCTO #5991].
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Hi Chen,
 
-I've run into this exact support situation as well.  I think we need to do
-something like this >, =, <, etc.. so that we can add the necessary keys to
-layers to more clearly indicate what is and isn't supported (combination wise.)
+I tested the patch and is ok can contain (when merge),
 
-I'm all for this!
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 
---Mark
+Also the same issue is presented in dizzy and the patch needs to be 
+backported.
+
+Best regards,
+     alimon
+
+On 28/01/15 20:22, Chen Qi wrote:
+> With the current code, if we use debian package backend and enable
+> multilib support, the do_rootfs process would always fail with error
+> messages like below.
+>
+>      E: Unable to locate package packagegroup-core-boot
+>
+> This patch fixes the above problem.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/lib/oe/package_manager.py | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 69100f1..6f49c69 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -1723,9 +1723,12 @@ class DpkgPM(PackageManager):
+>               with open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) as apt_conf_sample:
+>                   for line in apt_conf_sample.read().split("\n"):
+>                       match_arch = re.match("  Architecture \".*\";$", line)
+> +                    architectures = ""
+>                       if match_arch:
+>                           for base_arch in base_arch_list:
+> -                            apt_conf.write("  Architecture \"%s\";\n" % base_arch)
+> +                            architectures += "\"%s\";" % base_arch
+> +                        apt_conf.write("  Architectures {%s};\n" % architectures);
+> +                        apt_conf.write("  Architecture \"%s\";\n" % base_archs)
+>                       else:
+>                           line = re.sub("#ROOTFS#", self.target_rootfs, line)
+>                           line = re.sub("#APTCONF#", self.apt_conf_dir, line)
+
 
