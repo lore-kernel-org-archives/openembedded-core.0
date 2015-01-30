@@ -1,24 +1,31 @@
-Return-Path: <Rob.Woolley@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D60B56AC28
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 486976AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 21:55:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0ULtEiY012213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 13:55:14 -0800 (PST)
-Received: from yow-rwoolley-lx.corp.ad.wrs.com (128.224.18.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 30 Jan 2015 13:55:13 -0800
-From: Rob Woolley <rob.woolley@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Jan 2015 16:55:09 -0500
-Message-ID: <1422654909-8058-1-git-send-email-rob.woolley@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Fri, 30 Jan 2015 23:06:16 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t0UN6Hkg007108 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Jan 2015 17:06:17 -0600
+Received: from localhost ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015013017061715-573363 ;
+	Fri, 30 Jan 2015 17:06:17 -0600 
+Date: Fri, 30 Jan 2015 17:06:09 -0600
+From: Ben Shelton <ben.shelton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150130230609.GA13593@bshelton-desktop>
 MIME-Version: 1.0
-Subject: [PATCH] dhcp-client: Ignore partial checksums
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 01/30/2015 05:06:17 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 01/30/2015 05:06:17 PM,
+	Serialize complete at 01/30/2015 05:06:17 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-01-30_06:, , signatures=0
+Subject: opkg intercept for ldconfig on oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,378 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 21:55:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Jan 2015 23:06:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-dhclient will fail to get an IP address if run inside a guest when traffic is
-flowing over a virtual network interface.  The user will see the error
-message:
+Hi all,
 
-  5 bad udp checksums in 5 packets
-  No DHCPOFFERS received.
-  Unable to obtain a lease on first try.  Exiting.
-  Failed to bring up eth0.
+I was looking at the opkg intercept functionality, and if I'm understanding this
+properly, it looks like it changes the PATH so that e.g. ldconfig is redirected
+to the script under /usr/share/opkg/intercept/ldconfig when running postinst
+scripts.  That way, when installing a bunch of libraries, ldconfig can be run
+once at the end rather than once for every package.
 
-This is because Linux only uses partial checksums for packets that go over
-virtual network interfaces and dhclient does not like this.
+However, the postinst scripts for libraries are generated with
+ldconfig_postinst_fragment() in meta/classes/package.bbclass, which looks like
+this:
 
-  See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
-  ("net: skbuff: improve comment on checksumming")
+ldconfig_postinst_fragment() {
+if [ x"$D" = "x" ]; then
+	if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+fi
+}
 
-An application can detect this behaviour by checking for the
-TP_STATUS_CSUMNOTREADY flag in the tp_status field.
+Because this script uses the full absolute path to ldconfig, the opkg intercept
+ldconfig script isn't being invoked.  I verified this by putting an echo in
+/usr/share/opkg/intercept/ldconfig, which I saw only when I changed my package's
+postinst script to
 
-  See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
-  ("Add optional checksum computation for recvmsg")
+ldconfig_postinst_fragment() {
+if [ x"$D" = "x" ]; then
+	ldconfig
+fi
+}
 
-An extra parameter is added to decode_udp_ip_header() in dhclient to indicate
-whether or not dhclient should ignore partial checksums.  This is used
-when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
+In the history of package.bbclass, it originally used to look like this, but was
+changed in 2008 in a sync from OE.dev.
 
-This fix has been included in Fedora and Ubuntu, however it has not yet been
-accepted by ISC upstream.  Likely because it is specific to behaviour in Linux
-and other UNIX variants do not seem to be affected.
+Is this expected behavior?  Is opkg intercept still supported?  Should we fix
+this, and if so, what would be a safe way to do it?
 
-The patch was imported from the dhcp source RPM in Fedora 21
-  (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
-
-Originally contributed to fedora-cvs-commit by David Cantrell on Jan 30 2007
-  (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
-
-Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. Tsirkin
-  (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
-  (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
-
-Upstream-Status: Submitted [dhcp-bugs@isc.org]
-Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
----
- .../dhcp/dhcp/dhcp-xen-checksum.patch              | 282 +++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   1 +
- 2 files changed, 283 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
-
-Index: b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
-===================================================================
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
-@@ -0,0 +1,307 @@
-+dhcp-client: Ignore partial checksums
-+
-+dhclient will fail to get an IP address if run inside a guest when traffic is
-+flowing over a virtual network interface.  The user will see the error
-+message:
-+
-+  5 bad udp checksums in 5 packets
-+  No DHCPOFFERS received.
-+  Unable to obtain a lease on first try.  Exiting.
-+  Failed to bring up eth0.
-+
-+This is because Linux only uses partial checksums for packets that go over
-+virtual network interfaces and dhclient does not like this.
-+
-+  See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
-+  ("net: skbuff: improve comment on checksumming")
-+
-+An application can detect this behaviour by checking for the
-+TP_STATUS_CSUMNOTREADY flag in the tp_status field.
-+
-+  See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
-+  ("Add optional checksum computation for recvmsg")
-+
-+An extra parameter is added to decode_udp_ip_header() in dhclient to indicate
-+whether or not dhclient should ignore partial checksums.  This is used
-+when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
-+
-+This fix has been included in Fedora and Ubuntu, however it has not yet been
-+accepted by ISC upstream.  Likely because it is specific to behaviour in Linux
-+and other UNIX variants do not seem to be affected.
-+
-+The patch was imported from the dhcp source RPM in Fedora 21
-+  (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
-+
-+Originally contributed to fedora-cvs-commit by David Cantrell on Jan 30 2007
-+  (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
-+
-+Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. Tsirkin
-+  (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
-+  (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
-+
-+Upstream-Status: Submitted [dhcp-bugs@isc.org]
-+Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
-+--
-+ common/bpf.c     |    2 -
-+ common/dlpi.c    |    2 -
-+ common/lpf.c     |   83 +++++++++++++++++++++++++++++++++++++++++--------------
-+ common/nit.c     |    2 -
-+ common/packet.c  |    4 +-
-+ common/upf.c     |    2 -
-+ includes/dhcpd.h |    2 -
-+ 7 files changed, 70 insertions(+), 27 deletions(-)
-+
-+diff --git a/common/bpf.c b/common/bpf.c
-+--- a/common/bpf.c
-++++ b/common/bpf.c
-+@@ -481,7 +481,7 @@ ssize_t receive_packet (interface, buf,
-+ 		/* Decode the IP and UDP headers... */
-+ 		offset = decode_udp_ip_header(interface, interface->rbuf,
-+ 					       interface->rbuf_offset,
-+-  					       from, hdr.bh_caplen, &paylen);
-++  					       from, hdr.bh_caplen, &paylen, 0);
-+ 
-+ 		/* If the IP or UDP checksum was bad, skip the packet... */
-+ 		if (offset < 0) {
-+diff --git a/common/dlpi.c b/common/dlpi.c
-+--- a/common/dlpi.c
-++++ b/common/dlpi.c
-+@@ -691,7 +691,7 @@ ssize_t receive_packet (interface, buf,
-+ 	length -= offset;
-+ #endif
-+ 	offset = decode_udp_ip_header (interface, dbuf, bufix,
-+-				       from, length, &paylen);
-++				       from, length, &paylen, 0);
-+ 
-+ 	/*
-+ 	 * If the IP or UDP checksum was bad, skip the packet...
-+diff --git a/common/lpf.c b/common/lpf.c
-+--- a/common/lpf.c
-++++ b/common/lpf.c
-+@@ -29,14 +29,15 @@
-+ 
-+ #include "dhcpd.h"
-+ #if defined (USE_LPF_SEND) || defined (USE_LPF_RECEIVE)
-++#include <sys/socket.h>
-+ #include <sys/uio.h>
-+ #include <errno.h>
-+ 
-+ #include <asm/types.h>
-+ #include <linux/filter.h>
-+ #include <linux/if_ether.h>
-++#include <linux/if_packet.h>
-+ #include <netinet/in_systm.h>
-+-#include <net/if_packet.h>
-+ #include "includes/netinet/ip.h"
-+ #include "includes/netinet/udp.h"
-+ #include "includes/netinet/if_ether.h"
-+@@ -51,6 +52,19 @@
-+ /* Reinitializes the specified interface after an address change.   This
-+    is not required for packet-filter APIs. */
-+ 
-++#ifndef PACKET_AUXDATA
-++#define PACKET_AUXDATA 8
-++
-++struct tpacket_auxdata
-++{
-++	__u32		tp_status;
-++	__u32		tp_len;
-++	__u32		tp_snaplen;
-++	__u16		tp_mac;
-++	__u16		tp_net;
-++};
-++#endif
-++
-+ #ifdef USE_LPF_SEND
-+ void if_reinitialize_send (info)
-+ 	struct interface_info *info;
-+@@ -73,10 +87,14 @@ int if_register_lpf (info)
-+ 	struct interface_info *info;
-+ {
-+ 	int sock;
-+-	struct sockaddr sa;
-++	union {
-++		struct sockaddr_ll ll;
-++		struct sockaddr common;
-++	} sa;
-++	struct ifreq ifr;
-+ 
-+ 	/* Make an LPF socket. */
-+-	if ((sock = socket(PF_PACKET, SOCK_PACKET,
-++	if ((sock = socket(PF_PACKET, SOCK_RAW,
-+ 			   htons((short)ETH_P_ALL))) < 0) {
-+ 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
-+ 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
-+@@ -91,11 +109,17 @@ int if_register_lpf (info)
-+ 		log_fatal ("Open a socket for LPF: %m");
-+ 	}
-+ 
-++	memset (&ifr, 0, sizeof ifr);
-++	strncpy (ifr.ifr_name, (const char *)info -> ifp, sizeof ifr.ifr_name);
-++	ifr.ifr_name[IFNAMSIZ-1] = '\0';
-++	if (ioctl (sock, SIOCGIFINDEX, &ifr))
-++		log_fatal ("Failed to get interface index: %m");
-++
-+ 	/* Bind to the interface name */
-+ 	memset (&sa, 0, sizeof sa);
-+-	sa.sa_family = AF_PACKET;
-+-	strncpy (sa.sa_data, (const char *)info -> ifp, sizeof sa.sa_data);
-+-	if (bind (sock, &sa, sizeof sa)) {
-++	sa.ll.sll_family = AF_PACKET;
-++	sa.ll.sll_ifindex = ifr.ifr_ifindex;
-++	if (bind (sock, &sa.common, sizeof sa)) {
-+ 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
-+ 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
-+ 		    errno == EAFNOSUPPORT || errno == EINVAL) {
-+@@ -177,9 +201,18 @@ static void lpf_gen_filter_setup (struct
-+ void if_register_receive (info)
-+ 	struct interface_info *info;
-+ {
-++	int val;
-++
-+ 	/* Open a LPF device and hang it on this interface... */
-+ 	info -> rfdesc = if_register_lpf (info);
-+ 
-++	val = 1;
-++	if (setsockopt (info -> rfdesc, SOL_PACKET, PACKET_AUXDATA, &val,
-++			sizeof val) < 0) {
-++		if (errno != ENOPROTOOPT)
-++			log_fatal ("Failed to set auxiliary packet data: %m");
-++	}
-++
-+ #if defined (HAVE_TR_SUPPORT)
-+ 	if (info -> hw_address.hbuf [0] == HTYPE_IEEE802)
-+ 		lpf_tr_filter_setup (info);
-+@@ -301,7 +334,6 @@ ssize_t send_packet (interface, packet,
-+ 	double hh [16];
-+ 	double ih [1536 / sizeof (double)];
-+ 	unsigned char *buf = (unsigned char *)ih;
-+-	struct sockaddr_pkt sa;
-+ 	int result;
-+ 	int fudge;
-+ 
-+@@ -322,17 +354,7 @@ ssize_t send_packet (interface, packet,
-+ 				(unsigned char *)raw, len);
-+ 	memcpy (buf + ibufp, raw, len);
-+ 
-+-	/* For some reason, SOCK_PACKET sockets can't be connected,
-+-	   so we have to do a sentdo every time. */
-+-	memset (&sa, 0, sizeof sa);
-+-	sa.spkt_family = AF_PACKET;
-+-	strncpy ((char *)sa.spkt_device,
-+-		 (const char *)interface -> ifp, sizeof sa.spkt_device);
-+-	sa.spkt_protocol = htons(ETH_P_IP);
-+-
-+-	result = sendto (interface -> wfdesc,
-+-			 buf + fudge, ibufp + len - fudge, 0, 
-+-			 (const struct sockaddr *)&sa, sizeof sa);
-++	result = write (interface -> wfdesc, buf + fudge, ibufp + len - fudge);
-+ 	if (result < 0)
-+ 		log_error ("send_packet: %m");
-+ 	return result;
-+@@ -349,14 +371,35 @@ ssize_t receive_packet (interface, buf,
-+ {
-+ 	int length = 0;
-+ 	int offset = 0;
-++	int nocsum = 0;
-+ 	unsigned char ibuf [1536];
-+ 	unsigned bufix = 0;
-+ 	unsigned paylen;
-++	unsigned char cmsgbuf[CMSG_LEN(sizeof(struct tpacket_auxdata))];
-++	struct iovec iov = {
-++		.iov_base = ibuf,
-++		.iov_len = sizeof ibuf,
-++	};
-++	struct msghdr msg = {
-++		.msg_iov = &iov,
-++		.msg_iovlen = 1,
-++		.msg_control = cmsgbuf,
-++		.msg_controllen = sizeof(cmsgbuf),
-++	};
-++	struct cmsghdr *cmsg;
-+ 
-+-	length = read (interface -> rfdesc, ibuf, sizeof ibuf);
-++	length = recvmsg (interface -> rfdesc, &msg, 0);
-+ 	if (length <= 0)
-+ 		return length;
-+ 
-++	for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg)) {
-++		if (cmsg->cmsg_level == SOL_PACKET &&
-++		    cmsg->cmsg_type == PACKET_AUXDATA) {
-++			struct tpacket_auxdata *aux = (void *)CMSG_DATA(cmsg);
-++			nocsum = aux->tp_status & TP_STATUS_CSUMNOTREADY;
-++		}
-++	}
-++
-+ 	bufix = 0;
-+ 	/* Decode the physical header... */
-+ 	offset = decode_hw_header (interface, ibuf, bufix, hfrom);
-+@@ -373,7 +416,7 @@ ssize_t receive_packet (interface, buf,
-+ 
-+ 	/* Decode the IP and UDP headers... */
-+ 	offset = decode_udp_ip_header (interface, ibuf, bufix, from,
-+-				       (unsigned)length, &paylen);
-++				       (unsigned)length, &paylen, nocsum);
-+ 
-+ 	/* If the IP or UDP checksum was bad, skip the packet... */
-+ 	if (offset < 0)
-+diff --git a/common/nit.c b/common/nit.c
-+--- a/common/nit.c
-++++ b/common/nit.c
-+@@ -363,7 +363,7 @@ ssize_t receive_packet (interface, buf,
-+ 
-+ 	/* Decode the IP and UDP headers... */
-+ 	offset = decode_udp_ip_header (interface, ibuf, bufix,
-+-				       from, length, &paylen);
-++				       from, length, &paylen, 0);
-+ 
-+ 	/* If the IP or UDP checksum was bad, skip the packet... */
-+ 	if (offset < 0)
-+diff --git a/common/packet.c b/common/packet.c
-+--- a/common/packet.c
-++++ b/common/packet.c
-+@@ -226,7 +226,7 @@ ssize_t
-+ decode_udp_ip_header(struct interface_info *interface,
-+ 		     unsigned char *buf, unsigned bufix,
-+ 		     struct sockaddr_in *from, unsigned buflen,
-+-		     unsigned *rbuflen)
-++		     unsigned *rbuflen, int nocsum)
-+ {
-+   unsigned char *data;
-+   struct ip ip;
-+@@ -337,7 +337,7 @@ decode_udp_ip_header(struct interface_in
-+ 					   8, IPPROTO_UDP + ulen))));
-+ 
-+   udp_packets_seen++;
-+-  if (usum && usum != sum) {
-++  if (!nocsum && usum && usum != sum) {
-+ 	  udp_packets_bad_checksum++;
-+ 	  if (udp_packets_seen > 4 &&
-+ 	      (udp_packets_seen / udp_packets_bad_checksum) < 2) {
-+diff --git a/common/upf.c b/common/upf.c
-+--- a/common/upf.c
-++++ b/common/upf.c
-+@@ -314,7 +314,7 @@ ssize_t receive_packet (interface, buf,
-+ 
-+ 	/* Decode the IP and UDP headers... */
-+ 	offset = decode_udp_ip_header (interface, ibuf, bufix,
-+-				       from, length, &paylen);
-++				       from, length, &paylen, 0);
-+ 
-+ 	/* If the IP or UDP checksum was bad, skip the packet... */
-+ 	if (offset < 0)
-+diff --git a/includes/dhcpd.h b/includes/dhcpd.h
-+--- a/includes/dhcpd.h
-++++ b/includes/dhcpd.h
-+@@ -2857,7 +2857,7 @@ ssize_t decode_hw_header (struct interfa
-+ 			  unsigned, struct hardware *);
-+ ssize_t decode_udp_ip_header (struct interface_info *, unsigned char *,
-+ 			      unsigned, struct sockaddr_in *,
-+-			      unsigned, unsigned *);
-++			      unsigned, unsigned *, int);
-+ 
-+ /* ethernet.c */
-+ void assemble_ethernet_header (struct interface_info *, unsigned char *,
-+-- 
-+1.8.1.2
-+
-Index: b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
-===================================================================
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-d
-             file://fixsepbuild.patch \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-             file://replace-ifconfig-route.patch \
-+            file://dhcp-xen-checksum.patch \
-            "
- 
- SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
+Thanks,
+Ben
 
