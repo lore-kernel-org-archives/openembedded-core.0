@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
-	[209.85.216.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 56BA260034
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E9060034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 10:37:12 +0000 (UTC)
-Received: by mail-qa0-f49.google.com with SMTP id v8so19191781qal.8
+	Fri, 30 Jan 2015 11:57:56 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id m14so26716907wev.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 02:37:13 -0800 (PST)
+	Fri, 30 Jan 2015 03:57:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iyA3XRWUHfGPoTaqpq9AFT9csvACFZFk+6AxDGTa5+Y=;
-	b=XM3rEVVPRL/cg30IVCVwyydYsS8FI1UNVjO/ZlnFGvQa3FBiqxCXytlkx/oPgY+P4/
-	V5Q3IGLtGsnDNT/T8ndsZrakVTwjMT1DmNnATv6knC6KC65jO58vMnhJPHdtYcfug3Su
-	TnxgmpakrSSDcfQkT83lKqGfEKiJKrA3j1IN2K6Wh9s4U3EXAppx5if/pvGfotSibWqK
-	IbKNOxRujAeDgWiyVayP9ahrZTs+y1dqw5IBElrr+hZlY6Bi6Q16QICOPm0sMzGQBO35
-	kq8m1REScvLzKb++5d8fISgH6TBVWS3J5zcGHQVtwaE+1y/iUezhYPp0UyyZmURD1+jJ
-	kALQ==
-X-Gm-Message-State: ALoCoQnvJTV4qF610jC+J61kCG5bxsAjJxlHr6Phf7axcW/AR7pNTQ3w52BwA8Q7X/NPuLdlU56N
-X-Received: by 10.224.7.197 with SMTP id e5mr11092359qae.64.1422614233405;
-	Fri, 30 Jan 2015 02:37:13 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Fri, 30 Jan 2015 02:36:52 -0800 (PST)
-In-Reply-To: <1422610395-2581-1-git-send-email-pengyu.ma@windriver.com>
-References: <1422610395-2581-1-git-send-email-pengyu.ma@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 30 Jan 2015 10:36:52 +0000
-Message-ID: <CAJTo0Lbf8OJ5R_JSymiYY8=q+xyM-+5fEzmCfwVoPoh7+=cyPQ@mail.gmail.com>
-To: Pengyu Ma <pengyu.ma@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade to 10.4.3
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=k2J2pdA2NmkUH9guqx0vDBin94Gi18xiEQwAlCgCF9o=;
+	b=A3xMfxAqDlQi68SVs39fJ20pmkWzsS00ORymr0w8pF95sLltif8BataRh0ZSQaQnVz
+	HJs/JQa15NWo8XtqXLWJ50M8q9/W5mTH+t/shNr9jYTQvAxL0K0dqphLgnOWQ8NgNOLL
+	mFJgKHdiiTesvi161qUjSEBHApnLVSiddK5UYcjJKJCcSQwIMkj1MvRPaoBuRGUizzUB
+	zjHFC3WOVZh/LNyxO62YzyhDeqXUx/jqEVEl2mG56zSvehTkuYYY9vHi3aF/ZEf/turr
+	KOqsWkY/UWauAqCwxE+4yBFrwHCTsDrU6u2Vg8KpONyrI5IzVV+NhllofhgP06wLJ5D8
+	+79A==
+X-Gm-Message-State: ALoCoQkeGc+eERKhY9tjLqg1+ZroPt0eQs7v05rIH7/ZvO4jppQiOCZ1yKbWaBG2C9VNq1YUm4FY
+X-Received: by 10.194.3.40 with SMTP id 8mr5646783wjz.98.1422619077446;
+	Fri, 30 Jan 2015 03:57:57 -0800 (PST)
+Received: from draco.icx.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id
+	gm10sm6591346wib.19.2015.01.30.03.57.56
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 30 Jan 2015 03:57:56 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jan 2015 11:57:45 +0000
+Message-Id: <1422619065-28018-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1422613494.25715.1.camel@linuxfoundation.org>
+References: <1422613494.25715.1.camel@linuxfoundation.org>
+Subject: [PATCH] report-error: Catch un-readable log data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 10:37:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c223f408f0a0050ddc30d3
+X-List-Received-Date: Fri, 30 Jan 2015 11:58:04 -0000
 
---001a11c223f408f0a0050ddc30d3
-Content-Type: text/plain; charset=UTF-8
+If a log data cannot be decoded to utf-8 or read then handle this
+gracefully. This can happen if a log file contains binary or something
+goes wrong with the file read process.
 
-Hi,
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/classes/report-error.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-This results in the following warnings:
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 8b30422..750042b 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -48,7 +48,11 @@ python errorreport_handler () {
+             taskdata['task'] = task
+             if log:
+                 logFile = open(log, 'r')
+-                taskdata['log'] = logFile.read()
++                try:
++                    taskdata['log'] = logFile.read().decode('utf-8')
++                except:
++                    taskdata['log'] = "Unable to read log file"
++
+                 logFile.close()
+             else:
+                 taskdata['log'] = "No Log"
+-- 
+2.1.0
 
-WARNING: QA Issue: mesa: configure was passed unrecognised options:
---disable-gallium-egl --disable-gallium-gbm [unknown-configure-option]
 
-Presumably they changed the configure options, so can you verify all of
-these please.
-
-Ross
-
---001a11c223f408f0a0050ddc30d3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">This results in the following war=
-nings:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->WARNING: QA Issue: mesa: configure was passed unrecognised options: --disa=
-ble-gallium-egl --disable-gallium-gbm [unknown-configure-option]<br></div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Presumably t=
-hey changed the configure options, so can you verify all of these please.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
-
---001a11c223f408f0a0050ddc30d3--
