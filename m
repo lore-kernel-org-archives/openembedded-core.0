@@ -1,28 +1,28 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A293761486
+	by mail.openembedded.org (Postfix) with ESMTP id 4C1A361486
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 01:17:51 +0000 (UTC)
+	Fri, 30 Jan 2015 01:18:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0U1HpxB028089
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0U1IX9G028101
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Jan 2015 17:17:52 -0800 (PST)
+	Thu, 29 Jan 2015 17:18:33 -0800 (PST)
 Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 29 Jan 2015 17:17:51 -0800
-Message-ID: <54CADBBC.20905@windriver.com>
-Date: Fri, 30 Jan 2015 09:17:48 +0800
+	Thu, 29 Jan 2015 17:18:33 -0800
+Message-ID: <54CADBE6.2030201@windriver.com>
+Date: Fri, 30 Jan 2015 09:18:30 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1422237365-25379-1-git-send-email-Chong.Lu@windriver.com>
-In-Reply-To: <1422237365-25379-1-git-send-email-Chong.Lu@windriver.com>
+References: <1421918914-28508-1-git-send-email-Chong.Lu@windriver.com>
+In-Reply-To: <1421918914-28508-1-git-send-email-Chong.Lu@windriver.com>
 X-Originating-IP: [128.224.162.204]
-Subject: Re: [dizzy][PATCH] file: CVE-2014-9620 and CVE-2014-9621
+Subject: Re: [daisy][PATCH] file: CVE-2014-9620 and CVE-2014-9621
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 01:17:59 -0000
+X-List-Received-Date: Fri, 30 Jan 2015 01:18:32 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -43,7 +43,7 @@ ping
 
 //Chong
 
-On 01/26/2015 09:56 AM, Chong Lu wrote:
+On 01/22/2015 05:28 PM, Chong Lu wrote:
 > CVE-2014-9620:
 > Limit the number of ELF notes processed - DoS
 > CVE-2014-9621:
@@ -64,23 +64,18 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 >
 > Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > ---
->   .../file-CVE-2014-9620-and-CVE-2014-9621.patch     | 1414 ++++++++++++++++++++
->   meta/recipes-devtools/file/file_5.18.bb            |    1 +
->   2 files changed, 1415 insertions(+)
+>   .../file-CVE-2014-9620-and-CVE-2014-9621.patch     | 1357 ++++++++++++++++++++
+>   meta/recipes-devtools/file/file_5.16.bb            |    1 +
+>   2 files changed, 1358 insertions(+)
 >   create mode 100644 meta/recipes-devtools/file/file/file-CVE-2014-9620-and-CVE-2014-9621.patch
 >
 > diff --git a/meta/recipes-devtools/file/file/file-CVE-2014-9620-and-CVE-2014-9621.patch b/meta/recipes-devtools/file/file/file-CVE-2014-9620-and-CVE-2014-9621.patch
 > new file mode 100644
-> index 0000000..2482de3
+> index 0000000..bd5944e
 > --- /dev/null
 > +++ b/meta/recipes-devtools/file/file/file-CVE-2014-9620-and-CVE-2014-9621.patch
-> @@ -0,0 +1,1414 @@
+> @@ -0,0 +1,1357 @@
 > +file: CVE-2014-9620 and CVE-2014-9621
-> +
-> +CVE-2014-9620:
-> +Limit the number of ELF notes processed - DoS
-> +CVE-2014-9621:
-> +Limit string printing to 100 chars - DoS
 > +
 > +The patch comes from:
 > +https://github.com/file/file/commit/6ce24f35cd4a43c4bdd249e8e0c4952c1f8eac67
@@ -97,25 +92,25 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +
 > +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > +---
-> + src/apprentice.c |   5 +
-> + src/ascmagic.c   |   3 +-
-> + src/elfclass.h   |  34 ++--
-> + src/file.c       |  59 ++++++-
-> + src/file.h       |  20 ++-
-> + src/file_opts.h  |   6 +
-> + src/funcs.c      |  42 ++++-
-> + src/magic.c      |  50 ++++++
-> + src/magic.h      |   9 ++
-> + src/magic.h.in   |   9 ++
-> + src/readelf.c    | 471 +++++++++++++++++++++++++++++++++----------------------
-> + src/softmagic.c  |  93 ++++++-----
-> + 12 files changed, 566 insertions(+), 235 deletions(-)
+> + src/apprentice.c |    5 +
+> + src/ascmagic.c   |    3 +-
+> + src/elfclass.h   |   34 ++--
+> + src/file.c       |   58 ++++++-
+> + src/file.h       |   20 ++-
+> + src/file_opts.h  |    6 +
+> + src/funcs.c      |   42 ++++-
+> + src/magic.c      |   50 ++++++
+> + src/magic.h      |    9 ++
+> + src/magic.h.in   |    4 +
+> + src/readelf.c    |  467 +++++++++++++++++++++++++++++++++---------------------
+> + src/softmagic.c  |   70 ++++----
+> + 12 files changed, 541 insertions(+), 227 deletions(-)
 > +
 > +diff --git a/src/apprentice.c b/src/apprentice.c
-> +index 7400c57..231dc7e 100644
+> +index 2df60d9..d906f7b 100644
 > +--- a/src/apprentice.c
 > ++++ b/src/apprentice.c
-> +@@ -506,6 +506,11 @@ file_ms_alloc(int flags)
+> +@@ -494,6 +494,11 @@ file_ms_alloc(int flags)
 > + 		ms->mlist[i] = NULL;
 > + 	ms->file = "unknown";
 > + 	ms->line = 0;
@@ -128,14 +123,14 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + free:
 > + 	free(ms);
 > +diff --git a/src/ascmagic.c b/src/ascmagic.c
-> +index ca26665..0a4cd10 100644
+> +index 28ebadc..7a22328 100644
 > +--- a/src/ascmagic.c
 > ++++ b/src/ascmagic.c
 > +@@ -147,7 +147,8 @@ file_ascmagic_with_encoding(struct magic_set *ms, const unsigned char *buf,
 > + 		    == NULL)
 > + 			goto done;
 > + 		if ((rv = file_softmagic(ms, utf8_buf,
-> +-		    (size_t)(utf8_end - utf8_buf), 0, TEXTTEST, text)) == 0)
+> +-		    (size_t)(utf8_end - utf8_buf), TEXTTEST, text)) == 0)
 > ++		    (size_t)(utf8_end - utf8_buf), 0, NULL,
 > ++		    TEXTTEST, text)) == 0)
 > + 			rv = -1;
@@ -209,15 +204,15 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > ++		return toomany(ms, "notes", ms->elf_notes_max);
 > + 	return 1;
 > +diff --git a/src/file.c b/src/file.c
-> +index 370da91..b69b725 100644
+> +index ac773ea..ee1edcd 100644
 > +--- a/src/file.c
 > ++++ b/src/file.c
 > +@@ -101,7 +101,7 @@ private const struct option long_options[] = {
 > + #undef OPT_LONGONLY
 > +     {0, 0, NULL, 0}
 > + };
-> +-#define OPTSTRING	"bcCde:Ef:F:hiklLm:nNprsvz0"
-> ++#define OPTSTRING	"bcCde:Ef:F:hiklLm:nNpP:rsvz0"
+> +-#define OPTSTRING	"bcCde:f:F:hiklLm:nNprsvz0"
+> ++#define OPTSTRING	"bcCde:f:F:hiklLm:nNpP:rsvz0"
 > +
 > + private const struct {
 > + 	const char *name;
@@ -249,7 +244,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +
 > +
 > + /*
-> +@@ -243,9 +257,13 @@ main(int argc, char *argv[])
+> +@@ -240,6 +254,9 @@ main(int argc, char *argv[])
 > + 			flags |= MAGIC_PRESERVE_ATIME;
 > + 			break;
 > + #endif
@@ -259,11 +254,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		case 'r':
 > + 			flags |= MAGIC_RAW;
 > + 			break;
-> ++			break;
-> + 		case 's':
-> + 			flags |= MAGIC_DEVICES;
-> + 			break;
-> +@@ -298,6 +316,8 @@ main(int argc, char *argv[])
+> +@@ -295,6 +312,8 @@ main(int argc, char *argv[])
 > + 			    strerror(errno));
 > + 			return 1;
 > + 		}
@@ -272,7 +263,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		switch(action) {
 > + 		case FILE_CHECK:
 > + 			c = magic_check(magic, magicfile);
-> +@@ -321,7 +341,7 @@ main(int argc, char *argv[])
+> +@@ -318,7 +337,7 @@ main(int argc, char *argv[])
 > + 		if (magic == NULL)
 > + 			if ((magic = load(magicfile, flags)) == NULL)
 > + 				return 1;
@@ -281,7 +272,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 	}
 > +
 > + 	if (optind == argc) {
-> +@@ -351,6 +371,41 @@ main(int argc, char *argv[])
+> +@@ -348,6 +367,41 @@ main(int argc, char *argv[])
 > + 	return e;
 > + }
 > +
@@ -324,7 +315,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + private struct magic_set *
 > + /*ARGSUSED*/
 > +diff --git a/src/file.h b/src/file.h
-> +index 5c67ddd..88da1d1 100644
+> +index e910a2b..57e7307 100644
 > +--- a/src/file.h
 > ++++ b/src/file.h
 > +@@ -400,6 +400,16 @@ struct magic_set {
@@ -344,16 +335,16 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + };
 > +
 > + /* Type for Unicode characters */
-> +@@ -439,7 +449,7 @@ protected int file_encoding(struct magic_set *, const unsigned char *, size_t,
+> +@@ -438,7 +448,7 @@ protected int file_encoding(struct magic_set *, const unsigned char *, size_t,
 > +     unichar **, size_t *, const char **, const char **, const char **);
 > + protected int file_is_tar(struct magic_set *, const unsigned char *, size_t);
 > + protected int file_softmagic(struct magic_set *, const unsigned char *, size_t,
-> +-    size_t, int, int);
+> +-    int, int);
 > ++    uint16_t, uint16_t *, int, int);
 > + protected int file_apprentice(struct magic_set *, const char *, int);
 > + protected int file_magicfind(struct magic_set *, const char *, struct mlist *);
 > + protected uint64_t file_signextend(struct magic_set *, struct magic *,
-> +@@ -469,6 +479,14 @@ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
+> +@@ -468,6 +478,14 @@ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
 > + #endif /* __EMX__ */
 > +
 > +
@@ -386,21 +377,21 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + OPT('s', "special-files", 0, "        treat special (block/char devices) files as\n"
 > +     "                             ordinary ones\n")
 > +diff --git a/src/funcs.c b/src/funcs.c
-> +index a9624a2..c3cf2be 100644
+> +index b798e44..50c38e5 100644
 > +--- a/src/funcs.c
 > ++++ b/src/funcs.c
-> +@@ -230,7 +230,7 @@ file_buffer(struct magic_set *ms, int fd, const char *inname __attribute__ ((unu
+> +@@ -226,7 +226,7 @@ file_buffer(struct magic_set *ms, int fd, const char *inname __attribute__ ((unu
 > +
 > + 	/* try soft magic tests */
 > + 	if ((ms->flags & MAGIC_NO_CHECK_SOFT) == 0)
-> +-		if ((m = file_softmagic(ms, ubuf, nb, 0, BINTEST,
+> +-		if ((m = file_softmagic(ms, ubuf, nb, BINTEST,
 > ++		if ((m = file_softmagic(ms, ubuf, nb, 0, NULL, BINTEST,
 > + 		    looks_text)) != 0) {
 > + 			if ((ms->flags & MAGIC_DEBUG) != 0)
 > + 				(void)fprintf(stderr, "softmagic %d\n", m);
-> +@@ -459,3 +459,43 @@ out:
-> + 	free(old_lc_ctype);
-> + 	return rv;
+> +@@ -459,3 +459,43 @@ file_replace(struct magic_set *ms, const char *pat, const char *rep)
+> + 		return nm;
+> + 	}
 > + }
 > ++
 > ++protected file_pushbuf_t *
@@ -501,29 +492,9 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > ++	}
 > ++}
 > +diff --git a/src/magic.h b/src/magic.h
-> +index 535a177..89bfe4b 100644
+> +index cc8ed68..2938a20 100644
 > +--- a/src/magic.h
 > ++++ b/src/magic.h
-> +@@ -101,6 +101,15 @@ int magic_check(magic_t, const char *);
-> + int magic_list(magic_t, const char *);
-> + int magic_errno(magic_t);
-> +
-> ++#define MAGIC_PARAM_INDIR_MAX          0
-> ++#define MAGIC_PARAM_NAME_MAX           1
-> ++#define MAGIC_PARAM_ELF_PHNUM_MAX      2
-> ++#define MAGIC_PARAM_ELF_SHNUM_MAX      3
-> ++#define MAGIC_PARAM_ELF_NOTES_MAX      4
-> ++
-> ++int magic_setparam(magic_t, int, const void *);
-> ++int magic_getparam(magic_t, int, void *);
-> ++
-> + #ifdef __cplusplus
-> + };
-> + #endif
-> +diff --git a/src/magic.h.in b/src/magic.h.in
-> +index 86fc41b..2efc7bc 100644
-> +--- a/src/magic.h.in
-> ++++ b/src/magic.h.in
 > +@@ -101,6 +101,15 @@ int magic_check(magic_t, const char *);
 > + int magic_list(magic_t, const char *);
 > + int magic_errno(magic_t);
@@ -540,11 +511,26 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + #ifdef __cplusplus
 > + };
 > + #endif
+> +diff --git a/src/magic.h.in b/src/magic.h.in
+> +index 86fc41b..a256cf0 100644
+> +--- a/src/magic.h.in
+> ++++ b/src/magic.h.in
+> +@@ -101,6 +101,10 @@ int magic_check(magic_t, const char *);
+> + int magic_list(magic_t, const char *);
+> + int magic_errno(magic_t);
+> +
+> ++#define MAGIC_PARAM_MAX_RECURSION	0
+> ++int magic_setparam(magic_t, int, const void *);
+> ++int magic_getparam(magic_t, int, void *);
+> ++
+> + #ifdef __cplusplus
+> + };
+> + #endif
 > +diff --git a/src/readelf.c b/src/readelf.c
-> +index cbed129..87df727 100644
+> +index f8b8bbc..a7b2ba4 100644
 > +--- a/src/readelf.c
 > ++++ b/src/readelf.c
-> +@@ -43,14 +43,14 @@ FILE_RCSID("@(#)$File: readelf.c,v 1.102 2014/03/11 21:00:13 christos Exp $")
+> +@@ -43,14 +43,14 @@ FILE_RCSID("@(#)$File: readelf.c,v 1.99 2013/11/05 15:44:01 christos Exp $")
 > +
 > + #ifdef	ELFCORE
 > + private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t,
@@ -634,7 +620,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			if (offset == 0)
 > + 				break;
 > +
-> +@@ -464,125 +481,128 @@ do_note_freebsd_version(struct magic_set *ms, int swap, void *v)
+> +@@ -464,125 +481,127 @@ do_note_freebsd_version(struct magic_set *ms, int swap, void *v)
 > + 	}
 > + }
 > +
@@ -833,20 +819,19 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 	}
 > ++	return 0;
 > ++}
-> ++
+> +
 > ++private int
 > ++do_pax_note(struct magic_set *ms, unsigned char *nbuf, uint32_t type,
 > ++    int swap, uint32_t namesz, uint32_t descsz,
 > ++    size_t noff, size_t doff, int *flags)
 > ++{
-> +
 > + 	if (namesz == 4 && strcmp((char *)&nbuf[noff], "PaX") == 0 &&
 > +-	    xnh_type == NT_NETBSD_PAX && descsz == 4) {
 > ++	    type == NT_NETBSD_PAX && descsz == 4) {
 > + 		static const char *pax[] = {
 > + 		    "+mprotect",
 > + 		    "-mprotect",
-> +@@ -595,80 +615,32 @@ donote(struct magic_set *ms, void *vbuf, size_t offset, size_t size,
+> +@@ -595,80 +614,32 @@ donote(struct magic_set *ms, void *vbuf, size_t offset, size_t size,
 > + 		size_t i;
 > + 		int did = 0;
 > +
@@ -899,7 +884,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +-			do_note_freebsd_version(ms, swap, &nbuf[doff]);
 > +-			*flags |= FLAGS_DID_NOTE;
 > +-			return size;
-> ++				return 1;
+> ++			return 1;
 > + 		}
 > ++		return 1;
 > + 	}
@@ -940,7 +925,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 	/*
 > + 	 * Sigh.  The 2.0.36 kernel in Debian 2.1, at
 > + 	 * least, doesn't correctly implement name
-> +@@ -697,20 +669,17 @@ core:
+> +@@ -697,20 +668,17 @@ core:
 > + 		os_style = OS_STYLE_NETBSD;
 > + 	}
 > +
@@ -964,7 +949,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			uint32_t signo;
 > + 			/*
 > + 			 * Extract the program name.  It is at
-> +@@ -719,7 +688,7 @@ core:
+> +@@ -719,7 +687,7 @@ core:
 > + 			 */
 > + 			if (file_printf(ms, ", from '%.31s'",
 > + 			    &nbuf[doff + 0x7c]) == -1)
@@ -973,25 +958,17 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			
 > + 			/*
 > + 			 * Extract the signal number.  It is at
-> +@@ -729,14 +698,14 @@ core:
-> + 			    sizeof(signo));
-> + 			if (file_printf(ms, " (signal %u)",
-> + 			    elf_getu32(swap, signo)) == -1)
-> +-				return size;
-> ++				return 1;
-> + 			*flags |= FLAGS_DID_CORE;
-> +-			return size;
-> ++			return 1;
-> + 		}
+> +@@ -736,8 +704,7 @@ core:
 > + 		break;
 > +
 > + 	default:
 > +-		if (xnh_type == NT_PRPSINFO && *flags & FLAGS_IS_CORE) {
+> +-/*###709 [cc] warning: declaration of 'i' shadows previous non-variable%%%*/
 > ++		if (type == NT_PRPSINFO && *flags & FLAGS_IS_CORE) {
 > + 			size_t i, j;
 > + 			unsigned char c;
 > + 			/*
-> +@@ -804,7 +773,7 @@ core:
+> +@@ -805,7 +772,7 @@ core:
 > + 				 * Try next offsets, in case this match is
 > + 				 * in the middle of a string.
 > + 				 */
@@ -1000,7 +977,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 					size_t no;
 > + 					int adjust = 1;
 > + 					if (prpsoffsets(k) >= prpsoffsets(i))
-> +@@ -829,9 +798,9 @@ core:
+> +@@ -830,9 +797,9 @@ core:
 > + 					cp--;
 > + 				if (file_printf(ms, ", from '%.*s'",
 > + 				    (int)(cp - cname), cname) == -1)
@@ -1012,7 +989,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +
 > + 			tryanother:
 > + 				;
-> +@@ -840,6 +809,129 @@ core:
+> +@@ -841,6 +808,129 @@ core:
 > + 		break;
 > + 	}
 > + #endif
@@ -1142,7 +1119,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 	return offset;
 > + }
 > +
-> +@@ -895,16 +987,19 @@ static const cap_desc_t cap_desc_386[] = {
+> +@@ -896,16 +986,19 @@ static const cap_desc_t cap_desc_386[] = {
 > +
 > + private int
 > + doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
@@ -1163,7 +1140,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +
 > + 	if (size != xsh_sizeof) {
 > + 		if (file_printf(ms, ", corrupted section header size") == -1)
-> +@@ -913,7 +1008,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -914,7 +1007,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 	}
 > +
 > + 	/* Read offset of name section to be able to read section names later */
@@ -1172,7 +1149,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		file_badread(ms);
 > + 		return -1;
 > + 	}
-> +@@ -921,15 +1016,15 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -922,15 +1015,15 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > +
 > + 	for ( ; num; num--) {
 > + 		/* Read the name of this section. */
@@ -1191,7 +1168,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			file_badread(ms);
 > + 			return -1;
 > + 		}
-> +@@ -944,7 +1039,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -945,7 +1038,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 			stripped = 0;
 > + 			break;
 > + 		default:
@@ -1200,7 +1177,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 				/* Perhaps warn here */
 > + 				continue;
 > + 			}
-> +@@ -959,7 +1054,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -960,7 +1053,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 				    " for note");
 > + 				return -1;
 > + 			}
@@ -1209,7 +1186,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 				file_badread(ms);
 > + 				free(nbuf);
 > + 				return -1;
-> +@@ -970,7 +1065,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -971,7 +1064,7 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 				if (noff >= (off_t)xsh_size)
 > + 					break;
 > + 				noff = donote(ms, nbuf, (size_t)noff,
@@ -1218,7 +1195,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 				if (noff == 0)
 > + 					break;
 > + 			}
-> +@@ -988,6 +1083,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -989,6 +1082,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 				goto skip;
 > + 			}
 > +
@@ -1227,7 +1204,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			if (lseek(fd, xsh_offset, SEEK_SET) == (off_t)-1) {
 > + 				file_badseek(ms);
 > + 				return -1;
-> +@@ -1023,6 +1120,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -1024,6 +1119,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > + 					    (unsigned long long)xcap_tag,
 > + 					    (unsigned long long)xcap_val) == -1)
 > + 						return -1;
@@ -1236,7 +1213,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 					break;
 > + 				}
 > + 			}
-> +@@ -1103,7 +1202,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
+> +@@ -1104,7 +1201,8 @@ doshn(struct magic_set *ms, int clazz, int swap, int fd, off_t off, int num,
 > +  */
 > + private int
 > + dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
@@ -1246,7 +1223,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + {
 > + 	Elf32_Phdr ph32;
 > + 	Elf64_Phdr ph64;
-> +@@ -1120,7 +1220,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
+> +@@ -1121,7 +1219,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
 > + 	}
 > +
 > +   	for ( ; num; num--) {
@@ -1255,7 +1232,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			file_badread(ms);
 > + 			return -1;
 > + 		}
-> +@@ -1136,7 +1236,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
+> +@@ -1137,7 +1235,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
 > + 			shared_libraries = " (uses shared libs)";
 > + 			break;
 > + 		default:
@@ -1264,7 +1241,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 				/* Maybe warn here? */
 > + 				continue;
 > + 			}
-> +@@ -1172,7 +1272,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
+> +@@ -1173,7 +1271,7 @@ dophn_exec(struct magic_set *ms, int clazz, int swap, int fd, off_t off,
 > + 					break;
 > + 				offset = donote(ms, nbuf, offset,
 > + 				    (size_t)bufsize, clazz, swap, align,
@@ -1273,7 +1250,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 				if (offset == 0)
 > + 					break;
 > + 			}
-> +@@ -1203,7 +1303,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
+> +@@ -1204,7 +1302,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 > + 	int flags = 0;
 > + 	Elf32_Ehdr elf32hdr;
 > + 	Elf64_Ehdr elf64hdr;
@@ -1282,7 +1259,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > +
 > + 	if (ms->flags & (MAGIC_MIME|MAGIC_APPLE))
 > + 		return 0;
-> +@@ -1229,7 +1329,10 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
+> +@@ -1230,7 +1328,10 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 > +   		file_badread(ms);
 > + 		return -1;
 > + 	}
@@ -1295,10 +1272,10 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 	clazz = buf[EI_CLASS];
 > +
 > +diff --git a/src/softmagic.c b/src/softmagic.c
-> +index eaa0f6b..9b11b93 100644
+> +index dc7928b..b1f5779 100644
 > +--- a/src/softmagic.c
 > ++++ b/src/softmagic.c
-> +@@ -48,11 +48,11 @@ FILE_RCSID("@(#)$File: softmagic.c,v 1.180 2014/03/15 21:47:40 christos Exp $")
+> +@@ -43,11 +43,11 @@ FILE_RCSID("@(#)$File: softmagic.c,v 1.168 2013/05/30 15:53:33 christos Exp $")
 > +
 > +
 > + private int match(struct magic_set *, struct magic *, uint32_t,
@@ -1314,19 +1291,11 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + private int magiccheck(struct magic_set *, struct magic *);
 > + private int32_t mprint(struct magic_set *, struct magic *);
 > + private int32_t moffset(struct magic_set *, struct magic *);
-> +@@ -68,6 +68,7 @@ private void cvt_32(union VALUETYPE *, const struct magic *);
-> + private void cvt_64(union VALUETYPE *, const struct magic *);
-> +
-> + #define OFFSET_OOB(n, o, i)	((n) < (o) || (i) > ((n) - (o)))
-> ++
-> + /*
-> +  * softmagic - lookup one file in parsed, in-memory copy of database
-> +  * Passed the name and FILE * of one file to be typed.
-> +@@ -75,14 +76,20 @@ private void cvt_64(union VALUETYPE *, const struct magic *);
+> +@@ -69,14 +69,20 @@ private void cvt_64(union VALUETYPE *, const struct magic *);
 > + /*ARGSUSED1*/		/* nbytes passed for regularity, maybe need later */
 > + protected int
 > + file_softmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes,
-> +-    size_t level, int mode, int text)
+> +-    int mode, int text)
 > ++    uint16_t indir_level, uint16_t *name_count, int mode, int text)
 > + {
 > + 	struct mlist *ml;
@@ -1339,14 +1308,14 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > ++	}
 > + 	for (ml = ms->mlist[0]->next; ml != ms->mlist[0]; ml = ml->next)
 > + 		if ((rv = match(ms, ml->magic, ml->nmagic, buf, nbytes, 0, mode,
-> +-		    text, 0, level, &printed_something, &need_separator,
+> +-		    text, 0, 0, &printed_something, &need_separator,
 > +-		    NULL)) != 0)
 > ++		    text, 0, indir_level, name_count,
 > ++		    &printed_something, &need_separator, NULL)) != 0)
 > + 			return rv;
 > +
 > + 	return 0;
-> +@@ -118,8 +125,8 @@ file_softmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes,
+> +@@ -112,8 +118,8 @@ file_softmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes,
 > + private int
 > + match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 > +     const unsigned char *s, size_t nbytes, size_t offset, int mode, int text,
@@ -1357,7 +1326,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + {
 > + 	uint32_t magindex = 0;
 > + 	unsigned int cont_level = 0;
-> +@@ -156,8 +163,8 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
+> +@@ -150,8 +156,8 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 > +
 > + 		/* if main entry matches, print it... */
 > + 		switch (mget(ms, s, m, nbytes, offset, cont_level, mode, text,
@@ -1368,7 +1337,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		case -1:
 > + 			return -1;
 > + 		case 0:
-> +@@ -245,8 +252,8 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
+> +@@ -237,8 +243,8 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 > + 			}
 > + #endif
 > + 			switch (mget(ms, s, m, nbytes, offset, cont_level, mode,
@@ -1379,7 +1348,7 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 			case -1:
 > + 				return -1;
 > + 			case 0:
-> +@@ -1155,18 +1162,26 @@ mcopy(struct magic_set *ms, union VALUETYPE *p, int type, int indir,
+> +@@ -1120,8 +1126,8 @@ mcopy(struct magic_set *ms, union VALUETYPE *p, int type, int indir,
 > + private int
 > + mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
 > +     size_t nbytes, size_t o, unsigned int cont_level, int mode, int text,
@@ -1388,13 +1357,9 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > ++    int flip, uint16_t indir_level, uint16_t *name_count,
 > ++    int *printed_something, int *need_separator, int *returnval)
 > + {
-> +-	uint32_t soffset, offset = ms->offset;
-> ++	uint32_t offset = ms->offset;
+> + 	uint32_t soffset, offset = ms->offset;
 > + 	uint32_t count = m->str_range;
-> ++	file_pushbuf_t *pb;
-> + 	int rv, oneed_separator, in_type;
-> +-	char *sbuf, *rbuf;
-> ++	char *rbuf;
+> +@@ -1130,8 +1136,15 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
 > + 	union VALUETYPE *p = &ms->ms_value;
 > + 	struct mlist ml;
 > +
@@ -1412,50 +1377,28 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		return -1;
 > + 	}
 > +
-> +@@ -1678,6 +1693,10 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
-> + 		ms->offset = offset;
+> +@@ -1141,8 +1154,9 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
 > +
-> + 		if ((ms->flags & MAGIC_DEBUG) != 0) {
-> ++ 			fprintf(stderr, "mget(type=%d, flag=%x, offset=%u, o=%zu, "
-> ++			"nbytes=%zu, il=%hu, nc=%hu)\n",
-> ++			m->type, m->flag, offset, o, nbytes,
-> ++			indir_level, *name_count);
-> + 			mdebug(offset, (char *)(void *)p,
-> + 			    sizeof(union VALUETYPE));
+> + 	if ((ms->flags & MAGIC_DEBUG) != 0) {
+> + 		fprintf(stderr, "mget(type=%d, flag=%x, offset=%u, o=%zu, "
+> +-		    "nbytes=%zu, count=%u)\n", m->type, m->flag, offset, o,
+> +-		    nbytes, count);
+> ++		    "nbytes=%zu, il=%hu, nc=%hu)\n",
+> ++		    m->type, m->flag, offset, o, nbytes,
+> ++		    indir_level, *name_count);
+> + 		mdebug(offset, (char *)(void *)p, sizeof(union VALUETYPE));
 > + #ifndef COMPILE_ONLY
-> +@@ -1741,19 +1760,23 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
-> + 	case FILE_INDIRECT:
-> + 		if (offset == 0)
-> + 			return 0;
-> ++
-> + 		if (nbytes < offset)
-> + 			return 0;
-> +-		sbuf = ms->o.buf;
-> +-		soffset = ms->offset;
-> +-		ms->o.buf = NULL;
-> +-		ms->offset = 0;
-> ++
-> ++		if ((pb = file_push_buffer(ms)) == NULL)
-> ++			return -1;
-> ++
+> + 		file_mdump(m);
+> +@@ -1711,7 +1725,7 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
+> + 		ms->o.buf = NULL;
+> + 		ms->offset = 0;
 > + 		rv = file_softmagic(ms, s + offset, nbytes - offset,
-> +-		    recursion_level, BINTEST, text);
+> +-		    BINTEST, text);
 > ++		    indir_level + 1, name_count, BINTEST, text);
-> ++
 > + 		if ((ms->flags & MAGIC_DEBUG) != 0)
 > + 			fprintf(stderr, "indirect @offs=%u[%d]\n", offset, rv);
-> +-		rbuf = ms->o.buf;
-> +-		ms->o.buf = sbuf;
-> +-		ms->offset = soffset;
-> ++
-> ++		rbuf = file_pop_buffer(ms, pb);
-> ++		if (rbuf == NULL && ms->event_flags & EVENT_HAD_ERR)
-> ++			return -1;
-> ++
-> + 		if (rv == 1) {
-> + 			if ((ms->flags & (MAGIC_MIME|MAGIC_APPLE)) == 0 &&
-> + 			    file_printf(ms, F(m->desc, "%u"), offset) == -1) {
-> +@@ -1771,22 +1794,22 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
+> + 		rbuf = ms->o.buf;
+> +@@ -1730,22 +1744,22 @@ mget(struct magic_set *ms, const unsigned char *s, struct magic *m,
 > + 	case FILE_USE:
 > + 		if (nbytes < offset)
 > + 			return 0;
@@ -1487,19 +1430,19 @@ On 01/26/2015 09:56 AM, Chong Lu wrote:
 > + 		    *need_separator = oneed_separator;
 > + 		return rv;
 > +--
-> +1.9.1
+> +1.7.9.5
 > +
-> diff --git a/meta/recipes-devtools/file/file_5.18.bb b/meta/recipes-devtools/file/file_5.18.bb
-> index 9068b93..d6e7d61 100644
-> --- a/meta/recipes-devtools/file/file_5.18.bb
-> +++ b/meta/recipes-devtools/file/file_5.18.bb
-> @@ -13,6 +13,7 @@ DEPENDS_class-native = "zlib-native"
+> diff --git a/meta/recipes-devtools/file/file_5.16.bb b/meta/recipes-devtools/file/file_5.16.bb
+> index a15d952..f231a55 100644
+> --- a/meta/recipes-devtools/file/file_5.16.bb
+> +++ b/meta/recipes-devtools/file/file_5.16.bb
+> @@ -12,6 +12,7 @@ DEPENDS = "zlib file-native"
+>   DEPENDS_class-native = "zlib-native"
 >   
 >   SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
->              file://debian-742262.patch \
 > +           file://file-CVE-2014-9620-and-CVE-2014-9621.patch \
->             "
+>              file://dump \
+>              file://filesystems"
 >   
->   SRC_URI[md5sum] = "d420d8f2990cd344673acfbf8d76ff5a"
 
 
