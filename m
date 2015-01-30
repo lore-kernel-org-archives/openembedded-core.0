@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AF4606BF
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id EC6D66AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 15:09:42 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id n8so20310214qaq.6
+	Fri, 30 Jan 2015 17:31:28 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id k48so28396956wev.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 07:09:43 -0800 (PST)
+	Fri, 30 Jan 2015 09:31:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vxPmy+wBqYdlIybYHnu4WTfFD6M9HAOvNvnjcYy13EQ=;
-	b=X1bBxodF5t7CF9M6KW8Ss8Yt95CyAttmGzavOaav2wOl6oyafft5UHlz8YYgIn0b2M
-	OqStjDJlAi8/vAraRz00Zj1IE/JUngHARvn8BUyAgOLGiqk2xevM6vbmMHuW3MgHXOQ4
-	qj5oybNR/lFcMkAetE7LB9i3OONeoDm9Cl4g1zK/36a1chwgxrhK7XApJOUdnYH00Shk
-	37JLNR+PZr+XWuAIEh2pKVrcehe9Oi3L8oSW0RGddUshnjnK7GBut9/H1/nec7vhfsSK
-	fwd/lqselchmz/0H77WX9Ts6gbfDslJXiTiTxcc6Gt38O10lPZtO/VvRsP6HFOKswWKW
-	pVzA==
-X-Gm-Message-State: ALoCoQk1JAgNa1ctbEtKrrdPssIpkDr+6sTgH8ucn4qottJ7gP6xE2Yn+jxDFi4MR3VtAJpqUnkd
-X-Received: by 10.229.48.132 with SMTP id r4mr13175500qcf.5.1422630583500;
-	Fri, 30 Jan 2015 07:09:43 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Fri, 30 Jan 2015 07:09:23 -0800 (PST)
-In-Reply-To: <345DD4F0215D4B4CB8356943BA192C9913E976EE@kihagwinex02.int.kistler.com>
-References: <345DD4F0215D4B4CB8356943BA192C9913E976EE@kihagwinex02.int.kistler.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 30 Jan 2015 15:09:23 +0000
-Message-ID: <CAJTo0LYD0B91NSZ=NC=ZKemczYkkKKQvjnvsmfKqT0tz4C28zQ@mail.gmail.com>
-To: Markus Boos <Markus.Boos@kistler.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: run ptest for specific packages or layers
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hsMfKZgzkgCxtZoAXX4QGEwdeWinSEyvdLRpdGE6syQ=;
+	b=BB3yoUwAjXPGrqYPtjvJ0P/dc65PDtpXZz5t9ngZdWdalYzL3gomd49IjzLLg9hrfc
+	7yaW3L78wbpb1JO9G3ebC4ZW5DVZAVK0Hj3yE1jk1nBIat1s74LrSMqISq5Q0mn4ZhWs
+	oiScuwDdhvR5hm7KYgJvMFiglJt4uZFc1ZeLOor1q2ahFiYPzS1P7NKK4X6i1fwvpuwq
+	DZ6zliMcW8sl7flyPaNcJ5Qx5URzyRgMygiZNjKS0sbgBJSGaZiaVaDHOBuOYl6VN5oK
+	EeDLeuXK130DUEEhmKVe3H8VndbyOXeTUtZ6X0Bp2D6zPG2SHdXUyrje195pfJwuq9U+
+	FXRA==
+X-Gm-Message-State: ALoCoQnVWXHn99cshsALsWbzAmaDXcaje8JTTtUN3jgzviMvT3g90Vve2wwABGvd9PBOt1DOxXQ9
+X-Received: by 10.194.7.103 with SMTP id i7mr13957461wja.53.1422639089712;
+	Fri, 30 Jan 2015 09:31:29 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id fq10sm6991526wib.3.2015.01.30.09.31.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Jan 2015 09:31:28 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jan 2015 17:29:37 +0000
+Message-Id: <1422638978-1419-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] bitbake.conf: don't remove WARN_QA and ERROR_QA from hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 15:09:43 -0000
-Content-Type: multipart/alternative; boundary=001a1134050c93b7e6050ddffeac
+X-List-Received-Date: Fri, 30 Jan 2015 17:31:36 -0000
 
---001a1134050c93b7e6050ddffeac
-Content-Type: text/plain; charset=UTF-8
+Changing WARN_QA and ERROR_QA should cause do_package_qa to re-execute, so
+removing them from the sstate hashes is harmful.
 
-On 30 January 2015 at 13:39, Markus Boos <Markus.Boos@kistler.com> wrote:
+They were added back when sanity testing was part of packaging and this was the
+lesser evil, compared to changing sanity tests causing a re-package of
+everything.
 
-> We faced the problem that our image (built with ptest feature) doesn't fit
-> into our flash [1].
-> I'd like to run the ptest on real hardware cause some packages need the
-> mounted FPGA functionality.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Don't use ptest-pkgs to pull the tests into the image, but add the ones you
-want directly.  Such as:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b5b54b7..907ed1e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -774,7 +774,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
+     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
+     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
+     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
+-    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR"
++    WORKDIR STAMPCLEAN PKGDATA_DIR"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
+-- 
+1.7.10.4
 
-CORE_IMAGE_EXTRA_INSTALL_append = " ptest-runner myapp-ptest"
 
-Ross
-
---001a1134050c93b7e6050ddffeac
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 January 2015 at 13:39, Markus Boos <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:Markus.Boos@kistler.com" target=3D"_blank">Markus.Boos@kistler.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2go" clas=
-s=3D"a3s" style=3D"overflow:hidden">We faced the problem that our image (bu=
-ilt with ptest feature) doesn&#39;t fit into our flash [1].<br>
-I&#39;d like to run the ptest on real hardware cause some packages need the=
- mounted FPGA functionality.</div></blockquote><div><br></div><div>Don&#39;=
-t use ptest-pkgs to pull the tests into the image, but add the ones you wan=
-t directly.=C2=A0 Such as:</div><div><br></div><div>CORE_IMAGE_EXTRA_INSTAL=
-L_append =3D &quot; ptest-runner myapp-ptest&quot;</div><div><br></div><div=
->Ross=C2=A0<br></div></div></div></div>
-
---001a1134050c93b7e6050ddffeac--
