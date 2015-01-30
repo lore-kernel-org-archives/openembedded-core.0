@@ -1,28 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id B6304606BF
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A1CE160132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 14:05:14 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id BB05CF811E0; Fri, 30 Jan 2015 07:05:15 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=4.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id F362EF811E0;
-	Fri, 30 Jan 2015 07:05:14 -0700 (MST)
-Message-ID: <54CB8FBA.6040409@mlbassoc.com>
-Date: Fri, 30 Jan 2015 07:05:46 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Fri, 30 Jan 2015 14:14:43 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id va2so23960822obc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Jan 2015 06:14:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hFAAbglWvKjhXvP78wJZ5TvB8eL/hDoalGSotI+J9uU=;
+	b=MALoZ0Xx7gX4V3cJ2ksyyMGZomDyDEi1R8bURAdlvFCmQwt+VypY+Kv37SZHoUNU16
+	TGAWxHrqnViIGz1pFAY7G5wF09+xTSTl5kLak/h07VkKVzGT43E+sJqmlwa8rF1ylPwi
+	W92c9AJqoulB9q3Sy5I1Lr6zeh/Vh9sfvXwe1/xUS52PAs9BgTl2Avp08VGUrHKiwsx2
+	S/HFPNEZ8tMRYyo+UEsvvRjycTbLaU7tVCogkwElPZuqs2u9gXAtfl2n/MMMTDgGG17O
+	lbthx8k8wfElWD8xaSxD8jCS7ny8LQkh4CO+X7oMFFFRn98a6S2dIPK5VVnhQGGW+g+O
+	UAqw==
+X-Gm-Message-State: ALoCoQnsty8HlpAPlXYiQ7hzfh7WZd0fbYGtlLjpO8Tzt8JIVJeenuBSIT/XWBtVdUcDi2kusfhG
+X-Received: by 10.60.178.105 with SMTP id cx9mr3898701oec.16.1422627284660;
+	Fri, 30 Jan 2015 06:14:44 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <78ABB290-AC92-4AEB-B096-EB3D3A1A9BAB@giroir.com>
-In-Reply-To: <78ABB290-AC92-4AEB-B096-EB3D3A1A9BAB@giroir.com>
-Subject: Re: Changes to Image Definitions in 1.7.1
+Received: by 10.76.116.167 with HTTP; Fri, 30 Jan 2015 06:14:24 -0800 (PST)
+In-Reply-To: <CAJTo0Lbf8OJ5R_JSymiYY8=q+xyM-+5fEzmCfwVoPoh7+=cyPQ@mail.gmail.com>
+References: <1422610395-2581-1-git-send-email-pengyu.ma@windriver.com>
+	<CAJTo0Lbf8OJ5R_JSymiYY8=q+xyM-+5fEzmCfwVoPoh7+=cyPQ@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 30 Jan 2015 15:14:24 +0100
+Message-ID: <CAP71WjwKsR4=qZYH+EmOk6qZifLHwt2dxzpHiQ6hrAJcAu4gQA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade to 10.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 14:05:16 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Jan 2015 14:14:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2015-01-30 06:57, Walter Giroir wrote:
+On Fri, Jan 30, 2015 at 11:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> I am in the process of moving from Yocto 1.5.1 to 1.7.1.
+> WARNING: QA Issue: mesa: configure was passed unrecognised options:
+> --disable-gallium-egl --disable-gallium-gbm [unknown-configure-option]
 >
-> Overall the process has gone very smooth but I have one blocking issue.
->
-> I have a layer with an Image defined in new_layer/classes/new_image.bblcass
->
-> When running with 1.5.1, it works fine.
-> When running with 1.7.1, it does not even parse the file
+> Presumably they changed the configure options, so can you verify all of
+> these please.
 
-Details?  Otherwise, you'll only get guesses :-(
-
->
-> Has anyone encountered this or is there a description of the changes in this area.
->
-> Thanks in advance,
-> —Walt
->
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+yes, they did:
+http://cgit.freedesktop.org/mesa/mesa/commit/?h=10.4&id=c46c551c56f78c6bf9e63524c89478695fc4f525
 
