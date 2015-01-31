@@ -1,24 +1,37 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C00E46AC28
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 15A276AC35
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Jan 2015 00:08:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0V08PCF001160
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 31 Jan 2015 01:15:57 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id eu11so58730306pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Jan 2015 16:08:26 -0800 (PST)
-Received: from op3.wrs.com (128.224.56.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 30 Jan 2015 16:08:25 -0800
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Jan 2015 19:08:25 -0500
-Message-ID: <1422662905-3598-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.2.1
-MIME-Version: 1.0
-Subject: [PATCH] devtools: add a bb for git-manpages
+	Fri, 30 Jan 2015 17:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=qxkRTn1btWxR3em8PgbjS+PYDLn307E9HaS+LB19LNA=;
+	b=MvL06PplDgjmT1w/EyD+ZXJW7HUUgnRYFntiKiPqpJxP1gpTxTqF+286LSJq1L0sXA
+	BcUndi1E3ucid3Ocl/IvXRYp6CGv+vI6H4RV10Mespk1dTpNhTkfwon60A/FJCtTONkF
+	MyeMAi86i6mZFDdsw9URqKT9Jge3KZfVQZKdknPDs0fBrZicerHAcZNzo2F2//oAEdAV
+	xiQr5S7jq3ssvv8Vckra7mR9bRX3/iVZaH3YhWPd+XiblWf3FT/7aFgmr6BL1qPoEIZ5
+	CTIXngkcFLJdd8bWwy5Z6mWwkU0++mI4vu/dLgq2fg5wIAmBK19XmK+uVuyk3v9PhH/A
+	GDjg==
+X-Received: by 10.68.226.131 with SMTP id rs3mr13175614pbc.24.1422666958780;
+	Fri, 30 Jan 2015 17:15:58 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	uf3sm11966963pbc.25.2015.01.30.17.15.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 30 Jan 2015 17:15:57 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jan 2015 17:15:50 -0800
+Message-Id: <1422666950-32415-2-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1422666950-32415-1-git-send-email-akuster808@gmail.com>
+References: <1422666950-32415-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH] 2/2] tzdata: update to 2015a including leap second
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Jan 2015 00:08:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 31 Jan 2015 01:16:00 -0000
 
-These could be created from scratch from git itself, but it
-requires asciidoc, xsltproc, python bits and too much other
-baggage.  Since the git folks issue a tarball with the manpages
-for each release, it is simpler to just go get that.
+Changes affecting future time stamps
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+The Mexican state of Quintana Roo, represented by America/Cancun,
+will shift from Central Time with DST to Eastern Time without DST
+on 2015-02-01 at 02:00.  (Thanks to Steffen Thorsen and Gwillim Law.)
+
+Chile will not change clocks in April or thereafter; its new standard time
+will be its old daylight saving time.  This affects America/Santiago,
+Pacific/Easter, and Antarctica/Palmer.  (Thanks to Juan Correa.)
+
+New leap second 2015-06-30 23:59:60 UTC as per IERS Bulletin C 49.
+(Thanks to Tim Parenti.)
+
+Changes affecting past time stamps
+Iceland observed DST in 1919 and 1921, and its 1939 fallback
+transition was Oct. 29, not Nov. 29.  Remove incorrect data from
+Shanks about time in Iceland between 1837 and 1908.
+
+Some more zones have been turned into links, when they differed
+from existing zones only for older time stamps.  As usual,
+these changes affect UTC offsets in pre-1970 time stamps only.
+Their old contents have been moved to the 'backzone' file.
+The affected zones are: Asia/Aden, Asia/Bahrain, Asia/Kuwait,
+and Asia/Muscat.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../git-manpages/git-manpages_2.2.1.bb             | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/git-manpages/git-manpages_2.2.1.bb
+ meta/recipes-extended/tzdata/tzdata_2014j.bb | 6 ------
+ meta/recipes-extended/tzdata/tzdata_2015a.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014j.bb
+ create mode 100644 meta/recipes-extended/tzdata/tzdata_2015a.bb
 
-diff --git a/meta/recipes-devtools/git-manpages/git-manpages_2.2.1.bb b/meta/recipes-devtools/git-manpages/git-manpages_2.2.1.bb
+diff --git a/meta/recipes-extended/tzdata/tzdata_2014j.bb b/meta/recipes-extended/tzdata/tzdata_2014j.bb
+deleted file mode 100644
+index f0388c2..0000000
+--- a/meta/recipes-extended/tzdata/tzdata_2014j.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+-
+-SRC_URI[tzdata.md5sum] = "2d7ea9c309f0d4e162e426e568290ca3"
+-SRC_URI[tzdata.sha256sum] = "a2d870320694d40535df822ac8074dc629a90e92abafa5d3373314f78ddc0e0d"
+-
+-require tzdata.inc
+diff --git a/meta/recipes-extended/tzdata/tzdata_2015a.bb b/meta/recipes-extended/tzdata/tzdata_2015a.bb
 new file mode 100644
-index 000000000000..7d8e0e972738
+index 0000000..6151aee
 --- /dev/null
-+++ b/meta/recipes-devtools/git-manpages/git-manpages_2.2.1.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Distributed version control system manpages"
-+SECTION = "console/utils"
-+LICENSE = "GPLv2"
-+DEPENDS = "git"
++++ b/meta/recipes-extended/tzdata/tzdata_2015a.bb
+@@ -0,0 +1,6 @@
++SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
 +
-+RDEPENDS_${PN} = "git"
-+SRC_URI = "https://www.kernel.org/pub/software/scm/git/git-manpages-${PV}.tar.gz"
++SRC_URI[tzdata.md5sum] = "4ed11c894a74a5ea64201b1c6dbb8831"
++SRC_URI[tzdata.sha256sum] = "c52490917d00a8e7fc9b5f0b1b65ef6ec76d612b5b20c81bf86a04147af18e4c"
 +
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+
-+SRC_URI[md5sum] = "b5ddd262b608804ba4403f0f82d881d7"
-+SRC_URI[sha256sum] = "69dcb3decdb33dd35491935e80f71c40c576b536df4223eb98d5f7ccd9643293"
-+
-+FILES_${PN}-doc = "${mandir}"
-+
-+do_configure () {
-+}
-+
-+do_compile () {
-+}
-+
-+do_install () {
-+	mkdir -p ${D}/${mandir}
-+	cp -a ${WORKDIR}/man[1-9] ${D}/${mandir}
-+}
++require tzdata.inc
 -- 
-2.2.1
+1.9.1
 
 
