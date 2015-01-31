@@ -1,25 +1,36 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp03.online.nl (smtp03.online.nl [194.134.41.33])
-	by mail.openembedded.org (Postfix) with ESMTP id 0901A6017C
+Return-Path: <rapphil@gmail.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8923760024
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Jan 2015 14:06:17 +0000 (UTC)
-Received: from smtp03.online.nl (localhost [127.0.0.1])
-	by smtp03.online.nl (Postfix) with ESMTP id 7CDDD68755;
-	Sat, 31 Jan 2015 15:06:17 +0100 (CET)
-Received: from phenom.local (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp03.online.nl (Postfix) with ESMTP;
-	Sat, 31 Jan 2015 15:06:17 +0100 (CET)
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Jan 2015 15:06:13 +0100
-Message-Id: <1422713174-18522-3-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1422713174-18522-1-git-send-email-mike.looijmans@topic.nl>
-References: <1422713174-18522-1-git-send-email-mike.looijmans@topic.nl>
-X-Online-Scanned: by Cloudmark authority (on smtp03.online.nl)
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	Mike Looijmans <milo-software@users.sourceforge.net>
-Subject: [PATCH 2/2] fetch2/git.py: Add gitpkgv_revision alternative version information
+	Sat, 31 Jan 2015 23:45:26 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id z107so43137273qgd.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 31 Jan 2015 15:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=zTIO/64lGzr6ub0IRt1+fX0LZ7Q6pFXhEkifkhlgcck=;
+	b=VeVp4FRWIZHMObLnrBORsMczO16y98ADq8cdmB72bTSwNGLlzL9lk2SOuHsBG4DInA
+	Trf671OdGlbZRD1O0uAixedddUmsRGBb6X3SOw1gfk5XsTwW+NAZDn3VHmbOQUqyB/JH
+	0k/bEPK91LTNuV2aOqEyW1e4pe/ShdnPLgpBPNe5ObmH1mpPfgXXITX/UigE9Lio+i+u
+	2pflUCSJ+3boENuxs7ADU22gzG3Ewo4yf0nYDxSKw1ek8V4j7V2GBBsj9KMS9j6R/QOA
+	Mfxrn70uaTAJuPXabkG3FpAnQNToZX+SV8uK7U2cTTcGEBiq8doqMYp163IWpw3GXhwc
+	CM8Q==
+MIME-Version: 1.0
+X-Received: by 10.224.114.209 with SMTP id f17mr27593645qaq.68.1422747927450; 
+	Sat, 31 Jan 2015 15:45:27 -0800 (PST)
+Received: by 10.140.240.67 with HTTP; Sat, 31 Jan 2015 15:45:27 -0800 (PST)
+In-Reply-To: <CAJTo0LZG97KQbY8mTwBpruADXJz+mJomGa1s2Q_KWVgAENB-hg@mail.gmail.com>
+References: <cover.1421651689.git.liezhi.yang@windriver.com>
+	<c1e126ada5030706b289f4916e24f280f423d6f3.1421651689.git.liezhi.yang@windriver.com>
+	<CAJTo0LZG97KQbY8mTwBpruADXJz+mJomGa1s2Q_KWVgAENB-hg@mail.gmail.com>
+Date: Sat, 31 Jan 2015 21:45:27 -0200
+Message-ID: <CAENGNhdPsd5NkL0B2Y91w_ointzgW3NRFhk-DvxhvQ8KFpyLQQ@mail.gmail.com>
+From: Raphael Philipe <rapphil@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] binutils: upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Jan 2015 14:06:21 -0000
+X-List-Received-Date: Sat, 31 Jan 2015 23:45:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Mike Looijmans <milo-software@users.sourceforge.net>
+I've got the same outcome while testing this patch with meta-fsl-ppc;
 
-gitpkgv_revision returns a sortable revision number that can be used
-in the PKGV variable for example. To mimic meta-openembedded gitpkgv
-behaviour to provide a sortable revision numner, one could set the
-following:
+It seems to be a recorrent issue.
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=754610
 
-PKGV = "1.0+${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}"
+Any clue on how to solve it?
 
-This would yield a package version like "1.0+69+fb5eb80".
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
- lib/bb/fetch2/git.py |   25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 44fc271..3216ef4 100644
---- a/lib/bb/fetch2/git.py
-+++ b/lib/bb/fetch2/git.py
-@@ -394,6 +394,31 @@ class Git(FetchMethod):
-     def _build_revision(self, ud, d, name):
-         return ud.revisions[name]
- 
-+    def gitpkgv_revision(self, ud, d, name):
-+        """
-+        Return a sortable revision number by counting commits in the history
-+        Based on gitpkgv.bblass in meta-openembedded
-+        """
-+        rev = self._build_revision(ud, d, name)
-+        localpath = ud.localpath
-+        rev_file = os.path.join(localpath, "oe-gitpkgv_" + rev)
-+        if not os.path.exists(localpath):
-+            commits = None
-+        else:
-+            if not os.path.exists(rev_file) or not os.path.getsize(rev_file):
-+                from pipes import quote
-+                commits = bb.fetch2.runfetchcmd(
-+                        "git rev-list %s -- | wc -l" % (quote(rev)),
-+                        d, quiet=True).strip().lstrip('0')
-+                if commits:
-+                    open(rev_file, "w").write("%d\n" % int(commits))
-+            else:
-+                commits = open(rev_file, "r").readline(128).strip()
-+        if commits:
-+            return False, "%s+%s" % (commits, rev[:7])
-+        else:
-+            return True, str(rev)
-+
-     def checkstatus(self, ud, d):
-         fetchcmd = "%s ls-remote %s" % (ud.basecmd, ud.url)
-         try:
--- 
-1.7.9.5
-
+On Thu, Jan 22, 2015 at 10:00 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 19 January 2015 at 07:16, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>
+>> * Remove the following patches since they are already in the new code:
+>>   binutils/fix-pr15815.patch
+>>   binutils/fix-pr16428.patch
+>>   binutils/fix-pr16476.patch
+>>   binutils/fix-pr2404.patch
+>>   binutils/replace_macros_with_static_inline.patch
+>>   binutils/binutils_CVE-2014-8484.patch
+>>   binutils/binutils_CVE-2014-8485.patch
+>>   binutils/binutils_CVE-2014-8501.patch
+>>   binutils/binutils_CVE-2014-8502.patch
+>>   binutils/binutils_CVE-2014-8502_1.patch
+>>   binutils/binutils_CVE-2014-8503.patch
+>>   binutils/binutils_CVE-2014-8504.patch
+>>   binutils/binutils_CVE-2014-8737.patch
+>>
+>> * The file src-release is gone.
+>>
+>> * Updated patches for the new code.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>
+>
+> FYI, this is breaking u-boot on meta-fsl-ppc (#7145) so when Freescale have
+> fixed their u-boot fork we can merge this.
+>
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
