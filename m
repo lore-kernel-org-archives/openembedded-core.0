@@ -1,39 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C32260043
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 096436018F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Feb 2015 20:50:07 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 200so22856119ykr.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Feb 2015 12:50:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=LZHTHnxmsnKG9llRvWL1X23fX4h6dQBdMbgrR2TLUWM=;
-	b=wFZmkIHCz4jk9Okr+wQjEU7OzqsjPMwwi+BMVUjhaxJUCEttX0rJ/JkwSpdMUBmZPL
-	dCGWP9KTx5LKRzZbyyGI9twCcngIuqjrbWHvdNTmPH5w4JBmHbIsCrvjKxTuXqR6Auis
-	viUzIx/xMzLQm0V4nCEZoi0WFPSWE4dP3YneCJtFllc3KM0+lC7AVh7kdPYxgrPwubi4
-	VQyPwoxD7j7T0Qv+CGjHHMMnbftFLmPNTPiDHB7LygkrkTY2wfB/35FHcXSyPxkgPqIn
-	EP/FVzH9Yll0pBwUPxH+Il9Jo+qZOoDjK8rbP+g77ma5DtH/1MIdmoxs8mDbyc+06jXR
-	u/wA==
+	Mon,  2 Feb 2015 20:54:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t12KsRh3002752
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Feb 2015 12:54:27 -0800 (PST)
+Received: from yow-pgortmak-d1 (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 2 Feb 2015 12:54:27 -0800
+Received: by yow-pgortmak-d1 (Postfix, from userid 1000)	id 2DE30E1D124; Mon,
+	2 Feb 2015 15:54:30 -0500 (EST)
+Date: Mon, 2 Feb 2015 15:54:30 -0500
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20150202205429.GC3394@windriver.com>
+References: <1422662905-3598-1-git-send-email-paul.gortmaker@windriver.com>
+	<5253630.c2vWHxRG0u@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.236.44.70 with SMTP id m46mr9182020yhb.136.1422910208031;
-	Mon, 02 Feb 2015 12:50:08 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Mon, 2 Feb 2015 12:50:07 -0800 (PST)
-In-Reply-To: <1422713174-18522-2-git-send-email-mike.looijmans@topic.nl>
-References: <1422713174-18522-1-git-send-email-mike.looijmans@topic.nl>
-	<1422713174-18522-2-git-send-email-mike.looijmans@topic.nl>
-Date: Mon, 2 Feb 2015 18:50:07 -0200
-X-Google-Sender-Auth: EM1lUM07bwmqtedG1Vvup5RSTXw
-Message-ID: <CAP9ODKrsWm4CiaYmP5UJOa_9jm9F+rRNnPTWWe_WXfLXRKrOiA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Mike Looijmans <milo-software@users.sourceforge.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] fetch2/__init__.py: Make get_srcrev output configurable
+In-Reply-To: <5253630.c2vWHxRG0u@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] devtools: add a bb for git-manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Feb 2015 20:50:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Feb 2015 20:54:45 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Sat, Jan 31, 2015 at 12:06 PM, Mike Looijmans
-<mike.looijmans@topic.nl> wrote:
-> From: Mike Looijmans <milo-software@users.sourceforge.net>
->
-> The idea here is to support package version numbering similar to gitpkgv in
-> meta-openembedded. This commit is the first step towards such functionality.
->
-> The original plan was to add a "get_pretty_srcrev" method to the fetcher, as
-> per Richard's suggestion [1]. While writing this, I noticed that it would
-> become a copy of get_srcrev with only two lines changed. So to create something
-> more Pythonic than a boolean argument and conditionals around the calls to the
-> fetcher's sortable_revision, I just made the method to be called on the fetcher
-> an argument to the method. Defaulting to 'sortable_revision' prevents affecting
-> existing code.
->
-> Now if the git fetcher were to implement, say 'gitpkgv_revision' one could
-> set the following in a recipe:
->   PKGV="1.2+${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}"
-> and this would yield the same result as gitpkgv's GITPKGV variable.
->
-> See for the discussion leading to this change:
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100345.html
->
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+[Re: [OE-core] [PATCH] devtools: add a bb for git-manpages] On 02/02/2015 (Mon 17:04) Paul Eggleton wrote:
 
-I do enjoyed all the design but the way to set the PKGV.
+> Hi Paul,
+> 
+> On Friday 30 January 2015 19:08:25 Paul Gortmaker wrote:
+> > These could be created from scratch from git itself, but it
+> > requires asciidoc, xsltproc, python bits and too much other
+> > baggage.  Since the git folks issue a tarball with the manpages
+> > for each release, it is simpler to just go get that.
+> 
+> I'm just wondering, would it be simpler to just do this as part of the git 
+> recipe itself and have the manpages go into git-doc? Then you would get the 
+> documentation automatically if you had git in your image and doc-pkgs in 
+> IMAGE_FEATURES, plus we wouldn't have to remember to upgrade this every time 
+> we upgraded the git recipe.
 
-Maybe we could have a way to do it more transparently? Any idea how?
+I'm sure we can do that if desired.  It is probably worth mentioning
+that I had this standalone recipe off in a layer for a while, and after
+discussions on how to deal with coreutils and the mess it creats with
+the openly hostile to cross-compile "help2man" that the idea of a
+separate bb for manpages appeared acceptable.  So, based on that, I
+figured it was time to post my git-manpages bb.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+This brings me back to coreutils -- should we source prebuilt manpages
+within the main recipe there too, or do a coreutils-manpages.bb  ?
+
+P.
+--
+
+> 
+> Cheers,
+> Paul
+> 
+> -- 
+> 
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
