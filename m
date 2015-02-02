@@ -1,23 +1,28 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B166AD0E
+	by mail.openembedded.org (Postfix) with ESMTP id EA68760138
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Feb 2015 07:37:35 +0000 (UTC)
+	Mon,  2 Feb 2015 07:52:10 +0000 (UTC)
 Received: from localhost (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 76324427E76;
-	Mon,  2 Feb 2015 08:37:35 +0100 (CET)
-Date: Mon, 2 Feb 2015 08:37:34 +0100
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id BF1593FDEE0;
+	Mon,  2 Feb 2015 08:52:10 +0100 (CET)
+Date: Mon, 2 Feb 2015 08:52:10 +0100
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org,
-	Tom Zanussi <tom.zanussi@linux.intel.com>
-Message-ID: <20150202073734.GB3594@localhost.localdomain>
-References: <1420809842-516-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<1420809842-516-2-git-send-email-maciej.borzecki@open-rnd.pl>
+To: Otavio Salvador <otavio@ossystems.com.br>,
+	Ross Burton <ross.burton@intel.com>,
+	Saul Wold <sgw@linux.intel.com>, akuster808 <akuster808@gmail.com>
+Message-ID: <20150202075210.GC3594@localhost.localdomain>
+References: <1420706622-31273-2-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1420747144-11925-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<CAP9ODKp_eP8SpXzcKorcbbaXWd6be9Lpmx+V6J6PhCNALEzr0w@mail.gmail.com>
+	<20150202073652.GA3594@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <1420809842-516-2-git-send-email-maciej.borzecki@open-rnd.pl>
+In-Reply-To: <20150202073652.GA3594@localhost.localdomain>
 User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: Re: [PATCH 1/1] wic: fix extended/logical partition layout
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: cherry-pick patch fixing networkd gateway route handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,112 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Feb 2015 07:37:37 -0000
+X-List-Received-Date: Mon, 02 Feb 2015 07:52:22 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-ping
+On 02/02 08:36, Maciej Borzecki wrote:
+> On 01/08 18:36, Otavio Salvador wrote:
+> > On Thu, Jan 8, 2015 at 5:59 PM, Maciej Borzecki
+> > <maciej.borzecki@open-rnd.pl> wrote:
+> > > Cherry-picking a patch that fixes gateway route handling in systemd-networkd.
+> > > The patch adds a source IP to the automatically added gateway static route,
+> > > thus allowing for proper IP communication in a scenario when a static or
+> > > IPv4-LL address is used alongside a dynamically obtained one.
+> > >
+> > > (From systemd rev: 46b0c76e2c355c0d0cc4792abb98cde07b28bc5)
+> > >
+> > > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> > > Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+> >
+> > Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> >
+>
+> Can we pick that up for master?
 
-On 01/09 14:24, Maciej Borzecki wrote:
-> The patch fixes an issue in laying out extended and logical partitions
-> by wic. The original code produced disk images in which the size 3rd
-> partition as described in MBR was incorrect. Depending on the type of
-> file system used for that partition and size of the partition, it would
-> be impossible to mount the partition correctly. For instance, kickstart
-> file in which the 3rd partition had size of 1GB and used ext4 fs, would
-> result in an image with an umountable partition. The root cause is
-> reservation of sectors for EBR through stealing of last sector from the
-> last primary partition.
->
-> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-> Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
-> ---
->  scripts/lib/wic/utils/partitionedfs.py | 40 ++++++++++++++++------------------
->  1 file changed, 19 insertions(+), 21 deletions(-)
->
-> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-> index fb95cc7..9df93dc 100644
-> --- a/scripts/lib/wic/utils/partitionedfs.py
-> +++ b/scripts/lib/wic/utils/partitionedfs.py
-> @@ -156,6 +156,13 @@ class Image:
->                  # Skip one sector required for the partitioning scheme overhead
->                  d['offset'] += overhead
->
-> +            elif d['numpart'] > 3:
-> +                # Reserve a sector for EBR for every logical partition
-> +                # before alignment is performed.
-> +                if ptable_format == "msdos":
-> +                    d['offset'] += 1
-> +
-> +
->              if p['align']:
->                  # If not first partition and we do have alignment set we need
->                  # to align the partition.
-> @@ -185,14 +192,6 @@ class Image:
->              p['num'] = d['numpart']
->
->              if d['ptable_format'] == "msdos":
-> -                if d['numpart'] > 2:
-> -                    # Every logical partition requires an additional sector for
-> -                    # the EBR, so steal the last sector from the end of each
-> -                    # partition starting from the 3rd one for the EBR. This
-> -                    # will make sure the logical partitions are aligned
-> -                    # correctly.
-> -                    p['size'] -= 1
-> -
->                  if d['numpart'] > 3:
->                      p['type'] = 'logical'
->                      p['num'] = d['numpart'] + 1
-> @@ -259,13 +258,20 @@ class Image:
->          for p in self.partitions:
->              d = self.disks[p['disk_name']]
->              if d['ptable_format'] == "msdos" and p['num'] == 5:
-> -                # The last sector of the 3rd partition was reserved for the EBR
-> -                # of the first _logical_ partition. This is why the extended
-> -                # partition should start one sector before the first logical
-> -                # partition.
-> +                # Create an extended partition (note: extended
-> +                # partition is described in MBR and contains all
-> +                # logical partitions). The logical partitions save a
-> +                # sector for an EBR just before the start of a
-> +                # partition. The extended partition must start one
-> +                # sector before the start of the first logical
-> +                # partition. This way the first EBR is inside of the
-> +                # extended partition. Since the extended partitions
-> +                # starts a sector before the first logical partition,
-> +                # add a sector at the back, so that there is enough
-> +                # room for all logical partitions.
->                  self.__create_partition(d['disk'].device, "extended",
->                                          None, p['start'] - 1,
-> -                                        d['offset'] - p['start'])
-> +                                        d['offset'] - p['start'] + 1)
->
->              if p['fstype'] == "swap":
->                  parted_fs_type = "linux-swap"
-> @@ -338,14 +344,6 @@ class Image:
->
->          for p in self.partitions:
->              d = self.disks[p['disk_name']]
-> -            if d['ptable_format'] == "msdos" and p['num'] == 5:
-> -                # The last sector of the 3rd partition was reserved for the EBR
-> -                # of the first _logical_ partition. This is why the extended
-> -                # partition should start one sector before the first logical
-> -                # partition.
-> -                self.__write_partition(p['num'], p['source_file'],
-> -                                       p['start'] - 1,
-> -                                       d['offset'] - p['start'])
->
->              self.__write_partition(p['num'], p['source_file'],
->                                     p['start'], p['size'])
-> --
-> 1.9.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Just spotted a patch from Khem that updates systemd to 218. Once Khem's
+patch is in, we can just drop this one.
+
+A backport to Dizzy still makes sense though.
 
 --
 Maciej Borzęcki
