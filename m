@@ -1,36 +1,34 @@
-Return-Path: <rapphil@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8923760024
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D2460138
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Jan 2015 23:45:26 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id z107so43137273qgd.11
+	Mon,  2 Feb 2015 04:13:14 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id fa1so77099154pad.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Jan 2015 15:45:27 -0800 (PST)
+	Sun, 01 Feb 2015 20:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=zTIO/64lGzr6ub0IRt1+fX0LZ7Q6pFXhEkifkhlgcck=;
-	b=VeVp4FRWIZHMObLnrBORsMczO16y98ADq8cdmB72bTSwNGLlzL9lk2SOuHsBG4DInA
-	Trf671OdGlbZRD1O0uAixedddUmsRGBb6X3SOw1gfk5XsTwW+NAZDn3VHmbOQUqyB/JH
-	0k/bEPK91LTNuV2aOqEyW1e4pe/ShdnPLgpBPNe5ObmH1mpPfgXXITX/UigE9Lio+i+u
-	2pflUCSJ+3boENuxs7ADU22gzG3Ewo4yf0nYDxSKw1ek8V4j7V2GBBsj9KMS9j6R/QOA
-	Mfxrn70uaTAJuPXabkG3FpAnQNToZX+SV8uK7U2cTTcGEBiq8doqMYp163IWpw3GXhwc
-	CM8Q==
-MIME-Version: 1.0
-X-Received: by 10.224.114.209 with SMTP id f17mr27593645qaq.68.1422747927450; 
-	Sat, 31 Jan 2015 15:45:27 -0800 (PST)
-Received: by 10.140.240.67 with HTTP; Sat, 31 Jan 2015 15:45:27 -0800 (PST)
-In-Reply-To: <CAJTo0LZG97KQbY8mTwBpruADXJz+mJomGa1s2Q_KWVgAENB-hg@mail.gmail.com>
-References: <cover.1421651689.git.liezhi.yang@windriver.com>
-	<c1e126ada5030706b289f4916e24f280f423d6f3.1421651689.git.liezhi.yang@windriver.com>
-	<CAJTo0LZG97KQbY8mTwBpruADXJz+mJomGa1s2Q_KWVgAENB-hg@mail.gmail.com>
-Date: Sat, 31 Jan 2015 21:45:27 -0200
-Message-ID: <CAENGNhdPsd5NkL0B2Y91w_ointzgW3NRFhk-DvxhvQ8KFpyLQQ@mail.gmail.com>
-From: Raphael Philipe <rapphil@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] binutils: upgrade to 2.25
+	h=from:to:cc:subject:date:message-id;
+	bh=jpV6DTVKCKHUQMPPSA+PP6I7LvWldbQno/kZeAX8uso=;
+	b=t8AkDzAW/YS+ubvnbogIFo1fr4cYvTyaMFXfCN1QGRgU91zLoz5moGb79gtHM3YwJC
+	SzUULuc467ZPv37TnhsYU+Ls4mRvegQYEUBU7YTIdgGpc+Xt65oqCjaNTI9Ipvowtekl
+	1dSDtfh8PW/17d6sa9qbKJHJtUC9iv3cuwqTFqNpTn3DFZkmczsLW/DW7Gw/GuNrS3ge
+	6hxw2W2EyEXpow7exRNiFsIhkvPRcYkK+9MJOL+I5ncbQgXew6Jncbff/Oya9eWr0wxq
+	lIZn8mk8G/PQ+f3B6GB7wJkeMXlJxV4cWVOcks2hEG1XSvsbIDnkBnHek1hU0T8YyMZ9
+	63uA==
+X-Received: by 10.68.69.9 with SMTP id a9mr26581239pbu.154.1422850395714;
+	Sun, 01 Feb 2015 20:13:15 -0800 (PST)
+Received: from haswell.localdomain (c-76-103-142-85.hsd1.ca.comcast.net.
+	[76.103.142.85]) by mx.google.com with ESMTPSA id
+	zb8sm17484707pac.45.2015.02.01.20.13.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 01 Feb 2015 20:13:14 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  1 Feb 2015 20:19:16 -0800
+Message-Id: <1422850757-1371-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.2.2
+Subject: [PATCH 1/2] glibc: Re-enable upstream __USE_KERNEL_XATTR_DEFS patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Jan 2015 23:45:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Feb 2015 04:13:18 -0000
 
-I've got the same outcome while testing this patch with meta-fsl-ppc;
+Re-introduce
 
-It seems to be a recorrent issue.
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=754610
+https://sourceware.org/git/?p=glibc.git;a=commit;h=fdbe8eae2b9aed74dabba1b0a189c5d7d61bf032
 
-Any clue on how to solve it?
+This patch was overzealously removed during option groups forward port
 
+Change-Id: I8dd01902ae8e5ee8b5c6fc9dc39c7216952dca51
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../glibc/glibc/eglibc-use-option-groups.patch       | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-On Thu, Jan 22, 2015 at 10:00 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 19 January 2015 at 07:16, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> * Remove the following patches since they are already in the new code:
->>   binutils/fix-pr15815.patch
->>   binutils/fix-pr16428.patch
->>   binutils/fix-pr16476.patch
->>   binutils/fix-pr2404.patch
->>   binutils/replace_macros_with_static_inline.patch
->>   binutils/binutils_CVE-2014-8484.patch
->>   binutils/binutils_CVE-2014-8485.patch
->>   binutils/binutils_CVE-2014-8501.patch
->>   binutils/binutils_CVE-2014-8502.patch
->>   binutils/binutils_CVE-2014-8502_1.patch
->>   binutils/binutils_CVE-2014-8503.patch
->>   binutils/binutils_CVE-2014-8504.patch
->>   binutils/binutils_CVE-2014-8737.patch
->>
->> * The file src-release is gone.
->>
->> * Updated patches for the new code.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->
->
-> FYI, this is breaking u-boot on meta-fsl-ppc (#7145) so when Freescale have
-> fixed their u-boot fork we can merge this.
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+index f61d459..1910fcc 100644
+--- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+@@ -2819,26 +2819,6 @@ Index: git/misc/Makefile
+  
+  CFLAGS-select.c = -fexceptions -fasynchronous-unwind-tables
+  CFLAGS-tsearch.c = $(uses-callbacks)
+-Index: git/misc/sys/xattr.h
+-===================================================================
+---- git.orig/misc/sys/xattr.h	2014-08-29 20:00:52.644070587 -0700
+-+++ git/misc/sys/xattr.h	2014-08-29 20:01:15.216070587 -0700
+-@@ -26,7 +26,6 @@
+- 
+- /* The following constants should be used for the fifth parameter of
+-    `*setxattr'.  */
+--#ifndef __USE_KERNEL_XATTR_DEFS
+- enum
+- {
+-   XATTR_CREATE = 1,	/* set value, fail if attr already exists.  */
+-@@ -34,7 +33,6 @@
+-   XATTR_REPLACE = 2	/* set value, fail if attr does not exist.  */
+- #define XATTR_REPLACE	XATTR_REPLACE
+- };
+--#endif
+- 
+- /* Set the attribute NAME of the file pointed to by PATH to VALUE (which
+-    is SIZE bytes long).  Return 0 on success, -1 for errors.  */
+ Index: git/misc/tst-efgcvt.c
+ ===================================================================
+ --- git.orig/misc/tst-efgcvt.c	2014-08-29 20:00:52.652070587 -0700
+-- 
+2.1.1
+
 
