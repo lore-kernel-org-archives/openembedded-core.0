@@ -1,36 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A606CB9B;
-	Mon,  2 Feb 2015 10:55:07 +0000 (UTC)
-Received: by mail-ie0-f174.google.com with SMTP id vy18so16667574iec.5;
-	Mon, 02 Feb 2015 02:55:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=l/xS5tMIfJbZMGyid3dC1cuNl6dg7NCqnFnXLg6YL8A=;
-	b=n0sr2LJXubNPt34ssTh0daK7/g2uuTIisUCUBC5JpKXpwdZD6K1xjpfmITz5mJ6grI
-	dODXgpC3EIv2hNCBlAZ+tnGZ7VqsHMddHQyV9HIF/+D5RvhjtblWGay5TozcMaWfcuH+
-	npyYjsYYyIKymV+Vz8fxLIqx8W22+JdAz7xVamABPHOEWg6b4cM/rrscpKHXTLi02VxA
-	5qjOSE1zOjMc7Bj/zhwQwl1E6aqZDUw0OSgtdn7Nk+9ReuudFblCZgldzPbVz3Twa2ut
-	bUUE4zGXtzC/R3HBYpbt/40kEoEAxUVkXQtdSqMF9Njjf6OBgUiPV9usEobv6PIUhrcv
-	kmeQ==
-X-Received: by 10.50.137.99 with SMTP id qh3mr10889108igb.7.1422874504303;
-	Mon, 02 Feb 2015 02:55:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Mon, 2 Feb 2015 02:54:34 -0800 (PST)
-In-Reply-To: <CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
-References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
-	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Feb 2015 02:54:34 -0800
-Message-ID: <CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
+Return-Path: <florian.boor@kernelconcepts.de>
+X-Greylist: delayed 2316 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 02 Feb 2015 11:09:31 UTC
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C30A061486
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Feb 2015 11:09:31 +0000 (UTC)
+Received: from [192.168.2.78] (helo=serenity.kc.loc)
+	by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>)
+	id 1YIEHM-0003Tn-8y; Mon, 02 Feb 2015 11:30:52 +0100
+From: Florian Boor <florian.boor@kernelconcepts.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Feb 2015 11:30:41 +0100
+Message-Id: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] base.bbclass: Use bb.warn instead of bb.error for deprecation notification.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Feb 2015 10:55:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Feb 2015 11:09:33 -0000
 
-On Mon, Feb 2, 2015 at 2:40 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> cross-localdef-native:
->
-> | In file included from glibc/locale/programs/locarchive.c:696:0:
-> | glibc/locale/programs/../../intl/l10nflist.c: In function
-> '_nl_normalize_codeset':
-> | glibc/locale/programs/../../intl/l10nflist.c:306:12: error: missing binary
-> operator before token "("
-> | glibc/locale/programs/../../intl/l10nflist.c:313:9: error:
-> '_nl_C_locobj_ptr' undeclared (first use in this function)
-> | glibc/locale/programs/../../intl/l10nflist.c:313:9: note: each undeclared
-> identifier is reported only once for each function it appears in
+An error in bitbake/OE context is something fatal and interrupts the build.
+A deprecation warning is exactly what we have bb.warn for.
 
+Signed-off-by: Florian Boor <florian.boor@kernelconcepts.de>
+---
+ meta/classes/base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-gcc would work with latest tree but I did not run into this error. So
-wait a while until I get to it.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index de50be1..b5186bf 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -374,7 +374,7 @@ python () {
+     # obsolete.  Return a warning to the user.
+     princ = d.getVar('PRINC', True)
+     if princ and princ != "0":
+-        bb.error("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
++        bb.warn("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+         pr = d.getVar('PR', True)
+         pr_prefix = re.search("\D+",pr)
+         prval = re.search("\d+",pr)
+-- 
+1.7.10.4
+
 
