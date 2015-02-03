@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EEBAA6E64C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CAA76E64C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 01:12:27 +0000 (UTC)
+	Tue,  3 Feb 2015 01:12:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t131CT0f022794
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t131CTVw013020
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 2 Feb 2015 17:12:29 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Mon, 2 Feb 2015 17:12:29 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Feb 2015 17:12:14 -0800
-Message-ID: <d42507af6b4878fc5b0f5485d02d0da72dadfe14.1422925725.git.liezhi.yang@windriver.com>
+Date: Mon, 2 Feb 2015 17:12:15 -0800
+Message-ID: <0728df234376dace55c49360f9dbc6ea41b83e13.1422925725.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1422925725.git.liezhi.yang@windriver.com>
 References: <cover.1422925725.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 20/21] bison 2.3: disable native
+Subject: [PATCH 21/21] m4-native 1.4.9: remove it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +36,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 03 Feb 2015 01:12:28 -0000
 Content-Type: text/plain
 
-The following packages will fail to build once we build bion-native 2.3:
-libnl
-iproute2
-libxkbcommon
-lttng-tools
-gstreamer1.0
-babeltrace
+Its do_compile would be failed once our autoconf-naitve is built:
+| /path/to/m4-native/1.4.9-r2/m4-1.4.9/missing: line 54: aclocal-1.10: command not found
+| WARNING: `aclocal-1.10' is missing on your system.  You should only need it if
+|          you modified `acinclude.m4' or `configure.ac'.  You might want
+|          to install the `Automake' and `Perl' packages.  Grab them from
+
+Also:
+| /path/to/m4-native/1.4.9-r2/m4-1.4.9/missing: line 54: automake-1.10: command not found
+
+We don't need keep a native GPLv2 recipe, so remove it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/bison/bison_2.3.bb |   15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ meta/recipes-devtools/m4/m4-native_1.4.9.bb |   12 ------------
+ 1 file changed, 12 deletions(-)
+ delete mode 100644 meta/recipes-devtools/m4/m4-native_1.4.9.bb
 
-diff --git a/meta/recipes-devtools/bison/bison_2.3.bb b/meta/recipes-devtools/bison/bison_2.3.bb
-index 174916b..182e880 100644
---- a/meta/recipes-devtools/bison/bison_2.3.bb
-+++ b/meta/recipes-devtools/bison/bison_2.3.bb
-@@ -11,17 +11,12 @@ DEPENDS = "bison-native flex-native"
- 
- PR = "r1"
- 
--BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
-+SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
-          file://bison-2.3_m4.patch"
- 
--SRC_URI = "${BASE_SRC_URI}"
+diff --git a/meta/recipes-devtools/m4/m4-native_1.4.9.bb b/meta/recipes-devtools/m4/m4-native_1.4.9.bb
+deleted file mode 100644
+index 23a21d0..0000000
+--- a/meta/recipes-devtools/m4/m4-native_1.4.9.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require m4-${PV}.inc
 -
- SRC_URI[md5sum] = "22327efdd5080e2b1acb6e560a04b43a"
- SRC_URI[sha256sum] = "52f78aa4761a74ceb7fdf770f3554dd84308c3b93c4255e3a5c17558ecda293e"
- 
--DEPENDS_class-native = "gettext-native"
--SRC_URI_class-native = "${BASE_SRC_URI}"
+-INHIBIT_AUTOTOOLS_DEPS = "1"
+-DEPENDS += "gnu-config-native"
 -
- inherit autotools gettext texinfo
- acpaths = "-I ${S}/m4"
- 
-@@ -29,11 +24,3 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/*gl.m4
- 	cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/runtime-po/
- }
--
--do_install_append_class-native() {
--	create_wrapper ${D}/${bindir}/bison \
--		M4=${STAGING_BINDIR_NATIVE}/m4 \
--		BISON_PKGDATADIR=${STAGING_DATADIR_NATIVE}/bison
+-do_configure()  {
+-	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.sub .
+-	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.guess .
+-	oe_runconf
 -}
--#bison-native encodes the staging M4 path
--BBCLASSEXTEND = "native"
+-
+-inherit native
 -- 
 1.7.9.5
 
