@@ -1,26 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BEE6E6BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C4CD8605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 15:29:10 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 03 Feb 2015 07:25:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="449227168"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.17.39])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 Feb 2015 07:15:00 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Feb 2015 15:28:52 +0000
-Message-Id: <980b9bf346b983139bde5cee265c5f4f07267264.1422977092.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1422977092.git.paul.eggleton@linux.intel.com>
-References: <cover.1422977092.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1422977092.git.paul.eggleton@linux.intel.com>
-References: <cover.1422977092.git.paul.eggleton@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/1] classes/license: tweak license format messages
+	Tue,  3 Feb 2015 16:02:55 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z107so52870394qgd.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Feb 2015 08:02:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=pERakhjTs7dHPhC6i8mjc3pxtkbvFicQC0wZCJAEsWI=;
+	b=TmpkshMB9mYq6neHNw7OzGrN86f70NQ3oa3X1lZDMMSocfY6tHyV9uo7wdmtMNz3qY
+	CsWU/0mfcLlgZ6mAKwJmvkA636cCVpxk1+grgd1NAWS4KPvgf04ljD8luvD4S8t6GmBg
+	HstaJo6dxdLCtTDcWbXcgrQaUERhImhz9sP9M4u5DQBLU9cbPqkvntpTmGf2QnTurj2j
+	5EAzw4pj49YuN8VV3d4mm8+D5MiyClvU+NHpj5JUwtPkSXINr2ZaKFNe7eTJYge57jF3
+	T29Fq5VvC3v0uOoTKumbwiQ3BY0HtNdWnG/5xqqxe7qDUBUk9tIbiT2J1RXFx/K5o0FW
+	KIxQ==
+X-Gm-Message-State: ALoCoQnX0sNZ7JUPteI7lBs0yml2Wd+SUPb7KolIf2fM+l4P2huz8RJ6Svx5VbV7Ren0xYVF4ucr
+X-Received: by 10.224.24.132 with SMTP id v4mr54938283qab.17.1422979376617;
+	Tue, 03 Feb 2015 08:02:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Tue, 3 Feb 2015 08:02:36 -0800 (PST)
+In-Reply-To: <87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+References: <20141219180841.C5F5A503BF@opal.openembedded.org>
+	<20150128134042.GI2477@jama>
+	<87k306djs4.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	<3296846.qcxKKmWIPr@peggleto-mobl5.ger.corp.intel.com>
+	<87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Feb 2015 16:02:36 +0000
+Message-ID: <CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 15:29:17 -0000
+X-List-Received-Date: Tue, 03 Feb 2015 16:03:00 -0000
+Content-Type: multipart/alternative; boundary=001a11c2b49e444076050e3134dd
 
-Strictly speaking not all of these characters are operators, so reword
-the message to describe them as separators. Also use the standard
-"recipename: message" format.
+--001a11c2b49e444076050e3134dd
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/license.bbclass | 15 ++++++++-------
- meta/lib/oe/license.py       |  3 ++-
- 2 files changed, 10 insertions(+), 8 deletions(-)
+On 3 February 2015 at 01:05, Richard Tollerton <rich.tollerton@ni.com>
+wrote:
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index d659b76..21465d8 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -417,19 +417,20 @@ def check_license_format(d):
-     """
-     pn = d.getVar('PN', True)
-     licenses = d.getVar('LICENSE', True)
--    from oe.license import license_operator
--    from oe.license import license_pattern
-+    from oe.license import license_operator, license_operator_chars, license_pattern
- 
-     elements = filter(lambda x: x.strip(), license_operator.split(licenses))
-     for pos, element in enumerate(elements):
-         if license_pattern.match(element):
-             if pos > 0 and license_pattern.match(elements[pos - 1]):
--                bb.warn("Recipe %s, LICENSE (%s) has invalid format, " \
--                        "LICENSES must have operator \"%s\" between them." %
--                        (pn, licenses, license_operator.pattern))
-+                bb.warn('%s: LICENSE value "%s" has an invalid format - license names ' \
-+                        'must be separated by the following characters to indicate ' \
-+                        'the license selection: %s' %
-+                        (pn, licenses, license_operator_chars))
-         elif not license_operator.match(element):
--            bb.warn("Recipe %s, LICENSE (%s) has invalid operator (%s) not in" \
--                  " \"%s\"." % (pn, licenses, element, license_operator.pattern))
-+            bb.warn('%s: LICENSE value "%s" has an invalid separator "%s" that is not ' \
-+                    'in the valid list of separators (%s)' %
-+                    (pn, licenses, element, license_operator_chars))
- 
- SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 340da61..31ca15b 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -25,7 +25,8 @@ class InvalidLicense(LicenseError):
-     def __str__(self):
-         return "invalid characters in license '%s'" % self.license
- 
--license_operator = re.compile('([&|() ])')
-+license_operator_chars = '&|() '
-+license_operator = re.compile('([' + license_operator_chars + '])')
- license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
- 
- class LicenseVisitor(ast.NodeVisitor):
--- 
-1.9.3
+> Done (and sent), and my apologies, because this exercise has made clear
+> that I was wrong in several of the details here: None of the three
+> patches were committed; I was confusing one of them with 89a29a3a, which
+> was from a separate email. The confusion originated in 89a29a3a having
+> been committed after I had already withdrawn it, which I forgot about
+> over the holidays.
+>
 
+That's probably my fault, sorry.  Thanks for following up and resolving
+this properly.
 
+Ross
+
+--001a11c2b49e444076050e3134dd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 February 2015 at 01:05, Richard Tollerton <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4lv" cl=
+ass=3D"a3s" style=3D"overflow:hidden">Done (and sent), and my apologies, be=
+cause this exercise has made clear<br>
+that I was wrong in several of the details here: None of the three<br>
+patches were committed; I was confusing one of them with 89a29a3a, which<br=
+>
+was from a separate email. The confusion originated in 89a29a3a having<br>
+been committed after I had already withdrawn it, which I forgot about<br>
+over the holidays.</div></blockquote><div><br></div><div>That&#39;s probabl=
+y my fault, sorry.=C2=A0 Thanks for following up and resolving this properl=
+y.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a11c2b49e444076050e3134dd--
