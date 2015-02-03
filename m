@@ -1,31 +1,38 @@
-Return-Path: <florian.boor@kernelconcepts.de>
-Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C85D8606BF
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DD9CF605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 13:24:14 +0000 (UTC)
-Received: from [192.168.2.134] by mail.kernelconcepts.de with esmtpsa
-	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>)
-	id 1YIdSb-0001YT-MR; Tue, 03 Feb 2015 14:24:09 +0100
-Message-ID: <54D0CC01.200@kernelconcepts.de>
-Date: Tue, 03 Feb 2015 14:24:17 +0100
-From: Florian Boor <florian.boor@kernelconcepts.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-References: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
-	<CAP9ODKrSVAaspV7pv+s-eVuhjf3ptFuO-+qc+johEYQbpGaPFg@mail.gmail.com>
-	<54D0C0B1.1090500@kernelconcepts.de>
-	<CAJTo0LZxw5LV55fi9QA6X=vgM4UrZ-LtHXqp2KuMEVmGffgNiA@mail.gmail.com>
-	<54D0C433.50705@kernelconcepts.de>
-	<CAP9ODKorL58Y=bAxv39bz+CFBmJqxbtxtgZbA92=8q8nHL2Mow@mail.gmail.com>
-	<CAJTo0Lb+NmyRvMw=CH0TKF-EfCeen3khOut3iSEvsckmrQV8nw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb+NmyRvMw=CH0TKF-EfCeen3khOut3iSEvsckmrQV8nw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: Use bb.warn instead of bb.error for deprecation notification.
+	Tue,  3 Feb 2015 14:20:22 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id fb4so24698096wid.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Feb 2015 06:20:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=z1wMOIXOI3I0p9aN+rpvJ0INU+5jvRQMK78Cti/baHs=;
+	b=Wd0oQciFb8TQPsq0hTVryVozkLvpx2bR+6vyIsEImzZ/Lbhev3TxdPTJtv9gaUP1f5
+	acu2APp8iaaAC/Tmn/sCGk/q2Ep6FKCTf7DSBCAanLJtr9CUe585r/lxZc/W0EYm8doW
+	qtL1OHTSWwrsKjHk6vT/5lsv0rxvI7wV4PKQ+Tkb1T3aK26H6Ia2HG/9K2JiAF2f6DVC
+	z+rj9P+qC4/ZPkmHane7LxD+VURzmTBgKUulAANMxX/f0ix5eTD8JG9YDXYGAfeqp5M+
+	yGmlz4MWRQfnBsvwcoxYgiL00lE23aJYb342avIisCU5G8EbNQkiuoV3Zod4K8RAU6EK
+	2J8Q==
+X-Gm-Message-State: ALoCoQnvhcTgJPMQl2Y59ixYqO0+GvW1IvQoFU0GhGA9brctxyDkevtfxrFO5+0w3bSbiQRu6Rrz
+X-Received: by 10.195.17.225 with SMTP id gh1mr54840551wjd.37.1422973217601;
+	Tue, 03 Feb 2015 06:20:17 -0800 (PST)
+Received: from draco.icx.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id pr9sm26637219wjc.4.2015.02.03.06.20.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 03 Feb 2015 06:20:16 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Feb 2015 14:20:12 +0000
+Message-Id: <1422973212-10049-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1422619065-28018-1-git-send-email-michael.g.wood@intel.com>
+References: <1422619065-28018-1-git-send-email-michael.g.wood@intel.com>
+Subject: [PATCH v2] report-error: Catch un-readable log data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 13:24:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Feb 2015 14:20:25 -0000
 
-Hi,
+If a log data cannot be decoded to utf-8 or read then handle this
+gracefully. This can happen if a log file contains binary or something
+goes wrong with the file open process.
 
-On 03.02.2015 14:00, Burton, Ross wrote:
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/classes/report-error.bbclass | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-> Its an error in a specific recipe, so why should that abandon the build
-> immediately?   
-
-hum... looks like we have different ideas of what is 'fatal' :-)
-I would abandon it because the result might not meet the users expectations.
-Apart from the fact that we should behave consistent with other recipe errors
-(e.g. parse errors) which are always fatal for a build.
-
-Greetings
-
-Florian
-
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 8b30422..5f155e3 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -47,9 +47,13 @@ python errorreport_handler () {
+             taskdata['package'] = e.data.expand("${PF}")
+             taskdata['task'] = task
+             if log:
+-                logFile = open(log, 'r')
+-                taskdata['log'] = logFile.read()
+-                logFile.close()
++                try:
++                    logFile = open(log, 'r')
++                    taskdata['log'] = logFile.read().decode('utf-8')
++                    logFile.close()
++                except:
++                    taskdata['log'] = "Unable to read log file"
++
+             else:
+                 taskdata['log'] = "No Log"
+             jsondata = json.loads(errorreport_getdata(e))
 -- 
-The dream of yesterday                  Florian Boor
-is the hope of today                    Tel: +49 271-771091-15
-and the reality of tomorrow.            Fax: +49 271-771091-19
-[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
-                                        http://www.kernelconcepts.de/en
+2.1.0
+
 
