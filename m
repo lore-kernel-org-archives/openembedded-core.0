@@ -1,39 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 469B16E627
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E9DE6E627
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 13:00:41 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id w8so33631582qac.13
+	Tue,  3 Feb 2015 13:02:20 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 19so24360081ykq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Feb 2015 05:00:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=O8waF653wlPai2MStrmNt1wmDuTSubUuqouBp5W/Nx4=;
-	b=mEpfS0sPPJCzuPIy9xQXNKFTfqGQ5CYO1bJtsJPuNmu77LayDmU3822zHdIyfdAkZf
-	S5KYxK5bgLSB/TPVXo/TXG2QIoBZxPOIGLk6ytOC+B1YUOKuGb97znCju5skOewOnFNL
-	mi+/bZKcBKyuGrusiVUrHyjaN/ZnqDihn+N4LIHncAn7Myj2TUCVbapvu1fCXTCB/qc2
-	mEjaItqRhuCmaXq/gheS/xJ9g6+yZhymIucPvG2RHWGi8pgkLQo/BGzCbs6ObeqDL78s
-	VAf3xG+TclcY+j+HY6ka8nCI3kXh+lgdlBVSPvu3ZdTxUygoJfo2miK0eIsxgMR1prsk
-	6j8Q==
-X-Gm-Message-State: ALoCoQlHR/HdArdx9gCdJ9aBcALJh0n+rNFL7MkfjJIYfuOv4i/WpRoI77RaG3AzftnkPdajeQYW
-X-Received: by 10.224.24.132 with SMTP id v4mr53191146qab.17.1422968434833;
-	Tue, 03 Feb 2015 05:00:34 -0800 (PST)
+	Tue, 03 Feb 2015 05:02:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=sKfnrGBv56KfX7HqbOKYICyE6SE6zeFVi69Jm+lpZts=;
+	b=NPbVb2yHK3tTf2qlDIO1Twvse7ppmdQajk6WW54sxza4BuXU2tPFU97l8BUYAiwRKt
+	pAJJitfHeNhQxnpJwLbUEdx3OL69oDSmtebt5jCM3zfV+YIi8+vCPGMGtFJnkLkI03QV
+	jUs9IWaXJheKjP5DTCW/RWmL6YSmW8QqeUEofzs0p/4o8s0iyH9ulzugNfGaqjIK91Al
+	acy8FSqnNfkiNed9PNIQgyHAvz5Si07f3MLmRdA3NsreUXirJn5MuhjWxj6sGZy13sgw
+	fn8SwfiQii3zQ9kcQtz1x/Uudpd5Y7ZdsK3XoUtDUcjmMVPHKabBre7t+kgs4eMO8W+U
+	tmzg==
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 3 Feb 2015 05:00:13 -0800 (PST)
-In-Reply-To: <CAP9ODKorL58Y=bAxv39bz+CFBmJqxbtxtgZbA92=8q8nHL2Mow@mail.gmail.com>
+X-Received: by 10.170.74.5 with SMTP id q5mr11358248ykq.30.1422968541892; Tue,
+	03 Feb 2015 05:02:21 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.143 with HTTP; Tue, 3 Feb 2015 05:02:21 -0800 (PST)
+In-Reply-To: <CAJTo0Lb+NmyRvMw=CH0TKF-EfCeen3khOut3iSEvsckmrQV8nw@mail.gmail.com>
 References: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
 	<CAP9ODKrSVAaspV7pv+s-eVuhjf3ptFuO-+qc+johEYQbpGaPFg@mail.gmail.com>
 	<54D0C0B1.1090500@kernelconcepts.de>
 	<CAJTo0LZxw5LV55fi9QA6X=vgM4UrZ-LtHXqp2KuMEVmGffgNiA@mail.gmail.com>
 	<54D0C433.50705@kernelconcepts.de>
 	<CAP9ODKorL58Y=bAxv39bz+CFBmJqxbtxtgZbA92=8q8nHL2Mow@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Feb 2015 13:00:13 +0000
-Message-ID: <CAJTo0Lb+NmyRvMw=CH0TKF-EfCeen3khOut3iSEvsckmrQV8nw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+	<CAJTo0Lb+NmyRvMw=CH0TKF-EfCeen3khOut3iSEvsckmrQV8nw@mail.gmail.com>
+Date: Tue, 3 Feb 2015 11:02:21 -0200
+X-Google-Sender-Auth: OJuTZ8XZTzm95o_GODrHC523z6Q
+Message-ID: <CAP9ODKoSBqZTpKczXd3Q4FUfcZFrtN-DVCSMDNisp_fqnykWnw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] base.bbclass: Use bb.warn instead of bb.error for deprecation notification.
@@ -49,49 +50,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 13:00:47 -0000
-Content-Type: multipart/alternative; boundary=001a11c2b49e15d81d050e2ea8a6
-
---001a11c2b49e15d81d050e2ea8a6
+X-List-Received-Date: Tue, 03 Feb 2015 13:02:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 3 February 2015 at 12:53, Otavio Salvador <otavio@ossystems.com.br>
-wrote:
-
-> > last time I checked (some days ago) it was not necessarily fatal. I was
-> able to
-> > build complete image collecting a pile of PR_INC errors. That's what
-> confused me...
-> > I'll check if I still have the log on another machine later.
+On Tue, Feb 3, 2015 at 11:00 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> Florian has a point here. We should use 'bb.fatal' and abort all build
-> as soon as possible.
+> On 3 February 2015 at 12:53, Otavio Salvador <otavio@ossystems.com.br>
+> wrote:
+>>
+>> > last time I checked (some days ago) it was not necessarily fatal. I was
+>> > able to
+>> > build complete image collecting a pile of PR_INC errors. That's what
+>> > confused me...
+>> > I'll check if I still have the log on another machine later.
+>>
+>> Florian has a point here. We should use 'bb.fatal' and abort all build
+>> as soon as possible.
 >
+>
+> Its an error in a specific recipe, so why should that abandon the build
+> immediately?
 
-Its an error in a specific recipe, so why should that abandon the build
-immediately?
+It ends changing the content of the recipe and might raise a rebuild
+of several things. Which ends being invalid as PRINC would make an
+error in the end. So why not fail soon and ensure it is act upon it
+ASAP?
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a11c2b49e15d81d050e2ea8a6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2015 at 12:53, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""=
->&gt; last time I checked (some days ago) it was not necessarily fatal. I w=
-as able to<br>
-&gt; build complete image collecting a pile of PR_INC errors. That&#39;s wh=
-at confused me...<br>
-&gt; I&#39;ll check if I still have the log on another machine later.<br>
-<br>
-</span>Florian has a point here. We should use &#39;bb.fatal&#39; and abort=
- all build<br>
-as soon as possible.<br></blockquote><div><br></div><div>Its an error in a =
-specific recipe, so why should that abandon the build immediately? =C2=A0=
-=C2=A0</div><div><br></div><div>Ross</div></div></div></div>
-
---001a11c2b49e15d81d050e2ea8a6--
