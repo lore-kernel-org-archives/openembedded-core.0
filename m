@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B0F56E64C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD1A6E65B
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Feb 2015 01:12:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t131CH34022767
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t131CIB1012982
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Feb 2015 17:12:17 -0800 (PST)
+	Mon, 2 Feb 2015 17:12:18 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
 	Mon, 2 Feb 2015 17:12:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Feb 2015 17:11:56 -0800
-Message-ID: <3a46a59aca121d0dda59e37148d752c3edb1c9f1.1422925725.git.liezhi.yang@windriver.com>
+Date: Mon, 2 Feb 2015 17:11:57 -0800
+Message-ID: <450e26052cd1a01d283693ab5c03d186cabc63fc.1422925725.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1422925725.git.liezhi.yang@windriver.com>
 References: <cover.1422925725.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/21] matchbox-wm 1.2: remove it
+Subject: [PATCH 03/21] matchbox-desktop: remove 0.9.1 and 2.0 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,133 +36,114 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 03 Feb 2015 01:12:17 -0000
 Content-Type: text/plain
 
-It doesn't work:
+For 0.9.1:
 ERROR: matchbox-wm: Recipe file does not have license file information (LIC_FILES_CHKSUM)
 ERROR: Licensing Error: LIC_FILES_CHKSUM does not match, please fix
 
-And there is a matchbox-wm_git.bb, they have the same GPLv2+ license.
+For 2.0:
+| /path/to/matchbox-desktop-2.0/configure: line 2488: syntax error near unexpected token `build_old_libs,'
+| /path/to/matchbox-desktop-2.0/configure: line 2488: `    _LT_DECL(build_old_libs, enable_static, 0,'
+
+And there is a matchbox-desktop_git.bb which is "GPLv2+ & LGPLv2+", so remove them.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../matchbox-wm/matchbox-wm/configure_fix.patch    |   15 --------
- .../matchbox-wm/matchbox-wm/gconf-2.m4             |   39 --------------------
- .../matchbox-wm/matchbox-wm_1.2.bb                 |   39 --------------------
- 3 files changed, 93 deletions(-)
- delete mode 100644 meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
- delete mode 100644 meta/recipes-graphics/matchbox-wm/matchbox-wm/gconf-2.m4
- delete mode 100644 meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
+ .../files/dso_linking_change_build_fix.patch       |   28 --------------------
+ .../matchbox-desktop/matchbox-desktop_0.9.1.bb     |   27 -------------------
+ .../matchbox-desktop/matchbox-desktop_2.0.bb       |   15 -----------
+ 3 files changed, 70 deletions(-)
+ delete mode 100644 meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
+ delete mode 100644 meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
+ delete mode 100644 meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
 
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch b/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
+diff --git a/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch b/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
 deleted file mode 100644
-index 800bf3b..0000000
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
+index 388f51f..0000000
+--- a/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
 +++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
+@@ -1,28 +0,0 @@
+-after gcc linking has changed, all the libraries must be explicitely specified to for linking. 
+-This patch avoids this linking error:
 -
--Index: matchbox-window-manager/configure.ac
+-| make[2]: Entering directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/matchbox-desktop-2.0+svnr2096-r0/matchbox-desktop-2/src'^M
+-| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux -Wall -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o matchbox-desktop main.o taku-category-bar.o desktop.o ../libtaku/libtaku.a -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0   -ldbus-1 -lpthread -lrt   -lstartup-notification-1   ../libtaku/libinotify.a^M
+-| /disk0/pokybuild/build1/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.5.1/ld: F^A: invalid DSO for symbol `XFree' definition^M
+-| /disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux/usr/lib/libX11.so.6: could not read symbols: Bad value^M
+-| collect2: ld returned 1 exit status^M
+-| make[2]: *** [matchbox-desktop] Error 1
+-
+-Nitin A Kamble <nitin.a.kamble@intel.com>
+-Date: 2011/01/11
+-
+-Upstream-Status: Accepted
+-
+-Index: matchbox-desktop-2/configure.ac
 -===================================================================
----- matchbox-window-manager.orig/configure.ac	2007-11-14 12:02:28.000000000 +0000
--+++ matchbox-window-manager/configure.ac	2007-11-14 12:18:55.000000000 +0000
--@@ -283,7 +283,7 @@
--     yes)
+---- matchbox-desktop-2.orig/configure.ac
+-+++ matchbox-desktop-2/configure.ac
+-@@ -14,7 +14,7 @@ if test x$inotify_support = xyes; then
+-         AC_DEFINE(WITH_INOTIFY, [1], [If inotify is enabled])
+- fi
 - 
-- 	case "$expat" in
---	  yes)
--+	  yes|"")
-- 		EXPAT_LIBS="-lexpat"
-- 		;;
-- 	    *)
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm/gconf-2.m4 b/meta/recipes-graphics/matchbox-wm/matchbox-wm/gconf-2.m4
+--PKG_CHECK_MODULES(GTK, gtk+-2.0)
+-+PKG_CHECK_MODULES(GTK, [gtk+-2.0 x11])
+- 
+- AC_ARG_ENABLE(startup_notification,
+-         AC_HELP_STRING([--disable-startup-notification], [disable startup notification support]),
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
 deleted file mode 100644
-index aca7c7d..0000000
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm/gconf-2.m4
+index 120f086..0000000
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
 +++ /dev/null
-@@ -1,39 +0,0 @@
--dnl AM_GCONF_SOURCE_2
--dnl Defines GCONF_SCHEMA_CONFIG_SOURCE which is where you should install schemas
--dnl  (i.e. pass to gconftool-2
--dnl Defines GCONF_SCHEMA_FILE_DIR which is a filesystem directory where
--dnl  you should install foo.schemas files
--dnl
--
--AC_DEFUN([AM_GCONF_SOURCE_2],
--[
--  if test "x$GCONF_SCHEMA_INSTALL_SOURCE" = "x"; then
--    GCONF_SCHEMA_CONFIG_SOURCE=`gconftool-2 --get-default-source`
--  else
--    GCONF_SCHEMA_CONFIG_SOURCE=$GCONF_SCHEMA_INSTALL_SOURCE
--  fi
--
--  AC_ARG_WITH(gconf-source, 
--  [  --with-gconf-source=sourceaddress      Config database for installing schema files.],GCONF_SCHEMA_CONFIG_SOURCE="$withval",)
--
--  AC_SUBST(GCONF_SCHEMA_CONFIG_SOURCE)
--  AC_MSG_RESULT([Using config source $GCONF_SCHEMA_CONFIG_SOURCE for schema installation])
--
--  if test "x$GCONF_SCHEMA_FILE_DIR" = "x"; then
--    GCONF_SCHEMA_FILE_DIR='$(sysconfdir)/gconf/schemas'
--  fi
--
--  AC_ARG_WITH(gconf-schema-file-dir, 
--  [  --with-gconf-schema-file-dir=dir        Directory for installing schema files.],GCONF_SCHEMA_FILE_DIR="$withval",)
--
--  AC_SUBST(GCONF_SCHEMA_FILE_DIR)
--  AC_MSG_RESULT([Using $GCONF_SCHEMA_FILE_DIR as install directory for schema files])
--
--  AC_ARG_ENABLE(schemas-install,
--     [  --disable-schemas-install	Disable the schemas installation],
--     [case ${enableval} in
--       yes|no) ;;
--       *) AC_MSG_ERROR(bad value ${enableval} for --enable-schemas-install) ;;
--      esac])
--  AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [test "$enable_schemas_install" != no])
--])
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-deleted file mode 100644
-index 8ee42c3..0000000
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "Matchbox lightweight window manager"
--SECTION = "x11/wm"
+@@ -1,27 +0,0 @@
+-SUMMARY = "Matchbox Window Manager Desktop"
 -LICENSE = "GPLv2.0+"
--DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes libxcursor xdamage libxrender startup-notification expat"
--PR = "r5"
+-DEPENDS = "libmatchbox startup-notification"
+-SECTION = "x11/wm"
 -
--SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-window-manager/${PV}/matchbox-window-manager-${PV}.tar.bz2 \
--           file://configure_fix.patch \
--           file://kbdconfig \
--           file://gconf-2.m4"
+-SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-desktop/0.9/matchbox-desktop-${PV}.tar.bz2"
 -
--SRC_URI[md5sum] = "3e158dcf57823b55c926d95b245500fb"
--SRC_URI[sha256sum] = "81a23a4af797cf350759fd5ac738797015a66dd5dba2f3d9f3c6908506c1ceff"
+-SRC_URI[md5sum] = "3335a30b1a1aacfb39f23b505254765c"
+-SRC_URI[sha256sum] = "ecb025d3660d80a9850973111b4fdfffaa50b47cbf0c5467b508d28d65146793"
 -
--S = "${WORKDIR}/matchbox-window-manager-${PV}"
+-EXTRA_OECONF = "--enable-startup-notification --enable-dnotify"
 -
 -inherit autotools pkgconfig
 -
 -FILES_${PN} = "${bindir}/* \
--	       ${datadir}/matchbox \
--	       ${sysconfdir}/matchbox \
--	       ${datadir}/themes/blondie/matchbox \
--	       ${datadir}/themes/Default/matchbox \
--	       ${datadir}/themes/MBOpus/matchbox"
+-	       ${datadir}/applications \
+-	       ${libdir}/matchbox/desktop/*.so \
+-	       ${datadir}/matchbox-desktop \
+-	       ${datadir}/pixmaps \
+-	       ${sysconfdir}/matchbox"
 -
--EXTRA_OECONF = " --enable-startup-notification \
--                 --disable-xrm \
--                 --enable-expat \
--                 --with-expat-lib=${STAGING_LIBDIR} \
--                 --with-expat-includes=${STAGING_INCDIR}"
+-FILES_${PN}-dev += "${libdir}/matchbox-desktop \
+-		    ${includedir}/matchbox-desktop \
+-                    ${libdir}/matchbox/desktop/*.*a \
+-		    ${datadir}/matchbox/desktop/modules/*a"
 -
+-FILES_${PN}-dbg += "${libdir}/matchbox/desktop/.debug/"
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
+deleted file mode 100644
+index c52e7f2..0000000
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
++++ /dev/null
+@@ -1,15 +0,0 @@
+-SUMMARY = "Matchbox Window Manager Desktop"
+-LICENSE = "GPLv2.0+"
+-DEPENDS = "gtk+ startup-notification"
+-SECTION = "x11/wm"
+-PR = "r2"
 -
--do_configure_prepend () {
--        cp ${WORKDIR}/gconf-2.m4 ${S}/
--}
+-SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-desktop/2.0/matchbox-desktop-${PV}.tar.bz2 \
+-	file://dso_linking_change_build_fix.patch"
 -
--do_install_prepend() {
--	install ${WORKDIR}/kbdconfig ${S}/data/kbdconfig
--}
+-SRC_URI[md5sum] = "b0a4a47130272e2adab4e9feb43a6c9c"
+-SRC_URI[sha256sum] = "be33ff0bc8a9b1eee6af360a5118e470e69a6292ecc9e154ec6f349fce5c5f75"
+-
+-EXTRA_OECONF = "--enable-startup-notification"
+-
+-inherit autotools pkgconfig
 -- 
 1.7.9.5
 
