@@ -1,37 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FBAE6E68C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 41C916AC5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 15:00:21 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id q107so52634610qgd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Feb 2015 07:00:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Z5gGlvNBMfu9s0JtYyFcvzyrJEIVaqjNx9s6M2pneo8=;
-	b=J/cn6LwFRONYvLdEd+tDJMhotoR9JLC3LW5RqfRvV306IQEEYhtMH/TtK+wW0dJddU
-	6apbxC4DUdToyJRWavJh+lK2xGy8eXzDkUxhFtRlOhD5xxSRxkHBRQ6Etksh3v1BmW3m
-	IuqRNOKMbnyBQgVzRde0pxFnTFkLF2cQ0ORbZC9XP2QB+hF8aqQ8vzdtPQDm8PKSQAki
-	yTKSsTehMc09xAKDHR8TLUsLq4Mwnjo0K/eYyUlCDMj3/Opqu0FIRYlN4jqq49iwtB6n
-	U8NIRX8p0PbSfuxB47OsEsD9554GoJzv0O6Dhf9Skmx8dJxBZcUKDYL4RJX3tjqWjahg
-	iQdw==
-X-Gm-Message-State: ALoCoQmblxVSiF4FK5F37iRBeqwDBMk2gcIEEaeaLwO6wyC7UK1Ey0am5fBDsXtMf1myoxIqff8D
-X-Received: by 10.224.97.72 with SMTP id k8mr54077953qan.52.1422975617444;
-	Tue, 03 Feb 2015 07:00:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 3 Feb 2015 06:59:57 -0800 (PST)
-In-Reply-To: <18cd01e42aa7a74c010d6114b6625bdfe586103a.1422925725.git.liezhi.yang@windriver.com>
-References: <cover.1422925725.git.liezhi.yang@windriver.com>
-	<18cd01e42aa7a74c010d6114b6625bdfe586103a.1422925725.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Feb 2015 14:59:57 +0000
-Message-ID: <CAJTo0LbQbF4poEUwpWYRrcVn-yTPT6LmJ9oKUh2dE4FR5D5tVQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 07/21] libidn 0.6.14: fixed installed-vs-shipped
+	Tue,  3 Feb 2015 15:29:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 03 Feb 2015 07:25:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="449227148"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.17.39])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Feb 2015 07:14:58 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Feb 2015 15:28:51 +0000
+Message-Id: <cover.1422977092.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 0/1] Tweak license format messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 15:00:33 -0000
-Content-Type: multipart/alternative; boundary=001a11c2cb5a33c676050e30544f
+X-List-Received-Date: Tue, 03 Feb 2015 15:29:17 -0000
 
---001a11c2cb5a33c676050e30544f
-Content-Type: text/plain; charset=UTF-8
+Brought to you by the "keeping Koen happy" dept.
 
-On 3 February 2015 at 01:12, Robert Yang <liezhi.yang@windriver.com> wrote:
+The following change since commit e48c06264f183c3d611a20a45914e9eeaa8f3736:
 
->         rm -rf ${D}${datadir}/emacs
->  }
-> +
-> +FILES_${PN} += "${datadir}/emacs"
->
+  libtool: Fix tools path issues (2015-02-03 14:29:56 +0000)
 
-This was already fixed - see the rm a few lines above. :)
+is available in the git repository at:
 
-Ross
+  git://git.openembedded.org/openembedded-core-contrib paule/license-format
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/license-format
 
---001a11c2cb5a33c676050e30544f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Paul Eggleton (1):
+  classes/license: tweak license format messages
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2015 at 01:12, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3wc" =
-class=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf =
-${D}${datadir}/emacs<br>
-=C2=A0}<br>
-+<br>
-+FILES_${PN} +=3D &quot;${datadir}/emacs&quot;</div></blockquote><div><br><=
-/div><div>This was already fixed - see the rm a few lines above. :)</div><d=
-iv><br></div><div>Ross=C2=A0</div></div></div></div>
+ meta/classes/license.bbclass | 15 ++++++++-------
+ meta/lib/oe/license.py       |  3 ++-
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
---001a11c2cb5a33c676050e30544f--
+-- 
+1.9.3
+
+
