@@ -1,25 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AF606E6BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 091B56AC5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 18:35:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 03 Feb 2015 10:28:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,514,1418112000"; d="scan'208";a="672175790"
-Received: from lzavalam-mobl.amr.corp.intel.com (HELO
-	swold-mobl5.amr.corp.intel.com) ([10.252.252.168])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2015 10:34:57 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Feb 2015 10:34:30 -0800
-Message-Id: <1d810c745044d88ac688967fb806359a8c5ff706.1422988163.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1422988163.git.sgw@linux.intel.com>
-References: <cover.1422988163.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1422988163.git.sgw@linux.intel.com>
-References: <cover.1422988163.git.sgw@linux.intel.com>
-Subject: [PATCH 4/6] ca-certificates: Upgrade to 20141019 (git based)
+	Tue,  3 Feb 2015 19:47:43 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id s11so37223969qcv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Feb 2015 11:47:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=baQ4eahXVcyeRszkYA1IltTT8iNj2QIQA44OOdAnVeE=;
+	b=c5oNdJNqJbjEMsQ4LzC7CMHkqgnfRxIwyC8XaSCeOnTC5tGzbP+Bf9sYvoUt2zLtce
+	QK1sGCv82LrBfMNGte9elbGz7Ga+j16Ije/9UoPqfL7K0T45j4uL14lDzj0c6WMgeft7
+	mjaU0i9LjKwqa7A1WC0YrOQkdi7dIvp89EX31bsfxuhlwDYE4KjVkTX6VYwCQ+LYyVVE
+	KXXcS7K9SyLLFCy84zwXUWKofpF3CffA9bGUA7CiTsoTeL4yQz9ymmdhwOtxC3++bAPw
+	RUj5Lr03Lt/QVNFK5t0Ji/ulJiVxBeOFrMbDFZh8pTAilq4iH6aqo5WjLjTpY6uHBOXt
+	GL5w==
+X-Gm-Message-State: ALoCoQmtL4lDaMpTdmA2y4j4e1li2jR19kOgl1rcBb1clkEEALeOEYh/vmPR0KEYQKTSnVpPtIAH
+X-Received: by 10.140.21.48 with SMTP id 45mr53279840qgk.87.1422992864308;
+	Tue, 03 Feb 2015 11:47:44 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Tue, 3 Feb 2015 11:47:24 -0800 (PST)
+In-Reply-To: <1422924455-24732-2-git-send-email-rich.tollerton@ni.com>
+References: <1422924455-24732-1-git-send-email-rich.tollerton@ni.com>
+	<1422924455-24732-2-git-send-email-rich.tollerton@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Feb 2015 19:47:24 +0000
+Message-ID: <CAJTo0LYkdvkjDPqQOAai1xcwoPVdX3PXMdPYRjq_Y09HrY3WBg@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/3] staging.bbclass: Install ${datadir}/fonts/ into sysroots
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,328 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 18:35:02 -0000
+X-List-Received-Date: Tue, 03 Feb 2015 19:47:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c129943203e1050e34589f
 
-Rebase default-sysroot patch
-Remove backported Mozilla certdata patch
-License has not changed, just wording.
+--001a11c129943203e1050e34589f
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...date-mozilla-certdata.txt-to-version-1.98.patch | 227 ---------------------
- .../ca-certificates/default-sysroot.patch          |  21 +-
- ...tes_20140325.bb => ca-certificates_20141019.bb} |   6 +-
- 3 files changed, 10 insertions(+), 244 deletions(-)
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Update-mozilla-certdata.txt-to-version-1.98.patch
- rename meta/recipes-support/ca-certificates/{ca-certificates_20140325.bb => ca-certificates_20141019.bb} (91%)
+On 3 February 2015 at 00:47, Richard Tollerton <rich.tollerton@ni.com>
+wrote:
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-Update-mozilla-certdata.txt-to-version-1.98.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-Update-mozilla-certdata.txt-to-version-1.98.patch
-deleted file mode 100644
-index 19fa6bf..0000000
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-Update-mozilla-certdata.txt-to-version-1.98.patch
-+++ /dev/null
-@@ -1,227 +0,0 @@
--From 9d9b795cf1066eb62db3cb5bb5cf56bdf7159b98 Mon Sep 17 00:00:00 2001
--From: Michael Shuler <michael@pbandjelly.org>
--Date: Sat, 12 Apr 2014 07:56:56 -0500
--Subject: [PATCH] Update mozilla/certdata.txt to version 1.98
--
--This update only removes an untrusted cert for "Bogus kuix.de", which was
--used for testing by mozilla.
--
--Upstream-Status: Backport
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
--
-----
-- mozilla/certdata.txt | 182 ---------------------------------------------------
-- mozilla/nssckbi.h    |   4 +-
-- 2 files changed, 2 insertions(+), 184 deletions(-)
--
--diff --git a/mozilla/certdata.txt b/mozilla/certdata.txt
--index ae9cbc7..ca4c66b 100644
----- a/mozilla/certdata.txt
--+++ b/mozilla/certdata.txt
--@@ -21686,188 +21686,6 @@ CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_NOT_TRUSTED
-- CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE
-- 
-- #
---# Certificate "Bogus kuix.de"
---#
---# Issuer: CN=UTN-USERFirst-Hardware,OU=http://www.usertrust.com,O=The USERTRUST Network,L=Salt Lake City,ST=UT,C=US
---# Serial Number:72:03:21:05:c5:0c:08:57:3d:8e:a5:30:4e:fe:e8:b0
---# Subject: CN=kuix.de,OU=Comodo Trial SSL,OU=TEST USE ONLY - NO WARRANTY ATTACHED,OU=For Testing Purposes Only,O=Kai Engert,STREET=Test Street,L=Test City,ST=Test State,postalCode=12345,C=DE
---# Not Valid Before: Thu Mar 17 00:00:00 2011
---# Not Valid After : Sat Apr 16 23:59:59 2011
---# Fingerprint (MD5): F7:5F:98:BC:D8:64:0C:16:E5:AE:EE:AA:00:F6:1F:07
---# Fingerprint (SHA1): 82:61:4B:EC:97:48:15:DE:CC:9A:CC:6E:84:21:71:79:B2:64:20:40
---CKA_CLASS CK_OBJECT_CLASS CKO_CERTIFICATE
---CKA_TOKEN CK_BBOOL CK_TRUE
---CKA_PRIVATE CK_BBOOL CK_FALSE
---CKA_MODIFIABLE CK_BBOOL CK_FALSE
---CKA_LABEL UTF8 "Bogus kuix.de"
---CKA_CERTIFICATE_TYPE CK_CERTIFICATE_TYPE CKC_X_509
---CKA_SUBJECT MULTILINE_OCTAL
---\060\201\361\061\013\060\011\006\003\125\004\006\023\002\104\105
---\061\016\060\014\006\003\125\004\021\023\005\061\062\063\064\065
---\061\023\060\021\006\003\125\004\010\023\012\124\145\163\164\040
---\123\164\141\164\145\061\022\060\020\006\003\125\004\007\023\011
---\124\145\163\164\040\103\151\164\171\061\024\060\022\006\003\125
---\004\011\023\013\124\145\163\164\040\123\164\162\145\145\164\061
---\023\060\021\006\003\125\004\012\023\012\113\141\151\040\105\156
---\147\145\162\164\061\042\060\040\006\003\125\004\013\023\031\106
---\157\162\040\124\145\163\164\151\156\147\040\120\165\162\160\157
---\163\145\163\040\117\156\154\171\061\055\060\053\006\003\125\004
---\013\023\044\124\105\123\124\040\125\123\105\040\117\116\114\131
---\040\055\040\116\117\040\127\101\122\122\101\116\124\131\040\101
---\124\124\101\103\110\105\104\061\031\060\027\006\003\125\004\013
---\023\020\103\157\155\157\144\157\040\124\162\151\141\154\040\123
---\123\114\061\020\060\016\006\003\125\004\003\023\007\153\165\151
---\170\056\144\145
---END
---CKA_ID UTF8 "0"
---CKA_ISSUER MULTILINE_OCTAL
---\060\201\227\061\013\060\011\006\003\125\004\006\023\002\125\123
---\061\013\060\011\006\003\125\004\010\023\002\125\124\061\027\060
---\025\006\003\125\004\007\023\016\123\141\154\164\040\114\141\153
---\145\040\103\151\164\171\061\036\060\034\006\003\125\004\012\023
---\025\124\150\145\040\125\123\105\122\124\122\125\123\124\040\116
---\145\164\167\157\162\153\061\041\060\037\006\003\125\004\013\023
---\030\150\164\164\160\072\057\057\167\167\167\056\165\163\145\162
---\164\162\165\163\164\056\143\157\155\061\037\060\035\006\003\125
---\004\003\023\026\125\124\116\055\125\123\105\122\106\151\162\163
---\164\055\110\141\162\144\167\141\162\145
---END
---CKA_SERIAL_NUMBER MULTILINE_OCTAL
---\002\020\162\003\041\005\305\014\010\127\075\216\245\060\116\376
---\350\260
---END
---CKA_VALUE MULTILINE_OCTAL
---\060\202\005\154\060\202\004\124\240\003\002\001\002\002\020\162
---\003\041\005\305\014\010\127\075\216\245\060\116\376\350\260\060
---\015\006\011\052\206\110\206\367\015\001\001\005\005\000\060\201
---\227\061\013\060\011\006\003\125\004\006\023\002\125\123\061\013
---\060\011\006\003\125\004\010\023\002\125\124\061\027\060\025\006
---\003\125\004\007\023\016\123\141\154\164\040\114\141\153\145\040
---\103\151\164\171\061\036\060\034\006\003\125\004\012\023\025\124
---\150\145\040\125\123\105\122\124\122\125\123\124\040\116\145\164
---\167\157\162\153\061\041\060\037\006\003\125\004\013\023\030\150
---\164\164\160\072\057\057\167\167\167\056\165\163\145\162\164\162
---\165\163\164\056\143\157\155\061\037\060\035\006\003\125\004\003
---\023\026\125\124\116\055\125\123\105\122\106\151\162\163\164\055
---\110\141\162\144\167\141\162\145\060\036\027\015\061\061\060\063
---\061\067\060\060\060\060\060\060\132\027\015\061\061\060\064\061
---\066\062\063\065\071\065\071\132\060\201\361\061\013\060\011\006
---\003\125\004\006\023\002\104\105\061\016\060\014\006\003\125\004
---\021\023\005\061\062\063\064\065\061\023\060\021\006\003\125\004
---\010\023\012\124\145\163\164\040\123\164\141\164\145\061\022\060
---\020\006\003\125\004\007\023\011\124\145\163\164\040\103\151\164
---\171\061\024\060\022\006\003\125\004\011\023\013\124\145\163\164
---\040\123\164\162\145\145\164\061\023\060\021\006\003\125\004\012
---\023\012\113\141\151\040\105\156\147\145\162\164\061\042\060\040
---\006\003\125\004\013\023\031\106\157\162\040\124\145\163\164\151
---\156\147\040\120\165\162\160\157\163\145\163\040\117\156\154\171
---\061\055\060\053\006\003\125\004\013\023\044\124\105\123\124\040
---\125\123\105\040\117\116\114\131\040\055\040\116\117\040\127\101
---\122\122\101\116\124\131\040\101\124\124\101\103\110\105\104\061
---\031\060\027\006\003\125\004\013\023\020\103\157\155\157\144\157
---\040\124\162\151\141\154\040\123\123\114\061\020\060\016\006\003
---\125\004\003\023\007\153\165\151\170\056\144\145\060\201\237\060
---\015\006\011\052\206\110\206\367\015\001\001\001\005\000\003\201
---\215\000\060\201\211\002\201\201\000\270\252\216\365\227\107\007
---\137\345\170\166\156\223\153\216\337\113\074\333\231\057\161\123
---\051\156\245\363\044\117\110\045\043\100\001\354\012\025\013\354
---\156\310\236\046\043\146\373\351\333\330\050\205\041\117\036\337
---\173\114\345\143\301\013\262\142\126\224\123\313\277\234\241\115
---\331\207\305\151\110\074\261\277\245\150\122\041\035\172\334\224
---\117\104\156\107\045\035\237\234\222\322\067\035\371\133\133\262
---\335\076\030\327\363\207\146\255\243\364\316\217\321\157\360\271
---\264\357\261\352\025\143\012\316\201\002\003\001\000\001\243\202
---\001\332\060\202\001\326\060\037\006\003\125\035\043\004\030\060
---\026\200\024\241\162\137\046\033\050\230\103\225\135\007\067\325
---\205\226\235\113\322\303\105\060\035\006\003\125\035\016\004\026
---\004\024\100\217\071\046\234\114\206\043\231\306\121\011\246\346
---\362\301\376\247\366\267\060\016\006\003\125\035\017\001\001\377
---\004\004\003\002\005\240\060\014\006\003\125\035\023\001\001\377
---\004\002\060\000\060\035\006\003\125\035\045\004\026\060\024\006
---\010\053\006\001\005\005\007\003\001\006\010\053\006\001\005\005
---\007\003\002\060\106\006\003\125\035\040\004\077\060\075\060\073
---\006\014\053\006\001\004\001\262\061\001\002\001\003\004\060\053
---\060\051\006\010\053\006\001\005\005\007\002\001\026\035\150\164
---\164\160\163\072\057\057\163\145\143\165\162\145\056\143\157\155
---\157\144\157\056\143\157\155\057\103\120\123\060\173\006\003\125
---\035\037\004\164\060\162\060\070\240\066\240\064\206\062\150\164
---\164\160\072\057\057\143\162\154\056\143\157\155\157\144\157\143
---\141\056\143\157\155\057\125\124\116\055\125\123\105\122\106\151
---\162\163\164\055\110\141\162\144\167\141\162\145\056\143\162\154
---\060\066\240\064\240\062\206\060\150\164\164\160\072\057\057\143
---\162\154\056\143\157\155\157\144\157\056\156\145\164\057\125\124
---\116\055\125\123\105\122\106\151\162\163\164\055\110\141\162\144
---\167\141\162\145\056\143\162\154\060\161\006\010\053\006\001\005
---\005\007\001\001\004\145\060\143\060\073\006\010\053\006\001\005
---\005\007\060\002\206\057\150\164\164\160\072\057\057\143\162\164
---\056\143\157\155\157\144\157\143\141\056\143\157\155\057\125\124
---\116\101\144\144\124\162\165\163\164\123\145\162\166\145\162\103
---\101\056\143\162\164\060\044\006\010\053\006\001\005\005\007\060
---\001\206\030\150\164\164\160\072\057\057\157\143\163\160\056\143
---\157\155\157\144\157\143\141\056\143\157\155\060\037\006\003\125
---\035\021\004\030\060\026\202\007\153\165\151\170\056\144\145\202
---\013\167\167\167\056\153\165\151\170\056\144\145\060\015\006\011
---\052\206\110\206\367\015\001\001\005\005\000\003\202\001\001\000
---\216\141\036\046\036\242\331\031\320\360\324\275\211\371\352\222
---\021\171\152\136\173\174\237\176\071\163\011\126\121\346\206\124
---\307\155\106\166\122\312\152\250\064\300\140\076\003\316\263\311
---\110\227\321\237\246\241\152\017\376\167\321\036\020\263\127\200
---\251\006\046\204\246\373\172\067\023\316\204\314\167\171\011\056
---\342\104\276\037\254\167\156\167\106\101\333\260\262\151\221\164
---\321\200\226\141\061\014\057\012\317\265\320\334\010\055\353\366
---\165\202\336\212\056\272\075\007\220\140\071\126\203\341\202\312
---\043\254\337\343\317\115\160\127\301\270\267\223\232\355\334\213
---\336\112\240\125\050\002\253\103\014\124\227\150\030\242\353\071
---\341\271\374\277\163\200\144\063\022\173\207\140\002\347\076\160
---\311\207\312\251\066\074\005\361\006\136\161\012\016\012\066\231
---\260\207\347\151\132\261\240\060\116\175\141\130\313\306\250\226
---\200\136\175\301\052\377\233\112\112\353\051\147\212\017\157\346
---\031\355\202\317\201\127\341\044\255\242\321\372\332\024\227\260
---\154\174\107\306\327\224\021\041\354\326\132\322\335\217\177\221
---END
---
---# Trust for Certificate "Bogus kuix.de"
---# Issuer: CN=UTN-USERFirst-Hardware,OU=http://www.usertrust.com,O=The USERTRUST Network,L=Salt Lake City,ST=UT,C=US
---# Serial Number:72:03:21:05:c5:0c:08:57:3d:8e:a5:30:4e:fe:e8:b0
---# Subject: CN=kuix.de,OU=Comodo Trial SSL,OU=TEST USE ONLY - NO WARRANTY ATTACHED,OU=For Testing Purposes Only,O=Kai Engert,STREET=Test Street,L=Test City,ST=Test State,postalCode=12345,C=DE
---# Not Valid Before: Thu Mar 17 00:00:00 2011
---# Not Valid After : Sat Apr 16 23:59:59 2011
---# Fingerprint (MD5): F7:5F:98:BC:D8:64:0C:16:E5:AE:EE:AA:00:F6:1F:07
---# Fingerprint (SHA1): 82:61:4B:EC:97:48:15:DE:CC:9A:CC:6E:84:21:71:79:B2:64:20:40
---CKA_CLASS CK_OBJECT_CLASS CKO_NSS_TRUST
---CKA_TOKEN CK_BBOOL CK_TRUE
---CKA_PRIVATE CK_BBOOL CK_FALSE
---CKA_MODIFIABLE CK_BBOOL CK_FALSE
---CKA_LABEL UTF8 "Bogus kuix.de"
---CKA_CERT_SHA1_HASH MULTILINE_OCTAL
---\202\141\113\354\227\110\025\336\314\232\314\156\204\041\161\171
---\262\144\040\100
---END
---CKA_CERT_MD5_HASH MULTILINE_OCTAL
---\367\137\230\274\330\144\014\026\345\256\356\252\000\366\037\007
---END
---CKA_ISSUER MULTILINE_OCTAL
---\060\201\227\061\013\060\011\006\003\125\004\006\023\002\125\123
---\061\013\060\011\006\003\125\004\010\023\002\125\124\061\027\060
---\025\006\003\125\004\007\023\016\123\141\154\164\040\114\141\153
---\145\040\103\151\164\171\061\036\060\034\006\003\125\004\012\023
---\025\124\150\145\040\125\123\105\122\124\122\125\123\124\040\116
---\145\164\167\157\162\153\061\041\060\037\006\003\125\004\013\023
---\030\150\164\164\160\072\057\057\167\167\167\056\165\163\145\162
---\164\162\165\163\164\056\143\157\155\061\037\060\035\006\003\125
---\004\003\023\026\125\124\116\055\125\123\105\122\106\151\162\163
---\164\055\110\141\162\144\167\141\162\145
---END
---CKA_SERIAL_NUMBER MULTILINE_OCTAL
---\002\020\162\003\041\005\305\014\010\127\075\216\245\060\116\376
---\350\260
---END
---CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NSS_NOT_TRUSTED
---CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NSS_NOT_TRUSTED
---CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_NOT_TRUSTED
---CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE
---
---#
-- # Certificate "Go Daddy Root Certificate Authority - G2"
-- #
-- # Issuer: CN=Go Daddy Root Certificate Authority - G2,O="GoDaddy.com, Inc.",L=Scottsdale,ST=Arizona,C=US
--diff --git a/mozilla/nssckbi.h b/mozilla/nssckbi.h
--index fe89ed3..ba43e70 100644
----- a/mozilla/nssckbi.h
--+++ b/mozilla/nssckbi.h
--@@ -45,8 +45,8 @@
--  * of the comment in the CK_VERSION type definition.
--  */
-- #define NSS_BUILTINS_LIBRARY_VERSION_MAJOR 1
---#define NSS_BUILTINS_LIBRARY_VERSION_MINOR 97
---#define NSS_BUILTINS_LIBRARY_VERSION "1.97"
--+#define NSS_BUILTINS_LIBRARY_VERSION_MINOR 98
--+#define NSS_BUILTINS_LIBRARY_VERSION "1.98"
-- 
-- /* These version numbers detail the semantic changes to the ckfw engine. */
-- #define NSS_BUILTINS_HARDWARE_VERSION_MAJOR 1
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch b/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
-index 7e0ee4c..6a5d6da 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
-@@ -4,13 +4,15 @@ update-ca-certificates: find SYSROOT relative to its own location
- 
- This makes the script relocatable.
- 
----- ca-certificates-20130119.orig/sbin/update-ca-certificates
--+++ ca-certificates-20130119/sbin/update-ca-certificates
--@@ -37,11 +37,44 @@ do
-+Index: git/sbin/update-ca-certificates
-+===================================================================
-+--- git.orig/sbin/update-ca-certificates
-++++ git/sbin/update-ca-certificates
-+@@ -37,6 +37,39 @@ do
-    shift
-  done
--
---CERTSCONF=$SYSROOT/etc/ca-certificates.conf
-+ 
-++ 
- +if [ -z "$SYSROOT" ]; then
- +  local_which () {
- +    if [ $# -lt 1 ]; then
-@@ -43,13 +45,6 @@ This makes the script relocatable.
- +    SYSROOT=
- +  fi
- +fi
--+
-+ CERTSCONF=$SYSROOT/etc/ca-certificates.conf
-  CERTSDIR=$SYSROOT/usr/share/ca-certificates
--+CERTSCONF=$SYSROOT/etc/ca-certificates.conf
--+ETCCERTSDIR=$SYSROOT/etc/ssl/certs
-  LOCALCERTSDIR=$SYSROOT/usr/local/share/ca-certificates
-- CERTBUNDLE=ca-certificates.crt
---ETCCERTSDIR=$SYSROOT/etc/ssl/certs
--
-- cleanup() {
--   rm -f "$TEMPBUNDLE"
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20140325.bb b/meta/recipes-support/ca-certificates/ca-certificates_20141019.bb
-similarity index 91%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20140325.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20141019.bb
-index a277036..e5a4821 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20140325.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20141019.bb
-@@ -5,14 +5,14 @@ This derived from Debian's CA Certificates."
- HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
- SECTION = "misc"
- LICENSE = "GPL-2.0+ & MPL-2.0"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=0ee6c253e6406c76bfe261deaf5a60b5"
-+LIC_FILES_CHKSUM = "file://debian/copyright;md5=48d2baf97986999e776b43c8dd9e0c5a"
- 
- # This is needed to ensure we can run the postinst at image creation time
- DEPENDS = "ca-certificates-native"
- DEPENDS_class-native = ""
- 
- # tag: debian/20140325 + 2
--SRCREV = "1ce8e63dcfea6b9258da356dc023895e6f694144"
-+SRCREV = "2b8a047c78aadbecd90bf8e49ccf68898a211610"
- 
- SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0001-update-ca-certificates-remove-c-rehash.patch \
-@@ -20,8 +20,6 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://default-sysroot.patch \
-            file://sbindir.patch"
- 
--SRC_URI += "file://0001-Update-mozilla-certdata.txt-to-version-1.98.patch"
--
- S = "${WORKDIR}/git"
- 
- inherit allarch
--- 
-2.1.0
+> font-util installs encoding maps into /usr/share/fonts/X11. This path
+> may not exist on the host (many distros install these into
+> /usr/share/fonts/util) so they must exist in the sysroot in order for
+> e.g. `pkg-config --variable=mapdir fontutil` to work correctly. However,
+> currently /usr/share/fonts is explicitly not installed into sysroots, so
+> the encoding maps were not getting found.
+>
+> Fix this by no longer deleting ${datadir}/fonts/ from sysroots.
+>
 
+So the rationale for removing ${datadir}/fonts/ from staging is that it
+usually contains fonts, which are useless in the sysroot.  Removing this
+means that fonts get staged when they're built, which means pointless
+copying of data and adds to the build time.  In an image which has many
+megabyte of fonts, that's going to be noticeable.
 
+An alternative solution would be to explicitly stage the maps in the
+recipes that install them, see eg the tcl recipe that calls
+sysroot_stage_dir directly.
+
+Ross
+
+--001a11c129943203e1050e34589f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 February 2015 at 00:47, Richard Tollerton <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4oi" cl=
+ass=3D"a3s" style=3D"overflow:hidden">font-util installs encoding maps into=
+ /usr/share/fonts/X11. This path<br>
+may not exist on the host (many distros install these into<br>
+/usr/share/fonts/util) so they must exist in the sysroot in order for<br>
+e.g. `pkg-config --variable=3Dmapdir fontutil` to work correctly. However,<=
+br>
+currently /usr/share/fonts is explicitly not installed into sysroots, so<br=
+>
+the encoding maps were not getting found.<br>
+<br>
+Fix this by no longer deleting ${datadir}/fonts/ from sysroots.<br></div></=
+blockquote></div><br>So the rationale for removing ${datadir}/fonts/ from s=
+taging is that it usually contains fonts, which are useless in the sysroot.=
+=C2=A0 Removing this means that fonts get staged when they&#39;re built, wh=
+ich means pointless copying of data and adds to the build time.=C2=A0 In an=
+ image which has many megabyte of fonts, that&#39;s going to be noticeable.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">An al=
+ternative solution would be to explicitly stage the maps in the recipes tha=
+t install them, see eg the tcl recipe that calls sysroot_stage_dir directly=
+.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
+
+--001a11c129943203e1050e34589f--
