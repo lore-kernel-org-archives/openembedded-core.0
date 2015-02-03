@@ -1,40 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B45260024
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 703A76E635
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 12:41:14 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id l89so52054521qgf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Feb 2015 04:41:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IB40U1iRSMhHNku2R/FLWQhRAtI7caa1pL1T/B/argc=;
-	b=X8a3+WnD/bQolOl3S0FM/dBO5JWOmSpJL707G8d7QxAwoQyXqxvhefAFwgZXboFGAe
-	+eFTWuO2n/MBS56Y3AO2PhB5ri7ltxMhDqi0bRJa7NusfBaUsSZyhMcvGX4GjJHlPf/V
-	evT6meXu1DTRMql0EOj2UMraFBSOg8jlgy2s+cZ6cX8Fpl8IMl2CMw9Aci2w+pNEfPeU
-	BL0e3wV8oBCpVIhFUAomf+slPM0BQSgg3ByJzL+C5wmNLJaaXWmOcMOr6TOn+Z8OXoYO
-	FnLE8zMkYRBus3bGBF+T/+sGnKz1C5vokcYJU0TBsodqwbdCT7pz+ftRk+3OABB3cUPe
-	mvfA==
-X-Gm-Message-State: ALoCoQlJh0ZcJHRU5JR/ohZQ8p0Dpshg2f6Ll8Gq/MNInmLGqoXZCaH37C5roSVB6KxM5QFbOXnZ
-X-Received: by 10.140.39.179 with SMTP id v48mr32088055qgv.77.1422967275528;
-	Tue, 03 Feb 2015 04:41:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 3 Feb 2015 04:40:55 -0800 (PST)
-In-Reply-To: <54D0C0B1.1090500@kernelconcepts.de>
-References: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
-	<CAP9ODKrSVAaspV7pv+s-eVuhjf3ptFuO-+qc+johEYQbpGaPFg@mail.gmail.com>
-	<54D0C0B1.1090500@kernelconcepts.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Feb 2015 12:40:55 +0000
-Message-ID: <CAJTo0LZxw5LV55fi9QA6X=vgM4UrZ-LtHXqp2KuMEVmGffgNiA@mail.gmail.com>
-To: Florian Boor <florian.boor@kernelconcepts.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: Use bb.warn instead of bb.error for deprecation notification.
+	Tue,  3 Feb 2015 12:49:55 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 03 Feb 2015 04:45:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,512,1418112000"; d="scan'208";a="672007767"
+Received: from mtbauma1-mobl1.amr.corp.intel.com (HELO [10.252.136.235])
+	([10.252.136.235])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2015 04:49:54 -0800
+Message-ID: <1422967794.18649.1.camel@picadillo>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Date: Tue, 03 Feb 2015 06:49:54 -0600
+In-Reply-To: <20150203100536.GA3972@localhost.localdomain>
+References: <1420809842-516-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1420809842-516-2-git-send-email-maciej.borzecki@open-rnd.pl>
+	<20150202073734.GB3594@localhost.localdomain>
+	<1422887389.9587.13.camel@picadillo>
+	<20150203100536.GA3972@localhost.localdomain>
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] wic: fix extended/logical partition layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 12:41:17 -0000
-Content-Type: multipart/alternative; boundary=001a11c131f6fc3eb3050e2e62f6
+X-List-Received-Date: Tue, 03 Feb 2015 12:49:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a11c131f6fc3eb3050e2e62f6
-Content-Type: text/plain; charset=UTF-8
+On Tue, 2015-02-03 at 11:05 +0100, Maciej Borzecki wrote:
+> On 02/02 08:29, Tom Zanussi wrote:
+> > On Mon, 2015-02-02 at 08:37 +0100, Maciej Borzecki wrote:
+> > > ping
+> > >
+> >
+> > This looks reasonable, but I haven't been able to verify it due to wic
+> > problems introduced by the recent kernel changes in oe-core.
+> >
+> > If you have test cases e.g. the kickstart file(s) that you used for
+> > testing the fix, please include them.  Also, any testing you may have
+> > done to show it doesn't cause regressions in existing use cases.
+> 
+> Kickstart that fails without the patch:
+> 
+> part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
+> part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+> part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
+> part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
+> 
+> When mounting kernel ext4 complains about bad geometry of the 3rd
+> partition (i.e. ext4 partition image was exactly 131072 blocks, but
+> parted entry states 131071 blocks, wic stole the last sector of this
+> partition, to account for EBR for the first extended):
+> 
+> EXT4-fs (mmcblk0p3): bad geometry: block count 131072 exceeds size of
+> device (131071 blocks)
+> 
+> Then the first extended partition is not found, logical partition
+> /dev/mmcblk0p4 is the last one visible. I'm guessing the EBR was
+> overwritten by the last block of the 3rd partition image, hence the
+> kerel cannot figure out the location of the extended partition.
+> 
+> The problem won't be triggered unless there is a logical parition in
+> kickstart. The only other kickstart using MBR is directdisk.wks, but it
+> has only 2 partitions defined there.
+> 
+> With the patch you can go on and define more crazy layout like this one
+> below and it mounts properly:
+> 
+> part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
+> part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+> part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
+> part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
+> part /mnt2 --ondisk mmcblk0 --fstype=ext4 --label fakedata2 --size 13
+> part /mnt3 --ondisk mmcblk0 --fstype=ext4 --label fakedata3 --size 64
+> 
+> 
 
-On 3 February 2015 at 12:36, Florian Boor <florian.boor@kernelconcepts.de>
-wrote:
+Great, thanks for the detailed info.
 
-> well, in this case the patch is wrong but we *must* raise a fatal error.
->
+Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-bb.error is fatal, so it's all good right?
+> --
+> Maciej Borzęcki
+> Senior Software Developer at Open-RnD Sp. z o.o., Poland
+> www.open-rnd.pl
+> mobile: +48 889 117 365, fax: +48 42 657 9079
+> 
+> 
+> Niniejsza wiadomość wraz z załącznikami może
+> zawierać chronione prawem lub poufne informacje i została
+> wysłana wyłącznie do wiadomości i użytku osób, do których
+> została zaadresowana. Jeśli wiadomość została otrzymana
+> przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
+> trzecich. W takim przypadku uprasza się o natychmiastowe
+> zniszczenie wiadomości oraz poinformowanie nadawcy o
+> zaistniałej sytuacji za pomocą wiadomości zwrotnej.
+> Dziękujemy.
+> 
+> This message, including any attachments hereto,
+> may contain privileged or confidential information and is sent
+> solely for the attention and use of the intended addressee(s).
+> If you are not an intended addressee, you may neither use this
+> message nor copy or deliver it to anyone. In such case, you
+> should immediately destroy this message and kindly notify the
+> sender by reply email. Thank you.
 
-Ross
 
---001a11c131f6fc3eb3050e2e62f6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2015 at 12:36, Florian Boor <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:florian.boor@kernelconcepts.de" target=3D"_blank">florian.boor@kerne=
-lconcepts.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":3vx" class=3D"a3s" style=3D"overflow:hidden">well, in this case the p=
-atch is wrong but we *must* raise a fatal error.<br></div></blockquote></di=
-v><br>bb.error is fatal, so it&#39;s all good right?</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c131f6fc3eb3050e2e62f6--
