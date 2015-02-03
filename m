@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECD1A6E65B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 880186E5DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 01:12:16 +0000 (UTC)
+	Tue,  3 Feb 2015 01:12:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t131CIB1012982
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t131CJWX022770
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Feb 2015 17:12:18 -0800 (PST)
+	Mon, 2 Feb 2015 17:12:19 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 2 Feb 2015 17:12:17 -0800
+	Mon, 2 Feb 2015 17:12:18 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Feb 2015 17:11:57 -0800
-Message-ID: <450e26052cd1a01d283693ab5c03d186cabc63fc.1422925725.git.liezhi.yang@windriver.com>
+Date: Mon, 2 Feb 2015 17:11:58 -0800
+Message-ID: <c41b9e632644a9d557ebf1e3dd987cd4750baae2.1422925725.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1422925725.git.liezhi.yang@windriver.com>
 References: <cover.1422925725.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/21] matchbox-desktop: remove 0.9.1 and 2.0 version
+Subject: [PATCH 04/21] xf86-video-intel 2.21.15: remove it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,114 +36,151 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 03 Feb 2015 01:12:17 -0000
 Content-Type: text/plain
 
-For 0.9.1:
-ERROR: matchbox-wm: Recipe file does not have license file information (LIC_FILES_CHKSUM)
-ERROR: Licensing Error: LIC_FILES_CHKSUM does not match, please fix
+It doesn't work:
+| checking whether to include DRI1 support... no
+| configure: error: DRI1 requested but prerequisites not found
 
-For 2.0:
-| /path/to/matchbox-desktop-2.0/configure: line 2488: syntax error near unexpected token `build_old_libs,'
-| /path/to/matchbox-desktop-2.0/configure: line 2488: `    _LT_DECL(build_old_libs, enable_static, 0,'
-
-And there is a matchbox-desktop_git.bb which is "GPLv2+ & LGPLv2+", so remove them.
+And there is a xf86-video-intel_2.99.917.bb which is MIT-X.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../files/dso_linking_change_build_fix.patch       |   28 --------------------
- .../matchbox-desktop/matchbox-desktop_0.9.1.bb     |   27 -------------------
- .../matchbox-desktop/matchbox-desktop_2.0.bb       |   15 -----------
- 3 files changed, 70 deletions(-)
- delete mode 100644 meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
- delete mode 100644 meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
- delete mode 100644 meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
+ ...Map-changes-of-DamageUnregister-API-in-1..patch |   29 ------------
+ .../xf86-video-intel/disable-dri2-tests.patch      |   50 --------------------
+ .../xorg-driver/xf86-video-intel_2.21.15.bb        |   32 -------------
+ 3 files changed, 111 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/compat-api-Map-changes-of-DamageUnregister-API-in-1..patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-dri2-tests.patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.15.bb
 
-diff --git a/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch b/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/compat-api-Map-changes-of-DamageUnregister-API-in-1..patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/compat-api-Map-changes-of-DamageUnregister-API-in-1..patch
 deleted file mode 100644
-index 388f51f..0000000
---- a/meta/recipes-sato/matchbox-desktop/files/dso_linking_change_build_fix.patch
+index 3a42d13..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel/compat-api-Map-changes-of-DamageUnregister-API-in-1..patch
 +++ /dev/null
-@@ -1,28 +0,0 @@
--after gcc linking has changed, all the libraries must be explicitely specified to for linking. 
--This patch avoids this linking error:
+@@ -1,29 +0,0 @@
+-Upstream-Status: Backport
 -
--| make[2]: Entering directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/matchbox-desktop-2.0+svnr2096-r0/matchbox-desktop-2/src'^M
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux -Wall -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o matchbox-desktop main.o taku-category-bar.o desktop.o ../libtaku/libtaku.a -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0   -ldbus-1 -lpthread -lrt   -lstartup-notification-1   ../libtaku/libinotify.a^M
--| /disk0/pokybuild/build1/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.5.1/ld: F^A: invalid DSO for symbol `XFree' definition^M
--| /disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux/usr/lib/libX11.so.6: could not read symbols: Bad value^M
--| collect2: ld returned 1 exit status^M
--| make[2]: *** [matchbox-desktop] Error 1
+-From 524a45da56e2a052ffafa3887891caa90ba39f76 Mon Sep 17 00:00:00 2001
+-From: Chris Wilson <chris@chris-wilson.co.uk>
+-Date: Sat, 5 Oct 2013 18:42:24 +0100
+-Subject: [PATCH] compat-api: Map changes of DamageUnregister API in 1.14.99.2
 -
--Nitin A Kamble <nitin.a.kamble@intel.com>
--Date: 2011/01/11
+-Reported-by: Emmanuel Benisty <benisty.e@gmail.com>
+-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+----
+- src/compat-api.h |    4 ++++
+- 1 file changed, 4 insertions(+)
 -
--Upstream-Status: Accepted
--
--Index: matchbox-desktop-2/configure.ac
--===================================================================
----- matchbox-desktop-2.orig/configure.ac
--+++ matchbox-desktop-2/configure.ac
--@@ -14,7 +14,7 @@ if test x$inotify_support = xyes; then
--         AC_DEFINE(WITH_INOTIFY, [1], [If inotify is enabled])
-- fi
+-diff --git a/src/compat-api.h b/src/compat-api.h
+-index 8eb46ef..244a486 100644
+---- a/src/compat-api.h
+-+++ b/src/compat-api.h
+-@@ -162,4 +162,8 @@ static inline void FreePixmap(PixmapPtr pixmap)
+- 	if ((d)->pScreen->SourceValidate) (d)->pScreen->SourceValidate(d, x, y, w, h)
+- #endif
 - 
---PKG_CHECK_MODULES(GTK, gtk+-2.0)
--+PKG_CHECK_MODULES(GTK, [gtk+-2.0 x11])
+-+#if XORG_VERSION_CURRENT >= XORG_VERSION_NUMERIC(1,14,99,2,0)
+-+#define DamageUnregister(d, dd) DamageUnregister(dd)
+-+#endif
+-+
+- #endif
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-dri2-tests.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-dri2-tests.patch
+deleted file mode 100644
+index 9e93ca8..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-dri2-tests.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From ec91cfe7e5efdd5e1b1fbb85eea8f07b50e24c4b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Wed, 11 Sep 2013 21:12:37 +0100
+-Subject: [PATCH] test: only build DRI2 tests if DRI2 is enabled
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- test/Makefile.am |   10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/test/Makefile.am b/test/Makefile.am
+-index f51967b..18528a9 100644
+---- a/test/Makefile.am
+-+++ b/test/Makefile.am
+-@@ -16,9 +16,14 @@ stress_TESTS = \
+- 	render-copyarea-size \
+- 	render-copy-alphaless \
+- 	mixed-stress \
+-+	$(NULL)
+-+
+-+if DRI2
+-+stress_TESTS += \
+- 	dri2-swap \
+- 	dri2-race \
+- 	$(NULL)
+-+endif
 - 
-- AC_ARG_ENABLE(startup_notification,
--         AC_HELP_STRING([--disable-startup-notification], [disable startup notification support]),
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
+- check_PROGRAMS = $(stress_TESTS)
+- 
+-@@ -34,9 +39,14 @@ libtest_la_SOURCES = \
+- 	test_image.c \
+- 	test_log.c \
+- 	test_render.c \
+-+	$(NULL)
+-+
+-+if DRI2
+-+libtest_la_SOURCES += \
+- 	dri2.c \
+- 	dri2.h \
+- 	$(NULL)
+-+endif
+- 
+- vsync.avi: mkvsync.sh
+- 	./mkvsync.sh $@
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.15.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.15.bb
 deleted file mode 100644
-index 120f086..0000000
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
+index cd8fd63..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.15.bb
 +++ /dev/null
-@@ -1,27 +0,0 @@
--SUMMARY = "Matchbox Window Manager Desktop"
--LICENSE = "GPLv2.0+"
--DEPENDS = "libmatchbox startup-notification"
--SECTION = "x11/wm"
+@@ -1,32 +0,0 @@
+-require xorg-driver-video.inc
 -
--SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-desktop/0.9/matchbox-desktop-${PV}.tar.bz2"
+-SUMMARY = "X.Org X server -- Intel integrated graphics chipsets driver"
 -
--SRC_URI[md5sum] = "3335a30b1a1aacfb39f23b505254765c"
--SRC_URI[sha256sum] = "ecb025d3660d80a9850973111b4fdfffaa50b47cbf0c5467b508d28d65146793"
+-DESCRIPTION = "intel is an Xorg driver for Intel integrated graphics \
+-chipsets. The driver supports depths 8, 15, 16 and 24. On some chipsets, \
+-the driver supports hardware accelerated 3D via the Direct Rendering \
+-Infrastructure (DRI)."
 -
--EXTRA_OECONF = "--enable-startup-notification --enable-dnotify"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
 -
--inherit autotools pkgconfig
+-DEPENDS += "virtual/libx11 drm libpciaccess pixman"
 -
--FILES_${PN} = "${bindir}/* \
--	       ${datadir}/applications \
--	       ${libdir}/matchbox/desktop/*.so \
--	       ${datadir}/matchbox-desktop \
--	       ${datadir}/pixmaps \
--	       ${sysconfdir}/matchbox"
+-SRC_URI += "file://disable-dri2-tests.patch \
+-            file://compat-api-Map-changes-of-DamageUnregister-API-in-1..patch \
+-           "
 -
--FILES_${PN}-dev += "${libdir}/matchbox-desktop \
--		    ${includedir}/matchbox-desktop \
--                    ${libdir}/matchbox/desktop/*.*a \
--		    ${datadir}/matchbox/desktop/modules/*a"
+-PACKAGECONFIG ??= "sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri', '', d)}"
 -
--FILES_${PN}-dbg += "${libdir}/matchbox/desktop/.debug/"
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
-deleted file mode 100644
-index c52e7f2..0000000
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--SUMMARY = "Matchbox Window Manager Desktop"
--LICENSE = "GPLv2.0+"
--DEPENDS = "gtk+ startup-notification"
--SECTION = "x11/wm"
--PR = "r2"
+-PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,xf86driproto dri2proto"
+-PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
+-PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
+-PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+-PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
 -
--SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-desktop/2.0/matchbox-desktop-${PV}.tar.bz2 \
--	file://dso_linking_change_build_fix.patch"
+-# --enable-kms-only option is required by ROOTLESS_X
+-EXTRA_OECONF += '${@base_conditional( "ROOTLESS_X", "1", " --enable-kms-only", "", d )}'
 -
--SRC_URI[md5sum] = "b0a4a47130272e2adab4e9feb43a6c9c"
--SRC_URI[sha256sum] = "be33ff0bc8a9b1eee6af360a5118e470e69a6292ecc9e154ec6f349fce5c5f75"
+-COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
 -
--EXTRA_OECONF = "--enable-startup-notification"
--
--inherit autotools pkgconfig
+-SRC_URI[md5sum] = "8b646d257ace8197d6ab4e5ddeb8efb2"
+-SRC_URI[sha256sum] = "7d5a140f82a72fd1cbc8a664d66c3d4eca47ee240ca4927b8a98d7af6f65d6fc"
 -- 
 1.7.9.5
 
