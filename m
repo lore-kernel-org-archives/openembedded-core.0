@@ -1,46 +1,28 @@
-Return-Path: <mail@timomueller.eu>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id ACA796E5DE
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BCE46601DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 09:02:11 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id w55so38222542wes.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Feb 2015 01:02:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=YkgwP/jpEB+RpoI7kdkScgO5tu2DjAoYT7ebPr+Y1sM=;
-	b=CkfxSYrUuXYGI4ilfUOcp3Z+iYXaHYQ9e3Avg2SG+Fb5GJ2BAvP3/NqKFWfz8Q4qal
-	Vo4QwHuChLoY3u01SzknvpiVS1wIlCteTzBqWBleWrvitz6Dp2VxtlAOjYxpXSo56X6v
-	b/lIXCzrBft8aMUDU288MxvHUTp/CO6jlb53SOhXU8U46Gm1qF/+39M/Ns9IH9PYCSFp
-	8OZrtn++oF9gZ3PBz4dK7JpyYXAabG/MnNRRN/+P6YmAS5hg7f9E2hqZoj7LxuNQbW+H
-	+DJUNrX9gDSIscRZNsFOHNV9JmZMFFjQK5aN4u4MluZ9LvvYoX0CFiDLOYKabgTe05Hb
-	8LaA==
-X-Gm-Message-State: ALoCoQleZc9jeE24S+qPqXpUToBwgkX1aH7dm6qdWUdSmD0MKdLdOGX97eEmq+pP78bvliCQuBWK
-X-Received: by 10.180.88.103 with SMTP id bf7mr33280177wib.21.1422954132725;
-	Tue, 03 Feb 2015 01:02:12 -0800 (PST)
-Received: from mintberrycrunch.bmw-carit.intra (mail.bmw-carit.de.
-	[62.245.222.98]) by mx.google.com with ESMTPSA id
-	di11sm23612138wid.8.2015.02.03.01.02.11
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Feb 2015 01:02:11 -0800 (PST)
-Message-ID: <54D08E92.4070009@timomueller.eu>
-Date: Tue, 03 Feb 2015 10:02:10 +0100
-From: Timo Mueller <mail@timomueller.eu>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Tue,  3 Feb 2015 09:45:49 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Feb 2015 01:39:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,511,1418112000"; d="scan'208";a="521770756"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.17.39])
+	by orsmga003.jf.intel.com with ESMTP; 03 Feb 2015 01:38:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Date: Tue, 03 Feb 2015 09:45:37 +0000
+Message-ID: <24121782.0qj60PRY4z@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <20150202205429.GC3394@windriver.com>
+References: <1422662905-3598-1-git-send-email-paul.gortmaker@windriver.com>
+	<5253630.c2vWHxRG0u@peggleto-mobl5.ger.corp.intel.com>
+	<20150202205429.GC3394@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <49e336fde7b762f9e00013cf7adf53618fbb4f2a.1420813096.git.timo.mueller@bmw-carit.de>
-	<a5726f608827c0a0325705eae8dadbf90edd7c5f.1420813096.git.timo.mueller@bmw-carit.de>
-	<CAJTo0LaOUYJTw7j7XEyh-JM_q-F5Xuze4Mq6gqufpgRm9E94GA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaOUYJTw7j7XEyh-JM_q-F5Xuze4Mq6gqufpgRm9E94GA@mail.gmail.com>
-Cc: Timo Mueller <timo.mueller@bmw-carit.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] apr-util: Allow use in SDK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] devtools: add a bb for git-manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 09:02:17 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Feb 2015 09:45:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Ross,
+On Monday 02 February 2015 15:54:30 Paul Gortmaker wrote:
+> [Re: [OE-core] [PATCH] devtools: add a bb for git-manpages] On 02/02/2015 
+(Mon 17:04) Paul Eggleton wrote:
+> > On Friday 30 January 2015 19:08:25 Paul Gortmaker wrote:
+> > > These could be created from scratch from git itself, but it
+> > > requires asciidoc, xsltproc, python bits and too much other
+> > > baggage.  Since the git folks issue a tarball with the manpages
+> > > for each release, it is simpler to just go get that.
+> > 
+> > I'm just wondering, would it be simpler to just do this as part of the git
+> > recipe itself and have the manpages go into git-doc? Then you would get
+> > the documentation automatically if you had git in your image and doc-pkgs
+> > in IMAGE_FEATURES, plus we wouldn't have to remember to upgrade this every
+> > time we upgraded the git recipe.
+> 
+> I'm sure we can do that if desired.  It is probably worth mentioning
+> that I had this standalone recipe off in a layer for a while, and after
+> discussions on how to deal with coreutils and the mess it creats with
+> the openly hostile to cross-compile "help2man" that the idea of a
+> separate bb for manpages appeared acceptable.  So, based on that, I
+> figured it was time to post my git-manpages bb.
 
-Burton, Ross wrote on 02/02/2015 04:19 PM:
-> Hi Timo,
->
-> On 2 February 2015 at 14:03, Timo Mueller <mail@timomueller.eu> wrote:
->
->> From: Timo Mueller <timo.mueller@bmw-carit.de>
->>
->> This adds 'nativesdk' in the BBCLASSEXTEND.
->>
-> This doesn't apply to master, can you rebase?
+I just think if upstream ships pre-generated docs in lock-step with its code 
+releases, we might as well fetch and package them up as part of the normal 
+recipe and save ourselves some maintenance.
+ 
+> This brings me back to coreutils -- should we source prebuilt manpages
+> within the main recipe there too, or do a coreutils-manpages.bb  ?
 
-Sorry, my bad. I'll do so and send a v2 asap.
->
-> Ross
->
-Regards,
-Timo
+The same applies there too I would think.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
