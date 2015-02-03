@@ -1,24 +1,56 @@
-Return-Path: <Pengyu.Ma@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB8565C9D
+Return-Path: <zhenhua.luo@freescale.com>
+X-Greylist: delayed 909 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 03 Feb 2015 03:41:55 UTC
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0122.outbound.protection.outlook.com [65.55.169.122])
+	by mail.openembedded.org (Postfix) with ESMTP id 8225C601DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 02:16:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t132GHNB022179
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Feb 2015 18:16:17 -0800 (PST)
-Received: from pek-bsp-build1.wrs.com (128.224.179.105) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 2 Feb 2015 18:16:16 -0800
-From: Pengyu Ma <pengyu.ma@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <pengyu.ma@windriver.com>
-Date: Tue, 3 Feb 2015 10:11:08 +0800
-Message-ID: <1422929468-28222-1-git-send-email-pengyu.ma@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Tue,  3 Feb 2015 03:41:55 +0000 (UTC)
+Received: from CY1PR0301MB0715.namprd03.prod.outlook.com (25.160.159.145) by
+	CY1PR0301MB0649.namprd03.prod.outlook.com (25.160.158.143) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.75.20; Tue, 3 Feb 2015 03:26:45 +0000
+Received: from CY1PR0301MB0715.namprd03.prod.outlook.com ([25.160.159.145]) by
+	CY1PR0301MB0715.namprd03.prod.outlook.com ([25.160.159.145]) with
+	mapi id 15.01.0075.002; Tue, 3 Feb 2015 03:26:45 +0000
+From: "zhenhua.luo@freescale.com" <zhenhua.luo@freescale.com>
+To: Raphael Philipe <rapphil@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>, "rohitarulraj@freescale.com"
+	<rohitarulraj@freescale.com>
+Thread-Topic: [OE-core] [PATCH 1/9] binutils: upgrade to 2.25
+Thread-Index: AQHQM7f6ZR6uHMuPvkqPNdZo7G/g/pzMDrMAgA7p14CAA2DN0A==
+Date: Tue, 3 Feb 2015 03:26:45 +0000
+Message-ID: <CY1PR0301MB0715FD0E99D6A071153A39B6E43D0@CY1PR0301MB0715.namprd03.prod.outlook.com>
+References: <cover.1421651689.git.liezhi.yang@windriver.com>
+	<c1e126ada5030706b289f4916e24f280f423d6f3.1421651689.git.liezhi.yang@windriver.com>
+	<CAJTo0LZG97KQbY8mTwBpruADXJz+mJomGa1s2Q_KWVgAENB-hg@mail.gmail.com>
+	<CAENGNhdPsd5NkL0B2Y91w_ointzgW3NRFhk-DvxhvQ8KFpyLQQ@mail.gmail.com>
+In-Reply-To: <CAENGNhdPsd5NkL0B2Y91w_ointzgW3NRFhk-DvxhvQ8KFpyLQQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.158.211]
+authentication-results: gmail.com; dkim=none (message not signed)
+	header.d=none;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB0649;
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB0649; 
+x-forefront-prvs: 0476D4AB88
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(377454003)(24454002)(51704005)(69234005)(13464003)(46102003)(99286002)(62966003)(92566002)(40100003)(15975445007)(74316001)(2950100001)(102836002)(2900100001)(77156002)(1720100001)(76576001)(93886004)(66066001)(19580405001)(19580395003)(33656002)(54206007)(87936001)(106116001)(2656002)(122556002)(86362001)(76176999)(50986999)(54356999)(54606007);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB0649;
+	H:CY1PR0301MB0715.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
 MIME-Version: 1.0
-Subject: [meta-oe][V3][PATCH] mesa: Upgrade to 10.4.3
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2015 03:26:45.3514 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB0649
+Cc: Edmar Wienskoski <edmar@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] binutils: upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,91 +63,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 02:16:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Feb 2015 03:42:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-flags for EGL and GBM Gallium had been removed in 10.4,
-so remove these flags, files or packages.
+We are working on the u-boot build issue now.=20
 
-Signed-off-by: Pengyu Ma <pengyu.ma@windriver.com>
-Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/mesa/{mesa-gl_10.3.4.bb => mesa-gl_10.4.3.bb} | 0
- meta/recipes-graphics/mesa/mesa.inc                                 | 5 -----
- meta/recipes-graphics/mesa/{mesa_10.3.4.bb => mesa_10.4.3.bb}       | 4 ++--
- meta/recipes-graphics/mesa/mesa_git.bb                              | 4 ++--
- 4 files changed, 4 insertions(+), 9 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_10.3.4.bb => mesa-gl_10.4.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_10.3.4.bb => mesa_10.4.3.bb} (78%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.3.4.bb b/meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_10.3.4.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index cb1837a..c9748e2 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -59,8 +59,6 @@ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm
- GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
- PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
--PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
--PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
- MESA_LLVM_RELEASE ?= "3.3"
- PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
-@@ -85,7 +83,6 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libgles2-mesa libgles2-mesa-dev \
-              libgles3-mesa libgles3-mesa-dev \
-              libwayland-egl libwayland-egl-dev \
--             libegl-gallium libgbm-gallium \
-              libopenvg libopenvg-dev \
-              libxvmcsoftpipe libxvmcsoftpipe-dev \
-              libxatracker libxatracker-dev \
-@@ -169,8 +166,6 @@ FILES_libgl-mesa = "${libdir}/libGL.so.*"
- FILES_libglapi = "${libdir}/libglapi.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
--FILES_libegl-gallium = "${libdir}/egl/egl_gallium.so*"
--FILES_libgbm-gallium = "${libdir}/gbm/gbm_gallium_drm.so*"
- FILES_libopenvg = "${libdir}/libOpenVG.so.*"
- FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
- FILES_libxatracker = "${libdir}/libxatracker.so.*"
-diff --git a/meta/recipes-graphics/mesa/mesa_10.3.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.3.bb
-similarity index 78%
-rename from meta/recipes-graphics/mesa/mesa_10.3.4.bb
-rename to meta/recipes-graphics/mesa/mesa_10.4.3.bb
-index 50092c9..9669bcb 100644
---- a/meta/recipes-graphics/mesa/mesa_10.3.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.4.3.bb
-@@ -2,8 +2,8 @@ require ${BPN}.inc
- 
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "fa0558a3d02c2bb8c208c030ccdc992e"
--SRC_URI[sha256sum] = "e6373913142338d10515daf619d659433bfd2989988198930c13b0945a15e98a"
-+SRC_URI[md5sum] = "be86c4ee226f8ca28b7d4c728c350b01"
-+SRC_URI[sha256sum] = "ef6ecc9c2f36c9f78d1662382a69ae961f38f03af3a0c3268e53f351aa1978ad"
- 
- S = "${WORKDIR}/Mesa-${PV}"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index b046ae2..e554ff4 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -4,8 +4,8 @@ DEFAULT_PREFERENCE = "-1"
- 
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
- 
--SRCREV = "c7b9a2e38a3e471562b50dab8be65db8ac6819f8"
--PV = "10.3.4+git${SRCPV}"
-+SRCREV = "f70e4d4afd16e66506ce3b055edb3b71b1464890"
-+PV = "10.4.3+git${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;branch=10.4"
- 
--- 
-1.8.1.2
+Best Regards,
 
+Zhenhua
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Raphael Philipe
+> Sent: Sunday, February 01, 2015 7:45 AM
+> To: Burton, Ross
+> Cc: OE-core
+> Subject: Re: [OE-core] [PATCH 1/9] binutils: upgrade to 2.25
+>=20
+> I've got the same outcome while testing this patch with meta-fsl-ppc;
+>=20
+> It seems to be a recorrent issue.
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D754610
+>=20
+> Any clue on how to solve it?
+>=20
+>=20
+> On Thu, Jan 22, 2015 at 10:00 AM, Burton, Ross <ross.burton@intel.com> wr=
+ote:
+> >
+> > On 19 January 2015 at 07:16, Robert Yang <liezhi.yang@windriver.com> wr=
+ote:
+> >>
+> >> * Remove the following patches since they are already in the new code:
+> >>   binutils/fix-pr15815.patch
+> >>   binutils/fix-pr16428.patch
+> >>   binutils/fix-pr16476.patch
+> >>   binutils/fix-pr2404.patch
+> >>   binutils/replace_macros_with_static_inline.patch
+> >>   binutils/binutils_CVE-2014-8484.patch
+> >>   binutils/binutils_CVE-2014-8485.patch
+> >>   binutils/binutils_CVE-2014-8501.patch
+> >>   binutils/binutils_CVE-2014-8502.patch
+> >>   binutils/binutils_CVE-2014-8502_1.patch
+> >>   binutils/binutils_CVE-2014-8503.patch
+> >>   binutils/binutils_CVE-2014-8504.patch
+> >>   binutils/binutils_CVE-2014-8737.patch
+> >>
+> >> * The file src-release is gone.
+> >>
+> >> * Updated patches for the new code.
+> >>
+> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> >
+> >
+> > FYI, this is breaking u-boot on meta-fsl-ppc (#7145) so when Freescale
+> > have fixed their u-boot fork we can merge this.
+> >
+> > Ross
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
