@@ -1,28 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BCE46601DC
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B2CD6E5DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 09:45:49 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 03 Feb 2015 01:39:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,511,1418112000"; d="scan'208";a="521770756"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.17.39])
-	by orsmga003.jf.intel.com with ESMTP; 03 Feb 2015 01:38:03 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-Date: Tue, 03 Feb 2015 09:45:37 +0000
-Message-ID: <24121782.0qj60PRY4z@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <20150202205429.GC3394@windriver.com>
-References: <1422662905-3598-1-git-send-email-paul.gortmaker@windriver.com>
-	<5253630.c2vWHxRG0u@peggleto-mobl5.ger.corp.intel.com>
-	<20150202205429.GC3394@windriver.com>
+	Tue,  3 Feb 2015 10:05:39 +0000 (UTC)
+Received: from localhost (unknown [78.10.193.111])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id CB12E234E69;
+	Tue,  3 Feb 2015 11:05:36 +0100 (CET)
+Date: Tue, 3 Feb 2015 11:05:36 +0100
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Tom Zanussi <tom.zanussi@linux.intel.com>
+Message-ID: <20150203100536.GA3972@localhost.localdomain>
+References: <1420809842-516-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1420809842-516-2-git-send-email-maciej.borzecki@open-rnd.pl>
+	<20150202073734.GB3594@localhost.localdomain>
+	<1422887389.9587.13.camel@picadillo>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] devtools: add a bb for git-manpages
+In-Reply-To: <1422887389.9587.13.camel@picadillo>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] wic: fix extended/logical partition layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 09:45:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 03 Feb 2015 10:05:49 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Monday 02 February 2015 15:54:30 Paul Gortmaker wrote:
-> [Re: [OE-core] [PATCH] devtools: add a bb for git-manpages] On 02/02/2015 
-(Mon 17:04) Paul Eggleton wrote:
-> > On Friday 30 January 2015 19:08:25 Paul Gortmaker wrote:
-> > > These could be created from scratch from git itself, but it
-> > > requires asciidoc, xsltproc, python bits and too much other
-> > > baggage.  Since the git folks issue a tarball with the manpages
-> > > for each release, it is simpler to just go get that.
-> > 
-> > I'm just wondering, would it be simpler to just do this as part of the git
-> > recipe itself and have the manpages go into git-doc? Then you would get
-> > the documentation automatically if you had git in your image and doc-pkgs
-> > in IMAGE_FEATURES, plus we wouldn't have to remember to upgrade this every
-> > time we upgraded the git recipe.
-> 
-> I'm sure we can do that if desired.  It is probably worth mentioning
-> that I had this standalone recipe off in a layer for a while, and after
-> discussions on how to deal with coreutils and the mess it creats with
-> the openly hostile to cross-compile "help2man" that the idea of a
-> separate bb for manpages appeared acceptable.  So, based on that, I
-> figured it was time to post my git-manpages bb.
+On 02/02 08:29, Tom Zanussi wrote:
+> On Mon, 2015-02-02 at 08:37 +0100, Maciej Borzecki wrote:
+> > ping
+> >
+>
+> This looks reasonable, but I haven't been able to verify it due to wic
+> problems introduced by the recent kernel changes in oe-core.
+>
+> If you have test cases e.g. the kickstart file(s) that you used for
+> testing the fix, please include them.  Also, any testing you may have
+> done to show it doesn't cause regressions in existing use cases.
 
-I just think if upstream ships pre-generated docs in lock-step with its code 
-releases, we might as well fetch and package them up as part of the normal 
-recipe and save ourselves some maintenance.
- 
-> This brings me back to coreutils -- should we source prebuilt manpages
-> within the main recipe there too, or do a coreutils-manpages.bb  ?
+Kickstart that fails without the patch:
 
-The same applies there too I would think.
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
+part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
 
-Cheers,
-Paul
+When mounting kernel ext4 complains about bad geometry of the 3rd
+partition (i.e. ext4 partition image was exactly 131072 blocks, but
+parted entry states 131071 blocks, wic stole the last sector of this
+partition, to account for EBR for the first extended):
 
--- 
+EXT4-fs (mmcblk0p3): bad geometry: block count 131072 exceeds size of
+device (131071 blocks)
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Then the first extended partition is not found, logical partition
+/dev/mmcblk0p4 is the last one visible. I'm guessing the EBR was
+overwritten by the last block of the 3rd partition image, hence the
+kerel cannot figure out the location of the extended partition.
+
+The problem won't be triggered unless there is a logical parition in
+kickstart. The only other kickstart using MBR is directdisk.wks, but it
+has only 2 partitions defined there.
+
+With the patch you can go on and define more crazy layout like this one
+below and it mounts properly:
+
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
+part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
+part /mnt2 --ondisk mmcblk0 --fstype=ext4 --label fakedata2 --size 13
+part /mnt3 --ondisk mmcblk0 --fstype=ext4 --label fakedata3 --size 64
+
+
+--
+Maciej Borzęcki
+Senior Software Developer at Open-RnD Sp. z o.o., Poland
+www.open-rnd.pl
+mobile: +48 889 117 365, fax: +48 42 657 9079
+
+
+Niniejsza wiadomość wraz z załącznikami może
+zawierać chronione prawem lub poufne informacje i została
+wysłana wyłącznie do wiadomości i użytku osób, do których
+została zaadresowana. Jeśli wiadomość została otrzymana
+przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
+trzecich. W takim przypadku uprasza się o natychmiastowe
+zniszczenie wiadomości oraz poinformowanie nadawcy o
+zaistniałej sytuacji za pomocą wiadomości zwrotnej.
+Dziękujemy.
+
+This message, including any attachments hereto,
+may contain privileged or confidential information and is sent
+solely for the attention and use of the intended addressee(s).
+If you are not an intended addressee, you may neither use this
+message nor copy or deliver it to anyone. In such case, you
+should immediately destroy this message and kindly notify the
+sender by reply email. Thank you.
 
