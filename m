@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 686896E65B
+	by mail.openembedded.org (Postfix) with ESMTP id 6952C6E65D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 01:22:23 +0000 (UTC)
+	Tue,  3 Feb 2015 01:22:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t131MO2C022877
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t131MN8j022874
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Feb 2015 17:22:24 -0800 (PST)
+	Mon, 2 Feb 2015 17:22:23 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 2 Feb 2015 17:22:24 -0800
+	Mon, 2 Feb 2015 17:22:22 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Feb 2015 17:22:21 -0800
-Message-ID: <cd1a316465f7e44875e65039f023786ab60a5413.1422926504.git.liezhi.yang@windriver.com>
+Date: Mon, 2 Feb 2015 17:22:19 -0800
+Message-ID: <cover.1422926504.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1422926504.git.liezhi.yang@windriver.com>
-References: <cover.1422926504.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] gcc-configure-common.inc: remove ac_cv_path_SED
+Subject: [PATCH 0/3] meta: 3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +34,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 03 Feb 2015 01:22:25 -0000
 Content-Type: text/plain
 
-It is not needed any more since sed-native had been dropped.
+The following changes since commit 818bcba063819b80d5a99827c5adb8ee157dbfe1:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  build-appliance-image: Update to master head revision (2015-02-02 14:57:40 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+
+Robert Yang (3):
+  valgrind: depends on boost when ptest
+  gcc-configure-common.inc: remove ac_cv_path_SED
+  binconfig-disabled.bbclass: fix echo command
+
+ meta/classes/binconfig-disabled.bbclass            |    2 +-
  meta/recipes-devtools/gcc/gcc-configure-common.inc |    1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-devtools/valgrind/valgrind_3.10.1.bb  |    4 +++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index c30242d..6c60cf9 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -52,7 +52,6 @@ EXTRA_OECONF = "\
-     ${@get_gcc_multiarch_setting(bb, d)} \
- "
- 
--export ac_cv_path_SED = 'sed'
- export gcc_cv_collect2_libs = 'none required'
- # We need to set gcc_cv_collect2_libs else there is cross-compilation badness
- # in the config.log files (which might not get generated until do_compile
 -- 
 1.7.9.5
 
