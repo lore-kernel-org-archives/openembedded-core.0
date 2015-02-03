@@ -1,28 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Pengyu.Ma@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 80CDA605F1
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB8565C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 01:54:22 +0000 (UTC)
+	Tue,  3 Feb 2015 02:16:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t131sN42019960
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t132GHNB022179
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Feb 2015 17:54:23 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 2 Feb 2015 17:54:23 -0800
-Message-ID: <54D02A53.7090006@windriver.com>
-Date: Tue, 3 Feb 2015 09:54:27 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Mon, 2 Feb 2015 18:16:17 -0800 (PST)
+Received: from pek-bsp-build1.wrs.com (128.224.179.105) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 2 Feb 2015 18:16:16 -0800
+From: Pengyu Ma <pengyu.ma@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <pengyu.ma@windriver.com>
+Date: Tue, 3 Feb 2015 10:11:08 +0800
+Message-ID: <1422929468-28222-1-git-send-email-pengyu.ma@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1422260986.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1422260986.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 0/1] image.bbclass: don't let do_rootfs depend on BUILDNAME
+Subject: [meta-oe][V3][PATCH] mesa: Upgrade to 10.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 01:54:22 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Feb 2015 02:16:19 -0000
+Content-Type: text/plain
 
-ping
+flags for EGL and GBM Gallium had been removed in 10.4,
+so remove these flags, files or packages.
 
-On 01/26/2015 04:31 PM, Chen Qi wrote:
-> The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
->
->    gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/image-BUILDNAME
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/image-BUILDNAME
->
-> Chen Qi (1):
->    image.bbclass: don't let do_rootfs depend on BUILDNAME
->
->   meta/classes/image.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
+Signed-off-by: Pengyu Ma <pengyu.ma@windriver.com>
+Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-graphics/mesa/{mesa-gl_10.3.4.bb => mesa-gl_10.4.3.bb} | 0
+ meta/recipes-graphics/mesa/mesa.inc                                 | 5 -----
+ meta/recipes-graphics/mesa/{mesa_10.3.4.bb => mesa_10.4.3.bb}       | 4 ++--
+ meta/recipes-graphics/mesa/mesa_git.bb                              | 4 ++--
+ 4 files changed, 4 insertions(+), 9 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_10.3.4.bb => mesa-gl_10.4.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_10.3.4.bb => mesa_10.4.3.bb} (78%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.3.4.bb b/meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_10.3.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index cb1837a..c9748e2 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -59,8 +59,6 @@ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm
+ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+-PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
+-PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
+ MESA_LLVM_RELEASE ?= "3.3"
+ PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+@@ -85,7 +83,6 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libgles2-mesa libgles2-mesa-dev \
+              libgles3-mesa libgles3-mesa-dev \
+              libwayland-egl libwayland-egl-dev \
+-             libegl-gallium libgbm-gallium \
+              libopenvg libopenvg-dev \
+              libxvmcsoftpipe libxvmcsoftpipe-dev \
+              libxatracker libxatracker-dev \
+@@ -169,8 +166,6 @@ FILES_libgl-mesa = "${libdir}/libGL.so.*"
+ FILES_libglapi = "${libdir}/libglapi.so.*"
+ FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+ FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
+-FILES_libegl-gallium = "${libdir}/egl/egl_gallium.so*"
+-FILES_libgbm-gallium = "${libdir}/gbm/gbm_gallium_drm.so*"
+ FILES_libopenvg = "${libdir}/libOpenVG.so.*"
+ FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
+ FILES_libxatracker = "${libdir}/libxatracker.so.*"
+diff --git a/meta/recipes-graphics/mesa/mesa_10.3.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.3.bb
+similarity index 78%
+rename from meta/recipes-graphics/mesa/mesa_10.3.4.bb
+rename to meta/recipes-graphics/mesa/mesa_10.4.3.bb
+index 50092c9..9669bcb 100644
+--- a/meta/recipes-graphics/mesa/mesa_10.3.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_10.4.3.bb
+@@ -2,8 +2,8 @@ require ${BPN}.inc
+ 
+ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "fa0558a3d02c2bb8c208c030ccdc992e"
+-SRC_URI[sha256sum] = "e6373913142338d10515daf619d659433bfd2989988198930c13b0945a15e98a"
++SRC_URI[md5sum] = "be86c4ee226f8ca28b7d4c728c350b01"
++SRC_URI[sha256sum] = "ef6ecc9c2f36c9f78d1662382a69ae961f38f03af3a0c3268e53f351aa1978ad"
+ 
+ S = "${WORKDIR}/Mesa-${PV}"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index b046ae2..e554ff4 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -4,8 +4,8 @@ DEFAULT_PREFERENCE = "-1"
+ 
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
+ 
+-SRCREV = "c7b9a2e38a3e471562b50dab8be65db8ac6819f8"
+-PV = "10.3.4+git${SRCPV}"
++SRCREV = "f70e4d4afd16e66506ce3b055edb3b71b1464890"
++PV = "10.4.3+git${SRCPV}"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;branch=10.4"
+ 
+-- 
+1.8.1.2
 
 
