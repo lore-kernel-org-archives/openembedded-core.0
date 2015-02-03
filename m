@@ -1,25 +1,26 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B2CD6E5DE
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF1B60024
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Feb 2015 10:05:39 +0000 (UTC)
-Received: from localhost (unknown [78.10.193.111])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id CB12E234E69;
-	Tue,  3 Feb 2015 11:05:36 +0100 (CET)
-Date: Tue, 3 Feb 2015 11:05:36 +0100
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Message-ID: <20150203100536.GA3972@localhost.localdomain>
-References: <1420809842-516-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<1420809842-516-2-git-send-email-maciej.borzecki@open-rnd.pl>
-	<20150202073734.GB3594@localhost.localdomain>
-	<1422887389.9587.13.camel@picadillo>
+	Tue,  3 Feb 2015 10:43:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 Feb 2015 02:39:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,512,1418112000"; d="scan'208";a="680145072"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.17.39])
+	by orsmga002.jf.intel.com with ESMTP; 03 Feb 2015 02:43:09 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Florian Boor <florian.boor@kernelconcepts.de>
+Date: Tue, 03 Feb 2015 10:43:06 +0000
+Message-ID: <3305403.PEBTYygoE5@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
+References: <1422873041-19803-1-git-send-email-florian.boor@kernelconcepts.de>
 MIME-Version: 1.0
-In-Reply-To: <1422887389.9587.13.camel@picadillo>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] wic: fix extended/logical partition layout
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base.bbclass: Use bb.warn instead of bb.error for deprecation notification.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,80 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Feb 2015 10:05:49 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Feb 2015 10:43:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 02/02 08:29, Tom Zanussi wrote:
-> On Mon, 2015-02-02 at 08:37 +0100, Maciej Borzecki wrote:
-> > ping
-> >
->
-> This looks reasonable, but I haven't been able to verify it due to wic
-> problems introduced by the recent kernel changes in oe-core.
->
-> If you have test cases e.g. the kickstart file(s) that you used for
-> testing the fix, please include them.  Also, any testing you may have
-> done to show it doesn't cause regressions in existing use cases.
+Hi Florian,
 
-Kickstart that fails without the patch:
+On Monday 02 February 2015 11:30:41 Florian Boor wrote:
+> An error in bitbake/OE context is something fatal and interrupts the build.
+> A deprecation warning is exactly what we have bb.warn for.
 
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
-part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
-part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
-part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
+Out of interest, which layer are you including that needs fixing? Can we poke 
+the layer maintainer to remove all references to PRINC?
 
-When mounting kernel ext4 complains about bad geometry of the 3rd
-partition (i.e. ext4 partition image was exactly 131072 blocks, but
-parted entry states 131071 blocks, wic stole the last sector of this
-partition, to account for EBR for the first extended):
+Cheers,
+Paul
 
-EXT4-fs (mmcblk0p3): bad geometry: block count 131072 exceeds size of
-device (131071 blocks)
+-- 
 
-Then the first extended partition is not found, logical partition
-/dev/mmcblk0p4 is the last one visible. I'm guessing the EBR was
-overwritten by the last block of the 3rd partition image, hence the
-kerel cannot figure out the location of the extended partition.
-
-The problem won't be triggered unless there is a logical parition in
-kickstart. The only other kickstart using MBR is directdisk.wks, but it
-has only 2 partitions defined there.
-
-With the patch you can go on and define more crazy layout like this one
-below and it mounts properly:
-
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
-part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
-part /var/lib/misc --ondisk mmcblk0 --fstype=ext4 --label misc --size 128
-part /mnt --ondisk mmcblk0 --fstype=ext4 --label fakedata --size 128
-part /mnt2 --ondisk mmcblk0 --fstype=ext4 --label fakedata2 --size 13
-part /mnt3 --ondisk mmcblk0 --fstype=ext4 --label fakedata3 --size 64
-
-
---
-Maciej Borzęcki
-Senior Software Developer at Open-RnD Sp. z o.o., Poland
-www.open-rnd.pl
-mobile: +48 889 117 365, fax: +48 42 657 9079
-
-
-Niniejsza wiadomość wraz z załącznikami może
-zawierać chronione prawem lub poufne informacje i została
-wysłana wyłącznie do wiadomości i użytku osób, do których
-została zaadresowana. Jeśli wiadomość została otrzymana
-przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
-trzecich. W takim przypadku uprasza się o natychmiastowe
-zniszczenie wiadomości oraz poinformowanie nadawcy o
-zaistniałej sytuacji za pomocą wiadomości zwrotnej.
-Dziękujemy.
-
-This message, including any attachments hereto,
-may contain privileged or confidential information and is sent
-solely for the attention and use of the intended addressee(s).
-If you are not an intended addressee, you may neither use this
-message nor copy or deliver it to anyone. In such case, you
-should immediately destroy this message and kindly notify the
-sender by reply email. Thank you.
+Paul Eggleton
+Intel Open Source Technology Centre
 
