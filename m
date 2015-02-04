@@ -1,27 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DEEF960169
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FA9C601DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 16:26:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t14GQnJp023201
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Feb 2015 08:26:49 -0800 (PST)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 4 Feb 2015 08:26:49 -0800
-Message-ID: <54D2482F.9060500@windriver.com>
-Date: Wed, 4 Feb 2015 11:26:23 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed,  4 Feb 2015 17:04:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2015 08:59:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,519,1418112000"; d="scan'208";a="661513985"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO
+	bottazzini-ThinkPad-T430) ([10.218.99.44])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2015 09:04:21 -0800
+Date: Wed, 4 Feb 2015 15:04:03 -0200
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20150204150403.6de4ae70@bottazzini-ThinkPad-T430>
+In-Reply-To: <lytwz1zylo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <bruno.bottazzini@intel.com>
+	<1422987664-26903-1-git-send-email-bruno.bottazzini@intel.com>
+	<1422987664-26903-2-git-send-email-bruno.bottazzini@intel.com>
+	<lytwz1zylo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Organization: Intel
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <1423066973-7809-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1423066973-7809-1-git-send-email-sgw@linux.intel.com>
-Cc: dvhart@linux.intel.com
-Subject: Re: [PATCH] linux-yocto-tiny_3.17: Update to actually use 3.17 git repo
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: update version from 216 to 218
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 16:27:08 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 04 Feb 2015 17:04:28 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 15-02-04 11:22 AM, Saul Wold wrote:
-> The named release was still using the -dev git repo which did not contain
-> the SRCREV referenced in the numbered/named version.
+On Wed, 4 Feb 2015 12:48:35 +0100
+Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
 
-Argh yes. I'm surprised that slipped by for so long.
+> Bruno Bottazzini
+> <bruno.bottazzini-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> writes:
+> 
+> > +PACKAGES =+ "${PN}-services-ask-password"
+> > +SUMMARY_${PN}-services-ask-password = "systemd's service and tool
+> > to query the user for a system password"
+> > +RRECOMMENDS_${PN}-services-ask-password = "${PN}-services-base"
+> > +FILES_${PN}-services-ask-password = "\
+> > +        ${rootprefix}/bin/systemd-ask-password \
+> > +        ${rootprefix}/bin/systemd-tty-ask-password-agent \
+> > +
+> > ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path
+> > \
+> > +
+> > ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path
+> > \
+> > +
+> > ${systemd_unitdir}/system/systemd-ask-password-console.path \
+> > +
+> > ${systemd_unitdir}/system/systemd-ask-password-console.service \
+> > +        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
+> > +
+> > ${systemd_unitdir}/system/systemd-ask-password-wall.service \ +"
+> 
+> I think, enumerating services in this kind becomes a maintenance
+> nightmare.  E.g. you have to check for every future systemd version
+> whether service gets listed in a new .wants.  Using wildcards can
+> simplify this; e.g. see systemd_elito_populate_packages() in
+> 
+>           https://www.cvg.de/people/ensc/systemd_216.bbappend
+> 
+> 
+> Enrico
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Enrico,
 
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> index 1a4f9a8..bf2076f 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> @@ -13,7 +13,7 @@ SRCREV_meta ?= "b81030f9ec2de3dc6c048e142dcbff62e305cc40"
->
->   PV = "${LINUX_VERSION}+git${SRCPV}"
->
-> -SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
->
->   COMPATIBLE_MACHINE = "(qemux86)"
->
->
+On your example, wouldn't we have to enumerate the packages too ? 
+But now it is on a different place.
+
+Where did you get this file ? I looked into master branch but I
+couldn't find it.
+
+Thanks,
+
+Bruno Bottazzini
+
 
 
