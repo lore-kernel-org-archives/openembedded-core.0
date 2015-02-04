@@ -1,39 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id EDDA36013C
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (down.free-electrons.com
+	[37.187.137.238])
+	by mail.openembedded.org (Postfix) with ESMTP id B706D6013C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 10:49:12 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id s11so548075qcv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Feb 2015 02:49:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Nf20XlTXNS596U/9BPF1+2KE9WeQGYOsJD84irDCehw=;
-	b=ivcg1RxmFqa7G1NhaPrSi+xB1RWpeSf81C0DoyBPyxMEnCEnI+2keKfiW/TYZWa9AX
-	JaTNCTCD4txJs71A/cpByasjyeIzR9jwxNoO0Q+0d74G4BOQxMXb4pECoAatKikOL2QU
-	O7r9FXdtKossS9NOkEksaYHJldX4uOxWKYkJ5Bzw3adZj/YeJcVC36eqsqyOFm3Fh/lr
-	CApiI8C1qiTmexXhWP2QAi9cu/5nZdfm1aw0WMx0qmKv0UlMxAsqAWouKB2pcQ83wdv6
-	roIv9hF7Au+MH6DME7sM9maVD+scROEahJ/Y3S58vznJk94SH0XMlslTZ6P3DfD7w38w
-	iMEg==
-X-Gm-Message-State: ALoCoQnHGNepHWcQtqVQW7bf0W/H8NwjEQacOh8vxzuODTGGyDhKH+IgtCHkbdLwRXzcCyxsp0oH
-X-Received: by 10.224.7.197 with SMTP id e5mr63969785qae.64.1423046954210;
-	Wed, 04 Feb 2015 02:49:14 -0800 (PST)
+	Wed,  4 Feb 2015 10:53:06 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id E48723A3; Wed,  4 Feb 2015 11:53:12 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
+	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id AF1452F3;
+	Wed,  4 Feb 2015 11:53:12 +0100 (CET)
+Date: Wed, 4 Feb 2015 11:53:06 +0100
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Message-ID: <20150204105306.GA4060@piout.net>
+References: <1423006826-10627-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<20150204102923.GA3901@localhost.localdomain>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 4 Feb 2015 02:48:54 -0800 (PST)
-In-Reply-To: <54D14BEF.5040509@mentor.com>
-References: <345DD4F0215D4B4CB8356943BA192C9913E976EE@kihagwinex02.int.kistler.com>
-	<CAJTo0LYD0B91NSZ=NC=ZKemczYkkKKQvjnvsmfKqT0tz4C28zQ@mail.gmail.com>
-	<54D14BEF.5040509@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Feb 2015 10:48:54 +0000
-Message-ID: <CAJTo0La3Eq2s-ByoWMh7-K5BX6aUZxHiAb6e2qAdFaGxpx9iZw@mail.gmail.com>
-To: Nathan Lynch <Nathan_Lynch@mentor.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: run ptest for specific packages or layers
+In-Reply-To: <20150204102923.GA3901@localhost.localdomain>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: use kB for the partitions size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 10:49:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c223f4347219050e40f068
+X-List-Received-Date: Wed, 04 Feb 2015 10:53:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a11c223f4347219050e40f068
-Content-Type: text/plain; charset=UTF-8
+On 04/02/2015 at 11:29:23 +0100, Maciej Borzecki wrote :
+> > +    mapping = {"opt": opt, "value": value}
+> > +    if (not value[0:len(value)-1].isdigit()):
+> 
+> You might want to replace value[0:len(value)-1] with value[:-1] here and
+> in int(...) below.
+> 
 
-On 3 February 2015 at 22:30, Nathan Lynch <Nathan_Lynch@mentor.com> wrote:
+Ah sure, I was looking for a better way to do that, thanks!
 
-> Should it specify perl-misc and perl-modules instead of just perl?
->
+> Other than that, the patch looks ok for me. I've built a couple of
+> images with different sizes (with and without suffix), all worked fine.
+> 
+> Tested-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> 
+-- 
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
 
-Yes, the ptest packages should add all the dependencies they need.
-
-Ross
-
---001a11c223f4347219050e40f068
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2015 at 22:30, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Nathan_Lynch@mentor.com" target=3D"_blank">Nathan_Lynch@mentor.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xq" clas=
-s=3D"a3s" style=3D"overflow:hidden">Should it specify perl-misc and perl-mo=
-dules instead of just perl?</div></blockquote><div><br></div><div>Yes, the =
-ptest packages should add all the dependencies they need.</div><div><br></d=
-iv><div>Ross=C2=A0<br></div></div></div></div>
-
---001a11c223f4347219050e40f068--
