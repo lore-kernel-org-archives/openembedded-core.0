@@ -1,36 +1,30 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id EFFD06013C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C209605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 09:01:20 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t1491K4V011358; Wed, 4 Feb 2015 03:01:20 -0600
-Received: from weregild ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015020403012053-734755 ;
-	Wed, 4 Feb 2015 03:01:20 -0600 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LYkdvkjDPqQOAai1xcwoPVdX3PXMdPYRjq_Y09HrY3WBg@mail.gmail.com>
-References: <1422924455-24732-1-git-send-email-rich.tollerton@ni.com>
-	<1422924455-24732-2-git-send-email-rich.tollerton@ni.com>
-	<CAJTo0LYkdvkjDPqQOAai1xcwoPVdX3PXMdPYRjq_Y09HrY3WBg@mail.gmail.com>
-User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.2
-	(x86_64-unknown-linux-gnu)
-Date: Wed, 04 Feb 2015 03:01:20 -0600
-Message-ID: <87siemaw4f.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	Wed,  4 Feb 2015 10:27:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t14AR4V8017262
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Feb 2015 02:27:04 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 4 Feb 2015 02:27:03 -0800
+Message-ID: <54D1F3F5.3030407@windriver.com>
+Date: Wed, 4 Feb 2015 18:27:01 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/04/2015 03:01:20 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/04/2015 03:01:20 AM,
-	Serialize complete at 02/04/2015 03:01:20 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-02-04_02:, , signatures=0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1422925725.git.liezhi.yang@windriver.com>
+	<18cd01e42aa7a74c010d6114b6625bdfe586103a.1422925725.git.liezhi.yang@windriver.com>
+	<CAJTo0LbQbF4poEUwpWYRrcVn-yTPT6LmJ9oKUh2dE4FR5D5tVQ@mail.gmail.com>
+	<54D16E5A.4010808@windriver.com>
+In-Reply-To: <54D16E5A.4010808@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/3] staging.bbclass: Install ${datadir}/fonts/ into sysroots
+Subject: Re: [PATCH 07/21] libidn 0.6.14: fixed installed-vs-shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 09:01:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Feb 2015 10:27:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-"Burton, Ross" <ross.burton@intel.com> writes:
 
-> On 3 February 2015 at 00:47, Richard Tollerton <rich.tollerton@ni.com>
-> wrote:
+Hi Ross,
+
+I removed this patch from the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/low_version
+
+// Robert
+
+On 02/04/2015 08:56 AM, Robert Yang wrote:
 >
->> font-util installs encoding maps into /usr/share/fonts/X11. This path
->> may not exist on the host (many distros install these into
->> /usr/share/fonts/util) so they must exist in the sysroot in order for
->> e.g. `pkg-config --variable=mapdir fontutil` to work correctly. However,
->> currently /usr/share/fonts is explicitly not installed into sysroots, so
->> the encoding maps were not getting found.
+>
+> On 02/03/2015 10:59 PM, Burton, Ross wrote:
 >>
->> Fix this by no longer deleting ${datadir}/fonts/ from sysroots.
+>> On 3 February 2015 at 01:12, Robert Yang <liezhi.yang@windriver.com
+>> <mailto:liezhi.yang@windriver.com>> wrote:
 >>
+>>              rm -rf ${D}${datadir}/emacs
+>>       }
+>>     +
+>>     +FILES_${PN} += "${datadir}/emacs"
+>>
+>>
+>> This was already fixed - see the rm a few lines above. :)
 >
-> So the rationale for removing ${datadir}/fonts/ from staging is that it
-> usually contains fonts, which are useless in the sysroot.  Removing this
-> means that fonts get staged when they're built, which means pointless
-> copying of data and adds to the build time.  In an image which has many
-> megabyte of fonts, that's going to be noticeable.
+> Yes, it is fixed recently, please drop this patch.
 >
-> An alternative solution would be to explicitly stage the maps in the
-> recipes that install them, see eg the tcl recipe that calls
-> sysroot_stage_dir directly.
-
-Thanks, I was not aware of this facility. I'll get a patch put together
-using this (SYSROOT_PREPROCESS_FUNCS) approach.
-
-> Ross
-
--- 
-Richard Tollerton <rich.tollerton@ni.com>
+> // Robert
+>
+>>
+>> Ross
 
