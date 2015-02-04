@@ -1,26 +1,26 @@
 Return-Path: <alexandre.belloni@free-electrons.com>
 Received: from mail.free-electrons.com (down.free-electrons.com
 	[37.187.137.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 23E8760017
+	by mail.openembedded.org (Postfix) with ESMTP id 2731560017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 22:48:40 +0000 (UTC)
+	Wed,  4 Feb 2015 22:49:16 +0000 (UTC)
 Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id AE7AB3A3; Wed,  4 Feb 2015 23:48:47 +0100 (CET)
+	id 12B27602; Wed,  4 Feb 2015 23:49:24 +0100 (CET)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	mail.free-electrons.com
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
 	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
 Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 4DCC3D;
-	Wed,  4 Feb 2015 23:48:47 +0100 (CET)
+	by mail.free-electrons.com (Postfix) with ESMTPSA id C95DDD;
+	Wed,  4 Feb 2015 23:49:23 +0100 (CET)
 From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Wed,  4 Feb 2015 23:48:38 +0100
-Message-Id: <1423090118-13921-1-git-send-email-alexandre.belloni@free-electrons.com>
+Date: Wed,  4 Feb 2015 23:49:15 +0100
+Message-Id: <1423090155-14149-1-git-send-email-alexandre.belloni@free-electrons.com>
 X-Mailer: git-send-email 2.1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] wic: print partition alignment when available
+Subject: [PATCH] wic: bootimg-partition: Stop removing whole workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 22:48:43 -0000
+X-List-Received-Date: Wed, 04 Feb 2015 22:49:16 -0000
 
-When printing a partition, the --align parameter was shown when present
-but not its value.
+Stop removing the whole working directory as this is also removing
+eventual previously created partition images, leading to image creation
+failures.
 
 Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 ---
- scripts/lib/wic/kickstart/custom_commands/micpartition.py | 2 +-
+ scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/micpartition.py b/scripts/lib/wic/kickstart/custom_commands/micpartition.py
-index 43d04f12945c..d6be008cebf2 100644
---- a/scripts/lib/wic/kickstart/custom_commands/micpartition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/micpartition.py
-@@ -32,7 +32,7 @@ class Mic_PartData(FC4_PartData):
-         retval = FC4_PartData._getArgsAsStr(self)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index 6ba39a01f700..c5eb7b8b801b 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -66,7 +66,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+         - copies all files listed in IMAGE_BOOT_FILES variable
+         """
+         hdddir = "%s/boot" % cr_workdir
+-        rm_cmd = "rm -rf %s" % cr_workdir
++        rm_cmd = "rm -rf %s/boot" % cr_workdir
+         exec_cmd(rm_cmd)
  
-         if self.align:
--            retval += " --align"
-+            retval += " --align=%d" % self.align
-         if self.extopts:
-             retval += " --extoptions=%s" % self.extopts
-         if self.part_type:
+         install_cmd = "install -d %s" % hdddir
 -- 
 2.1.0
 
