@@ -1,30 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C209605F1
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 5747F605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 10:27:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t14AR4V8017262
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Feb 2015 02:27:04 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 4 Feb 2015 02:27:03 -0800
-Message-ID: <54D1F3F5.3030407@windriver.com>
-Date: Wed, 4 Feb 2015 18:27:01 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed,  4 Feb 2015 10:29:25 +0000 (UTC)
+Received: from localhost (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 61876234981;
+	Wed,  4 Feb 2015 11:29:24 +0100 (CET)
+Date: Wed, 4 Feb 2015 11:29:23 +0100
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Message-ID: <20150204102923.GA3901@localhost.localdomain>
+References: <1423006826-10627-1-git-send-email-alexandre.belloni@free-electrons.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1422925725.git.liezhi.yang@windriver.com>
-	<18cd01e42aa7a74c010d6114b6625bdfe586103a.1422925725.git.liezhi.yang@windriver.com>
-	<CAJTo0LbQbF4poEUwpWYRrcVn-yTPT6LmJ9oKUh2dE4FR5D5tVQ@mail.gmail.com>
-	<54D16E5A.4010808@windriver.com>
-In-Reply-To: <54D16E5A.4010808@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 07/21] libidn 0.6.14: fixed installed-vs-shipped
+In-Reply-To: <1423006826-10627-1-git-send-email-alexandre.belloni@free-electrons.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: use kB for the partitions size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +30,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 10:27:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Feb 2015 10:29:35 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-
-Hi Ross,
-
-I removed this patch from the repo:
-
-   git://git.openembedded.org/openembedded-core-contrib rbt/low_version
-
-// Robert
-
-On 02/04/2015 08:56 AM, Robert Yang wrote:
+On 02/04 00:40, Alexandre Belloni wrote:
+> Use kB instead of MB for the partition size to get a better granularity.
 >
+> This is needed on some SoC (i.mx, omap) where it is necessary to create
+> partitions as small as 64kB.
 >
-> On 02/03/2015 10:59 PM, Burton, Ross wrote:
->>
->> On 3 February 2015 at 01:12, Robert Yang <liezhi.yang@windriver.com
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>              rm -rf ${D}${datadir}/emacs
->>       }
->>     +
->>     +FILES_${PN} += "${datadir}/emacs"
->>
->>
->> This was already fixed - see the rm a few lines above. :)
+> Keep the backward compatibility by assuming MB when no unit is provided.
 >
-> Yes, it is fixed recently, please drop this patch.
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+> ---
+>  .../wic/3rdparty/pykickstart/commands/partition.py |  4 +--
+>  scripts/lib/wic/3rdparty/pykickstart/options.py    | 21 ++++++++++++-
+>  scripts/lib/wic/kickstart/__init__.py              |  2 +-
+>  .../lib/wic/kickstart/custom_commands/partition.py | 36 +++++++++++-----------
+>  scripts/lib/wic/plugins/source/bootimg-efi.py      |  2 +-
+>  scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  2 +-
+>  scripts/lib/wic/utils/partitionedfs.py             |  4 +--
+>  7 files changed, 45 insertions(+), 26 deletions(-)
 >
-> // Robert
+> diff --git a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py b/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
+> index 56b91aa9d9a4..b564b1a7abb9 100644
+> --- a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
+> +++ b/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
+> @@ -78,7 +78,7 @@ class FC3_PartData(BaseData):
+>          if self.recommended:
+>              retval += " --recommended"
+>          if self.size and self.size != 0:
+> -            retval += " --size=%s" % self.size
+> +            retval += " --size=%sk" % self.size
+>          if hasattr(self, "start") and self.start != 0:
+>              retval += " --start=%s" % self.start
 >
->>
->> Ross
+> @@ -216,7 +216,7 @@ class FC3_Partition(KickstartCommand):
+>                        callback=part_cb, nargs=1, type="string")
+>          op.add_option("--recommended", dest="recommended", action="store_true",
+>                        default=False)
+> -        op.add_option("--size", dest="size", action="store", type="int",
+> +        op.add_option("--size", dest="size", action="store", type="size",
+>                        nargs=1)
+>          op.add_option("--start", dest="start", action="store", type="int",
+>                        nargs=1)
+> diff --git a/scripts/lib/wic/3rdparty/pykickstart/options.py b/scripts/lib/wic/3rdparty/pykickstart/options.py
+> index 341c5d7298b0..7bbe6a85a156 100644
+> --- a/scripts/lib/wic/3rdparty/pykickstart/options.py
+> +++ b/scripts/lib/wic/3rdparty/pykickstart/options.py
+> @@ -143,6 +143,24 @@ def _check_string(option, opt, value):
+>      else:
+>          return value
+>
+> +def _check_size(option, opt, value):
+> +    # Former default was MB
+> +    if (value.isdigit()):
+> +        return int(value) * 1024L
+> +
+> +    mapping = {"opt": opt, "value": value}
+> +    if (not value[0:len(value)-1].isdigit()):
+
+You might want to replace value[0:len(value)-1] with value[:-1] here and
+in int(...) below.
+
+Other than that, the patch looks ok for me. I've built a couple of
+images with different sizes (with and without suffix), all worked fine.
+
+Tested-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+
+--
+Maciej Borzęcki
+Senior Software Developer at Open-RnD Sp. z o.o., Poland
+www.open-rnd.pl
+mobile: +48 889 117 365, fax: +48 42 657 9079
+
+
+Niniejsza wiadomość wraz z załącznikami może
+zawierać chronione prawem lub poufne informacje i została
+wysłana wyłącznie do wiadomości i użytku osób, do których
+została zaadresowana. Jeśli wiadomość została otrzymana
+przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
+trzecich. W takim przypadku uprasza się o natychmiastowe
+zniszczenie wiadomości oraz poinformowanie nadawcy o
+zaistniałej sytuacji za pomocą wiadomości zwrotnej.
+Dziękujemy.
+
+This message, including any attachments hereto,
+may contain privileged or confidential information and is sent
+solely for the attention and use of the intended addressee(s).
+If you are not an intended addressee, you may neither use this
+message nor copy or deliver it to anyone. In such case, you
+should immediately destroy this message and kindly notify the
+sender by reply email. Thank you.
 
