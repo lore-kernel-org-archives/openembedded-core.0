@@ -1,25 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9042A727DC
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 223BC60169
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 14:05:35 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 05 Feb 2015 05:59:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,524,1418112000"; d="scan'208";a="647782353"
-Received: from mhgreen-mobl5.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.49])
-	by orsmga001.jf.intel.com with ESMTP; 05 Feb 2015 06:04:08 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu,  5 Feb 2015 14:19:37 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id h11so10860194wiw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Feb 2015 06:19:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bdUIAse7j9bNOh5RTrQcjiuSNG1UnAKv39d61a6SSME=;
+	b=WjQcXTsU/ITcKlvbMJI6NbDPxA5W5aIWEHiG/Rg98hysB1ta8uPAV9JYwv6+4IDy69
+	LgFXVsp9XkUg/x7MZ8BPQYngpB1qNfdWfWRYI1NaXdZ3VLHXqKlgcTWZ1UIbT+x4fn7e
+	t5iBHj7W6JCKDgwzT2y/YTKdwgtxoLGb+S7FLPJQbusnAMBQWju7jbZ35+oHvfabxZlc
+	1m0KzL8cHu8AaKFpmkIA+W72DU9SqZXTXEauf4H+mvoJKdZICq+076TFjBbK/3E4PAjN
+	3J8R9mF6DBZwUY+4x+jkwuK4+4Sa6Nh/l8DH2LTNcyfreW4q+w3cSNjbpY+cUHIKXdw8
+	zguw==
+X-Gm-Message-State: ALoCoQlClNIBUlf99nORRrJ0bX+7lQn/IWAldabYXCwIkvZrHOpC48f3/NSZ4/BOQdtwWxT4vU70
+X-Received: by 10.180.38.66 with SMTP id e2mr15599268wik.62.1423145977394;
+	Thu, 05 Feb 2015 06:19:37 -0800 (PST)
+Received: from adamian-desk.local ([83.217.123.106])
+	by mx.google.com with ESMTPSA id 18sm7559856wjr.46.2015.02.05.06.19.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Feb 2015 06:19:36 -0800 (PST)
+Received: by adamian-desk.local (Postfix, from userid 1000)
+	id 65D645622BA; Wed,  4 Feb 2015 14:13:59 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 14:04:00 +0000
-Message-Id: <06e63bf744c468f810331f48313633607f14009c.1423144990.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1423144990.git.paul.eggleton@linux.intel.com>
-References: <cover.1423144990.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1423144990.git.paul.eggleton@linux.intel.com>
-References: <cover.1423144990.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] recipetool: improve command-line help
+Date: Wed,  4 Feb 2015 14:13:56 +0000
+Message-Id: <1423059237-10195-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] scripts/oe-selftest: fix startup backtrace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 14:05:36 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 14:19:46 -0000
 
-Based on feedback from Scott Rifenbark <scott.m.rifenbark@intel.com>
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Fixing a backtrace dump that happens if the script is started
+without sourcing the oe-init-build-env first.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- scripts/lib/recipetool/create.py | 8 +++++---
- scripts/recipetool               | 6 +++---
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ scripts/oe-selftest | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 38f5ead..290fc13 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -406,10 +406,12 @@ def convert_debian(debpath):
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 2332b22..74c998b 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -102,6 +102,8 @@ def add_include():
  
+ def remove_include():
+     builddir = os.environ.get("BUILDDIR")
++    if builddir is None:
++        return
+     if "#include added by oe-selftest.py" \
+         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+             log.info("Removing the include from local.conf")
+@@ -116,7 +118,7 @@ def remove_inc_files():
+             for f in files:
+                 if f == 'test_recipe.inc':
+                     os.remove(os.path.join(root, f))
+-    except OSError as e:
++    except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
+         pass
  
- def register_command(subparsers):
--    parser_create = subparsers.add_parser('create', help='Create a new recipe')
-+    parser_create = subparsers.add_parser('create',
-+                                          help='Create a new recipe',
-+                                          description='Creates a new recipe from a source tree')
-     parser_create.add_argument('source', help='Path or URL to source')
--    parser_create.add_argument('-o', '--outfile', help='Full path and filename to recipe to add', required=True)
-+    parser_create.add_argument('-o', '--outfile', help='Specify filename for recipe to create', required=True)
-     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
--    parser_create.add_argument('-x', '--externalsrc', help='Assuming source is a URL, fetch it and extract it to the specified directory')
-+    parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
-     parser_create.set_defaults(func=create_recipe)
- 
-diff --git a/scripts/recipetool b/scripts/recipetool
-index 70e6b6c..2cfa763 100755
---- a/scripts/recipetool
-+++ b/scripts/recipetool
-@@ -49,11 +49,11 @@ def main():
-         sys.exit(1)
- 
-     parser = argparse.ArgumentParser(description="OpenEmbedded recipe tool",
--                                     epilog="Use %(prog)s <command> --help to get help on a specific command")
-+                                     epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
-     parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
-     parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
--    parser.add_argument('--color', help='Colorize output', choices=['auto', 'always', 'never'], default='auto')
--    subparsers = parser.add_subparsers()
-+    parser.add_argument('--color', choices=['auto', 'always', 'never'], default='auto', help='Colorize output (where %(metavar)s is %(choices)s)', metavar='COLOR')
-+    subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
- 
-     scriptutils.load_plugins(logger, plugins, os.path.join(scripts_path, 'lib', 'recipetool'))
-     registered = False
+ def get_tests(exclusive_modules=[], include_hidden=False):
 -- 
-1.9.3
+1.9.1
 
 
