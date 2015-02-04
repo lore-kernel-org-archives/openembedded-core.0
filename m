@@ -1,29 +1,42 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DCC26013C
+Return-Path: <peter.gejgus@kistler.com>
+X-Greylist: delayed 651 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 04 Feb 2015 07:44:17 UTC
+Received: from mx2.kistler.com (mx2.kistler.com [195.49.77.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F85B606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 07:12:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t147CNXE012257
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  4 Feb 2015 07:44:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.09,517,1418079600"; 
+   d="scan'208";a="2362880"
+Received: from unknown (HELO kihagsepp01.int.kistler.com) ([192.168.52.67])
+	by mx2.kistler.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	04 Feb 2015 08:33:22 +0100
+Received: from kihagsepp01.int.kistler.com (localhost [127.0.0.1])
+	by kihagsepp01.int.kistler.com (Postfix) with SMTP id 5ECE75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Feb 2015 23:12:23 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 3 Feb 2015 23:12:23 -0800
-Message-ID: <54D1C656.7090505@windriver.com>
-Date: Wed, 4 Feb 2015 15:12:22 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Wed,  4 Feb 2015 08:33:22 +0100 (CET)
+Received: from mx1.kistler.com (unknown [192.168.52.57])
+	by kihagsepp01.int.kistler.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Feb 2015 08:33:20 +0100 (CET)
+X-IronPort-AV: E=Sophos;i="5.09,517,1418079600"; d="scan'208";a="14274145"
+Received: from kihagwinex01.int.kistler.com ([192.168.100.23])
+	by mx1.kistler.com with ESMTP/TLS/AES128-SHA; 04 Feb 2015 08:33:20 +0100
+Received: from kihagwinex02.int.kistler.com ([fe80::10cf:df86:bb65:2502]) by
+	kihagwinex01.int.kistler.com ([fe80::d70:7df0:c903:4e43%16]) with mapi
+	id 14.03.0224.002; Wed, 4 Feb 2015 08:33:20 +0100
+From: Peter Gejgus <Peter.Gejgus@kistler.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: post-installation scripts vs. init scripts
+Thread-Index: AdBASrrcoe5U4dasR/OQUqPlpAUqZg==
+Date: Wed, 4 Feb 2015 07:33:20 +0000
+Message-ID: <672D6A2F0F2E8A43891580C45CE5D2E6013D7790@kihagwinex02.int.kistler.com>
+Accept-Language: en-US, de-CH
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.100.116]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1420530290.git.Qi.Chen@windriver.com>
-	<a6dc870be391940e782eae4a86b0002e764a163a.1420530290.git.Qi.Chen@windriver.com>
-In-Reply-To: <a6dc870be391940e782eae4a86b0002e764a163a.1420530290.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 1/1] sstatesig.py: fix logic in find_siginfo
+Subject: post-installation scripts vs. init scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 07:12:25 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Feb 2015 07:44:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-ping
+Hello,
 
-On 01/06/2015 03:47 PM, Chen Qi wrote:
-> For now, `bitbake-diffsig -t <recipe> <task>' doesn't work. This is
-> caused by a small logic mistake in find_siginfo in sstatesig.py.
->
-> The logic should be 'and' instead of 'or', otherwise, we will have
-> both siginfo and sigdata files in filedates which have the same checksum.
-> e.g.
-> /buildarea2/chenqi/sstate-cache/fc/sstate:sysstat:armv5te-poky-linux-gnueabi:10.2.1:r0:armv5te:3:fc861bf371c1b843b2843a3415eb5ff3_install.tgz.siginfo
-> /buildarea2/chenqi/poky/build-systemd/tmp/stamps/armv5te-poky-linux-gnueabi/sysstat/10.2.1-r0.do_install.sigdata.fc861bf371c1b843b2843a3415eb5ff3
->
-> So `bitbake-diffsig -t sysstat install' will output nothing even we actually
-> have changed something in do_install task.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/lib/oe/sstatesig.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> index af7617e..c6c85b9 100644
-> --- a/meta/lib/oe/sstatesig.py
-> +++ b/meta/lib/oe/sstatesig.py
-> @@ -234,7 +234,7 @@ def find_siginfo(pn, taskname, taskhashlist, d):
->               except OSError:
->                   continue
->   
-> -    if not taskhashlist or (len(filedates) < 2 and not foundall):
-> +    if not taskhashlist and (len(filedates) < 2 and not foundall):
->           # That didn't work, look in sstate-cache
->           hashes = taskhashlist or ['*']
->           localdata = bb.data.createCopy(d)
+I've checked experimentally that post-installation scripts (executed during=
+ the first boot) run before init scripts. I've checked it by putting long s=
+leep into the following script and I've also verified timestamps from init =
+script and post-install script in the log:
 
+pkg_postinst_PACKAGENAME()=20
+{
+     #!/bin/sh -e
+     if [ x"$D" =3D "x" ]; then
+          # Actions to carry out on the device go here
+          sleep 300
+     else
+          exit 1
+     fi
+ }
+
+Can you confirm that post-install scripts run before init scripts and there=
+ is no overlap?
+
+Regards,
+Peter
 
