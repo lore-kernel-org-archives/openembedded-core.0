@@ -1,29 +1,30 @@
 Return-Path: <bruno.bottazzini@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA9C601DC
+	by mail.openembedded.org (Postfix) with ESMTP id 60DF27261A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 17:04:23 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2015 08:59:42 -0800
+	Wed,  4 Feb 2015 17:05:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 04 Feb 2015 09:00:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,519,1418112000"; d="scan'208";a="661513985"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO
-	bottazzini-ThinkPad-T430) ([10.218.99.44])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2015 09:04:21 -0800
-Date: Wed, 4 Feb 2015 15:04:03 -0200
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Message-ID: <20150204150403.6de4ae70@bottazzini-ThinkPad-T430>
-In-Reply-To: <lytwz1zylo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-IronPort-AV: E=Sophos;i="5.09,519,1418112000"; d="scan'208";a="647311731"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga001.jf.intel.com with ESMTP; 04 Feb 2015 09:05:20 -0800
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Wed, 4 Feb 2015 09:05:19 -0800
+Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.44) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Wed, 4 Feb 2015 09:05:18 -0800
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Feb 2015 15:04:54 -0200
+Message-ID: <1423069496-25819-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <bruno.bottazzini@intel.com>
 References: <bruno.bottazzini@intel.com>
-	<1422987664-26903-1-git-send-email-bruno.bottazzini@intel.com>
-	<1422987664-26903-2-git-send-email-bruno.bottazzini@intel.com>
-	<lytwz1zylo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Organization: Intel
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: update version from 216 to 218
+X-Originating-IP: [10.218.99.44]
+Subject: [PATCH v2 0/2] systemd: update version from 216 to 218
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 17:04:28 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Feb 2015 17:05:21 -0000
+Content-Type: text/plain
 
-On Wed, 4 Feb 2015 12:48:35 +0100
-Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
+Differences from v1:
 
-> Bruno Bottazzini
-> <bruno.bottazzini-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> writes:
-> 
-> > +PACKAGES =+ "${PN}-services-ask-password"
-> > +SUMMARY_${PN}-services-ask-password = "systemd's service and tool
-> > to query the user for a system password"
-> > +RRECOMMENDS_${PN}-services-ask-password = "${PN}-services-base"
-> > +FILES_${PN}-services-ask-password = "\
-> > +        ${rootprefix}/bin/systemd-ask-password \
-> > +        ${rootprefix}/bin/systemd-tty-ask-password-agent \
-> > +
-> > ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path
-> > \
-> > +
-> > ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path
-> > \
-> > +
-> > ${systemd_unitdir}/system/systemd-ask-password-console.path \
-> > +
-> > ${systemd_unitdir}/system/systemd-ask-password-console.service \
-> > +        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
-> > +
-> > ${systemd_unitdir}/system/systemd-ask-password-wall.service \ +"
-> 
-> I think, enumerating services in this kind becomes a maintenance
-> nightmare.  E.g. you have to check for every future systemd version
-> whether service gets listed in a new .wants.  Using wildcards can
-> simplify this; e.g. see systemd_elito_populate_packages() in
-> 
->           https://www.cvg.de/people/ensc/systemd_216.bbappend
-> 
-> 
-> Enrico
+1- Commit split into 2 commits.
+   First one is updating systemd from version 216 to 218.
+   Second one is splitting it into packages.
 
-Enrico,
+-------------------------------------------------------
+In this patchset we split systemd into packages.
 
-On your example, wouldn't we have to enumerate the packages too ? 
-But now it is on a different place.
+Since, systemd has a lot of features, now the user can exclude them from the
+final build.
 
-Where did you get this file ? I looked into master branch but I
-couldn't find it.
+Instead of carrying all systemd modules. We will be able to customize it
+as our needs.
 
-Thanks,
+In the end we will be able to get a smaller and optimized system
 
-Bruno Bottazzini
 
+Bruno Bottazzini (2):
+  systemd: update from 216 to 218
+  systemd: split modules into packages
+
+ ...r-executing-scripts-under-etc-systemd-218.patch |  131 ++
+ .../systemd/systemd_218-pam-fix-fallocate.patch    |   91 ++
+ meta/recipes-core/systemd/systemd_218.bb           | 1251 ++++++++++++++++++++
+ 3 files changed, 1473 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-add-support-for-executing-scripts-under-etc-systemd-218.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd_218-pam-fix-fallocate.patch
+ create mode 100644 meta/recipes-core/systemd/systemd_218.bb
+
+-- 
+1.9.1
 
 
