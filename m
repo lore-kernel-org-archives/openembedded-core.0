@@ -1,21 +1,27 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A41FB60557
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 74D19601DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 14:54:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2015 06:48:14 -0800
+	Wed,  4 Feb 2015 15:13:23 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 04 Feb 2015 07:09:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,518,1418112000"; d="scan'208";a="672660198"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.57])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Feb 2015 06:54:51 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Feb 2015 08:54:58 -0600
-Message-Id: <1423061698-9776-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] files/toolchain-shar-template.sh: fix replace target_sdk_dir twice in environment setup file
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="449752267"
+Received: from mtbauma1-mobl1.amr.corp.intel.com (HELO [10.252.136.235])
+	([10.252.136.235])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2015 06:59:11 -0800
+Message-ID: <1423062803.18649.15.camel@picadillo>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Date: Wed, 04 Feb 2015 09:13:23 -0600
+In-Reply-To: <1423047187-8369-1-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1423047187-8369-1-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: bail out on kickstart parse errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 14:54:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Feb 2015 15:13:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When specify a target sdk dir that contains default install dir as
-subdir,
+On Wed, 2015-02-04 at 11:53 +0100, Maciej Borzecki wrote:
+> Kickstart file errors are not emitted by the parser. In case errors, the
+> current code will continue to execute possibly creating a faulty or
+> incomplete image. The patch enables the parser to emit all encountered
+> errors. The error message is shown for the user and further execution is
+> ceased.
+> 
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
 
-	target_sdk_dir=/opt/poky/$version/
-	custom_target_sdk_dir=/opt/poky/$version/some
+Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-The target_sdk_dir variable in environment-setup file is replaced twice
-causes to point to wrong PATH.
+> ---
+>  scripts/lib/wic/kickstart/__init__.py | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
+> index 600098293aeff5a1f7756ba20381b8d054c10fd1..b1406a04575906f7d5822139eef5a4a2753040fc 100644
+> --- a/scripts/lib/wic/kickstart/__init__.py
+> +++ b/scripts/lib/wic/kickstart/__init__.py
+> @@ -58,16 +58,13 @@ def read_kickstart(path):
+>          def __init__(self):
+>              superclass.__init__(self, mapping=commandMap[using_version])
+>  
+> -    ks = ksparser.KickstartParser(KSHandlers(), errorsAreFatal=False)
+> +    ks = ksparser.KickstartParser(KSHandlers(), errorsAreFatal=True)
+>  
+>      try:
+>          ks.readKickstart(path)
+>      except (kserrors.KickstartParseError, kserrors.KickstartError), err:
+> -        if msger.ask("Errors occured on kickstart file, skip and continue?"):
+> -            msger.warning("%s" % err)
+> -            pass
+> -        else:
+> -            raise errors.KsError("%s" % err)
+> +        msger.warning("Errors occurred when parsing kickstart file: %s\n" % path)
+> +        msger.error("%s" % err)
+>  
+>      return ks
+>  
+> -- 
+> 1.9.3
+> 
 
-In order to fix filter environment-setup file in second replacement.
-
-[YOCTO #7032]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/files/toolchain-shar-template.sh | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
-index 0d679a6..4a7fbd5 100644
---- a/meta/files/toolchain-shar-template.sh
-+++ b/meta/files/toolchain-shar-template.sh
-@@ -158,6 +158,7 @@ for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
- 	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
- 		grep ":.*\(ASCII\|script\|source\).*text" | \
- 		awk -F':' '{printf "\"%s\"\n", $1}' | \
-+		grep -v "$target_sdk_dir/environment-setup-*" | \
- 		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
- done
- 
--- 
-1.9.1
 
 
