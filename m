@@ -1,27 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FBBD606BF
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A41FB60557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 14:47:42 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Feb 2015 06:47:43 -0800
+	Wed,  4 Feb 2015 14:54:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Feb 2015 06:48:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="449743722"
-Received: from bdrobeso-mobl3.amr.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.70])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2015 06:33:30 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Wed, 04 Feb 2015 14:47:42 +0000
-Message-ID: <2453761.Od84ObYqIE@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.17.8-200.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <a6dc870be391940e782eae4a86b0002e764a163a.1420530290.git.Qi.Chen@windriver.com>
-References: <cover.1420530290.git.Qi.Chen@windriver.com>
-	<a6dc870be391940e782eae4a86b0002e764a163a.1420530290.git.Qi.Chen@windriver.com>
+X-IronPort-AV: E=Sophos;i="5.09,518,1418112000"; d="scan'208";a="672660198"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.57])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Feb 2015 06:54:51 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Feb 2015 08:54:58 -0600
+Message-Id: <1423061698-9776-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstatesig.py: fix logic in find_siginfo
+Subject: [PATCH] files/toolchain-shar-template.sh: fix replace target_sdk_dir twice in environment setup file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,70 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 14:47:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 04 Feb 2015 14:54:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Qi,
+When specify a target sdk dir that contains default install dir as
+subdir,
 
-On Tuesday 06 January 2015 15:47:38 Chen Qi wrote:
-> For now, `bitbake-diffsig -t <recipe> <task>' doesn't work. This is
-> caused by a small logic mistake in find_siginfo in sstatesig.py.
-> 
-> The logic should be 'and' instead of 'or', otherwise, we will have
-> both siginfo and sigdata files in filedates which have the same checksum.
-> e.g.
-> /buildarea2/chenqi/sstate-cache/fc/sstate:sysstat:armv5te-poky-linux-gnueabi
-> :10.2.1:r0:armv5te:3:fc861bf371c1b843b2843a3415eb5ff3_install.tgz.siginfo
-> /buildarea2/chenqi/poky/build-systemd/tmp/stamps/armv5te-poky-linux-gnueabi
-> /sysstat/10.2.1-r0.do_install.sigdata.fc861bf371c1b843b2843a3415eb5ff3
-> 
-> So `bitbake-diffsig -t sysstat install' will output nothing even we actually
-> have changed something in do_install task.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/lib/oe/sstatesig.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> index af7617e..c6c85b9 100644
-> --- a/meta/lib/oe/sstatesig.py
-> +++ b/meta/lib/oe/sstatesig.py
-> @@ -234,7 +234,7 @@ def find_siginfo(pn, taskname, taskhashlist, d):
->              except OSError:
->                  continue
-> 
-> -    if not taskhashlist or (len(filedates) < 2 and not foundall):
-> +    if not taskhashlist and (len(filedates) < 2 and not foundall):
+	target_sdk_dir=/opt/poky/$version/
+	custom_target_sdk_dir=/opt/poky/$version/some
 
-I don't think this is the correct fix - if taskhashlist is specified but we 
-don't have enough files found in the stamps directory, we still want to look at 
-the sstate cache.
+The target_sdk_dir variable in environment-setup file is replaced twice
+causes to point to wrong PATH.
 
-It is difficult to tell what's going on in this function, because this code is 
-now being used for several different purposes:
+In order to fix filter environment-setup file in second replacement.
 
- (1) the bitbake-diffsigs -t usage which is intended to be used to find out what 
-changed that caused a task to re-execute the last time (so we want the two 
-newest signatures).
+[YOCTO #7032]
 
- (2) the bitbake -S printdiff usage which is intended to be used simply to find 
-out why sstate wasn't reused (so we want the two signatures with the smallest 
-difference)
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/files/toolchain-shar-template.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
- (3) Additionally, as part of (1) and (2) the same function is also called 
-with specific task hashes which changes its behaviour.
-
-I think this code should probably be refactored so it makes more sense, but 
-the minimal fix for the problem you discovered would be to make the bit that 
-looks in sstate-cache ignore hashes it has already found.
-
-Cheers,
-Paul
-
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index 0d679a6..4a7fbd5 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -158,6 +158,7 @@ for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
+ 	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
+ 		grep ":.*\(ASCII\|script\|source\).*text" | \
+ 		awk -F':' '{printf "\"%s\"\n", $1}' | \
++		grep -v "$target_sdk_dir/environment-setup-*" | \
+ 		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+ done
+ 
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
