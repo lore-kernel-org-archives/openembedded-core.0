@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A657D606BF
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B22D60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 21:35:31 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id bs8so6617808wib.5
+	Wed,  4 Feb 2015 21:42:59 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id p6so3599045qcv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Feb 2015 13:35:32 -0800 (PST)
+	Wed, 04 Feb 2015 13:43:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=pWXMzPT+AR8f4pB9NgRJyot8hYMkOM3nP88Q2Bb8JRA=;
-	b=Sy8KKWsVOj55ppLG8BgUBAjPLTlIYZ/gVih2a/gqYJVbW6CZrqbvyDwojY8BlaxJAp
-	5mOlSwGjw4eMAG+j/08skS9H5SsRqI+YgDVAaHbaGU2kic6CrGvy3D919yxxAh1teOWI
-	uiP5hhU3SNFX9TZKSjx5zr8VcOFkUBr28kS7W/LyRwX27BQNs5aTDvcxxCQROnQcbJPZ
-	uVl9scX873b5SYS843LTXuBLJ96BZ4Y6eK5ECl1ZjDST5TKEdEszq7oRjBTbOukYmttl
-	aDQzeLogbbRVugP1UeMiYKQ+F5dynM2PWXR/QttMyqCUbwvn5jW07NVDgh/4Qg5nSfus
-	bP2w==
-X-Gm-Message-State: ALoCoQl05V33M4Fp5ZAdgvP+YuMGxn78zCWHX9+nNK5YiMOcXos7fy6vDLMIuCq2igan2vtm9nrY
-X-Received: by 10.180.75.102 with SMTP id b6mr8476877wiw.75.1423085732788;
-	Wed, 04 Feb 2015 13:35:32 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id n6sm4443036wjy.8.2015.02.04.13.35.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Feb 2015 13:35:32 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Feb 2015 21:33:36 +0000
-Message-Id: <1423085616-6729-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] Revert "bitbake.conf: don't remove WARN_QA and ERROR_QA from hashes"
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vzcs5HRWazeWvK/95U1iSs0IeZVd/fhg89NxI0j1khs=;
+	b=VBehcJEJNhBuVua4u1PQaSzsRm51nCruhmt8jFW52u4nSS4bDBbZXaLM8qf4TesnSQ
+	l5UiiXLHm3uvaOe3eb+mEtICr/XHOZN0NFHQKtl/GOILl4tKJ26+Vtnj7K4jE/yacD/F
+	S1cXWYlG7iJIOwQVaDM1esS2ad+mWHHqAHmo59UuvMFWXLfq96nr8lpQzBm+r14u+wQy
+	9NEhC3b/n+cJPvq+m4S5USnKGyk7sPEepmz6qUefNa1e5a9OcktfEDfjiL+fa/QqBKAu
+	9lszcPD3OxcP33pZ1XMRlgmjZfjTnDHEdqSZ+PE00EIHlH23dGQfrRZ5SLuo4RamfEi9
+	9eKw==
+X-Gm-Message-State: ALoCoQlnWacREi6HanFxjFE6fY8uE/ELRqQg6ArfDjUrtMmcVZlKrn2ZjZJTo87B0ez+LZPMrI0b
+X-Received: by 10.229.190.65 with SMTP id dh1mr1107353qcb.28.1423086181037;
+	Wed, 04 Feb 2015 13:43:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Wed, 4 Feb 2015 13:42:40 -0800 (PST)
+In-Reply-To: <1423066153-24933-1-git-send-email-danismostlikely@gmail.com>
+References: <1423066153-24933-1-git-send-email-danismostlikely@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 Feb 2015 21:42:40 +0000
+Message-ID: <CAJTo0LaVxK8+SY7=o-wsNQZazWZcatdbYbD1a=TTqCd4p9=esQ@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] terminal.py: add tmux new window option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 21:35:36 -0000
+X-List-Received-Date: Wed, 04 Feb 2015 21:43:01 -0000
+Content-Type: multipart/alternative; boundary=001a11339bec4e9527050e4a1216
 
-It turns out that changing WARN_QA and ERROR_QA results in do_configure's QA
-postfunc re-executing, so changing a QA test results in a complete rebuild.
+--001a11339bec4e9527050e4a1216
+Content-Type: text/plain; charset=UTF-8
 
-This is just too much and the lesser evil of needing to do a full rebuild to
-verify changed QA flags is preferable to an enforced full rebuild.
+On 4 February 2015 at 16:09, Dan McGregor <danismostlikely@gmail.com> wrote:
 
-This reverts commit daecfc3438122b5d146a59a5053e57006d55ccc4.
+> Add a new terminal type that makes a new window in the running tmux
+> session instead of splitting the window. 80x25 is not enough to run
+> menuconfig inside a split window, so add the option to create a new
+> window instead.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Is there an argument for just using a new window always, splitting seems a
+bit weird to me.  My terminals are the size I like them to be, and having
+have a terminal just for devshell seems lame.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 907ed1e..b5b54b7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -774,7 +774,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
--    WORKDIR STAMPCLEAN PKGDATA_DIR"
-+    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
--- 
-1.7.10.4
+(occasional tmux user but never beyond simply leaving jobs running)
 
+Ross
 
+--001a11339bec4e9527050e4a1216
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 February 2015 at 16:09, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ks"=
+ class=3D"a3s" style=3D"overflow:hidden">Add a new terminal type that makes=
+ a new window in the running tmux<br>
+session instead of splitting the window. 80x25 is not enough to run<br>
+menuconfig inside a split window, so add the option to create a new<br>
+window instead.</div></blockquote></div><br>Is there an argument for just u=
+sing a new window always, splitting seems a bit weird to me.=C2=A0 My termi=
+nals are the size I like them to be, and having have a terminal just for de=
+vshell seems lame.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">(occasional tmux user but never beyond simply leaving jobs run=
+ning)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
+
+--001a11339bec4e9527050e4a1216--
