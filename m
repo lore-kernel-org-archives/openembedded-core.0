@@ -1,23 +1,39 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 5747F605F1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id EDDA36013C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 10:29:25 +0000 (UTC)
-Received: from localhost (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 61876234981;
-	Wed,  4 Feb 2015 11:29:24 +0100 (CET)
-Date: Wed, 4 Feb 2015 11:29:23 +0100
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-Message-ID: <20150204102923.GA3901@localhost.localdomain>
-References: <1423006826-10627-1-git-send-email-alexandre.belloni@free-electrons.com>
+	Wed,  4 Feb 2015 10:49:12 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id s11so548075qcv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Feb 2015 02:49:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Nf20XlTXNS596U/9BPF1+2KE9WeQGYOsJD84irDCehw=;
+	b=ivcg1RxmFqa7G1NhaPrSi+xB1RWpeSf81C0DoyBPyxMEnCEnI+2keKfiW/TYZWa9AX
+	JaTNCTCD4txJs71A/cpByasjyeIzR9jwxNoO0Q+0d74G4BOQxMXb4pECoAatKikOL2QU
+	O7r9FXdtKossS9NOkEksaYHJldX4uOxWKYkJ5Bzw3adZj/YeJcVC36eqsqyOFm3Fh/lr
+	CApiI8C1qiTmexXhWP2QAi9cu/5nZdfm1aw0WMx0qmKv0UlMxAsqAWouKB2pcQ83wdv6
+	roIv9hF7Au+MH6DME7sM9maVD+scROEahJ/Y3S58vznJk94SH0XMlslTZ6P3DfD7w38w
+	iMEg==
+X-Gm-Message-State: ALoCoQnHGNepHWcQtqVQW7bf0W/H8NwjEQacOh8vxzuODTGGyDhKH+IgtCHkbdLwRXzcCyxsp0oH
+X-Received: by 10.224.7.197 with SMTP id e5mr63969785qae.64.1423046954210;
+	Wed, 04 Feb 2015 02:49:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1423006826-10627-1-git-send-email-alexandre.belloni@free-electrons.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: use kB for the partitions size
+Received: by 10.140.96.166 with HTTP; Wed, 4 Feb 2015 02:48:54 -0800 (PST)
+In-Reply-To: <54D14BEF.5040509@mentor.com>
+References: <345DD4F0215D4B4CB8356943BA192C9913E976EE@kihagwinex02.int.kistler.com>
+	<CAJTo0LYD0B91NSZ=NC=ZKemczYkkKKQvjnvsmfKqT0tz4C28zQ@mail.gmail.com>
+	<54D14BEF.5040509@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 Feb 2015 10:48:54 +0000
+Message-ID: <CAJTo0La3Eq2s-ByoWMh7-K5BX6aUZxHiAb6e2qAdFaGxpx9iZw@mail.gmail.com>
+To: Nathan Lynch <Nathan_Lynch@mentor.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: run ptest for specific packages or layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,98 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 10:29:35 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Feb 2015 10:49:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c223f4347219050e40f068
 
-On 02/04 00:40, Alexandre Belloni wrote:
-> Use kB instead of MB for the partition size to get a better granularity.
+--001a11c223f4347219050e40f068
+Content-Type: text/plain; charset=UTF-8
+
+On 3 February 2015 at 22:30, Nathan Lynch <Nathan_Lynch@mentor.com> wrote:
+
+> Should it specify perl-misc and perl-modules instead of just perl?
 >
-> This is needed on some SoC (i.mx, omap) where it is necessary to create
-> partitions as small as 64kB.
->
-> Keep the backward compatibility by assuming MB when no unit is provided.
->
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-> ---
->  .../wic/3rdparty/pykickstart/commands/partition.py |  4 +--
->  scripts/lib/wic/3rdparty/pykickstart/options.py    | 21 ++++++++++++-
->  scripts/lib/wic/kickstart/__init__.py              |  2 +-
->  .../lib/wic/kickstart/custom_commands/partition.py | 36 +++++++++++-----------
->  scripts/lib/wic/plugins/source/bootimg-efi.py      |  2 +-
->  scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  2 +-
->  scripts/lib/wic/utils/partitionedfs.py             |  4 +--
->  7 files changed, 45 insertions(+), 26 deletions(-)
->
-> diff --git a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py b/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
-> index 56b91aa9d9a4..b564b1a7abb9 100644
-> --- a/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
-> +++ b/scripts/lib/wic/3rdparty/pykickstart/commands/partition.py
-> @@ -78,7 +78,7 @@ class FC3_PartData(BaseData):
->          if self.recommended:
->              retval += " --recommended"
->          if self.size and self.size != 0:
-> -            retval += " --size=%s" % self.size
-> +            retval += " --size=%sk" % self.size
->          if hasattr(self, "start") and self.start != 0:
->              retval += " --start=%s" % self.start
->
-> @@ -216,7 +216,7 @@ class FC3_Partition(KickstartCommand):
->                        callback=part_cb, nargs=1, type="string")
->          op.add_option("--recommended", dest="recommended", action="store_true",
->                        default=False)
-> -        op.add_option("--size", dest="size", action="store", type="int",
-> +        op.add_option("--size", dest="size", action="store", type="size",
->                        nargs=1)
->          op.add_option("--start", dest="start", action="store", type="int",
->                        nargs=1)
-> diff --git a/scripts/lib/wic/3rdparty/pykickstart/options.py b/scripts/lib/wic/3rdparty/pykickstart/options.py
-> index 341c5d7298b0..7bbe6a85a156 100644
-> --- a/scripts/lib/wic/3rdparty/pykickstart/options.py
-> +++ b/scripts/lib/wic/3rdparty/pykickstart/options.py
-> @@ -143,6 +143,24 @@ def _check_string(option, opt, value):
->      else:
->          return value
->
-> +def _check_size(option, opt, value):
-> +    # Former default was MB
-> +    if (value.isdigit()):
-> +        return int(value) * 1024L
-> +
-> +    mapping = {"opt": opt, "value": value}
-> +    if (not value[0:len(value)-1].isdigit()):
 
-You might want to replace value[0:len(value)-1] with value[:-1] here and
-in int(...) below.
+Yes, the ptest packages should add all the dependencies they need.
 
-Other than that, the patch looks ok for me. I've built a couple of
-images with different sizes (with and without suffix), all worked fine.
+Ross
 
-Tested-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+--001a11c223f4347219050e40f068
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---
-Maciej Borzęcki
-Senior Software Developer at Open-RnD Sp. z o.o., Poland
-www.open-rnd.pl
-mobile: +48 889 117 365, fax: +48 42 657 9079
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 February 2015 at 22:30, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:Nathan_Lynch@mentor.com" target=3D"_blank">Nathan_Lynch@mentor.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xq" clas=
+s=3D"a3s" style=3D"overflow:hidden">Should it specify perl-misc and perl-mo=
+dules instead of just perl?</div></blockquote><div><br></div><div>Yes, the =
+ptest packages should add all the dependencies they need.</div><div><br></d=
+iv><div>Ross=C2=A0<br></div></div></div></div>
 
-
-Niniejsza wiadomość wraz z załącznikami może
-zawierać chronione prawem lub poufne informacje i została
-wysłana wyłącznie do wiadomości i użytku osób, do których
-została zaadresowana. Jeśli wiadomość została otrzymana
-przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
-trzecich. W takim przypadku uprasza się o natychmiastowe
-zniszczenie wiadomości oraz poinformowanie nadawcy o
-zaistniałej sytuacji za pomocą wiadomości zwrotnej.
-Dziękujemy.
-
-This message, including any attachments hereto,
-may contain privileged or confidential information and is sent
-solely for the attention and use of the intended addressee(s).
-If you are not an intended addressee, you may neither use this
-message nor copy or deliver it to anyone. In such case, you
-should immediately destroy this message and kindly notify the
-sender by reply email. Thank you.
-
+--001a11c223f4347219050e40f068--
