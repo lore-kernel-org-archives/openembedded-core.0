@@ -1,35 +1,32 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 37EDE60169
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (down.free-electrons.com
+	[37.187.137.238])
+	by mail.openembedded.org (Postfix) with ESMTP id D169560017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 21:49:18 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id c9so3646857qcz.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Feb 2015 13:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=25AKrPJHuAErwXLwcHr+69HqTC66a/ut+4zBKiMqIUk=;
-	b=SRSubuwwNqVR6+P5RbuPxam1kEgWQZ+/mP+jxzUoQjhM+GH2dllapAg+2gru/OwhKT
-	RlUF+KXoi3SCmblTVkhx6F5Jgk2EJ1R3PbF2HTqNwV7I6plE7HK06boxsx8tnutKgip0
-	MdERdqBNDQg5Y6c5tW7dRySr8NIqiT2GKGGCXeJBUNk7XCLyRd38ZcaTrdlKsXovqCWl
-	jPgTpnLBoQQOzbYQwbbPYfBRTlMKq2QLVTub7VBT4qrGLXR2RqgRddUTiuOp8HRtIh2s
-	z/Kn9PAbzf8M4LIjMChLWSlge/ZesZ4jXzmS6VG9E5Bvuucq2QCyYSqjCfWte7yAXdI1
-	YJfQ==
+	Wed,  4 Feb 2015 22:43:33 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id 7C3E4602; Wed,  4 Feb 2015 23:43:40 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+	shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 4A6A3D;
+	Wed,  4 Feb 2015 23:43:40 +0100 (CET)
+Date: Wed, 4 Feb 2015 23:43:33 +0100
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Message-ID: <20150204224333.GB4443@piout.net>
+References: <1423047187-8369-1-git-send-email-maciej.borzecki@open-rnd.pl>
 MIME-Version: 1.0
-X-Received: by 10.229.1.72 with SMTP id 8mr1083633qce.25.1423086559675; Wed,
-	04 Feb 2015 13:49:19 -0800 (PST)
-Received: by 10.96.30.35 with HTTP; Wed, 4 Feb 2015 13:49:19 -0800 (PST)
-In-Reply-To: <CAJTo0LaVxK8+SY7=o-wsNQZazWZcatdbYbD1a=TTqCd4p9=esQ@mail.gmail.com>
-References: <1423066153-24933-1-git-send-email-danismostlikely@gmail.com>
-	<CAJTo0LaVxK8+SY7=o-wsNQZazWZcatdbYbD1a=TTqCd4p9=esQ@mail.gmail.com>
-Date: Wed, 4 Feb 2015 15:49:19 -0600
-Message-ID: <CACS+7ZQ0O1JOEPGWeQNfStWNJu1sDm+wSOxjSqKdqqCiAdYY4Q@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] terminal.py: add tmux new window option
+In-Reply-To: <1423047187-8369-1-git-send-email-maciej.borzecki@open-rnd.pl>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Maciek Borzecki <maciek.borzecki@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: bail out on kickstart parse errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 21:49:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Feb 2015 22:43:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4 February 2015 at 15:42, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 4 February 2015 at 16:09, Dan McGregor <danismostlikely@gmail.com> wrote:
->>
->> Add a new terminal type that makes a new window in the running tmux
->> session instead of splitting the window. 80x25 is not enough to run
->> menuconfig inside a split window, so add the option to create a new
->> window instead.
->
->
-> Is there an argument for just using a new window always, splitting seems a
-> bit weird to me.  My terminals are the size I like them to be, and having
-> have a terminal just for devshell seems lame.
->
-> (occasional tmux user but never beyond simply leaving jobs running)
->
+On 04/02/2015 at 11:53:07 +0100, Maciej Borzecki wrote :
+> Kickstart file errors are not emitted by the parser. In case errors, the
+> current code will continue to execute possibly creating a faulty or
+> incomplete image. The patch enables the parser to emit all encountered
+> errors. The error message is shown for the user and further execution is
+> ceased.
+> 
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
 
-With this change setting OE_TERMINAL = "tmux-new-window" in your
-configuration will always launch a new terminal. I just left splitting
-as the default because it's the current behaviour; I've been using
-only new windows for over a year personally.
+Tested-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 
-I don't really see a reason for keeping the splitting behaviour, but I
-imagine that others might not like it magically changing on them.
 
-> Ross
+-- 
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
 
