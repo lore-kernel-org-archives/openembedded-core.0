@@ -1,29 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B41960557
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id EFFD06013C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 08:04:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1483ugP011381
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Feb 2015 00:03:57 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 4 Feb 2015 00:03:56 -0800
-Message-ID: <54D1D26A.50909@windriver.com>
-Date: Wed, 4 Feb 2015 16:03:54 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Wed,  4 Feb 2015 09:01:20 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t1491K4V011358; Wed, 4 Feb 2015 03:01:20 -0600
+Received: from weregild ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015020403012053-734755 ;
+	Wed, 4 Feb 2015 03:01:20 -0600 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LYkdvkjDPqQOAai1xcwoPVdX3PXMdPYRjq_Y09HrY3WBg@mail.gmail.com>
+References: <1422924455-24732-1-git-send-email-rich.tollerton@ni.com>
+	<1422924455-24732-2-git-send-email-rich.tollerton@ni.com>
+	<CAJTo0LYkdvkjDPqQOAai1xcwoPVdX3PXMdPYRjq_Y09HrY3WBg@mail.gmail.com>
+User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.2
+	(x86_64-unknown-linux-gnu)
+Date: Wed, 04 Feb 2015 03:01:20 -0600
+Message-ID: <87siemaw4f.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-To: Peter Gejgus <Peter.Gejgus@kistler.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <672D6A2F0F2E8A43891580C45CE5D2E6013D7790@kihagwinex02.int.kistler.com>
-In-Reply-To: <672D6A2F0F2E8A43891580C45CE5D2E6013D7790@kihagwinex02.int.kistler.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: post-installation scripts vs. init scripts
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 02/04/2015 03:01:20 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 02/04/2015 03:01:20 AM,
+	Serialize complete at 02/04/2015 03:01:20 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-02-04_02:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/3] staging.bbclass: Install ${datadir}/fonts/ into sysroots
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 08:04:03 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Feb 2015 09:01:26 -0000
+Content-Type: text/plain
 
-In OE, sysvinit scripts are executed one by one at start-up.
-The post-install scripts are run at first boot via 
-/etc/rcS/S99run-postinsts.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-E.g.
-We have:
-1) /etc/rc3/S10bind
-2) /etc/rcS/S03udev
-3) /etc/rcS/S99run-postinsts
-
-The execution sequence is 2) -> 3) -> 1).
-
-Regards,
-Chen Qi
-
-On 02/04/2015 03:33 PM, Peter Gejgus wrote:
-> Hello,
+> On 3 February 2015 at 00:47, Richard Tollerton <rich.tollerton@ni.com>
+> wrote:
 >
-> I've checked experimentally that post-installation scripts (executed during the first boot) run before init scripts. I've checked it by putting long sleep into the following script and I've also verified timestamps from init script and post-install script in the log:
+>> font-util installs encoding maps into /usr/share/fonts/X11. This path
+>> may not exist on the host (many distros install these into
+>> /usr/share/fonts/util) so they must exist in the sysroot in order for
+>> e.g. `pkg-config --variable=mapdir fontutil` to work correctly. However,
+>> currently /usr/share/fonts is explicitly not installed into sysroots, so
+>> the encoding maps were not getting found.
+>>
+>> Fix this by no longer deleting ${datadir}/fonts/ from sysroots.
+>>
 >
-> pkg_postinst_PACKAGENAME()
-> {
->       #!/bin/sh -e
->       if [ x"$D" = "x" ]; then
->            # Actions to carry out on the device go here
->            sleep 300
->       else
->            exit 1
->       fi
->   }
+> So the rationale for removing ${datadir}/fonts/ from staging is that it
+> usually contains fonts, which are useless in the sysroot.  Removing this
+> means that fonts get staged when they're built, which means pointless
+> copying of data and adds to the build time.  In an image which has many
+> megabyte of fonts, that's going to be noticeable.
 >
-> Can you confirm that post-install scripts run before init scripts and there is no overlap?
->
-> Regards,
-> Peter
+> An alternative solution would be to explicitly stage the maps in the
+> recipes that install them, see eg the tcl recipe that calls
+> sysroot_stage_dir directly.
 
+Thanks, I was not aware of this facility. I'll get a patch put together
+using this (SYSROOT_PREPROCESS_FUNCS) approach.
+
+> Ross
+
+-- 
+Richard Tollerton <rich.tollerton@ni.com>
 
