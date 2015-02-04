@@ -1,20 +1,54 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 1743C6E6C0
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F9E60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Feb 2015 10:53:21 +0000 (UTC)
-Received: from localhost.localdomain (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id C0DB137E1BC;
-	Wed,  4 Feb 2015 11:53:21 +0100 (CET)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org,
-	Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Wed,  4 Feb 2015 11:53:07 +0100
-Message-Id: <1423047187-8369-1-git-send-email-maciej.borzecki@open-rnd.pl>
-X-Mailer: git-send-email 1.9.3
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] wic: bail out on kickstart parse errors
+	Wed,  4 Feb 2015 11:48:37 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	t14BmXkF021407
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Feb 2015 11:48:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1423050516;
+	bh=Z5EMDNqSvpD+Pq4B6KP9ltSbA/TaN8txGgRnXmQhvIM=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=eswL4V6oi8+JuXnLHt4zp50u5ZdGMiNbQJhdVkLWUX8CxpL0OByc4fI1MaqEHmZEr
+	4i55216Sgv76lHgWKT75c/GC24UwHWsvm6gJu8tqKRqWlo3m7lCD6cIFEYM/3zla8k
+	lk9jPfYsikCaeyzTKqt5pzxOcRUeQz3w3Jdkr3Xo=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id t14BmTbK029275
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Feb 2015 12:48:30 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.84) (envelope-from <ensc@sigma-chemnitz.de>) id 1YIyRf-0007OA-Db
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Feb 2015 12:48:35 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <bruno.bottazzini@intel.com>
+	<1422987664-26903-1-git-send-email-bruno.bottazzini@intel.com>
+	<1422987664-26903-2-git-send-email-bruno.bottazzini@intel.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Wed, 04 Feb 2015 12:48:35 +0100
+In-Reply-To: <1422987664-26903-2-git-send-email-bruno.bottazzini@intel.com>
+	(Bruno Bottazzini's message of "Tue, 3 Feb 2015 16:21:04 -0200")
+Message-ID: <lytwz1zylo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH] systemd: update version from 216 to 218
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,45 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 10:53:22 -0000
+X-List-Received-Date: Wed, 04 Feb 2015 11:48:41 -0000
+Content-Type: text/plain
 
-Kickstart file errors are not emitted by the parser. In case errors, the
-current code will continue to execute possibly creating a faulty or
-incomplete image. The patch enables the parser to emit all encountered
-errors. The error message is shown for the user and further execution is
-ceased.
+Bruno Bottazzini <bruno.bottazzini-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> writes:
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
----
- scripts/lib/wic/kickstart/__init__.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+> +PACKAGES =+ "${PN}-services-ask-password"
+> +SUMMARY_${PN}-services-ask-password = "systemd's service and tool to
+> query the user for a system password"
+> +RRECOMMENDS_${PN}-services-ask-password = "${PN}-services-base"
+> +FILES_${PN}-services-ask-password = "\
+> +        ${rootprefix}/bin/systemd-ask-password \
+> +        ${rootprefix}/bin/systemd-tty-ask-password-agent \
+> +        ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path \
+> +        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path \
+> +        ${systemd_unitdir}/system/systemd-ask-password-console.path \
+> +        ${systemd_unitdir}/system/systemd-ask-password-console.service \
+> +        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
+> +        ${systemd_unitdir}/system/systemd-ask-password-wall.service \
+> +"
 
-diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
-index 600098293aeff5a1f7756ba20381b8d054c10fd1..b1406a04575906f7d5822139eef5a4a2753040fc 100644
---- a/scripts/lib/wic/kickstart/__init__.py
-+++ b/scripts/lib/wic/kickstart/__init__.py
-@@ -58,16 +58,13 @@ def read_kickstart(path):
-         def __init__(self):
-             superclass.__init__(self, mapping=commandMap[using_version])
- 
--    ks = ksparser.KickstartParser(KSHandlers(), errorsAreFatal=False)
-+    ks = ksparser.KickstartParser(KSHandlers(), errorsAreFatal=True)
- 
-     try:
-         ks.readKickstart(path)
-     except (kserrors.KickstartParseError, kserrors.KickstartError), err:
--        if msger.ask("Errors occured on kickstart file, skip and continue?"):
--            msger.warning("%s" % err)
--            pass
--        else:
--            raise errors.KsError("%s" % err)
-+        msger.warning("Errors occurred when parsing kickstart file: %s\n" % path)
-+        msger.error("%s" % err)
- 
-     return ks
- 
--- 
-1.9.3
+I think, enumerating services in this kind becomes a maintenance
+nightmare.  E.g. you have to check for every future systemd version
+whether service gets listed in a new .wants.  Using wildcards can
+simplify this; e.g. see systemd_elito_populate_packages() in
 
+          https://www.cvg.de/people/ensc/systemd_216.bbappend
+
+
+Enrico
 
