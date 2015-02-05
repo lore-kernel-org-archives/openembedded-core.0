@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A628472701
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B3F5372A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:22 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id lf10so3277785pab.12
+	Thu,  5 Feb 2015 16:04:20 +0000 (UTC)
+Received: by pdbfl12 with SMTP id fl12so8538921pdb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:23 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=mHNjUmsgfBJUkKNwHS5ADiwOVcXEeeHF5Y3GGOBWlrY=;
-	b=elBBxLrff7j97POQhCmFQ/zcD3MHtCpotDW5CAZXNVL4wxKcFMlyr2Nvv8tOgqkhMG
-	NYdI+hZOfAl0CZOM+Kespa9bjyzuYvcprQOlOKmhb7UOu2CqW9xKseiVg47iaqkAGhaX
-	mtdtYrWwNoBvV+zJqsTF+ICj3+kG+W8oodwgzBJ9O1eENelTatJzCSBeaqe26D74hNbb
-	dcnX62VmjVmL27QQWWzHyZ1bWm01pA51ZnFdBtAtx7nsvhdzxIlwg5uNcZM7+p6s/L42
-	RKWmqo1pw8ZtlqdB03hZkOd4O0Ow8THE3HLS5rFiaIfkIAeS6z+xpfFruzuNMzaRYLek
-	641Q==
-X-Received: by 10.66.145.3 with SMTP id sq3mr6212830pab.7.1423152263829;
-	Thu, 05 Feb 2015 08:04:23 -0800 (PST)
+	bh=M08Nr7tCHvmCH4MweJwy+kIUjtfg7S2+IRt3GPRAOj0=;
+	b=cYph7FJx/M4jushUrjM06ILd2CoRa++ZVRTkkfjY0UzaIvS4wZmKE5D+pJNZsuwQbN
+	m/15NCuvxDokpJ1VeF3IZiVB+Tkapi6Us6iTR/Jc9YOofUtdQEEKcW1T/iH3ht7mD37l
+	0bd0M7dgDgTIk9976UExQIPJ6TnJYIG/q75y9eYs35m/RefdoXr8RTpsneLNqdTOB+e2
+	xoBjbMfw8DcPvvRAlKNIbammP0+7B73K7+fSHMjEnHJyufDf8ysKs1Q2WcLm+9/p2uAX
+	x5yAXApQ0utmSOEy6l0sCMub8yb/AM/n2chjhCBTQXkZrEzNsDJPTNkN1FGrTBvxtcK7
+	7lmw==
+X-Received: by 10.68.143.193 with SMTP id sg1mr6709061pbb.63.1423152261748;
+	Thu, 05 Feb 2015 08:04:21 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.21
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:22 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:20 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:13 -0800
-Message-Id: <cb1282a8368ff9149e5c9ea8d39f550bbf1de5a3.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:12 -0800
+Message-Id: <e4f208ce61d90ff42127e006ae44d58103abcb3f.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 05/61] libunwind: Fix test case link failure on PowerPC with Altivec
+Subject: [PATCH 04/61] libxml2: Backport fix for CVE introduced entity issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,63 +48,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Feb 2015 16:04:24 -0000
 
-From: Ting Liu <ting.liu@freescale.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Ting Liu <ting.liu@freescale.com>
+The CVE fix introduced problems with entity issues, we observed this
+when building the Yocto Docs in particular. Backport the fix from
+upstream so we can build our docs correctly.
+
+[YOCTO #7134]
+
+(From OE-Core rev: af501bd51f9a86edd34e0405bc32dabe21312229)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...k-failure-on-PowerPC-systems-with-Altivec.patch | 28 ++++++++++++++++++++++
- meta/recipes-support/libunwind/libunwind_1.1.bb    |  4 ++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
+ .../72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch | 30 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.1.bb          |  3 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
 
-diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch b/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
+diff --git a/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
 new file mode 100644
-index 0000000..dc0f5c1
+index 0000000..10a8112
 --- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
-@@ -0,0 +1,28 @@
-+Fix test case link failure on PowerPC systems with Altivec
++++ b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
+@@ -0,0 +1,30 @@
++From 72a46a519ce7326d9a00f0b6a7f2a8e958cd1675 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Thu, 23 Oct 2014 11:35:36 +0800
++Subject: Fix missing entities after CVE-2014-3660 fix
 +
-+Upstream-Status:backport
++For https://bugzilla.gnome.org/show_bug.cgi?id=738805
 +
-+On systems where the system compiler supports Altivec by default,
-+the libunwind Makefile will attempt to build an extra test case
-+ppc64-test-altivec.  Unfortunately, the link step will fail since
-+the Makefile does not actually link against the libunwind library.
++The fix for CVE-2014-3660 introduced a regression in some case
++where entity substitution is required and the entity is used
++first in anotther entity referenced from an attribute value
 +
-+Fixed by adding the appropriate LDADD macro.
++Upstream-Status: Backport
 +
-+Signed-off-by: Ulrich Weigand <address@hidden>
-+---
-+ tests/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 0e30536..9c76628 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -201,3 +201,4 @@ Lia64_test_rbs_LDADD = $(LIBUNWIND_local)
-+ Lia64_test_readonly_LDADD = $(LIBUNWIND_local)
-+ ia64_test_dyn1_LDADD = $(LIBUNWIND)
-+ ia64_test_sig_LDADD = $(LIBUNWIND)
-++ppc64_test_altivec_LDADD = $(LIBUNWIND)
++diff --git a/parser.c b/parser.c
++index 67c9dfd..a8d1b67 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -7235,7 +7235,8 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++      * far more secure as the parser will only process data coming from
++      * the document entity by default.
++      */
++-    if ((ent->checked == 0) &&
+++    if (((ent->checked == 0) ||
+++         ((ent->children == NULL) && (ctxt->options & XML_PARSE_NOENT))) &&
++         ((ent->etype != XML_EXTERNAL_GENERAL_PARSED_ENTITY) ||
++          (ctxt->options & (XML_PARSE_NOENT | XML_PARSE_DTDVALID)))) {
++ 	unsigned long oldnbent = ctxt->nbentities;
 +-- 
-+1.8.5
++cgit v0.10.1
 +
-diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
-index bc38e36..20db132 100644
---- a/meta/recipes-support/libunwind/libunwind_1.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
-@@ -1,4 +1,8 @@
- require libunwind.inc
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+index 0b6ac5d..e087324 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+@@ -1,6 +1,7 @@
+ require libxml2.inc
  
-+SRC_URI += "\
-+    file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
-+"
-+
- SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
- SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
+-SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar"
++SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
++            file://72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch"
+ 
+ SRC_URI[libtar.md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
+ SRC_URI[libtar.sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
 -- 
 1.9.1
 
