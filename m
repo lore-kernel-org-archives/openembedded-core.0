@@ -1,40 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B112372DEC
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 316F772E3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:04 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id bj1so10914840pad.1
+	Thu,  5 Feb 2015 16:05:06 +0000 (UTC)
+Received: by pdbfl12 with SMTP id fl12so8543407pdb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:06 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=G4x5D57+KgX+Nsq82TMjMPVvP2MIYBRei0rxu+YCkvs=;
-	b=X3zBxgP/3CQy808hbr9wTwUUEHlezmiDdsVcb5hsW8wmLHyYtCGGX1f1NhSKMaiy5s
-	APhFxAC9oXmOe66UMk1lXf15RS1V0Ccj8V150oI5lxqz5mdU3xdU0Rh49cs2bX1hoHqd
-	8oArhHo5DbgSRbGklIa3/4My+4GbXOZtSMU9W55tlGtg5ErQ3NvX2rN9gJKkHYYWW6Jo
-	5RML1hh8fT5tW80wAGbHi0dL/HTfcCuXLJvXMxDuM7u0tbD4fi+OZNvmroIJC00wr1Ug
-	M3MTc8fsRN0xjKF/l1fhcC7jybL5Q9u2WG1pyMdRo2NCdHSEvn0X+j4A5YVA1HV2yt2N
-	P97w==
-X-Received: by 10.66.234.2 with SMTP id ua2mr5298591pac.4.1423152306027;
-	Thu, 05 Feb 2015 08:05:06 -0800 (PST)
+	bh=PZyK/QAE6aVwhu+bwA+hrdSYK6cfGMHLGRg6wNn2I6I=;
+	b=prAlif8aQTy8gBzojuLymHJX5Z/c6nZtKl+2RVkMri+JHVcn+xWCzuD/pdcvqwGqex
+	r0o2U8PyZ5cD84K68y1tJOnaB3Uf7ffZJKD/gRizNWc/SaZ/XSwmmVgOx8EcgajpiR0t
+	3ZMJCRkub8uGK+LyMGoyiGxRCd2aYIjMNNUO/oerKDKKGaUKTH7SHiz/JnqEEw3mMln/
+	SwGY0MBbIw8g7dtSdaKGanwmkOzLR0vfvw1MB2STsLkchO/2gSrmlXPYvh0zl9FiRxcw
+	Zm7rKt1kSE/r0U2RrwuUR7U2XJZMuXmH+XZPeX0Gq+T3I/jX2zwAZq1X30M627lcRBh0
+	rXpw==
+X-Received: by 10.70.54.168 with SMTP id k8mr5962400pdp.87.1423152307961;
+	Thu, 05 Feb 2015 08:05:07 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.03
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.06
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:04 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:06 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:34 -0800
-Message-Id: <5b50868ead41aed7b7e563c70229633c958e26e5.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:35 -0800
+Message-Id: <15196f410d79e2a5c2ceb974213d78465f1a61ce.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 26/61] perf: Add libdw unwind support to perf-libunwind feature
+Subject: [PATCH 27/61] perf: Disable perf-libunwind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,40 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:04 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:08 -0000
 
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-perf can use either libdw or libunwind dwarf unwinders, or neither.
-The perf-libunwind feature implies that if disabled, neither should be
-used, so have it disable both libdw and libunwind DWARF unwinders if
-disabled.
+It hasn't actually been being enabled anyway: 'Disabling post unwind,
+no support found.'.  For now, turn it off because of [YOCTO #7129].
 
-This fixes [YOCTO #7129].
+Fixes [YOCTO #7129].
 
-(From OE-Core rev: 868dd446fa2732858813e96dd8f3f64b2a9ec339)
+(From OE-Core rev: d8c839afa96925b27909eb5a7b89ee83c87924bc)
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 2 +-
+ meta/recipes-kernel/perf/perf-features.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 3771cdb..2a47f52 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -64,7 +64,7 @@ B = "${WORKDIR}/${BPN}-${PV}"
+diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
+index 2dbbb47..b8859ab 100644
+--- a/meta/recipes-kernel/perf/perf-features.inc
++++ b/meta/recipes-kernel/perf/perf-features.inc
+@@ -1,4 +1,4 @@
+-PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
++PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui"
  
- SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
- TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
--LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1',d)}"
-+LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1',d)}"
- 
- # The LDFLAGS is required or some old kernels fails due missing
- # symbols and this is preferred than requiring patches to every old
+ def perf_feature_enabled(feature, trueval, falseval, d):
+     """
 -- 
 1.9.1
 
