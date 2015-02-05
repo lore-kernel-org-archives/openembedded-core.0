@@ -1,40 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D16772DF5
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9515172E47
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:12 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id et14so10850054pad.4
+	Thu,  5 Feb 2015 16:05:14 +0000 (UTC)
+Received: by pdjy10 with SMTP id y10so8539947pdj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:14 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=9LlsUZf2D4nxFqW2curuTHOnpy8qWM/EIwSXsFowvFY=;
-	b=kYpQwOkqlXpa+wBS+3SOlz3Kmp9ahERbE0z+oCa9NZG9K9ETJz1NZ38TM7J5X+u7dz
-	WtfMd8HUVPrELc/HdJZrDkS6fev/yaayvNpmBYx40L0T/i8pHsL6j/Y6glompYFaCa4b
-	sEnqPAE1BCSxZ87LPrl2w/68DNL8HRffKg52bTa56EC1LhmVMKLofVhK+jmey31qG/n8
-	CM8WDZZ4Wk+wXr6SXtwaBY+RDGwQ5/130XwSKSMMsb0k66XZHGo0iFOH0LST/6yPCCav
-	DsWpjSfViJpGefbq4cDsCqu4q1Dmph3fJCQc7UhlTHuZkbXQkf0EpYyYL/gLST8WGwYO
-	nCmg==
-X-Received: by 10.66.148.196 with SMTP id tu4mr6473474pab.125.1423152313919;
-	Thu, 05 Feb 2015 08:05:13 -0800 (PST)
+	bh=xoJrQsujO2Y1qBjpzHiFF5G1YBnUHiJm/UsGHC3wXwI=;
+	b=G8qhL7D63B1exPftBAjCjKDMss4f+NOgk2IAmIT7yxeAP5cODEdYTy9mD/oeyutw9D
+	iVNypFOHYuEEaHxZ/jC7VQ/rp5I44OqvYClfZyuENgIzQDM73fPY+yuvzKt6FOQJkPez
+	1sTfchlryblzkFrF+4e6ShTHhblpn1by74dgsnlC8MSFtjGpKA4uEDUvI1B0042zo2m8
+	7n6fQyrQJMHIIHaskhsDsi6sl9Sbh6/wOEMt4/qgOIMSMtsR1KgdUykEi6rRhEA855MT
+	tRM3dTRy+3Kb71klbBgJrQUmuUbL31LuP1sxuoJ8wbpWinWnzQZyxpASL28OGcigF3S9
+	pSMA==
+X-Received: by 10.66.55.74 with SMTP id q10mr5342113pap.94.1423152315853;
+	Thu, 05 Feb 2015 08:05:15 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.11
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:12 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:14 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:38 -0800
-Message-Id: <7eebf62746421e1648f61c91f444f67bf5765298.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:39 -0800
+Message-Id: <e13da9d20d27ae0a66f6330e2018a4768386d811.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH 30/61] perl: Backport fix for bug #123591
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 31/61] glibc: CVE-2014-9402 endless loop in getaddr_r
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +47,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:13 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:15 -0000
 
-From: Gary Thomas <gary@mlbassoc.com>
+From: Armin Kuster <akuster@mvista.com>
 
-This patch fixes a crash in perl when using formatted strings @...
+The getnetbyname function in glibc 2.21 in earlier will enter an infinite loop
+if the DNS backend is activated in the system Name Service Switch
+configuration, and the DNS resolver receives a positive answer while processing
+the network name.
 
-(From OE-Core rev: 6ff3776bb7f1a7ba2fc641bfd9b8546c4bb02466)
+(From OE-Core rev: f03bf84c179f69ef4800ed92a4a9d9401d0e5966)
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../perl/perl-5.20.0/fix-FF_MORE-crash.patch        | 21 +++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.20.0.bb           |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+ .../CVE-2014-9402_endless-loop-in-getaddr_r.patch  | 65 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.20.bb              |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
 
-diff --git a/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
 new file mode 100644
-index 0000000..9ec041c
+index 0000000..ba1da67
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
-@@ -0,0 +1,21 @@
++++ b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+@@ -0,0 +1,65 @@
++CVE-2014-9402 endless loop in getaddr_r
++
++
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=11e3417af6e354f1942c68a271ae51e892b2814d
++
 +Upstream-Status: Backport
-+Reference: https://rt.perl.org/Public/Bug/Display.html?id=123591
-+  From 62db6ea5fed19611596cbc5fc0b8a4df2c604e58 Mon Sep 17 00:00:00 2001
-+  From: Tony Cook <tony@develop-help.com>
-+  Date: Mon, 19 Jan 2015 16:03:18 +1100
-+  Subject: [PATCH 1/1] [perl #123538] always set chophere and itembytes at the same time
 +
-+  Previously this would crash in FF_MORE because chophere was still NULL.
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
-+Index: perl-5.20.0/pp_ctl.c
++From 11e3417af6e354f1942c68a271ae51e892b2814d Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Mon, 15 Dec 2014 17:41:13 +0100
++Subject: [PATCH] Avoid infinite loop in nss_dns getnetbyname [BZ #17630]
++
++---
++ ChangeLog                    | 6 ++++++
++ NEWS                         | 7 +++++--
++ resolv/nss_dns/dns-network.c | 4 ++--
++ 3 files changed, 13 insertions(+), 4 deletions(-)
++
++Index: git/NEWS
 +===================================================================
-+--- perl-5.20.0.orig/pp_ctl.c
-++++ perl-5.20.0/pp_ctl.c
-+@@ -590,6 +590,7 @@ PP(pp_formline)
-+                         break;
-+                 }
-+                 itembytes = s - item;
-++                chophere = s;
-+ 		break;
-+ 	    }
-diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
-index 3ca0f53..bc7866b 100644
---- a/meta/recipes-devtools/perl/perl_5.20.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
-@@ -63,6 +63,7 @@ SRC_URI += " \
- 	file://fix_bad_rpath.patch \
- 	file://perl-archlib-exp.patch \
- 	file://dynaloaderhack.patch \
-+	file://fix-FF_MORE-crash.patch \
- 	\
-         \
-         file://config.sh \
++--- git.orig/NEWS
+++++ git/NEWS
++@@ -24,7 +24,10 @@ Version 2.20
++   17031, 17042, 17048, 17050, 17058, 17061, 17062, 17069, 17075, 17078,
++   17079, 17084, 17086, 17088, 17092, 17097, 17125, 17135, 17137, 17150,
++   17153, 17187, 17213, 17259, 17261, 17262, 17263, 17319, 17325, 17354,
++-  17625.
+++  17625, 17630.
+++
+++* The nss_dns implementation of getnetbyname could run into an infinite loop
+++  if the DNS response contained a PTR record of an unexpected format.
++ 
++ * CVE-2104-7817 The wordexp function could ignore the WRDE_NOCMD flag
++   under certain input conditions resulting in the execution of a shell for
++Index: git/resolv/nss_dns/dns-network.c
++===================================================================
++--- git.orig/resolv/nss_dns/dns-network.c
+++++ git/resolv/nss_dns/dns-network.c
++@@ -398,8 +398,8 @@ getanswer_r (const querybuf *answer, int
++ 
++ 	case BYNAME:
++ 	  {
++-	    char **ap = result->n_aliases++;
++-	    while (*ap != NULL)
+++	    char **ap;
+++	    for (ap = result->n_aliases; *ap != NULL; ++ap)
++ 	      {
++ 		/* Check each alias name for being of the forms:
++ 		   4.3.2.1.in-addr.arpa		= net 1.2.3.4
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,9 @@
+++2014-12-16  Florian Weimer  <fweimer@redhat.com>
+++
+++       [BZ #17630]
+++       * resolv/nss_dns/dns-network.c (getanswer_r): Iterate over alias
+++       names.
+++
++ 2014-12-15  Jeff Law  <law@redhat.com>
++ 
++    [BZ #16617]
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index f67fbfd..8a8b296 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -44,6 +44,7 @@ EGLIBCPATCHES = "\
+ CVEPATCHES = "\
+         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
+         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
++        file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
+     "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
 -- 
 1.9.1
 
