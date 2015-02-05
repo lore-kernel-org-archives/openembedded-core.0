@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F5372A6E
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 92CAE60557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:20 +0000 (UTC)
-Received: by pdbfl12 with SMTP id fl12so8538921pdb.6
+	Thu,  5 Feb 2015 16:04:24 +0000 (UTC)
+Received: by pdjz10 with SMTP id z10so8540665pdj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:21 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=M08Nr7tCHvmCH4MweJwy+kIUjtfg7S2+IRt3GPRAOj0=;
-	b=cYph7FJx/M4jushUrjM06ILd2CoRa++ZVRTkkfjY0UzaIvS4wZmKE5D+pJNZsuwQbN
-	m/15NCuvxDokpJ1VeF3IZiVB+Tkapi6Us6iTR/Jc9YOofUtdQEEKcW1T/iH3ht7mD37l
-	0bd0M7dgDgTIk9976UExQIPJ6TnJYIG/q75y9eYs35m/RefdoXr8RTpsneLNqdTOB+e2
-	xoBjbMfw8DcPvvRAlKNIbammP0+7B73K7+fSHMjEnHJyufDf8ysKs1Q2WcLm+9/p2uAX
-	x5yAXApQ0utmSOEy6l0sCMub8yb/AM/n2chjhCBTQXkZrEzNsDJPTNkN1FGrTBvxtcK7
-	7lmw==
-X-Received: by 10.68.143.193 with SMTP id sg1mr6709061pbb.63.1423152261748;
-	Thu, 05 Feb 2015 08:04:21 -0800 (PST)
+	bh=CFDUQGK82S5rTYc3YgUOHebjl3V1hYldmwJnMEQFL6U=;
+	b=qGeaWv5QgTA4Zjv+ySbHrzt9bK/HOkGpNeUoqn0OCZdWkOIPEzrpg/5BxdxeiFdGA9
+	PiCQ+MHwizYMh2G8B0wqlTHPDaM4Y6OloL5p+ysST6X2SmNY2H412f5JaioOk6cI1Jrg
+	AqfsFHF9yEMp86egj1fOpGvrlToaHiahzB3xjFP8AALH3eJi5N47TVa9/FhypEac03Pt
+	W4wEkGn2PpwN71ulB1Z8UGQwTmoTp9xbhTurZ50bnwPUzdprtab87jI5h/fvcccwgANN
+	3lnIdcVB8M4lGHUX3vSoMf8v65r5LHFt/7ZejawpHR93l67oN9YAshybO2TG4OeBvD1M
+	oudg==
+X-Received: by 10.66.235.137 with SMTP id um9mr6621789pac.89.1423152265784;
+	Thu, 05 Feb 2015 08:04:25 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.19
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:20 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:24 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:12 -0800
-Message-Id: <e4f208ce61d90ff42127e006ae44d58103abcb3f.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:14 -0800
+Message-Id: <74e51a88e741317bffb60148eb31dbfbe38e194a.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 04/61] libxml2: Backport fix for CVE introduced entity issues
+Subject: [PATCH 06/61] bitbake.conf: add PKGDATA_DIR to BB_HASHBASE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,73 +48,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Feb 2015 16:04:24 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ting Liu <b28495@freescale.com>
 
-The CVE fix introduced problems with entity issues, we observed this
-when building the Yocto Docs in particular. Backport the fix from
-upstream so we can build our docs correctly.
+In meta/conf/bitbake.conf, PKGDATA_DIR is default to:
+PKGDATA_DIR = "${STAGING_DIR_HOST}/pkgdata"
 
-[YOCTO #7134]
+But in meta/conf/multilib.conf, PKGDATA_DIR is set as:
+PKGDATA_DIR = "${STAGING_DIR}/${MACHINE}/pkgdata"
 
-(From OE-Core rev: af501bd51f9a86edd34e0405bc32dabe21312229)
+When multilib enabled, linux-libc-headers cache will be machine
+specific:
+$ bitbake-diffsigs sstate-cache/1a/sstate:linux-libc-headers:ppce6500-poky-linux:3.17.7:r0:ppce6500:3:1a0c3934d91479fd7242a5b1d407d155_package.tgz.siginfo sstate-cache/28/sstate:linux-libc-headers:ppce6500-poky-linux:3.17.7:r0:ppce6500:3:28c918e8f9f4a4cfceb3a38b258f7501_package.tgz.siginfo
+basehash changed from 8d3158bbddcee612fa30badd05f47b8e to 68ac258fc6c8e489f360fde3123a5894
+Variable MACHINE value changed from 'b4420qds' to 'b4860qds'
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch | 30 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.1.bb          |  3 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
-new file mode 100644
-index 0000000..10a8112
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
-@@ -0,0 +1,30 @@
-+From 72a46a519ce7326d9a00f0b6a7f2a8e958cd1675 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Thu, 23 Oct 2014 11:35:36 +0800
-+Subject: Fix missing entities after CVE-2014-3660 fix
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=738805
-+
-+The fix for CVE-2014-3660 introduced a regression in some case
-+where entity substitution is required and the entity is used
-+first in anotther entity referenced from an attribute value
-+
-+Upstream-Status: Backport
-+
-+diff --git a/parser.c b/parser.c
-+index 67c9dfd..a8d1b67 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -7235,7 +7235,8 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
-+      * far more secure as the parser will only process data coming from
-+      * the document entity by default.
-+      */
-+-    if ((ent->checked == 0) &&
-++    if (((ent->checked == 0) ||
-++         ((ent->children == NULL) && (ctxt->options & XML_PARSE_NOENT))) &&
-+         ((ent->etype != XML_EXTERNAL_GENERAL_PARSED_ENTITY) ||
-+          (ctxt->options & (XML_PARSE_NOENT | XML_PARSE_DTDVALID)))) {
-+ 	unsigned long oldnbent = ctxt->nbentities;
-+-- 
-+cgit v0.10.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-index 0b6ac5d..e087324 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-@@ -1,6 +1,7 @@
- require libxml2.inc
- 
--SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar"
-+SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
-+            file://72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch"
- 
- SRC_URI[libtar.md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
- SRC_URI[libtar.sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 74813a2..90b64b0 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -771,7 +771,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
+     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
+     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
+     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
+-    WARN_QA ERROR_QA WORKDIR STAMPCLEAN"
++    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
 -- 
 1.9.1
 
