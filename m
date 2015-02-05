@@ -1,24 +1,22 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id BD3F660169
+	by mail.openembedded.org (Postfix) with ESMTP id 2ADFF60557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 08:36:15 +0000 (UTC)
+	Thu,  5 Feb 2015 09:02:25 +0000 (UTC)
 Received: from localhost (unknown [78.10.193.111])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 3122043ED4D;
-	Thu,  5 Feb 2015 09:36:14 +0100 (CET)
-Date: Thu, 5 Feb 2015 09:36:13 +0100
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 8B4FF2DA208;
+	Thu,  5 Feb 2015 10:02:26 +0100 (CET)
+Date: Thu, 5 Feb 2015 10:02:26 +0100
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-Message-ID: <20150205083613.GB3628@localhost.localdomain>
-References: <1423090155-14149-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<1423091895.18649.26.camel@picadillo>
-	<20150204233918.GC4443@piout.net>
+Message-ID: <20150205090226.GC3628@localhost.localdomain>
+References: <1423090996-14918-1-git-send-email-alexandre.belloni@free-electrons.com>
 MIME-Version: 1.0
-In-Reply-To: <20150204233918.GC4443@piout.net>
+In-Reply-To: <1423090996-14918-1-git-send-email-alexandre.belloni@free-electrons.com>
 User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: bootimg-partition: Stop removing whole workdir
+Subject: Re: [PATCH] wic: allow creation of partitions not in table
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 08:36:24 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 09:02:37 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On 02/05 00:39, Alexandre Belloni wrote:
-> On 04/02/2015 at 17:18:15 -0600, Tom Zanussi wrote :
-> > On Wed, 2015-02-04 at 23:49 +0100, Alexandre Belloni wrote:
-> > > Stop removing the whole working directory as this is also removing
-> > > eventual previously created partition images, leading to image creation
-> > > failures.
-> > >
-> >
-> > I'm surprised - I've never run into a problem like this.  Can you give
-> > more details and/or a reproducer?
-> >
+On 02/05 00:03, Alexandre Belloni wrote:
+> For some architectures it is necessary to reserve space on disk without
+> it being present in the partition table.
 >
-> Sure, something like that in your wks will fail:
-> part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
-> part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
->
-> The error being:
-> Error: exec_cmd: dd if=/var/tmp/wic/build/rootfs_root.ext4
-> of=/var/tmp/wic/build/test-201502050034-mmcblk.direct bs=512 seek=8
-> count=294174 conv=notrunc returned '1' instead of 0
->
-> Using bootimg-partition anywhere but in the first position will fail
-> because the previously generated fs images (in my example
-> rootfs_root.ext4) will be removed.
->
+> For example, u-boot on i.mx is placed at an offset of 1kB on the sdcard.
+> While it would be possible to create a partition at that offset and
+> place u-boot there, it would then be necessary to update the default
+> u-boot environment to use partition 2 on the mmc instead of partition
+> 1.
 
-Acked-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+I'm wondering if reusing parition here is the right choice. How about
+making this a separate command, since the operation of putting some
+binary data at a particular location within the image sounds like
+something very specific to wic.
+
+Could name it 'raw-copy', with options --source and --offset. The
+command would be applied after image assembly is complete. Offset could
+be expressed in bytes by default (plus k/M/G suffix). Source could
+either be a 'bootloader', that implies a default bootloader for this
+target, or a name of a file from $DEPLOY_DIR_IMAGE.
+
+Assuming IMAGE_BOOTLOADER='u-boot.img' is set somewhere, the kickstart
+could look like:
+
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4 --start 1M
+raw-copy --source bootloader --offset 1kB
+
+
+If at some point we extend the bootloader command to include the name of
+bootloader file:
+
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4 --start 1M
+bootloader --name u-boot.img
+raw-copy --source bootloader --offset 1kB
+
+What do you think?
 
 --
 Maciej Borzęcki
