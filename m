@@ -1,42 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E871072E0E
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 9462A72E1C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:24 +0000 (UTC)
-Received: by pdbft15 with SMTP id ft15so8554207pdb.11
+	Thu,  5 Feb 2015 16:05:27 +0000 (UTC)
+Received: by pdbfp1 with SMTP id fp1so8543555pdb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:26 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references:mime-version:content-type
-	:content-transfer-encoding;
-	bh=tMLXkGzACeC9HdZgdt0XprQNeedejxaXtg7fCNkoJRk=;
-	b=Y6WQ5FvbpUB1XL2YrAAjxZ580GpV1FLQIHo6/njFrNAoFBjCnEBia3p37wqcL/8Djh
-	meklY+jq+p7DDuMbu0eUFeIgRcfxsiCgRtMQihTI6L1BGsqwaUvgZFdmrzUO7j7vzLK6
-	yBItgXtolXmWpp0iBZXVjoE5w0kDdQEJecinb7rRDzuwr9aeWRWNX5FVp9nmHjXbwhfQ
-	QK78bzGcLZ4l0MmZ+R7bi9Pgr7KfZzc1H3bmf2m0ByAjaRa0Xag2PYZqjWqxg7Ycy2Kn
-	Emrpr/gPgyaPP4/P5wAEqcVrUs5eB318k50azB7yLQT8hG5Ji1ZdDpr0y6yDu3PFnIQJ
-	15uw==
-X-Received: by 10.66.66.166 with SMTP id g6mr6039479pat.88.1423152326538;
-	Thu, 05 Feb 2015 08:05:26 -0800 (PST)
+	:in-reply-to:references;
+	bh=Vgz8YOaaEf5aut8+w1Tdqb7nNX8oJOUH7w9wCald/sQ=;
+	b=XkTGFoNz4BFCw0PqO81gwLFKyLHRtmKnHDjmyyfZj0LBZ4wR/g5ayzTcJCCvscoekI
+	9wyBSr+g4HE6ld8u1aIlWxfe8nO2AGTIGC+mV1I7ZJOm0MiiQgrUuAsWlZEnmB0boOr6
+	fk7uk8ZQMCCr5Nv8y1rJtCcK3GR83+cgSnv3XvoxRWaGaNeSf7+gnfgGZ0RGoEUvOjYS
+	bOEFmz2wwFEttF2zpc4wB1CEfb/BhnZFYqmuhU7MogmbX5bd/7B9HNWz/AzVszfpWPCg
+	Gv8RYquNmyuUS2qayjNd6Y2KsZGwMJE/kAp8n41rkrbQ4jg2L2EMNSUYOw1BWqteIW0O
+	kV4A==
+X-Received: by 10.70.137.33 with SMTP id qf1mr6830103pdb.158.1423152328541;
+	Thu, 05 Feb 2015 08:05:28 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.23
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:24 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:27 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:44 -0800
-Message-Id: <5692daa4271bd6fd1224ba3fb5b77506b4efd294.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:45 -0800
+Message-Id: <3ea41bead98e76dfc98d8db94bee711d1d2a88e4.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-MIME-Version: 1.0
-Cc: =?UTF-8?q?Vincent=20G=C3=A9nieux?= <vincent2014@startigen.fr>
-Subject: [PATCH 36/61] fix '[[: not found' error message using dash
+Subject: [PATCH 37/61] lib/oe/package: Ensure strip breaks hardlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,39 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:27 -0000
 
-From: Vincent Génieux <vincent2014@startigen.fr>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Remove bash specific syntax '[[ test ]]' replaced with '[ test ]'.
+Normally, strip preserves hardlinks which in the case of the way our hardlink
+rather than copy functionality works, is a disadvantage and leads to non-deterministic
+builds. This adds a move into place after the strip operation to ensure hardlinks
+are broken and we bring back build determinism.
 
-Fixes [YOCTO #7112]
+(From OE-Core rev: 7c0fd561bad0250a00cef63e3d787573112a59cf)
 
-(From OE-Core rev: f2ff849d5936d3dc5e24301e0620da265df50fea)
-
-Signed-off-by: Vincent Génieux <vincent2014@startigen.fr>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/package.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 70ed95b..2a6ec34 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -403,7 +403,7 @@ do_strip() {
- 			  gawk '{print $1}'`
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index f8b5322..a26a631 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -30,7 +30,8 @@ def runstrip(arg):
+     elif elftype & 8 or elftype & 4:
+         extraflags = "--remove-section=.comment --remove-section=.note"
  
- 		for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
--			if [[ "$headers" != *"$str"* ]]; then
-+			if [ "$headers" != *"$str"* ]; then
- 				bbwarn "Section not found: $str";
- 			fi
+-    stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
++    # Use mv to break hardlinks
++    stripcmd = "'%s' %s '%s' -o '%s.tmp' && mv '%s.tmp' '%s'" % (strip, extraflags, file, file, file, file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
  
+     ret = subprocess.call(stripcmd, shell=True)
 -- 
 1.9.1
 
