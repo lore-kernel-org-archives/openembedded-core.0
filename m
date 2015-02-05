@@ -1,37 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4472360169
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 81EFF65C75
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 15:14:13 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id c9so6789146qcz.6
+	Thu,  5 Feb 2015 15:43:03 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id rd3so10750396pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 07:14:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=II6CER0iN4iMXuWUqmKUCh8uW8wIHxnns+E3JXj9hFs=;
-	b=MPXlylr5KdhfgfIX/d5A0gCnr7LpDESA6Nwjr0ZLo9yhELX+OuYGP0H6Er3E+X8zKH
-	FK7nTfurS3Zx8Gs/eoEqfe4kRl6Y6b6j5HxKdbBStt7qTo033TW7viPkPRP8sTWhcd86
-	FcOXMdM8sTomP/ccQNgvyfpsAstTPHcZByQpjr6nugoXnYYUXNiakWhIWXXoVD/ok2bC
-	GZJky1+zetiy2fWwA6ppbv5fuuh4+IPNQxNb7u3y7RWN64fXvvzUrR7PYvqNoyMPqAxN
-	BtcC6T82VVFZfhLGWYS2mEYbjSl/E7tA0DKwOHMW90W7IZDWw/T175ixYlN+Cd8+k+Kf
-	XV0Q==
-X-Gm-Message-State: ALoCoQkxdXVGjlcCdJCvJyZriHHANCuQnfOKI7f5MY5C04cisDe0xzC9mh/jFRmBrrdXvTnjR5dy
-X-Received: by 10.224.24.132 with SMTP id v4mr9136223qab.17.1423149254359;
-	Thu, 05 Feb 2015 07:14:14 -0800 (PST)
+	Thu, 05 Feb 2015 07:43:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=4hySVYhUunbMpKb9gASJDhYGycRbOhlSUJJpbopS47E=;
+	b=oo44r+4BtxUyaSIUHKArhAMnYm39Siqn5hdCnWDneP5MuHHS/Cv0eotAYa1bQ3VTch
+	Ve16fQ0dxa1TJ55TYKMtESclgRDeBBdabSXHiuZ5u/EooBP+JxUPwF/3uICGAiAkICAY
+	Y9Q3YX7oBsezKo72LYFD4JBKbFQYT0AwayLwl9/zmvisu4bq9WeCE035WgWcytEBLH9Z
+	fQcRCXzOzta5e3ATQHM4rgbJVoQbseceHacvGHOaBz09gX4fXYnGPDo7w7FW6qlhtNe3
+	nKY/iMumpzUUUmiKHj85qIOIUT9uE/O1qcKUSLBpQDV8qfQTMXyu1GX7mUQdDryTneyZ
+	femQ==
+X-Received: by 10.66.245.225 with SMTP id xr1mr6489945pac.65.1423150985223;
+	Thu, 05 Feb 2015 07:43:05 -0800 (PST)
+Received: from bigisland.hsd1.ca.comcast.net
+	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
+	by mx.google.com with ESMTPSA id ms5sm5418330pbb.59.2015.02.05.07.43.01
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Feb 2015 07:43:03 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Feb 2015 07:42:54 -0800
+Message-Id: <cover.1423150737.git.akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 5 Feb 2015 07:13:54 -0800 (PST)
-In-Reply-To: <af9632a1314db8be121b76ca6144fa46137cc429.1422925725.git.liezhi.yang@windriver.com>
-References: <cover.1422925725.git.liezhi.yang@windriver.com>
-	<af9632a1314db8be121b76ca6144fa46137cc429.1422925725.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Feb 2015 15:13:54 +0000
-Message-ID: <CAJTo0LaVfL3mN8d_EW804SSBWkMhRVikHYqpTMQR5wnmvNyOGg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/21] coreutils 6.9: fix unknown-configure-option
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Joe MacDonald <joe_macdonald@mentor.com>,
+	=?UTF-8?q?Vincent=20G=C3=A9nieux?= <vincent2014@startigen.fr>,
+	Armin Kuster <akuster@mvista.com>,
+	=?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@digisoft.tv>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Gary Thomas <gary@mlbassoc.com>,
+	Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>,
+	Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Dan McGregor <dan.mcgregor@usask.ca>, "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH 00/61][Dizzy-next] Feb 2015
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +54,246 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 15:14:17 -0000
-Content-Type: multipart/alternative; boundary=001a11c2b49ec4d4fb050e58c198
-
---001a11c2b49ec4d4fb050e58c198
+X-List-Received-Date: Thu, 05 Feb 2015 15:43:11 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Robert,
+Please consider these changes for oe-core Dizzy
 
-On 3 February 2015 at 01:12, Robert Yang <liezhi.yang@windriver.com> wrote:
+The following changes since commit 9fc095a439c36014c73b3a8f240afba09fe0e4d7:
 
-> -PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
-> +PACKAGECONFIG[acl] = ",,acl,"
->
+  image.bbclass: avoid boot error on read-only systemd image (2015-01-15 16:01:47 +0000)
 
-Introducing non-deterministic behaviour doesn't seem like a good idea.
-Presumably we can seed the autoconf checks instead of passing configure
-arguments? (see e.g. libice's arc4 option).
+are available in the git repository at:
 
-Ross
+  git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
 
---001a11c2b49ec4d4fb050e58c198
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+André Draszik (1):
+  openssl: fix hard paths in native openssl
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Robert,</div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On 3 February 2015 at 01:12, Rob=
-ert Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
- target=3D"_blank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><div id=3D":e6" class=3D"a3s" style=3D"overflow:h=
-idden">-PACKAGECONFIG[acl] =3D &quot;--enable-acl,--disable-acl,acl,&quot;<=
-br>
-+PACKAGECONFIG[acl] =3D &quot;,,acl,&quot;<br></div></blockquote></div><br>=
-Introducing non-deterministic behaviour doesn&#39;t seem like a good idea. =
-=C2=A0 Presumably we can seed the autoconf checks instead of passing config=
-ure arguments? (see e.g. libice&#39;s arc4 option).</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Armin Kuster (5):
+  glibc: CVE-2014-9402 endless loop in getaddr_r
+  tzcode: update to 2015a leap second changes too
+  tzdata: update to 2015a including leap second
+  busybox: cve-2014-9645
+  groff: fix QA issue with rdepends
 
---001a11c2b49ec4d4fb050e58c198--
+Chong.Lu@windriver.com (1):
+  file: CVE-2014-9620 and CVE-2014-9621
+
+Dan McGregor (1):
+  dpkg: fix host contamination
+
+Dmitry Eremin-Solenikov (1):
+  icecc.bbclass: properly handle disabling of icecc
+
+Enrico Scholz (2):
+  image_types.bbclass: fixed 'init' creation for cpio images
+  image_types.bbclass: manage 'cpio_append' directory
+
+Fabien Proriol (1):
+  boost: Avoid to use local host configuration
+
+Gary Thomas (1):
+  perl: Backport fix for bug #123591
+
+Hongxu Jia (1):
+  distcc: fix initscript can not stop distcc daemon correctly
+
+Joe MacDonald (1):
+  libxml2: fix CVE-2014-3660
+
+Kai Kang (1):
+  openssh: deliver ssh-copy-id
+
+Khem Raj (1):
+  systemd: Backports fixes to 216
+
+Li xin (1):
+  elfutils_0.148.bb: CVE-2014-9447 fix
+
+Mark Hatle (2):
+  gcc/libgcc-common.inc: Add missing 'fakeroot' to two tasks
+  python-smartpm: Fix attemptonly builds when file conflicts occur
+
+Martin Jansa (2):
+  package.bbclass: Fix support for private libs
+  xorg-app: add x11 to required DISTRO_FEATURES and cleanup dependencies
+
+Maxin B. John (1):
+  coreutils: Fix CVE-2014-9471
+
+Mike Looijmans (1):
+  package.bbclass: Let PR server update PKGV, not PV
+
+Paul Eggleton (2):
+  poky.conf: add file-rdeps to WARN_QA
+  gcc: ensure target gcc headers can be included
+
+Paul Gortmaker (1):
+  packagegroup-self-hosted: package all of Python
+
+Richard Purdie (13):
+  libxml2: Backport fix for CVE introduced entity issues
+  bitbake: cooker: Shut down the parser in error state
+  bitbake: bitbake-worker: Use setsid() rather than setpgid()
+  bitbake: cache/fetch2/siggen: Ensure we track include history for file
+    checksums
+  bitbake: wget: Add localpaths method which gives localpath with
+    history
+  bitbake: ast: Add error when trying to use dash in sh function names
+  cross-canadian/meta-environment: Allow modification of TARGET_OS to be
+    optional
+  oeqa/utils/decorators: Try and improve ugly _ErrorHandler tracebacks
+  lib/oe/package: Ensure strip breaks hardlinks
+  bitbake: siggen: Ensure taskdata default functions exist in base class
+  net-tools: Fix rerunning of do_patch task
+  package/prserv: Merge two similar functions into one
+  scripts/send-error-report: Set exit code if error occurs
+
+Robert Yang (5):
+  parted: parted-ptest RDEPENDS on python
+  pax-utils: RDEPENDS on python
+  guile: fixed installed-vs-shipped error
+  neard: fix parallel issue
+  perf: fix for rebuilding
+
+Ross Burton (5):
+  systemd: add missing RDEPENDS
+  socat: forcibly disable use of libbsd
+  python: ensure all of Python is installed in nativesdk
+  python: remove spurious nativesdk dependency
+  security_flags: disable PIE on expect
+
+Saul Wold (2):
+  glibc: Fix up minimal build with libc-libm
+  security_flags: disable pie support for libaio, blktrace and ltp
+
+Sona Sarmadi (1):
+  python: Disables SSLv3
+
+Ting Liu (4):
+  libunwind: Fix test case link failure on PowerPC with Altivec
+  bitbake.conf: add PKGDATA_DIR to BB_HASHBASE_WHITELIST
+  valgrind: build with altivec only if it supported
+  bind: fix typo chown->chmod
+
+Tom Zanussi (3):
+  perf: Add libdw unwind support to perf-libunwind feature
+  perf: Disable perf-libunwind
+  yocto-bsp: Add branch to SRC_URI for custom kernels
+
+Vincent Génieux (1):
+  fix '[[: not found' error message using dash
+
+ bitbake/bin/bitbake-worker                         |    7 +-
+ bitbake/lib/bb/cache.py                            |    9 +-
+ bitbake/lib/bb/cooker.py                           |    2 +-
+ bitbake/lib/bb/fetch2/__init__.py                  |   35 +-
+ bitbake/lib/bb/fetch2/local.py                     |   54 +-
+ bitbake/lib/bb/parse/ast.py                        |    2 +
+ bitbake/lib/bb/siggen.py                           |   16 +-
+ meta-yocto/conf/distro/poky.conf                   |    2 +-
+ meta/classes/cross-canadian.bbclass                |    4 +
+ meta/classes/icecc.bbclass                         |   15 +-
+ meta/classes/image_types.bbclass                   |    6 +-
+ meta/classes/kernel.bbclass                        |    2 +-
+ meta/classes/package.bbclass                       |   57 +-
+ meta/classes/prserv.bbclass                        |   31 -
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/conf/distro/include/security_flags.inc        |    4 +
+ meta/lib/oe/package.py                             |    3 +-
+ meta/lib/oeqa/utils/decorators.py                  |   23 +-
+ meta/recipes-connectivity/bind/bind/conf.patch     |    2 +-
+ .../bind/bind/generate-rndc-key.sh                 |    2 +-
+ .../neard/Makefile.am-fix-parallel-issue.patch     |   33 +
+ meta/recipes-connectivity/neard/neard_0.14.bb      |    1 +
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb |    1 +
+ meta/recipes-connectivity/openssl/openssl.inc      |    9 +-
+ meta/recipes-connectivity/socat/socat_1.7.2.4.bb   |    1 +
+ ..._busybox_reject_module_names_with_slashes.patch |   41 +
+ meta/recipes-core/busybox/busybox_1.22.1.bb        |    1 +
+ .../coreutils/coreutils-8.22/date-tz-crash.patch   |   43 +
+ meta/recipes-core/coreutils/coreutils_8.22.bb      |    1 +
+ .../CVE-2014-9402_endless-loop-in-getaddr_r.patch  |   65 +
+ .../glibc/glibc/eglibc-use-option-groups.patch     |    3 +-
+ meta/recipes-core/glibc/glibc_2.20.bb              |    4 +
+ meta/recipes-core/libxml/libxml2.inc               |    1 +
+ .../72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch |   30 +
+ .../libxml/libxml2/libxml2-CVE-2014-3660.patch     |  147 ++
+ meta/recipes-core/libxml/libxml2_2.9.1.bb          |    3 +-
+ meta/recipes-core/meta/meta-environment.bb         |    5 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   28 +-
+ ...onfigure-the-list-of-system-users-files-a.patch |  176 +++
+ ...o-not-install-tmpfiles-and-sysusers-files.patch |   56 +
+ ...ke-resolv.conf-entry-conditional-on-resol.patch |  142 ++
+ ...es.d-etc.conf-disable-resolv.conf-symlink.patch |   35 -
+ meta/recipes-core/systemd/systemd_216.bb           |   16 +-
+ meta/recipes-devtools/distcc/files/distcc          |    5 +
+ meta/recipes-devtools/dpkg/dpkg.inc                |    2 +
+ .../elf_begin.c-CVE-2014-9447-fix.patch            |   36 +
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   23 +-
+ .../file-CVE-2014-9620-and-CVE-2014-9621.patch     | 1414 ++++++++++++++++++++
+ meta/recipes-devtools/file/file_5.18.bb            |    1 +
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+ .../gcc/gcc-4.8/target-gcc-includedir.patch        |   81 ++
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |    1 +
+ .../gcc/gcc-4.9/target-gcc-includedir.patch        |   81 ++
+ meta/recipes-devtools/gcc/libgcc-common.inc        |    4 +-
+ .../guile/files/libguile-Makefile.am-depends.patch |   39 +
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+ meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb |    2 +-
+ .../perl/perl-5.20.0/fix-FF_MORE-crash.patch       |   21 +
+ meta/recipes-devtools/perl/perl_5.20.0.bb          |    1 +
+ .../python/python-smartpm/smart-attempt.patch      |   97 +-
+ .../python/python/python2.7.3-nossl3.patch         |   37 +
+ meta/recipes-devtools/python/python_2.7.3.bb       |    3 +-
+ .../pass-maltivec-only-if-it-supported.patch       |   68 +
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |    1 +
+ meta/recipes-extended/groff/groff_1.22.2.bb        |    2 +
+ .../net-tools/net-tools_1.60-25.bb                 |    1 +
+ meta/recipes-extended/parted/parted_3.1.bb         |    2 +-
+ .../recipes-extended/tzcode/tzcode-native_2014j.bb |   10 -
+ .../recipes-extended/tzcode/tzcode-native_2015a.bb |   10 +
+ meta/recipes-extended/tzdata/tzdata_2014j.bb       |    6 -
+ meta/recipes-extended/tzdata/tzdata_2015a.bb       |    6 +
+ meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb      |    2 +-
+ meta/recipes-graphics/xorg-app/xorg-app-common.inc |    5 +-
+ meta/recipes-graphics/xorg-app/xprop_1.2.2.bb      |    2 +-
+ meta/recipes-kernel/perf/perf-features.inc         |    2 +-
+ meta/recipes-kernel/perf/perf.bb                   |    6 +-
+ meta/recipes-support/boost/boost.inc               |    3 +-
+ ...k-failure-on-PowerPC-systems-with-Altivec.patch |   28 +
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    4 +
+ ...choice == \"custom\": }} linux-yocto-custom.bb" |    4 +-
+ scripts/send-error-report                          |    6 +-
+ 81 files changed, 2871 insertions(+), 267 deletions(-)
+ create mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-build-sys-configure-the-list-of-system-users-files-a.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-build-sys-do-not-install-tmpfiles-and-sysusers-files.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles-make-resolv.conf-entry-conditional-on-resol.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
+ create mode 100644 meta/recipes-devtools/file/file/file-CVE-2014-9620-and-CVE-2014-9621.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/target-gcc-includedir.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+ create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/fix-FF_MORE-crash.patch
+ create mode 100644 meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+ delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014j.bb
+ create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015a.bb
+ delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014j.bb
+ create mode 100644 meta/recipes-extended/tzdata/tzdata_2015a.bb
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch
+
+-- 
+1.9.1
+
+
