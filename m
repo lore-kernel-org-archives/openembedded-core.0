@@ -1,42 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5950D60557
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 89D5471E68
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:16 +0000 (UTC)
-Received: by pdjg10 with SMTP id g10so2404543pdj.1
+	Thu,  5 Feb 2015 16:04:18 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id bj1so10910744pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:17 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references:mime-version:content-type
-	:content-transfer-encoding;
-	bh=n1uWyIXmQIt7ZztuXV2ec/IgA7RHtqSc6f6bmXGpSCA=;
-	b=V6dVpAIjcb2vbOTMHAyZObJJNIbd+dx+RYyQTb4/MQIKrE82kIZotMEggm3GVAAm89
-	04lcC2ANDYyuXFDI8SEDL7XIqy1UHE3Xs/cjAY4n/Drz8457K0ie79wHpjir96HFKw8t
-	gtJBYiIACkaCIKX1raULWzgA4XmySLuYAOoLGNSSMuxx2Ns/gJfJBVZZzlf6X32oNlhL
-	0djAnxaK6j0cjMUCjZ58bKYYpRMLvYKcYeMQl2wVgQwwhBSbm6RwZgJ3bAMHfIDx1M1L
-	TVybrCLXOR/BsdJa0Fi1jA9sYxukH6h0eAG6VQ/ZsmfNmz4/LS+PD3gMx/28wI/FVXhm
-	RwgA==
-X-Received: by 10.69.27.105 with SMTP id jf9mr6742022pbd.126.1423152257779;
-	Thu, 05 Feb 2015 08:04:17 -0800 (PST)
+	:in-reply-to:references;
+	bh=3iMPp8lsbS8u3BC4Z9xJanWPr98P4j0rAyiy2nwz6WA=;
+	b=CViT8pOKLlPnGr7zQAHanUH5I3XTa6pWcp3U/rl7pGzrEUbg0srvqCvcXI2ZLAh5e0
+	x4gwLKQnmwGhTfCQ/L48vECRe4Hl6NX2vr6bSnBs7tZsvJzp3iSuyzVvlrlhh2PzbhH/
+	08NyuCrJASpV2oSUL8/XRrmJGwiM75AaoX2sUdWZ9Sx4q933umQp2uekN1B1cGGFPStT
+	hNcFWYCXsiAeX+CiCe77oZqDTgvDq21CFwzJ5GydOomdWwUmjLo5cDgW+945g8pikLzK
+	VlN3AuwbqHc8W3iIzYziwAfPfkiChjmyo2e68LkB+7RnfXaN2UwUw7ELVMURjatB2Gsu
+	Qrsw==
+X-Received: by 10.68.254.1 with SMTP id ae1mr954702pbd.110.1423152259833;
+	Thu, 05 Feb 2015 08:04:19 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.15
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.17
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:16 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:18 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:10 -0800
-Message-Id: <68d8a45093d476270e0a78c3c443f7a71fd3cf16.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:11 -0800
+Message-Id: <d61da74e7804db80fe81d0aa1b9c26b16cdd47e8.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-MIME-Version: 1.0
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH 02/61] coreutils: Fix CVE-2014-9471
+Cc: Joe MacDonald <joe_macdonald@mentor.com>
+Subject: [PATCH 03/61] libxml2: fix CVE-2014-3660
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,96 +48,196 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Feb 2015 16:04:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: "Maxin B. John" <maxin.john@enea.com>
+From: Joe MacDonald <joe_macdonald@mentor.com>
 
-Fiedler Roman discovered that coreutils' parse_datetime() function
-has some flaws that may be exploitable if the date(1), touch(1),
-or potentially other programs, accept untrusted input for certain
-parameters. While researching this issue, he discovered that it
-was independently discovered by Bertrand Jacquin and reported at
-http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16872
+It was discovered that the patch for CVE-2014-0191 for libxml2 is
+incomplete.  It is still possible to have libxml2 incorrectly perform
+entity substituton even when the application using libxml2 explicitly
+disables the feature.  This can allow a remote denial-of-service attack on
+systems with libxml2 prior to 2.9.2.
 
-$ touch '--date=TZ="123"345" @1'
-*** Error in `touch': free(): invalid pointer: 0x00007fffd33e55e0 ***
-Aborted
+References:
+    http://www.openwall.com/lists/oss-security/2014/10/17/7
+    https://www.ncsc.nl/actueel/nieuwsberichten/kwetsbaarheid-ontdekt-in-libxml2.html
 
-$ date '--date=TZ="123"345" @1'
-date[394]: segfault at 7fff24000000 ip 00007f6dd5b73404 sp 00007fff27cce8f8
-error 4 in libc-2.20.so[7f6dd5af7000+199000]
-Segmentation fault
+(From OE-Core rev: 643597a5c432b2e02033d0cefa3ba4da980d078f)
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
+Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../coreutils/coreutils-8.22/date-tz-crash.patch   | 43 ++++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
+ meta/recipes-core/libxml/libxml2.inc               |   1 +
+ .../libxml/libxml2/libxml2-CVE-2014-3660.patch     | 147 +++++++++++++++++++++
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
-new file mode 100644
-index 0000000..570e4fd
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.22/date-tz-crash.patch
-@@ -0,0 +1,43 @@
-+This was reported in http://bugs.gnu.org/16872
-+from the coreutils command: date -d 'TZ="""'
-+
-+The infinite loop for this case was present since the
-+initial TZ="" parsing support in commit de95bdc2 29-10-2004.
-+This was changed to a crash or heap corruption depending
-+on the platform with commit 2e3e4195 18-01-2010.
-+
-+* lib/parse-datetime.y (parse_datetime): Break out of the
-+TZ="" parsing loop once the second significant " is found.
-+Also skip over any subsequent whitespace to be consistent
-+with the non TZ= case.
-+
-+Fixes: CVE-2014-9471
-+
-+Upstream-Status: backport
-+
-+Signed-off-by: Maxin B. John <maxin.john@enea.com>
-+Signed-off-by: Pádraig Brady <P@draigBrady.com>
-+---
-+diff -Naur coreutils-8.22-origin/lib/parse-datetime.y coreutils-8.22/lib/parse-datetime.y
-+--- coreutils-8.22-origin/lib/parse-datetime.y	2013-12-04 15:53:33.000000000 +0100
-++++ coreutils-8.22/lib/parse-datetime.y	2015-01-05 17:11:16.754358184 +0100
-+@@ -1303,8 +1303,6 @@
-+             char tz1buf[TZBUFSIZE];
-+             bool large_tz = TZBUFSIZE < tzsize;
-+             bool setenv_ok;
-+-            /* Free tz0, in case this is the 2nd or subsequent time through. */
-+-            free (tz0);
-+             tz0 = get_tz (tz0buf);
-+             z = tz1 = large_tz ? xmalloc (tzsize) : tz1buf;
-+             for (s = tzbase; *s != '"'; s++)
-+@@ -1317,6 +1315,10 @@
-+               goto fail;
-+             tz_was_altered = true;
-+             p = s + 1;
-++            while (c = *p, c_isspace (c))
-++              p++;
-++
-++            break;
-+           }
-+     }
-+ 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-core/coreutils/coreutils_8.22.bb
-index f85baca..4a1aee6 100644
---- a/meta/recipes-core/coreutils/coreutils_8.22.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://dummy_help2man.patch \
-            file://fix-for-dummy-man-usage.patch \
-            file://fix-selinux-flask.patch \
-+           file://date-tz-crash.patch \
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index bcf9a62..c729c19 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -21,6 +21,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2014-0191-fix.patch \
+            file://python-sitepackages-dir.patch \
+            file://libxml-m4-use-pkgconfig.patch \
++           file://libxml2-CVE-2014-3660.patch \
            "
  
- SRC_URI[md5sum] = "8fb0ae2267aa6e728958adc38f8163a2"
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
+new file mode 100644
+index 0000000..b9621c9
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
+@@ -0,0 +1,147 @@
++From be2a7edaf289c5da74a4f9ed3a0b6c733e775230 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Thu, 16 Oct 2014 13:59:47 +0800
++Subject: Fix for CVE-2014-3660
++
++Issues related to the billion laugh entity expansion which happened to
++escape the initial set of fixes
++
++Upstream-status: Backport
++Reference: https://git.gnome.org/browse/libxml2/commit/?id=be2a7edaf289c5da74a4f9ed3a0b6c733e775230&context=3&ignorews=0&ss=0
++
++Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
++
++diff --git a/parser.c b/parser.c
++index f51e8d2..1d93967 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -130,6 +130,29 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
++         return (0);
++     if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
++         return (1);
+++
+++    /*
+++     * This may look absurd but is needed to detect
+++     * entities problems
+++     */
+++    if ((ent != NULL) && (ent->etype != XML_INTERNAL_PREDEFINED_ENTITY) &&
+++	(ent->content != NULL) && (ent->checked == 0)) {
+++	unsigned long oldnbent = ctxt->nbentities;
+++	xmlChar *rep;
+++
+++	ent->checked = 1;
+++
+++	rep = xmlStringDecodeEntities(ctxt, ent->content,
+++				  XML_SUBSTITUTE_REF, 0, 0, 0);
+++
+++	ent->checked = (ctxt->nbentities - oldnbent + 1) * 2;
+++	if (rep != NULL) {
+++	    if (xmlStrchr(rep, '<'))
+++		ent->checked |= 1;
+++	    xmlFree(rep);
+++	    rep = NULL;
+++	}
+++    }
++     if (replacement != 0) {
++ 	if (replacement < XML_MAX_TEXT_LENGTH)
++ 	    return(0);
++@@ -189,9 +212,12 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
++             return (0);
++     } else {
++         /*
++-         * strange we got no data for checking just return
+++         * strange we got no data for checking
++          */
++-        return (0);
+++	if (((ctxt->lastError.code != XML_ERR_UNDECLARED_ENTITY) &&
+++	     (ctxt->lastError.code != XML_WAR_UNDECLARED_ENTITY)) ||
+++	    (ctxt->nbentities <= 10000))
+++	    return (0);
++     }
++     xmlFatalErr(ctxt, XML_ERR_ENTITY_LOOP, NULL);
++     return (1);
++@@ -2589,6 +2615,7 @@ xmlParserHandlePEReference(xmlParserCtxtPtr ctxt) {
++ 				      name, NULL);
++ 		    ctxt->valid = 0;
++ 		}
+++		xmlParserEntityCheck(ctxt, 0, NULL, 0);
++ 	    } else if (ctxt->input->free != deallocblankswrapper) {
++ 		    input = xmlNewBlanksWrapperInputStream(ctxt, entity);
++ 		    if (xmlPushInput(ctxt, input) < 0)
++@@ -2759,6 +2786,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
++ 	    if ((ctxt->lastError.code == XML_ERR_ENTITY_LOOP) ||
++ 	        (ctxt->lastError.code == XML_ERR_INTERNAL_ERROR))
++ 	        goto int_error;
+++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
++ 	    if (ent != NULL)
++ 	        ctxt->nbentities += ent->checked / 2;
++ 	    if ((ent != NULL) &&
++@@ -2810,6 +2838,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
++ 	    ent = xmlParseStringPEReference(ctxt, &str);
++ 	    if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
++ 	        goto int_error;
+++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
++ 	    if (ent != NULL)
++ 	        ctxt->nbentities += ent->checked / 2;
++ 	    if (ent != NULL) {
++@@ -7312,6 +7341,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++ 		   (ret != XML_WAR_UNDECLARED_ENTITY)) {
++ 	    xmlFatalErrMsgStr(ctxt, XML_ERR_UNDECLARED_ENTITY,
++ 		     "Entity '%s' failed to parse\n", ent->name);
+++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
++ 	} else if (list != NULL) {
++ 	    xmlFreeNodeList(list);
++ 	    list = NULL;
++@@ -7418,7 +7448,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++ 		/*
++ 		 * We are copying here, make sure there is no abuse
++ 		 */
++-		ctxt->sizeentcopy += ent->length;
+++		ctxt->sizeentcopy += ent->length + 5;
++ 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
++ 		    return;
++ 
++@@ -7466,7 +7496,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++ 		/*
++ 		 * We are copying here, make sure there is no abuse
++ 		 */
++-		ctxt->sizeentcopy += ent->length;
+++		ctxt->sizeentcopy += ent->length + 5;
++ 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
++ 		    return;
++ 
++@@ -7652,6 +7682,7 @@ xmlParseEntityRef(xmlParserCtxtPtr ctxt) {
++ 		ctxt->sax->reference(ctxt->userData, name);
++ 	    }
++ 	}
+++	xmlParserEntityCheck(ctxt, 0, ent, 0);
++ 	ctxt->valid = 0;
++     }
++ 
++@@ -7845,6 +7876,7 @@ xmlParseStringEntityRef(xmlParserCtxtPtr ctxt, const xmlChar ** str) {
++ 			  "Entity '%s' not defined\n",
++ 			  name);
++ 	}
+++	xmlParserEntityCheck(ctxt, 0, ent, 0);
++ 	/* TODO ? check regressions ctxt->valid = 0; */
++     }
++ 
++@@ -8004,6 +8036,7 @@ xmlParsePEReference(xmlParserCtxtPtr ctxt)
++ 			  name, NULL);
++ 	    ctxt->valid = 0;
++ 	}
+++	xmlParserEntityCheck(ctxt, 0, NULL, 0);
++     } else {
++ 	/*
++ 	 * Internal checking in case the entity quest barfed
++@@ -8243,6 +8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const xmlChar **str) {
++ 			  name, NULL);
++ 	    ctxt->valid = 0;
++ 	}
+++	xmlParserEntityCheck(ctxt, 0, NULL, 0);
++     } else {
++ 	/*
++ 	 * Internal checking in case the entity quest barfed
++-- 
++cgit v0.10.1
++
 -- 
 1.9.1
 
