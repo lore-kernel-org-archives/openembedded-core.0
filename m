@@ -1,22 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A75672DF4
+	by mail.openembedded.org (Postfix) with ESMTP id 8C86C72DF4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Feb 2015 18:40:15 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga103.fm.intel.com with ESMTP; 05 Feb 2015 10:33:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,525,1418112000"; d="scan'208";a="523192623"
+X-IronPort-AV: E=Sophos;i="5.09,525,1418112000"; d="scan'208";a="523192625"
 Received: from swold-mobl.jf.intel.com ([10.24.2.202])
 	by orsmga003.jf.intel.com with ESMTP; 05 Feb 2015 10:32:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 10:39:43 -0800
-Message-Id: <1423161588-6867-6-git-send-email-sgw@linux.intel.com>
+Date: Thu,  5 Feb 2015 10:39:44 -0800
+Message-Id: <1423161588-6867-7-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1423161588-6867-1-git-send-email-sgw@linux.intel.com>
 References: <1423161588-6867-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 05/10] systemd: backport patch to fix reading journal backwards
+Subject: [PATCH 06/10] python: Disables SSLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +31,87 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Feb 2015 18:40:15 -0000
 
-From: Jonathan Liu <net147@gmail.com>
+From: Sona Sarmadi <sona.sarmadi@enea.com>
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+This is related to "SSLv3 POODLE vulnerability" CVE-2014-3566
+
+Building python without SSLv3 support when openssl is built without
+any support for SSLv3 (e.g. by adding EXTRA_OECONF = " -no-ssl3" in
+the openssl recipes).
+
+Backport from:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768611#22
+[python2.7-nossl3.patch] only Modules/_ssl.c is backported.
+
+References:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7015
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6843
+http://bugs.python.org/issue22638
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- ...-Fix-navigating-backwards-missing-entries.patch | 34 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_211.bb           |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
+ .../python/python/python2.7.3-nossl3.patch         | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch b/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
+diff --git a/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
 new file mode 100644
-index 0000000..621a0da
+index 0000000..2d35520
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-journal-Fix-navigating-backwards-missing-entries.patch
-@@ -0,0 +1,34 @@
-+From 2173cbf847fc53ca24950e77958c902edecfc207 Mon Sep 17 00:00:00 2001
-+From: Olivier Brunel <jjk@jjacky.com>
-+Date: Fri, 5 Dec 2014 16:06:45 +0100
-+Subject: [PATCH] journal: Fix navigating backwards missing entries
++++ b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
+@@ -0,0 +1,37 @@
++python: Building without SSLv3 support
 +
-+With DIRECTION_UP (i.e. navigating backwards) in generic_array_bisect() when the
-+needle was found as the last item in the array, it wasn't actually processed as
-+match, resulting in entries being missed.
-+
-+https://bugs.freedesktop.org/show_bug.cgi?id=86855
++Building without SSLv3 support when openssl is built
++without any support for SSLv3
 +
 +Upstream-Status: Backport
 +
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
++Reference:
++https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=76A8611#22
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+ src/journal/journal-file.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/journal/journal-file.c b/src/journal/journal-file.c
-+index 7858435..c5d2d19 100644
-+--- a/src/journal/journal-file.c
-++++ b/src/journal/journal-file.c
-+@@ -1657,7 +1657,7 @@ static int generic_array_bisect(
-+                         }
-+                 }
-+ 
-+-                if (k > n) {
-++                if (k >= n) {
-+                         if (direction == DIRECTION_UP) {
-+                                 i = n;
-+                                 subtract_one = true;
-+-- 
-+2.1.3
-+
-diff --git a/meta/recipes-core/systemd/systemd_211.bb b/meta/recipes-core/systemd/systemd_211.bb
-index 44b1965..567c323 100644
---- a/meta/recipes-core/systemd/systemd_211.bb
-+++ b/meta/recipes-core/systemd/systemd_211.bb
-@@ -32,6 +32,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://uclibc-sysinfo_h.patch \
-            file://uclibc-get-physmem.patch \
-            file://sd-bus-don-t-use-assert_return-to-check-for-disconne.patch \
-+           file://0001-journal-Fix-navigating-backwards-missing-entries.patch \
-            \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
++diff -ruN a/Modules/_ssl.c b/Modules/_ssl.c
++--- a/Modules/_ssl.c	2014-11-26 07:43:58.755679939 +0100
+++++ b/Modules/_ssl.c	2014-11-26 07:49:10.454182400 +0100
++@@ -302,8 +302,10 @@
++     PySSL_BEGIN_ALLOW_THREADS
++     if (proto_version == PY_SSL_VERSION_TLS1)
++         self->ctx = SSL_CTX_new(TLSv1_method()); /* Set up context */
+++#ifndef OPENSSL_NO_SSL3
++     else if (proto_version == PY_SSL_VERSION_SSL3)
++         self->ctx = SSL_CTX_new(SSLv3_method()); /* Set up context */
+++#endif
++ #ifndef OPENSSL_NO_SSL2
++     else if (proto_version == PY_SSL_VERSION_SSL2)
++         self->ctx = SSL_CTX_new(SSLv2_method()); /* Set up context */
++@@ -1777,8 +1779,10 @@
++     PyModule_AddIntConstant(m, "PROTOCOL_SSLv2",
++                             PY_SSL_VERSION_SSL2);
++ #endif
+++#ifndef OPENSSL_NO_SSL3
++     PyModule_AddIntConstant(m, "PROTOCOL_SSLv3",
++                             PY_SSL_VERSION_SSL3);
+++#endif
++     PyModule_AddIntConstant(m, "PROTOCOL_SSLv23",
++                             PY_SSL_VERSION_SSL23);
++     PyModule_AddIntConstant(m, "PROTOCOL_TLSv1",
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 5270df9..4d2594a 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -36,6 +36,7 @@ SRC_URI += "\
+   file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
+   file://python-fix-build-error-with-Readline-6.3.patch \
+   file://python-2.7.3-CVE-2014-1912.patch \
++  file://python2.7.3-nossl3.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.1.0
 
