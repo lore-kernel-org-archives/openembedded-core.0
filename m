@@ -1,42 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A2CE72DF2
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A050972701
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:37 +0000 (UTC)
-Received: by pdjg10 with SMTP id g10so2406543pdj.1
+	Thu,  5 Feb 2015 16:04:39 +0000 (UTC)
+Received: by pdjg10 with SMTP id g10so2406725pdj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:38 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references:mime-version:content-type
-	:content-transfer-encoding;
-	bh=4KErtMlmKNFbLhX6nUYYVePaOUR6qo80+AIvr0lXn8I=;
-	b=H2BXSJkAqtwX0CaVRma+lvx6acD1+8p9MDAx8nnXxyaso9Q69sJtWT1lDa1D6Y4+pp
-	IQGDxcoXlbMDvueIwtv2tJVRw0HKm2WiQOn8yzKK9mtyb6DQcZbK/LNqRQ3u3GLaNQuV
-	pGAnTM16yQnAcWabtRq73kGB9XXcd0crVOrHvDcccBk5BFT3p6HBjtJg8PBBsYJJ8AcH
-	iAh0RiBrDeHieSq9nXrsEBfwWsCtPL60uC532XCRNrYNvzguGamBCz0hTi8rff/31ED5
-	0ubmWG3a+oEVgZ2JJxl+CrhZnw1nUss/8NO9+5Quim00jlsGm5ZBZZgA72I9zIeOjJrz
-	XZPQ==
-X-Received: by 10.68.196.99 with SMTP id il3mr6829013pbc.158.1423152278841;
-	Thu, 05 Feb 2015 08:04:38 -0800 (PST)
+	:in-reply-to:references;
+	bh=ey6BniINV9oquQmNy1DL1BLRykZrDaa8yl12aXg/MvA=;
+	b=CrUm4VWNiDEutCqOWgEJA8f9VYMgVVSlXBrU3Ij6BG3vaHR2XKfU7ha6nENQxq0EFT
+	elYcaVKagrvDwvXtdAGtF7NPQAcl0irpCz0ME33qh0pS0hlOxq+fvecydBDl2mO8WRk3
+	mDzCTKJ6J0z0ioFyQ4EIkVIQY8mOEWmR3HBqiso6mrRg3wYjM/qc+eAgpXXiqKgwo6Te
+	x8WbQpa8ppvjmkGPcKoWRPN3JDMQtLL4Gq3qCQ8yc3e17QJ6QFnkMpR/XXyPPf/wsAsf
+	hswVYOm2EHGTJk26iJ6KAaLC6b6HKKnXM3iCGcd3EizyFBzgF8seIZKVaD3F56VyeTy7
+	jIRQ==
+X-Received: by 10.66.65.203 with SMTP id z11mr6505573pas.99.1423152280815;
+	Thu, 05 Feb 2015 08:04:40 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.36
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.38
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:37 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:39 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:21 -0800
-Message-Id: <678df2884e14889be171167e1b9c3a50621d3de8.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:22 -0800
+Message-Id: <b000590cf538c8738607dd349fb63bb7a7d3acb0.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-MIME-Version: 1.0
-Cc: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@digisoft.tv>
-Subject: [PATCH 13/61] openssl: fix hard paths in native openssl
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH 14/61] poky.conf: add file-rdeps to WARN_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:04:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Feb 2015 16:04:39 -0000
 
-From: André Draszik <adraszik@digisoft.tv>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-This causes the package to not be relocateable from sstate
+This was added to the default value of WARN_QA in insane.bbclass in
+OE-Core, but we missed adding it to the value set in poky.conf.
 
-The OpenSSL binaries respect a few environment variables for determining
-locations of files, so we now use these to point the binaries to the
-relocated locations.
+(From meta-yocto rev: 125621909c69ac00ca90e6001b7798c5123b0405)
 
-[YOCTO #6827]
-
-(From OE-Core rev: 771d3123331fbfab1eb9ce47e3013eabcb2248f5)
-
-Signed-off-by: André Draszik <adraszik@digisoft.tv>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta-yocto/conf/distro/poky.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 9ec884f..31dfd8f 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -193,5 +193,12 @@ do_install_ptest () {
- 	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
- }
+diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky.conf
+index db6ad5f..0a5d99e 100644
+--- a/meta-yocto/conf/distro/poky.conf
++++ b/meta-yocto/conf/distro/poky.conf
+@@ -112,7 +112,7 @@ INHERIT += "poky-sanity"
  
--BBCLASSEXTEND = "native nativesdk"
-+do_install_append_virtclass-native() {
-+	create_wrapper ${D}${bindir}/openssl \
-+	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
-+	    SSL_CERT_DIR=${libdir}/ssl/certs \
-+	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
-+	    OPENSSL_ENGINES=${libdir}/ssl/engines
-+}
- 
-+BBCLASSEXTEND = "native nativesdk"
+ # QA check settings - a little stricter than the OE-Core defaults
+ WARN_QA = "textrel files-invalid incompatible-license xorg-driver-abi libdir \
+-           unknown-configure-option build-deps"
++           unknown-configure-option build-deps file-rdeps"
+ ERROR_QA = "dev-so debug-deps dev-deps debug-files arch pkgconfig la perms \
+             useless-rpaths rpaths staticdev ldflags pkgvarcheck already-stripped \
+             compile-host-path dep-cmp installed-vs-shipped install-host-path \
 -- 
 1.9.1
 
