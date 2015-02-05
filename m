@@ -1,40 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A050972701
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 9811B72701
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:39 +0000 (UTC)
-Received: by pdjg10 with SMTP id g10so2406725pdj.1
+	Thu,  5 Feb 2015 16:04:41 +0000 (UTC)
+Received: by pdbnh10 with SMTP id nh10so5962025pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:40 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=ey6BniINV9oquQmNy1DL1BLRykZrDaa8yl12aXg/MvA=;
-	b=CrUm4VWNiDEutCqOWgEJA8f9VYMgVVSlXBrU3Ij6BG3vaHR2XKfU7ha6nENQxq0EFT
-	elYcaVKagrvDwvXtdAGtF7NPQAcl0irpCz0ME33qh0pS0hlOxq+fvecydBDl2mO8WRk3
-	mDzCTKJ6J0z0ioFyQ4EIkVIQY8mOEWmR3HBqiso6mrRg3wYjM/qc+eAgpXXiqKgwo6Te
-	x8WbQpa8ppvjmkGPcKoWRPN3JDMQtLL4Gq3qCQ8yc3e17QJ6QFnkMpR/XXyPPf/wsAsf
-	hswVYOm2EHGTJk26iJ6KAaLC6b6HKKnXM3iCGcd3EizyFBzgF8seIZKVaD3F56VyeTy7
-	jIRQ==
-X-Received: by 10.66.65.203 with SMTP id z11mr6505573pas.99.1423152280815;
-	Thu, 05 Feb 2015 08:04:40 -0800 (PST)
+	bh=AofBZ8TuSb7bGkR2nzmdu/YiLZAkWGJC/RWKD/j73ww=;
+	b=bxtwKekAEj+q3zL7dmEqatQ2HRXTivWpYOlBiNhKmVei4iKW+h2VyuooNZZXzysT+F
+	7Ve2MPwbHay19cuYt60bDfYLner9/gr+31Fkwi9XidzCg8Kp/pzA8MIHD0Sptr4BydHh
+	HQgvG1RqBg53k6bhKnxfkNcq2+Tm5d9nOvEoAuvoBum1xgW1S16Nth0/nV6fRWsfKbsE
+	EKI4d/+lq4i9U1NFI1HWQWFqR92FDk7y6GsAEhEiVHKeAhaO5NcoLHkOrru8tvcZ/mpz
+	n8VD7bKBWM/Zoj+NsO/DJA95sBLrWMF+KpJV+q8hZb852ZnSjKhGu1nx83VqjS5ctXRc
+	eXTw==
+X-Received: by 10.66.55.74 with SMTP id q10mr5337665pap.94.1423152282821;
+	Thu, 05 Feb 2015 08:04:42 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.38
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.40
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:39 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:41 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:22 -0800
-Message-Id: <b000590cf538c8738607dd349fb63bb7a7d3acb0.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:23 -0800
+Message-Id: <b41f83f1e1064a00ec4f02136d1796435eba83bd.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 14/61] poky.conf: add file-rdeps to WARN_QA
+Subject: [PATCH 15/61] security_flags: disable pie support for libaio, blktrace and ltp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,35 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:04:39 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:04:41 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-This was added to the default value of WARN_QA in insane.bbclass in
-OE-Core, but we missed adding it to the value set in poky.conf.
+libaio when built with pie and fpie does not link correctly with blktrace or ltp
+so we need to disable those flags until a better solution comes along.
 
-(From meta-yocto rev: 125621909c69ac00ca90e6001b7798c5123b0405)
+(From OE-Core rev: 4fbf13a6c28fc1170a4defbf50032546a14eaa59)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta-yocto/conf/distro/poky.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/security_flags.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky.conf
-index db6ad5f..0a5d99e 100644
---- a/meta-yocto/conf/distro/poky.conf
-+++ b/meta-yocto/conf/distro/poky.conf
-@@ -112,7 +112,7 @@ INHERIT += "poky-sanity"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 840f68a..d6f7e9c 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -16,6 +16,7 @@ SECURITY_CFLAGS_pn-lttng-tools_arm = "${SECURITY_NO_PIE_CFLAGS}"
  
- # QA check settings - a little stricter than the OE-Core defaults
- WARN_QA = "textrel files-invalid incompatible-license xorg-driver-abi libdir \
--           unknown-configure-option build-deps"
-+           unknown-configure-option build-deps file-rdeps"
- ERROR_QA = "dev-so debug-deps dev-deps debug-files arch pkgconfig la perms \
-             useless-rpaths rpaths staticdev ldflags pkgvarcheck already-stripped \
-             compile-host-path dep-cmp installed-vs-shipped install-host-path \
+ SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-blktrace = "${SECURITY_NO_PIE_CFLAGS}"
+ # Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
+ # to CPPFLAGS it gets picked into CFLAGS in bitbake.
+ #TARGET_CPPFLAGS_pn-curl += "-D_FORTIFY_SOURCE=2"
+@@ -43,6 +44,7 @@ SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -51,6 +53,7 @@ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
 -- 
 1.9.1
 
