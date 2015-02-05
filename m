@@ -1,40 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9515172E47
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 92C9B72E19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:14 +0000 (UTC)
-Received: by pdjy10 with SMTP id y10so8539947pdj.7
+	Thu,  5 Feb 2015 16:05:16 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id ey11so10806406pad.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:15 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=xoJrQsujO2Y1qBjpzHiFF5G1YBnUHiJm/UsGHC3wXwI=;
-	b=G8qhL7D63B1exPftBAjCjKDMss4f+NOgk2IAmIT7yxeAP5cODEdYTy9mD/oeyutw9D
-	iVNypFOHYuEEaHxZ/jC7VQ/rp5I44OqvYClfZyuENgIzQDM73fPY+yuvzKt6FOQJkPez
-	1sTfchlryblzkFrF+4e6ShTHhblpn1by74dgsnlC8MSFtjGpKA4uEDUvI1B0042zo2m8
-	7n6fQyrQJMHIIHaskhsDsi6sl9Sbh6/wOEMt4/qgOIMSMtsR1KgdUykEi6rRhEA855MT
-	tRM3dTRy+3Kb71klbBgJrQUmuUbL31LuP1sxuoJ8wbpWinWnzQZyxpASL28OGcigF3S9
-	pSMA==
-X-Received: by 10.66.55.74 with SMTP id q10mr5342113pap.94.1423152315853;
-	Thu, 05 Feb 2015 08:05:15 -0800 (PST)
+	bh=hZdcPbR/acI2tGqqNUYUEEuWWHYkIcO71XZglsDOmT4=;
+	b=zz5C/+8s8KzUYW4ukKoJWowViQ7TsFtFKZPQuzwDqhvmDPMFIpx9/zG1+uWvoEpAfy
+	BWL/KAI7HFjElgPDlhf+TNfeor5mg3dfz/sc/ZfykpX/HkUbbuf1FEj/0NPY7Go64aIk
+	jrky3mgYTFYWCxcQtZ6G7PmPZvZaX4Pjgt4Gq/9OjOKl2glgvacnaF7aS6FDxrc8ZzMF
+	hZKlWwo5yHC5dT9LU16G91VihSBHd57eFJdvLKo/0hsv/3MvK3Ym2fjgzhLXuCgjNhtO
+	WgmPmFIb7eGvWJ3WztjQgiidUra03q49WnBSbSDsvf5HPgw/jgtdSIHWwYOci9M4Y9nD
+	lkYg==
+X-Received: by 10.68.237.2 with SMTP id uy2mr6857606pbc.72.1423152317833;
+	Thu, 05 Feb 2015 08:05:17 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.13
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.15
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:14 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:16 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:39 -0800
-Message-Id: <e13da9d20d27ae0a66f6330e2018a4768386d811.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:40 -0800
+Message-Id: <994a515470c760032e1a204114c19d783f610b4c.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 31/61] glibc: CVE-2014-9402 endless loop in getaddr_r
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH 32/61] gcc: ensure target gcc headers can be included
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +47,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:15 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:16 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-The getnetbyname function in glibc 2.21 in earlier will enter an infinite loop
-if the DNS backend is activated in the system Name Service Switch
-configuration, and the DNS resolver receives a positive answer while processing
-the network name.
+There are a few headers installed as part of gcc-runtime (omp.h,
+ssp/*.h). Being installed from a recipe built for the target
+architecture, these are within the target sysroot and not
+cross/nativesdk; thus they weren't able to be found by gcc with the
+existing search paths. Add support for picking up these headers
+under the sysroot supplied on the gcc command line in order to
+resolve this.
 
-(From OE-Core rev: f03bf84c179f69ef4800ed92a4a9d9401d0e5966)
+Thanks to Richard Purdie for giving me a number of pointers during
+fixing this issue.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Fixes [YOCTO #7141].
+
+(From OE-Core rev: 5c87bb9ac2b35b3f8cf2b7d3e4507e7013115162)
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../CVE-2014-9402_endless-loop-in-getaddr_r.patch  | 65 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.20.bb              |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
+ .../gcc/gcc-4.8/target-gcc-includedir.patch        | 81 ++++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ .../gcc/gcc-4.9/target-gcc-includedir.patch        | 81 ++++++++++++++++++++++
+ 4 files changed, 164 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/target-gcc-includedir.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 18a6692..06e6982 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -73,6 +73,7 @@ SRC_URI = "\
+     file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
+     file://0050-PR-target-58595.patch \
+     file://0052-PR-rtl-optimization-61801.patch \
++    file://target-gcc-includedir.patch \
+ "
+ SRC_URI[md5sum] = "a3d7d63b9cb6b6ea049469a0c4a43c9d"
+ SRC_URI[sha256sum] = "09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/target-gcc-includedir.patch b/meta/recipes-devtools/gcc/gcc-4.8/target-gcc-includedir.patch
 new file mode 100644
-index 0000000..ba1da67
+index 0000000..f48c66d
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2014-9402_endless-loop-in-getaddr_r.patch
-@@ -0,0 +1,65 @@
-+CVE-2014-9402 endless loop in getaddr_r
++++ b/meta/recipes-devtools/gcc/gcc-4.8/target-gcc-includedir.patch
+@@ -0,0 +1,81 @@
++Ensure target gcc headers can be included
 +
++There are a few headers installed as part of the OpenEmbedded
++gcc-runtime target (omp.h, ssp/*.h). Being installed from a recipe
++built for the target architecture, these are within the target
++sysroot and not cross/nativesdk; thus they weren't able to be
++found by gcc with the existing search paths. Add support for
++picking up these headers under the sysroot supplied on the gcc
++command line in order to resolve this.
 +
-+https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=11e3417af6e354f1942c68a271ae51e892b2814d
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 +
-+Upstream-Status: Backport
++Upstream-Status: Pending
 +
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+From 11e3417af6e354f1942c68a271ae51e892b2814d Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 15 Dec 2014 17:41:13 +0100
-+Subject: [PATCH] Avoid infinite loop in nss_dns getnetbyname [BZ #17630]
-+
-+---
-+ ChangeLog                    | 6 ++++++
-+ NEWS                         | 7 +++++--
-+ resolv/nss_dns/dns-network.c | 4 ++--
-+ 3 files changed, 13 insertions(+), 4 deletions(-)
-+
-+Index: git/NEWS
-+===================================================================
-+--- git.orig/NEWS
-++++ git/NEWS
-+@@ -24,7 +24,10 @@ Version 2.20
-+   17031, 17042, 17048, 17050, 17058, 17061, 17062, 17069, 17075, 17078,
-+   17079, 17084, 17086, 17088, 17092, 17097, 17125, 17135, 17137, 17150,
-+   17153, 17187, 17213, 17259, 17261, 17262, 17263, 17319, 17325, 17354,
-+-  17625.
-++  17625, 17630.
-++
-++* The nss_dns implementation of getnetbyname could run into an infinite loop
-++  if the DNS response contained a PTR record of an unexpected format.
++--- a/gcc/Makefile.in	2014-12-23 11:57:33.327873331 +0000
+++++ b/gcc/Makefile.in	2015-01-21 11:32:35.447305394 +0000
++@@ -587,6 +587,7 @@
 + 
-+ * CVE-2104-7817 The wordexp function could ignore the WRDE_NOCMD flag
-+   under certain input conditions resulting in the execution of a shell for
-+Index: git/resolv/nss_dns/dns-network.c
-+===================================================================
-+--- git.orig/resolv/nss_dns/dns-network.c
-++++ git/resolv/nss_dns/dns-network.c
-+@@ -398,8 +398,8 @@ getanswer_r (const querybuf *answer, int
++ # Directory in which the compiler finds libraries etc.
++ libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(version)
+++libsubdir_target = gcc/$(target_noncanonical)/$(version)
++ # Directory in which the compiler finds executables
++ libexecsubdir = $(libexecdir)/gcc/$(target_noncanonical)/$(version)
++ # Directory in which all plugin resources are installed
++@@ -2534,6 +2535,7 @@
 + 
-+ 	case BYNAME:
-+ 	  {
-+-	    char **ap = result->n_aliases++;
-+-	    while (*ap != NULL)
-++	    char **ap;
-++	    for (ap = result->n_aliases; *ap != NULL; ++ap)
-+ 	      {
-+ 		/* Check each alias name for being of the forms:
-+ 		   4.3.2.1.in-addr.arpa		= net 1.2.3.4
-+Index: git/ChangeLog
-+===================================================================
-+--- git.orig/ChangeLog
-++++ git/ChangeLog
-+@@ -1,3 +1,9 @@
-++2014-12-16  Florian Weimer  <fweimer@redhat.com>
-++
-++       [BZ #17630]
-++       * resolv/nss_dns/dns-network.c (getanswer_r): Iterate over alias
-++       names.
-++
-+ 2014-12-15  Jeff Law  <law@redhat.com>
++ PREPROCESSOR_DEFINES = \
++   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
+++  -DGCC_INCLUDE_SUBDIR_TARGET=\"$(libsubdir_target)/include\" \
++   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
++   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
++   -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
++--- a/gcc/cppdefault.c	2015-01-13 17:40:26.131012725 +0000
+++++ b/gcc/cppdefault.c	2015-01-21 11:30:08.928426492 +0000
++@@ -59,6 +59,10 @@
++     /* This is the dir for gcc's private headers.  */
++     { GCC_INCLUDE_DIR, "GCC", 0, 0, 0, 0 },
++ #endif
+++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+++    /* This is the dir for gcc's private headers under the specified sysroot.  */
+++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0 },
+++#endif
++ #ifdef LOCAL_INCLUDE_DIR
++     /* /usr/local/include comes before the fixincluded header files.  */
++     { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },
++diff --git a/gcc/defaults.h b/gcc/defaults.h
++index f94ae17..d98b40b 100644
++--- a/gcc/defaults.h
+++++ b/gcc/defaults.h
++@@ -1390,4 +1390,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 + 
-+    [BZ #16617]
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index f67fbfd..8a8b296 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -44,6 +44,7 @@ EGLIBCPATCHES = "\
- CVEPATCHES = "\
-         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
-         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
-+        file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-     "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++ #endif /* GCC_INSN_FLAGS_H  */
++ 
+++/* Default prefixes to attach to command names.  */
+++
+++#ifndef STANDARD_STARTFILE_PREFIX_1
+++#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+++#endif
+++#ifndef STANDARD_STARTFILE_PREFIX_2
+++#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+++#endif
+++
++ #endif  /* ! GCC_DEFAULTS_H */
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 9f0b781..174fca8 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -1189,13 +1189,6 @@ static const char *gcc_libexec_prefix;
++ 
++ /* Default prefixes to attach to command names.  */
++ 
++-#ifndef STANDARD_STARTFILE_PREFIX_1
++-#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
++-#endif
++-#ifndef STANDARD_STARTFILE_PREFIX_2
++-#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
++-#endif
++-
++ #ifdef CROSS_DIRECTORY_STRUCTURE  /* Don't use these prefixes for a cross compiler.  */
++ #undef MD_EXEC_PREFIX
++ #undef MD_STARTFILE_PREFIX
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 8769128..c88a496 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -73,6 +73,7 @@ SRC_URI = "\
+     file://0056-top-level-reorder_gcc-bug-61144.patch \
+     file://0058-gcc-r212171.patch \
+     file://0059-gcc-PR-rtl-optimization-63348.patch \
++    file://target-gcc-includedir.patch \
+ "
+ SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+ SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+new file mode 100644
+index 0000000..f48c66d
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/target-gcc-includedir.patch
+@@ -0,0 +1,81 @@
++Ensure target gcc headers can be included
++
++There are a few headers installed as part of the OpenEmbedded
++gcc-runtime target (omp.h, ssp/*.h). Being installed from a recipe
++built for the target architecture, these are within the target
++sysroot and not cross/nativesdk; thus they weren't able to be
++found by gcc with the existing search paths. Add support for
++picking up these headers under the sysroot supplied on the gcc
++command line in order to resolve this.
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++
++Upstream-Status: Pending
++
++--- a/gcc/Makefile.in	2014-12-23 11:57:33.327873331 +0000
+++++ b/gcc/Makefile.in	2015-01-21 11:32:35.447305394 +0000
++@@ -587,6 +587,7 @@
++ 
++ # Directory in which the compiler finds libraries etc.
++ libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(version)
+++libsubdir_target = gcc/$(target_noncanonical)/$(version)
++ # Directory in which the compiler finds executables
++ libexecsubdir = $(libexecdir)/gcc/$(target_noncanonical)/$(version)
++ # Directory in which all plugin resources are installed
++@@ -2534,6 +2535,7 @@
++ 
++ PREPROCESSOR_DEFINES = \
++   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
+++  -DGCC_INCLUDE_SUBDIR_TARGET=\"$(libsubdir_target)/include\" \
++   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
++   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
++   -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
++--- a/gcc/cppdefault.c	2015-01-13 17:40:26.131012725 +0000
+++++ b/gcc/cppdefault.c	2015-01-21 11:30:08.928426492 +0000
++@@ -59,6 +59,10 @@
++     /* This is the dir for gcc's private headers.  */
++     { GCC_INCLUDE_DIR, "GCC", 0, 0, 0, 0 },
++ #endif
+++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+++    /* This is the dir for gcc's private headers under the specified sysroot.  */
+++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0 },
+++#endif
++ #ifdef LOCAL_INCLUDE_DIR
++     /* /usr/local/include comes before the fixincluded header files.  */
++     { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },
++diff --git a/gcc/defaults.h b/gcc/defaults.h
++index f94ae17..d98b40b 100644
++--- a/gcc/defaults.h
+++++ b/gcc/defaults.h
++@@ -1390,4 +1390,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ 
++ #endif /* GCC_INSN_FLAGS_H  */
++ 
+++/* Default prefixes to attach to command names.  */
+++
+++#ifndef STANDARD_STARTFILE_PREFIX_1
+++#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+++#endif
+++#ifndef STANDARD_STARTFILE_PREFIX_2
+++#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+++#endif
+++
++ #endif  /* ! GCC_DEFAULTS_H */
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 9f0b781..174fca8 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -1189,13 +1189,6 @@ static const char *gcc_libexec_prefix;
++ 
++ /* Default prefixes to attach to command names.  */
++ 
++-#ifndef STANDARD_STARTFILE_PREFIX_1
++-#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
++-#endif
++-#ifndef STANDARD_STARTFILE_PREFIX_2
++-#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
++-#endif
++-
++ #ifdef CROSS_DIRECTORY_STRUCTURE  /* Don't use these prefixes for a cross compiler.  */
++ #undef MD_EXEC_PREFIX
++ #undef MD_STARTFILE_PREFIX
 -- 
 1.9.1
 
