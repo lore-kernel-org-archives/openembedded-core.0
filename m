@@ -1,39 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BA4E72DE6
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B112372DEC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:00 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id eu11so10692563pac.13
+	Thu,  5 Feb 2015 16:05:04 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id bj1so10914840pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:01 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=vrAdTsacOBQyi5Dt5wQAAHwEV29Bsnj6giq0Fa5SBdw=;
-	b=oTklFVWiJBtkvIDmcvIQDvRqOkfqQ3pZoSSudhnepl1TKtwG5hNAtlWO5AKhx8yrai
-	SJEfO6mnXxYmZPBPl95txwO6lhA7gkIbilwcE/ATO1DO3DrYyOHB//dtAC5MmyxVcZLy
-	0XEy3jAfSAYxPcjRw+FXS6EvQAH4hqpi+6NhOuxQdXKnMViLlAmPmxXXR0kOt/nFPjwF
-	PI7364JETbxZkzcav5hJPfJF+oqlB3Zo93yro7j3e6Oyfr1Exlp3JJGx9OKo2TFcUeYY
-	GR25fPjZnPwP1ylEJ85BIgLSEBvWEt1ZPWn57m0i9es9QJiVw/LNuUaJ3SD/yAzn9Zm2
-	0QCw==
-X-Received: by 10.66.184.144 with SMTP id eu16mr5876380pac.18.1423152301826;
-	Thu, 05 Feb 2015 08:05:01 -0800 (PST)
+	bh=G4x5D57+KgX+Nsq82TMjMPVvP2MIYBRei0rxu+YCkvs=;
+	b=X3zBxgP/3CQy808hbr9wTwUUEHlezmiDdsVcb5hsW8wmLHyYtCGGX1f1NhSKMaiy5s
+	APhFxAC9oXmOe66UMk1lXf15RS1V0Ccj8V150oI5lxqz5mdU3xdU0Rh49cs2bX1hoHqd
+	8oArhHo5DbgSRbGklIa3/4My+4GbXOZtSMU9W55tlGtg5ErQ3NvX2rN9gJKkHYYWW6Jo
+	5RML1hh8fT5tW80wAGbHi0dL/HTfcCuXLJvXMxDuM7u0tbD4fi+OZNvmroIJC00wr1Ug
+	M3MTc8fsRN0xjKF/l1fhcC7jybL5Q9u2WG1pyMdRo2NCdHSEvn0X+j4A5YVA1HV2yt2N
+	P97w==
+X-Received: by 10.66.234.2 with SMTP id ua2mr5298591pac.4.1423152306027;
+	Thu, 05 Feb 2015 08:05:06 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.59
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.03
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:00 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:04 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:32 -0800
-Message-Id: <64d53ccb17a5ea2038d966b2c5b19ff03e34a0e5.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:34 -0800
+Message-Id: <5b50868ead41aed7b7e563c70229633c958e26e5.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 24/61] guile: fixed installed-vs-shipped error
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 26/61] perf: Add libdw unwind support to perf-libunwind feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,90 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:03 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:04 -0000
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-Fixed:
-guile-2.0.11: guile: Files/directories were installed but not shipped
-  /usr/lib64/libguile-2.0*-gdb.scm [installed-vs-shipped]
+perf can use either libdw or libunwind dwarf unwinders, or neither.
+The perf-libunwind feature implies that if disabled, neither should be
+used, so have it disable both libdw and libunwind DWARF unwinders if
+disabled.
 
-This is because when there is no file in the directory:
-for f in libguile-2.0*; do
-    [snip]
-done
+This fixes [YOCTO #7129].
 
-The f would be libguile-2.0* itself, make sure the libs are installed
-firstly will fix the problem.
+(From OE-Core rev: 868dd446fa2732858813e96dd8f3f64b2a9ec339)
 
-(From OE-Core rev: adf32ca3d0657cb5d363ae7a3fdb539c6627cf39)
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../guile/files/libguile-Makefile.am-depends.patch | 39 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch b/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
-new file mode 100644
-index 0000000..1045cbe
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/libguile-Makefile.am-depends.patch
-@@ -0,0 +1,39 @@
-+From 9c4e120a7a87db34d22a50883a5a525170b480d7 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 6 Jan 2015 23:10:51 -0800
-+Subject: [PATCH] libguile/Makefile.am: install-data-hook: depends on
-+ install-libLTLIBRARIES
-+
-+It may install such a file:
-+/usr/lib64/libguile-2.0*-gdb.scm
-+
-+This is because when there is no file in the directory:
-+for f in libguile-2.0*; do
-+    [snip]
-+done
-+
-+The f would be libguile-2.0* itself.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ libguile/Makefile.am |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libguile/Makefile.am b/libguile/Makefile.am
-+index 281faac..fe0a3ba 100644
-+--- a/libguile/Makefile.am
-++++ b/libguile/Makefile.am
-+@@ -449,7 +449,7 @@ EXTRA_libguile_@GUILE_EFFECTIVE_VERSION@_la_SOURCES = _scm.h		\
-+ install-exec-hook:
-+ 	rm -f $(DESTDIR)$(bindir)/guile-snarf.awk
-+ 
-+-install-data-hook: libguile-2.0-gdb.scm
-++install-data-hook: libguile-2.0-gdb.scm install-libLTLIBRARIES
-+ 	@$(MKDIR_P) $(DESTDIR)$(libdir)
-+ ## We want to install libguile-2.0-gdb.scm as SOMETHING-gdb.scm.
-+ ## SOMETHING is the full name of the final library.  We want to ignore
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index bd23c2b..8fda850 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://guile_2.0.6_fix_sed_error.patch \
-            file://arm_endianness.patch \
-            file://workaround-ice-ssa-corruption.patch \
-+           file://libguile-Makefile.am-depends.patch \
-            "
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 3771cdb..2a47f52 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -64,7 +64,7 @@ B = "${WORKDIR}/${BPN}-${PV}"
  
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+ SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+-LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1',d)}"
++LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1',d)}"
+ 
+ # The LDFLAGS is required or some old kernels fails due missing
+ # symbols and this is preferred than requiring patches to every old
 -- 
 1.9.1
 
