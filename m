@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6667973262
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F3272DE9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:06:02 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id eu11so10900048pac.2
+	Thu,  5 Feb 2015 16:06:04 +0000 (UTC)
+Received: by pdbfp1 with SMTP id fp1so8547172pdb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:06:04 -0800 (PST)
+	Thu, 05 Feb 2015 08:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=iGWLLNRiH5OHs8CXcnBt//47pV8bPYA194MX1l+SUwY=;
-	b=XmwCcyAR1kMs8M+rsbHNaiu8WK+wARgYuI/RopkTdzsESHDz/zQGB1sVIFaAJtAvH9
-	j2yo+GDHkGCUphKjEvXBmEn9q3XUShxItD9hIseYHJk/cGQfFNq0LPdU2++gC//0s7sG
-	9m2l2V8ByC/DFSeS+2cwJ1vk7JZE5ISRCC6Vh4ccngmgwtoidPOFA6nwX239+CKp0QIa
-	Q+qCJFnQASrYCubyZLrq3cbPoo9kF47Gux+Xn9tIdIy4tVNufExbjr6f9Ee1GSApL9jn
-	heSprMvSZRgKUsBzBqqHi/RIdt3u5XCQ0Xvw1QmwhgD7aoJ1SJenALWjnZ+LLjzE2UWJ
-	ishw==
-X-Received: by 10.68.138.135 with SMTP id qq7mr6584940pbb.139.1423152363683;
-	Thu, 05 Feb 2015 08:06:03 -0800 (PST)
+	bh=6UO/nD50VUeePaZH7iUGEfXge/Yg2F6JoTwXmY9R4/g=;
+	b=nhezhkmOW1bjPycgy/4rLDGiJL/b8dLMprFH47I0w007W+ngS3nRqOrTHbq5nHlVog
+	31MweEMDIcXDMnSRYZb4iWSIjgSNjXL0vywxf6I9lcyHJ6NuKrfVHxhIAC+dwWPOgedi
+	EVG29dGoW8AMUVmFdfMEoLVf0zir1DrZheQB5bsxCtpljwLc2YBLNeQoQtSLvYvnmkvS
+	JXqos0V0OurpBvOC8kvAkAVbTKgFVD2db1CszOEt3Hib41dJk0yM0Ek3cAUT+xHKpXRD
+	UUl/m7Vfvne6ly6lzoDsWkXAcRY33fLiFfIuGg1mnMfktgyO4m0zRf1zQ00UZhs1tp7i
+	9oKQ==
+X-Received: by 10.68.143.193 with SMTP id sg1mr6723431pbb.63.1423152365717;
+	Thu, 05 Feb 2015 08:06:05 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.06.01
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.06.03
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:06:02 -0800 (PST)
+	Thu, 05 Feb 2015 08:06:04 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:04:03 -0800
-Message-Id: <24828eac83ff3dc6063f4b9587ac4f427980a0e1.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:04:04 -0800
+Message-Id: <1c96c8c66a6540e77774dc213c976fbeec644909.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 55/61] python: Disables SSLv3
+Subject: [PATCH 56/61] elfutils_0.148.bb: CVE-2014-9447 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,92 +46,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:06:03 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:06:04 -0000
 
-From: Sona Sarmadi <sona.sarmadi@enea.com>
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 
-This is related to "SSLv3 POODLE vulnerability" CVE-2014-3566
+Reference: http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9447
 
-Building python without SSLv3 support when openssl is built without
-any support for SSLv3 (e.g. by adding EXTRA_OECONF = " -no-ssl3" in
-the openssl recipes).
+(From OE-Core rev: c992868a989926eac6c4b78a6bb9729bce54f2ed)
 
-Backport from:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768611#22
-[python2.7-nossl3.patch] only Modules/_ssl.c is backported.
-
-References:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7015
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=6843
-http://bugs.python.org/issue22638
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
-
-(From OE-Core rev: 3462cac82cf0ab32e5e530f543b14fdcc211c678)
-
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../python/python/python2.7.3-nossl3.patch         | 37 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
+ .../elf_begin.c-CVE-2014-9447-fix.patch            | 36 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   | 23 +++++++-------
+ 2 files changed, 48 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
 
-diff --git a/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
 new file mode 100644
-index 0000000..2d35520
+index 0000000..84e8ddc
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/python2.7.3-nossl3.patch
-@@ -0,0 +1,37 @@
-+python: Building without SSLv3 support
++++ b/meta/recipes-devtools/elfutils/elfutils-0.148/elf_begin.c-CVE-2014-9447-fix.patch
+@@ -0,0 +1,36 @@
++From 323ca04a0c9189544075c19b49da67f6443a8950 Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Wed, 21 Jan 2015 09:33:38 +0900
++Subject: [PATCH] elf_begin.c: CVE-2014-9447 fix
 +
-+Building without SSLv3 support when openssl is built
-+without any support for SSLv3
++this patch is from:
++ https://git.fedorahosted.org/cgit/elfutils.git/commit/?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
 +
 +Upstream-Status: Backport
 +
-+Reference:
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=76A8611#22
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 +---
-+diff -ruN a/Modules/_ssl.c b/Modules/_ssl.c
-+--- a/Modules/_ssl.c	2014-11-26 07:43:58.755679939 +0100
-++++ b/Modules/_ssl.c	2014-11-26 07:49:10.454182400 +0100
-+@@ -302,8 +302,10 @@
-+     PySSL_BEGIN_ALLOW_THREADS
-+     if (proto_version == PY_SSL_VERSION_TLS1)
-+         self->ctx = SSL_CTX_new(TLSv1_method()); /* Set up context */
-++#ifndef OPENSSL_NO_SSL3
-+     else if (proto_version == PY_SSL_VERSION_SSL3)
-+         self->ctx = SSL_CTX_new(SSLv3_method()); /* Set up context */
-++#endif
-+ #ifndef OPENSSL_NO_SSL2
-+     else if (proto_version == PY_SSL_VERSION_SSL2)
-+         self->ctx = SSL_CTX_new(SSLv2_method()); /* Set up context */
-+@@ -1777,8 +1779,10 @@
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv2",
-+                             PY_SSL_VERSION_SSL2);
-+ #endif
-++#ifndef OPENSSL_NO_SSL3
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv3",
-+                             PY_SSL_VERSION_SSL3);
-++#endif
-+     PyModule_AddIntConstant(m, "PROTOCOL_SSLv23",
-+                             PY_SSL_VERSION_SSL23);
-+     PyModule_AddIntConstant(m, "PROTOCOL_TLSv1",
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index efaa4a7..cbe8d7f 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -39,6 +39,7 @@ SRC_URI += "\
-   file://json-flaw-fix.patch \
-   file://posix_close.patch \
-   file://python-2.7.3-CVE-2014-7185.patch \
-+  file://python2.7.3-nossl3.patch \
- "
++ libelf/elf_begin.c | 7 ++-----
++ 1 file changed, 2 insertions(+), 5 deletions(-)
++
++diff --git a/libelf/elf_begin.c b/libelf/elf_begin.c
++index e46add3..e83ba35 100644
++--- a/libelf/elf_begin.c
+++++ b/libelf/elf_begin.c
++@@ -736,11 +736,8 @@ read_long_names (Elf *elf)
++ 	    break;
++ 
++ 	  /* NUL-terminate the string.  */
++-	  *runp = '\0';
++-
++-	  /* Skip the NUL byte and the \012.  */
++-	  runp += 2;
++-
+++	  *runp++ = '\0';
+++ 
++ 	  /* A sanity check.  Somebody might have generated invalid
++ 	     archive.  */
++ 	  if (runp >= newp + len)
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index ab95639..5e75f12 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libtool bzip2 zlib virtual/libintl"
  
- S = "${WORKDIR}/Python-${PV}"
+ PR = "r11"
+ 
+-SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
++SRC_URI = "https://fedorahosted.org/releases/e/l/${PN}/${BP}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "a0bed1130135f17ad27533b0034dba8d"
+ SRC_URI[sha256sum] = "8aebfa4a745db21cf5429c9541fe482729b62efc7e53e9110151b4169fe887da"
+@@ -25,14 +25,15 @@ SRC_URI += "\
+         file://m68k_backend.diff \
+         file://testsuite-ignore-elflint.diff \
+         file://elf_additions.diff \
+-	file://elfutils-fsize.patch \
+-	file://remove-unused.patch \
+-	file://mempcpy.patch \
+-	file://fix_for_gcc-4.7.patch \
+-	file://dso-link-change.patch \
+-	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+-	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
+-	file://Fix_elf_cvt_gunhash.patch \
++        file://elfutils-fsize.patch \
++        file://remove-unused.patch \
++        file://mempcpy.patch \
++        file://fix_for_gcc-4.7.patch \
++        file://dso-link-change.patch \
++        file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
++        file://elfutils-ar-c-fix-num-passed-to-memset.patch \
++        file://Fix_elf_cvt_gunhash.patch \
++        file://elf_begin.c-CVE-2014-9447-fix.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
+@@ -52,9 +53,9 @@ EXTRA_OECONF_append_class-native = " --without-bzlib"
+ EXTRA_OECONF_append_libc-uclibc = " --enable-uclibc"
+ 
+ do_configure_prepend() {
+-	sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
++    sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
+ 
+-	cp ${WORKDIR}/*dis.h ${S}/libcpu
++    cp ${WORKDIR}/*dis.h ${S}/libcpu
+ }
+ 
+ # we can not build complete elfutils when using uclibc
 -- 
 1.9.1
 
