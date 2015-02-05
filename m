@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E53972DFF
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E24172DFF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:04:49 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id fa1so10798378pad.8
+	Thu,  5 Feb 2015 16:04:51 +0000 (UTC)
+Received: by pdbfl12 with SMTP id fl12so8541966pdb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:04:51 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Vt80nUyL36rsY2l62/aOsGjpnxlBaOTTyYAUEgesIAA=;
-	b=ize2T1xF6YSlRkb80keemAG1uX8YmBNb8EJNiRlmpuHwzLv1Z2yBVD/PKT17JHFSxm
-	XwceshVOn6ANKsClrYuxXxFbxW4zYr0S4LBABa5Q953UgcElXmSITCcaVFv/S0zCjivl
-	D1DGUshobWfQetRRSfl3ifZnY9b0j+x4LnlqLJblWelBFoH+2M3O9b7cLqJz3sYzB6MQ
-	Z96K67FpTyOdRojX754OQWy5Es4pOBioM5jhEGreUuUuJzX8U4qkhv7VnsDSLKbXLYyr
-	2LaKmguVrOAJTpVCB+GD/ULZrw1G5KBs+snliVGI0p67AV07aVj8TKmHToCPGlgAG9x3
-	O0qw==
-X-Received: by 10.66.156.229 with SMTP id wh5mr6579781pab.119.1423152291284;
-	Thu, 05 Feb 2015 08:04:51 -0800 (PST)
+	bh=LiTJ8dK5Hll6LQ2DzKcN5lxWfejivRasGSficaStBRM=;
+	b=1AIfsi1FujyphXBE5weZmjP/6vx70M0WwphOnx8G9/X0WRjUO0InHfEaLFGEz4z7dx
+	urwOxbRpGUa59iT8kH7RHkKqjMd2mQipRZuRsbQNV/nMvgo5Py3LNTakX7zphR37ANKZ
+	KMxxtVZJGSaeSlnIKuhDFWXVoQJytzs40o6d8GA90xqoIwHFy2Km0WUyTRzL81QKwgay
+	kbBRpC7QBLzwcUkV9YZ088OI2ZA7UKimovlyFHrnQcoOuiNgeHaFVAr8MflbOnPBYj3d
+	9FxrDP60jkNkIAu+ABk6RNtenZQi5TwNa+002tntKWv8cc/5e7ytzPMgZ8wdKy+VSni4
+	dhzw==
+X-Received: by 10.66.122.69 with SMTP id lq5mr4205417pab.52.1423152293184;
+	Thu, 05 Feb 2015 08:04:53 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.48
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.04.51
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:04:49 -0800 (PST)
+	Thu, 05 Feb 2015 08:04:52 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:27 -0800
-Message-Id: <5e8a7497baedcb4cdda5e10192e2d2422cd8863f.1423150739.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:28 -0800
+Message-Id: <acac1512a3340cf4a6be18f9442a047323886505.1423150739.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 19/61] cross-canadian/meta-environment: Allow modification of TARGET_OS to be optional
+Subject: [PATCH 20/61] parted: parted-ptest RDEPENDS on python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,99 +48,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Feb 2015 16:04:51 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-There are some cases we want the manipulation cross-canadian performance
-on TARGET_OS, there are also cases like meta-environment where we do not
-want this manipulation.
+python scripts:
+parted-ptest/usr/lib64/parted/ptest/tests/gpt-header-move
+parted-ptest/usr/lib64/parted/ptest/tests/msdos-overlap
 
-We did try and use immediate expansion to avoid this problem and it
-works in the non multilib case. If we have a multilib that used an
-extension, like for example:
+(From OE-Core rev: 80262094fde6a44afd954bbecc7e016243661b81)
 
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32 multilib:lib64"
-DEFAULTTUNE = "mips32r2"
-DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
-DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
-
-then the n32 extension case will be misconfigured.
-
-It turns out saving an unexpanded variable is hard. The best I could
-come up with was:
-
-SAVEDTOS := "${@d.getVar('TARGET_OS', False).replace("{", "*")}"
-
-and then
-
-localdata.setVar("TARGET_OS", d.getVar("SAVEDOS", False).replace('*','{'))
-
-which is rather evil, I'd challenge someone to come up with a nicer way
-of making it work though!
-
-Rather than the above madness, we modify cross-canadian to make the
-problamtic code conditional.
-
-This fixes the original issue (where a linux-gnuspe target was seeing
-'linux') of
-http://cgit.openembedded.org/openembedded-core/commit/?id=0038634ee6e2b6035c023a2702547f20f67c103a
-but also fixes the multilib one.
-
-(From OE-Core rev: 85ff3d6491c54aa712ed238c561742cda4f4ba07)
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cross-canadian.bbclass        | 4 ++++
- meta/recipes-core/meta/meta-environment.bb | 5 ++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-extended/parted/parted_3.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index fec6438..a8565e9 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -16,6 +16,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
- #
- PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
- CANADIANEXTRAOS = ""
-+MODIFYTOS ??= "1"
- python () {
-     archs = d.getVar('PACKAGE_ARCHS', True).split()
-     sdkarchs = []
-@@ -23,6 +24,9 @@ python () {
-         sdkarchs.append(arch + '-${SDKPKGSUFFIX}')
-     d.setVar('PACKAGE_ARCHS', " ".join(sdkarchs))
+diff --git a/meta/recipes-extended/parted/parted_3.1.bb b/meta/recipes-extended/parted/parted_3.1.bb
+index 9057463..3f36f9f 100644
+--- a/meta/recipes-extended/parted/parted_3.1.bb
++++ b/meta/recipes-extended/parted/parted_3.1.bb
+@@ -42,4 +42,4 @@ do_install_ptest() {
+ 	sed -e 's| ../parted||' -i $t/tests/*.sh
+ }
  
-+    # Allow the following code segment to be disabled, e.g. meta-environment
-+    if d.getVar("MODIFYTOS", True) != "1":
-+        return
-     # PowerPC can build "linux" and "linux-gnuspe"
-     tarch = d.getVar("TARGET_ARCH", True)
-     if tarch == "powerpc":
-diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-index bb208a3..90959b5 100644
---- a/meta/recipes-core/meta/meta-environment.bb
-+++ b/meta/recipes-core/meta/meta-environment.bb
-@@ -6,9 +6,9 @@ PR = "r8"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
--ORIGOS := "${TARGET_OS}"
-+MODIFYTOS = "0"
- 
--REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${ORIGOS}"
-+REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
- 
- inherit toolchain-scripts
- TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
-@@ -31,7 +31,6 @@ python do_generate_content() {
- 
-     # make sure we only use the SDKTARGETSYSROOT value from 'd'
-     localdata.setVar('SDKTARGETSYSROOT', d.getVar('SDKTARGETSYSROOT', True))
--    localdata.setVar('TARGET_OS', d.getVar('ORIGOS', True))
-     localdata.setVar('libdir', d.getVar('target_libdir', False))
- 
-     # Process DEFAULTTUNE
+-RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup"
++RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python"
 -- 
 1.9.1
 
