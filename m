@@ -1,39 +1,42 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3292772E30
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E871072E0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:22 +0000 (UTC)
-Received: by pdbfl12 with SMTP id fl12so8544648pdb.6
+	Thu,  5 Feb 2015 16:05:24 +0000 (UTC)
+Received: by pdbft15 with SMTP id ft15so8554207pdb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:23 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=45JGKTkk4o0qs8vjuYTayjiuEg8i53QBayr0/1rY30E=;
-	b=0ykJjjqwGWKOLIx1aCx75BRtyB0dL0UGwR6zG8v23psIveh7bzoNBoduk54ja/JoqR
-	sI0yPSDMeIrv/j5nzy3OUxm6BRpvJmRxsMw2YbHLwUIwWLDj7k+lksPkGCaV12LwEwcj
-	6eVnXK9YhbMJd9Vav4VjW87brKfthAVwz7BlaboJ48vlT/JzEQzXAw1MZmfZgU6QuRkr
-	x5wQzCycsscdEPK4IoaYU4QMKci/A1Sm9D0x9O1kOa8GqkL+3fHqhIINqKW41hdcqor+
-	hoRIHJcK9k36QH7CTG+cMdA7H+oxNwhT4OMacyooMvp1KzJQqRvlZdwnx1BKwqJZoH6n
-	ErjQ==
-X-Received: by 10.66.162.41 with SMTP id xx9mr6050067pab.68.1423152323813;
-	Thu, 05 Feb 2015 08:05:23 -0800 (PST)
+	:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding;
+	bh=tMLXkGzACeC9HdZgdt0XprQNeedejxaXtg7fCNkoJRk=;
+	b=Y6WQ5FvbpUB1XL2YrAAjxZ580GpV1FLQIHo6/njFrNAoFBjCnEBia3p37wqcL/8Djh
+	meklY+jq+p7DDuMbu0eUFeIgRcfxsiCgRtMQihTI6L1BGsqwaUvgZFdmrzUO7j7vzLK6
+	yBItgXtolXmWpp0iBZXVjoE5w0kDdQEJecinb7rRDzuwr9aeWRWNX5FVp9nmHjXbwhfQ
+	QK78bzGcLZ4l0MmZ+R7bi9Pgr7KfZzc1H3bmf2m0ByAjaRa0Xag2PYZqjWqxg7Ycy2Kn
+	Emrpr/gPgyaPP4/P5wAEqcVrUs5eB318k50azB7yLQT8hG5Ji1ZdDpr0y6yDu3PFnIQJ
+	15uw==
+X-Received: by 10.66.66.166 with SMTP id g6mr6039479pat.88.1423152326538;
+	Thu, 05 Feb 2015 08:05:26 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.21
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:22 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:24 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:43 -0800
-Message-Id: <96ad0b9b0f96c8453729d6f8d938fb29e1dbd1a5.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:44 -0800
+Message-Id: <5692daa4271bd6fd1224ba3fb5b77506b4efd294.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 35/61] oeqa/utils/decorators: Try and improve ugly _ErrorHandler tracebacks
+MIME-Version: 1.0
+Cc: =?UTF-8?q?Vincent=20G=C3=A9nieux?= <vincent2014@startigen.fr>
+Subject: [PATCH 36/61] fix '[[: not found' error message using dash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:22 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Vincent Génieux <vincent2014@startigen.fr>
 
-Currently, if one module is skipped, any other module calling skipModule
-causes tracebacks about _ErrorHandler not having a _testMethodName
-method.
+Remove bash specific syntax '[[ test ]]' replaced with '[ test ]'.
 
-This reworks the code in a way to avoid some of the problems by using
-the id() method of the objects. It also maps to the correct name
-format rather than "setupModule" or just skiping the item entirely.
+Fixes [YOCTO #7112]
 
-(From OE-Core rev: 78d3bf2e4c88779df32b9dfbe8362dc24e9ad080)
+(From OE-Core rev: f2ff849d5936d3dc5e24301e0620da265df50fea)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Vincent Génieux <vincent2014@startigen.fr>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/utils/decorators.py | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index 7f845db..40bd4ef 100644
---- a/meta/lib/oeqa/utils/decorators.py
-+++ b/meta/lib/oeqa/utils/decorators.py
-@@ -18,14 +18,21 @@ class getResults(object):
-         upperf = sys._current_frames().values()[0]
-         while (upperf.f_globals['__name__'] != 'unittest.case'):
-             upperf = upperf.f_back
--        self.faillist = [ seq[0]._testMethodName for seq in upperf.f_locals['result'].failures ]
--        self.errorlist = [ seq[0]._testMethodName for seq in upperf.f_locals['result'].errors ]
--        #ignore the _ErrorHolder objects from the skipped tests list
--        self.skiplist = []
--        for seq in upperf.f_locals['result'].skipped:
--            try:
--                self.skiplist.append(seq[0]._testMethodName)
--            except: pass
-+
-+        def handleList(items):
-+            ret = []
-+            # items is a list of tuples, (test, failure) or (_ErrorHandler(), Exception())
-+            for i in items:
-+                s = i[0].id()
-+                #Handle the _ErrorHolder objects from skipModule failures
-+                if "setUpModule (" in s:
-+                    ret.append(s.replace("setUpModule (", "").replace(")",""))
-+                else:
-+                    ret.append(s)
-+            return ret
-+        self.faillist = handleList(upperf.f_locals['result'].failures)
-+        self.errorlist = handleList(upperf.f_locals['result'].errors)
-+        self.skiplist = handleList(upperf.f_locals['result'].skipped)
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 70ed95b..2a6ec34 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -403,7 +403,7 @@ do_strip() {
+ 			  gawk '{print $1}'`
  
-     def getFailList(self):
-         return self.faillist
+ 		for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
+-			if [[ "$headers" != *"$str"* ]]; then
++			if [ "$headers" != *"$str"* ]; then
+ 				bbwarn "Section not found: $str";
+ 			fi
+ 
 -- 
 1.9.1
 
