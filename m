@@ -1,27 +1,27 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 411 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 05 Feb 2015 17:49:00 UTC
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 8147760169
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 6790260169
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 17:49:00 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.09,525,1418083200"; d="scan'208";a="111514761"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 05 Feb 2015 17:42:08 +0000
-Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
-	(envelope-from <mac@mcrowe.com>)
-	id 1YJQRM-00021n-AM; Thu, 05 Feb 2015 17:42:08 +0000
-Date: Thu, 5 Feb 2015 17:42:08 +0000
+	Thu,  5 Feb 2015 17:50:46 +0000 (UTC)
+Received: from [86.30.112.98] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.0.11)
+	with ESMTP id 507256300; Thu, 05 Feb 2015 12:50:47 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1YJQZb-0007lO-Cb; Thu, 05 Feb 2015 17:50:39 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1YJQZb-00070z-Bs; Thu, 05 Feb 2015 17:50:39 +0000
 From: Mike Crowe <mac@mcrowe.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150205174208.GA7735@mcrowe.com>
-References: <1423155741-7715-1-git-send-email-mac@mcrowe.com>
-	<CAJTo0LZpT+RGH7zzMs56UVBh1im3YkQvovxWJtW5ZL8Gdzex0A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZpT+RGH7zzMs56UVBh1im3YkQvovxWJtW5ZL8Gdzex0A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sed: Cope with ${bindir} and ${base_bindir} being the same
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Feb 2015 17:50:23 +0000
+Message-Id: <1423158623-26927-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+References: <20150205174208.GA7735@mcrowe.com>
+In-Reply-To: <20150205174208.GA7735@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCHv2] sed: Cope with ${bindir} and ${base_bindir} being the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 17:49:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Feb 2015 17:50:53 -0000
 
-On Thursday 05 February 2015 at 17:38:07 +0000, Burton, Ross wrote:
-> On 5 February 2015 at 17:02, Mike Crowe <mac@mcrowe.com> wrote:
-> 
-> > ${bindir} and ${base_bindir} may be the same. If they are don't try and
-> > move files onto themselves.
-> >
-> 
-> Funnily enough I did the same fix last week but didn't send it to the list
-> yet as I needed to rewrite the message.
-> 
-> Can you update this to change both versions of sed?
+${bindir} and ${base_bindir} may be the same. If they are don't try and
+move files onto themselves.
 
-Oh, I spotted there were two versions of sed but managed to forget that by
-the time I'd tested the patch. :(
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-extended/sed/sed_4.1.2.bb | 6 ++++--
+ meta/recipes-extended/sed/sed_4.2.2.bb | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-I'll send an updated patch.
+diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
+index 4c0f345..40e3a53 100644
+--- a/meta/recipes-extended/sed/sed_4.1.2.bb
++++ b/meta/recipes-extended/sed/sed_4.1.2.bb
+@@ -23,8 +23,10 @@ do_configure_prepend () {
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
+-	rmdir ${D}${bindir}/
++	if [ ! ${D}${bindir} -ef ${D}${base_bindir} ]; then
++	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
++	    rmdir ${D}${bindir}/
++	fi
+ }
+ 
+ ALTERNATIVE_${PN} = "sed"
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index 72976de..bbfa238 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -22,8 +22,10 @@ EXTRA_OECONF = "--disable-acl \
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
+-	rmdir ${D}${bindir}/
++	if [ ! ${D}${bindir} -ef ${D}${base_bindir} ]; then
++	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
++	    rmdir ${D}${bindir}/
++	fi
+ }
+ 
+ ALTERNATIVE_${PN} = "sed"
+-- 
+2.1.4
 
-Thanks.
-
-Mike.
 
