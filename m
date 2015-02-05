@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D25772E5E
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BB0CC72E30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Feb 2015 16:05:18 +0000 (UTC)
-Received: by pdjz10 with SMTP id z10so8545822pdj.13
+	Thu,  5 Feb 2015 16:05:20 +0000 (UTC)
+Received: by pdjg10 with SMTP id g10so2410478pdj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Feb 2015 08:05:19 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=ZacvVr+0k/X51vlCN1onkgzvmSWeOEv+/GheztE3ao0=;
-	b=qxjCmN880APy/5Rq48XpLvsMdm4+rtRDsxLBzKxhCQNy9GqZ1/MNKyOgdlJ9hvERUB
-	hNtw1gVGBpLgovlKk2EQw8rQ4kLvTyx9eBR3WFcnka/Zkg6VtWb17T3TorG4ag8YR9vF
-	T/2dWcNn3K+a3CHaWaJYh1krejXa2iWWIEcSYKifFAizIgBFt7nMziBKwXQxOp/FI8rX
-	arl7bG3dH4WpgC4eVlk7UrNM1a/T1E1kqrArrXeXKzTG+sU6MUSofwdkBpSUQtCouaTa
-	AGs7IQb06raE06sYs3a5hgo5Cn+cYwpl9r9lftZVeRwVkpBIGKA8I1CS67/MYkfzibNk
-	vycg==
-X-Received: by 10.68.130.101 with SMTP id od5mr6899628pbb.108.1423152319784;
-	Thu, 05 Feb 2015 08:05:19 -0800 (PST)
+	bh=3ayxXIY6Lf4U0s3hOQk4mt2Bcr9HAdpy8sqdLKEZnQE=;
+	b=kG5dwA409XwqM7LKanAcBIPwnvV7eYOtj5HjGtFHsbnXPxx4MBigbZV7lre2qbh2wP
+	aLYR69O8uneKXU30DmdzX0XCk+1X9AS3L/pZ2aT5LZkfbeSYi9+hVu3gIc9oiMhovvMx
+	MhkHuR5Jc4KUORuHuNZnJZNv49lDt5ddM1+oRhY/RZpvqq5tB0tNoiGrzoQrRDakJ3DL
+	uEO0ei/FZCrNUAETJUCGaVc9iXUAhazZSd8yEw/AtMAKDn1rois7AtCBLT+Ifioxg5ce
+	h6Odf4DEG++GdO3XrYnNzjY/7UAbqWIDW+4i0gH2RgIMnDsUSzwvZouZ3PgUQ+Gkcyoa
+	Tf5A==
+X-Received: by 10.68.208.101 with SMTP id md5mr6996766pbc.28.1423152321708;
+	Thu, 05 Feb 2015 08:05:21 -0800 (PST)
 Received: from bigisland.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.17
+	by mx.google.com with ESMTPSA id uq7sm5468848pbc.48.2015.02.05.08.05.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Feb 2015 08:05:18 -0800 (PST)
+	Thu, 05 Feb 2015 08:05:20 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Feb 2015 08:03:41 -0800
-Message-Id: <7b3bc2aad5d23dc6d362182725b09f03a7669e8c.1423150740.git.akuster808@gmail.com>
+Date: Thu,  5 Feb 2015 08:03:42 -0800
+Message-Id: <b34791e4e1c5cdb60f1c245015021d254f697464.1423150740.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
 In-Reply-To: <cover.1423150737.git.akuster808@gmail.com>
 References: <cover.1423150737.git.akuster808@gmail.com>
-Subject: [PATCH 33/61] boost: Avoid to use local host configuration
+Subject: [PATCH 34/61] perf: fix for rebuilding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Feb 2015 16:05:18 -0000
+X-List-Received-Date: Thu, 05 Feb 2015 16:05:20 -0000
 
-From: Fabien Proriol <fabien.proriol@jdsu.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-(From OE-Core rev: 6586aeb3e26d58322c169dfef0228a425fe5d3fa)
+Fix for rebuilding error:
+make[3]: *** No rule to make target `/path/to/sysroots/qemuarm64/usr/src/kernel/tools/lib/traceevent//trace-seq.c',
+needed by `.trace-seq.d'.  Stop.
+make[2]: *** [sub-make] Error 2
 
-Signed-off-by: Fabien Proriol <fabien.proriol@jdsu.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+(From OE-Core rev: 9dafa571ed0a40d21a886dec7704c31150b21942)
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-support/boost/boost.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/perf/perf.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index d34ca7c..069b1c8 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -90,7 +90,8 @@ EQD = '\"'
- #boost.bb:   "...  '-sGCC=... '${SQD}'-DBOOST_PLATFORM_CONFIG=${EQD}config${EQD}'${SQD} ..."
- BJAM_CONF = "${SQD}'-DBOOST_PLATFORM_CONFIG=${EQD}boost/config/platform/${TARGET_OS}.hpp${EQD}'${SQD}"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 2a47f52..19772d8 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -115,6 +115,10 @@ do_install() {
+ }
  
--BJAM_TOOLS   = "-sTOOLS=gcc \
-+BJAM_TOOLS   = "--ignore-site-config \
-+		'-sTOOLS=gcc' \
- 		'-sGCC=${CC} '${BJAM_CONF} \
- 		'-sGXX=${CXX} '${BJAM_CONF} \
- 		'-sGCC_INCLUDE_DIRECTORY=${STAGING_INCDIR}' \
+ do_configure_prepend () {
++    # Fix for rebuilding
++    rm -rf ${B}/
++    mkdir ${B}/
++
+     #kernels before 3.1 do not support WERROR env variable
+     sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
+     if [ -e "${S}/tools/perf/config/Makefile" ]; then
 -- 
 1.9.1
 
