@@ -1,38 +1,43 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E97E60017
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A50D72DF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Feb 2015 14:21:22 +0000 (UTC)
-Received: by mail-yh0-f53.google.com with SMTP id v1so6292958yhn.12
+	Fri,  6 Feb 2015 15:02:23 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id l61so14185212wev.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Feb 2015 06:21:24 -0800 (PST)
+	Fri, 06 Feb 2015 07:02:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=A7ZoYj+V1BLAW8fVke+P8J5gjr+BSTCplAO7Er3zhQ4=;
-	b=ITA3WN8aUsp6yWRRqRPoIcTrqfawworQa1OMpLtJ4nEUz6XveguAmwN7maLtp2+WK+
-	N5nVJ0Dh7zTJNGdzRD6pcbo/gKTHXLVxQyCBcMNM6PJH6pFXTX0Ap90X5szq1cAD2+bW
-	OhErxSB4WFPWlEJe1Vu+qnVCkWzLNd8q8brLdrjremfLC3r6JbOxZGLDcqRjQo7r02h6
-	Zq8QB7PHuVmsqNWexG0nPxXgVm9tCghXKzUHOmEVlWjWho3lfkoQtWoOaZhMqrzNQjuO
-	ek4wbjsRJoZQFvY2uD7SFj5Jgp4aOvhUyJkCkVah6Fo+koT2pOZvkM/KoEezw+WVA1Z4
-	lWeg==
-MIME-Version: 1.0
-X-Received: by 10.170.188.10 with SMTP id f10mr1564410yke.22.1423232484006;
-	Fri, 06 Feb 2015 06:21:24 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Fri, 6 Feb 2015 06:21:23 -0800 (PST)
-In-Reply-To: <CAJTo0LZeVbSajYg6iNZo33O1BGRrU8SuQgnDA=Ra+XpOFprcuQ@mail.gmail.com>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=a92itV/7EHLddTL3qjYd1uy2zc+eQ5ugx+iKb2hkwx8=;
+	b=OR4iS0g0SXOSKNfAKnPmP/uPRO7ThMH1ta+CjTbziKREtMH2vSVQjr0vxyGgZDtrur
+	RXf9Y1YBZJ4Lr4EWg69bjdLNUaY3v8Pfbo/OyqRjZkvGDD+UTiSTyRXgZcVA65A9KRtl
+	c9ah9Cp5qoMhQEO3qJfB16JEWYIuOqv/JCK5hic6igJoM8L5Lc0NQeeSoGZ9627hwQbb
+	4QOIhDbjcknrttSt7yHnOOkU5TnkKScEAnPpPjZKPjABk3pswQe+eCNVfz6W8qLxFo3Y
+	8W7jMSyDWjvyPcJqc5VjR4XL3zr/i1Nbf4jzFfZkORwzXSbtDgqFKAfWgxs2TyoGvGQI
+	zveQ==
+X-Received: by 10.194.92.9 with SMTP id ci9mr8502197wjb.142.1423234943873;
+	Fri, 06 Feb 2015 07:02:23 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	x10sm1823826wif.15.2015.02.06.07.02.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Feb 2015 07:02:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 6 Feb 2015 16:02:41 +0100
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20150206150241.GG2287@jama>
 References: <1423085616-6729-1-git-send-email-ross.burton@intel.com>
 	<4479188.gEPuv5Te0O@peggleto-mobl5.ger.corp.intel.com>
 	<1423222962.20217.13.camel@linuxfoundation.org>
 	<CAP9ODKqxCyd=h0ZdyjjY+eogPumbtY3VMBwvskSBQEcw8+D5+g@mail.gmail.com>
 	<CAJTo0LZeVbSajYg6iNZo33O1BGRrU8SuQgnDA=Ra+XpOFprcuQ@mail.gmail.com>
-Date: Fri, 6 Feb 2015 12:21:23 -0200
-X-Google-Sender-Auth: penmUKuq1qDvnuKlvq8zzvI6eYI
-Message-ID: <CAP9ODKoE12hnigK3Z1MKjV5TYRu-EACd2KsCgD0M2hZSEFeNww@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKoE12hnigK3Z1MKjV5TYRu-EACd2KsCgD0M2hZSEFeNww@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKoE12hnigK3Z1MKjV5TYRu-EACd2KsCgD0M2hZSEFeNww@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -49,31 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Feb 2015 14:21:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Feb 2015 15:02:30 -0000
+X-Groupsio-MsgNum: 62145
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="y9PDtDHaFrXNoMPU"
+Content-Disposition: inline
 
-On Fri, Feb 6, 2015 at 12:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 6 February 2015 at 14:10, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
->>
->> I think they should re-run. Otherwise we can end having errors and QA
->> issues unnoticed until a full rebuild.
->
->
-> That was the state of things until my original patch last week.  The patch
-> had the side-effect that changing QA tasks causing *everything* to rebuild.
-> I'm really not sure that's a good solution.
+--y9PDtDHaFrXNoMPU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If someone adds a QA tasks it is because it matters. In this case we
-ought to have it in an immediate effect so it does makes sense to
-rerun everything.
+On Fri, Feb 06, 2015 at 12:21:23PM -0200, Otavio Salvador wrote:
+> On Fri, Feb 6, 2015 at 12:18 PM, Burton, Ross <ross.burton@intel.com> wro=
+te:
+> >
+> > On 6 February 2015 at 14:10, Otavio Salvador <otavio@ossystems.com.br>
+> > wrote:
+> >>
+> >> I think they should re-run. Otherwise we can end having errors and QA
+> >> issues unnoticed until a full rebuild.
+> >
+> >
+> > That was the state of things until my original patch last week.  The pa=
+tch
+> > had the side-effect that changing QA tasks causing *everything* to rebu=
+ild.
+> > I'm really not sure that's a good solution.
+>=20
+> If someone adds a QA tasks it is because it matters. In this case we
+> ought to have it in an immediate effect so it does makes sense to
+> rerun everything.
+>=20
+> I know it is bad from build time point of view but predictability and
+> correctness is more important from my point of view.
 
-I know it is bad from build time point of view but predictability and
-correctness is more important from my point of view.
+Agreed, especially when someone decides to make something fatal it
+should highlight all failing recipes before it's enabled in "official"
+build instead of sneaking the failures one-by-one as sstate is being
+invalidated by other changes.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--y9PDtDHaFrXNoMPU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlTU15EACgkQN1Ujt2V2gBy0DACgm850Ieg+8wRztLs1D8ajUmWl
+DuMAnA+eSIGByAviSMA4lacgJw26wy3D
+=WieS
+-----END PGP SIGNATURE-----
+
+--y9PDtDHaFrXNoMPU--
