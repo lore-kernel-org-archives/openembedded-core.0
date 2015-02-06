@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E193472E35
+	by mail.openembedded.org (Postfix) with ESMTP id 7117B72E35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Feb 2015 16:31:09 +0000 (UTC)
+	Fri,  6 Feb 2015 16:31:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t16GV9CA001332
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t16GVCk3001338
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Feb 2015 08:31:09 -0800 (PST)
+	Fri, 6 Feb 2015 08:31:12 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 6 Feb 2015 08:31:08 -0800
+	14.3.174.1; Fri, 6 Feb 2015 08:31:12 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 6 Feb 2015 11:31:00 -0500
-Message-ID: <cover.1423237494.git.bruce.ashfield@windriver.com>
+Date: Fri, 6 Feb 2015 11:31:04 -0500
+Message-ID: <b5b58b2e465dfed2a274c19bd1edc4d1330136e3.1423237494.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1423237494.git.bruce.ashfield@windriver.com>
+References: <cover.1423237494.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/8] linux-yocto: consolidated pull request
+Subject: [PATCH 4/8] linux-yocto/3.17: update to v3.17.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +36,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 06 Feb 2015 16:31:12 -0000
 Content-Type: text/plain
 
-Richard/Saul,
+Updating to the latest korg stable version.
 
-Here is my pull request for a round of -stable kernel updates, tool tweaks, and
-a preview of 3.19 as the kernel for the 1.8. 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 20 ++++++++++----------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-I've built core-image-sato and core-image-kernel-dev for the various kernels,
-but of course more coverage is always better (which the autobuilder provides),
-I don't expect anything massive to blow up .. but you never know.
-
-I'll follow up with libc, a versioned 3.19 recipe and updates to the yocto
-BSPs once this series is shown to be good.
-
-I had to hack together the pull requests parts of this, since my git 2.1.x
-is blowing up during generation, so hopefully the commits and banch are
-clear.
-
-Cheers,
-
-Bruce
-
---------------------------------
-
-The following changes since commit 1f53edeaf9ea59dd55459a6d5a93829fb4983839:
-
-  libtool: avoid running automake/autoconf --version (2015-02-05 09:46:11 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel-dev
-
-for you to fetch changes up to 985259afe58317d3ab0146979207f73d7670db29:
-
-  kern-tools: import patch performance improvements (2015-02-05 15:51:02 -0500)
-
-----------------------------------------------------------------
-Bruce Ashfield (8):
-  kernel-dev: install all modules by default
-  linux-yocto/3.14: update to 3.14.29
-  linux-yocto/3.10: update to v3.10.65
-  linux-yocto/3.17: update to v3.17.8
-  linux-yocto: basic octeon III support
-  lttng: update to 2.6.0-stable
-  linux-yocto-dev: update to v3.19+
-  kern-tools: import patch performance improvements
-
- .../images/core-image-kernel-dev.bb                |   2 +-
- .../kern-tools/kern-tools-native_git.bb            |   2 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb       |   2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   8 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |   8 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |   6 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      |  18 +--
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      |  20 ++--
- meta/recipes-kernel/linux/linux-yocto_3.17.bb      |  20 ++--
- ...probes-should-calculate-alignment-and-eve.patch | 130 ---------------------
- ...e-kvm-instrumentation-compile-on-3.17-rc1.patch |  46 --------
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |  35 ++----
- ...tng-modules_2.5.2.bb => lttng-modules_2.6.0.bb} |   6 +-
- 15 files changed, 61 insertions(+), 254 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-kvm-instrumentation-compile-on-3.17-rc1.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.5.2.bb => lttng-modules_2.6.0.bb} (85%)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+index 1a4f9a81454f..c399adcd5e87 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+@@ -4,12 +4,12 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "3.17.6"
++LINUX_VERSION ?= "3.17.8"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
+-SRCREV_meta ?= "b81030f9ec2de3dc6c048e142dcbff62e305cc40"
++SRCREV_machine ?= "0409b1fbed221e61212e17b7637fa54f908d83f6"
++SRCREV_meta ?= "f24c2bf9c298595d00a9d8600841f2b0206e1fba"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.17.bb b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+index 973d8aaa845a..f57d9c200256 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+@@ -11,19 +11,19 @@ KBRANCH_qemux86  ?= "standard/common-pc"
+ KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "a1183153c56ace9f9140c73ce730ec181f78dc0f"
+-SRCREV_machine_qemuarm64 ?= "268b7677421eef003a84f31c6bd0b8ec3acc1e36"
+-SRCREV_machine_qemumips ?= "18c8db2009f25524a29a5258d041e0442c10817d"
+-SRCREV_machine_qemuppc ?= "6d2bbdac0e6560542fa2252d91eee9ae0f17f9c7"
+-SRCREV_machine_qemux86 ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
+-SRCREV_machine_qemux86-64 ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
+-SRCREV_machine_qemumips64 ?= "2306cb2dd019c8b731879331ba314035a7271e7b"
+-SRCREV_machine ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
+-SRCREV_meta ?= "b81030f9ec2de3dc6c048e142dcbff62e305cc40"
++SRCREV_machine_qemuarm ?= "12991e8ac40c51ef3e337f17f12aa59c6500fc7f"
++SRCREV_machine_qemuarm64 ?= "0409b1fbed221e61212e17b7637fa54f908d83f6"
++SRCREV_machine_qemumips ?= "1f4735ed314defc95ab9929258ad12844cc2c676"
++SRCREV_machine_qemuppc ?= "3231dececf867215ecab7c7f9ec3a7a7640a3f32"
++SRCREV_machine_qemux86 ?= "0409b1fbed221e61212e17b7637fa54f908d83f6"
++SRCREV_machine_qemux86-64 ?= "0409b1fbed221e61212e17b7637fa54f908d83f6"
++SRCREV_machine_qemumips64 ?= "7005c584078109dae03567e9c597a847a2bc5136"
++SRCREV_machine ?= "0409b1fbed221e61212e17b7637fa54f908d83f6"
++SRCREV_meta ?= "f24c2bf9c298595d00a9d8600841f2b0206e1fba"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.17.6"
++LINUX_VERSION ?= "3.17.8"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.1.0
 
