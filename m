@@ -1,19 +1,35 @@
-Return-Path: <pbarker@betafive.co.uk>
-Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C706C60017
+Return-Path: <openembedded-devel@urbanec.net>
+X-Greylist: delayed 12189 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 07 Feb 2015 14:10:46 UTC
+Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 457D1606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Feb 2015 11:54:28 +0000 (UTC)
-Received: by crash.betafive.co.uk (Postfix, from userid 1000)
-	id 695FF3E05D9; Sat,  7 Feb 2015 11:55:59 +0000 (GMT)
-Date: Sat, 7 Feb 2015 11:55:59 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
-Message-ID: <20150207115559.GA7478@crash.betafive.co.uk>
+	Sat,  7 Feb 2015 14:10:46 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Sun, 8 Feb 2015 01:10:43 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t17EAeW7028144
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+	Sun, 8 Feb 2015 01:10:43 +1100
+Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <openembedded-devel@urbanec.net>)
+	id 1YK65o-0003pL-H8; Sun, 08 Feb 2015 01:10:40 +1100
+Message-ID: <54D61CE0.7090702@urbanec.net>
+Date: Sun, 08 Feb 2015 01:10:40 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Paul Barker <paul@paulbarker.me.uk>
 References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
 	<54D5ED44.90002@urbanec.net>
-MIME-Version: 1.0
-In-Reply-To: <54D5ED44.90002@urbanec.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<20150207115559.GA7478@crash.betafive.co.uk>
+In-Reply-To: <20150207115559.GA7478@crash.betafive.co.uk>
 Cc: OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: opkg refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -28,134 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Feb 2015 11:54:35 -0000
-X-Groupsio-MsgNum: 62173
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 07 Feb 2015 14:10:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---XsQoSWH+UP9D9v3l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07/02/15 22:55, Paul Barker wrote:
+> I didn't realise people were following oe-core master on deployments of a few
+> thousand systems! This is definitely a use-case for the stable branches.
 
-On Sat, Feb 07, 2015 at 09:47:32PM +1100, Peter Urbanec wrote:
-> On 17/01/15 09:15, Paul Barker wrote:
-> >      All these changes work locally in qemuarm and the on-target upgrad=
-e path is
-> >      mostly clean. opkg-collateral does get left behind on the target f=
-ilesystem
-> >      after an upgrade but it's effectively an empty package. I don't th=
-ink this
-> >      poses any problems.
-> >=20
-> > V2 changes:
-> >    - Add RCONFLICTS and RPROVIDES where RREPLACES is specified
-> >=20
-> >    - opkg-collateral is no longer left behind on the target filesystem =
-after an
-> >      upgrade.
->=20
-> I'm running into problems on a few thousand deployed systems where opkg u=
-pgrades are "stuck".
->=20
-> I see this:
->=20
-> root@beyonwizt4:~# opkg list-upgradable
-> opkg-collateral - 1.0-r2 - 1:0.2.4-r0
->=20
-> root@beyonwizt4:~# opkg upgrade
-> Multiple replacers for opkg-config-base, using first one (opkg-arch-confi=
-g).
-> Multiple replacers for opkg-config-base, using first one (opkg-arch-confi=
-g).
-> Package opkg is already installed on root.
->=20
-> root@beyonwizt4:~# opkg status opkg-config-base
->=20
-> root@beyonwizt4:~# opkg status opkg-arch-config
-> Package: opkg-arch-config
-> Version: 1.0-r1
-> Provides: opkg-config-base
-> Replaces: opkg-config-base
-> Conflicts: opkg-config-base
-> Status: install ok installed
-> Architecture: beyonwizt4
-> Conffiles:
->  /etc/opkg/arch.conf 913f790674d06e2bd0c2a45971fe7002
-> Installed-Time: 1423281805
->=20
-> root@beyonwizt4:~# opkg status opkg
-> Package: opkg
-> Version: 1:0.2.4-r0
-> Depends: opkg-config-base, update-alternatives-opkg, libopkg1 (>=3D 0.2.4=
-), run-postinsts, libc6 (>=3D 2.20)
-> Provides: opkg-collateral
-> Replaces: opkg-nogpg
-> Conflicts: opkg-collateral
-> Status: install user installed
-> Architecture: mips32el
-> Installed-Time: 1422327765
->=20
-> Unfortunately the user visible interface to opkg is limited to an option =
-that will run "opkg update ; opkg upgrade".
->=20
-> I know I can clean up manually by running "opkg remove opkg-collateral". =
-Any ideas on how to get this cleaned up automatically?
->=20
-> Thanks,
->=20
-> 	Peter
->=20
+The deployed systems are currently on:
 
-I didn't realise people were following oe-core master on deployments of a f=
-ew
-thousand systems! This is definitely a use-case for the stable branches.
+opkg mips32el 1:0.2.2-r0
+opkg-collateral mips32el 1.0-r2
+opkg-config-base beyonwizt4 1.0-r3
 
-Are you just seeing opkg-collateral left behind or are you seeing some other
-upgrades "stuck"?
+I'm currently testing a beta based on oe-core master. The info I have shown in the previous post is the state after I tried to apply my current beta release.
 
-"opkg status opkg" should show that opkg now replaces opkg-collateral. As i=
-t is
-it's only showing provides and conflicts. In commit e8879cd, RREPLACES is
-modified to include opkg-collateral but that doesn't seem to have been
-propagated to the opkg package on your devices. If we can fix this you shou=
-ld be
-able to 'opkg upgrade' again and have the replacement properly handled.
+> Are you just seeing opkg-collateral left behind or are you seeing some other
+> upgrades "stuck"?
 
-Could you check whether "Replaces" for opkg includes opkg-collateral in your
-"Packages" file? And could you also check whether RREPLACES in
-"meta/recipes-devtools/opkg/opkg_0.2.4.bb" includes opkg-collateral? That s=
-hould
-narrow down where the error is introduced.
+So far I have only noticed this with the opkg packages.
 
-I'm also surprised your opkg version is "1:0.2.4-r0". Are you using the PR
-Service to ensure that version numbers increase each time a package is rebu=
-ilt?
-If not, this could contribute to the issue you're seeing.
 
-Thanks,
+> "opkg status opkg" should show that opkg now replaces opkg-collateral. As it is
+> it's only showing provides and conflicts. In commit e8879cd, RREPLACES is
+> modified to include opkg-collateral but that doesn't seem to have been
+> propagated to the opkg package on your devices. If we can fix this you should be
+> able to 'opkg upgrade' again and have the replacement properly handled.
 
---=20
-Paul Barker
+The package on the test system does not have the correct replaces entries.
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+> Could you check whether "Replaces" for opkg includes opkg-collateral in your
+> "Packages" file? And could you also check whether RREPLACES in
+> "meta/recipes-devtools/opkg/opkg_0.2.4.bb" includes opkg-collateral? That should
+> narrow down where the error is introduced.
 
---XsQoSWH+UP9D9v3l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The .bb file is correct, but I think you may have figured out the problem in the next paragraph.
+ 
+> I'm also surprised your opkg version is "1:0.2.4-r0". Are you using the PR
+> Service to ensure that version numbers increase each time a package is rebuilt?
+> If not, this could contribute to the issue you're seeing.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+I had PRSERV_HOST = "localhost:0" in the configuration, but it looks like a colleague has commented out that entry at some stage for some unknown reason. He also added some code to delete the manifests for images. :-( - I need to talk to him!
 
-iQEcBAEBAgAGBQJU1f1PAAoJEBwoJlo7UPQDzkkH/A7sRbRwpLhCUH4vbQhKq/tE
-xFZRfbHDkbDfJBLi4mQPa4/TGki8C1mf+knvkMOSM/x/uJK2OVUMMxNmnB30NQlV
-4OMF26SAKZbZ35MU2ny4KcGm8JOcg3d9nFbdAn9+QntkkiaSIoAgHe6ZEPddevYw
-os7FASde57zXbK+12kq4jK7AWVAtXbeSoi1/hNtjGuZ7OHjOgdIXTs3e0AX26Snz
-4ut0vX2/lFBpuFszPp1ccytf3u55/G8oYl6qHtfKQ/9gUevcqJLVvGpywSQxwReJ
-eZBWvXlAYHymMbIoD3U8q7seyLihYmHOcxvHoMxa6KFlbW83U+hA/PvBoCN+NLI=
-=rdxM
------END PGP SIGNATURE-----
+Maybe it would be helpful to enhance the PRServer check logic and not only print a NOTE: with the details when PRServer is started, but when there is no PRServer configured, print a *WARNING:* line to let the user know that they might run into all sorts of issues without PRServer.
 
---XsQoSWH+UP9D9v3l--
+In summary, it looks like the problem boils down to a stale package due to lack of PR service. I'll test that soon - I just have to rebuild everything.
+
+Thanks very much for your help.
+
+	Peter
+
+
