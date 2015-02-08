@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A35860089
+	by mail.openembedded.org (Postfix) with ESMTP id 6D58A60089
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:52 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:54 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uitVv; Sun, 08 Feb 2015 11:42:54 -0700
+	id puin1p00C0BVjqb01uivW5; Sun, 08 Feb 2015 11:42:55 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:16 -0600
-Message-Id: <de642cc54c8931ec0e5ad32e604be3d3c629d1ff.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:19 -0600
+Message-Id: <5f941ec7edda730e71f9d2fb0305aefcddaf2999.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
-Subject: [PATCHv3 04/10] pulseaudio: select distro preference for bluez provider
+Subject: [PATCHv3 07/10] ofono: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +33,35 @@ X-List-Received-Date: Sun, 08 Feb 2015 18:42:58 -0000
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/ofono/ofono.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 99cad76..b73576e 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -12,7 +12,7 @@ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
- DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index bf44fca..70647d9 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -5,7 +5,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
  
--inherit autotools pkgconfig useradd gettext perlnative
-+inherit autotools pkgconfig useradd gettext perlnative bluetooth
+-inherit autotools pkgconfig update-rc.d systemd
++inherit autotools pkgconfig update-rc.d systemd bluetooth
  
- # *.desktop rules wont be generated during configure and build will fail
- # if using --disable-nls
-@@ -31,7 +31,7 @@ EXTRA_OECONF = "\
-                 ac_cv_header_valgrind_memcheck_h=no \
- "
+ DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
  
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+@@ -14,10 +14,10 @@ INITSCRIPT_PARAMS = "defaults 22"
+ 
+ PACKAGECONFIG ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+     "
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+ 
+ EXTRA_OECONF += "--enable-test"
+ 
 -- 
 1.9.1
 
