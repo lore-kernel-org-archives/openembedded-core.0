@@ -1,29 +1,18 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp02.online.nl (smtp02.online.nl [194.134.41.32])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D19F60089
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
+	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
+	by mail.openembedded.org (Postfix) with ESMTP id D2D5B60556
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 16:14:40 +0000 (UTC)
-Received: from smtp02.online.nl (localhost [127.0.0.1])
-	by smtp02.online.nl (Postfix) with ESMTP id E84FFA461
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 17:14:37 +0100 (CET)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp02.online.nl (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 17:14:37 +0100 (CET)
-Message-ID: <54D78B6D.9040900@topic.nl>
-Date: Sun, 08 Feb 2015 17:14:37 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
+	Sun,  8 Feb 2015 18:42:47 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
+	id puin1p00C0BVjqb01uioVe; Sun, 08 Feb 2015 11:42:48 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>	<54D5ED44.90002@urbanec.net>
-	<20150207115559.GA7478@crash.betafive.co.uk>
-In-Reply-To: <20150207115559.GA7478@crash.betafive.co.uk>
-X-Online-Scanned: by Cloudmark authority (on smtp02.online.nl)
-Subject: Re: opkg refactoring
+Date: Sun,  8 Feb 2015 12:42:12 -0600
+Message-Id: <cover.1423420390.git.pab@pabigot.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCHv3 00/10] bluez4/bluez5 selection fixing Yocto 5031
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,20 +25,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Feb 2015 16:14:46 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 08 Feb 2015 18:42:57 -0000
 
-> I didn't realise people were following oe-core master on deployments of a few
-> thousand systems! This is definitely a use-case for the stable branches.
+This series has been in RFC for over two months; not that I mean to be
+impatient, but it's pretty straightforward.  I've rebased it once
+more.  Please give it serious consideration before some feature freeze
+means another Yocto release won't support modern Bluetooth
+infrastructure.
 
-In that case I have some interesting information  for you. OpenPLi also 
-follows 'master' (because for many things we need the bleeding edge new 
-stuff). OpenPLi and its derivatives are being used on millions of settop 
-boxes. Just the "feed" servers consume about 4 terabytes of traffic each 
-month.
+Details from the previous submission can be found here:
 
+http://lists.openembedded.org/pipermail/openembedded-core/2014-November/099312.html
+
+With this all you should need to switch to bluez5 is the following in
+local.conf or some similar location:
+
+    DISTRO_FEATURES_append = " bluez5"
+    PREFERRED_PROVIDER_bluez-hcidump = "bluez5"
+    PNBLACKLIST[bluez-hcidump] = "superseded by bluez5"
+    PNBLACKLIST[gst-plugin-bluetooth] = "dropped from bluez5"
+    PNBLACKLIST[bluez4] = "superseded by bluez5"
+
+The following changes since commit 870323cac1e40e8f95ea7bd6f425a85dcfbab612:
+
+  linux-yocto/3.14: fix qemumips build error (2015-02-08 08:00:30 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pabigot/bluez5
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pabigot/bluez5
+
+Peter A. Bigot (10):
+  bluez5: upgrade to 5.28
+  bluetooth.bbclass: simplify recipe inference of bluetooth provider
+  packagegroup-base: select distro preference for bluez provider
+  pulseaudio: select distro preference for bluez provider
+  qt-mobility: select distro preference for bluez provider
+  gstreamer1.0-plugins-bad: select distro preference for bluez provider
+  ofono: select distro preference for bluez provider
+  neard: select distro preference for bluez provider
+  libpcap: select distro preference for bluez provider
+  connman: depend on distro provider of bluez
+
+ meta/classes/bluetooth.bbclass                             | 14 ++++++++++++++
+ .../bluez5/{bluez5_5.27.bb => bluez5_5.28.bb}              |  7 ++++---
+ meta/recipes-connectivity/connman/connman.inc              |  6 ++++--
+ meta/recipes-connectivity/libpcap/libpcap.inc              |  6 ++++--
+ meta/recipes-connectivity/neard/neard.inc                  |  4 ++--
+ meta/recipes-connectivity/ofono/ofono.inc                  |  6 +++---
+ meta/recipes-core/packagegroups/packagegroup-base.bb       |  3 ++-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc                 |  6 +++---
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb              |  1 -
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc          |  4 ++--
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                  |  6 ++++--
+ 11 files changed, 42 insertions(+), 21 deletions(-)
+ create mode 100644 meta/classes/bluetooth.bbclass
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.27.bb => bluez5_5.28.bb} (85%)
 
 -- 
-Mike Looijmans
+1.9.1
+
 
