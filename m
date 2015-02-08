@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DC9873295
+	by mail.openembedded.org (Postfix) with ESMTP id 6D77573291
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:53 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:54 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uiuW1; Sun, 08 Feb 2015 11:42:55 -0700
+	id puin1p00C0BVjqb01uivW7; Sun, 08 Feb 2015 11:42:56 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:18 -0600
-Message-Id: <68300aa946e0e82397f0861cfdc1783c1e373783.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:20 -0600
+Message-Id: <7119289feff8b3d1101aaf264060594c20dbfbd4.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
-Subject: [PATCHv3 06/10] gstreamer1.0-plugins-bad: select distro preference for bluez provider
+Subject: [PATCHv3 08/10] neard: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +33,30 @@ X-List-Received-Date: Sun, 08 Feb 2015 18:42:58 -0000
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc    | 6 +++---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb | 1 -
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/neard/neard.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 9c15f2b..d9aee21 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -9,7 +9,7 @@ S = "${WORKDIR}/gst-plugins-bad-${PV}"
- SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
-            "
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
+index 31bc6dd..6b6b1da 100644
+--- a/meta/recipes-connectivity/neard/neard.inc
++++ b/meta/recipes-connectivity/neard/neard.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
  
--inherit gettext
-+inherit gettext bluetooth
+-inherit autotools pkgconfig systemd update-rc.d
++inherit autotools pkgconfig systemd update-rc.d bluetooth
  
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
-@@ -18,7 +18,7 @@ PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2',
- PACKAGECONFIG ??= " \
-     ${PACKAGECONFIG_GL} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-     orc curl uvch264 neon sndfile \
-     hls sbc dash bz2 smoothstreaming \
-@@ -49,7 +49,7 @@ PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
--PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
-+PACKAGECONFIG[bluez4]          = "--enable-bluez,--disable-bluez,bluez4"
- PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index 75859f9..309505f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -11,7 +11,6 @@ S = "${WORKDIR}/git"
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
  
- SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
+@@ -45,7 +45,7 @@ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
  
--PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4"
- PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
+ # Bluez & Wifi are not mandatory except for handover
+ RRECOMMENDS_${PN} = "\
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+                     "
  
 -- 
 1.9.1
