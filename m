@@ -1,28 +1,26 @@
 Return-Path: <alexandre.belloni@free-electrons.com>
 Received: from mail.free-electrons.com (down.free-electrons.com
 	[37.187.137.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 58E106E277
+	by mail.openembedded.org (Postfix) with ESMTP id 563C060089
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 23:16:27 +0000 (UTC)
+	Sun,  8 Feb 2015 23:16:26 +0000 (UTC)
 Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id 1AA9B387; Mon,  9 Feb 2015 00:16:34 +0100 (CET)
+	id 7B155380; Mon,  9 Feb 2015 00:16:32 +0100 (CET)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	mail.free-electrons.com
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
 	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
 Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id DA35132B;
-	Mon,  9 Feb 2015 00:16:33 +0100 (CET)
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 46FE232B;
+	Mon,  9 Feb 2015 00:16:32 +0100 (CET)
 From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Mon,  9 Feb 2015 00:16:24 +0100
-Message-Id: <1423437384-21971-4-git-send-email-alexandre.belloni@free-electrons.com>
+Date: Mon,  9 Feb 2015 00:16:21 +0100
+Message-Id: <1423437384-21971-1-git-send-email-alexandre.belloni@free-electrons.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1423437384-21971-1-git-send-email-alexandre.belloni@free-electrons.com>
-References: <1423437384-21971-1-git-send-email-alexandre.belloni@free-electrons.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] wic: remove useless calls to __write_fstab
+Subject: [PATCH 1/4] wic: add rawcopy source plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +35,95 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 08 Feb 2015 23:16:36 -0000
 
-__write_fstab() is already iterating over parts. There is now need to
-call it fort each parts.
-
 Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 ---
- scripts/lib/wic/imager/direct.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/lib/wic/plugins/source/rawcopy.py | 77 +++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
+ create mode 100644 scripts/lib/wic/plugins/source/rawcopy.py
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 38d4e78e6273..c605e6423826 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -136,7 +136,7 @@ class DirectImageCreator(BaseImageCreator):
-             fstab_lines.append(fstab_entry)
- 
-     def _write_fstab(self, fstab, fstab_lines):
--        fstab = open(fstab, "w")
-+        fstab = open(fstab + ".new", "w")
-         for line in fstab_lines:
-             fstab.write(line)
-         fstab.close()
-@@ -258,12 +258,9 @@ class DirectImageCreator(BaseImageCreator):
-             # self.assemble() calls Image.assemble() which calls
-             # __write_partitition() for each partition to dd the fs
-             # into the partitions.
--            fstab = self.__write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
--
-             p.prepare(self, self.workdir, self.oe_builddir, self.rootfs_dir,
-                       self.bootimg_dir, self.kernel_dir, self.native_sysroot)
- 
--            self._restore_fstab(fstab)
- 
-             self.__image.add_partition(int(p.size),
-                                        p.disk,
-@@ -277,6 +274,9 @@ class DirectImageCreator(BaseImageCreator):
-                                        no_table = p.no_table,
-                                        part_type = p.part_type)
- 
-+        fstab = self.__write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+        self._restore_fstab(fstab)
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+new file mode 100644
+index 000000000000..b3b55fa022eb
+--- /dev/null
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -0,0 +1,77 @@
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
 +
-         self.__image.layout_partitions(self._ptable_format)
- 
-         self.__imgdir = self.workdir
++import os
++import re
++
++from wic import msger
++from wic.pluginbase import SourcePlugin
++from wic.utils.oe.misc import *
++
++class RawCopyPlugin(SourcePlugin):
++    name = 'rawcopy'
++
++    @classmethod
++    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++                        bootimg_dir, kernel_dir, native_sysroot):
++        """
++        Called after all partitions have been prepared and assembled into a
++        disk image. Do nothing.
++        """
++        pass
++
++    @classmethod
++    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++                               oe_builddir, bootimg_dir, kernel_dir,
++                               native_sysroot):
++        """
++        Called before do_prepare_partition(). Possibly prepare
++        configuration files of some sort.
++        """
++        pass
++
++    @classmethod
++    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++                             oe_builddir, bootimg_dir, kernel_dir,
++                             rootfs_dir, native_sysroot):
++        """
++        Called to do the actual content population for a partition i.e. it
++        'prepares' the partition to be incorporated into the image.
++        """
++        if not bootimg_dir:
++            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not bootimg_dir:
++                msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
++
++        msger.debug('Bootimg dir: %s' % bootimg_dir)
++
++        if ('file' not in source_params):
++            msger.error("No file specified\n")
++            return
++
++        src = os.path.join(bootimg_dir, source_params['file'])
++
++        # get the size in the right units for kickstart (kB)
++        du_cmd = "du -Lbks %s" % src
++        out = exec_cmd(du_cmd)
++        filesize = out.split()[0]
++
++        if filesize > part.size:
++            part.size = filesize
++
++        part.source_file = src
++
 -- 
 2.1.0
 
