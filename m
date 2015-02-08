@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C3D87280D
+	by mail.openembedded.org (Postfix) with ESMTP id 9A35860089
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:51 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:52 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uisVr; Sun, 08 Feb 2015 11:42:53 -0700
+	id puin1p00C0BVjqb01uitVv; Sun, 08 Feb 2015 11:42:54 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:14 -0600
-Message-Id: <8bc96762212e418a32edc2a86e451a9a5c964350.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:16 -0600
+Message-Id: <de642cc54c8931ec0e5ad32e604be3d3c629d1ff.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
-Subject: [PATCHv3 02/10] bluetooth.bbclass: simplify recipe inference of bluetooth provider
+Subject: [PATCHv3 04/10] pulseaudio: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 08 Feb 2015 18:42:58 -0000
 
-Defines ${BLUEZ} to be the provider of bluez services as specified by
-DISTRO_FEATURES.
-
-Example recipe fragment:
-  inherit bluetooth
-  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
-  PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-  PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5"
-
-[YOCTO #5031]
-
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/classes/bluetooth.bbclass | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/classes/bluetooth.bbclass
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/bluetooth.bbclass b/meta/classes/bluetooth.bbclass
-new file mode 100644
-index 0000000..f88b4ae
---- /dev/null
-+++ b/meta/classes/bluetooth.bbclass
-@@ -0,0 +1,14 @@
-+# Avoid code duplication in bluetooth-dependent recipes.
-+
-+# Define a variable that expands to the recipe (package) providing core
-+# bluetooth support on the platform:
-+# "" if bluetooth is not in DISTRO_FEATURES
-+# else "bluez5" if bluez5 is in DISTRO_FEATURES
-+# else "bluez4"
-+
-+# Use this with:
-+#  inherit bluetooth
-+#  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
-+#  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
-+
-+BLUEZ ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5', 'bluez4', d), '', d)}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 99cad76..b73576e 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -12,7 +12,7 @@ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+ DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
+ 
+-inherit autotools pkgconfig useradd gettext perlnative
++inherit autotools pkgconfig useradd gettext perlnative bluetooth
+ 
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+@@ -31,7 +31,7 @@ EXTRA_OECONF = "\
+                 ac_cv_header_valgrind_memcheck_h=no \
+ "
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 -- 
 1.9.1
 
