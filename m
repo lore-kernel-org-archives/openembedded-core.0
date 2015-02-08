@@ -1,37 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 396C372E91
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp02.online.nl (smtp02.online.nl [194.134.41.32])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D19F60089
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 11:52:21 +0000 (UTC)
-Received: by mail-yh0-f51.google.com with SMTP id b6so644489yha.10
+	Sun,  8 Feb 2015 16:14:40 +0000 (UTC)
+Received: from smtp02.online.nl (localhost [127.0.0.1])
+	by smtp02.online.nl (Postfix) with ESMTP id E84FFA461
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Feb 2015 03:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=GJ9tzQEIWPyPNAqw7jhbDuJlQPNhOzoi1NMO99+ef6s=;
-	b=N+DUp9ON6PU81tw5faE4Fp+sMNrLosEvcNvSe8SY0X6EO97/vMeiarb58CZQGsW9bb
-	unPOhUGs2xWdUw6+rB7ZInSg9mCGVZ+2oOI1TgoOUONN9mxVsSh+Bq5wRx8eiSIm+ZIY
-	/14Wi8mglX8vDYTdIKHYRVpEWD0+DxEilx/3BYyKoWdIP4XZaKJ9lRquBrEGSBJZLoVY
-	sDZnDH6E0iodg8pQfXuAJnS/Iqn02NX8aLxXks7GXmyfMYF6WSi35bkRkjq/Ts3G9iNA
-	nd9nr0OYgU1GByjFeh9ZCMacE88TnXEnJhRa/G/bdBPJFZBWxWPsslz+F3mqrU9GDl7+
-	xVIQ==
+	Sun,  8 Feb 2015 17:14:37 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp02.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 Feb 2015 17:14:37 +0100 (CET)
+Message-ID: <54D78B6D.9040900@topic.nl>
+Date: Sun, 08 Feb 2015 17:14:37 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-Received: by 10.236.44.98 with SMTP id m62mr4228609yhb.136.1423396342343;
-	Sun, 08 Feb 2015 03:52:22 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Sun, 8 Feb 2015 03:52:22 -0800 (PST)
-In-Reply-To: <20150130230609.GA13593@bshelton-desktop>
-References: <20150130230609.GA13593@bshelton-desktop>
-Date: Sun, 8 Feb 2015 09:52:22 -0200
-X-Google-Sender-Auth: 6dONTygQN8JuukqZEy5fqraThMs
-Message-ID: <CAP9ODKqT1n753HSnTGmhRnRaRz8rD7C0JX_pd5dXt3a5T2BM7Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ben Shelton <ben.shelton@ni.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: opkg intercept for ldconfig on oe-core
+To: openembedded-core@lists.openembedded.org
+References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>	<54D5ED44.90002@urbanec.net>
+	<20150207115559.GA7478@crash.betafive.co.uk>
+In-Reply-To: <20150207115559.GA7478@crash.betafive.co.uk>
+X-Online-Scanned: by Cloudmark authority (on smtp02.online.nl)
+Subject: Re: opkg refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Feb 2015 11:52:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 08 Feb 2015 16:14:46 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 30, 2015 at 9:06 PM, Ben Shelton <ben.shelton@ni.com> wrote:
-...
-> Is this expected behavior?  Is opkg intercept still supported?  Should we fix
-> this, and if so, what would be a safe way to do it?
+> I didn't realise people were following oe-core master on deployments of a few
+> thousand systems! This is definitely a use-case for the stable branches.
 
-I don't know if this is the expected behavior for now but the
-intercept does make sound like a very good mechanism for the embedded.
-It should reduces the time spent in an upgrade and also reduce the
-writing in the storage. Both very good consequences of adopting it.
-
-However I am not sure how much work would be need to revert this
-change and confirm it does not regret somehow. Did you test changing
-the postinst fragment?
+In that case I have some interesting information  for you. OpenPLi also 
+follows 'master' (because for many things we need the bleeding edge new 
+stuff). OpenPLi and its derivatives are being used on millions of settop 
+boxes. Just the "feed" servers consume about 4 terabytes of traffic each 
+month.
 
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Mike Looijmans
 
