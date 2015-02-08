@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id D1F8360089
+	by mail.openembedded.org (Postfix) with ESMTP id 7B7A1606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:51 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:55 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uisVn; Sun, 08 Feb 2015 11:42:52 -0700
+	id puin1p00C0BVjqb01uiwWE; Sun, 08 Feb 2015 11:42:57 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:13 -0600
-Message-Id: <43cd8500a5b71c4962d545d4145cf80687baf41e.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:22 -0600
+Message-Id: <4c4d84987e45e4d4ab0215ec2463a333db3956c1.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
-Subject: [PATCHv3 01/10] bluez5: upgrade to 5.28
+Subject: [PATCHv3 10/10] connman: depend on distro provider of bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +31,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 08 Feb 2015 18:42:57 -0000
 
-- Fixes to GATT service discovery & probing
-- Fix for bearer selection with dual-mode devices
-- Fix potential crash when removing devices
-- Fix issue with incomplete names in EIR data
-- Fix parsing GATT name characteristics
-- Fix AVCTP long press & key repetition handling
-- Fixes for GATT notification handling
+connman currently supports both bluez4 and bluez5 without distinguishing
+them at configuration time.
 
-hex2hcd graduated to installed tool; two new noinst tools
-
-See: http://www.bluez.org/release-of-bluez-5-28/
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- .../recipes-connectivity/bluez5/{bluez5_5.27.bb => bluez5_5.28.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.27.bb => bluez5_5.28.bb} (85%)
+ meta/recipes-connectivity/connman/connman.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.27.bb b/meta/recipes-connectivity/bluez5/bluez5_5.28.bb
-similarity index 85%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.27.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.28.bb
-index 9497ee5..e816998 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.27.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.28.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
--SRC_URI[md5sum] = "a8fc508690e497e88c2c0b373cd653a8"
--SRC_URI[sha256sum] = "fbf33cebc76f8c81f28f0d67c71a8a1ec4b04b087460ec7353f7e0c207a1f981"
-+SRC_URI[md5sum] = "bc20a8285530758c68f6a60e4ca62a15"
-+SRC_URI[sha256sum] = "85bab48f4b47a158739028682c1e09cf30099c8ea9dfe63360055f8e06fc18a9"
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 736b324..bbe6059 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -13,6 +13,8 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=486a279a6ab0c8d152bcda3a5b5edc36"
  
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
-@@ -40,9 +40,10 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
-     tools/btsnoop \
-     tools/btproxy \
-     tools/btiotest \
-+    tools/mcaptest \
-     tools/cltest \
-+    tools/oobtest \
-     tools/seq2bseq \
--    tools/hex2hcd \
-     tools/ibeacon \
-     tools/btgatt-client \
-     tools/btgatt-server \
++inherit bluetooth
++
+ DEPENDS  = "dbus glib-2.0 ppp iptables"
+ 
+ INC_PR = "r20"
+@@ -32,7 +34,7 @@ EXTRA_OECONF += "\
+ PACKAGECONFIG ??= "wispr \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd','systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', '3g','3g', '', d)} \
+ "
+ 
+@@ -42,7 +44,7 @@ PACKAGECONFIG ??= "wispr \
+ 
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+ PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
++PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
+ PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
+ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+ PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
 -- 
 1.9.1
 
