@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D77573291
+	by mail.openembedded.org (Postfix) with ESMTP id 6D6B17280D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:54 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:55 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uivW7; Sun, 08 Feb 2015 11:42:56 -0700
+	id puin1p00C0BVjqb01uiwWB; Sun, 08 Feb 2015 11:42:56 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:20 -0600
-Message-Id: <7119289feff8b3d1101aaf264060594c20dbfbd4.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:21 -0600
+Message-Id: <8fdca0d22db503e2948d895c41d50040dc729210.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
 In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
 References: <cover.1423420390.git.pab@pabigot.com>
-Subject: [PATCHv3 08/10] neard: select distro preference for bluez provider
+Subject: [PATCHv3 09/10] libpcap: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,25 @@ X-List-Received-Date: Sun, 08 Feb 2015 18:42:58 -0000
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-connectivity/neard/neard.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/libpcap/libpcap.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-index 31bc6dd..6b6b1da 100644
---- a/meta/recipes-connectivity/neard/neard.inc
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index a12eb16..979665c 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -10,8 +10,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
+ DEPENDS = "flex-native bison-native"
  
--inherit autotools pkgconfig systemd update-rc.d
-+inherit autotools pkgconfig systemd update-rc.d bluetooth
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
- 
-@@ -45,7 +45,7 @@ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
- 
- # Bluez & Wifi are not mandatory except for handover
- RRECOMMENDS_${PN} = "\
--                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
-+                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
-                     "
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++inherit bluetooth
++
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
++PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+ PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
+ PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
  
 -- 
 1.9.1
