@@ -1,18 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
 	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id D2D5B60556
+	by mail.openembedded.org (Postfix) with ESMTP id D1F8360089
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Feb 2015 18:42:47 +0000 (UTC)
+	Sun,  8 Feb 2015 18:42:51 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id puin1p00C0BVjqb01uioVe; Sun, 08 Feb 2015 11:42:48 -0700
+	id puin1p00C0BVjqb01uisVn; Sun, 08 Feb 2015 11:42:52 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Feb 2015 12:42:12 -0600
-Message-Id: <cover.1423420390.git.pab@pabigot.com>
+Date: Sun,  8 Feb 2015 12:42:13 -0600
+Message-Id: <43cd8500a5b71c4962d545d4145cf80687baf41e.1423420390.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCHv3 00/10] bluez4/bluez5 selection fixing Yocto 5031
+In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
+References: <cover.1423420390.git.pab@pabigot.com>
+In-Reply-To: <cover.1423420390.git.pab@pabigot.com>
+References: <cover.1423420390.git.pab@pabigot.com>
+Subject: [PATCHv3 01/10] bluez5: upgrade to 5.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,61 +31,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 08 Feb 2015 18:42:57 -0000
 
-This series has been in RFC for over two months; not that I mean to be
-impatient, but it's pretty straightforward.  I've rebased it once
-more.  Please give it serious consideration before some feature freeze
-means another Yocto release won't support modern Bluetooth
-infrastructure.
+- Fixes to GATT service discovery & probing
+- Fix for bearer selection with dual-mode devices
+- Fix potential crash when removing devices
+- Fix issue with incomplete names in EIR data
+- Fix parsing GATT name characteristics
+- Fix AVCTP long press & key repetition handling
+- Fixes for GATT notification handling
 
-Details from the previous submission can be found here:
+hex2hcd graduated to installed tool; two new noinst tools
 
-http://lists.openembedded.org/pipermail/openembedded-core/2014-November/099312.html
-
-With this all you should need to switch to bluez5 is the following in
-local.conf or some similar location:
-
-    DISTRO_FEATURES_append = " bluez5"
-    PREFERRED_PROVIDER_bluez-hcidump = "bluez5"
-    PNBLACKLIST[bluez-hcidump] = "superseded by bluez5"
-    PNBLACKLIST[gst-plugin-bluetooth] = "dropped from bluez5"
-    PNBLACKLIST[bluez4] = "superseded by bluez5"
-
-The following changes since commit 870323cac1e40e8f95ea7bd6f425a85dcfbab612:
-
-  linux-yocto/3.14: fix qemumips build error (2015-02-08 08:00:30 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pabigot/bluez5
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pabigot/bluez5
-
-Peter A. Bigot (10):
-  bluez5: upgrade to 5.28
-  bluetooth.bbclass: simplify recipe inference of bluetooth provider
-  packagegroup-base: select distro preference for bluez provider
-  pulseaudio: select distro preference for bluez provider
-  qt-mobility: select distro preference for bluez provider
-  gstreamer1.0-plugins-bad: select distro preference for bluez provider
-  ofono: select distro preference for bluez provider
-  neard: select distro preference for bluez provider
-  libpcap: select distro preference for bluez provider
-  connman: depend on distro provider of bluez
-
- meta/classes/bluetooth.bbclass                             | 14 ++++++++++++++
- .../bluez5/{bluez5_5.27.bb => bluez5_5.28.bb}              |  7 ++++---
- meta/recipes-connectivity/connman/connman.inc              |  6 ++++--
- meta/recipes-connectivity/libpcap/libpcap.inc              |  6 ++++--
- meta/recipes-connectivity/neard/neard.inc                  |  4 ++--
- meta/recipes-connectivity/ofono/ofono.inc                  |  6 +++---
- meta/recipes-core/packagegroups/packagegroup-base.bb       |  3 ++-
- .../gstreamer/gstreamer1.0-plugins-bad.inc                 |  6 +++---
- .../gstreamer/gstreamer1.0-plugins-bad_git.bb              |  1 -
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc          |  4 ++--
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                  |  6 ++++--
- 11 files changed, 42 insertions(+), 21 deletions(-)
- create mode 100644 meta/classes/bluetooth.bbclass
+See: http://www.bluez.org/release-of-bluez-5-28/
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ .../recipes-connectivity/bluez5/{bluez5_5.27.bb => bluez5_5.28.bb} | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
  rename meta/recipes-connectivity/bluez5/{bluez5_5.27.bb => bluez5_5.28.bb} (85%)
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.27.bb b/meta/recipes-connectivity/bluez5/bluez5_5.28.bb
+similarity index 85%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.27.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.28.bb
+index 9497ee5..e816998 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.27.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.28.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+-SRC_URI[md5sum] = "a8fc508690e497e88c2c0b373cd653a8"
+-SRC_URI[sha256sum] = "fbf33cebc76f8c81f28f0d67c71a8a1ec4b04b087460ec7353f7e0c207a1f981"
++SRC_URI[md5sum] = "bc20a8285530758c68f6a60e4ca62a15"
++SRC_URI[sha256sum] = "85bab48f4b47a158739028682c1e09cf30099c8ea9dfe63360055f8e06fc18a9"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+@@ -40,9 +40,10 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
+     tools/btsnoop \
+     tools/btproxy \
+     tools/btiotest \
++    tools/mcaptest \
+     tools/cltest \
++    tools/oobtest \
+     tools/seq2bseq \
+-    tools/hex2hcd \
+     tools/ibeacon \
+     tools/btgatt-client \
+     tools/btgatt-server \
 -- 
 1.9.1
 
