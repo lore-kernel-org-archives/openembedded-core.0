@@ -1,24 +1,27 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C5AFD606E9
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 611A3606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Feb 2015 17:27:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t19HRL3t029743
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Feb 2015 09:27:22 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 9 Feb 2015 09:27:21 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 9 Feb 2015 12:27:21 -0500
-Message-ID: <1423502841-6673-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
+	Mon,  9 Feb 2015 17:39:43 +0000 (UTC)
+Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
+	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1YKsJE-0006rs-OP from Nathan_Lynch@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Feb 2015 09:39:44 -0800
+Received: from [127.0.0.1] (147.34.91.1) by SVR-ORW-FEM-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 9 Feb 2015 09:39:44 -0800
+Message-ID: <54D8F0DF.9050703@mentor.com>
+Date: Mon, 9 Feb 2015 11:39:43 -0600
+From: Nathan Lynch <Nathan_Lynch@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kern-tools: fix patch application error (preempt-rt)
+To: <openembedded-core@lists.openembedded.org>
+References: <1423263383-15461-1-git-send-email-nathan_lynch@mentor.com>
+In-Reply-To: <1423263383-15461-1-git-send-email-nathan_lynch@mentor.com>
+Subject: Re: [PATCH] lttng-tools: use perl-misc, perl-modules in ptest deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Feb 2015 17:27:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Feb 2015 17:39:46 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Updating the SRCREV to import the following kern-tools patch:
+On 02/06/2015 04:56 PM, Nathan Lynch wrote:
+> The testcases for lttng-tools use the "prove" command from perl-misc,
+> which needs many modules not in the base perl package.
 
-    kgit-meta: always clear series file on branch transitions
+BTW, several of the lttng-tools testcases emit:
 
-This was triggered by the patch optimization changes, that no longer
-run do_patch if a leaf/final branch is not being processed.
+  libgcc_s.so.1 must be installed for pthread_cancel to work
 
-Without this change, invalid patches, or already applied patches in
-an existig series file will be re-used which leads to missing files,
-or patch errors.
+This is a fatal error from glibc.  glibc's README says:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Also note that the shared version of the libgcc_s library must be
+  installed for the pthread library to work correctly.
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index acdb2c6b6015..32783986487f 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
- 
- DEPENDS = "git-native"
- 
--SRCREV = "53bf01d565957f6dba95fbd7126f1a3b3dff64a5"
-+SRCREV = "daab4442c22c09a98a823c32d7219316b6832182"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
--- 
-2.1.0
+There is no libgcc_s.so.1 on the target.  In glibc.inc I see:
+
+# nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+#RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+
+but I haven't been able to find out why this code is disabled.
+Uncommenting it fixes the issue for me.  Is that the right fix?
 
 
