@@ -1,38 +1,21 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 57448606E8
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FB8A73291
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Feb 2015 15:27:46 +0000 (UTC)
-Received: by mail-yk0-f176.google.com with SMTP id q200so11608113ykb.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Feb 2015 07:27:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=mONlmyMxyUv9hxrDpbZJKwq4g2A9c6/wPgEb3xPec5A=;
-	b=WxH3fd40QFPUQcfr45GoMnLZboRq2Hlan7+9tzRKfzCNSWo4SfZSkInGWK+dCdDOGz
-	68WJtK+3mgCdKaq1/snO1UMv9A5I2hk9pxtgJGSbzKZwCk3wm1vTT6O2vavwZMaK6V+S
-	0ijmyuBv4oV1jmn/n4HeSo1DESzvyq/86TSWI/jNUqdV37dLfhp3EmNyh/KjZSFbIHkU
-	+PAsZ93bsoZgttqvMoBo7eJAenBoSbCfWulaEfkAc+FroepnDvt+N/njH+1MDTkOnoQC
-	6UJ9hbZpkW9lBVtC3gOGq2zgaWHsIDDtPN+gT0yRV9g/QJ83swArB9w9TztkruKzVkTU
-	qtPw==
-X-Received: by 10.170.121.17 with SMTP id n17mr7254212ykb.17.1423495667957;
-	Mon, 09 Feb 2015 07:27:47 -0800 (PST)
+	Mon,  9 Feb 2015 16:03:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Feb 2015 08:03:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,544,1418112000"; d="scan'208";a="683146965"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.162])
+	by orsmga002.jf.intel.com with ESMTP; 09 Feb 2015 08:03:29 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Feb 2015 10:03:45 -0600
+Message-Id: <1423497825-4095-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.170.205.88 with HTTP; Mon, 9 Feb 2015 07:27:27 -0800 (PST)
-In-Reply-To: <1423066153-24933-2-git-send-email-danismostlikely@gmail.com>
-References: <1423066153-24933-1-git-send-email-danismostlikely@gmail.com>
-	<1423066153-24933-2-git-send-email-danismostlikely@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 9 Feb 2015 08:27:27 -0700
-X-Google-Sender-Auth: Q6x-xgSMijphj6HZyt8N8P4juq0
-Message-ID: <CABcZANnGoH8paGOMivNRJ4swvJ2jMWRJU53=E15oa68X4Yczpw@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] openssh: Fix non-deterministic build behaviour
+Subject: [dizzy][PATCH] files/toolchain-shar-template.sh: fix replace target_sdk_dir twice in environment setup file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,94 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Feb 2015 15:27:51 -0000
-Content-Type: multipart/alternative; boundary=001a1137c1caa0c8fc050ea96925
-
---001a1137c1caa0c8fc050ea96925
+X-List-Received-Date: Mon, 09 Feb 2015 16:03:40 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 4, 2015 at 9:09 AM, Dan McGregor <danismostlikely@gmail.com>
-wrote:
+When specify a target sdk dir that contains default install dir as
+subdir,
 
-> From: Dan McGregor <dan.mcgregor@usask.ca>
->
-> If maillock.h is found, a dependency on liblockfile will be created.
-> liblockfile is in meta-oe, so we don't want that in an oe-core recipe.
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-> ---
->  meta/recipes-connectivity/openssh/openssh_6.7p1.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> index dcbc181..a272629 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-> @@ -62,6 +62,9 @@ CACHED_CONFIGUREVARS += "ac_cv_header_bsd_libutil_h=no
-> ac_cv_header_libutil_h=no
->  # passwd path is hardcoded in sshd
->  CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
->
-> +# We don't want to depend on libblockfile
-> +CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
-> +
->
+	target_sdk_dir=/opt/poky/$version/
+	custom_target_sdk_dir=/opt/poky/$version/some
 
-I wonder if this should be a PACKAGECONFIG. Most optional dependencies tend
-to be.
+The target_sdk_dir variable in environment-setup file is replaced twice
+causes to point to wrong PATH.
+
+In order to fix filter environment-setup file in second replacement.
+
+[YOCTO #7032]
+
+(From OE-Core rev: 02ecaa69abe97fe2f01cd609e0e59933c0f9ddbf)
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/files/toolchain-shar-template.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index 0d679a6..4a7fbd5 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -158,6 +158,7 @@ for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
+ 	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
+ 		grep ":.*\(ASCII\|script\|source\).*text" | \
+ 		awk -F':' '{printf "\"%s\"\n", $1}' | \
++		grep -v "$target_sdk_dir/environment-setup-*" | \
+ 		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+ done
+ 
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.9.1
 
---001a1137c1caa0c8fc050ea96925
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Feb 4, 2015 at 9:09 AM, Dan McGregor <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gma=
-il.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
-ou" class=3D"a3s" style=3D"overflow:hidden">From: Dan McGregor &lt;<a href=
-=3D"mailto:dan.mcgregor@usask.ca">dan.mcgregor@usask.ca</a>&gt;<br>
-<br>
-If maillock.h is found, a dependency on liblockfile will be created.<br>
-liblockfile is in meta-oe, so we don&#39;t want that in an oe-core recipe.<=
-br>
-<br>
-Signed-off-by: Dan McGregor &lt;<a href=3D"mailto:dan.mcgregor@usask.ca">da=
-n.mcgregor@usask.ca</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-connectivity/openssh/<a href=3D"http://openssh_6.7p1.bb"=
- target=3D"_blank">openssh_6.7p1.bb</a> | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_6.=
-7p1.bb" target=3D"_blank">openssh_6.7p1.bb</a> b/meta/recipes-connectivity/=
-openssh/<a href=3D"http://openssh_6.7p1.bb" target=3D"_blank">openssh_6.7p1=
-.bb</a><br>
-index dcbc181..a272629 100644<br>
---- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_6.7p1.bb"=
- target=3D"_blank">openssh_6.7p1.bb</a><br>
-+++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_6.7p1.bb"=
- target=3D"_blank">openssh_6.7p1.bb</a><br>
-@@ -62,6 +62,9 @@ CACHED_CONFIGUREVARS +=3D &quot;ac_cv_header_bsd_libutil_=
-h=3Dno ac_cv_header_libutil_h=3Dno<br>
-=C2=A0# passwd path is hardcoded in sshd<br>
-=C2=A0CACHED_CONFIGUREVARS +=3D &quot;ac_cv_path_PATH_PASSWD_PROG=3D${bindi=
-r}/passwd&quot;<br>
-<br>
-+# We don&#39;t want to depend on libblockfile<br>
-+CACHED_CONFIGUREVARS +=3D &quot;ac_cv_header_maillock_h=3Dno&quot;<br>
-+</div></blockquote></div><br>I wonder if this should be a PACKAGECONFIG. M=
-ost optional dependencies tend to be.<br>-- <br><div class=3D"gmail_signatu=
-re">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, =
-OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer,=
- Mentor Graphics</div>
-</div></div>
-
---001a1137c1caa0c8fc050ea96925--
