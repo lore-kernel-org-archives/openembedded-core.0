@@ -1,43 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id ED06C6E593
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED4165CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 17:13:12 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id v10so3603646qac.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 09:13:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=OBa7BobqeoWDigpv8KjoI53+vAbVyus5GU/jbJYlLq4=;
-	b=On3BiSl7Zv9g0m9CFa9wAFeE8Ul7QAP+8B1IYBzb0rW54F4DMokGymylDadxtsO6/R
-	AWAdyMXkIgB0w7QJSa9x89vwpMFg7gvz6cqkPOdVq1IjUMWebQ2GbGz9o8eXfsdUxoqq
-	AAD8PT54hOEUQMSG66lXSP+7wkT1zgBQrJ3cyDBCuB13KSWQarnf4gyTcBf+aGAiuz4K
-	SrbXF5S/l9lkhmt/T3lOsyrf57RRxp2ri/dkkFQ0ROa4sq/W9+wl1DR45we3jvPhAEQz
-	I5n+wr6rLKVv/m+qHbYCeOhWoyQilQ+Hxj7WAS7oYEVVMngsbnFjmaAC0TF+E1f4x+jc
-	xprg==
-X-Gm-Message-State: ALoCoQme/uuchLc6ngwx03v18QTnk4KfyxnXPu1rPTRe9gbuNqrLufuUuxPlrmcDqXa+9WmQvhC2
-X-Received: by 10.224.171.67 with SMTP id g3mr48390572qaz.17.1423588394114;
-	Tue, 10 Feb 2015 09:13:14 -0800 (PST)
+	Tue, 10 Feb 2015 17:17:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 10 Feb 2015 09:17:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="452675887"
+Received: from flopezex-desk.amr.corp.intel.com (HELO
+	alimon-ThinkPad-W540.zpn.intel.com) ([10.219.4.140])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2015 09:02:38 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Feb 2015 11:17:32 -0600
+Message-Id: <c888dbe63fda7e3d0923f7660f7321bf906cb054.1423588562.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1423588562.git.anibal.limon@linux.intel.com>
+References: <cover.1423588562.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 10 Feb 2015 09:12:53 -0800 (PST)
-In-Reply-To: <20150210170921.GD14949@denix.org>
-References: <1423584126-27786-1-git-send-email-denis@denix.org>
-	<CAJTo0LZHiTSkhv9YPobmssY_szH4jyzBeUXVyZnnTGYo5oAf4Q@mail.gmail.com>
-	<CAP9ODKogEuxRj0QoO-t5S3svVq9gYUjceBg5LfBrXS8k54US_w@mail.gmail.com>
-	<20150210162902.GC14949@denix.org>
-	<CAJTo0LbFdzSv3V7vwPj0hQrE70JRu=GGh=6qzJgxrXOwobKHeg@mail.gmail.com>
-	<CAJTo0LY-Jg4kTPiGZfhHFECy2KFWQ7+5dq8jAMcn+NHZBC=R5Q@mail.gmail.com>
-	<20150210170921.GD14949@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Feb 2015 17:12:53 +0000
-Message-ID: <CAJTo0LZSM4B5HLRh-FQOdf7hRcRb8TnpcFkK7+cRu_o43o3d=g@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH v2] u-boot: update to version 2015.01
+Subject: [PATCHv2] xserver-xorg: Update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,41 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 17:13:16 -0000
-Content-Type: multipart/alternative; boundary=047d7b67768889d052050ebf00e2
-
---047d7b67768889d052050ebf00e2
+X-List-Received-Date: Tue, 10 Feb 2015 17:17:27 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Denys,
+Add packageconfig for systemd-logind instead of hard disable in
+EXTRA_OECONF this allows users to use packageconfig also add
+dependency of dbus because systemd-logind require it for communicate
+with systemd.
 
-On 10 February 2015 at 17:09, Denys Dmytriyenko <denis@denix.org> wrote:
+Update checksums.
 
-> D'oh! I should have dug dipper and notice the native sysroot is not being
-> used... Thanks, I'll send a fixed patch shortly.
->
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc                   | 2 +-
+ .../xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb}   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb} (88%)
 
-Fresh eyes and all that. :)  Can you add V=1 to EXTRA_OEMAKE so this sort
-of thing is easier to debug in the future?
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 6154295..f0da488 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -114,7 +114,6 @@ EXTRA_OECONF += "--with-fop=no \
+                  --with-xkb-output=/var/lib/xkb \
+                  --with-sha1=libcrypto \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+-                 --disable-systemd-logind \
+ "
+ 
+ PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
+@@ -128,6 +127,7 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
+ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+ PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
++PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+ 
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+index 7d7d83e..347ce3b 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+@@ -7,8 +7,8 @@ SRC_URI += "file://fix_open_max_preprocessor_error.patch \
+             file://Fix-subwindow-in-Xi-emulated-events.patch \
+            "
+ 
+-SRC_URI[md5sum] = "89620960b13515db8d0a8dbb92a1378a"
+-SRC_URI[sha256sum] = "446e0c3ebd556aced78ec0000ba9ae73f1e5317117d497f827afba48b787ce64"
++SRC_URI[md5sum] = "afd93977235584a9caa7528a737c1b52"
++SRC_URI[sha256sum] = "5e0f443238af1078b48f6eea98a382861b59187da221c2cf714d31c1d560b0fb"
+ 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
+-- 
+1.9.1
 
-Cheers,
-Ross
 
---047d7b67768889d052050ebf00e2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Denys,</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
-On 10 February 2015 at 17:09, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5ii" class=3D"a3s"=
- style=3D"overflow:hidden">D&#39;oh! I should have dug dipper and notice th=
-e native sysroot is not being<br>
-used... Thanks, I&#39;ll send a fixed patch shortly.</div></blockquote><div=
-><br></div><div>Fresh eyes and all that. :) =C2=A0Can you add V=3D1 to EXTR=
-A_OEMAKE so this sort of thing is easier to debug in the future?</div><div>=
-<br></div><div>Cheers,</div><div>Ross</div></div></div></div>
-
---047d7b67768889d052050ebf00e2--
