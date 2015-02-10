@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D541865CF5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DA4C6E593
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 15:53:03 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id e89so13413583qgf.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 07:53:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=uwboZfkrsq4KdYhcwRvwVXpnGqSHeBELdE0ThPEHqXQ=;
-	b=TxW2hn0vb09YCnHDyvkhJtoGc0doUvZy59ZO/TeIS+k6+3LRzhTbVsn9yGuSprMEVh
-	iSUUrGXSRwBYSOOocP54Owac4Ad6+Zx+wO508cukuwDdpPdAPV9KIIFFBEMa9kgGXg0z
-	Pz6YVy/SF13Iuo1SEzoVqZOSoO5y8zqCp1GlaLRqwm5mr73chjNOQJxaPvb8N6W5VhKH
-	38T1EHhL6UKIIefw+3OYWP0GED+SBcAiMsHzZhJYcqB71Cf96vmPOE8+MtvU0librQrJ
-	YiQYRJWUvbFn8gsXxUF0bt4kGX6uDAsBLPB2hNhn+oYzFhDR0J1JMQ1S+3P9bvc7jz+X
-	hDsA==
-X-Gm-Message-State: ALoCoQmUkGcHsbW8AN+fP0uy0Z6Btt1UdvMb/etgw70nUjrUUOzGj/9RBzOTBvwJpjQ5GOSae96t
-X-Received: by 10.224.16.207 with SMTP id p15mr21924037qaa.22.1423583584155;
-	Tue, 10 Feb 2015 07:53:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 10 Feb 2015 07:52:43 -0800 (PST)
-In-Reply-To: <a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
-References: <cover.1423583089.git.anibal.limon@linux.intel.com>
-	<a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Feb 2015 15:52:43 +0000
-Message-ID: <CAJTo0LbzAFYpQ6jD4djPCdMzAMRxCZhQ2rBTTLuGeft9uPDHzQ@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xserver-xorg: Update to 1.16.3
+	Tue, 10 Feb 2015 15:55:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1AFtlwi016859; Tue, 10 Feb 2015 15:55:47 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AX04cf0dSS3P; Tue, 10 Feb 2015 15:55:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1AFtVUe016842
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 10 Feb 2015 15:55:42 GMT
+Message-ID: <1423583731.20217.40.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Feb 2015 15:55:31 +0000
+In-Reply-To: <CAJTo0LaNQLGjMWDUQr0SMFDDRe3KTH_MxoUbHMJ9ex9W854jKg@mail.gmail.com>
+References: <cover.1423420390.git.pab@pabigot.com>
+	<CABcZANmkGNPwvdt==h_LAA-Q6e5Umwti2g=qvj3r_vyQrqxjHA@mail.gmail.com>
+	<CAJTo0LaNQLGjMWDUQr0SMFDDRe3KTH_MxoUbHMJ9ex9W854jKg@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3 00/10] bluez4/bluez5 selection fixing Yocto 5031
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 15:53:07 -0000
-Content-Type: multipart/alternative; boundary=047d7bf16620d78fb1050ebde167
+X-List-Received-Date: Tue, 10 Feb 2015 15:55:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7bf16620d78fb1050ebde167
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Anibal,
-
-On 10 February 2015 at 15:45, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.in=
-tel.com>
-wrote:
-
-> +PACKAGECONFIG[systemd-logind] =3D
-> "--enable-systemd-logind=3Dyes,--enable-systemd-logind=3Dno,dbus,dbus-lib=
-"
+On Tue, 2015-02-10 at 15:43 +0000, Burton, Ross wrote:
+> 
+> On 8 February 2015 at 21:16, Christopher Larson <clarson@kergoth.com>
+> wrote:
+>                     DISTRO_FEATURES_append = " bluez5"
+>                     PREFERRED_PROVIDER_bluez-hcidump = "bluez5"
+>                     PNBLACKLIST[bluez-hcidump] = "superseded by
+>                 bluez5"
+>                     PNBLACKLIST[gst-plugin-bluetooth] = "dropped from
+>                 bluez5"
+>                     PNBLACKLIST[bluez4] = "superseded by bluez5"
 >
+>         For what it's worth, I like the look of this series (and have
+>         since they were first posted). Hopefully it gets merged.
+>
+> My concern with this series is using DISTRO_FEATURES to control what
+> version of BlueZ is used in the image.  What makes BlueZ so special
+> that it deserves a DISTRO_FEATURE as opposed to a
+> PREFERRED_PROVIDER_virtual/bluez or a variable such as BLUEZ_VERSION
+> defined in bluetooth.bbclass?
 
-This adds an explicit runtime dependency on dbus-lib if logind is enabled,
-which probably isn't what you want as the xserver will add this dependency
-automatically.
+I think that concern has been holding this up for a while but I don't
+see a good way to avoid it. I'd observe that:
 
-Ross
+* DISTRO_FEATURES was created to have a common place to enable/disable 
+  things rather than individual variables
+* There is precedent for package specific issues in DISTRO_FEATURES 
+  (e.g. libc)
+* PREFERRED_PROVIDER is not a good match for this problem as the 
+  providers are not identical, or a drop in replacement, far from it.
 
---047d7bf16620d78fb1050ebde167
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+So whilst I understand the concern I think we have to move past that
+based on the above.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Anibal,</div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On 10 February 2015 at 15:45, An=
-=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@l=
-inux.intel.com" target=3D"_blank">anibal.limon@linux.intel.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":4mx" class=3D"a3s" =
-style=3D"overflow:hidden">+PACKAGECONFIG[systemd-logind] =3D &quot;--enable=
--systemd-logind=3Dyes,--enable-systemd-logind=3Dno,dbus,dbus-lib&quot;</div=
-></blockquote></div><br>This adds an explicit runtime dependency on dbus-li=
-b if logind is enabled, which probably isn&#39;t what you want as the xserv=
-er will add this dependency automatically.</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Ross</div></div>
+Cheers,
 
---047d7bf16620d78fb1050ebde167--
+Richard
+
+
+
+
