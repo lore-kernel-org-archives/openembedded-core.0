@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D324B732C3
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC90732E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 18:32:09 +0000 (UTC)
+	Tue, 10 Feb 2015 18:32:16 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2015 10:32:02 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2015 10:32:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="683814261"
+X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="683814285"
 Received: from flopezex-desk.amr.corp.intel.com (HELO
 	alimon-ThinkPad-W540.zpn.intel.com) ([10.219.4.140])
-	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2015 10:32:03 -0800
+	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2015 10:32:04 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2015 12:32:13 -0600
-Message-Id: <0b67980bdb95ea9c29f5fc14190ac227c01058a5.1423593058.git.anibal.limon@linux.intel.com>
+Date: Tue, 10 Feb 2015 12:32:14 -0600
+Message-Id: <280d35a5f2fd514aaebd4e146ac9b380167d43c0.1423593058.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1423593058.git.anibal.limon@linux.intel.com>
 References: <cover.1423593058.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1423593058.git.anibal.limon@linux.intel.com>
 References: <cover.1423593058.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] xserver-xorg: Update to 1.16.3
+Subject: [PATCH 2/2] xserver-xorg: Improvments in systemd-logind disable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,36 @@ X-List-Received-Date: Tue, 10 Feb 2015 18:32:17 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Add packageconfig for systemd-logind instead of hard disable in
+EXTRA_OECONF this allows users to use packageconfig also add
+dependency of dbus because systemd-logind require it for communicate
+with systemd.
+
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- .../xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb} (88%)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-index 7d7d83e..347ce3b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-@@ -7,8 +7,8 @@ SRC_URI += "file://fix_open_max_preprocessor_error.patch \
-             file://Fix-subwindow-in-Xi-emulated-events.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 6154295..f0da488 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -114,7 +114,6 @@ EXTRA_OECONF += "--with-fop=no \
+                  --with-xkb-output=/var/lib/xkb \
+                  --with-sha1=libcrypto \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+-                 --disable-systemd-logind \
+ "
  
--SRC_URI[md5sum] = "89620960b13515db8d0a8dbb92a1378a"
--SRC_URI[sha256sum] = "446e0c3ebd556aced78ec0000ba9ae73f1e5317117d497f827afba48b787ce64"
-+SRC_URI[md5sum] = "afd93977235584a9caa7528a737c1b52"
-+SRC_URI[sha256sum] = "5e0f443238af1078b48f6eea98a382861b59187da221c2cf714d31c1d560b0fb"
+ PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
+@@ -128,6 +127,7 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
+ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+ PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
++PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
 -- 
 1.9.1
 
