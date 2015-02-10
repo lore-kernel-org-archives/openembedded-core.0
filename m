@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id EAD3665CF5
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E4E76E218
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 15:44:05 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id j5so12043858qga.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 07:44:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+e2MnBPUZgyIHMUSqzOaS8Bcz4UCbI98GaadRrn9B2g=;
-	b=Ti178IzfgpoRa3Uq0iszFiwfd88soQIiHxcw/SaIGuQoYWX0mvyZcqzv9WTgA61cco
-	SiWf8cUjNTMU15uiwyoyW5TB+727opX/2iTtwk2qKWo9WAWyQCF6tSMoQAm29Q3KiLa6
-	Y0C3PDLNbEDqPhTLCetm08lH1GHrXwowXxXYOMSruVMdq5uxLYJsd4eWJ1V/xcAwC2+3
-	hPWHHnz8gt2Li3Cyi5uCpsF+I1e2GI4cJq3g5mUuIESpTRzeKK7PFG+lubfPOjCGqRgO
-	4hqTbFyVRvPFxjgoB4c49YDvnMHpRLJ/8mgh1wLoM1z49mWkV5R4+sIYKp4tFCCZpNDI
-	r07A==
-X-Gm-Message-State: ALoCoQlSt82vZK7XpfITif9phgOaJ94snsTLJy2TpDAVGzdwJ/YCVudRai12G3ggYqaCIvDO+7tI
-X-Received: by 10.140.49.5 with SMTP id p5mr51906960qga.15.1423583046648; Tue,
-	10 Feb 2015 07:44:06 -0800 (PST)
+	Tue, 10 Feb 2015 15:45:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 10 Feb 2015 07:40:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="664343281"
+Received: from flopezex-desk.amr.corp.intel.com (HELO
+	alimon-ThinkPad-W540.zpn.intel.com) ([10.219.4.140])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2015 07:45:39 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Feb 2015 09:45:59 -0600
+Message-Id: <a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1423583089.git.anibal.limon@linux.intel.com>
+References: <cover.1423583089.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 10 Feb 2015 07:43:46 -0800 (PST)
-In-Reply-To: <CABcZANmkGNPwvdt==h_LAA-Q6e5Umwti2g=qvj3r_vyQrqxjHA@mail.gmail.com>
-References: <cover.1423420390.git.pab@pabigot.com>
-	<CABcZANmkGNPwvdt==h_LAA-Q6e5Umwti2g=qvj3r_vyQrqxjHA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Feb 2015 15:43:46 +0000
-Message-ID: <CAJTo0LaNQLGjMWDUQr0SMFDDRe3KTH_MxoUbHMJ9ex9W854jKg@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 00/10] bluez4/bluez5 selection fixing Yocto 5031
+Subject: [PATCH 1/1] xserver-xorg: Update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,62 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 15:44:11 -0000
-Content-Type: multipart/alternative; boundary=001a11351944cddbe7050ebdc169
-
---001a11351944cddbe7050ebdc169
+X-List-Received-Date: Tue, 10 Feb 2015 15:45:43 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8 February 2015 at 21:16, Christopher Larson <clarson@kergoth.com> wrote:
+Add packageconfig for systemd-logind instead of hard disable in
+EXTRA_OECONF this allows users to use packageconfig.
 
->     DISTRO_FEATURES_append = " bluez5"
->>     PREFERRED_PROVIDER_bluez-hcidump = "bluez5"
->>     PNBLACKLIST[bluez-hcidump] = "superseded by bluez5"
->>     PNBLACKLIST[gst-plugin-bluetooth] = "dropped from bluez5"
->>     PNBLACKLIST[bluez4] = "superseded by bluez5"
->>
->
-> For what it's worth, I like the look of this series (and have since they
-> were first posted). Hopefully it gets merged.
+Update checksums.
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc                   | 2 +-
+ .../xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb}   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb} (88%)
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 6154295..ece7ddf 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -114,7 +114,6 @@ EXTRA_OECONF += "--with-fop=no \
+                  --with-xkb-output=/var/lib/xkb \
+                  --with-sha1=libcrypto \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+-                 --disable-systemd-logind \
+ "
+ 
+ PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
+@@ -128,6 +127,7 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
+ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+ PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
++PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,dbus-lib"
+ 
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+index 7d7d83e..347ce3b 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
+@@ -7,8 +7,8 @@ SRC_URI += "file://fix_open_max_preprocessor_error.patch \
+             file://Fix-subwindow-in-Xi-emulated-events.patch \
+            "
+ 
+-SRC_URI[md5sum] = "89620960b13515db8d0a8dbb92a1378a"
+-SRC_URI[sha256sum] = "446e0c3ebd556aced78ec0000ba9ae73f1e5317117d497f827afba48b787ce64"
++SRC_URI[md5sum] = "afd93977235584a9caa7528a737c1b52"
++SRC_URI[sha256sum] = "5e0f443238af1078b48f6eea98a382861b59187da221c2cf714d31c1d560b0fb"
+ 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
+-- 
+1.9.1
 
 
-My concern with this series is using DISTRO_FEATURES to control what
-version of BlueZ is used in the image.  What makes BlueZ so special that it
-deserves a DISTRO_FEATURE as opposed to a PREFERRED_PROVIDER_virtual/bluez
-or a variable such as BLUEZ_VERSION defined in bluetooth.bbclass?
-
-Oh, and gst-plugins-bad has support for BlueZ5 but this series doesn't
-enable it.
-
-Ross
-
---001a11351944cddbe7050ebdc169
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 February 2015 at 21:16, Christopher Larson <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow=
-:hidden">=C2=A0 =C2=A0 DISTRO_FEATURES_append =3D &quot; bluez5&quot;<br>
-=C2=A0 =C2=A0 PREFERRED_PROVIDER_bluez-hcidump =3D &quot;bluez5&quot;<br>
-=C2=A0 =C2=A0 PNBLACKLIST[bluez-hcidump] =3D &quot;superseded by bluez5&quo=
-t;<br>
-=C2=A0 =C2=A0 PNBLACKLIST[gst-plugin-bluetooth] =3D &quot;dropped from blue=
-z5&quot;<br>
-=C2=A0 =C2=A0 PNBLACKLIST[bluez4] =3D &quot;superseded by bluez5&quot;</div=
-></blockquote></div><br></span>For what it&#39;s worth, I like the look of =
-this series (and have since they were first posted). Hopefully it gets merg=
-ed.</blockquote></div><br>My concern with this series is using DISTRO_FEATU=
-RES to control what version of BlueZ is used in the image.=C2=A0 What makes=
- BlueZ so special that it deserves a DISTRO_FEATURE as opposed to a PREFERR=
-ED_PROVIDER_virtual/bluez or a variable such as BLUEZ_VERSION defined in bl=
-uetooth.bbclass?</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Oh, and gst-plugins-bad has support for BlueZ5 but this series d=
-oesn&#39;t enable it.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a11351944cddbe7050ebdc169--
