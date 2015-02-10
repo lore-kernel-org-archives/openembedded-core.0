@@ -1,60 +1,24 @@
-Return-Path: <nathan.rossi@xilinx.com>
-X-Greylist: delayed 866 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 10 Feb 2015 08:30:06 UTC
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0081.outbound.protection.outlook.com [157.56.111.81])
-	by mail.openembedded.org (Postfix) with ESMTP id 948BB6E218
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D0CCE65CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 08:30:06 +0000 (UTC)
-Received: from BN1BFFO11FD024.protection.gbl (10.58.144.32) by
-	BN1BFFO11HUB007.protection.gbl (10.58.144.154) with Microsoft SMTP
-	Server (TLS) id 15.1.87.10; Tue, 10 Feb 2015 08:15:39 +0000
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BN1BFFO11FD024.mail.protection.outlook.com (10.58.144.87) with
-	Microsoft SMTP Server (TLS) id 15.1.87.10 via Frontend Transport;
-	Tue, 10 Feb 2015 08:15:38 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <nathan.rossi@xilinx.com>) id 1YL5vH-0005Tf-JY
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Feb 2015 00:11:55 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
+	Tue, 10 Feb 2015 09:14:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1A9ECwh024704
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Feb 2015 01:14:12 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 10 Feb 2015 01:14:12 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Feb 2015 18:15:24 +1000
-X-Mailer: git-send-email 2.1.1
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21318.005
-X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <e52e18058b014ec99967f98da83d4753@BN1BFFO11FD024.protection.gbl>
-X-EOPAttributedMessage: 0
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=nathan.rossi@xilinx.com; 
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(438002)(92566002)(104016003)(47776003)(48376002)(110136001)(33646002)(50466002)(108616004)(53416004)(46102003)(450100001)(50986999)(86362001)(19580405001)(19580395003)(62966003)(50226001)(87936001)(74316001)(6806004)(106466001)(229853001)(92726002)(2351001)(77156002)(107986001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1BFFO11HUB007;
-	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; MLV:sfv; LANG:en; 
+Date: Tue, 10 Feb 2015 17:14:09 +0800
+Message-ID: <cover.1423559596.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1BFFO11HUB007;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BN1BFFO11HUB007; 
-X-Forefront-PRVS: 048396AFA0
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BN1BFFO11HUB007; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2015 08:15:38.6543 (UTC)
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1BFFO11HUB007
-Cc: Nathan Rossi <nathan.rossi@xilinx.com>
-Subject: [PATCH] qemu: Update PACKAGECONFIG[xen] and add xen to defaults
+Subject: [PATCH 0/1] systemd: fix do_install failure in case of multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,50 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 08:30:13 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 09:14:22 -0000
 Content-Type: text/plain
 
-* Add build and runtime dependencies for PACKAGECONFIG[xen]
-* Add xen as a default PACKAGECONFIG option when it is part of
-  DISTRO_FEATURES
+The following changes since commit 234b4feef24ffe0cea9b6d88d9c51a05ee63db9e:
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
-This patch comes about due to the handling of the PACKAGECONFIG value and that
-it is not straight forward to append to the ??= value without the use of the
-bitbake internal '_defaultval' flag (aka PACKAGECONFIG[_defaultval]). Which is
-needed to achieve the seemless (from a user viewpoint) enabling of xen features
-of QEMU when the feature is enabled at the distro level.
----
- meta/recipes-devtools/qemu/qemu.inc | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+  linux-yocto/3.14: fix qemumips build error (2015-02-08 08:00:04 +0000)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 49415c1..4225db7 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -86,7 +86,10 @@ do_install_append() {
- }
- # END of qemu-mips workaround
- 
--PACKAGECONFIG ??= "fdt sdl alsa"
-+PACKAGECONFIG ??= " \
-+	fdt sdl alsa \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen', '', d)} \
-+	"
- PACKAGECONFIG_class-native ??= "fdt alsa"
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
- NATIVEDEPS = ""
-@@ -95,7 +98,7 @@ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl ${NATIVEDEPS},"
- PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
- PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
- PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
--PACKAGECONFIG[xen] = "--enable-xen, --disable-xen,,"
-+PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,xen-libxenstore xen-libxenctrl xen-libxenguest"
- PACKAGECONFIG[quorum] = "--enable-quorum, --disable-quorum, gnutls,"
- PACKAGECONFIG[vnc-tls] = "--enable-vnc --enable-vnc-tls,--disable-vnc-tls, gnutls,"
- PACKAGECONFIG[vnc-ws] = "--enable-vnc --enable-vnc-ws,--disable-vnc-ws, gnutls,"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-multilib
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-multilib
+
+Chen Qi (1):
+  systemd: fix do_install failure in case of multilib
+
+ meta/recipes-core/systemd/systemd_216.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.1.1
+1.9.1
 
 
