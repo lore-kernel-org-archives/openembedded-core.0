@@ -1,21 +1,21 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A4B377213F
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 335BA6E593
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 21:05:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Feb 2015 12:58:55 -0800
+	Tue, 10 Feb 2015 21:09:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2015 13:09:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,552,1418112000"; d="scan'208";a="675958223"
+X-IronPort-AV: E=Sophos;i="5.09,552,1418112000"; d="scan'208";a="683878401"
 Received: from rrocha2-mobl2.amr.corp.intel.com (HELO
 	swold-mobl.amr.corp.intel.com) ([10.252.248.117])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2015 13:05:56 -0800
+	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2015 13:09:46 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2015 13:05:53 -0800
-Message-Id: <1423602353-6865-1-git-send-email-sgw@linux.intel.com>
+Date: Tue, 10 Feb 2015 13:09:42 -0800
+Message-Id: <1423602582-7123-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] image_types: Error out if BTRFS iamge is too small
+Subject: [PATCH][dizzy] linux-yocto-tiny_3.17: Update to actually use 3.17 git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 21:06:04 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 21:09:52 -0000
 
-[YOCTO #6804]
+The named release was still using the -dev git repo which did not contain
+the SRCREV referenced in the numbered/named version.
+
+(From OE-Core rev: b4f2f39ce0f4690ed51d14d1034b9f5e21c0f5a0)
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image_types.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index d6cc87f..4983e98 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -58,9 +58,14 @@ IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
- IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
- IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+index eae0854..5762f3b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+@@ -13,7 +13,7 @@ SRCREV_meta ?= "84b57b01050dd9e5a004e265e70120e2a792f38a"
  
-+MIN_BTRFS_SIZE ?= "16777216"
- IMAGE_CMD_btrfs () {
--	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs count=${ROOTFS_SIZE} bs=1024
--	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
-+	if [ ${ROOTFS_SIZE} -gt ${MIN_BTRFS_SIZE} ]; then
-+		dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs count=${ROOTFS_SIZE} bs=1024
-+		mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
-+	else
-+		bbfatal "Rootfs is too small for BTRFS (Rootfs Actual Size: ${ROOTFS_SIZE}, BTRFS Minimum Size: ${MIN_BTRFS_SIZE})"
-+	fi
- }
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ COMPATIBLE_MACHINE = "(qemux86)"
+ 
 -- 
 2.1.0
 
