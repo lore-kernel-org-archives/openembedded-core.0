@@ -1,37 +1,33 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id ED0076E593
+Return-Path: <denis@denix.org>
+Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
+	[206.46.173.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 49136732C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 16:17:54 +0000 (UTC)
-Received: by mail-yh0-f48.google.com with SMTP id t59so7937436yho.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 08:17:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=uFgO/G41Bv+/TCa1tex6lxdZVJsXk1J2mLaTK/EtWog=;
-	b=WgoKtXqbW14m9HOzXc+oRFbLXCBWjy51EtJLPKLNo32JzhtFzWU7onRcvXSfG76Eco
-	+GXRxjdCGF7+IrFy1UGIcTXantRH3DAflswWx65L4A0B1eMJBuNPZUuG8BigyTlUI+0H
-	mAuJlUr6VOh4QMbwpj1ZmSyigVnX1ylFtG4LIJNGvWBYlS8Q2kgC/PrmUE1Z+Gdcw+c/
-	oc3QVJMPd5blctFssxNag8zdYiUFbawo4mOhUe9oiIpr19tU4CmoueFw7doH3xpXdnMt
-	NVFABjsD2iYPx/OBVLBMzJwEVAU7P5PqqUF/gdJsEWms9JvWx+0tP3A2SEIvRQKJHTuN
-	UTfw==
-MIME-Version: 1.0
-X-Received: by 10.170.74.5 with SMTP id q5mr10303211ykq.30.1423585075730; Tue,
-	10 Feb 2015 08:17:55 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.143 with HTTP; Tue, 10 Feb 2015 08:17:55 -0800 (PST)
-In-Reply-To: <CAJTo0LZHiTSkhv9YPobmssY_szH4jyzBeUXVyZnnTGYo5oAf4Q@mail.gmail.com>
+	Tue, 10 Feb 2015 16:26:25 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.89.130]) by vms173017.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NJK00A9BDNYY360@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 10 Feb 2015 10:26:23 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=CoYIqc8G c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=0HtSIViG9nkA:10	a=jF4rrVJNYA4oRKOHOBYA:9
+	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 8919820099; Tue,
+	10 Feb 2015 11:26:22 -0500 (EST)
+Date: Tue, 10 Feb 2015 11:26:22 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-id: <20150210162622.GB14949@denix.org>
 References: <1423584126-27786-1-git-send-email-denis@denix.org>
 	<CAJTo0LZHiTSkhv9YPobmssY_szH4jyzBeUXVyZnnTGYo5oAf4Q@mail.gmail.com>
-Date: Tue, 10 Feb 2015 14:17:55 -0200
-X-Google-Sender-Auth: u66kPGhOMPk_woZQ165EPz_FYGY
-Message-ID: <CAP9ODKogEuxRj0QoO-t5S3svVq9gYUjceBg5LfBrXS8k54US_w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
+MIME-version: 1.0
+In-reply-to: <CAJTo0LZHiTSkhv9YPobmssY_szH4jyzBeUXVyZnnTGYo5oAf4Q@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] u-boot: update to version 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,25 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 16:17:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Feb 2015 16:26:37 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Hello Ross,
-
-On Tue, Feb 10, 2015 at 2:16 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On Tue, Feb 10, 2015 at 04:16:00PM +0000, Burton, Ross wrote:
+> Hi Denys,
+> 
 > On 10 February 2015 at 16:02, Denys Dmytriyenko <denis@denix.org> wrote:
->>
->> +DEPENDS = "openssl"
->> +DEPENDS_class-native = "openssl-native"
->
->
+> 
+> > +DEPENDS = "openssl"
+> > +DEPENDS_class-native = "openssl-native"
+> >
+> 
 > That *really* shouldn't be required. :(
+> 
+> And indeed, the old patch with -e shows that it isn't:
 
-I agree it is not needed and it does seem to be a fail in meta-fsl-ppc
-which should be fixed there.
+Yes, I understand it completely and my tests show the same exact -e output. 
+But since there were no other suggestions, I decided to cheat a bit... :)
+
+
+> # $DEPENDS [6 operations]
+> #   set /home/ross/Yocto/poky/meta/conf/bitbake.conf:246
+> #     ""
+> #   set /home/ross/Yocto/poky/meta/conf/documentation.conf:135
+> #     [doc] "Lists a recipe's build-time dependencies (i.e. other recipe
+> files)."
+> #   _prepend /home/ross/Yocto/poky/meta/classes/base.bbclass:81
+> #     "${BASEDEPENDS} "
+> #   set /home/ross/Yocto/poky/meta/recipes-bsp/u-boot/
+> u-boot-mkimage_2015.01.bb:6
+> #     "openssl"
+> #   set native_virtclass_handler(e):27 [map_dependencies]
+> #     "openssl-native"
+> #   set data_smart.py:437 [finalize]
+> #     "${BASEDEPENDS} openssl-native"
+> # pre-expansion value:
+> #   "${BASEDEPENDS} openssl-native"
+> DEPENDS=" openssl-native"
+> 
+> This is *very* strange.  When the AB is free I'll do another rebuild to see
+> what happens under load.
+
+Thanks a lot! Looking forward for the results.
+
+
+> Was the DEPENDS_class-native change the only difference between v1 and v2?
+
+Yes, that was the only change.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Denys
 
