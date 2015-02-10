@@ -1,30 +1,36 @@
 Return-Path: <denis@denix.org>
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E3F601F5
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id D3FED65CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 16:02:54 +0000 (UTC)
-Received: from gandalf.denix.org ([108.28.89.130]) by vms173019.mailsrvcs.net
+	Tue, 10 Feb 2015 16:03:48 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.89.130]) by vms173023.mailsrvcs.net
 	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
 	16 2014))
-	with ESMTPSA id <0NJK00AXACJMIO40@vms173019.mailsrvcs.net> for
+	with ESMTPSA id <0NJK002ISCLM4H00@vms173023.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Tue, 10 Feb 2015 10:02:26 -0600 (CST)
+	Tue, 10 Feb 2015 10:03:27 -0600 (CST)
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=AptZB15K c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
-	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=-9mUelKeXuEA:10 a=0HtSIViG9nkA:10
-	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8	a=voM4FWlXAAAA:8
-	a=0iXo97YPku2DkTaiWWgA:9 a=YP4rb1El8FCVLOHH:21
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 108E320030;	Tue,
-	10 Feb 2015 11:02:10 -0500 (EST)
+X-CMAE-Analysis: v=2.1 cv=QM3fnbPO c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=0HtSIViG9nkA:10	a=5_saELtod-aGW0FWPvQA:9
+	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id DE58120099; Tue,
+	10 Feb 2015 11:03:21 -0500 (EST)
+Date: Tue, 10 Feb 2015 11:03:21 -0500
 From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2015 11:02:06 -0500
-Message-id: <1423584126-27786-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.2.0
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH v2] u-boot: update to version 2015.01
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-id: <20150210160321.GA14949@denix.org>
+References: <0NIX00GV1Z8KO910@vms173019.mailsrvcs.net>
+	<20150129193358.GB2517@denix.org>
+	<CAJTo0LYQp-tMeY+1+0tpwJ0kBZccMSWtYu1e2Tnk96RBtCYbhw@mail.gmail.com>
+	<20150129200648.GC2517@denix.org>
+MIME-version: 1.0
+In-reply-to: <20150129200648.GC2517@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH v2] u-boot: update to version 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,202 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 16:02:56 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 16:03:49 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Thu, Jan 29, 2015 at 03:06:48PM -0500, Denys Dmytriyenko wrote:
+> On Thu, Jan 29, 2015 at 07:59:09PM +0000, Burton, Ross wrote:
+> > On 29 January 2015 at 19:33, Denys Dmytriyenko <denis@denix.org> wrote:
+> > 
+> > > >    I believe I had that in DEPENDS... I'll check.
+> > >
+> > > So, yes, the patch does have DEPENDS = "openssl"
+> > >
+> > > Does it become openssl-native due to BBCLASSEXTEND = "native"? Or do I
+> > > need a
+> > > separate DEPENDS_class-native?
+> > 
+> > 
+> > Unless you have an explicit DEPENDS_class-native assignment, openssl will
+> > become openssl-native.
+> 
+> Ok, as I suspected... Then, I'm not really sure what the problem might be.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-v2 - explicitly depend u-boot-mkimage-native on openssl-native
+So, just in case, I've added DEPENDS_class-native explicitly and sent a v2 of 
+the patch. Please let me know how it works. Thanks.
 
- .../0001-tools-env-fix-build-error.patch           | 36 ++++++++++++++++++++++
- ...utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} | 21 +++++++------
- ...kimage_2014.07.bb => u-boot-mkimage_2015.01.bb} | 21 ++++++-------
- meta/recipes-bsp/u-boot/u-boot.inc                 |  2 +-
- .../{u-boot_2014.07.bb => u-boot_2015.01.bb}       |  6 ++--
- 5 files changed, 62 insertions(+), 24 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} (58%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2014.07.bb => u-boot-mkimage_2015.01.bb} (45%)
- rename meta/recipes-bsp/u-boot/{u-boot_2014.07.bb => u-boot_2015.01.bb} (50%)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
-new file mode 100644
-index 0000000..381b505
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
-@@ -0,0 +1,36 @@
-+From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
-+From: Masahiro Yamada <yamada.m@jp.panasonic.com>
-+Date: Wed, 3 Dec 2014 10:22:50 +0900
-+Subject: [PATCH] tools: env: fix build error
-+
-+Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
-+tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
-+is defined.
-+(I do not think this is the right way to fix the problem, but
-+for now I do not have enough time to take a close look.)
-+
-+Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
-+
-+Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
-+Reported-by: Denys Dmytriyenko <denys@ti.com>
-+---
-+ tools/env/fw_env.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
-+index 1173eea..698fe51 100644
-+--- a/tools/env/fw_env.c
-++++ b/tools/env/fw_env.c
-+@@ -8,6 +8,9 @@
-+  * SPDX-License-Identifier:	GPL-2.0+
-+  */
-+ 
-++/* FIXME: Do not include this */
-++#include <linux/kconfig.h>
-++
-+ #include <errno.h>
-+ #include <env_flags.h>
-+ #include <fcntl.h>
-+-- 
-+2.2.0
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
-similarity index 58%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
-index 9a304c8..17453ca 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
-@@ -1,21 +1,24 @@
- SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
- SECTION = "bootloader"
- DEPENDS = "mtd-utils"
- 
--# This revision corresponds to the tag "v2014.07"
-+# This revision corresponds to the tag "v2015.01"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
-+SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
- 
--PV = "v2014.07+git${SRCPV}"
-+PV = "v2015.01+git${SRCPV}"
- 
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
-+SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
-+           file://0001-tools-env-fix-build-error.patch"
- 
- S = "${WORKDIR}/git"
- 
- INSANE_SKIP_${PN} = "already-stripped"
-+EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC}"'
-+EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH}'
- 
- inherit uboot-config
- 
-@@ -33,14 +36,14 @@ do_install () {
- }
- 
- do_install_class-cross () {
--    install -d ${D}${bindir_cross}
--    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
--    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
-+	install -d ${D}${bindir_cross}
-+	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
-+	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
- }
- 
- SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
- uboot_fw_utils_cross() {
--    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
-+	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
- }
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
-similarity index 45%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
-index eabf680..e68b5ee 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
-@@ -1,28 +1,27 @@
- SUMMARY = "U-Boot bootloader image creation tool"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
- SECTION = "bootloader"
- 
--# This revision corresponds to the tag "v2014.07"
-+DEPENDS = "openssl"
-+DEPENDS_class-native = "openssl-native"
-+
-+# This revision corresponds to the tag "v2015.01"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
-+SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
- 
--PV = "v2014.07+git${SRCPV}"
-+PV = "v2015.01+git${SRCPV}"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
-+EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC}" STRIP=true'
- 
- do_compile () {
--	# Make sure the recompile is OK
--	rm -f ${B}/tools/.depend
--
--	make HOSTCC="${BUILD_CC}" HOSTLD="${BUILD_LD}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTSTRIP=true dot-config=0 scripts_basic
--	sed 's/^tools-only: scripts_basic /tools-only: /' -i Makefile
--	oe_runmake tools-only
-+	oe_runmake sandbox_defconfig
-+	oe_runmake cross_tools NO_SDL=1
- }
- 
- do_install () {
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 58725fa..5c6cb4e 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -4,7 +4,7 @@ SECTION = "bootloaders"
- PROVIDES = "virtual/bootloader"
- 
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
-similarity index 50%
-rename from meta/recipes-bsp/u-boot/u-boot_2014.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2015.01.bb
-index 44cc52e..6feac31 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
-@@ -2,8 +2,8 @@ require u-boot.inc
- 
- DEPENDS += "dtc-native"
- 
--# This revision corresponds to the tag "v2014.07"
-+# This revision corresponds to the tag "v2015.01"
- # We use the revision in order to avoid having to fetch it from the repo during parse
--SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
-+SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
- 
--PV = "v2014.07+git${SRCPV}"
-+PV = "v2015.01+git${SRCPV}"
 -- 
-2.2.0
-
+Denys
 
