@@ -1,26 +1,26 @@
 Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CC0872DAE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D0543732F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 19:19:17 +0000 (UTC)
+	Tue, 10 Feb 2015 19:19:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1AJJIGS020338
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1AJJHkq017452
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Feb 2015 11:19:18 -0800 (PST)
+	Tue, 10 Feb 2015 11:19:17 -0800 (PST)
 Received: from op3.wrs.com (128.224.56.210) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 10 Feb 2015 11:19:18 -0800
+	Tue, 10 Feb 2015 11:19:17 -0800
 From: Paul Gortmaker <paul.gortmaker@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Feb 2015 14:19:05 -0500
-Message-ID: <1423595946-25011-3-git-send-email-paul.gortmaker@windriver.com>
+Date: Tue, 10 Feb 2015 14:19:04 -0500
+Message-ID: <1423595946-25011-2-git-send-email-paul.gortmaker@windriver.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <1423595946-25011-1-git-send-email-paul.gortmaker@windriver.com>
 References: <1423595946-25011-1-git-send-email-paul.gortmaker@windriver.com>
 MIME-Version: 1.0
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/3] coreutils: import prebuilt manpages from Gentoo
+Subject: [PATCH 1/3] coreutils: don't generate useless dummy stub manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +33,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 19:19:18 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 19:19:19 -0000
 Content-Type: text/plain
 
-As can be seen here:
+We had a couple patches to 1) deal with missing perl and 2) deal
+with the perl-less "dummy" help2man fallout, but in the end, they
+achieve no purpose whatsoever, since they just populate the doc
+RPM with manpages like this one:
 
-http://lists.gnu.org/archive/html/coreutils/2014-11/msg00001.html
+  NAME
+       chmod - a GNU coreutils 8.22 program
 
-other people have run into the headache of trying to cross compile
-coreutils, with the "help2man" problem (assumes host can run the
-target binaries with "--help" arg to collect data for manpage.)
+  DESCRIPTION
+       OOOPS!   Due to the lack of perl on the build system, we were
+       unable to create a proper manual page for chmod.
 
-And since "current wisdom is this is working as intended" we are
-largely left with no choice but to use the same solution and
-abandon trying to generate the man pages at build time.  So here
-we import prebuilt manpages.
+As the above serves no purpose whatsoever, and since the concept
+of running the binaries to capture the "--help" text output is
+completely broken for cross compiles, lets just decouple man page
+generation from the building of coreutils entirely so it paves the
+way for importing pre-generated manpages.
 
 Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 ---
- meta/recipes-core/coreutils/coreutils_8.23.bb | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ .../coreutils/coreutils-8.23/dummy_help2man.patch  | 22 ---------------
+ .../coreutils-8.23/fix-for-dummy-man-usage.patch   | 31 ----------------------
+ .../man-decouple-manpages-from-build.patch         | 27 +++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.23.bb      |  3 +--
+ 4 files changed, 28 insertions(+), 55 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
 
+diff --git a/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch b/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
+deleted file mode 100644
+index 4757f52aa0be..000000000000
+--- a/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Inappropriate [disable feature]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd coreutils-8.21/man/local.mk coreutils-8.21/man/local.mk
+---- coreutils-8.21/man/local.mk	2013-02-05 16:01:21.000000000 +0200
+-+++ coreutils-8.21/man/local.mk	2013-03-23 09:12:53.360470192 +0200
+-@@ -19,11 +19,11 @@
+- EXTRA_DIST += man/help2man man/dummy-man
+-
+- ## Graceful degradation for systems lacking perl.
+--if HAVE_PERL
+--run_help2man = $(PERL) -- $(srcdir)/man/help2man
+--else
+-+#if HAVE_PERL
+-+#run_help2man = $(PERL) -- $(srcdir)/man/help2man
+-+#else
+- run_help2man = $(SHELL) $(srcdir)/man/dummy-man
+--endif
+-+#endif
+-
+- man1_MANS = @man1_MANS@
+- EXTRA_DIST += $(man1_MANS:.1=.x)
+diff --git a/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch b/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
+deleted file mode 100644
+index 58b6a7613038..000000000000
+--- a/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status: Pending
+-
+-coreutils: fix for dummy-man usage
+-
+-The options should be before the final argument, otherwise, the following error
+-would appear when compiling.
+-
+-"dummy-man: too many non-option arguments"
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- man/local.mk | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/man/local.mk b/man/local.mk
+-index ba8fbf7..3833458 100644
+---- a/man/local.mk
+-+++ b/man/local.mk
+-@@ -101,8 +101,8 @@ man/dynamic-deps.mk: Makefile
+- 	  && $(run_help2man)						\
+- 		     --source='$(PACKAGE_STRING)'			\
+- 		     --include=$(srcdir)/man/$$name.x			\
+--		     --output=$$t/$$name.1 $$t/$$argv			\
+- 		     --info-page='coreutils \(aq'$$name' invocation\(aq' \
+-+		     --output=$$t/$$name.1 $$t/$$argv			\
+- 	  && sed \
+- 	       -e 's|$*\.td/||g' \
+- 	       -e '/For complete documentation/d' \
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch b/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
+new file mode 100644
+index 000000000000..3c896a11bf2d
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
+@@ -0,0 +1,27 @@
++From b4d258629f090066783c3b4c91b40f63b9d0a296 Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Sun, 8 Feb 2015 16:51:57 -0500
++Subject: [PATCH] man: decouple manpages from build
++
++The use of "help2man" doesn't work at all for cross compile, in
++addition to the extra requirement of perl it adds.
++
++Just decouple the manpages from the build in order to pave the way for
++importing prebuilt manpages that can be used in a cross build situation.
++
++Upstream-Status: Inappropriate [upstream doesn't care about x-compile case.]
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++diff --git a/Makefile.am b/Makefile.am
++index fb4af27..7576b2c 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -214,5 +214,4 @@ AM_CPPFLAGS = -Ilib -I$(top_srcdir)/lib -Isrc -I$(top_srcdir)/src
++ include $(top_srcdir)/lib/local.mk
++ include $(top_srcdir)/src/local.mk
++ include $(top_srcdir)/doc/local.mk
++-include $(top_srcdir)/man/local.mk
++ include $(top_srcdir)/tests/local.mk
++-- 
++2.2.2
++
 diff --git a/meta/recipes-core/coreutils/coreutils_8.23.bb b/meta/recipes-core/coreutils/coreutils_8.23.bb
-index be68a310311a..5454a43527cc 100644
+index e9d6494708de..be68a310311a 100644
 --- a/meta/recipes-core/coreutils/coreutils_8.23.bb
 +++ b/meta/recipes-core/coreutils/coreutils_8.23.bb
-@@ -12,14 +12,17 @@ DEPENDS_class-native = ""
- 
+@@ -13,9 +13,8 @@ DEPENDS_class-native = ""
  inherit autotools gettext texinfo
  
--SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-+SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
-+           http://distfiles.gentoo.org/distfiles/${BP}-man.tar.xz;name=manpages \
-            file://man-decouple-manpages-from-build.patch \
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
++           file://man-decouple-manpages-from-build.patch \
             file://remove-usr-local-lib-from-m4.patch \
+-           file://dummy_help2man.patch \
+-           file://fix-for-dummy-man-usage.patch \
             file://fix-selinux-flask.patch \
            "
  
--SRC_URI[md5sum] = "abed135279f87ad6762ce57ff6d89c41"
--SRC_URI[sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
-+SRC_URI[tarball.md5sum] = "abed135279f87ad6762ce57ff6d89c41"
-+SRC_URI[tarball.sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
-+SRC_URI[manpages.md5sum] = "ce49bc8360e16afe67581d136606efc7"
-+SRC_URI[manpages.sha256sum] = "d1b16e74b3dba4f313aeebae2c69da205f7d2e6e1c2aa8d39026c860d314ecca"
- 
- EXTRA_OECONF_class-native = "--without-gmp"
- EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
-@@ -53,6 +56,8 @@ sbindir_progs= "chroot"
- # directory.
- acpaths = "-I ./m4"
- 
-+FILES_${PN}-doc += "${mandir}"
-+
- # Deal with a separate builddir failure if src doesn't exist when creating version.c/version.h
- do_compile_prepend () {
- 	mkdir -p ${B}/src
-@@ -71,6 +76,10 @@ do_install_append() {
- 	# in update-alternatives to fail, therefore use lbracket - the name used
- 	# for the actual source file.
- 	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
-+
-+	# prebuilt man pages
-+	install -d ${D}/${mandir}/man1
-+	install -t ${D}/${mandir}/man1 ${S}/man/*.1
- }
- 
- do_install_append_class-native(){
 -- 
 2.2.1
 
