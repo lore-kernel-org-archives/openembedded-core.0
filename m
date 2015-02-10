@@ -1,26 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 37ACA6E593
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 29C1965CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 09:14:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1A9EDgW009478
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 10 Feb 2015 12:37:19 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id w7so2414882qcr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 01:14:14 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 10 Feb 2015 01:14:13 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Feb 2015 17:14:10 +0800
-Message-ID: <9a96f78fbc6562ff7813121cab49a6ee8e1bd34a.1423559596.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1423559596.git.Qi.Chen@windriver.com>
-References: <cover.1423559596.git.Qi.Chen@windriver.com>
+	Tue, 10 Feb 2015 04:37:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qnAv9ymK654qyQCK0rtGvmm9gydPd6gpDpsdNB+i24A=;
+	b=B7sauJIPylLZaQpkpsrOWGMLXBRSSfnth3cfh+/Lews07U4hVKq4ObClG92R/CcygT
+	Oh7xySG/ZqzW0ObIxtrqEehER/tDosLw17FcWYvw9U+U2pZWZ204+xOQIyMzDdzPB4n8
+	Jofvc/pb/SaWfK8GDrDg4iGE7pjGiRio7dx6HFRZc24esoMCxYyS/xgGNePqKSaps5ap
+	LGko/UTZf6qhTxt01ujw049vIsIUH2BEtc3NYoJBCcfRQZznKN5GWE2ffrTLsywBTptb
+	5JraawYcX1hTF2BP94NygXrBOECUiq4Fe0ICK5WxdEXWK5gBp0m8bn6ffqMCFa+KNjfU
+	ppRA==
+X-Gm-Message-State: ALoCoQmj/8WJ78x/9+oLSUxAiH8Ds6Lw2I2FmgHd+a/wf9l93ucne29cSAsZdIDW2CsS+F80Snqv
+X-Received: by 10.140.49.5 with SMTP id p5mr50258368qga.15.1423571840770; Tue,
+	10 Feb 2015 04:37:20 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: fix do_install failure in case of multilib
+Received: by 10.140.96.166 with HTTP; Tue, 10 Feb 2015 04:37:00 -0800 (PST)
+In-Reply-To: <9a96f78fbc6562ff7813121cab49a6ee8e1bd34a.1423559596.git.Qi.Chen@windriver.com>
+References: <cover.1423559596.git.Qi.Chen@windriver.com>
+	<9a96f78fbc6562ff7813121cab49a6ee8e1bd34a.1423559596.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Feb 2015 12:37:00 +0000
+Message-ID: <CAJTo0Lagm4DoEGnSHuXLJ-e7Khz+ciH0c17rGtxJH+rq6xAGnw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemd: fix do_install failure in case of multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 09:14:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Feb 2015 12:37:31 -0000
+Content-Type: multipart/alternative; boundary=001a11351944e1bd86050ebb2588
 
-Instead of using ${libdir}, we should use ${prefix}${nonarch_base_libdir},
-so that we don't get error like below at do_install time.
+--001a11351944e1bd86050ebb2588
+Content-Type: text/plain; charset=UTF-8
 
-| sed: can't read /home/chenqi/poky/build-systemd/tmp/work/core2-64-poky-linux/systemd/1_216+gitAUTOINC+5d0ae62c66-r0/image/usr/lib64/tmpfiles.d/systemd.conf: No such file or directory
-| WARNING: exit code 2 from a shell command.
-| ERROR: Function failed: do_install (log file is located at /home/chenqi/poky/build-systemd/tmp/work/core2-64-poky-linux/systemd/1_216+gitAUTOINC+5d0ae62c66-r0/temp/log.do_install.327)
+On 10 February 2015 at 09:14, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/systemd/systemd_216.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> -       ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '', 'sed -i -e
+> "\$ad /run/systemd/netif/links 0755 root root -"
+> ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
+> +       ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '', 'sed -i -e
+> "\$ad /run/systemd/netif/links 0755 root root -"
+> ${D}${prefix}${nonarch_base_libdir}/tmpfiles.d/systemd.conf', d)}
+>
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 569e88c..f675c6a 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -158,7 +158,7 @@ do_install() {
- 	sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
- 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
- 	# for existence else it fails
--	${@bb.utils.contains('PACKAGECONFIG', 'networkd', '', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
-+	${@bb.utils.contains('PACKAGECONFIG', 'networkd', '', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${prefix}${nonarch_base_libdir}/tmpfiles.d/systemd.conf', d)}
- }
- 
- do_install_ptest () {
--- 
-1.9.1
+systemd.bb has a few variables that mirror the variabes used in the systemd
+build system, rootprefix/rootlibdir/rootlibexecdir.  Would using one of
+those match the variables used in the makefile to install these files to
+avoid this sort of thing happening again?
 
+Ross
 
+--001a11351944e1bd86050ebb2588
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 February 2015 at 09:14, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":24c" class=3D"a3=
+s" style=3D"overflow:hidden">-=C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contai=
+ns(&#39;PACKAGECONFIG&#39;, &#39;networkd&#39;, &#39;&#39;, &#39;sed -i -e =
+&quot;\$ad /run/systemd/netif/links 0755 root root -&quot; ${D}${libdir}/tm=
+pfiles.d/systemd.conf&#39;, d)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &=
+#39;networkd&#39;, &#39;&#39;, &#39;sed -i -e &quot;\$ad /run/systemd/netif=
+/links 0755 root root -&quot; ${D}${prefix}${nonarch_base_libdir}/tmpfiles.=
+d/systemd.conf&#39;, d)}</div></blockquote></div><br><a href=3D"http://syst=
+emd.bb">systemd.bb</a> has a few variables that mirror the variabes used in=
+ the systemd build system, rootprefix/rootlibdir/rootlibexecdir.=C2=A0 Woul=
+d using one of those match the variables used in the makefile to install th=
+ese files to avoid this sort of thing happening again?</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11351944e1bd86050ebb2588--
