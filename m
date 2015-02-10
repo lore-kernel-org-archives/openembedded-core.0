@@ -1,34 +1,60 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BF57B601A0
+Return-Path: <nathan.rossi@xilinx.com>
+X-Greylist: delayed 866 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 10 Feb 2015 08:30:06 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0081.outbound.protection.outlook.com [157.56.111.81])
+	by mail.openembedded.org (Postfix) with ESMTP id 948BB6E218
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 03:24:01 +0000 (UTC)
-Received: by iecvy18 with SMTP id vy18so2349954iec.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Feb 2015 19:24:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=8wmhcjrJ+OxAd47GrNbPo1MSjdEucfYmt9bqls5o03g=;
-	b=N+qGzb3jqsLpuC7oE4oBk48qlcA7PpBuIDywo4OCvgRbseO1yeArIiCE8hdY494pOI
-	yN5FA51i2Bmmc5KaWeJJkOwFsfPqzQy8PPrYyfyW/ETT58mygquAZPzlVQbWoYF+he+z
-	8bofwE3ADCs21oV++O5PUXOc3mhvT+Vp1sTnp3jP09cuu0jfv1mFL3cv8FwxZ66h+uJ6
-	clTT4qFkESEI5t9MePM9arc1DI1BG+qZim+LEvVbiW/KDppvk4SJTCD/BgCUd9mdK+Qv
-	PkcuQftXaAdE8gtS/sGUu25siqKI+lrFI4UvijOW7RpvIB+A6sHVgxxokyvvFLNzDAYI
-	nX6Q==
-X-Received: by 10.107.12.13 with SMTP id w13mr6199422ioi.28.1423538642800;
-	Mon, 09 Feb 2015 19:24:02 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id g4sm7746922ioe.19.2015.02.09.19.24.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 09 Feb 2015 19:24:02 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Feb 2015 19:23:46 -0800
-Message-Id: <1423538626-17248-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] mesa: update 10.4.3 -> 10.4.4
+	Tue, 10 Feb 2015 08:30:06 +0000 (UTC)
+Received: from BN1BFFO11FD024.protection.gbl (10.58.144.32) by
+	BN1BFFO11HUB007.protection.gbl (10.58.144.154) with Microsoft SMTP
+	Server (TLS) id 15.1.87.10; Tue, 10 Feb 2015 08:15:39 +0000
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BN1BFFO11FD024.mail.protection.outlook.com (10.58.144.87) with
+	Microsoft SMTP Server (TLS) id 15.1.87.10 via Frontend Transport;
+	Tue, 10 Feb 2015 08:15:38 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <nathan.rossi@xilinx.com>) id 1YL5vH-0005Tf-JY
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Feb 2015 00:11:55 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Feb 2015 18:15:24 +1000
+X-Mailer: git-send-email 2.1.1
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21318.005
+X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
+Message-ID: <e52e18058b014ec99967f98da83d4753@BN1BFFO11FD024.protection.gbl>
+X-EOPAttributedMessage: 0
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=nathan.rossi@xilinx.com; 
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(438002)(92566002)(104016003)(47776003)(48376002)(110136001)(33646002)(50466002)(108616004)(53416004)(46102003)(450100001)(50986999)(86362001)(19580405001)(19580395003)(62966003)(50226001)(87936001)(74316001)(6806004)(106466001)(229853001)(92726002)(2351001)(77156002)(107986001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1BFFO11HUB007;
+	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; MLV:sfv; LANG:en; 
+MIME-Version: 1.0
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1BFFO11HUB007;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
+	SRVR:BN1BFFO11HUB007; 
+X-Forefront-PRVS: 048396AFA0
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1BFFO11HUB007; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2015 08:15:38.6543 (UTC)
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1BFFO11HUB007
+Cc: Nathan Rossi <nathan.rossi@xilinx.com>
+Subject: [PATCH] qemu: Update PACKAGECONFIG[xen] and add xen to defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,57 +67,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 03:24:04 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 08:30:13 -0000
+Content-Type: text/plain
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+* Add build and runtime dependencies for PACKAGECONFIG[xen]
+* Add xen as a default PACKAGECONFIG option when it is part of
+  DISTRO_FEATURES
+
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
 ---
- meta/recipes-graphics/mesa/{mesa-gl_10.4.3.bb => mesa-gl_10.4.4.bb} | 0
- meta/recipes-graphics/mesa/{mesa_10.4.3.bb => mesa_10.4.4.bb}       | 4 ++--
- meta/recipes-graphics/mesa/mesa_git.bb                              | 6 ++----
- 3 files changed, 4 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_10.4.3.bb => mesa-gl_10.4.4.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_10.4.3.bb => mesa_10.4.4.bb} (78%)
+This patch comes about due to the handling of the PACKAGECONFIG value and that
+it is not straight forward to append to the ??= value without the use of the
+bitbake internal '_defaultval' flag (aka PACKAGECONFIG[_defaultval]). Which is
+needed to achieve the seemless (from a user viewpoint) enabling of xen features
+of QEMU when the feature is enabled at the distro level.
+---
+ meta/recipes-devtools/qemu/qemu.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb b/meta/recipes-graphics/mesa/mesa-gl_10.4.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_10.4.3.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_10.4.4.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_10.4.3.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-similarity index 78%
-rename from meta/recipes-graphics/mesa/mesa_10.4.3.bb
-rename to meta/recipes-graphics/mesa/mesa_10.4.4.bb
-index 9669bcb..8140411 100644
---- a/meta/recipes-graphics/mesa/mesa_10.4.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-@@ -2,8 +2,8 @@ require ${BPN}.inc
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 49415c1..4225db7 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -86,7 +86,10 @@ do_install_append() {
+ }
+ # END of qemu-mips workaround
  
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "be86c4ee226f8ca28b7d4c728c350b01"
--SRC_URI[sha256sum] = "ef6ecc9c2f36c9f78d1662382a69ae961f38f03af3a0c3268e53f351aa1978ad"
-+SRC_URI[md5sum] = "62faf98ac79c5587f8e917e187419e6c"
-+SRC_URI[sha256sum] = "f18a967e9c4d80e054b2fdff8c130ce6e6d1f8eecfc42c9f354f8628d8b4df1c"
- 
- S = "${WORKDIR}/Mesa-${PV}"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index e554ff4..cbe8911 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -2,10 +2,8 @@ require ${BPN}.inc
- 
- DEFAULT_PREFERENCE = "-1"
- 
--LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
--
--SRCREV = "f70e4d4afd16e66506ce3b055edb3b71b1464890"
--PV = "10.4.3+git${SRCPV}"
-+SRCREV = "62eb27ac8bbd979796f50e253f6c786d7d791242"
-+PV = "10.4.4+git${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;branch=10.4"
- 
+-PACKAGECONFIG ??= "fdt sdl alsa"
++PACKAGECONFIG ??= " \
++	fdt sdl alsa \
++	${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen', '', d)} \
++	"
+ PACKAGECONFIG_class-native ??= "fdt alsa"
+ PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
+ NATIVEDEPS = ""
+@@ -95,7 +98,7 @@ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl ${NATIVEDEPS},"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+ PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
+ PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+-PACKAGECONFIG[xen] = "--enable-xen, --disable-xen,,"
++PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,xen-libxenstore xen-libxenctrl xen-libxenguest"
+ PACKAGECONFIG[quorum] = "--enable-quorum, --disable-quorum, gnutls,"
+ PACKAGECONFIG[vnc-tls] = "--enable-vnc --enable-vnc-tls,--disable-vnc-tls, gnutls,"
+ PACKAGECONFIG[vnc-ws] = "--enable-vnc --enable-vnc-ws,--disable-vnc-ws, gnutls,"
 -- 
-1.9.1
+2.1.1
 
 
