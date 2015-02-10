@@ -1,24 +1,37 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4E76E218
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D541865CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 15:45:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 10 Feb 2015 07:40:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="664343281"
-Received: from flopezex-desk.amr.corp.intel.com (HELO
-	alimon-ThinkPad-W540.zpn.intel.com) ([10.219.4.140])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2015 07:45:39 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2015 09:45:59 -0600
-Message-Id: <a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1423583089.git.anibal.limon@linux.intel.com>
-References: <cover.1423583089.git.anibal.limon@linux.intel.com>
+	Tue, 10 Feb 2015 15:53:03 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id e89so13413583qgf.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Feb 2015 07:53:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=uwboZfkrsq4KdYhcwRvwVXpnGqSHeBELdE0ThPEHqXQ=;
+	b=TxW2hn0vb09YCnHDyvkhJtoGc0doUvZy59ZO/TeIS+k6+3LRzhTbVsn9yGuSprMEVh
+	iSUUrGXSRwBYSOOocP54Owac4Ad6+Zx+wO508cukuwDdpPdAPV9KIIFFBEMa9kgGXg0z
+	Pz6YVy/SF13Iuo1SEzoVqZOSoO5y8zqCp1GlaLRqwm5mr73chjNOQJxaPvb8N6W5VhKH
+	38T1EHhL6UKIIefw+3OYWP0GED+SBcAiMsHzZhJYcqB71Cf96vmPOE8+MtvU0librQrJ
+	YiQYRJWUvbFn8gsXxUF0bt4kGX6uDAsBLPB2hNhn+oYzFhDR0J1JMQ1S+3P9bvc7jz+X
+	hDsA==
+X-Gm-Message-State: ALoCoQmUkGcHsbW8AN+fP0uy0Z6Btt1UdvMb/etgw70nUjrUUOzGj/9RBzOTBvwJpjQ5GOSae96t
+X-Received: by 10.224.16.207 with SMTP id p15mr21924037qaa.22.1423583584155;
+	Tue, 10 Feb 2015 07:53:04 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] xserver-xorg: Update to 1.16.3
+Received: by 10.140.96.166 with HTTP; Tue, 10 Feb 2015 07:52:43 -0800 (PST)
+In-Reply-To: <a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
+References: <cover.1423583089.git.anibal.limon@linux.intel.com>
+	<a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Feb 2015 15:52:43 +0000
+Message-ID: <CAJTo0LbzAFYpQ6jD4djPCdMzAMRxCZhQ2rBTTLuGeft9uPDHzQ@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] xserver-xorg: Update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,61 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 15:45:43 -0000
+X-List-Received-Date: Tue, 10 Feb 2015 15:53:07 -0000
+Content-Type: multipart/alternative; boundary=047d7bf16620d78fb1050ebde167
+
+--047d7bf16620d78fb1050ebde167
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Add packageconfig for systemd-logind instead of hard disable in
-EXTRA_OECONF this allows users to use packageconfig.
+Hi Anibal,
 
-Update checksums.
+On 10 February 2015 at 15:45, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.in=
+tel.com>
+wrote:
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc                   | 2 +-
- .../xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb}   | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.16.2.bb => xserver-xorg_1.16.3.bb} (88%)
+> +PACKAGECONFIG[systemd-logind] =3D
+> "--enable-systemd-logind=3Dyes,--enable-systemd-logind=3Dno,dbus,dbus-lib=
+"
+>
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 6154295..ece7ddf 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -114,7 +114,6 @@ EXTRA_OECONF += "--with-fop=no \
-                  --with-xkb-output=/var/lib/xkb \
-                  --with-sha1=libcrypto \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
--                 --disable-systemd-logind \
- "
- 
- PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
-@@ -128,6 +127,7 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
- PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
- PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-+PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,dbus-lib"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-index 7d7d83e..347ce3b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-@@ -7,8 +7,8 @@ SRC_URI += "file://fix_open_max_preprocessor_error.patch \
-             file://Fix-subwindow-in-Xi-emulated-events.patch \
-            "
- 
--SRC_URI[md5sum] = "89620960b13515db8d0a8dbb92a1378a"
--SRC_URI[sha256sum] = "446e0c3ebd556aced78ec0000ba9ae73f1e5317117d497f827afba48b787ce64"
-+SRC_URI[md5sum] = "afd93977235584a9caa7528a737c1b52"
-+SRC_URI[sha256sum] = "5e0f443238af1078b48f6eea98a382861b59187da221c2cf714d31c1d560b0fb"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
--- 
-1.9.1
+This adds an explicit runtime dependency on dbus-lib if logind is enabled,
+which probably isn't what you want as the xserver will add this dependency
+automatically.
 
+Ross
 
+--047d7bf16620d78fb1050ebde167
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Anibal,</div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">On 10 February 2015 at 15:45, An=
+=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@l=
+inux.intel.com" target=3D"_blank">anibal.limon@linux.intel.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":4mx" class=3D"a3s" =
+style=3D"overflow:hidden">+PACKAGECONFIG[systemd-logind] =3D &quot;--enable=
+-systemd-logind=3Dyes,--enable-systemd-logind=3Dno,dbus,dbus-lib&quot;</div=
+></blockquote></div><br>This adds an explicit runtime dependency on dbus-li=
+b if logind is enabled, which probably isn&#39;t what you want as the xserv=
+er will add this dependency automatically.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7bf16620d78fb1050ebde167--
