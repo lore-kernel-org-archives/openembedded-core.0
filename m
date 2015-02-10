@@ -1,30 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 33C636E593
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id E946565CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 16:26:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2015 08:22:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="452653080"
-Received: from flopezex-desk.amr.corp.intel.com (HELO [10.219.4.140])
-	([10.219.4.140])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2015 08:11:52 -0800
-Message-ID: <54DA3148.9010401@linux.intel.com>
-Date: Tue, 10 Feb 2015 10:26:48 -0600
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1423583089.git.anibal.limon@linux.intel.com>
-	<a4615dc0eee370013a8948a093a730f3233d5888.1423583089.git.anibal.limon@linux.intel.com>
-	<CAJTo0LbzAFYpQ6jD4djPCdMzAMRxCZhQ2rBTTLuGeft9uPDHzQ@mail.gmail.com>
-	<54DA2A79.3020002@linux.intel.com>
-	<CAJTo0LZmMbNb+5hwbG-WYWEcd_LQF_0FxBLmr3hYYSMN6GFqgw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZmMbNb+5hwbG-WYWEcd_LQF_0FxBLmr3hYYSMN6GFqgw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xserver-xorg: Update to 1.16.3
+	Tue, 10 Feb 2015 16:29:02 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.89.130]) by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NJK00J7GDSF04B0@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 10 Feb 2015 10:29:04 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=Ko/6AtSI c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=0HtSIViG9nkA:10	a=QyXUC8HyAAAA:8
+	a=DKKOFzNMEErT2Msziz0A:9 a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 360BE20099; Tue,
+	10 Feb 2015 11:29:02 -0500 (EST)
+Date: Tue, 10 Feb 2015 11:29:02 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20150210162902.GC14949@denix.org>
+References: <1423584126-27786-1-git-send-email-denis@denix.org>
+	<CAJTo0LZHiTSkhv9YPobmssY_szH4jyzBeUXVyZnnTGYo5oAf4Q@mail.gmail.com>
+	<CAP9ODKogEuxRj0QoO-t5S3svVq9gYUjceBg5LfBrXS8k54US_w@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAP9ODKogEuxRj0QoO-t5S3svVq9gYUjceBg5LfBrXS8k54US_w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH v2] u-boot: update to version 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 16:26:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Feb 2015 16:29:03 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
+On Tue, Feb 10, 2015 at 02:17:55PM -0200, Otavio Salvador wrote:
+> Hello Ross,
+> 
+> On Tue, Feb 10, 2015 at 2:16 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 10 February 2015 at 16:02, Denys Dmytriyenko <denis@denix.org> wrote:
+> >>
+> >> +DEPENDS = "openssl"
+> >> +DEPENDS_class-native = "openssl-native"
+> >
+> >
+> > That *really* shouldn't be required. :(
+> 
+> I agree it is not needed and it does seem to be a fail in meta-fsl-ppc
+> which should be fixed there.
 
-On 10/02/15 09:58, Burton, Ross wrote:
-> On 10 February 2015 at 15:57, Aníbal Limón <anibal.limon@linux.intel.com>
-> wrote:
->
->> When you enable systemd-logind xserver automatically links to dbus causing
->> a QA issue that is the reason of
->> add this dependency.
->>
->> systemd uses dbus for all the communications with applications.
->>
-> That explains the third option (additional build dependency of "dbus") but
-> not the fourth (additional runtime dependency of dbus-lib).\
-That's right, sending v2.
+? Are you saying it's meta-fsl-ppc specific issue?
 
-     alimon
->
-> Ross
->
-
+-- 
+Denys
 
