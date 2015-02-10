@@ -1,26 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC90732E5
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id BF233732C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 18:32:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Feb 2015 10:32:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,551,1418112000"; d="scan'208";a="683814285"
-Received: from flopezex-desk.amr.corp.intel.com (HELO
-	alimon-ThinkPad-W540.zpn.intel.com) ([10.219.4.140])
-	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2015 10:32:04 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Tue, 10 Feb 2015 18:56:25 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.89.130]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NJK006B6KLDBH61@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 10 Feb 2015 12:56:07 -0600 (CST)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=QM3fnbPO c=1 sm=1 tr=0	a=ckUr7rGttv+NBxkAVUaaIw==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=-9mUelKeXuEA:10 a=0HtSIViG9nkA:10
+	a=sozttTNsAAAA:8 a=x2GZnTqNAAAA:8	a=voM4FWlXAAAA:8
+	a=b_hVNvnix053jtRUPRkA:9 a=YP4rb1El8FCVLOHH:21
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 2C4B420015;	Tue,
+	10 Feb 2015 13:56:01 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2015 12:32:14 -0600
-Message-Id: <280d35a5f2fd514aaebd4e146ac9b380167d43c0.1423593058.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1423593058.git.anibal.limon@linux.intel.com>
-References: <cover.1423593058.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1423593058.git.anibal.limon@linux.intel.com>
-References: <cover.1423593058.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] xserver-xorg: Improvments in systemd-logind disable
+Date: Tue, 10 Feb 2015 13:56:00 -0500
+Message-id: <1423594560-15242-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v3] u-boot: update to version 2015.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +37,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 18:32:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Feb 2015 18:56:29 -0000
 
-Add packageconfig for systemd-logind instead of hard disable in
-EXTRA_OECONF this allows users to use packageconfig also add
-dependency of dbus because systemd-logind require it for communicate
-with systemd.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3 - pass CFLAGS and LDFLAGS to EXTRA_OEMAKE of all tools,
+pass V=1 everywhere for meaningful logs,
+native CFLAGS has -isystem pointing to correct sysroot
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 6154295..f0da488 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -114,7 +114,6 @@ EXTRA_OECONF += "--with-fop=no \
-                  --with-xkb-output=/var/lib/xkb \
-                  --with-sha1=libcrypto \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
--                 --disable-systemd-logind \
- "
+ .../0001-tools-env-fix-build-error.patch           | 36 ++++++++++++++++++++++
+ ...utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} | 21 +++++++------
+ ...kimage_2014.07.bb => u-boot-mkimage_2015.01.bb} | 20 ++++++------
+ meta/recipes-bsp/u-boot/u-boot.inc                 |  4 +--
+ .../{u-boot_2014.07.bb => u-boot_2015.01.bb}       |  6 ++--
+ 5 files changed, 62 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2014.07.bb => u-boot-fw-utils_2015.01.bb} (56%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2014.07.bb => u-boot-mkimage_2015.01.bb} (45%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2014.07.bb => u-boot_2015.01.bb} (50%)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+new file mode 100644
+index 0000000..381b505
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
+@@ -0,0 +1,36 @@
++From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
++From: Masahiro Yamada <yamada.m@jp.panasonic.com>
++Date: Wed, 3 Dec 2014 10:22:50 +0900
++Subject: [PATCH] tools: env: fix build error
++
++Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
++tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
++is defined.
++(I do not think this is the right way to fix the problem, but
++for now I do not have enough time to take a close look.)
++
++Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
++
++Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
++Reported-by: Denys Dmytriyenko <denys@ti.com>
++---
++ tools/env/fw_env.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
++index 1173eea..698fe51 100644
++--- a/tools/env/fw_env.c
+++++ b/tools/env/fw_env.c
++@@ -8,6 +8,9 @@
++  * SPDX-License-Identifier:	GPL-2.0+
++  */
++ 
+++/* FIXME: Do not include this */
+++#include <linux/kconfig.h>
+++
++ #include <errno.h>
++ #include <env_flags.h>
++ #include <fcntl.h>
++-- 
++2.2.0
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+similarity index 56%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+index 9a304c8..2b0550c 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
+@@ -1,21 +1,24 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
  
- PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
-@@ -128,6 +127,7 @@ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtua
- PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
- PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-+PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+-# This revision corresponds to the tag "v2014.07"
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
  
- do_install_append () {
- 	# Its assumed base-files creates this for us
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
++           file://0001-tools-env-fix-build-error.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+ INSANE_SKIP_${PN} = "already-stripped"
++EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
++EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
+ 
+ inherit uboot-config
+ 
+@@ -33,14 +36,14 @@ do_install () {
+ }
+ 
+ do_install_class-cross () {
+-    install -d ${D}${bindir_cross}
+-    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
+-    install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
++	install -d ${D}${bindir_cross}
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
+ }
+ 
+ SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
+ uboot_fw_utils_cross() {
+-    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
++	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+similarity index 45%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+index eabf680..57989c7 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+@@ -1,28 +1,26 @@
+ SUMMARY = "U-Boot bootloader image creation tool"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ SECTION = "bootloader"
+ 
+-# This revision corresponds to the tag "v2014.07"
++DEPENDS = "openssl"
++
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
++EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
+ 
+ do_compile () {
+-	# Make sure the recompile is OK
+-	rm -f ${B}/tools/.depend
+-
+-	make HOSTCC="${BUILD_CC}" HOSTLD="${BUILD_LD}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTSTRIP=true dot-config=0 scripts_basic
+-	sed 's/^tools-only: scripts_basic /tools-only: /' -i Makefile
+-	oe_runmake tools-only
++	oe_runmake sandbox_defconfig
++	oe_runmake cross_tools NO_SDL=1
+ }
+ 
+ do_install () {
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 58725fa..d1111e0 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -4,7 +4,7 @@ SECTION = "bootloaders"
+ PROVIDES = "virtual/bootloader"
+ 
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+@@ -14,7 +14,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit uboot-config deploy
+ 
+-EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
+ 
+ # Allow setting an additional version string that will be picked up by the
+ # u-boot build system and appended to the u-boot version.  If the .scmversion
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+similarity index 50%
+rename from meta/recipes-bsp/u-boot/u-boot_2014.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+index 44cc52e..6feac31 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2014.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
+@@ -2,8 +2,8 @@ require u-boot.inc
+ 
+ DEPENDS += "dtc-native"
+ 
+-# This revision corresponds to the tag "v2014.07"
++# This revision corresponds to the tag "v2015.01"
+ # We use the revision in order to avoid having to fetch it from the repo during parse
+-SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
++SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+-PV = "v2014.07+git${SRCPV}"
++PV = "v2015.01+git${SRCPV}"
 -- 
-1.9.1
+2.2.0
 
 
