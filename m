@@ -1,24 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 84CFF732A1
+	by mail.openembedded.org (Postfix) with ESMTP id 84E12732E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 10:10:29 +0000 (UTC)
+	Wed, 11 Feb 2015 10:10:28 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Feb 2015 02:10:29 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 11 Feb 2015 02:10:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,557,1418112000"; d="scan'208";a="525866922"
+X-IronPort-AV: E=Sophos;i="5.09,557,1418112000"; d="scan'208";a="525866918"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 11 Feb 2015 02:02:21 -0800
+	by orsmga003.jf.intel.com with ESMTP; 11 Feb 2015 02:02:20 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Feb 2015 12:10:21 +0200
-Message-Id: <7286ab2c8b1d2e7806bd1441c63efd55ea3556d9.1423649391.git.cristian.iorga@intel.com>
+Date: Wed, 11 Feb 2015 12:10:20 +0200
+Message-Id: <cover.1423649391.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1423649391.git.cristian.iorga@intel.com>
-References: <cover.1423649391.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1423649391.git.cristian.iorga@intel.com>
-References: <cover.1423649391.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/2] harfbuzz: upgrade to 0.9.38
+Subject: [PATCH 0/2] Various comms and multimedia PUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +29,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Feb 2015 10:10:36 -0000
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../harfbuzz/{harfbuzz_0.9.37.bb => harfbuzz_0.9.38.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 231d4a9d3d89af4b1b5f6ea439c630e4cac82079:
+
+  bitbake: bitbake-user-manual: Removed errant writer note line. (2015-02-10 23:09:32 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+
+Cristian Iorga (2):
+  harfbuzz: upgrade to 0.9.38
+  connman: upgrade to 1.28
+
+ .../connman/{connman_1.26.bb => connman_1.28.bb}                     | 5 ++---
+ .../harfbuzz/{harfbuzz_0.9.37.bb => harfbuzz_0.9.38.bb}              | 4 ++--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.26.bb => connman_1.28.bb} (67%)
  rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.37.bb => harfbuzz_0.9.38.bb} (88%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.37.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.38.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.37.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_0.9.38.bb
-index 333cf2e..90794c7 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.37.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.38.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
- SECTION = "libs"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
--SRC_URI[md5sum] = "bfe733250e34629a188d82e3b971bc1e"
--SRC_URI[sha256sum] = "255f3b3842dead16863d1d0c216643d97b80bfa087aaa8fc5926da24ac120207"
-+SRC_URI[md5sum] = "8839e574be8089c0de83768798bf7916"
-+SRC_URI[sha256sum] = "6736f383b4edfcaaeb6f3292302ca382d617d8c79948bb2dd2e8f86cdccfd514"
- 
- inherit autotools pkgconfig lib_package
- 
 -- 
 2.1.0
 
