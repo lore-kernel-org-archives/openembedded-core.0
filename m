@@ -1,36 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 62B186B6B7
+Return-Path: <matt@madison.systems>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E83A609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 12:25:25 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id q107so2265980qgd.6
+	Wed, 11 Feb 2015 12:33:01 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id lf10so3667955pab.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 04:25:26 -0800 (PST)
+	Wed, 11 Feb 2015 04:33:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NTvcmHt7vvFjLjZElax37GHEV0GKcIxSEdfPWVJE+h8=;
-	b=jwn4b/Ydu83FNiN8PqcLBHMlJOrn3ReCMvtpAt4Z0p18kpZyZY/iVEBJWulxsSObRG
-	kr+lu7Il7DfOhqSysoDBpNv3dO2pMMLc/qqczNG0axiCK0OuvF0p0sjl01vsWBm7Qflo
-	uJzEhKvBTQScvGOsx2e4xVvKRg+G3raqL83sNSTDzBKQfnwD3DYv/2E3czZh4fipGjWa
-	mgJCRUdCzmXgA9Nb1n/2CvnAMLbJlAS9CyCckKbN/0r/EiebU5YTEYwzIkzkS2zjeNhF
-	H7hQ9qwA2vLp+FIBEqW7Kjg2RKWl8PVKF1hlVWodUXjszTK33SAlLx3UiHaUc3cAWMGT
-	AVRA==
-X-Gm-Message-State: ALoCoQnNTWuLYMdd+gO/cCOIXkFbj6RtLgm/akDs2DIHZR5EKBrLwYEFRdE2RRBfSMwiIDrpF9NF
-X-Received: by 10.140.92.161 with SMTP id b30mr8024432qge.59.1423657526478;
-	Wed, 11 Feb 2015 04:25:26 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 11 Feb 2015 04:25:06 -0800 (PST)
-In-Reply-To: <1423613857-19514-1-git-send-email-paul.gortmaker@windriver.com>
-References: <1423613857-19514-1-git-send-email-paul.gortmaker@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Feb 2015 12:25:06 +0000
-Message-ID: <CAJTo0LYJpt2XpPL6SYtY+2sT9oR4DuBKdjoCtMZR7CHqygSF0Q@mail.gmail.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: fix do_rootfs failure due to version skew
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:content-type:mime-version:content-transfer-encoding;
+	bh=L5P3Y3X1WE4GMneJA604CHZO4796wpFr+Ud8FNk/jHo=;
+	b=R0z0Uwx0K1NdjiM65MXNHlQsAvhLzTo7MPXeTFgSmbXDr9p4kcQtPVqLJo6Hv4SA16
+	SUvIZZqwaTlwnKA+zAHNUHU50xIBarky8I7xmPLPJLbBhD+s2g3W+4z8qD8rXW2zqrqD
+	0vYNeFAXoczGp40G8pZvB34NaCDzo4QzO7LIl2yMrj04Q/ywYlKfrgjKAUnapGzAhlS/
+	3O+qVVJ655zkyY1oAnaB9YjUj7Hqqc5YC+uvYbHlTBXB5gq4CiugN2jhy8pJE1H3jvoo
+	65tC6kgckBexKmAL8hrHKH8eDl2BjDghoiiFQYA3VEr+/pvfyQrFlPiPH0rniXqiBX2v
+	kkiQ==
+X-Gm-Message-State: ALoCoQlfOz8Mx8N/eykylZADglQjR8fF5lREzB4J5YpbcOQBGXX3YhFvtvpdgpKG4TtjcNtmr/2g
+X-Received: by 10.70.56.102 with SMTP id z6mr951579pdp.18.1423657983188;
+	Wed, 11 Feb 2015 04:33:03 -0800 (PST)
+Received: from [172.16.1.18]
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93])
+	by mx.google.com with ESMTPSA id fu14sm833642pad.44.2015.02.11.04.33.02
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Feb 2015 04:33:02 -0800 (PST)
+Message-ID: <1423657981.6238.8.camel@workhorse.madison.systems>
+From: Matt Madison <matt@madison.systems>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Date: Wed, 11 Feb 2015 04:33:01 -0800
+In-Reply-To: <54DB2D2C.3010404@herbrechtsmeier.net>
+References: <CAGgRHJpOuqFFie9tycFK+7N5nj_GjfP3oGTAAyZoy+i3tpAfvA@mail.gmail.com>
+	<54DB2D2C.3010404@herbrechtsmeier.net>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: cmake.bbclass questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Feb 2015 12:25:33 -0000
-Content-Type: multipart/alternative; boundary=001a1139baf026315e050ecf190d
+X-List-Received-Date: Wed, 11 Feb 2015 12:33:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1139baf026315e050ecf190d
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2015-02-11 at 11:21 +0100, Stefan Herbrechtsmeier wrote:
+> Am 10.02.2015 um 23:53 schrieb Matt Madison:
+> > I just finished some recipes for some CMake-built packages (from the 
+> > Kurento project).  I managed to get everything building, but I had to 
+> > modify how cmake.bbclass does things, and I'm wondering if there's a 
+> > better way to solve some of these.
+> >
+> > Each of the packages generates a pkg-config file and a CMake module 
+> > that are then used by other packages (later in the build) to locate 
+> > their dependencies.  I see that cmake.bbclass hard-codes the 
+> > CMAKE_MODULE_PATH setting to point to just the location in the native 
+> > sysroot, but target packages can't install their CMake modules there.  
+> > I tweaked the definition so that when building non-native packages, 
+> > CMAKE_MODULE_PATH points into both the target sysroot and the native 
+> > sysroot.  This seemed to do the trick, but wasn't sure it was the 
+> > correct way to solve this.
+> Instead of a CMake module the project should install a 
+> <Name>Config.cmake in its data directory and append a private module 
+> directory to the CMAKE_MODULE_PATH.
 
-Hi Paul,
+Ah, OK. Is that the typical pattern for CMake-based packages?  
 
-On 11 February 2015 at 00:17, Paul Gortmaker <paul.gortmaker@windriver.com>
-wrote:
+> 
+> > The generated pkg-config files were a bit trickier - the CMakefiles 
+> > that generate them assume that the CMAKE_INSTALL_xxxDIR variables are 
+> > always relative paths, but cmake.bbclass passes in absolute paths -- 
+> > which, by my read of the CMake docs, is allowed.  I think in this case 
+> > the Kurento CMakefiles need fixing, but there were a lot of them, so 
+> > it was simpler to change cmake.bbclass to strip the prefix off the 
+> > front of those variable settings.
+> CMake supports relative and absolute paths for the CMAKE_INSTALL_xxxDIR 
+> variables but the default are relative paths.
+> 
+> The CMake files sould be fixed and extract the relative path from the 
+> full path variable:
+> file (RELATIVE_PATH CMAKE_INSTALL_RELATIVE_LIBDIR 
+> "${CMAKE_INSTALL_PREFIX}" "${CMAKE_INSTALL_FULL_LIBDIR}")
 
-> -RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (=
-> ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
-> +RDEPENDS_${PN}-dev = "avahi-daemon (>= ${PKGV}-${INC_PR}) libavahi-core
-> (>= ${PKGV}-${INC_PR}) libavahi-client (>= ${PKGV}-${INC_PR})"
->
+Great, thanks, I'll suggest that to them.
 
-But this then breaks the hard dependencies for the avahi package.
+Regards,
+-Matt
 
-Basically the problem is that you can't just include complex recipes in
-other recipes and expect it to work without lots of hackery.  In this case,
-the amount of hackery required to fix this and various other problems (I've
-an abandoned branch that sorts out other problems) is arguably more
-complicated that throwing all of this away and starting again.
 
-Personally, I don't see why we have avahi and avahi-ui.  Enabling the GTK+
-tools should be a PACKAGECONFIG option that is controlled by default by
-DISTRO_FEATURES, and all the hackery deleted.
 
-I've got a few branches that implement some of this already, I'll dig them
-out as this has been bugging me for a while now.
-
-Ross
-
---001a1139baf026315e050ecf190d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Paul,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 11 February 2015 at 00:17, Paul=
- Gortmaker <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.gortmaker@windriver=
-.com" target=3D"_blank">paul.gortmaker@windriver.com</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hidden">-RDEPENDS_=
-${PN}-dev =3D &quot;avahi-daemon (=3D ${EXTENDPKGV}) libavahi-core (=3D ${E=
-XTENDPKGV}) libavahi-client (=3D ${EXTENDPKGV})&quot;<br>
-+RDEPENDS_${PN}-dev =3D &quot;avahi-daemon (&gt;=3D ${PKGV}-${INC_PR}) liba=
-vahi-core (&gt;=3D ${PKGV}-${INC_PR}) libavahi-client (&gt;=3D ${PKGV}-${IN=
-C_PR})&quot;</div></blockquote><div><br></div><div>But this then breaks the=
- hard dependencies for the avahi package.</div><div><br></div><div>Basicall=
-y the problem is that you can&#39;t just include complex recipes in other r=
-ecipes and expect it to work without lots of hackery.=C2=A0 In this case, t=
-he amount of hackery required to fix this and various other problems (I&#39=
-;ve an abandoned branch that sorts out other problems) is arguably more com=
-plicated that throwing all of this away and starting again.</div><div><br><=
-/div><div>Personally, I don&#39;t see why we have avahi and avahi-ui.=C2=A0=
- Enabling the GTK+ tools should be a PACKAGECONFIG option that is controlle=
-d by default by DISTRO_FEATURES, and all the hackery deleted.</div><div><br=
-></div><div>I&#39;ve got a few branches that implement some of this already=
-, I&#39;ll dig them out as this has been bugging me for a while now.</div><=
-div><br></div><div>Ross</div></div></div></div>
-
---001a1139baf026315e050ecf190d--
