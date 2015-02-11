@@ -1,29 +1,39 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B04732A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 99587609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 16:49:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1BGnwf4008629
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Feb 2015 08:49:59 -0800 (PST)
-Received: from [128.224.56.57] (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 11 Feb 2015 08:49:58 -0800
-Message-ID: <54DB8842.9010100@windriver.com>
-Date: Wed, 11 Feb 2015 11:50:10 -0500
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1423613857-19514-1-git-send-email-paul.gortmaker@windriver.com>
-	<CAJTo0LYJpt2XpPL6SYtY+2sT9oR4DuBKdjoCtMZR7CHqygSF0Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LYJpt2XpPL6SYtY+2sT9oR4DuBKdjoCtMZR7CHqygSF0Q@mail.gmail.com>
-X-Originating-IP: [128.224.56.57]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: fix do_rootfs failure due to version skew
+	Wed, 11 Feb 2015 18:10:38 +0000 (UTC)
+Received: by mail-wg0-f54.google.com with SMTP id y19so5117606wgg.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Feb 2015 10:10:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=XoegILY37F3RDRkScq6pWiO01cJo787J6mlP9NUc8eY=;
+	b=foDaj4qixwQG3dHBPB/MYOWFFL0MbOxSrTN93M0Z1bbuGcU3NVka0RE/mWsLwPM+Un
+	k9X14MSWtrRh9mYh1yhpyNaA0ZeGCCXZxEiJ084P3PGTS74Ht8FUpGfeXXIfHJCO0Z4a
+	fGSR6HRxlqglRebgkg017K4R/NqABRXS1lo7/Mj4bgqD+/XqXpxSvzcTjSXD2xUuLT3w
+	+aaSqf0R0nu/sXbsbZ+cZGG2EawgBq1scHIM/RNTSRSX7xtCxLXiKuaxiDIb+HEJ1Xo8
+	ki+bxnh7J7A0WSAtaVkinNAOkEx2PeMmaFbM5H4BJPDQC1ACEvGuhZb3LPmgvwG2muLD
+	BUBQ==
+X-Gm-Message-State: ALoCoQly6T73eaPbbjGJBjlRL8aI4T34OGEmeoe/GZT3Q3QXyI1AXxxUubbxi76zLrXYYTjdJPBU
+X-Received: by 10.180.21.161 with SMTP id w1mr8014558wie.44.1423678238890;
+	Wed, 11 Feb 2015 10:10:38 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id hn2sm2309857wjc.5.2015.02.11.10.10.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Feb 2015 10:10:38 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Feb 2015 18:08:28 +0000
+Message-Id: <1423678110-27633-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1423678110-27633-1-git-send-email-ross.burton@intel.com>
+References: <1423678110-27633-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/4] gstreamer1.0-plugins-good: ship equaliser presets in right package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Feb 2015 16:50:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Feb 2015 18:10:45 -0000
 
-On 15-02-11 07:25 AM, Burton, Ross wrote:
-> Hi Paul,
-> 
-> On 11 February 2015 at 00:17, Paul Gortmaker <paul.gortmaker@windriver.com>
-> wrote:
-> 
->> -RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (=
->> ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
->> +RDEPENDS_${PN}-dev = "avahi-daemon (>= ${PKGV}-${INC_PR}) libavahi-core
->> (>= ${PKGV}-${INC_PR}) libavahi-client (>= ${PKGV}-${INC_PR})"
->>
-> 
-> But this then breaks the hard dependencies for the avahi package.
-> 
-> Basically the problem is that you can't just include complex recipes in
-> other recipes and expect it to work without lots of hackery.  In this case,
-> the amount of hackery required to fix this and various other problems (I've
-> an abandoned branch that sorts out other problems) is arguably more
-> complicated that throwing all of this away and starting again.
-> 
-> Personally, I don't see why we have avahi and avahi-ui.  Enabling the GTK+
-> tools should be a PACKAGECONFIG option that is controlled by default by
-> DISTRO_FEATURES, and all the hackery deleted.
-> 
-> I've got a few branches that implement some of this already, I'll dig them
-> out as this has been bugging me for a while now.
+The equaliser presets were packaged into ${PN} which was rarely installed, so
+move the files to the right subpackage.
 
-OK, I'll just keep a local fix for myself as required and leave it
-to you guys who have a better understanding of the problem space.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-BTW, Is there an open bug I can subscribe to?
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+index b33ab2b..37217f0 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+@@ -55,3 +55,4 @@ EXTRA_OECONF += " \
+     ${GSTREAMER_1_0_ORC} \
+ "
+ 
++FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+-- 
+1.7.10.4
 
-Thanks,
-Paul.
---
-
-> 
-> Ross
-> 
 
