@@ -1,34 +1,24 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EB4B77066B
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 461776E593
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 22:53:11 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id q107so18495955qgd.8
+	Wed, 11 Feb 2015 00:17:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1B0Hn1R020666
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 14:53:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=bSeAfxlZ4bkuTFyHmUl6oCQu4CRqmrN22craCsa9b64=;
-	b=RDEVEdy41oNrYL2hLFEoATM9ECOOVOIQwwihiZsUQ9VekC33WRauS95ndpDJ0wj2v0
-	rpOyuBXhOlS7SnAOj+M+5Fxi9egFw0I7LFVmqxu86J2MVep7M7suub2w7BiqBoBrK4p9
-	nyvi332TiyqS5cJDsrNimnbC5spJbWlewwHr0XvSRNScFZ8jpKtdPqE9UEWVfXJA2/zk
-	g8PcG5Hyx3NBmVq1vjAwi5DBeP58R2/EedoHfkYmXaNhHXJu259u68FMAxsynvCTA3A3
-	KrVrZdY5DFRUMm1J9dvv0DFNkr2acPP6y/4jLV69kn/7tq5XvvolJctZuLaVGrmuKWDP
-	OR2Q==
-X-Gm-Message-State: ALoCoQmKDYEvnrIVm0zaLkIYlN0QsODlI7fd6nMGPihPDG5PK4xF1xIY42vyEZIi01haWlohpphM
+	Tue, 10 Feb 2015 16:17:50 -0800 (PST)
+Received: from op3.wrs.com (128.224.56.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 10 Feb 2015 16:17:49 -0800
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Feb 2015 19:17:37 -0500
+Message-ID: <1423613857-19514-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.2.1
 MIME-Version: 1.0
-X-Received: by 10.140.42.83 with SMTP id b77mr51379166qga.43.1423608792181;
-	Tue, 10 Feb 2015 14:53:12 -0800 (PST)
-Received: by 10.140.48.7 with HTTP; Tue, 10 Feb 2015 14:53:12 -0800 (PST)
-X-Originating-IP: [64.71.1.115]
-Date: Tue, 10 Feb 2015 14:53:12 -0800
-Message-ID: <CAGgRHJpOuqFFie9tycFK+7N5nj_GjfP3oGTAAyZoy+i3tpAfvA@mail.gmail.com>
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Subject: cmake.bbclass questions
+Subject: [PATCH] avahi: fix do_rootfs failure due to version skew
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Feb 2015 22:53:14 -0000
-Content-Type: multipart/alternative; boundary=001a11c130545b83c5050ec3c07a
+X-List-Received-Date: Wed, 11 Feb 2015 00:17:56 -0000
+Content-Type: text/plain
 
---001a11c130545b83c5050ec3c07a
-Content-Type: text/plain; charset=UTF-8
+The following failure was observed:
 
-I just finished some recipes for some CMake-built packages (from the
-Kurento project).  I managed to get everything building, but I had to
-modify how cmake.bbclass does things, and I'm wondering if there's a better
-way to solve some of these.
+error: libavahi-ui-dev-0.6.31-r11.0 requires avahi-daemon = 0.6.31-r11.0
+error: libavahi-ui-dev-0.6.31-r11.0 requires libavahi-core7 = 0.6.31-r11.0
+error: libavahi-ui-dev-0.6.31-r11.0 requires libavahi-client3 = 0.6.31-r11.0
+ERROR: Function failed: do_rootfs
+ERROR: Logfile of failure stored in: poky/build/tmp/work/intel_corei7_64-poky-linux/op3-graphical-builder/0.2-r0/temp/log.do_rootfs.8407
 
-Each of the packages generates a pkg-config file and a CMake module that
-are then used by other packages (later in the build) to locate their
-dependencies.  I see that cmake.bbclass hard-codes the CMAKE_MODULE_PATH
-setting to point to just the location in the native sysroot, but target
-packages can't install their CMake modules there.  I tweaked the definition
-so that when building non-native packages, CMAKE_MODULE_PATH points into
-both the target sysroot and the native sysroot.  This seemed to do the
-trick, but wasn't sure it was the correct way to solve this.
+Investigating, one finds the following RPM versions:
 
-The generated pkg-config files were a bit trickier - the CMakefiles that
-generate them assume that the CMAKE_INSTALL_xxxDIR variables are always
-relative paths, but cmake.bbclass passes in absolute paths -- which, by my
-read of the CMake docs, is allowed.  I think in this case the Kurento
-CMakefiles need fixing, but there were a lot of them, so it was simpler to
-change cmake.bbclass to strip the prefix off the front of those variable
-settings.
+op3:~/poky/build/tmp/deploy$ ls -l rpm/*core2*/libavahi*
+-rw-r--r-- 2 paul paul  31487 Feb 10 13:15 rpm/core2_64/libavahi-client3-0.6.31-r11.1.core2_64.rpm
+-rw-r--r-- 2 paul paul  25974 Feb 10 13:15 rpm/core2_64/libavahi-common3-0.6.31-r11.1.core2_64.rpm
+-rw-r--r-- 2 paul paul  98862 Feb 10 13:15 rpm/core2_64/libavahi-core7-0.6.31-r11.1.core2_64.rpm
+-rw-r--r-- 2 paul paul   9677 Feb 10 13:15 rpm/core2_64/libavahi-glib1-0.6.31-r11.1.core2_64.rpm
+-rw-r--r-- 2 paul paul  22097 Feb 10 13:15 rpm/core2_64/libavahi-gobject0-0.6.31-r11.1.core2_64.rpm
+-rw-r--r-- 2 paul paul 123301 Feb 10 13:16 rpm/core2_64/libavahi-ui-dbg-0.6.31-r11.0.core2_64.rpm
+-rw-r--r-- 2 paul paul   8721 Feb 10 13:16 rpm/core2_64/libavahi-ui-dev-0.6.31-r11.0.core2_64.rpm
+-rw-r--r-- 2 paul paul   4706 Feb 10 13:16 rpm/core2_64/libavahi-ui-doc-0.6.31-r11.0.core2_64.rpm
+-rw-r--r-- 2 paul paul  71637 Feb 10 13:16 rpm/core2_64/libavahi-ui-staticdev-0.6.31-r11.0.core2_64.rpm
+-rw-r--r-- 2 paul paul  11743 Feb 10 13:16 rpm/core2_64/libavahi-ui-utils-0.6.31-r11.0.core2_64.rpm
+-rw-r--r-- 2 paul paul  25517 Feb 10 13:16 rpm/core2_64/libavahi-ui0-0.6.31-r11.0.core2_64.rpm
+op3:~/poky/build/tmp/deploy$
 
-I don't know that much about CMake, so if anyone has any advice, I'd
-appreciate it.
+Note the difference between r11.0 and r11.1 in the above listing.  That
+difference causes the fail because:
 
-Thanks,
--Matt
+op3:~/poky$ git grep EXTE meta/recipes-connectivity/avahi/
+meta/recipes-connectivity/avahi/avahi.inc:RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
+op3:~/poky$
 
---001a11c130545b83c5050ec3c07a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+i.e. we require strict package version matching.  We can see why this version
+mismatch happens as follows:
 
-<div dir=3D"ltr">I just finished some recipes for some CMake-built packages=
- (from the Kurento project).=C2=A0 I managed to get everything building, bu=
-t I had to modify how cmake.bbclass does things, and I&#39;m wondering if t=
-here&#39;s a better way to solve some of these.<div><br></div><div>Each of =
-the packages generates a pkg-config file and a CMake module that are then u=
-sed by other packages (later in the build) to locate their dependencies.=C2=
-=A0 I see that cmake.bbclass hard-codes the CMAKE_MODULE_PATH setting to po=
-int to just the location in the native sysroot, but target packages can&#39=
-;t install their CMake modules there.=C2=A0 I tweaked the definition so tha=
-t when building non-native packages, CMAKE_MODULE_PATH points into both the=
- target sysroot and the native sysroot.=C2=A0 This seemed to do the trick, =
-but wasn&#39;t sure it was the correct way to solve this.</div><div><br></d=
-iv><div>The generated pkg-config files were a bit trickier - the CMakefiles=
- that generate them assume that the CMAKE_INSTALL_xxxDIR variables are alwa=
-ys relative paths, but cmake.bbclass passes in absolute paths -- which, by =
-my read of the CMake docs, is allowed.=C2=A0 I think in this case the Kuren=
-to CMakefiles need fixing, but there were a lot of them, so it was simpler =
-to change cmake.bbclass to strip the prefix off the front of those variable=
- settings.</div><div><br></div><div>I don&#39;t know that much about CMake,=
- so if anyone has any advice, I&#39;d appreciate it.</div><div><br></div><d=
-iv>Thanks,</div><div>-Matt</div></div>
+op3:~/poky$ git grep INC meta/recipes-connectivity/avahi/
+meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb:PR = "${INC_PR}.0"
+meta/recipes-connectivity/avahi/avahi.inc:INC_PR = "r11"
+meta/recipes-connectivity/avahi/avahi_0.6.31.bb:PR = "${INC_PR}.1"
+op3:~/poky$
 
---001a11c130545b83c5050ec3c07a--
+Here, we change the version matching to be more relaxed by stopping at the
+INC_PR value, and extending the matching to be greater or equal.
+
+Suggested-by:  Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index b060437c1242..7749386b8419 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -102,7 +102,7 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+ FILES_avahi-utils = "${bindir}/avahi-*"
+ 
+-RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
++RDEPENDS_${PN}-dev = "avahi-daemon (>= ${PKGV}-${INC_PR}) libavahi-core (>= ${PKGV}-${INC_PR}) libavahi-client (>= ${PKGV}-${INC_PR})"
+ 
+ # uclibc has no nss
+ RRECOMMENDS_avahi-daemon_append_libc-glibc = " libnss-mdns"
+-- 
+2.2.1
+
+
