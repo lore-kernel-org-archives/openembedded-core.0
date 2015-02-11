@@ -1,24 +1,38 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-X-Greylist: delayed 505 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 11 Feb 2015 10:32:26 UTC
-Received: from dd19416.kasserver.com (dd19416.kasserver.com [85.13.139.185])
-	by mail.openembedded.org (Postfix) with ESMTP id 91ED97066B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id CD30E609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 10:32:26 +0000 (UTC)
-Received: from [129.70.144.65] (astra.TechFak.Uni-Bielefeld.DE [129.70.144.65])
-	by dd19416.kasserver.com (Postfix) with ESMTPSA id B503D1843669;
-	Wed, 11 Feb 2015 11:24:01 +0100 (CET)
-Message-ID: <54DB2D2C.3010404@herbrechtsmeier.net>
-Date: Wed, 11 Feb 2015 11:21:32 +0100
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Wed, 11 Feb 2015 12:14:08 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id i13so2154446qae.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Feb 2015 04:14:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=l2ZGK392g9eTuG7HOpsfrRRfaeQqbqaItPhvh+n4gdg=;
+	b=ZRTY1WN2DZnbUoXinp+xOOY4TUnY5lZliLdkZCP6ph82xC/w9br0fQ9DfaiiKfZ+P1
+	0UWeWw1zdC4zOrEh9DKLVea7M7L+833ahFz3V0Z0h2S8kpgFdqMy3J8XmeUv2YXXYsXI
+	8pCjQ0Z33wcbTRTCUHMJS9cbkRhSa1RmemStfUK60fuGc0U1z+YavWbhEvh3NXUM3ucZ
+	wVgQajS1JjALIAWVIxCU8NSsIMAyS79mBwf7aduzz6voVRZ0UX/owOb+zkpxtnWp0qw5
+	MQ6P+q9um4pyNWHl1QFYJNoyHy6C+BcmpEDCJsIPevIkRLrRUzaIvtz9IXGNW90LSnOJ
+	6otg==
+X-Gm-Message-State: ALoCoQl8od+vaWlQHQMO16RDvhLUl3Dj4AKpV0cA9KQP+dlQ43KEsDBFy6IEbUhLdn6Hb3b7jMef
+X-Received: by 10.229.114.74 with SMTP id d10mr49367584qcq.5.1423656850032;
+	Wed, 11 Feb 2015 04:14:10 -0800 (PST)
 MIME-Version: 1.0
-To: Matt Madison <matt@madison.systems>, 
-	openembedded-core@lists.openembedded.org
-References: <CAGgRHJpOuqFFie9tycFK+7N5nj_GjfP3oGTAAyZoy+i3tpAfvA@mail.gmail.com>
-In-Reply-To: <CAGgRHJpOuqFFie9tycFK+7N5nj_GjfP3oGTAAyZoy+i3tpAfvA@mail.gmail.com>
-Subject: Re: cmake.bbclass questions
+Received: by 10.140.96.166 with HTTP; Wed, 11 Feb 2015 04:13:49 -0800 (PST)
+In-Reply-To: <1423595858-24970-2-git-send-email-paul.gortmaker@windriver.com>
+References: <1423595858-24970-1-git-send-email-paul.gortmaker@windriver.com>
+	<1423595858-24970-2-git-send-email-paul.gortmaker@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Feb 2015 12:13:49 +0000
+Message-ID: <CAJTo0LY0XbpYv5C73uQUPZFoXkxeiVJEi3bVcSObexFMUgJumw@mail.gmail.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] git: expand recipe to take advantage of pre-gen'd manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Feb 2015 10:32:34 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Feb 2015 12:14:14 -0000
+Content-Type: multipart/alternative; boundary=001a1133c962d4379b050ecef0d8
 
-Am 10.02.2015 um 23:53 schrieb Matt Madison:
-> I just finished some recipes for some CMake-built packages (from the 
-> Kurento project).  I managed to get everything building, but I had to 
-> modify how cmake.bbclass does things, and I'm wondering if there's a 
-> better way to solve some of these.
+--001a1133c962d4379b050ecef0d8
+Content-Type: text/plain; charset=UTF-8
+
+On 10 February 2015 at 19:17, Paul Gortmaker <paul.gortmaker@windriver.com>
+wrote:
+
+> +FILES_${PN}-doc = "${mandir}"
 >
-> Each of the packages generates a pkg-config file and a CMake module 
-> that are then used by other packages (later in the build) to locate 
-> their dependencies.  I see that cmake.bbclass hard-codes the 
-> CMAKE_MODULE_PATH setting to point to just the location in the native 
-> sysroot, but target packages can't install their CMake modules there.  
-> I tweaked the definition so that when building non-native packages, 
-> CMAKE_MODULE_PATH points into both the target sysroot and the native 
-> sysroot.  This seemed to do the trick, but wasn't sure it was the 
-> correct way to solve this.
-Instead of a CMake module the project should install a 
-<Name>Config.cmake in its data directory and append a private module 
-directory to the CMAKE_MODULE_PATH.
 
-> The generated pkg-config files were a bit trickier - the CMakefiles 
-> that generate them assume that the CMAKE_INSTALL_xxxDIR variables are 
-> always relative paths, but cmake.bbclass passes in absolute paths -- 
-> which, by my read of the CMake docs, is allowed.  I think in this case 
-> the Kurento CMakefiles need fixing, but there were a lot of them, so 
-> it was simpler to change cmake.bbclass to strip the prefix off the 
-> front of those variable settings.
-CMake supports relative and absolute paths for the CMAKE_INSTALL_xxxDIR 
-variables but the default are relative paths.
+This is the default value, I removed this line when merging into ross/mut.
 
-The CMake files sould be fixed and extract the relative path from the 
-full path variable:
-file (RELATIVE_PATH CMAKE_INSTALL_RELATIVE_LIBDIR 
-"${CMAKE_INSTALL_PREFIX}" "${CMAKE_INSTALL_FULL_LIBDIR}")
+Ross
 
-Regards,
-   Stefan
+--001a1133c962d4379b050ecef0d8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 February 2015 at 19:17, Paul Gortmaker <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.gortmaker@windriver.com" target=3D"_blank">paul.gortmaker@w=
+indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":akg" class=3D"a3s" style=3D"overflow:hidden">+FILES_${PN}-doc =3D &qu=
+ot;${mandir}&quot;<br></div></blockquote></div><br>This is the default valu=
+e, I removed this line when merging into ross/mut.</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1133c962d4379b050ecef0d8--
