@@ -1,29 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A93A165CF5
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 295B665CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 01:51:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1B1pjVI021286
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Feb 2015 17:51:46 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 10 Feb 2015 17:51:45 -0800
-Message-ID: <54DAB5B0.3080602@windriver.com>
-Date: Wed, 11 Feb 2015 09:51:44 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Wed, 11 Feb 2015 01:54:45 +0000 (UTC)
+Received: (qmail 12648 invoked by uid 1003); 11 Feb 2015 01:54:47 -0000
+Received: from unknown (HELO ?192.168.11.101?)
+	(philip@opensdr.com@108.44.84.240)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	11 Feb 2015 01:54:47 -0000
+Message-ID: <54DAB664.8010302@balister.org>
+Date: Tue, 10 Feb 2015 20:54:44 -0500
+From: Philip Balister <philip@balister.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1423595946-25011-1-git-send-email-paul.gortmaker@windriver.com>
-	<1423595946-25011-2-git-send-email-paul.gortmaker@windriver.com>
-In-Reply-To: <1423595946-25011-2-git-send-email-paul.gortmaker@windriver.com>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 1/3] coreutils: don't generate useless dummy stub manpages
+To: Paul Gortmaker <paul.gortmaker@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1421866336-17183-1-git-send-email-paul.gortmaker@windriver.com>
+	<20150211010307.GB3150@windriver.com>
+In-Reply-To: <20150211010307.GB3150@windriver.com>
+Subject: Re: [PATCH] procps: disable fancy new top output mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,162 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Feb 2015 01:51:50 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 11 Feb 2015 01:54:49 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On 02/10/2015 08:03 PM, Paul Gortmaker wrote:
+> [[PATCH] procps: disable fancy new top output mode] On 21/01/2015 (Wed 13:52) Paul Gortmaker wrote:
+> 
+>> General consensus is that the new output format, with the all red
+>> colour and one line per core is too fugly to be left as the default.
+>>
+>> Use the configure option to switch it back to the sane default that
+>> we've all become used to seeing for decades.
+> 
+> Ping -- discussion on IRC was in unanimous agreement with the above
+> assessment; so it seems like we should get this merged.
 
-The fix-for-dummy-man-usage.patch fixes error when generating dummy man 
-pages.
-I think we should not delete it.
+Please. Do. This. ASAP.
 
-Regards,
-Chen Qi
+Thanks,
 
+Philip
 
-On 02/11/2015 03:19 AM, Paul Gortmaker wrote:
-> We had a couple patches to 1) deal with missing perl and 2) deal
-> with the perl-less "dummy" help2man fallout, but in the end, they
-> achieve no purpose whatsoever, since they just populate the doc
-> RPM with manpages like this one:
->
->    NAME
->         chmod - a GNU coreutils 8.22 program
->
->    DESCRIPTION
->         OOOPS!   Due to the lack of perl on the build system, we were
->         unable to create a proper manual page for chmod.
->
-> As the above serves no purpose whatsoever, and since the concept
-> of running the binaries to capture the "--help" text output is
-> completely broken for cross compiles, lets just decouple man page
-> generation from the building of coreutils entirely so it paves the
-> way for importing pre-generated manpages.
->
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> ---
->   .../coreutils/coreutils-8.23/dummy_help2man.patch  | 22 ---------------
->   .../coreutils-8.23/fix-for-dummy-man-usage.patch   | 31 ----------------------
->   .../man-decouple-manpages-from-build.patch         | 27 +++++++++++++++++++
->   meta/recipes-core/coreutils/coreutils_8.23.bb      |  3 +--
->   4 files changed, 28 insertions(+), 55 deletions(-)
->   delete mode 100644 meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
->   delete mode 100644 meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
->   create mode 100644 meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
->
-> diff --git a/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch b/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
-> deleted file mode 100644
-> index 4757f52aa0be..000000000000
-> --- a/meta/recipes-core/coreutils/coreutils-8.23/dummy_help2man.patch
-> +++ /dev/null
-> @@ -1,22 +0,0 @@
-> -Upstream-Status: Inappropriate [disable feature]
-> -
-> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> -diff -Nurd coreutils-8.21/man/local.mk coreutils-8.21/man/local.mk
-> ---- coreutils-8.21/man/local.mk	2013-02-05 16:01:21.000000000 +0200
-> -+++ coreutils-8.21/man/local.mk	2013-03-23 09:12:53.360470192 +0200
-> -@@ -19,11 +19,11 @@
-> - EXTRA_DIST += man/help2man man/dummy-man
-> -
-> - ## Graceful degradation for systems lacking perl.
-> --if HAVE_PERL
-> --run_help2man = $(PERL) -- $(srcdir)/man/help2man
-> --else
-> -+#if HAVE_PERL
-> -+#run_help2man = $(PERL) -- $(srcdir)/man/help2man
-> -+#else
-> - run_help2man = $(SHELL) $(srcdir)/man/dummy-man
-> --endif
-> -+#endif
-> -
-> - man1_MANS = @man1_MANS@
-> - EXTRA_DIST += $(man1_MANS:.1=.x)
-> diff --git a/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch b/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
-> deleted file mode 100644
-> index 58b6a7613038..000000000000
-> --- a/meta/recipes-core/coreutils/coreutils-8.23/fix-for-dummy-man-usage.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -coreutils: fix for dummy-man usage
-> -
-> -The options should be before the final argument, otherwise, the following error
-> -would appear when compiling.
-> -
-> -"dummy-man: too many non-option arguments"
-> -
-> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ----
-> - man/local.mk | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/man/local.mk b/man/local.mk
-> -index ba8fbf7..3833458 100644
-> ---- a/man/local.mk
-> -+++ b/man/local.mk
-> -@@ -101,8 +101,8 @@ man/dynamic-deps.mk: Makefile
-> - 	  && $(run_help2man)						\
-> - 		     --source='$(PACKAGE_STRING)'			\
-> - 		     --include=$(srcdir)/man/$$name.x			\
-> --		     --output=$$t/$$name.1 $$t/$$argv			\
-> - 		     --info-page='coreutils \(aq'$$name' invocation\(aq' \
-> -+		     --output=$$t/$$name.1 $$t/$$argv			\
-> - 	  && sed \
-> - 	       -e 's|$*\.td/||g' \
-> - 	       -e '/For complete documentation/d' \
-> ---
-> -1.9.1
-> -
-> diff --git a/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch b/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
-> new file mode 100644
-> index 000000000000..3c896a11bf2d
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils-8.23/man-decouple-manpages-from-build.patch
-> @@ -0,0 +1,27 @@
-> +From b4d258629f090066783c3b4c91b40f63b9d0a296 Mon Sep 17 00:00:00 2001
-> +From: Paul Gortmaker <paul.gortmaker@windriver.com>
-> +Date: Sun, 8 Feb 2015 16:51:57 -0500
-> +Subject: [PATCH] man: decouple manpages from build
-> +
-> +The use of "help2man" doesn't work at all for cross compile, in
-> +addition to the extra requirement of perl it adds.
-> +
-> +Just decouple the manpages from the build in order to pave the way for
-> +importing prebuilt manpages that can be used in a cross build situation.
-> +
-> +Upstream-Status: Inappropriate [upstream doesn't care about x-compile case.]
-> +Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> +
-> +diff --git a/Makefile.am b/Makefile.am
-> +index fb4af27..7576b2c 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -214,5 +214,4 @@ AM_CPPFLAGS = -Ilib -I$(top_srcdir)/lib -Isrc -I$(top_srcdir)/src
-> + include $(top_srcdir)/lib/local.mk
-> + include $(top_srcdir)/src/local.mk
-> + include $(top_srcdir)/doc/local.mk
-> +-include $(top_srcdir)/man/local.mk
-> + include $(top_srcdir)/tests/local.mk
-> +--
-> +2.2.2
-> +
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.23.bb b/meta/recipes-core/coreutils/coreutils_8.23.bb
-> index e9d6494708de..be68a310311a 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.23.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.23.bb
-> @@ -13,9 +13,8 @@ DEPENDS_class-native = ""
->   inherit autotools gettext texinfo
->   
->   SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-> +           file://man-decouple-manpages-from-build.patch \
->              file://remove-usr-local-lib-from-m4.patch \
-> -           file://dummy_help2man.patch \
-> -           file://fix-for-dummy-man-usage.patch \
->              file://fix-selinux-flask.patch \
->             "
->   
-
+> 
+> P.
+> --
+> 
+>>
+>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>> ---
+>>  meta/recipes-extended/procps/procps_3.3.10.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/procps/procps_3.3.10.bb b/meta/recipes-extended/procps/procps_3.3.10.bb
+>> index d8b04dc204a0..621b6dd5786c 100644
+>> --- a/meta/recipes-extended/procps/procps_3.3.10.bb
+>> +++ b/meta/recipes-extended/procps/procps_3.3.10.bb
+>> @@ -22,7 +22,7 @@ SRC_URI[sha256sum] = "a02e6f98974dfceab79884df902ca3df30b0e9bad6d76aee0fb5dce17f
+>>  
+>>  S = "${WORKDIR}/procps-ng-${PV}"
+>>  
+>> -EXTRA_OECONF = "--enable-skill"
+>> +EXTRA_OECONF = "--enable-skill --disable-modern-top"
+>>  
+>>  CPPFLAGS += "-I${S}"
+>>  
+>> -- 
+>> 2.2.1
+>>
 
