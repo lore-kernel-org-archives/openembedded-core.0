@@ -1,43 +1,43 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E83A609B2
+Return-Path: <pbarker@betafive.co.uk>
+X-Greylist: delayed 17321 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 11 Feb 2015 13:03:01 UTC
+Received: from 13.mo6.mail-out.ovh.net (13.mo6.mail-out.ovh.net
+	[188.165.56.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E4E6609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 12:33:01 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id lf10so3667955pab.12
+	Wed, 11 Feb 2015 13:03:01 +0000 (UTC)
+Received: from mail601.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo6.mail-out.ovh.net (Postfix) with SMTP id 14ADCFFA390
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 04:33:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:content-type:mime-version:content-transfer-encoding;
-	bh=L5P3Y3X1WE4GMneJA604CHZO4796wpFr+Ud8FNk/jHo=;
-	b=R0z0Uwx0K1NdjiM65MXNHlQsAvhLzTo7MPXeTFgSmbXDr9p4kcQtPVqLJo6Hv4SA16
-	SUvIZZqwaTlwnKA+zAHNUHU50xIBarky8I7xmPLPJLbBhD+s2g3W+4z8qD8rXW2zqrqD
-	0vYNeFAXoczGp40G8pZvB34NaCDzo4QzO7LIl2yMrj04Q/ywYlKfrgjKAUnapGzAhlS/
-	3O+qVVJ655zkyY1oAnaB9YjUj7Hqqc5YC+uvYbHlTBXB5gq4CiugN2jhy8pJE1H3jvoo
-	65tC6kgckBexKmAL8hrHKH8eDl2BjDghoiiFQYA3VEr+/pvfyQrFlPiPH0rniXqiBX2v
-	kkiQ==
-X-Gm-Message-State: ALoCoQlfOz8Mx8N/eykylZADglQjR8fF5lREzB4J5YpbcOQBGXX3YhFvtvpdgpKG4TtjcNtmr/2g
-X-Received: by 10.70.56.102 with SMTP id z6mr951579pdp.18.1423657983188;
-	Wed, 11 Feb 2015 04:33:03 -0800 (PST)
-Received: from [172.16.1.18]
-	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
-	[70.90.175.93])
-	by mx.google.com with ESMTPSA id fu14sm833642pad.44.2015.02.11.04.33.02
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Feb 2015 04:33:02 -0800 (PST)
-Message-ID: <1423657981.6238.8.camel@workhorse.madison.systems>
-From: Matt Madison <matt@madison.systems>
-To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Date: Wed, 11 Feb 2015 04:33:01 -0800
-In-Reply-To: <54DB2D2C.3010404@herbrechtsmeier.net>
-References: <CAGgRHJpOuqFFie9tycFK+7N5nj_GjfP3oGTAAyZoy+i3tpAfvA@mail.gmail.com>
-	<54DB2D2C.3010404@herbrechtsmeier.net>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: cmake.bbclass questions
+	Wed, 11 Feb 2015 09:14:18 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 11 Feb 2015 10:14:18 +0200
+Received: from cpc19-shep11-2-0-cust55.8-3.cable.virginm.net (HELO
+	bang.betafive.co.uk) (paul@betafive.co.uk@81.111.243.56)
+	by ns0.ovh.net with SMTP; 11 Feb 2015 10:14:16 +0200
+Received: by bang.betafive.co.uk (Postfix, from userid 1000)
+	id 3B016412AC; Wed, 11 Feb 2015 08:14:46 +0000 (GMT)
+Date: Wed, 11 Feb 2015 08:14:46 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Message-ID: <20150211081446.GA28568@bang.betafive.co.uk>
+References: <1421446529-24888-1-git-send-email-paul@paulbarker.me.uk>
+	<1421446529-24888-8-git-send-email-paul@paulbarker.me.uk>
+	<87bnl1tgzt.fsf@weregild.amer.corp.natinst.com>
+MIME-Version: 1.0
+In-Reply-To: <87bnl1tgzt.fsf@weregild.amer.corp.natinst.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Ovh-Tracer-Id: 1105633710475033538
+X-Ovh-Remote: 81.111.243.56 (cpc19-shep11-2-0-cust55.8-3.cable.virginm.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -200
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejkedrjeefucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdengfhvvghrhghhihhtvgdqqdetucdlqddutddtmd
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -200
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejkedrjeefucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdengfhvvghrhghhihhtvgdqqdetucdlqddutddtmd
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 7/7] opkg-keyrings: New recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,52 +50,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Feb 2015 12:33:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Feb 2015 13:03:06 -0000
+X-Groupsio-MsgNum: 62289
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+QahgC5+KEYLbs62"
+Content-Disposition: inline
 
-On Wed, 2015-02-11 at 11:21 +0100, Stefan Herbrechtsmeier wrote:
-> Am 10.02.2015 um 23:53 schrieb Matt Madison:
-> > I just finished some recipes for some CMake-built packages (from the 
-> > Kurento project).  I managed to get everything building, but I had to 
-> > modify how cmake.bbclass does things, and I'm wondering if there's a 
-> > better way to solve some of these.
-> >
-> > Each of the packages generates a pkg-config file and a CMake module 
-> > that are then used by other packages (later in the build) to locate 
-> > their dependencies.  I see that cmake.bbclass hard-codes the 
-> > CMAKE_MODULE_PATH setting to point to just the location in the native 
-> > sysroot, but target packages can't install their CMake modules there.  
-> > I tweaked the definition so that when building non-native packages, 
-> > CMAKE_MODULE_PATH points into both the target sysroot and the native 
-> > sysroot.  This seemed to do the trick, but wasn't sure it was the 
-> > correct way to solve this.
-> Instead of a CMake module the project should install a 
-> <Name>Config.cmake in its data directory and append a private module 
-> directory to the CMAKE_MODULE_PATH.
+--+QahgC5+KEYLbs62
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ah, OK. Is that the typical pattern for CMake-based packages?  
+On Tue, Feb 10, 2015 at 06:43:34PM -0600, Richard Tollerton wrote:
+> Paul Barker <paul@paulbarker.me.uk> writes:
+>=20
+> > This recipe wraps package and package feed verification keys into a pac=
+kage,
+> > making the management and deployment of verification keys much easier. =
+Comments
+> > on how to select keys for inclusion in this package are provided in the=
+ recipe
+> > file.
+>=20
+> Would you be receptive to this package being extended to support OpenSSL
+> keys?
 
-> 
-> > The generated pkg-config files were a bit trickier - the CMakefiles 
-> > that generate them assume that the CMAKE_INSTALL_xxxDIR variables are 
-> > always relative paths, but cmake.bbclass passes in absolute paths -- 
-> > which, by my read of the CMake docs, is allowed.  I think in this case 
-> > the Kurento CMakefiles need fixing, but there were a lot of them, so 
-> > it was simpler to change cmake.bbclass to strip the prefix off the 
-> > front of those variable settings.
-> CMake supports relative and absolute paths for the CMAKE_INSTALL_xxxDIR 
-> variables but the default are relative paths.
-> 
-> The CMake files sould be fixed and extract the relative path from the 
-> full path variable:
-> file (RELATIVE_PATH CMAKE_INSTALL_RELATIVE_LIBDIR 
-> "${CMAKE_INSTALL_PREFIX}" "${CMAKE_INSTALL_FULL_LIBDIR}")
+I wouldn't advise it.
 
-Great, thanks, I'll suggest that to them.
+There is no 'OpenSSL exception' in the opkg license and so a few people have
+been worried that shipping binaries of opkg linked against OpenSSL is a bre=
+ach
+of the respective licenses. IANAL, but people have been concerned.
 
-Regards,
--Matt
+OpenSSL support is probably less tested than gpg support as well.
 
+However, if it's something you're already using, have tested and are comfor=
+table
+with the licensing implications then go for it.
 
+Thanks,
 
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--+QahgC5+KEYLbs62
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJU2w92AAoJEBwoJlo7UPQDhgQH/i4uBJ7dqbek9CRFmC5ISN5P
+JqhVf/fdLzG5IVijwvXBruS7vHiLGvYTppor08ys5PnXQdIoZ6QGRyhy5xid4mA8
+js5Hls8NaiiX9Q2fkflPNTGjMeXuREm0Stf8iwttUmxlHmnD2wAZvaF93NRIUjQ8
+0IMBsdec8ja7zYpx/sYok/Hj2djoj6ThYdepDuO9KDWBaH6hn1bWOdUVTOksgqIX
+Z7SP4F/DkMFHaq8Tv+M1hpQZMZ0m9iveR7Ow3tPfE13SeXUw89ZkVKii7iGSfFS5
+gTZQguRlYxl8vCy5EEzWX7LS13uRQ3CGe+nTw46zHlGqjfzQfj4LQ/JYcNcse/Y=
+=EcV6
+-----END PGP SIGNATURE-----
+
+--+QahgC5+KEYLbs62--
