@@ -1,34 +1,38 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B61606E8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 57935606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 16:03:42 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t1CG3gmq002098; Thu, 12 Feb 2015 10:03:42 -0600
-Received: from localhost ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015021210034254-1089400 ;
-	Thu, 12 Feb 2015 10:03:42 -0600 
-Date: Thu, 12 Feb 2015 10:03:37 -0600
-From: Ben Shelton <ben.shelton@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150212160337.GA7233@bshelton-desktop>
+	Thu, 12 Feb 2015 16:08:58 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id s11so9184617qcv.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 08:08:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=FnfoZ6G8xUdpAWMZ3vmOqtBgWsAAdwnw9Bj27d5hDyU=;
+	b=X0CCzpENsYj9sEo3jTOhTSszHMyTWhR8SVNCABwdl8LgVRZ6BsP5FXO8FypAOx0YJh
+	t4A8EUGBUwoo3JDNYIYzpB36IOi7vUwrKzs4+sHuyJo0is6tV01CaENTiVOGqHKmS6zq
+	QYTbA61jjZ0fyO/y5rznbGp5ck22AI87+XQEcuvUZVXQljICYIPRgfoYFR/2HyC3feFR
+	++tVPZDyuc8xRCqQ5c1U4NZ1Ta6fXe8EVY9lI9hNWeKHBKbI122I7GYmyJBa98RMPGiW
+	EQq35SevuAWLvFdhQk9rPQEmW5832k7uCfHCjykF5jA63PFj05DyqhLDpFk8UE+w1YEN
+	BGQg==
+X-Gm-Message-State: ALoCoQmdMQG4usf6sVaVr3afZVUb+0Qmlusz5kys2HhjfCFTV2/pfIPzS0nPtC/KJ5dyXgqLjRd+
+X-Received: by 10.140.150.87 with SMTP id 84mr157492qhw.64.1423757339769; Thu,
+	12 Feb 2015 08:08:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Thu, 12 Feb 2015 08:08:39 -0800 (PST)
+In-Reply-To: <20150212160337.GA7233@bshelton-desktop>
 References: <1423500745-2142-1-git-send-email-ben.shelton@ni.com>
 	<1423500745-2142-2-git-send-email-ben.shelton@ni.com>
 	<CAJTo0LbvkV1kVy3f_Qy95FCCAuZcJkqwRR_3v2FdoYrha6B51Q@mail.gmail.com>
 	<CAJTo0LbLPSVjKi-m085=HnkVTTkKaUozVTpJBc2qzOJ-wqSL0Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbLPSVjKi-m085=HnkVTTkKaUozVTpJBc2qzOJ-wqSL0Q@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/12/2015 10:03:42 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/12/2015 10:03:42 AM,
-	Serialize complete at 02/12/2015 10:03:42 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-02-12_05:, , signatures=0
+	<20150212160337.GA7233@bshelton-desktop>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Feb 2015 16:08:39 +0000
+Message-ID: <CAJTo0LZ7raGC-eXL6OCzvrHX01a4H721vTiqK+akF2Oy+M0z4A@mail.gmail.com>
+To: Ben Shelton <ben.shelton@ni.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] kernelshark: Update to version 2.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,42 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 16:03:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Feb 2015 16:09:00 -0000
+Content-Type: multipart/alternative; boundary=001a1135492e7bf2b6050ee65690
 
-On 02/12, Burton, Ross wrote:
-> On 12 February 2015 at 07:46, Burton, Ross <ross.burton@intel.com> wrote:
-> 
-> > This is failing on the autobuilder:
-> >
-> > http://errors.yoctoproject.org/Errors/Details/8571/
-> > http://errors.yoctoproject.org/Errors/Details/8572/
-> >
-> > Two problems - an exception during build that is probably being ignored,
-> > and then swing not found.  Is swig a non-deterministic dependency?
-> >
-> 
-> I had a quick look at this and it appears that despite having Python
-> build-depends (via trace-cmd.h) kernelshark for me locally doesn't build
-> with Python enabled.  Somehow the autobuilder managed to have an
-> environment that almost but not quite worked and so it tried to build...
-> and failed miserably as oe-core doesn't have a swig binary.
-> 
-> I guess this just needs NO_PYTON exported to stop the Python auto-detection
-> from happening.
-> 
+--001a1135492e7bf2b6050ee65690
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,
+On 12 February 2015 at 16:03, Ben Shelton <ben.shelton@ni.com> wrote:
 
-This is already done in the EXTRA_OEMAKE in the trace-cmd recipe, but
-not for the kernel-shark recipe -- I guess I didn't hit the error in my
-local build.
+> This is already done in the EXTRA_OEMAKE in the trace-cmd recipe, but
+> not for the kernel-shark recipe -- I guess I didn't hit the error in my
+> local build.
+>
+> Should I submit a patch to fix it?
+>
 
-Should I submit a patch to fix it?
+A revised patch would be awesome.  If both kernel-shark and trace-cmd
+disable Python, why does trace-cmd.inc inherit python-dir and pythonnative?
 
-Thanks,
-Ben
+Ross
 
-> Ross
+--001a1135492e7bf2b6050ee65690
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+2 February 2015 at 16:03, Ben Shelton <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:ben.shelton@ni.com" target=3D"_blank">ben.shelton@ni.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":gg7" class=3D"a3s" sty=
+le=3D"overflow:hidden">This is already done in the EXTRA_OEMAKE in the trac=
+e-cmd recipe, but<br>
+not for the kernel-shark recipe -- I guess I didn&#39;t hit the error in my=
+<br>
+local build.<br>
+<br>
+Should I submit a patch to fix it?</div></blockquote><div><br></div><div>A =
+revised patch would be awesome.=C2=A0 If both kernel-shark and trace-cmd di=
+sable Python, why does trace-cmd.inc inherit python-dir and pythonnative?</=
+div><div><br></div><div>Ross</div></div></div></div>
+
+--001a1135492e7bf2b6050ee65690--
