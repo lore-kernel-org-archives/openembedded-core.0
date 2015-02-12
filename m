@@ -1,21 +1,29 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BC4862252
+Return-Path: <Rob.Woolley@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5D362252
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 00:24:22 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 11 Feb 2015 16:19:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,561,1418112000"; d="scan'208";a="684507468"
-Received: from localhost.jf.intel.com ([10.7.201.167])
-	by orsmga002.jf.intel.com with ESMTP; 11 Feb 2015 16:24:23 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Feb 2015 16:24:12 -0800
-Message-Id: <1423700652-590-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
+	Thu, 12 Feb 2015 00:25:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1C0PGrX004335
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Feb 2015 16:25:16 -0800 (PST)
+Received: from yow-rwoolley-lx.wrs.com (128.224.22.237) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 11 Feb 2015 16:25:15 -0800
+Message-ID: <54DBF2EA.1090604@windriver.com>
+Date: Wed, 11 Feb 2015 19:25:14 -0500
+From: Rob Woolley <rob.woolley@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH] build-compare: Add the build-compare_git.bb recipe.
+To: <openembedded-core@lists.openembedded.org>, <hongxu.jia@windriver.com>
+References: <1422654909-8058-1-git-send-email-rob.woolley@windriver.com>
+	<20150206025639.GA30800@yow-feoserver.windriver.com>
+In-Reply-To: <20150206025639.GA30800@yow-feoserver.windriver.com>
+X-Originating-IP: [128.224.22.237]
+Subject: Re: [PATCH] dhcp-client: Ignore partial checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,1717 +36,404 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 00:24:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Feb 2015 00:25:24 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The description for build-compare describes it as "This package contains
-scripts to find out if the build result differs to a former build." More
-specifically this contains a script that will display differences between
-"packages." It works with rpms, tarballs and other various types of
-packages.
+Hi Hongxu,
 
-The idea is that it will eventually be used in Yocto to check for differences
-between sstate so that we can check for build reproducibility. It will
-also be used once an updateable sdk is in place, so that packages that
-have different hashes but are not different in contents, don't get updated.
-It could also be used in the same manner when updating packages from a
-package feed.
+Do you have any feedback on this patch?  Are there any changes you would 
+like me to make?
 
-[Yocto #6992]
+Regards,
+Rob
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- .../build-compare/build-compare_git.bb             |   27 +
- .../files/Ignore-DWARF-sections.patch              |   40 +
- .../files/Rename-rpm-check.sh-to-pkg-diff.sh.patch | 1596 ++++++++++++++++++++
- 3 files changed, 1663 insertions(+)
- create mode 100644 meta/recipes-devtools/build-compare/build-compare_git.bb
- create mode 100644 meta/recipes-devtools/build-compare/files/Ignore-DWARF-sections.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/Rename-rpm-check.sh-to-pkg-diff.sh.patch
-
-diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-new file mode 100644
-index 0000000..418aee0
---- /dev/null
-+++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Build Result Compare Script"
-+DESCRIPTION = "This package contains scripts to find out if the build result\
-+differs to a former build."
-+HOMEPAGE = "https://github.com/openSUSE/build-compare"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+
-+SRC_URI = "git://github.com/openSUSE/build-compare.git"
-+SRC_URI += "file://Rename-rpm-check.sh-to-pkg-diff.sh.patch;striplevel=1"
-+SRC_URI += "file://Ignore-DWARF-sections.patch;striplevel=1"
-+PATCHTOOL = "git"
-+
-+SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
-+
-+S = "${WORKDIR}/git"
-+
-+BBCLASSEXTEND += "native nativesdk"
-+
-+do_install() {
-+    install -d ${D}/${bindir}
-+    install -m 755 functions.sh ${D}/${bindir}
-+    install -m 755 pkg-diff.sh ${D}/${bindir}
-+    install -m 755 same-build-result.sh ${D}/${bindir}
-+    install -m 755 srpm-check.sh ${D}/${bindir}
-+}
-+
-+RDEPENDS_${PN} += "bash"
-diff --git a/meta/recipes-devtools/build-compare/files/Ignore-DWARF-sections.patch b/meta/recipes-devtools/build-compare/files/Ignore-DWARF-sections.patch
-new file mode 100644
-index 0000000..7dda1ac
---- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/Ignore-DWARF-sections.patch
-@@ -0,0 +1,40 @@
-+From 015715694eadd714b903f30ade876e0738d44974 Mon Sep 17 00:00:00 2001
-+From: Randy Witt <randy.e.witt@linux.intel.com>
-+Date: Mon, 5 Jan 2015 15:09:20 -0800
-+Subject: [PATCH] Ignore DWARF sections.
-+
-+Assume for now that we don't care about the DWARF sections due to path
-+differences. However, in the case the tool is ran on a "debug" package
-+it will most likely falsely say the packages have no differences.
-+
-+Upstream-Status: Inappropriate [other]
-+
-+The package difference tool is correctly labelling the packages as different
-+when the DWARF sections don't match due to paths. The paths in the debug info
-+should actually be made to be the same using compile flags or some other
-+mechanism.
-+
-+However, to make the tool more useful to Yocto until the work can be done
-+to ensure identical paths in debug sections, this patch is being applied.
-+
-+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-+---
-+ pkg-diff.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pkg-diff.sh b/pkg-diff.sh
-+index 56035c1..0f1fa76 100755
-+--- a/pkg-diff.sh
-++++ b/pkg-diff.sh
-+@@ -658,7 +658,7 @@ check_single_file()
-+        echo "" >$file1
-+        echo "" >$file2
-+        # Don't compare .build-id and .gnu_debuglink sections
-+-       sections="$(objdump -s new/$file | grep "Contents of section .*:" | sed -r "s,.* (.*):,\1,g" | grep -v -e "\.build-id" -e "\.gnu_debuglink" | tr "\n" " ")"
-++       sections="$(objdump -s new/$file | grep "Contents of section .*:" | sed -r "s,.* (.*):,\1,g" | grep -v -e "\.build-id" -e "\.gnu_debuglink" -e "\.debug_abbrev" -e "\.debug_aranges" -e "\.debug_frame" -e "\.debug_info" -e "\.debug_line" -e "\.debug_loc" -e "\.debug_macinfo" -e "\.debug_pubnames" -e "\.debug_pubtypes" -e "\.debug_ranges"  -e "\.debug_str" | tr "\n" " ")"
-+        for section in $sections; do
-+           objdump -s -j $section old/$file | sed "s,^old/,," > $file1
-+           objdump -s -j $section new/$file | sed "s,^new/,," > $file2
-+-- 
-+1.9.3
-+
-diff --git a/meta/recipes-devtools/build-compare/files/Rename-rpm-check.sh-to-pkg-diff.sh.patch b/meta/recipes-devtools/build-compare/files/Rename-rpm-check.sh-to-pkg-diff.sh.patch
-new file mode 100644
-index 0000000..3e1e679
---- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/Rename-rpm-check.sh-to-pkg-diff.sh.patch
-@@ -0,0 +1,1596 @@
-+From f5db896b7f49b56dad0d51c9bdb3d4c9525edab2 Mon Sep 17 00:00:00 2001
-+From: Randy Witt <randy.e.witt@linux.intel.com>
-+Date: Mon, 5 Jan 2015 15:58:35 -0800
-+Subject: [PATCH] Rename rpm-check.sh to pkg-diff.sh.
-+
-+The tool now accepts package input other than rpm, so change the name
-+which could be misleading.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pulls]
-+
-+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-+---
-+ build-compare.spec   |   2 +-
-+ pkg-diff.sh          | 765 +++++++++++++++++++++++++++++++++++++++++++++++++++
-+ rpm-check.sh         | 765 ---------------------------------------------------
-+ same-build-result.sh |   4 +-
-+ 4 files changed, 768 insertions(+), 768 deletions(-)
-+ create mode 100755 pkg-diff.sh
-+ delete mode 100755 rpm-check.sh
-+
-+diff --git a/build-compare.spec b/build-compare.spec
-+index 14a97e9..5f47ca1 100644
-+--- a/build-compare.spec
-++++ b/build-compare.spec
-+@@ -25,7 +25,7 @@ Version:        2015.02.10
-+ Release:        0
-+ Source1:        COPYING
-+ Source2:        same-build-result.sh
-+-Source3:        rpm-check.sh
-++Source3:        pkg-diff.sh
-+ Source4:        functions.sh
-+ Source5:        srpm-check.sh
-+ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-+diff --git a/pkg-diff.sh b/pkg-diff.sh
-+new file mode 100755
-+index 0000000..56035c1
-+--- /dev/null
-++++ b/pkg-diff.sh
-+@@ -0,0 +1,765 @@
-++#! /bin/bash
-++#
-++# Copyright (c) 2009, 2010, 2011, 2012 SUSE Linux Product GmbH, Germany.
-++# Licensed under GPL v2, see COPYING file for details.
-++#
-++# Written by Michael Matz and Stephan Coolo
-++# Enhanced by Andreas Jaeger
-++
-++FUNCTIONS=${0%/*}/functions.sh
-++
-++check_all=
-++case $1 in
-++  -a | --check-all)
-++    check_all=1
-++    shift
-++esac
-++
-++if test "$#" != 2; then
-++   echo "usage: $0 [-a|--check-all] old.rpm new.rpm"
-++   exit 1
-++fi
-++
-++self_script=$(cd $(dirname $0); echo $(pwd)/$(basename $0))
-++
-++source $FUNCTIONS
-++
-++oldpkg=`readlink -f $1`
-++newpkg=`readlink -f $2`
-++rename_script=`mktemp`
-++
-++if test ! -f "$oldpkg"; then
-++    echo "can't open $1"
-++    exit 1
-++fi
-++
-++if test ! -f "$newpkg"; then
-++    echo "can't open $2"
-++    exit 1
-++fi
-++
-++#usage unjar <file>
-++function unjar()
-++{
-++    local file
-++    file=$1
-++
-++    if [[ $(type -p fastjar) ]]; then
-++        UNJAR=fastjar
-++    elif [[ $(type -p jar) ]]; then
-++        UNJAR=jar
-++    elif [[ $(type -p unzip) ]]; then
-++        UNJAR=unzip
-++    else
-++        echo "ERROR: jar, fastjar, or unzip is not installed (trying file $file)"
-++        exit 1
-++    fi
-++
-++    case $UNJAR in
-++        jar|fastjar)
-++        # echo jar -xf $file
-++        ${UNJAR} -xf $file
-++        ;;
-++        unzip)
-++        unzip -oqq $file
-++        ;;
-++    esac
-++}
-++
-++# list files in directory
-++#usage unjar_l <file>
-++function unjar_l()
-++{
-++    local file
-++    file=$1
-++
-++    if [[ $(type -p fastjar) ]]; then
-++        UNJAR=fastjar
-++    elif [[ $(type -p jar) ]]; then
-++        UNJAR=jar
-++    elif [[ $(type -p unzip) ]]; then
-++        UNJAR=unzip
-++    else
-++        echo "ERROR: jar, fastjar, or unzip is not installed (trying file $file)"
-++        exit 1
-++    fi
-++
-++    case $UNJAR in
-++        jar|fastjar)
-++        ${UNJAR} -tf $file
-++        ;;
-++        unzip)
-++        unzip -l $file
-++        ;;
-++    esac
-++}
-++
-++filter_disasm()
-++{
-++   sed -e 's/^ *[0-9a-f]\+://' -e 's/\$0x[0-9a-f]\+/$something/' -e 's/callq *[0-9a-f]\+/callq /' -e 's/# *[0-9a-f]\+/#  /' -e 's/\(0x\)\?[0-9a-f]\+(/offset(/' -e 's/[0-9a-f]\+ </</' -e 's/^<\(.*\)>:/\1:/' -e 's/<\(.*\)+0x[0-9a-f]\+>/<\1 + ofs>/' 
-++}
-++
-++echo "Comparing `basename $oldpkg` to `basename $newpkg`"
-++
-++case $oldpkg in
-++  *.rpm)
-++     cmp_spec $rename_script $oldpkg $newpkg
-++     RES=$?
-++     case $RES in
-++       0)
-++          echo "RPM meta information is identical"
-++          if test -z "$check_all"; then
-++             exit 0
-++          fi
-++          ;;
-++       1)
-++          echo "RPM meta information is different"
-++          if test -z "$check_all"; then
-++             exit 1
-++          fi
-++          ;;
-++       2)
-++          echo "RPM file checksum differs."
-++          RES=0
-++          ;;
-++       *)
-++          echo "Wrong exit code!"
-++          exit 1
-++          ;;
-++     esac
-++     ;;
-++esac
-++
-++file1=`mktemp`
-++file2=`mktemp`
-++
-++dir=`mktemp -d`
-++echo "Extracting packages"
-++unpackage $oldpkg $dir/old
-++unpackage $newpkg $dir/new
-++
-++# files is set in cmp_spec for rpms, so if RES is empty we should assume
-++# it wasn't an rpm and pick all files for comparison.
-++if [ -z $RES ]; then
-++    oldfiles=`cd $dir/old; find . -type f`
-++    newfiles=`cd $dir/new; find . -type f`
-++
-++    files=`echo -e "$oldfiles\n$newfiles" | sort -u`
-++fi
-++
-++cd $dir
-++bash $rename_script
-++
-++dfile=`mktemp`
-++
-++diff_two_files()
-++{
-++  if ! cmp -s old/$file new/$file; then
-++     echo "$file differs ($ftype)"
-++     hexdump -C old/$file > $file1
-++     hexdump -C new/$file > $file2
-++     diff -u $file1 $file2 | head -n 200
-++     return 1
-++  fi
-++  return 0
-++}
-++
-++trim_man_first_line()
-++{
-++    # Handles the first line if it is like:
-++    #.\" Automatically generated by Pod::Man 2.28 (Pod::Simple 3.28)
-++    #.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.43.3.
-++    local f=$1
-++    sed -i -e '1{
-++    s|^\.\\"[[:blank:]]\+Automatically[[:blank:]]generated[[:blank:]]by[[:blank:]]Pod::Man[[:blank:]].*|.\\" Overly verbose Pod::Man|
-++    s|^\.\\"[[:blank:]]\+DO[[:blank:]]NOT[[:blank:]]MODIFY[[:blank:]]THIS[[:blank:]]FILE![[:blank:]]\+It[[:blank:]]was[[:blank:]]generated[[:blank:]]by[[:blank:]]help2man[[:blank:]].*|.\\" Overly verbose help2man|
-++    }' $f
-++}
-++
-++trim_man_TH()
-++{
-++    # Handles lines like:
-++    # .TH debhelper 7 "2010-02-27" "7.4.15" "Debhelper"
-++    # .TH DIRMNGR-CLIENT 1 2010-02-27 "Dirmngr 1.0.3" "GNU Privacy Guard"
-++    # .TH ccmake 1 "March 06, 2010" "ccmake 2.8.1-rc3"
-++    # .TH QEMU-IMG 1 "2010-03-14" " " " "
-++    # .TH kdecmake 1 "May 07, 2010" "cmake 2.8.1"
-++    # .TH "appender.h" 3 "12 May 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-++    # .TH "appender.h" 3 "Tue Aug 31 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-++    # .TH "OFFLINEIMAP" "1" "11 May 2010" "John Goerzen" "OfflineIMAP Manual"
-++    # .TH gv 3guile "13 May 2010"
-++    #.TH "GIT\-ARCHIMPORT" "1" "09/13/2010" "Git 1\&.7\&.1" "Git Manual"
-++    # .TH LDIRECTORD 8 "2010-10-20" "perl v5.12.2" "User Contributed Perl Documentation"
-++    # .TH ccmake 1 "February 05, 2012" "ccmake 2.8.7"
-++    # .TH "appender.h" 3 "Tue Aug 31 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-++    # .TH ARCH "1" "September 2010" "GNU coreutils 8.5" "User Commands"
-++    # .TH "GCM-CALIBRATE" "1" "03 February 2012" "" ""
-++    #.TH Locale::Po4a::Xml.pm 3pm "2015-01-30" "Po4a Tools" "Po4a Tools"
-++    local f=$1
-++    # (.TH   quoted section) (quoted_date)(*)
-++    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+"[^"]\+"[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\("[^"]\+"\)\([[:blank:]]\+.*\)\?|\1 "qq2000-01-01"\3|' $f
-++    # (.TH unquoted section) (quoted_date)(*)
-++    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+[^"][^[:blank:]]\+[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\("[^"]\+"\)\([[:blank:]]\+.*\)\?|\1 "uq2000-02-02"\3|' $f
-++    # (.TH   quoted section) (unquoted_date)(*)
-++    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+"[^"]\+"[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\([^"][^[:blank:]]\+\)\([[:blank:]]\+.*\)\?|\1 qu2000-03-03\3|' $f
-++    # (.TH unquoted section) (unquoted_date)(*)
-++    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+[^"][^[:blank:]]\+[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\([^"][^[:blank:]]\+\)\([[:blank:]]\+.*\)\?|\1 uu2000-04-04\3|' $f
-++}
-++
-++strip_numbered_anchors()
-++{
-++  # Remove numbered anchors on Docbook / HTML files.
-++  # This should be save since we remove them from old and new files.
-++  # A trailing </a> or </div> tag will stay also on both files.
-++  for f in old/$file new/$file; do
-++     sed -i -e 's%<[ ]*a[ ]\+name[^<]*[0-9]\+[^<]*%%g' \
-++     -e 's%<[ ]*a[ ]\+href[^<]*#[^<]*[0-9]\+[^<]*%%g' \
-++     -e 's%<[^<]*id="ftn\.[^<]*[0-9]\+[^<]*%%g' $f
-++  done
-++}
-++
-++
-++check_compressed_file()
-++{
-++  local file=$1
-++  local ext=$2
-++  local tmpdir=`mktemp -d`
-++  local ftype
-++  local ret=0
-++  echo "$ext file with odd filename: $file"
-++  if test -n "$tmpdir"; then
-++    mkdir $tmpdir/{old,new}
-++    cp --parents --dereference old/$file $tmpdir/
-++    cp --parents --dereference new/$file $tmpdir/
-++    if pushd $tmpdir > /dev/null ; then
-++      case "$ext" in
-++        bz2)
-++          mv old/$file{,.bz2}
-++          mv new/$file{,.bz2}
-++          bzip2 -d old/$file.bz2
-++          bzip2 -d new/$file.bz2
-++          ;;
-++        gzip)
-++          mv old/$file{,.gz}
-++          mv new/$file{,.gz}
-++          gzip -d old/$file.gz
-++          gzip -d new/$file.gz
-++          ;;
-++        xz)
-++          mv old/$file{,.xz}
-++          mv new/$file{,.xz}
-++          xz -d old/$file.xz
-++          xz -d new/$file.xz
-++          ;;
-++      esac
-++      ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
-++      case $ftype in
-++        POSIX\ tar\ archive)
-++          echo "$ext content is: $ftype"
-++          mv old/$file{,.tar}
-++          mv new/$file{,.tar}
-++          if ! check_single_file ${file}.tar; then
-++            ret=1
-++          fi
-++          ;;
-++        ASCII\ cpio\ archive\ *)
-++          echo "$ext content is: $ftype"
-++          mv old/$file{,.cpio}
-++          mv new/$file{,.cpio}
-++          if ! check_single_file ${file}.cpio; then
-++            ret=1
-++          fi
-++          ;;
-++        *)
-++          echo "unhandled $ext content: $ftype"
-++          if ! diff_two_files; then
-++            ret=1
-++          fi
-++          ;;
-++      esac
-++      popd > /dev/null
-++    fi
-++    rm -rf "$tmpdir"
-++  fi
-++  return $ret
-++}
-++
-++check_single_file()
-++{
-++  local file="$1"
-++  case $file in
-++    *.spec)
-++       sed -i -e "s,Release:.*$release1,Release: @RELEASE@," old/$file
-++       sed -i -e "s,Release:.*$release2,Release: @RELEASE@," new/$file
-++       ;;
-++    *.exe.mdb|*.dll.mdb)
-++       # Just debug information, we can skip them
-++       echo "$file skipped as debug file."
-++       return 0
-++       ;;
-++    *.a)
-++       flist=`ar t new/$file`
-++       pwd=$PWD
-++       fdir=`dirname $file`
-++       cd old/$fdir
-++       ar x `basename $file`
-++       cd $pwd/new/$fdir
-++       ar x `basename $file`
-++       cd $pwd
-++       for f in $flist; do
-++          if ! check_single_file $fdir/$f; then
-++             return 1
-++          fi
-++       done
-++       return 0
-++       ;;
-++    *.cpio)
-++       flist=`cpio --quiet --list --force-local < "new/$file"`
-++       pwd=$PWD
-++       fdir=$file.extract.$PPID.$$
-++       mkdir old/$fdir new/$fdir
-++       cd old/$fdir
-++       cpio --quiet --extract --force-local < "../${file##*/}"
-++       cd $pwd/new/$fdir
-++       cpio --quiet --extract --force-local < "../${file##*/}"
-++       cd $pwd
-++       local ret=0
-++       for f in $flist; do
-++         if ! check_single_file $fdir/$f; then
-++           ret=1
-++           if test -z "$check_all"; then
-++             break
-++           fi
-++         fi
-++       done
-++       rm -rf old/$fdir new/$fdir
-++       return $ret
-++       ;;
-++    *.tar|*.tar.bz2|*.tar.gz|*.tgz|*.tbz2)
-++       flist=`tar tf new/$file`
-++       pwd=$PWD
-++       fdir=`dirname $file`
-++       cd old/$fdir
-++       tar xf `basename $file`
-++       cd $pwd/new/$fdir
-++       tar xf `basename $file`
-++       cd $pwd
-++       local ret=0
-++       for f in $flist; do
-++         if ! check_single_file $fdir/$f; then
-++           ret=1
-++           if test -z "$check_all"; then
-++             break
-++           fi
-++         fi
-++       done
-++       return $ret
-++       ;;
-++    *.zip|*.jar|*.war)
-++       cd old
-++       unjar_l ./$file |sort > flist
-++       #  10-05-2010 14:39
-++       sed -i -e "s, [0-9][0-9]-[0-9][0-9]-[0-9]\+ [0-9][0-9]:[0-9][0-9] , date ," flist
-++       # 2012-02-03 07:59
-++       sed -i -e "s, 20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9] , date ," flist
-++       cd ../new
-++       unjar_l ./$file |sort> flist
-++       sed -i -e "s, [0-9][0-9]-[0-9][0-9]-[0-9]\+ [0-9][0-9]:[0-9][0-9] , date ,; " flist
-++       sed -i -e "s, 20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9] , date ," flist
-++       cd ..
-++       if ! cmp -s old/flist new/flist; then
-++          echo "$file has different file list"
-++          diff -u old/flist new/flist
-++          return 1
-++       fi
-++       flist=`grep date new/flist | sed -e 's,.* date ,,'`
-++       pwd=$PWD
-++       fdir=`dirname $file`
-++       cd old/$fdir
-++       unjar `basename $file`
-++       cd $pwd/new/$fdir
-++       unjar `basename $file`
-++       cd $pwd
-++       local ret=0
-++       for f in $flist; do
-++         if test -f new/$fdir/$f && ! check_single_file $fdir/$f; then
-++           ret=1
-++           if test -z "$check_all"; then
-++             break
-++           fi
-++         fi
-++       done
-++       return $ret;;
-++     *.pyc|*.pyo)
-++        perl -e "open fh, '+<', 'old/$file'; seek fh, 4, SEEK_SET; print fh '0000';"
-++        perl -e "open fh, '+<', 'new/$file'; seek fh, 4, SEEK_SET; print fh '0000';"
-++        ;;
-++     *.bz2)
-++        bunzip2 -c old/$file > old/${file/.bz2/}
-++        bunzip2 -c new/$file > new/${file/.bz2/}
-++        check_single_file ${file/.bz2/}
-++        return $?
-++        ;;
-++     *.gz)
-++        gunzip -c old/$file > old/${file/.gz/}
-++        gunzip -c new/$file > new/${file/.gz/}
-++        check_single_file ${file/.gz/}
-++        return $?
-++        ;;
-++     *.rpm)
-++	$self_script -a old/$file new/$file
-++        return $?
-++        ;;
-++     *png)
-++	# Try to remove timestamps, only if convert from ImageMagick is installed
-++        if [[ $(type -p convert) ]]; then
-++	  convert old/$file +set date:create +set date:modify old/${file/.png/_n.png}
-++	  convert old/$file +set date:create +set date:modify new/${file/.png/_n.png}
-++	  if ! cmp -s old/${file/.png/_n.png} new/${file/.png/_n.png}; then
-++	      echo "$file differs ($ftype)"
-++	      hexdump -C old/${file/.png/_n.png} > $file1
-++	      hexdump -C new/${file/.png/_n.png} > $file2
-++	      diff -u $file1 $file2 | head -n 20
-++	      return 1
-++	  fi
-++	  return 0
-++	fi
-++        ;;
-++     /usr/share/locale/*/LC_MESSAGES/*.mo|/usr/share/locale-bundle/*/LC_MESSAGES/*.mo)
-++       for f in old/$file new/$file; do
-++         sed -i -e "s,POT-Creation-Date: ....-..-.. ..:..+....,POT-Creation-Date: 1970-01-01 00:00+0000," $f
-++       done
-++       ;;
-++     /usr/share/doc/packages/*/*.html|\
-++     /usr/share/doc/kde/HTML/*/*/*.html|/usr/share/doc/*/html/*.html)
-++       for f in old/$file new/$file; do
-++         # texi2html output, e.g. in kvm, indent, qemu
-++	 sed -i -e "s|^<!-- Created on .*, 20.. by texi2html .\...|<!-- Created on August 7, 2009 by texi2html 1.82|" $f
-++	 sed -i -e 's|^ *This document was generated by <em>Autobuild</em> on <em>.*, 20..</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html .\...</em></a>.$|  This document was generated by <em>Autobuild</em> on <em>August 7, 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.|' $f
-++	 # doxygen docu, e.g. in libssh and log4c
-++	 sed -i -e 's|Generated on ... ... [0-9]* [0-9]*:[0-9][0-9]:[0-9][0-9] 20[0-9][0-9] for |Generated on Mon May 10 20:45:00 2010 for |' $f
-++	 # Generated on Sat Aug 14 2010 16:49:48 for libssh
-++	 sed -i -e 's|Generated on ... ... [0-9]* 20[0-9][0-9] [0-9]*:[0-9][0-9]:[0-9][0-9] for |Generated on Mon May 10 20:45:00 2010 for |' $f
-++       done
-++       strip_numbered_anchors
-++       ;;
-++     /usr/share/javadoc/*.html |\
-++     /usr/share/javadoc/*/*.html|/usr/share/javadoc/*/*/*.html)
-++       strip_numbered_anchors
-++       # There are more timestamps in html, so far we handle only some primitive versions.
-++       for f in old/$file new/$file; do
-++         # Javadoc:
-++          # <head>
-++          # <!-- Generated by javadoc (version 1.7.0_75) on Tue Feb 03 02:20:12 GMT 2015 -->
-++          # <!-- Generated by javadoc on Tue Feb 03 00:02:48 GMT 2015 -->
-++          # <meta name="date" content="2015-02-03">
-++          # </head>
-++          sed -i -e '
-++            /^<head>/{
-++              : next
-++              n
-++              /^<\/head>/{
-++                b end_head
-++              }
-++              s/^\(<!-- Generated by javadoc\) \((\(build\|version\) [0-9._]\+) on ... ... .. ..:..:.. \(GMT\|UTC\) ....\) \(-->\)/\1 some-date-removed-by-build-compare \5/
-++              t next
-++              s/^\(<!-- Generated by javadoc\) \(on ... ... .. ..:..:.. \(GMT\|UTC\) ....\) \(-->\)/\1 some-date-removed-by-build-compare \3/
-++              t next
-++              s/^<meta name="date" content="[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}">/<meta name="date" content="some-date-removed-by-build-compare">/
-++              b next
-++            }
-++            : end_head
-++          ' $f
-++         # Gjdoc HtmlDoclet:
-++	 sed -i -e 's%Generated by Gjdoc HtmlDoclet [0-9,.]*, part of <a href="http://www.gnu.org/software/classpath/cp-tools/" title="" target="_top">GNU Classpath Tools</a>, on .*, 20.. [0-9]*:..:.. \(a\|p\)\.m\. GMT.%Generated by Gjdoc.%' $f
-++	 sed -i -e 's%<!DOCTYPE html PUBLIC "-//gnu.org///DTD XHTML 1.1 plus Target 1.0//EN"\(.*\)GNU Classpath Tools</a>, on [A-Z][a-z]* [0-9]*, 20?? [0-9]*:??:?? \(a|p\)\.m\. GMT.</p>%<!DOCTYPE html PUBLIC "-//gnu.org///DTD XHTML 1.1 plus Target 1.0//EN"\1GNU Classpath Tools</a>, on January 1, 2009 0:00:00 a.m. GMT.</p>%' $f
-++	 sed -i -e 's%<!DOCTYPE html PUBLIC "-//gnu.org///DTD\(.*GNU Classpath Tools</a>\), on [a-zA-Z]* [0-9][0-9], 20.. [0-9]*:..:.. \(a\|p\)\.m\. GMT.</p>%<!DOCTYPE html PUBLIC "-//gnu.org///DTD\1,on May 1, 2010 1:11:42 p.m. GMT.</p>%' $f
-++	 # deprecated-list is randomly ordered, sort it for comparison
-++	 case $f in
-++	   */deprecated-list.html)
-++	     sort -o $f $f
-++	     ;;
-++	 esac
-++       done
-++       ;;
-++     /usr/share/javadoc/gjdoc.properties |\
-++     /usr/share/javadoc/*/gjdoc.properties)
-++       for f in old/$file new/$file; do
-++	 sed -i -e 's|^#[A-Z][a-z]\{2\} [A-Z][a-z]\{2\} [0-9]\{2\} ..:..:.. GMT 20..$|#Fri Jan 01 11:27:36 GMT 2009|' $f
-++       done
-++       ;;
-++     */fonts.scale|*/fonts.dir|*/encodings.dir)
-++       for f in old/$file new/$file; do
-++         # sort files before comparing
-++         sort -o $f $f
-++       done
-++       ;;
-++     /var/adm/perl-modules/*)
-++       for f in old/$file new/$file; do
-++         sed -i -e 's|^=head2 ... ... .. ..:..:.. ....: C<Module>|=head2 Wed Jul  1 00:00:00 2009: C<Module>|' $f
-++       done
-++       ;;
-++     /usr/share/man/man3/*3pm)
-++       for f in old/$file new/$file; do
-++         sed -i -e 's| 3 "20..-..-.." "perl v5....." "User Contributed Perl Documentation"$| 3 "2009-01-01" "perl v5.10.0" "User Contributed Perl Documentation"|' $f
-++         trim_man_TH $f
-++         trim_man_first_line $f
-++       done
-++       ;;
-++     /usr/share/man/*/man*|/usr/share/man/man*|/usr/lib/texmf/doc/man/*/*)
-++
-++       for f in old/$file new/$file; do
-++         trim_man_TH $f
-++         trim_man_first_line $f
-++         # generated by docbook xml:
-++         #.\"      Date: 09/13/2010
-++         sed -i -e 's|Date: [0-1][0-9]/[0-9][0-9]/201[0-9]|Date: 09/13/2010|' $f
-++       done
-++       ;;
-++     *.elc)
-++       # emacs lisp files
-++       for f in old/$file new/$file; do
-++         sed -i -e 's|Compiled by abuild@.* on ... ... .. ..:..:.. 20..$|compiled by abuild@buildhost on Wed Jul 01 00:00:00 2009|' $f
-++       done
-++       ;;
-++     /var/lib/texmf/web2c/*/*fmt |\
-++     /var/lib/texmf/web2c/metafont/*.base|\
-++     /var/lib/texmf/web2c/metapost/*.mem)
-++       # binary dump of TeX and Metafont formats, we can ignore them for good
-++       echo "difference in $file ignored."
-++       return 0
-++       ;;
-++     */libtool)
-++       for f in old/$file new/$file; do
-++	  sed -i -e 's|^# Libtool was configured on host [A-Za-z0-9]*:$|# Libtool was configured on host x42:|' $f
-++       done
-++       ;;
-++     /etc/mail/*cf|/etc/sendmail.cf)
-++       # from sendmail package
-++       for f in old/$file new/$file; do
-++	  # - ##### built by abuild@build33 on Thu May 6 11:21:17 UTC 2010
-++	  sed -i -e 's|built by abuild@[a-z0-9]* on ... ... [0-9]* [0-9]*:[0-9][0-9]:[0-9][0-9] .* 20[0-9][0-9]|built by abuild@build42 on Thu May 6 11:21:17 UTC 2010|' $f
-++       done
-++       ;;
-++     /usr/share/doc/kde/HTML/*/*/index.cache|/usr/share/doc/kde/HTML/*/*/*/index.cache|\
-++     /usr/share/gtk-doc/html/*/*.html|/usr/share/gtk-doc/html/*/*.devhelp2)
-++       # various kde and gtk packages
-++       strip_numbered_anchors
-++       ;;
-++    */created.rid)
-++       # ruby documentation
-++       # file just contains a timestamp and nothing else, so ignore it
-++       echo "Ignore $file"
-++       return 0
-++       ;;
-++    */rdoc/files/*.html)
-++       # ruby documentation
-++       # <td>Mon Sep 20 19:02:43 +0000 2010</td>
-++       for f in old/$file new/$file; do
-++          sed -i -e 's%<td>[A-Z][a-z][a-z] [A-Z][a-z][a-z] [0-9]\+ [0-9]\+:[0-9]\+:[0-9]\+ +0000 201[0-9]</td>%<td>Mon Sep 20 19:02:43 +0000 2010</td>%g' $f
-++       done
-++       strip_numbered_anchors
-++       ;;
-++    */Linux*Env.Set.sh)
-++       # LibreOffice files, contains:
-++       # Generated on: Mon Apr 18 13:19:22 UTC 2011
-++       for f in old/$file new/$file; do
-++	 sed -i -e 's%^# Generated on:.*UTC 201[0-9] *$%# Generated on: Sometime%g' $f
-++       done
-++       ;;
-++    /usr/lib/libreoffice/solver/inc/*/deliver.log)
-++       # LibreOffice log file
-++      echo "Ignore $file"
-++      return 0
-++      ;;
-++    /var/adm/update-messages/*|/var/adm/update-scripts/*)
-++      # encode version-release inside
-++      oldfn=`echo "$file"|sed -e s/-$release2/-$release1/;`
-++
-++      # fetchmsttfonts embeds the release number in the update shell script.
-++      echo sed -i -e "s/-$release1/-$release2/g;" "old/$oldfn"
-++      sed -i -e "s/-$release1/-$release2/g;" "old/$oldfn"
-++
-++      if ! diff -u old/$oldfn new/$file; then
-++           echo "$oldfn is not same as $file"
-++           return 1
-++      fi
-++      echo "$file and $oldfn are same"
-++      return 0
-++      ;;
-++    *.ps)
-++      for f in "old/$file" "new/$file"; do
-++        sed -i -e '
-++          /^%%CreationDate:[[:blank:]]/d
-++          /^%%Creator:[[:blank:]]groff[[:blank:]]version[[:blank:]]/d
-++          /^%DVIPSSource:[[:blank:]]/d
-++        ' "$f"
-++      done
-++    ;;
-++    *pdf)
-++      # PDF files contain a unique ID, remove it
-++      # Format of the ID is:
-++      # /ID [<9ACE247A70CF9BEAFEE15E116259BD6D> <9ACE247A70CF9BEAFEE15E116259BD6D>]
-++      # with optional spaces. pdftex creates also:
-++      # /CreationDate (D:20120103083206Z)
-++      # /ModDate (D:20120103083206Z)
-++      # and possibly XML metadata as well
-++      for f in "old/$file" "new/$file"; do
-++        sed -i \
-++            '/obj/,/endobj/{
-++               s%/ID \?\[ \?<[^>]\+> \?<[^>]\+> \?\]%/IDrandom%g;
-++               s%/CreationDate \?(D:[^)]*)%/CreationDate (D: XXX)%g;
-++               s%/ModDate \?(D:[^)]*)%/ModDate (D: XXX)%g;
-++               s%<pdf:CreationDate>[^<]*</pdf:CreationDate>%<pdf:CreationDate>XXX</pdf:CreationDate>%g;
-++               s%<pdf:ModDate>[^<]*</pdf:ModDate>%<pdf:ModDate>XXX</pdf:ModDate>%g;
-++               s%<xap:CreateDate>[^<]*</xap:CreateDate>%<xap:CreateDate>XXX</xap:CreateDate>%g;
-++               s%<xap:ModifyDate>[^<]*</xap:ModifyDate>%<xap:ModifyDate>XXX</xap:ModifyDate>%g;
-++               s%<xap:MetadataDate>[^<]*</xap:MetadataDate>%<xap:MetadataDate>XXX</xap:MetadataDate>%g;
-++            }' "$f"
-++      done
-++      ;;
-++  esac
-++
-++  ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
-++  case $ftype in
-++     PE32\ executable*Mono\/\.Net\ assembly*)
-++       echo "PE32 Mono/.Net assembly: $file"
-++       if [ -x /usr/bin/monodis ] ; then
-++         monodis old/$file 2>/dev/null|sed -e 's/GUID = {.*}/GUID = { 42 }/;'> ${file1}
-++         monodis new/$file 2>/dev/null|sed -e 's/GUID = {.*}/GUID = { 42 }/;'> ${file2}
-++         if ! cmp -s ${file1} ${file2}; then
-++           echo "$file differs ($ftype)"
-++           diff -u ${file1} ${file2}
-++           return 1
-++         fi
-++       else
-++         echo "Cannot compare, no monodis installed"
-++         return 1
-++       fi
-++       ;;
-++    ELF*executable*|ELF*[LM]SB\ shared\ object*)
-++       objdump -d --no-show-raw-insn old/$file | filter_disasm > $file1
-++       if ! test -s $file1; then
-++         # objdump has no idea how to handle it
-++         if ! diff_two_files; then
-++           ret=1
-++           break
-++         fi
-++       fi       
-++       elfdiff=
-++       sed -i -e "s,old/,," $file1
-++       objdump -d --no-show-raw-insn new/$file | filter_disasm > $file2
-++       sed -i -e "s,new/,," $file2
-++       if ! diff -u $file1 $file2 > $dfile; then
-++          echo "$file differs in assembler output"
-++          head -n 200 $dfile
-++          elfdiff="1"
-++       fi
-++       echo "" >$file1
-++       echo "" >$file2
-++       # Don't compare .build-id and .gnu_debuglink sections
-++       sections="$(objdump -s new/$file | grep "Contents of section .*:" | sed -r "s,.* (.*):,\1,g" | grep -v -e "\.build-id" -e "\.gnu_debuglink" | tr "\n" " ")"
-++       for section in $sections; do
-++          objdump -s -j $section old/$file | sed "s,^old/,," > $file1
-++          objdump -s -j $section new/$file | sed "s,^new/,," > $file2
-++          if ! diff -u $file1 $file2 > $dfile; then
-++             echo "$file differs in ELF section $section"
-++             head -n 200 $dfile
-++             elfdiff="1"
-++          fi
-++       done
-++       if test -z "$elfdiff"; then
-++          echo "$file: only difference was in build-id or gnu_debuglink, GOOD."
-++          return 0
-++       fi
-++       return 1
-++       ;;
-++     *ASCII*|*text*)
-++       if ! cmp -s old/$file new/$file; then
-++         echo "$file differs ($ftype)"
-++         diff -u old/$file new/$file | head -n 200
-++         return 1
-++       fi
-++       ;;
-++     directory|setuid,\ directory|sticky,\ directory)
-++       # tar might package directories - ignore them here
-++       return 0
-++       ;;
-++     bzip2\ compressed\ data*)
-++       if ! check_compressed_file "$file" "bz2"; then
-++           return 1
-++       fi
-++       ;;
-++     gzip\ compressed\ data*)
-++       if ! check_compressed_file "$file" "gzip"; then
-++           return 1
-++       fi
-++       ;;
-++     XZ\ compressed\ data*)
-++       if ! check_compressed_file "$file" "xz"; then
-++           return 1
-++       fi
-++       ;;
-++     POSIX\ tar\ archive)
-++          mv old/$file{,.tar}
-++          mv new/$file{,.tar}
-++          if ! check_single_file ${file}.tar; then
-++            return 1
-++          fi
-++       ;;
-++     cpio\ archive)
-++          mv old/$file{,.cpio}
-++          mv new/$file{,.cpio}
-++          if ! check_single_file ${file}.cpio; then
-++            return 1
-++          fi
-++     ;;
-++     symbolic\ link\ to\ *)
-++       readlink "old/$file" > $file1
-++       readlink "new/$file" > $file2
-++       if ! diff -u $file1 $file2; then
-++         echo "symlink target for $file differs"
-++         return 1
-++       fi
-++       ;;
-++     *)
-++       if ! diff_two_files; then
-++           return 1
-++       fi
-++       ;;
-++  esac
-++  return 0
-++}
-++
-++# We need /proc mounted for some tests, so check that it's mounted and
-++# complain if not.
-++PROC_MOUNTED=0
-++if [ ! -d /proc/self/ ]; then
-++  echo "/proc is not mounted"
-++  mount -orw -n -tproc none /proc
-++  PROC_MOUNTED=1
-++fi
-++
-++# preserve cmp_spec result for check_all runs
-++ret=$RES
-++for file in $files; do
-++   if ! check_single_file $file; then
-++       ret=1
-++       if test -z "$check_all"; then
-++           break
-++       fi
-++   fi
-++done
-++
-++if [ "$PROC_MOUNTED" -eq "1" ]; then
-++  echo "Unmounting proc"
-++  umount /proc
-++fi
-++
-++rm $file1 $file2 $dfile $rename_script
-++rm -rf $dir
-++if test "$ret" = 0; then
-++     echo "Package content is identical"
-++fi
-++exit $ret
-++# vim: tw=666 ts=2 et
-+diff --git a/rpm-check.sh b/rpm-check.sh
-+deleted file mode 100755
-+index 56035c1..0000000
-+--- a/rpm-check.sh
-++++ /dev/null
-+@@ -1,765 +0,0 @@
-+-#! /bin/bash
-+-#
-+-# Copyright (c) 2009, 2010, 2011, 2012 SUSE Linux Product GmbH, Germany.
-+-# Licensed under GPL v2, see COPYING file for details.
-+-#
-+-# Written by Michael Matz and Stephan Coolo
-+-# Enhanced by Andreas Jaeger
-+-
-+-FUNCTIONS=${0%/*}/functions.sh
-+-
-+-check_all=
-+-case $1 in
-+-  -a | --check-all)
-+-    check_all=1
-+-    shift
-+-esac
-+-
-+-if test "$#" != 2; then
-+-   echo "usage: $0 [-a|--check-all] old.rpm new.rpm"
-+-   exit 1
-+-fi
-+-
-+-self_script=$(cd $(dirname $0); echo $(pwd)/$(basename $0))
-+-
-+-source $FUNCTIONS
-+-
-+-oldpkg=`readlink -f $1`
-+-newpkg=`readlink -f $2`
-+-rename_script=`mktemp`
-+-
-+-if test ! -f "$oldpkg"; then
-+-    echo "can't open $1"
-+-    exit 1
-+-fi
-+-
-+-if test ! -f "$newpkg"; then
-+-    echo "can't open $2"
-+-    exit 1
-+-fi
-+-
-+-#usage unjar <file>
-+-function unjar()
-+-{
-+-    local file
-+-    file=$1
-+-
-+-    if [[ $(type -p fastjar) ]]; then
-+-        UNJAR=fastjar
-+-    elif [[ $(type -p jar) ]]; then
-+-        UNJAR=jar
-+-    elif [[ $(type -p unzip) ]]; then
-+-        UNJAR=unzip
-+-    else
-+-        echo "ERROR: jar, fastjar, or unzip is not installed (trying file $file)"
-+-        exit 1
-+-    fi
-+-
-+-    case $UNJAR in
-+-        jar|fastjar)
-+-        # echo jar -xf $file
-+-        ${UNJAR} -xf $file
-+-        ;;
-+-        unzip)
-+-        unzip -oqq $file
-+-        ;;
-+-    esac
-+-}
-+-
-+-# list files in directory
-+-#usage unjar_l <file>
-+-function unjar_l()
-+-{
-+-    local file
-+-    file=$1
-+-
-+-    if [[ $(type -p fastjar) ]]; then
-+-        UNJAR=fastjar
-+-    elif [[ $(type -p jar) ]]; then
-+-        UNJAR=jar
-+-    elif [[ $(type -p unzip) ]]; then
-+-        UNJAR=unzip
-+-    else
-+-        echo "ERROR: jar, fastjar, or unzip is not installed (trying file $file)"
-+-        exit 1
-+-    fi
-+-
-+-    case $UNJAR in
-+-        jar|fastjar)
-+-        ${UNJAR} -tf $file
-+-        ;;
-+-        unzip)
-+-        unzip -l $file
-+-        ;;
-+-    esac
-+-}
-+-
-+-filter_disasm()
-+-{
-+-   sed -e 's/^ *[0-9a-f]\+://' -e 's/\$0x[0-9a-f]\+/$something/' -e 's/callq *[0-9a-f]\+/callq /' -e 's/# *[0-9a-f]\+/#  /' -e 's/\(0x\)\?[0-9a-f]\+(/offset(/' -e 's/[0-9a-f]\+ </</' -e 's/^<\(.*\)>:/\1:/' -e 's/<\(.*\)+0x[0-9a-f]\+>/<\1 + ofs>/' 
-+-}
-+-
-+-echo "Comparing `basename $oldpkg` to `basename $newpkg`"
-+-
-+-case $oldpkg in
-+-  *.rpm)
-+-     cmp_spec $rename_script $oldpkg $newpkg
-+-     RES=$?
-+-     case $RES in
-+-       0)
-+-          echo "RPM meta information is identical"
-+-          if test -z "$check_all"; then
-+-             exit 0
-+-          fi
-+-          ;;
-+-       1)
-+-          echo "RPM meta information is different"
-+-          if test -z "$check_all"; then
-+-             exit 1
-+-          fi
-+-          ;;
-+-       2)
-+-          echo "RPM file checksum differs."
-+-          RES=0
-+-          ;;
-+-       *)
-+-          echo "Wrong exit code!"
-+-          exit 1
-+-          ;;
-+-     esac
-+-     ;;
-+-esac
-+-
-+-file1=`mktemp`
-+-file2=`mktemp`
-+-
-+-dir=`mktemp -d`
-+-echo "Extracting packages"
-+-unpackage $oldpkg $dir/old
-+-unpackage $newpkg $dir/new
-+-
-+-# files is set in cmp_spec for rpms, so if RES is empty we should assume
-+-# it wasn't an rpm and pick all files for comparison.
-+-if [ -z $RES ]; then
-+-    oldfiles=`cd $dir/old; find . -type f`
-+-    newfiles=`cd $dir/new; find . -type f`
-+-
-+-    files=`echo -e "$oldfiles\n$newfiles" | sort -u`
-+-fi
-+-
-+-cd $dir
-+-bash $rename_script
-+-
-+-dfile=`mktemp`
-+-
-+-diff_two_files()
-+-{
-+-  if ! cmp -s old/$file new/$file; then
-+-     echo "$file differs ($ftype)"
-+-     hexdump -C old/$file > $file1
-+-     hexdump -C new/$file > $file2
-+-     diff -u $file1 $file2 | head -n 200
-+-     return 1
-+-  fi
-+-  return 0
-+-}
-+-
-+-trim_man_first_line()
-+-{
-+-    # Handles the first line if it is like:
-+-    #.\" Automatically generated by Pod::Man 2.28 (Pod::Simple 3.28)
-+-    #.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.43.3.
-+-    local f=$1
-+-    sed -i -e '1{
-+-    s|^\.\\"[[:blank:]]\+Automatically[[:blank:]]generated[[:blank:]]by[[:blank:]]Pod::Man[[:blank:]].*|.\\" Overly verbose Pod::Man|
-+-    s|^\.\\"[[:blank:]]\+DO[[:blank:]]NOT[[:blank:]]MODIFY[[:blank:]]THIS[[:blank:]]FILE![[:blank:]]\+It[[:blank:]]was[[:blank:]]generated[[:blank:]]by[[:blank:]]help2man[[:blank:]].*|.\\" Overly verbose help2man|
-+-    }' $f
-+-}
-+-
-+-trim_man_TH()
-+-{
-+-    # Handles lines like:
-+-    # .TH debhelper 7 "2010-02-27" "7.4.15" "Debhelper"
-+-    # .TH DIRMNGR-CLIENT 1 2010-02-27 "Dirmngr 1.0.3" "GNU Privacy Guard"
-+-    # .TH ccmake 1 "March 06, 2010" "ccmake 2.8.1-rc3"
-+-    # .TH QEMU-IMG 1 "2010-03-14" " " " "
-+-    # .TH kdecmake 1 "May 07, 2010" "cmake 2.8.1"
-+-    # .TH "appender.h" 3 "12 May 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-+-    # .TH "appender.h" 3 "Tue Aug 31 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-+-    # .TH "OFFLINEIMAP" "1" "11 May 2010" "John Goerzen" "OfflineIMAP Manual"
-+-    # .TH gv 3guile "13 May 2010"
-+-    #.TH "GIT\-ARCHIMPORT" "1" "09/13/2010" "Git 1\&.7\&.1" "Git Manual"
-+-    # .TH LDIRECTORD 8 "2010-10-20" "perl v5.12.2" "User Contributed Perl Documentation"
-+-    # .TH ccmake 1 "February 05, 2012" "ccmake 2.8.7"
-+-    # .TH "appender.h" 3 "Tue Aug 31 2010" "Version 1.2.1" "log4c" \" -*- nroff -*-
-+-    # .TH ARCH "1" "September 2010" "GNU coreutils 8.5" "User Commands"
-+-    # .TH "GCM-CALIBRATE" "1" "03 February 2012" "" ""
-+-    #.TH Locale::Po4a::Xml.pm 3pm "2015-01-30" "Po4a Tools" "Po4a Tools"
-+-    local f=$1
-+-    # (.TH   quoted section) (quoted_date)(*)
-+-    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+"[^"]\+"[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\("[^"]\+"\)\([[:blank:]]\+.*\)\?|\1 "qq2000-01-01"\3|' $f
-+-    # (.TH unquoted section) (quoted_date)(*)
-+-    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+[^"][^[:blank:]]\+[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\("[^"]\+"\)\([[:blank:]]\+.*\)\?|\1 "uq2000-02-02"\3|' $f
-+-    # (.TH   quoted section) (unquoted_date)(*)
-+-    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+"[^"]\+"[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\([^"][^[:blank:]]\+\)\([[:blank:]]\+.*\)\?|\1 qu2000-03-03\3|' $f
-+-    # (.TH unquoted section) (unquoted_date)(*)
-+-    sed -i -e 's|^\([[:blank:]]*\.TH[[:blank:]]\+[^"][^[:blank:]]\+[[:blank:]]\+[^[:blank:]]\+\)[[:blank:]]\+\([^"][^[:blank:]]\+\)\([[:blank:]]\+.*\)\?|\1 uu2000-04-04\3|' $f
-+-}
-+-
-+-strip_numbered_anchors()
-+-{
-+-  # Remove numbered anchors on Docbook / HTML files.
-+-  # This should be save since we remove them from old and new files.
-+-  # A trailing </a> or </div> tag will stay also on both files.
-+-  for f in old/$file new/$file; do
-+-     sed -i -e 's%<[ ]*a[ ]\+name[^<]*[0-9]\+[^<]*%%g' \
-+-     -e 's%<[ ]*a[ ]\+href[^<]*#[^<]*[0-9]\+[^<]*%%g' \
-+-     -e 's%<[^<]*id="ftn\.[^<]*[0-9]\+[^<]*%%g' $f
-+-  done
-+-}
-+-
-+-
-+-check_compressed_file()
-+-{
-+-  local file=$1
-+-  local ext=$2
-+-  local tmpdir=`mktemp -d`
-+-  local ftype
-+-  local ret=0
-+-  echo "$ext file with odd filename: $file"
-+-  if test -n "$tmpdir"; then
-+-    mkdir $tmpdir/{old,new}
-+-    cp --parents --dereference old/$file $tmpdir/
-+-    cp --parents --dereference new/$file $tmpdir/
-+-    if pushd $tmpdir > /dev/null ; then
-+-      case "$ext" in
-+-        bz2)
-+-          mv old/$file{,.bz2}
-+-          mv new/$file{,.bz2}
-+-          bzip2 -d old/$file.bz2
-+-          bzip2 -d new/$file.bz2
-+-          ;;
-+-        gzip)
-+-          mv old/$file{,.gz}
-+-          mv new/$file{,.gz}
-+-          gzip -d old/$file.gz
-+-          gzip -d new/$file.gz
-+-          ;;
-+-        xz)
-+-          mv old/$file{,.xz}
-+-          mv new/$file{,.xz}
-+-          xz -d old/$file.xz
-+-          xz -d new/$file.xz
-+-          ;;
-+-      esac
-+-      ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
-+-      case $ftype in
-+-        POSIX\ tar\ archive)
-+-          echo "$ext content is: $ftype"
-+-          mv old/$file{,.tar}
-+-          mv new/$file{,.tar}
-+-          if ! check_single_file ${file}.tar; then
-+-            ret=1
-+-          fi
-+-          ;;
-+-        ASCII\ cpio\ archive\ *)
-+-          echo "$ext content is: $ftype"
-+-          mv old/$file{,.cpio}
-+-          mv new/$file{,.cpio}
-+-          if ! check_single_file ${file}.cpio; then
-+-            ret=1
-+-          fi
-+-          ;;
-+-        *)
-+-          echo "unhandled $ext content: $ftype"
-+-          if ! diff_two_files; then
-+-            ret=1
-+-          fi
-+-          ;;
-+-      esac
-+-      popd > /dev/null
-+-    fi
-+-    rm -rf "$tmpdir"
-+-  fi
-+-  return $ret
-+-}
-+-
-+-check_single_file()
-+-{
-+-  local file="$1"
-+-  case $file in
-+-    *.spec)
-+-       sed -i -e "s,Release:.*$release1,Release: @RELEASE@," old/$file
-+-       sed -i -e "s,Release:.*$release2,Release: @RELEASE@," new/$file
-+-       ;;
-+-    *.exe.mdb|*.dll.mdb)
-+-       # Just debug information, we can skip them
-+-       echo "$file skipped as debug file."
-+-       return 0
-+-       ;;
-+-    *.a)
-+-       flist=`ar t new/$file`
-+-       pwd=$PWD
-+-       fdir=`dirname $file`
-+-       cd old/$fdir
-+-       ar x `basename $file`
-+-       cd $pwd/new/$fdir
-+-       ar x `basename $file`
-+-       cd $pwd
-+-       for f in $flist; do
-+-          if ! check_single_file $fdir/$f; then
-+-             return 1
-+-          fi
-+-       done
-+-       return 0
-+-       ;;
-+-    *.cpio)
-+-       flist=`cpio --quiet --list --force-local < "new/$file"`
-+-       pwd=$PWD
-+-       fdir=$file.extract.$PPID.$$
-+-       mkdir old/$fdir new/$fdir
-+-       cd old/$fdir
-+-       cpio --quiet --extract --force-local < "../${file##*/}"
-+-       cd $pwd/new/$fdir
-+-       cpio --quiet --extract --force-local < "../${file##*/}"
-+-       cd $pwd
-+-       local ret=0
-+-       for f in $flist; do
-+-         if ! check_single_file $fdir/$f; then
-+-           ret=1
-+-           if test -z "$check_all"; then
-+-             break
-+-           fi
-+-         fi
-+-       done
-+-       rm -rf old/$fdir new/$fdir
-+-       return $ret
-+-       ;;
-+-    *.tar|*.tar.bz2|*.tar.gz|*.tgz|*.tbz2)
-+-       flist=`tar tf new/$file`
-+-       pwd=$PWD
-+-       fdir=`dirname $file`
-+-       cd old/$fdir
-+-       tar xf `basename $file`
-+-       cd $pwd/new/$fdir
-+-       tar xf `basename $file`
-+-       cd $pwd
-+-       local ret=0
-+-       for f in $flist; do
-+-         if ! check_single_file $fdir/$f; then
-+-           ret=1
-+-           if test -z "$check_all"; then
-+-             break
-+-           fi
-+-         fi
-+-       done
-+-       return $ret
-+-       ;;
-+-    *.zip|*.jar|*.war)
-+-       cd old
-+-       unjar_l ./$file |sort > flist
-+-       #  10-05-2010 14:39
-+-       sed -i -e "s, [0-9][0-9]-[0-9][0-9]-[0-9]\+ [0-9][0-9]:[0-9][0-9] , date ," flist
-+-       # 2012-02-03 07:59
-+-       sed -i -e "s, 20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9] , date ," flist
-+-       cd ../new
-+-       unjar_l ./$file |sort> flist
-+-       sed -i -e "s, [0-9][0-9]-[0-9][0-9]-[0-9]\+ [0-9][0-9]:[0-9][0-9] , date ,; " flist
-+-       sed -i -e "s, 20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9] , date ," flist
-+-       cd ..
-+-       if ! cmp -s old/flist new/flist; then
-+-          echo "$file has different file list"
-+-          diff -u old/flist new/flist
-+-          return 1
-+-       fi
-+-       flist=`grep date new/flist | sed -e 's,.* date ,,'`
-+-       pwd=$PWD
-+-       fdir=`dirname $file`
-+-       cd old/$fdir
-+-       unjar `basename $file`
-+-       cd $pwd/new/$fdir
-+-       unjar `basename $file`
-+-       cd $pwd
-+-       local ret=0
-+-       for f in $flist; do
-+-         if test -f new/$fdir/$f && ! check_single_file $fdir/$f; then
-+-           ret=1
-+-           if test -z "$check_all"; then
-+-             break
-+-           fi
-+-         fi
-+-       done
-+-       return $ret;;
-+-     *.pyc|*.pyo)
-+-        perl -e "open fh, '+<', 'old/$file'; seek fh, 4, SEEK_SET; print fh '0000';"
-+-        perl -e "open fh, '+<', 'new/$file'; seek fh, 4, SEEK_SET; print fh '0000';"
-+-        ;;
-+-     *.bz2)
-+-        bunzip2 -c old/$file > old/${file/.bz2/}
-+-        bunzip2 -c new/$file > new/${file/.bz2/}
-+-        check_single_file ${file/.bz2/}
-+-        return $?
-+-        ;;
-+-     *.gz)
-+-        gunzip -c old/$file > old/${file/.gz/}
-+-        gunzip -c new/$file > new/${file/.gz/}
-+-        check_single_file ${file/.gz/}
-+-        return $?
-+-        ;;
-+-     *.rpm)
-+-	$self_script -a old/$file new/$file
-+-        return $?
-+-        ;;
-+-     *png)
-+-	# Try to remove timestamps, only if convert from ImageMagick is installed
-+-        if [[ $(type -p convert) ]]; then
-+-	  convert old/$file +set date:create +set date:modify old/${file/.png/_n.png}
-+-	  convert old/$file +set date:create +set date:modify new/${file/.png/_n.png}
-+-	  if ! cmp -s old/${file/.png/_n.png} new/${file/.png/_n.png}; then
-+-	      echo "$file differs ($ftype)"
-+-	      hexdump -C old/${file/.png/_n.png} > $file1
-+-	      hexdump -C new/${file/.png/_n.png} > $file2
-+-	      diff -u $file1 $file2 | head -n 20
-+-	      return 1
-+-	  fi
-+-	  return 0
-+-	fi
-+-        ;;
-+-     /usr/share/locale/*/LC_MESSAGES/*.mo|/usr/share/locale-bundle/*/LC_MESSAGES/*.mo)
-+-       for f in old/$file new/$file; do
-+-         sed -i -e "s,POT-Creation-Date: ....-..-.. ..:..+....,POT-Creation-Date: 1970-01-01 00:00+0000," $f
-+-       done
-+-       ;;
-+-     /usr/share/doc/packages/*/*.html|\
-+-     /usr/share/doc/kde/HTML/*/*/*.html|/usr/share/doc/*/html/*.html)
-+-       for f in old/$file new/$file; do
-+-         # texi2html output, e.g. in kvm, indent, qemu
-+-	 sed -i -e "s|^<!-- Created on .*, 20.. by texi2html .\...|<!-- Created on August 7, 2009 by texi2html 1.82|" $f
-+-	 sed -i -e 's|^ *This document was generated by <em>Autobuild</em> on <em>.*, 20..</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html .\...</em></a>.$|  This document was generated by <em>Autobuild</em> on <em>August 7, 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.|' $f
-+-	 # doxygen docu, e.g. in libssh and log4c
-+-	 sed -i -e 's|Generated on ... ... [0-9]* [0-9]*:[0-9][0-9]:[0-9][0-9] 20[0-9][0-9] for |Generated on Mon May 10 20:45:00 2010 for |' $f
-+-	 # Generated on Sat Aug 14 2010 16:49:48 for libssh
-+-	 sed -i -e 's|Generated on ... ... [0-9]* 20[0-9][0-9] [0-9]*:[0-9][0-9]:[0-9][0-9] for |Generated on Mon May 10 20:45:00 2010 for |' $f
-+-       done
-+-       strip_numbered_anchors
-+-       ;;
-+-     /usr/share/javadoc/*.html |\
-+-     /usr/share/javadoc/*/*.html|/usr/share/javadoc/*/*/*.html)
-+-       strip_numbered_anchors
-+-       # There are more timestamps in html, so far we handle only some primitive versions.
-+-       for f in old/$file new/$file; do
-+-         # Javadoc:
-+-          # <head>
-+-          # <!-- Generated by javadoc (version 1.7.0_75) on Tue Feb 03 02:20:12 GMT 2015 -->
-+-          # <!-- Generated by javadoc on Tue Feb 03 00:02:48 GMT 2015 -->
-+-          # <meta name="date" content="2015-02-03">
-+-          # </head>
-+-          sed -i -e '
-+-            /^<head>/{
-+-              : next
-+-              n
-+-              /^<\/head>/{
-+-                b end_head
-+-              }
-+-              s/^\(<!-- Generated by javadoc\) \((\(build\|version\) [0-9._]\+) on ... ... .. ..:..:.. \(GMT\|UTC\) ....\) \(-->\)/\1 some-date-removed-by-build-compare \5/
-+-              t next
-+-              s/^\(<!-- Generated by javadoc\) \(on ... ... .. ..:..:.. \(GMT\|UTC\) ....\) \(-->\)/\1 some-date-removed-by-build-compare \3/
-+-              t next
-+-              s/^<meta name="date" content="[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}">/<meta name="date" content="some-date-removed-by-build-compare">/
-+-              b next
-+-            }
-+-            : end_head
-+-          ' $f
-+-         # Gjdoc HtmlDoclet:
-+-	 sed -i -e 's%Generated by Gjdoc HtmlDoclet [0-9,.]*, part of <a href="http://www.gnu.org/software/classpath/cp-tools/" title="" target="_top">GNU Classpath Tools</a>, on .*, 20.. [0-9]*:..:.. \(a\|p\)\.m\. GMT.%Generated by Gjdoc.%' $f
-+-	 sed -i -e 's%<!DOCTYPE html PUBLIC "-//gnu.org///DTD XHTML 1.1 plus Target 1.0//EN"\(.*\)GNU Classpath Tools</a>, on [A-Z][a-z]* [0-9]*, 20?? [0-9]*:??:?? \(a|p\)\.m\. GMT.</p>%<!DOCTYPE html PUBLIC "-//gnu.org///DTD XHTML 1.1 plus Target 1.0//EN"\1GNU Classpath Tools</a>, on January 1, 2009 0:00:00 a.m. GMT.</p>%' $f
-+-	 sed -i -e 's%<!DOCTYPE html PUBLIC "-//gnu.org///DTD\(.*GNU Classpath Tools</a>\), on [a-zA-Z]* [0-9][0-9], 20.. [0-9]*:..:.. \(a\|p\)\.m\. GMT.</p>%<!DOCTYPE html PUBLIC "-//gnu.org///DTD\1,on May 1, 2010 1:11:42 p.m. GMT.</p>%' $f
-+-	 # deprecated-list is randomly ordered, sort it for comparison
-+-	 case $f in
-+-	   */deprecated-list.html)
-+-	     sort -o $f $f
-+-	     ;;
-+-	 esac
-+-       done
-+-       ;;
-+-     /usr/share/javadoc/gjdoc.properties |\
-+-     /usr/share/javadoc/*/gjdoc.properties)
-+-       for f in old/$file new/$file; do
-+-	 sed -i -e 's|^#[A-Z][a-z]\{2\} [A-Z][a-z]\{2\} [0-9]\{2\} ..:..:.. GMT 20..$|#Fri Jan 01 11:27:36 GMT 2009|' $f
-+-       done
-+-       ;;
-+-     */fonts.scale|*/fonts.dir|*/encodings.dir)
-+-       for f in old/$file new/$file; do
-+-         # sort files before comparing
-+-         sort -o $f $f
-+-       done
-+-       ;;
-+-     /var/adm/perl-modules/*)
-+-       for f in old/$file new/$file; do
-+-         sed -i -e 's|^=head2 ... ... .. ..:..:.. ....: C<Module>|=head2 Wed Jul  1 00:00:00 2009: C<Module>|' $f
-+-       done
-+-       ;;
-+-     /usr/share/man/man3/*3pm)
-+-       for f in old/$file new/$file; do
-+-         sed -i -e 's| 3 "20..-..-.." "perl v5....." "User Contributed Perl Documentation"$| 3 "2009-01-01" "perl v5.10.0" "User Contributed Perl Documentation"|' $f
-+-         trim_man_TH $f
-+-         trim_man_first_line $f
-+-       done
-+-       ;;
-+-     /usr/share/man/*/man*|/usr/share/man/man*|/usr/lib/texmf/doc/man/*/*)
-+-
-+-       for f in old/$file new/$file; do
-+-         trim_man_TH $f
-+-         trim_man_first_line $f
-+-         # generated by docbook xml:
-+-         #.\"      Date: 09/13/2010
-+-         sed -i -e 's|Date: [0-1][0-9]/[0-9][0-9]/201[0-9]|Date: 09/13/2010|' $f
-+-       done
-+-       ;;
-+-     *.elc)
-+-       # emacs lisp files
-+-       for f in old/$file new/$file; do
-+-         sed -i -e 's|Compiled by abuild@.* on ... ... .. ..:..:.. 20..$|compiled by abuild@buildhost on Wed Jul 01 00:00:00 2009|' $f
-+-       done
-+-       ;;
-+-     /var/lib/texmf/web2c/*/*fmt |\
-+-     /var/lib/texmf/web2c/metafont/*.base|\
-+-     /var/lib/texmf/web2c/metapost/*.mem)
-+-       # binary dump of TeX and Metafont formats, we can ignore them for good
-+-       echo "difference in $file ignored."
-+-       return 0
-+-       ;;
-+-     */libtool)
-+-       for f in old/$file new/$file; do
-+-	  sed -i -e 's|^# Libtool was configured on host [A-Za-z0-9]*:$|# Libtool was configured on host x42:|' $f
-+-       done
-+-       ;;
-+-     /etc/mail/*cf|/etc/sendmail.cf)
-+-       # from sendmail package
-+-       for f in old/$file new/$file; do
-+-	  # - ##### built by abuild@build33 on Thu May 6 11:21:17 UTC 2010
-+-	  sed -i -e 's|built by abuild@[a-z0-9]* on ... ... [0-9]* [0-9]*:[0-9][0-9]:[0-9][0-9] .* 20[0-9][0-9]|built by abuild@build42 on Thu May 6 11:21:17 UTC 2010|' $f
-+-       done
-+-       ;;
-+-     /usr/share/doc/kde/HTML/*/*/index.cache|/usr/share/doc/kde/HTML/*/*/*/index.cache|\
-+-     /usr/share/gtk-doc/html/*/*.html|/usr/share/gtk-doc/html/*/*.devhelp2)
-+-       # various kde and gtk packages
-+-       strip_numbered_anchors
-+-       ;;
-+-    */created.rid)
-+-       # ruby documentation
-+-       # file just contains a timestamp and nothing else, so ignore it
-+-       echo "Ignore $file"
-+-       return 0
-+-       ;;
-+-    */rdoc/files/*.html)
-+-       # ruby documentation
-+-       # <td>Mon Sep 20 19:02:43 +0000 2010</td>
-+-       for f in old/$file new/$file; do
-+-          sed -i -e 's%<td>[A-Z][a-z][a-z] [A-Z][a-z][a-z] [0-9]\+ [0-9]\+:[0-9]\+:[0-9]\+ +0000 201[0-9]</td>%<td>Mon Sep 20 19:02:43 +0000 2010</td>%g' $f
-+-       done
-+-       strip_numbered_anchors
-+-       ;;
-+-    */Linux*Env.Set.sh)
-+-       # LibreOffice files, contains:
-+-       # Generated on: Mon Apr 18 13:19:22 UTC 2011
-+-       for f in old/$file new/$file; do
-+-	 sed -i -e 's%^# Generated on:.*UTC 201[0-9] *$%# Generated on: Sometime%g' $f
-+-       done
-+-       ;;
-+-    /usr/lib/libreoffice/solver/inc/*/deliver.log)
-+-       # LibreOffice log file
-+-      echo "Ignore $file"
-+-      return 0
-+-      ;;
-+-    /var/adm/update-messages/*|/var/adm/update-scripts/*)
-+-      # encode version-release inside
-+-      oldfn=`echo "$file"|sed -e s/-$release2/-$release1/;`
-+-
-+-      # fetchmsttfonts embeds the release number in the update shell script.
-+-      echo sed -i -e "s/-$release1/-$release2/g;" "old/$oldfn"
-+-      sed -i -e "s/-$release1/-$release2/g;" "old/$oldfn"
-+-
-+-      if ! diff -u old/$oldfn new/$file; then
-+-           echo "$oldfn is not same as $file"
-+-           return 1
-+-      fi
-+-      echo "$file and $oldfn are same"
-+-      return 0
-+-      ;;
-+-    *.ps)
-+-      for f in "old/$file" "new/$file"; do
-+-        sed -i -e '
-+-          /^%%CreationDate:[[:blank:]]/d
-+-          /^%%Creator:[[:blank:]]groff[[:blank:]]version[[:blank:]]/d
-+-          /^%DVIPSSource:[[:blank:]]/d
-+-        ' "$f"
-+-      done
-+-    ;;
-+-    *pdf)
-+-      # PDF files contain a unique ID, remove it
-+-      # Format of the ID is:
-+-      # /ID [<9ACE247A70CF9BEAFEE15E116259BD6D> <9ACE247A70CF9BEAFEE15E116259BD6D>]
-+-      # with optional spaces. pdftex creates also:
-+-      # /CreationDate (D:20120103083206Z)
-+-      # /ModDate (D:20120103083206Z)
-+-      # and possibly XML metadata as well
-+-      for f in "old/$file" "new/$file"; do
-+-        sed -i \
-+-            '/obj/,/endobj/{
-+-               s%/ID \?\[ \?<[^>]\+> \?<[^>]\+> \?\]%/IDrandom%g;
-+-               s%/CreationDate \?(D:[^)]*)%/CreationDate (D: XXX)%g;
-+-               s%/ModDate \?(D:[^)]*)%/ModDate (D: XXX)%g;
-+-               s%<pdf:CreationDate>[^<]*</pdf:CreationDate>%<pdf:CreationDate>XXX</pdf:CreationDate>%g;
-+-               s%<pdf:ModDate>[^<]*</pdf:ModDate>%<pdf:ModDate>XXX</pdf:ModDate>%g;
-+-               s%<xap:CreateDate>[^<]*</xap:CreateDate>%<xap:CreateDate>XXX</xap:CreateDate>%g;
-+-               s%<xap:ModifyDate>[^<]*</xap:ModifyDate>%<xap:ModifyDate>XXX</xap:ModifyDate>%g;
-+-               s%<xap:MetadataDate>[^<]*</xap:MetadataDate>%<xap:MetadataDate>XXX</xap:MetadataDate>%g;
-+-            }' "$f"
-+-      done
-+-      ;;
-+-  esac
-+-
-+-  ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
-+-  case $ftype in
-+-     PE32\ executable*Mono\/\.Net\ assembly*)
-+-       echo "PE32 Mono/.Net assembly: $file"
-+-       if [ -x /usr/bin/monodis ] ; then
-+-         monodis old/$file 2>/dev/null|sed -e 's/GUID = {.*}/GUID = { 42 }/;'> ${file1}
-+-         monodis new/$file 2>/dev/null|sed -e 's/GUID = {.*}/GUID = { 42 }/;'> ${file2}
-+-         if ! cmp -s ${file1} ${file2}; then
-+-           echo "$file differs ($ftype)"
-+-           diff -u ${file1} ${file2}
-+-           return 1
-+-         fi
-+-       else
-+-         echo "Cannot compare, no monodis installed"
-+-         return 1
-+-       fi
-+-       ;;
-+-    ELF*executable*|ELF*[LM]SB\ shared\ object*)
-+-       objdump -d --no-show-raw-insn old/$file | filter_disasm > $file1
-+-       if ! test -s $file1; then
-+-         # objdump has no idea how to handle it
-+-         if ! diff_two_files; then
-+-           ret=1
-+-           break
-+-         fi
-+-       fi       
-+-       elfdiff=
-+-       sed -i -e "s,old/,," $file1
-+-       objdump -d --no-show-raw-insn new/$file | filter_disasm > $file2
-+-       sed -i -e "s,new/,," $file2
-+-       if ! diff -u $file1 $file2 > $dfile; then
-+-          echo "$file differs in assembler output"
-+-          head -n 200 $dfile
-+-          elfdiff="1"
-+-       fi
-+-       echo "" >$file1
-+-       echo "" >$file2
-+-       # Don't compare .build-id and .gnu_debuglink sections
-+-       sections="$(objdump -s new/$file | grep "Contents of section .*:" | sed -r "s,.* (.*):,\1,g" | grep -v -e "\.build-id" -e "\.gnu_debuglink" | tr "\n" " ")"
-+-       for section in $sections; do
-+-          objdump -s -j $section old/$file | sed "s,^old/,," > $file1
-+-          objdump -s -j $section new/$file | sed "s,^new/,," > $file2
-+-          if ! diff -u $file1 $file2 > $dfile; then
-+-             echo "$file differs in ELF section $section"
-+-             head -n 200 $dfile
-+-             elfdiff="1"
-+-          fi
-+-       done
-+-       if test -z "$elfdiff"; then
-+-          echo "$file: only difference was in build-id or gnu_debuglink, GOOD."
-+-          return 0
-+-       fi
-+-       return 1
-+-       ;;
-+-     *ASCII*|*text*)
-+-       if ! cmp -s old/$file new/$file; then
-+-         echo "$file differs ($ftype)"
-+-         diff -u old/$file new/$file | head -n 200
-+-         return 1
-+-       fi
-+-       ;;
-+-     directory|setuid,\ directory|sticky,\ directory)
-+-       # tar might package directories - ignore them here
-+-       return 0
-+-       ;;
-+-     bzip2\ compressed\ data*)
-+-       if ! check_compressed_file "$file" "bz2"; then
-+-           return 1
-+-       fi
-+-       ;;
-+-     gzip\ compressed\ data*)
-+-       if ! check_compressed_file "$file" "gzip"; then
-+-           return 1
-+-       fi
-+-       ;;
-+-     XZ\ compressed\ data*)
-+-       if ! check_compressed_file "$file" "xz"; then
-+-           return 1
-+-       fi
-+-       ;;
-+-     POSIX\ tar\ archive)
-+-          mv old/$file{,.tar}
-+-          mv new/$file{,.tar}
-+-          if ! check_single_file ${file}.tar; then
-+-            return 1
-+-          fi
-+-       ;;
-+-     cpio\ archive)
-+-          mv old/$file{,.cpio}
-+-          mv new/$file{,.cpio}
-+-          if ! check_single_file ${file}.cpio; then
-+-            return 1
-+-          fi
-+-     ;;
-+-     symbolic\ link\ to\ *)
-+-       readlink "old/$file" > $file1
-+-       readlink "new/$file" > $file2
-+-       if ! diff -u $file1 $file2; then
-+-         echo "symlink target for $file differs"
-+-         return 1
-+-       fi
-+-       ;;
-+-     *)
-+-       if ! diff_two_files; then
-+-           return 1
-+-       fi
-+-       ;;
-+-  esac
-+-  return 0
-+-}
-+-
-+-# We need /proc mounted for some tests, so check that it's mounted and
-+-# complain if not.
-+-PROC_MOUNTED=0
-+-if [ ! -d /proc/self/ ]; then
-+-  echo "/proc is not mounted"
-+-  mount -orw -n -tproc none /proc
-+-  PROC_MOUNTED=1
-+-fi
-+-
-+-# preserve cmp_spec result for check_all runs
-+-ret=$RES
-+-for file in $files; do
-+-   if ! check_single_file $file; then
-+-       ret=1
-+-       if test -z "$check_all"; then
-+-           break
-+-       fi
-+-   fi
-+-done
-+-
-+-if [ "$PROC_MOUNTED" -eq "1" ]; then
-+-  echo "Unmounting proc"
-+-  umount /proc
-+-fi
-+-
-+-rm $file1 $file2 $dfile $rename_script
-+-rm -rf $dir
-+-if test "$ret" = 0; then
-+-     echo "Package content is identical"
-+-fi
-+-exit $ret
-+-# vim: tw=666 ts=2 et
-+diff --git a/same-build-result.sh b/same-build-result.sh
-+index c8907e2..7e9bd4f 100644
-+--- a/same-build-result.sh
-++++ b/same-build-result.sh
-+@@ -7,11 +7,11 @@
-+ # Enhanced by Andreas Jaeger <aj@suse.de>
-+ #
-+ # The script decides if the new build differes from the former one,
-+-# using rpm-check.sh.
-++# using pkg-diff.sh.
-+ # The script is called as part of the build process as:
-+ # /usr/lib/build/same-build-result.sh /.build.oldpackages /usr/src/packages/RPMS /usr/src/packages/SRPMS
-+ 
-+-CMPSCRIPT=${0%/*}/rpm-check.sh
-++CMPSCRIPT=${0%/*}/pkg-diff.sh
-+ SCMPSCRIPT=${0%/*}/srpm-check.sh
-+ 
-+ check_all=1
-+-- 
-+1.9.3
-+
--- 
-1.9.3
+On 02/05/2015 09:56 PM, Rob Woolley wrote:
+> Hi Hongxu,
+>
+> Have you had a chance to review this patch?  Do you have any questions about it?
+>
+> Regards,
+> Rob
+>
+>
+> On Fri, Jan 30, 2015 at 04:55:09PM -0500, Rob Woolley wrote:
+>> dhclient will fail to get an IP address if run inside a guest when traffic is
+>> flowing over a virtual network interface.  The user will see the error
+>> message:
+>>
+>>    5 bad udp checksums in 5 packets
+>>    No DHCPOFFERS received.
+>>    Unable to obtain a lease on first try.  Exiting.
+>>    Failed to bring up eth0.
+>>
+>> This is because Linux only uses partial checksums for packets that go over
+>> virtual network interfaces and dhclient does not like this.
+>>
+>>    See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
+>>    ("net: skbuff: improve comment on checksumming")
+>>
+>> An application can detect this behaviour by checking for the
+>> TP_STATUS_CSUMNOTREADY flag in the tp_status field.
+>>
+>>    See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
+>>    ("Add optional checksum computation for recvmsg")
+>>
+>> An extra parameter is added to decode_udp_ip_header() in dhclient to indicate
+>> whether or not dhclient should ignore partial checksums.  This is used
+>> when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
+>>
+>> This fix has been included in Fedora and Ubuntu, however it has not yet been
+>> accepted by ISC upstream.  Likely because it is specific to behaviour in Linux
+>> and other UNIX variants do not seem to be affected.
+>>
+>> The patch was imported from the dhcp source RPM in Fedora 21
+>>    (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
+>>
+>> Originally contributed to fedora-cvs-commit by David Cantrell on Jan 30 2007
+>>    (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
+>>
+>> Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. Tsirkin
+>>    (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
+>>    (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
+>>
+>> Upstream-Status: Submitted [dhcp-bugs@isc.org]
+>> Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
+>> ---
+>>   .../dhcp/dhcp/dhcp-xen-checksum.patch              | 282 +++++++++++++++++++++
+>>   meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   1 +
+>>   2 files changed, 283 insertions(+)
+>>   create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
+>>
+>> Index: b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
+>> ===================================================================
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
+>> @@ -0,0 +1,307 @@
+>> +dhcp-client: Ignore partial checksums
+>> +
+>> +dhclient will fail to get an IP address if run inside a guest when traffic is
+>> +flowing over a virtual network interface.  The user will see the error
+>> +message:
+>> +
+>> +  5 bad udp checksums in 5 packets
+>> +  No DHCPOFFERS received.
+>> +  Unable to obtain a lease on first try.  Exiting.
+>> +  Failed to bring up eth0.
+>> +
+>> +This is because Linux only uses partial checksums for packets that go over
+>> +virtual network interfaces and dhclient does not like this.
+>> +
+>> +  See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
+>> +  ("net: skbuff: improve comment on checksumming")
+>> +
+>> +An application can detect this behaviour by checking for the
+>> +TP_STATUS_CSUMNOTREADY flag in the tp_status field.
+>> +
+>> +  See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
+>> +  ("Add optional checksum computation for recvmsg")
+>> +
+>> +An extra parameter is added to decode_udp_ip_header() in dhclient to indicate
+>> +whether or not dhclient should ignore partial checksums.  This is used
+>> +when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
+>> +
+>> +This fix has been included in Fedora and Ubuntu, however it has not yet been
+>> +accepted by ISC upstream.  Likely because it is specific to behaviour in Linux
+>> +and other UNIX variants do not seem to be affected.
+>> +
+>> +The patch was imported from the dhcp source RPM in Fedora 21
+>> +  (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
+>> +
+>> +Originally contributed to fedora-cvs-commit by David Cantrell on Jan 30 2007
+>> +  (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
+>> +
+>> +Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. Tsirkin
+>> +  (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
+>> +  (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
+>> +
+>> +Upstream-Status: Submitted [dhcp-bugs@isc.org]
+>> +Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
+>> +--
+>> + common/bpf.c     |    2 -
+>> + common/dlpi.c    |    2 -
+>> + common/lpf.c     |   83 +++++++++++++++++++++++++++++++++++++++++--------------
+>> + common/nit.c     |    2 -
+>> + common/packet.c  |    4 +-
+>> + common/upf.c     |    2 -
+>> + includes/dhcpd.h |    2 -
+>> + 7 files changed, 70 insertions(+), 27 deletions(-)
+>> +
+>> +diff --git a/common/bpf.c b/common/bpf.c
+>> +--- a/common/bpf.c
+>> ++++ b/common/bpf.c
+>> +@@ -481,7 +481,7 @@ ssize_t receive_packet (interface, buf,
+>> + 		/* Decode the IP and UDP headers... */
+>> + 		offset = decode_udp_ip_header(interface, interface->rbuf,
+>> + 					       interface->rbuf_offset,
+>> +-  					       from, hdr.bh_caplen, &paylen);
+>> ++  					       from, hdr.bh_caplen, &paylen, 0);
+>> +
+>> + 		/* If the IP or UDP checksum was bad, skip the packet... */
+>> + 		if (offset < 0) {
+>> +diff --git a/common/dlpi.c b/common/dlpi.c
+>> +--- a/common/dlpi.c
+>> ++++ b/common/dlpi.c
+>> +@@ -691,7 +691,7 @@ ssize_t receive_packet (interface, buf,
+>> + 	length -= offset;
+>> + #endif
+>> + 	offset = decode_udp_ip_header (interface, dbuf, bufix,
+>> +-				       from, length, &paylen);
+>> ++				       from, length, &paylen, 0);
+>> +
+>> + 	/*
+>> + 	 * If the IP or UDP checksum was bad, skip the packet...
+>> +diff --git a/common/lpf.c b/common/lpf.c
+>> +--- a/common/lpf.c
+>> ++++ b/common/lpf.c
+>> +@@ -29,14 +29,15 @@
+>> +
+>> + #include "dhcpd.h"
+>> + #if defined (USE_LPF_SEND) || defined (USE_LPF_RECEIVE)
+>> ++#include <sys/socket.h>
+>> + #include <sys/uio.h>
+>> + #include <errno.h>
+>> +
+>> + #include <asm/types.h>
+>> + #include <linux/filter.h>
+>> + #include <linux/if_ether.h>
+>> ++#include <linux/if_packet.h>
+>> + #include <netinet/in_systm.h>
+>> +-#include <net/if_packet.h>
+>> + #include "includes/netinet/ip.h"
+>> + #include "includes/netinet/udp.h"
+>> + #include "includes/netinet/if_ether.h"
+>> +@@ -51,6 +52,19 @@
+>> + /* Reinitializes the specified interface after an address change.   This
+>> +    is not required for packet-filter APIs. */
+>> +
+>> ++#ifndef PACKET_AUXDATA
+>> ++#define PACKET_AUXDATA 8
+>> ++
+>> ++struct tpacket_auxdata
+>> ++{
+>> ++	__u32		tp_status;
+>> ++	__u32		tp_len;
+>> ++	__u32		tp_snaplen;
+>> ++	__u16		tp_mac;
+>> ++	__u16		tp_net;
+>> ++};
+>> ++#endif
+>> ++
+>> + #ifdef USE_LPF_SEND
+>> + void if_reinitialize_send (info)
+>> + 	struct interface_info *info;
+>> +@@ -73,10 +87,14 @@ int if_register_lpf (info)
+>> + 	struct interface_info *info;
+>> + {
+>> + 	int sock;
+>> +-	struct sockaddr sa;
+>> ++	union {
+>> ++		struct sockaddr_ll ll;
+>> ++		struct sockaddr common;
+>> ++	} sa;
+>> ++	struct ifreq ifr;
+>> +
+>> + 	/* Make an LPF socket. */
+>> +-	if ((sock = socket(PF_PACKET, SOCK_PACKET,
+>> ++	if ((sock = socket(PF_PACKET, SOCK_RAW,
+>> + 			   htons((short)ETH_P_ALL))) < 0) {
+>> + 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
+>> + 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
+>> +@@ -91,11 +109,17 @@ int if_register_lpf (info)
+>> + 		log_fatal ("Open a socket for LPF: %m");
+>> + 	}
+>> +
+>> ++	memset (&ifr, 0, sizeof ifr);
+>> ++	strncpy (ifr.ifr_name, (const char *)info -> ifp, sizeof ifr.ifr_name);
+>> ++	ifr.ifr_name[IFNAMSIZ-1] = '\0';
+>> ++	if (ioctl (sock, SIOCGIFINDEX, &ifr))
+>> ++		log_fatal ("Failed to get interface index: %m");
+>> ++
+>> + 	/* Bind to the interface name */
+>> + 	memset (&sa, 0, sizeof sa);
+>> +-	sa.sa_family = AF_PACKET;
+>> +-	strncpy (sa.sa_data, (const char *)info -> ifp, sizeof sa.sa_data);
+>> +-	if (bind (sock, &sa, sizeof sa)) {
+>> ++	sa.ll.sll_family = AF_PACKET;
+>> ++	sa.ll.sll_ifindex = ifr.ifr_ifindex;
+>> ++	if (bind (sock, &sa.common, sizeof sa)) {
+>> + 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
+>> + 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
+>> + 		    errno == EAFNOSUPPORT || errno == EINVAL) {
+>> +@@ -177,9 +201,18 @@ static void lpf_gen_filter_setup (struct
+>> + void if_register_receive (info)
+>> + 	struct interface_info *info;
+>> + {
+>> ++	int val;
+>> ++
+>> + 	/* Open a LPF device and hang it on this interface... */
+>> + 	info -> rfdesc = if_register_lpf (info);
+>> +
+>> ++	val = 1;
+>> ++	if (setsockopt (info -> rfdesc, SOL_PACKET, PACKET_AUXDATA, &val,
+>> ++			sizeof val) < 0) {
+>> ++		if (errno != ENOPROTOOPT)
+>> ++			log_fatal ("Failed to set auxiliary packet data: %m");
+>> ++	}
+>> ++
+>> + #if defined (HAVE_TR_SUPPORT)
+>> + 	if (info -> hw_address.hbuf [0] == HTYPE_IEEE802)
+>> + 		lpf_tr_filter_setup (info);
+>> +@@ -301,7 +334,6 @@ ssize_t send_packet (interface, packet,
+>> + 	double hh [16];
+>> + 	double ih [1536 / sizeof (double)];
+>> + 	unsigned char *buf = (unsigned char *)ih;
+>> +-	struct sockaddr_pkt sa;
+>> + 	int result;
+>> + 	int fudge;
+>> +
+>> +@@ -322,17 +354,7 @@ ssize_t send_packet (interface, packet,
+>> + 				(unsigned char *)raw, len);
+>> + 	memcpy (buf + ibufp, raw, len);
+>> +
+>> +-	/* For some reason, SOCK_PACKET sockets can't be connected,
+>> +-	   so we have to do a sentdo every time. */
+>> +-	memset (&sa, 0, sizeof sa);
+>> +-	sa.spkt_family = AF_PACKET;
+>> +-	strncpy ((char *)sa.spkt_device,
+>> +-		 (const char *)interface -> ifp, sizeof sa.spkt_device);
+>> +-	sa.spkt_protocol = htons(ETH_P_IP);
+>> +-
+>> +-	result = sendto (interface -> wfdesc,
+>> +-			 buf + fudge, ibufp + len - fudge, 0,
+>> +-			 (const struct sockaddr *)&sa, sizeof sa);
+>> ++	result = write (interface -> wfdesc, buf + fudge, ibufp + len - fudge);
+>> + 	if (result < 0)
+>> + 		log_error ("send_packet: %m");
+>> + 	return result;
+>> +@@ -349,14 +371,35 @@ ssize_t receive_packet (interface, buf,
+>> + {
+>> + 	int length = 0;
+>> + 	int offset = 0;
+>> ++	int nocsum = 0;
+>> + 	unsigned char ibuf [1536];
+>> + 	unsigned bufix = 0;
+>> + 	unsigned paylen;
+>> ++	unsigned char cmsgbuf[CMSG_LEN(sizeof(struct tpacket_auxdata))];
+>> ++	struct iovec iov = {
+>> ++		.iov_base = ibuf,
+>> ++		.iov_len = sizeof ibuf,
+>> ++	};
+>> ++	struct msghdr msg = {
+>> ++		.msg_iov = &iov,
+>> ++		.msg_iovlen = 1,
+>> ++		.msg_control = cmsgbuf,
+>> ++		.msg_controllen = sizeof(cmsgbuf),
+>> ++	};
+>> ++	struct cmsghdr *cmsg;
+>> +
+>> +-	length = read (interface -> rfdesc, ibuf, sizeof ibuf);
+>> ++	length = recvmsg (interface -> rfdesc, &msg, 0);
+>> + 	if (length <= 0)
+>> + 		return length;
+>> +
+>> ++	for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg)) {
+>> ++		if (cmsg->cmsg_level == SOL_PACKET &&
+>> ++		    cmsg->cmsg_type == PACKET_AUXDATA) {
+>> ++			struct tpacket_auxdata *aux = (void *)CMSG_DATA(cmsg);
+>> ++			nocsum = aux->tp_status & TP_STATUS_CSUMNOTREADY;
+>> ++		}
+>> ++	}
+>> ++
+>> + 	bufix = 0;
+>> + 	/* Decode the physical header... */
+>> + 	offset = decode_hw_header (interface, ibuf, bufix, hfrom);
+>> +@@ -373,7 +416,7 @@ ssize_t receive_packet (interface, buf,
+>> +
+>> + 	/* Decode the IP and UDP headers... */
+>> + 	offset = decode_udp_ip_header (interface, ibuf, bufix, from,
+>> +-				       (unsigned)length, &paylen);
+>> ++				       (unsigned)length, &paylen, nocsum);
+>> +
+>> + 	/* If the IP or UDP checksum was bad, skip the packet... */
+>> + 	if (offset < 0)
+>> +diff --git a/common/nit.c b/common/nit.c
+>> +--- a/common/nit.c
+>> ++++ b/common/nit.c
+>> +@@ -363,7 +363,7 @@ ssize_t receive_packet (interface, buf,
+>> +
+>> + 	/* Decode the IP and UDP headers... */
+>> + 	offset = decode_udp_ip_header (interface, ibuf, bufix,
+>> +-				       from, length, &paylen);
+>> ++				       from, length, &paylen, 0);
+>> +
+>> + 	/* If the IP or UDP checksum was bad, skip the packet... */
+>> + 	if (offset < 0)
+>> +diff --git a/common/packet.c b/common/packet.c
+>> +--- a/common/packet.c
+>> ++++ b/common/packet.c
+>> +@@ -226,7 +226,7 @@ ssize_t
+>> + decode_udp_ip_header(struct interface_info *interface,
+>> + 		     unsigned char *buf, unsigned bufix,
+>> + 		     struct sockaddr_in *from, unsigned buflen,
+>> +-		     unsigned *rbuflen)
+>> ++		     unsigned *rbuflen, int nocsum)
+>> + {
+>> +   unsigned char *data;
+>> +   struct ip ip;
+>> +@@ -337,7 +337,7 @@ decode_udp_ip_header(struct interface_in
+>> + 					   8, IPPROTO_UDP + ulen))));
+>> +
+>> +   udp_packets_seen++;
+>> +-  if (usum && usum != sum) {
+>> ++  if (!nocsum && usum && usum != sum) {
+>> + 	  udp_packets_bad_checksum++;
+>> + 	  if (udp_packets_seen > 4 &&
+>> + 	      (udp_packets_seen / udp_packets_bad_checksum) < 2) {
+>> +diff --git a/common/upf.c b/common/upf.c
+>> +--- a/common/upf.c
+>> ++++ b/common/upf.c
+>> +@@ -314,7 +314,7 @@ ssize_t receive_packet (interface, buf,
+>> +
+>> + 	/* Decode the IP and UDP headers... */
+>> + 	offset = decode_udp_ip_header (interface, ibuf, bufix,
+>> +-				       from, length, &paylen);
+>> ++				       from, length, &paylen, 0);
+>> +
+>> + 	/* If the IP or UDP checksum was bad, skip the packet... */
+>> + 	if (offset < 0)
+>> +diff --git a/includes/dhcpd.h b/includes/dhcpd.h
+>> +--- a/includes/dhcpd.h
+>> ++++ b/includes/dhcpd.h
+>> +@@ -2857,7 +2857,7 @@ ssize_t decode_hw_header (struct interfa
+>> + 			  unsigned, struct hardware *);
+>> + ssize_t decode_udp_ip_header (struct interface_info *, unsigned char *,
+>> + 			      unsigned, struct sockaddr_in *,
+>> +-			      unsigned, unsigned *);
+>> ++			      unsigned, unsigned *, int);
+>> +
+>> + /* ethernet.c */
+>> + void assemble_ethernet_header (struct interface_info *, unsigned char *,
+>> +--
+>> +1.8.1.2
+>> +
+>> Index: b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+>> ===================================================================
+>> --- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+>> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+>> @@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-d
+>>               file://fixsepbuild.patch \
+>>               file://dhclient-script-drop-resolv.conf.dhclient.patch \
+>>               file://replace-ifconfig-route.patch \
+>> +            file://dhcp-xen-checksum.patch \
+>>              "
+>>   
+>>   SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
 
