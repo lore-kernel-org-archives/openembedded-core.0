@@ -1,28 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 55FBC72374
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC5772374
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 09:26:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1C9Qij3007736
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Feb 2015 01:26:44 -0800 (PST)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 12 Feb 2015 01:26:43 -0800
-Message-ID: <54DC71D2.3020607@windriver.com>
-Date: Thu, 12 Feb 2015 17:26:42 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Thu, 12 Feb 2015 12:56:35 +0000 (UTC)
+Received: from [99.240.204.5] (port=38373 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YLtJo-0005W6-HM for openembedded-core@lists.openembedded.org;
+	Thu, 12 Feb 2015 07:56:32 -0500
+Date: Thu, 12 Feb 2015 07:56:31 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1502120750130.5392@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: Henning Heinold <henning@itconsulting-heinold.de>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1423732000.git.liezhi.yang@windriver.com>	<c350ce001e1785f5fe8878cbcf5b5e07417d646a.1423732000.git.liezhi.yang@windriver.com>
-	<20150212091423.GA18807@mail.itconsulting-heinold.de>
-In-Reply-To: <20150212091423.GA18807@mail.itconsulting-heinold.de>
-Subject: Re: [PATCH 2/7] libtool: don't execute automake and autoconf on every invocation
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: ncurses-native compile error -- i'm starting to blame gcc-5.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,124 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 09:26:52 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Feb 2015 12:56:36 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
+  (posted about this on YP list earlier but i figured i might as well
+strip this down to its essentials and use pure OE to reproduce.)
 
-On 02/12/2015 05:14 PM, Henning Heinold wrote:
-> On Thu, Feb 12, 2015 at 01:07:35AM -0800, Robert Yang wrote:
->>  From the origin commit message:
->> Regression from 2.4.2 was causing noticable slow-down in builds
->> that call libtool many times.
->> * build-aux/ltmain.in (func_help): Override func_help() from
->> gl/build-aux/options-parser to only run automake --version and
->> autoconf --version when libtool --help is executed on the command
->> line.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/recipes-devtools/libtool/libtool-2.4.5.inc    |    1 +
->>   ...-t-execute-automake-and-autoconf-on-every.patch |   71 ++++++++++++++++++++
->>   2 files changed, 72 insertions(+)
->>   create mode 100644 meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
->>
->> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.5.inc b/meta/recipes-devtools/libtool/libtool-2.4.5.inc
->> index 88e281f..0f6bdc8 100644
->> --- a/meta/recipes-devtools/libtool/libtool-2.4.5.inc
->> +++ b/meta/recipes-devtools/libtool/libtool-2.4.5.inc
->> @@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
->>              file://fix-resolve-lt-sysroot.patch \
->>              file://nohardcodepaths.patch \
->>              file://unwind-opt-parsing.patch \
->> +           file://libtool-don-t-execute-automake-and-autoconf-on-every.patch \
->>             "
->>
->>   SRC_URI[md5sum] = "7d30ed9fa6bb11270ebb31639a37bd54"
->> diff --git a/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch b/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
->> new file mode 100644
->> index 0000000..f48f09c
->> --- /dev/null
->> +++ b/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
->> @@ -0,0 +1,71 @@
->> +From 408cfb9c5fa8a666917167ffb806cb19deded429 Mon Sep 17 00:00:00 2001
->> +From: "Gary V. Vaughan" <gary@gnu.org>
->> +Date: Fri, 6 Feb 2015 12:58:34 +0000
->> +Subject: [PATCH] libtool: don't execute automake and autoconf on every
->> + invocation.
->> +
->> +Regression from 2.4.2 was causing noticable slow-down in builds
->> +that call libtool many times.
->> +* build-aux/ltmain.in (func_help): Override func_help() from
->> +gl/build-aux/options-parser to only run automake --version and
->> +autoconf --version when libtool --help is executed on the command
->> +line.
->> +* NO-THANKS: Add Robert Yang.
->> +Reported by Robert Yang
->> +
->> +Signed-off-by: Gary V. Vaughan <gary@gnu.org>
->> +
->
-> typo
->> +Updated: Change NO-THANKS to THANKS to apply the patch since upsream
->                                                                  ^^^^^^^
+  on 64-bit, fully-updated fedora rawhide system, with gcc:
 
-Thanks, fixed in the repo.
+$ gcc --version
+gcc (GCC) 5.0.0 20150208 (Red Hat 5.0.0-0.10)
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+$
 
-// Robert
+  using master branch of OE, i tried to build
+qemux86/core-image-minimal and got precisely the same error i reported
+on YP list:
+=====================
+gcc  -DHAVE_CONFIG_H -I../ncurses -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses -isystem/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -D_GNU_SOURCE -DNDEBUG -I. -I../include -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/../include -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -isystem/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -D_GNU_SOURCE -O2 -pipe  --param max-inline-insns-single=1200 -fPIC -c /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/base/lib_inchstr.c -o ../obj_s/lib_inchstr.o
+In file included from /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/curses.priv.h:283:0,
+                 from ../ncurses/lib_gen.c:19:
+_20141.c:835:15: error: expected ')' before 'int'
+../include/curses.h:1594:56: note: in definition of macro 'mouse_trafo'
+ #define mouse_trafo(y,x,to_screen) wmouse_trafo(stdscr,y,x,to_screen)
+                                                        ^
+gcc  -DHAVE_CONFIG_H -I../ncurses -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses -isystem/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -D_GNU_SOURCE -DNDEBUG -I. -I../include -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/../include -I/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -isystem/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/sysroots/x86_64-linux/usr/include -D_GNU_SOURCE -O2 -pipe  --param max-inline-insns-single=1200 -fPIC -c /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/base/lib_initscr.c -o ../obj_s/lib_initscr.o
+Makefile:1682: recipe for target '../obj_s/lib_gen.o' failed
+make[1]: *** [../obj_s/lib_gen.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make[1]: Leaving directory '/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/build/narrowc/ncurses'
+Makefile:134: recipe for target 'libs' failed
+make: *** [libs] Error 2
+make: Leaving directory '/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/build/narrowc'
+ERROR: oe_runmake failed
+WARNING: /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/temp/run.do_compile.19602:1 exit 1 from
+  exit 1
+ERROR: Function failed: do_compile (log file is located at /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/temp/log.do_compile.19602)
+======================
 
->> +renamed it.
->> +
->> +Upstream-Stauts: Backport
->> +
->> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> +
->> +---
->> + THANKS           |    1 +
->> + build-aux/ltmain.in |    9 ++++++++-
->> + 2 files changed, 9 insertions(+), 1 deletion(-)
->> +
->> +diff --git a/THANKS b/THANKS
->> +index 0ab162d..aa7aa8c 100644
->> +--- a/THANKS
->> ++++ b/THANKS
->> +@@ -258,6 +258,7 @@ Robert Garron                       Robert.Garron@Access3000.net
->> + Robert Millan                       rmh@aybabtu.com
->> + Robert Ögren                        lists@roboros.com
->> + Roberto Bagnara                     bagnara@cs.unipr.it
->> ++Robert Yang                         liezhi.yang@windriver.com
->> + Roger Cornelius                     rac@tenzing.org
->> + Roland Mainz                        roland.mainz@nrubsig.org
->> + Roumen Petrov                       bugtrack@roumenpetrov.info
->> +diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
->> +index 46a0bb5..d5cf07a 100644
->> +--- a/build-aux/ltmain.in
->> ++++ b/build-aux/ltmain.in
->> +@@ -127,7 +127,12 @@ usage_message="Options:
->> + "
->> +
->> + # Additional text appended to 'usage_message' in response to '--help'.
->> +-long_help_message=$long_help_message"
->> ++func_help ()
->> ++{
->> ++    $debug_cmd
->> ++
->> ++    func_usage_message
->> ++    $ECHO "$long_help_message
->> +
->> + MODE must be one of the following:
->> +
->> +@@ -158,6 +163,8 @@ include the following information:
->> + Report bugs to <@PACKAGE_BUGREPORT@>.
->> + GNU @PACKAGE@ home page: <@PACKAGE_URL@>.
->> + General help using GNU software: <http://www.gnu.org/gethelp/>."
->> ++    exit 0
->> ++}
->> +
->> +
->> + # func_lo2o OBJECT-NAME
->
-> Bye Henning
->
+  AFAIK, the selected version of ncurses (5.9) hasn't changed in quite
+some time and i've done countless builds of qemu core-image-minimal
+images over the last few months, so i'm guessing this latest version
+of gcc is doing something strange, or it's just exposing a problem in
+the ncurses source that's been hidden all this time.
+
+  has anyone else tried the above with the latest version of gcc?
+because i can't really think what else might be to blame.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
