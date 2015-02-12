@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 01E8D733B0
+	by mail.openembedded.org (Postfix) with ESMTP id 152C4606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 09:07:42 +0000 (UTC)
+	Thu, 12 Feb 2015 09:07:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1C97hGE007562
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1C97iBQ007565
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 01:07:43 -0800 (PST)
+	Thu, 12 Feb 2015 01:07:44 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 12 Feb 2015 01:07:43 -0800
+	Thu, 12 Feb 2015 01:07:44 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Feb 2015 01:07:38 -0800
-Message-ID: <ac1236b9b575849bae2399e6010d0343708f4984.1423732000.git.liezhi.yang@windriver.com>
+Date: Thu, 12 Feb 2015 01:07:40 -0800
+Message-ID: <f783f1ce72214275bd85a460b527077bc751dd66.1423732000.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1423732000.git.liezhi.yang@windriver.com>
 References: <cover.1423732000.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/7] btrfs-tools: fix for parallel build
+Subject: [PATCH 7/7] neard: do not ship version.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,71 +36,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 Feb 2015 09:07:43 -0000
 Content-Type: text/plain
 
-Fixed:
-mkfs.c:300:46: error: 'BTRFS_BUILD_VERSION' undeclared (first use in this function)
-  fprintf(stderr, "mkfs.btrfs, part of %s\n", BTRFS_BUILD_VERSION);
+The HEADERS' name has been changed to pkginclude_HEADERS, so use
+nodist_pkginclude_HEADERS, otherwise version.h would be shipped.
+
+It would cause other pkgs failed to build if ship version.h to
+usr/include/version.h
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../btrfs-tools/btrfs-tools/fix-parallel.patch     |   32 ++++++++++++++++++++
- .../btrfs-tools/btrfs-tools_git.bb                 |    5 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+ .../neard/Makefile.am-do-not-ship-version.h.patch  |   36 ++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.15.bb      |    1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
 new file mode 100644
-index 0000000..65c31a4
+index 0000000..16875e0
 --- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
-@@ -0,0 +1,32 @@
-+From 373eb51328b5e10529763cad441210e6b0efb24e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
+@@ -0,0 +1,36 @@
++From bfd32d68cfc9f1e31dab88e07446d1c02bc80b5e Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 11 Feb 2015 22:08:41 -0800
-+Subject: [PATCH] Makefile: fix for parallel build
++Date: Thu, 12 Feb 2015 00:39:29 -0800
++Subject: [PATCH] Makefile.am: do not ship version.h
 +
-+Fixed:
-+mkfs.c:300:46: error: 'BTRFS_BUILD_VERSION' undeclared (first use in this function)
-+  fprintf(stderr, "mkfs.btrfs, part of %s\n", BTRFS_BUILD_VERSION);
++The HEADERS' name has been changed to pkginclude_HEADERS, so use
++nodist_pkginclude_HEADERS, otherwise version.h would be shipped.
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Makefile.am |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/Makefile b/Makefile
-+index 9c69ada..30c6f06 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -118,7 +118,7 @@ else
-+ 	AM_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
-+ endif
++diff --git a/Makefile.am b/Makefile.am
++index 3334790..69cd58f 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -10,11 +10,11 @@ pkginclude_HEADERS = include/types.h include/log.h include/plugin.h \
++ 			include/tlv.h include/setting.h include/device.h \
++ 			include/nfc_copy.h include/snep.h
 + 
-+-%.o.d: %.c
-++%.o.d: %.c version.h
-+ 	$(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o) -MT $@ $(AM_CFLAGS) $(CFLAGS) $<
++-nodist_include_HEADERS = include/version.h
+++nodist_pkginclude_HEADERS = include/version.h
 + 
-+ .c.o:
++ noinst_HEADERS = include/dbus.h
++ 
++-local_headers = $(foreach file,$(pkginclude_HEADERS) $(nodist_include_HEADERS) \
+++local_headers = $(foreach file,$(pkginclude_HEADERS) $(nodist_pkginclude_HEADERS) \
++ 			$(noinst_HEADERS), include/near/$(notdir $(file)))
++ 
++ gdbus_sources = gdbus/gdbus.h gdbus/mainloop.c gdbus/watch.c \
 +-- 
 +1.7.9.5
 +
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index ef85057..d800426 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -13,7 +13,10 @@ SECTION = "base"
- DEPENDS = "util-linux attr e2fsprogs lzo acl"
- 
- SRCREV = "44cdb62d3478c834f41c87ea79d261b9c8982dce"
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-+           file://fix-parallel.patch \
-+"
-+
- S = "${WORKDIR}/git"
- 
- PV = "3.14.2+git${SRCPV}"
+diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.15.bb
+index c92a171..508c622 100644
+--- a/meta/recipes-connectivity/neard/neard_0.15.bb
++++ b/meta/recipes-connectivity/neard/neard_0.15.bb
+@@ -3,6 +3,7 @@ require neard.inc
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BP}.tar.xz \
+            file://neard.in \
+            file://Makefile.am-fix-parallel-issue.patch \
++           file://Makefile.am-do-not-ship-version.h.patch \
+           "
+ SRC_URI[md5sum] = "b746ce62eeef88e8de90765e00a75a1c"
+ SRC_URI[sha256sum] = "651f6513d32cdaf8a426255d03aff38a6620a89b0567ec2b36606c6330a93353"
 -- 
 1.7.9.5
 
