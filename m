@@ -1,44 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E10C9606E8;
-	Thu, 12 Feb 2015 07:36:14 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id a13so2060247igq.0;
-	Wed, 11 Feb 2015 23:36:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=JbwNXbS44FkQeB2HpCRMdRmuFq5vavT9grH0cwtnXcg=;
-	b=ymUgK2uCJeNd0+xiHL7pz7zaoDxylsUPBmG2shyGEouNNjZmJ0c4lruQMcJx8WN0oh
-	gZy66irT/LA6/vb6EqVLuZpCuS++5iK1HaX/AfgSX7dgvjYM4/PxXVB1doe2IufcsM6s
-	5DdSkURBa/kAJab3Q653Lf0kcVr37APRFxpeR4Ho1fm+tGZxZ1g1GZa37A6QEZkLVQlP
-	yuIJ/Fx6U466mvptMLJpofAGhRae8T70ogv3LvIjsN2ENe6JvniGdKbLv0z2ZgSZK/Wg
-	8pq92yf28P8o0MCWZ1kqV0BJeOnAQ/9o+YdarKulZtaq4VPVycEqJB1kF/Eb0Yxmlow1
-	szuw==
-X-Received: by 10.50.111.10 with SMTP id ie10mr2184498igb.15.1423726576019;
-	Wed, 11 Feb 2015 23:36:16 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A731B72374
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 07:46:46 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id j5so6721960qga.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Feb 2015 23:46:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qikuQUn6MyG6avtid/trcouQEaBUe6sv7cSYaSYoJNs=;
+	b=lxsokd2pUlPoJMkfaUULJOw/dyIuR1LP4LCzxF6ruGYekkYAarft1Xc+lX2opsD0na
+	PmBeP4I/8UIuahnlqbqGBTB0hRs9OpHBxIZMZaHUiozTwuyWXG2mZznc45zKQYDlDsji
+	p6KKRDotSKcKEk5lQ/b0TAR7vUGvvP63HkPGGuKsWmCOANWVe+8MMJZvwfz1eHzMgAoa
+	6CkLT+DB+CAmzB5vwD23NZax7wKysnI+H8F3DtnNcRBWw9iNFv+lmRvag3O/aGEPYkAi
+	Gdquxs7M74GYJ1XChAWiEfihJ7PQTzKEA9oifJMV7y6fsnZZu3PTwGj3JAMVg3AALB3g
+	hyhg==
+X-Gm-Message-State: ALoCoQkANXruHQ4w6IUyPbMbnwiLAfD47GIWIXNW2jV+EnKYJHtGuLhn24W5GUEupop0FFcjvpzq
+X-Received: by 10.140.104.234 with SMTP id a97mr6934652qgf.80.1423727207586;
+	Wed, 11 Feb 2015 23:46:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Wed, 11 Feb 2015 23:35:45 -0800 (PST)
-In-Reply-To: <CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
-References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
-	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
-	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
-	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
-	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
-	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
-	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
-	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
-	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
-	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 Feb 2015 15:35:45 +0800
-Message-ID: <CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
+Received: by 10.140.96.166 with HTTP; Wed, 11 Feb 2015 23:46:27 -0800 (PST)
+In-Reply-To: <1423500745-2142-2-git-send-email-ben.shelton@ni.com>
+References: <1423500745-2142-1-git-send-email-ben.shelton@ni.com>
+	<1423500745-2142-2-git-send-email-ben.shelton@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Feb 2015 07:46:27 +0000
+Message-ID: <CAJTo0LbvkV1kVy3f_Qy95FCCAuZcJkqwRR_3v2FdoYrha6B51Q@mail.gmail.com>
+To: Ben Shelton <ben.shelton@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernelshark: Update to version 2.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,102 +44,297 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 07:36:17 -0000
+X-List-Received-Date: Thu, 12 Feb 2015 07:46:49 -0000
+Content-Type: multipart/alternative; boundary=001a11352ee27738bd050edf52ef
+
+--001a11352ee27738bd050edf52ef
 Content-Type: text/plain; charset=UTF-8
 
-Hi Richard/All
+Hi Ben,
 
-I have refreshed the branch to include the patch which moves the src
-uri to use the newly released glibc 2.21 branch
-and please run it via autobuilder ( top 5 commits )
+This is failing on the autobuilder:
 
-Thanks
--Khem
+http://errors.yoctoproject.org/Errors/Details/8571/
+http://errors.yoctoproject.org/Errors/Details/8572/
 
+Two problems - an exception during build that is probably being ignored,
+and then swing not found.  Is swig a non-deterministic dependency?
 
+Ross
 
-On Tue, Feb 3, 2015 at 10:43 PM, Dan McGregor <danismostlikely@gmail.com> wrote:
-> On 2 February 2015 at 23:03, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Feb 2, 2015 at 1:45 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>
->>> On 2 February 2015 at 18:33, Khem Raj <raj.khem@gmail.com> wrote:
->>>>
->>>> Yeah, I am on archlinux (the other end of spectrum). Nevertheless, I have
->>>> updated the contrib tree which fixes cross-localedef-native compile time
->>>> issue. So you should be good
->>>> to go now.
->>>
->>>
->>> Bad news, glibc is now failing:
->>>
->>> | x86_64-poky-linux-gcc  -m64 -march=corei7 -mtune=corei7 -mfpmath=sse
->>> -msse4.2
->>> --sysroot=/data/poky-master/tmp/sysroots/intel-corei7-64-tcbootstrap
->>> dl-open.c -c -std=gnu99 -fgnu89-inline  -O2 -Wall -Werror -Winline
->>> -Wno-error=undef -Wundef -Wwrite-strings -feliminate-unused-debug-types
->>> -fmerge-all-constants -frounding-math -g -pipe -Wstrict-prototypes   -fPIC
->>> -mno-sse -mno-mmx        -I../include
->>> -I/data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux/elf
->>> -I/data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux
->>> -I../sysdeps/unix/sysv/linux/x86_64/64  -I../sysdeps/unix/sysv/linux/x86_64
->>> -I../sysdeps/unix/sysv/linux/x86  -I../sysdeps/unix/sysv/linux/wordsize-64
->>> -I../sysdeps/x86_64/nptl  -I../sysdeps/unix/sysv/linux/include
->>> -I../sysdeps/unix/sysv/linux  -I../sysdeps/nptl  -I../sysdeps/pthread
->>> -I../sysdeps/gnu  -I../sysdeps/unix/inet  -I../sysdeps/unix/sysv
->>> -I../sysdeps/unix/x86_64  -I../sysdeps/unix  -I../sysdeps/posix
->>> -I../sysdeps/x86_64/64  -I../sysdeps/x86_64/fpu/multiarch
->>> -I../sysdeps/x86_64/fpu  -I../sysdeps/x86/fpu/include -I../sysdeps/x86/fpu
->>> -I../sysdeps/x86_64/multiarch  -I../sysdeps/x86_64  -I../sysdeps/x86
->>> -I../sysdeps/ieee754/ldbl-96  -I../sysdeps/ieee754/dbl-64/wordsize-64
->>> -I../sysdeps/ieee754/dbl-64  -I../sysdeps/ieee754/flt-32
->>> -I../sysdeps/wordsize-64  -I../sysdeps/ieee754  -I../sysdeps/generic  -I..
->>> -I../libio -I. -nostdinc -isystem
->>> /data/poky-master/tmp/sysroots/x86_64-linux/usr/lib/x86_64-poky-linux.gcc-cross-initial-x86_64/gcc/x86_64-poky-linux/4.9.2/include
->>> -isystem
->>> /data/poky-master/tmp/sysroots/x86_64-linux/usr/lib/x86_64-poky-linux.gcc-cross-initial-x86_64/gcc/x86_64-poky-linux/4.9.2/include-fixed
->>> -isystem /data/poky-master/tmp/sysroots/intel-corei7-64/usr/include
->>> -D_LIBC_REENTRANT -include
->>> /data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux/libc-modules.h
->>> -DMODULE_NAME=rtld -include ../include/libc-symbols.h  -DPIC -DSHARED     -o
->>> /data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux/elf/dl-open.os
->>> -MD -MP -MF
->>> /data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux/elf/dl-open.os.dt
->>> -MT
->>> /data/poky-master/tmp/work/corei7-64-poky-linux/glibc/2.21-r0/build-x86_64-poky-linux/elf/dl-open.os
->>> | dl-caller.c:1:0: error: SSE instruction set disabled, using 387
->>> arithmetics [-Werror]
->>> |  /* Check whether caller comes from the right place.
->>> |  ^
->>> | dl-open.c:1:0: error: SSE instruction set disabled, using 387 arithmetics
->>> [-Werror]
->>> |  /* Load a shared object at runtime, relocate it, and run its initializer.
->>> |  ^
->>> | cc1: all warnings being treated as errors
->>> | cc1: all warnings being treated as errors
->>
->> The real problem is we are injecting -mfpmath=sse -msse4.2 via CCARGS
->> and for this particular file glibc says  -mno-sse -mno-mmx
->> so it defaults to x87 80bit arithmetics. May be we should get a bit
->> milder with optimizations for this case when compiling glibc. Since
->> glibc has its own notion about floating point.
->>
->> I think this issue was there even with older version of glibc for i7
->> but it was flagged as a warning, glibc 2.21 now uses -Werror by
->> default. Can you confirm that via inspecting 2.20 glibc build logs for
->> this machine ?
->>
->> I have pushed another patch to disable sse for replacing fpu. Please
->> try it out and let me know if it fixed it.
->>
+On 9 February 2015 at 16:52, Ben Shelton <ben.shelton@ni.com> wrote:
+
+> Update to version 2.5.2 to match trace-cmd.
 >
-> The new branch is working well for me, for wandboard-quad, beaglebone,
-> and cubieboard2.
+> Changes include:
 >
->>>
->>> Ross
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  - Remove kernelshark-fix-syntax-error-of-shell.patch (the syntax error
+>    is no longer present in the new version).
+>
+>  - Specify bindir_relative and libdir in EXTRA_OEMAKE as in the
+>    trace-cmd recipe so files get installed to the right place.
+>    Additionally, remove unnecessary EXTRA_OEMAKE options.
+>
+>  - Fix up the do_install steps to remove the plugins directory; that
+>    directory now lives under /usr/lib.
+>
+> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+> ---
+>  .../kernelshark-fix-syntax-error-of-shell.patch    | 30
+> ----------------------
+>  .../{kernelshark_1.2.bb => kernelshark_git.bb}     | 17 +++++++-----
+>  2 files changed, 10 insertions(+), 37 deletions(-)
+>  delete mode 100644
+> meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+>  rename meta/recipes-kernel/trace-cmd/{kernelshark_1.2.bb =>
+> kernelshark_git.bb} (58%)
+>
+> diff --git
+> a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+> b/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+> deleted file mode 100644
+> index faef049..0000000
+> ---
+> a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -kernelshark: fix syntax error of shell
+> -
+> -Delete "<<<" syntax of bash in Makefile, else we would get following
+> error:
+> -
+> -       Syntax error: redirection unexpected
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ----
+> - Makefile |    3 +--
+> - 1 file changed, 1 insertion(+), 2 deletions(-)
+> -
+> -diff --git a/Makefile b/Makefile
+> -index c1fa906..be84415 100644
+> ---- a/Makefile
+> -+++ b/Makefile
+> -@@ -89,8 +89,7 @@ endif
+> -
+> - # $(call test-build, snippet, ret) -> ret if snippet compiles
+> - #                                  -> empty otherwise
+> --test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
+> --                        <<<'$1' && echo y), $2)
+> -+test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - >
+> /dev/null 2>&1 && echo y), $2)
+> -
+> - # have udis86 disassembler library?
+> - udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86
+> -ludis86)
+> ---
+> -1.7.9.5
+> -
+> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+> similarity index 58%
+> rename from meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> rename to meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+> index 28412c7..814e8bf 100644
+> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+> @@ -9,9 +9,12 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>  DEPENDS = "gtk+ libxml2"
+>  RDEPENDS_${PN} = "trace-cmd"
+>
+> -SRC_URI_append = "file://kernelshark-fix-syntax-error-of-shell.patch"
+> -
+> -EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
+> +EXTRA_OEMAKE = "\
+> +    'prefix=${prefix}' \
+> +    'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
+> +    'libdir=${@oe.path.relative(prefix, libdir)}' \
+> +    gui \
+> +"
+>
+>  do_compile_prepend() {
+>      # Make sure the recompile is OK
+> @@ -19,8 +22,8 @@ do_compile_prepend() {
+>  }
+>
+>  do_install() {
+> -       oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}"
+> install_gui
+> -       rm ${D}${bindir}/trace-cmd
+> -       rm -rf ${D}${datadir}/trace-cmd
+> -       rmdir ${D}${datadir}
+> +    oe_runmake DESTDIR="${D}" install_gui
+> +    rm ${D}${bindir}/trace-cmd
+> +    rm -rf ${D}${libdir}/trace-cmd
+> +    rmdir ${D}${libdir}
+>  }
+> --
+> 2.3.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a11352ee27738bd050edf52ef
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Ben,<div><br></div><div>This is failing on the autobuil=
+der:</div><div><br></div><div><a href=3D"http://errors.yoctoproject.org/Err=
+ors/Details/8571/">http://errors.yoctoproject.org/Errors/Details/8571/</a><=
+br></div><div><a href=3D"http://errors.yoctoproject.org/Errors/Details/8572=
+/">http://errors.yoctoproject.org/Errors/Details/8572/</a><br></div><div><b=
+r></div><div>Two problems - an exception during build that is probably bein=
+g ignored, and then swing not found.=C2=A0 Is swig a non-deterministic depe=
+ndency?</div><div><br></div><div>Ross</div></div><div class=3D"gmail_extra"=
+><br><div class=3D"gmail_quote">On 9 February 2015 at 16:52, Ben Shelton <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:ben.shelton@ni.com" target=3D"_blank"=
+>ben.shelton@ni.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>Update to version 2.5.2 to match trace-cmd.<br>
+<br>
+Changes include:<br>
+<br>
+=C2=A0- Remove kernelshark-fix-syntax-error-of-shell.patch (the syntax erro=
+r<br>
+=C2=A0 =C2=A0is no longer present in the new version).<br>
+<br>
+=C2=A0- Specify bindir_relative and libdir in EXTRA_OEMAKE as in the<br>
+=C2=A0 =C2=A0trace-cmd recipe so files get installed to the right place.<br=
+>
+=C2=A0 =C2=A0Additionally, remove unnecessary EXTRA_OEMAKE options.<br>
+<br>
+=C2=A0- Fix up the do_install steps to remove the plugins directory; that<b=
+r>
+=C2=A0 =C2=A0directory now lives under /usr/lib.<br>
+<br>
+Signed-off-by: Ben Shelton &lt;<a href=3D"mailto:ben.shelton@ni.com">ben.sh=
+elton@ni.com</a>&gt;<br>
+---<br>
+=C2=A0.../kernelshark-fix-syntax-error-of-shell.patch=C2=A0 =C2=A0 | 30 ---=
+-------------------<br>
+=C2=A0.../{<a href=3D"http://kernelshark_1.2.bb" target=3D"_blank">kernelsh=
+ark_1.2.bb</a> =3D&gt; <a href=3D"http://kernelshark_git.bb" target=3D"_bla=
+nk">kernelshark_git.bb</a>}=C2=A0 =C2=A0 =C2=A0| 17 +++++++-----<br>
+=C2=A02 files changed, 10 insertions(+), 37 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-kernel/trace-cmd/kernelshark/kernelsh=
+ark-fix-syntax-error-of-shell.patch<br>
+=C2=A0rename meta/recipes-kernel/trace-cmd/{<a href=3D"http://kernelshark_1=
+.2.bb" target=3D"_blank">kernelshark_1.2.bb</a> =3D&gt; <a href=3D"http://k=
+ernelshark_git.bb" target=3D"_blank">kernelshark_git.bb</a>} (58%)<br>
+<br>
+diff --git a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-synt=
+ax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/kernelshark/kernels=
+hark-fix-syntax-error-of-shell.patch<br>
+deleted file mode 100644<br>
+index faef049..0000000<br>
+--- a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-erro=
+r-of-shell.patch<br>
++++ /dev/null<br>
+@@ -1,30 +0,0 @@<br>
+-kernelshark: fix syntax error of shell<br>
+-<br>
+-Delete &quot;&lt;&lt;&lt;&quot; syntax of bash in Makefile, else we would =
+get following error:<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0Syntax error: redirection unexpected<br>
+-<br>
+-Upstream-Status: Pending<br>
+-<br>
+-Signed-off-by: Chong Lu &lt;<a href=3D"mailto:Chong.Lu@windriver.com">Chon=
+g.Lu@windriver.com</a>&gt;<br>
+----<br>
+- Makefile |=C2=A0 =C2=A0 3 +--<br>
+- 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+-<br>
+-diff --git a/Makefile b/Makefile<br>
+-index c1fa906..be84415 100644<br>
+---- a/Makefile<br>
+-+++ b/Makefile<br>
+-@@ -89,8 +89,7 @@ endif<br>
+-<br>
+- # $(call test-build, snippet, ret) -&gt; ret if snippet compiles<br>
+- #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -&gt; empty otherwise<br>
+--test-build =3D $(if $(shell $(CC) -o /dev/null -c -x c - &gt; /dev/null 2=
+&gt;&amp;1 \<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &lt;&lt;&lt;&#39;$1&#39; &amp;&amp; echo y), $2)<br>
+-+test-build =3D $(if $(shell echo &#39;$1&#39; |$(CC) -o /dev/null -c -x c=
+ - &gt; /dev/null 2&gt;&amp;1 &amp;&amp; echo y), $2)<br>
+-<br>
+- # have udis86 disassembler library?<br>
+- udis86-flags :=3D $(call test-build,\#include &lt;udis86.h&gt;,-DHAVE_UDI=
+S86 -ludis86)<br>
+---<br>
+-1.7.9.5<br>
+-<br>
+diff --git a/meta/recipes-kernel/trace-cmd/<a href=3D"http://kernelshark_1.=
+2.bb" target=3D"_blank">kernelshark_1.2.bb</a> b/meta/recipes-kernel/trace-=
+cmd/<a href=3D"http://kernelshark_git.bb" target=3D"_blank">kernelshark_git=
+.bb</a><br>
+similarity index 58%<br>
+rename from meta/recipes-kernel/trace-cmd/<a href=3D"http://kernelshark_1.2=
+.bb" target=3D"_blank">kernelshark_1.2.bb</a><br>
+rename to meta/recipes-kernel/trace-cmd/<a href=3D"http://kernelshark_git.b=
+b" target=3D"_blank">kernelshark_git.bb</a><br>
+index 28412c7..814e8bf 100644<br>
+--- a/meta/recipes-kernel/trace-cmd/<a href=3D"http://kernelshark_1.2.bb" t=
+arget=3D"_blank">kernelshark_1.2.bb</a><br>
++++ b/meta/recipes-kernel/trace-cmd/<a href=3D"http://kernelshark_git.bb" t=
+arget=3D"_blank">kernelshark_git.bb</a><br>
+@@ -9,9 +9,12 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D751419260a=
+a954499f7abaabaa882bbe \<br>
+=C2=A0DEPENDS =3D &quot;gtk+ libxml2&quot;<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;trace-cmd&quot;<br>
+<br>
+-SRC_URI_append =3D &quot;file://kernelshark-fix-syntax-error-of-shell.patc=
+h&quot;<br>
+-<br>
+-EXTRA_OEMAKE =3D &quot;&#39;CC=3D${CC}&#39; &#39;AR=3D${AR}&#39; &#39;pref=
+ix=3D${prefix}&#39; gui&quot;<br>
++EXTRA_OEMAKE =3D &quot;\<br>
++=C2=A0 =C2=A0 &#39;prefix=3D${prefix}&#39; \<br>
++=C2=A0 =C2=A0 &#39;bindir_relative=3D${@oe.path.relative(prefix, bindir)}&=
+#39; \<br>
++=C2=A0 =C2=A0 &#39;libdir=3D${@oe.path.relative(prefix, libdir)}&#39; \<br=
+>
++=C2=A0 =C2=A0 gui \<br>
++&quot;<br>
+<br>
+=C2=A0do_compile_prepend() {<br>
+=C2=A0 =C2=A0 =C2=A0# Make sure the recompile is OK<br>
+@@ -19,8 +22,8 @@ do_compile_prepend() {<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_install() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake CC=3D&quot;${CC}&quot; AR=3D&quot;${=
+AR}&quot; prefix=3D&quot;${prefix}&quot; DESTDIR=3D&quot;${D}&quot; install=
+_gui<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0rm ${D}${bindir}/trace-cmd<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${datadir}/trace-cmd<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir ${D}${datadir}<br>
++=C2=A0 =C2=A0 oe_runmake DESTDIR=3D&quot;${D}&quot; install_gui<br>
++=C2=A0 =C2=A0 rm ${D}${bindir}/trace-cmd<br>
++=C2=A0 =C2=A0 rm -rf ${D}${libdir}/trace-cmd<br>
++=C2=A0 =C2=A0 rmdir ${D}${libdir}<br>
+=C2=A0}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.3.0<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a11352ee27738bd050edf52ef--
