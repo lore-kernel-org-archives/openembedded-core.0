@@ -1,24 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4245B72374
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D23FA7066B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 13:24:53 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2015 05:19:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,565,1418112000"; d="scan'208";a="453678309"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Feb 2015 05:04:52 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Feb 2015 15:19:28 +0200
-Message-Id: <847e3cb8494456bbc791c6bb49939d4686656e93.1423747110.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1423747110.git.cristian.iorga@intel.com>
-References: <cover.1423747110.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1423747110.git.cristian.iorga@intel.com>
-References: <cover.1423747110.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/2] ofono: upgrade to 1.16
+	Thu, 12 Feb 2015 14:50:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1CEoPTj029159 for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 14:50:25 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XvJv2EGUS-su
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 14:50:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1CEoBEx029155
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 14:50:23 GMT
+Message-ID: <1423752611.20217.67.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Feb 2015 14:50:11 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Subject: autotools/siteinfo: Avoid races over siteinfo files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 13:24:55 -0000
+X-List-Received-Date: Thu, 12 Feb 2015 14:50:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- Fix issue with PIN retry handling;
-- Fix issue with HFP and multiple calls;
-- Add support for Distracted Driving Reduction;
-- Add support for available technologies property;
-- Add support for Telit location reporting driver;
-- Add support for u-blox SARA-U270 modems;
-- Add support for Quectel UC15 modems.
+If a siteinfo enabled tasks re-executes at the wrong moment whilst something else is
+in do_configure, the _config files can be removed which upsets autoconf and
+causes build failures.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-connectivity/ofono/{ofono_1.15.bb => ofono_1.16.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/ofono/{ofono_1.15.bb => ofono_1.16.bb} (59%)
+Use the same approach as we do for dealing with the aclocal files. We already
+parse the manifests so look out any *_config files and if so, copy them, then
+reference the copy from siteinfo instead. This has the advantage of also being
+more deterministic.
 
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.15.bb b/meta/recipes-connectivity/ofono/ofono_1.16.bb
-similarity index 59%
-rename from meta/recipes-connectivity/ofono/ofono_1.15.bb
-rename to meta/recipes-connectivity/ofono/ofono_1.16.bb
-index bee2b47..712fc5c 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.15.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.16.bb
-@@ -5,8 +5,7 @@ SRC_URI  = "\
-   file://ofono \
-   file://Revert-test-Convert-to-Python-3.patch \
- "
--
--SRC_URI[md5sum] = "4d03de85239d8100dc7721bf0dad2bd2"
--SRC_URI[sha256sum] = "978807a05e8904eb4e57d6533ed71e75676a55fa3819a39fe2c878f45dbf7af6"
-+SRC_URI[md5sum] = "c31b5b55a1d68354bff771d3edf02829"
-+SRC_URI[sha256sum] = "403b98dadece8bc804c0bd16b96d3db5a3bb0f84af64b3d67924da2d1a754b07"
+[YOCTO #7101]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 5681dbe..f44b9eb 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -29,7 +29,7 @@ inherit siteinfo
  
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
--- 
-2.1.0
+ # Space separated list of shell scripts with variables defined to supply test
+ # results for autoconf tests we cannot run at build time.
+-export CONFIG_SITE = "${@siteinfo_get_files(d)}"
++export CONFIG_SITE = "${@siteinfo_get_files(d, False)}"
+ 
+ acpaths = "default"
+ EXTRA_AUTORECONF = "--exclude=autopoint"
+@@ -189,6 +189,7 @@ python autotools_copy_aclocals () {
+     #bb.warn(str(configuredeps2))
+ 
+     cp = []
++    siteconf = []    
+     for c in configuredeps:
+         if c.endswith("-native"):
+             manifest = d.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
+@@ -203,6 +204,8 @@ python autotools_copy_aclocals () {
+             for l in f:
+                 if "/aclocal/" in l and l.strip().endswith(".m4"):
+                     cp.append(l.strip())
++                elif "config_site.d/" in l:
++                    cp.append(l.strip())
+         except:
+             bb.warn("%s not found" % manifest)
+ 
+@@ -210,6 +213,8 @@ python autotools_copy_aclocals () {
+         t = os.path.join(aclocaldir, os.path.basename(c))
+         if not os.path.exists(t):
+             os.symlink(c, t)
++            
++    d.setVar("CONFIG_SITE", siteinfo_get_files(d, False))
+ }
+ autotools_copy_aclocals[vardepsexclude] += "MACHINE SDK_ARCH BUILD_ARCH SDK_OS BB_TASKDEPDATA"
+ 
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index b41db46..2c1f9d0 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -150,9 +150,13 @@ def siteinfo_get_files(d, no_cache = False):
+     if no_cache: return sitefiles
+ 
+     # Now check for siteconfig cache files
+-    path_siteconfig = d.getVar('SITECONFIG_SYSROOTCACHE', True)
+-    if os.path.isdir(path_siteconfig):
++    # Use the files copied to the aclocal cache generated by autotools.bbclass
++    # to avoid races
++    path_siteconfig = d.getVar('ACLOCALDIR', True)
++    if path_siteconfig and os.path.isdir(path_siteconfig):
+         for i in os.listdir(path_siteconfig):
++            if not i.endswith("_config"):
++                continue
+             filename = os.path.join(path_siteconfig, i)
+             sitefiles += filename + " "
+ 
+
 
 
