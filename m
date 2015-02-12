@@ -1,30 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 99C986B6B7
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1663F732A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 01:30:56 +0000 (UTC)
+	Thu, 12 Feb 2015 01:56:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1C1Uvm3006382
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Feb 2015 17:30:58 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 11 Feb 2015 17:30:57 -0800
-Message-ID: <54DC024C.6090402@windriver.com>
-Date: Thu, 12 Feb 2015 09:30:52 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1C1ubL2005023
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Feb 2015 17:56:37 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 11 Feb 2015 17:56:37 -0800
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <paul.eggleton@linux.intel.com>
+Date: Thu, 12 Feb 2015 09:50:23 +0800
+Message-ID: <5cc744c385eb41259c26596014eab49eec622729.1423705692.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1423705692.git.Chong.Lu@windriver.com>
+References: <cover.1423705692.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-To: Rob Woolley <rob.woolley@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1422654909-8058-1-git-send-email-rob.woolley@windriver.com>
-	<20150206025639.GA30800@yow-feoserver.windriver.com>
-	<54DBF2EA.1090604@windriver.com>
-In-Reply-To: <54DBF2EA.1090604@windriver.com>
-Subject: Re: [PATCH] dhcp-client: Ignore partial checksums
+Subject: [PATCH V5 2/2] bitbake-layers: add a ability to query layer dependencies from layer index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,438 +32,282 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 01:30:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Feb 2015 01:56:39 -0000
+Content-Type: text/plain
 
-On 02/12/2015 08:25 AM, Rob Woolley wrote:
-> Hi Hongxu,
->
-> Do you have any feedback on this patch?  Are there any changes you 
-> would like me to make?
->
+Add a command to query layer dependencies from layer index. Fetch layer and its
+dependency layers and add them into conf/bblayers.conf.
 
-Sorry for the late, I am fine with it.
+[YOCTO #5348]
 
-//Hongxu
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ bitbake/bin/bitbake-layers | 244 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 244 insertions(+)
 
-
-> Regards,
-> Rob
->
-> On 02/05/2015 09:56 PM, Rob Woolley wrote:
->> Hi Hongxu,
->>
->> Have you had a chance to review this patch?  Do you have any 
->> questions about it?
->>
->> Regards,
->> Rob
->>
->>
->> On Fri, Jan 30, 2015 at 04:55:09PM -0500, Rob Woolley wrote:
->>> dhclient will fail to get an IP address if run inside a guest when 
->>> traffic is
->>> flowing over a virtual network interface.  The user will see the error
->>> message:
->>>
->>>    5 bad udp checksums in 5 packets
->>>    No DHCPOFFERS received.
->>>    Unable to obtain a lease on first try.  Exiting.
->>>    Failed to bring up eth0.
->>>
->>> This is because Linux only uses partial checksums for packets that 
->>> go over
->>> virtual network interfaces and dhclient does not like this.
->>>
->>>    See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
->>>    ("net: skbuff: improve comment on checksumming")
->>>
->>> An application can detect this behaviour by checking for the
->>> TP_STATUS_CSUMNOTREADY flag in the tp_status field.
->>>
->>>    See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
->>>    ("Add optional checksum computation for recvmsg")
->>>
->>> An extra parameter is added to decode_udp_ip_header() in dhclient to 
->>> indicate
->>> whether or not dhclient should ignore partial checksums.  This is used
->>> when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
->>>
->>> This fix has been included in Fedora and Ubuntu, however it has not 
->>> yet been
->>> accepted by ISC upstream.  Likely because it is specific to 
->>> behaviour in Linux
->>> and other UNIX variants do not seem to be affected.
->>>
->>> The patch was imported from the dhcp source RPM in Fedora 21
->>> (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
->>>
->>> Originally contributed to fedora-cvs-commit by David Cantrell on Jan 
->>> 30 2007
->>> (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
->>>
->>> Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. 
->>> Tsirkin
->>> (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
->>> (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
->>>
->>> Upstream-Status: Submitted [dhcp-bugs@isc.org]
->>> Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
->>> ---
->>>   .../dhcp/dhcp/dhcp-xen-checksum.patch              | 282 
->>> +++++++++++++++++++++
->>>   meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   1 +
->>>   2 files changed, 283 insertions(+)
->>>   create mode 100644 
->>> meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
->>>
->>> Index: b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
->>> ===================================================================
->>> --- /dev/null
->>> +++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
->>> @@ -0,0 +1,307 @@
->>> +dhcp-client: Ignore partial checksums
->>> +
->>> +dhclient will fail to get an IP address if run inside a guest when 
->>> traffic is
->>> +flowing over a virtual network interface.  The user will see the error
->>> +message:
->>> +
->>> +  5 bad udp checksums in 5 packets
->>> +  No DHCPOFFERS received.
->>> +  Unable to obtain a lease on first try.  Exiting.
->>> +  Failed to bring up eth0.
->>> +
->>> +This is because Linux only uses partial checksums for packets that 
->>> go over
->>> +virtual network interfaces and dhclient does not like this.
->>> +
->>> +  See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
->>> +  ("net: skbuff: improve comment on checksumming")
->>> +
->>> +An application can detect this behaviour by checking for the
->>> +TP_STATUS_CSUMNOTREADY flag in the tp_status field.
->>> +
->>> +  See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
->>> +  ("Add optional checksum computation for recvmsg")
->>> +
->>> +An extra parameter is added to decode_udp_ip_header() in dhclient 
->>> to indicate
->>> +whether or not dhclient should ignore partial checksums. This is used
->>> +when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
->>> +
->>> +This fix has been included in Fedora and Ubuntu, however it has not 
->>> yet been
->>> +accepted by ISC upstream.  Likely because it is specific to 
->>> behaviour in Linux
->>> +and other UNIX variants do not seem to be affected.
->>> +
->>> +The patch was imported from the dhcp source RPM in Fedora 21
->>> + 
->>> (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
->>> +
->>> +Originally contributed to fedora-cvs-commit by David Cantrell on 
->>> Jan 30 2007
->>> + 
->>> (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
->>> +
->>> +Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. 
->>> Tsirkin
->>> + (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
->>> + (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
->>> +
->>> +Upstream-Status: Submitted [dhcp-bugs@isc.org]
->>> +Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
->>> +--
->>> + common/bpf.c     |    2 -
->>> + common/dlpi.c    |    2 -
->>> + common/lpf.c     |   83 
->>> +++++++++++++++++++++++++++++++++++++++++--------------
->>> + common/nit.c     |    2 -
->>> + common/packet.c  |    4 +-
->>> + common/upf.c     |    2 -
->>> + includes/dhcpd.h |    2 -
->>> + 7 files changed, 70 insertions(+), 27 deletions(-)
->>> +
->>> +diff --git a/common/bpf.c b/common/bpf.c
->>> +--- a/common/bpf.c
->>> ++++ b/common/bpf.c
->>> +@@ -481,7 +481,7 @@ ssize_t receive_packet (interface, buf,
->>> +         /* Decode the IP and UDP headers... */
->>> +         offset = decode_udp_ip_header(interface, interface->rbuf,
->>> +                            interface->rbuf_offset,
->>> +-                             from, hdr.bh_caplen, &paylen);
->>> ++                             from, hdr.bh_caplen, &paylen, 0);
->>> +
->>> +         /* If the IP or UDP checksum was bad, skip the packet... */
->>> +         if (offset < 0) {
->>> +diff --git a/common/dlpi.c b/common/dlpi.c
->>> +--- a/common/dlpi.c
->>> ++++ b/common/dlpi.c
->>> +@@ -691,7 +691,7 @@ ssize_t receive_packet (interface, buf,
->>> +     length -= offset;
->>> + #endif
->>> +     offset = decode_udp_ip_header (interface, dbuf, bufix,
->>> +-                       from, length, &paylen);
->>> ++                       from, length, &paylen, 0);
->>> +
->>> +     /*
->>> +      * If the IP or UDP checksum was bad, skip the packet...
->>> +diff --git a/common/lpf.c b/common/lpf.c
->>> +--- a/common/lpf.c
->>> ++++ b/common/lpf.c
->>> +@@ -29,14 +29,15 @@
->>> +
->>> + #include "dhcpd.h"
->>> + #if defined (USE_LPF_SEND) || defined (USE_LPF_RECEIVE)
->>> ++#include <sys/socket.h>
->>> + #include <sys/uio.h>
->>> + #include <errno.h>
->>> +
->>> + #include <asm/types.h>
->>> + #include <linux/filter.h>
->>> + #include <linux/if_ether.h>
->>> ++#include <linux/if_packet.h>
->>> + #include <netinet/in_systm.h>
->>> +-#include <net/if_packet.h>
->>> + #include "includes/netinet/ip.h"
->>> + #include "includes/netinet/udp.h"
->>> + #include "includes/netinet/if_ether.h"
->>> +@@ -51,6 +52,19 @@
->>> + /* Reinitializes the specified interface after an address 
->>> change.   This
->>> +    is not required for packet-filter APIs. */
->>> +
->>> ++#ifndef PACKET_AUXDATA
->>> ++#define PACKET_AUXDATA 8
->>> ++
->>> ++struct tpacket_auxdata
->>> ++{
->>> ++    __u32        tp_status;
->>> ++    __u32        tp_len;
->>> ++    __u32        tp_snaplen;
->>> ++    __u16        tp_mac;
->>> ++    __u16        tp_net;
->>> ++};
->>> ++#endif
->>> ++
->>> + #ifdef USE_LPF_SEND
->>> + void if_reinitialize_send (info)
->>> +     struct interface_info *info;
->>> +@@ -73,10 +87,14 @@ int if_register_lpf (info)
->>> +     struct interface_info *info;
->>> + {
->>> +     int sock;
->>> +-    struct sockaddr sa;
->>> ++    union {
->>> ++        struct sockaddr_ll ll;
->>> ++        struct sockaddr common;
->>> ++    } sa;
->>> ++    struct ifreq ifr;
->>> +
->>> +     /* Make an LPF socket. */
->>> +-    if ((sock = socket(PF_PACKET, SOCK_PACKET,
->>> ++    if ((sock = socket(PF_PACKET, SOCK_RAW,
->>> +                htons((short)ETH_P_ALL))) < 0) {
->>> +         if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
->>> +             errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
->>> +@@ -91,11 +109,17 @@ int if_register_lpf (info)
->>> +         log_fatal ("Open a socket for LPF: %m");
->>> +     }
->>> +
->>> ++    memset (&ifr, 0, sizeof ifr);
->>> ++    strncpy (ifr.ifr_name, (const char *)info -> ifp, sizeof 
->>> ifr.ifr_name);
->>> ++    ifr.ifr_name[IFNAMSIZ-1] = '\0';
->>> ++    if (ioctl (sock, SIOCGIFINDEX, &ifr))
->>> ++        log_fatal ("Failed to get interface index: %m");
->>> ++
->>> +     /* Bind to the interface name */
->>> +     memset (&sa, 0, sizeof sa);
->>> +-    sa.sa_family = AF_PACKET;
->>> +-    strncpy (sa.sa_data, (const char *)info -> ifp, sizeof 
->>> sa.sa_data);
->>> +-    if (bind (sock, &sa, sizeof sa)) {
->>> ++    sa.ll.sll_family = AF_PACKET;
->>> ++    sa.ll.sll_ifindex = ifr.ifr_ifindex;
->>> ++    if (bind (sock, &sa.common, sizeof sa)) {
->>> +         if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
->>> +             errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
->>> +             errno == EAFNOSUPPORT || errno == EINVAL) {
->>> +@@ -177,9 +201,18 @@ static void lpf_gen_filter_setup (struct
->>> + void if_register_receive (info)
->>> +     struct interface_info *info;
->>> + {
->>> ++    int val;
->>> ++
->>> +     /* Open a LPF device and hang it on this interface... */
->>> +     info -> rfdesc = if_register_lpf (info);
->>> +
->>> ++    val = 1;
->>> ++    if (setsockopt (info -> rfdesc, SOL_PACKET, PACKET_AUXDATA, &val,
->>> ++            sizeof val) < 0) {
->>> ++        if (errno != ENOPROTOOPT)
->>> ++            log_fatal ("Failed to set auxiliary packet data: %m");
->>> ++    }
->>> ++
->>> + #if defined (HAVE_TR_SUPPORT)
->>> +     if (info -> hw_address.hbuf [0] == HTYPE_IEEE802)
->>> +         lpf_tr_filter_setup (info);
->>> +@@ -301,7 +334,6 @@ ssize_t send_packet (interface, packet,
->>> +     double hh [16];
->>> +     double ih [1536 / sizeof (double)];
->>> +     unsigned char *buf = (unsigned char *)ih;
->>> +-    struct sockaddr_pkt sa;
->>> +     int result;
->>> +     int fudge;
->>> +
->>> +@@ -322,17 +354,7 @@ ssize_t send_packet (interface, packet,
->>> +                 (unsigned char *)raw, len);
->>> +     memcpy (buf + ibufp, raw, len);
->>> +
->>> +-    /* For some reason, SOCK_PACKET sockets can't be connected,
->>> +-       so we have to do a sentdo every time. */
->>> +-    memset (&sa, 0, sizeof sa);
->>> +-    sa.spkt_family = AF_PACKET;
->>> +-    strncpy ((char *)sa.spkt_device,
->>> +-         (const char *)interface -> ifp, sizeof sa.spkt_device);
->>> +-    sa.spkt_protocol = htons(ETH_P_IP);
->>> +-
->>> +-    result = sendto (interface -> wfdesc,
->>> +-             buf + fudge, ibufp + len - fudge, 0,
->>> +-             (const struct sockaddr *)&sa, sizeof sa);
->>> ++    result = write (interface -> wfdesc, buf + fudge, ibufp + len 
->>> - fudge);
->>> +     if (result < 0)
->>> +         log_error ("send_packet: %m");
->>> +     return result;
->>> +@@ -349,14 +371,35 @@ ssize_t receive_packet (interface, buf,
->>> + {
->>> +     int length = 0;
->>> +     int offset = 0;
->>> ++    int nocsum = 0;
->>> +     unsigned char ibuf [1536];
->>> +     unsigned bufix = 0;
->>> +     unsigned paylen;
->>> ++    unsigned char cmsgbuf[CMSG_LEN(sizeof(struct tpacket_auxdata))];
->>> ++    struct iovec iov = {
->>> ++        .iov_base = ibuf,
->>> ++        .iov_len = sizeof ibuf,
->>> ++    };
->>> ++    struct msghdr msg = {
->>> ++        .msg_iov = &iov,
->>> ++        .msg_iovlen = 1,
->>> ++        .msg_control = cmsgbuf,
->>> ++        .msg_controllen = sizeof(cmsgbuf),
->>> ++    };
->>> ++    struct cmsghdr *cmsg;
->>> +
->>> +-    length = read (interface -> rfdesc, ibuf, sizeof ibuf);
->>> ++    length = recvmsg (interface -> rfdesc, &msg, 0);
->>> +     if (length <= 0)
->>> +         return length;
->>> +
->>> ++    for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = 
->>> CMSG_NXTHDR(&msg, cmsg)) {
->>> ++        if (cmsg->cmsg_level == SOL_PACKET &&
->>> ++            cmsg->cmsg_type == PACKET_AUXDATA) {
->>> ++            struct tpacket_auxdata *aux = (void *)CMSG_DATA(cmsg);
->>> ++            nocsum = aux->tp_status & TP_STATUS_CSUMNOTREADY;
->>> ++        }
->>> ++    }
->>> ++
->>> +     bufix = 0;
->>> +     /* Decode the physical header... */
->>> +     offset = decode_hw_header (interface, ibuf, bufix, hfrom);
->>> +@@ -373,7 +416,7 @@ ssize_t receive_packet (interface, buf,
->>> +
->>> +     /* Decode the IP and UDP headers... */
->>> +     offset = decode_udp_ip_header (interface, ibuf, bufix, from,
->>> +-                       (unsigned)length, &paylen);
->>> ++                       (unsigned)length, &paylen, nocsum);
->>> +
->>> +     /* If the IP or UDP checksum was bad, skip the packet... */
->>> +     if (offset < 0)
->>> +diff --git a/common/nit.c b/common/nit.c
->>> +--- a/common/nit.c
->>> ++++ b/common/nit.c
->>> +@@ -363,7 +363,7 @@ ssize_t receive_packet (interface, buf,
->>> +
->>> +     /* Decode the IP and UDP headers... */
->>> +     offset = decode_udp_ip_header (interface, ibuf, bufix,
->>> +-                       from, length, &paylen);
->>> ++                       from, length, &paylen, 0);
->>> +
->>> +     /* If the IP or UDP checksum was bad, skip the packet... */
->>> +     if (offset < 0)
->>> +diff --git a/common/packet.c b/common/packet.c
->>> +--- a/common/packet.c
->>> ++++ b/common/packet.c
->>> +@@ -226,7 +226,7 @@ ssize_t
->>> + decode_udp_ip_header(struct interface_info *interface,
->>> +              unsigned char *buf, unsigned bufix,
->>> +              struct sockaddr_in *from, unsigned buflen,
->>> +-             unsigned *rbuflen)
->>> ++             unsigned *rbuflen, int nocsum)
->>> + {
->>> +   unsigned char *data;
->>> +   struct ip ip;
->>> +@@ -337,7 +337,7 @@ decode_udp_ip_header(struct interface_in
->>> +                        8, IPPROTO_UDP + ulen))));
->>> +
->>> +   udp_packets_seen++;
->>> +-  if (usum && usum != sum) {
->>> ++  if (!nocsum && usum && usum != sum) {
->>> +       udp_packets_bad_checksum++;
->>> +       if (udp_packets_seen > 4 &&
->>> +           (udp_packets_seen / udp_packets_bad_checksum) < 2) {
->>> +diff --git a/common/upf.c b/common/upf.c
->>> +--- a/common/upf.c
->>> ++++ b/common/upf.c
->>> +@@ -314,7 +314,7 @@ ssize_t receive_packet (interface, buf,
->>> +
->>> +     /* Decode the IP and UDP headers... */
->>> +     offset = decode_udp_ip_header (interface, ibuf, bufix,
->>> +-                       from, length, &paylen);
->>> ++                       from, length, &paylen, 0);
->>> +
->>> +     /* If the IP or UDP checksum was bad, skip the packet... */
->>> +     if (offset < 0)
->>> +diff --git a/includes/dhcpd.h b/includes/dhcpd.h
->>> +--- a/includes/dhcpd.h
->>> ++++ b/includes/dhcpd.h
->>> +@@ -2857,7 +2857,7 @@ ssize_t decode_hw_header (struct interfa
->>> +               unsigned, struct hardware *);
->>> + ssize_t decode_udp_ip_header (struct interface_info *, unsigned 
->>> char *,
->>> +                   unsigned, struct sockaddr_in *,
->>> +-                  unsigned, unsigned *);
->>> ++                  unsigned, unsigned *, int);
->>> +
->>> + /* ethernet.c */
->>> + void assemble_ethernet_header (struct interface_info *, unsigned 
->>> char *,
->>> +--
->>> +1.8.1.2
->>> +
->>> Index: b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
->>> ===================================================================
->>> --- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
->>> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
->>> @@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-d
->>>               file://fixsepbuild.patch \
->>> file://dhclient-script-drop-resolv.conf.dhclient.patch \
->>>               file://replace-ifconfig-route.patch \
->>> +            file://dhcp-xen-checksum.patch \
->>>              "
->>>     SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
->>> -- 
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->
+diff --git a/bitbake/bin/bitbake-layers b/bitbake/bin/bitbake-layers
+index 9879498..699424f 100755
+--- a/bitbake/bin/bitbake-layers
++++ b/bitbake/bin/bitbake-layers
+@@ -27,6 +27,8 @@ import sys
+ import fnmatch
+ from collections import defaultdict
+ import re
++import httplib, urlparse, json
++import subprocess
+ 
+ bindir = os.path.dirname(__file__)
+ topdir = os.path.dirname(bindir)
+@@ -157,6 +159,248 @@ usage: remove-layer <layerdir>
+                 sys.stderr.write("No layers matching %s found in BBLAYERS\n" % item)
+ 
+ 
++    def get_json_data(self, apiurl):
++        proxy_settings = os.environ.get("http_proxy", None)
++        conn = None
++        _parsedurl = urlparse.urlparse(apiurl)
++        path = _parsedurl.path
++        query = _parsedurl.query
++        def parse_url(url):
++            parsedurl = urlparse.urlparse(url)
++            if parsedurl.netloc[0] == '[':
++                host, port = parsedurl.netloc[1:].split(']', 1)
++                if ':' in port:
++                    port = port.rsplit(':', 1)[1]
++                else:
++                    port = None
++            else:
++                if parsedurl.netloc.count(':') == 1:
++                    (host, port) = parsedurl.netloc.split(":")
++                else:
++                    host = parsedurl.netloc
++                    port = None
++            return (host, 80 if port is None else int(port))
++
++        if proxy_settings is None:
++            host, port = parse_url(apiurl)
++            conn = httplib.HTTPConnection(host, port)
++            conn.request("GET", path + "?" + query)
++        else:
++            host, port = parse_url(proxy_settings)
++            conn = httplib.HTTPConnection(host, port)
++            conn.request("GET", apiurl)
++
++        r = conn.getresponse()
++        if r.status != 200:
++            raise Exception("Failed to read " + path + ": %d %s" % (r.status, r.reason))
++        return json.loads(r.read())
++
++
++    def get_layer_deps(self, layername, layeritems, layerbranches, layerdependencies, branchnum, selfname=False):
++        def layeritems_info_id(items_name, layeritems):
++            litems_id = ""
++            for li in layeritems:
++                if li['name'] == items_name:
++                    litems_id = li['id']
++                    break
++            if litems_id:
++                return litems_id
++
++        def layerbranches_info(items_id, layerbranches):
++            lbranch = {}
++            for lb in layerbranches:
++                if lb['layer'] == items_id and lb['branch'] == branchnum:
++                    lbranch['id'] = lb['id']
++                    lbranch['vcs_subdir'] = lb['vcs_subdir']
++                    break
++            return lbranch
++
++        def layerdependencies_info(lb_id, layerdependencies):
++            ld_deps = []
++            for ld in layerdependencies:
++                if ld['layerbranch'] == lb_id and not ld['dependency'] in ld_deps:
++                    ld_deps.append(ld['dependency'])
++            if not ld_deps:
++                logger.error("The dependency of layerDependencies is not found.")
++                return
++            else:
++                return ld_deps
++
++        def layeritems_info_name_subdir(items_id, layeritems):
++            litems = {}
++            for li in layeritems:
++                if li['id'] == items_id:
++                    litems['vcs_url'] = li['vcs_url']
++                    litems['name'] = li['name']
++                    break
++            return litems
++
++        if selfname:
++            selfid = layeritems_info_id(layername, layeritems)
++            selfsubdir = layerbranches_info(selfid, layerbranches)
++            if selfsubdir:
++                selfsubdir = layerbranches_info(selfid, layerbranches)['vcs_subdir']
++            else:
++                logger.error("%s layer is not found in your specify branch." % layername)
++                return
++            selfurl = layeritems_info_name_subdir(selfid, layeritems)['vcs_url']
++            if selfurl:
++                return selfurl, selfsubdir
++            else:
++                logger.error("Can NOT get %s git repo and subdir" % layername)
++                return
++        ldict = {}
++        itemsid = layeritems_info_id(layername, layeritems)
++        if not itemsid:
++            return layername, None
++        lbid = layerbranches_info(itemsid, layerbranches)
++        if lbid:
++            lbid = layerbranches_info(itemsid, layerbranches)['id']
++        else:
++            logger.error("%s is not found in your specify branch." % layername)
++            return None, None
++        for dependency in layerdependencies_info(lbid, layerdependencies):
++            lname = layeritems_info_name_subdir(dependency, layeritems)['name']
++            lurl = layeritems_info_name_subdir(dependency, layeritems)['vcs_url']
++            lsubdir = layerbranches_info(dependency, layerbranches)['vcs_subdir']
++            ldict[lname] = lurl, lsubdir
++        return None, ldict
++
++
++    def get_fetch_layer(self, fetchdir, url, subdir, fetch_layer):
++        layername = self.get_layer_name(url)
++        if os.path.splitext(layername)[1] == '.git':
++            layername = os.path.splitext(layername)[0]
++        repodir = os.path.join(fetchdir, layername)
++        layerdir = os.path.join(repodir, subdir)
++        if not os.path.exists(repodir):
++            if fetch_layer:
++                result = subprocess.call('git clone %s %s' % (url, repodir), shell = True)
++                if result:
++                    logger.error("Failed to download %s" % url)
++                else:
++                    return layername, layerdir
++            else:
++                logger.plain('We need fetch %s layer, please add -f option.' % layername)
++                return layername, layerdir
++        elif os.path.exists(layerdir):
++            return layername, layerdir
++        else:
++            logger.error("%s is not in %s" % (url, subdir))
++
++
++    def do_show_layer_deps(self, args):
++        """Find layer dependencies from layer index. Fetch it and its dependency layers. Add them to conf/bblayers.conf.
++
++usage: show-layer-deps [-a] [-f] [-b[branch name]] <layername,...>
++
++Options:
++  -a   add layer to conf/bblayers.conf
++  -b   specify layer branch, such as master, dylan, danny, oe-classic, dora, daisy or dizzy. Default branch is master.
++  -f   fetch layer from git repository
++"""
++        add_layer = False
++        fetch_layer = False
++        layernames = ""
++        branchname = "master"
++        for arg in args.split():
++            if arg == '-a':
++                add_layer = True
++            elif arg == '-f':
++                fetch_layer = True
++            elif arg.startswith('-b'):
++                branchname = arg[2:]
++            elif not arg.startswith('-'):
++                layernames = arg
++            else:
++                sys.stderr.write("show-layer-deps: invalid option %s\n" % arg)
++                self.do_help('')
++                return
++        if branchname == "master":
++            branchnum = 1
++        elif branchname == "dylan":
++            branchnum = 2
++        elif branchname == "danny":
++            branchnum = 3
++        elif branchname == "oe-classic":
++            branchnum = 4
++        elif branchname == "dora":
++            branchnum = 5
++        elif branchname == "daisy":
++            branchnum = 6
++        elif branchname == "dizzy":
++            branchnum = 7
++        else:
++            sys.stderr.write("Invalid layer branch name: %s\n" % branchname)
++            return
++        if not layernames:
++            sys.stderr.write("Please specify layer name.\n")
++            return
++        self.init_bbhandler(config_only = True)
++        apiurl = self.bbhandler.config_data.getVar('BBLAYERS_LAYERINDEX_URL', True)
++        if not apiurl:
++            logger.error("Can NOT get BBLAYERS_LAYERINDEX_URL.")
++        else:
++            apiurl = apiurl + "api/"
++        apilinks = self.get_json_data(apiurl)
++        layeritems = self.get_json_data(apilinks['layerItems'])
++        layerbranches = self.get_json_data(apilinks['layerBranches'])
++        layerdependencies = self.get_json_data(apilinks['layerDependencies'])
++        invaluenames = []
++        repourls = []
++        printlayers = []
++        def query_dependencies(layernames, layeritems, layerbranches, layerdependencies, branchnum, invaluenames, repourls, printlayers):
++            depslayer = []
++            for layername in layernames.split(','):
++                if not layername == "meta":
++                    invaluename, layerdict = self.get_layer_deps(layername, layeritems, layerbranches, layerdependencies, branchnum)
++                    if layerdict:
++                        repourls.append(self.get_layer_deps(layername, layeritems, layerbranches, layerdependencies, branchnum, selfname=True))
++                        for layer in layerdict:
++                            if not layer == "openembedded-core":
++                                depslayer.append(layer)
++                            printlayers.append((layername, layer, layerdict[layer][0], layerdict[layer][1]))
++                            if not layer == "openembedded-core" and not (layerdict[layer][0], layerdict[layer][1]) in repourls:
++                                repourls.append((layerdict[layer][0], layerdict[layer][1]))
++                    if invaluename and not invaluename in invaluenames:
++                        invaluenames.append(invaluename)
++            return repourls, depslayer, invaluenames, printlayers
++
++        repourls, depslayers, invaluenames, printlayers = query_dependencies(layernames, layeritems, layerbranches, layerdependencies, branchnum, invaluenames, repourls, printlayers)
++        while depslayers:
++            repourls, depslayer, invaluenames, printlayers = query_dependencies(','.join(depslayers), layeritems, layerbranches, layerdependencies, branchnum, invaluenames, repourls, printlayers)
++            depslayers = depslayer
++        for invaluename in invaluenames:
++            logger.warn("%s is not found in layer index." % invaluename)
++        if printlayers:
++            logger.plain("%s  %s  %s  %s" % ("Layer".ljust(19), "Dependencies".ljust(19), "Git repository".ljust(54), "Subdirectory"))
++            logger.plain('=' * 115)
++        for layer, dependencies, gitrepo, subdirectory in set(printlayers):
++            logger.plain("%s %s %s %s" % (layer.ljust(20), dependencies.ljust(20), gitrepo.ljust(55), subdirectory))
++
++        if set(repourls):
++            fetchdir = self.bbhandler.config_data.getVar('BBLAYERS_FETCH_DIR', True)
++            if not fetchdir:
++                logger.error("Can NOT get BBLAYERS_FETCH_DIR.")
++                return
++            if not os.path.exists(fetchdir):
++                os.makedirs(fetchdir)
++            addlayers = []
++            for repourl, subdir in repourls:
++                name, layerdir = self.get_fetch_layer(fetchdir, repourl, subdir, fetch_layer)
++                addlayers.append((subdir, name, layerdir))
++        if add_layer:
++            for subdir, name, layerdir in set(addlayers):
++                if os.path.exists(layerdir):
++                    if subdir:
++                        logger.plain("Add \"%s\" to conf/bblayers.conf" % subdir)
++                    else:
++                        logger.plain("Add \"%s\" to conf/bblayers.conf" % name)
++                    self.do_add_layer(layerdir)
++                else:
++                    break
++
++
+     def version_str(self, pe, pv, pr = None):
+         verstr = "%s" % pv
+         if pr:
+-- 
+1.9.1
 
 
