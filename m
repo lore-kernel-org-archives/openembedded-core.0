@@ -1,25 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CACC6606E8
+	by mail.openembedded.org (Postfix) with ESMTP id 323B873310
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 08:32:32 +0000 (UTC)
+	Thu, 12 Feb 2015 09:07:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1C8WVhU012547
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Feb 2015 00:32:33 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Thu, 12 Feb 2015 00:32:31 -0800
-From: Kai Kang <kai.kang@windriver.com>
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1C97eWI022670
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Feb 2015 01:07:41 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 12 Feb 2015 01:07:40 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Feb 2015 16:26:07 +0800
-Message-ID: <1423729567-14273-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Thu, 12 Feb 2015 01:07:33 -0800
+Message-ID: <cover.1423732000.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: chris_larson@mentor.com
-Subject: [PATCH] libnewt-python: remove make var LIBNEWTSH
+Subject: [PATCH 0/7] meta: several fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Feb 2015 08:32:34 -0000
+X-List-Received-Date: Thu, 12 Feb 2015 09:07:41 -0000
 Content-Type: text/plain
 
-Var LIBNEWTSH which points to libnewt.so in STAGING_LIBDIR is passed to
-make. But during do_compile, LIBNEWTSH is rebuilt. Check the log that
-gcc populates file into STAGING_LIBDIR directly:
+The following changes since commit 6bf5cbbcac80ee818cc932d69227e70e41ce02d3:
 
-i586-poky-linux-gcc  -m32 -march=i586
---sysroot=/poky/builds/build/tmp/sysroots/qemux86 -shared -o
-/poky/builds/build/tmp/sysroots/qemux86/usr/lib/libnewt.so.0.52.18
-...
+  libtool: Fix option parsing performance regression (2015-02-10 22:36:09 +0000)
 
-It is not a proper operation export file into STAGING_LIBDIR during
-compile. So remove the var LIBNEWTSH.
+are available in the git repository at:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/newt/libnewt-python_0.52.18.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://git.openembedded.org/openembedded-core-contrib rbt/fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/fixes
 
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.18.bb b/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-index d591fbd..ecc670e 100644
---- a/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-+++ b/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-@@ -12,7 +12,7 @@ EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
- 
- do_compile () {
- 	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
--	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snack.so
-+	oe_runmake _snack.so
- }
- 
- do_install () {
+Robert Yang (7):
+  Revert "libtool: avoid running automake/autoconf --version"
+  libtool: don't execute automake and autoconf on every invocation
+  rt-tests: fix gzip command
+  gcc-sanitizers: check gcc-build-internal before link
+  btrfs-tools: fix for parallel build
+  btrfs-tools: remove nodocs.patch
+  neard: do not ship version.h
+
+ .../neard/Makefile.am-do-not-ship-version.h.patch  |   36 ++++++++++
+ meta/recipes-connectivity/neard/neard_0.15.bb      |    1 +
+ .../btrfs-tools/btrfs-tools/fix-parallel.patch     |   32 +++++++++
+ .../btrfs-tools/btrfs-tools/nodocs.patch           |   22 ------
+ .../btrfs-tools/btrfs-tools_git.bb                 |    5 +-
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc       |    4 +-
+ meta/recipes-devtools/libtool/libtool-2.4.5.inc    |    2 +-
+ .../avoid-running-automake-autoconf-version.patch  |   54 ---------------
+ ...-t-execute-automake-and-autoconf-on-every.patch |   71 ++++++++++++++++++++
+ .../rt-tests/files/Makefile-fix-gzip-command.patch |   30 +++++++++
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    1 +
+ 11 files changed, 179 insertions(+), 79 deletions(-)
+ create mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/nodocs.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/avoid-running-automake-autoconf-version.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
+ create mode 100644 meta/recipes-rt/rt-tests/files/Makefile-fix-gzip-command.patch
+
 -- 
-1.9.1
+1.7.9.5
 
 
