@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4290665C85
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 11CCB60556
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 14:59:29 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id dc16so7263747qab.7
+	Fri, 13 Feb 2015 15:17:19 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id n8so12833904qaq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 06:59:30 -0800 (PST)
+	Fri, 13 Feb 2015 07:17:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=gEZ2V+znNv31fsBmBxNpXbXVOS5D/yDakYoN0iC0MVk=;
-	b=EPqNDyZxHIuu7ii6Fds72EqOby3d/0192jQzX7QMJaKBetRiwk/tHh3hKwpGLnhSta
-	Hq/E3Jtw7AqRw+/CHISXRd1fgYkYfIttJ5ODvp3wqssZSdgT+5aOE7CEYgiDn7q9muxl
-	UZpE67YbbIkH8v8BB8kRtoLJTmrkg8zZSnrbvZFfN2mF3su7CSDpaAFEk58C5KREv8YF
-	0NkWmN1ymnCEhPEEG51l/0i/ArImY0/H3bHMGHvZo8JLYR5zH+4Yzr0xN+/VUTJuF1Sw
-	3iEUrX8sirxsmItGu8q70KJ/HFPAItXaPoQijpbGNcXpYDF4zLMcxQm/XixpzuEvYLqU
-	pfFA==
-X-Gm-Message-State: ALoCoQkaHwI6kztqJFuWu7SXltreuLbIZhF4OqJs6uoGr5fryJd45497tjoZPG3QDqTn8hMfZAob
-X-Received: by 10.140.92.161 with SMTP id b30mr23847988qge.59.1423839570726;
-	Fri, 13 Feb 2015 06:59:30 -0800 (PST)
+	bh=TxpVmojt0WaeNmZ0GYeSTYrXlPU/dzkYbfcXrcXf7LQ=;
+	b=AiLFul9ykTbCDQTFCxbKD/45/CvPxDUNRYJVsCsT1nBtXuZ44LJjky/WChboSeg3mb
+	8UfLnrXiK1F2QhXevQkSlwR4d7K+5DYM1aBjPDq/BXWilsmJnphLBllRVrHITYA2neCX
+	f0JFloCW5eZFnGwYCgDmTBsaLRTpffrHWHD7lezA5aL4h/TIvqqoPIjuDSRz37+JvAyf
+	WjVnmgwbecX3CqZxmwJ99ZPLZEZMA33PoUSpmR7Mjqc90DfBbFDv3oYmeoQGN3Pg0wT+
+	zeynovmTMQfIWhIJR/RHCFCy/zXOwlz8/Mk2T3YapiB8GtaRXmUctDWIrhpKaKHMeH23
+	AClg==
+X-Gm-Message-State: ALoCoQmeFVuT/ZG7+26n2EApKV1NEBxajaSvgpft5WlLK+Os67aNkKiAn0Xk2gQb6Z7RiUD1ZJQT
+X-Received: by 10.140.150.87 with SMTP id 84mr2607857qhw.64.1423840641044;
+	Fri, 13 Feb 2015 07:17:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Fri, 13 Feb 2015 06:59:10 -0800 (PST)
-In-Reply-To: <ac1236b9b575849bae2399e6010d0343708f4984.1423732000.git.liezhi.yang@windriver.com>
-References: <cover.1423732000.git.liezhi.yang@windriver.com>
-	<ac1236b9b575849bae2399e6010d0343708f4984.1423732000.git.liezhi.yang@windriver.com>
+Received: by 10.140.96.166 with HTTP; Fri, 13 Feb 2015 07:17:00 -0800 (PST)
+In-Reply-To: <20150213065621.GA7102@windriver.com>
+References: <1423699224-19243-1-git-send-email-paul.gortmaker@windriver.com>
+	<54DC2479.7050507@urbanec.net> <20150213065621.GA7102@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 13 Feb 2015 14:59:10 +0000
-Message-ID: <CAJTo0Lb5xg1Q=Oqme_qWEpoR0Zv93WPhoK+KqogV-EkHDe2MYg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/7] btrfs-tools: fix for parallel build
+Date: Fri, 13 Feb 2015 15:17:00 +0000
+Message-ID: <CAJTo0LaNZM_X9KeHS9DWqQ_uEbxw5=Bh7JPWLJoyZJDnzueBiQ@mail.gmail.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mozjs: fix build failure due to missing dependency on libxt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 14:59:30 -0000
-Content-Type: multipart/alternative; boundary=001a1139baf0d49d6f050ef97b39
+X-List-Received-Date: Fri, 13 Feb 2015 15:17:20 -0000
+Content-Type: multipart/alternative; boundary=001a1135492ea06c2a050ef9bb3d
 
---001a1139baf0d49d6f050ef97b39
+--001a1135492ea06c2a050ef9bb3d
 Content-Type: text/plain; charset=UTF-8
 
-On 12 February 2015 at 09:07, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 13 February 2015 at 06:56, Paul Gortmaker <paul.gortmaker@windriver.com>
+wrote:
 
-> Fixed:
-> mkfs.c:300:46: error: 'BTRFS_BUILD_VERSION' undeclared (first use in this
-> function)
->   fprintf(stderr, "mkfs.btrfs, part of %s\n", BTRFS_BUILD_VERSION);
+> DEPENDS_append =
+> "${@bb.utils.contains('DISTRO_FEATURES','x11','libxt','',d)}"
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ...or perhaps:
+>
+> EXTRA_OECONF_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+> '--with-x', '--without-x', d)}"
 >
 
-In mut (about to be merged to master) there's a btrfs upgrade, can you
-rebase this?
+I'm mostly surprised the mozjs has an X11 dependency at all, but yes
+something like respecting DISTRO_FEATURES to enable/disable X11 is
+sensible, unless the X11 support is so meaningless it might as well be
+disabled globally.
 
-Cheers,
+Also, wrong list - this is in meta-oe so should go to the
+openembedded-devel@ list.
+
 Ross
 
---001a1139baf0d49d6f050ef97b39
+--001a1135492ea06c2a050ef9bb3d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 February 2015 at 09:07, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hmq"=
- class=3D"a3s" style=3D"overflow:hidden">Fixed:<br>
-mkfs.c:300:46: error: &#39;BTRFS_BUILD_VERSION&#39; undeclared (first use i=
-n this function)<br>
-=C2=A0 fprintf(stderr, &quot;mkfs.btrfs, part of %s\n&quot;, BTRFS_BUILD_VE=
-RSION);<br>
+On 13 February 2015 at 06:56, Paul Gortmaker <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.gortmaker@windriver.com" target=3D"_blank">paul.gortmaker@w=
+indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":hpg" class=3D"a3s" style=3D"overflow:hidden">DEPENDS_append =3D &quot=
+;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,&#39;x11&#39;,&#39;libxt&#3=
+9;,&#39;&#39;,d)}&quot;<br>
 <br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;</div></blockquote></div><br>In mut (abou=
-t to be merged to master) there&#39;s a btrfs upgrade, can you rebase this?=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheer=
-s,</div><div class=3D"gmail_extra">Ross</div></div>
+...or perhaps:<br>
+<br>
+EXTRA_OECONF_X =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#=
+39;x11&#39;, &#39;--with-x&#39;, &#39;--without-x&#39;, d)}&quot;</div></bl=
+ockquote><div><br></div><div>I&#39;m mostly surprised the mozjs has an X11 =
+dependency at all, but yes something like respecting DISTRO_FEATURES to ena=
+ble/disable X11 is sensible, unless the X11 support is so meaningless it mi=
+ght as well be disabled globally.</div><div><br></div><div>Also, wrong list=
+ - this is in meta-oe so should go to the openembedded-devel@ list.</div><d=
+iv><br></div><div>Ross</div></div></div></div>
 
---001a1139baf0d49d6f050ef97b39--
+--001a1135492ea06c2a050ef9bb3d--
