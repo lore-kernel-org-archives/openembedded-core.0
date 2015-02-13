@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D54167340E
+	by mail.openembedded.org (Postfix) with ESMTP id D61CD73429
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 08:15:36 +0000 (UTC)
+	Fri, 13 Feb 2015 08:15:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1D8FbA8020944
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1D8FaFw020938
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 00:15:37 -0800 (PST)
+	Fri, 13 Feb 2015 00:15:36 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 13 Feb 2015 00:15:37 -0800
+	Fri, 13 Feb 2015 00:15:36 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Feb 2015 00:15:26 -0800
-Message-ID: <94950066b1f4f4747d1e1cbaea350b6b520be245.1423808841.git.liezhi.yang@windriver.com>
+Date: Fri, 13 Feb 2015 00:15:24 -0800
+Message-ID: <cover.1423808841.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1423808841.git.liezhi.yang@windriver.com>
-References: <cover.1423808841.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/12] tcp-wrappers: fix and enable parallel build
+Subject: [PATCH 00/12] meta: fix and enable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,97 +34,97 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 13 Feb 2015 08:15:37 -0000
 Content-Type: text/plain
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../tcp-wrappers-7.6/makefile-fix-parallel.patch   |   54 ++++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |    6 +--
- 2 files changed, 57 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
+Hello,
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
-new file mode 100644
-index 0000000..7973525
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
-@@ -0,0 +1,54 @@
-+From daf89d272e51b2153015ce7f54ab0b86182e64c1 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 28 Jan 2015 18:50:23 -0800
-+Subject: [PATCH] Makefile: fix for parallel build
-+
-+Fixed:
-+make: *** No rule to make target `cflags', needed by `tcpd.o'.  Stop.
-+
-+Let "cflags" depend on config-check which generates cflgas will fix the
-+problem.
-+
-+Also fixed:
-+Fatal error: can't create shared/hosts_access.o: No such file or directory
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ Makefile |    5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index fe5e732..f468751 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -714,6 +714,7 @@ KIT	= README miscd.c tcpd.c fromhost.c hosts_access.c shell_cmd.c \
-+ LIB	= libwrap.a
-+ 
-+ shared/%.o: %.c
-++	[ -d shared ] || mkdir -p shared
-+ 	$(CC) $(CFLAGS) $(SHCFLAGS) -c $< -o $@
-+ 
-+ SOMAJOR = 0
-+@@ -730,6 +731,8 @@ SHLIB_OBJ= $(addprefix shared/, $(LIB_OBJ));
-+ 
-+ all other: config-check tcpd tcpdmatch try-from safe_finger tcpdchk $(LIB)
-+ 
-++cflags: config-check
-++
-+ # Invalidate all object files when the compiler options (CFLAGS) have changed.
-+ 
-+ config-check:
-+@@ -739,7 +742,7 @@ config-check:
-+ 	then rm cflags.new ; \
-+ 	else mv cflags.new cflags ; \
-+ 	fi >/dev/null 2>/dev/null
-+-	@if [ ! -d shared ]; then mkdir shared; fi
-++	@[ -d shared ] || mkdir -p shared
-+ 
-+ $(LIB):	$(LIB_OBJ)
-+ 	rm -f $(LIB)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 4d64306..2630478 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -40,16 +40,16 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://tcpdchk_libwrapped.patch \
-            file://ldflags.patch \
-            file://rename_strings_variable.patch \
--           \
-            file://try-from.8 \
--           file://safe_finger.8"
-+           file://safe_finger.8 \
-+           file://makefile-fix-parallel.patch \
-+           "
- 
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
- SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489a4315d"
- 
- S = "${WORKDIR}/tcp_wrappers_${PV}"
- 
--PARALLEL_MAKE = ""
- EXTRA_OEMAKE = "'CC=${CC}' \
-                 'AR=${AR}' \
-                 'RANLIB=${RANLIB}' \
+I've used a for loop to build these recipe more than 500 times, and fix
+the issues that I've found, there is no errors in recent 250 builds, I
+think it's worth to enable the parallel build for them, we can disable
+it if we find errors again.
+
+I will go on the build until 1000 times.
+
+The left ones in-core are:
+gettext_0.16.1 # Lower version
+subversion_1.8.10 # I have a fix for it, but seems not enough.
+net-tools_1.60-25 # I have a fix for, but seems not enough.
+groff_1.22.2 # I have a fix for, but seems not enough.
+groff_1.18.1.4 # Lower version
+
+// Robert
+
+The following changes since commit 6bf5cbbcac80ee818cc932d69227e70e41ce02d3:
+
+  libtool: Fix option parsing performance regression (2015-02-10 22:36:09 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/parallel
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/parallel
+
+Robert Yang (12):
+  bind: fix and enable parallel build
+  tcp-wrappers: fix and enable parallel build
+  slang: fix and enable parallel build
+  at: fix and enable parallel build
+  mtools: fix and enable parallel build
+  pth: fix and enable parallel build
+  openssl: fix and enable parallel build
+  blktrace: fix and enable parallel build
+  ghostscript: fix and enable parallel build
+  pcmciautils: fix and enable parallel build
+  vala.bbclass: enable PARALLEL_MAKE
+  meta: enable parallel build for several recipes
+
+ meta/classes/vala.bbclass                          |    3 -
+ .../Makefile-fix-for-parallel-build.patch          |   35 ++++
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    1 -
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |    4 +-
+ .../bind/bind/bind-subdirs-run-serially.patch      |   35 ++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |    2 +-
+ .../nfs-utils/nfs-utils_1.3.1.bb                   |    2 -
+ meta/recipes-connectivity/openssl/openssl.inc      |    3 +
+ .../recipes-connectivity/openssl/openssl_1.0.1j.bb |    3 -
+ meta/recipes-core/libcgroup/libcgroup_0.41.bb      |    3 -
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    2 -
+ meta/recipes-devtools/dpkg/dpkg.inc                |    2 -
+ meta/recipes-devtools/json-c/json-c_0.12.bb        |    2 -
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |    2 -
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb       |    8 +-
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb      |    8 +-
+ .../python/python-pygobject_2.28.3.bb              |    2 -
+ meta/recipes-devtools/valgrind/valgrind_3.10.1.bb  |    1 -
+ .../at/at/makefile-fix-parallel.patch              |   35 ++++
+ meta/recipes-extended/at/at_3.1.16.bb              |    5 +-
+ meta/recipes-extended/bash/bash.inc                |    2 -
+ .../ghostscript-9.15-parallel-make.patch           |   40 +++++
+ .../ghostscript/ghostscript_9.15.bb                |    6 +-
+ meta/recipes-extended/mailx/mailx_12.5.bb          |    1 -
+ .../slang/slang/slang-makefile-fix-parallel.patch  |  177 ++++++++++++++++++++
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    2 +-
+ .../tcp-wrappers-7.6/makefile-fix-parallel.patch   |   54 ++++++
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |    6 +-
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 -
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |    2 -
+ .../xorg-lib/libpthread-stubs_0.3.bb               |    1 -
+ meta/recipes-graphics/xorg-lib/xcb-util.inc        |    2 -
+ .../blktrace/blktrace/makefile-fix-parallel.patch  |   41 +++++
+ meta/recipes-kernel/blktrace/blktrace_git.bb       |    5 +-
+ meta/recipes-kernel/perf/perf.bb                   |    1 -
+ meta/recipes-multimedia/speex/speex_1.2rc1.bb      |    2 -
+ meta/recipes-support/icu/icu.inc                   |    1 -
+ meta/recipes-support/libpcre/libpcre_8.36.bb       |    2 -
+ .../pth/files/pth-fix-parallel.patch               |   48 ++++++
+ meta/recipes-support/pth/pth_2.0.7.bb              |    6 +-
+ 40 files changed, 498 insertions(+), 61 deletions(-)
+ create mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils-018/Makefile-fix-for-parallel-build.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch
+ create mode 100644 meta/recipes-extended/at/at/makefile-fix-parallel.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.15-parallel-make.patch
+ create mode 100644 meta/recipes-extended/slang/slang/slang-makefile-fix-parallel.patch
+ create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
+ create mode 100644 meta/recipes-kernel/blktrace/blktrace/makefile-fix-parallel.patch
+ create mode 100644 meta/recipes-support/pth/files/pth-fix-parallel.patch
+
 -- 
 1.7.9.5
 
