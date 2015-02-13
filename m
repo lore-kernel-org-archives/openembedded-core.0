@@ -1,37 +1,39 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 52BA260556
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5F960556
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 06:00:08 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id z12so896573wgg.2
+	Fri, 13 Feb 2015 06:00:11 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id k14so4699645wgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 22:00:09 -0800 (PST)
+	Thu, 12 Feb 2015 22:00:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=l7082+ktk+X4imue267wlzOYFjhBNojHpktJTKki3Kc=;
-	b=NV8qE9r7+G16SkyU8cDWWthC22mAEhYlsdOUMH+KQp72hy/qggYv8Mw/hoa/OCUR9H
-	GKXHa+onjORC7F8JowlfjPyf/9RKV6BBOExXu4to7/xzevFyP9sXt7GJvTMmj9FLd9iQ
-	+8ugvDdI9eB1V/SQx3n+PCU/niSyYzjp17D9h3Dx8yHrTOjKfbCfGib1puZpjS6IYpIn
-	9wPeA52MwPMPDLl48DxyuqVW7VhzHF2lijLRu+wprFzrJzondSoE0yKTuhowNI6t1anF
-	ZqAAm20Zyq0+T/tBPEV+Muz26SNM3LRXlWMapse74WJz7PlxtZbKG7b95NzejRd6p2iQ
-	50eA==
-X-Received: by 10.194.157.38 with SMTP id wj6mr14691790wjb.62.1423807209782;
-	Thu, 12 Feb 2015 22:00:09 -0800 (PST)
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-type:content-transfer-encoding;
+	bh=2aK+OtV3yty9VIMX8MTAfcqQwp/ismeCdO01rWWRxrw=;
+	b=cQM408dKg8RqvW1jcI9EgOzNu4CHYaRXKt9AndNt0ej43syoFCmCccWUYwc1zijV0r
+	4EwcKNi9sner04gO+pbUf25KE/yOorhLya4R9kcIsAi3xQmudBNOSnHb7FLJFPxZnlX0
+	Sxn0nBjleT6bw+TbtZSeb9N3qeQ+InCKNnnST9rCHMtXVisMylEnw/diuWgKonBsjQTf
+	8vqnzdImJJDCQuT97ePLXnuyQPkgXqqrPxeEuD8tMxrTOg7IzBTYVk5TLcEUB+2mGMB8
+	3m0L0Ex25riHb4u12W3E2zCwOy96DC2hAbMbVtUMpYVRJ8R7BUKEAylRnElH3mhfcgwP
+	8igw==
+X-Received: by 10.180.8.98 with SMTP id q2mr10079638wia.80.1423807212627;
+	Thu, 12 Feb 2015 22:00:12 -0800 (PST)
 Received: from localhost.localdomain (p5B0A1394.dip0.t-ipconnect.de.
 	[91.10.19.148])
-	by mx.google.com with ESMTPSA id u9sm8547638wjy.37.2015.02.12.22.00.08
+	by mx.google.com with ESMTPSA id u9sm8547638wjy.37.2015.02.12.22.00.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Feb 2015 22:00:08 -0800 (PST)
+	Thu, 12 Feb 2015 22:00:11 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Feb 2015 06:59:49 +0100
-Message-Id: <1423807195-7087-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Fri, 13 Feb 2015 06:59:51 +0100
+Message-Id: <1423807195-7087-3-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1423807195-7087-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1423807195-7087-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] minor reusability enhancements
+Subject: [PATCH 2/6] libassuan: add native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,40 +50,23 @@ X-List-Received-Date: Fri, 13 Feb 2015 06:00:12 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 6bf5cbbcac80ee818cc932d69227e70e41ce02d3:
+libassuan-native is required for gpgme-native - introduced in next patch
 
-  libtool: Fix option parsing performance regression (2015-02-10 22:36:09 +0000)
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-support/libassuan/libassuan_2.2.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the git repository at:
-
-  https://gitorious.org/schnitzeltony-oe-meta/oe-core.git patches
-
-for you to fetch changes up to c0b5d7b36432bce0fb46911940226057ca74fa8f:
-
-  default-versions.inc: remove pinning of liberation-fonts (2015-02-12 22:02:12 +0100)
-
-----------------------------------------------------------------
-Andreas Müller (6):
-      gpgme: fix configuration by setting proper parameters instead of patching
-      libassuan: add native build
-      gpgme: add native build and ship a valid gpgme-config
-      initial add fontforge(-native) 20141126
-      liberation-fonts: update to 1.07.4
-      default-versions.inc: remove pinning of liberation-fonts
-
- meta/conf/distro/include/default-versions.inc                                            |  3 ---
- meta/recipes-graphics/fontforge/fontforge_20141126.bb                                    | 43 +++++++++++++++++++++++++++++++++++++++++++
- meta/recipes-graphics/ttf-fonts/{liberation-fonts_1.04.bb => liberation-fonts_1.07.4.bb} | 16 +++++++++-------
- meta/recipes-support/gpgme/gpgme-1.4.3/0001-return-unknown-as-host.patch                 | 33 +++++++++++++++++++++++++++++++++
- meta/recipes-support/gpgme/gpgme-1.4.3/disable_gpgconf_check.patch                       | 39 ---------------------------------------
- meta/recipes-support/gpgme/gpgme_1.4.3.bb                                                | 15 ++++++++++-----
- meta/recipes-support/libassuan/libassuan_2.2.0.bb                                        |  2 ++
- 7 files changed, 97 insertions(+), 54 deletions(-)
- create mode 100644 meta/recipes-graphics/fontforge/fontforge_20141126.bb
- rename meta/recipes-graphics/ttf-fonts/{liberation-fonts_1.04.bb => liberation-fonts_1.07.4.bb} (66%)
- create mode 100644 meta/recipes-support/gpgme/gpgme-1.4.3/0001-return-unknown-as-host.patch
- delete mode 100644 meta/recipes-support/gpgme/gpgme-1.4.3/disable_gpgconf_check.patch
-
+diff --git a/meta/recipes-support/libassuan/libassuan_2.2.0.bb b/meta/recipes-support/libassuan/libassuan_2.2.0.bb
+index 5fc8b8c..d3a61cc 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.2.0.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.2.0.bb
+@@ -24,3 +24,5 @@ do_configure_prepend () {
+ 	# Else these could be used in prefernce to those in aclocal-copy
+ 	rm -f ${S}/m4/*.m4
+ }
++
++BBCLASSEXTEND = "native"
 -- 
 1.9.3
 
