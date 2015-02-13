@@ -1,26 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B6D7733F3
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 89963733DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 10:10:14 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Feb 2015 02:03:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,570,1418112000"; d="scan'208";a="454136889"
-Received: from jaloughr-mobl5.amr.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.120])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Feb 2015 01:55:29 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Fri, 13 Feb 2015 10:10:13 +0000
-Message-ID: <11486297.dKnYkC7eTZ@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.5-101.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <cover.1423705692.git.Chong.Lu@windriver.com>
-References: <cover.1423705692.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 0/2] bitbake-layers: add a ability to query layer dependencies from layer index
+	Fri, 13 Feb 2015 12:07:17 +0000 (UTC)
+Received: by pdjz10 with SMTP id z10so19003825pdj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 04:07:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YUPnKkt9xCyAION0gZFFrOxz3LVV+JDO/JiLjMIsiMA=;
+	b=T4QPxttobF5ENe1R7Rp/Kt/43krP6fJnklXdON/TFk1MFj97AJZUcKKWBCgWjm8ycv
+	0/KuIjwnr9XAJVNvy2ASe9FNfkslQWMVUfsRxA3HAOBImGDZXBbdjHl55cgVqCVXyQbp
+	oNYWq0Et8nWrC39rVCnyoWZVBOWK45sbRGJ0vbl6k4pb4XlSHROGTNhajhEXO9859KBE
+	skvM4TtKbgPOq4FrHE99xytKsQFzrlHbMMCiiXuNEEuKfC969jfuLAf1vvW14a7QkVUR
+	rzQMdTPOyglQvyKkTfPmjCnuWWIagFNMYAES0k3HRAOBGU643HkYJUqOYr2fNK+lDex8
+	Z5mw==
+X-Gm-Message-State: ALoCoQmpUd5Wi6OsZ+8tDlFfur1CDIyA5ocHMahNNW4zXMON+lOPxQcMlmPpUWxRywXh8i6skuAg
+X-Received: by 10.70.49.43 with SMTP id r11mr14675226pdn.25.1423829238494;
+	Fri, 13 Feb 2015 04:07:18 -0800 (PST)
+Received: from adamian-desk.local ([83.217.123.106])
+	by mx.google.com with ESMTPSA id e5sm6625560pdj.20.2015.02.13.04.07.17
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Feb 2015 04:07:17 -0800 (PST)
+Received: by adamian-desk.local (Postfix, from userid 1000)
+	id D7B4656159B; Fri, 13 Feb 2015 11:14:30 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Feb 2015 11:14:29 +0000
+Message-Id: <1423826069-10810-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [[PATCH][Dizzy] 1/1] toaster.bbclass: use the openembedded-core name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 10:10:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 13 Feb 2015 12:07:17 -0000
 
-On Thursday 12 February 2015 09:50:21 Chong Lu wrote:
-> Change since V4:
-> Change commit log for two variables.
-> 
-> The following changes since commit 35c9fa0588ed8e88b541a6c80cc1517324616cea:
-> 
->   maintainers: Update for non-maintained recipes (2015-01-20 21:39:41 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib chonglu/layerindex
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/layerindex
-> 
-> Chong Lu (2):
->   bitbake.conf: Add two variables for layer index
->   bitbake-layers: add a ability to query layer dependencies from layer index
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Thanks for fixing nearly all of the issues from v3 - I've tested it and it 
-works pretty well. However, there is one that is still not addressed:
+Fixing the bug where the openembedded-core name was registered
+as "meta" in toaster.
 
-> > * I think the new subcommand would make more sense if it were switched
-> > around so that it was fetching by default (and renamed as appropriate).
-> > Perhaps "layerindex-fetch" (with -n to avoid fetching and just report what
-> > it would fetch).
+[YOCTO #7317]
 
-FWIW I'm happy if we still have a "layerindex-show-deps" that is just an alias 
-for "layerindex-fetch -n", so it's really about the naming.
+(From OE-Core rev: ab9f17893c4b004906ec232da300915145c125e0)
 
-Additionally I'd really rather we did not hardcode the branch names - there's 
-an API call available to get these in the layer index and we should use it. I 
-also think we could improve the formatting of the output to make it a bit 
-easier for the user to understand.
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/toaster.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I know you'll be out of office for the next few weeks - perhaps I could address 
-these issues while you're out and send a new series if you have no objections.
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 1525317..a7dd0aa 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -71,7 +71,7 @@ python toaster_layerinfo_dumpdata() {
+         layer_url = 'http://layers.openembedded.org/layerindex/layer/{layer}/'
+         layer_url_name = _get_url_map_name(layer_name)
+ 
+-        layer_info['name'] = layer_name
++        layer_info['name'] = layer_url_name
+         layer_info['local_path'] = layer_path
+         layer_info['layer_index_url'] = layer_url.format(layer=layer_url_name)
+         layer_info['version'] = _get_layer_version_information(layer_path)
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
