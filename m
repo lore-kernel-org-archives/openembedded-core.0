@@ -1,24 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DBD5A73420
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6D7733F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 08:59:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1D8x8iq009464
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 00:59:09 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 13 Feb 2015 00:59:08 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Feb 2015 00:59:07 -0800
-Message-ID: <cover.1423817921.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri, 13 Feb 2015 10:10:14 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Feb 2015 02:03:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,570,1418112000"; d="scan'208";a="454136889"
+Received: from jaloughr-mobl5.amr.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.120])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Feb 2015 01:55:29 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Fri, 13 Feb 2015 10:10:13 +0000
+Message-ID: <11486297.dKnYkC7eTZ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.5-101.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <cover.1423705692.git.Chong.Lu@windriver.com>
+References: <cover.1423705692.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] syslinux: support ext2/3/4 device
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 0/2] bitbake-layers: add a ability to query layer dependencies from layer index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 08:59:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Feb 2015 10:10:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The following changes since commit 6bf5cbbcac80ee818cc932d69227e70e41ce02d3:
+On Thursday 12 February 2015 09:50:21 Chong Lu wrote:
+> Change since V4:
+> Change commit log for two variables.
+> 
+> The following changes since commit 35c9fa0588ed8e88b541a6c80cc1517324616cea:
+> 
+>   maintainers: Update for non-maintained recipes (2015-01-20 21:39:41 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib chonglu/layerindex
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/layerindex
+> 
+> Chong Lu (2):
+>   bitbake.conf: Add two variables for layer index
+>   bitbake-layers: add a ability to query layer dependencies from layer index
 
-  libtool: Fix option parsing performance regression (2015-02-10 22:36:09 +0000)
+Thanks for fixing nearly all of the issues from v3 - I've tested it and it 
+works pretty well. However, there is one that is still not addressed:
 
-are available in the git repository at:
+> > * I think the new subcommand would make more sense if it were switched
+> > around so that it was fetching by default (and renamed as appropriate).
+> > Perhaps "layerindex-fetch" (with -n to avoid fetching and just report what
+> > it would fetch).
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/syslinux
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/syslinux
+FWIW I'm happy if we still have a "layerindex-show-deps" that is just an alias 
+for "layerindex-fetch -n", so it's really about the naming.
 
-Robert Yang (1):
-  syslinux: support ext2/3/4 device
+Additionally I'd really rather we did not hardcode the branch names - there's 
+an API call available to get these in the layer index and we should use it. I 
+also think we could improve the formatting of the output to make it a bit 
+easier for the user to understand.
 
- ...01-linux-syslinux-support-ext2-3-4-device.patch |   84 ++++
- ...002-linux-syslinux-implement-open_ext2_fs.patch |  141 +++++++
- ...-linux-syslinux-implement-install_to_ext2.patch |  116 ++++++
- ...inux-add-ext_file_read-and-ext_file_write.patch |   91 +++++
- ...inux-syslinux-implement-handle_adv_on_ext.patch |  127 ++++++
- ...nux-implement-write_to_ext-and-add-syslin.patch |  215 ++++++++++
- ...slinux-implement-ext_construct_sectmap_fs.patch |   84 ++++
- ...r-syslinuxext-implement-syslinux_patch_bo.patch |  427 ++++++++++++++++++++
- ...inux-syslinux-implement-install_bootblock.patch |   50 +++
- meta/recipes-devtools/syslinux/syslinux_6.03.bb    |   11 +-
- 10 files changed, 1345 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-linux-syslinux-support-ext2-3-4-device.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0002-linux-syslinux-implement-open_ext2_fs.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0003-linux-syslinux-implement-install_to_ext2.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0004-linux-syslinux-add-ext_file_read-and-ext_file_write.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0005-linux-syslinux-implement-handle_adv_on_ext.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0006-linux-syslinux-implement-write_to_ext-and-add-syslin.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0007-linux-syslinux-implement-ext_construct_sectmap_fs.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0008-libinstaller-syslinuxext-implement-syslinux_patch_bo.patch
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0009-linux-syslinux-implement-install_bootblock.patch
+I know you'll be out of office for the next few weeks - perhaps I could address 
+these issues while you're out and send a new series if you have no objections.
+
+Cheers,
+Paul
 
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
