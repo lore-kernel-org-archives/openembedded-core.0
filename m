@@ -1,37 +1,30 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id ABDE260167
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C987733DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 12:44:52 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id r20so11812299wiv.2
+	Fri, 13 Feb 2015 13:06:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1DD6EeY019411 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 13:06:14 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Wz7iRs5qGrpe
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 04:44:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:date:content-type:mime-version
-	:content-transfer-encoding;
-	bh=xVExlX4Gi2QSc6EGwNJ4ASfhMyw0V7a2X6WhXosqKwk=;
-	b=hjqSf3wrYEJmtH/wvpniWZgVFo8b31Ubb6YBqWJHhEYxZskh2z/P+7qbfpW0uPfpDV
-	vb9OyVHeM/jr11WFH9CYOd9G8F5Pgh9LR4RIfGCVLN1pDn7kZ7OsApITjRzsgYu/lp11
-	m4LMi1x+6bA7XaMDh7DEyzszQMDdlrTsNQIu1VfCl/o79N1rqgSPa5P9O3x2EuQmGpIt
-	s4JLyooV88xf/zu/8vZldzvcjJ+4MZuMcYfm3MqqeD8HbKbJtmLeGShOOvx6abCHALg3
-	HQ3rcgVfnfNkwT3D+e8lky2O1Jzrm9ROmfuaIEifwIaq6K7gz97bUcgptCcUoGsn1mzX
-	X+Xg==
-X-Received: by 10.194.122.233 with SMTP id lv9mr12521097wjb.95.1423831493712; 
-	Fri, 13 Feb 2015 04:44:53 -0800 (PST)
-Received: from [192.168.0.7] (212-41-70-184.adsl.solnet.ch. [212.41.70.184])
-	by mx.google.com with ESMTPSA id
-	cf12sm9972386wjb.10.2015.02.13.04.44.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Feb 2015 04:44:53 -0800 (PST)
-Message-ID: <1423831491.5765.25.camel@Saturn.local.all>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Feb 2015 13:44:51 +0100
-X-Mailer: Evolution 3.10.4 
+	Fri, 13 Feb 2015 13:06:14 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1DD5xxV019398
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 13:06:11 GMT
+Message-ID: <1423832759.20217.85.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Feb 2015 13:05:59 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
-Subject: Recipe which builds for ARCH '${TUNE_PKGARCH}' and 'all' fail
+Subject: [PATCH] gcc-target: Don't install target gcc libdir files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,96 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 12:44:56 -0000
+X-List-Received-Date: Fri, 13 Feb 2015 13:06:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi
+Installing /usr/lib/gcc/* means we'd have two copies, one from gcc-cross
+and one from here. These can confuse gcc cross where includes use #include_next
+and builds track file dependencies (e.g. perl and its makedepends code).
+For determinism we don't install this to the sysroot, ever and rely on the
+copy from gcc-cross.
 
-If a recipe builds a package for the default ARCH (I think this is
-${TUNE_PKGARCH}) and one for ARCH 'all' then this fails when building
-in the same directory a second time for a machine with different
-${TUNE_PKGARCH}.
-Observed with dizzy (armv7at2hf-vfp vs armv7at2hf-vfp-neon) and
-master (MACHINE=qemux86-64 vs qemuarm)
+[YOCTO #7287]
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-ERROR: The recipe mixed-arch-test is trying to install files into a
-shared area when those files already exist. Those files and their
-manifest location are:
-   /mnt/sdc2/oe-disk/oe-core_master/oe-core/build/tmp-glibc/deploy/ipk/all/mixed-arch-test-a_1.0-r0_all.ipk
- Matched in manifest-core2-64-mixed-arch-test.package_write_ipk
-
-
-An example in the wild is meta-java/recipes-core/rhino/rhino_1.7r4.bb
-which builds: rhino_1.7r4-r0_armv7at2hf-vfp.ipk and
-librhino-java_1.7r4-r0_all.ipk.
-
-See below for a simple test recipe which reproduces the error.
-
-
-Is this intended behavior or an issue oe-core?
-
-
-Simple workaround:
-- don't build machines with different architectures in the same build
-directory.
-
-Workarounds at recipe level:
-- build all packages for TUNE_PKGARCH, even if the nature of the package
-would be 'all'.
-- have two recipes, one providing packages to TUNE_PKGARCH, the other
-one to 'all'.
-
-
-Regards
-Max
-
-
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-SUMMARY = "Test build of packages of different ARCHs"
-DESCRIPTION = "This recipe builds a package with ARCH '${TUNE_PKGARCH}'
-and one with 'all' " \
-              "When building this in the same build directory for
-MACHINES with different " \
-              "TUNE_PKGARCH" do_package_write_ipk fails for the second
-build "
-
-#Successful build for armv7at2hf-vfp, second build for
-armv7at2hf-vfp-neon
-#ERROR: The recipe mixed-arch-test is trying to install files into a 
-#   shared area when those files already exist.
-#   Those files and their manifest location are:
-#   /build/krm/oe-core_V2.4/build/out-glibc/deploy/ipk/all/mixed-arch-test-a_1.0-r0_all.ipk
-#   Matched in manifest-armv7at2hf-vfp-mixed-arch-test.package_write_ipk
-
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = \
-"file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-
-DEPENDS = ""
-
-SRC_URI = ""
-
-PACKAGES = "${PN} ${PN}-a"
-
-PACKAGE_ARCH_${PN}-a ="all"
-FILES_${PN} = "${datadir}/file1.txt"
-FILES_${PN}-a = "${datadir}/file2.txt"
-
-do_compile() {
-    touch file1.txt
-    touch file2.txt
-}
-
-do_install() {
-    install -d ${D}${datadir}
-    install -m 0644 ${WORKDIR}/file1.txt ${D}${datadir}
-    install -m 0644 ${WORKDIR}/file2.txt ${D}${datadir}
-}
-
-S = "${WORKDIR}"
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index a266f16..4c3eea6 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -166,3 +166,12 @@ do_install () {
+ 
+ 	chown -R root:root ${D}
+ }
++
++# Installing /usr/lib/gcc/* means we'd have two copies, one from gcc-cross
++# and one from here. These can confuse gcc cross where includes use #include_next
++# and builds track file dependencies (e.g. perl and its makedepends code).
++# For determinism we don't install this ever and rely on the copy from gcc-cross.
++# [YOCTO #7287]
++sysroot_stage_dirs_append () {
++	rm -rf $to${libdir}/gcc
++}
 
 
 
