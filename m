@@ -1,35 +1,27 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B06B65C85
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7544E733BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 07:07:31 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 9C110D4080B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 0AA02D403BE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de (e179139033.adsl.alicedsl.de
-	[85.179.139.33]) by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
-Date: Fri, 13 Feb 2015 08:07:22 +0100
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150213070722.GA11347@mail.itconsulting-heinold.de>
-References: <cover.1423796513.git.liezhi.yang@windriver.com>
-	<09095c6cb2d748c7f28ef21880337cd9dafca471.1423796513.git.liezhi.yang@windriver.com>
+	Fri, 13 Feb 2015 07:14:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1D7E9D2012956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Feb 2015 23:14:09 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 12 Feb 2015 23:14:09 -0800
+Message-ID: <54DDA43F.7050008@windriver.com>
+Date: Fri, 13 Feb 2015 15:14:07 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-In-Reply-To: <09095c6cb2d748c7f28ef21880337cd9dafca471.1423796513.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
+To: Henning Heinold <henning@itconsulting-heinold.de>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1423796513.git.liezhi.yang@windriver.com>	<09095c6cb2d748c7f28ef21880337cd9dafca471.1423796513.git.liezhi.yang@windriver.com>
+	<20150213070722.GA11347@mail.itconsulting-heinold.de>
+In-Reply-To: <20150213070722.GA11347@mail.itconsulting-heinold.de>
 Subject: Re: [PATCH 3/3] gettext 0.6.1: disable native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,16 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 07:07:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Feb 2015 07:14:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Robert,
 
-you mised a 1 in the subject:
+On 02/13/2015 03:07 PM, Henning Heinold wrote:
+> Hi Robert,
+>
+> you mised a 1 in the subject:
+>
+> [OE-core] [PATCH 3/3] gettext 0.6.1: disable native
 
-[OE-core] [PATCH 3/3] gettext 0.6.1: disable native
-                              ^^^
+Thanks, updated to 0.16.1 in the repo.
 
-Bye Henning
+// Robert
+
+>                                ^^^
+>
+> Bye Henning
+>
 
