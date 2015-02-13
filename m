@@ -1,36 +1,26 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 573C473425
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D54167340E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 07:55:46 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id rd3so10497502pab.4
+	Fri, 13 Feb 2015 08:15:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1D8FbA8020944
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Feb 2015 23:55:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=oxaNCpBZlW3g3hYE7rsWtAS6g0PeWWF3MEHIt+nEouM=;
-	b=vBe6BMBqr5ASF0dzIUa2gdh8n2v6ElO5btYnWxGKyyI5gRyu4N+YDEaejzFeWjgU5J
-	ep54NGgRAMV7BqrOn302bFvKyIIH47xb54AQIGfibovF+93vB4PJFIYf99dBYxmwpmFC
-	gNQPO1lV+fekZN3eFg2xEqTKj8EryjOH4roRPOV20zqqGAZia7nKyFgDAwHULpXqAs5o
-	6qqBXUp1sW8MjrLKICmOTkphI1EVWceRSx4P3Vf3FQzPJxZKdMqMZst1hpE91r8VH3ok
-	OxvCq2uRFowNRElJRfkmrUYT5uAYmKsqlNwJYHYtAGQfafMokHfgrn50paeovbhp1M9u
-	+Q/g==
+	Fri, 13 Feb 2015 00:15:37 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 13 Feb 2015 00:15:37 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Feb 2015 00:15:26 -0800
+Message-ID: <94950066b1f4f4747d1e1cbaea350b6b520be245.1423808841.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1423808841.git.liezhi.yang@windriver.com>
+References: <cover.1423808841.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.66.124.137 with SMTP id mi9mr13058698pab.144.1423814147833; 
-	Thu, 12 Feb 2015 23:55:47 -0800 (PST)
-Received: by 10.70.36.36 with HTTP; Thu, 12 Feb 2015 23:55:47 -0800 (PST)
-In-Reply-To: <1423807195-7087-5-git-send-email-schnitzeltony@googlemail.com>
-References: <1423807195-7087-1-git-send-email-schnitzeltony@googlemail.com>
-	<1423807195-7087-5-git-send-email-schnitzeltony@googlemail.com>
-Date: Fri, 13 Feb 2015 08:55:47 +0100
-Message-ID: <CALbNGRS7v=no8hJMsoLJrQmd8tyPCmUJC7gaHM8jXCUV3b3U9w@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] initial add fontforge(-native) 20141126
+Subject: [PATCH 02/12] tcp-wrappers: fix and enable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 07:55:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Feb 2015 08:15:37 -0000
+Content-Type: text/plain
 
-On Fri, Feb 13, 2015 at 6:59 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> had this in my private layer but think it could be useful here.
->
-> Native tests: liberation-fonts (follow-up patch) / oxygen-fonts
-> Target test: gumstix overo / xfce image
->
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> ---
->  .../fontforge/fontforge_20141126.bb                | 43 ++++++++++++++++=
-++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 meta/recipes-graphics/fontforge/fontforge_20141126.bb
->
-> diff --git a/meta/recipes-graphics/fontforge/fontforge_20141126.bb b/meta=
-/recipes-graphics/fontforge/fontforge_20141126.bb
-> new file mode 100644
-> index 0000000..835aa9b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/fontforge/fontforge_20141126.bb
-> @@ -0,0 +1,43 @@
-> +SUMMARY =3D "A font editor"
-> +HOMEPAGE =3D "http://fontforge.github.io/en-US/"
-> +LICENSE =3D "GPLv3"
-> +LIC_FILES_CHKSUM =3D " \
-> +    file://COPYING.gplv3;md5=3Dd32239bcb673463ab874e80d47fae504 \
-> +    file://LICENSE;md5=3D71d636ba7678baa1573e1b531041386e \
-> +"
-> +
-> +inherit autotools pkgconfig pythonnative mime
-> +
-> +DEPENDS =3D "glib-2.0 pango giflib tiff libxml2 jpeg python libtool"
-Oops - just noticed that tiff is in meta-oe and even worse there was a
-discussion about moving tiff to oe-core long time ago [1]. Now the
-situation has changed slightly: To open upgrade path for
-liberation-fonts we need fontforge.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../tcp-wrappers-7.6/makefile-fix-parallel.patch   |   54 ++++++++++++++++++++
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |    6 +--
+ 2 files changed, 57 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
 
-I see 3 ways to go:
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
+new file mode 100644
+index 0000000..7973525
+--- /dev/null
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch
+@@ -0,0 +1,54 @@
++From daf89d272e51b2153015ce7f54ab0b86182e64c1 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Wed, 28 Jan 2015 18:50:23 -0800
++Subject: [PATCH] Makefile: fix for parallel build
++
++Fixed:
++make: *** No rule to make target `cflags', needed by `tcpd.o'.  Stop.
++
++Let "cflags" depend on config-check which generates cflgas will fix the
++problem.
++
++Also fixed:
++Fatal error: can't create shared/hosts_access.o: No such file or directory
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ Makefile |    5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index fe5e732..f468751 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -714,6 +714,7 @@ KIT	= README miscd.c tcpd.c fromhost.c hosts_access.c shell_cmd.c \
++ LIB	= libwrap.a
++ 
++ shared/%.o: %.c
+++	[ -d shared ] || mkdir -p shared
++ 	$(CC) $(CFLAGS) $(SHCFLAGS) -c $< -o $@
++ 
++ SOMAJOR = 0
++@@ -730,6 +731,8 @@ SHLIB_OBJ= $(addprefix shared/, $(LIB_OBJ));
++ 
++ all other: config-check tcpd tcpdmatch try-from safe_finger tcpdchk $(LIB)
++ 
+++cflags: config-check
+++
++ # Invalidate all object files when the compiler options (CFLAGS) have changed.
++ 
++ config-check:
++@@ -739,7 +742,7 @@ config-check:
++ 	then rm cflags.new ; \
++ 	else mv cflags.new cflags ; \
++ 	fi >/dev/null 2>/dev/null
++-	@if [ ! -d shared ]; then mkdir shared; fi
+++	@[ -d shared ] || mkdir -p shared
++ 
++ $(LIB):	$(LIB_OBJ)
++ 	rm -f $(LIB)
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 4d64306..2630478 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -40,16 +40,16 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
+            file://tcpdchk_libwrapped.patch \
+            file://ldflags.patch \
+            file://rename_strings_variable.patch \
+-           \
+            file://try-from.8 \
+-           file://safe_finger.8"
++           file://safe_finger.8 \
++           file://makefile-fix-parallel.patch \
++           "
+ 
+ SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
+ SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489a4315d"
+ 
+ S = "${WORKDIR}/tcp_wrappers_${PV}"
+ 
+-PARALLEL_MAKE = ""
+ EXTRA_OEMAKE = "'CC=${CC}' \
+                 'AR=${AR}' \
+                 'RANLIB=${RANLIB}' \
+-- 
+1.7.9.5
 
-1. Have tiff in oe-core
-2. Have fontforge without tiff in oe-core. There seems to be a
-configure option disabling tiiff. This could be overridden in meta-oe.
-I have no idea if disabling tiff turns fontforge to useless condition
-from liberation-fonts's perspective.
-3. Have fontforge in meta-oe and forget about upgrading liberation-fonts.
-
-Thoughts?
-
-Andreas
 
