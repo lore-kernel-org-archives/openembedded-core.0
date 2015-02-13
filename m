@@ -1,29 +1,36 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 284FE733DC
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B06B65C85
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 06:56:08 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1D6u83r010970
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Feb 2015 22:56:08 -0800 (PST)
-Received: from yow-pgortmak-d1 (128.224.56.57) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 12 Feb 2015 22:56:08 -0800
-Received: by yow-pgortmak-d1 (Postfix, from userid 1000)	id 46FFAE1D48F; Fri,
-	13 Feb 2015 01:56:22 -0500 (EST)
-Date: Fri, 13 Feb 2015 01:56:22 -0500
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
-Message-ID: <20150213065621.GA7102@windriver.com>
-References: <1423699224-19243-1-git-send-email-paul.gortmaker@windriver.com>
-	<54DC2479.7050507@urbanec.net>
+	Fri, 13 Feb 2015 07:07:31 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 9C110D4080B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 0AA02D403BE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from mail.itconsulting-heinold.de (e179139033.adsl.alicedsl.de
+	[85.179.139.33]) by mail.familie-heinold.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Feb 2015 08:07:30 +0100 (CET)
+Date: Fri, 13 Feb 2015 08:07:22 +0100
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150213070722.GA11347@mail.itconsulting-heinold.de>
+References: <cover.1423796513.git.liezhi.yang@windriver.com>
+	<09095c6cb2d748c7f28ef21880337cd9dafca471.1423796513.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <54DC2479.7050507@urbanec.net>
+In-Reply-To: <09095c6cb2d748c7f28ef21880337cd9dafca471.1423796513.git.liezhi.yang@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mozjs: fix build failure due to missing dependency on libxt
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [PATCH 3/3] gettext 0.6.1: disable native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 06:56:14 -0000
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 13 Feb 2015 07:07:35 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-[Re: [OE-core] [PATCH] mozjs: fix build failure due to missing dependency on libxt] On 12/02/2015 (Thu 14:56) Peter Urbanec wrote:
+Hi Robert,
 
-> On 12/02/15 11:00, Paul Gortmaker wrote:
-> >Looking at the configure script, we see these invalid values are output
-> >when the autoconf test for X11 fails.  That test fails in the following
-> >fashion:
-> ...
-> >Since the package clearly has never been built in a no-X11 OE environment,
-> >we assume that all OE users to date are X11 users and hence simply add a
-> >dependency on libxt.
-> 
-> I've run into this problem quite a while ago. My fix for this was a
-> .bbappend file that passes --without-x to configure, since my target
-> has no X11.
-> 
+you mised a 1 in the subject:
 
-Since it isn't a run time dependency, your local tweak to select a non-X
-build of the package should still give you that even with the libxt
-build dependency added.  My point still stands that in its current
-state, the only successful builds have been X11-enabled ones;  so my
-patch fixes the random build failures without changing the build output.
+[OE-core] [PATCH 3/3] gettext 0.6.1: disable native
+                              ^^^
 
-If we want to come at mozjs and enhance it at the same time to support
-non-x11 without the need for an append like  you are using, we'd need
-to do something like:
-
-DEPENDS_append = "${@bb.utils.contains('DISTRO_FEATURES','x11','libxt','',d)}"
-
-...or perhaps:
-
-EXTRA_OECONF_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
-
-I've not tested either of the above; I've just found them in existing
-recipes; I'll wait to see if the maintainers have any preference for one
-of the three possible solutions (the original and now the above two) as
-doing one of the above two now implies we are supporting non-x11 builds
-of it, when clearly we were not up to this point.
-
-Paul.
+Bye Henning
 
