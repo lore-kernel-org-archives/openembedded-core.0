@@ -1,34 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CAEF665CF5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 074D571634
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 23:23:25 +0000 (UTC)
-Received: by iebtr6 with SMTP id tr6so12535091ieb.7
+	Sat, 14 Feb 2015 07:53:41 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id i8so3869127qcq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 15:23:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=4c/ZZxCTQNcbpuKuBKqnHB2LETe5SJPmeL+t3j0EFus=;
-	b=p1CVmNEu0e7GfVER1XUgUdhFp/qwDR9EMOq9SUEkWlCv5l4/YT6vAR2P7ZWLNj+alV
-	If2m0SGRH/gDY8hoMtLZ85Qk2vZfSrzgt6pTTHhTToMrqgtRp1VZ8AR3P0HbjTg0Ko6p
-	60IS1mHlUZclb2HvaSNKXaapIPGcvNiIjQL43/OJ0/M173Wk/SOq1uMUtGqzcu0q8B7q
-	mVnhVhXTddN6TT1r22RlCHaR04wG2rwpf8MI0/bHEH44nzymjLNnu/LO0//lgW+7jQtF
-	EJY4hqnC0pAe8j392gDLUGmVI+lIJJ9bT3lXkUzjvM5p3PVlNVWizSmkBA4o2nCN3Hh/
-	GZyA==
-X-Received: by 10.42.198.14 with SMTP id em14mr1534829icb.32.1423869806150;
-	Fri, 13 Feb 2015 15:23:26 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id w9sm4104480igl.0.2015.02.13.15.23.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Feb 2015 15:23:25 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Feb 2015 15:23:11 -0800
-Message-Id: <1423869791-7417-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] neon: update 0.30.0 -> 0.30.1
+	Fri, 13 Feb 2015 23:53:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=N4mkZUifiLaefQIlK7kBjwXvDSJ8y4L9cQlTKRJ2430=;
+	b=cd0ALgNANzofCIo0XVZKTYcI3mWKFQb7jZcHFwhe4qDkr6ofT1unZMa5WuU7NsKzkD
+	Hzr1pL+4aKVX8BwaZsfUUT3X6MQ9M7Rl2LLxI8PLdisjNQEx9BKmJvKxzJfoPfTf3XXI
+	quns3ijAmYVVdHiUBRd6z6kdv84r58kuHCtOvqX9cHvMhnNHoyDfAPc7Jphv/ZcdPNCq
+	CiQ2mIXMshc9CSUlAX7RC8qjkHw7NyDpTxcom/o+Job3iXNgWRbBJCf2GAR5NWF7Foz6
+	fKlhJEPbRLmjqJpUmVk5LARm+YCwhSb+ljPR10w1xYspxIUnpaodrPT/vfkj/sXaatjM
+	r02w==
+X-Gm-Message-State: ALoCoQm3VaTIDmaF2Mu9CmY5JwhufetOuU+B2RsYptawB7PeKjacCfJux7Cj/lB5s/Cd5vIpgNl4
+X-Received: by 10.140.133.69 with SMTP id 66mr4249090qhf.17.1423900422440;
+	Fri, 13 Feb 2015 23:53:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Fri, 13 Feb 2015 23:53:22 -0800 (PST)
+In-Reply-To: <CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
+	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
+	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
+	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
+	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
+	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
+	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
+	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
+	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
+	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 14 Feb 2015 07:53:22 +0000
+Message-ID: <CAJTo0LZDh+nk6_JBbE7HEzqa8YVtorBXPvXMw+ne_fVekSbymg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,67 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Feb 2015 23:23:26 -0000
+X-List-Received-Date: Sat, 14 Feb 2015 07:53:42 -0000
+Content-Type: multipart/alternative; boundary=001a1136fdeee02452050f07a697
 
-pkgconfig.patch needed a minor refresh due to the following fix for
-static linking using neon.pc being merged upstream:
+--001a1136fdeee02452050f07a697
+Content-Type: text/plain; charset=UTF-8
 
-  http://lists.manyfish.co.uk/pipermail/neon/2013-October/001568.html
+Hi Khem,
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- .../neon/{neon-0.30.0 => neon}/pkgconfig.patch                | 11 ++++-------
- meta/recipes-support/neon/{neon_0.30.0.bb => neon_0.30.1.bb}  |  4 ++--
- 2 files changed, 6 insertions(+), 9 deletions(-)
- rename meta/recipes-support/neon/{neon-0.30.0 => neon}/pkgconfig.patch (73%)
- rename meta/recipes-support/neon/{neon_0.30.0.bb => neon_0.30.1.bb} (84%)
+On 12 February 2015 at 07:35, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch b/meta/recipes-support/neon/neon/pkgconfig.patch
-similarity index 73%
-rename from meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
-rename to meta/recipes-support/neon/neon/pkgconfig.patch
-index 1a2550c..239dba8 100644
---- a/meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
-+++ b/meta/recipes-support/neon/neon/pkgconfig.patch
-@@ -4,15 +4,12 @@ Upstream-Status: Inappropriate [configuration]
-  neon.pc.in |    2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
----- neon-0.28.1.orig/neon.pc.in
--+++ neon-0.28.1/neon.pc.in
--@@ -4,8 +4,8 @@ libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: neon
-+--- neon-0.30.1.orig/neon.pc.in
-++++ neon-0.30.1/neon.pc.in
-+@@ -7,5 +7,5 @@ Name: neon
-  Description: HTTP/WebDAV client library
-  Version: @NEON_VERSION@
-+ Libs: -L${libdir} -lneon @NEON_PC_LIBS@
- -Libs.private: @NEON_LIBS@
- +Libs.private: -L${libdir} -lz -lgcrypt -lgpg-error -lexpat -lgnutls
-- Libs: -L${libdir} -lneon @NEON_PC_LIBS@
-  Cflags: -I${includedir}/neon @NEON_CFLAGS@
-diff --git a/meta/recipes-support/neon/neon_0.30.0.bb b/meta/recipes-support/neon/neon_0.30.1.bb
-similarity index 84%
-rename from meta/recipes-support/neon/neon_0.30.0.bb
-rename to meta/recipes-support/neon/neon_0.30.1.bb
-index 61bd7d9..9245244 100644
---- a/meta/recipes-support/neon/neon_0.30.0.bb
-+++ b/meta/recipes-support/neon/neon_0.30.1.bb
-@@ -11,8 +11,8 @@ BBCLASSEXTEND = "native"
- 
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
-            file://pkgconfig.patch"
--SRC_URI[md5sum] = "fb60b3a124eeec441937a812c456fd94"
--SRC_URI[sha256sum] = "2962cfcb5d30f3272e3d2fa0e473434419770a3801afe3d46e5d1650787990c2"
-+SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
-+SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
- 
- BINCONFIG = "${bindir}/neon-config"
- 
--- 
-1.9.1
+> I have refreshed the branch to include the patch which moves the src
+> uri to use the newly released glibc 2.21 branch
+> and please run it via autobuilder ( top 5 commits )
+>
 
+I did a preliminary test on my local build machines (core-image-sato-sdk on
+all arches), and valgrind fails with "unsupported version 2.21, Valgrind
+requires glibc 2.2 - 2.19".
 
+Ross
+
+--001a1136fdeee02452050f07a697
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 12 February 2015 at 07:35, Khem=
+ Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"=
+_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div id=3D":p57" class=3D"a3s" style=3D"overflow:hidden">I have ref=
+reshed the branch to include the patch which moves the src<br>
+uri to use the newly released <span class=3D"il">glibc</span> 2.21 branch<b=
+r>
+and please run it via autobuilder ( top 5 commits )</div></blockquote></div=
+><br>I did a preliminary test on my local build machines (core-image-sato-s=
+dk on all arches), and valgrind fails with &quot;unsupported version 2.21, =
+Valgrind requires glibc 2.2 - 2.19&quot;.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1136fdeee02452050f07a697--
