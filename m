@@ -1,28 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 074D571634
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Feb 2015 07:53:41 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id i8so3869127qcq.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Feb 2015 23:53:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=N4mkZUifiLaefQIlK7kBjwXvDSJ8y4L9cQlTKRJ2430=;
-	b=cd0ALgNANzofCIo0XVZKTYcI3mWKFQb7jZcHFwhe4qDkr6ofT1unZMa5WuU7NsKzkD
-	Hzr1pL+4aKVX8BwaZsfUUT3X6MQ9M7Rl2LLxI8PLdisjNQEx9BKmJvKxzJfoPfTf3XXI
-	quns3ijAmYVVdHiUBRd6z6kdv84r58kuHCtOvqX9cHvMhnNHoyDfAPc7Jphv/ZcdPNCq
-	CiQ2mIXMshc9CSUlAX7RC8qjkHw7NyDpTxcom/o+Job3iXNgWRbBJCf2GAR5NWF7Foz6
-	fKlhJEPbRLmjqJpUmVk5LARm+YCwhSb+ljPR10w1xYspxIUnpaodrPT/vfkj/sXaatjM
-	r02w==
-X-Gm-Message-State: ALoCoQm3VaTIDmaF2Mu9CmY5JwhufetOuU+B2RsYptawB7PeKjacCfJux7Cj/lB5s/Cd5vIpgNl4
-X-Received: by 10.140.133.69 with SMTP id 66mr4249090qhf.17.1423900422440;
-	Fri, 13 Feb 2015 23:53:42 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Fri, 13 Feb 2015 23:53:22 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 79ED0733C3;
+	Sat, 14 Feb 2015 10:06:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1EA6vdu032740; Sat, 14 Feb 2015 10:06:57 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RFuyvFggqnMT; Sat, 14 Feb 2015 10:06:57 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1EA6inG032729
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 14 Feb 2015 10:06:55 GMT
+Message-ID: <1423908404.20217.100.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 14 Feb 2015 10:06:44 +0000
 In-Reply-To: <CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
 References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
@@ -35,10 +29,8 @@ References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
 	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
 	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 14 Feb 2015 07:53:22 +0000
-Message-ID: <CAJTo0LZDh+nk6_JBbE7HEzqa8YVtorBXPvXMw+ne_fVekSbymg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
 Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
@@ -56,44 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Feb 2015 07:53:42 -0000
-Content-Type: multipart/alternative; boundary=001a1136fdeee02452050f07a697
-
---001a1136fdeee02452050f07a697
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 14 Feb 2015 10:07:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
 Hi Khem,
 
-On 12 February 2015 at 07:35, Khem Raj <raj.khem@gmail.com> wrote:
-
+On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:
 > I have refreshed the branch to include the patch which moves the src
 > uri to use the newly released glibc 2.21 branch
 > and please run it via autobuilder ( top 5 commits )
->
 
-I did a preliminary test on my local build machines (core-image-sato-sdk on
-all arches), and valgrind fails with "unsupported version 2.21, Valgrind
-requires glibc 2.2 - 2.19".
+Its running on the autobuilder at the moment. Errors will be reported to
+the error reporting system and can be seen at:
 
-Ross
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=be29d13a847d458efaf542ed302e48050f67a655
 
---001a1136fdeee02452050f07a697
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Right now, poky-tiny failed due to warning are errors and unused
+symbols. Minnow failed due to SSE instruction issues. Full build logs
+are also available on the autobuilder:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 12 February 2015 at 07:35, Khem=
- Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"=
-_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div id=3D":p57" class=3D"a3s" style=3D"overflow:hidden">I have ref=
-reshed the branch to include the patch which moves the src<br>
-uri to use the newly released <span class=3D"il">glibc</span> 2.21 branch<b=
-r>
-and please run it via autobuilder ( top 5 commits )</div></blockquote></div=
-><br>I did a preliminary test on my local build machines (core-image-sato-s=
-dk on all arches), and valgrind fails with &quot;unsupported version 2.21, =
-Valgrind requires glibc 2.2 - 2.19&quot;.</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">Ross</div></div>
+https://autobuilder.yoctoproject.org/main/tgrid
 
---001a1136fdeee02452050f07a697--
+as ross/mut-next. We do have other changes in the branch but the above
+are pretty clearly glibc.
+
+Other errors will go to the places above as the builds complete/fail.
+
+Cheers,
+
+Richard
+
+
