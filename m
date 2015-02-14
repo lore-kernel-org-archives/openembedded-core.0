@@ -1,23 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 79ED0733C3;
-	Sat, 14 Feb 2015 10:06:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1EA6vdu032740; Sat, 14 Feb 2015 10:06:57 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RFuyvFggqnMT; Sat, 14 Feb 2015 10:06:57 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1EA6inG032729
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 14 Feb 2015 10:06:55 GMT
-Message-ID: <1423908404.20217.100.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 14 Feb 2015 10:06:44 +0000
-In-Reply-To: <CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6455971634
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Feb 2015 13:09:18 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id w8so15986680qac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Feb 2015 05:09:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mTP15OGQaSWXyMIVQkKvD+M0S6ql/b8F4pin5Xx/eaY=;
+	b=M5j4eeIPjPuJZ2RKMVQn5bFmLOtRwBBm6kNARlfbHK8lMQgW8r0/xIQWBHvmg7/Ecj
+	slVn0qZHm7soNch8UNNAbJ3vXnkcOZcvNrMN9kktq3fjZ5N9R7mBjMghaZeFUffUFcfl
+	U0RSqI7yk0Mle+AShGwBvMbNdLnsh8a2FM6Gic8DQEaev4vfbdxmHKwkiiQfF2VdNWUi
+	ALEnO61APoY7xwxtIhiRWz+YqB0mlIKShE0BvVceNBfdOjN+z2nUxE9qjBue6VirBW7x
+	d+ifNRiKLEnmhIE6czeoN69gSv1ABHP9J7A1SYKP5lzzwEA5EKlz0ZJbesfb/wZ3Hvn3
+	C9rg==
+X-Gm-Message-State: ALoCoQmV7CRG7HylLGfiM2XsDtvmeWP7yF5QvyPk9S8GuUYXkFqHhXqqoA/1f0q1c9tTlw8wqjGo
+X-Received: by 10.140.133.69 with SMTP id 66mr6674483qhf.17.1423919359590;
+	Sat, 14 Feb 2015 05:09:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Sat, 14 Feb 2015 05:08:59 -0800 (PST)
+In-Reply-To: <1423908404.20217.100.camel@linuxfoundation.org>
 References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
 	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
@@ -29,8 +35,11 @@ References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
 	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
 	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
+	<1423908404.20217.100.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 14 Feb 2015 13:08:59 +0000
+Message-ID: <CAJTo0La6i2hDqPcZFjvrcPsRReNhirfsbOxD-_udJJDQ7YrKhw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
@@ -48,35 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Feb 2015 10:07:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 14 Feb 2015 13:09:19 -0000
+Content-Type: multipart/alternative; boundary=001a1136fdee9e206d050f0c0f12
 
-Hi Khem,
+--001a1136fdee9e206d050f0c0f12
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:
-> I have refreshed the branch to include the patch which moves the src
-> uri to use the newly released glibc 2.21 branch
-> and please run it via autobuilder ( top 5 commits )
+Hi,
 
-Its running on the autobuilder at the moment. Errors will be reported to
-the error reporting system and can be seen at:
+On 14 February 2015 at 10:06, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=be29d13a847d458efaf542ed302e48050f67a655
+> Right now, poky-tiny failed due to warning are errors and unused
+> symbols. Minnow failed due to SSE instruction issues. Full build logs
+> are also available on the autobuilder:
+>
 
-Right now, poky-tiny failed due to warning are errors and unused
-symbols. Minnow failed due to SSE instruction issues. Full build logs
-are also available on the autobuilder:
+Now those SSE errors I thought were fixed - is this more of the same or did
+I manage to drop a patch when merging?
 
-https://autobuilder.yoctoproject.org/main/tgrid
+Ross
 
-as ross/mut-next. We do have other changes in the branch but the above
-are pretty clearly glibc.
+--001a1136fdee9e206d050f0c0f12
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Other errors will go to the places above as the builds complete/fail.
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
+tra"><br><div class=3D"gmail_quote">On 14 February 2015 at 10:06, Richard P=
+urdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundatio=
+n.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":q68" class=3D"a3s" sty=
+le=3D"overflow:hidden">Right now, poky-tiny failed due to warning are error=
+s and unused<br>
+symbols. Minnow failed due to SSE instruction issues. Full build logs<br>
+are also available on the autobuilder:</div></blockquote></div><br>Now thos=
+e SSE errors I thought were fixed - is this more of the same or did I manag=
+e to drop a patch when merging?</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div>
 
-Cheers,
-
-Richard
-
-
+--001a1136fdee9e206d050f0c0f12--
