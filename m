@@ -1,29 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6455971634
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Feb 2015 13:09:18 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id w8so15986680qac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Feb 2015 05:09:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mTP15OGQaSWXyMIVQkKvD+M0S6ql/b8F4pin5Xx/eaY=;
-	b=M5j4eeIPjPuJZ2RKMVQn5bFmLOtRwBBm6kNARlfbHK8lMQgW8r0/xIQWBHvmg7/Ecj
-	slVn0qZHm7soNch8UNNAbJ3vXnkcOZcvNrMN9kktq3fjZ5N9R7mBjMghaZeFUffUFcfl
-	U0RSqI7yk0Mle+AShGwBvMbNdLnsh8a2FM6Gic8DQEaev4vfbdxmHKwkiiQfF2VdNWUi
-	ALEnO61APoY7xwxtIhiRWz+YqB0mlIKShE0BvVceNBfdOjN+z2nUxE9qjBue6VirBW7x
-	d+ifNRiKLEnmhIE6czeoN69gSv1ABHP9J7A1SYKP5lzzwEA5EKlz0ZJbesfb/wZ3Hvn3
-	C9rg==
-X-Gm-Message-State: ALoCoQmV7CRG7HylLGfiM2XsDtvmeWP7yF5QvyPk9S8GuUYXkFqHhXqqoA/1f0q1c9tTlw8wqjGo
-X-Received: by 10.140.133.69 with SMTP id 66mr6674483qhf.17.1423919359590;
-	Sat, 14 Feb 2015 05:09:19 -0800 (PST)
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C9CE760167;
+	Sat, 14 Feb 2015 15:15:52 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id z107so17550055qgd.5;
+	Sat, 14 Feb 2015 07:15:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=h8/xFKjtA4aVJkAVwIV2FE2z/lkuWzzx/Dk6jeMH/xQ=;
+	b=BMPkFwRbu7JFI1zGMBRD7DZepj7X7k3J7tz+CS0RPZfNGawcktsM068BByauVbcTp3
+	4dgLLFFtQHqC3PHNPA5ZmAuRpRptsHz089QFdmU9995wHw5nLCRuzdA6AjfDKRrUdax6
+	Sa+pCBv49k+M3XmeA2tBVaWr4yRMs0pGYwrQ7VHhA6GmOufuUyr0kCCVo3YSSkqanuY2
+	YstR1C9EBhwLR0DpCJjOy2B4DeN5qx1G0LZ8zkQY23MVOgNEXHVCEiG3Ub6VqD/28dcN
+	EAWcFUpiCfQhdX5RaCrHfWndERldTBOxwH2CE5vQl2dBcz3/yfO8qqP5o9VwnaAtZS+Q
+	CSmg==
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Sat, 14 Feb 2015 05:08:59 -0800 (PST)
-In-Reply-To: <1423908404.20217.100.camel@linuxfoundation.org>
+X-Received: by 10.229.131.138 with SMTP id x10mr23780111qcs.25.1423926954004; 
+	Sat, 14 Feb 2015 07:15:54 -0800 (PST)
+Received: by 10.96.118.39 with HTTP; Sat, 14 Feb 2015 07:15:53 -0800 (PST)
+Received: by 10.96.118.39 with HTTP; Sat, 14 Feb 2015 07:15:53 -0800 (PST)
+In-Reply-To: <CAJTo0La6i2hDqPcZFjvrcPsRReNhirfsbOxD-_udJJDQ7YrKhw@mail.gmail.com>
 References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
 	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
@@ -36,11 +33,12 @@ References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
 	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
 	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
 	<1423908404.20217.100.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 14 Feb 2015 13:08:59 +0000
-Message-ID: <CAJTo0La6i2hDqPcZFjvrcPsRReNhirfsbOxD-_udJJDQ7YrKhw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	<CAJTo0La6i2hDqPcZFjvrcPsRReNhirfsbOxD-_udJJDQ7YrKhw@mail.gmail.com>
+Date: Sat, 14 Feb 2015 09:15:53 -0600
+Message-ID: <CACS+7ZTHKHN1cnKo0YvN03LBj5KRgH_MgDa5ZEquoZg6qruL4w@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: yocto@yoctoproject.org,
 	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -57,43 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Feb 2015 13:09:19 -0000
-Content-Type: multipart/alternative; boundary=001a1136fdee9e206d050f0c0f12
+X-List-Received-Date: Sat, 14 Feb 2015 15:15:56 -0000
+Content-Type: multipart/alternative; boundary=001a1133dde24795fc050f0dd4fe
 
---001a1136fdee9e206d050f0c0f12
+--001a1133dde24795fc050f0dd4fe
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
-
-On 14 February 2015 at 10:06, Richard Purdie <
+On 14 Feb 2015 07:09, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+> Hi,
+>
+> On 14 February 2015 at 10:06, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
-
-> Right now, poky-tiny failed due to warning are errors and unused
-> symbols. Minnow failed due to SSE instruction issues. Full build logs
-> are also available on the autobuilder:
+>>
+>> Right now, poky-tiny failed due to warning are errors and unused
+>> symbols. Minnow failed due to SSE instruction issues. Full build logs
+>> are also available on the autobuilder:
+>
+>
+> Now those SSE errors I thought were fixed - is this more of the same or
+did I manage to drop a patch when merging?
+>
+> Ross
 >
 
-Now those SSE errors I thought were fixed - is this more of the same or did
-I manage to drop a patch when merging?
+There are SSE errors that were fixed upstream post-release. I don't know if
+that's what's affecting you, but they're not in these recipes.
 
-Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---001a1136fdee9e206d050f0c0f12
+--001a1133dde24795fc050f0dd4fe
 Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
-tra"><br><div class=3D"gmail_quote">On 14 February 2015 at 10:06, Richard P=
-urdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundatio=
-n.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":q68" class=3D"a3s" sty=
-le=3D"overflow:hidden">Right now, poky-tiny failed due to warning are error=
-s and unused<br>
-symbols. Minnow failed due to SSE instruction issues. Full build logs<br>
-are also available on the autobuilder:</div></blockquote></div><br>Now thos=
-e SSE errors I thought were fixed - is this more of the same or did I manag=
-e to drop a patch when merging?</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
+<p dir="ltr"><br>
+On 14 Feb 2015 07:09, &quot;Burton, Ross&quot; &lt;<a href="mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; On 14 February 2015 at 10:06, Richard Purdie &lt;<a href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Right now, poky-tiny failed due to warning are errors and unused<br>
+&gt;&gt; symbols. Minnow failed due to SSE instruction issues. Full build logs<br>
+&gt;&gt; are also available on the autobuilder:<br>
+&gt;<br>
+&gt;<br>
+&gt; Now those SSE errors I thought were fixed - is this more of the same or did I manage to drop a patch when merging?<br>
+&gt;<br>
+&gt; Ross<br>
+&gt;</p>
+<p dir="ltr">There are SSE errors that were fixed upstream post-release. I don&#39;t know if that&#39;s what&#39;s affecting you, but they&#39;re not in these recipes.</p>
+<p dir="ltr">&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+&gt;<br>
+</p>
 
---001a1136fdee9e206d050f0c0f12--
+--001a1133dde24795fc050f0dd4fe--
