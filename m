@@ -1,40 +1,42 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 0072B7350F
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Feb 2015 00:19:26 +0000 (UTC)
-Received: by pdbnh10 with SMTP id nh10so22854569pdb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Feb 2015 16:19:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=834isoOb3LOrtvMjgXusa2rwxC057mZRDXyZwkZTJ3E=;
-	b=cwItAymfJXO0zxJ6GqD1d5HIazuPc8mYis01cxP+8WKcEvpFPLEkZFkf+6ofjyGZ7Y
-	MRf47bacaLbHasdt96F11BJPrrP4DAgUSJ/J6W2LL+5cWCAQppqJdieIR2DbPzkZeE7y
-	A0k209YQW9kq7TOzHmpl8myO/xEE/MNFnwNhOFnTO6K47ECzneQNQYlxkBiNnvmHJNmx
-	+WE56zIcEZWifoA0tU0TXEco33T1x0DLZyqR8nw5IeZwhmipfgK/uSmEdHZfLLa74TUQ
-	Cl4FH7vnMRUsTj4DsXIc9b5+Jkvlkzn67+RpvqqbzjEYn4oZyjdd03AVqkeShnMBcrxo
-	mc8g==
-X-Received: by 10.68.69.110 with SMTP id d14mr27103390pbu.3.1423959567454;
-	Sat, 14 Feb 2015 16:19:27 -0800 (PST)
-Received: from ?IPv6:2601:c:a740:854e:ec51:784:6500:b473?
-	([2601:c:a740:854e:ec51:784:6500:b473])
-	by mx.google.com with ESMTPSA id f10sm1215513pds.37.2015.02.14.16.19.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Feb 2015 16:19:26 -0800 (PST)
-Message-ID: <54DFE60A.3080207@gmail.com>
-Date: Sat, 14 Feb 2015 16:19:22 -0800
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1423602582-7123-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1423602582-7123-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH][dizzy] linux-yocto-tiny_3.17: Update to actually use 3.17 git repo
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B9FB7727D1;
+	Sun, 15 Feb 2015 21:59:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1FLxHGo023005; Sun, 15 Feb 2015 21:59:26 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 5vu3h50iRxsU; Sun, 15 Feb 2015 21:59:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1FLxBK3022909
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 15 Feb 2015 21:59:23 GMT
+Message-ID: <1424037551.20217.103.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 15 Feb 2015 21:59:11 +0000
+In-Reply-To: <1423908404.20217.100.camel@linuxfoundation.org>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
+	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
+	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
+	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
+	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
+	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
+	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
+	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
+	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
+	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+	<1423908404.20217.100.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,40 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Feb 2015 00:19:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Sun, 15 Feb 2015 21:59:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-merged into staging.
+On Sat, 2015-02-14 at 10:06 +0000, Richard Purdie wrote:
+> Hi Khem,
+> 
+> On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:
+> > I have refreshed the branch to include the patch which moves the src
+> > uri to use the newly released glibc 2.21 branch
+> > and please run it via autobuilder ( top 5 commits )
+> 
+> Its running on the autobuilder at the moment. Errors will be reported to
+> the error reporting system and can be seen at:
+> 
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=be29d13a847d458efaf542ed302e48050f67a655
+> 
+> Right now, poky-tiny failed due to warning are errors and unused
+> symbols. Minnow failed due to SSE instruction issues. Full build logs
+> are also available on the autobuilder:
+> 
+> https://autobuilder.yoctoproject.org/main/tgrid
+> 
+> as ross/mut-next. We do have other changes in the branch but the above
+> are pretty clearly glibc.
+> 
+> Other errors will go to the places above as the builds complete/fail.
 
-thanks,
-- armin
+FWIW I tested the gcc upgrade without glibc and that seems ok so I've
+merged that whilst we work out the issues with glibc.
 
-On 02/10/2015 01:09 PM, Saul Wold wrote:
-> The named release was still using the -dev git repo which did not contain
-> the SRCREV referenced in the numbered/named version.
->
-> (From OE-Core rev: b4f2f39ce0f4690ed51d14d1034b9f5e21c0f5a0)
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> index eae0854..5762f3b 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-> @@ -13,7 +13,7 @@ SRCREV_meta ?= "84b57b01050dd9e5a004e265e70120e2a792f38a"
->
->   PV = "${LINUX_VERSION}+git${SRCPV}"
->
-> -SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
->
->   COMPATIBLE_MACHINE = "(qemux86)"
->
->
+Cheers,
+
+Richard
+
 
