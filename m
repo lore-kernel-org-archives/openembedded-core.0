@@ -1,40 +1,39 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CDB765C85
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 64C6060167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 18:08:04 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id w62so30572269wes.9
+	Mon, 16 Feb 2015 21:19:43 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id k48so31478647wev.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 10:08:03 -0800 (PST)
+	Mon, 16 Feb 2015 13:19:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=tEINgUGqvSXQx3kQ7uaz21a14GLXvynvI5lMPHdApsI=;
-	b=w7kfdGl7n+9UOEb6M/5FwcXPSZkTAvJONNPTLT9XTOGKBVO3Y44DplqH5Z0YSyRyOS
-	HAzDGfwkx3BTY2stZHu9XAKc8p97gnm4VgSmbkAPIX22c5Agzn4K5YWhnEXVEiKEUeqq
-	ViFx7o1eiC6l2J/I+k8jRETq8NHJxdqVLnKqCP4/iXaVxCDW5vMkj9rsEliObuOXJH25
-	pmtdbB0Iulem54/Hs/G+v8EAJKLdLmG2rSxbP+VYg2f02v9kIYDl+r1XVpl1VWjCSTIs
-	BlNIBqbIv7LcMP4LcwGr68H0TJa/8ip65qC1En4bajTrhrQCEFJr1/xwmUhiZqPTxEgJ
-	JepQ==
-X-Received: by 10.180.95.162 with SMTP id dl2mr48874942wib.31.1424110083130;
-	Mon, 16 Feb 2015 10:08:03 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ub1sm23867179wjc.43.2015.02.16.10.08.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Feb 2015 10:08:02 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 16 Feb 2015 19:08:11 +0100
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150216180811.GL2297@jama>
-References: <1405530244-16849-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1405530244-16849-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [RFC][PATCH] icu: force arm mode
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:content-type:mime-version:content-transfer-encoding;
+	bh=08p4kj/ulYrUPjEwYsMCS5aNLvCJMsn1fj7DUssd0U8=;
+	b=UljW/Z6u0sersk0n+dCiP+z/JAX0Kk89tAhzOz6FLjGoVmPiXC0NJo9HK+Kwt0AN/1
+	w0hJk/UmnxP/J7algWQdgzY+kS99OzevOW5WtfcRa/dtTwdtua153hYfD4Sl+aWMJ7Zc
+	jrKQUAx8nrgmBe6T0xdf+N4n/xLPaMCvZuhv3LKXVt3w4fCGQbo2emKBuF0SpCeU/lPW
+	SUNnmlGZbLC7S+kkE6dcyXF9Fv5AdRa7dOoVB5geZMLg9fmn8MI++UFeBzIzlNkYBB6L
+	MdTYdqwT31mNuCgFbmNB7hkXNT28LkfB5PFdPE6HBSPWrsysXijxDR2Jnfs2k9zpPHh9
+	9zaQ==
+X-Received: by 10.194.190.162 with SMTP id gr2mr55137165wjc.13.1424121584510; 
+	Mon, 16 Feb 2015 13:19:44 -0800 (PST)
+Received: from [192.168.0.7] (212-41-103-86.adsl.solnet.ch. [212.41.103.86])
+	by mx.google.com with ESMTPSA id ka1sm24534971wjc.2.2015.02.16.13.19.43
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Feb 2015 13:19:43 -0800 (PST)
+Message-ID: <1424121582.3728.4.camel@Saturn.local.all>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 16 Feb 2015 22:19:42 +0100
+In-Reply-To: <1423839071.20217.87.camel@linuxfoundation.org>
+References: <1423831491.5765.25.camel@Saturn.local.all>
+	<1423839071.20217.87.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.10.4 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Recipe which builds for ARCH '${TUNE_PKGARCH}' and 'all' fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,123 +46,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 18:08:08 -0000
-X-Groupsio-MsgNum: 62450
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="B9BE8dkJ1pIKavwa"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 16 Feb 2015 21:19:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---B9BE8dkJ1pIKavwa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-On Wed, Jul 16, 2014 at 07:04:04PM +0200, Martin Jansa wrote:
-> * otherwise it triggers following ICE:
-> ERROR: Function failed: do_compile (log file is located at /OE/build/shr-=
-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_comp=
-ile.21570)
-> ERROR: Logfile of failure stored in: /OE/build/shr-core/tmp-eglibc/work/a=
-rm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_compile.21570
-> Log data follows:
 
-This is still broken in oe-core, would it make sense to enable thumb on
-one of autobuilder jobs (for qemuarm)?
+Am Freitag, den 13.02.2015, 14:51 +0000 schrieb Richard Purdie:
+> On Fri, 2015-02-13 at 13:44 +0100, Max Krummenacher wrote:
+> > Hi
+> > 
+> > If a recipe builds a package for the default ARCH (I think this is
+> > ${TUNE_PKGARCH}) and one for ARCH 'all' then this fails when building
+> > in the same directory a second time for a machine with different
+> > ${TUNE_PKGARCH}.
+> > Observed with dizzy (armv7at2hf-vfp vs armv7at2hf-vfp-neon) and
+> > master (MACHINE=qemux86-64 vs qemuarm)
+> > 
+> > 
+> > ERROR: The recipe mixed-arch-test is trying to install files into a
+> > shared area when those files already exist. Those files and their
+> > manifest location are:
+> >    /mnt/sdc2/oe-disk/oe-core_master/oe-core/build/tmp-glibc/deploy/ipk/all/mixed-arch-test-a_1.0-r0_all.ipk
+> >  Matched in manifest-core2-64-mixed-arch-test.package_write_ipk
+> > 
+> > 
+> > An example in the wild is meta-java/recipes-core/rhino/rhino_1.7r4.bb
+> > which builds: rhino_1.7r4-r0_armv7at2hf-vfp.ipk and
+> > librhino-java_1.7r4-r0_all.ipk.
+> > 
+> > See below for a simple test recipe which reproduces the error.
+> > 
+> > 
+> > Is this intended behavior or an issue oe-core?
+> > 
+> > 
+> > Simple workaround:
+> > - don't build machines with different architectures in the same build
+> > directory.
+> > 
+> > Workarounds at recipe level:
+> > - build all packages for TUNE_PKGARCH, even if the nature of the package
+> > would be 'all'.
+> > - have two recipes, one providing packages to TUNE_PKGARCH, the other
+> > one to 'all'.
+> 
+> The issue is that for true allarch packages you should be able to
+> inherit the allarch class. That does some magic which means it shouldn't
+> rebuild for each MACHINE.
+> 
+> Cheers,
+> 
+> Richard
+> 
+Hi
 
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'common-lin=
-ux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi', 'common']
-> | DEBUG: Executing shell function do_compile
-> | NOTE: make
-> | Note: rebuild with "make VERBOSE=3D1 " to show all compiler parameters.
-> | make[0]: Making `all' in `stubdata'
-> | make[1]: Entering directory '/OE/build/shr-core/tmp-eglibc/work/arm920t=
-t-oe-linux-gnueabi/icu/53.1-r0/build/stubdata'
-> | make[1]: Nothing to be done for 'all'.
-> | make[1]: Leaving directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt=
--oe-linux-gnueabi/icu/53.1-r0/build/stubdata'
-> | make[0]: Making `all' in `common'
-> | make[1]: Entering directory '/OE/build/shr-core/tmp-eglibc/work/arm920t=
-t-oe-linux-gnueabi/icu/53.1-r0/build/common'
-> |    arm-oe-linux-gnueabi-gcc    ...  /OE/build/shr-core/tmp-eglibc/work/=
-arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c
-> | /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r=
-0/icu/source/common/ubidiwrt.c: In function 'ubidi_writeReordered_53':
-> | /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r=
-0/icu/source/common/ubidiwrt.c:643:1: internal compiler error: in patch_jum=
-p_insn, at cfgrtl.c:1275
-> |  }
-> |  ^
-> | Please submit a full bug report,
-> | with preprocessed source if appropriate.
-> | See <http://gcc.gnu.org/bugs.html> for instructions.
-> | *** Failed compilation command follows: -------------------------------=
----------------------------
-> | arm-oe-linux-gnueabi-gcc -march=3Darmv4t -mthumb -mthumb-interwork -mtu=
-ne=3Darm920t --sysroot=3D/OE/build/shr-core/tmp-eglibc/sysroots/om-gta02 -D=
-_REENTRANT -DU_HAVE_ELF_H=3D1 -DU_HAVE_ATOMIC=3D1 -I/OE/build/shr-core/tmp-=
-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common -DDEFAU=
-LT_ICU_PLUGINS=3D"/usr/lib/icu"  -DU_ATTRIBUTE_DEPRECATED=3D -DU_COMMON_IMP=
-LEMENTATION -O2 -pipe -g -feliminate-unused-debug-types -std=3Dc99 -Wall -p=
-edantic -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -c -D=
-PIC -fPIC -o ubidiwrt.o /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linu=
-x-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c
-> | --- ( rebuild with "make VERBOSE=3D1 all" to show all parameters ) ----=
-----
-> | /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r=
-0/icu/source/config/mh-linux:44: recipe for target 'ubidiwrt.o' failed
-> | make[1]: *** [ubidiwrt.o] Error 1
-> | make[1]: Leaving directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt=
--oe-linux-gnueabi/icu/53.1-r0/build/common'
-> | Makefile:141: recipe for target 'all-recursive' failed
-> | make: *** [all-recursive] Error 2
-> | ERROR: oe_runmake failed
-> | WARNING: /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/i=
-cu/53.1-r0/temp/run.do_compile.21570:1 exit 1 from
-> |   exit 1
-> | ERROR: Function failed: do_compile (log file is located at /OE/build/sh=
-r-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_co=
-mpile.21570)
-> NOTE: recipe icu-53.1-r0: task do_compile: Failed
-> ERROR: Task 6803 (/OE/build/shr-core/openembedded-core/meta/recipes-suppo=
-rt/icu/icu_53.1.bb, do_compile) failed with exit code '1'
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-support/icu/icu_53.1.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-support/icu/icu_53.1.bb b/meta/recipes-support/=
-icu/icu_53.1.bb
-> index d93af68..82c8d8c 100644
-> --- a/meta/recipes-support/icu/icu_53.1.bb
-> +++ b/meta/recipes-support/icu/icu_53.1.bb
-> @@ -8,6 +8,8 @@ def icu_download_version(d):
-> =20
->  ICU_PV =3D "${@icu_download_version(d)}"
-> =20
-> +ARM_INSTRUCTION_SET =3D "arm"
-> +
->  BASE_SRC_URI =3D "http://download.icu-project.org/files/icu4c/${PV}/icu4=
-c-${ICU_PV}-src.tgz"
->  SRC_URI =3D "${BASE_SRC_URI} \
->             file://icu-pkgdata-large-cmd.patch \
-> --=20
-> 2.0.0
->=20
+Thank you Richard. Inheriting allarch indeed makes the error go away.
+There is still the less important issue that the package in the earlier
+TUNE_PKGARCH feed is deleted while the one in the latest is built.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+However your comment also made me realize that at least for the rhino
+recipe all packages can be put into the allarch group which makes the
+whole a non issue.
 
---B9BE8dkJ1pIKavwa
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Regards Max
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlTiMgsACgkQN1Ujt2V2gBy36wCeMC//lMxL+Sk5ShB78Dd4Mjfd
-wnwAoLggZmhpAsX912GMUE12XtqrMY85
-=HwWZ
------END PGP SIGNATURE-----
 
---B9BE8dkJ1pIKavwa--
+
+
+
