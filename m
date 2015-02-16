@@ -1,40 +1,41 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B8A5D606E8
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A09F606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 13:08:35 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id p10so29185875wes.2
+	Mon, 16 Feb 2015 13:09:54 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id m14so23303301wev.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 05:08:36 -0800 (PST)
+	Mon, 16 Feb 2015 05:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=9jELSF4rVEUD2B94J8u/2rAZkZPY0OHJfoFtmVRU5yg=;
-	b=G6X0NzMUJ5jBOC7MKFhCRzumTIxR/CdwAtCMwPCxIrf3y62YtVueCCc0KaWrcfjc6q
-	Uf65R89CWUragQD/9J046qO/SKn3JScu42TDAaEDZHfzb92Clu4JVhTN0EeDyJxZUQ3J
-	RjReeLe7El4p8LkXL+d+3zfaJTjaZ0fU6ovRqIA6SuIT3+hvlhKv+3k6Bpkvvn932r7/
-	vKUy2Fx/EMQOBG9CZnDd9ofXMj1ztffU+LQghFmO7ax6CcorXAv+CTQM6365fppbRWOj
-	fuxA3ZtquSZOO6UPdJkQzJKxrEzrqhOW2E7t9sfsuzaCxZifzR8uGHuVeTFFz3MzuxMm
-	Z0IQ==
-X-Received: by 10.194.84.176 with SMTP id a16mr1720413wjz.113.1424092116483;
-	Mon, 16 Feb 2015 05:08:36 -0800 (PST)
+	bh=x5kk5va8Jya+GftRgbDyrA51o0UasIS9n9MDIiipeKU=;
+	b=n9HkSf/YWGYltbgwdqwYuIYeotRQXYWPdLUSGgp8FJIcWZbIw85yIYQ3z4WzwGFNnQ
+	+Udwh3IaFxIYF5sjpMbhxTHA+lm/wGKyrsbA+EqLyPLT1clMLG3A41N9+Op0GNXNHjou
+	ssEapbsBi+5Wvmz3aeQzGnE/hdM34LMPRSQMsdAYHcO/vHiNEZePzQwbOIdggJnLT5Y9
+	ZWvsGA9iAbOaE83ngCb3GBVnfwSIYqjJNAdcV38ktBPaN0j7GC+qTDDfdqNBEe7HHYJn
+	RHtEu2/MFTOYNhdVRQh+UgdADrn7rjyGqwvQ5IZklCmPwtd5RhNay7djutJDOIxdsTrk
+	Tlow==
+X-Received: by 10.180.75.132 with SMTP id c4mr38712032wiw.78.1424092195393;
+	Mon, 16 Feb 2015 05:09:55 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	jg3sm19648449wid.0.2015.02.16.05.08.35
+	dj5sm22799734wjb.28.2015.02.16.05.09.54
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Feb 2015 05:08:35 -0800 (PST)
+	Mon, 16 Feb 2015 05:09:54 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 16 Feb 2015 14:08:44 +0100
-To: scerveau <scerveau@voxtok.com>
-Message-ID: <20150216130844.GF2297@jama>
-References: <54E1CED1.6060900@voxtok.com>
+Date: Mon, 16 Feb 2015 14:10:03 +0100
+To: brendan.le.foll@intel.com
+Message-ID: <20150216131003.GG2297@jama>
+References: <1424085509-25433-1-git-send-email-brendan.le.foll@intel.com>
+	<1424085509-25433-2-git-send-email-brendan.le.foll@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <54E1CED1.6060900@voxtok.com>
+In-Reply-To: <1424085509-25433-2-git-send-email-brendan.le.foll@intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: cdra_1.1.3 is not available anymore.
+Subject: Re: [PATCH] openssl: disable SSLv3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 13:08:36 -0000
-X-Groupsio-MsgNum: 62422
+X-List-Received-Date: Mon, 16 Feb 2015 13:09:54 -0000
+X-Groupsio-MsgNum: 62423
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vJguvTgX93MxBIIe"
+	protocol="application/pgp-signature"; boundary="xHbokkKX1kTiQeDC"
 Content-Disposition: inline
 
---vJguvTgX93MxBIIe
+--xHbokkKX1kTiQeDC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 16, 2015 at 12:04:49PM +0100, scerveau wrote:
-> Dear all,
+On Mon, Feb 16, 2015 at 11:18:29AM +0000, brendan.le.foll@intel.com wrote:
+> From: Brendan Le Foll <brendan.le.foll@intel.com>
 >=20
-> It seems that crda_1.1.3 recipe is broken according that the link=20
-> http://wireless.kernel.org/download/crda/crda-1.1.3.tar.bz2 is not=20
-> available anymore.
-> It can be now downloaded here=20
-> https://www.kernel.org/pub/software/network/crda/crda_1.1.3.tar.bz2
+> Because of the SSLv3 POODLE vulnerability, it's preferred to simply disab=
+le
+> SSLv3 even if patched with the TLS_FALLBACK_SCSV
 >=20
-> But concerning the binary=20
-> http://wireless.kernel.org/download/wireless-regdb/regulatory.bins/2013.0=
-1.11-regulatory.bin=20
-> it is not available also but i dont find a server which will allow to=20
-> fetch it.
+> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> Does someone modify the recipe already or does someone know where we=20
-> could fetch the binary?
-> I'll continue my investigation.
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes=
+-connectivity/openssl/openssl.inc
+> index 6eb1b5e..ba9bca6 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -50,6 +50,10 @@ CONFFILES_openssl-conf =3D "${libdir}/ssl/openssl.cnf"
+>  RRECOMMENDS_libcrypto +=3D "openssl-conf"
+>  RDEPENDS_${PN}-ptest +=3D "${PN}-misc make perl perl-module-filehandle b=
+c"
+> =20
+> +# Remove this to enable SSLv3. SSLv3 is defaulted to disabled due to the=
+ POODLE
+> +# vulnerability
+> +EXTRA_OECONF =3D " -no-ssl3"
 
-http://patches.openembedded.org/patch/87751/
+Why not use PACKAGECONFIG to make it easier to enable from distro
+config or bbappend?
+
+> +
+>  do_configure_prepend_darwin () {
+>  	sed -i -e '/version-script=3Dopenssl\.ld/d' Configure
+>  }
+> --=20
+> 2.2.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vJguvTgX93MxBIIe
+--xHbokkKX1kTiQeDC
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlTh69wACgkQN1Ujt2V2gBwZJgCZAW2rYx6jWEi4lf43SRQN3+r/
-KBgAoKtr0w1vqdYodblmMjTpVW4Jh1wl
-=vI3i
+iEYEARECAAYFAlTh7CsACgkQN1Ujt2V2gBw7VQCfQq/Ffv58HQIP/U/SIkJZysIC
+SakAn3eco5AKAmexdupwg7aOPMoKp/33
+=pCpI
 -----END PGP SIGNATURE-----
 
---vJguvTgX93MxBIIe--
+--xHbokkKX1kTiQeDC--
