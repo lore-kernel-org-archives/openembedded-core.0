@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 47AB273559
+	by mail.openembedded.org (Postfix) with ESMTP id D755873556
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Feb 2015 15:07:15 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Feb 2015 06:59:11 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 16 Feb 2015 06:59:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,588,1418112000"; d="scan'208";a="528207553"
+X-IronPort-AV: E=Sophos;i="5.09,588,1418112000"; d="scan'208";a="528207567"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 16 Feb 2015 06:58:06 -0800
+	by orsmga003.jf.intel.com with ESMTP; 16 Feb 2015 06:58:07 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Feb 2015 17:06:18 +0200
-Message-Id: <be19cc472bb7ce7b8c54b0598bb704856c145987.1424098977.git.cristian.iorga@intel.com>
+Date: Mon, 16 Feb 2015 17:06:19 +0200
+Message-Id: <a56cd359d1083006ecb6e0eb25f8a0066c797f45.1424098977.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
 References: <cover.1424098977.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
 References: <cover.1424098977.git.cristian.iorga@intel.com>
-Subject: [PATCH 08/11] gstreamer1.0-plugins-bad: select distro preference for bluez provider
+Subject: [PATCH 09/11] conf/distro/include/default-providers: updated bluez-hcidump providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 15:07:15 -0000
+X-List-Received-Date: Mon, 16 Feb 2015 15:07:16 -0000
 
-From: "Peter A. Bigot" <pab@pabigot.com>
+If BlueZ5 is added to a build as a replacement for BlueZ4,
+the provider for bluez-hcidump will be bluez5.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc    | 4 ++--
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/default-providers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 9c15f2b..69a15a2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -9,7 +9,7 @@ S = "${WORKDIR}/gst-plugins-bad-${PV}"
- SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
-            "
- 
--inherit gettext
-+inherit gettext bluetooth
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
-@@ -49,7 +49,7 @@ PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
--PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
-+PACKAGECONFIG[bluez]          = "--enable-bluez,--disable-bluez,${BLUEZ}"
- PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index 75859f9..309505f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -11,7 +11,6 @@ S = "${WORKDIR}/git"
- 
- SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
- 
--PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4"
- PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
- 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 4dc42a7..25118fa 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -44,7 +44,7 @@ PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','sy
+ # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
+ # on this rather strange entry.
+ PREFERRED_PROVIDER_bluez4 ?= "bluez4"
+-PREFERRED_PROVIDER_bluez-hcidump ?= "bluez-hcidump"
++PREFERRED_PROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
+ # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
+ PREFERRED_PROVIDER_ltp ?= "ltp"
+ PREFERRED_PROVIDER_getopt ?= "util-linux-getopt"
 -- 
 2.1.0
 
