@@ -1,37 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D1D44606E8
+Return-Path: <sven.ebenfeld@gmail.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1799460167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 13:53:28 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 19so13250584ykq.4
+	Mon, 16 Feb 2015 14:35:28 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id k14so19927949wgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 05:53:29 -0800 (PST)
+	Mon, 16 Feb 2015 06:35:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=S+C0TNOv9Wi6+u9VCFVKDtY+uBg0aF971SQCfpYE/gU=;
-	b=bu+9IwymIcTLotcZ36pg+vwL85jzQzkU8CP0leXJlMI5TdZhtBP5UncBe+8GFxP7No
-	RiX5qJFd/+q4Qah0F53u11LXnR2wnim5xDoqbEHp1j8PHC6oIkHLKAx65MpuytDRl6Oi
-	6ClA1Slao9Y8c7DbDdAxfFyXLz7Hibv4pr+XBh+IyVjaH/4kcuBi+dEl/oqP9oEJq7uJ
-	+sGw1neS9+VsHevRNCLDxiSqpjoZlXhxE4lmV/e9kKvy94KHLGgHwKqlokHlBoayTNPZ
-	m3NTwx8CuyI+xTrx36PceEDovas1OHBmNqerbIOhMmFMS1TgHhrBzKisY/5uYCmJK5pe
-	sX7g==
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=5wojBsMI1GLULeRjnCbNNMM87/9df2KxFczipnwmV3A=;
+	b=OeNdAfywPJfa8J8kxGfFCysAh7OA25/ZKx+IGNlietajm9KGhb1/KkpaqansvnhqpX
+	iy8G5W/yDcbgUBJepOYH78WMDToSZHa7eWk+9GiWmTr67ouw8SQt2Q2/iS03hgIciECc
+	tRId/vJLh35Gb9nZegWWpRitqUjPOZ7pnwtl9DGpb6c0CgKInu6b7yAzbkw8iNWm6M+S
+	WZzOAzCbmWHDA6Q5AGYWEbzOBOmD9jKlITaSb+lMQ3JMy7XiI+w074ntK9r9zYYhwAWk
+	F7GmtpJT7ZHK1rsxrvKsmYWheC45RQHCfhy6yVPYAh1kiR+tx68HPOGSgWulMcuht7FD
+	uU4A==
+X-Received: by 10.194.122.38 with SMTP id lp6mr52556189wjb.24.1424097329112;
+	Mon, 16 Feb 2015 06:35:29 -0800 (PST)
+Received: from [192.168.50.198] (ip-84-119-96-251.unity-media.net.
+	[84.119.96.251]) by mx.google.com with ESMTPSA id
+	gi9sm14412009wib.21.2015.02.16.06.35.27
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Feb 2015 06:35:28 -0800 (PST)
+Message-ID: <54E20034.9030402@gmail.com>
+Date: Mon, 16 Feb 2015 15:35:32 +0100
+From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-Received: by 10.170.209.85 with SMTP id a82mr17638147ykf.99.1424094809408;
-	Mon, 16 Feb 2015 05:53:29 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.133 with HTTP; Mon, 16 Feb 2015 05:53:29 -0800 (PST)
-In-Reply-To: <20150214204810.GA4776@xiaoyu.lan>
-References: <20150214204810.GA4776@xiaoyu.lan>
-Date: Mon, 16 Feb 2015 11:53:29 -0200
-X-Google-Sender-Auth: 20EK08SWavlsOCIkJ6Rs_eGp-9c
-Message-ID: <CAP9ODKosZ3ZhV1NVOV29x3TtnxXqwqZX8g3vM63V_EfLG+Fgig@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: udhcpc 50default/simple.script and standard metric
+To: openembedded-core@lists.openembedded.org, brendan.le.foll@intel.com, 
+	martin.jansa@gmail.com
+References: <1424085509-25433-1-git-send-email-brendan.le.foll@intel.com>	<1424085509-25433-2-git-send-email-brendan.le.foll@intel.com>	<20150216131003.GG2297@jama>
+	<20150216135119.GC9950@jupiter.iwi.intel.com>
+In-Reply-To: <20150216135119.GC9950@jupiter.iwi.intel.com>
+Subject: Re: [PATCH] openssl: disable SSLv3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,25 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 13:53:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Feb 2015 14:35:29 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 14, 2015 at 6:48 PM, Holger Hans Peter Freyther
-<holger@moiji-mobile.com> wrote:
-> I want to use the multiple defaults route feature of the
-> kernel but I want to install some routes that are more
-> important than the link managed with dhcp. The only way
-> I can think of is to change the "metric=0" to a "metric=10"
-> in the mentioned file. For normal applications nothing has
-> changed but it allows me to add another default route that
-> is listed before the other default.
->
-> Is there any objection to change the default metric to 10?
+Am 16.02.2015 um 14:51 schrieb Brendan Le Foll:
+> 
+> No real reason, was trying to keep it as simple as possible whilst
+> making it clear it was not a good idea to re-enable it. I can make it
+> a PACKAGECOUNFIG[ssl3] = "--no-ssl3" if you think that's best.
 
-I don't see a problem as it gives more flexibility after all.
+Shouldn't it be PACKAGECOUNFIG[nossl3] ?
+This makes it more clear that one is actually disabling SSLv3 instead of
+trying to enable it.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> 
+> Cheers,
+> Brendan
+> 
+
+Cheers,
+Sven
 
