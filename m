@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0117340B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f180.google.com (mail-yk0-f180.google.com
+	[209.85.160.180])
+	by mail.openembedded.org (Postfix) with ESMTP id ECFE460167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 16:24:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1GGODdv006290 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 16:24:42 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id E1b7oFplJJ_i
+	Mon, 16 Feb 2015 17:07:01 +0000 (UTC)
+Received: by mail-yk0-f180.google.com with SMTP id 131so13681028ykp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 16:24:42 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1GGOTKH006295
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 16:24:40 GMT
-Message-ID: <1424103869.25541.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Feb 2015 16:24:29 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] populate_sdk: Handle OLDEST_KERNEL
+	Mon, 16 Feb 2015 09:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Tmf416RwDybcv6YXUFtazpp+HGJGalfmV7ydfMNH42k=;
+	b=tEigEuVHSCzFJy3I30DQW+Z40BWSfODfq+QMjZWQSnGcqVgvc+nni/4wZwMubKG3CH
+	xCvGX3L+bDU4ZCGQpKe3q3/KO4MHoGKkIh7xTCyuE8K8WhBPFeLq0rvQmXv4vJQXKHYD
+	kETG460D6dgybOrrAs3mthA+brXjdi0KIqvuoGM8VNzWT7NaILEIT45YK8UX/0GQg+Za
+	w8gBK8YUupj3rxqrSg29IdmFVVAI+IotyFm40RwFjfuTQpoVamEke8/uELx7mD9X1OrL
+	EAOPGnz0/1EcI+tlaXizWFvB8qcLvnPHVa/fHdBuJ2XGwotxOjcBUsR3fFmefiPT6xJF
+	707A==
+MIME-Version: 1.0
+X-Received: by 10.170.162.135 with SMTP id e129mr1138520ykd.110.1424106422207; 
+	Mon, 16 Feb 2015 09:07:02 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.133 with HTTP; Mon, 16 Feb 2015 09:07:02 -0800 (PST)
+In-Reply-To: <1424103869.25541.1.camel@linuxfoundation.org>
+References: <1424103869.25541.1.camel@linuxfoundation.org>
+Date: Mon, 16 Feb 2015 15:07:02 -0200
+X-Google-Sender-Auth: vbzzRe8XACZw1cJI26yXk9XOmdA
+Message-ID: <CAP9ODKovgahoQk58sMo_hXMkzQFU0qjP1JrazqKo_A7=2UfviQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk: Handle OLDEST_KERNEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +43,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 16:24:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Feb 2015 17:07:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add a check to the SDK so that it only runs on systems with kernel versions
-it supports.
+On Mon, Feb 16, 2015 at 2:24 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Add a check to the SDK so that it only runs on systems with kernel versions
+> it supports.
+>
+> [YOCTO #6856]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 8b7e9ea..e3adacb 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -126,6 +126,7 @@ EOF
+>         # substitute variables
+>         sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
+>                 -e 's#@SDKPATH@#${SDKPATH}#g' \
+> +               -e 's#@OLDEST_KERNEL@#${OLDEST_KERNEL}#g' \
+>                 -e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
+>                 -e '/@SDK_POST_INSTALL_COMMAND@/d' \
+>                 ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+> diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+> index 4a7fbd5..64e87a2 100644
+> --- a/meta/files/toolchain-shar-template.sh
+> +++ b/meta/files/toolchain-shar-template.sh
+> @@ -3,6 +3,24 @@
+>  INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
+>  SDK_ARCH=$(echo @SDK_ARCH@ | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
+>
+> +verlte () {
+> +       [  "$1" = "`printf "$1\n$2" | sort -V | head -n1`" ]
+> +}
+> +
+> +verlt() {
+> +       [ "$1" = "$2" ] && return 1 || verlte $1 $2
+> +}
+> +
+> +verlt `uname -r` @OLDEST_KERNEL@
+> +if [ $? = 0 ]; then
+> +       echo "Error: The SDK needs a kernel > @OLDEST_KERNEL@"
+> +       exit 1
+> +fi
+> +
+> +
+> +verlte `uname -r` 3.18.0 && echo "yes" || echo "no"
+> +verlte 4.16 3.18.0 && echo "yes" || echo "no"
 
-[YOCTO #6856]
+Is this a development code forgotten? :)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 8b7e9ea..e3adacb 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -126,6 +126,7 @@ EOF
- 	# substitute variables
- 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
- 		-e 's#@SDKPATH@#${SDKPATH}#g' \
-+		-e 's#@OLDEST_KERNEL@#${OLDEST_KERNEL}#g' \
- 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
- 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
- 		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
-diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
-index 4a7fbd5..64e87a2 100644
---- a/meta/files/toolchain-shar-template.sh
-+++ b/meta/files/toolchain-shar-template.sh
-@@ -3,6 +3,24 @@
- INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
- SDK_ARCH=$(echo @SDK_ARCH@ | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
- 
-+verlte () {
-+	[  "$1" = "`printf "$1\n$2" | sort -V | head -n1`" ]
-+}
-+
-+verlt() {
-+	[ "$1" = "$2" ] && return 1 || verlte $1 $2
-+}
-+
-+verlt `uname -r` @OLDEST_KERNEL@
-+if [ $? = 0 ]; then
-+	echo "Error: The SDK needs a kernel > @OLDEST_KERNEL@"
-+	exit 1
-+fi
-+
-+
-+verlte `uname -r` 3.18.0 && echo "yes" || echo "no"
-+verlte 4.16 3.18.0 && echo "yes" || echo "no"
-+
- if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
- 	# Allow for installation of ix86 SDK on x86_64 host
- 	if [ "$INST_ARCH" != x86_64 -o "$SDK_ARCH" != ix86 ]; then
+>  if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
+>         # Allow for installation of ix86 SDK on x86_64 host
+>         if [ "$INST_ARCH" != x86_64 -o "$SDK_ARCH" != ix86 ]; then
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
