@@ -1,24 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E04D571634
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 85C1771634
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 15:07:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Feb 2015 06:59:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,588,1418112000"; d="scan'208";a="528207592"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 16 Feb 2015 06:58:09 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Mon, 16 Feb 2015 16:23:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1GGNr4a006209; Mon, 16 Feb 2015 16:23:53 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id caIJ3YSeb7We; Mon, 16 Feb 2015 16:23:53 +0000 (GMT)
+Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
+	(authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1GGNoNA006206
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 16 Feb 2015 16:23:51 GMT
+Received: from richard by ted with local (Exim 4.84_RC1)
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1YNOSW-0003G6-Sb; Mon, 16 Feb 2015 16:23:44 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Feb 2015 17:06:21 +0200
-Message-Id: <19866bc3b773c78dfddcd6868e1451f99ac99d85.1424098977.git.cristian.iorga@intel.com>
+Date: Mon, 16 Feb 2015 16:23:39 +0000
+Message-Id: <1424103819-12481-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
-References: <cover.1424098977.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
-References: <cover.1424098977.git.cristian.iorga@intel.com>
-Subject: [PATCH 11/11] default-providers: Set the preferred provider for bluez based on version
+MIME-Version: 1.0
+Subject: [PATCH] libtool: 2.4.5 -> 2.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +37,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 15:07:18 -0000
+X-List-Received-Date: Mon, 16 Feb 2015 16:24:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Drop patch merged upstream.
 
-bitbake will currently 'selecting bluez4 to satisfy runtime
-libasound-module-bluez due to PREFERRED_PROVIDER_bluez4 = bluez4'
-which in the case of bluez5 isn't correct.
-This slightly unusual construct avoids this.
-Ultimately this is a bitbake issue that needs fixing in
-a better way but this means we can merge the bluez5 changes
-until bitbake gets fixed.
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/default-providers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../{libtool-2.4.5.inc => libtool-2.4.6.inc}       |  5 +-
+ ...btool-cross_2.4.5.bb => libtool-cross_2.4.6.bb} |  0
+ ...ool-native_2.4.5.bb => libtool-native_2.4.6.bb} |  0
+ ...-t-execute-automake-and-autoconf-on-every.patch | 71 ----------------------
+ .../libtool/{libtool_2.4.5.bb => libtool_2.4.6.bb} |  0
+ ...libtool_2.4.5.bb => nativesdk-libtool_2.4.6.bb} |  0
+ 6 files changed, 2 insertions(+), 74 deletions(-)
+ rename meta/recipes-devtools/libtool/{libtool-2.4.5.inc => libtool-2.4.6.inc} (89%)
+ rename meta/recipes-devtools/libtool/{libtool-cross_2.4.5.bb => libtool-cross_2.4.6.bb} (100%)
+ rename meta/recipes-devtools/libtool/{libtool-native_2.4.5.bb => libtool-native_2.4.6.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
+ rename meta/recipes-devtools/libtool/{libtool_2.4.5.bb => libtool_2.4.6.bb} (100%)
+ rename meta/recipes-devtools/libtool/{nativesdk-libtool_2.4.5.bb => nativesdk-libtool_2.4.6.bb} (100%)
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 25118fa..8d92c2e 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -43,7 +43,7 @@ PREFERRED_PROVIDER_make ?= "make"
- PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
- # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
- # on this rather strange entry.
--PREFERRED_PROVIDER_bluez4 ?= "bluez4"
-+PREFERRED_PROVIDER_bluez4 ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez4',d)}"
- PREFERRED_PROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
- # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
- PREFERRED_PROVIDER_ltp ?= "ltp"
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.5.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+similarity index 89%
+rename from meta/recipes-devtools/libtool/libtool-2.4.5.inc
+rename to meta/recipes-devtools/libtool/libtool-2.4.6.inc
+index 5f89c83..25b9304 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.5.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+@@ -19,11 +19,10 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://fix-resolve-lt-sysroot.patch \
+            file://nohardcodepaths.patch \
+            file://unwind-opt-parsing.patch \
+-           file://libtool-don-t-execute-automake-and-autoconf-on-every.patch \
+           "
+ 
+-SRC_URI[md5sum] = "7d30ed9fa6bb11270ebb31639a37bd54"
+-SRC_URI[sha256sum] = "509cb49c7de14ce7eaf88993cf09fd4071882699dfd874c2e95b31ab107d6987"
++SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
++SRC_URI[sha256sum] = "e3bd4d5d3d025a36c21dd6af7ea818a2afcd4dfc1ea5a17b39d7854bcd0c06e3"
+ 
+ do_compile_prepend () {
+ 	# Sometimes this file doesn't get rebuilt, force the issue
+diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.5.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool-cross_2.4.5.bb
+rename to meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.5.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool-native_2.4.5.bb
+rename to meta/recipes-devtools/libtool/libtool-native_2.4.6.bb
+diff --git a/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch b/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
+deleted file mode 100644
+index 87ffae1..0000000
+--- a/meta/recipes-devtools/libtool/libtool/libtool-don-t-execute-automake-and-autoconf-on-every.patch
++++ /dev/null
+@@ -1,71 +0,0 @@
+-From 408cfb9c5fa8a666917167ffb806cb19deded429 Mon Sep 17 00:00:00 2001
+-From: "Gary V. Vaughan" <gary@gnu.org>
+-Date: Fri, 6 Feb 2015 12:58:34 +0000
+-Subject: [PATCH] libtool: don't execute automake and autoconf on every
+- invocation.
+-
+-Regression from 2.4.2 was causing noticable slow-down in builds
+-that call libtool many times.
+-* build-aux/ltmain.in (func_help): Override func_help() from
+-gl/build-aux/options-parser to only run automake --version and
+-autoconf --version when libtool --help is executed on the command
+-line.
+-* NO-THANKS: Add Robert Yang.
+-Reported by Robert Yang
+-
+-Signed-off-by: Gary V. Vaughan <gary@gnu.org>
+-
+-Updated: Change NO-THANKS to THANKS to apply the patch since upstream
+-renamed it.
+-
+-Upstream-Stauts: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+----
+- THANKS           |    1 +
+- build-aux/ltmain.in |    9 ++++++++-
+- 2 files changed, 9 insertions(+), 1 deletion(-)
+-
+-diff --git a/THANKS b/THANKS
+-index 0ab162d..aa7aa8c 100644
+---- a/THANKS
+-+++ b/THANKS
+-@@ -258,6 +258,7 @@ Robert Garron                       Robert.Garron@Access3000.net
+- Robert Millan                       rmh@aybabtu.com
+- Robert Ögren                        lists@roboros.com
+- Roberto Bagnara                     bagnara@cs.unipr.it
+-+Robert Yang                         liezhi.yang@windriver.com
+- Roger Cornelius                     rac@tenzing.org
+- Roland Mainz                        roland.mainz@nrubsig.org
+- Roumen Petrov                       bugtrack@roumenpetrov.info
+-diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
+-index 46a0bb5..d5cf07a 100644
+---- a/build-aux/ltmain.in
+-+++ b/build-aux/ltmain.in
+-@@ -127,7 +127,12 @@ usage_message="Options:
+- "
+- 
+- # Additional text appended to 'usage_message' in response to '--help'.
+--long_help_message=$long_help_message"
+-+func_help ()
+-+{
+-+    $debug_cmd
+-+
+-+    func_usage_message
+-+    $ECHO "$long_help_message
+- 
+- MODE must be one of the following:
+- 
+-@@ -158,6 +163,8 @@ include the following information:
+- Report bugs to <@PACKAGE_BUGREPORT@>.
+- GNU @PACKAGE@ home page: <@PACKAGE_URL@>.
+- General help using GNU software: <http://www.gnu.org/gethelp/>."
+-+    exit 0
+-+}
+- 
+- 
+- # func_lo2o OBJECT-NAME
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/libtool/libtool_2.4.5.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool_2.4.5.bb
+rename to meta/recipes-devtools/libtool/libtool_2.4.6.bb
+diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.5.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/nativesdk-libtool_2.4.5.bb
+rename to meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb
 -- 
 2.1.0
 
