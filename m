@@ -1,44 +1,28 @@
-Return-Path: <scerveau@connected-labs.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 20F1071634
+Return-Path: <brendan.le.foll@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id DF35E606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 13:13:30 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id m14so23321031wev.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 05:13:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:message-id:date:from:user-agent
-	:mime-version:to:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=HD0AhRH31AHV9IlF7T8o702YBKssycs7eJiEDr10ZLk=;
-	b=OyvnXmsfFm2LC191h7DaWjRyngw9dJBLZvZmgz67ZHL3lj7YoGKmLQ3DAAWzQSYTQz
-	1QeE/7ZKltc36kKFlk6GVJ1c9h+PLhqOUJatLsHArZzTN9xsEgnBTmhjKe3iISLmdsxU
-	xGYQtY3ki6zFQo9zKvZQNQCirVUxeixkpRsRVrfIM+XCsb54TgM3QgoSNvB6rk6gGRS0
-	3aPYUbNvT5ZtvB+mgQpRfJZqbKERX3cv3fezQwl5mhlVPmwjsp6WcM+JwBfpZzbyXWbG
-	Cx5euWl8o5AJopjegy2NDXh37oKtl94HR9Y8TxbFoTQXqGOeNfsjzzKS1P+aZXNQeiNF
-	hJ6w==
-X-Gm-Message-State: ALoCoQmaUMyiRNf7Kk6VSuztCKmr3ntcyA0HdCUpNonVGueqoOM/43endZNB3SnLcyx2P/ARIn3U
-X-Received: by 10.180.126.69 with SMTP id mw5mr32277411wib.12.1424092411110;
-	Mon, 16 Feb 2015 05:13:31 -0800 (PST)
-Received: from [172.24.63.26]
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id vq9sm22836077wjc.6.2015.02.16.05.13.29
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Feb 2015 05:13:30 -0800 (PST)
-Sender: Stephane Cerveau <scerveau@connected-labs.com>
-Message-ID: <54E1ECF5.2010405@voxtok.com>
-Date: Mon, 16 Feb 2015 14:13:25 +0100
-From: scerveau <scerveau@voxtok.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
+	Mon, 16 Feb 2015 13:51:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Feb 2015 05:51:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,587,1418112000"; d="scan'208";a="652804104"
+Received: from unknown (HELO jupiter.iwi.intel.com) ([172.28.33.58])
+	by orsmga001.jf.intel.com with ESMTP; 16 Feb 2015 05:51:20 -0800
+Date: Mon, 16 Feb 2015 13:51:20 +0000
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 To: Martin Jansa <martin.jansa@gmail.com>
-References: <54E1CED1.6060900@voxtok.com> <20150216130844.GF2297@jama>
-In-Reply-To: <20150216130844.GF2297@jama>
+Message-ID: <20150216135119.GC9950@jupiter.iwi.intel.com>
+References: <1424085509-25433-1-git-send-email-brendan.le.foll@intel.com>
+	<1424085509-25433-2-git-send-email-brendan.le.foll@intel.com>
+	<20150216131003.GG2297@jama>
+MIME-Version: 1.0
+In-Reply-To: <20150216131003.GG2297@jama>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: cdra_1.1.3 is not available anymore.
+Subject: Re: [PATCH] openssl: disable SSLv3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 13:13:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Feb 2015 13:51:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dear Martin,
+On Mon, Feb 16, 2015 at 02:10:03PM +0100, Martin Jansa wrote:
+> On Mon, Feb 16, 2015 at 11:18:29AM +0000, brendan.le.foll@intel.com wrote:
+> > From: Brendan Le Foll <brendan.le.foll@intel.com>
+> > 
+> > Because of the SSLv3 POODLE vulnerability, it's preferred to simply disable
+> > SSLv3 even if patched with the TLS_FALLBACK_SCSV
+> > 
+> > Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+> > ---
+> >  meta/recipes-connectivity/openssl/openssl.inc | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> > index 6eb1b5e..ba9bca6 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl.inc
+> > +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> > @@ -50,6 +50,10 @@ CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
+> >  RRECOMMENDS_libcrypto += "openssl-conf"
+> >  RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
+> >  
+> > +# Remove this to enable SSLv3. SSLv3 is defaulted to disabled due to the POODLE
+> > +# vulnerability
+> > +EXTRA_OECONF = " -no-ssl3"
+> 
+> Why not use PACKAGECONFIG to make it easier to enable from distro
+> config or bbappend?
 
-I'm using dora and daisy branch and the build will be failing on this 
-branch 1.1.3.
-Is it planned to backport thee 3.13 patch to dora and daisy ?
-I just posted a patch to use the 1.1.3 as before but is there a license 
-issue, so we cant use this version anymore ?
+No real reason, was trying to keep it as simple as possible whilst
+making it clear it was not a good idea to re-enable it. I can make it
+a PACKAGECOUNFIG[ssl3] = "--no-ssl3" if you think that's best.
 
-
-Best regards.
-
-Stéphane
-On 02/16/2015 02:08 PM, Martin Jansa wrote:
-> On Mon, Feb 16, 2015 at 12:04:49PM +0100, scerveau wrote:
->> Dear all,
->>
->> It seems that crda_1.1.3 recipe is broken according that the link
->> http://wireless.kernel.org/download/crda/crda-1.1.3.tar.bz2 is not
->> available anymore.
->> It can be now downloaded here
->> https://www.kernel.org/pub/software/network/crda/crda_1.1.3.tar.bz2
->>
->> But concerning the binary
->> http://wireless.kernel.org/download/wireless-regdb/regulatory.bins/2013.01.11-regulatory.bin
->> it is not available also but i dont find a server which will allow to
->> fetch it.
->>
->> Does someone modify the recipe already or does someone know where we
->> could fetch the binary?
->> I'll continue my investigation.
-> http://patches.openembedded.org/patch/87751/
->
-
+Cheers,
+Brendan
 
