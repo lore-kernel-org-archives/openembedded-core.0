@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9932B71634
+	by mail.openembedded.org (Postfix) with ESMTP id B56A171EC3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 15:07:10 +0000 (UTC)
+	Mon, 16 Feb 2015 15:07:11 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Feb 2015 06:59:00 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 16 Feb 2015 06:59:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,588,1418112000"; d="scan'208";a="528207397"
+X-IronPort-AV: E=Sophos;i="5.09,588,1418112000"; d="scan'208";a="528207414"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 16 Feb 2015 06:57:55 -0800
+	by orsmga003.jf.intel.com with ESMTP; 16 Feb 2015 06:57:57 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Feb 2015 17:06:10 +0200
-Message-Id: <cover.1424098977.git.cristian.iorga@intel.com>
+Date: Mon, 16 Feb 2015 17:06:12 +0200
+Message-Id: <1e5392149959a6ba11556b7595013e62106c68f5.1424098977.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 00/11] BlueZ 5 as bluetooth alternative stack
+In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
+References: <cover.1424098977.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
+References: <cover.1424098977.git.cristian.iorga@intel.com>
+Subject: [PATCH 02/11] packagegroup-base: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,52 +33,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Feb 2015 15:07:11 -0000
 
-Based on Peter A. Bigot Bluez5 switch patchset.
-Full credit given to original authors.
-Some changes/adaptations needed, all doneand implemented by Cristian Iorga.
-Tested with each Bluetooth stack provider.
+From: "Peter A. Bigot" <pab@pabigot.com>
 
-The following changes since commit 6ae933b75c1c34a9d39e1aff0a0cb26a7ce4677f:
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  bitbake: tests/fetch.py: latest_versionstring add set of PN (2015-02-16 09:13:06 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/bluez5_switch_t2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/bluez5_switch_t2
-
-Cristian Iorga (1):
-  conf/distro/include/default-providers: updated bluez-hcidump providers
-
-Peter A. Bigot (9):
-  bluetooth.bbclass: simplify recipe inference of bluetooth provider
-  packagegroup-base: select distro preference for bluez provider
-  pulseaudio: select distro preference for bluez provider
-  qt-mobility: select distro preference for bluez provider
-  neard: select distro preference for bluez provider
-  libpcap: select distro preference for bluez provider
-  ofono: select distro preference for bluez provider
-  gstreamer1.0-plugins-bad: select distro preference for bluez provider
-  connman: depend on distro provider of bluez
-
-Richard Purdie (1):
-  default-providers: Set the preferred provider for bluez based on
-    version
-
- meta/classes/bluetooth.bbclass                             | 14 ++++++++++++++
- meta/conf/distro/include/default-providers.inc             |  4 ++--
- meta/recipes-connectivity/connman/connman.inc              |  8 +++++---
- meta/recipes-connectivity/libpcap/libpcap.inc              |  6 ++++--
- meta/recipes-connectivity/neard/neard.inc                  |  4 ++--
- meta/recipes-connectivity/ofono/ofono.inc                  |  6 +++---
- meta/recipes-core/packagegroups/packagegroup-base.bb       |  3 ++-
- .../gstreamer/gstreamer1.0-plugins-bad.inc                 |  4 ++--
- .../gstreamer/gstreamer1.0-plugins-bad_git.bb              |  1 -
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc          |  4 ++--
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                  |  6 ++++--
- 11 files changed, 40 insertions(+), 20 deletions(-)
- create mode 100644 meta/classes/bluetooth.bbclass
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index f4b2cd5..369b63e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -8,6 +8,7 @@ PR = "r83"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit packagegroup
++inherit bluetooth
+ 
+ PROVIDES = "${PACKAGES}"
+ PACKAGES = ' \
+@@ -203,7 +204,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
+ 
+ SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
+ RDEPENDS_packagegroup-base-bluetooth = "\
+-    bluez4 \
++    ${BLUEZ} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
+     "
+ 
 -- 
 2.1.0
 
