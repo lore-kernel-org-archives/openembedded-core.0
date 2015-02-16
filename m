@@ -1,33 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B5960556
+Return-Path: <scerveau@connected-labs.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D5DD606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 10:01:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1GA1aR6016296; Mon, 16 Feb 2015 10:01:36 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g3sN4jRF-XRK; Mon, 16 Feb 2015 10:01:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1GA1MBh016269
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 16 Feb 2015 10:01:34 GMT
-Message-ID: <1424080882.25541.0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Mon, 16 Feb 2015 10:01:22 +0000
-In-Reply-To: <54DD55E2.6090709@windriver.com>
-References: <cover.1414748681.git.hongxu.jia@windriver.com>
-	<65b3eb26c24648674ec3deb4da87f4933c2c0f21.1414748681.git.hongxu.jia@windriver.com>
-	<3627050.lDnyP7JDsZ@peggleto-mobl5.ger.corp.intel.com>
-	<54DD55E2.6090709@windriver.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] package_manager.py: fix rpm based do_rootfs failed while IMAGE_INSTALL_append = " python3"
+	Mon, 16 Feb 2015 11:04:54 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id hi2so25324632wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Feb 2015 03:04:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:message-id:date:from:user-agent
+	:mime-version:to:subject:content-type:content-transfer-encoding;
+	bh=tF7izF+3nxaejd+XIOC0qGMJtrbd2yc6pDEV8Q930P8=;
+	b=F6O+hT1Lt5Ni4PihMPqCWor++C4c5r8sC+B+ado+bHm9o304RI6wGgf9G4nwDyPUms
+	DVNjsu+bjr86otaCpKEXbktB4DOYGDlJjeZrX2EYWrcJB87TGkIAiZQlF0drd7azEK2+
+	73cRG8eGBBvLNs4PILobJK47orkEYOI2QXoJHHltxPRHGPW2HNGbvZHQCckm5Se6vtUA
+	nz/LSAnim/AOjb9Xbka/Peswy5COdeXzXTc00DfWEE9baYeBrQ6FvDK76ORCj7E6cLUg
+	UCRfkpLAL0ICiWAcjRDBPc+iTK2jrkANu1XgPf5ihLcEcTKh5+lHQ7r3qQtChjEsS8bC
+	eHVg==
+X-Gm-Message-State: ALoCoQnY/Lwd00ARc0yf2NpddRSpnMkDUpOzlq9+F9MlHRIsVOHkop6S4ETUpn59hTGJ95tEIaRh
+X-Received: by 10.180.206.41 with SMTP id ll9mr43733259wic.37.1424084695114;
+	Mon, 16 Feb 2015 03:04:55 -0800 (PST)
+Received: from [172.24.63.26]
+	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
+	by mx.google.com with ESMTPSA id
+	fd10sm19181079wib.4.2015.02.16.03.04.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Feb 2015 03:04:54 -0800 (PST)
+Sender: Stephane Cerveau <scerveau@connected-labs.com>
+Message-ID: <54E1CED1.6060900@voxtok.com>
+Date: Mon, 16 Feb 2015 12:04:49 +0100
+From: scerveau <scerveau@voxtok.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: cdra_1.1.3 is not available anymore.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +49,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 10:01:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Feb 2015 11:04:56 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2015-02-13 at 09:39 +0800, Hongxu Jia wrote:
-> On 02/13/2015 12:46 AM, Paul Eggleton wrote:
-> >> default_archs) +                new_pkg =
-> >> >self._search_pkg_name_in_feeds(pkg, default_archs) or \ +
-> >> >  self._search_pkg_provider_in_smart(pkg, default_archs) if not new_pkg:
-> >> >                      err_msg = '%s not found in the base feeds (%s).\n' % \
-> >> >                                (pkg, ' '.join(default_archs))
-> > It took a long time to reply to this, my apologies. This patch looks OK but
-> > Richard pointed out that it may have an impact on the speed of do_rootfs
-> > because of the extra calls out to smart. Do you have any performance impact
-> > figures?
-> 
-> Hi Paul,
-> 
-> The extra 'smart' calling takes 3-5 seconds for one search,
-> but it will not do that for most packages, it goes into
-> self._search_pkg_name_in_feeds first, if not found and then in to
-> self._search_pkg_provider_in_smart, only if we have such as python3
-> in the build session, it will take extra 3-5 seconds.
+Dear all,
 
-Could we test the time it takes to build core-image-sato-sdk before and
-after this patch please?
+It seems that crda_1.1.3 recipe is broken according that the link 
+http://wireless.kernel.org/download/crda/crda-1.1.3.tar.bz2 is not 
+available anymore.
+It can be now downloaded here 
+https://www.kernel.org/pub/software/network/crda/crda_1.1.3.tar.bz2
 
-Cheers,
+But concerning the binary 
+http://wireless.kernel.org/download/wireless-regdb/regulatory.bins/2013.01.11-regulatory.bin 
+it is not available also but i dont find a server which will allow to 
+fetch it.
 
-Richard
+Does someone modify the recipe already or does someone know where we 
+could fetch the binary?
+I'll continue my investigation.
 
+Best regards.
+
+Stéphane.
 
