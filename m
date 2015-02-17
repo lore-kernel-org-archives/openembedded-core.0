@@ -1,47 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C0108606E8;
-	Tue, 17 Feb 2015 17:50:53 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id hi2so35834839wib.0;
-	Tue, 17 Feb 2015 09:50:54 -0800 (PST)
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 357F665C85
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 19:02:35 +0000 (UTC)
+Received: by mail-wg0-f54.google.com with SMTP id y19so37837032wgg.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 11:02:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=F4S9cBwLNgF8NsqFx5oqR2kr90y0krIGVHdWO/hFbSQ=;
-	b=WU4tgZXZoTsaMT/p6JjvLJlymozS1AkvDokI16lksHxAjQLJ4nlFoJRaIQHy4hoQWx
-	Nzxq8Lc8NqVlS509rEFKhz0vWN0Qs2+TT/hUlYWnqbRcdRG9lTyEPSHsH5MXjlL+AyaD
-	RGXN7lRkGHeOn9f1YZp8nFbXyeajzMP1YVt0vuzwgQsE9ruB1LvqBQ6Trw8Ghu1x08t2
-	tmZ9cIgCPG147vo1GSdWRSAPmhzzZPYDQXRyLX9Q0eeF3Mt2Vv4vjp5GuZvp779FKdbd
-	aCYn+RjiZVlGtQKXmbCgzQwirQGy+9jB8k2tmTzeHMAIJlM2jrGirfUfrmxVEcX50i9M
-	8LwQ==
-MIME-Version: 1.0
-X-Received: by 10.194.5.37 with SMTP id p5mr64759179wjp.20.1424195454008; Tue,
-	17 Feb 2015 09:50:54 -0800 (PST)
-Received: by 10.194.85.225 with HTTP; Tue, 17 Feb 2015 09:50:53 -0800 (PST)
-In-Reply-To: <1424037551.20217.103.camel@linuxfoundation.org>
-References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
-	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
-	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
-	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
-	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
-	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
-	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
-	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
-	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
-	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
-	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
-	<1423908404.20217.100.camel@linuxfoundation.org>
-	<1424037551.20217.103.camel@linuxfoundation.org>
-Date: Tue, 17 Feb 2015 18:50:53 +0100
-Message-ID: <CA+chaQdaa+S3AC8YYzmHdv7beMxBzP_03C25Jn=5NiE=DxmGjg@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=KPXCrNO8xbwY/gH8Z+k1MiOqbuSXngA7NMYzz7T4E8U=;
+	b=DqP8AvzvMWjNnvrKYfn6yEJ8LCL3rDEVmg77+6lbStDSsbP+YG6vZ9BnnMDdOOrjsv
+	wW02cieC8B/riwlJynjasCJ+Cu8fU6PJKPlq0zIy6KdPfHWkdap4C9jvfbDuR0vBijxi
+	MerEQWqOU3/tRoN7acRxW3CAQ9AhS6b2NybNvHrbLepYtXIBcpCP6G3z11l8nd0QthHS
+	zu8ywbgAh+z89JNU5xyvgQn67OwWqIJaqy5W+SpiKbJHfs3BQT0Xm50eI8CeQYkXEq3p
+	F+0pI88yT7pVMPVgLVw7i1mdppyxciwG3U7PxxxwaNfYa3Pk74y04zHmZo+7+gj4Ev1q
+	HOqg==
+X-Received: by 10.180.73.205 with SMTP id n13mr28210359wiv.64.1424199756815;
+	Tue, 17 Feb 2015 11:02:36 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	l4sm21471243wiw.9.2015.02.17.11.02.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Feb 2015 11:02:36 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Feb 2015 20:02:28 +0100
+Message-Id: <1424199748-10800-2-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.0
+In-Reply-To: <1424199748-10800-1-git-send-email-Martin.Jansa@gmail.com>
+References: <CA+chaQdaa+S3AC8YYzmHdv7beMxBzP_03C25Jn=5NiE=DxmGjg@mail.gmail.com>
+	<1424199748-10800-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/2] license.bbclass: fix unexpected operator for LICENSE values with space
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,131 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 17:50:57 -0000
-Content-Type: multipart/alternative; boundary=047d7b5d5736208318050f4c58de
+X-List-Received-Date: Tue, 17 Feb 2015 19:02:37 -0000
 
---047d7b5d5736208318050f4c58de
-Content-Type: text/plain; charset=UTF-8
+* add quotes around pkged_lic so that it works correctly with spaces
+* fixes following error:
+  run.license_create_manifest.50601: 193: [: GPLv2: unexpected operator
 
-We should extend:
-./meta/recipes-devtools/valgrind/valgrind/glibc-2.20.patch
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/license.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-to allow building valgrind with glibc-2.21, currently it fails with:
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 13c1a0f..044b3b0 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -50,7 +50,7 @@ license_create_manifest() {
+ 		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
+ 		pkged_name="$(basename $(readlink ${filename}))"
+ 		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; p }" ${filename})"
+-		if [ -z ${pkged_lic} ]; then
++		if [ -z "${pkged_lic}" ]; then
+ 			# fallback checking value of LICENSE
+ 			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; p }" ${filename})"
+ 		fi
+-- 
+2.3.0
 
-| checking the GLIBC_VERSION version... unsupported version 2.21
-| configure: error: Valgrind requires glibc version 2.2 - 2.19
-| Configure failed. The contents of all config.log files follows to aid
-debugging
-| ERROR: oe_runconf failed
 
-
-On Sun, Feb 15, 2015 at 10:59 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Sat, 2015-02-14 at 10:06 +0000, Richard Purdie wrote:
-> > Hi Khem,
-> >
-> > On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:
-> > > I have refreshed the branch to include the patch which moves the src
-> > > uri to use the newly released glibc 2.21 branch
-> > > and please run it via autobuilder ( top 5 commits )
-> >
-> > Its running on the autobuilder at the moment. Errors will be reported to
-> > the error reporting system and can be seen at:
-> >
-> >
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=be29d13a847d458efaf542ed302e48050f67a655
-> >
-> > Right now, poky-tiny failed due to warning are errors and unused
-> > symbols. Minnow failed due to SSE instruction issues. Full build logs
-> > are also available on the autobuilder:
-> >
-> > https://autobuilder.yoctoproject.org/main/tgrid
-> >
-> > as ross/mut-next. We do have other changes in the branch but the above
-> > are pretty clearly glibc.
-> >
-> > Other errors will go to the places above as the builds complete/fail.
->
-> FWIW I tested the gcc upgrade without glibc and that seems ok so I've
-> merged that whilst we work out the issues with glibc.
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---047d7b5d5736208318050f4c58de
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>We should extend:</div>./meta/recipes-devtools/valgri=
-nd/valgrind/glibc-2.20.patch<br><div><br></div><div>to allow building valgr=
-ind with glibc-2.21, currently it fails with:</div><div><br></div><div><div=
->| checking the GLIBC_VERSION version... unsupported version 2.21</div><div=
->| configure: error: Valgrind requires glibc version 2.2 - 2.19</div><div>|=
- Configure failed. The contents of all config.log files follows to aid debu=
-gging</div><div>| ERROR: oe_runconf failed</div></div><div><br></div></div>=
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Feb 15, 2=
-015 at 10:59 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:ric=
-hard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoun=
-dation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
-ass=3D"">On Sat, 2015-02-14 at 10:06 +0000, Richard Purdie wrote:<br>
-&gt; Hi Khem,<br>
-&gt;<br>
-&gt; On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:<br>
-&gt; &gt; I have refreshed the branch to include the patch which moves the =
-src<br>
-&gt; &gt; uri to use the newly released glibc 2.21 branch<br>
-&gt; &gt; and please run it via autobuilder ( top 5 commits )<br>
-&gt;<br>
-&gt; Its running on the autobuilder at the moment. Errors will be reported =
-to<br>
-&gt; the error reporting system and can be seen at:<br>
-&gt;<br>
-&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Search/?items=3D10&am=
-p;query=3Dbe29d13a847d458efaf542ed302e48050f67a655" target=3D"_blank">http:=
-//errors.yoctoproject.org/Errors/Search/?items=3D10&amp;query=3Dbe29d13a847=
-d458efaf542ed302e48050f67a655</a><br>
-&gt;<br>
-&gt; Right now, poky-tiny failed due to warning are errors and unused<br>
-&gt; symbols. Minnow failed due to SSE instruction issues. Full build logs<=
-br>
-&gt; are also available on the autobuilder:<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/main/tgrid" target=3D"=
-_blank">https://autobuilder.yoctoproject.org/main/tgrid</a><br>
-&gt;<br>
-&gt; as ross/mut-next. We do have other changes in the branch but the above=
-<br>
-&gt; are pretty clearly glibc.<br>
-&gt;<br>
-&gt; Other errors will go to the places above as the builds complete/fail.<=
-br>
-<br>
-</span>FWIW I tested the gcc upgrade without glibc and that seems ok so I&#=
-39;ve<br>
-merged that whilst we work out the issues with glibc.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</div></div></blockquote></div><br></div>
-
---047d7b5d5736208318050f4c58de--
