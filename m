@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D559773571
+	by mail.openembedded.org (Postfix) with ESMTP id CF61C7356D
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 17 Feb 2015 13:08:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:46 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780927"
+X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780916"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:14 -0800
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:13 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 15:08:00 +0200
-Message-Id: <f64ec0e824cdc141bd4d22417dc958e99d8d7ae8.1424178303.git.cristian.iorga@intel.com>
+Date: Tue, 17 Feb 2015 15:07:59 +0200
+Message-Id: <13fc2bbc3a3245d4924106f376a6dfd7f92e8e32.1424178303.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 07/11] gstreamer1.0-plugins-bad: select distro preference for bluez provider
+Subject: [PATCH v2 06/11] ofono: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +38,34 @@ From: "Peter A. Bigot" <pab@pabigot.com>
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc    | 4 ++--
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/ofono/ofono.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 9c15f2b..69a15a2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -9,7 +9,7 @@ S = "${WORKDIR}/gst-plugins-bad-${PV}"
- SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
-            "
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index bf44fca..c415a39 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -5,7 +5,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
  
--inherit gettext
-+inherit gettext bluetooth
+-inherit autotools pkgconfig update-rc.d systemd
++inherit autotools pkgconfig update-rc.d systemd bluetooth
  
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
-@@ -49,7 +49,7 @@ PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
--PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
-+PACKAGECONFIG[bluez]          = "--enable-bluez,--disable-bluez,${BLUEZ}"
- PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-index 75859f9..309505f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
-@@ -11,7 +11,6 @@ S = "${WORKDIR}/git"
+ DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
  
- SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
+@@ -14,10 +14,10 @@ INITSCRIPT_PARAMS = "defaults 22"
  
--PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4"
- PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
+ PACKAGECONFIG ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+     "
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
+ 
+ EXTRA_OECONF += "--enable-test"
  
 -- 
 2.1.0
