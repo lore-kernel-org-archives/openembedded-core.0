@@ -1,36 +1,34 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A29671F05
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E08E972B6A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 13:42:14 +0000 (UTC)
-Received: by iebtr6 with SMTP id tr6so30318872ieb.10
+	Tue, 17 Feb 2015 13:42:19 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id k14so25775727wgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 05:42:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lRcKLWfYteCTSap/Q0vJq0HwRBJtzY7+4pSYVsi8ogc=;
-	b=EXreCkiZIhDnE3YT5mEQtDkKWvt5v2CQ3a3zc3HBSkad+DOS8x2Bcb05GdLkeFTASn
-	Mb1dSoMB+phH/iAHADH4YfHXMHhsYIK+2n/vzejfdFlDJiUjnaPE171rTtTsg5BRF+Mk
-	oTix9+4GeK4hKn9EXn2Daxo7xcUmPBMBhel0Wp5NV/P7HCGCkZu3uAgN5MD01DT/Fw5h
-	R8FU2KXlBwwdPcwCESEqr3feqmndIrWktpRLuOE1X89WcISlW2//Cn/iiTDAW1TEyKlp
-	MKrJwBkbAoo2OmBsApnyvlWHkWGxcYPMn6ZXTyxEDNS3OsPCusFIuMVU4NLR0x1xQO66
-	lJvg==
-X-Gm-Message-State: ALoCoQlOE5bQi+mb4pXmEbdxKw1ULYnGF8ieyGIztMqocSKDV77LWR41T1+CRoukmi6IELrgo0PI
-X-Received: by 10.42.138.199 with SMTP id d7mr34684734icu.3.1424180535452;
-	Tue, 17 Feb 2015 05:42:15 -0800 (PST)
-Received: from syncev.vlan14.01.org (p57A56D2C.dip0.t-ipconnect.de.
-	[87.165.109.44]) by mx.google.com with ESMTPSA id
-	qr1sm10089217igb.18.2015.02.17.05.42.12
+	Tue, 17 Feb 2015 05:42:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=swvTtwLhtoalKGPgFLGZjyDhRQ0MqYn5BlKUiT2Z8z8=;
+	b=DRoAY9Su7rn0NT6Yh4lK0dX4+mBfHHcg0sfJVxaIX7dbgrN40iwgcdLO0AFspiJBSy
+	BCoeVdoDPXAmmkcAFDy7sx3ivmZ7vE/BVdSgnaR9qnnjrD6OSAK4Ly/Q7G53176pP0Ah
+	Bk6Yq3ehKTE4OkugAJCULoYVdXeg+CkfdvgrhEYu2XJnjcO+p4mPauwzrMwtAmShV5RP
+	5l21nQwYg21of+8yH/ugTqZNyAi6AUwzz0zkCJqJAUkUIBq0iCC3GHLRYMzE/pqF5Ram
+	fHTwTNEZdbnMSqP+VzZbBwisDiw3EHjyA4O4rMVcjm4tlGKUw+hAV4YfgAOqG71DhtFR
+	HOxA==
+X-Received: by 10.180.83.164 with SMTP id r4mr56525624wiy.73.1424180540228;
+	Tue, 17 Feb 2015 05:42:20 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	hj10sm14811934wjc.48.2015.02.17.05.42.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Feb 2015 05:42:14 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Tue, 17 Feb 2015 05:42:19 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 05:42:05 -0800
-Message-Id: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] package_rpm.bbclass: support packaging of symlinks to directories
+Date: Tue, 17 Feb 2015 14:42:18 +0100
+Message-Id: <1424180538-21908-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.0
+Subject: [PATCH] test-dependencies.sh: strip only .bb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 13:42:16 -0000
+X-List-Received-Date: Tue, 17 Feb 2015 13:42:20 -0000
 
-os.walk() returns symlinks to directories in the "dirs" lists,
-but then never enters them by default. As a result, the old
-code applied neither the directory handling (because that
-is active once a directory gets entered) nor the file handling,
-and thus never packaged such symlinks.
+* we were stripping too much when stripping recipe name from line like this:
+  ERROR: Task 12016 (/some/patch/something.dot.bar.bb, do_fetch) failed with exit code '1'
+  where the recipe name contains dots and doesn't end with _<version>.bb
 
-The fix is simple: find such special directory entries and move
-them to the "files" list.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/package_rpm.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ scripts/test-dependencies.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 92ddf7a..6483e96 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -197,6 +197,13 @@ python write_specfile () {
-             if path.endswith("DEBIAN") or path.endswith("CONTROL"):
-                 continue
+diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
+index 2bcc2ca..e01acbe 100755
+--- a/scripts/test-dependencies.sh
++++ b/scripts/test-dependencies.sh
+@@ -141,7 +141,7 @@ build_all() {
+   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
+   RESULT+=${PIPESTATUS[0]}
+   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
+-  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\..*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
++  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
+ }
  
-+            # Treat all symlinks to directories as normal files.
-+            # os.walk() lists them as directories.
-+            for i, entry in enumerate(dirs):
-+                if os.path.islink(os.path.join(rootpath, entry)):
-+                    del dirs[i]
-+                    files.append(entry)
-+
-             # Directory handling can happen in two ways, either DIRFILES is not set at all
-             # in which case we fall back to the older behaviour of packages owning all their
-             # directories
+ build_every_recipe() {
 -- 
-1.8.4.5
+2.3.0
 
 
