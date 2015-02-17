@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BB8F67356B
+	by mail.openembedded.org (Postfix) with ESMTP id BB6B77356A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 17 Feb 2015 13:08:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:44 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780905"
+X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780900"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:12 -0800
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:11 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 15:07:58 +0200
-Message-Id: <2812924fdab9c1b519dd9901478ce03aa7041a4f.1424178303.git.cristian.iorga@intel.com>
+Date: Tue, 17 Feb 2015 15:07:57 +0200
+Message-Id: <5e30e27a4de338895587efb3f4ff27846065320f.1424178303.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 05/11] libpcap: select distro preference for bluez provider
+Subject: [PATCH v2 04/11] neard: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,25 +37,30 @@ From: "Peter A. Bigot" <pab@pabigot.com>
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-connectivity/libpcap/libpcap.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/neard/neard.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
-index a12eb16..979665c 100644
---- a/meta/recipes-connectivity/libpcap/libpcap.inc
-+++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-@@ -10,8 +10,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
-                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
- DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
+index 31bc6dd..6b6b1da 100644
+--- a/meta/recipes-connectivity/neard/neard.inc
++++ b/meta/recipes-connectivity/neard/neard.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
  
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
--PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-+inherit bluetooth
-+
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
-+PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
- PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
- PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
+-inherit autotools pkgconfig systemd update-rc.d
++inherit autotools pkgconfig systemd update-rc.d bluetooth
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+ 
+@@ -45,7 +45,7 @@ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+ 
+ # Bluez & Wifi are not mandatory except for handover
+ RRECOMMENDS_${PN} = "\
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+                     "
  
 -- 
 2.1.0
