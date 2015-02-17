@@ -1,45 +1,34 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E52EC73577
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C5E672DE2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 10:34:17 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id hn18so28978323igb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 02:34:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=qtc147TVwmNXkWRlzfYgehb2KwlzcLEMwmbslqdhntM=;
-	b=eYoznnuh84hIc+PcrMFktV2V6Ymn1Yxk/Q16DSqbys9PQdneOwDTbnlyr1moXZcOJR
-	J/vBtO8HX0QUXJf2zCXTaXmwS3oOnw8FZKxTLKDYyZFAjDkbgR5o65JtGQvKE6AKdAAc
-	HzvqHN2+AZDQBbywwn0etukY9GDm6clfQB+AkEbnR8LjrFopP0S38LPd99vzlmjRY3N9
-	GM+C6lr3hP3GCywoT13hyzXftRRBJ/xCvdpjxtz3DqwC2AFMF6F5buyCw2oXPYMg+Rj7
-	hTCS8iNZOdXn9bIGGpSrNOkXndinJ2b6b2S/ekfWenMt5XXdfdmZf8qbBEp+mtZyKWjP
-	qLcw==
-X-Gm-Message-State: ALoCoQns0untqNkntIWgugBbb3Yrm8sTFMXzVaS/lXxSWvSfLSHG2ccIwNoLMRk/k8j/5fdOclB2
-X-Received: by 10.50.36.104 with SMTP id p8mr27357512igj.16.1424169258616;
-	Tue, 17 Feb 2015 02:34:18 -0800 (PST)
-Received: from pohly-mobl1 (p57A56D2C.dip0.t-ipconnect.de. [87.165.109.44])
-	by mx.google.com with ESMTPSA id m5sm9908932ige.5.2015.02.17.02.34.16
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Feb 2015 02:34:17 -0800 (PST)
-Message-ID: <1424169254.549.9.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Adrian Freihofer <adrian.freihofer@neratec.com>
-Date: Tue, 17 Feb 2015 11:34:14 +0100
-In-Reply-To: <4426580.xeKXhTzLUy@chl500346>
-References: <1415088547.4530.142.camel@intel.com>
-	<9989828.c0GAiu1EUm@chl500346>
-	<loom.20141107T110211-131@post.gmane.org>
-	<4426580.xeKXhTzLUy@chl500346>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: runqemu + dhcp server
+	Tue, 17 Feb 2015 10:49:01 +0000 (UTC)
+Received: from [99.240.204.5] (port=37848 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YNfi5-0004JV-OO for openembedded-core@lists.openembedded.org;
+	Tue, 17 Feb 2015 05:48:58 -0500
+Date: Tue, 17 Feb 2015 05:48:57 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.LFD.2.11.1502170421230.26768@localhost>
+Message-ID: <alpine.LFD.2.11.1502170544370.21344@localhost>
+References: <alpine.LFD.2.11.1502120750130.5392@localhost>
+	<alpine.LFD.2.11.1502170421230.26768@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: ncurses-native compile error -- i'm starting to blame gcc-5.0.0 [SOLVED]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,56 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 10:34:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Feb 2015 10:49:02 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Mon, 2014-11-10 at 22:57 +0100, Adrian Freihofer wrote:
-> > I haven't tried NFS rootfs. My hope is that it would still work because the
-> > ip parameter and the DHCP server assign the same IP address and thus nothing
-> > changes inside the guest when switching from one to the other.
-> > 
-> 
-> I see, the patch you are working on will provide just another option
-> to get eth0 configured. This would definitely be an improvement.
 
-I had to put this aside for a while, but I'm still interested in getting
-this merged.
+  never mind ... i was just pointed at this fedora-specific page:
 
-> Did you ever run the automated image tests? If I remember correctly
-> the image tests are somehow related to the current implementation of
-> the network configuration. At least the tests require a hostname
-> starting with "qemu" and probably they run from NFS rootfs.
+https://lists.fedoraproject.org/pipermail/devel/2015-February/207549.html
 
-Where do I find more information about these tests, in particular how to
-run them?
+which discusses the impact of trying a mass rebuild on fedora
+packages using gcc-5.0.0, wherein it's explained that a number of
+packages now fail to build because:
 
-http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#testing-packages-with-ptest describes how to add tests to an image, but leaves it open how one invokes ptest-runner. What you describe sounds like a mechanism built on top of that which automatically boots up a machine and captures the output of ptest-runner.
+cclive-0.9.3-4.fc22.src.rpm
+cvc4-1.3-7.fc22.src.rpm
+dans-gdal-scripts-0.23-5.fc22.src.rpm
+emacs-24.4-3.fc22.src.rpm
+ember-0.7.2-3.fc22.src.rpm
+flamerobin-0.9.3-8.20130401snap.fc22.src.rpm
+ghc-gtk-0.12.5.0-3.fc22.src.rpm
+ghc-webkit-0.12.5.1-3.fc22.src.rpm
+gnote-3.14.0-1.fc22.src.rpm
+ksh-20120801-21.fc22.src.rpm
+libason-0.1.2-2.fc22.src.rpm
+libcmis-0.5.0-1.fc22.src.rpm
+libgpg-error-1.16-1.fc22.src.rpm
+libixion-0.7.0-3.fc22.src.rpm
+liborcus-0.7.0-5.fc22.src.rpm
+ncurses-5.9-17.20140906.fc22.src.rpm
+openldap-2.4.40-5.fc22.src.rpm
+perl-5.20.1-315.fc22.src.rpm
+xorg-x11-server-1.16.2.901-1.fc22.src.rpm
+xorg-x11-server-utils-7.7-10.fc22.src.rpm
+zsh-5.0.7-4.fc22.src.rpm
+	these packages failed to build because of the changes in the preprocessor;
+	gcc started to generate line directives to better detect whether a macro
+	tokens come from a system header - see http://gcc.gnu.org/PR60723
+	The fix is to use the -P option if the code isn't prepared to deal with
+	such directives.
 
-> Would be nice, if you get the DHCP based network configuration
-> fulfilling these requirements. An alternative approach is implemented
-> in systemd networkd. I guess it does not touch interfaces which are
-> already configured e.g. by kernel boot parameters. This could be done
-> in connman as well. It would allow you to run the productive image in
-> qemu.
 
-There might be also other improvements. For example, I just booted a
-core-image-minimal with systemd as init with runqemu. eth0 is
-configured, but /etc/resolv.conf is missing, so ptests like the one for
-wget fail because www.google.com cannot be resolved.
+  so i just added to my local.conf:
 
-This was without the DHCP server patches. My expectation is that
-bringing up eth0 with DHCP-supplied information about DNS servers would
-have created (or could be made to create) resolv.conf.
+CPPFLAGS_append_pn-ncurses-native = " -P"
+
+and that appears to have solved this build problem. i'm guessing i'll
+still hit a few more build errors because of gcc-5.0.0.
+
+rday
 
 -- 
-Best Regards, Patrick Ohly
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
