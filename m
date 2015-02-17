@@ -1,32 +1,24 @@
-Return-Path: <priyaiitmandi@gmail.com>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F4C571F1D
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-10.prod.phx3.secureserver.net
+	(p3plsmtpa08-10.prod.phx3.secureserver.net [173.201.193.111])
+	by mail.openembedded.org (Postfix) with ESMTP id E2FC47182C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 11:28:36 +0000 (UTC)
-Received: by iebtr6 with SMTP id tr6so29567694ieb.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 03:28:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=f9TXuHtdyZ8anezujCGInc4Zkd0ioIaaCyy3VK6rfjo=;
-	b=aswnbg2DG8tRZC8jlIpOEcN+hMdFcKC2AkjqZ11Pv3Ej/S6PCsApPoi4nLLYt5tsCi
-	JgXu1+hh+VgcI8jo1/qxFT+Gu7fZhNhjgvqzhYxcs2Ez9Kmw/Vi1uZQradK6QVFzewnD
-	kr041kTSQLHcvqheD3fRN7L839i7NzUuO9AoW8x5016ZDT2diHQSNw9Nal9sM3akH4pm
-	EEYK26DiuRZKts2/dr4WPipSmYaAk2ya3UKBKh+6xTUYFm/9agXVHIqDPTYCfw+PKoVW
-	grGBURabzELKUVqv4cH627AnNRh+Zutf46wRhmFXATuHQHl2sdRs14MJveyCizBUsnF9
-	wbdg==
+	Tue, 17 Feb 2015 12:17:19 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-10.prod.phx3.secureserver.net with 
+	id tQHK1p0040BVjqb01QHKq3; Tue, 17 Feb 2015 05:17:20 -0700
+Message-ID: <54E33153.2000601@pabigot.com>
+Date: Tue, 17 Feb 2015 06:17:23 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-Received: by 10.50.62.110 with SMTP id x14mr27697190igr.2.1424172517409;
-	Tue, 17 Feb 2015 03:28:37 -0800 (PST)
-Received: by 10.107.134.207 with HTTP; Tue, 17 Feb 2015 03:28:37 -0800 (PST)
-In-Reply-To: <CALTPfpHrYrWhPje7ippkoTUwPgBAuzmhcTKWa0Knec-iSLtgBQ@mail.gmail.com>
-References: <CALTPfpHrYrWhPje7ippkoTUwPgBAuzmhcTKWa0Knec-iSLtgBQ@mail.gmail.com>
-Date: Tue, 17 Feb 2015 16:58:37 +0530
-Message-ID: <CALTPfpFroYMcfnn-SQZGYxsROm0nnD7g85K-h9Vv-OvWAD4m6w@mail.gmail.com>
-From: Priya Agarwal <priyaiitmandi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: Error while trying to enable selinux support in custom image
+To: openembedded-core@lists.openembedded.org, 
+	"Iorga, Cristian" <cristian.iorga@intel.com>
+References: <cover.1424098977.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1424098977.git.cristian.iorga@intel.com>
+Subject: Re: [PATCH 00/11] BlueZ 5 as bluetooth alternative stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,61 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 11:28:36 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc15b8ffc805050f4700df
+X-List-Received-Date: Tue, 17 Feb 2015 12:17:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7bdc15b8ffc805050f4700df
-Content-Type: text/plain; charset=UTF-8
+On 02/16/2015 09:06 AM, Cristian Iorga wrote:
+> Based on Peter A. Bigot Bluez5 switch patchset.
+> Full credit given to original authors.
+> Some changes/adaptations needed, all doneand implemented by Cristian Iorga.
 
-I think I'll have to edit bblayers.conf to include path to meta-python and
-networking-layer. However where is the path to networking layer. Is it same
-as meta-networking.
+I ran this through a build with no problems.  For the record, the 
+changes I detected in my patches were fixing a connman RDEPENDS I 
+somehow missed, and enabling bluez5 in ofono and gstreamer1.0-plugins-bad.
 
+Thanks for pushing this through.
 
-On Tue, Feb 17, 2015 at 4:03 PM, Priya Agarwal <priyaiitmandi@gmail.com>
-wrote:
-
-> Hi,
+Peter
+> Tested with each Bluetooth stack provider.
 >
-> I want to add SELinux support in my custom imgae I am building for
-> Freescale's T4240QDS Machine.
-> I followed the steps given in FAQ section included in meta-selinux
-> directory.
+> The following changes since commit 6ae933b75c1c34a9d39e1aff0a0cb26a7ce4677f:
 >
-> However I am getting this error. How do I remove this.
+>    bitbake: tests/fetch.py: latest_versionstring add set of PN (2015-02-16 09:13:06 +0000)
 >
-> ERROR: Layer 'selinux' depends on layer 'meta-python', but this layer is
-> not enabled in your configuration
-> ERROR: Layer 'selinux' depends on layer 'networking-layer', but this layer
-> is not enabled in your configuration
+> are available in the git repository at:
 >
-> I need to do this urgently.
-> Thank You.
+>    git://git.yoctoproject.org/poky-contrib ciorga/bluez5_switch_t2
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/bluez5_switch_t2
 >
-> Regards
+> Cristian Iorga (1):
+>    conf/distro/include/default-providers: updated bluez-hcidump providers
+>
+> Peter A. Bigot (9):
+>    bluetooth.bbclass: simplify recipe inference of bluetooth provider
+>    packagegroup-base: select distro preference for bluez provider
+>    pulseaudio: select distro preference for bluez provider
+>    qt-mobility: select distro preference for bluez provider
+>    neard: select distro preference for bluez provider
+>    libpcap: select distro preference for bluez provider
+>    ofono: select distro preference for bluez provider
+>    gstreamer1.0-plugins-bad: select distro preference for bluez provider
+>    connman: depend on distro provider of bluez
+>
+> Richard Purdie (1):
+>    default-providers: Set the preferred provider for bluez based on
+>      version
+>
+>   meta/classes/bluetooth.bbclass                             | 14 ++++++++++++++
+>   meta/conf/distro/include/default-providers.inc             |  4 ++--
+>   meta/recipes-connectivity/connman/connman.inc              |  8 +++++---
+>   meta/recipes-connectivity/libpcap/libpcap.inc              |  6 ++++--
+>   meta/recipes-connectivity/neard/neard.inc                  |  4 ++--
+>   meta/recipes-connectivity/ofono/ofono.inc                  |  6 +++---
+>   meta/recipes-core/packagegroups/packagegroup-base.bb       |  3 ++-
+>   .../gstreamer/gstreamer1.0-plugins-bad.inc                 |  4 ++--
+>   .../gstreamer/gstreamer1.0-plugins-bad_git.bb              |  1 -
+>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc          |  4 ++--
+>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                  |  6 ++++--
+>   11 files changed, 40 insertions(+), 20 deletions(-)
+>   create mode 100644 meta/classes/bluetooth.bbclass
 >
 
---047d7bdc15b8ffc805050f4700df
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think I&#39;ll have to edit bblayers.conf to include pat=
-h to meta-python and networking-layer. However where is the path to network=
-ing layer. Is it same as meta-networking. <br><br></div><div class=3D"gmail=
-_extra"><br><div class=3D"gmail_quote">On Tue, Feb 17, 2015 at 4:03 PM, Pri=
-ya Agarwal <span dir=3D"ltr">&lt;<a href=3D"mailto:priyaiitmandi@gmail.com"=
- target=3D"_blank">priyaiitmandi@gmail.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div dir=3D"ltr"><div><div><div><div><div><div>Hi,<=
-br><br></div>I want to add SELinux support in my custom imgae I am building=
- for Freescale&#39;s T4240QDS Machine.<br></div>I followed the steps given =
-in FAQ section included in meta-selinux directory.<br><br></div>However I a=
-m getting this error. How do I remove this. <br><br>ERROR: Layer &#39;selin=
-ux&#39; depends on layer &#39;meta-python&#39;, but this layer is not enabl=
-ed in your configuration<br>ERROR: Layer &#39;selinux&#39; depends on layer=
- &#39;networking-layer&#39;, but this layer is not enabled in your configur=
-ation<br><br></div>I need to do this urgently.<br></div>Thank You.<br><br><=
-/div>Regards<br></div>
-</blockquote></div><br></div>
-
---047d7bdc15b8ffc805050f4700df--
