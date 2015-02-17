@@ -1,20 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 31FFB71F05
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E5FC671F05
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 15:10:21 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2015 07:10:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,595,1418112000"; d="scan'208";a="528669329"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 17 Feb 2015 07:01:47 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 17:10:18 +0200
-Message-Id: <1424185818-22576-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] pulseaudio: upgrade to 6.0
+	Tue, 17 Feb 2015 15:55:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1HFtDBp002978
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Feb 2015 07:55:14 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 17 Feb 2015 07:55:13 -0800
+Message-ID: <54E36460.2090109@windriver.com>
+Date: Tue, 17 Feb 2015 09:55:12 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Paul Gortmaker <paul.gortmaker@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1424152066-23546-1-git-send-email-paul.gortmaker@windriver.com>
+	<1424152066-23546-3-git-send-email-paul.gortmaker@windriver.com>
+In-Reply-To: <1424152066-23546-3-git-send-email-paul.gortmaker@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 2/3] coreutils: import prebuilt manpages from Gentoo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,228 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 15:10:26 -0000
+X-List-Received-Date: Tue, 17 Feb 2015 15:55:14 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Changes:
-- BlueZ 5 native HSP (headset) support;
-- BlueZ 5 HFP (hands-free) profile support via oFono;
-- systemd socket activation support;
-- Better support for multichannel and 2.1 profiles;
-- Remap optimisations;
-- Many minor improvements, bug fixes, and i18n updates.
+On 2/16/15 11:47 PM, Paul Gortmaker wrote:
+> As can be seen here:
+> 
+> http://lists.gnu.org/archive/html/coreutils/2014-11/msg00001.html
+> 
+> other people have run into the headache of trying to cross compile
+> coreutils, with the "help2man" problem (assumes host can run the
+> target binaries with "--help" arg to collect data for manpage.)
+> 
+> And since "current wisdom is this is working as intended" we are
+> largely left with no choice but to use the same solution and
+> abandon trying to generate the man pages at build time.  So here
+> we import prebuilt manpages.
 
-- Switched to ${BP} variable.
-- Patch 0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
-removed, no longer necessary.
-- Patch CVE-2014-3970.patch included upstrem, removed.
-- Slightly changed copyright notice, only a clarification.
+Looks like it addresses the issue I had.
 
-libsamplerate based resamplers are now deprecated,
-because they offer no particular advantage over speex.
-Dependency to libsamplerate0 dropped.
+Looks good!
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  | 16 ++++---
- ...c-Check-only-for-libsystemd-not-libsystem.patch | 30 -------------
- .../pulseaudio/pulseaudio/CVE-2014-3970.patch      | 52 ----------------------
- .../pulseaudio/pulseaudio_5.0.bb                   | 14 ------
- .../pulseaudio/pulseaudio_6.0.bb                   | 12 +++++
- 5 files changed, 23 insertions(+), 101 deletions(-)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/CVE-2014-3970.patch
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+--Mark
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index b73576e..e6ecd4a 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -5,14 +5,14 @@ SECTION = "libs/multimedia"
- LICENSE = "GPLv2+ & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
-+                    file://src/pulsecore/resampler.h;beginline=4;endline=21;md5=09794012ae16912c0270f3280cc8ff84"
- 
--DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
-+DEPENDS = "libatomics-ops liboil libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
- DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
- 
--inherit autotools pkgconfig useradd gettext perlnative bluetooth
-+inherit autotools pkgconfig useradd gettext perlnative bluetooth systemd
- 
- # *.desktop rules wont be generated during configure and build will fail
- # if using --disable-nls
-@@ -27,6 +27,7 @@ EXTRA_OECONF = "\
- 		--disable-xen \
- 		--with-database=simple \
- 		--without-fftw \
-+		--without-zsh-completion-dir \
- 		--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d \
-                 ac_cv_header_valgrind_memcheck_h=no \
- "
-@@ -34,11 +35,13 @@ EXTRA_OECONF = "\
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)}"
- PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
- PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
-+PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
- PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
--PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
-+PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal,--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
- PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
-@@ -93,6 +96,9 @@ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}
- FILES_${PN}-conf = "${sysconfdir}"
- FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
- FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules"
-+SYSTEMD_PACKAGES = "${PN}-server"
-+SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
-+
- FILES_${PN}-misc = "${bindir}/* ${libdir}/pulseaudio/libpulsedsp.so"
- 
- # Allow the pulseaudio package to be created empty as a placeholder (-dbg and -dev depend on it)
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
-deleted file mode 100644
-index 467cd2c..0000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 002b16f0f2176b4c685e210e335bf69c02563ede Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Sat, 22 Feb 2014 18:03:10 +0100
--Subject: [PATCH] configure.ac: Check only for libsystemd not libsystemd-login
--
--* they were merged into libsystemd in systemd-209
--
--Upstream-Status: Pending (it would need to be conditional on systemd version for upstream to accept this)
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 388fae2..fff7a83 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1160,7 +1160,7 @@ AC_ARG_ENABLE([systemd],
--     AS_HELP_STRING([--disable-systemd],[Disable optional systemd support]))
-- 
-- AS_IF([test "x$enable_systemd" != "xno"],
---    [PKG_CHECK_MODULES(SYSTEMD, [ libsystemd-login ], HAVE_SYSTEMD=1, HAVE_SYSTEMD=0)],
--+    [PKG_CHECK_MODULES(SYSTEMD, [ libsystemd ], HAVE_SYSTEMD=1, HAVE_SYSTEMD=0)],
--     HAVE_SYSTEMD=0)
-- 
-- AS_IF([test "x$enable_systemd" = "xyes" && test "x$HAVE_SYSTEMD" = "x0"],
---- 
--1.8.5.3
--
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/CVE-2014-3970.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/CVE-2014-3970.patch
-deleted file mode 100644
-index d5f33dc..0000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio/CVE-2014-3970.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--Upstream-Status: Backport
--
--commit 26b9d22dd24c17eb118d0205bf7b02b75d435e3c upstream
--
--rtp-recv: fix crash on empty UDP packets (CVE-2014-3970)
--
--On FIONREAD returning 0 bytes, we cannot return success, as the caller
--(rtpoll_work_cb in module-rtp-recv.c) would then try to
--pa_memblock_unref(chunk.memblock) and, because memblock is NULL, trigger
--an assertion.
--
--Also we have to read out the possible empty packet from the socket, so
--that the kernel doesn't tell us again and again about it.
--
--Signed-off-by: Alexander E. Patrakov <patrakov@gmail.com>
--
--diff --git a/src/modules/rtp/rtp.c b/src/modules/rtp/rtp.c
--index 9195493..c45981e 100644
----- a/src/modules/rtp/rtp.c
--+++ b/src/modules/rtp/rtp.c
--@@ -182,8 +182,29 @@ int pa_rtp_recv(pa_rtp_context *c, pa_memchunk *chunk, pa_mempool *pool, struct
--         goto fail;
--     }
-- 
---    if (size <= 0)
---        return 0;
--+    if (size <= 0) {
--+        /* size can be 0 due to any of the following reasons:
--+         *
--+         * 1. Somebody sent us a perfectly valid zero-length UDP packet.
--+         * 2. Somebody sent us a UDP packet with a bad CRC.
--+         *
--+         * It is unknown whether size can actually be less than zero.
--+         *
--+         * In the first case, the packet has to be read out, otherwise the
--+         * kernel will tell us again and again about it, thus preventing
--+         * reception of any further packets. So let's just read it out
--+         * now and discard it later, when comparing the number of bytes
--+         * received (0) with the number of bytes wanted (1, see below).
--+         *
--+         * In the second case, recvmsg() will fail, thus allowing us to
--+         * return the error.
--+         *
--+         * Just to avoid passing zero-sized memchunks and NULL pointers to
--+         * recvmsg(), let's force allocation of at least one byte by setting
--+         * size to 1.
--+         */
--+        size = 1;
--+    }
-- 
--     if (c->memchunk.length < (unsigned) size) {
--         size_t l;
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
-deleted file mode 100644
-index 99f0ef3..0000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--require pulseaudio.inc
--
--SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
--           file://0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch \
--           file://volatiles.04_pulse \
--           file://CVE-2014-3970.patch \
--"
--SRC_URI[md5sum] = "c43749838612f4860465e83ed62ca38e"
--SRC_URI[sha256sum] = "99c13a8b1249ddbd724f195579df79484e9af6418cecf6a15f003a7f36caf939"
--
--do_compile_prepend() {
--    mkdir -p ${S}/libltdl
--    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
--}
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-new file mode 100644
-index 0000000..91027bf
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-@@ -0,0 +1,12 @@
-+require pulseaudio.inc
-+
-+SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-+           file://volatiles.04_pulse \
-+"
-+SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
-+SRC_URI[sha256sum] = "b50640e0b80b1607600accfad2e45aabb79d379bf6354c9671efa2065477f6f6"
-+
-+do_compile_prepend() {
-+    mkdir -p ${S}/libltdl
-+    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
-+}
--- 
-2.1.0
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> ---
+>  meta/recipes-core/coreutils/coreutils_8.23.bb | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.23.bb b/meta/recipes-core/coreutils/coreutils_8.23.bb
+> index be68a310311a..63df75e7baf2 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.23.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.23.bb
+> @@ -12,14 +12,17 @@ DEPENDS_class-native = ""
+>  
+>  inherit autotools gettext texinfo
+>  
+> -SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+> +SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
+> +           http://distfiles.gentoo.org/distfiles/${BP}-man.tar.xz;name=manpages \
+>             file://man-decouple-manpages-from-build.patch \
+>             file://remove-usr-local-lib-from-m4.patch \
+>             file://fix-selinux-flask.patch \
+>            "
+>  
+> -SRC_URI[md5sum] = "abed135279f87ad6762ce57ff6d89c41"
+> -SRC_URI[sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
+> +SRC_URI[tarball.md5sum] = "abed135279f87ad6762ce57ff6d89c41"
+> +SRC_URI[tarball.sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
+> +SRC_URI[manpages.md5sum] = "ce49bc8360e16afe67581d136606efc7"
+> +SRC_URI[manpages.sha256sum] = "d1b16e74b3dba4f313aeebae2c69da205f7d2e6e1c2aa8d39026c860d314ecca"
+>  
+>  EXTRA_OECONF_class-native = "--without-gmp"
+>  EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
+> @@ -71,6 +74,13 @@ do_install_append() {
+>  	# in update-alternatives to fail, therefore use lbracket - the name used
+>  	# for the actual source file.
+>  	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
+> +
+> +	# prebuilt man pages
+> +	install -d ${D}/${mandir}/man1
+> +	install -t ${D}/${mandir}/man1 ${S}/man/*.1
+> +	# prebuilt man pages don't do a separate man page for [ vs test.
+> +	# see comment above r.e. sed and update-alternatives
+> +	cp -a ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
+>  }
+>  
+>  do_install_append_class-native(){
+> @@ -82,18 +92,23 @@ inherit update-alternatives
+>  
+>  ALTERNATIVE_PRIORITY = "100"
+>  ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base64 mktemp df"
+> +ALTERNATIVE_${PN}-doc = "base64.1 mktemp.1 df.1 lbracket.1"
+>  
+>  ALTERNATIVE_LINK_NAME[base64] = "${base_bindir}/base64"
+>  ALTERNATIVE_TARGET[base64] = "${bindir}/base64.${BPN}"
+> +ALTERNATIVE_LINK_NAME[base64.1] = "${mandir}/man1/base64.1"
+>  
+>  ALTERNATIVE_LINK_NAME[mktemp] = "${base_bindir}/mktemp"
+>  ALTERNATIVE_TARGET[mktemp] = "${bindir}/mktemp.${BPN}"
+> +ALTERNATIVE_LINK_NAME[mktemp.1] = "${mandir}/man1/mktemp.1"
+>  
+>  ALTERNATIVE_LINK_NAME[df] = "${base_bindir}/df"
+>  ALTERNATIVE_TARGET[df] = "${bindir}/df.${BPN}"
+> +ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
+>  
+>  ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
+>  ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
+> +ALTERNATIVE_LINK_NAME[lbracket.1] = "${mandir}/man1/lbracket.1"
+>  
+>  python __anonymous() {
+>  	for prog in d.getVar('base_bindir_progs', True).split():
+> 
 
 
