@@ -1,34 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E08E972B6A
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BACEC606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 13:42:19 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id k14so25775727wgh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 05:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=swvTtwLhtoalKGPgFLGZjyDhRQ0MqYn5BlKUiT2Z8z8=;
-	b=DRoAY9Su7rn0NT6Yh4lK0dX4+mBfHHcg0sfJVxaIX7dbgrN40iwgcdLO0AFspiJBSy
-	BCoeVdoDPXAmmkcAFDy7sx3ivmZ7vE/BVdSgnaR9qnnjrD6OSAK4Ly/Q7G53176pP0Ah
-	Bk6Yq3ehKTE4OkugAJCULoYVdXeg+CkfdvgrhEYu2XJnjcO+p4mPauwzrMwtAmShV5RP
-	5l21nQwYg21of+8yH/ugTqZNyAi6AUwzz0zkCJqJAUkUIBq0iCC3GHLRYMzE/pqF5Ram
-	fHTwTNEZdbnMSqP+VzZbBwisDiw3EHjyA4O4rMVcjm4tlGKUw+hAV4YfgAOqG71DhtFR
-	HOxA==
-X-Received: by 10.180.83.164 with SMTP id r4mr56525624wiy.73.1424180540228;
-	Tue, 17 Feb 2015 05:42:20 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	hj10sm14811934wjc.48.2015.02.17.05.42.19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Feb 2015 05:42:19 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 14:42:18 +0100
-Message-Id: <1424180538-21908-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.0
-Subject: [PATCH] test-dependencies.sh: strip only .bb suffix
+	Tue, 17 Feb 2015 14:54:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1HEs1CG002349
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Feb 2015 06:54:01 -0800 (PST)
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 17 Feb 2015 06:54:01 -0800
+Message-ID: <54E35600.8060803@windriver.com>
+Date: Tue, 17 Feb 2015 09:53:52 -0500
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: scerveau <scerveau@voxtok.com>, Martin Jansa <martin.jansa@gmail.com>
+References: <54E1CED1.6060900@voxtok.com> <20150216130844.GF2297@jama>
+	<54E1ECF5.2010405@voxtok.com>
+In-Reply-To: <54E1ECF5.2010405@voxtok.com>
+X-Originating-IP: [172.25.44.6]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: cdra_1.1.3 is not available anymore.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 13:42:20 -0000
+X-List-Received-Date: Tue, 17 Feb 2015 14:54:07 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-* we were stripping too much when stripping recipe name from line like this:
-  ERROR: Task 12016 (/some/patch/something.dot.bar.bb, do_fetch) failed with exit code '1'
-  where the recipe name contains dots and doesn't end with _<version>.bb
+On 2015-02-16 08:13 AM, scerveau wrote:
+> Dear Martin,
+>
+> I'm using dora and daisy branch and the build will be failing on this
+> branch 1.1.3.
+> Is it planned to backport thee 3.13 patch to dora and daisy ?
+> I just posted a patch to use the 1.1.3 as before but is there a license
+> issue, so we cant use this version anymore ?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/test-dependencies.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Dora is community supported now,
+Daisy is updated until 1.8 is out in a couple of months.
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-index 2bcc2ca..e01acbe 100755
---- a/scripts/test-dependencies.sh
-+++ b/scripts/test-dependencies.sh
-@@ -141,7 +141,7 @@ build_all() {
-   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
-   RESULT+=${PIPESTATUS[0]}
-   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
--  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\..*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
-+  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
- }
- 
- build_every_recipe() {
+https://wiki.yoctoproject.org/wiki/Releases
+https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
+
+Long term support is available from several companies:
+https://www.yoctoproject.org/ecosystem/showcase
+
+../Randy
+
+>
+>
+> Best regards.
+>
+> Stéphane
+> On 02/16/2015 02:08 PM, Martin Jansa wrote:
+>> On Mon, Feb 16, 2015 at 12:04:49PM +0100, scerveau wrote:
+>>> Dear all,
+>>>
+>>> It seems that crda_1.1.3 recipe is broken according that the link
+>>> http://wireless.kernel.org/download/crda/crda-1.1.3.tar.bz2 is not
+>>> available anymore.
+>>> It can be now downloaded here
+>>> https://www.kernel.org/pub/software/network/crda/crda_1.1.3.tar.bz2
+>>>
+>>> But concerning the binary
+>>> http://wireless.kernel.org/download/wireless-regdb/regulatory.bins/2013.01.11-regulatory.bin
+>>>
+>>> it is not available also but i dont find a server which will allow to
+>>> fetch it.
+>>>
+>>> Does someone modify the recipe already or does someone know where we
+>>> could fetch the binary?
+>>> I'll continue my investigation.
+>> http://patches.openembedded.org/patch/87751/
+>>
+>
+
+
 -- 
-2.3.0
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200 Ottawa, Ontario, 
+Canada K2K 2W5
 
