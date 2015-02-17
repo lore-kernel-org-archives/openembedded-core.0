@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7198E71EC3
+	by mail.openembedded.org (Postfix) with ESMTP id 2A23371F05
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 22:33:04 +0000 (UTC)
+	Tue, 17 Feb 2015 22:35:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1HMWs1O026672; Tue, 17 Feb 2015 22:32:54 GMT
+	t1HMZitV027061 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 22:35:44 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sM8SLtQNxWls; Tue, 17 Feb 2015 22:32:54 +0000 (GMT)
+	with LMTP id TfJwe43sKqZs
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 22:35:44 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1HMWcx3026665
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 17 Feb 2015 22:32:50 GMT
-Message-ID: <1424212358.25541.14.camel@linuxfoundation.org>
+	t1HMZTOQ027043
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 22:35:40 GMT
+Message-ID: <1424212529.25541.16.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 17 Feb 2015 22:32:38 +0000
-In-Reply-To: <alpine.LFD.2.11.1502170611270.21712@localhost>
-References: <alpine.LFD.2.11.1502170611270.21712@localhost>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Feb 2015 22:35:29 +0000
 X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: "--disable-werror" versus "--disable-Werror"?
+Subject: [PATCH] systemd: Extend searchpath to include user based unit files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 22:33:06 -0000
+X-List-Received-Date: Tue, 17 Feb 2015 22:35:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-02-17 at 06:21 -0500, Robert P. J. Day wrote:
->   i did a "grep" just to see how other recipes were doing it, and i
-> saw a mixture of "--disable-werror" versus "--disable-Werror", and
-> this web page which suggests that only one of those forms is correct:
-> 
-> http://patchwork.openembedded.org/patch/23361/
-> 
-> but feel free to search for yourself to see.
-> 
->   in any event, what *is* the proper local.conf fix to disable this
-> option on a per-recipe basis?
+Currently we only handle system unit files. Pulseaudio adds user components
+so add these to the search paths.
 
-It depends on the recipe in question and how its configuration is
-enabling warnings as errors in the first place. There is no defined
-standard mechanism for that afaik.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cheers,
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index c34884b..bb77c24 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -138,6 +138,7 @@ python systemd_populate_packages() {
+         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
+         searchpaths.append(oe.path.join(d.getVar("nonarch_base_libdir", True), "systemd", "system"))
+         searchpaths.append(oe.path.join(d.getVar("exec_prefix", True), d.getVar("nonarch_base_libdir", True), "systemd", "system"))
++        searchpaths.append(oe.path.join(d.getVar("exec_prefix", True), d.getVar("nonarch_base_libdir", True), "systemd", "user"))
+         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
+         has_exactly_one_service = len(systemd_packages.split()) == 1
+         if has_exactly_one_service:
 
-Richard
 
 
