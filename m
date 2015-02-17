@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 94DCC65C85
+	by mail.openembedded.org (Postfix) with ESMTP id B55FA73569
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 13:08:35 +0000 (UTC)
+	Tue, 17 Feb 2015 13:08:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:41 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780884"
+X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780893"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:10 -0800
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:11 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 15:07:55 +0200
-Message-Id: <1e5392149959a6ba11556b7595013e62106c68f5.1424178303.git.cristian.iorga@intel.com>
+Date: Tue, 17 Feb 2015 15:07:56 +0200
+Message-Id: <b69a6b6c2e82f6311ee41e7891228dbd52e1c55d.1424178303.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 02/11] packagegroup-base: select distro preference for bluez provider
+Subject: [PATCH v2 03/11] pulseaudio: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,31 @@ From: "Peter A. Bigot" <pab@pabigot.com>
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-base.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index f4b2cd5..369b63e 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -8,6 +8,7 @@ PR = "r83"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 99cad76..b73576e 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -12,7 +12,7 @@ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+ DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
  
- inherit packagegroup
-+inherit bluetooth
+-inherit autotools pkgconfig useradd gettext perlnative
++inherit autotools pkgconfig useradd gettext perlnative bluetooth
  
- PROVIDES = "${PACKAGES}"
- PACKAGES = ' \
-@@ -203,7 +204,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+@@ -31,7 +31,7 @@ EXTRA_OECONF = "\
+                 ac_cv_header_valgrind_memcheck_h=no \
+ "
  
- SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
- RDEPENDS_packagegroup-base-bluetooth = "\
--    bluez4 \
-+    ${BLUEZ} \
-     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
-     "
- 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 -- 
 2.1.0
 
