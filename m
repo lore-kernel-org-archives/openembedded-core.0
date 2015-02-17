@@ -1,30 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E5FC671F05
+Return-Path: <kergoth@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 160AA73569
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 15:55:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1HFtDBp002978
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Feb 2015 07:55:14 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 17 Feb 2015 07:55:13 -0800
-Message-ID: <54E36460.2090109@windriver.com>
-Date: Tue, 17 Feb 2015 09:55:12 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Tue, 17 Feb 2015 15:55:35 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 10so12955380ykt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Feb 2015 07:55:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=VtwYjtaZDoWubGUgB2y2mbfpkksc/s9fKLw9tYFCOVQ=;
+	b=znOc8Dh+WZmLWLHVm7c7Up/8VZKRutmAwrmly/GsNWOaSDBWkzYco60B6rY5sQlyYm
+	AgaWoehip9/p/Nl13M+O0qjHEysy+Ucj+rzeJ0J2kqjRALEIN1qHjpAlii998MvnBIBz
+	/rxUtvIvzeHN2KQTNCH5iahnSJAzhqIRlxzT9qegNOkmNquQ6mu1RUmwCXioOF9RxJYO
+	eCQDg47rMPmEDJ4VeUBr/H3NY+Ut5MA2Oek5k5PwPSV4TdV0DG6oWKU587s5aFRXGsMt
+	e8s7sFWF7DRz7LwZE1EyuCtwfftx7Nb4HiOgmgJtwMO7qARYEIgxPZqq5jeu2mM8JzXV
+	dydg==
+X-Received: by 10.236.21.163 with SMTP id r23mr2743005yhr.141.1424188536912;
+	Tue, 17 Feb 2015 07:55:36 -0800 (PST)
 MIME-Version: 1.0
-To: Paul Gortmaker <paul.gortmaker@windriver.com>,
+Sender: kergoth@gmail.com
+Received: by 10.170.120.4 with HTTP; Tue, 17 Feb 2015 07:55:16 -0800 (PST)
+In-Reply-To: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
+References: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 17 Feb 2015 08:55:16 -0700
+X-Google-Sender-Auth: FUDme3iDX7IUGHiVTalD43VoRW8
+Message-ID: <CABcZANmxWG1Vg5L0y8LWG_=WA-BCevD0f_Y_6NhPj_9zq82azg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1424152066-23546-1-git-send-email-paul.gortmaker@windriver.com>
-	<1424152066-23546-3-git-send-email-paul.gortmaker@windriver.com>
-In-Reply-To: <1424152066-23546-3-git-send-email-paul.gortmaker@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 2/3] coreutils: import prebuilt manpages from Gentoo
+Subject: Re: [PATCH] package_rpm.bbclass: support packaging of symlinks to directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,98 +44,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Feb 2015 15:55:14 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Feb 2015 15:55:38 -0000
+Content-Type: multipart/alternative; boundary=089e015371c8d5ff57050f4abbae
 
-On 2/16/15 11:47 PM, Paul Gortmaker wrote:
-> As can be seen here:
-> 
-> http://lists.gnu.org/archive/html/coreutils/2014-11/msg00001.html
-> 
-> other people have run into the headache of trying to cross compile
-> coreutils, with the "help2man" problem (assumes host can run the
-> target binaries with "--help" arg to collect data for manpage.)
-> 
-> And since "current wisdom is this is working as intended" we are
-> largely left with no choice but to use the same solution and
-> abandon trying to generate the man pages at build time.  So here
-> we import prebuilt manpages.
+--089e015371c8d5ff57050f4abbae
+Content-Type: text/plain; charset=UTF-8
 
-Looks like it addresses the issue I had.
+On Tue, Feb 17, 2015 at 6:42 AM, Patrick Ohly <patrick.ohly@intel.com>
+wrote:
 
-Looks good!
-
---Mark
-
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> ---
->  meta/recipes-core/coreutils/coreutils_8.23.bb | 21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.23.bb b/meta/recipes-core/coreutils/coreutils_8.23.bb
-> index be68a310311a..63df75e7baf2 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.23.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.23.bb
-> @@ -12,14 +12,17 @@ DEPENDS_class-native = ""
->  
->  inherit autotools gettext texinfo
->  
-> -SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-> +SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
-> +           http://distfiles.gentoo.org/distfiles/${BP}-man.tar.xz;name=manpages \
->             file://man-decouple-manpages-from-build.patch \
->             file://remove-usr-local-lib-from-m4.patch \
->             file://fix-selinux-flask.patch \
->            "
->  
-> -SRC_URI[md5sum] = "abed135279f87ad6762ce57ff6d89c41"
-> -SRC_URI[sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
-> +SRC_URI[tarball.md5sum] = "abed135279f87ad6762ce57ff6d89c41"
-> +SRC_URI[tarball.sha256sum] = "ec43ca5bcfc62242accb46b7f121f6b684ee21ecd7d075059bf650ff9e37b82d"
-> +SRC_URI[manpages.md5sum] = "ce49bc8360e16afe67581d136606efc7"
-> +SRC_URI[manpages.sha256sum] = "d1b16e74b3dba4f313aeebae2c69da205f7d2e6e1c2aa8d39026c860d314ecca"
->  
->  EXTRA_OECONF_class-native = "--without-gmp"
->  EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
-> @@ -71,6 +74,13 @@ do_install_append() {
->  	# in update-alternatives to fail, therefore use lbracket - the name used
->  	# for the actual source file.
->  	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
+> +            # Treat all symlinks to directories as normal files.
+> +            # os.walk() lists them as directories.
+> +            for i, entry in enumerate(dirs):
+> +                if os.path.islink(os.path.join(rootpath, entry)):
+> +                    del dirs[i]
+> +                    files.append(entry)
 > +
-> +	# prebuilt man pages
-> +	install -d ${D}/${mandir}/man1
-> +	install -t ${D}/${mandir}/man1 ${S}/man/*.1
-> +	# prebuilt man pages don't do a separate man page for [ vs test.
-> +	# see comment above r.e. sed and update-alternatives
-> +	cp -a ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
->  }
->  
->  do_install_append_class-native(){
-> @@ -82,18 +92,23 @@ inherit update-alternatives
->  
->  ALTERNATIVE_PRIORITY = "100"
->  ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base64 mktemp df"
-> +ALTERNATIVE_${PN}-doc = "base64.1 mktemp.1 df.1 lbracket.1"
->  
->  ALTERNATIVE_LINK_NAME[base64] = "${base_bindir}/base64"
->  ALTERNATIVE_TARGET[base64] = "${bindir}/base64.${BPN}"
-> +ALTERNATIVE_LINK_NAME[base64.1] = "${mandir}/man1/base64.1"
->  
->  ALTERNATIVE_LINK_NAME[mktemp] = "${base_bindir}/mktemp"
->  ALTERNATIVE_TARGET[mktemp] = "${bindir}/mktemp.${BPN}"
-> +ALTERNATIVE_LINK_NAME[mktemp.1] = "${mandir}/man1/mktemp.1"
->  
->  ALTERNATIVE_LINK_NAME[df] = "${base_bindir}/df"
->  ALTERNATIVE_TARGET[df] = "${bindir}/df.${BPN}"
-> +ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
->  
->  ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
->  ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
-> +ALTERNATIVE_LINK_NAME[lbracket.1] = "${mandir}/man1/lbracket.1"
->  
->  python __anonymous() {
->  	for prog in d.getVar('base_bindir_progs', True).split():
-> 
+>
 
+You're deleting elements of a list while you're iterating over it. I'm
+fairly certain that will lead to pain, unless you explicitly ensure you're
+operating against a copy: for i, entry in enumerate(list(dirs)):
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e015371c8d5ff57050f4abbae
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Feb 17, 2015 at 6:42 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":qk" cl=
+ass=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 # Treat all symlinks to directories as normal files.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # os.walk() lists them as direct=
+ories.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for i, entry in enumerate(dirs):=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.islink(=
+os.path.join(rootpath, entry)):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 del =
+dirs[i]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+s.append(entry)<br>
++</div></blockquote></div><br>You&#39;re deleting elements of a list while =
+you&#39;re iterating over it. I&#39;m fairly certain that will lead to pain=
+, unless you explicitly ensure you&#39;re operating against a copy: for i, =
+entry in enumerate(list(dirs)):<br>-- <br><div class=3D"gmail_signature">Ch=
+ristopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEm=
+bedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mento=
+r Graphics</div>
+</div></div>
+
+--089e015371c8d5ff57050f4abbae--
