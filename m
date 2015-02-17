@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 96A6573567
+	by mail.openembedded.org (Postfix) with ESMTP id BB8F67356B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 13:08:36 +0000 (UTC)
+	Tue, 17 Feb 2015 13:08:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:40 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 17 Feb 2015 05:00:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780879"
+X-IronPort-AV: E=Sophos;i="5.09,594,1418112000"; d="scan'208";a="686780905"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:09 -0800
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2015 05:08:12 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Feb 2015 15:07:54 +0200
-Message-Id: <4b1c009d55f164694181da94caf31f985ba2e10c.1424178303.git.cristian.iorga@intel.com>
+Date: Tue, 17 Feb 2015 15:07:58 +0200
+Message-Id: <2812924fdab9c1b519dd9901478ce03aa7041a4f.1424178303.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1424178303.git.cristian.iorga@intel.com>
 References: <cover.1424178303.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 01/11] bluetooth.bbclass: simplify recipe inference of bluetooth provider
+Subject: [PATCH v2 05/11] libpcap: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +35,28 @@ X-List-Received-Date: Tue, 17 Feb 2015 13:08:39 -0000
 
 From: "Peter A. Bigot" <pab@pabigot.com>
 
-Defines ${BLUEZ} to be the provider of bluez services as specified by
-DISTRO_FEATURES.
-
-Example recipe fragment:
-  inherit bluetooth
-  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
-  PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-  PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5"
-
-[YOCTO #5031]
-
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/classes/bluetooth.bbclass | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/classes/bluetooth.bbclass
+ meta/recipes-connectivity/libpcap/libpcap.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/bluetooth.bbclass b/meta/classes/bluetooth.bbclass
-new file mode 100644
-index 0000000..f88b4ae
---- /dev/null
-+++ b/meta/classes/bluetooth.bbclass
-@@ -0,0 +1,14 @@
-+# Avoid code duplication in bluetooth-dependent recipes.
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index a12eb16..979665c 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -10,8 +10,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
+ DEPENDS = "flex-native bison-native"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++inherit bluetooth
 +
-+# Define a variable that expands to the recipe (package) providing core
-+# bluetooth support on the platform:
-+# "" if bluetooth is not in DISTRO_FEATURES
-+# else "bluez5" if bluez5 is in DISTRO_FEATURES
-+# else "bluez4"
-+
-+# Use this with:
-+#  inherit bluetooth
-+#  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
-+#  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
-+
-+BLUEZ ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5', 'bluez4', d), '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
++PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+ PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
+ PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
+ 
 -- 
 2.1.0
 
