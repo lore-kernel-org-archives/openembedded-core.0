@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C04A573546
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 85E3473546
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 02:08:21 +0000 (UTC)
+	Tue, 17 Feb 2015 02:08:20 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1H28N6g025297
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1H28L6P004510
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 18:08:23 -0800 (PST)
+	Mon, 16 Feb 2015 18:08:21 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 16 Feb 2015 18:08:22 -0800
+	14.3.174.1; Mon, 16 Feb 2015 18:08:21 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Feb 2015 10:08:15 +0800
-Message-ID: <87cb79df39c692388561e25890dca5b3128dc84a.1424138791.git.Qi.Chen@windriver.com>
+Date: Tue, 17 Feb 2015 10:08:14 +0800
+Message-ID: <dcd02971b58297c5b855c023d02a68196c52a58a.1424138791.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1424138791.git.Qi.Chen@windriver.com>
 References: <cover.1424138791.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 4/4] useradd.bbclass: avoid do_rootfs error for debian package backend
+Subject: [PATCH V3 3/4] update-rc.d: use '-f' option in updatercd_postrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +36,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 17 Feb 2015 02:08:22 -0000
 Content-Type: text/plain
 
-If /etc/login.defs is treated as a configuration file, then we would meet
-errors at do_rootfs time telling us that useradd/groupadd cannot execute
-correctly.
+Use '-f' ('--force') option so that while removing packages using deb,
+we don't fail because of the following error:
 
-This is because the dpkg handles config file specially, the login.defs
-is temporarily renamed as login.defs.dpkg-new.
+   update-rc.d: $initd/$bn exists during rc.d purge (use -f to force)
 
-How ubuntu deals the user/group adding problem? They do it at postinst of the
-package. And, the postinst script of a package would possibly do `chown' of
-its files or directories.
+Using '-f' option would make this a warning but continue to execute.
 
-The above strategy is not suitable for OE. Because we do chown in do_install
-and add user/group in preinst scripts of the packages.
+   update-rc.d: $initd/$bn exists during rc.d purge (continuing)
 
-That's why we need this patch so that do_rootfs don't fail.
+We need this option because dpkg package backend have special handling for
+configuration files. And if files under /etc/init.d are treated as configuration
+files, we will have errors.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/useradd.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/update-rc.d.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 0b9a843..e443f84 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -24,6 +24,16 @@ if test "x$D" != "x"; then
- 	# Installing into a sysroot
- 	SYSROOT="$D"
- 	OPT="--root $D"
-+
-+	# Make sure login.defs is there, this is to make debian package backend work
-+	# correctly while doing rootfs.
-+	# The problem here is that if /etc/login.defs is treated as a config file for
-+	# shadow package, then while performing preinsts for packages that depend on
-+	# shadow, there might only be /etc/login.def.dpkg-new there in root filesystem.
-+	if [ ! -e $D${sysconfdir}/login.defs -a -e $D${sysconfdir}/login.defs.dpkg-new ]; then
-+	    cp $D${sysconfdir}/login.defs.dpkg-new $D${sysconfdir}/login.defs
-+	fi
-+
- 	# user/group lookups should match useradd/groupadd --root
- 	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index bc1aa7d..a9c0323 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -48,9 +48,9 @@ fi
+ updatercd_postrm() {
+ if type update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+-		OPT="-r $D"
++		OPT="-f -r $D"
+ 	else
+-		OPT=""
++		OPT="-f"
+ 	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} remove
  fi
 -- 
 1.9.1
