@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BF05A65C85
+	by mail.openembedded.org (Postfix) with ESMTP id C04A573546
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 02:08:19 +0000 (UTC)
+	Tue, 17 Feb 2015 02:08:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1H28KYL025294
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1H28N6g025297
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Feb 2015 18:08:20 -0800 (PST)
+	Mon, 16 Feb 2015 18:08:23 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 16 Feb 2015 18:08:20 -0800
+	14.3.174.1; Mon, 16 Feb 2015 18:08:22 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Feb 2015 10:08:13 +0800
-Message-ID: <7d69cebc74b1e61acb18e4660a744f9920b56ebe.1424138791.git.Qi.Chen@windriver.com>
+Date: Tue, 17 Feb 2015 10:08:15 +0800
+Message-ID: <87cb79df39c692388561e25890dca5b3128dc84a.1424138791.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1424138791.git.Qi.Chen@windriver.com>
 References: <cover.1424138791.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 2/4] package_manager.py: use 'purge' instead of 'remove' in case of deb
+Subject: [PATCH V3 4/4] useradd.bbclass: avoid do_rootfs error for debian package backend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +36,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 17 Feb 2015 02:08:22 -0000
 Content-Type: text/plain
 
-We need to use 'purge' instead of 'remove' for debian package backend when
-removing packages at rootfs time. This is because that 'remove' command for
-'dpkg' and 'apt-get' does not remove configuration files.
+If /etc/login.defs is treated as a configuration file, then we would meet
+errors at do_rootfs time telling us that useradd/groupadd cannot execute
+correctly.
+
+This is because the dpkg handles config file specially, the login.defs
+is temporarily renamed as login.defs.dpkg-new.
+
+How ubuntu deals the user/group adding problem? They do it at postinst of the
+package. And, the postinst script of a package would possibly do `chown' of
+its files or directories.
+
+The above strategy is not suitable for OE. Because we do chown in do_install
+and add user/group in preinst scripts of the packages.
+
+That's why we need this patch so that do_rootfs don't fail.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/useradd.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index fcf05dc..070b79d 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1628,10 +1628,10 @@ class DpkgPM(PackageManager):
-     def remove(self, pkgs, with_dependencies=True):
-         if with_dependencies:
-             os.environ['APT_CONFIG'] = self.apt_conf_file
--            cmd = "%s remove %s" % (self.apt_get_cmd, ' '.join(pkgs))
-+            cmd = "%s purge %s" % (self.apt_get_cmd, ' '.join(pkgs))
-         else:
-             cmd = "%s --admindir=%s/var/lib/dpkg --instdir=%s" \
--                  " -r --force-depends %s" % \
-+                  " -P --force-depends %s" % \
-                   (bb.utils.which(os.getenv('PATH'), "dpkg"),
-                    self.target_rootfs, self.target_rootfs, ' '.join(pkgs))
- 
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 0b9a843..e443f84 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -24,6 +24,16 @@ if test "x$D" != "x"; then
+ 	# Installing into a sysroot
+ 	SYSROOT="$D"
+ 	OPT="--root $D"
++
++	# Make sure login.defs is there, this is to make debian package backend work
++	# correctly while doing rootfs.
++	# The problem here is that if /etc/login.defs is treated as a config file for
++	# shadow package, then while performing preinsts for packages that depend on
++	# shadow, there might only be /etc/login.def.dpkg-new there in root filesystem.
++	if [ ! -e $D${sysconfdir}/login.defs -a -e $D${sysconfdir}/login.defs.dpkg-new ]; then
++	    cp $D${sysconfdir}/login.defs.dpkg-new $D${sysconfdir}/login.defs
++	fi
++
+ 	# user/group lookups should match useradd/groupadd --root
+ 	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
+ fi
 -- 
 1.9.1
 
