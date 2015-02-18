@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 397166E614
+	by mail.openembedded.org (Postfix) with ESMTP id 90B7673594
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 03:28:42 +0000 (UTC)
+	Wed, 18 Feb 2015 03:28:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1I3ShUw018558
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1I3SiRv018561
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 19:28:43 -0800 (PST)
+	Tue, 17 Feb 2015 19:28:45 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 17 Feb 2015 19:28:43 -0800
+	Tue, 17 Feb 2015 19:28:44 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Feb 2015 19:28:39 -0800
-Message-ID: <cover.1424230079.git.liezhi.yang@windriver.com>
+Date: Tue, 17 Feb 2015 19:28:41 -0800
+Message-ID: <eceff7d5f3e72ad90a818f7c8b42270f4c8ccb9b.1424230079.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1424230079.git.liezhi.yang@windriver.com>
+References: <cover.1424230079.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] meta: 4 fixes
+Subject: [PATCH 2/4] gettext 0.16.1: disable native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +36,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 18 Feb 2015 03:28:43 -0000
 Content-Type: text/plain
 
-The following changes since commit 2bb8b2abb689d91b7b7e28e6bd528747bde94dd2:
+ERROR: The recipe gettext-native is trying to install files into a shared area when those files already exist. Those files and their manifest location are:
+   sysroots/x86_64-linux/usr/share/gettext/config.rpath
+ Matched in manifest-x86_64-gettext-minimal-native.populate_sysroot
+ sysroots/x86_64-linux/usr/share/gettext/po/remove-potcdate.sin
+ Matched in manifest-x86_64-gettext-minimal-native.populate_sysroot
+ sysroots/x86_64-linux/usr/share/gettext/po/Makefile.in.in
+ Matched in manifest-x86_64-gettext-minimal-native.populate_sysroot
+Please verify which recipe should provide the above files.
 
-  license.bbclass: fix unexpected operator for LICENSE values with space (2015-02-17 22:29:27 +0000)
+We have 0.19.4, so disable it rather than fix.
 
-are available in the git repository at:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-core/gettext/gettext_0.16.1.bb |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
-
-Robert Yang (4):
-  meta: fix build with gettext 0.16.1
-  gettext 0.16.1: disable native
-  btrfs-tools: fix for parallel build
-  bind: fix paralle issue
-
- .../bind/bind/bind-confgen-build-unix.o-once.patch |   44 ++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |    1 +
- .../connman/connman-gnome_0.7.bb                   |    2 +-
- meta/recipes-core/gettext/gettext_0.16.1.bb        |    4 +-
- .../btrfs-tools/btrfs-tools/fix-parallel.patch     |   32 ++++++++++++++
- .../btrfs-tools/btrfs-tools_git.bb                 |    5 ++-
- .../gtk-engines/gtk-engines_2.20.2.bb              |    2 +-
- meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb   |    2 +-
- .../oprofile/oprofileui-server_git.bb              |    2 +-
- meta/recipes-kernel/oprofile/oprofileui_git.bb     |    2 +-
- meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb      |    2 +-
- meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb         |    2 +-
- meta/recipes-sato/puzzles/oh-puzzles_git.bb        |    2 +-
- meta/recipes-support/atk/at-spi2-core_2.14.1.bb    |    2 +-
- meta/recipes-support/libfm/libfm-extra_1.2.3.bb    |    2 +-
- meta/recipes-support/libfm/libfm_1.2.3.bb          |    2 +-
- meta/recipes-support/pinentry/pinentry_0.9.0.bb    |    2 +
- 17 files changed, 95 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
-
+diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
+index 892194c..97acf7b 100644
+--- a/meta/recipes-core/gettext/gettext_0.16.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
+@@ -7,9 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9ea3144f04c41cd2eada5d3f472e6ea5"
+ 
+ PR = "r6"
+ DEPENDS = "virtual/libiconv"
+-DEPENDS_class-native = ""
+ PROVIDES = "virtual/libintl virtual/gettext"
+-PROVIDES_class-native = ""
+ 
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+            file://gettext-vpath.patch \
+@@ -106,4 +104,4 @@ remove_sysroot_m4_macros () {
+     rm -r "${SYSROOT_DESTDIR}${datadir}/aclocal"
+ }
+ 
+-BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND = "nativesdk"
 -- 
 1.7.9.5
 
