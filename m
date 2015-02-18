@@ -1,26 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CA773597
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
+	[209.85.216.46])
+	by mail.openembedded.org (Postfix) with ESMTP id E647F6B6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 03:28:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1I3Sjx4018564
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Feb 2015 03:40:44 +0000 (UTC)
+Received: by mail-qa0-f46.google.com with SMTP id n4so29441265qaq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Feb 2015 19:28:45 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 17 Feb 2015 19:28:45 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Feb 2015 19:28:43 -0800
-Message-ID: <1aac34456a14b3ca57cc88b1e87f2a386ddf487e.1424230079.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1424230079.git.liezhi.yang@windriver.com>
-References: <cover.1424230079.git.liezhi.yang@windriver.com>
+	Tue, 17 Feb 2015 19:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=TsjR+/KTiowTLAvqVy8wEamhkZHTvg7zySMxh1V7wXc=;
+	b=vg6zz6dheLn5TarIY4Go81SMbAsVW/nNXznEiGsA6pb9ofQTEaIH3tCIlPOcH8oqBz
+	ZYFPOsrzkJ9WgL+YMLG7L3HkYODdqynOZOllAUPXQ6rVICM4BWQsxpuXcKlcdpQe97tv
+	Y1/CLZxJe1v7shnTn12aRpW9lg3oLpKptmFkaMmKBlU14SI91avdqc/k+mW/NwTpzGa7
+	HLlgkbQ4toGBQFbHL6iRA5WsdYmKnm9XFEGvYftCrnXHvznQ3ZP0gRYjEYtF04fhhc2M
+	G6blyjGrC1fO7KqOQkPD30dAUC2iAn5om4C6ZZHRjpDVeLdhjqKnCnEsmGHG/P0SI2OX
+	Y/kg==
 MIME-Version: 1.0
-Subject: [PATCH 4/4] bind: fix paralle issue
+X-Received: by 10.140.41.169 with SMTP id z38mr786646qgz.56.1424230845592;
+	Tue, 17 Feb 2015 19:40:45 -0800 (PST)
+Received: by 10.96.118.39 with HTTP; Tue, 17 Feb 2015 19:40:45 -0800 (PST)
+Received: by 10.96.118.39 with HTTP; Tue, 17 Feb 2015 19:40:45 -0800 (PST)
+In-Reply-To: <54E375B2.9080002@windriver.com>
+References: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
+	<54E3723B.9050606@windriver.com>
+	<CABcZAN=4puvBHBwH72ioVdGHpfSO5kngJGCWrJgED8xO_4xQkw@mail.gmail.com>
+	<54E375B2.9080002@windriver.com>
+Date: Tue, 17 Feb 2015 21:40:45 -0600
+Message-ID: <CACS+7ZTaJgfBkDOzSsnPqoi+MCwo9_46sC1hr8o9NpQMGwkzhw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_rpm.bbclass: support packaging of symlinks to directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +47,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Feb 2015 03:28:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Feb 2015 03:40:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c11dbaa13aac050f549523
 
-Fixed:
-unix/os.o: file not recognized: File truncated
-collect2: error: ld returned 1 exit status
+--001a11c11dbaa13aac050f549523
+Content-Type: text/plain; charset=UTF-8
 
-This is because os.o was built twice:
-* The implicity rule (depends on unix/os.o)
-* The "make all" in unix subdir (depends on unix/os.o)
+On 17 Feb 2015 11:09, "Mark Hatle" <mark.hatle@windriver.com> wrote:
+>
+> On 2/17/15 10:57 AM, Christopher Larson wrote:
+> >
+> > On Tue, Feb 17, 2015 at 9:54 AM, Mark Hatle <mark.hatle@windriver.com
+> > <mailto:mark.hatle@windriver.com>> wrote:
+> >
+> >     On 2/17/15 7:42 AM, Patrick Ohly wrote:
+> >     > os.walk() returns symlinks to directories in the "dirs" lists,
+> >     > but then never enters them by default. As a result, the old
+> >     > code applied neither the directory handling (because that
+> >     > is active once a directory gets entered) nor the file handling,
+> >     > and thus never packaged such symlinks.
+> >     >
+> >     > The fix is simple: find such special directory entries and move
+> >     > them to the "files" list.
+> >
+> >     I'm curious, what is the problem that is being fixed with this.
+> >
+> >     Normally you don't want to walk into symlinks to directories, as
+either you want
+> >     to capture the symlink itself -- or the symlink is pointing to
+something you
+> >     don't have access to when packaging (i.e. /proc).
+> >
+> >
+> > This patch doesn't make it walk into the directory symlinks, it moves
+them into
+> > the files list rather than the dirs list so they'll be captured
+themselves, as
+> > far as I can tell from reading it.
+>
+> Ok.. I missed that bit.. I'm still curious what this fixes.
+>
 
-Depend on subdirs which is unix only rather than unix/os.o will fix the
-problem.
+I haven't tried myself, but I expect it helps with the /usr merge.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../bind/bind/bind-confgen-build-unix.o-once.patch |   44 ++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |    1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
+> --Mark
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-diff --git a/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch b/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
-new file mode 100644
-index 0000000..096d5d8
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
-@@ -0,0 +1,44 @@
-+From 9b40619ff6fddfef2758ba797789f8487f412df3 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 16 Feb 2015 00:50:01 -0800
-+Subject: [PATCH] confgen: don't build unix.o twice
-+
-+Fixed:
-+unix/os.o: file not recognized: File truncated
-+collect2: error: ld returned 1 exit status
-+
-+This is because os.o was built twice:
-+* The implicity rule (depends on unix/os.o)
-+* The "make all" in unix subdir (depends on unix/os.o)
-+
-+Depend on subdirs which is unix only rather than unix/os.o will fix the
-+problem.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ bin/confgen/Makefile.in |    4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/bin/confgen/Makefile.in b/bin/confgen/Makefile.in
-+index 8b3e5aa..4868a24 100644
-+--- a/bin/confgen/Makefile.in
-++++ b/bin/confgen/Makefile.in
-+@@ -74,11 +74,11 @@ rndc-confgen.@O@: rndc-confgen.c
-+ ddns-confgen.@O@: ddns-confgen.c
-+ 	${LIBTOOL_MODE_COMPILE} ${CC} ${ALL_CFLAGS} -c ${srcdir}/ddns-confgen.c
-+ 
-+-rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${CONFDEPLIBS} 
-++rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLIBS} $(SUBDIRS)
-+ 	export BASEOBJS="rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}"; \
-+ 	${FINALBUILDCMD}
-+ 
-+-ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${CONFDEPLIBS} 
-++ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLIBS} $(SUBDIRS)
-+ 	export BASEOBJS="ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}"; \
-+ 	${FINALBUILDCMD}
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index 8431eb9..5d97874 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -20,6 +20,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://bind9_9_5-CVE-2014-8500.patch \
-            file://bind-add-crosscripts-search-path-for-xml2-config.patch \
-            file://bind-subdirs-run-serially.patch \
-+           file://bind-confgen-build-unix.o-once.patch \
- 	   "
- 
- SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
--- 
-1.7.9.5
+--001a11c11dbaa13aac050f549523
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr"><br>
+On 17 Feb 2015 11:09, &quot;Mark Hatle&quot; &lt;<a href=3D"mailto:mark.hat=
+le@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On 2/17/15 10:57 AM, Christopher Larson wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Tue, Feb 17, 2015 at 9:54 AM, Mark Hatle &lt;<a href=3D"mailto=
+:mark.hatle@windriver.com">mark.hatle@windriver.com</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:mark.hatle@windriver.com">mark.hatle=
+@windriver.com</a>&gt;&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0On 2/17/15 7:42 AM, Patrick Ohly wrote:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; os.walk() returns symlinks to directories=
+ in the &quot;dirs&quot; lists,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; but then never enters them by default. As=
+ a result, the old<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; code applied neither the directory handli=
+ng (because that<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; is active once a directory gets entered) =
+nor the file handling,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; and thus never packaged such symlinks.<br=
+>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; The fix is simple: find such special dire=
+ctory entries and move<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; them to the &quot;files&quot; list.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0I&#39;m curious, what is the problem that is b=
+eing fixed with this.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0Normally you don&#39;t want to walk into symli=
+nks to directories, as either you want<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0to capture the symlink itself -- or the symlin=
+k is pointing to something you<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0don&#39;t have access to when packaging (i.e. =
+/proc).<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; This patch doesn&#39;t make it walk into the directory symlinks, =
+it moves them into<br>
+&gt; &gt; the files list rather than the dirs list so they&#39;ll be captur=
+ed themselves, as<br>
+&gt; &gt; far as I can tell from reading it.<br>
+&gt;<br>
+&gt; Ok.. I missed that bit.. I&#39;m still curious what this fixes.<br>
+&gt;</p>
+<p dir=3D"ltr">I haven&#39;t tried myself, but I expect it helps with the /=
+usr merge.</p>
+<p dir=3D"ltr">&gt; --Mark<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
 
+--001a11c11dbaa13aac050f549523--
