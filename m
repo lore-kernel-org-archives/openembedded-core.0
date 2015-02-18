@@ -1,46 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E6E9606E8;
-	Wed, 18 Feb 2015 13:07:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1ID6x9j027328; Wed, 18 Feb 2015 13:06:59 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fO-4zgqsnaWi; Wed, 18 Feb 2015 13:06:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1ID6lhe027324
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 18 Feb 2015 13:06:58 GMT
-Message-ID: <1424264807.11836.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 18 Feb 2015 13:06:47 +0000
-In-Reply-To: <1424260309.25541.23.camel@linuxfoundation.org>
-References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
-	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
-	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
-	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
-	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
-	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
-	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
-	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
-	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
-	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
-	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
-	<1423908404.20217.100.camel@linuxfoundation.org>
-	<CAMKF1sofS7MteZnPsTYRNAcMwrrh=T3FP+ASmAOGDMhcwyXB4g@mail.gmail.com>
-	<1424245575.25541.19.camel@linuxfoundation.org>
-	<BCB8524E-91CB-41F6-83C0-7B90E60BC82D@gmail.com>
-	<1424260309.25541.23.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EB67F6E614
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Feb 2015 14:40:38 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id k14so1573994wgh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Feb 2015 06:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=IACx+9YoYcHhflEBgZmwCMw3zWbKc2OD2L8yAtNA3f0=;
+	b=rdTwYk/4LUvD5QuofHaZGtbH9wzOJyrw3I3dPrRAsTIQpvhpBE5EOw7CjBP8CceiRc
+	VZDZbfAYUUZzYZqSliCGX08Cn6JtND/gJ1QCVfuhwxd5x4UrypLZ2w/7lNX6MtsTde7L
+	ZyOy/DXQDK3YBrBailvvbq7IrGvXtOGuCcDz/HeRjawUJ2IrBgHvWheqgOh5FbqXjByQ
+	M7rRrVfxMYYE4ymgO9cO+SpLw7wrRWNl+09F/OzqqILKjQkexjbXRNx4KNFqQMo3ICdF
+	CIVD7Pu5QH+kHGVBVfdxRrqC9WmA6MhveAFXCAc3YrD9uhq7y9YKWi128JflWEWoPGjv
+	BtcQ==
+X-Received: by 10.194.185.68 with SMTP id fa4mr9443916wjc.111.1424270439051;
+	Wed, 18 Feb 2015 06:40:39 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ka1sm32959924wjc.2.2015.02.18.06.40.37
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Feb 2015 06:40:37 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Feb 2015 15:40:35 +0100
+Message-Id: <1424270435-8424-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.0
+In-Reply-To: <20150113210849.GC2478@jama>
+References: <20150113210849.GC2478@jama>
+Subject: [PATCHv2] feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +43,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Feb 2015 13:07:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Feb 2015 14:40:42 -0000
 
-On Wed, 2015-02-18 at 11:51 +0000, Richard Purdie wrote:
-> On Wed, 2015-02-18 at 01:01 -0800, Khem Raj wrote:
-> > OK thats why I am not seeing it on my qemux86 build. 
-> > 
-> > this leaves us with only one problem - glibc/qemuarm issue
-> > 
-> > http://errors.yoctoproject.org/Errors/Details/8679/
-> > 
-> > I have seen this error with eglibc-2.19 and glibc 2.20 as well on x86 and arm as well in cases when using
-> > toolchain from sstate and rebuilding glibc with that. I assume this could be  unrelated to glibc upgrade
-> > and may be a latent problem. Could be missing dependency on a native tool or some such. I have been attributing it to gold
-> > but that just might have been a red herring.
-> > 
-> > I will see if I can get to reproduce it.
-> 
-> I tried another build with the three patches from your oe-core contrib
-> branch applied. Error report out is:
-> 
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=b75fed99f2aa86b49844dd0cf06991767f6f26d3
-> 
-> i.e. we're still seeing SSE errors in glibc builds. Am I missing some
-> patches or something?
+* this means that recipes with ARM_INSTRUCTION_SET explicitly changed
+  to arm will be built in feed without thumb suffix, the same does apply
+  for workdir, e.g. after "bitbake glib-2.0" you can see:
 
-The series needs:
+  tmp-glibc/work/armv5e-oe-linux-gnueabi:
+  glib-2.0  glibc  glibc-initial
 
- TUNE_CCARGS_x86 := "${@oe_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
-+TUNE_CCARGS_x86-64 := "${@oe_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
+  tmp-glibc/work/armv5te-oe-linux-gnueabi:
+  acl              db              gdk-pixbuf     kmod  ....
 
-since the x86 override doesn't cover x86_64. I'll queue that and run yet
-another build. We do have another poky-tiny issue too:
+  and
 
-https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/204
+  tmp-glibc/deploy/ipk:
+  all  armv5e  armv5te  qemuarm
 
-Cheers,
+* feed config should be ok, because all default DEFAULTTUNEs always
+  include "arm" variants of all supported PACKAGE_ARCHs
 
-RIchard
+* for more details see
+  http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091960.html
+  the toolchain path issues were resolved in 1.8
+
+* add ARM_INSTRUCTION_SET = "arm" to glibc-collateral.inc and comment in
+  glibc.inc to fix glibc-locale and glibc-scripts build
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 ++-
+ meta/recipes-core/glibc/glibc-collateral.inc        | 5 +++++
+ meta/recipes-core/glibc/glibc.inc                   | 3 +++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 0db5ec1..9746c7b 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -32,7 +32,8 @@ python () {
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}', '', d)}"
+ OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
+ 
+-ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d)}"
++# Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
++ARMPKGSFX_THUMB .= "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
+ 
+ # Whether to compile with code to allow interworking between the two
+ # instruction sets. This allows thumb code to be executed on a primarily
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index 85e06da..dfcebae 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -2,6 +2,11 @@ INHIBIT_DEFAULT_DEPS = "1"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
+ 
++# This needs to match with glibc.inc, otherwise glibc-scripts and glibc-locale
++# will fail to find main glibc, for details see
++# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
++ARM_INSTRUCTION_SET = "arm"
++
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 8aa78df..77947be 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -61,6 +61,9 @@ GLIBC_EXTRA_OECONF ?= ""
+ GLIBC_EXTRA_OECONF_class-nativesdk = ""
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++# This needs to match with glibc-collateral.inc, otherwise glibc-scripts and glibc-locale
++# will fail to find main glibc, for details see
++# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
+ ARM_INSTRUCTION_SET = "arm"
+ 
+ # glibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
+-- 
+2.3.0
 
 
