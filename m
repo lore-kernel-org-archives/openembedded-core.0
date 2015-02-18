@@ -1,36 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EB67F6E614
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3153865C85
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 14:40:38 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id k14so1573994wgh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 06:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IACx+9YoYcHhflEBgZmwCMw3zWbKc2OD2L8yAtNA3f0=;
-	b=rdTwYk/4LUvD5QuofHaZGtbH9wzOJyrw3I3dPrRAsTIQpvhpBE5EOw7CjBP8CceiRc
-	VZDZbfAYUUZzYZqSliCGX08Cn6JtND/gJ1QCVfuhwxd5x4UrypLZ2w/7lNX6MtsTde7L
-	ZyOy/DXQDK3YBrBailvvbq7IrGvXtOGuCcDz/HeRjawUJ2IrBgHvWheqgOh5FbqXjByQ
-	M7rRrVfxMYYE4ymgO9cO+SpLw7wrRWNl+09F/OzqqILKjQkexjbXRNx4KNFqQMo3ICdF
-	CIVD7Pu5QH+kHGVBVfdxRrqC9WmA6MhveAFXCAc3YrD9uhq7y9YKWi128JflWEWoPGjv
-	BtcQ==
-X-Received: by 10.194.185.68 with SMTP id fa4mr9443916wjc.111.1424270439051;
-	Wed, 18 Feb 2015 06:40:39 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ka1sm32959924wjc.2.2015.02.18.06.40.37
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Feb 2015 06:40:37 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Feb 2015 15:40:35 +0100
-Message-Id: <1424270435-8424-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.0
-In-Reply-To: <20150113210849.GC2478@jama>
-References: <20150113210849.GC2478@jama>
-Subject: [PATCHv2] feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb suffix
+	Wed, 18 Feb 2015 14:54:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t1IEsiMM015766
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 18 Feb 2015 06:54:45 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 18 Feb 2015 06:54:44 -0800
+Message-ID: <54E4A7B3.9020401@windriver.com>
+Date: Wed, 18 Feb 2015 08:54:43 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Patrick Ohly <patrick.ohly@intel.com>, Dan McGregor
+	<danismostlikely@gmail.com>
+References: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>	
+	<54E3723B.9050606@windriver.com>	
+	<CABcZAN=4puvBHBwH72ioVdGHpfSO5kngJGCWrJgED8xO_4xQkw@mail.gmail.com>	
+	<54E375B2.9080002@windriver.com>	
+	<CACS+7ZTaJgfBkDOzSsnPqoi+MCwo9_46sC1hr8o9NpQMGwkzhw@mail.gmail.com>
+	<1424249151.549.17.camel@intel.com>
+In-Reply-To: <1424249151.549.17.camel@intel.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_rpm.bbclass: support packaging of symlinks to directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,85 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Feb 2015 14:40:42 -0000
+X-List-Received-Date: Wed, 18 Feb 2015 14:54:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-* this means that recipes with ARM_INSTRUCTION_SET explicitly changed
-  to arm will be built in feed without thumb suffix, the same does apply
-  for workdir, e.g. after "bitbake glib-2.0" you can see:
+On 2/18/15 2:45 AM, Patrick Ohly wrote:
+> On Tue, 2015-02-17 at 21:40 -0600, Dan McGregor wrote:
+>>
+>> On 17 Feb 2015 11:09, "Mark Hatle" <mark.hatle@windriver.com> wrote:
+>>>
+>>> On 2/17/15 10:57 AM, Christopher Larson wrote:
+>>>>
+>>>> On Tue, Feb 17, 2015 at 9:54 AM, Mark Hatle
+>> <mark.hatle@windriver.com
+>>>> <mailto:mark.hatle@windriver.com>> wrote:
+>>>> This patch doesn't make it walk into the directory symlinks, it moves them into
+>>>> the files list rather than the dirs list so they'll be captured themselves, as
+>>>> far as I can tell from reading it.
+>>>
+>>> Ok.. I missed that bit.. I'm still curious what this fixes.
+>>>
+>>
+>> I haven't tried myself, but I expect it helps with the /usr merge.
+> 
+> Correct. I was working on a distro with a modified basefiles recipe
+> which only had /usr/[lib|bin|sbin] and symlinks to those in /. Without
+> this patch it was not possible to get these symlinks packaged in the
+> basefiles rpm.
+> 
 
-  tmp-glibc/work/armv5e-oe-linux-gnueabi:
-  glib-2.0  glibc  glibc-initial
+Thanks, I wasn't aware that the symlinks were not working in the basefiles.
 
-  tmp-glibc/work/armv5te-oe-linux-gnueabi:
-  acl              db              gdk-pixbuf     kmod  ....
-
-  and
-
-  tmp-glibc/deploy/ipk:
-  all  armv5e  armv5te  qemuarm
-
-* feed config should be ok, because all default DEFAULTTUNEs always
-  include "arm" variants of all supported PACKAGE_ARCHs
-
-* for more details see
-  http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091960.html
-  the toolchain path issues were resolved in 1.8
-
-* add ARM_INSTRUCTION_SET = "arm" to glibc-collateral.inc and comment in
-  glibc.inc to fix glibc-locale and glibc-scripts build
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 ++-
- meta/recipes-core/glibc/glibc-collateral.inc        | 5 +++++
- meta/recipes-core/glibc/glibc.inc                   | 3 +++
- 3 files changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index 0db5ec1..9746c7b 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -32,7 +32,8 @@ python () {
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}', '', d)}"
- OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
- 
--ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d)}"
-+# Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
-+ARMPKGSFX_THUMB .= "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
- 
- # Whether to compile with code to allow interworking between the two
- # instruction sets. This allows thumb code to be executed on a primarily
-diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
-index 85e06da..dfcebae 100644
---- a/meta/recipes-core/glibc/glibc-collateral.inc
-+++ b/meta/recipes-core/glibc/glibc-collateral.inc
-@@ -2,6 +2,11 @@ INHIBIT_DEFAULT_DEPS = "1"
- LICENSE = "GPLv2 & LGPLv2.1"
- HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
- 
-+# This needs to match with glibc.inc, otherwise glibc-scripts and glibc-locale
-+# will fail to find main glibc, for details see
-+# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
-+ARM_INSTRUCTION_SET = "arm"
-+
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 8aa78df..77947be 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -61,6 +61,9 @@ GLIBC_EXTRA_OECONF ?= ""
- GLIBC_EXTRA_OECONF_class-nativesdk = ""
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+# This needs to match with glibc-collateral.inc, otherwise glibc-scripts and glibc-locale
-+# will fail to find main glibc, for details see
-+# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
- ARM_INSTRUCTION_SET = "arm"
- 
- # glibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
--- 
-2.3.0
-
+--Mark
 
