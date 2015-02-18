@@ -1,30 +1,43 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6369D65C85
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 07:41:17 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 237D065C85;
+	Wed, 18 Feb 2015 07:46:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1I7fFTN011356; Wed, 18 Feb 2015 07:41:15 GMT
+	t1I7kR20011413; Wed, 18 Feb 2015 07:46:27 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sEoM3g9BfTWY; Wed, 18 Feb 2015 07:41:14 +0000 (GMT)
+	with LMTP id th6ewsZMP2Uo; Wed, 18 Feb 2015 07:46:27 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1I7f1eA011332
+	t1I7kFBS011409
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 18 Feb 2015 07:41:13 GMT
-Message-ID: <1424245261.25541.18.camel@linuxfoundation.org>
+	Wed, 18 Feb 2015 07:46:27 GMT
+Message-ID: <1424245575.25541.19.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Wed, 18 Feb 2015 07:41:01 +0000
-In-Reply-To: <7c630178dda359245ed1c5e58b191ed927a2e2a0.1424210642.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1424210642.git.alejandro.hernandez@linux.intel.com>
-	<7c630178dda359245ed1c5e58b191ed927a2e2a0.1424210642.git.alejandro.hernandez@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 Feb 2015 07:46:15 +0000
+In-Reply-To: <CAMKF1sofS7MteZnPsTYRNAcMwrrh=T3FP+ASmAOGDMhcwyXB4g@mail.gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
+	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
+	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
+	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
+	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
+	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
+	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
+	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
+	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
+	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+	<1423908404.20217.100.camel@linuxfoundation.org>
+	<CAMKF1sofS7MteZnPsTYRNAcMwrrh=T3FP+ASmAOGDMhcwyXB4g@mail.gmail.com>
 X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] Python: Upgrade from 2.7.3 to 2.7.9:
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +50,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Feb 2015 07:41:19 -0000
+X-List-Received-Date: Wed, 18 Feb 2015 07:46:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-02-17 at 16:22 -0600, Alejandro Hernandez wrote:
-> - Based on Paul Eggletons work to partially upgrade to Python 2.7.6
+On Tue, 2015-02-17 at 23:15 -0800, Khem Raj wrote:
+> On Sat, Feb 14, 2015 at 2:06 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Hi Khem,
+> >
+> > On Thu, 2015-02-12 at 15:35 +0800, Khem Raj wrote:
+> >> I have refreshed the branch to include the patch which moves the src
+> >> uri to use the newly released glibc 2.21 branch
+> >> and please run it via autobuilder ( top 5 commits )
+> >
+> > Its running on the autobuilder at the moment. Errors will be reported to
+> > the error reporting system and can be seen at:
+> >
+> > http://errors.yoctoproject.org/Errors/Search/?items=10&query=be29d13a847d458efaf542ed302e48050f67a655
+> >
+> > Right now, poky-tiny failed due to warning are errors and unused
+> > symbols. Minnow failed due to SSE instruction issues. Full build logs
+> > are also available on the autobuilder:
+> >
+> > https://autobuilder.yoctoproject.org/main/tgrid
+> >
+> > as ross/mut-next. We do have other changes in the branch but the above
+> > are pretty clearly glibc.
+> >
+> > Other errors will go to the places above as the builds complete/fail.
 > 
-> Modified:
-> default-versions.inc: switched to python 2.7.9
-> generate-manifest-2.7.py: fixed _sysconfigdata
-> python-2.7-manifest.inc: fixed _sysconfigdata
-> python.inc: Updated checksums and source, no LICENSE
-> change just updated some dates
-> python-native_2.7.3 -> python-native_2.7.9 and updated patches
-> python_2.7.3 -> python_2.7.9, and added ac_cv_file__dev_ptmx=no
-> ac_cv_file__dev_ptc=no in EXTRA_OECONF to solve python
-> issue #3754, only needed when cross compiling, also updated patches
-> use_sysroot_ncurses_instead_of_host.patch: New patch to use ncursesw
-> from sysroot instead of hosts, introduced by fix for python issue #15268
+> Thanks. So I see following errors categories and status
 > 
-> Rebased:
-> 01-use-proper-tools-for-cross-build.patch
-> 03-fix-tkinter-detection.patch
-> 05-enable-ctypes-cross-build.patch
-> 06-avoid_usr_lib_termcap_path_in_linking.patch
-> avoid_warning_about_tkinter.patch
-> builddir.patch
-> fix_for_using_different_libdir.patch
-> host_include_contamination.patch
-> multilib.patch
-> nohostlibs.patch
-> search_db_h_in_inc_dirs_and_avoid_warning.patch
+> 1. valgrind - Martin already sent a patch for that
+> 2. slang - I could not yet reproduce it on my active build (mips) (
+> seems specific to x86/ppc )
+> 3. poky-tiny - glibc build - ( pushed a fix for that in latest pull tree)
+> 4. minnow/qemux86 - glibc failure - ( pushed a fix for that in latest
+> pull tree )
+> 5. glibc build failure on qemuarm - need to reproduce here
+> 6. Image failures are probably due to above not building
 > 
-> Deleted (fixed on upstream):
-> 06-ctypes-libffi-fix-configure.patch
-> CVE-2013-4073_py27.patch
-> gcc-4.8-fix-configure-Wformat.patch
-> json-flaw-fix.patch
-> posix_close.patch
-> pypirc-secure.patch
-> python-2.7.3-CVE-2012-2135.patch
-> python-2.7.3-CVE-2013-1752-smtplib-fix.patch
-> python-2.7.3-CVE-2014-1912.patch
-> python-2.7.3-CVE-2014-7185.patch
-> python-2.7.3-berkeley-db-5.3.patch
-> python-fix-build-error-with-Readline-6.3.patch
-> remove-BOM-insection-code.patch
-> remove_sqlite_rpath.patch
-> python2.7.3-nossl3.patch
-> 
-> [YOCTO #7059]
+> I might get slang reproduced soon on qemux86 if I do I will try to
+> push for a fix
 
-The autobuilder highlkighted some issues which look to be from this
-patch:
-
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=1894499d6d00badb0e03fb644ac61258b00e061b
-
-Specifically the perf and python-smartpm failures.
+I think slang is a parallel make race from another patch so don't worry
+about that one, Robert will likely get that when he comes back.
 
 Cheers,
 
 Richard
-
 
 
