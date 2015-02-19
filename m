@@ -1,31 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7343A6E614
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Feb 2015 22:08:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1IM8HLh028904; Wed, 18 Feb 2015 22:08:19 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XZqAAbsuFtaV; Wed, 18 Feb 2015 22:08:19 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1IM86cQ028821
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 18 Feb 2015 22:08:18 GMT
-Message-ID: <1424297286.11836.22.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 18 Feb 2015 22:08:06 +0000
-In-Reply-To: <ly8ufvf55i.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <73eeb20b36b0a6b5c13a5af50d76ed70c8fccc65.1423150738.git.akuster808@gmail.com>
-	<3ea41bead98e76dfc98d8db94bee711d1d2a88e4.1423150740.git.akuster808@gmail.com>
-	<ly8ufvf55i.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 37/61] lib/oe/package: Ensure strip breaks hardlinks
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DDE4D71F05;
+	Thu, 19 Feb 2015 00:23:16 +0000 (UTC)
+Received: by pdbnh10 with SMTP id nh10so4810704pdb.11;
+	Wed, 18 Feb 2015 16:23:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=eETRexsQo0FwWf+e9eUvAhE0XGz79ou6Jw/Xvwcdua4=;
+	b=qLvWR3yN4mFvLUpfUFSnYS2wS3RDExW/c7gSIOl3IHLtmKYFJcBmAcr6CvjL5We30l
+	iuJq8NE08K2A4hKwNBNoeNVsx5dsKvTQa8MACgJwsYhOjZt45CL6WdgF/dWzhY3wdPJD
+	ns9ScWYt+nX9In6MKr/+jRKTSOo92jcRYOoiW/DaTZprNxhCzkkCywud934Jdtcq17Wg
+	+zGA9Y7y2P6eutLRWH/WzS1FUT9Sofraq+E4k2pGJ4zO7SGzmBZuqIHDbiuc7PCG4FzX
+	4aMtaeHxp4t/CQzH7iUGadeIxqa5Z3xW4iFbq1FoXKPlJWbhOqV+lGZLVtLlk3hipgJA
+	QvMQ==
+X-Received: by 10.66.142.100 with SMTP id rv4mr3217701pab.84.1424305397642;
+	Wed, 18 Feb 2015 16:23:17 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:ac05:bc97:a5e3:53c?
+	([2601:9:3580:84c:ac05:bc97:a5e3:53c])
+	by mx.google.com with ESMTPSA id
+	pu10sm17223479pdb.27.2015.02.18.16.23.15
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 18 Feb 2015 16:23:16 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1424295668.11836.19.camel@linuxfoundation.org>
+Date: Wed, 18 Feb 2015 16:23:14 -0800
+Message-Id: <E5ADEF30-DBC9-4250-ACA4-F889D8CFDA89@gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
+	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
+	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
+	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
+	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
+	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
+	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
+	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
+	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
+	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+	<1423908404.20217.100.camel@linuxfoundation.org>
+	<CAMKF1sofS7MteZnPsTYRNAcMwrrh=T3FP+ASmAOGDMhcwyXB4g@mail.gmail.com>
+	<1424245575.25541.19.camel@linuxfoundation.org>
+	<BCB8524E-91CB-41F6-83C0-7B90E60BC82D@gmail.com>
+	<1424260309.25541.23.camel@linuxfoundation.org>
+	<1424264807.11836.1.camel@linuxfoundation.org>
+	<3F6EFBD4-AC35-4CE0-B52C-0ABDA0D17838@gmail.com>
+	<1424295668.11836.19.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,57 +66,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Feb 2015 22:08:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Wed, 2015-02-18 at 19:25 +0100, Enrico Scholz wrote:
-> Armin Kuster <akuster808-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> writes:
-> 
-> > Normally, strip preserves hardlinks which in the case of the way our
-> > hardlink rather than copy functionality works,
-> 
-> This breaks stripping of hardlinked files.  'package.bbclass' contains
-> logic to run 'strip' only once per hardlinked file.  With this patch,
-> only one instance gets stripped.
-> 
-> E.g. the 'e2fsprogs-mke2fs' package contains now
-> 
-> -rwxr-xr-x    4 root     root        350025 Feb 18 01:42 /sbin/mke2fs
-> -rwxr-xr-x    4 root     root        350025 Feb 18 01:42 /sbin/mkfs.ext2
-> -rwxr-xr-x    4 root     root        350025 Feb 18 01:42 /sbin/mkfs.ext3
-> -rwxr-xr-x    4 root     root        350025 Feb 18 01:42 /sbin/mkfs.ext4
-> -rwxr-xr-x    1 root     root         84700 Feb 18 01:42 /sbin/mkfs.ext4dev
-> 
-> where the first 4 programs (which are one inode with 4 hardlinks) are
-> not stripped.
-
-There is a problem here for sure. The issue is that for
-space/performance reasons we hardlink the files in the sysroot with the
-ones in the packaging process amongst other places. If one set gets
-stripped, before this patch they'd all get stripped and the process was
-not deterministic. Were the files in the sysroot stripped or unstripped
-for example?
-
-So the patch addresses a real issue.
+X-List-Received-Date: Thu, 19 Feb 2015 00:23:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-> > -    stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
-> > +    # Use mv to break hardlinks
-> > +    stripcmd = "'%s' %s '%s' -o '%s.tmp' && mv '%s.tmp' '%s'" % (strip, extraflags, file, file, file, file)
-> 
-> How are these files then merged again?
+> On Feb 18, 2015, at 1:41 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Wed, 2015-02-18 at 10:38 -0800, Khem Raj wrote:
+>>> On Feb 18, 2015, at 5:06 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>> On Wed, 2015-02-18 at 11:51 +0000, Richard Purdie wrote:
+>>>> On Wed, 2015-02-18 at 01:01 -0800, Khem Raj wrote:
+>>> The series needs:
+>>>=20
+>>> TUNE_CCARGS_x86 :=3D "${@oe_filter_out('-mfpmath=3Dsse', =
+'${TUNE_CCARGS}', d)}"
+>>> +TUNE_CCARGS_x86-64 :=3D "${@oe_filter_out('-mfpmath=3Dsse', =
+'${TUNE_CCARGS}', d)}=E2=80=9D
+>>>=20
+>>=20
+>> hmmm I assumed x86 was common across 32bit and 64bit x86 but seems =
+not so I replaced the old patch instead of appending it=20
+>=20
+> Thanks, I'll update the patch for the next round.
+>=20
+>>=20
+>>> since the x86 override doesn't cover x86_64. I'll queue that and run =
+yet
+>>> another build. We do have another poky-tiny issue too:
+>>>=20
+>>> =
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/204
+>>>=20
+>>=20
+>> OK. I am creating a local config to use tiny config for libc and weed =
+out remaining build issues for tiny config=20
+>=20
+> Cool, thanks.
+>=20
+> The next build is in progress and looking greener than the last. Next =
+up
+> it appears we still have multilib issues:
 
-They're not :(. So we have a different problem introduced by the patch.
-I'll give this a bit more thought overnight. We might need to implement
-some code to merge these back given we already maintain the lists of
-files.
+I have pushed a new patchset to same branch. That should fix the tiny =
+build issues.
 
-Cheers,
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds=
+/201
 
-Richard
+
+| dcigettext.c: In function '__dcigettext':
+| dcigettext.c:856:30: error: '__libc_setlocale_lock' undeclared (first =
+use in this function)
+|         __libc_rwlock_unlock (__libc_setlocale_lock);
+
+is what I see.
+
+I have fixed this in the latest patchset. So lets start with the new =
+patchset.
 
 
+> There is a possibility this "from sstate" build may have run into a
+> problem with sstate but something looks to be wrong with glibc in some
+> regard.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
 
