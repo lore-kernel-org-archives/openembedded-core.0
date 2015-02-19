@@ -1,62 +1,61 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0094.outbound.protection.outlook.com [157.56.111.94])
-	by mail.openembedded.org (Postfix) with ESMTP id A082C60556
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 03:35:58 +0000 (UTC)
-Received: from BL2FFO11HUB050.protection.gbl (10.173.161.126) by
-	BL2FFO11HUB025.protection.gbl (10.173.161.49) with Microsoft SMTP
-	Server (TLS) id 15.1.99.6; Thu, 19 Feb 2015 03:35:58 +0000
-Received: from BL2FFO11FD020.protection.gbl (10.173.160.34) by
-	BL2FFO11HUB050.protection.gbl (10.173.161.126) with Microsoft SMTP
-	Server (TLS) id 15.1.87.10; Thu, 19 Feb 2015 03:35:43 +0000
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BL2FFO11FD020.mail.protection.outlook.com (10.173.161.38) with
-	Microsoft SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
-	Thu, 19 Feb 2015 03:35:42 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <nathan.rossi@xilinx.com>) id 1YOHqA-0007Sn-U8
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Feb 2015 19:31:50 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Feb 2015 13:34:35 +1000
-X-Mailer: git-send-email 2.1.1
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21340.005
-X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <1271ca6bd1854156a5b6efcf8a925e0c@BL2FFO11FD020.protection.gbl>
-X-EOPAttributedMessage: 0
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=nathan.rossi@xilinx.com; lists.openembedded.org; dkim=none
-	(message not signed) header.d=none;
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(438002)(74316001)(19580405001)(19580395003)(6806004)(104016003)(2351001)(110136001)(92566002)(50226001)(50986999)(47776003)(48376002)(77156002)(450100001)(106466001)(46102003)(62966003)(50466002)(53416004)(92726002)(229853001)(86362001)(108616004)(87936001)(107986001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BL2FFO11HUB050;
-	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; MLV:sfv; LANG:en; 
-MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:; UriScan:; BCL:0; PCL:0; RULEID:;
-	SRVR:BL2FFO11HUB025; 
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BL2FFO11HUB050;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BL2FFO11HUB050; 
-X-Forefront-PRVS: 0492FD61DD
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BL2FFO11HUB050;
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2015 03:35:42.8903 (UTC)
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2FFO11HUB050
-X-OriginatorOrg: xilinx.com
-Cc: Nathan Rossi <nathan.rossi@xilinx.com>
-Subject: [PATCH] Revert "kernel-arch.bbclass: add arm64 support to U-Boot architecture map"
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AB0C71F23;
+	Thu, 19 Feb 2015 03:36:54 +0000 (UTC)
+Received: by pabkx10 with SMTP id kx10so6154418pab.13;
+	Wed, 18 Feb 2015 19:36:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=3mKpZQ3MNlkOYWULTZrfiLOiMOLQR+NiU4a5TWqh97Q=;
+	b=XmFFQQRG6hWapwG9uqWVsmpqluMDGT6cSkAh4+OpPitH1BmZmqBP/SF9EgKAypXmJ8
+	ROAgLbhQ6z0yr9vXiMJ0ZKSTkdyd7HwG4QD/oRdBu99030BdYw0TTSrT68mNxVwQSYWC
+	ixNsMnfEs55QSQr7IR2r2suwN/aE3Pr4ZQLEhdxYkhalwyqZBxyMGrxcMoP7kTsulkYH
+	QktBggah7B6z+WNb83RC7l7CvrZFxACB8WM19PaxLG6eZ+7lY8VGj2mSkc0xGcxCY5C+
+	S0k54NxXu7E9EOZm2JrKpNE8oExy1+XrPN9qlRWmFRi5wAEIuk8nyWS7NY/Z0YhsDM1L
+	qYIQ==
+X-Received: by 10.70.88.39 with SMTP id bd7mr3883196pdb.83.1424317016055;
+	Wed, 18 Feb 2015 19:36:56 -0800 (PST)
+Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
+	[76.103.142.85]) by mx.google.com with ESMTPSA id
+	mt4sm22115376pdb.55.2015.02.18.19.36.54
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 18 Feb 2015 19:36:55 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <3BF3C6CD-6241-4E56-B10F-20A733FE5B2B@gmail.com>
+Date: Wed, 18 Feb 2015 19:36:54 -0800
+Message-Id: <6CAA4038-63CD-4D66-BF68-211901C10329@gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<CAJTo0LaN3HMhjrpii2pPbJw5zWbywgr1keZe=iQmuKFMFFf=gQ@mail.gmail.com>
+	<CAMKF1sq8NsuNYZDQRPtXruBeRndOP+0qwBuTO2ahb6q-fS8XGw@mail.gmail.com>
+	<CAJTo0LYpKbwOHg-DBMJycy+KNayTCsnhToJR8K-REKZ2jxhnhw@mail.gmail.com>
+	<EA0C9DE9-9E5F-4B74-8464-138895268F2F@gmail.com>
+	<CAJTo0LbSFesauhA_H39Znd07SR5JCs45izy2us=cFWVGXtW8hg@mail.gmail.com>
+	<80920FD0-CA08-45D7-9A41-3971FB2D58D7@gmail.com>
+	<CAJTo0LbqTrQzk0KeHDxYnmtZrrFdZD12DWrjA=Y4RtbQzwM0ow@mail.gmail.com>
+	<CAMKF1sr7bYpKqzTmvX5rCuYc-Rb2se7Vsrr4aYA43E_b1Z=vWA@mail.gmail.com>
+	<CACS+7ZRNm2Y0SJn76imF6DNoEsL2+ppC1zG45iGspOmL0EN0BQ@mail.gmail.com>
+	<CAMKF1sqjQm+n5xKfS0utm9B9h_S+RYWrgnGUCboRNCk5XSUmzg@mail.gmail.com>
+	<1423908404.20217.100.camel@linuxfoundation.org>
+	<CAMKF1sofS7MteZnPsTYRNAcMwrrh=T3FP+ASmAOGDMhcwyXB4g@mail.gmail.com>
+	<1424245575.25541.19.camel@linuxfoundation.org>
+	<BCB8524E-91CB-41F6-83C0-7B90E60BC82D@gmail.com>
+	<1424260309.25541.23.camel@linuxfoundation.org>
+	<1424264807.11836.1.camel@linuxfoundation.org>
+	<3F6EFBD4-AC35-4CE0-B52C-0ABDA0D17838@gmail.com>
+	<1424295668.11836.19.camel@linuxfoundation.org>
+	<E5ADEF30-DBC9-4250-ACA4-F889D8CFDA89@gmail.com>
+	<AA599D04-C5B2-49A8-96FB-F9074D59EB03@gmail.com>
+	<3BF3C6CD-6241-4E56-B10F-20A733FE5B2B@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,35 +68,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Feb 2015 03:36:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Feb 2015 03:36:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 0b891265716c414ade29d587fc1a3c4ea7beadbe.
 
-U-Boot does support AArch64, this however was only added to newer
-versions of U-Boot and at the time of this original commit the U-Boot in
-OE-Core did not support the 'arm64' architecture. OE-Core now has a
-newer version of U-Boot for the mkimage recipe and thus supports the
-'arm64' architecture.
+> On Feb 18, 2015, at 4:31 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+>=20
+>> On Feb 18, 2015, at 4:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>=20
+>>=20
+>>> On Feb 18, 2015, at 4:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>=20
+>>>=20
+>>>> On Feb 18, 2015, at 1:41 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>>>=20
+>>>> On Wed, 2015-02-18 at 10:38 -0800, Khem Raj wrote:
+>>>>>> On Feb 18, 2015, at 5:06 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>>>>> On Wed, 2015-02-18 at 11:51 +0000, Richard Purdie wrote:
+>>>>>>> On Wed, 2015-02-18 at 01:01 -0800, Khem Raj wrote:
+>>>>>> The series needs:
+>>>>>>=20
+>>>>>> TUNE_CCARGS_x86 :=3D "${@oe_filter_out('-mfpmath=3Dsse', =
+'${TUNE_CCARGS}', d)}"
+>>>>>> +TUNE_CCARGS_x86-64 :=3D "${@oe_filter_out('-mfpmath=3Dsse', =
+'${TUNE_CCARGS}', d)}=E2=80=9D
+>>>>>>=20
+>>>>>=20
+>>>>> hmmm I assumed x86 was common across 32bit and 64bit x86 but seems =
+not so I replaced the old patch instead of appending it=20
+>>>>=20
+>>>> Thanks, I'll update the patch for the next round.
+>>>>=20
+>>>>>=20
+>>>>>> since the x86 override doesn't cover x86_64. I'll queue that and =
+run yet
+>>>>>> another build. We do have another poky-tiny issue too:
+>>>>>>=20
+>>>>>> =
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/204
+>>>>>>=20
+>>>>>=20
+>>>>> OK. I am creating a local config to use tiny config for libc and =
+weed out remaining build issues for tiny config=20
+>>>>=20
+>>>> Cool, thanks.
+>>>>=20
+>>>> The next build is in progress and looking greener than the last. =
+Next up
+>>>> it appears we still have multilib issues:
+>>>=20
+>>> I have pushed a new patchset to same branch. That should fix the =
+tiny build issues.
+>>>=20
+>>>>=20
+>>>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds=
+/201
+>>>=20
+>>>=20
+>>> | dcigettext.c: In function '__dcigettext':
+>>> | dcigettext.c:856:30: error: '__libc_setlocale_lock' undeclared =
+(first use in this function)
+>>> |         __libc_rwlock_unlock (__libc_setlocale_lock);
+>>>=20
+>>> is what I see.
+>>>=20
+>>> I have fixed this in the latest patchset. So lets start with the new =
+patchset.
+>>>=20
+>>=20
+>> in =
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds=
+/201/steps/BuildImages/logs/stdio
+>>=20
+>> | make: *** =
+[/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/bui=
+ld/tmp/work/core2-64-poky-linux/glibc-locale/2.21-r0/locale-tree/usr/lib64=
+/locale/es_HN] Aborted (core dumped)
+>>=20
+>> thats new its probably a crash in localedef.
+>>=20
+>=20
+>=20
+> | checking for i586-pokymllib32-linux-gcc... =
+i586-pokymllib32-linux-gcc -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 =
+--sysroot=3D/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multili=
+b/build/build/tmp/sysroots/lib32-qemux86-64-tcbootstrap
+> | checking for suffix of object files... configure: error: in =
+`/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/bui=
+ld/tmp/work/x86-pokymllib32-linux/lib32-glibc-initial/2.21-r0/build-i586-p=
+okymllib32-linux':
+> | configure: error: cannot compute suffix of object files: cannot =
+compile
+> | See `config.log' for more details
+> | WARNING: =
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/buil=
+d/tmp/work/x86-pokymllib32-linux/lib32-glibc-initial/2.21-r0/temp/run.do_c=
+onfigure.1095:1 exit 1 from
+> |   =
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/buil=
+d/tmp/work/x86-pokymllib32-linux/lib32-glibc-initial/2.21-r0/git/configure=
+ --host=3Di586-pokymllib32-linux --build=3Dx86_64-linux --prefix=3D/usr =
+--without-cvs --disable-sanity-checks =
+--with-headers=3D/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mu=
+ltilib/build/build/tmp/sysroots/lib32-qemux86-64/usr/include =
+--with-kconfig=3D/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mu=
+ltilib/build/build/tmp/sysroots/x86_64-linux/usr/bin =
+--enable-hacker-mode --enable-addons
+> | ERROR: Function failed: do_configure (log file is located at =
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/buil=
+d/tmp/work/x86-pokymllib32-linux/lib32-glibc-initial/2.21-r0/temp/log.do_c=
+onfigure.1095)
+> NOTE: recipe lib32-glibc-initial-2.21-r0: task do_configure: Failed
+>=20
+>=20
+> Can you post config.log ? here
+>=20
+> I don=E2=80=99t have multilib setup so hard to reproduce it here
+>=20
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
- meta/classes/kernel-arch.bbclass | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index bbcfa15..6a6ad91 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -40,7 +40,6 @@ def map_uboot_arch(a, d):
- 
-     if   re.match('p(pc|owerpc)(|64)', a): return 'ppc'
-     elif re.match('i.86$', a): return 'x86'
--    elif re.match('arm64$', a): return 'arm'
-     return a
- 
- export UBOOT_ARCH = "${@map_uboot_arch(d.getVar('ARCH', True), d)}"
--- 
-2.1.1
+Nevermind. I think I understood the problem. This tweaking of =
+TUNE_CCARGS is resulting in premature evaluation in case of multilib and =
+we are ending up with 64bit options when using 32bit gcc
+Now, I have fixed this by patching glibc itself. see
 
+=
+http://git.openembedded.org/openembedded-core-contrib/tree/meta/recipes-co=
+re/glibc/glibc/0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.p=
+atch?h=3Dkraj/gcc-glibc-upgrade
+
+as a result all CCARGS patches aren=E2=80=99t needed any longer.
+
+This should be good with multilib now. Please try the latest patchset.
+
+Thinking of TUNE_CCARGS pruning, I think mips multilib will have similar =
+issues, probably that flag should also move into glibc build system but =
+I will leave that for another day=
 
