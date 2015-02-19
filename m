@@ -1,25 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 076B973617
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D581F735C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 16:40:44 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2015 08:40:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,609,1418112000"; d="scan'208";a="680425687"
-Received: from abarnicl-mobl4.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.2.27])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2015 08:40:37 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Feb 2015 16:40:04 +0000
-Message-Id: <2431f3946f900575e4c3a6c2aaf9c83ec2b7cd7f.1424363815.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
+	Thu, 19 Feb 2015 16:47:01 +0000 (UTC)
+Received: by labgd6 with SMTP id gd6so745082lab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Feb 2015 08:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=eFObQN0f3T2VEvrEmZu/QNkpNIfZ7sJigmFbOYJKVKI=;
+	b=LQHrlP3U6E0DGlr6k85xUsATz7LIlf5vqvHSQ7ZgR7QJeHVo4yO6uGj9qXYsXF2TPV
+	O2vMXas5nr5AJa7M+lCq/Eo8y6OKheMza3g19odyvrdzZfShaTOc3UbJBisl7QeIWw4T
+	ND1PUhzMNE+/Kpkikh2cichk05rE+HB0PqQSoLIsqA85U5711JYiRTJrmnyTEpXKGTR4
+	RyVK3/hudJztB04eotfWsndzwFw5E1L/WkhdFcNtKQLb6Kx487sUkjOjHKfcURuwx/ey
+	5/BJWfR1/GePXIbCQxgtmgq8wiWYGcVhlLDZJt7c9O6WRCzU8UGF52t41GMRc94stF+4
+	Kadw==
+MIME-Version: 1.0
+X-Received: by 10.152.115.169 with SMTP id jp9mr4654767lab.121.1424364421196; 
+	Thu, 19 Feb 2015 08:47:01 -0800 (PST)
+Received: by 10.112.40.11 with HTTP; Thu, 19 Feb 2015 08:47:01 -0800 (PST)
 In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
 References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
-References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 15/15] devtool: fix broken clones of git recipes
+Date: Thu, 19 Feb 2015 11:47:01 -0500
+Message-ID: <CADkTA4NYnGhGUmi9ZSZZU3PYf7wA2Zj-u7HM8GhQbO5sU9AoTg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/15] devtool and externalsrc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +42,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Feb 2015 16:40:47 -0000
+X-List-Received-Date: Thu, 19 Feb 2015 16:47:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Because we move the workdir when extracting source, then move the source
-and delete the temporary workdir, you lose the indirection symlink
-pointed to by the alternates file (which is created when the fetcher
-clones it from DL_DIR with -s) and the resulting repository is broken.
-In any case, for a source repo that the user may put their own changes
-into, we can't really rely on a clone made with -s in case the
-original goes away - because of cleanall, DL_DIR disappearing, etc. So
-repack the repository so that it is a complete, non-shared clone after
-unpacking.
+On Thu, Feb 19, 2015 at 11:39 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> I've been attempting to enable usage of devtool with the kernel (which
+> effectively means using the externalsrc class with the kernel). This
+> doesn't really work yet due to lack of handling the kernel configuration,
 
-(While I'm at it, add a test for devtool modify with a git recipe which
-verifies that this works.)
+I've always insisted/argued and designed in that externalsrc shouldn't touch the
+kernel configuration at all.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 33 +++++++++++++++++++++++++++++++++
- scripts/lib/devtool/standard.py   |  7 +++++++
- 2 files changed, 40 insertions(+)
+You are building a tree that is completely managed outside of the build system,
+and getting the kernel configuration in place is part of that management.
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index f147f24..932d6b9 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -227,6 +227,39 @@ class DevtoolTests(oeSelfTest):
-         matches = glob.glob(stampprefix + '*')
-         self.assertFalse(matches, 'Stamp files exist for recipe mdadm that should have been cleaned')
- 
-+    def test_devtool_modify_git(self):
-+        # Check preconditions
-+        workspacedir = os.path.join(self.builddir, 'workspace')
-+        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        testrecipe = 'mkelfimage'
-+        src_uri = get_bb_var('SRC_URI', testrecipe)
-+        self.assertIn('git://', src_uri, 'This test expects the %s recipe to be a git recipe' % testrecipe)
-+        # Clean up anything in the workdir/sysroot/sstate cache
-+        bitbake('%s -c cleansstate' % testrecipe)
-+        # Try modifying a recipe
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
-+        result = runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
-+        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile')), 'Extracted source could not be found')
-+        self.assertTrue(os.path.isdir(os.path.join(tempdir, '.git')), 'git repository for external source tree not found')
-+        self.assertTrue(os.path.exists(os.path.join(workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created')
-+        matches = glob.glob(os.path.join(workspacedir, 'appends', 'mkelfimage_*.bbappend'))
-+        self.assertTrue(matches, 'bbappend not created')
-+        # Test devtool status
-+        result = runCmd('devtool status')
-+        self.assertIn(testrecipe, result.output)
-+        self.assertIn(tempdir, result.output)
-+        # Check git repo
-+        result = runCmd('git status --porcelain', cwd=tempdir)
-+        self.assertEqual(result.output.strip(), "", 'Created git repo is not clean')
-+        result = runCmd('git symbolic-ref HEAD', cwd=tempdir)
-+        self.assertEqual(result.output.strip(), "refs/heads/devtool", 'Wrong branch in git repo')
-+        # Try building
-+        bitbake(testrecipe)
-+
-     def test_devtool_update_recipe(self):
-         # Check preconditions
-         workspacedir = os.path.join(self.builddir, 'workspace')
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index bf18aae..cabf3fe 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -202,6 +202,13 @@ def _extract_source(srctree, keep_temp, devbranch, d):
-             # Handle if S is set to a subdirectory of the source
-             srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
- 
-+        if os.path.exists(os.path.join(srcsubdir, '.git')):
-+            alternatesfile = os.path.join(srcsubdir, '.git', 'objects', 'info', 'alternates')
-+            if os.path.exists(alternatesfile):
-+                # This will have been cloned with -s, so we need to convert it to a full clone
-+                bb.process.run('git repack -a', cwd=srcsubdir)
-+                os.remove(alternatesfile)
-+
-         patchdir = os.path.join(srcsubdir, 'patches')
-         haspatches = False
-         if os.path.exists(patchdir):
+So I'm not convinced it is a problem that needs to be solved.
+
+Cheers,
+
+Bruce
+
+> so you still can't use externalsrc properly with the kernel, but this
+> at least gets us further - you can now extract the source successfully
+> and run a build. I also discovered and fixed a number of related issues
+> along the way, and made a few behavioural improvements in both devtool
+> and externalsrc.
+>
+>
+> The following changes since commit ad016fa7492ba23c751cf33dd1befde7782facfa:
+>
+>   lzo: Upgrade to 2.09 and add ptest (2015-02-19 07:50:44 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes
+>
+> Paul Eggleton (15):
+>   recipetool: fix regression caused by previous commit
+>   lib/oe/patch: fix PATCHTOOL = "git" with source in a subdirectory
+>   classes/externalsrc: fix source being wiped out on clean with kernel
+>   classes/externalsrc: add workaround for recipes that use SRCPV in PV
+>   classes/externalsrc: show a warning on compiling
+>   classes/kernel-yocto: extend SRCTREECOVEREDTASKS
+>   devtool: add/modify: add option to build in same directory
+>   devtool: reset: run bitbake -c clean on recipe
+>   devtool: build: run do_populate_sysroot instead of do_install
+>   lib/oe/recipeutils: minor improvements to patch_recipe()
+>   devtool: update-recipe: add handling for git recipes
+>   devtool: prevent extract/modify use with image recipes
+>   devtool: modify: handle recipes that use a shared workdir
+>   devtool: support source extraction for recipes that use a shared
+>     workdir
+>   devtool: fix broken clones of git recipes
+>
+>  meta/classes/externalsrc.bbclass  |  24 ++++
+>  meta/classes/kernel-yocto.bbclass |   2 +-
+>  meta/lib/oe/patch.py              |   7 +-
+>  meta/lib/oe/recipeutils.py        |   4 +-
+>  meta/lib/oeqa/selftest/devtool.py | 147 ++++++++++++++++++-
+>  scripts/lib/devtool/standard.py   | 292 +++++++++++++++++++++++++-------------
+>  scripts/lib/recipetool/create.py  |   8 +-
+>  7 files changed, 377 insertions(+), 107 deletions(-)
+>
+> --
+> 1.9.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.3
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
