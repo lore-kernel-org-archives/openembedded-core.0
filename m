@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CAB4D6B6B7
+	by mail.openembedded.org (Postfix) with ESMTP id 48F8D6B6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 16:40:17 +0000 (UTC)
+	Thu, 19 Feb 2015 16:40:18 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Feb 2015 08:40:17 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 19 Feb 2015 08:40:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,609,1418112000"; d="scan'208";a="680425512"
+X-IronPort-AV: E=Sophos;i="5.09,609,1418112000"; d="scan'208";a="680425523"
 Received: from abarnicl-mobl4.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.2.27])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2015 08:40:17 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2015 08:40:18 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Feb 2015 16:39:49 +0000
-Message-Id: <cover.1424363815.git.paul.eggleton@linux.intel.com>
+Date: Thu, 19 Feb 2015 16:39:50 +0000
+Message-Id: <4961eed87505127176286a065d8bfe6452b009f0.1424363815.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 00/15] devtool and externalsrc improvements
+In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
+References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
+References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 01/15] recipetool: fix regression caused by previous commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,54 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Feb 2015 16:40:17 -0000
+X-List-Received-Date: Thu, 19 Feb 2015 16:40:18 -0000
 
-I've been attempting to enable usage of devtool with the kernel (which
-effectively means using the externalsrc class with the kernel). This
-doesn't really work yet due to lack of handling the kernel configuration,
-so you still can't use externalsrc properly with the kernel, but this
-at least gets us further - you can now extract the source successfully
-and run a build. I also discovered and fixed a number of related issues
-along the way, and made a few behavioural improvements in both devtool
-and externalsrc.
+Option was renamed in the setup code but not in the code that used it.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/recipetool/create.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-The following changes since commit ad016fa7492ba23c751cf33dd1befde7782facfa:
-
-  lzo: Upgrade to 2.09 and add ptest (2015-02-19 07:50:44 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes
-
-Paul Eggleton (15):
-  recipetool: fix regression caused by previous commit
-  lib/oe/patch: fix PATCHTOOL = "git" with source in a subdirectory
-  classes/externalsrc: fix source being wiped out on clean with kernel
-  classes/externalsrc: add workaround for recipes that use SRCPV in PV
-  classes/externalsrc: show a warning on compiling
-  classes/kernel-yocto: extend SRCTREECOVEREDTASKS
-  devtool: add/modify: add option to build in same directory
-  devtool: reset: run bitbake -c clean on recipe
-  devtool: build: run do_populate_sysroot instead of do_install
-  lib/oe/recipeutils: minor improvements to patch_recipe()
-  devtool: update-recipe: add handling for git recipes
-  devtool: prevent extract/modify use with image recipes
-  devtool: modify: handle recipes that use a shared workdir
-  devtool: support source extraction for recipes that use a shared
-    workdir
-  devtool: fix broken clones of git recipes
-
- meta/classes/externalsrc.bbclass  |  24 ++++
- meta/classes/kernel-yocto.bbclass |   2 +-
- meta/lib/oe/patch.py              |   7 +-
- meta/lib/oe/recipeutils.py        |   4 +-
- meta/lib/oeqa/selftest/devtool.py | 147 ++++++++++++++++++-
- scripts/lib/devtool/standard.py   | 292 +++++++++++++++++++++++++-------------
- scripts/lib/recipetool/create.py  |   8 +-
- 7 files changed, 377 insertions(+), 107 deletions(-)
-
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 290fc13..ae599cb 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -110,8 +110,8 @@ def create_recipe(args):
+     if '://' in args.source:
+         # Fetch a URL
+         srcuri = args.source
+-        if args.externalsrc:
+-            srctree = args.externalsrc
++        if args.extract_to:
++            srctree = args.extract_to
+         else:
+             tempsrc = tempfile.mkdtemp(prefix='recipetool-')
+             srctree = tempsrc
+@@ -126,8 +126,8 @@ def create_recipe(args):
+             srctree = os.path.join(srctree, srcsubdir)
+     else:
+         # Assume we're pointing to an existing source tree
+-        if args.externalsrc:
+-            logger.error('externalsrc cannot be specified if source is a directory')
++        if args.extract_to:
++            logger.error('--extract-to cannot be specified if source is a directory')
+             sys.exit(1)
+         if not os.path.isdir(args.source):
+             logger.error('Invalid source directory %s' % args.source)
 -- 
 1.9.3
 
