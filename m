@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 75B866B6B7
+	by mail.openembedded.org (Postfix) with ESMTP id 5452973608
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 16:40:23 +0000 (UTC)
+	Thu, 19 Feb 2015 16:40:24 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 19 Feb 2015 08:40:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,609,1418112000"; d="scan'208";a="680425538"
+X-IronPort-AV: E=Sophos;i="5.09,609,1418112000"; d="scan'208";a="680425560"
 Received: from abarnicl-mobl4.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.2.27])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2015 08:40:23 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2015 08:40:25 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Feb 2015 16:39:52 +0000
-Message-Id: <7b8e9b6901d212e40c6046c70eb5c42bb95cbf6a.1424363815.git.paul.eggleton@linux.intel.com>
+Date: Thu, 19 Feb 2015 16:39:53 +0000
+Message-Id: <cc27d5418d61e6af29cec23227f215c64bd66871.1424363815.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
 References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1424363815.git.paul.eggleton@linux.intel.com>
 References: <cover.1424363815.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 03/15] classes/externalsrc: fix source being wiped out on clean with kernel
+Subject: [PATCH 04/15] classes/externalsrc: add workaround for recipes that use SRCPV in PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Feb 2015 16:40:23 -0000
+X-List-Received-Date: Thu, 19 Feb 2015 16:40:24 -0000
 
-kernel.bbclass adds ${S} do do_clean[cleandirs], but this means if you
-run bitbake -c clean <kernelrecipe> then your external source tree will
-be trashed, which could be a disaster. For safety, remove ${S} from
-cleandirs for every task. We also have to do the same for ${B} in the
-case where EXTERNALSRC_BUILD is set to the same value as EXTERNALSRC.
+Here we set SRC_URI to blank, however doing so means that the function
+that is called when you expand the default value of SRCPV
+(i.e. bb.fetch2.get_srcrev()) will fail, so any recipe that references
+SRCPV in PV couldn't previously be used with externalsrc.
+
+(At some point we may fix the function to work in the externalsrc case,
+but then we would also need to ensure that ${B} did not change as a
+result of PV changing any time the HEAD revision changes in the external
+source tree, or you'll lose any intermediate build artifacts.)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/externalsrc.bbclass | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/classes/externalsrc.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 4e429d7..e372392 100644
+index e372392..234bd8d 100644
 --- a/meta/classes/externalsrc.bbclass
 +++ b/meta/classes/externalsrc.bbclass
-@@ -47,6 +47,20 @@ python () {
-                 # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
-                 d.appendVarFlag(task, "lockfiles", "${S}/singletask.lock")
+@@ -37,6 +37,10 @@ python () {
+             d.setVar('B', '${WORKDIR}/${BPN}-${PV}/')
+         d.setVar('SRC_URI', '')
  
-+            # We do not want our source to be wiped out, ever (kernel.bbclass does this for do_clean)
-+            cleandirs = d.getVarFlag(task, 'cleandirs', False)
-+            if cleandirs:
-+                cleandirs = cleandirs.split()
-+                setvalue = False
-+                if '${S}' in cleandirs:
-+                    cleandirs.remove('${S}')
-+                    setvalue = True
-+                if externalsrcbuild == externalsrc and '${B}' in cleandirs:
-+                    cleandirs.remove('${B}')
-+                    setvalue = True
-+                if setvalue:
-+                    d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
++        if '{SRCPV}' in d.getVar('PV', False):
++            # Dummy value because the default function can't be called with blank SRC_URI
++            d.setVar('SRCPV', '999')
 +
-         for task in d.getVar("SRCTREECOVEREDTASKS", True).split():
-             bb.build.deltask(task, d)
+         tasks = filter(lambda k: d.getVarFlag(k, "task"), d.keys())
  
+         for task in tasks:
 -- 
 1.9.3
 
