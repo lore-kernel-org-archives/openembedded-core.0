@@ -1,22 +1,24 @@
 Return-Path: <ben.shelton@ni.com>
 Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id F12CD73630
+	by mail.openembedded.org (Postfix) with ESMTP id F038E7362D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Feb 2015 20:11:46 +0000 (UTC)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
 	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t1JKBljs024419 for <openembedded-core@lists.openembedded.org>;
+	t1JKBljt024419 for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Feb 2015 14:11:47 -0600
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015021914114796-189972 ;
+	with ESMTP id 2015021914114796-189973 ;
 	Thu, 19 Feb 2015 14:11:47 -0600 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Feb 2015 14:11:05 -0600
-Message-Id: <1424376666-32019-1-git-send-email-ben.shelton@ni.com>
+Date: Thu, 19 Feb 2015 14:11:06 -0600
+Message-Id: <1424376666-32019-2-git-send-email-ben.shelton@ni.com>
 X-Mailer: git-send-email 2.3.0
+In-Reply-To: <1424376666-32019-1-git-send-email-ben.shelton@ni.com>
+References: <1424376666-32019-1-git-send-email-ben.shelton@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
 	8.5.3FP6|November 21, 2013) at 02/19/2015 02:11:47 PM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
@@ -24,7 +26,7 @@ X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
 	Serialize complete at 02/19/2015 02:11:48 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2015-02-19_03:, , signatures=0
-Subject: [PATCH v3 1/2] trace-cmd: Update to version 2.5.3
+Subject: [PATCH v3 2/2] kernelshark: Update to version 2.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,178 +41,104 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Feb 2015 20:11:48 -0000
 
-Updating adds new features including the very useful 'profile' option.
+Update to version 2.5.3 to match trace-cmd.
 
 Changes include:
 
- - Remove addldflags.patch (already upstream in the new version).
+ - Remove kernelshark-fix-syntax-error-of-shell.patch (the syntax error
+   is no longer present in the new version).
 
- - Remove make-docs-optional.patch (docs are built in a separate target
-   in the new version).
+ - Specify bindir_relative and libdir in EXTRA_OEMAKE as in the
+   trace-cmd recipe so files get installed to the right place.
+   Additionally, remove unnecessary EXTRA_OEMAKE options.
 
- - Update SRC_URI, SRCREV, PR, and PV in the .inc file and don't
-   override them in the recipe.
+ - Fix up the do_install steps to remove the plugins directory; that
+   directory now lives under /usr/lib.
 
- - Fix a typo in LIC_FILES_CHECKSUM so 'endline' is properly defined.
-
- - Drop PR.
+ - Set NO_PYTHON=1 because building the ctracecmd Python module requires
+   swig, which is not available in oe-core.
 
 Signed-off-by: Ben Shelton <ben.shelton@ni.com>
 ---
- meta/recipes-kernel/trace-cmd/trace-cmd.inc        | 12 +++--
- .../trace-cmd/trace-cmd/addldflags.patch           | 51 ----------------------
- .../trace-cmd/trace-cmd/make-docs-optional.patch   | 36 ---------------
- .../{trace-cmd_2.3.2.bb => trace-cmd_git.bb}       |  8 +---
- 4 files changed, 6 insertions(+), 101 deletions(-)
- delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
- delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
- rename meta/recipes-kernel/trace-cmd/{trace-cmd_2.3.2.bb => trace-cmd_git.bb} (74%)
+ .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ----------------------
+ .../{kernelshark_1.2.bb => kernelshark_git.bb}     | 18 ++++++++-----
+ 2 files changed, 11 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+ rename meta/recipes-kernel/trace-cmd/{kernelshark_1.2.bb => kernelshark_git.bb} (56%)
 
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd.inc b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-index fb8c5fa..feb56e1 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-@@ -1,14 +1,12 @@
--SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r3"
--PV = "1.2+git${SRCPV}"
-+SRCREV = "0813335d2e49291e7ab6a4365cec2baa05813eda"
-+PV = "2.5.3+git${SRCPV}"
- 
--inherit pkgconfig pythonnative
-+inherit pkgconfig
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/trace-cmd:"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
--           file://addldflags.patch \
--           file://make-docs-optional.patch \
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git;branch=trace-cmd-stable-v2.5 \
-            file://blktrace-api-compatibility.patch \
- "
-+
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+diff --git a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
 deleted file mode 100644
-index 14730db..0000000
---- a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+index faef049..0000000
+--- a/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
 +++ /dev/null
-@@ -1,51 +0,0 @@
--trace-cmd: Cross-compile fixes for LDFLAGS and include path
+@@ -1,30 +0,0 @@
+-kernelshark: fix syntax error of shell
 -
--Add ability for the Makefile to respect LDFLAGS.
--Also remove hardcoded /usr/local/include include path.
+-Delete "<<<" syntax of bash in Makefile, else we would get following error:
 -
--Upstream-Status: Accepted [Post 1.2: 5f576e9af7ad706774d9764a9ae3989376797c0e]
+-	Syntax error: redirection unexpected
 -
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+-Upstream-Status: Pending
 -
+-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 ----
-- Makefile |    7 ++++---
-- 1 file changed, 4 insertions(+), 3 deletions(-)
+- Makefile |    3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
 -
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -202,12 +202,13 @@ export Q VERBOSE
-- TRACECMD_VERSION = $(TC_VERSION).$(TC_PATCHLEVEL).$(TC_EXTRAVERSION)
-- KERNELSHARK_VERSION = $(KS_VERSION).$(KS_PATCHLEVEL).$(KS_EXTRAVERSION)
+-diff --git a/Makefile b/Makefile
+-index c1fa906..be84415 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -89,8 +89,7 @@ endif
 - 
---INCLUDES = -I. -I/usr/local/include $(CONFIG_INCLUDES)
--+INCLUDES = -I. $(CONFIG_INCLUDES)
+- # $(call test-build, snippet, ret) -> ret if snippet compiles
+- #                                  -> empty otherwise
+--test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
+--	                  <<<'$1' && echo y), $2)
+-+test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
 - 
-- include features.mk
-- 
-- # Set compile option CFLAGS if not set elsewhere
-- CFLAGS ?= -g -Wall
--+LDFLAGS ?=
-- 
-- ifndef NO_PTRACE
-- ifneq ($(call try-cc,$(SOURCE_PTRACE),),y)
--@@ -251,7 +252,7 @@ do_fpic_compile =					\
-- 
-- do_app_build =						\
-- 	($(print_app_build)				\
---	$(CC) $^ -rdynamic -o $@ $(CONFIG_LIBS) $(LIBS))
--+	$(CC) $^ -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
-- 
-- do_compile_shared_library =			\
-- 	($(print_shared_lib_compile)		\
--@@ -263,7 +264,7 @@ do_compile_plugin_obj =				\
-- 
-- do_plugin_build =				\
-- 	($(print_plugin_build)			\
---	$(CC) $(CFLAGS) -shared -nostartfiles -o $@ $<)
--+	$(CC) $(CFLAGS) $(LDFLAGS) -shared -nostartfiles -o $@ $<)
-- 
-- do_build_static_lib =				\
-- 	($(print_static_lib_build)		\
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
-deleted file mode 100644
-index 8402426..0000000
---- a/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Disable building docs until we have asciidocs available as a recipe.
+- # have udis86 disassembler library?
+- udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
+--- 
+-1.7.9.5
 -
--Upstream-Status: Inappropriate [Account for missing dependency, the lazy way]
--
--Signed-off-by: Darren Hart <dvhart@linux.intel.com>
--
-----
-- Makefile |    8 ++++++--
-- 1 file changed, 6 insertions(+), 2 deletions(-)
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -327,7 +327,9 @@ TARGETS = $(CMD_TARGETS) $(GUI_TARGETS)
-- #    If you want kernelshark, then do:  make gui
-- ###
-- 
---all: all_cmd doc show_gui_make
--+# Make doc optional
--+#all: all_cmd doc show_gui_make
--+all: all_cmd show_gui_make
-- 
-- all_cmd: $(CMD_TARGETS)
-- 
--@@ -503,7 +505,9 @@ install_python: $(PYTHON_SO_INSTALL) $(P
-- install_cmd: all_cmd install_plugins install_python
-- 	$(Q)$(call do_install,trace-cmd,$(bindir_SQ))
-- 
---install: install_cmd install_doc
--+# Make doc optional
--+#install: install_cmd install_doc
--+install: install_cmd
-- 	@echo "Note: to install the gui, type \"make install_gui\""
-- 
-- install_gui: install_cmd gui
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-similarity index 74%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb
-rename to meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-index a4d5382..b1ac789 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-@@ -6,13 +6,7 @@ require trace-cmd.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
-                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
--                    file://trace-input.c;beginline=5;endine=8;md5=dafd8a1cade30b847a8686dd3628cea4 \
--"
--SRCREV = "79e08f8edb38c4c5098486caaa87ca90ba00f547"
--
--PV = "2.3.2+git${SRCPV}"
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git;branch=trace-cmd-stable-v2.3 \
-+                    file://trace-input.c;beginline=5;endline=8;md5=3ec82f43bbe0cfb5951ff414ef4d44d0 \
- "
+diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+similarity index 56%
+rename from meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+rename to meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+index 28412c7..b2ef1fc 100644
+--- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
++++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+@@ -9,9 +9,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+ DEPENDS = "gtk+ libxml2"
+ RDEPENDS_${PN} = "trace-cmd"
  
- EXTRA_OEMAKE = "\
+-SRC_URI_append = "file://kernelshark-fix-syntax-error-of-shell.patch"
+-
+-EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
++EXTRA_OEMAKE = "\
++    'prefix=${prefix}' \
++    'bindir_relative=${@oe.path.relative(prefix, bindir)}' \
++    'libdir=${@oe.path.relative(prefix, libdir)}' \
++    NO_PYTHON=1 \
++    gui \
++"
+ 
+ do_compile_prepend() {
+     # Make sure the recompile is OK
+@@ -19,8 +23,8 @@ do_compile_prepend() {
+ }
+ 
+ do_install() {
+-	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
+-	rm ${D}${bindir}/trace-cmd
+-	rm -rf ${D}${datadir}/trace-cmd
+-	rmdir ${D}${datadir}
++    oe_runmake DESTDIR="${D}" install_gui
++    rm ${D}${bindir}/trace-cmd
++    rm -rf ${D}${libdir}/trace-cmd
++    rmdir ${D}${libdir}
+ }
 -- 
 2.3.0
 
