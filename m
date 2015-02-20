@@ -1,24 +1,46 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9C5606E8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B34171F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 20:14:01 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 20 Feb 2015 12:08:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,616,1418112000"; d="scan'208";a="688535893"
-Received: from rhamler-mobl2.amr.corp.intel.com (HELO localhost)
-	([10.254.47.47])
-	by orsmga002.jf.intel.com with ESMTP; 20 Feb 2015 12:14:03 -0800
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Feb 2015 14:14:01 -0600
-Message-Id: <25bc24271aeb562e276392372d4a99d8a6230426.1424462781.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1424462781.git.tom.zanussi@linux.intel.com>
-References: <cover.1424462781.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/1] wic: Fix kernel dir location
+	Fri, 20 Feb 2015 20:14:17 +0000 (UTC)
+Received: by qcyl6 with SMTP id l6so2648115qcy.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Feb 2015 12:14:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=uTFACRlXoDOE49f3paQ9S7jDTmR3YFOfY0xaWkyhBAA=;
+	b=SuwWSjDxjZYFTkKOB+q8pK/d/utJiPMtr0xRwPyK3evmFMBDWWntaTYkkbfpmqd+vd
+	YjPEtKlX7/p9KRH1purfHByc9opj8atQry9sH/Yr57xDW97GY+VVSYvGWCEmjUJkqXbG
+	3xYV5mxa8OGUgNyU4rJ2J2KkoT1noAoVQCiVPedoRpkHtnwU7Rp2lq5gyd6ghJiJAqHX
+	kiK8Y8urwkI9vXg9aszVAKptA62JJNKpwNzG5icQVQVHLtRoykosbU5YdbVhLnfcAlHu
+	xLs95JgkwzDSvIKGTrDPUtuUEOICkPxqUsZOJC44xN4D0MmOLeGsUtl1Hpd7YrSoPvau
+	p3qg==
+X-Gm-Message-State: ALoCoQlkwOohNtflzgwcaCxnhr6YbfyJZ9mOjTu/WjRMXkHOPAUAR687OCeTkRG3I9WejJ5UzHY/
+X-Received: by 10.229.191.3 with SMTP id dk3mr23452898qcb.30.1424463258736;
+	Fri, 20 Feb 2015 12:14:18 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Fri, 20 Feb 2015 12:13:58 -0800 (PST)
+In-Reply-To: <20150220195235.GA5382@bshelton-desktop>
+References: <20141219180841.C5F5A503BF@opal.openembedded.org>
+	<20150128134042.GI2477@jama>
+	<87k306djs4.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	<3296846.qcxKKmWIPr@peggleto-mobl5.ger.corp.intel.com>
+	<87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	<CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
+	<20150220124501.GB2322@jama>
+	<1424436603.11836.42.camel@linuxfoundation.org>
+	<20150220143657.GI2322@jama> <20150220152718.GA27210@bshelton-desktop>
+	<20150220195235.GA5382@bshelton-desktop>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 20 Feb 2015 20:13:58 +0000
+Message-ID: <CAJTo0LaTN=PEYo9dDzdur7DNesaLbrShRr6SuBijWNBSk4FEow@mail.gmail.com>
+To: Ben Shelton <ben.shelton@ni.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 20:14:03 -0000
+X-List-Received-Date: Fri, 20 Feb 2015 20:14:24 -0000
+Content-Type: multipart/alternative; boundary=001a11339d6a8871ce050f8ab2ce
 
-With the recent kernel staging changes, STAGING_KERNEL_DIR no longer
-points to the kernel image, which can be found however in
-DEPLOY_DIR_IMAGE.  This updates find_artifacts() to look there
-instead.
+--001a11339d6a8871ce050f8ab2ce
+Content-Type: text/plain; charset=UTF-8
 
-Fixes [YOCTO #7307].
+On 20 February 2015 at 19:52, Ben Shelton <ben.shelton@ni.com> wrote:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- scripts/lib/image/engine.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> I submitted v4 of the patch series.  Note that with these three patches,
+> the commit that's in question here, 'font-util: Fix incorrect
+> PKG_CONFIG_PATH', is still needed and should not be reverted.
+>
 
-diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index e794545..68d1ce2 100644
---- a/scripts/lib/image/engine.py
-+++ b/scripts/lib/image/engine.py
-@@ -73,8 +73,8 @@ def find_artifacts(image_name):
-         if (get_line_val(line, "IMAGE_ROOTFS")):
-             rootfs_dir = get_line_val(line, "IMAGE_ROOTFS")
-             continue
--        if (get_line_val(line, "STAGING_KERNEL_DIR")):
--            kernel_dir = get_line_val(line, "STAGING_KERNEL_DIR")
-+        if (get_line_val(line, "DEPLOY_DIR_IMAGE")):
-+            kernel_dir = get_line_val(line, "DEPLOY_DIR_IMAGE")
-             continue
-         if (get_line_val(line, "STAGING_DIR_NATIVE")):
-             native_sysroot = get_line_val(line, "STAGING_DIR_NATIVE")
-@@ -200,7 +200,7 @@ def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-     values from the output of 'bitbake -e':
- 
-     rootfs_dir:        IMAGE_ROOTFS
--    kernel_dir:        STAGING_KERNEL_DIR
-+    kernel_dir:        DEPLOY_DIR_IMAGE
-     native_sysroot:    STAGING_DIR_NATIVE
- 
-     In the above case, bootimg_dir remains unset and the
--- 
-1.9.3
+And they'll be running on the AB shortly, thanks Ben!
 
+Ross
 
+--001a11339d6a8871ce050f8ab2ce
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 February 2015 at 19:52, Ben Shelton <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ben.shelton@ni.com" target=3D"_blank">ben.shelton@ni.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":42t" class=3D"a3s"=
+ style=3D"overflow:hidden">I submitted v4 of the patch series.=C2=A0 Note t=
+hat with these three patches,<br>
+the commit that&#39;s in question here, &#39;font-util: Fix incorrect<br>
+PKG_CONFIG_PATH&#39;, is still needed and should not be reverted.</div></bl=
+ockquote></div><br>And they&#39;ll be running on the AB shortly, thanks Ben=
+!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
+
+--001a11339d6a8871ce050f8ab2ce--
