@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 384C573651
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BBE9771F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 17:41:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1KHfqkQ028493 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 17:41:52 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id q2r6V_gU7sfY
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 17:41:52 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1KHffOx028485
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 17:41:52 GMT
-Message-ID: <1424454101.11836.52.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Feb 2015 17:41:41 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] lib/oe/package_manager: Performance tweak in regex usage
+	Fri, 20 Feb 2015 17:44:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Feb 2015 09:44:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,616,1418112000"; d="scan'208";a="669192675"
+Received: from marazel-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.23.180])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2015 09:44:26 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Feb 2015 17:44:05 +0000
+Message-Id: <d48d2e69497be6aa1fbf91d899d42d6428dbc881.1424454072.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <cover.1424454072.git.paul.eggleton@linux.intel.com>
+References: <cover.1424454072.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1424454072.git.paul.eggleton@linux.intel.com>
+References: <cover.1424454072.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/3] bitbake.conf: Add two variables for layer index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 17:41:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Feb 2015 17:44:28 -0000
 
-Profiling a core-image-sato-sdk rootfs, we're spending over 40s
-compiling the same regex over and over again, roughly around 5 million
-times.
+From: Chong Lu <Chong.Lu@windriver.com>
 
-This is suboptimal, fix for a 40s improvement on a 18.5minute task execution
-time.
+Add BBLAYERS_LAYERINDEX_URL variable that bitbake-layers can use to find layer index.
+Add BBLAYERS_FETCH_DIR variable that bitbake-layers can use to specify fetch directory.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #5348]
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f801333..69bef1d 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -679,10 +679,10 @@ class RpmPM(PackageManager):
-     def _search_pkg_name_in_feeds(self, pkg, feed_archs):
-         for arch in feed_archs:
-             arch = arch.replace('-', '_')
-+            regex_match = re.compile(r"^%s-[^-]*-[^-]*@%s$" % \
-+                (re.escape(pkg), re.escape(arch)))
-             for p in self.fullpkglist:
--                regex_match = r"^%s-[^-]*-[^-]*@%s$" % \
--                    (re.escape(pkg), re.escape(arch))
--                if re.match(regex_match, p) is not None:
-+                if regex_match.match(p) is not None:
-                     # First found is best match
-                     # bb.note('%s -> %s' % (pkg, pkg + '@' + arch))
-                     return pkg + '@' + arch
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/conf/bitbake.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b5b54b7..10ee42a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -551,6 +551,12 @@ SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION"
+ BUILD_OPTIMIZATION = "-O2 -pipe"
+ 
+ ##################################################################
++# Settings used by bitbake-layers.
++##################################################################
++BBLAYERS_LAYERINDEX_URL ??= "http://layers.openembedded.org/layerindex/"
++BBLAYERS_FETCH_DIR ??= "${COREBASE}"
++
++##################################################################
+ # Download locations and utilities.
+ ##################################################################
+ 
+-- 
+1.9.3
 
 
