@@ -1,25 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A4273659
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 17:44:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Feb 2015 09:44:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,616,1418112000"; d="scan'208";a="669192687"
-Received: from marazel-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.23.180])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2015 09:44:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Feb 2015 17:44:07 +0000
-Message-Id: <a8ea5f6f9c848e789d5ad33edd2461d5ff921baa.1424454072.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1424454072.git.paul.eggleton@linux.intel.com>
-References: <cover.1424454072.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1424454072.git.paul.eggleton@linux.intel.com>
-References: <cover.1424454072.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] lib/oeqa/selftest/bblayers: use dashed subcommands
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 03B9171E68;
+	Fri, 20 Feb 2015 18:03:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1KI3N8R029760; Fri, 20 Feb 2015 18:03:23 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FUafucRq-WOL; Fri, 20 Feb 2015 18:03:23 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1KI37MX029707
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 20 Feb 2015 18:03:18 GMT
+Message-ID: <1424455387.11836.57.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 20 Feb 2015 18:03:07 +0000
+In-Reply-To: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 17:44:29 -0000
+X-List-Received-Date: Fri, 20 Feb 2015 18:03:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-bitbake-layers subcommands with underscores are the old syntax; the
-dashed form has been supported (and displayed in the help text) for
-quite a while now, and the old syntax is about to be unsupported, so use
-the dashed form in the tests.
+On Mon, 2015-02-02 at 02:02 -0800, Khem Raj wrote:
+> I have put together upgrade to gcc 4.9.2 as well as glibc 2.21 (
+> upcoming ) on  a contrib branch ( top 2 patches) its has not got much
+> testing besides x86 qemu thus far.
+> 
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-glibc-upgrade
+> 
+> I would like to request some help in testing these out in your
+> respective environments and please report any issues you see so we can
+> start sorting them out at earlier and making its way into OE-Core.
+> 
+> Thanks for your help
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/bblayers.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+For info, I've now merged the glibc part of this change now too.
 
-diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
-index 1ead8e8..449c17e 100644
---- a/meta/lib/oeqa/selftest/bblayers.py
-+++ b/meta/lib/oeqa/selftest/bblayers.py
-@@ -18,17 +18,17 @@ class BitbakeLayers(oeSelfTest):
- 
-     @testcase(83)
-     def test_bitbakelayers_showlayers(self):
--        result = runCmd('bitbake-layers show_layers')
-+        result = runCmd('bitbake-layers show-layers')
-         self.assertTrue('meta-selftest' in result.output)
- 
-     @testcase(93)
-     def test_bitbakelayers_showappends(self):
--        result = runCmd('bitbake-layers show_appends')
-+        result = runCmd('bitbake-layers show-appends')
-         self.assertTrue('xcursor-transparent-theme_0.1.1.bbappend' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
- 
-     @testcase(90)
-     def test_bitbakelayers_showoverlayed(self):
--        result = runCmd('bitbake-layers show_overlayed')
-+        result = runCmd('bitbake-layers show-overlayed')
-         self.assertTrue('aspell' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
- 
-     @testcase(95)
--- 
-1.9.3
+Khem: Thanks for the work on this!
+
+Cheers,
+
+Richard
+
+
 
 
