@@ -1,46 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B34171F1B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E681D606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 20:14:17 +0000 (UTC)
-Received: by qcyl6 with SMTP id l6so2648115qcy.2
+	Fri, 20 Feb 2015 21:07:10 +0000 (UTC)
+Received: by pdjg10 with SMTP id g10so10272517pdj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 12:14:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=uTFACRlXoDOE49f3paQ9S7jDTmR3YFOfY0xaWkyhBAA=;
-	b=SuwWSjDxjZYFTkKOB+q8pK/d/utJiPMtr0xRwPyK3evmFMBDWWntaTYkkbfpmqd+vd
-	YjPEtKlX7/p9KRH1purfHByc9opj8atQry9sH/Yr57xDW97GY+VVSYvGWCEmjUJkqXbG
-	3xYV5mxa8OGUgNyU4rJ2J2KkoT1noAoVQCiVPedoRpkHtnwU7Rp2lq5gyd6ghJiJAqHX
-	kiK8Y8urwkI9vXg9aszVAKptA62JJNKpwNzG5icQVQVHLtRoykosbU5YdbVhLnfcAlHu
-	xLs95JgkwzDSvIKGTrDPUtuUEOICkPxqUsZOJC44xN4D0MmOLeGsUtl1Hpd7YrSoPvau
-	p3qg==
-X-Gm-Message-State: ALoCoQlkwOohNtflzgwcaCxnhr6YbfyJZ9mOjTu/WjRMXkHOPAUAR687OCeTkRG3I9WejJ5UzHY/
-X-Received: by 10.229.191.3 with SMTP id dk3mr23452898qcb.30.1424463258736;
-	Fri, 20 Feb 2015 12:14:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Fri, 20 Feb 2015 12:13:58 -0800 (PST)
-In-Reply-To: <20150220195235.GA5382@bshelton-desktop>
-References: <20141219180841.C5F5A503BF@opal.openembedded.org>
-	<20150128134042.GI2477@jama>
-	<87k306djs4.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
-	<3296846.qcxKKmWIPr@peggleto-mobl5.ger.corp.intel.com>
-	<87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
-	<CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
-	<20150220124501.GB2322@jama>
-	<1424436603.11836.42.camel@linuxfoundation.org>
-	<20150220143657.GI2322@jama> <20150220152718.GA27210@bshelton-desktop>
-	<20150220195235.GA5382@bshelton-desktop>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Feb 2015 20:13:58 +0000
-Message-ID: <CAJTo0LaTN=PEYo9dDzdur7DNesaLbrShRr6SuBijWNBSk4FEow@mail.gmail.com>
-To: Ben Shelton <ben.shelton@ni.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
+	Fri, 20 Feb 2015 13:07:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=Hyc1DF4M8pLmdaGgAnkeqLLGyLoTDo3lVtf1yUjvlk4=;
+	b=Sl33bLj2ZicA4c6vJQA/XDP6zSfRY6e3cpIFgeTys2RLl92lNyY/BIf+AbTNL6O+x6
+	GN00l1qmyQi1iD2uPSoULBeX1VnBhWLbF2nzyCaTimHw7HeKNZzpEhvG1RrFjXM85RnK
+	HzWe3OJPGiSGWJJjB2HKnF7UUE/28EtAiOLjSPhIxI/QsIh9FxBz7VjDWGaF8wcMcVu/
+	WRrvkzeIzQuabx+KHgtl9leLEa9Iobvsd0Um845KgVKs/ioAUy+U4xvlVh2ZzyFMWk/J
+	JuQPZuriy7bsbR3XqihcisbjWGIsy1BYgTUwTj5r2KTr7d04eE1cdhkS8sCf3Rsf6NJp
+	3qDQ==
+X-Received: by 10.66.65.195 with SMTP id z3mr20152220pas.104.1424466431424;
+	Fri, 20 Feb 2015 13:07:11 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:40e:ad5a:d630:8cb2?
+	([2601:9:3580:84c:40e:ad5a:d630:8cb2])
+	by mx.google.com with ESMTPSA id
+	hd4sm27697397pbc.86.2015.02.20.13.07.10
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 20 Feb 2015 13:07:10 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1424436945.11836.46.camel@linuxfoundation.org>
+Date: Fri, 20 Feb 2015 13:07:09 -0800
+Message-Id: <A1665D99-DDB0-4315-948E-064D6286ED45@gmail.com>
+References: <e879427a035a12a0b9040ff948fe3e22618412b8.1424405852.git.raj.khem@gmail.com>
+	<f2524b85ea338525d78147b4bd90d2a1f3f3790d.1424405852.git.raj.khem@gmail.com>
+	<1424436945.11836.46.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] util-linux, util-linux-libs: Build and package util-linux libs separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +49,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 20:14:24 -0000
-Content-Type: multipart/alternative; boundary=001a11339d6a8871ce050f8ab2ce
-
---001a11339d6a8871ce050f8ab2ce
-Content-Type: text/plain; charset=UTF-8
-
-On 20 February 2015 at 19:52, Ben Shelton <ben.shelton@ni.com> wrote:
-
-> I submitted v4 of the patch series.  Note that with these three patches,
-> the commit that's in question here, 'font-util: Fix incorrect
-> PKG_CONFIG_PATH', is still needed and should not be reverted.
->
-
-And they'll be running on the AB shortly, thanks Ben!
-
-Ross
-
---001a11339d6a8871ce050f8ab2ce
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 20 Feb 2015 21:07:11 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 February 2015 at 19:52, Ben Shelton <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ben.shelton@ni.com" target=3D"_blank">ben.shelton@ni.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":42t" class=3D"a3s"=
- style=3D"overflow:hidden">I submitted v4 of the patch series.=C2=A0 Note t=
-hat with these three patches,<br>
-the commit that&#39;s in question here, &#39;font-util: Fix incorrect<br>
-PKG_CONFIG_PATH&#39;, is still needed and should not be reverted.</div></bl=
-ockquote></div><br>And they&#39;ll be running on the AB shortly, thanks Ben=
-!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
-</div></div>
 
---001a11339d6a8871ce050f8ab2ce--
+> On Feb 20, 2015, at 4:55 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Fri, 2015-02-20 at 04:24 +0000, Khem Raj wrote:
+>> We have a catch-22 where systemd->libmount(util-linux) ->
+>> libssytemd(systemd)
+>>=20
+>> This patch breaks the dependency loop by building and packaging =
+libraries from
+>> util-linux package in a separate package.
+>=20
+> Every time we're tried to split a piece of software into two like this
+> it has been a world  of pain. Are we sure there is no alternative to
+> this?
+>=20
+> I'm *very* nervous about this :(
+
+I don=E2=80=99t think there is another solution. unless we have a =
+different package providing libmount.so and then we could disable
+it in util-linux, I have taken most care during split, thanks to =
+testlab/buildhistory to make sure that exact content is divided
+into 2. What sort of issues do you expect ?=
+
