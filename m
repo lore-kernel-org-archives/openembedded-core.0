@@ -1,43 +1,22 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C32473658
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B732B606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 19:52:47 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t1KJqliK028419; Fri, 20 Feb 2015 13:52:47 -0600
-Received: from localhost ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015022013524762-244456 ;
-	Fri, 20 Feb 2015 13:52:47 -0600 
-Date: Fri, 20 Feb 2015 13:52:35 -0600
-From: Ben Shelton <ben.shelton@ni.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20150220195235.GA5382@bshelton-desktop>
-References: <20141219180841.C5F5A503BF@opal.openembedded.org>
-	<20150128134042.GI2477@jama>
-	<87k306djs4.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
-	<3296846.qcxKKmWIPr@peggleto-mobl5.ger.corp.intel.com>
-	<87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
-	<CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
-	<20150220124501.GB2322@jama>
-	<1424436603.11836.42.camel@linuxfoundation.org>
-	<20150220143657.GI2322@jama>
-	<20150220152718.GA27210@bshelton-desktop>
-MIME-Version: 1.0
-In-Reply-To: <20150220152718.GA27210@bshelton-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/20/2015 01:52:47 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 02/20/2015 01:52:47 PM,
-	Serialize complete at 02/20/2015 01:52:47 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-02-20_09:, , signatures=0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
+	Fri, 20 Feb 2015 20:14:00 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 20 Feb 2015 12:08:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,616,1418112000"; d="scan'208";a="669257957"
+Received: from rhamler-mobl2.amr.corp.intel.com (HELO localhost)
+	([10.254.47.47])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2015 12:13:59 -0800
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Feb 2015 14:13:59 -0600
+Message-Id: <cover.1424462781.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/1] wic bugfix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,47 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 19:52:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Feb 2015 20:14:01 -0000
 
-On 02/20, Ben Shelton wrote:
-> > 
-> > Can you please revert:
-> >   commit 89a29a3ad0742cd713e739d3d460be7711966679
-> >   Author: Richard Tollerton <rich.tollerton@ni.com>
-> >   Date:   Fri Dec 12 13:34:00 2014 -0600
-> > 
-> >     font-util: Fix incorrect PKG_CONFIG_PATH
-> > 
-> > ?
-> > 
-> > It doesn't do anything useful as Richard confirmed by withdrawing it and
-> > all font recipes are broken since it was merged.
-> > 
-> > Regards,
-> > 
-> > -- 
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> 
-> Hi all,
-> 
-> Is there any chance I could get you to wait until the end of the day to
-> do any reverts?  Rich is out right now, but I'm going to take a look at
-> the issue pointed out in the v3 patches and see if I can get it worked
-> out.
-> 
-> Thanks,
-> Ben
-> 
+This fixes [Yocto Bug 7307 - wic create mkefidisk/mkgummidisk images fails].
 
-I submitted v4 of the patch series.  Note that with these three patches,
-the commit that's in question here, 'font-util: Fix incorrect
-PKG_CONFIG_PATH', is still needed and should not be reverted.
+Tested directdisk/mkefidisk/mkgummidisk image generation with
+core-image-minimal for nuc, which all now work again with this patch.
 
-With these patches, I successfully built xorg-fonts-100dpi from
-meta-oe, which previously failed.
+The following changes since commit 5db6a27f4847e51c6434a968f81d3ceffcc54952:
 
-Best,
-Ben
+  bitbake: toaster: importlayer Remove description input field (2015-02-20 12:58:20 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-bug-7307
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-bug-7307
+
+Tom Zanussi (1):
+  wic: Fix kernel dir location
+
+ scripts/lib/image/engine.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+1.9.3
+
 
