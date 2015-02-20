@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A482A71E68
+	by mail.openembedded.org (Postfix) with ESMTP id A66A873594
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 05:37:21 +0000 (UTC)
+	Fri, 20 Feb 2015 05:37:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1K5bNd8024470
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1K5bLpR024464
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 21:37:23 -0800 (PST)
+	Thu, 19 Feb 2015 21:37:21 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 19 Feb 2015 21:37:23 -0800
+	Thu, 19 Feb 2015 21:37:21 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Feb 2015 21:37:19 -0800
-Message-ID: <1480f116a943114fff3d942b54a6807d51e0dd2a.1424410597.git.liezhi.yang@windriver.com>
+Date: Thu, 19 Feb 2015 21:37:15 -0800
+Message-ID: <cover.1424410597.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1424410597.git.liezhi.yang@windriver.com>
-References: <cover.1424410597.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] python-git: 0.3.3 -> 0.3.6
+Subject: [PATCH 0/6] Packages upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +34,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 20 Feb 2015 05:37:22 -0000
 Content-Type: text/plain
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../{python-git_0.3.3.bb => python-git_0.3.6.bb}   |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-git_0.3.3.bb => python-git_0.3.6.bb} (85%)
+The following changes since commit 530565c6cb77319f4cc49edeea6fec6be997415d:
 
-diff --git a/meta/recipes-devtools/python/python-git_0.3.3.bb b/meta/recipes-devtools/python/python-git_0.3.6.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python-git_0.3.3.bb
-rename to meta/recipes-devtools/python/python-git_0.3.6.bb
-index 860c37b..80cdd7c 100644
---- a/meta/recipes-devtools/python/python-git_0.3.3.bb
-+++ b/meta/recipes-devtools/python/python-git_0.3.6.bb
-@@ -11,8 +11,8 @@ DEPENDS = "python-gitdb"
- 
- SRC_URI = "http://pypi.python.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "c9fdde02c476c11168fd620659496aba"
--SRC_URI[sha256sum] = "08193acf4e22b57a471cde3748ebce7c17e0f15f1e5042db74ca2c5e9e3e4db5"
-+SRC_URI[md5sum] = "87404ab9e0fcee81e660e932b3d9f2c6"
-+SRC_URI[sha256sum] = "f3f42ca085eedbd3a9956b5e639de58bbe77a119f6b3d5c3af27669a2322c4a9"
- 
- S = "${WORKDIR}/GitPython-${PV}"
- 
+  glibc: Update to glibc 2.21 release tag (2015-02-19 17:04:19 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+
+Robert Yang (6):
+  quilt: 0.63 -> 0.64
+  cups: 2.0.1 -> 2.0.2
+  git: 2.2.1 -> 2.3.0
+  python-git: 0.3.3 -> 0.3.6
+  python-gitdb: 0.6.1 -> 0.6.4
+  logrotate: 3.8.8 -> 3.8.9
+
+ meta/recipes-devtools/git/git.inc                  |    1 +
+ .../git/{git_2.2.1.bb => git_2.3.0.bb}             |    8 ++--
+ .../{python-git_0.3.3.bb => python-git_0.3.6.bb}   |    4 +-
+ ...python-gitdb_0.6.1.bb => python-gitdb_0.6.4.bb} |    4 +-
+ .../{quilt-native_0.63.bb => quilt-native_0.64.bb} |    2 +-
+ .../quilt/{quilt-0.63.inc => quilt.inc}            |    4 +-
+ .../quilt/{quilt_0.63.bb => quilt_0.64.bb}         |    2 +-
+ meta/recipes-extended/cups/cups.inc                |    1 -
+ ...1-test-ippserver.c-check-avahi-before-use.patch |   34 --------------
+ .../cups/{cups_2.0.1.bb => cups_2.0.2.bb}          |    4 +-
+ .../logrotate/act-as-mv-when-rotate.patch          |   48 ++++++++++----------
+ .../disable-check-different-filesystems.patch      |   30 ++++++------
+ .../logrotate/logrotate/update-the-manual.patch    |   26 +++++++----
+ .../{logrotate_3.8.8.bb => logrotate_3.8.9.bb}     |    4 +-
+ 14 files changed, 75 insertions(+), 97 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.2.1.bb => git_2.3.0.bb} (41%)
+ rename meta/recipes-devtools/python/{python-git_0.3.3.bb => python-git_0.3.6.bb} (85%)
+ rename meta/recipes-devtools/python/{python-gitdb_0.6.1.bb => python-gitdb_0.6.4.bb} (78%)
+ rename meta/recipes-devtools/quilt/{quilt-native_0.63.bb => quilt-native_0.64.bb} (51%)
+ rename meta/recipes-devtools/quilt/{quilt-0.63.inc => quilt.inc} (92%)
+ rename meta/recipes-devtools/quilt/{quilt_0.63.bb => quilt_0.64.bb} (95%)
+ delete mode 100644 meta/recipes-extended/cups/cups/0001-test-ippserver.c-check-avahi-before-use.patch
+ rename meta/recipes-extended/cups/{cups_2.0.1.bb => cups_2.0.2.bb} (40%)
+ rename meta/recipes-extended/logrotate/{logrotate_3.8.8.bb => logrotate_3.8.9.bb} (93%)
+
 -- 
 1.7.9.5
 
