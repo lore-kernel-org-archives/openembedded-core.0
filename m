@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A3BC173605
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1311373613
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Feb 2015 04:25:02 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id b16so601136igk.1
+Received: by iecar1 with SMTP id ar1so5211149iec.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Feb 2015 20:25:03 -0800 (PST)
+	Thu, 19 Feb 2015 20:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=6PCFxte+houP1l8mknplTZb0Xtb976pzl0xi7h/0HrY=;
-	b=YVCxS/ZDDdlO8Ys2032RE5jDCHmNE7PBk0X5YryYad6/7uabo1He5h5hlssJlzmyso
-	CbEo2HryWumZCSX0SQ/idgpSNon2GB6zB5FNpLZ0A4vnNgrDMhkDLluxqi5BYQKbxHCe
-	WEiySA0QlNQzioCasLlBsTaED3Q0yVlmkcuhs9MyE/jwkRLzwgU9S3DzG7fJOeOnuca+
-	o75GUOpohrYTf3mz2FTNNt8WvdmyK+GyNFnL3nLiEqHxwvwDQJlXVRUXMlqKCHpk8dJb
-	Lw/tLDxeagChN+y+evz4Ojk8RPWri3RCHePvW3nsS3+t6/IQSVv9X2pQwNDDuXO2AspE
-	0k+w==
-X-Received: by 10.107.15.96 with SMTP id x93mr7131135ioi.75.1424406303704;
-	Thu, 19 Feb 2015 20:25:03 -0800 (PST)
+	bh=WL4b55vdx+Xg4ud3dFSyosH4h2/vldJ5lUUX0l/ip2Y=;
+	b=cS/G37U+a17c1rbsTzpwQPwuiBgFE1X0WNFOJ1HSvcpVInuoiK61+9KQcgGDTeuoSi
+	IiwNA+CgULqLg2riBceKl6b0TR50TbEQKdcs6CXOLm1HRXr0s1tLnXbsRdnCY8maWp1S
+	9f87GA4ta5atqohuzMDynQjh3LqqAvD9VNavVQOmoDkCe+WQ7SO7AamHKn9A4dgSFrMA
+	OhOYl+DgWm4rA83cTxUIh1KNzZ2HIcT7v6QiXtCea28w2IpJkPXMAzaOqstSoU9AAIon
+	RM/WM4Zz3Fx1/6BbTJkg9tdfAveZS8oAnX+OTMoq6Pe6TzB2rW+XtzTPJWfkfNNe3AG7
+	Q41A==
+X-Received: by 10.107.5.79 with SMTP id 76mr10986237iof.15.1424406304283;
+	Thu, 19 Feb 2015 20:25:04 -0800 (PST)
 Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	[96.119.88.205]) by mx.google.com with ESMTPSA id
 	f12sm15642652ioi.21.2015.02.19.20.25.03
@@ -26,14 +26,14 @@ Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	Thu, 19 Feb 2015 20:25:03 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Feb 2015 04:24:34 +0000
-Message-Id: <97400b67f8132888dac718bb652d3f8455cdad8c.1424405852.git.raj.khem@gmail.com>
+Date: Fri, 20 Feb 2015 04:24:35 +0000
+Message-Id: <0194a56748daf7f4486b78b8507ea164501d8242.1424405852.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <e879427a035a12a0b9040ff948fe3e22618412b8.1424405852.git.raj.khem@gmail.com>
 References: <e879427a035a12a0b9040ff948fe3e22618412b8.1424405852.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1424405852.git.raj.khem@gmail.com>
 References: <cover.1424405852.git.raj.khem@gmail.com>
-Subject: [PATCH 3/5] systemd: Add missing dependency on util-linux-libs
+Subject: [PATCH 4/5] tclibc-musl: Use musl for providing virtual/libintl instead of gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,25 +48,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 20 Feb 2015 04:25:03 -0000
 
-Change-Id: Id7694deb38368046177a68114feb3e01c41a9f2d
+Lets try to use musl version of libintl and see how far we get
+
+Change-Id: I0259049eb6461ab9b579c7f3ad401fefede24621
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 2 +-
+ meta/conf/distro/include/tclibc-musl.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 009b4d6..4cb4d10 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -19,7 +19,7 @@ PROVIDES = "udev"
+diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
+index d1272a3..7c1c91b 100644
+--- a/meta/conf/distro/include/tclibc-musl.inc
++++ b/meta/conf/distro/include/tclibc-musl.inc
+@@ -10,7 +10,7 @@ OVERRIDES .= "${LIBCOVERRIDE}"
  
- PE = "1"
+ PREFERRED_PROVIDER_virtual/libc ?= "musl"
+ PREFERRED_PROVIDER_virtual/libiconv ?= "musl"
+-PREFERRED_PROVIDER_virtual/libintl ?= "gettext"
++PREFERRED_PROVIDER_virtual/libintl ?= "musl"
+ PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
  
--DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux-libs"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
 -- 
 2.1.4
 
