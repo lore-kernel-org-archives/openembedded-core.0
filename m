@@ -1,38 +1,45 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 612 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 20 Feb 2015 11:14:35 UTC
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 0914A73605;
-	Fri, 20 Feb 2015 11:14:35 +0000 (UTC)
-Received: from [99.240.204.5] (port=41669 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YOlXV-0000Jw-70; Fri, 20 Feb 2015 06:14:33 -0500
-Date: Fri, 20 Feb 2015 06:14:34 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <A21D923B-21A3-428D-A49D-250221761B5A@gmail.com>
-Message-ID: <alpine.LFD.2.11.1502200613400.29087@localhost>
-References: <BB19F3C7-2950-4E41-BF62-70BFE4FB9C9B@gmail.com>
-	<alpine.LFD.2.11.1502200603100.28632@localhost>
-	<A21D923B-21A3-428D-A49D-250221761B5A@gmail.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F4F716CE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Feb 2015 12:44:56 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id hi2so2695558wib.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Feb 2015 04:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=qGDYm4Cw5yTy80F+b3GWh/NR/nKR1gGwRFA6nUqyHRE=;
+	b=us8c0vu9DC50RBrk2Fw3TCpScife0gF9kKRvrS2+naNnexCP/uDjWhqJ3m1N1j7ETU
+	LAc7Q6lhPMxt7um4+Dec8zwbmR1eww/x2EAOs/eMvfpkJzWI67rFtToyEFRbSvkNOBYR
+	C/XwIPBrjxl4Wd4+vTPbba+8Up3MgaDah9qitGFR9CiOTXDKDK5HhIpTRJJPbhYe+BOU
+	QvAuZf4UjDwoq3Ax+NhSsRy1/3lCDJHIkZmIgfB2WLrsmsq3/35zM/PExbEiaSkVXiX8
+	RlR7V2kdpm9kkR2gYpfv9xv06bN8Uzl6KR5f5u66+4khJ3dUeFl1uPKfxacFH49m5h7j
+	z3pQ==
+X-Received: by 10.194.22.6 with SMTP id z6mr17936633wje.146.1424436297747;
+	Fri, 20 Feb 2015 04:44:57 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id k6sm2255115wia.6.2015.02.20.04.44.56
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Feb 2015 04:44:57 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 20 Feb 2015 13:45:01 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20150220124501.GB2322@jama>
+References: <20141219180841.C5F5A503BF@opal.openembedded.org>
+	<20150128134042.GI2477@jama>
+	<87k306djs4.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	<3296846.qcxKKmWIPr@peggleto-mobl5.ger.corp.intel.com>
+	<87oapbdctd.fsf@weregild.i-did-not-set--mail-host-address--so-tickle-me>
+	<CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: yocto <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] gcc 5.0 recipes available for testing
+In-Reply-To: <CAJTo0La=KuSp2anpGk3=6GPaq_ksWHY1NmOBi9VQ31K=uVjSVQ@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Richard Tollerton : font-util: Fix incorrect PKG_CONFIG_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,62 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 11:14:39 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-751009675-1424430876=:29087"
+X-List-Received-Date: Fri, 20 Feb 2015 12:44:57 -0000
+X-Groupsio-MsgNum: 62591
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
+Content-Disposition: inline
 
---8323328-751009675-1424430876=:29087
-Content-Type: TEXT/PLAIN; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+--3uo+9/B/ebqu+fSQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 20 Feb 2015, Khem Raj wrote:
-
->
-> > On Feb 20, 2015, at 3:04 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On Tue, Feb 03, 2015 at 04:02:36PM +0000, Burton, Ross wrote:
+> On 3 February 2015 at 01:05, Richard Tollerton <rich.tollerton@ni.com>
+> wrote:
+>=20
+> > Done (and sent), and my apologies, because this exercise has made clear
+> > that I was wrong in several of the details here: None of the three
+> > patches were committed; I was confusing one of them with 89a29a3a, which
+> > was from a separate email. The confusion originated in 89a29a3a having
+> > been committed after I had already withdrawn it, which I forgot about
+> > over the holidays.
 > >
-> > On Fri, 20 Feb 2015, Khem Raj wrote:
-> >
-> >> Hi All
-> >>
-> >> Encouraged by help received on testing out glibc 2.21, now  I have put together OE recipes for gcc-5
-> >>
-> >> GCC 5.0 is in prerelease stage 4 ( open for regression and doc fixes only)
-> >>
-> >> https://gcc.gnu.org/ml/gcc/2015-01/msg00156.html
-> >>
-> >> The recipes are available here
-> >>
-> >> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-5.0
-> >>
-> >> you just need the topmost commit and then set
-> >>
-> >> GCCVERSION = "5.0"
-> >> SDKGCCVERSION = "5.0"
-> >>
-> >> in local.conf
-> >
-> >  i assume this new layer should be used *in place* of the current OE
-> > layer for testing purposes?
->
-> Not really, you can do following to grab just the patch on top of your working branch ( of course OE-Core master snapshot don’t try on older releases)
->
-> git remote add contrib git://git.openembedded.org/openembedded-core-contrib
-> git fetch contrib
-> git cherry-pick 85cf9c0e77378ca8f93868e9f91001214c8d8f3e
+>=20
+> That's probably my fault, sorry.  Thanks for following up and resolving
+> this properly.
 
-  ah, gotcha.
+Can you please merge those fixes before 1.8 is closed? Or at least
+revert the original patch which shouldn't be merged, until your comment
+for 1/3 is resolved.
 
-rday
+FWIW I haven't noticed v4 to resolve:
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg61=
+018.html
 
-p.s. i fixed the OE core mailing list address for you. :-)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--- 
+--3uo+9/B/ebqu+fSQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+iEYEARECAAYFAlTnLE0ACgkQN1Ujt2V2gBylWQCeKVFVtjr077GmfkV0OlL2MLbW
+ZgsAn3Kxr60Is+LiSWdso/vpRQDMtkAl
+=yk/k
+-----END PGP SIGNATURE-----
 
---8323328-751009675-1424430876=:29087--
+--3uo+9/B/ebqu+fSQ--
