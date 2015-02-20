@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EC1E71E68
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D16B071F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 18:12:09 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id r20so4691080wiv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Feb 2015 10:12:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=MbOwTgOJ+4/y1OC7BGVzR4Kl3hwQ5Gyq/k6elcHyHEo=;
-	b=coq7pgoTcD9zxj71unLgpE0yMi6RF24ryViGV1ZPaX0D7d2Q8YXt5V1/CU8iE0Jfah
-	50CRxUMMfi8rUvpgY4sEnuMD7UlMyN2xj02tP+j/pBIZHfL+UXhZAN6MeReBEAAymV1m
-	LH90OgWYqh2ipImudT5SbHeqRxRdS8dPkzBU6FAvX+Dk1OZ78UZh7Njwu4Fy+3hRC0i9
-	FMxhIAbCHYCfnFhG5U9kOL9cAArgUfY4wTAwrcFFP7IIUjGqyoZmIbAGJmHH1ues0Uem
-	UhiO6w8/wjuyEC503WVfC+f4INbxeOScVsXrJGBdaX7Ie6NERWJxwYYuTyD7zQS1jLRC
-	sKCA==
-X-Gm-Message-State: ALoCoQkqGZiWHk3+irm9VU1lscGqRrU9WGzd7ci7neumX1bhGb9/SAbZq38dZb2IBNkL8/uq3PM4
-X-Received: by 10.194.189.138 with SMTP id gi10mr21935595wjc.86.1424455929895; 
-	Fri, 20 Feb 2015 10:12:09 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id h11sm3415062wic.14.2015.02.20.10.12.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Feb 2015 10:12:08 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Feb 2015 18:09:51 +0000
-Message-Id: <1424455791-14144-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] opkg: fix systemd unit installation
+	Fri, 20 Feb 2015 18:38:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1KIc49g006307
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 20 Feb 2015 10:38:04 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 20 Feb 2015 10:38:04 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Feb 2015 13:37:58 -0500
+Message-ID: <cover.1424456540.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request (3.19 + config visibility)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Feb 2015 18:12:09 -0000
+X-List-Received-Date: Fri, 20 Feb 2015 18:38:08 -0000
+Content-Type: text/plain
 
-SYSTEMD_SERVICE doesn't need to be set conditionally, and units should be
-installed if the systemd DISTRO_FEATURE is enabled, not if sysvinit isn't
-enabled.
+Richard/Saul,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/opkg/opkg_0.2.4.bb |    8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Here is the latest version of the 3.19 kernel update for the 1.8 release.
+This has been soaking in linux-yocto-dev, has had my local tests 
+(core-image-kernel-dev, core-image-sato) and has had a run through the
+AB.
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.2.4.bb b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-index 7b49d5e..4051b72 100644
---- a/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-@@ -26,11 +26,7 @@ SRC_URI[sha256sum] = "0f40c7e457d81edf9aedc07c778f4697111ab163a38ef95999faece015
- 
- inherit autotools pkgconfig systemd
- 
--python () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
--        pn = d.getVar('PN', True)
--        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
--}
-+SYSTEMD_SERVICE_${PN} = "opkg-configure.service"
- 
- target_localstatedir := "${localstatedir}"
- OPKGLIBDIR = "${target_localstatedir}/lib"
-@@ -64,7 +60,7 @@ do_install_append () {
- 	# We need to create the lock directory
- 	install -d ${D}${OPKGLIBDIR}/opkg
- 
--	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
-+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
- 		install -d ${D}${systemd_unitdir}/system
- 		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
- 		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+I've bumped the libc-headers version to match.
+
+So our coverage is good .. but as usual, I'm sure some things will manage
+to bubble up. We have one known dmesg issue with qemumips, and that will
+be fixed as a bug.
+
+I'll be sending patches in subsequent series for some other layers that have
+bbappends that need to be updated with the kernel version changes.
+
+The other part of this series are two configuration visibility changes that
+will highlight if an auto generated kernel board description is used, or
+if specific options are dropped from the final .config. Those changes
+involve python changes .. and I'm not the world's best python hacker, but
+it is functional :) These address two bugzilla entries: YOCTO: #3383, YOCTO: #6943.
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 5db6a27f4847e51c6434a968f81d3ceffcc54952:
+
+  bitbake: toaster: importlayer Remove description input field (2015-02-20 12:58:20 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-libc-headers: update to 3.19
+  linux-yocto: make kernel configuration audit user visible
+  linux-yocto: remove 3.10 and 3.17 recipes
+  linux-yocto: introduce 3.19 versioned recipes
+  linux-yocto: warn when a generated BSP description is used
+
+ meta/classes/kernel-yocto.bbclass                  | 33 +++++++++++++++----
+ meta/conf/distro/include/tcmode-default.inc        |  2 +-
+ .../kern-tools/kern-tools-native_git.bb            |  2 +-
+ .../linux-libc-headers_3.17.7.bb                   |  7 ----
+ .../linux-libc-headers/linux-libc-headers_3.19.bb  |  7 ++++
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 27 ----------------
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb | 22 -------------
+ ...yocto-tiny_3.17.bb => linux-yocto-tiny_3.19.bb} |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto.inc          |  6 ++++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 37 ----------------------
+ .../{linux-yocto_3.17.bb => linux-yocto_3.19.bb}   | 26 +++++++--------
+ 11 files changed, 58 insertions(+), 119 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.7.bb
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.19.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+ rename meta/recipes-kernel/linux/{linux-yocto-tiny_3.17.bb => linux-yocto-tiny_3.19.bb} (60%)
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
+ rename meta/recipes-kernel/linux/{linux-yocto_3.17.bb => linux-yocto_3.19.bb} (58%)
+
 -- 
-1.7.10.4
+2.1.0
 
 
