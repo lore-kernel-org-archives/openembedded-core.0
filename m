@@ -1,27 +1,24 @@
-Return-Path: <dl9pf@gmx.de>
-X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 21 Feb 2015 18:34:33 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A776E614
+Return-Path: <holger@moiji-mobile.com>
+Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 55E30732B1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Feb 2015 18:34:33 +0000 (UTC)
-Received: from aragorn.auenland.lan ([95.90.138.233]) by mail.gmx.com
-	(mrgmx102) with ESMTPSA (Nemesis) id 0MIhDo-1YN1sY0Ev2-002D2e;
-	Sat, 21 Feb 2015 19:29:30 +0100
-From: Jan-Simon Moeller <dl9pf@gmx.de>
+	Sat, 21 Feb 2015 20:13:55 +0000 (UTC)
+Received: from sangmingze-mail.local (ip5b42f21c.dynamic.kabel-deutschland.de
+	[91.66.242.28])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 93A61ABB07
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Feb 2015 20:13:51 +0000 (UTC)
+Received: from localhost ([127.0.0.1] helo=sangmingze-mail.local)
+	by sangmingze-mail.local with esmtp (Exim 4.84)
+	(envelope-from <holger@moiji-mobile.com>) id 1YPGQX-0005Ib-30
+	for openembedded-core@lists.openembedded.org;
+	Sat, 21 Feb 2015 21:13:25 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Feb 2015 19:27:23 +0100
-Message-ID: <1759659.lAWupvIXx1@aragorn.auenland.lan>
-Organization: priv
-User-Agent: KMail/4.14.4 (Linux/3.17.0-rc51-js2-00622-geae7382; KDE/4.14.4;
-	x86_64; ; )
-MIME-Version: 1.0
-X-Provags-ID: V03:K0:E4ZySErxBxMu032jDTGtyN2jqezjmT5Y2mL2Pv4kaHejQ6DtDXr
-	QqqZBUxXLyyqFPLQYMsYoNSquUiAXDevuZu3sO92+Qu6K1RHHZn6rt0vUXjI/K5V4nxuk7o
-	5shl6HMiVTNWvZHaDzgD9HA4nUwW+DIob3XpAlIS/pPSWD3onMHATiVDD+5JnXQOOPGv5xG
-	IhH7vCWWexn3rc+3QhJ5g==
-X-UI-Out-Filterresults: notjunk:1;
-Subject: Question about PR_SERVICE
+Date: Sat, 21 Feb 2015 21:13:07 +0100
+Message-Id: <1424549588-20334-1-git-send-email-holger@moiji-mobile.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] busybox:udhcpc: Start with a metric of 10 for routes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,19 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Feb 2015 18:34:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 21 Feb 2015 20:14:00 -0000
 
-Hi !
+Linux allows to install multiple default routes with
+different metrics. Start with a metric above 0 to
+allow other parts of the system to install routes
+with a lower metric.
 
-Do I need to set anything else than PRSERV_HOST="somehost:someport" in 
-local.conf (and start the prserv of course on somehost) ? 
+Signed-off-by: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+---
+ meta/recipes-core/busybox/files/simple.script | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I see no change in the prserv logfile and no size change for the prserv.sqlite 
+diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
+index 757e487..b294d57 100644
+--- a/meta/recipes-core/busybox/files/simple.script
++++ b/meta/recipes-core/busybox/files/simple.script
+@@ -56,7 +56,7 @@ case "$1" in
+                                 fi
+ 			fi
+ 
+-			metric=0
++			metric=10
+ 			for i in $router ; do
+                                 if [ $have_bin_ip -eq 1 ]; then
+                                         ip route add default via $i metric $metric
+-- 
+2.1.4
 
-Do I miss an option on the local.conf?
-
-Best,
-Jan-Simon
 
