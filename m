@@ -1,27 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 653E7606E8
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 70D8B606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Feb 2015 13:04:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1MD4RbV028800; Sun, 22 Feb 2015 13:04:27 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HE7g6m3lDfUl; Sun, 22 Feb 2015 13:04:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t1MD4C9w028797
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 22 Feb 2015 13:04:23 GMT
-Message-ID: <1424610251.11836.74.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Feb 2015 13:04:11 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: linux-yocto task performance numbers
+	Sun, 22 Feb 2015 14:05:29 +0000 (UTC)
+Received: by lbvp9 with SMTP id p9so14146779lbv.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Feb 2015 06:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=p65w8s54YmCIChJpmxWjzm6JEEzxkJnoIFsK4cmJwGA=;
+	b=tySkidcTmZ0hbC8EWpgTYfMw9cw6X1SoB0yJABzDaCY2U0UcCnlUY+9721dISqnq7n
+	l2uPUYeZ7kjUu5+vAi5omHPWwzKcRTvschgecIfLSeL204zYFJVRC8lWMKbFs6+rzR/b
+	9yIL0mBGSY88SSzLbplNeKzQRYZ/uJ5xFK3lMP0I3OQwkArUOBEu4b1FoDIeqzqrnZ61
+	ovPiYxxSnIJ/c8vb0yTMTeySfUMR4HH1SkoaPKMbcBWd8Pnv3X5Hw5LHWf2B+YT7JkRX
+	nS+xvbFpYdQP/qySd3WCuH9DVZbOv8lZOlcHw6TDtMQIx5np/rGtc9BNEyJLSZtGGkRa
+	2JYA==
+MIME-Version: 1.0
+X-Received: by 10.112.114.230 with SMTP id jj6mr5759923lbb.112.1424613929997; 
+	Sun, 22 Feb 2015 06:05:29 -0800 (PST)
+Received: by 10.112.40.11 with HTTP; Sun, 22 Feb 2015 06:05:29 -0800 (PST)
+In-Reply-To: <1424610251.11836.74.camel@linuxfoundation.org>
+References: <1424610251.11836.74.camel@linuxfoundation.org>
+Date: Sun, 22 Feb 2015 09:05:29 -0500
+Message-ID: <CADkTA4O-Ju8e1xLVdCfCeyNNgHymUW8gHwK2WkyE1LPPe6bKyQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: linux-yocto task performance numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Feb 2015 13:04:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 22 Feb 2015 14:05:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-As people know, I've been looking at performance a little, one of the
-benchmarks is how long the kernel takes to build. I dumped out the task
-performance data from buildstats for a linux-yocto build (nothing else
-running): 
+On Sun, Feb 22, 2015 at 8:04 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> As people know, I've been looking at performance a little, one of the
+> benchmarks is how long the kernel takes to build. I dumped out the task
+> performance data from buildstats for a linux-yocto build (nothing else
+> running):
+>
+> do_fetch:                 Elapsed time: 0.04 seconds
+> do_unpack:                Elapsed time: 1.61 seconds
+> do_kernel_checkout:       Elapsed time: 4.39 seconds
+> do_validate_branches:     Elapsed time: 0.47 seconds
+> do_patch:                 Elapsed time: 57.77 seconds
+> do_kernel_configme:       Elapsed time: 44.92 seconds
+> do_kernel_configcheck:    Elapsed time: 8.94 seconds
+> do_configure:             Elapsed time: 0.60 seconds
+> do_compile:               Elapsed time: 72.95 seconds
+> do_compile_kernelmodules: Elapsed time: 34.84 seconds
+> do_populate_lic:          Elapsed time: 0.14 seconds
+> do_strip:                 Elapsed time: 0.03 seconds
+> do_uboot_mkimage:         Elapsed time: 0.03 seconds
+> do_install:               Elapsed time: 1.87 seconds
+> do_populate_sysroot:      Elapsed time: 0.16 seconds
+> do_shared_workdir:        Elapsed time: 0.05 seconds
+> do_sizecheck:             Elapsed time: 0.03 seconds
+> do_bundle_initramfs:      Elapsed time: 0.03 seconds
+> do_kernel_link_vmlinux:   Elapsed time: 0.03 seconds
+> do_deploy:                Elapsed time: 13.17 seconds
+> do_package:               Elapsed time: 31.54 seconds
+> do_packagedata:           Elapsed time: 0.59 seconds
+> do_package_qa:            Elapsed time: 5.30 seconds
+> do_package_write_ipk:     Elapsed time: 83.24 seconds
+> do_package_write_rpm:     Elapsed time: 44.58 seconds
+>
+> The "core" was getting blamed for a lot of the build time. As can be
+> seen, the "core" isn't taking that much time now, apart from the fact
+> that ipk packaging seems to be taking twice the time of rpm which needs
+> looking into.
+>
+> Some tasks like the compile tasks are understandable and likely
+> minimised by upstream work already.
+>
+> The other tasks which as consuming a disproportionate amount of time are
+> kernel_configme and patch, I believe we need to look into those a little
+> further too. To put it into context, should the kernel compile be at the
+> same order of magnitude as the patch and configure?
 
-do_fetch:                 Elapsed time: 0.04 seconds 
-do_unpack:                Elapsed time: 1.61 seconds 
-do_kernel_checkout:       Elapsed time: 4.39 seconds 
-do_validate_branches:     Elapsed time: 0.47 seconds 
-do_patch:                 Elapsed time: 57.77 seconds 
-do_kernel_configme:       Elapsed time: 44.92 seconds 
-do_kernel_configcheck:    Elapsed time: 8.94 seconds 
-do_configure:             Elapsed time: 0.60 seconds 
-do_compile:               Elapsed time: 72.95 seconds 
-do_compile_kernelmodules: Elapsed time: 34.84 seconds 
-do_populate_lic:          Elapsed time: 0.14 seconds 
-do_strip:                 Elapsed time: 0.03 seconds 
-do_uboot_mkimage:         Elapsed time: 0.03 seconds 
-do_install:               Elapsed time: 1.87 seconds 
-do_populate_sysroot:      Elapsed time: 0.16 seconds 
-do_shared_workdir:        Elapsed time: 0.05 seconds 
-do_sizecheck:             Elapsed time: 0.03 seconds 
-do_bundle_initramfs:      Elapsed time: 0.03 seconds 
-do_kernel_link_vmlinux:   Elapsed time: 0.03 seconds 
-do_deploy:                Elapsed time: 13.17 seconds 
-do_package:               Elapsed time: 31.54 seconds 
-do_packagedata:           Elapsed time: 0.59 seconds 
-do_package_qa:            Elapsed time: 5.30 seconds 
-do_package_write_ipk:     Elapsed time: 83.24 seconds 
-do_package_write_rpm:     Elapsed time: 44.58 seconds 
+I have some more changes that I didn't get done in M3, since finalizing
+the 3.19 kernel took all my cycles.
 
-The "core" was getting blamed for a lot of the build time. As can be
-seen, the "core" isn't taking that much time now, apart from the fact
-that ipk packaging seems to be taking twice the time of rpm which needs
-looking into.
+But in general validation takes time, those pre-cursor steps are what allow
+the kernel configuration audit to be performed, and also for the patches to
+be pushed with proper attribution (and to confirm that it has been done).
 
-Some tasks like the compile tasks are understandable and likely
-minimised by upstream work already.
+But again, I do have some more changes that bring the time down, but
+there's a floor to performance without breaking use cases.
 
-The other tasks which as consuming a disproportionate amount of time are
-kernel_configme and patch, I believe we need to look into those a little
-further too. To put it into context, should the kernel compile be at the
-same order of magnitude as the patch and configure?
+Bruce
 
-Cheers,
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Richard
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
