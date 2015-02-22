@@ -1,36 +1,27 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B76D606E8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 653E7606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Feb 2015 09:00:04 +0000 (UTC)
-Received: from [99.240.204.5] (port=50056 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YPSOQ-00085E-AM; Sun, 22 Feb 2015 04:00:02 -0500
-Date: Sun, 22 Feb 2015 04:00:02 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1424595258.11836.72.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.11.1502220359310.14717@localhost>
-References: <alpine.LFD.2.11.1502210434001.12954@localhost>
-	<1424522044.11836.70.camel@linuxfoundation.org>
-	<alpine.LFD.2.11.1502220334160.12252@localhost>
-	<1424595258.11836.72.camel@linuxfoundation.org>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: questions about WORKDIR and S usage and files/ stuff
+	Sun, 22 Feb 2015 13:04:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1MD4RbV028800; Sun, 22 Feb 2015 13:04:27 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HE7g6m3lDfUl; Sun, 22 Feb 2015 13:04:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1MD4C9w028797
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 22 Feb 2015 13:04:23 GMT
+Message-ID: <1424610251.11836.74.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Feb 2015 13:04:11 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: linux-yocto task performance numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Feb 2015 09:00:04 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 22 Feb 2015 13:04:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Feb 2015, Richard Purdie wrote:
+As people know, I've been looking at performance a little, one of the
+benchmarks is how long the kernel takes to build. I dumped out the task
+performance data from buildstats for a linux-yocto build (nothing else
+running): 
 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=4eb3db9a2ca8eaff64b64b8f56dac25d4734571c
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=cf72ede74d35746a10d0708942287548f9c72f30
->
-> and some of the surrounding patches. I'd assumed base-files was part
-> of that series, clearly it wasn't but there were many other recipes
-> changed at that time.
+do_fetch:                 Elapsed time: 0.04 seconds 
+do_unpack:                Elapsed time: 1.61 seconds 
+do_kernel_checkout:       Elapsed time: 4.39 seconds 
+do_validate_branches:     Elapsed time: 0.47 seconds 
+do_patch:                 Elapsed time: 57.77 seconds 
+do_kernel_configme:       Elapsed time: 44.92 seconds 
+do_kernel_configcheck:    Elapsed time: 8.94 seconds 
+do_configure:             Elapsed time: 0.60 seconds 
+do_compile:               Elapsed time: 72.95 seconds 
+do_compile_kernelmodules: Elapsed time: 34.84 seconds 
+do_populate_lic:          Elapsed time: 0.14 seconds 
+do_strip:                 Elapsed time: 0.03 seconds 
+do_uboot_mkimage:         Elapsed time: 0.03 seconds 
+do_install:               Elapsed time: 1.87 seconds 
+do_populate_sysroot:      Elapsed time: 0.16 seconds 
+do_shared_workdir:        Elapsed time: 0.05 seconds 
+do_sizecheck:             Elapsed time: 0.03 seconds 
+do_bundle_initramfs:      Elapsed time: 0.03 seconds 
+do_kernel_link_vmlinux:   Elapsed time: 0.03 seconds 
+do_deploy:                Elapsed time: 13.17 seconds 
+do_package:               Elapsed time: 31.54 seconds 
+do_packagedata:           Elapsed time: 0.59 seconds 
+do_package_qa:            Elapsed time: 5.30 seconds 
+do_package_write_ipk:     Elapsed time: 83.24 seconds 
+do_package_write_rpm:     Elapsed time: 44.58 seconds 
 
-  ah, there we go, thank you kindly.
+The "core" was getting blamed for a lot of the build time. As can be
+seen, the "core" isn't taking that much time now, apart from the fact
+that ipk packaging seems to be taking twice the time of rpm which needs
+looking into.
 
-rday
+Some tasks like the compile tasks are understandable and likely
+minimised by upstream work already.
 
--- 
+The other tasks which as consuming a disproportionate amount of time are
+kernel_configme and patch, I believe we need to look into those a little
+further too. To put it into context, should the kernel compile be at the
+same order of magnitude as the patch and configure?
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Cheers,
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Richard
+
 
