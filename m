@@ -1,21 +1,21 @@
 Return-Path: <rpjday@crashcourse.ca>
 Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
 	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id DC73E606E8
+	by mail.openembedded.org (Postfix) with ESMTP id 1A67F606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Feb 2015 08:55:42 +0000 (UTC)
-Received: from [99.240.204.5] (port=50048 helo=crashcourse.ca)
+	Sun, 22 Feb 2015 08:58:48 +0000 (UTC)
+Received: from [99.240.204.5] (port=50050 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YPSKB-0007tQ-8y; Sun, 22 Feb 2015 03:55:39 -0500
-Date: Sun, 22 Feb 2015 03:55:39 -0500 (EST)
+	id 1YPSNC-00081a-Hv; Sun, 22 Feb 2015 03:58:46 -0500
+Date: Sun, 22 Feb 2015 03:58:48 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost
-To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-In-Reply-To: <54E99779.2030405@gmail.com>
-Message-ID: <alpine.LFD.2.11.1502220350280.14143@localhost>
-References: <alpine.LFD.2.11.1502220327320.12673@localhost>
-	<54E99779.2030405@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4NntZdNHW=Fk9127RjiqU-zJXhS120q5kiff8AAo2tN5A@mail.gmail.com>
+Message-ID: <alpine.LFD.2.11.1502220356050.14143@localhost>
+References: <alpine.LFD.2.11.1502210237270.4835@localhost>
+	<CADkTA4NntZdNHW=Fk9127RjiqU-zJXhS120q5kiff8AAo2tN5A@mail.gmail.com>
 User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -27,8 +27,8 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how to (yuck) add arbitrary external files into an image?
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: question about kernel .scc and .cfg files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,42 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Feb 2015 08:55:43 -0000
+X-List-Received-Date: Sun, 22 Feb 2015 08:58:49 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Sun, 22 Feb 2015, Sven Ebenfeld wrote:
+On Sat, 21 Feb 2015, Bruce Ashfield wrote:
 
-> Am 22.02.2015 um 09:33 schrieb Robert P. J. Day:
+> On Sat, Feb 21, 2015 at 2:43 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 > >
-> >   as much as this disturbs me, i was asked about the easiest way
-> > to add arbitrary files scattered across the development host into
-> > the final OE-generated image and, based on richard purdie's recent
-> > clarification that *everything* that is listed in SRC_URI is
-> > unloaded into WORKDIR, i suspect the easiest thing to do is create
-> > a recipe where SRC_URI lists all of those files with "file:///",
-> > and write an explicit install task that manually copies them, one
-> > at a time, into their final location in D, yes?
-> >
-> >   i don't like this at all, but if it has to be done, is this at
-> > least the "best" way to do it?
+> >   once a SRC_URI refers to an .scc file that further refers to a
+> > .cfg file, is there any need for the SRC_URI file to
+> > *additionally* refer explicitly to that same .cfg file? i ask only
+> > because i've noticed this on occasion and i'm not sure if there's
+> > something subtle going on that i don't know about.
 >
-> I think the "best" way would be to create one recipe that collects
-> these files and just installs them into $D. Then you could select
-> this package in IMAGE_INSTALL as you described above.
+> There's no need. Everything is migrated into the kernel workdir, and
+> the .scc processing picks up the .cfg. It's that way, since the .scc
+> + .cfgs are used elsewhere and in that format are fully standalone.
 
-  right ... isn't that what i was describing? or are you suggesting
-some variation on that? i was envisioning a single recipe with a
-SRC_URI loaded with "file:///" components.
+  ok ... so once a .scc file is picked up that further refers to .cfg
+files, there is no need to refer to those same .cfg files directly.
+that's what i'd understood, but every so often, i run across recipes
+that do things i don't expect, and it always makes me wonder if i
+don't quite understand something.
 
-> Another way is to use a ROOTFS_POSTPROCESS_COMMAND if you only need
-> to do this for one image.
-
-  ah, quite right, another simple option, thanks.
+  it's my sheldon cooper-like OCD that motivates me to want to remove
+stuff that has no need to be there. bazinga.
 
 rday
-
-p.s.  yes, i do understand that this is a tacky thing to do.
-sometimes, you just need to do tacky.
 
 -- 
 
