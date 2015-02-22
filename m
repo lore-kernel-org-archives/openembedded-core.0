@@ -1,34 +1,39 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id E96CA71FE8
+Return-Path: <sven.ebenfeld@gmail.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id BA918606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Feb 2015 08:35:53 +0000 (UTC)
-Received: from [99.240.204.5] (port=49962 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1YPS11-0006N0-Iv; Sun, 22 Feb 2015 03:35:51 -0500
-Date: Sun, 22 Feb 2015 03:35:51 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1424522044.11836.70.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.11.1502220334160.12252@localhost>
-References: <alpine.LFD.2.11.1502210434001.12954@localhost>
-	<1424522044.11836.70.camel@linuxfoundation.org>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sun, 22 Feb 2015 08:46:34 +0000 (UTC)
+Received: by wesw62 with SMTP id w62so12689791wes.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Feb 2015 00:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=QE9TgpNnUhK5k4x6kUZIMhTk3De47O4GCJ9Z9BwqExE=;
+	b=QmnwWBse7CKtf4fYQpOQcTJSgrvCnNdShm1BcmnUnVlbWu5xseOn9rzFDX5nZIBqd7
+	KN+hPX8RKjWTE1i4MMZwl0hkVsMHBaqq7+Z/78X41tjPUebg9hptf1hNW1WJPtLjiP/O
+	vwZT6HHOSdJv4RLhGgMssa5PmbneVY/8D+X257wG7xHC2kk2hYDxxvD7DPXhOURu654l
+	rZGIDoWSwYx4b/hkMfVHrl2iQxTYs9bw4Yem/nW8tzcV2TYZl1Fi531gIbQV+w/gRlTJ
+	mKWRenePkF0LHuAp1kbJFKhTlZRSK+VgqbRhoXi7+rpR0q3JfsexRLp2idi14nDfPcXk
+	mWJA==
+X-Received: by 10.180.105.97 with SMTP id gl1mr10285209wib.74.1424594794540;
+	Sun, 22 Feb 2015 00:46:34 -0800 (PST)
+Received: from [192.168.50.198] (ip-84-119-96-251.unity-media.net.
+	[84.119.96.251]) by mx.google.com with ESMTPSA id
+	hm6sm50105635wjb.32.2015.02.22.00.46.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 22 Feb 2015 00:46:33 -0800 (PST)
+Message-ID: <54E99779.2030405@gmail.com>
+Date: Sun, 22 Feb 2015 09:46:49 +0100
+From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: questions about WORKDIR and S usage and files/ stuff
+To: openembedded-core@lists.openembedded.org, rpjday@crashcourse.ca
+References: <alpine.LFD.2.11.1502220327320.12673@localhost>
+In-Reply-To: <alpine.LFD.2.11.1502220327320.12673@localhost>
+Subject: Re: how to (yuck) add arbitrary external files into an image?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Feb 2015 08:35:54 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 22 Feb 2015 08:46:35 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Feb 2015, Richard Purdie wrote:
+Am 22.02.2015 um 09:33 schrieb Robert P. J. Day:
+> 
+>   as much as this disturbs me, i was asked about the easiest way to
+> add arbitrary files scattered across the development host into the
+> final OE-generated image and, based on richard purdie's recent
+> clarification that *everything* that is listed in SRC_URI is unloaded
+> into WORKDIR, i suspect the easiest thing to do is create a recipe
+> where SRC_URI lists all of those files with "file:///", and write an
+> explicit install task that manually copies them, one at a time, into
+> their final location in D, yes?
+> 
+>   i don't like this at all, but if it has to be done, is this at least
+> the "best" way to do it?
 
-> On Sat, 2015-02-21 at 05:09 -0500, Robert P. J. Day wrote:
+I think the "best" way would be to create one recipe that collects these
+files and just installs them into $D. Then you could select this package
+in IMAGE_INSTALL as you described above.
 
-... snip ...
-
-> >   sticking with those non-patch files, it makes sense that all of
-> > them should be processed relative to their location in ${WORKDIR}
-> > (which is where they've all been copied), but occasionally, i'll
-> > see a recipe that sets:
-> >
-> >   S = ${WORKDIR}
-> >
-> > then refers to all those files relative to ${S}. sure, that'll
-> > work, but it always struck me as dangerous in case you ever need
-> > to use a separate S directory down the road, then you'd have to
-> > change the entire recipe.
-> >
-> >   as an example, consider base-files again, which sets:
-> >
-> >   S = "${WORKDIR}"
-> >
-> > but not for any reason that i can see since that recipe consists
-> > of nothing but explicit files, and all of their processing is done
-> > with respect to ${WORKDIR}, anyway, which strikes me as the right
-> > way to do it. so, a question -- what is the point of the
-> > base-files recipe setting S to that value? doesn't seem to have
-> > any purpose that i can see.
->
-> See the recent patches which actually added that.
-
-  sorry, i don't know what recent patches you're talking about ...
-that variable setting above has, according to git blame, been part of
-the base-files recipe since back in 2005.
-
-  what am i misunderstanding?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Another way is to use a ROOTFS_POSTPROCESS_COMMAND if you only need to
+do this for one image.
 
