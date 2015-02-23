@@ -1,41 +1,37 @@
-Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3642671633
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B4F71633
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 19:41:40 +0000 (UTC)
-Received: by wesx3 with SMTP id x3so20875131wes.7
+	Mon, 23 Feb 2015 19:49:50 +0000 (UTC)
+Received: by yhaf73 with SMTP id f73so11886321yha.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 11:41:41 -0800 (PST)
+	Mon, 23 Feb 2015 11:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=MKckWCdkLVtkGLg4nZWyzrZkuAHcQvNkYvquQOUQGd0=;
-	b=IE0n5RylTmUnlfTHisrJ4IC4fxi1f0Y6cmlJZqyfwdn1idfEG6BL6qGPJOJZs9znTQ
-	ToGiYDo3anTaAZudDV+qP8wq/ketl5ZbgLDFPu8Mv3aeyMQUDCAqn3yWhyqUkLtsNson
-	yI9eFEAUwWtRhYcnjhqOliashhBbxjFvSlxangAb8y0rgaBxCnsDJKxjG9dVHQme/ZEo
-	eI3B39lhjfJordsWfE1KYs+h6tSJKbgvi1pje+qwhU+EskTofwY3GZ1uwuL3pf0n40Ib
-	JRFZnkqyimOPaHwf7/D6zfBGFdwlf/PHdeq321QTOGAoHZ7tHtzL3PcCKcMoqrf86AGO
-	fy7w==
-X-Received: by 10.194.187.236 with SMTP id fv12mr25668406wjc.131.1424720501076;
-	Mon, 23 Feb 2015 11:41:41 -0800 (PST)
-Received: from [192.168.50.198] (ip-84-119-96-251.unity-media.net.
-	[84.119.96.251]) by mx.google.com with ESMTPSA id
-	gi3sm17254041wic.15.2015.02.23.11.41.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Feb 2015 11:41:40 -0800 (PST)
-Message-ID: <54EB8286.10101@gmail.com>
-Date: Mon, 23 Feb 2015 20:41:58 +0100
-From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=VZlL9Bsdto0MNWOQdGp1K+LaVI4Tqj1JmEprm0AN+F0=;
+	b=jeCBstkDIhwErRYsadtIRBnmlJhrg5LZYXr3e9GiFAj+Hf9Z2RTn5C4K4QOqXFF9Vu
+	BoxYMwE9KfW9FMfuhZZ7DWpVlm3DyVuhP+1vwE+w36sFjBeQv5gN50eLnwu0Iv+V0XQc
+	9veUt0OegCbIuKYuWNDCqw7H2y6XQws5iZnrlmF+aXPafyf29TVSA9PQSgfoENr8Yrek
+	9h7yGayI3u2D4dLnZUjsr7P7BAciSDJl72Ims4SQ/CzbGkf0iYoYU/UvOnmdJk0Gn3Io
+	gZsMecXb6DaiGG87bqLfW7E6L6mDNL+M/rf3trK6KHHjfppwwC9mN/mMVOQsZSRTu7ht
+	fvHA==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
-	<CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.py: No --disable-factory for gnome-terminal >= 3.10
+X-Received: by 10.236.30.98 with SMTP id j62mr11280218yha.105.1424720991498;
+	Mon, 23 Feb 2015 11:49:51 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.133 with HTTP; Mon, 23 Feb 2015 11:49:51 -0800 (PST)
+In-Reply-To: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Mon, 23 Feb 2015 16:49:51 -0300
+X-Google-Sender-Auth: bGSJEbuPjNXxIqQOG9VUpsK-4yQ
+Message-ID: <CAP9ODKr+kp=+yez1ibVBuwUyuc1V1D0gitaANhgBoGp8=rRXAQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,37 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 19:41:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Feb 2015 19:49:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,
+On Mon, Feb 23, 2015 at 4:04 PM, Alejandro Hernandez
+<alejandro.hernandez@linux.intel.com> wrote:
+> Adds symlink-to-sysroot check to the QA_WARN, Changes filerdepends
+> from set() to dict(), hence methodsfor adding or deleting items had
 
-Thank you for your replies!
-I've reworked my patch and submitted it again.
+methods for
 
-Cheers,
-Sven
+> to change, keeps track of the key:value relationship, flags the
+> issue along with the offending file accordingly.
+>
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> ---
+>  meta/classes/insane.bbclass | 26 +++++++++++---------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 143ec46..542346a 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+>              split-strip packages-list pkgv-undefined var-undefined \
+> -            version-going-backwards \
+> +            version-going-backwards  symlink-to-sysroot\
 
-Am 23.02.2015 um 14:34 schrieb Burton, Ross:
-> Hi again,
-> 
-> On 21 February 2015 at 10:44, Sven Ebenfeld <sven.ebenfeld@gmail.com> wrote:
-> 
->> +        vernum = check_konsole_version("gnome-terminal")
->> +        if vernum:
->> +            major = int(vernum.split('.')[0])
->> +            minor = int(vernum.split('.')[1])
->>
-> 
-> And whilst you're editing this code, doing the split inside
-> check_terminal_version and returning a tuple would clean it up nicely:
-> 
-> def get_terminal_version():
->     ...
->     return ver.split()[-1].split('.')[:2]
-> (major, minor) = get_terminal_version()
-> 
-> Ross
-> 
+Is this a 'development change' which should be dropped or another
+change which should go in another commit?
+
+Please take a look on the 'sed'  warning when building with ptest. It
+is a 'false-positive' failure.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
