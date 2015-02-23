@@ -1,37 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 20B4F71633
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E69706B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 19:49:50 +0000 (UTC)
-Received: by yhaf73 with SMTP id f73so11886321yha.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 11:49:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=VZlL9Bsdto0MNWOQdGp1K+LaVI4Tqj1JmEprm0AN+F0=;
-	b=jeCBstkDIhwErRYsadtIRBnmlJhrg5LZYXr3e9GiFAj+Hf9Z2RTn5C4K4QOqXFF9Vu
-	BoxYMwE9KfW9FMfuhZZ7DWpVlm3DyVuhP+1vwE+w36sFjBeQv5gN50eLnwu0Iv+V0XQc
-	9veUt0OegCbIuKYuWNDCqw7H2y6XQws5iZnrlmF+aXPafyf29TVSA9PQSgfoENr8Yrek
-	9h7yGayI3u2D4dLnZUjsr7P7BAciSDJl72Ims4SQ/CzbGkf0iYoYU/UvOnmdJk0Gn3Io
-	gZsMecXb6DaiGG87bqLfW7E6L6mDNL+M/rf3trK6KHHjfppwwC9mN/mMVOQsZSRTu7ht
-	fvHA==
-MIME-Version: 1.0
-X-Received: by 10.236.30.98 with SMTP id j62mr11280218yha.105.1424720991498;
-	Mon, 23 Feb 2015 11:49:51 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.133 with HTTP; Mon, 23 Feb 2015 11:49:51 -0800 (PST)
-In-Reply-To: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
-Date: Mon, 23 Feb 2015 16:49:51 -0300
-X-Google-Sender-Auth: bGSJEbuPjNXxIqQOG9VUpsK-4yQ
-Message-ID: <CAP9ODKr+kp=+yez1ibVBuwUyuc1V1D0gitaANhgBoGp8=rRXAQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 23 Feb 2015 22:33:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1NMXNZ7001468; Mon, 23 Feb 2015 22:33:23 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8KOPysns8q6n; Mon, 23 Feb 2015 22:33:23 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1NMXBhs001458
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 23 Feb 2015 22:33:22 GMT
+Message-ID: <1424730791.26813.3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 23 Feb 2015 22:33:11 +0000
+In-Reply-To: <CAP9ODKrUdLOyxr8NtGYMPMrmK0vY68VR3y483_nyCMJ8DhLOdw@mail.gmail.com>
+References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
+	<dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
+	<CAP9ODKqa+7EZ_4hw=_-XOgQMyxeiSRRMAcXrGVpKwXLcLLrNPw@mail.gmail.com>
+	<5866784.j6W0KFP0Zl@peggleto-mobl5.ger.corp.intel.com>
+	<CAP9ODKp4QG0iSUzUU8ZaAkKjsg34zo8FwHiXZkD-XoA_su1hpA@mail.gmail.com>
+	<1424714778.26813.1.camel@linuxfoundation.org>
+	<CAP9ODKrUdLOyxr8NtGYMPMrmK0vY68VR3y483_nyCMJ8DhLOdw@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: Enhance file-rdeps QA check
+Subject: Re: [PATCH 9/9] populate_sdk_ext: add extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 19:49:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 23 Feb 2015 22:33:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 23, 2015 at 4:04 PM, Alejandro Hernandez
-<alejandro.hernandez@linux.intel.com> wrote:
-> Adds symlink-to-sysroot check to the QA_WARN, Changes filerdepends
-> from set() to dict(), hence methodsfor adding or deleting items had
+On Mon, 2015-02-23 at 15:11 -0300, Otavio Salvador wrote:
+> On Mon, Feb 23, 2015 at 3:06 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2015-02-23 at 15:00 -0300, Otavio Salvador wrote:
+> >> On Mon, Feb 23, 2015 at 2:54 PM, Paul Eggleton
+> > This code adds in an alternative SDK format and it drives that using a
+> > different task target. Right now its hard for people to see where things
+> > are going, this puts it in easy reach whilst allowing the current SDK to
+> > continue to work too.
+> >
+> > I think a choice of two different task targets here makes sense to drive
+> > this configuration rather than SDKIMAGE_FEATURES and I agree with Paul
+> > that adding it the other way would be complex, error prone and
+> > confusing.
+> 
+> Well so why we don't add populate_sdk+dev-pkgs+dbg-pkgs.
+> 
+> Sorry ... it is clear that people wish this feature (and I also do)
+> and appreciate the hard work Paul has put on this (yes this is indeed
+> a good amount of work) but the extra task does not seem to fit how the
+> system is designed.
+> 
+> The SDKIMAGE_FEATURES[1] is described as:
+> 
+> 
+> Equivalent to IMAGE_FEATURES. However, this variable applies to the
+> SDK generated from an image using the following command:
+> 
+>      $ bitbake -c populate_sdk imagename
+> 
+> and it makes a lot of sense to have a 'extended' or 'devtool' or
+> another name for this feature.
 
-methods for
+I see this as that SDKIMAGE_FEATURES controls the content of the SDK,
+not the actual construction of it so I'm afraid I don't agree.
 
-> to change, keeps track of the key:value relationship, flags the
-> issue along with the offending file accordingly.
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  meta/classes/insane.bbclass | 26 +++++++++++---------------
->  1 file changed, 11 insertions(+), 15 deletions(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 143ec46..542346a 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
->  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
->              split-strip packages-list pkgv-undefined var-undefined \
-> -            version-going-backwards \
-> +            version-going-backwards  symlink-to-sysroot\
+Cheers,
 
-Is this a 'development change' which should be dropped or another
-change which should go in another commit?
+Richard
 
-Please take a look on the 'sed'  warning when building with ptest. It
-is a 'false-positive' failure.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+
 
