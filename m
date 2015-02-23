@@ -1,37 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7764572D36
+Return-Path: <kergoth@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CAAF706B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 14:46:30 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id em10so17579887wid.5
+	Mon, 23 Feb 2015 15:00:53 +0000 (UTC)
+Received: by yhoc41 with SMTP id c41so10526248yho.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 06:46:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sublKsnX+3cmMf9oKX+gAa+0ID5twZKxeUum1WgcfY8=;
-	b=V8nUlBGR/u4DnmTY64EkdIRdM79XSi/mSqs0aprgdXL+julQovMgfseEX5cQ4fzjRT
-	Rrcrvc7LvwtJ6ZxPfuw11ud7jjrqZxoJ3xJWaUeTVx8LfU7P0AelJpXNFuGG0TTRNR8q
-	QcVqjEQw8eRCnvpNkKH9eu2EhKYtlz961qz0mQO/T4G1sJarOhXeoLZboqi3Ua1h3B8O
-	8FFx6GmL//K6/8GxBnqi+/m04IVG8vydateT1+cyUeh1l4mvmMMavqFtN93bg9Tmj7yh
-	5j4kO8falT7QBjKkEBXTpS4JTo7p1q1rNW0n9ScW8A++IEqtyb0jhXg5hwy4pjG5/krj
-	TAew==
-X-Gm-Message-State: ALoCoQkOeydgD/yz/UlSjq/YK4KvgIAVQFdA0g/T+exXaFFPv3qn1pZXtOveuTy18twZeHHg1NnP
-X-Received: by 10.180.10.131 with SMTP id i3mr21826756wib.54.1424702791082;
-	Mon, 23 Feb 2015 06:46:31 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id m4sm55881874wjb.25.2015.02.23.06.46.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Feb 2015 06:46:29 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 14:44:11 +0000
-Message-Id: <1424702651-9454-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] base-files: clean up and clarify hostname logic
+	Mon, 23 Feb 2015 07:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=VONMwamkB+gZzbZpA19YNH6aCog+0woDHmr1fCjaNxc=;
+	b=qVB/b3ew74PWQeCu8/l7sPbz3FNSdEBrVWLx9q8TipYerCej6KZ+TZGlq6SUAlSrgf
+	yyaDkL8X2ISmod/Q2U1C5xsk1jRRJ9VjTyjXXMjmQmFI8nKP+bG9l9i7ZqcSvqeDts35
+	Ml/XtOnDXCTEkbMfYFON1WWHc6Sm55IarQdRvPGc3DoDi/Gs3Akxd/SHaaE7PUfaxYbD
+	G0LRhowV/DbwCeREY+6KaiFGNjWEtQiXzVecXZDoIq1g6ACe8uxCV4j0LKJH/xNPsDss
+	qQVJUPqm7uNTDYkmZ4OjZp2KEMY11+mfYowlqsoL6Oen+s5oaYJyRQozvZ4w1xtRhICN
+	SE3A==
+X-Received: by 10.236.221.228 with SMTP id r94mr2213587yhp.127.1424703654996; 
+	Mon, 23 Feb 2015 07:00:54 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.170.120.4 with HTTP; Mon, 23 Feb 2015 07:00:34 -0800 (PST)
+In-Reply-To: <88edecf9cc4e46b4fd3dd7e95fb2de450625364a.1424405852.git.raj.khem@gmail.com>
+References: <cover.1424405852.git.raj.khem@gmail.com>
+	<e879427a035a12a0b9040ff948fe3e22618412b8.1424405852.git.raj.khem@gmail.com>
+	<88edecf9cc4e46b4fd3dd7e95fb2de450625364a.1424405852.git.raj.khem@gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 23 Feb 2015 08:00:34 -0700
+X-Google-Sender-Auth: OYaga6YvwoqDdo_7FjRPZTcVzFU
+Message-ID: <CABcZANmEy-2kZwNQbXYCJw_vFFU9N_bOpSeUJh86=rUayDf3PA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] glibc: Dont offer to be parsed for non-glibc TCLIBC selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,59 +46,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 14:46:34 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 15:00:54 -0000
+Content-Type: multipart/alternative; boundary=001a11c2cc424431a4050fc2aba3
 
-Change the hostname logic so that the magic value to use MACHINE as hostname is
-clearly a machine value ("machinename" instead of "openembedded"), and add a
-comment explaining how to set the hostname from outside the recipe and what
-happens if it's unset.
+--001a11c2cc424431a4050fc2aba3
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |   15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+On Thu, Feb 19, 2015 at 9:24 PM, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 6157ff3..dd20330 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -59,10 +59,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-              ${sysconfdir}/default"
- 
-+# The default hostname.  If set to the magic value "machinename" then the value
-+# of MACHINE is used.  If the hostname is unset then a /etc/hostname file isn't
-+# written, suitable for environments with dynamic hostnames.
- #
--# set standard hostname, might be a candidate for a DISTRO variable? :M:
--#
--hostname = "openembedded"
-+# This can be changed outside of this recipe by using
-+# hostname_pn-base-files = "my-host-name".
-+hostname = "machinename"
- 
- BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
- 
-@@ -111,15 +114,15 @@ do_install () {
- 
- DISTRO_VERSION[vardepsexclude] += "DATE"
- do_install_basefilesissue () {
--	if [ "${hostname}" != "" ]; then
--		if [ -n "${MACHINE}" -a "${hostname}" = "openembedded" ]; then
-+	if [ "${hostname}" ]; then
-+		if [ "${hostname}" = "machinename" ]; then
- 			echo ${MACHINE} > ${D}${sysconfdir}/hostname
- 		else
- 			echo ${hostname} > ${D}${sysconfdir}/hostname
- 		fi
- 	fi
- 
--	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
-+	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
-         if [ -n "${DISTRO_NAME}" ]; then
- 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
- 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+> +    notglibc = (re.match('.*uclibc
+> , d.getVar('TARGET_OS', True)) != None) and (re.match('.*musl,
+> d.getVar('TARGET_OS', True)) != None)
+> +    if notglibc:
+
+
+Pretty sure this is a condition that will never be satisfied. This will
+only succeed if TARGET_OS is both musl and uclibc. Could we skip on TCLIBC
+!= glibc, to be both future proof and fix the logic?
 -- 
-1.7.10.4
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a11c2cc424431a4050fc2aba3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Feb 19, 2015 at 9:24 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2e3" class=3D"a3s"=
+ style=3D"overflow:hidden">+=C2=A0 =C2=A0 notglibc =3D (re.match(&#39;.*ucl=
+ibc</div>, d.getVar(&#39;TARGET_OS&#39;, True)) !=3D None) and (re.match(&#=
+39;.*musl, d.getVar(&#39;TARGET_OS&#39;, True)) !=3D None)<br>
++=C2=A0 =C2=A0 if notglibc:</blockquote></div><br>Pretty sure this is a con=
+dition that will never be satisfied. This will only succeed if TARGET_OS is=
+ both musl and uclibc. Could we skip on TCLIBC !=3D glibc, to be both futur=
+e proof and fix the logic?<br>-- <br><div class=3D"gmail_signature">Christo=
+pher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedde=
+d, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Gra=
+phics</div>
+</div></div>
+
+--001a11c2cc424431a4050fc2aba3--
