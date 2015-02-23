@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9499571633
+	by mail.openembedded.org (Postfix) with ESMTP id 819FE706B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:00:47 +0000 (UTC)
+	Mon, 23 Feb 2015 17:00:48 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:47 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537352"
+X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537363"
 Received: from afedko-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
-	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:48 -0800
+	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:49 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 17:00:35 +0000
-Message-Id: <83bc89edac904864b231a61f6c7d4ae02be1007c.1424709353.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Feb 2015 17:00:36 +0000
+Message-Id: <ebd0585a01235b7da61dc235381f0230524a406c.1424709353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/9] gen-lockedsig-cache: Allow cross-filesystem copies.
+Subject: [PATCH 2/9] sstatesig: Add ability to filter list of tasks for locked-sigs.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +34,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 23 Feb 2015 17:00:48 -0000
 
-From: Randy Witt <randy.e.witt@linux.intel.com>
-
-Since this previously always tried to use hardlinks you couldn't have
-the source and destination be on different devices. This change allows
-for that and also prevents failure in situations where the files already
-existed.
-
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/gen-lockedsig-cache | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/lib/oe/sstatesig.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
-index dfb282e..c93b2c0 100755
---- a/scripts/gen-lockedsig-cache
-+++ b/scripts/gen-lockedsig-cache
-@@ -35,6 +35,12 @@ for s in sigs:
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index af7617e..62e75c2 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -137,13 +137,16 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+             return
+         super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
  
- for f in files:
-     dst = f.replace(sys.argv[2], sys.argv[3])
--    mkdir(os.path.dirname(dst))
--    os.link(f, dst)
-+    destdir = os.path.dirname(dst)
-+    mkdir(destdir)
+-    def dump_lockedsigs(self, sigfile=None):
++    def dump_lockedsigs(self, sigfile=None, taskfilter=None):
+         if not sigfile:
+             sigfile = os.getcwd() + "/locked-sigs.inc"
  
-+    if os.path.exists(dst):
-+        os.remove(dst)
-+    if (os.stat(f).st_dev == os.stat(destdir).st_dev):
-+        os.link(f, dst)
-+    else:
-+        shutil.copyfile(f, dst)
+         bb.plain("Writing locked sigs to %s" % sigfile)
+         types = {}
+         for k in self.runtaskdeps:
++            if taskfilter:
++                if not k in taskfilter:
++                    continue
+             fn = k.rsplit(".",1)[0]
+             t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
+             t = 't-' + t.replace('_', '-')
 -- 
 1.9.3
 
