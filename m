@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C94E973732
+	by mail.openembedded.org (Postfix) with ESMTP id 30E1373718
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 18:29:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2015 10:29:18 -0800
+	Mon, 23 Feb 2015 19:04:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2015 11:04:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,632,1418112000"; d="scan'208";a="670335584"
-Received: from afedko-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2015 10:29:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 23 Feb 2015 18:29:17 +0000
-Message-ID: <24998784.pJCDDl6SHX@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <CAP9ODKrUdLOyxr8NtGYMPMrmK0vY68VR3y483_nyCMJ8DhLOdw@mail.gmail.com>
-References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
-	<1424714778.26813.1.camel@linuxfoundation.org>
-	<CAP9ODKrUdLOyxr8NtGYMPMrmK0vY68VR3y483_nyCMJ8DhLOdw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 9/9] populate_sdk_ext: add extensible SDK
+X-IronPort-AV: E=Sophos;i="5.09,632,1418112000"; d="scan'208";a="682166691"
+Received: from unknown (HELO aehernan-DevStation.zpn.intel.com) ([10.219.4.41])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2015 11:04:44 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Feb 2015 13:04:41 -0600
+Message-Id: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,104 +27,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 18:29:25 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 23 Feb 2015 19:04:50 -0000
 
-On Monday 23 February 2015 15:11:38 Otavio Salvador wrote:
-> On Mon, Feb 23, 2015 at 3:06 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2015-02-23 at 15:00 -0300, Otavio Salvador wrote:
-> >> On Mon, Feb 23, 2015 at 2:54 PM, Paul Eggleton
-> >> 
-> >> <paul.eggleton@linux.intel.com> wrote:
-> >> > On Monday 23 February 2015 14:41:34 Otavio Salvador wrote:
-> >> >> On Mon, Feb 23, 2015 at 2:00 PM, Paul Eggleton
-> >> >> 
-> >> >> <paul.eggleton@linux.intel.com> wrote:
-> >> >> > From: Randy Witt <randy.e.witt@linux.intel.com>
-> >> >> > 
-> >> >> > This bbclass will create an SDK with a copy of bitbake and the
-> >> >> > metadata
-> >> >> > and sstate for the target specified for the task. The idea is to let
-> >> >> > "system" developers both work on applications and then test adding
-> >> >> > them
-> >> >> > to an image without having to switch between workspaces or having to
-> >> >> > download separate items.
-> >> >> > 
-> >> >> > Rather than running bitbake directly however, the primary way of
-> >> >> > running
-> >> >> > builds within the extensible SDK is to use the "devtool" command.
-> >> >> > The
-> >> >> > rest of the build system is fixed via locked shared state
-> >> >> > signatures,
-> >> >> > and thus only the recipes you have added get built.
-> >> >> > 
-> >> >> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> >> >> > Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-> >> >> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >> >> 
-> >> >> Why another class? it could be tuned using SDKIMAGE_FEATURES
-> >> > 
-> >> > If you look at what the class does it would be a bit messy to do it
-> >> > that way - I wanted to get something working with minimal impact. I
-> >> > don't doubt that it could be implemented as an SDKIMAGE_FEATURES item
-> >> > though
-> >> > with extra work.
-> >> 
-> >> As far this does not gets merged I am fine with that. This is clearly
-> >> a WIP code and shouldn't be merged as is.
-> > 
-> > This code adds in an alternative SDK format and it drives that using a
-> > different task target. Right now its hard for people to see where things
-> > are going, this puts it in easy reach whilst allowing the current SDK to
-> > continue to work too.
-> > 
-> > I think a choice of two different task targets here makes sense to drive
-> > this configuration rather than SDKIMAGE_FEATURES and I agree with Paul
-> > that adding it the other way would be complex, error prone and
-> > confusing.
-> 
-> Well so why we don't add populate_sdk+dev-pkgs+dbg-pkgs.
->
-> Sorry ... it is clear that people wish this feature (and I also do)
-> and appreciate the hard work Paul has put on this (yes this is indeed
-> a good amount of work) but the extra task does not seem to fit how the
-> system is designed.
-> 
-> The SDKIMAGE_FEATURES[1] is described as:
-> 
-> Equivalent to IMAGE_FEATURES. However, this variable applies to the
-> SDK generated from an image using the following command:
-> 
->      $ bitbake -c populate_sdk imagename
-> 
-> and it makes a lot of sense to have a 'extended' or 'devtool' or
-> another name for this feature.
-> 
-> 1.
-> http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#var-SDK
-> IMAGE_FEATURES
+Adds symlink-to-sysroot check to the QA_WARN, Changes filerdepends
+from set() to dict(), hence methodsfor adding or deleting items had
+to change, keeps track of the key:value relationship, flags the
+issue along with the offending file accordingly.
 
-I see where you are coming from, but again if we look at what the class does, 
-it's not just adding some packages. It fundamentally changes how the SDK works 
-- you don't actually have a nativesdk toolchain (in fact you don't have any 
-nativesdk packages at all) and you don't have anything in the target sysroot 
-either - because the build system sysroots pretty much contain everything 
-already. It's not simply an add-on or a post-processing of the SDK.
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/classes/insane.bbclass | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-With the way it's been implemented, you get a separate way of building it and 
-a separate SDK installer, and therefore it's a little clearer as to what you 
-are building/installing. At the moment, with this being very new 
-functionality, that seems to me to be the right way to do things for now. If 
-this turns out to work really well for everyone then great, we can look at 
-integrating it more tightly.
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 143ec46..542346a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             split-strip packages-list pkgv-undefined var-undefined \
+-            version-going-backwards \
++            version-going-backwards  symlink-to-sysroot\
+             "
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+@@ -604,7 +604,6 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+             if target.startswith(tmpdir):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
+-
+ def package_qa_check_license(workdir, d):
+     """
+     Check for changes in the license files 
+@@ -803,13 +802,14 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+             if bb.data.inherits_class('nativesdk', d):
+                 ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
+             # For Saving the FILERDEPENDS
+-            filerdepends = set()
++            filerdepends = {}
+             rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
+             for key in rdep_data:
+                 if key.startswith("FILERDEPENDS_"):
+                     for subkey in rdep_data[key].split():
+-                        filerdepends.add(subkey)
+-            filerdepends -= ignored_file_rdeps
++                        if subkey not in ignored_file_rdeps:
++                            # We already know it starts with FILERDEPENDS_
++                            filerdepends[subkey] = key[13:]
+ 
+             if filerdepends:
+                 next = rdepends
+@@ -841,31 +841,27 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                 # case there is a RDEPENDS_pkg = "python" in the recipe.
+                 for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
+                     if py in done:
+-                        filerdepends.discard("/usr/bin/python")
++                        filerdepends.pop("/usr/bin/python",None)
+                         done.remove(py)
+                 for rdep in done:
+                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+-                    rdep_rprovides = set()
+                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+                     for key in rdep_data:
+                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
+                             for subkey in rdep_data[key].split():
+-                                rdep_rprovides.add(subkey)
++                                filerdepends.pop(subkey,None)
+                         # Add the files list to the rprovides
+                         if key == "FILES_INFO":
+                             # Use eval() to make it as a dict
+                             for subkey in eval(rdep_data[key]):
+-                                rdep_rprovides.add(subkey)
+-                    filerdepends -= rdep_rprovides
++                                filerdepends.pop(subkey,None)
+                     if not filerdepends:
+                         # Break if all the file rdepends are met
+                         break
+-                    else:
+-                        # Clear it for the next loop
+-                        rdep_rprovides.clear()
+             if filerdepends:
+-                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
+-                            (pkg, ', '.join(str(e) for e in filerdepends))
++                for key in filerdepends:
++                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
++                            (filerdepends[key],pkg, key)
+                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
+ 
+     return sane
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
