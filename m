@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B84C7732AE
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F41E8706B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:41:45 +0000 (UTC)
-Received: by wesq59 with SMTP id q59so20327889wes.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 09:41:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=rYKP+rjGRyumgsBw/aLD9kk9fJHH7ni6fc/mEiFzcQ0=;
-	b=hDF7yJQlITn9dzPh/3G8fiOqModmso5sD3DVojvPmVOV76tiILlRTqIYQKJ3yKrGBT
-	yYCHo1CEB5mRUKpiSp/dF+HOG5MrYXKJAZEvY30kkcfUCbj60ey96Rm6ehhERv1hmygo
-	yxJJ88eotD453R0nCshScDVVdd3A/75k5KXaMa1qj5sn0J46dec6rM5LO+8a/EWUsCA6
-	CiefVfFO2lKRVG2XV9t0GNIkF69+0Yw/iK1V624fWBtndvVqIpXfLGb1A5EWCSay3Izo
-	O5e9VhyVAOOPeWz+22lSJ3J2qQ0j3tz2i2+iHzp7HTj7CU2pjojFpbQNH3tAXbN6y8QX
-	5EUQ==
-X-Gm-Message-State: ALoCoQkzoLb9IohvWLR7gObnCALFPMEoDPA27IYypxFqh7GsJxnM5l+iKrz7EW6uZd9LL1JpDVU4
-X-Received: by 10.194.187.236 with SMTP id fv12mr24690901wjc.131.1424713305778;
-	Mon, 23 Feb 2015 09:41:45 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	dx11sm53615735wjb.23.2015.02.23.09.41.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Feb 2015 09:41:43 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 17:39:24 +0000
-Message-Id: <1424713164-14602-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] base-files: clean up and clarify hostname logic
+	Mon, 23 Feb 2015 17:54:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2015 09:54:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,632,1418112000"; d="scan'208";a="682125389"
+Received: from afedko-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2015 09:54:37 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 23 Feb 2015 17:54:37 +0000
+Message-ID: <5866784.j6W0KFP0Zl@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <CAP9ODKqa+7EZ_4hw=_-XOgQMyxeiSRRMAcXrGVpKwXLcLLrNPw@mail.gmail.com>
+References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
+	<dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
+	<CAP9ODKqa+7EZ_4hw=_-XOgQMyxeiSRRMAcXrGVpKwXLcLLrNPw@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 9/9] populate_sdk_ext: add extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,57 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 17:41:47 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 17:54:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Change the hostname logic the default value is ${MACHINE}, and explain how to
-change it.
+On Monday 23 February 2015 14:41:34 Otavio Salvador wrote:
+> On Mon, Feb 23, 2015 at 2:00 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+> > From: Randy Witt <randy.e.witt@linux.intel.com>
+> > 
+> > This bbclass will create an SDK with a copy of bitbake and the metadata
+> > and sstate for the target specified for the task. The idea is to let
+> > "system" developers both work on applications and then test adding them
+> > to an image without having to switch between workspaces or having to
+> > download separate items.
+> > 
+> > Rather than running bitbake directly however, the primary way of running
+> > builds within the extensible SDK is to use the "devtool" command. The
+> > rest of the build system is fixed via locked shared state signatures,
+> > and thus only the recipes you have added get built.
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Why another class? it could be tuned using SDKIMAGE_FEATURES
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |   19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+If you look at what the class does it would be a bit messy to do it that way - 
+I wanted to get something working with minimal impact. I don't doubt
+that it could be implemented as an SDKIMAGE_FEATURES item though
+with extra work.
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 6157ff3..f2d254e 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -59,10 +59,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-              ${sysconfdir}/default"
- 
-+# By default the hostname is the machine name. If the hostname is unset then a
-+# /etc/hostname file isn't written, suitable for environments with dynamic
-+# hostnames.
- #
--# set standard hostname, might be a candidate for a DISTRO variable? :M:
--#
--hostname = "openembedded"
-+# The hostname can be changed outside of this recipe by using
-+# hostname_pn-base-files = "my-host-name".
-+hostname = "${MACHINE}"
- 
- BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
- 
-@@ -111,15 +114,11 @@ do_install () {
- 
- DISTRO_VERSION[vardepsexclude] += "DATE"
- do_install_basefilesissue () {
--	if [ "${hostname}" != "" ]; then
--		if [ -n "${MACHINE}" -a "${hostname}" = "openembedded" ]; then
--			echo ${MACHINE} > ${D}${sysconfdir}/hostname
--		else
--			echo ${hostname} > ${D}${sysconfdir}/hostname
--		fi
-+	if [ "${hostname}" ]; then
-+		echo ${hostname} > ${D}${sysconfdir}/hostname
- 	fi
- 
--	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
-+	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
-         if [ -n "${DISTRO_NAME}" ]; then
- 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
- 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
