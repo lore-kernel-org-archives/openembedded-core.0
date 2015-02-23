@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C65AC72D36
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7764572D36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 13:35:16 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id z107so24155355qgd.5
+	Mon, 23 Feb 2015 14:46:30 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id em10so17579887wid.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 05:35:17 -0800 (PST)
+	Mon, 23 Feb 2015 06:46:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=yrc4ywWHh+fTLMX+odrBjgHAMPOYeCRlXs63R3KF4k0=;
-	b=eJkfxPiA42KXET2InL0vG4xZNsw0xdeZaY75EifYe2UWg18fG6JpdNWu+N1VeJvDD+
-	rVrNuQYZ5EzZh6E0sz0Dm9BBhH3DQ0IHlm4ylXWXNsMMN0F/LMHoW50ZEnbg1hf2pqgM
-	Z23lddCH0BjF8xRzRIM7t/TdeC9sNSDKIlfntFwXc49LlNdTjiluzHAp1UVJlqxoIxPM
-	PFfv69peL5iHQNe1SfKGBDjcUs3N60E3SPzQPFSGkfzPc6uN1YYrUlThhgTezy/zUbIY
-	xoeutA3/vwLGo2urawgQwBq7XzmOAVVISeYbck2sFdrdWQPf4MnlgoJmUEs85flqUjl+
-	xaug==
-X-Gm-Message-State: ALoCoQm+825soHZ7b2llkgORyUZXlN59AKY5BOgRwBHiem+tmkEQTOIZUjhZ4x1RP+pyKnHxu7k0
-X-Received: by 10.140.85.9 with SMTP id m9mr23378975qgd.7.1424698517408; Mon,
-	23 Feb 2015 05:35:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 23 Feb 2015 05:34:57 -0800 (PST)
-In-Reply-To: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
-References: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Feb 2015 13:34:57 +0000
-Message-ID: <CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
-To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.py: No --disable-factory for gnome-terminal >= 3.10
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=sublKsnX+3cmMf9oKX+gAa+0ID5twZKxeUum1WgcfY8=;
+	b=V8nUlBGR/u4DnmTY64EkdIRdM79XSi/mSqs0aprgdXL+julQovMgfseEX5cQ4fzjRT
+	Rrcrvc7LvwtJ6ZxPfuw11ud7jjrqZxoJ3xJWaUeTVx8LfU7P0AelJpXNFuGG0TTRNR8q
+	QcVqjEQw8eRCnvpNkKH9eu2EhKYtlz961qz0mQO/T4G1sJarOhXeoLZboqi3Ua1h3B8O
+	8FFx6GmL//K6/8GxBnqi+/m04IVG8vydateT1+cyUeh1l4mvmMMavqFtN93bg9Tmj7yh
+	5j4kO8falT7QBjKkEBXTpS4JTo7p1q1rNW0n9ScW8A++IEqtyb0jhXg5hwy4pjG5/krj
+	TAew==
+X-Gm-Message-State: ALoCoQkOeydgD/yz/UlSjq/YK4KvgIAVQFdA0g/T+exXaFFPv3qn1pZXtOveuTy18twZeHHg1NnP
+X-Received: by 10.180.10.131 with SMTP id i3mr21826756wib.54.1424702791082;
+	Mon, 23 Feb 2015 06:46:31 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id m4sm55881874wjb.25.2015.02.23.06.46.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Feb 2015 06:46:29 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Feb 2015 14:44:11 +0000
+Message-Id: <1424702651-9454-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] base-files: clean up and clarify hostname logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,55 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 13:35:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c12e960ae2f0050fc179a0
+X-List-Received-Date: Mon, 23 Feb 2015 14:46:34 -0000
 
---001a11c12e960ae2f0050fc179a0
-Content-Type: text/plain; charset=UTF-8
+Change the hostname logic so that the magic value to use MACHINE as hostname is
+clearly a machine value ("machinename" instead of "openembedded"), and add a
+comment explaining how to set the hostname from outside the recipe and what
+happens if it's unset.
 
-Hi again,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb |   15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-On 21 February 2015 at 10:44, Sven Ebenfeld <sven.ebenfeld@gmail.com> wrote:
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 6157ff3..dd20330 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -59,10 +59,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+              ${sysconfdir}/default"
+ 
++# The default hostname.  If set to the magic value "machinename" then the value
++# of MACHINE is used.  If the hostname is unset then a /etc/hostname file isn't
++# written, suitable for environments with dynamic hostnames.
+ #
+-# set standard hostname, might be a candidate for a DISTRO variable? :M:
+-#
+-hostname = "openembedded"
++# This can be changed outside of this recipe by using
++# hostname_pn-base-files = "my-host-name".
++hostname = "machinename"
+ 
+ BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
+ 
+@@ -111,15 +114,15 @@ do_install () {
+ 
+ DISTRO_VERSION[vardepsexclude] += "DATE"
+ do_install_basefilesissue () {
+-	if [ "${hostname}" != "" ]; then
+-		if [ -n "${MACHINE}" -a "${hostname}" = "openembedded" ]; then
++	if [ "${hostname}" ]; then
++		if [ "${hostname}" = "machinename" ]; then
+ 			echo ${MACHINE} > ${D}${sysconfdir}/hostname
+ 		else
+ 			echo ${hostname} > ${D}${sysconfdir}/hostname
+ 		fi
+ 	fi
+ 
+-	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
++	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
+         if [ -n "${DISTRO_NAME}" ]; then
+ 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
+ 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+-- 
+1.7.10.4
 
-> +        vernum = check_konsole_version("gnome-terminal")
-> +        if vernum:
-> +            major = int(vernum.split('.')[0])
-> +            minor = int(vernum.split('.')[1])
->
 
-And whilst you're editing this code, doing the split inside
-check_terminal_version and returning a tuple would clean it up nicely:
-
-def get_terminal_version():
-    ...
-    return ver.split()[-1].split('.')[:2]
-(major, minor) = get_terminal_version()
-
-Ross
-
---001a11c12e960ae2f0050fc179a0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi again,</div><div class=3D"gm=
-ail_extra"><br><div class=3D"gmail_quote">On 21 February 2015 at 10:44, Sve=
-n Ebenfeld <span dir=3D"ltr">&lt;<a href=3D"mailto:sven.ebenfeld@gmail.com"=
- target=3D"_blank">sven.ebenfeld@gmail.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div id=3D":48b" class=3D"a3s" style=3D"overflow:hi=
-dden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vernum =3D check_konsole_version(&quot;g=
-nome-terminal&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if vernum:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 major =3D int(vernum.split(&#39;=
-.&#39;)[0])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 minor =3D int(vernum.split(&#39;=
-.&#39;)[1])</div></blockquote></div><br>And whilst you&#39;re editing this =
-code, doing the split inside check_terminal_version and returning a tuple w=
-ould clean it up nicely:</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">def get_terminal_version():</div><div class=3D"gmail_ext=
-ra">=C2=A0 =C2=A0 ...</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 return =
-ver.split()[-1].split(&#39;.&#39;)[:2]</div><div class=3D"gmail_extra">(maj=
-or, minor) =3D get_terminal_version()</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c12e960ae2f0050fc179a0--
