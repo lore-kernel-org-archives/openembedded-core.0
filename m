@@ -1,33 +1,33 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 00779706B3
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C65AC72D36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 13:31:01 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id n4so22066134qaq.5
+	Mon, 23 Feb 2015 13:35:16 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id z107so24155355qgd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 05:31:02 -0800 (PST)
+	Mon, 23 Feb 2015 05:35:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=7lWvDM53XvrQbvYxXC/ySOZmlpMa4p6E7VJXv7rRX10=;
-	b=WzgXU9nhv0mwn5UOhGBNsS8XMEezPKnOJZwW/Wh5rjf5j/PhdVavNuNjEaZhpouQ2n
-	ixcKN4BXaWwO0k8UfwklMKhdU6xUR7p3V863Yg5j3g8bBFqPLKBTX/YejX0pTQG6WvD6
-	jgoV4r8HR8PmKZp2qurIahOqXpeK2GgKOT546pmAWaryqvgxjmKbbY4czQJxEo7dKplm
-	EcDw5t0K1djBlZ5ap6dmT+U5QfH1mGkLd47YtDNYswgdtqY5xYB2EuxqPptI0saPUnMW
-	CXRSemhEOs0hAVC6l2Etv63oJOQ1l1vjR/DFuB5//ut7n+rHiczE7X09kguz9rN/zwlR
-	7OCw==
-X-Gm-Message-State: ALoCoQn2lAGiEPpm18a1zo7+LTWzN1z7pS6JF38QTy4/Jsd3ETL+Z88z1WdJMYdzFo8USeb6lZsz
-X-Received: by 10.229.78.137 with SMTP id l9mr13080047qck.11.1424698262737;
-	Mon, 23 Feb 2015 05:31:02 -0800 (PST)
+	bh=yrc4ywWHh+fTLMX+odrBjgHAMPOYeCRlXs63R3KF4k0=;
+	b=eJkfxPiA42KXET2InL0vG4xZNsw0xdeZaY75EifYe2UWg18fG6JpdNWu+N1VeJvDD+
+	rVrNuQYZ5EzZh6E0sz0Dm9BBhH3DQ0IHlm4ylXWXNsMMN0F/LMHoW50ZEnbg1hf2pqgM
+	Z23lddCH0BjF8xRzRIM7t/TdeC9sNSDKIlfntFwXc49LlNdTjiluzHAp1UVJlqxoIxPM
+	PFfv69peL5iHQNe1SfKGBDjcUs3N60E3SPzQPFSGkfzPc6uN1YYrUlThhgTezy/zUbIY
+	xoeutA3/vwLGo2urawgQwBq7XzmOAVVISeYbck2sFdrdWQPf4MnlgoJmUEs85flqUjl+
+	xaug==
+X-Gm-Message-State: ALoCoQm+825soHZ7b2llkgORyUZXlN59AKY5BOgRwBHiem+tmkEQTOIZUjhZ4x1RP+pyKnHxu7k0
+X-Received: by 10.140.85.9 with SMTP id m9mr23378975qgd.7.1424698517408; Mon,
+	23 Feb 2015 05:35:17 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 23 Feb 2015 05:30:41 -0800 (PST)
+Received: by 10.140.102.203 with HTTP; Mon, 23 Feb 2015 05:34:57 -0800 (PST)
 In-Reply-To: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
 References: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Feb 2015 13:30:41 +0000
-Message-ID: <CAJTo0LZTJxSc8XDs7t3=cPCUT7KXAkUrzi-xwUdp8icsTPwDnA@mail.gmail.com>
+Date: Mon, 23 Feb 2015 13:34:57 +0000
+Message-ID: <CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
 To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] terminal.py: No --disable-factory for gnome-terminal >= 3.10
@@ -43,39 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 13:31:03 -0000
-Content-Type: multipart/alternative; boundary=001a1134046adce9dc050fc169e2
+X-List-Received-Date: Mon, 23 Feb 2015 13:35:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c12e960ae2f0050fc179a0
 
---001a1134046adce9dc050fc169e2
+--001a11c12e960ae2f0050fc179a0
 Content-Type: text/plain; charset=UTF-8
 
-Hi Sven,
+Hi again,
 
 On 21 February 2015 at 10:44, Sven Ebenfeld <sven.ebenfeld@gmail.com> wrote:
 
-> @@ -235,6 +246,8 @@ def check_konsole_version(konsole):
+> +        vernum = check_konsole_version("gnome-terminal")
+> +        if vernum:
+> +            major = int(vernum.split('.')[0])
+> +            minor = int(vernum.split('.')[1])
 >
 
-Can you rename check_konsole_version to something generic such as
-check_terminal_version?
+And whilst you're editing this code, doing the split inside
+check_terminal_version and returning a tuple would clean it up nicely:
 
-Cheers,
+def get_terminal_version():
+    ...
+    return ver.split()[-1].split('.')[:2]
+(major, minor) = get_terminal_version()
+
 Ross
 
---001a1134046adce9dc050fc169e2
+--001a11c12e960ae2f0050fc179a0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Sven,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 21 February 2015 at 10:44, Sven=
- Ebenfeld <span dir=3D"ltr">&lt;<a href=3D"mailto:sven.ebenfeld@gmail.com" =
-target=3D"_blank">sven.ebenfeld@gmail.com</a>&gt;</span> wrote:<br><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex"><div id=3D":48b" class=3D"a3s" style=3D"overflow:hid=
-den">@@ -235,6 +246,8 @@ def check_konsole_version(konsole):<br></div></blo=
-ckquote></div><br>Can you rename check_konsole_version to something generic=
- such as check_terminal_version?</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</di=
-v></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi again,</div><div class=3D"gm=
+ail_extra"><br><div class=3D"gmail_quote">On 21 February 2015 at 10:44, Sve=
+n Ebenfeld <span dir=3D"ltr">&lt;<a href=3D"mailto:sven.ebenfeld@gmail.com"=
+ target=3D"_blank">sven.ebenfeld@gmail.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div id=3D":48b" class=3D"a3s" style=3D"overflow:hi=
+dden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vernum =3D check_konsole_version(&quot;g=
+nome-terminal&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if vernum:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 major =3D int(vernum.split(&#39;=
+.&#39;)[0])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 minor =3D int(vernum.split(&#39;=
+.&#39;)[1])</div></blockquote></div><br>And whilst you&#39;re editing this =
+code, doing the split inside check_terminal_version and returning a tuple w=
+ould clean it up nicely:</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">def get_terminal_version():</div><div class=3D"gmail_ext=
+ra">=C2=A0 =C2=A0 ...</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 return =
+ver.split()[-1].split(&#39;.&#39;)[:2]</div><div class=3D"gmail_extra">(maj=
+or, minor) =3D get_terminal_version()</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1134046adce9dc050fc169e2--
+--001a11c12e960ae2f0050fc179a0--
