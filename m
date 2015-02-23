@@ -1,38 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
-	[209.85.160.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BB2B72D36
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B84C7732AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:41:33 +0000 (UTC)
-Received: by ykt10 with SMTP id 10so118905ykt.1
+	Mon, 23 Feb 2015 17:41:45 +0000 (UTC)
+Received: by wesq59 with SMTP id q59so20327889wes.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 09:41:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=SzD8mpGEip1Lgg4h0vs/l/hQ0iLOIFB2K3OA2XJTQMQ=;
-	b=of65fwH94crthARwxJVKX3SGviEAAK5XLy/RwrgfOKetnfyycjMPqzlV5RTwFFYeZV
-	FyLeMVo5EZBMYzv/XZGCTabgK2SNUZKebESnYBcFLxU4oSy6dzcSsZNHndrtImK/2VoZ
-	HHpbAo/hS0GM/3VJz4ScFW/Y3xQetXccdYTinrAfJxvQiJMinNyKk6t7F235MP6iCkaX
-	zJ/3VyphS7NTyCwpvQDKlqw4q8qCk6YHWNXcSES5BL3ilXzs/2pZKdjCxEBEW7aXtCQz
-	WInY62QtaBQFKk3Ap+H8AS1y9QRox7PVJvxEINoWxlwFrPR+OmhQ/W8UeBURkLHNFn8+
-	yo4w==
-MIME-Version: 1.0
-X-Received: by 10.170.133.202 with SMTP id z193mr12268056ykb.30.1424713294715; 
-	Mon, 23 Feb 2015 09:41:34 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.133 with HTTP; Mon, 23 Feb 2015 09:41:34 -0800 (PST)
-In-Reply-To: <dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
-References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
-	<dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
-Date: Mon, 23 Feb 2015 14:41:34 -0300
-X-Google-Sender-Auth: LUn4-4kGIyJ_MfwHTPrcQKTzh84
-Message-ID: <CAP9ODKqa+7EZ_4hw=_-XOgQMyxeiSRRMAcXrGVpKwXLcLLrNPw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 9/9] populate_sdk_ext: add extensible SDK
+	Mon, 23 Feb 2015 09:41:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rYKP+rjGRyumgsBw/aLD9kk9fJHH7ni6fc/mEiFzcQ0=;
+	b=hDF7yJQlITn9dzPh/3G8fiOqModmso5sD3DVojvPmVOV76tiILlRTqIYQKJ3yKrGBT
+	yYCHo1CEB5mRUKpiSp/dF+HOG5MrYXKJAZEvY30kkcfUCbj60ey96Rm6ehhERv1hmygo
+	yxJJ88eotD453R0nCshScDVVdd3A/75k5KXaMa1qj5sn0J46dec6rM5LO+8a/EWUsCA6
+	CiefVfFO2lKRVG2XV9t0GNIkF69+0Yw/iK1V624fWBtndvVqIpXfLGb1A5EWCSay3Izo
+	O5e9VhyVAOOPeWz+22lSJ3J2qQ0j3tz2i2+iHzp7HTj7CU2pjojFpbQNH3tAXbN6y8QX
+	5EUQ==
+X-Gm-Message-State: ALoCoQkzoLb9IohvWLR7gObnCALFPMEoDPA27IYypxFqh7GsJxnM5l+iKrz7EW6uZd9LL1JpDVU4
+X-Received: by 10.194.187.236 with SMTP id fv12mr24690901wjc.131.1424713305778;
+	Mon, 23 Feb 2015 09:41:45 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	dx11sm53615735wjb.23.2015.02.23.09.41.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Feb 2015 09:41:43 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Feb 2015 17:39:24 +0000
+Message-Id: <1424713164-14602-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2] base-files: clean up and clarify hostname logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 17:41:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 23 Feb 2015 17:41:47 -0000
 
-On Mon, Feb 23, 2015 at 2:00 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> From: Randy Witt <randy.e.witt@linux.intel.com>
->
-> This bbclass will create an SDK with a copy of bitbake and the metadata
-> and sstate for the target specified for the task. The idea is to let
-> "system" developers both work on applications and then test adding them
-> to an image without having to switch between workspaces or having to
-> download separate items.
->
-> Rather than running bitbake directly however, the primary way of running
-> builds within the extensible SDK is to use the "devtool" command. The
-> rest of the build system is fixed via locked shared state signatures,
-> and thus only the recipes you have added get built.
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Change the hostname logic the default value is ${MACHINE}, and explain how to
+change it.
 
-Why another class? it could be tuned using SDKIMAGE_FEATURES
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb |   19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 6157ff3..f2d254e 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -59,10 +59,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+              ${sysconfdir}/default"
+ 
++# By default the hostname is the machine name. If the hostname is unset then a
++# /etc/hostname file isn't written, suitable for environments with dynamic
++# hostnames.
+ #
+-# set standard hostname, might be a candidate for a DISTRO variable? :M:
+-#
+-hostname = "openembedded"
++# The hostname can be changed outside of this recipe by using
++# hostname_pn-base-files = "my-host-name".
++hostname = "${MACHINE}"
+ 
+ BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
+ 
+@@ -111,15 +114,11 @@ do_install () {
+ 
+ DISTRO_VERSION[vardepsexclude] += "DATE"
+ do_install_basefilesissue () {
+-	if [ "${hostname}" != "" ]; then
+-		if [ -n "${MACHINE}" -a "${hostname}" = "openembedded" ]; then
+-			echo ${MACHINE} > ${D}${sysconfdir}/hostname
+-		else
+-			echo ${hostname} > ${D}${sysconfdir}/hostname
+-		fi
++	if [ "${hostname}" ]; then
++		echo ${hostname} > ${D}${sysconfdir}/hostname
+ 	fi
+ 
+-	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
++	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
+         if [ -n "${DISTRO_NAME}" ]; then
+ 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
+ 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
+
 
