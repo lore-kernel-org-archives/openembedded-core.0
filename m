@@ -1,34 +1,41 @@
 Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D14971633
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3642671633
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 19:40:11 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id em10so20147006wid.5
+	Mon, 23 Feb 2015 19:41:40 +0000 (UTC)
+Received: by wesx3 with SMTP id x3so20875131wes.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 11:40:12 -0800 (PST)
+	Mon, 23 Feb 2015 11:41:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6jYFAwKma6WAFjYle3bEedYUedRIvG8injAxliyDh50=;
-	b=T4QHTNn+ZEtxBUsauw5Xtvbui1mqZmMR4mvVGnoc6J2xHZVM6rTJLK7OwE2JkRtfKo
-	VCZJ5t6nmNr7ezsToDdwsLexRZOYtzeQwxe+2ynTk+3P9HCEoWlA0yHM0RMA75DpupsU
-	BmdkCnZRNbp8paHyKUrxNSfcKy500iBLcd7NX3/FuXDBY5NbuQhb+YB/BU7M/GY9TVhv
-	SXetKUHulewlZJUYInci8qzx/i0k3v6LjBKPZgfWNxYMz1YG6CcpxQHut60UBBeAz9EO
-	usGTzh+rdPj6+cRCM+GYdeibEbT/uqbCpzUjPySBy5NQe2/S0NbJg5SO8O2RMzZj4nqX
-	SGMg==
-X-Received: by 10.180.9.71 with SMTP id x7mr24277167wia.0.1424720412691;
-	Mon, 23 Feb 2015 11:40:12 -0800 (PST)
-Received: from localhost.localdomain (ip-84-119-96-251.unity-media.net.
-	[84.119.96.251])
-	by mx.google.com with ESMTPSA id y3sm17100149wju.14.2015.02.23.11.40.11
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=MKckWCdkLVtkGLg4nZWyzrZkuAHcQvNkYvquQOUQGd0=;
+	b=IE0n5RylTmUnlfTHisrJ4IC4fxi1f0Y6cmlJZqyfwdn1idfEG6BL6qGPJOJZs9znTQ
+	ToGiYDo3anTaAZudDV+qP8wq/ketl5ZbgLDFPu8Mv3aeyMQUDCAqn3yWhyqUkLtsNson
+	yI9eFEAUwWtRhYcnjhqOliashhBbxjFvSlxangAb8y0rgaBxCnsDJKxjG9dVHQme/ZEo
+	eI3B39lhjfJordsWfE1KYs+h6tSJKbgvi1pje+qwhU+EskTofwY3GZ1uwuL3pf0n40Ib
+	JRFZnkqyimOPaHwf7/D6zfBGFdwlf/PHdeq321QTOGAoHZ7tHtzL3PcCKcMoqrf86AGO
+	fy7w==
+X-Received: by 10.194.187.236 with SMTP id fv12mr25668406wjc.131.1424720501076;
+	Mon, 23 Feb 2015 11:41:41 -0800 (PST)
+Received: from [192.168.50.198] (ip-84-119-96-251.unity-media.net.
+	[84.119.96.251]) by mx.google.com with ESMTPSA id
+	gi3sm17254041wic.15.2015.02.23.11.41.39
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Feb 2015 11:40:11 -0800 (PST)
+	Mon, 23 Feb 2015 11:41:40 -0800 (PST)
+Message-ID: <54EB8286.10101@gmail.com>
+Date: Mon, 23 Feb 2015 20:41:58 +0100
 From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 20:39:41 +0100
-Message-Id: <1424720381-4282-1-git-send-email-sven.ebenfeld@gmail.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH v2] terminal.py: No --disable-factory for gnome-terminal >= 3.10
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1424515460-52075-1-git-send-email-sven.ebenfeld@gmail.com>
+	<CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYY0Gh2p6p-vofrXxYQnfjKRwazoz+khs7HpyG==3Zvsg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal.py: No --disable-factory for gnome-terminal >= 3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 19:40:12 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 19:41:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---disable-factory has been disabled in earlier versions of gnome-terminal
-but from version 3.10 it raises an error and quits. This makes devshell
-unusable with gnome-terminal >= 3.10. This patch checks for the version and
-removes --disable-factory if you have the terminal version 3.10 or higher.
+Hi Ross,
 
-Signed-off-by: Sven Ebenfeld <sven.ebenfeld@gmail.com>
----
- meta/lib/oe/terminal.py | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+Thank you for your replies!
+I've reworked my patch and submitted it again.
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 54e3ffc..01c0ccc 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -55,6 +55,14 @@ class Gnome(XTerminal):
-     command = 'gnome-terminal -t "{title}" --disable-factory -x {command}'
-     priority = 2
- 
-+    def __init__(self, sh_cmd, title=None, env=None, d=None):
-+        # Check version
-+        (major, minor) = check_terminal_version("gnome-terminal")
-+        if major >= 3 and minor >= 10:
-+            logger.warn(1, 'Gnome-Terminal >3.10 does not support --disable-factory')
-+            self.command = 'gnome-terminal -t "{title}" -x {command}'
-+        XTerminal.__init__(self, sh_cmd, title, env, d)
-+
- class Mate(XTerminal):
-     command = 'mate-terminal -t "{title}" -x {command}'
-     priority = 2
-@@ -73,11 +81,10 @@ class Konsole(XTerminal):
- 
-     def __init__(self, sh_cmd, title=None, env=None, d=None):
-         # Check version
--        vernum = check_konsole_version("konsole")
--        if vernum:
--            if vernum.split('.')[0] == "2":
--                logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
--                raise UnsupportedTerminal(self.name)
-+        (major, minor) = check_terminal_version("konsole")
-+        if major == 2:
-+            logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
-+            raise UnsupportedTerminal(self.name)
-         XTerminal.__init__(self, sh_cmd, title, env, d)
- 
- class XTerm(XTerminal):
-@@ -219,10 +226,10 @@ def check_tmux_pane_size(tmux):
-         return True
-     return False
- 
--def check_konsole_version(konsole):
-+def check_terminal_version(terminalName):
-     import subprocess as sub
-     try:
--        p = sub.Popen(['sh', '-c', '%s --version' % konsole],stdout=sub.PIPE,stderr=sub.PIPE)
-+        p = sub.Popen(['sh', '-c', '%s --version' % terminalName],stdout=sub.PIPE,stderr=sub.PIPE)
-         out, err = p.communicate()
-         ver_info = out.rstrip().split('\n')
-     except OSError as exc:
-@@ -232,10 +239,17 @@ def check_konsole_version(konsole):
-         else:
-             raise
-     vernum = None
-+    major = int(0)
-+    minor = int(0)
-     for ver in ver_info:
-         if ver.startswith('Konsole'):
-             vernum = ver.split(' ')[-1]
--    return vernum
-+	if ver.startswith('GNOME Terminal'):
-+            vernum = ver.split(' ')[-1]
-+    if vernum:
-+	major = int(vernum.split('.')[0])
-+	minor = int(vernum.split('.')[1])
-+    return major, minor
- 
- def distro_name():
-     try:
--- 
-1.9.3
+Cheers,
+Sven
 
+Am 23.02.2015 um 14:34 schrieb Burton, Ross:
+> Hi again,
+> 
+> On 21 February 2015 at 10:44, Sven Ebenfeld <sven.ebenfeld@gmail.com> wrote:
+> 
+>> +        vernum = check_konsole_version("gnome-terminal")
+>> +        if vernum:
+>> +            major = int(vernum.split('.')[0])
+>> +            minor = int(vernum.split('.')[1])
+>>
+> 
+> And whilst you're editing this code, doing the split inside
+> check_terminal_version and returning a tuple would clean it up nicely:
+> 
+> def get_terminal_version():
+>     ...
+>     return ver.split()[-1].split('.')[:2]
+> (major, minor) = get_terminal_version()
+> 
+> Ross
+> 
 
