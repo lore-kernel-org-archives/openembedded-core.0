@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 819FE706B3
+	by mail.openembedded.org (Postfix) with ESMTP id BCA4871633
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:00:48 +0000 (UTC)
+	Mon, 23 Feb 2015 17:00:49 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:48 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537363"
+X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537371"
 Received: from afedko-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
-	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:49 -0800
+	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:50 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 17:00:36 +0000
-Message-Id: <ebd0585a01235b7da61dc235381f0230524a406c.1424709353.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Feb 2015 17:00:37 +0000
+Message-Id: <490a44743bb22a4c01297353d1b85b8047dec389.1424709353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/9] sstatesig: Add ability to filter list of tasks for locked-sigs.inc
+Subject: [PATCH 3/9] copy_buildsystem.py: Add a way to copy buildsystem to a directory.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +32,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 17:00:48 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 17:00:50 -0000
 
+From: Randy Witt <randy.e.witt@linux.intel.com>
+
+This file provides a way to take bitbake and the layers in the
+current build and copy them to a target specified.
+
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/sstatesig.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oe/copy_buildsystem.py | 70 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+ create mode 100644 meta/lib/oe/copy_buildsystem.py
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index af7617e..62e75c2 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -137,13 +137,16 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-             return
-         super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
- 
--    def dump_lockedsigs(self, sigfile=None):
-+    def dump_lockedsigs(self, sigfile=None, taskfilter=None):
-         if not sigfile:
-             sigfile = os.getcwd() + "/locked-sigs.inc"
- 
-         bb.plain("Writing locked sigs to %s" % sigfile)
-         types = {}
-         for k in self.runtaskdeps:
-+            if taskfilter:
-+                if not k in taskfilter:
-+                    continue
-             fn = k.rsplit(".",1)[0]
-             t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
-             t = 't-' + t.replace('_', '-')
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+new file mode 100644
+index 0000000..5a4d8c3
+--- /dev/null
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -0,0 +1,70 @@
++# This class should provide easy access to the different aspects of the
++# buildsystem such as layers, bitbake location, etc.
++import stat
++import shutil
++
++def _smart_copy(src, dest):
++    # smart_copy will choose the correct function depending on whether the
++    # source is a file or a directory.
++    mode = os.stat(src).st_mode
++    if stat.S_ISDIR(mode):
++        shutil.copytree(src, dest, symlinks=True)
++    else:
++        shutil.copyfile(src, dest)
++        shutil.copymode(src, dest)
++
++class BuildSystem(object):
++    def __init__(self, d):
++        self.d = d
++        self.layerdirs = d.getVar('BBLAYERS', True).split()
++
++    def copy_bitbake_and_layers(self, destdir):
++        # Copy in all metadata layers + bitbake (as repositories)
++        layers_copied = []
++        bb.utils.mkdirhier(destdir)
++        layers = list(self.layerdirs)
++
++        corebase = self.d.getVar('COREBASE', True)
++        layers.append(corebase)
++
++        corebase_files = self.d.getVar('COREBASE_FILES', True).split()
++
++        # bitbake belongs in corebase so make sure it goes there
++        if "bitbake" not in corebase_files:
++            corebase_files.append("bitbake")
++        corebase_files = [corebase + '/' +x for x in corebase_files]
++
++        for layer in layers:
++            layerconf = os.path.join(layer, 'conf', 'layer.conf')
++            if os.path.exists(layerconf):
++                with open(layerconf, 'r') as f:
++                    if f.readline().startswith("# ### workspace layer auto-generated by devtool ###"):
++                        bb.warn("Skipping local workspace layer %s" % layer)
++                        continue
++
++            # If the layer was already under corebase, leave it there
++            # since layers such as meta have issues when moved.
++            layerdestpath = destdir
++            if corebase == os.path.dirname(layer):
++                layerdestpath += '/' + os.path.basename(corebase)
++            layerdestpath += '/' + os.path.basename(layer)
++
++            layer_relative = os.path.relpath(layerdestpath,
++                                             destdir)
++            layers_copied.append(layer_relative)
++
++            # Treat corebase as special since it typically will contain
++            # build directories or other custom items.
++            if corebase == layer:
++                bb.utils.mkdirhier(layerdestpath)
++                for f in corebase_files:
++                    f_basename = os.path.basename(f)
++                    destname = os.path.join(layerdestpath, f_basename)
++                    _smart_copy(f, destname)
++            else:
++                if os.path.exists(layerdestpath):
++                    bb.note("Skipping layer %s, already handled" % layer)
++                else:
++                    _smart_copy(layer, layerdestpath)
++
++        return layers_copied
 -- 
 1.9.3
 
