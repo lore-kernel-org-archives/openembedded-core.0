@@ -1,38 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DD31D706B3
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
+	[209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BB2B72D36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:30:22 +0000 (UTC)
-Received: by iecar1 with SMTP id ar1so25175138iec.11
+	Mon, 23 Feb 2015 17:41:33 +0000 (UTC)
+Received: by ykt10 with SMTP id 10so118905ykt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 09:30:24 -0800 (PST)
+	Mon, 23 Feb 2015 09:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=GuMqYSi7W7JoDSLRPr/EMexF4Utf5LqBWUDxIUYUYZQ=;
-	b=lu/9+f/w097ySe9mmBhoOPrbnAKp1PI4FpTVbWSH6YOO0x/mj1Beamk7uYMWSssG7B
-	WGPNYzZztzkFVCkLT5v+A7R8Y7YqKYFqof0D7idzAh7MdCZHRDdHA73kq51syI9C/sid
-	4A7JrOVSpoVT7n3X49rxjeO5BLik0f32pHFqQg3ijK0E7PoVKcekF0CiVCtYFhLWTaTx
-	KeJfAG7yR+xUEfeZEuTtpJLdkQ5BtUU9BjzUH0qaYHJidVWr8XkMU9P1wCnMkFFiHY0o
-	/CVKsCKyIk3PTqMpJZA7C5xeiWMJH3U3BoMk/ihB9k0WDhmh2aIP1f2R/dUscgR91hpi
-	FcVg==
-X-Received: by 10.42.229.10 with SMTP id jg10mr12670869icb.62.1424712624100;
-	Mon, 23 Feb 2015 09:30:24 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=SzD8mpGEip1Lgg4h0vs/l/hQ0iLOIFB2K3OA2XJTQMQ=;
+	b=of65fwH94crthARwxJVKX3SGviEAAK5XLy/RwrgfOKetnfyycjMPqzlV5RTwFFYeZV
+	FyLeMVo5EZBMYzv/XZGCTabgK2SNUZKebESnYBcFLxU4oSy6dzcSsZNHndrtImK/2VoZ
+	HHpbAo/hS0GM/3VJz4ScFW/Y3xQetXccdYTinrAfJxvQiJMinNyKk6t7F235MP6iCkaX
+	zJ/3VyphS7NTyCwpvQDKlqw4q8qCk6YHWNXcSES5BL3ilXzs/2pZKdjCxEBEW7aXtCQz
+	WInY62QtaBQFKk3Ap+H8AS1y9QRox7PVJvxEINoWxlwFrPR+OmhQ/W8UeBURkLHNFn8+
+	yo4w==
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Mon, 23 Feb 2015 09:29:53 -0800 (PST)
-In-Reply-To: <CABcZANmEy-2kZwNQbXYCJw_vFFU9N_bOpSeUJh86=rUayDf3PA@mail.gmail.com>
-References: <cover.1424405852.git.raj.khem@gmail.com>
-	<e879427a035a12a0b9040ff948fe3e22618412b8.1424405852.git.raj.khem@gmail.com>
-	<88edecf9cc4e46b4fd3dd7e95fb2de450625364a.1424405852.git.raj.khem@gmail.com>
-	<CABcZANmEy-2kZwNQbXYCJw_vFFU9N_bOpSeUJh86=rUayDf3PA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Feb 2015 09:29:53 -0800
-Message-ID: <CAMKF1sqaWVtkZqC21AuoQa514LOA3pLOJi01zw5Vn808E=Pgww@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
+X-Received: by 10.170.133.202 with SMTP id z193mr12268056ykb.30.1424713294715; 
+	Mon, 23 Feb 2015 09:41:34 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.133 with HTTP; Mon, 23 Feb 2015 09:41:34 -0800 (PST)
+In-Reply-To: <dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
+References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
+	<dbb562e543729b016d4a31ceaf08da3abb24f267.1424709353.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Feb 2015 14:41:34 -0300
+X-Google-Sender-Auth: LUn4-4kGIyJ_MfwHTPrcQKTzh84
+Message-ID: <CAP9ODKqa+7EZ_4hw=_-XOgQMyxeiSRRMAcXrGVpKwXLcLLrNPw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] glibc: Dont offer to be parsed for non-glibc TCLIBC selection
+Subject: Re: [PATCH 9/9] populate_sdk_ext: add extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 17:30:29 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 17:41:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 23, 2015 at 7:00 AM, Christopher Larson <clarson@kergoth.com> wrote:
+On Mon, Feb 23, 2015 at 2:00 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> From: Randy Witt <randy.e.witt@linux.intel.com>
 >
-> On Thu, Feb 19, 2015 at 9:24 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> +    notglibc = (re.match('.*uclibc
->> , d.getVar('TARGET_OS', True)) != None) and (re.match('.*musl,
->> d.getVar('TARGET_OS', True)) != None)
->> +    if notglibc:
+> This bbclass will create an SDK with a copy of bitbake and the metadata
+> and sstate for the target specified for the task. The idea is to let
+> "system" developers both work on applications and then test adding them
+> to an image without having to switch between workspaces or having to
+> download separate items.
 >
+> Rather than running bitbake directly however, the primary way of running
+> builds within the extensible SDK is to use the "devtool" command. The
+> rest of the build system is fixed via locked shared state signatures,
+> and thus only the recipes you have added get built.
 >
-> Pretty sure this is a condition that will never be satisfied. This will only
-> succeed if TARGET_OS is both musl and uclibc.
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-right ! I should have paid more attention. But since bitbake stopped
-complaining with my test case
-i relied on it not warning me. but I realise it should have just
-reused the parser cache
+Why another class? it could be tuned using SDKIMAGE_FEATURES
 
-Could we skip on TCLIBC !=
-> glibc, to be both future proof and fix the logic?
-
-Actually that was the patch I have done prior to this ( see
-meta-linaro) but thats too restrictive since
-it also meant that it started to ignore it for nativesdk-libc and we
-use glibc as a provider to nativesdk version
-of libc even in cases when target libc is musl or uclibc. So TARGET_OS
-is really the correct variable here.
-
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
