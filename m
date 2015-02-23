@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 73826706B3
+	by mail.openembedded.org (Postfix) with ESMTP id C85EC736FC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 17:00:51 +0000 (UTC)
+	Mon, 23 Feb 2015 17:00:52 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:52 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2015 09:00:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537406"
+X-IronPort-AV: E=Sophos;i="5.09,631,1418112000"; d="scan'208";a="531537411"
 Received: from afedko-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
-	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:52 -0800
+	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 08:51:53 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Feb 2015 17:00:39 +0000
-Message-Id: <3bf3f70856070e3fb436521fdb625bd12185c8fb.1424709353.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Feb 2015 17:00:40 +0000
+Message-Id: <e6ea5bb90fcf40db8b16eacec7ab193641e3fc95.1424709353.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1424709353.git.paul.eggleton@linux.intel.com>
 References: <cover.1424709353.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/9] toolchain-scripts: Add parameters to toolchain_create_sdk_env_script.
+Subject: [PATCH 6/9] toolchain-shar-template.sh: Make relocation optional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +32,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 17:00:51 -0000
+X-List-Received-Date: Mon, 23 Feb 2015 17:00:53 -0000
 
 From: Randy Witt <randy.e.witt@linux.intel.com>
 
-To add some flexibility to setting up the paths for the toolchain,
-add some parameters. This initial use will be in order to point at
-the buildsystem toolchain copied in by copy_buildsystem.py.
+If the buildsystem is copied into the sdk and its toolchain is to
+be used, then the relocation provided in toolchain-shar-template.sh
+isn't needed and will actually fail.
+
+So break the relocation aspect out and essentially make it another
+SDK_POST_INSTALL_COMMAND script.
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ meta/classes/populate_sdk_base.bbclass             | 10 +++-
+ ...-shar-template.sh => toolchain-shar-extract.sh} | 53 +---------------------
+ meta/files/toolchain-shar-relocate.sh              | 50 ++++++++++++++++++++
+ 3 files changed, 59 insertions(+), 54 deletions(-)
+ rename meta/files/{toolchain-shar-template.sh => toolchain-shar-extract.sh} (64%)
+ create mode 100644 meta/files/toolchain-shar-relocate.sh
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 9836db4..ea6aff0 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -7,6 +7,9 @@ REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
- # This function creates an environment-setup-script for use in a deployable SDK
- toolchain_create_sdk_env_script () {
- 	# Create environment setup script
-+	sdkpathnative=${7:-${SDKPATHNATIVE}}
-+	prefix=${6:-${prefix_nativesdk}}
-+	bindir=${5:-${bindir_nativesdk}}
- 	libdir=${4:-${libdir}}
- 	sysroot=${3:-${SDKTARGETSYSROOT}}
- 	multimach_target_sys=${2:-${REAL_MULTIMACH_TARGET_SYS}}
-@@ -16,17 +19,17 @@ toolchain_create_sdk_env_script () {
- 	echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
- 	EXTRAPATH=""
- 	for i in ${CANADIANEXTRAOS}; do
--		EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
-+		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
- 	done
--	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
--	echo 'export CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
-+	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
-+	echo 'export CCACHE_PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
- 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
--	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
-+	echo "export OECORE_NATIVE_SYSROOT=\"$sdkpathnative\"" >> $script
- 	echo 'export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"' >> $script
--	echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
--	echo 'export PYTHONHOME=${SDKPATHNATIVE}${prefix_nativesdk}' >> $script
-+	echo "export OECORE_ACLOCAL_OPTS=\"-I $sdkpathnative/usr/share/aclocal\"" >> $script
-+	echo "export PYTHONHOME=$sdkpathnative$prefix" >> $script
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index e3adacb..5c07693 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -52,6 +52,7 @@ EXCLUDE_FROM_WORLD = "1"
  
- 	toolchain_shared_env_script
- }
+ SDK_PACKAGING_FUNC ?= "create_shar"
+ SDK_POST_INSTALL_COMMAND ?= ""
++SDK_RELOCATE_AFTER_INSTALL ?= "1"
+ 
+ SDK_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.manifest"
+ python write_target_sdk_manifest () {
+@@ -116,9 +117,14 @@ fakeroot tar_sdk() {
+ 
+ fakeroot create_shar() {
+ 	# copy in the template shar extractor script
+-	cp ${COREBASE}/meta/files/toolchain-shar-template.sh ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++	cp ${COREBASE}/meta/files/toolchain-shar-extract.sh ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+-	cat << "EOF" > ${T}/post_install_command
++	rm -f ${T}/post_install_command
++
++	if [ ${SDK_RELOCATE_AFTER_INSTALL} -eq 1 ] ; then
++		cp ${COREBASE}/meta/files/toolchain-shar-relocate.sh ${T}/post_install_command
++	fi
++	cat << "EOF" >> ${T}/post_install_command
+ ${SDK_POST_INSTALL_COMMAND}
+ EOF
+ 	sed -i -e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-extract.sh
+similarity index 64%
+rename from meta/files/toolchain-shar-template.sh
+rename to meta/files/toolchain-shar-extract.sh
+index 151b973..516aa3a 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -139,63 +139,12 @@ for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+ 	$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+ done
+ 
+-# fix dynamic loader paths in all ELF SDK binaries
+-native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
+-dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+-if [ "$dl_path" = "" ] ; then
+-	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+-	exit 1
+-fi
+-executable_files=$($SUDO_EXEC find $native_sysroot -type f \
+-	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
+-
+-tdir=`mktemp -d`
+-if [ x$tdir = x ] ; then
+-   echo "SDK relocate failed, could not create a temporary directory"
+-   exit 1
+-fi
+-echo "#!/bin/bash" > $tdir/relocate_sdk.sh
+-echo exec ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
+-$SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
+-$SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
+-rm -rf $tdir
+-if [ $relocate = 1 ] ; then
+-	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
+-	if [ $? -ne 0 ]; then
+-		echo "SDK could not be set up. Relocate script failed. Abort!"
+-		exit 1
+-	fi
+-fi
+-
+-# replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc
+-for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
+-	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
+-		grep ":.*\(ASCII\|script\|source\).*text" | \
+-		awk -F':' '{printf "\"%s\"\n", $1}' | \
+-		grep -v "$target_sdk_dir/environment-setup-*" | \
+-		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+-done
+-
+-# change all symlinks pointing to @SDKPATH@
+-for l in $($SUDO_EXEC find $native_sysroot -type l); do
+-	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+-done
+-
+-# find out all perl scripts in $native_sysroot and modify them replacing the
+-# host perl with SDK perl.
+-for perl_script in $($SUDO_EXEC find $native_sysroot -type f -exec grep -l "^#!.*perl" '{}' \;); do
+-	$SUDO_EXEC sed -i -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" -e \
+-		"s: /usr/bin/perl: /usr/bin/env perl:g" $perl_script
+-done
+-
+-echo done
+-
+ @SDK_POST_INSTALL_COMMAND@
+ 
+ # delete the relocating script, so that user is forced to re-run the installer
+ # if he/she wants another location for the sdk
+ if [ $savescripts = 0 ] ; then
+-	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
++	$SUDO_EXEC rm -f ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
+ fi
+ 
+ echo "SDK has been successfully set up and is ready to be used."
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+new file mode 100644
+index 0000000..dfb8e16
+--- /dev/null
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -0,0 +1,50 @@
++# fix dynamic loader paths in all ELF SDK binaries
++native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
++dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
++if [ "$dl_path" = "" ] ; then
++	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
++	exit 1
++fi
++executable_files=$($SUDO_EXEC find $native_sysroot -type f \
++	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
++
++tdir=`mktemp -d`
++if [ x$tdir = x ] ; then
++   echo "SDK relocate failed, could not create a temporary directory"
++   exit 1
++fi
++echo "#!/bin/bash" > $tdir/relocate_sdk.sh
++echo exec ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
++$SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
++$SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
++rm -rf $tdir
++if [ $relocate = 1 ] ; then
++	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
++	if [ $? -ne 0 ]; then
++		echo "SDK could not be set up. Relocate script failed. Abort!"
++		exit 1
++	fi
++fi
++
++# replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc
++for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
++	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
++		grep ":.*\(ASCII\|script\|source\).*text" | \
++		awk -F':' '{printf "\"%s\"\n", $1}' | \
++		grep -v "$target_sdk_dir/environment-setup-*" | \
++		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
++done
++
++# change all symlinks pointing to @SDKPATH@
++for l in $($SUDO_EXEC find $native_sysroot -type l); do
++	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
++done
++
++# find out all perl scripts in $native_sysroot and modify them replacing the
++# host perl with SDK perl.
++for perl_script in $($SUDO_EXEC find $native_sysroot -type f -exec grep -l "^#!.*perl" '{}' \;); do
++	$SUDO_EXEC sed -i -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" -e \
++		"s: /usr/bin/perl: /usr/bin/env perl:g" $perl_script
++done
++
++echo done
 -- 
 1.9.3
 
