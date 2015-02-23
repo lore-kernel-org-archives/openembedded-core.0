@@ -1,28 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F00E706B3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B9D8706B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 05:13:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1N5D8AB001715
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 22 Feb 2015 21:13:08 -0800 (PST)
-Received: from server.local (128.224.23.72) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 22 Feb 2015 21:13:08 -0800
-Message-ID: <54EAB6E3.5010804@windriver.com>
-Date: Mon, 23 Feb 2015 00:13:07 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Mon, 23 Feb 2015 09:24:04 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2015 01:19:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,629,1418112000"; d="scan'208";a="531338240"
+Received: from afedko-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.4.45])
+	by orsmga003.jf.intel.com with ESMTP; 23 Feb 2015 01:15:06 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 23 Feb 2015 09:24:04 +0000
+Message-ID: <10796820.h4sv9pPNbH@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1502221509270.29570@localhost>
+References: <alpine.LFD.2.11.1502210434001.12954@localhost>
+	<1424595258.11836.72.camel@linuxfoundation.org>
+	<alpine.LFD.2.11.1502221509270.29570@localhost>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-References: <1424610251.11836.74.camel@linuxfoundation.org>
-In-Reply-To: <1424610251.11836.74.camel@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: Re: linux-yocto task performance numbers
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: questions about WORKDIR and S usage and files/ stuff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Feb 2015 05:13:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Feb 2015 09:24:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2015-02-22 8:04 AM, Richard Purdie wrote:
-> As people know, I've been looking at performance a little, one of the
-> benchmarks is how long the kernel takes to build. I dumped out the task
-> performance data from buildstats for a linux-yocto build (nothing else
-> running):
->
-> do_fetch:                 Elapsed time: 0.04 seconds
-> do_unpack:                Elapsed time: 1.61 seconds
-> do_kernel_checkout:       Elapsed time: 4.39 seconds
-> do_validate_branches:     Elapsed time: 0.47 seconds
-> do_patch:                 Elapsed time: 57.77 seconds
-> do_kernel_configme:       Elapsed time: 44.92 seconds
-> do_kernel_configcheck:    Elapsed time: 8.94 seconds
-> do_configure:             Elapsed time: 0.60 seconds
-> do_compile:               Elapsed time: 72.95 seconds
-> do_compile_kernelmodules: Elapsed time: 34.84 seconds
-> do_populate_lic:          Elapsed time: 0.14 seconds
-> do_strip:                 Elapsed time: 0.03 seconds
-> do_uboot_mkimage:         Elapsed time: 0.03 seconds
-> do_install:               Elapsed time: 1.87 seconds
-> do_populate_sysroot:      Elapsed time: 0.16 seconds
-> do_shared_workdir:        Elapsed time: 0.05 seconds
-> do_sizecheck:             Elapsed time: 0.03 seconds
-> do_bundle_initramfs:      Elapsed time: 0.03 seconds
-> do_kernel_link_vmlinux:   Elapsed time: 0.03 seconds
-> do_deploy:                Elapsed time: 13.17 seconds
-> do_package:               Elapsed time: 31.54 seconds
-> do_packagedata:           Elapsed time: 0.59 seconds
-> do_package_qa:            Elapsed time: 5.30 seconds
-> do_package_write_ipk:     Elapsed time: 83.24 seconds
-> do_package_write_rpm:     Elapsed time: 44.58 seconds
->
-> The "core" was getting blamed for a lot of the build time. As can be
-> seen, the "core" isn't taking that much time now, apart from the fact
-> that ipk packaging seems to be taking twice the time of rpm which needs
-> looking into.
->
-> Some tasks like the compile tasks are understandable and likely
-> minimised by upstream work already.
->
-> The other tasks which as consuming a disproportionate amount of time are
-> kernel_configme and patch, I believe we need to look into those a little
-> further too. To put it into context, should the kernel compile be at the
-> same order of magnitude as the patch and configure?
+On Sunday 22 February 2015 15:25:07 Robert P. J. Day wrote:
+> On Sun, 22 Feb 2015, Richard Purdie wrote:
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=4eb3db9a2ca8eaff64b64
+> > b8f56dac25d4734571c
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=cf72ede74d35746a10d07
+> > 08942287548f9c72f30
+> > 
+> > and some of the surrounding patches. I'd assumed base-files was part
+> > of that series, clearly it wasn't but there were many other recipes
+> > changed at that time.
+> 
+>   ah, gotcha. so let me just summarize my understanding of this, it
+> looks pretty straightforward.
+> 
+>   once upon a time, base.bbclass politely(?) auto-created the S
+> directory for each recipe. this had the potential for screwing things
+> up if the recipe author didn't set S properly for that recipe.
+> 
+>   solution: stop auto-creating S, leaving the responsibility for
+> creating whatever S refers to to the recipe itself, typically as a
+> result of just doing a regular unpack of the SRC_URI. this allows a
+> trivial sanity check -- whatever directory S refers to should exist as
+> the result of the simple unpacking of that recipe.
+> 
+>   now, given the default setting in bitbake.conf of
+> 
+>   S = WORKDIR/BP
+> 
+> as long as that value is appropriate for a recipe, then the recipe
+> author need not set it explicitly. *but*, even in the case where a
+> recipe doesn't require any "unpacking" -- as in, recipes like
+> base-files which refer exclusively to local files -- it is still
+> necessary to set S to *something* that will exist, just to pass that
+> sanity test, and the easiest solution is to just set it to WORKDIR,
+> which is guaranteed to exist for *any* recipe.
 
-Was this the 3.19 kernel you used for these stats ? I just ran a quick
-test (i.e. not with buildstats) with my latest kernel tree (on my
-crappy I/O laptop) and get the following:
+Yes, but this is not generally good advice for every recipe. If the main 
+source for your recipe unpacks to a subdirectory then that is where you should 
+point S to.
 
-% time bitbake -f -c kernel_configme linux-yocto
+>   final thought on this -- to pass the sanity check, it is necessary
+> only for the directory referred to by S to exist. the obvious thing to
+> set it to is, of course, WORKDIR, but in the case of recipes like
+> base-files which don't even *use* S, it's technically possible to set
+> it to *any* directory guaranteed to exist. i'm not suggesting this is
+> a smart thing to do, only that it would be technically viable.
 
-real    0m7.378s
-user    0m4.356s
-sys     0m5.553s
+In theory, but why is that of any interest? You seem to be looking at this 
+from the perspective of just passing the sanity test, but the sanity test is 
+there for a reason - so that you set it to a proper value, not to just any old 
+value to make the warning go away.
 
+>   and all this suggests that, even if you set S = WORKDIR, for
+> cleanliness, you should still avoid referring to unpacked objects
+> relative to S, just in case -- it's safer to restrict yourself to
+> referring to things relative to WORKDIR. is that about right?
 
-So I'm showing 7 seconds, versus 45 in your run .. and I'm showing:
-
-real    0m26.371s
-user    0m12.561s
-sys     0m19.534s
-
-For do_patch (and that is before the already in progress changes that
-I mentioned earlier).
-
-Just with those differences alone, sounds like we should log this in
-bugzilla and put the details of the configuration and build machines in
-there .. since I'll need to isolate what is causing those extra long
-runs, and ensure that everything is pushed to the various trees.
+For individual files that don't actually get unpacked, sure. You should use S 
+to point to the actual source for the recipe, though. S is actually used.
 
 Cheers,
+Paul
 
-Bruce
+-- 
 
-
->
-> Cheers,
->
-> Richard
->
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
