@@ -1,37 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2939C71633
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 20:52:11 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id n4so29189317qaq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 12:52:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+FfUFV1xvkxHy/JPUWndKnyiktBW39A+MiPoKNB1K3A=;
-	b=j0Mtzn6c+DtfM5siNzeWdRzKF7Bu0wr6PW1MupmOjm7OxL1/aN/Q9UhS8CPP3NBP0o
-	f19wTvq8tI6mRIwwPwiwQcaQU3xKo6cN0Lo7PdYZ1D8sx1AQm1sQACdveAcUmOpCIqyj
-	ezlqzHFnvauZPE+KJHa/243B2bfDTHKOKUUR3rEkW0ZwTAw+QtHPjow8OjR1cijLvDNU
-	jEsMN/PlFOm6v3DW/gcGJMp3R1Wj7Cv8FpWxMr2gO3wvxyGrKVXCGNY6TyYFkJWQHqsI
-	r0FeaOjbv8LnNL08Nn9lZlkSI//1Uqb85w5v75SWce+lzz/U2sKn4y7sVP1pGUbTQd1Z
-	d4ug==
-X-Gm-Message-State: ALoCoQmombPK30z78NM3/Pgo24LI09MoX9VUHGyXC8uI5qpycQn2Xl99uqRJ1X8oB5jGKages32W
-X-Received: by 10.229.230.2 with SMTP id jk2mr40808985qcb.1.1424811132438;
-	Tue, 24 Feb 2015 12:52:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 24 Feb 2015 12:51:51 -0800 (PST)
-In-Reply-To: <1CD26AA6-733E-4DE9-836A-25F0E0FA4C64@gmail.com>
-References: <1424801246-16399-1-git-send-email-ross.burton@intel.com>
-	<1CD26AA6-733E-4DE9-836A-25F0E0FA4C64@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 24 Feb 2015 20:51:51 +0000
-Message-ID: <CAJTo0LZwHCVZYsEMZX4scP8vLg-XHZ3rmzeYDJeLJqS=_0P_wA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] util-linux: disable systemd
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6336F71633;
+	Tue, 24 Feb 2015 21:58:01 +0000 (UTC)
+Received: by pdbnh10 with SMTP id nh10so36332081pdb.11;
+	Tue, 24 Feb 2015 13:58:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=BuZiBTYWrqha3HzAQcPVfNTTyit3uRgR+aTm4h5BCzE=;
+	b=DnQxEG/BWusP+Iqqk6bO6D14pPMbLQYyr3fcVz9bI5szM+jkI7sIHT+T5GIM2WLpRw
+	dtqrlkZEYIamnsEuciqjdMN4CQJ39oyDkY5WekZ6CicevDDizrJD5ndGCc9mL53tboRm
+	Gn26/bIftY5MyjHCDlf3z8pPKKPO/T4B0skLFlfQvK+Suz03+87mB9NcJC0d8F/VGQ+r
+	RzaboH9iEkGGKfmCGX4+vPfJMskSFKrS9Zxz76nhLp9LV/uZ6Iuquyma3pxoK19WbkLL
+	deErAg0Fza+hAPkpPSW9wp4KvwcYwzMw5qzC0eBlk95fqY3WGqtwbPNK06k6rj9PvvTa
+	cHIQ==
+X-Received: by 10.66.186.65 with SMTP id fi1mr32076663pac.51.1424815082374;
+	Tue, 24 Feb 2015 13:58:02 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:dce0:85c5:10b5:32ac?
+	([2601:9:3580:84c:dce0:85c5:10b5:32ac])
+	by mx.google.com with ESMTPSA id r8sm23601241pdp.10.2015.02.24.13.58.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 24 Feb 2015 13:58:01 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <9D1FFBD5-9F30-42BF-8242-4C06614F9F34@gmail.com>
+Date: Tue, 24 Feb 2015 13:58:00 -0800
+Message-Id: <46DD4E72-0F8A-47CA-BC28-A2493089C0E7@gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<1424455387.11836.57.camel@linuxfoundation.org>
+	<1424510550.11836.66.camel@linuxfoundation.org>
+	<9D1FFBD5-9F30-42BF-8242-4C06614F9F34@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +50,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 20:52:14 -0000
-Content-Type: multipart/alternative; boundary=001a1134469e6bdda6050fdbb1a8
-
---001a1134469e6bdda6050fdbb1a8
-Content-Type: text/plain; charset=UTF-8
-
-On 24 February 2015 at 20:48, Khem Raj <raj.khem@gmail.com> wrote:
-
-> I feel we are going out of way here since now on systemd based systemd you
-> have to undo this change
-> partly via re-introducing service files in some fashion
-> how about just building and packaging uuidd and fstrim separately ?
->
-
-Well the question is how popular is uuidd and fstrim?  I can totally see
-that installing the service files if systemd is enabled is the obvious
-half-way and upstream supporting this would be good but I've no idea if
-they'd accept this.
-
-We are *very* close to M3 cut-off and landing the new systemd depends on
-something fixing the circular dependency.  I believe this patch is the path
-with the least impact that can be fixed post-M3 to install service files
-where appropriate without causing a circular build dependency.
-
-Ross
-
---001a1134469e6bdda6050fdbb1a8
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 24 Feb 2015 21:58:01 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2015 at 20:48, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":329" class=3D"a3s" st=
-yle=3D"overflow:hidden">I feel we are going out of way here since now on sy=
-stemd based systemd you have to undo this change<br>
-partly via re-introducing service files in some fashion<br>
-how about just building and packaging uuidd and fstrim separately ?</div></=
-blockquote></div><br></div><div class=3D"gmail_extra">Well the question is =
-how popular is uuidd and fstrim?=C2=A0 I can totally see that installing th=
-e service files if systemd is enabled is the obvious half-way and upstream =
-supporting this would be good but I&#39;ve no idea if they&#39;d accept thi=
-s.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">We =
-are *very* close to M3 cut-off and landing the new systemd depends on somet=
-hing fixing the circular dependency.=C2=A0 I believe this patch is the path=
- with the least impact that can be fixed post-M3 to install service files w=
-here appropriate without causing a circular build dependency.</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1134469e6bdda6050fdbb1a8--
+> On Feb 23, 2015, at 10:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+>>=20
+>> On Feb 21, 2015, at 1:22 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>=20
+>> On Fri, 2015-02-20 at 18:03 +0000, Richard Purdie wrote:
+>>> On Mon, 2015-02-02 at 02:02 -0800, Khem Raj wrote:
+>>>> I have put together upgrade to gcc 4.9.2 as well as glibc 2.21 (
+>>>> upcoming ) on  a contrib branch ( top 2 patches) its has not got =
+much
+>>>> testing besides x86 qemu thus far.
+>>>>=20
+>>>> =
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-gl=
+ibc-upgrade
+>>>>=20
+>>>> I would like to request some help in testing these out in your
+>>>> respective environments and please report any issues you see so we =
+can
+>>>> start sorting them out at earlier and making its way into OE-Core.
+>>>>=20
+>>>> Thanks for your help
+>>>=20
+>>> For info, I've now merged the glibc part of this change now too.
+>>>=20
+>>> Khem: Thanks for the work on this!
+>>=20
+>> New issue that caught my eye:
+>>=20
+>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/bu=
+ilds/204/steps/Running%20Sanity%20Tests/logs/stdio
+>>=20
+>> segfault in init within libc :/.
+>=20
+> I have booted core-image-minimal, for all arches and that have worked =
+fine for both systemd and sysvinit and some of non-oe-core graphic =
+images booted well too
+> but here it seems its using core-image-sato wondering what changed =
+there =E2=80=A6 can someone try it out and may be see what is it trying =
+to launch during boot that is in addition
+> to core image minimal.
+
+My core-image-sato/sysvinit booted without crash too ( host is ubuntu =
+15.04 x86_64)=
+
