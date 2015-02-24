@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 00A8A71633
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9926C71633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 12:02:24 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id q107so29361722qgd.8
+	Tue, 24 Feb 2015 12:12:06 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id i13so26610933qae.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 04:02:25 -0800 (PST)
+	Tue, 24 Feb 2015 04:12:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=+HtQOqH+HVkTMUTH7UPXpR1bMEhEddoGT0NlSr/AcOE=;
-	b=mR1UdjQVSA1xzsf2IuDA6euV85xSQgwGd8BgAe3w7IcLTFz84vKz21j+HsDOjBbf7c
-	GWJFbJkibeZfUdPKV6zdjAjHBYPuWVH3wgOQ5He8txLLDHOHRfLxszfMcI7NMvAJuiHe
-	8XRtN2W/ytabJCwf2MqDfLc+BoFNCHLMC8WIe52KcZFAFjkuwyA5Ba9mU0i+T6jqJ347
-	qdKbFa2d/KZk7p9WfwQ1cW1I55fJigiNGvSkmo7sNMA/wv8tqXgYyaPjVfhSpx/S9FWH
-	X55wIEwm4gy5D0QOkd4raFBw5fB/26Z5WCDrGXbbpmkeJa+aaN+YekQi2Du82pR0fVn+
-	QuJg==
-X-Gm-Message-State: ALoCoQlNRIYKuF5Qz83ZiqBy9uUQDWIOAQ+Z1qPrJGLWBxue4GwZJUuJuC2lUhJsxeiUk1uZkWHI
-X-Received: by 10.140.147.66 with SMTP id 63mr8440965qht.35.1424779345638;
-	Tue, 24 Feb 2015 04:02:25 -0800 (PST)
+	bh=+pYtWDqW4AKftVnZRGnLA67WefIuNY3y0vP9rWqSHvU=;
+	b=VvzisjT/T870z1vYvrLY80px3Eh8c9xkA/URT+x6sbmeiPpl9HJ4I3AD3+/y8RsVpl
+	sapSoSOf8eeYHyVZ7eIZNKv2vazRDJssWGQCHpmxZH2y3W5O1mv3mEEJlRflDMMa32kg
+	3TOI7OQp12hS5LnRIqpIAx4Giq4vhMw/KIu3yMECrLoicznyarja9oAudgKK/+uelR1R
+	mYMGkgX9UIPS2ebYhra/uhShjDCMs4V9/PieT4v86Wucir8re++CHx6p5wE3Jl0W7XHe
+	OxK5AuUa3cYmahu3QwYN5PAdRb9jMZX4A65JzQO95U6Zhv6lsm7rtt5AFQ8kZAOZhQRq
+	Qthg==
+X-Gm-Message-State: ALoCoQnkmPWjN+ge4K/kFe8Vqfml+CdQSYGpCDMz7lUOxtO0vF5pkAwfLnpk2NSSbMfIVO0M1DCS
+X-Received: by 10.140.165.150 with SMTP id l144mr8866365qhl.39.1424779927994; 
+	Tue, 24 Feb 2015 04:12:07 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 24 Feb 2015 04:02:05 -0800 (PST)
-In-Reply-To: <1424758088-31785-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1424758088-31785-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Received: by 10.140.102.203 with HTTP; Tue, 24 Feb 2015 04:11:47 -0800 (PST)
+In-Reply-To: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
+References: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 24 Feb 2015 12:02:05 +0000
-Message-ID: <CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Tue, 24 Feb 2015 12:11:47 +0000
+Message-ID: <CAJTo0LY3ALEB1EXTEjWLLtansnm-zSb8oaUh_=AAOzxM+AKJBQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-native: Fixes PGEN linking errors Changes Makefile rules to avoid parallel make races when trying to build Parser/PGEN
+Subject: Re: [PATCH] glibc: Help compile with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 12:02:26 -0000
-Content-Type: multipart/alternative; boundary=001a1135547ec7cf05050fd44a30
+X-List-Received-Date: Tue, 24 Feb 2015 12:12:08 -0000
+Content-Type: multipart/alternative; boundary=001a1134effa7ddca6050fd46d14
 
---001a1135547ec7cf05050fd44a30
+--001a1134effa7ddca6050fd46d14
 Content-Type: text/plain; charset=UTF-8
 
-Hi Alejandro,
+On 24 February 2015 at 06:39, Khem Raj <raj.khem@gmail.com> wrote:
 
-On 24 February 2015 at 06:08, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
-
-> +Upstream-Status: Inappropriate [embedded specific]
+>  .../glibc/glibc/eglibc-use-option-groups.patch     | 47
+> ++++++++++++++++++----
 >
 
-This is a genuine build race in the make files and entirely appropriate for
-upstream.  Can you send them a patch?
+Is this chunk related?  The commit log only talks about disabling -Werror.
 
 Ross
 
---001a1135547ec7cf05050fd44a30
+--001a1134effa7ddca6050fd46d14
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Alejandro,</div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 24 February 2015 at 06:0=
-8, Alejandro Hernandez <span dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.he=
-rnandez@linux.intel.com" target=3D"_blank">alejandro.hernandez@linux.intel.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fl"=
- class=3D"a3s" style=3D"overflow:hidden">+Upstream-Status: Inappropriate [e=
-mbedded specific]<br></div></blockquote><div><br></div><div>This is a genui=
-ne build race in the make files and entirely appropriate for upstream.=C2=
-=A0 Can you send them a patch?</div><div><br></div><div>Ross=C2=A0</div></d=
-iv></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 February 2015 at 06:39, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":gx" class=3D"a3s" sty=
+le=3D"overflow:hidden">=C2=A0.../glibc/glibc/eglibc-use-option-groups.patch=
+=C2=A0 =C2=A0 =C2=A0| 47 ++++++++++++++++++----<br></div></blockquote></div=
+><br>Is this chunk related?=C2=A0 The commit log only talks about disabling=
+ -Werror.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
 
---001a1135547ec7cf05050fd44a30--
+--001a1134effa7ddca6050fd46d14--
