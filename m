@@ -1,43 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 506E971633;
-	Tue, 24 Feb 2015 06:34:12 +0000 (UTC)
-Received: by pdev10 with SMTP id v10so31118390pde.10;
-	Mon, 23 Feb 2015 22:34:14 -0800 (PST)
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8271B724E4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Feb 2015 06:40:30 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id b16so24448684igk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Feb 2015 22:40:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=/wCRkwrIbXV/e4KAej8PqtJteCabyZOsmYnloMRwFlE=;
-	b=esuudj8JPixg4ISoeOZTVR4YR81X8DKgPLHPbaDj0sUY9Jykiq/1X7iSL1sxKpdcE3
-	/HMSwc6Wxoju50dhpDuTuo1qfM0JAcuCPsUmvcu7lUklfrTVOVjiNx/0s774tMv6iZf8
-	Qvf55A+CCg8UpNr46w5VT1ulYz59xOkmTPaotGghmi3gZdYdD9xR0pj3Z4NMxiAhPw15
-	g8EH0nTGCDMzxuYAQ0mfuGC8Hx+Xud8+PFg/iMH7GxrssTCyd48bzRWhwFNv0NhDgSrD
-	qecHfCTjqIeX4PqDhBl+nl7iU9BNOgb+FaIosNng+kO9Ty+daTQVhnOiEWCwWz+nz04Y
-	Ikcg==
-X-Received: by 10.68.57.139 with SMTP id i11mr1175189pbq.59.1424759654136;
-	Mon, 23 Feb 2015 22:34:14 -0800 (PST)
-Received: from ?IPv6:2601:9:3580:84c:201b:b105:13ca:8330?
-	([2601:9:3580:84c:201b:b105:13ca:8330])
-	by mx.google.com with ESMTPSA id
-	ci17sm37799334pdb.70.2015.02.23.22.34.12
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 23 Feb 2015 22:34:12 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+	h=from:to:cc:subject:date:message-id;
+	bh=vGzCdtlH/Q/LsLP6JRVgcSpOslYTDTzkxnFNA6jJxRk=;
+	b=JpuaZcY0ioEVH725MiQlyu6Soa2ZC+gN5SMqkd+2atk+PQnZtGxw+3KkLVIROaJUPK
+	hFZPOEzcujvzVKyYK9D3sdK0L8JFEBmDGSQGXuMrPMKDTluzlB541xEb+xMnjTJjI4r7
+	r2pyy8ASCHe+7saazF9LXwAKwI64FfyZteimJHeuqj9Tl4yuFhLVuWRhJDUPUAAivnLO
+	Pb4Cn2BrmsHmEpO+JpQUqjOuMFb8K6oUNvGia2+kwUgrQ65ojVWHFajOPmr7Nki6qf9T
+	0Yo7FH/ILGrN7yoVVafjERlzdPCq/AszDYd2LMzkjj17buncdWDc8p5eqW/vwwUQFP3k
+	1Myg==
+X-Received: by 10.107.153.193 with SMTP id b184mr19168582ioe.85.1424760032013; 
+	Mon, 23 Feb 2015 22:40:32 -0800 (PST)
+Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
+	[96.119.88.205])
+	by mx.google.com with ESMTPSA id qs3sm7557999igb.8.2015.02.23.22.40.31
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Feb 2015 22:40:31 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <54E7D0D8.2060900@urbanec.net>
-Date: Mon, 23 Feb 2015 22:34:11 -0800
-Message-Id: <71B007D1-AE38-41DB-827E-67DE9A3C3DD1@gmail.com>
-References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
-	<1424455387.11836.57.camel@linuxfoundation.org>
-	<54E7D0D8.2060900@urbanec.net>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Feb 2015 06:39:59 +0000
+Message-Id: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] glibc: Help compile with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,92 +41,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 06:34:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 24 Feb 2015 06:40:32 -0000
 
+When we modify to use -Os
+-Werror doesnt go well with it, glibc needs to be
+cleaned up for that but until then lets disable -Werror
+when using -Os
 
-> On Feb 20, 2015, at 4:27 PM, Peter Urbanec =
-<openembedded-devel@urbanec.net> wrote:
->=20
-> On 21/02/15 05:03, Richard Purdie wrote:
->> On Mon, 2015-02-02 at 02:02 -0800, Khem Raj wrote:
->>> I have put together upgrade to gcc 4.9.2 as well as glibc 2.21 (
-> ...
->> For info, I've now merged the glibc part of this change now too.
->=20
-> It looks like the new glibc turns all gcc warnings into errors. That =
-does not seem to work too well in all cases:
+Change-Id: I5495255fce67953f15c07e423e3e0eef41d4ce5e
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc.inc                  |  3 ++
+ .../glibc/glibc/eglibc-use-option-groups.patch     | 47 ++++++++++++++++++----
+ 2 files changed, 43 insertions(+), 7 deletions(-)
 
-you seem to be overriding default selected optimization to use -Os =
-instead of -O2, with 2.21 glibc is now using -Werror by default which is =
-a good thing
-but then not all combinations have been tested out so when you override =
-the default opt level then please add -Wno-error as well. May be I =
-should just send a patch to detect this usecase
-
-
->=20
-> | mipsel-oe-linux-gcc -mel -mabi=3D32 -mhard-float =
---sysroot=3D/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwi=
-z/inihdp/tmp-glibc/sysroots/inihdp-tcbootstrap pthread_equal.c -c =
--std=3Dgnu99 -fgnu89-inline  -Os -Wall -Werror -Winline -Wno-error=3Dundef=
- -Wundef -Wwrite-strings -feliminate-unused-debug-types =
--fmerge-all-constants -frounding-math -g -pipe -Wstrict-prototypes   =
--fPIC        -I../include =
--I/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/t=
-mp-glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux/=
-nptl  =
--I/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/t=
-mp-glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux =
- -I../sysdeps/unix/sysv/linux/mips/mips32/fpu  =
--I../sysdeps/unix/sysv/linux/mips/mips32  =
--I../sysdeps/unix/sysv/linux/mips  -I../sysdeps/mips/nptl  =
--I../sysdeps/unix/sysv/linux/include -I../sysdeps/unix/sysv/linux  =
--I../sysdeps/nptl  -I../sysdeps/pthread  -I../sysdeps/gnu  -I../!
-> sysdeps/un
-> ix/inet  -I../sysdeps/unix/sysv  -I../sysdeps/unix/mips/mips32  =
--I../sysdeps/unix/mips  -I../sysdeps/unix  -I../sysdeps/posix  =
--I../sysdeps/mips/mips32/fpu  -I../sysdeps/mips/mips32  =
--I../sysdeps/mips/ieee754  -I../sysdeps/mips/soft-fp  =
--I../sysdeps/mips/include -I../sysdeps/mips  -I../sysdeps/ieee754/flt-32 =
- -I../sysdeps/ieee754/dbl-64  -I../sysdeps/wordsize-32  =
--I../sysdeps/mips/fpu  -I../sysdeps/ieee754  -I../sysdeps/generic  -I.. =
--I../libio -I. -nostdinc -isystem =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/sysroots/x86_64-linux/usr/lib/mipsel-oe-linux.gcc-cross-initial-mip=
-sel/gcc/mipsel-oe-linux/4.9.2/include -isystem =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/sysroots/x86_64-linux/usr/lib/mipsel-oe-linux.gcc-cross-initial-mip=
-sel/gcc/mipsel-oe-linux/4.9.2/include-fixed -isystem =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/sysroots/inihdp/usr/include  -D_LIBC_REE!
-> NTRANT -in
-> clude =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux/li=
-bc-modules.h -DMODULE_NAME=3Dlibpthread -include =
-../include/libc-symbols.h  -DPIC -DSHARED     -o =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux/np=
-tl/pthread_equal.os -MD -MP -MF =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux/np=
-tl/pthread_equal.os.dt -MT =
-/home/peteru/Source/T3/build-enviroment-core-24/builds/beyonwiz/inihdp/tmp=
--glibc/work/mips32el-oe-linux/glibc/glibc-2.21-r0/build-mipsel-oe-linux/np=
-tl/pthread_equal.os
-> | In file included from allocatestack.c:30:0,
-> |                  from pthread_create.c:55:
-> | allocatestack.c: In function 'stack_list_add':
-> | ../include/list.h:58:1: error: inlining failed in call to =
-'list_add': call is unlikely and code size would grow [-Werror=3Dinline]
-> |  list_add (list_t *newp, list_t *head)
-> |  ^
-> | In file included from pthread_create.c:55:0:
-> | allocatestack.c:159:3: error: called from here [-Werror=3Dinline]
-> |    list_add (elem, list);
-> |    ^
->=20
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 99a4753..4d5e98b 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -15,6 +15,9 @@ def get_optimization(d):
+     if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+         bb.note("glibc can't be built with -O0, -O2 will be used instead.")
+         return selected_optimization.replace("-O0", "-O2")
++    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
++        bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
++        return selected_optimization.replace("-Os", "-Os -Wno-error")
+     return selected_optimization
+ 
+ SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
+diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+index 0fcaff9..439b4a9 100644
+--- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+@@ -2294,11 +2294,37 @@ Index: git/locale/programs/locfile.h
+  /* Change the output to be big-endian if BIG_ENDIAN is true and
+     little-endian otherwise.  */
+  static inline void
+-@@ -276,4 +278,49 @@ extern void identification_output (struc
++@@ -89,7 +91,8 @@ maybe_swap_uint32 (uint32_t value)
++ }
++ 
++ /* Likewise, but munge an array of N uint32_ts starting at ARRAY.  */
++-static inline void
+++static void
+++__attribute__ ((unused))
++ maybe_swap_uint32_array (uint32_t *array, size_t n)
++ {
++   if (swap_endianness_p)
++@@ -99,7 +102,8 @@ maybe_swap_uint32_array (uint32_t *array
++ 
++ /* Like maybe_swap_uint32_array, but the array of N elements is at
++    the end of OBSTACK's current object.  */
++-static inline void
+++static void
+++__attribute__ ((unused))
++ maybe_swap_uint32_obstack (struct obstack *obstack, size_t n)
++ {
++   maybe_swap_uint32_array ((uint32_t *) obstack_next_free (obstack) - n, n);
++@@ -276,4 +280,55 @@ extern void identification_output (struc
+  				   const struct charmap_t *charmap,
+  				   const char *output_path);
+  
+-+static inline size_t
+++static size_t wcslen_uint32 (const uint32_t *str) __attribute__ ((unused));
+++static uint32_t * wmemcpy_uint32 (uint32_t *s1, const uint32_t *s2, size_t n) __attribute__ ((unused));
+++static uint32_t * wcschr_uint32 (const uint32_t *s, uint32_t ch) __attribute__ ((unused));
+++static int wcscmp_uint32 (const uint32_t *s1, const uint32_t *s2) __attribute__ ((unused));
+++static int wmemcmp_uint32 (const uint32_t *s1, const uint32_t *s2, size_t n) __attribute__ ((unused));
+++
+++static size_t
+ +wcslen_uint32 (const uint32_t *str)
+ +{
+ +  size_t len = 0;
+@@ -2307,7 +2333,7 @@ Index: git/locale/programs/locfile.h
+ +  return len;
+ +}
+ +
+-+static inline int
+++static  int
+ +wmemcmp_uint32 (const uint32_t *s1, const uint32_t *s2, size_t n)
+ +{
+ +  while (n-- != 0)
+@@ -2319,7 +2345,7 @@ Index: git/locale/programs/locfile.h
+ +  return 0;
+ +}
+ +
+-+static inline int
+++static int
+ +wcscmp_uint32 (const uint32_t *s1, const uint32_t *s2)
+ +{
+ +  while (*s1 != 0 && *s1 == *s2)
+@@ -2327,13 +2353,13 @@ Index: git/locale/programs/locfile.h
+ +  return *s1 - *s2;
+ +}
+ +
+-+static inline uint32_t *
+++static uint32_t *
+ +wmemcpy_uint32 (uint32_t *s1, const uint32_t *s2, size_t n)
+ +{
+ +  return memcpy (s1, s2, n * sizeof (uint32_t));
+ +}
+ +
+-+static inline uint32_t *
+++static uint32_t *
+ +wcschr_uint32 (const uint32_t *s, uint32_t ch)
+ +{
+ +  do
+@@ -5627,7 +5653,7 @@ Index: git/posix/regexec.c
+        /* match with character_class?  */
+        for (i = 0; i < cset->nchar_classes; ++i)
+  	{
+-@@ -3863,8 +3843,16 @@ check_node_accept_bytes (const re_dfa_t
++@@ -3863,14 +3843,22 @@ check_node_accept_bytes (const re_dfa_t
+  	      goto check_node_accept_bytes_match;
+  	    }
+  	}
+@@ -5645,6 +5671,13 @@ Index: git/posix/regexec.c
+        nrules = _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
+        if (nrules != 0)
+  	{
++ 	  unsigned int in_collseq = 0;
++ 	  const int32_t *table, *indirect;
++-	  const unsigned char *weights, *extra;
+++	  const unsigned char *weights, *extra = NULL;
++ 	  const char *collseqwc;
++ 
++ 	  /* match with collating_symbol?  */
+ @@ -3955,8 +3943,12 @@ check_node_accept_bytes (const re_dfa_t
+  	    }
+  	}
+-- 
+2.1.4
 
 
