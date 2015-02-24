@@ -1,39 +1,44 @@
-Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C2772007
+Return-Path: <Javier.Viguera@digi.com>
+Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
+	[216.82.251.16])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C7071633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 17:08:30 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id hy4so10486361vcb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 09:08:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=ezBCbdKeMFJUqrWYtO5VvakDmeVv2AgS+BH7fJSCjNg=;
-	b=lXRQKGdsqdbIQIz8VhrLMmmYV+j7+0phspTHbdya9cBL9pUSsLoLFCVT78vMv5ZRl5
-	cTpb9fQXr4Vwilkl9QsF8KLgb3OvhpRUL9r7TnvKUdzVGSMFoS3kcYY9JUH1UjRfxWx2
-	HnJfJkip65w4KVhZLen4Xxkns8hodEvhRSjUSbLX6vSa5M+n5QwF29hKgRO4BHAZ6N8r
-	VFhMp7V2yB5WKtg8P/geYs5fH6Fb59T06mTqYBWdm69Il2EQ22WfSw7r8XpsCK1RzhV5
-	aLZEbvHE/4w3u5CrcqrkhsZAbm+TmZ7iOGKBAa1F9o5UUwTdisSqN7mFsgoMilepBVhT
-	5Mqw==
-X-Gm-Message-State: ALoCoQki+2V/aogj/z4PYqcK+kj3VbhOrJbqM+JkrinAHGqfYt4dS7dO809U+uepI2jSQB+wfURQ
+	Tue, 24 Feb 2015 17:45:34 +0000 (UTC)
+Received: from [216.82.249.131] by server-16.bemta-12.messagelabs.com id
+	9A/69-02760-FB8BCE45; Tue, 24 Feb 2015 17:45:35 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-6.tower-28.messagelabs.com!1424799934!28276099!1
+X-Originating-IP: [66.77.174.14]
+X-StarScan-Received: 
+X-StarScan-Version: 6.13.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 32649 invoked from network); 24 Feb 2015 17:45:35 -0000
+Received: from mail.mx4.digi.com (HELO mcl-sms-ns2.DIGI.COM) (66.77.174.14)
+	by server-6.tower-28.messagelabs.com with RC4-SHA encrypted SMTP;
+	24 Feb 2015 17:45:35 -0000
+Received: from MTK-SMS-XCH02.digi.com (10.10.8.196) by mail.mx2.digi.com
+	(172.16.1.14) with Microsoft SMTP Server (TLS) id 8.3.389.2;
+	Tue, 24 Feb 2015 11:45:25 -0600
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH02.digi.com
+	(10.10.8.196) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 24 Feb 2015 11:45:33 -0600
+Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
+	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 24 Feb 2015 18:45:31 +0100
+Message-ID: <54ECB8AB.1090709@digi.com>
+Date: Tue, 24 Feb 2015 18:45:15 +0100
+From: Javier Viguera <javier.viguera@digi.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-X-Received: by 10.52.72.5 with SMTP id z5mr16710655vdu.78.1424797711246; Tue,
-	24 Feb 2015 09:08:31 -0800 (PST)
-Received: by 10.52.124.76 with HTTP; Tue, 24 Feb 2015 09:08:31 -0800 (PST)
-In-Reply-To: <2739283.cBzxHPFgeW@peggleto-mobl5.ger.corp.intel.com>
-References: <1414607656-12144-1-git-send-email-anibal.limon@linux.intel.com>
-	<2739283.cBzxHPFgeW@peggleto-mobl5.ger.corp.intel.com>
-Date: Tue, 24 Feb 2015 17:08:31 +0000
-Message-ID: <CAPhnLPCWaaeaFgjkY1-NTyHGRa6DPcY1HiNi+HMHo_ZWtu3o7Q@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] license_class: Added support for LICENSE_PRIORITY in manifest creation
+To: <openembedded-core@lists.openembedded.org>
+References: <1424177294-41586-1-git-send-email-javier.viguera@digi.com>
+In-Reply-To: <1424177294-41586-1-git-send-email-javier.viguera@digi.com>
+X-Originating-IP: [10.101.2.54]
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean
+Subject: [backport][dizzy][daisy] utils.bbclass: fix create_cmdline_wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +51,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 17:08:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 24 Feb 2015 17:45:34 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 24 February 2015 at 16:00, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Beth,
->
-> I know you're looking at rewriting some of license.bbclass in python - FY=
-I
-> here's an as-yet unmerged patchset from An=C3=ADbal that may contain some=
- of that
-> already:
->
+Hi all,
 
-Yeah, I'm almost finished with it. I'll look at what is there, but for
-now, can we avoid taking anything that touches manifest until I get a
-moment to look at it?
+I see this patch was merged into master. Thanks for that.
 
-> On Wednesday 29 October 2014 12:34:12 An=C3=ADbal Lim=C3=B3n wrote:
->> Now you can specify LICENSE_PRIOTIY that enables the distro to set the
->> license preferences for manifest creation.
->>
->> The major change is when you have OR'ed LICENSE only one is choose accor=
-ding
->> LICENSE_PRIORITY preferences if LICENSE_PRIORITY isn't specified the lef=
-t
->> one is choosen.
->>
->> The test was done building qemux86/core-image-sato with and without thes=
-e
->> set of patches and then run diff recursive under common-licenses created
->> directory.
->>
->> You can find a tarball with common-license directories, resulted diff an=
-d
->> local.conf at:
->>
->> https://bugzilla.yoctoproject.org/attachment.cgi?id=3D2223
->>
->> An=C3=ADbal Lim=C3=B3n (4):
->>   license_class: Reimplemented manifest creation in python
->>   license_class: Added support for INCOMPATIBLE_LICENSE into
->>     license_create_manifest
->>   license_class: Added LICENSE_PRIORITY support
->>   license_class: Fix remove + trim in license_create_manifest.
->>
->>  meta/classes/license.bbclass | 250
->> ++++++++++++++++++++++++++++--------------- meta/conf/documentation.conf=
- |
->>  1 +
->>  2 files changed, 164 insertions(+), 87 deletions(-)
->
->
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+Could it be backported to Daisy and Dizzy?
 
+A cherry-pick of the commit in master should apply just fine.
 
+-
+Thanks,
 
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+Javier Viguera
+
 
