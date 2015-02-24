@@ -1,41 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DC6971633
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CD8571633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 16:08:03 +0000 (UTC)
-Received: by pablf10 with SMTP id lf10so36955338pab.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 08:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=+McQMzq8mmj1IS1PgBtKNWGHn5BPNh5KKTOd6IN/sY4=;
-	b=dCsQwJ9jmZR4w+TkltlLlJUQZVJ3iTAg9hK67/GT8ZZ+JN5V6Db3gWBtwMuDjtWcgf
-	7oejOEdylwYloCScEQoP6HfK62wSJpePd0pnFN5x/5CURS86DAscEEzysBmUNH0HF3J5
-	qvP/rnKSNvRbJ1Ffp9M6UrsTYAxUM9BQ2zMmb95/MzUDv1zPHAYau/BE6+aUIJ5uKUPN
-	dONMJj5lSZT9pTTQ0ZxbE3u+PMWFL2Sx31vhOH5NOfPtSjiaH4L9/5NcGtj/4fj9nTiD
-	R/sQ1sx8q+A34028amXFTbpZv3AqLQox5ArNEr3btzJxprB9q8gyBSoPqnL1kzzAI53Z
-	J+dQ==
-X-Received: by 10.66.255.98 with SMTP id ap2mr4128843pad.134.1424794084911;
-	Tue, 24 Feb 2015 08:08:04 -0800 (PST)
-Received: from ?IPv6:2601:9:3580:84c:dce0:85c5:10b5:32ac?
-	([2601:9:3580:84c:dce0:85c5:10b5:32ac])
-	by mx.google.com with ESMTPSA id
-	nd5sm38541720pbc.64.2015.02.24.08.08.03
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 24 Feb 2015 08:08:03 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LY3ALEB1EXTEjWLLtansnm-zSb8oaUh_=AAOzxM+AKJBQ@mail.gmail.com>
-Date: Tue, 24 Feb 2015 08:08:02 -0800
-Message-Id: <422CC003-849A-4630-AB3F-B2337EA0C02B@gmail.com>
-References: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LY3ALEB1EXTEjWLLtansnm-zSb8oaUh_=AAOzxM+AKJBQ@mail.gmail.com>
+	Tue, 24 Feb 2015 16:29:32 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 24 Feb 2015 08:29:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,639,1418112000"; 
+	d="scan'208,217";a="670879121"
+Received: from besabasr-mobl1.amr.corp.intel.com (HELO [10.252.248.205])
+	([10.252.248.205])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2015 08:29:30 -0800
+Message-ID: <54ECA6EB.5010707@linux.intel.com>
+Date: Tue, 24 Feb 2015 10:29:31 -0600
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2070.6)
+References: <1424758088-31785-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Help compile with -Os
+Subject: Re: [PATCH] python-native: Fixes PGEN linking errors Changes Makefile rules to avoid parallel make races when trying to build Parser/PGEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,67 +35,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 16:08:05 -0000
+X-List-Received-Date: Tue, 24 Feb 2015 16:29:36 -0000
 Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_E3DDCBD1-F7D9-43F0-AB56-33F7DC300B78"
+	boundary="------------070607070905020408070405"
 
---Apple-Mail=_E3DDCBD1-F7D9-43F0-AB56-33F7DC300B78
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Feb 24, 2015, at 4:11 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 24 February 2015 at 06:39, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
->  .../glibc/glibc/eglibc-use-option-groups.patch     | 47 =
-++++++++++++++++++----
->=20
-> Is this chunk related?  The commit log only talks about disabling =
--Werror.
->=20
-
-yes it is. it fixed some of the obvious errors. but thats not enough. =
-There is a lot more cleanup needed
+--------------070607070905020408070405
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+On 24/02/15 06:02, Burton, Ross wrote:
+> Hi Alejandro,
+>
+> On 24 February 2015 at 06:08, Alejandro Hernandez 
+> <alejandro.hernandez@linux.intel.com 
+> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
+>
+>     +Upstream-Status: Inappropriate [embedded specific]
+>
+>
+> This is a genuine build race in the make files and entirely 
+> appropriate for upstream.  Can you send them a patch?
+>
 > Ross
 
+Will do, should I send the patch again to the list without that info?
 
---Apple-Mail=_E3DDCBD1-F7D9-43F0-AB56-33F7DC300B78
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Feb 24, 2015, at 4:11 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 24 February 2015 at 06:39, Khem Raj <span =
-dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":gx" =
-class=3D"a3s" =
-style=3D"overflow:hidden">&nbsp;.../glibc/glibc/eglibc-use-option-groups.p=
-atch&nbsp; &nbsp; &nbsp;| 47 ++++++++++++++++++----<br =
-class=3D""></div></blockquote></div><br class=3D"">Is this chunk =
-related?&nbsp; The commit log only talks about disabling =
--Werror.</div><div class=3D"gmail_extra"><br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>yes it is. it fixed some of the obvious errors. =
-but thats not enough. There is a lot more cleanup needed</div><div><br =
-class=3D""></div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=3D""></body></html>=
+--------------070607070905020408070405
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---Apple-Mail=_E3DDCBD1-F7D9-43F0-AB56-33F7DC300B78--
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <div class="moz-cite-prefix">On 24/02/15 06:02, Burton, Ross wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Hi Alejandro,</div>
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 24 February 2015 at 06:08,
+            Alejandro Hernandez <span dir="ltr">&lt;<a
+                moz-do-not-send="true"
+                href="mailto:alejandro.hernandez@linux.intel.com"
+                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":fl" class="a3s" style="overflow:hidden">+Upstream-Status:
+                Inappropriate [embedded specific]<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>This is a genuine build race in the make files and
+              entirely appropriate for upstream.  Can you send them a
+              patch?</div>
+            <div><br>
+            </div>
+            <div>Ross <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Will do, should I send the patch again to the list without that
+    info?<br>
+    <br>
+  </body>
+</html>
+
+--------------070607070905020408070405--
