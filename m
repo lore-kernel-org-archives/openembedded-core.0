@@ -1,28 +1,39 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CD8571633
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C2772007
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 16:29:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 24 Feb 2015 08:29:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,639,1418112000"; 
-	d="scan'208,217";a="670879121"
-Received: from besabasr-mobl1.amr.corp.intel.com (HELO [10.252.248.205])
-	([10.252.248.205])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2015 08:29:30 -0800
-Message-ID: <54ECA6EB.5010707@linux.intel.com>
-Date: Tue, 24 Feb 2015 10:29:31 -0600
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Tue, 24 Feb 2015 17:08:30 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id hy4so10486361vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Feb 2015 09:08:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=ezBCbdKeMFJUqrWYtO5VvakDmeVv2AgS+BH7fJSCjNg=;
+	b=lXRQKGdsqdbIQIz8VhrLMmmYV+j7+0phspTHbdya9cBL9pUSsLoLFCVT78vMv5ZRl5
+	cTpb9fQXr4Vwilkl9QsF8KLgb3OvhpRUL9r7TnvKUdzVGSMFoS3kcYY9JUH1UjRfxWx2
+	HnJfJkip65w4KVhZLen4Xxkns8hodEvhRSjUSbLX6vSa5M+n5QwF29hKgRO4BHAZ6N8r
+	VFhMp7V2yB5WKtg8P/geYs5fH6Fb59T06mTqYBWdm69Il2EQ22WfSw7r8XpsCK1RzhV5
+	aLZEbvHE/4w3u5CrcqrkhsZAbm+TmZ7iOGKBAa1F9o5UUwTdisSqN7mFsgoMilepBVhT
+	5Mqw==
+X-Gm-Message-State: ALoCoQki+2V/aogj/z4PYqcK+kj3VbhOrJbqM+JkrinAHGqfYt4dS7dO809U+uepI2jSQB+wfURQ
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1424758088-31785-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-native: Fixes PGEN linking errors Changes Makefile rules to avoid parallel make races when trying to build Parser/PGEN
+X-Received: by 10.52.72.5 with SMTP id z5mr16710655vdu.78.1424797711246; Tue,
+	24 Feb 2015 09:08:31 -0800 (PST)
+Received: by 10.52.124.76 with HTTP; Tue, 24 Feb 2015 09:08:31 -0800 (PST)
+In-Reply-To: <2739283.cBzxHPFgeW@peggleto-mobl5.ger.corp.intel.com>
+References: <1414607656-12144-1-git-send-email-anibal.limon@linux.intel.com>
+	<2739283.cBzxHPFgeW@peggleto-mobl5.ger.corp.intel.com>
+Date: Tue, 24 Feb 2015 17:08:31 +0000
+Message-ID: <CAPhnLPCWaaeaFgjkY1-NTyHGRa6DPcY1HiNi+HMHo_ZWtu3o7Q@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] license_class: Added support for LICENSE_PRIORITY in manifest creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,81 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 16:29:36 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070607070905020408070405"
+X-List-Received-Date: Tue, 24 Feb 2015 17:08:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------070607070905020408070405
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 24/02/15 06:02, Burton, Ross wrote:
-> Hi Alejandro,
+On 24 February 2015 at 16:00, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi Beth,
 >
-> On 24 February 2015 at 06:08, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
+> I know you're looking at rewriting some of license.bbclass in python - FY=
+I
+> here's an as-yet unmerged patchset from An=C3=ADbal that may contain some=
+ of that
+> already:
 >
->     +Upstream-Status: Inappropriate [embedded specific]
+
+Yeah, I'm almost finished with it. I'll look at what is there, but for
+now, can we avoid taking anything that touches manifest until I get a
+moment to look at it?
+
+> On Wednesday 29 October 2014 12:34:12 An=C3=ADbal Lim=C3=B3n wrote:
+>> Now you can specify LICENSE_PRIOTIY that enables the distro to set the
+>> license preferences for manifest creation.
+>>
+>> The major change is when you have OR'ed LICENSE only one is choose accor=
+ding
+>> LICENSE_PRIORITY preferences if LICENSE_PRIORITY isn't specified the lef=
+t
+>> one is choosen.
+>>
+>> The test was done building qemux86/core-image-sato with and without thes=
+e
+>> set of patches and then run diff recursive under common-licenses created
+>> directory.
+>>
+>> You can find a tarball with common-license directories, resulted diff an=
+d
+>> local.conf at:
+>>
+>> https://bugzilla.yoctoproject.org/attachment.cgi?id=3D2223
+>>
+>> An=C3=ADbal Lim=C3=B3n (4):
+>>   license_class: Reimplemented manifest creation in python
+>>   license_class: Added support for INCOMPATIBLE_LICENSE into
+>>     license_create_manifest
+>>   license_class: Added LICENSE_PRIORITY support
+>>   license_class: Fix remove + trim in license_create_manifest.
+>>
+>>  meta/classes/license.bbclass | 250
+>> ++++++++++++++++++++++++++++--------------- meta/conf/documentation.conf=
+ |
+>>  1 +
+>>  2 files changed, 164 insertions(+), 87 deletions(-)
 >
 >
-> This is a genuine build race in the make files and entirely 
-> appropriate for upstream.  Can you send them a patch?
 >
-> Ross
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
-Will do, should I send the patch again to the list without that info?
 
 
---------------070607070905020408070405
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+--=20
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <div class="moz-cite-prefix">On 24/02/15 06:02, Burton, Ross wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LbRTqtSbeJoczLBHKQgKuZsyhjfcYgBeTUb0tuadM0goA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">Hi Alejandro,</div>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 24 February 2015 at 06:08,
-            Alejandro Hernandez <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:alejandro.hernandez@linux.intel.com"
-                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":fl" class="a3s" style="overflow:hidden">+Upstream-Status:
-                Inappropriate [embedded specific]<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>This is a genuine build race in the make files and
-              entirely appropriate for upstream.  Can you send them a
-              patch?</div>
-            <div><br>
-            </div>
-            <div>Ross <br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Will do, should I send the patch again to the list without that
-    info?<br>
-    <br>
-  </body>
-</html>
-
---------------070607070905020408070405--
