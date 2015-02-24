@@ -1,34 +1,43 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8271B724E4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 06:40:30 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id b16so24448684igk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Feb 2015 22:40:32 -0800 (PST)
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DBF9071633;
+	Tue, 24 Feb 2015 06:59:53 +0000 (UTC)
+Received: by pdjy10 with SMTP id y10so31319208pdj.6;
+	Mon, 23 Feb 2015 22:59:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=vGzCdtlH/Q/LsLP6JRVgcSpOslYTDTzkxnFNA6jJxRk=;
-	b=JpuaZcY0ioEVH725MiQlyu6Soa2ZC+gN5SMqkd+2atk+PQnZtGxw+3KkLVIROaJUPK
-	hFZPOEzcujvzVKyYK9D3sdK0L8JFEBmDGSQGXuMrPMKDTluzlB541xEb+xMnjTJjI4r7
-	r2pyy8ASCHe+7saazF9LXwAKwI64FfyZteimJHeuqj9Tl4yuFhLVuWRhJDUPUAAivnLO
-	Pb4Cn2BrmsHmEpO+JpQUqjOuMFb8K6oUNvGia2+kwUgrQ65ojVWHFajOPmr7Nki6qf9T
-	0Yo7FH/ILGrN7yoVVafjERlzdPCq/AszDYd2LMzkjj17buncdWDc8p5eqW/vwwUQFP3k
-	1Myg==
-X-Received: by 10.107.153.193 with SMTP id b184mr19168582ioe.85.1424760032013; 
-	Mon, 23 Feb 2015 22:40:32 -0800 (PST)
-Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
-	[96.119.88.205])
-	by mx.google.com with ESMTPSA id qs3sm7557999igb.8.2015.02.23.22.40.31
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Feb 2015 22:40:31 -0800 (PST)
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=0Mzf6jhiYadmKUQHafbMI7qUcfiMvw2vaSY1Fseou7g=;
+	b=OxTaqt8kWiSG05B1RS2rlavyA6ERWMXBWVIiSKngAlipkQDtdxagnsQT29y5bPDK5+
+	f+xWrBBwqu0ifMcvrLAc6/0dkRJV9j50DecNw7uPt7nStj+ghdD4iR7fPoaFZNUV+zp7
+	SnUHoUg8fHCxrWWRt35xvlbgj8ZGfaBHn5dXQVpybauiM7fspl0Si+tI5zllZSkcoGwF
+	IIx/CiPmMyy2kLU4LZ+xZNeQS06aijm+m6bQj6OGMGn6OIps2lWyE4KcxrRlrYZeri2G
+	LP/8tzFHuGbdZ1r4jBPgTQCtUOw++RxGsL/TaMgNq8KXZRWUbnfu3tWt8rPLZmFZzYth
+	QtGA==
+X-Received: by 10.68.239.102 with SMTP id vr6mr1362482pbc.35.1424761194461;
+	Mon, 23 Feb 2015 22:59:54 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:201b:b105:13ca:8330?
+	([2601:9:3580:84c:201b:b105:13ca:8330])
+	by mx.google.com with ESMTPSA id
+	ah1sm38207966pad.16.2015.02.23.22.59.53
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 23 Feb 2015 22:59:53 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Feb 2015 06:39:59 +0000
-Message-Id: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] glibc: Help compile with -Os
+In-Reply-To: <1424510550.11836.66.camel@linuxfoundation.org>
+Date: Mon, 23 Feb 2015 22:59:52 -0800
+Message-Id: <9D1FFBD5-9F30-42BF-8242-4C06614F9F34@gmail.com>
+References: <CAMKF1souj1-FLTjkQb0y8myTiKMJyNeAa7wiM5-pW1fz0EtheA@mail.gmail.com>
+	<1424455387.11836.57.camel@linuxfoundation.org>
+	<1424510550.11836.66.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] upcoming glibc 2.21 and gcc 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,136 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Feb 2015 06:40:32 -0000
+X-List-Received-Date: Tue, 24 Feb 2015 06:59:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-When we modify to use -Os
--Werror doesnt go well with it, glibc needs to be
-cleaned up for that but until then lets disable -Werror
-when using -Os
 
-Change-Id: I5495255fce67953f15c07e423e3e0eef41d4ce5e
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glibc/glibc.inc                  |  3 ++
- .../glibc/glibc/eglibc-use-option-groups.patch     | 47 ++++++++++++++++++----
- 2 files changed, 43 insertions(+), 7 deletions(-)
+> On Feb 21, 2015, at 1:22 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Fri, 2015-02-20 at 18:03 +0000, Richard Purdie wrote:
+>> On Mon, 2015-02-02 at 02:02 -0800, Khem Raj wrote:
+>>> I have put together upgrade to gcc 4.9.2 as well as glibc 2.21 (
+>>> upcoming ) on  a contrib branch ( top 2 patches) its has not got =
+much
+>>> testing besides x86 qemu thus far.
+>>>=20
+>>> =
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-gl=
+ibc-upgrade
+>>>=20
+>>> I would like to request some help in testing these out in your
+>>> respective environments and please report any issues you see so we =
+can
+>>> start sorting them out at earlier and making its way into OE-Core.
+>>>=20
+>>> Thanks for your help
+>>=20
+>> For info, I've now merged the glibc part of this change now too.
+>>=20
+>> Khem: Thanks for the work on this!
+>=20
+> New issue that caught my eye:
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/bu=
+ilds/204/steps/Running%20Sanity%20Tests/logs/stdio
+>=20
+> segfault in init within libc :/.
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 99a4753..4d5e98b 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -15,6 +15,9 @@ def get_optimization(d):
-     if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-         bb.note("glibc can't be built with -O0, -O2 will be used instead.")
-         return selected_optimization.replace("-O0", "-O2")
-+    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-+        bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
-+        return selected_optimization.replace("-Os", "-Os -Wno-error")
-     return selected_optimization
- 
- SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
-diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-index 0fcaff9..439b4a9 100644
---- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-+++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-@@ -2294,11 +2294,37 @@ Index: git/locale/programs/locfile.h
-  /* Change the output to be big-endian if BIG_ENDIAN is true and
-     little-endian otherwise.  */
-  static inline void
--@@ -276,4 +278,49 @@ extern void identification_output (struc
-+@@ -89,7 +91,8 @@ maybe_swap_uint32 (uint32_t value)
-+ }
-+ 
-+ /* Likewise, but munge an array of N uint32_ts starting at ARRAY.  */
-+-static inline void
-++static void
-++__attribute__ ((unused))
-+ maybe_swap_uint32_array (uint32_t *array, size_t n)
-+ {
-+   if (swap_endianness_p)
-+@@ -99,7 +102,8 @@ maybe_swap_uint32_array (uint32_t *array
-+ 
-+ /* Like maybe_swap_uint32_array, but the array of N elements is at
-+    the end of OBSTACK's current object.  */
-+-static inline void
-++static void
-++__attribute__ ((unused))
-+ maybe_swap_uint32_obstack (struct obstack *obstack, size_t n)
-+ {
-+   maybe_swap_uint32_array ((uint32_t *) obstack_next_free (obstack) - n, n);
-+@@ -276,4 +280,55 @@ extern void identification_output (struc
-  				   const struct charmap_t *charmap,
-  				   const char *output_path);
-  
--+static inline size_t
-++static size_t wcslen_uint32 (const uint32_t *str) __attribute__ ((unused));
-++static uint32_t * wmemcpy_uint32 (uint32_t *s1, const uint32_t *s2, size_t n) __attribute__ ((unused));
-++static uint32_t * wcschr_uint32 (const uint32_t *s, uint32_t ch) __attribute__ ((unused));
-++static int wcscmp_uint32 (const uint32_t *s1, const uint32_t *s2) __attribute__ ((unused));
-++static int wmemcmp_uint32 (const uint32_t *s1, const uint32_t *s2, size_t n) __attribute__ ((unused));
-++
-++static size_t
- +wcslen_uint32 (const uint32_t *str)
- +{
- +  size_t len = 0;
-@@ -2307,7 +2333,7 @@ Index: git/locale/programs/locfile.h
- +  return len;
- +}
- +
--+static inline int
-++static  int
- +wmemcmp_uint32 (const uint32_t *s1, const uint32_t *s2, size_t n)
- +{
- +  while (n-- != 0)
-@@ -2319,7 +2345,7 @@ Index: git/locale/programs/locfile.h
- +  return 0;
- +}
- +
--+static inline int
-++static int
- +wcscmp_uint32 (const uint32_t *s1, const uint32_t *s2)
- +{
- +  while (*s1 != 0 && *s1 == *s2)
-@@ -2327,13 +2353,13 @@ Index: git/locale/programs/locfile.h
- +  return *s1 - *s2;
- +}
- +
--+static inline uint32_t *
-++static uint32_t *
- +wmemcpy_uint32 (uint32_t *s1, const uint32_t *s2, size_t n)
- +{
- +  return memcpy (s1, s2, n * sizeof (uint32_t));
- +}
- +
--+static inline uint32_t *
-++static uint32_t *
- +wcschr_uint32 (const uint32_t *s, uint32_t ch)
- +{
- +  do
-@@ -5627,7 +5653,7 @@ Index: git/posix/regexec.c
-        /* match with character_class?  */
-        for (i = 0; i < cset->nchar_classes; ++i)
-  	{
--@@ -3863,8 +3843,16 @@ check_node_accept_bytes (const re_dfa_t
-+@@ -3863,14 +3843,22 @@ check_node_accept_bytes (const re_dfa_t
-  	      goto check_node_accept_bytes_match;
-  	    }
-  	}
-@@ -5645,6 +5671,13 @@ Index: git/posix/regexec.c
-        nrules = _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
-        if (nrules != 0)
-  	{
-+ 	  unsigned int in_collseq = 0;
-+ 	  const int32_t *table, *indirect;
-+-	  const unsigned char *weights, *extra;
-++	  const unsigned char *weights, *extra = NULL;
-+ 	  const char *collseqwc;
-+ 
-+ 	  /* match with collating_symbol?  */
- @@ -3955,8 +3943,12 @@ check_node_accept_bytes (const re_dfa_t
-  	    }
-  	}
--- 
-2.1.4
-
+I have booted core-image-minimal, for all arches and that have worked =
+fine for both systemd and sysvinit and some of non-oe-core graphic =
+images booted well too
+but here it seems its using core-image-sato wondering what changed there =
+=E2=80=A6 can someone try it out and may be see what is it trying to =
+launch during boot that is in addition
+to core image minimal.=
 
