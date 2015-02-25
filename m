@@ -1,38 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EDD3C71F1B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A13F71F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 12:23:38 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id z107so2543564qgd.5
+	Wed, 25 Feb 2015 14:51:34 +0000 (UTC)
+Received: by iecvy18 with SMTP id vy18so5358430iec.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 04:23:39 -0800 (PST)
+	Wed, 25 Feb 2015 06:51:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ieNP+Hgglla0Iopj99ePGueUF2KGwq0fCDMQuCn1UvQ=;
-	b=SQSgdvpMbrUWAwZLdffn8qqDODCyw/4poloEAb1XndN5GrqV+KgyQ+pAR/okiw6h7g
-	ZOuDn/LNjbCBPPxkd1DmSjoebGsoPdLg34F5xfj+L+C4Q/NL8W47WnlBU0j7XNsq9t6y
-	2ThVYDVGoMBLSUT0NOxyOs7pmINUHW/vRDktVP2VorJdxm/P1kSjwl44+q6zrohru9OH
-	9EXLIOEqIU/DTDglo9eUSy4n+Oyo8dJB3vLz5sk1znqKL5M7CVawsGdIlEkux83eD1ec
-	Y20/zWgzFuPrebTl/D72w62onnCTaOJm6QgkpBCU2qcGnB7HzxaQhfd/k/nALyhxC8Pb
-	PCPA==
-X-Gm-Message-State: ALoCoQkaPNCR+A+Dp1w4sRVpj/FigSSG5osvylOR2R5lZL2fkbJ6DfbGCX9wxKgr0CJ4InEgp6f6
-X-Received: by 10.140.94.87 with SMTP id f81mr6162240qge.38.1424867019217;
-	Wed, 25 Feb 2015 04:23:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Wed, 25 Feb 2015 04:23:19 -0800 (PST)
-In-Reply-To: <1424816244.6730.14.camel@besquive-mobl.amr.corp.intel.com>
-References: <1424685241-17960-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<54ECD3C2.8040005@linux.intel.com>
-	<1424816244.6730.14.camel@besquive-mobl.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Feb 2015 12:23:19 +0000
-Message-ID: <CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
-To: benjamin.esquivel@linux.intel.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: 'yes' within the path sets wrong variables
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=lmkqy36x6iNicvdxyo2jXHZJbQmwS9lfmUASdZqQSB4=;
+	b=e379Lwy2QxUzVEWGhdYAARrujE9YCH9vj867AZD+GumS5T6bN31h7Cl5GaAjNsXDfl
+	ZPXy1k9Mnv9s2NKygOOLRM7EfWtPJfuBUrtDFxEZkniir8WJCayNEqyaNmXaUx12T2NT
+	DgIRwFiUGTCdLoTkb7i2U+0S7qE//Fqa+AIzM+bHgyfsJ/l5qrJ/dAb8cMHPU7YmC1Pi
+	G+XPstXo2/QnvEsnxovGTdHxkIGTBM5ZczpRbUr5R47bFKbBpx5M9Ivu/HeRj5BQYMAn
+	7QiYRHzG9mA7l3krRvnhXNzelnjV3gpTFbR2wMKikKfl47xp6D/0Z2uTlHquqp65YSk9
+	6DOw==
+X-Gm-Message-State: ALoCoQmQUhMq5DqcP7VLzcOuJh6pr9cwsdN9h9AMxiMhvJVdJztIsn6nOSt9lu9ZK4rMW+8LOOZj
+X-Received: by 10.43.182.69 with SMTP id pl5mr4103824icc.55.1424875895291;
+	Wed, 25 Feb 2015 06:51:35 -0800 (PST)
+Received: from syncev.vlan14.01.org (p5DE8E43A.dip0.t-ipconnect.de.
+	[93.232.228.58]) by mx.google.com with ESMTPSA id
+	r78sm20758338ioi.22.2015.02.25.06.51.31
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Feb 2015 06:51:33 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Feb 2015 06:51:15 -0800
+Message-Id: <1424875875-1061-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
+References: <1424180525-4138-1-git-send-email-patrick.ohly@intel.com>
+Subject: [PATCH v2] package_rpm.bbclass: support packaging of symlinks to directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 12:23:39 -0000
-Content-Type: multipart/alternative; boundary=001a113a7fd8887271050fe8b43f
+X-List-Received-Date: Wed, 25 Feb 2015 14:51:35 -0000
 
---001a113a7fd8887271050fe8b43f
-Content-Type: text/plain; charset=UTF-8
+os.walk() returns symlinks to directories in the "dirs" lists, but then never
+enters them by default. As a result, the old code applied neither the
+directory handling (because that is active once a directory gets entered) nor
+the file handling, and thus never packaged such symlinks.
 
-On 24 February 2015 at 22:17, Benjamin Esquivel <
-benjamin.esquivel@linux.intel.com> wrote:
+The fix is simple: find such special directory entries and move them to the
+"files" list. However, one has to be careful about the undefined behavior of
+modifying a list while iterating over it.
 
-> > So the configure file does not get regenerated as part of the standard
-> > auto-reconf?
-> >
-> No, if the fix is only applied at the configure.ac file the unwanted
-> behavior still shows up from the configure file.
+This fix was required for packaging a modified base-files that created
+symlinks into /usr for /sbin /lib and /sbin.
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/package_rpm.bbclass | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 4f9f813..e305e8b 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -199,10 +199,13 @@ python write_specfile () {
+ 
+             # Treat all symlinks to directories as normal files.
+             # os.walk() lists them as directories.
+-            for i, entry in enumerate(dirs):
+-                if os.path.islink(os.path.join(rootpath, entry)):
+-                    del dirs[i]
+-                    files.append(entry)
++            def move_to_files(dir):
++                if os.path.islink(os.path.join(rootpath, dir)):
++                    files.append(dir)
++                    return True
++                else:
++                    return False
++            dirs[:] = [dir for dir in dirs if not move_to_files(dir)]
+ 
+             # Directory handling can happen in two ways, either DIRFILES is not set at all
+             # in which case we fall back to the older behaviour of packages owning all their
+-- 
+1.8.4.5
 
 
-Yeah, gcc isn't reconfigured.  Presumably there's a good reason for this. :)
-
-Ross
-
---001a113a7fd8887271050fe8b43f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2015 at 22:17, Benjamin Esquivel <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:benjamin.esquivel@linux.intel.com" target=3D"_blank">benjamin.=
-esquivel@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><span class=3D"">&gt; So the configure file does not get regenerated =
-as part of the standard<br>
-&gt; auto-reconf?<br>
-&gt;<br>
-</span>No, if the fix is only applied at the <a href=3D"http://configure.ac=
-" target=3D"_blank">configure.ac</a> file the unwanted<br>
-behavior still shows up from the configure file.</blockquote></div><br>Yeah=
-, gcc isn&#39;t reconfigured.=C2=A0 Presumably there&#39;s a good reason fo=
-r this. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
-
---001a113a7fd8887271050fe8b43f--
