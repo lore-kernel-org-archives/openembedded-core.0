@@ -1,45 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 21EEF7374B
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 48C1771F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 07:07:52 +0000 (UTC)
-Received: by pdbfp1 with SMTP id fp1so2864806pdb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 23:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=IKznutwy4nCvDDVrEM/srb7ObPcptEoL8xqVjtwXJO4=;
-	b=GbZ8KviHLW3YOxgW85d5TBNUlROJk92YAbRzrjtQJ/JAvcB7bwJ0COw+6Ts040DIWk
-	BlUCAO5sJSAs+w7nl1+nMCzXndvmHiOSfNX4hiGi91lGNcjhzDR66Tm85C3ZjNXXvRdY
-	DyJ1ImvnmDasO8GsvlW73W7wXLyCBQS6UTG+OAtXxLk9XT4qrxBVwZRyXZb3UxPlKSAc
-	zGU/qWZDp7r8OWf/eAVXS+cLh9O2R3IU3skn/hmfLD8VaJL4xsr9UFV1ypPiCnHHUdj1
-	9vFO8Txh1CWVjvckwI8QzSM52NQlq3sKZN60XZ3+tM9qGz8xUF0lCd33kr8pwJUmjVHh
-	JnlQ==
-X-Received: by 10.70.128.231 with SMTP id nr7mr3161239pdb.116.1424848073912;
-	Tue, 24 Feb 2015 23:07:53 -0800 (PST)
-Received: from ?IPv6:2601:9:3580:84c:5522:51f7:bd44:74ad?
-	([2601:9:3580:84c:5522:51f7:bd44:74ad])
-	by mx.google.com with ESMTPSA id
-	of14sm5855053pdb.50.2015.02.24.23.07.52
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 24 Feb 2015 23:07:52 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1424824081.26813.27.camel@rpsys.net>
-Date: Tue, 24 Feb 2015 23:07:51 -0800
-Message-Id: <BB2E6DF2-C58D-4F27-B4B7-045F4966F682@gmail.com>
-References: <1424801246-16399-1-git-send-email-ross.burton@intel.com>
-	<1CD26AA6-733E-4DE9-836A-25F0E0FA4C64@gmail.com>
-	<1424820723.26813.19.camel@rpsys.net>
-	<CAMKF1sq+QK2nhtCju+zLmfJHn0aHna5DZwt79F_JVv-Y6tDKcA@mail.gmail.com>
-	<1424824081.26813.27.camel@rpsys.net>
-To: Richard Purdie <rpurdie@rpsys.net>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] util-linux: disable systemd
+	Wed, 25 Feb 2015 08:25:33 +0000 (UTC)
+Received: from [99.240.204.5] (port=36736 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YQXHe-0007oq-EL for openembedded-core@lists.openembedded.org;
+	Wed, 25 Feb 2015 03:25:30 -0500
+Date: Wed, 25 Feb 2015 03:25:30 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1502250320080.23957@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: on current linux distros, what are potential candidates for ASSUME_PROVIDED?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,119 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 07:07:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 Feb 2015 08:25:35 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-> On Feb 24, 2015, at 4:28 PM, Richard Purdie <rpurdie@rpsys.net> wrote:
->=20
-> On Tue, 2015-02-24 at 16:00 -0800, Khem Raj wrote:
->> On Tue, Feb 24, 2015 at 3:32 PM, Richard Purdie <rpurdie@rpsys.net> =
-wrote:
->>>=20
->>> In history we have no good example of successfully splitting one =
-piece
->>> of source over multiple recipes, apart from perhaps gcc which we'd =
-all
->>> agree is horrible in a variety of ways. Any time we have attempted =
-this,
->>> we've tended to revert or have calls to revert (e.g. avahi).
->>=20
->> I asked for specific problems/issues observed with split builds. I =
-got
->> no concrete examples, yes it has to be done carefully but then I dont
->> think its something that can not be fixed destabilize the release so
->> much. We are building it twice identically and just changing the
->> packaging. In any case, sometimes we should try to tackle the issues
->> out of milestone pressures too.
->=20
-> You're not building it twice identically, if you were doing that we
-> wouldn't have this problem. You're trying to split it into two =
-separate
-> chunks and ensuing they are independent, yet they do inter-depend
-> correctly when needed too.
+  for the sake of reducing build time in the classroom, what are some
+of the potential (and relatively safe) candidates to add to
+ASSUME_PROVIDED for a build from scratch?
 
-yes we are look at
+  i do recall that, once one starts adding more native packages to
+that variable, QA becomes an issue but, given a modern distro such as
+fedora 21, surely there are quite a number of packages that are safe
+to add.
 
-=
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/mis=
-c&id=3Dc53322e9e587ef9a88c050f21aa98604deeeeb1f
+  the first thing i always add is "subversion-native" (since i don't
+think subversion is even *used* in a core-image-minimal build, but i
+could be wrong). i'm looking through all the -native builds and can
+see other possible candidates i'm going to try -- open to suggestions
+as to what should be safe, and i'll test it out.
 
-just install and packaging are differing.
+rday
 
+-- 
 
->=20
-> If this is just a packaging problem, we should just ship the extra
-> systemd unit parts as part of a separate recipe and then have the main
-> util-linux recipe RDEPEND on it.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-util-linux provides service files and its better to keep using those for =
-maintenance reasons if we strip them out into auxiliary
-packages its same amount of hassle during upgrade as splitting is.
-
->=20
-> Specific examples:
->=20
-> You need to ensure that the PACKAGES generated by both sides of the
-> split have consistent naming (maybe overriding and doing what debian
-> packaging would have done should the split not been there). The =
-PACKAGES
-> need to be careful about the contents of default PN for example. There
-> have been issues cleanly separating things into two -dev packages and
-> exposing two similar but slightly differently named -dev packages for
-> the same piece of software.
->=20
-
-there are separate sub-targets which avoids this issue.=20
-
-> You have to ensure that the appropriate recipes each register as the
-> correct shlibs providers and that things DEPENDing on the recipe now
-> depend on the correct recipe.
-
-isn=E2=80=99t that automatic ? it informed me of the changing providers =
-for shared libs, util-linux packaging is quite granular
-and the move to libs is at output PACKAGES boundary, just the recipe =
-provider is changing.
-
->=20
-> We end up with two separate do_install tasks which are fragile and =
-that
-> changes during version upgrades get handled correctly with changes =
-being
-> made to both functions equally and carefully. avahi has tended to =
-break
-> more readily than other recipes duing upgrades.
-
-We could use common include. I did not bother in version 1 but it =
-certainly is possible.
-
->=20
-> The PROVIDER namespaces must not overlap and MLPREFIX needs to be
-> correctly injected into the correct places, particularly given the =
-more
-> hardcoded package names.
->=20
-> Now, I agree we can probably hand craft a recipe which works and =
-doesn't
-> have any problem above. Is it maintainable? Will issues come up in the
-> future? Am I going to get 101 questions and complaints about it?
->=20
-
-While I agree its a bit of more work but its future safe. and the patch =
-I mentioned above does not address
-all concerns but it can be made to do so. The steps you describe are all =
-valid but we have a better
-case with util-linux than other examples you mentioned.
-
-> I don't believe it is as easy as you think to take this forward long
-> term, much a I wish it were otherwise...
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
