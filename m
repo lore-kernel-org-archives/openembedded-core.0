@@ -1,34 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EE2572007
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 29FB972007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 02:48:35 +0000 (UTC)
-Received: by iebtr6 with SMTP id tr6so1438935ieb.7
+	Wed, 25 Feb 2015 02:56:30 +0000 (UTC)
+Received: by mail-ig0-f180.google.com with SMTP id b16so2511068igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 18:48:36 -0800 (PST)
+	Tue, 24 Feb 2015 18:56:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=zD90uIe9qqzmRbmhVwnyHszMRhdEUxim8xvt6FBXGEA=;
-	b=DfvR1zmic6kiUYni4WHGFCdnV4ilXAf12Eq7plEYbw7wYfgft1COyUMnRiS4nnCWJY
-	EKshKCoC3qzu0CIAdsOO7UzZNC/NHu/suEEBsOkiBCuLEbkllNf+J9g6IPApEZ5LbfLc
-	xAlnFe8z0K5rz0C5bVV0Whc6+xLNIJeIL1K9619YtISPXZOJnRvmeTbPi9lp0vMUJWBK
-	rWMo+nJu1FbVgYCte/Pki87Eu3HIM/v/woWwqKIAcf7j1KQZuPjqj2mXyKRXmlEsDG+t
-	xXPHgmBKqw/4BsZpNWRJAYDYUo6JDVVmNODBBtSHDHEegTklXIv1zcLO3eQzOBGR/7w6
-	zzkQ==
-X-Received: by 10.43.126.67 with SMTP id gv3mr1491611icc.31.1424832516313;
-	Tue, 24 Feb 2015 18:48:36 -0800 (PST)
+	bh=R8wSFGbGs5oaup+T7BuNkIkNK2+kCaQ2S+tH7UyVV/U=;
+	b=ymQvmB6tBzB4gZV4gyWYCQ29Z0pEdnUAT8qm+l9t/99l9h93AV1ucvJpFIKXRgLRmq
+	ib7WSEl9sTEcMGwGEuSyx6EM/qc+JPaCITFaEwkrt8Ic3+kT3g8Lo3jYg2Uap/NF9bSR
+	rRlyX3wDHANiT4Q1Wut9VQMubcvsmCuSvhVJoW2JkySet4woWOqCU9B9mWA/mSG5yjHY
+	Jneb7FiSVsjAfMtO6g93f1zQ36uX1mdNPGdSWKkb8eRu9w0Vudd7/K0L0l1y5WJ9HiTT
+	RpkL9tqrcrkbO187UZAEJ08lUhNjBPZHYzlIFHK0I7btQ1tbApXBzpUl9T1y9Hbs2tcX
+	w02Q==
+X-Received: by 10.107.155.131 with SMTP id d125mr1816062ioe.17.1424832991410; 
+	Tue, 24 Feb 2015 18:56:31 -0800 (PST)
 Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	[96.119.88.205])
-	by mx.google.com with ESMTPSA id z3sm9047272igl.1.2015.02.24.18.48.35
+	by mx.google.com with ESMTPSA id sd7sm9024051igb.20.2015.02.24.18.56.30
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Feb 2015 18:48:35 -0800 (PST)
+	Tue, 24 Feb 2015 18:56:30 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Feb 2015 02:47:55 +0000
-Message-Id: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
+Date: Wed, 25 Feb 2015 02:55:57 +0000
+Message-Id: <1424832957-17532-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] systemd: Upgrade 218 -> 219
+Subject: [PATCH V2] systemd: Upgrade 218 -> 219
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 02:48:36 -0000
+X-List-Received-Date: Wed, 25 Feb 2015 02:56:33 -0000
 
 219 has been in the docks for sometime, the older patch got merged
 this patch is now upgrading 218 to 219
@@ -1103,7 +1103,7 @@ diff --git a/meta/recipes-core/systemd/systemd_218.bb b/meta/recipes-core/system
 similarity index 92%
 rename from meta/recipes-core/systemd/systemd_218.bb
 rename to meta/recipes-core/systemd/systemd_219.bb
-index 221c2cc..4859304 100644
+index 221c2cc..f45c5e1 100644
 --- a/meta/recipes-core/systemd/systemd_218.bb
 +++ b/meta/recipes-core/systemd/systemd_219.bb
 @@ -19,28 +19,28 @@ PROVIDES = "udev"
@@ -1111,7 +1111,7 @@ index 221c2cc..4859304 100644
  PE = "1"
  
 -DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux-libs"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native"
  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
  SECTION = "base/shell"
