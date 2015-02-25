@@ -1,33 +1,30 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 261F173630
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C3508605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 18:14:36 +0000 (UTC)
+	Wed, 25 Feb 2015 21:43:03 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 25 Feb 2015 10:06:36 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 25 Feb 2015 13:43:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,646,1418112000"; d="scan'208";a="683355249"
-Received: from besquive-mobl.zpn.intel.com (HELO [10.219.4.156])
-	([10.219.4.156])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2015 10:14:34 -0800
-Message-ID: <1424888075.6730.19.camel@besquive-mobl.amr.corp.intel.com>
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>
-Date: Wed, 25 Feb 2015 12:14:35 -0600
-In-Reply-To: <CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
-References: <1424685241-17960-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<54ECD3C2.8040005@linux.intel.com>
-	<1424816244.6730.14.camel@besquive-mobl.amr.corp.intel.com>
-	<CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
-Organization: Intel OTC
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: 'yes' within the path sets wrong variables
+X-IronPort-AV: E=Sophos;i="5.09,647,1418112000"; d="scan'208";a="683451408"
+Received: from unknown (HELO [10.219.4.176]) ([10.219.4.176])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2015 13:43:03 -0800
+Message-ID: <54EE41E7.4070106@linux.intel.com>
+Date: Wed, 25 Feb 2015 15:43:03 -0600
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1424718281-9133-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<CAP9ODKr+kp=+yez1ibVBuwUyuc1V1D0gitaANhgBoGp8=rRXAQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKr+kp=+yez1ibVBuwUyuc1V1D0gitaANhgBoGp8=rRXAQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass: Enhance file-rdeps QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -37,30 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 18:14:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 25 Feb 2015 21:43:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-02-25 at 12:23 +0000, Burton, Ross wrote:
-> 
-> On 24 February 2015 at 22:17, Benjamin Esquivel
-> <benjamin.esquivel@linux.intel.com> wrote:
->         > So the configure file does not get regenerated as part of
->         the standard
->         > auto-reconf?
->         >
->         No, if the fix is only applied at the configure.ac file the
->         unwanted
->         behavior still shows up from the configure file.
-> 
-> Yeah, gcc isn't reconfigured.  Presumably there's a good reason for
-> this. :)
 
-Saul, is there a specific part of the glibc's run.do_configure that
-should re-conf?
+On 23/02/15 13:49, Otavio Salvador wrote:
+> @@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+>               split-strip packages-list pkgv-undefined var-undefined \
+> -            version-going-backwards \
+> +            version-going-backwards  symlink-to-sysroot\
+> Is this a 'development change' which should be dropped or another
+> change which should go in another commit?
+Yes, development change, this should go in WARN_QA
 
-> 
-> Ross
-
-
+>
+> Please take a look on the 'sed'  warning when building with ptest. It
+> is a 'false-positive' failure.
+>
+As discussed in the IRC this is related to a different bug, its a 
+"build-deps" bug not "file-rdeps", I would gladly fix it, although I am 
+not able to reproduce it so far, if anyone can and has some info, I'd 
+appreciate it.
 
