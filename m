@@ -1,34 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 532D172D36
+Return-Path: <rpurdie@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DFAE472D36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 00:01:11 +0000 (UTC)
-Received: by iecar1 with SMTP id ar1so514704iec.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 16:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=u9ZXSE4Qr9HEYFUo29KZiT9GOQ47bhB65dHPJapXoTA=;
-	b=vHLqCrz7+8M0acypk9kwflW9T3aeqbHY+saGDmEipmp9PvFX88dSkLGSU9tb37Mpm9
-	Q69dY+yf1Gu+qQcHqQgSJOIZuo2nX9nx31fDz6oojRC+1A18vthPYhlVRnA4yHRhYYPM
-	QHtVk68s4FHMXpRafqBQg1pjgiwGq1qZxOl0j1OkJ9NIPOS8DO6+XsfiLAPj0Pt+UQEn
-	4cLDortdQ9dOWimrwBAUxbG/R/Y5q6jDIdFdS6Negb5YhsN907KNU4dZDtEKw/GEHqwK
-	CxVQWP5aIMfwAmFF94rIR8IM4yyzyCeR+96zl+yecq8ElrLjmm4rzkpWoy+6/ZORHGBt
-	JcHg==
-X-Received: by 10.42.188.133 with SMTP id da5mr831442icb.37.1424822472861;
-	Tue, 24 Feb 2015 16:01:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Tue, 24 Feb 2015 16:00:42 -0800 (PST)
-In-Reply-To: <1424820723.26813.19.camel@rpsys.net>
+	Wed, 25 Feb 2015 00:28:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1P0SEnd016670; Wed, 25 Feb 2015 00:28:14 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uveLxZyljQ0K; Wed, 25 Feb 2015 00:28:13 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t1P0S1iE016651
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 25 Feb 2015 00:28:12 GMT
+Message-ID: <1424824081.26813.27.camel@rpsys.net>
+From: Richard Purdie <rpurdie@rpsys.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Feb 2015 00:28:01 +0000
+In-Reply-To: <CAMKF1sq+QK2nhtCju+zLmfJHn0aHna5DZwt79F_JVv-Y6tDKcA@mail.gmail.com>
 References: <1424801246-16399-1-git-send-email-ross.burton@intel.com>
 	<1CD26AA6-733E-4DE9-836A-25F0E0FA4C64@gmail.com>
 	<1424820723.26813.19.camel@rpsys.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 24 Feb 2015 16:00:42 -0800
-Message-ID: <CAMKF1sq+QK2nhtCju+zLmfJHn0aHna5DZwt79F_JVv-Y6tDKcA@mail.gmail.com>
-To: Richard Purdie <rpurdie@rpsys.net>
+	<CAMKF1sq+QK2nhtCju+zLmfJHn0aHna5DZwt79F_JVv-Y6tDKcA@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] util-linux: disable systemd
@@ -44,20 +40,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 00:01:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 25 Feb 2015 00:28:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 24, 2015 at 3:32 PM, Richard Purdie <rpurdie@rpsys.net> wrote:
->
-> In history we have no good example of successfully splitting one piece
-> of source over multiple recipes, apart from perhaps gcc which we'd all
-> agree is horrible in a variety of ways. Any time we have attempted this,
-> we've tended to revert or have calls to revert (e.g. avahi).
+On Tue, 2015-02-24 at 16:00 -0800, Khem Raj wrote:
+> On Tue, Feb 24, 2015 at 3:32 PM, Richard Purdie <rpurdie@rpsys.net> wrote:
+> >
+> > In history we have no good example of successfully splitting one piece
+> > of source over multiple recipes, apart from perhaps gcc which we'd all
+> > agree is horrible in a variety of ways. Any time we have attempted this,
+> > we've tended to revert or have calls to revert (e.g. avahi).
+> 
+> I asked for specific problems/issues observed with split builds. I got
+> no concrete examples, yes it has to be done carefully but then I dont
+> think its something that can not be fixed destabilize the release so
+> much. We are building it twice identically and just changing the
+> packaging. In any case, sometimes we should try to tackle the issues
+> out of milestone pressures too.
 
-I asked for specific problems/issues observed with split builds. I got
-no concrete examples, yes it has to be done carefully but then I dont
-think its something that can not be fixed destabilize the release so
-much. We are building it twice identically and just changing the
-packaging. In any case, sometimes we should try to tackle the issues
-out of milestone pressures too.
+You're not building it twice identically, if you were doing that we
+wouldn't have this problem. You're trying to split it into two separate
+chunks and ensuing they are independent, yet they do inter-depend
+correctly when needed too.
+
+If this is just a packaging problem, we should just ship the extra
+systemd unit parts as part of a separate recipe and then have the main
+util-linux recipe RDEPEND on it.
+
+Specific examples:
+
+You need to ensure that the PACKAGES generated by both sides of the
+split have consistent naming (maybe overriding and doing what debian
+packaging would have done should the split not been there). The PACKAGES
+need to be careful about the contents of default PN for example. There
+have been issues cleanly separating things into two -dev packages and
+exposing two similar but slightly differently named -dev packages for
+the same piece of software.
+
+You have to ensure that the appropriate recipes each register as the
+correct shlibs providers and that things DEPENDing on the recipe now
+depend on the correct recipe.
+
+We end up with two separate do_install tasks which are fragile and that
+changes during version upgrades get handled correctly with changes being
+made to both functions equally and carefully. avahi has tended to break
+more readily than other recipes duing upgrades.
+
+The PROVIDER namespaces must not overlap and MLPREFIX needs to be
+correctly injected into the correct places, particularly given the more
+hardcoded package names.
+
+Now, I agree we can probably hand craft a recipe which works and doesn't
+have any problem above. Is it maintainable? Will issues come up in the
+future? Am I going to get 101 questions and complaints about it?
+
+I don't believe it is as easy as you think to take this forward long
+term, much a I wish it were otherwise...
+
+Cheers,
+
+Richard
+
+
+
 
