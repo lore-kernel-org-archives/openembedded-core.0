@@ -1,27 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E066971F1B
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C35571F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 10:13:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2015 02:13:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,643,1418112000"; d="scan'208";a="671338386"
-Received: from gcattani-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.20.5])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2015 02:13:44 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-Date: Wed, 25 Feb 2015 10:13:44 +0000
-Message-ID: <4284498.TKY1SqvKlS@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <2654076.xn0iOlK7Dp@peggleto-mobl5.ger.corp.intel.com>
-References: <1424720381-4282-1-git-send-email-sven.ebenfeld@gmail.com>
-	<2654076.xn0iOlK7Dp@peggleto-mobl5.ger.corp.intel.com>
+	Wed, 25 Feb 2015 10:31:03 +0000 (UTC)
+Received: from [99.240.204.5] (port=37600 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YQZEu-0007Pi-Nd for openembedded-core@lists.openembedded.org;
+	Wed, 25 Feb 2015 05:30:49 -0500
+Date: Wed, 25 Feb 2015 05:30:47 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1502250522510.32674@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] terminal.py: No --disable-factory for gnome-terminal >= 3.10
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: efficacy of defining overriding linux-yocto...bb recipe file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,136 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 10:13:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 25 Feb 2015 10:31:07 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Wednesday 25 February 2015 09:46:07 Paul Eggleton wrote:
-> Hi Sven,
-> 
-> On Monday 23 February 2015 20:39:41 Sven Ebenfeld wrote:
-> > --disable-factory has been disabled in earlier versions of gnome-terminal
-> > but from version 3.10 it raises an error and quits. This makes devshell
-> > unusable with gnome-terminal >= 3.10. This patch checks for the version
-> > and
-> > removes --disable-factory if you have the terminal version 3.10 or higher.
-> > 
-> > Signed-off-by: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-> > ---
-> > 
-> >  meta/lib/oe/terminal.py | 30 ++++++++++++++++++++++--------
-> >  1 file changed, 22 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> > index 54e3ffc..01c0ccc 100644
-> > --- a/meta/lib/oe/terminal.py
-> > +++ b/meta/lib/oe/terminal.py
-> > 
-> > @@ -55,6 +55,14 @@ class Gnome(XTerminal):
-> >      command = 'gnome-terminal -t "{title}" --disable-factory -x
-> >      {command}'
-> >      priority = 2
-> > 
-> > +    def __init__(self, sh_cmd, title=None, env=None, d=None):
-> > +        # Check version
-> > +        (major, minor) = check_terminal_version("gnome-terminal")
-> > +        if major >= 3 and minor >= 10:
-> > +            logger.warn(1, 'Gnome-Terminal >3.10 does not support
-> > --disable-factory') +            self.command = 'gnome-terminal -t
-> > "{title}" -x {command}' +        XTerminal.__init__(self, sh_cmd, title,
-> > env, d)
-> > +
-> > 
-> >  class Mate(XTerminal):
-> >      command = 'mate-terminal -t "{title}" -x {command}'
-> >      priority = 2
-> > 
-> > @@ -73,11 +81,10 @@ class Konsole(XTerminal):
-> >      def __init__(self, sh_cmd, title=None, env=None, d=None):
-> >          # Check version
-> > 
-> > -        vernum = check_konsole_version("konsole")
-> > -        if vernum:
-> > -            if vernum.split('.')[0] == "2":
-> > -                logger.debug(1, 'Konsole from KDE 4.x will not work as
-> > devshell, skipping') -                raise UnsupportedTerminal(self.name)
-> > +        (major, minor) = check_terminal_version("konsole")
-> > +        if major == 2:
-> > +            logger.debug(1, 'Konsole from KDE 4.x will not work as
-> > devshell, skipping') +            raise UnsupportedTerminal(self.name)
-> > 
-> >          XTerminal.__init__(self, sh_cmd, title, env, d)
-> >  
-> >  class XTerm(XTerminal):
-> > @@ -219,10 +226,10 @@ def check_tmux_pane_size(tmux):
-> >          return True
-> >      
-> >      return False
-> > 
-> > -def check_konsole_version(konsole):
-> > 
-> > +def check_terminal_version(terminalName):
-> >      import subprocess as sub
-> > 
-> >      try:
-> > -        p = sub.Popen(['sh', '-c', '%s --version' %
-> > konsole],stdout=sub.PIPE,stderr=sub.PIPE) +        p = sub.Popen(['sh',
-> > '-c', '%s --version' % terminalName],stdout=sub.PIPE,stderr=sub.PIPE) out,
-> > err = p.communicate()
-> > 
-> >          ver_info = out.rstrip().split('\n')
-> >      
-> >      except OSError as exc:
-> > @@ -232,10 +239,17 @@ def check_konsole_version(konsole):
-> >          else:
-> >              raise
-> >      
-> >      vernum = None
-> > 
-> > +    major = int(0)
-> > +    minor = int(0)
-> > 
-> >      for ver in ver_info:
-> >          if ver.startswith('Konsole'):
-> >              vernum = ver.split(' ')[-1]
-> > 
-> > -    return vernum
-> > +	if ver.startswith('GNOME Terminal'):
-> > +            vernum = ver.split(' ')[-1]
-> > +    if vernum:
-> > +	major = int(vernum.split('.')[0])
-> > +	minor = int(vernum.split('.')[1])
-> > +    return major, minor
-> 
-> Obviously we needed the other part, but this API change means that we no
-> longer get the full version when there are more than two parts (e.g. the
-> current version of konsole on my system is 2.4.12), and it will blow up in
-> the case when the version does not contain '.' or contains non-integer
-> parts e.g. "3.4-beta". These might not be immediate problems but they may
-> be in future.
-> 
-> I'd honestly rather we keep this as a string; if we need to do comparisons
-> we can use distutils.version.LooseVersion(). I can send a fix for this
-> along with a fix for Konsole 2.x which seems to be able to work now.
 
-Sorry, I should have CC'd Ross since he advised you to do the split within the 
-function.
+  recently began looking at someone's else layer and noticed that that
+layer defined a new kernel recipe by (yeesh) creating its very own
+"linux-yocto_3.14.bb" file. not a bbappend file -- its very own .bb
+file, which i thought was kind of weird.
 
-Another couple of issues I noticed:
+  just to make sure i'm not missing any subtleties, there are only two
+*recommended* ways i know of to define/extend kernel recipes. first,
+just a regular .bbappend file ... nuff said.
 
-1) This added tabs in python code - please don't add these
+  the second is how, say, the meta-fsl people do it (which i like), by
+defining totally new, fsl-specific recipes:
 
-2) We don't want this to show a warning when launching gnome-terminal 3.10+ 
-and logger.warn() doesn't take an integer first parameter in any case 
-(logger.debug() does)
+linux-fslc_3.18.bb
+linux-imx_2.6.35.3.bb
+linux-imx_3.10.53.bb
+linux-imx-mfgtool_3.10.53.bb
+linux-imx-rt_3.10.31.bb
+linux-ls1_3.12.bb
+linux-timesys_3.0.15.bb
 
-I'm fixing these as well.
+and then having their machine definition files set something like:
 
-Cheers,
-Paul
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-timesys"
+
+  i've just never seen a layer flat out create its own base-level
+"linux-yocto" kernel recipe .bb file. am i safe in suggesting that
+that's just not the way things are done? (i'm guessing the only way to
+guarantee that *that* recipe file is used is to bump up the priority
+value of the layer, yes?)
+
+rday
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
