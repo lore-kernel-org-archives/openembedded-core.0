@@ -1,41 +1,33 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1D9D71F1B
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 261F173630
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 15:59:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1PFx0p3029868
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Feb 2015 07:59:00 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.240]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
-	Wed, 25 Feb 2015 07:59:00 -0800
-From: "Dragomir, Daniel" <Daniel.Dragomir@windriver.com>
-To: Armin Kuster <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran data from
-	receipe
-Thread-Index: AQHQMlW30H8PTtnRK0Cs4U89IDv74ZzMK9ZngACS5oD//3u244AAh66AgAWmnKSAL1nipw==
-Date: Wed, 25 Feb 2015 15:58:59 +0000
-Message-ID: <7805B0FACE4FCC4E84636AB320CBA4AC4EE841E8@ALA-MBA.corp.ad.wrs.com>
-References: <1421499689-4863-1-git-send-email-daniel.dragomir@windriver.com>
-	<7805B0FACE4FCC4E84636AB320CBA4AC360C560B@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0Lb1jQ_1ZCY8OrL6GaZ7S6VnBf3cea2ndLT1O69OyLW46Q@mail.gmail.com>
-	<7805B0FACE4FCC4E84636AB320CBA4AC360C5636@ALA-MBB.corp.ad.wrs.com>,
-	<CAJTo0LZRj5OceJHHXRs0EnWyUOnsj4pqv=maeiEZFR69hMk1dw@mail.gmail.com>,
-	<7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3@ALA-MBB.corp.ad.wrs.com>
-In-Reply-To: <7805B0FACE4FCC4E84636AB320CBA4AC4EE67EB3@ALA-MBB.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.124.202]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] gcc-runtime: Remove libgfortran data from receipe
+	Wed, 25 Feb 2015 18:14:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 25 Feb 2015 10:06:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,646,1418112000"; d="scan'208";a="683355249"
+Received: from besquive-mobl.zpn.intel.com (HELO [10.219.4.156])
+	([10.219.4.156])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2015 10:14:34 -0800
+Message-ID: <1424888075.6730.19.camel@besquive-mobl.amr.corp.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>
+Date: Wed, 25 Feb 2015 12:14:35 -0600
+In-Reply-To: <CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
+References: <1424685241-17960-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<54ECD3C2.8040005@linux.intel.com>
+	<1424816244.6730.14.camel@besquive-mobl.amr.corp.intel.com>
+	<CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
+Organization: Intel OTC
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: 'yes' within the path sets wrong variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -45,148 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 15:59:01 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE841E8ALAMBAcorpadwrs_"
+X-List-Received-Date: Wed, 25 Feb 2015 18:14:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE841E8ALAMBAcorpadwrs_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2015-02-25 at 12:23 +0000, Burton, Ross wrote:
+> 
+> On 24 February 2015 at 22:17, Benjamin Esquivel
+> <benjamin.esquivel@linux.intel.com> wrote:
+>         > So the configure file does not get regenerated as part of
+>         the standard
+>         > auto-reconf?
+>         >
+>         No, if the fix is only applied at the configure.ac file the
+>         unwanted
+>         behavior still shows up from the configure file.
+> 
+> Yeah, gcc isn't reconfigured.  Presumably there's a good reason for
+> this. :)
 
-Hello Armin,
+Saul, is there a specific part of the glibc's run.do_configure that
+should re-conf?
 
-This patch is in master. Can you backport it to dizzy branch too?
-
-Thanks,
-Daniel
-________________________________
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Dragomir, Daniel [Daniel.Dragom=
-ir@windriver.com]
-Sent: Monday, January 26, 2015 2:54 PM
-To: Armin Kuster
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran data from=
- receipe
-
-Hi Armin,
-Could you please cherry-pick this patch in dizzy branch?
-It is already in master.
-
-Thank you.
-Daniel
-________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Thursday, January 22, 2015 4:33 PM
-To: Dragomir, Daniel
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran data from=
- receipe
+> 
+> Ross
 
 
-On 22 January 2015 at 14:29, Dragomir, Daniel <Daniel.Dragomir@windriver.co=
-m<mailto:Daniel.Dragomir@windriver.com>> wrote:
-Thank you, Ross!
-I don't know the process.
-Sorry for insistance.
 
-No insistence noticed - when it's merged just ping Armin to ensure it gets =
-backported.
-
-Ross
-
---_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE841E8ALAMBAcorpadwrs_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style id=3D"owaParaStyle" type=3D"text/css">=0A=
-<!--=0A=
-p=0A=
-	{margin-top:0;=0A=
-	margin-bottom:0}=0A=
--->=0A=
-P {margin-top:0;margin-bottom:0;}</style>
-</head>
-<body ocsi=3D"0" fpstyle=3D"1">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">Hello Armin,<br>
-<br>
-This patch is in master. Can you backport it to dizzy branch too?<br>
-<br>
-Thanks,<br>
-Daniel<br>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div style=3D"direction: ltr;" id=3D"divRpF405776"><font face=3D"Tahoma" co=
-lor=3D"#000000" size=3D"2"><b>From:</b> openembedded-core-bounces@lists.ope=
-nembedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf =
-of Dragomir, Daniel [Daniel.Dragomir@windriver.com]<br>
-<b>Sent:</b> Monday, January 26, 2015 2:54 PM<br>
-<b>To:</b> Armin Kuster<br>
-<b>Cc:</b> openembedded-core@lists.openembedded.org<br>
-<b>Subject:</b> Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran da=
-ta from receipe<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt"><span dir=3D"ltr">Hi
-</span><span dir=3D"ltr">Armin,<br>
-Could you please cherry-pick this patch in dizzy branch?<br>
-It is already in master.<br>
-<br>
-Thank you.<br>
-Daniel<br>
-</span>
-<div style=3D"font-family:Times New Roman; color:#000000; font-size:16px">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF267910" style=3D"direction:ltr"><font face=3D"Tahoma" colo=
-r=3D"#000000" size=3D"2"><b>From:</b> Burton, Ross [ross.burton@intel.com]<=
-br>
-<b>Sent:</b> Thursday, January 22, 2015 4:33 PM<br>
-<b>To:</b> Dragomir, Daniel<br>
-<b>Cc:</b> openembedded-core@lists.openembedded.org<br>
-<b>Subject:</b> Re: [OE-core] [PATCH v2] gcc-runtime: Remove libgfortran da=
-ta from receipe<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On 22 January 2015 at 14:29, Dragomir, Daniel <s=
-pan dir=3D"ltr">
-&lt;<a href=3D"mailto:Daniel.Dragomir@windriver.com" target=3D"_blank">Dani=
-el.Dragomir@windriver.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt">Thank you, Ross!<br>
-I don't know the process. <br>
-Sorry for insistance.</div>
-</blockquote>
-</div>
-<br>
-No insistence noticed - when it's merged just ping Armin to ensure it gets =
-backported.</div>
-<div class=3D"gmail_extra"><br>
-</div>
-<div class=3D"gmail_extra">Ross</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_7805B0FACE4FCC4E84636AB320CBA4AC4EE841E8ALAMBAcorpadwrs_--
