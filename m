@@ -1,38 +1,45 @@
-Return-Path: <joe@deserted.net>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C74E971F1B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 21EEF7374B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 04:38:03 +0000 (UTC)
-Received: by iecar1 with SMTP id ar1so2027279iec.0
+	Wed, 25 Feb 2015 07:07:52 +0000 (UTC)
+Received: by pdbfp1 with SMTP id fp1so2864806pdb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Feb 2015 20:38:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:subject:date:message-id;
-	bh=q34rCbclnKDmqCT2hVDojXWBVBW2rVfnWs5KNvmylt8=;
-	b=j8e1lKa7RTwxnxQrje+XAfhI12j3Dq810dBAcM4LgQg5Ljkom3iCD9KycCmbBjsput
-	0tMrp6sko2+mX9u9xBSwvSM0vYD3s880siIQMqngQm3QIUrC8UHRS8grrleI5sl52KT+
-	nebcApEo0tBHJHvXCVVF1jYKWfNi1QWrOhIv4PcHig1ONQfarMS3EHqnwwCCxpS5i4vs
-	k9g/zO6ZG5ZFicFrQKL9buKyZ63W82Kffe9lsTA7oAdgLu+yh3HZzegKBI5iphJM9jVk
-	HwN4QIG5Bf9wytnsm7lxhum7QvVcgFoAD8gtm+J41v6WrgNri+F4qmlTpSYbXW78C03i
-	kwmQ==
-X-Gm-Message-State: ALoCoQne9ZihGOiWlLUNTokGsN9kp9k/nwe05EJO27sBrfaF4N8Or39eHowRWaCLoHqA/dooXIZ9
-X-Received: by 10.107.135.27 with SMTP id j27mr2133743iod.55.1424839084224;
-	Tue, 24 Feb 2015 20:38:04 -0800 (PST)
-Received: from mir.deserted.net (24-246-4-250.cable.teksavvy.com.
-	[24.246.4.250])
-	by mx.google.com with ESMTPSA id d6sm14531816ioe.44.2015.02.24.20.38.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Feb 2015 20:38:03 -0800 (PST)
-Sender: Joe MacDonald <joe@deserted.net>
-From: Joe MacDonald <joe_macdonald@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Feb 2015 23:39:01 -0500
-Message-Id: <1424839141-1532-1-git-send-email-joe_macdonald@mentor.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] libpcap: add pkg-config support
+	Tue, 24 Feb 2015 23:07:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=IKznutwy4nCvDDVrEM/srb7ObPcptEoL8xqVjtwXJO4=;
+	b=GbZ8KviHLW3YOxgW85d5TBNUlROJk92YAbRzrjtQJ/JAvcB7bwJ0COw+6Ts040DIWk
+	BlUCAO5sJSAs+w7nl1+nMCzXndvmHiOSfNX4hiGi91lGNcjhzDR66Tm85C3ZjNXXvRdY
+	DyJ1ImvnmDasO8GsvlW73W7wXLyCBQS6UTG+OAtXxLk9XT4qrxBVwZRyXZb3UxPlKSAc
+	zGU/qWZDp7r8OWf/eAVXS+cLh9O2R3IU3skn/hmfLD8VaJL4xsr9UFV1ypPiCnHHUdj1
+	9vFO8Txh1CWVjvckwI8QzSM52NQlq3sKZN60XZ3+tM9qGz8xUF0lCd33kr8pwJUmjVHh
+	JnlQ==
+X-Received: by 10.70.128.231 with SMTP id nr7mr3161239pdb.116.1424848073912;
+	Tue, 24 Feb 2015 23:07:53 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:5522:51f7:bd44:74ad?
+	([2601:9:3580:84c:5522:51f7:bd44:74ad])
+	by mx.google.com with ESMTPSA id
+	of14sm5855053pdb.50.2015.02.24.23.07.52
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 24 Feb 2015 23:07:52 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1424824081.26813.27.camel@rpsys.net>
+Date: Tue, 24 Feb 2015 23:07:51 -0800
+Message-Id: <BB2E6DF2-C58D-4F27-B4B7-045F4966F682@gmail.com>
+References: <1424801246-16399-1-git-send-email-ross.burton@intel.com>
+	<1CD26AA6-733E-4DE9-836A-25F0E0FA4C64@gmail.com>
+	<1424820723.26813.19.camel@rpsys.net>
+	<CAMKF1sq+QK2nhtCju+zLmfJHn0aHna5DZwt79F_JVv-Y6tDKcA@mail.gmail.com>
+	<1424824081.26813.27.camel@rpsys.net>
+To: Richard Purdie <rpurdie@rpsys.net>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] util-linux: disable systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,147 +52,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 04:38:06 -0000
+X-List-Received-Date: Wed, 25 Feb 2015 07:07:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-libpcap was not previously installing a pkg-config file.  Add a basic one
-that will allow using 'pkg-config --libs libpcap', for example, in recipes
-rather than 'pcap-config', which frequently returns incorrect information.
 
-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
----
+> On Feb 24, 2015, at 4:28 PM, Richard Purdie <rpurdie@rpsys.net> wrote:
+>=20
+> On Tue, 2015-02-24 at 16:00 -0800, Khem Raj wrote:
+>> On Tue, Feb 24, 2015 at 3:32 PM, Richard Purdie <rpurdie@rpsys.net> =
+wrote:
+>>>=20
+>>> In history we have no good example of successfully splitting one =
+piece
+>>> of source over multiple recipes, apart from perhaps gcc which we'd =
+all
+>>> agree is horrible in a variety of ways. Any time we have attempted =
+this,
+>>> we've tended to revert or have calls to revert (e.g. avahi).
+>>=20
+>> I asked for specific problems/issues observed with split builds. I =
+got
+>> no concrete examples, yes it has to be done carefully but then I dont
+>> think its something that can not be fixed destabilize the release so
+>> much. We are building it twice identically and just changing the
+>> packaging. In any case, sometimes we should try to tackle the issues
+>> out of milestone pressures too.
+>=20
+> You're not building it twice identically, if you were doing that we
+> wouldn't have this problem. You're trying to split it into two =
+separate
+> chunks and ensuing they are independent, yet they do inter-depend
+> correctly when needed too.
 
-Hmm, pretty sure I sent this to the wrong list, now that I think about it.  So
-here's what I put in the comment I sent to the Yocto list.  Sorry about that.
+yes we are look at
 
-I'm not convinced that this is necessary, but when I tried to convert the ptpd
-recipe in meta-networking to stop failing by using pcap-config it seems like
-libpcap was never actually installing a reasonable .pc file.  The only other
-example I could find in meta-networking switched from using pcap-config to an
-internal pcap library, rather than using the oe-core version, so maybe it really
-isn't working for anyone right now.  I created something that at least gets ptpd
-to stop blowing up, but if there's a proper way to do this for ptpd, I'd be
-happy to adopt that instead.
+=
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/mis=
+c&id=3Dc53322e9e587ef9a88c050f21aa98604deeeeb1f
 
--J.
+just install and packaging are differing.
 
- meta/recipes-connectivity/libpcap/libpcap.inc      |  2 +-
- .../libpcap/libpcap-pkgconfig-support.patch        | 71 ++++++++++++++++++++++
- meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb |  6 +-
- 3 files changed, 77 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
-index 979665c..0c608b5 100644
---- a/meta/recipes-connectivity/libpcap/libpcap.inc
-+++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
-                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
- DEPENDS = "flex-native bison-native"
- 
--inherit bluetooth
-+inherit bluetooth pkgconfig
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
- PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch b/meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch
-new file mode 100644
-index 0000000..9cfb9df
---- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch
-@@ -0,0 +1,71 @@
-+From 8887132e85892a72a84ca3878e60f254ad2ce939 Mon Sep 17 00:00:00 2001
-+From: Joe MacDonald <joe_macdonald@mentor.com>
-+Date: Tue, 24 Feb 2015 15:56:06 -0500
-+Subject: [PATCH] libpcap: pkgconfig support
-+
-+Adding basic structure to support pkg-config.
-+
-+Upstream-status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
-+---
-+ Makefile.in   |  5 +++++
-+ configure.in  |  1 +
-+ libpcap.pc.in | 10 ++++++++++
-+ 3 files changed, 16 insertions(+)
-+ create mode 100644 libpcap.pc.in
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 1c2d745..1f25faf 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -60,6 +60,10 @@ V_RPATH_OPT = @V_RPATH_OPT@
-+ DEPENDENCY_CFLAG = @DEPENDENCY_CFLAG@
-+ PROG=libpcap
-+ 
-++# pkgconfig support
-++pkgconfigdir = $(libdir)/pkgconfig
-++pkgconfig_DATA = libpcap.pc
-++
-+ # Standard CFLAGS
-+ FULL_CFLAGS = $(CCOPT) $(INCLS) $(DEFS) $(CFLAGS)
-+ 
-+@@ -275,6 +279,7 @@ EXTRA_DIST = \
-+ 	lbl/os-solaris2.h \
-+ 	lbl/os-sunos4.h \
-+ 	lbl/os-ultrix4.h \
-++	libpcap.pc \
-+ 	missing/snprintf.c \
-+ 	mkdep \
-+ 	msdos/bin2c.c \
-+diff --git a/configure.in b/configure.in
-+index 8f5c86b..fb51b35 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1700,6 +1700,7 @@ esac
-+ AC_PROG_INSTALL
-+ 
-+ AC_CONFIG_HEADER(config.h)
-++AC_CONFIG_FILES([libpcap.pc])
-+ 
-+ AC_OUTPUT_COMMANDS([if test -f .devel; then
-+ 	echo timestamp > stamp-h
-+diff --git a/libpcap.pc.in b/libpcap.pc.in
-+new file mode 100644
-+index 0000000..4f78ad8
-+--- /dev/null
-++++ b/libpcap.pc.in
-+@@ -0,0 +1,10 @@
-++prefix=@prefix@
-++exec_prefix=@exec_prefix@
-++libdir=@libdir@
-++includedir=@includedir@
-++
-++Name: libpcap
-++Description: System-independent interface for user-level packet capture.
-++Version: @VERSION@
-++Libs: -L${libdir} -lpcap
-++Cflags: -I${includedir}
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb b/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-index a2d5ef4..611543e 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-@@ -1,6 +1,8 @@
- require libpcap.inc
- 
--SRC_URI += "file://aclocal.patch"
-+SRC_URI += "file://aclocal.patch \
-+            file://libpcap-pkgconfig-support.patch \
-+           "
- SRC_URI[md5sum] = "5f14191c1a684a75532c739c2c4059fa"
- SRC_URI[sha256sum] = "5db3e2998f1eeba2c76da55da5d474248fe19c44f49e15cac8a796a2c7e19690"
- 
-@@ -19,4 +21,6 @@ do_install_prepend () {
-     install -d ${D}${bindir}
-     oe_runmake install-shared DESTDIR=${D}
-     oe_libinstall -a -so libpcap ${D}${libdir}
-+    sed "s|@VERSION@|${PV}|" -i ${B}/libpcap.pc
-+    install -D -m 0644 libpcap.pc ${D}${libdir}/pkgconfig/libpcap.pc
- }
--- 
-1.9.1
+>=20
+> If this is just a packaging problem, we should just ship the extra
+> systemd unit parts as part of a separate recipe and then have the main
+> util-linux recipe RDEPEND on it.
+
+util-linux provides service files and its better to keep using those for =
+maintenance reasons if we strip them out into auxiliary
+packages its same amount of hassle during upgrade as splitting is.
+
+>=20
+> Specific examples:
+>=20
+> You need to ensure that the PACKAGES generated by both sides of the
+> split have consistent naming (maybe overriding and doing what debian
+> packaging would have done should the split not been there). The =
+PACKAGES
+> need to be careful about the contents of default PN for example. There
+> have been issues cleanly separating things into two -dev packages and
+> exposing two similar but slightly differently named -dev packages for
+> the same piece of software.
+>=20
+
+there are separate sub-targets which avoids this issue.=20
+
+> You have to ensure that the appropriate recipes each register as the
+> correct shlibs providers and that things DEPENDing on the recipe now
+> depend on the correct recipe.
+
+isn=E2=80=99t that automatic ? it informed me of the changing providers =
+for shared libs, util-linux packaging is quite granular
+and the move to libs is at output PACKAGES boundary, just the recipe =
+provider is changing.
+
+>=20
+> We end up with two separate do_install tasks which are fragile and =
+that
+> changes during version upgrades get handled correctly with changes =
+being
+> made to both functions equally and carefully. avahi has tended to =
+break
+> more readily than other recipes duing upgrades.
+
+We could use common include. I did not bother in version 1 but it =
+certainly is possible.
+
+>=20
+> The PROVIDER namespaces must not overlap and MLPREFIX needs to be
+> correctly injected into the correct places, particularly given the =
+more
+> hardcoded package names.
+>=20
+> Now, I agree we can probably hand craft a recipe which works and =
+doesn't
+> have any problem above. Is it maintainable? Will issues come up in the
+> future? Am I going to get 101 questions and complaints about it?
+>=20
+
+While I agree its a bit of more work but its future safe. and the patch =
+I mentioned above does not address
+all concerns but it can be made to do so. The steps you describe are all =
+valid but we have a better
+case with util-linux than other examples you mentioned.
+
+> I don't believe it is as easy as you think to take this forward long
+> term, much a I wish it were otherwise...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
 
 
