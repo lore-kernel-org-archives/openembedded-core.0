@@ -1,35 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 86D2360670
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 59DB973745
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 20:08:17 +0000 (UTC)
-Received: by qcqi8 with SMTP id i8so10457632qcq.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 12:08:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YE3CbK9bhZ/ar5WIhaAPxKpt0jICiYEngDpHi92oirQ=;
-	b=WpQZCjmZw1Rvw+KnOcjPk+Z7CTvDCg1qKDf6sWV1aMJiu8T2t9pAwrRNkA1+263H2f
-	8sEMWxpoUb58FuByVkLJy1F6dLQh7nTWno3ioOWPeV29BaTmBY7af/kJjDkCi484Dwuz
-	6fMgSGAz+BTglmMljcKL+TLbwm4t2UrxL7H06HQ0SZKHyLEGnhSbNOztT9BgxfPWx9oO
-	H+bvpQvCNLEVHwnUpPd3LLHpSm4jR6tF80rUVLWLikXE1ltg/LC4aX4M6wwLZFItz52z
-	qX9YyGr5EyULxB8u1BhyUVf5n5G4z12P7Q0aiX5wuuPRjUZjkYMvn5eQ87I3PvEX1Mp4
-	6jhQ==
-X-Gm-Message-State: ALoCoQmbm1fg1pspZji9Ryd1sRZAOdFymvW2rzQu5dl7ITI3qhINLdzELeqtcAjRePhaio2IiVWH
-X-Received: by 10.140.85.9 with SMTP id m9mr20596085qgd.7.1424981299046; Thu,
-	26 Feb 2015 12:08:19 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 26 Feb 2015 12:07:57 -0800 (PST)
-In-Reply-To: <84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
+	Thu, 26 Feb 2015 20:19:26 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2015 12:19:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,654,1418112000"; 
+	d="scan'208,217";a="684000325"
+Received: from irsmsx110.ger.corp.intel.com ([163.33.3.25])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Feb 2015 12:19:26 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.117]) by
+	irsmsx110.ger.corp.intel.com ([169.254.15.236]) with mapi id
+	14.03.0195.001; Thu, 26 Feb 2015 20:19:25 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] meta/lib/oe/utils.py: properly implement
+	both_contain()
+Thread-Index: AQHQUf/5qBaCH+QlaE6avVFgoEej+p0DXs1Q
+Date: Thu, 26 Feb 2015 20:19:24 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F443500@irsmsx105.ger.corp.intel.com>
 References: <cover.1424877305.git.cristian.iorga@intel.com>
 	<84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Feb 2015 20:07:57 +0000
-Message-ID: <CAJTo0LYy7G3d=YbBDfwScqv6SJ5TN2-8BgAcd9ScaA+KCZ9qGA@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
+	<CAJTo0LYy7G3d=YbBDfwScqv6SJ5TN2-8BgAcd9ScaA+KCZ9qGA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYy7G3d=YbBDfwScqv6SJ5TN2-8BgAcd9ScaA+KCZ9qGA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,53 +43,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 20:08:18 -0000
-Content-Type: multipart/alternative; boundary=001a11c12e96243fec05100350eb
+X-List-Received-Date: Thu, 26 Feb 2015 20:19:29 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB2F443500irsmsx105gercor_"
 
---001a11c12e96243fec05100350eb
-Content-Type: text/plain; charset=UTF-8
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F443500irsmsx105gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 25 February 2015 at 15:15, Cristian Iorga <cristian.iorga@intel.com>
-wrote:
+SGkgUm9zcywNCkNhbiB5b3UgcG9pbnQgbWUgdG8gYSB0dXRvcmlhbCBpbiB0aGlzIGtpbmQgb2Yg
+dGVzdCBzdWl0ZXM/DQovQ3Jpc3RpYW4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9z
+cy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDI2LCAyMDE1IDEw
+OjA4IFBNDQpUbzogSW9yZ2EsIENyaXN0aWFuDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggMS8xXSBtZXRhL2xpYi9vZS91dGlscy5weTogcHJvcGVybHkgaW1wbGVt
+ZW50IGJvdGhfY29udGFpbigpDQoNCg0KT24gMjUgRmVicnVhcnkgMjAxNSBhdCAxNToxNSwgQ3Jp
+c3RpYW4gSW9yZ2EgPGNyaXN0aWFuLmlvcmdhQGludGVsLmNvbTxtYWlsdG86Y3Jpc3RpYW4uaW9y
+Z2FAaW50ZWwuY29tPj4gd3JvdGU6DQpvZS51dGlscy5ib3RoX2NvbnRhaW4oKSBqdXN0IGRvZXMg
+YSBmaW5kKCkgb24gdGhlIHZhbHVlDQpyYXRoZXIgdGhhbiBzcGxpdHRpbmcgdGhlIHZhbHVlIGFu
+ZCB0aGVuIGxvb2tpbmcgaW4gdGhlDQpsaXN0IG9mIHNwbGl0IGl0ZW1zLiBUaGUgcmVzdWx0IGlz
+IHRoYXQgaWYgeW91IGFkZCBhDQpmZWF0dXJlIHRvIE1BQ0hJTkVfRkVBVFVSRVMgdGhhdCBpdHNl
+bGYgaGFzIGEgc3Vic3RyaW5nDQp0aGF0IG1hdGNoZXMgb25lIG9mIHRoZSB2YWx1ZXMgbG9va2Vk
+IGZvciB3aGVuIGJ1aWxkaW5nDQpDT01CSU5FRF9GRUFUVVJFUywgeW91IGVuZCB1cCB3aXRoIGFu
+IGluY29tcHJlaGVuc2libGUNCmVycm9yIChoZXJlIHdpdGggImV4dDJpIiBpbiBNQUNISU5FX0ZF
+QVRVUkVTKToNCg0KVGhpcyBsb29rcyByaWdodCBidXQgeW91IGtub3cgd2hhdCBpdCBuZWVkczog
+YSB0ZXN0IHN1aXRlLiAgQWRkIGEgc21hbGwgdGVzdCBjYXNlIHRoYXQgZGVtb25zdHJhdGVzIGl0
+IGJyZWFraW5nIGJlZm9yZSB0aGUgZml4IGFuZCB0aGVuIHdvcmtpbmcgYWZ0ZXIgdGhlIGZpeC4g
+IFdlJ3ZlIGJlZW4gYWRkaW5nIHRlc3QgY2FzZXMgdG8gYml0YmFrZSBhcyBidWdzIGFyZSBmb3Vu
+ZCBhbmQgaXQncyByZWFsbHkgaGVscGluZyBkZW1vbnN0cmF0ZSB0aGF0IGNoYW5nZXMgd29yay4N
+Cg0KUm9zcw0K
 
-> oe.utils.both_contain() just does a find() on the value
-> rather than splitting the value and then looking in the
-> list of split items. The result is that if you add a
-> feature to MACHINE_FEATURES that itself has a substring
-> that matches one of the values looked for when building
-> COMBINED_FEATURES, you end up with an incomprehensible
-> error (here with "ext2i" in MACHINE_FEATURES):
->
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F443500irsmsx105gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This looks right but you know what it needs: a test suite.  Add a small
-test case that demonstrates it breaking before the fix and then working
-after the fix.  We've been adding test cases to bitbake as bugs are found
-and it's really helping demonstrate that changes work.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
+O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
+CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
+YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
+OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uaWwNCgl7bXNvLXN0
+eWxlLW5hbWU6aWw7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29u
+YWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjoj
+MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0KQHBhZ2UgV29yZFNlY3Rpb24x
+DQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SGkgUm9zcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFG
+NDk3RCI+Q2FuIHlvdSBwb2ludCBtZSB0byBhIHR1dG9yaWFsIGluIHRoaXMga2luZCBvZiB0ZXN0
+IHN1aXRlcz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+L0NyaXN0aWFuPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxFbmRDb21w
+b3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
+aW4tbGVmdDouNWluIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFu
+PjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIEZlYnJ1
+YXJ5IDI2LCAyMDE1IDEwOjA4IFBNPGJyPg0KPGI+VG86PC9iPiBJb3JnYSwgQ3Jpc3RpYW48YnI+
+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBb
+UEFUQ0ggMS8xXSBtZXRhL2xpYi9vZS91dGlscy5weTogcHJvcGVybHkgaW1wbGVtZW50IGJvdGhf
+Y29udGFpbigpPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
+bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJz
+cDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1s
+ZWZ0Oi41aW4iPk9uIDI1IEZlYnJ1YXJ5IDIwMTUgYXQgMTU6MTUsIENyaXN0aWFuIElvcmdhICZs
+dDs8YSBocmVmPSJtYWlsdG86Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tIiB0YXJnZXQ9Il9ibGFu
+ayI+Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+
+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0ND
+QyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdp
+bi1yaWdodDowaW4iPg0KPGRpdiBpZD0iOjU5ciI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHls
+ZT0ibWFyZ2luLWxlZnQ6LjVpbiI+b2UudXRpbHMuPHNwYW4gY2xhc3M9ImlsIj5ib3RoX2NvbnRh
+aW48L3NwYW4+KCkganVzdCBkb2VzIGEgZmluZCgpIG9uIHRoZSB2YWx1ZTxicj4NCnJhdGhlciB0
+aGFuIHNwbGl0dGluZyB0aGUgdmFsdWUgYW5kIHRoZW4gbG9va2luZyBpbiB0aGU8YnI+DQpsaXN0
+IG9mIHNwbGl0IGl0ZW1zLiBUaGUgcmVzdWx0IGlzIHRoYXQgaWYgeW91IGFkZCBhPGJyPg0KZmVh
+dHVyZSB0byBNQUNISU5FX0ZFQVRVUkVTIHRoYXQgaXRzZWxmIGhhcyBhIHN1YnN0cmluZzxicj4N
+CnRoYXQgbWF0Y2hlcyBvbmUgb2YgdGhlIHZhbHVlcyBsb29rZWQgZm9yIHdoZW4gYnVpbGRpbmc8
+YnI+DQpDT01CSU5FRF9GRUFUVVJFUywgeW91IGVuZCB1cCB3aXRoIGFuIGluY29tcHJlaGVuc2li
+bGU8YnI+DQplcnJvciAoaGVyZSB3aXRoICZxdW90O2V4dDJpJnF1b3Q7IGluIE1BQ0hJTkVfRkVB
+VFVSRVMpOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48YnI+DQpUaGlzIGxv
+b2tzIHJpZ2h0IGJ1dCB5b3Uga25vdyB3aGF0IGl0IG5lZWRzOiBhIHRlc3Qgc3VpdGUuJm5ic3A7
+IEFkZCBhIHNtYWxsIHRlc3QgY2FzZSB0aGF0IGRlbW9uc3RyYXRlcyBpdCBicmVha2luZyBiZWZv
+cmUgdGhlIGZpeCBhbmQgdGhlbiB3b3JraW5nIGFmdGVyIHRoZSBmaXguJm5ic3A7IFdlJ3ZlIGJl
+ZW4gYWRkaW5nIHRlc3QgY2FzZXMgdG8gYml0YmFrZSBhcyBidWdzIGFyZSBmb3VuZCBhbmQgaXQn
+cyByZWFsbHkgaGVscGluZyBkZW1vbnN0cmF0ZSB0aGF0DQogY2hhbmdlcyB3b3JrLjxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdp
+bi1sZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPlJvc3M8bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Ross
-
---001a11c12e96243fec05100350eb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 February 2015 at 15:15, Cristian Iorga <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:cristian.iorga@intel.com" target=3D"_blank">cristian.iorga@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":59=
-r" class=3D"a3s" style=3D"overflow:hidden">oe.utils.<span class=3D"il">both=
-_contain</span>() just does a find() on the value<br>
-rather than splitting the value and then looking in the<br>
-list of split items. The result is that if you add a<br>
-feature to MACHINE_FEATURES that itself has a substring<br>
-that matches one of the values looked for when building<br>
-COMBINED_FEATURES, you end up with an incomprehensible<br>
-error (here with &quot;ext2i&quot; in MACHINE_FEATURES):</div></blockquote>=
-</div><br>This looks right but you know what it needs: a test suite.=C2=A0 =
-Add a small test case that demonstrates it breaking before the fix and then=
- working after the fix.=C2=A0 We&#39;ve been adding test cases to bitbake a=
-s bugs are found and it&#39;s really helping demonstrate that changes work.=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
-
---001a11c12e96243fec05100350eb--
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F443500irsmsx105gercor_--
