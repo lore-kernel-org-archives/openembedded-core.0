@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id F32CB73759
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C1AA165C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 21:52:36 +0000 (UTC)
-Received: by qcvs11 with SMTP id s11so10976929qcv.11
+	Thu, 26 Feb 2015 22:00:36 +0000 (UTC)
+Received: by ykq19 with SMTP id 19so5460363ykq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 13:52:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/Lno4OkluBQnN78/k5Ys/RjfBX6xt5HDUsHlkvXFw2g=;
-	b=FKdmFtyPtpDA2UAxS4qCXF712xgoWtTUclK8oLrJKVNNuFf3pKuIUQGDqudR9eZlQB
-	fdE3aSRWisAiHvYrsHZcAhCLPDgrk0tME5OJ6RO6RheUxyXYqDrauSB2JwfWf5VtVNhi
-	5/MwSlH05jWBR+vE52dBh0VW8keEV6zXHCt3oKL/t5wJ4tGvfQw2qSeEGbImFiHvmo8B
-	brqZNPslNKkDUZ+0lA/Iae5dPDCLn+bDK4ChaQKbNu1Zdw8ZUNEyiDOZE/gRICM87rKw
-	k4W4aKLKvLV/MyEW7BtSnge1gtjdZbVcCSkz5IaH90Dt7RPE/m8iWJUUKwnrBjSGh9aA
-	hQxw==
-X-Gm-Message-State: ALoCoQlA6qnGsMH7bunWbbNprKCe3FdETGH+B6XwlY/Ul1Ob0ETIWkxU2j6iAXP4f9TJKAEuBaMa
-X-Received: by 10.140.29.138 with SMTP id b10mr21943662qgb.78.1424987557156;
-	Thu, 26 Feb 2015 13:52:37 -0800 (PST)
+	Thu, 26 Feb 2015 14:00:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5huwpKBrvZIB1wS4plwroukCJS49BUabJ0i9bCzWaBc=;
+	b=jKnSW4iUfaeUjtBJEsNHfvkeka4Jh/cFW4zYI+1tc6jeuMMwBfhbqbCVNn20Cv1acX
+	rIPwSM+sSJaPDlnag5I6Uy4ZmUGxSA+UC5PdqBP/HK9QGAPpKq43+fjfzfaEboWS4gzZ
+	aYta/j0XEMfi9wd+wvf49Acg95nJphoJVxeZt77gucqDly3JJ+8taghAPuIN9nqVBIXZ
+	dhkt0+/VRXcCAmOtVHZRafAa/vEmoXE3pTeLHwOtV3YTOqgyU/viJaL/97LFZvwnVuoz
+	xBbCuRi6ykR9RhRCGPMFoTqjxDxQTYquUxqtjL0DF+mkq03/G09w6BWId3muj+OlL4QA
+	fWMQ==
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 26 Feb 2015 13:52:16 -0800 (PST)
-In-Reply-To: <1424973442-24727-1-git-send-email-openembedded-devel@urbanec.net>
-References: <1424973442-24727-1-git-send-email-openembedded-devel@urbanec.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Feb 2015 21:52:16 +0000
-Message-ID: <CAJTo0La5_Wdf537Ct-ZkLqsx7=5KrYsCCpG9fH8g-hdWNjDQpw@mail.gmail.com>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0*git: Update to build current AUTOREV from master branch.
+X-Received: by 10.236.190.5 with SMTP id d5mr10146559yhn.67.1424988037328;
+	Thu, 26 Feb 2015 14:00:37 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.123.133 with HTTP; Thu, 26 Feb 2015 14:00:37 -0800 (PST)
+In-Reply-To: <1424987235.26813.42.camel@linuxfoundation.org>
+References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>
+	<1424987235.26813.42.camel@linuxfoundation.org>
+Date: Thu, 26 Feb 2015 19:00:37 -0300
+X-Google-Sender-Auth: jvprOkDMx_szTV4luSRSx4StnpY
+Message-ID: <CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 21:52:37 -0000
-Content-Type: multipart/alternative; boundary=001a113a75a22772f0051004c585
-
---001a113a75a22772f0051004c585
+X-List-Received-Date: Thu, 26 Feb 2015 22:00:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 26 February 2015 at 17:57, Peter Urbanec <openembedded-devel@urbanec.net>
-wrote:
-
-> -SRCREV = "127202d6f65584891dabf92be031f0d170b0e7f1"
-> +SRCREV ?= "${AUTOREV}"
+On Thu, Feb 26, 2015 at 6:47 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
+>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
+>> the filename. This is useful not only for MSVC, but also with gcc/Linux
+>> when doing cross-compilation builds and out-of-tree builds.
 >
+> Ultimately I think we need to address this issue in gcc itself, probably
+> setting some kind of base path in the environment which it removes from
+> __FILE__ (set to ${S}). There were more complex discussions about using
+> the same mapping code as can be used with the debug symbols code too.
 
-I'd say that the git packages should track the tarball releases *and be
-tested as such* so that they actually work out of the box and don't break
-over time as upstream changes.
+Agreed; this should indeed be a global fix as this affects virtually
+all packages.
 
-If someone wants to make a bleeding-edge build then it's a simple change to
-set the SRCREV to AUTOREV at the distro level.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Ross
-
---001a113a75a22772f0051004c585
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 February 2015 at 17:57, Peter Urbanec <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:openembedded-devel@urbanec.net" target=3D"_blank">openembedded-d=
-evel@urbanec.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":20b" class=3D"a3s" style=3D"overflow:hidden">-SRCREV =3D &quot;12=
-7202d6f65584891dabf92be031f0d170b0e7f1&quot;<br>
-+SRCREV ?=3D &quot;${AUTOREV}&quot;</div></blockquote></div><br>I&#39;d say=
- that the git packages should track the tarball releases *and be tested as =
-such* so that they actually work out of the box and don&#39;t break over ti=
-me as upstream changes.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">If someone wants to make a bleeding-edge build then it&#3=
-9;s a simple change to set the SRCREV to AUTOREV at the distro level.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a113a75a22772f0051004c585--
