@@ -1,28 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D1DD171637
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1AA71637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 22:35:51 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Feb 2015 14:35:52 -0800
+	Thu, 26 Feb 2015 22:37:50 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 26 Feb 2015 14:29:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="460049914"
-Received: from rbarry-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.22.31])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2015 14:20:15 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Feb 2015 22:35:50 +0000
-Message-ID: <3098634.xUVi2ZDfg6@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <CAJTo0Lao_XRie0O_Kb+Cw6-Zh-q+d--XJti6ogbu=WeUqmQhmw@mail.gmail.com>
-References: <cover.1424877305.git.cristian.iorga@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F443500@irsmsx105.ger.corp.intel.com>
-	<CAJTo0Lao_XRie0O_Kb+Cw6-Zh-q+d--XJti6ogbu=WeUqmQhmw@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="691359002"
+Received: from localhost.jf.intel.com (HELO [10.7.201.37]) ([10.7.201.37])
+	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2015 14:37:51 -0800
+Message-ID: <54EFA03E.9030904@linux.intel.com>
+Date: Thu, 26 Feb 2015 14:37:50 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
+To: Otavio Salvador <otavio@ossystems.com.br>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>	<1424987235.26813.42.camel@linuxfoundation.org>
+	<CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 22:35:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 26 Feb 2015 22:37:55 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday 26 February 2015 20:34:36 Burton, Ross wrote:
-> On 26 February 2015 at 20:19, Iorga, Cristian <cristian.iorga@intel.com>
-> 
-> wrote:
-> > Can you point me to a tutorial in this kind of test suites?
-> 
-> I sure can, see meta/lib/oe/tests/test_utils.py.  Should be fairly obvious.
+On 02/26/2015 02:00 PM, Otavio Salvador wrote:
+> On Thu, Feb 26, 2015 at 6:47 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
+>>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
+>>> the filename. This is useful not only for MSVC, but also with gcc/Linux
+>>> when doing cross-compilation builds and out-of-tree builds.
+>>
+>> Ultimately I think we need to address this issue in gcc itself, probably
+>> setting some kind of base path in the environment which it removes from
+>> __FILE__ (set to ${S}). There were more complex discussions about using
+>> the same mapping code as can be used with the debug symbols code too.
 
-Genuine question, which I should have asked last time those files were touched 
-- how do those tests relate to oe-selftest tests?
+The bug https://gcc.gnu.org/bugzilla/show_bug.cgi?id=47047 looks to still be 
+open. Should we open a Yocto bug to update that patch to apply to a more recent gcc?
 
-Cheers,
-Paul
+> Agreed; this should indeed be a global fix as this affects virtually
+> all packages.
+>
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
