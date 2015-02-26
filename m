@@ -1,28 +1,36 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CCDA60670
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B4A71637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 22:21:28 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Feb 2015 14:21:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="684058898"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.156])
-	([10.218.99.156])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Feb 2015 14:21:27 -0800
-Message-ID: <1424989287.2764.14.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Randy Witt <randy.e.witt@linux.intel.com>
-Date: Thu, 26 Feb 2015 19:21:27 -0300
-In-Reply-To: <54EF93B1.2020902@linux.intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1424978954-25411-1-git-send-email-bruno.bottazzini@intel.com>
-	<54EF93B1.2020902@linux.intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mkefidisk: change filesystem to be writeable on grub
+	Thu, 26 Feb 2015 22:27:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id A535F3151240;
+	Thu, 26 Feb 2015 23:27:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id fTjnktdkCV1q; Thu, 26 Feb 2015 23:27:13 +0100 (CET)
+Received: from [172.22.22.61] (55d4473d.access.ecotel.net [85.212.71.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 8EAD9315123E;
+	Thu, 26 Feb 2015 23:27:13 +0100 (CET)
+Message-ID: <54EF9DC1.20403@opendreambox.org>
+Date: Thu, 26 Feb 2015 23:27:13 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>	<1424987235.26813.42.camel@linuxfoundation.org>	<54EF969E.7080000@opendreambox.org>
+	<CAP9ODKpyYwZ1bAzfo9U0gcagLHyYdfbDEYOcLcD52UKH2WKbZg@mail.gmail.com>
+In-Reply-To: <CAP9ODKpyYwZ1bAzfo9U0gcagLHyYdfbDEYOcLcD52UKH2WKbZg@mail.gmail.com>
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 22:21:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Feb 2015 22:27:15 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-
-On Qui, 2015-02-26 at 13:44 -0800, Randy Witt wrote:
-> On 02/26/2015 11:29 AM, Bruno Bottazzini wrote:
-> > This patch changes grub configuration so the filesystem will be writeable
-> > instead, just read only when running the script.
-> > ---
-> >   scripts/contrib/mkefidisk.sh | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-> > index b96b7d4..9b84831 100755
-> > --- a/scripts/contrib/mkefidisk.sh
-> > +++ b/scripts/contrib/mkefidisk.sh
-> > @@ -342,7 +342,7 @@ if [ -e "$GRUB_CFG" ]; then
-> >   	sed -i "s/ LABEL=[^ ]*/ /" $GRUB_CFG
-> >
-> >   	sed -i "s@ root=[^ ]*@ @" $GRUB_CFG
-> > -	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait quiet @" $GRUB_CFG
-> > +	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS rw rootwait quiet @" $GRUB_CFG
-> >   fi
-> >
-> >   # Look for a gummiboot installation
-> >
+On 26.02.2015 23:11, Otavio Salvador wrote:
+> On Thu, Feb 26, 2015 at 6:56 PM, Andreas Oberritter
+> <obi@opendreambox.org> wrote:
+>> On 26.02.2015 22:47, Richard Purdie wrote:
+>>> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
+>>>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
+>>>> the filename. This is useful not only for MSVC, but also with gcc/Linux
+>>>> when doing cross-compilation builds and out-of-tree builds.
+>>>
+>>> Ultimately I think we need to address this issue in gcc itself, probably
+>>> setting some kind of base path in the environment which it removes from
+>>> __FILE__ (set to ${S}). There were more complex discussions about using
+>>> the same mapping code as can be used with the debug symbols code too.
+>>
+>> FWIW, here's a patch I'm using with gcc 4.8, which just cuts off the
+>> whole directory part.
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/master&id=a1e8d6cfb71367d745f2478c13a7250e41ca4f1b
 > 
-> This change basically reverts 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=24cd3ddeb70a3d3f2985ec71c87ae0108f3d2777 
-> by Darren. It also doesn't change the ro option when using gummiboot instead.
+> Ideally it could drop the S from the string. So the internal path
+> would be respected.
 > 
-> What is this change trying to fix?
+> What do you think?
 
-Hello Randy,
+I thought about that before, but preferred not to do it for the sake of
+simplicity. Usually __FILE__ is used for debug output, so it's printed
+together with a more or less unique debug message. I guess it should be
+easy to find the right location inside the source tree in almost every
+case, even if some filenames might appear more than once in a project.
 
-I got the following message:
- "file system is read-only" 
+Note that generated source files may live in ${B}, which is not below
+${S}. You could cut off ${WORKDIR} instead, though.
 
-if I try to touch a file that is not on /tmp, or when I start a systemd
-service that tries to write on the file system.
-
-After some research, I go it fixed by changing to read/write on the
-script that was with read only.
-
-I thought this would be useful for someone else.
-
-Reading the patch you sent me, Darren says that a proper fstab will ensure
-the rootfs is rw. 
-Maybe I'm missing this. I will look for this to make sure that my fstab OK.
-
-Thanks
-
-
-
-
+Regards,
+Andreas
 
