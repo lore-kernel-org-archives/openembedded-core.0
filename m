@@ -1,56 +1,40 @@
-Return-Path: <ola.x.nilsson@axis.com>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 26 Feb 2015 07:31:52 UTC
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E75471637
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DE653605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 07:31:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C79F7180FF
+	Thu, 26 Feb 2015 12:23:10 +0000 (UTC)
+Received: by qcxr5 with SMTP id r5so7950304qcx.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:55 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id zkxvqElpCQFw
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:54 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id AF04B1806B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:54 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 8D6EB1179
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:54 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 7883FCEE
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:54 +0100 (CET)
-Received: from xmail4.se.axis.com (xmail4.se.axis.com [10.0.5.46])
-	by seth.se.axis.com (Postfix) with ESMTP id 767653E207
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:21:54 +0100 (CET)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail4.se.axis.com
-	([fe80::2dfa:6a3a:302a:d4e8%14]) with mapi;
-	Thu, 26 Feb 2015 08:21:54 +0100
-From: Ola X Nilsson <ola.x.nilsson@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Feb 2015 08:21:50 +0100
-Thread-Topic: [OE-core] [PATCH 5/5] linux-yocto: warn when a generated BSP
-	description is used
-Thread-Index: AdBNPHSUBGMD1wzLTDSDPU7NMJ8W0AEV5V3A
-Message-ID: <4BEA3FF3CAA35E408EA55C7BE2E61D05943CBA6B1A@xmail3.se.axis.com>
-References: <cover.1424456540.git.bruce.ashfield@windriver.com>
-	<a9038233862667971dc193ad0e160a7b28ef252a.1424456540.git.bruce.ashfield@windriver.com>
-In-Reply-To: <a9038233862667971dc193ad0e160a7b28ef252a.1424456540.git.bruce.ashfield@windriver.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Thu, 26 Feb 2015 04:23:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/sQPYJZXq+Jszb1+Ro4VPd/eNlNR5IFJERHQxoq/maw=;
+	b=XRIQgmWGzXI7yfdEiQTFM/N0KmuDEuxNadfxhVOUz3PS3tcTyHRw3UJAAm3O53oaeA
+	2FmSu/ESD+37JtzK4lxXIRFil0frac5Xl/i5xsozOSZ1oRxbQtBQazvnR0q9a7Qw/5i3
+	TeNbmHqXiUMRiPttSqMQo5F7Dr1fYpgF00C7U6N/o5TAhVOhihcp6ZkAbAR5gtGkqXCo
+	pw9fduIOkdjOZWYevrEmCCWw5NhBewgObPj1M/vOCUMIM+B51anogeN4PyUS3O66nPEq
+	72WRLCwpoyVsFSAUQzrJbL3LW1A3aDORNGxSyB9I4nmFIsCtJCmhJzBViEi3DZ5/X//Q
+	ZqVQ==
+X-Gm-Message-State: ALoCoQn0Vg2QuJ5ACj2pH5TklcMZ7SyjTQU6bjTu2bzakvGpyXwoxNj25CbJUFhSCKNiVeLmgxjv
+X-Received: by 10.229.3.8 with SMTP id 8mr18001655qcl.12.1424953391418; Thu,
+	26 Feb 2015 04:23:11 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 5/5] linux-yocto: warn when a generated BSP	description is used
+Received: by 10.140.102.203 with HTTP; Thu, 26 Feb 2015 04:22:51 -0800 (PST)
+In-Reply-To: <1424888075.6730.19.camel@besquive-mobl.amr.corp.intel.com>
+References: <1424685241-17960-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<54ECD3C2.8040005@linux.intel.com>
+	<1424816244.6730.14.camel@besquive-mobl.amr.corp.intel.com>
+	<CAJTo0LYsD6SZO71Q6BBnX0td8LZWBeRGWXJ-Ga2LbuWMYN6OHw@mail.gmail.com>
+	<1424888075.6730.19.camel@besquive-mobl.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Feb 2015 12:22:51 +0000
+Message-ID: <CAJTo0LZVJc1=OptZG4vaxyqAq7AgYYkJeMbA5kGg_1n3o+jC5Q@mail.gmail.com>
+To: benjamin.esquivel@linux.intel.com, Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: 'yes' within the path sets wrong variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,97 +47,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 07:31:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 26 Feb 2015 12:23:16 -0000
+Content-Type: multipart/alternative; boundary=001a1133997eb7c6bd050ffcd011
+
+--001a1133997eb7c6bd050ffcd011
+Content-Type: text/plain; charset=UTF-8
+
+On 25 February 2015 at 18:14, Benjamin Esquivel <
+benjamin.esquivel@linux.intel.com> wrote:
+
+> Saul, is there a specific part of the glibc's run.do_configure that
+> should re-conf?
+>
+
+The glibc recipe explicitly avoids autoreconfig:
+
+"# override this function to avoid the autoconf/automake/aclocal/autoheader
+calls for now"
+
+Khem is the person to ask if this is something that can be removed but for
+now, patching the configure is all we can do (and sending the patch
+upstream so we don't need to patch configure in the future).
+
+Ross
+
+--001a1133997eb7c6bd050ffcd011
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-We use a custom yocto-style kernel recipe to build our non-yocto-style kern=
-el.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 February 2015 at 18:14, Benjamin Esquivel <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:benjamin.esquivel@linux.intel.com" target=3D"_blank">benjamin.=
+esquivel@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
+t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
+=3D":4r5" class=3D"" style=3D"overflow:hidden">Saul, is there a specific pa=
+rt of the glibc&#39;s run.do_configure that<br>
+should re-conf?<br></div></blockquote></div><br>The glibc recipe explicitly=
+ avoids autoreconfig:</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">&quot;# override this function to avoid the autoconf/autom=
+ake/aclocal/autoheader calls for now&quot;</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Khem is the person to ask if this is s=
+omething that can be removed but for now, patching the configure is all we =
+can do (and sending the patch upstream so we don&#39;t need to patch config=
+ure in the future).</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">Ross</div></div>
 
-To do this we add a defconfig file to the SRC_URI variable and then a bunch=
- of scc files to the KERNEL_FEATURES variable.
-
-I guess this makes our BSP description auto generated.  Can we have an opti=
-on to turn the warning off?
-
---=20
-Ola X Nilsson
-
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Bruce Ashfield
-> Sent: den 20 februari 2015 19:38
-> To: richard.purdie@linuxfoundation.org
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 5/5] linux-yocto: warn when a generated BSP
-> description is used
->=20
-> The meta data (in tree or out of tree) that describes a BSP, its patches =
-and
-> configuration is not always available when a new/default or manually
-> configured machine is built.
->=20
-> When this happens, the tools generate a skeleton BSP and use a architectu=
-re
-> defconfig for the build. If this is by design, the build is typically san=
-e and
-> everything works fine. If an existing BSP description was expected, chanc=
-es
-> are that the resulting kernel will not be correct.
->=20
-> To avoid surprising the user when a default/skeleton BSP is used for the =
-build,
-> we can make it obvious to the user by emitting a warning like the followi=
-ng:
->=20
->    WARNING: [kernel]: An auto generated BSP description was used, this
-> normally indicates a misconfiguration.
->             Check that your machine (myqemux86-64) has an associated kern=
-el
-> description.
->=20
-> [YOCTO: #3383]
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/classes/kernel-yocto.bbclass | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-
-> yocto.bbclass
-> index 0cbbb5f2d22f..a5e2b180c496 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -281,6 +281,15 @@ python do_kernel_configcheck() {
->              with open (nonhw_file, "r") as myfile:
->                  results =3D myfile.read()
->                  bb.warn( "[kernel config]: BSP specified non-hw
-> configuration:\n\n%s" % results)
-> +
-> +    bsp_desc =3D "${S}/" + kmeta + "/" + "top_tgt"
-> +    if os.path.exists(bsp_desc):
-> +        with open (bsp_desc, "r") as myfile:
-> +                bsp_tgt =3D myfile.read()
-> +                m =3D re.match("^(.*)scratch.obj(.*)$", bsp_tgt)
-> +                if not m is None:
-> +                    bb.warn( "[kernel]: An auto generated BSP descriptio=
-n was used,
-> this normally indicates a misconfiguration.\n" +
-> +                             "Check that your machine (%s) has an
-> + associated kernel description." % "${MACHINE}" )
->  }
->=20
->  # Ensure that the branches (BSP and meta) are on the locations specified=
- by
-> --
-> 2.1.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a1133997eb7c6bd050ffcd011--
