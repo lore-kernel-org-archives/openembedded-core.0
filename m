@@ -1,24 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40DA665C7B
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 312EC7374F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 16:54:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1QGsxJO007638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Feb 2015 17:32:05 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Fri, 27 Feb 2015 04:32:04 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t1QHW1DM014094
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 08:54:59 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 26 Feb 2015 08:54:58 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Feb 2015 10:54:57 -0600
-Message-ID: <1424969697-110751-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-MIME-Version: 1.0
-Subject: [PATCH] prelink_git.bb: Update to latest cross-prelink version
+	Fri, 27 Feb 2015 04:32:04 +1100
+Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim 4.84)
+	(envelope-from <openembedded-devel@urbanec.net>)
+	id 1YR2I5-0005Hs-AS; Fri, 27 Feb 2015 04:32:01 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Feb 2015 04:31:33 +1100
+Message-Id: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>
+X-Mailer: git-send-email 2.3.0
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>
+Subject: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 16:55:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Feb 2015 17:32:06 -0000
 
-[YOCTO #7056]
+On WIN32 the file argument to gst_debug_log_valist is shortened to just
+the filename. This is useful not only for MSVC, but also with gcc/Linux
+when doing cross-compilation builds and out-of-tree builds.
 
-Adds support for armhf dynamic linker
-Update prelink-rtld to glibc 2.20 base
-Fix testsuite to work with latest autotools
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
 ---
- meta/recipes-devtools/prelink/prelink_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...gstinfo-Shorten-__FILE__-on-all-platforms.patch | 55 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.4.5.bb                |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 56781a4..6ff6917 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "faa069deec99bf61418d0bab831c83d7c1b797ca"
-+SRCREV = "40327fb99654e96db6ef15e2f2d5ef140ac3e998"
- PV = "1.0+git${SRCPV}"
- 
- #
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch
+new file mode 100644
+index 0000000..8213c4b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch
+@@ -0,0 +1,55 @@
++From 81fecd367b016e5ac4fb0c04b84da5c474f30da6 Mon Sep 17 00:00:00 2001
++From: Peter Urbanec <git.user@urbanec.net>
++Date: Fri, 27 Feb 2015 01:16:58 +1100
++Subject: [PATCH 1/1] gstinfo: Shorten __FILE__ on all platforms.
++
++This is useful not only for MSVC, but also with gcc/Linux when doing
++cross-compilation builds and out-of-tree builds.
++
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=745213]
++
++Signed-off-by: Peter Urbanec <git.user@urbanec.net>
++---
++ gst/gstinfo.c | 11 ++++-------
++ 1 file changed, 4 insertions(+), 7 deletions(-)
++
++diff --git a/gst/gstinfo.c b/gst/gstinfo.c
++index b2a3005..8b61d09 100644
++--- a/gst/gstinfo.c
+++++ b/gst/gstinfo.c
++@@ -444,7 +444,6 @@ gst_debug_log (GstDebugCategory * category, GstDebugLevel level,
++   va_end (var_args);
++ }
++ 
++-#ifdef G_OS_WIN32
++ /* based on g_basename(), which we can't use because it was deprecated */
++ static inline const gchar *
++ gst_path_basename (const gchar * file_name)
++@@ -467,7 +466,6 @@ gst_path_basename (const gchar * file_name)
++ 
++   return file_name;
++ }
++-#endif
++ 
++ /**
++  * gst_debug_log_valist:
++@@ -497,12 +495,11 @@ gst_debug_log_valist (GstDebugCategory * category, GstDebugLevel level,
++   g_return_if_fail (function != NULL);
++   g_return_if_fail (format != NULL);
++ 
++-  /* The predefined macro __FILE__ is always the exact path given to the
++-   * compiler with MSVC, which may or may not be the basename.  We work
++-   * around it at runtime to improve the readability. */
++-#ifdef G_OS_WIN32
+++  /* The predefined macro __FILE__ can be an absolute path in some build
+++   * environments, such as MSVC or out-of-tree cross-compiles. This may
+++   * be significantly longer than the filename.  We work around it at
+++   * runtime to improve the readability. */
++   file = gst_path_basename (file);
++-#endif
++ 
++   message.message = NULL;
++   message.format = format;
++-- 
++2.3.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+index 94be846..0a2ce86 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+     file://0001-Fix-crash-with-gst-inspect.patch \
++    file://0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch \
+ "
+ SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
+ SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
 -- 
-1.9.3
+2.3.0
 
 
