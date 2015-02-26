@@ -1,25 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id DAA1A605B3
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C778A605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 12:26:54 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 46531F811D9; Thu, 26 Feb 2015 05:26:55 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id A0F01F811D8;
-	Thu, 26 Feb 2015 05:26:54 -0700 (MST)
-From: Gary Thomas <gary@mlbassoc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Feb 2015 05:27:05 -0700
-Message-Id: <1424953625-26492-1-git-send-email-gary@mlbassoc.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH] sysvinit: Fix bootlogd startup
+	Thu, 26 Feb 2015 13:05:48 +0000 (UTC)
+Received: by lbvp9 with SMTP id p9so10641444lbv.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Feb 2015 05:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=BoUTcrF03ECifRc0IjU8ovn9ZQMmiqyMfXbr0ctGpZg=;
+	b=xjrUtcSI1PQYZu489jGrU4qJrZLgMy6uWkIUqcoP71ag1EFIsl5egkxxuzGF8wVZqX
+	0FALJMmpRfynwya3HQo8CYzEU5AIgWAqnOuHLKbh3ksDrmH6ra1gaqkEQlVMRNaYrWAI
+	VUTWB6UeLSZth3QcOP39lEQzAW4/PI32mzP46nmj/eWXcX6itkBdqO6X2geXJtKNpcgN
+	6zQEUrNZtkyFCJ+hqM6SdIpLZixhSDglmovrjSoHuNOwy1GA0s3p6obgkA9zHgr3P+/s
+	HEoDp4STA7VprSzbYbMBJn80G8UV5694FwoiednAPhQY3oURMi9Ku3BROaNs1v+KLNjq
+	OLTA==
+MIME-Version: 1.0
+X-Received: by 10.112.162.232 with SMTP id yd8mr2319868lbb.41.1424955948348;
+	Thu, 26 Feb 2015 05:05:48 -0800 (PST)
+Received: by 10.112.40.11 with HTTP; Thu, 26 Feb 2015 05:05:48 -0800 (PST)
+In-Reply-To: <4BEA3FF3CAA35E408EA55C7BE2E61D05943CBA6B1A@xmail3.se.axis.com>
+References: <cover.1424456540.git.bruce.ashfield@windriver.com>
+	<a9038233862667971dc193ad0e160a7b28ef252a.1424456540.git.bruce.ashfield@windriver.com>
+	<4BEA3FF3CAA35E408EA55C7BE2E61D05943CBA6B1A@xmail3.se.axis.com>
+Date: Thu, 26 Feb 2015 08:05:48 -0500
+Message-ID: <CADkTA4N7apAtwX85swEzaK9_TLDtc8BKBm-Q0omXHhzKxeOGkA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ola X Nilsson <ola.x.nilsson@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] linux-yocto: warn when a generated BSP description is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +44,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 12:26:55 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 13:05:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The bootlogd program currently does not start correctly.  This
-is because it is being started at S07, but the program requires
-access to /dev/pts which is normally started at S38.  This yields
-an error like:
-    bootlogd: cannot allocate pseudo tty: No such file or directory
+On Thu, Feb 26, 2015 at 2:21 AM, Ola X Nilsson <ola.x.nilsson@axis.com> wrote:
+> We use a custom yocto-style kernel recipe to build our non-yocto-style kernel.
+>
+> To do this we add a defconfig file to the SRC_URI variable and then a bunch of scc files to the KERNEL_FEATURES variable.
+>
+> I guess this makes our BSP description auto generated.  Can we have an option to turn the warning off?
 
-Starting bootlogd at S39 fixes this.
+At the moment, no. Ignore it for now, and I can tweak the message to detect
+and skip this scenario.
 
-n.b. Moving the creation of /dev/pts to S06 in the initscripts
-package is an alternative solution.
+File a bugzilla enhancement request, and I can take care of it.
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 00d3333..c740bf3 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -91,7 +91,7 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/bootlogd.init     ${D}${sysconfdir}/init.d/bootlogd
- 	ln -sf bootlogd ${D}${sysconfdir}/init.d/stop-bootlogd
- 
--	update-rc.d -r ${D} bootlogd start 07 S .
-+	update-rc.d -r ${D} bootlogd start 39 S .
- 	update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
- 
- 	install -d ${D}${sysconfdir}/default/volatiles
+Bruce
+
+>
+> --
+> Ola X Nilsson
+>
+>
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>> Of Bruce Ashfield
+>> Sent: den 20 februari 2015 19:38
+>> To: richard.purdie@linuxfoundation.org
+>> Cc: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH 5/5] linux-yocto: warn when a generated BSP
+>> description is used
+>>
+>> The meta data (in tree or out of tree) that describes a BSP, its patches and
+>> configuration is not always available when a new/default or manually
+>> configured machine is built.
+>>
+>> When this happens, the tools generate a skeleton BSP and use a architecture
+>> defconfig for the build. If this is by design, the build is typically sane and
+>> everything works fine. If an existing BSP description was expected, chances
+>> are that the resulting kernel will not be correct.
+>>
+>> To avoid surprising the user when a default/skeleton BSP is used for the build,
+>> we can make it obvious to the user by emitting a warning like the following:
+>>
+>>    WARNING: [kernel]: An auto generated BSP description was used, this
+>> normally indicates a misconfiguration.
+>>             Check that your machine (myqemux86-64) has an associated kernel
+>> description.
+>>
+>> [YOCTO: #3383]
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>  meta/classes/kernel-yocto.bbclass | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-
+>> yocto.bbclass
+>> index 0cbbb5f2d22f..a5e2b180c496 100644
+>> --- a/meta/classes/kernel-yocto.bbclass
+>> +++ b/meta/classes/kernel-yocto.bbclass
+>> @@ -281,6 +281,15 @@ python do_kernel_configcheck() {
+>>              with open (nonhw_file, "r") as myfile:
+>>                  results = myfile.read()
+>>                  bb.warn( "[kernel config]: BSP specified non-hw
+>> configuration:\n\n%s" % results)
+>> +
+>> +    bsp_desc = "${S}/" + kmeta + "/" + "top_tgt"
+>> +    if os.path.exists(bsp_desc):
+>> +        with open (bsp_desc, "r") as myfile:
+>> +                bsp_tgt = myfile.read()
+>> +                m = re.match("^(.*)scratch.obj(.*)$", bsp_tgt)
+>> +                if not m is None:
+>> +                    bb.warn( "[kernel]: An auto generated BSP description was used,
+>> this normally indicates a misconfiguration.\n" +
+>> +                             "Check that your machine (%s) has an
+>> + associated kernel description." % "${MACHINE}" )
+>>  }
+>>
+>>  # Ensure that the branches (BSP and meta) are on the locations specified by
+>> --
+>> 2.1.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
