@@ -1,24 +1,27 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C10567372E
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id AB0A27372E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 02:35:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1Q2Zrkk019256
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Feb 2015 03:01:27 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="58310738"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 Feb 2015 10:57:34 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t1Q30J54025468
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 18:35:53 -0800 (PST)
-Received: from localhost.localdomain (128.224.153.43) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 25 Feb 2015 18:35:53 -0800
-From: Jian Liu <jian.liu@windriver.com>
+	Thu, 26 Feb 2015 11:00:19 +0800
+Received: from localhost.localdomain (10.167.226.31) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 26 Feb 2015 11:01:14 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Feb 2015 10:35:52 +0800
-Message-ID: <1424918152-19470-1-git-send-email-jian.liu@windriver.com>
-X-Mailer: git-send-email 1.7.0.5
+Date: Thu, 26 Feb 2015 10:55:46 +0800
+Message-ID: <1424919346-39779-1-git-send-email-biannm@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] man: fix bugs of makewhatis script
+X-Originating-IP: [10.167.226.31]
+Subject: [RFC] [PATCH] [dizzy]gcc-4.9: fix bug of 0056-top-level-reorder_gcc-bug-61144.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,78 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 02:35:54 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 03:01:32 -0000
 Content-Type: text/plain
 
-- man-1.6e-whatis2.patch does not delete the tail "fi"
-  fix it to avoid syntax error
-- Use the command "which" to get the path of awk
+The patch 0056-top-level-reorder_gcc-bug-61144.patch looks wrong.
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
+It looks like a mistake, we shoud patch gcc/varpool.c not create the file
+ meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+
+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
 ---
- meta/recipes-extended/man/man/man-1.6e-whatis2.patch |  7 +++++++
- meta/recipes-extended/man/man/man-1.6g-whatis3.patch | 20 ++++++++++++++++++++
- meta/recipes-extended/man/man_1.6g.bb                |  4 +++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/man/man/man-1.6g-whatis3.patch
+ .../0056-top-level-reorder_gcc-bug-61144.patch     | 42 ++++++++++------------
+ 1 file changed, 19 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-extended/man/man/man-1.6e-whatis2.patch b/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
-index 7f01383..f65971a 100644
---- a/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
-+++ b/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
-@@ -50,3 +50,10 @@ Index: man-1.6f/src/makewhatis.sh
-         here=`pwd`
-         cd $mandir
-         for i in $sections
-+@@ -447,7 +447,6 @@
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+index f448932..3d7b249 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+@@ -4,28 +4,24 @@ Upstream-Status: Backport
+ Originally-submitted-by: Peter Urbanec <openembedded-devel@urbanec.net>
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+---- /dev/null
+-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+-@@ -0,0 +1,21 @@
+-+--- a/gcc/varpool.c    2014/10/05 02:50:01     215895
+-++++ b/gcc/varpool.c    2014/10/05 04:52:19     215896
+-+@@ -329,8 +329,16 @@
++--- a/gcc/varpool.c    2014/10/05 02:50:01     215895
+++++ b/gcc/varpool.c    2014/10/05 04:52:19     215896
++@@ -329,8 +329,16 @@
 +
-+        chmod 644 ${mandir1}/whatis
-+        rm $TMPFILE
-+-     fi
-+    done
-+ done
-diff --git a/meta/recipes-extended/man/man/man-1.6g-whatis3.patch b/meta/recipes-extended/man/man/man-1.6g-whatis3.patch
-new file mode 100644
-index 0000000..145aeaf
---- /dev/null
-+++ b/meta/recipes-extended/man/man/man-1.6g-whatis3.patch
-@@ -0,0 +1,20 @@
-+Do not use absolute path for awk while getting the path of awk
-+when running makewhatis.
-+This can avoid errors if path of awk changes.
-+
-+Upstream-Status: Submitted [man-1.6g]
-+
-+Signed-off-by: Jian Liu <jian.liu@windriver.com>
-+
-+diff -Nur man-1.6g.orig/src/makewhatis.sh man-1.6g/src/makewhatis.sh
-+--- man-1.6g.orig/src/makewhatis.sh	2015-02-25 16:13:12.657611419 +0800
-++++ man-1.6g/src/makewhatis.sh	2015-02-25 16:14:49.334694815 +0800
-+@@ -67,7 +67,7 @@
-+ # but that leads to problems and bugs.
-+
-+ # AWK=/usr/bin/gawk
-+-AWK=@awk@
-++AWK=`which awk`
-+
-+ # Find a place for our temporary files. If security is not a concern, use
-+ #	TMPFILE=/tmp/whatis$$; TMPFILEDIR=none
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index a2b16d2..917fd50 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -38,7 +38,9 @@ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man.1.gz;unpack=false \
-            file://man.7.gz;unpack=false \
-            file://man.conf \
--           file://manpath.5.gz;unpack=false"
-+           file://manpath.5.gz;unpack=false \
-+           file://man-1.6g-whatis3.patch \
-+"
-
- SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
- SRC_URI[sha256sum] = "ccdcb8c3f4e0080923d7e818f0e4a202db26c46415eaef361387c20995b8959f"
---
-1.8.5.2.233.g932f7e4
++   /* Variables declared 'const' without an initializer
++      have zero as the initializer if they may not be
++-     overridden at link or run time.  */
++-  if (!DECL_INITIAL (real_decl)
+++     overridden at link or run time.
+ +
+-+   /* Variables declared 'const' without an initializer
+-+      have zero as the initializer if they may not be
+-+-     overridden at link or run time.  */
+-+-  if (!DECL_INITIAL (real_decl)
+-++     overridden at link or run time.
+-++
+-++     It is actually requirement for C++ compiler to optimize const variables
+-++     consistently. As a GNU extension, do not enfore this rule for user defined
+-++     weak variables, so we support interposition on:
+-++     static const int dummy = 0;
+-++     extern const int foo __attribute__((__weak__, __alias__("dummy")));
+-++   */
+-++  if ((!DECL_INITIAL (real_decl)
+-++       || (DECL_WEAK (decl) && !DECL_COMDAT (decl)))
+-+       && (DECL_EXTERNAL (decl) || decl_replaceable_p (decl)))
+-+     return error_mark_node;
+-+ 
+++     It is actually requirement for C++ compiler to optimize const variables
+++     consistently. As a GNU extension, do not enfore this rule for user defined
+++     weak variables, so we support interposition on:
+++     static const int dummy = 0;
+++     extern const int foo __attribute__((__weak__, __alias__("dummy")));
+++   */
+++  if ((!DECL_INITIAL (real_decl)
+++       || (DECL_WEAK (decl) && !DECL_COMDAT (decl)))
++       && (DECL_EXTERNAL (decl) || decl_replaceable_p (decl)))
++     return error_mark_node;
+ 
+-- 
+1.9.1
 
 
