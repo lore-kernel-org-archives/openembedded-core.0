@@ -1,21 +1,24 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ED7DD605B3
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C10567372E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Feb 2015 22:08:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2015 14:04:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,647,1418112000"; d="scan'208";a="683463002"
-Received: from unknown (HELO aehernan-DevStation.zpn.intel.com)
-	([10.219.4.176])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2015 14:08:52 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Feb 2015 16:08:51 -0600
-Message-Id: <1424902131-2385-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] insane.bbclass: Enhance file-rdeps QA check
+	Thu, 26 Feb 2015 02:35:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t1Q2Zrkk019256
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Feb 2015 18:35:53 -0800 (PST)
+Received: from localhost.localdomain (128.224.153.43) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 25 Feb 2015 18:35:53 -0800
+From: Jian Liu <jian.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Feb 2015 10:35:52 +0800
+Message-ID: <1424918152-19470-1-git-send-email-jian.liu@windriver.com>
+X-Mailer: git-send-email 1.7.0.5
+MIME-Version: 1.0
+Subject: [PATCH] man: fix bugs of makewhatis script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,101 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Feb 2015 22:08:53 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 02:35:54 -0000
+Content-Type: text/plain
 
-Adds symlink-to-sysroot check to QA_WARN to detect symlinks that
-point to locations under TMPDIR, which are most likely broken.
+- man-1.6e-whatis2.patch does not delete the tail "fi"
+  fix it to avoid syntax error
+- Use the command "which" to get the path of awk
 
-Changes filerdepends from set() to dict(), hence methods for adding
-or deleting items had to change too. Now it keeps track of key:value
-relationship, flags the QA issue; warning the user about which
-file/package causes the problem, making it easier to debug.
-
-[YOCTO #7126]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
 ---
- meta/classes/insane.bbclass | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+ meta/recipes-extended/man/man/man-1.6e-whatis2.patch |  7 +++++++
+ meta/recipes-extended/man/man/man-1.6g-whatis3.patch | 20 ++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6g.bb                |  4 +++-
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/man/man/man-1.6g-whatis3.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 143ec46..f98ef13 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -29,7 +29,7 @@ QA_SANE = "True"
- WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
--            pn-overrides infodir build-deps file-rdeps \
-+            pn-overrides infodir build-deps file-rdeps symlink-to-sysroot \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -604,7 +604,6 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
-             if target.startswith(tmpdir):
-                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
-                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
--
- def package_qa_check_license(workdir, d):
-     """
-     Check for changes in the license files 
-@@ -803,13 +802,14 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-             if bb.data.inherits_class('nativesdk', d):
-                 ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
-             # For Saving the FILERDEPENDS
--            filerdepends = set()
-+            filerdepends = {}
-             rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-             for key in rdep_data:
-                 if key.startswith("FILERDEPENDS_"):
-                     for subkey in rdep_data[key].split():
--                        filerdepends.add(subkey)
--            filerdepends -= ignored_file_rdeps
-+                        if subkey not in ignored_file_rdeps:
-+                            # We already know it starts with FILERDEPENDS_
-+                            filerdepends[subkey] = key[13:]
- 
-             if filerdepends:
-                 next = rdepends
-@@ -841,31 +841,27 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                 # case there is a RDEPENDS_pkg = "python" in the recipe.
-                 for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
-                     if py in done:
--                        filerdepends.discard("/usr/bin/python")
-+                        filerdepends.pop("/usr/bin/python",None)
-                         done.remove(py)
-                 for rdep in done:
-                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
--                    rdep_rprovides = set()
-                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-                     for key in rdep_data:
-                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
-                             for subkey in rdep_data[key].split():
--                                rdep_rprovides.add(subkey)
-+                                filerdepends.pop(subkey,None)
-                         # Add the files list to the rprovides
-                         if key == "FILES_INFO":
-                             # Use eval() to make it as a dict
-                             for subkey in eval(rdep_data[key]):
--                                rdep_rprovides.add(subkey)
--                    filerdepends -= rdep_rprovides
-+                                filerdepends.pop(subkey,None)
-                     if not filerdepends:
-                         # Break if all the file rdepends are met
-                         break
--                    else:
--                        # Clear it for the next loop
--                        rdep_rprovides.clear()
-             if filerdepends:
--                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
--                            (pkg, ', '.join(str(e) for e in filerdepends))
-+                for key in filerdepends:
-+                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
-+                            (filerdepends[key],pkg, key)
-                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
- 
-     return sane
--- 
-1.9.1
+diff --git a/meta/recipes-extended/man/man/man-1.6e-whatis2.patch b/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
+index 7f01383..f65971a 100644
+--- a/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
++++ b/meta/recipes-extended/man/man/man-1.6e-whatis2.patch
+@@ -50,3 +50,10 @@ Index: man-1.6f/src/makewhatis.sh
+         here=`pwd`
+         cd $mandir
+         for i in $sections
++@@ -447,7 +447,6 @@
++
++        chmod 644 ${mandir1}/whatis
++        rm $TMPFILE
++-     fi
++    done
++ done
+diff --git a/meta/recipes-extended/man/man/man-1.6g-whatis3.patch b/meta/recipes-extended/man/man/man-1.6g-whatis3.patch
+new file mode 100644
+index 0000000..145aeaf
+--- /dev/null
++++ b/meta/recipes-extended/man/man/man-1.6g-whatis3.patch
+@@ -0,0 +1,20 @@
++Do not use absolute path for awk while getting the path of awk
++when running makewhatis.
++This can avoid errors if path of awk changes.
++
++Upstream-Status: Submitted [man-1.6g]
++
++Signed-off-by: Jian Liu <jian.liu@windriver.com>
++
++diff -Nur man-1.6g.orig/src/makewhatis.sh man-1.6g/src/makewhatis.sh
++--- man-1.6g.orig/src/makewhatis.sh	2015-02-25 16:13:12.657611419 +0800
+++++ man-1.6g/src/makewhatis.sh	2015-02-25 16:14:49.334694815 +0800
++@@ -67,7 +67,7 @@
++ # but that leads to problems and bugs.
++
++ # AWK=/usr/bin/gawk
++-AWK=@awk@
+++AWK=`which awk`
++
++ # Find a place for our temporary files. If security is not a concern, use
++ #	TMPFILE=/tmp/whatis$$; TMPFILEDIR=none
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index a2b16d2..917fd50 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -38,7 +38,9 @@ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
+            file://man.1.gz;unpack=false \
+            file://man.7.gz;unpack=false \
+            file://man.conf \
+-           file://manpath.5.gz;unpack=false"
++           file://manpath.5.gz;unpack=false \
++           file://man-1.6g-whatis3.patch \
++"
+
+ SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
+ SRC_URI[sha256sum] = "ccdcb8c3f4e0080923d7e818f0e4a202db26c46415eaef361387c20995b8959f"
+--
+1.8.5.2.233.g932f7e4
 
 
