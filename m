@@ -1,33 +1,37 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EE85260670
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 86D2360670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 19:29:21 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Feb 2015 11:29:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,654,1418112000"; d="scan'208";a="683974443"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Feb 2015 11:29:21 -0800
-Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Thu, 26 Feb 2015 11:29:21 -0800
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX113.amr.corp.intel.com (10.22.240.9) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Thu, 26 Feb 2015 11:29:21 -0800
-Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.156) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Thu, 26 Feb 2015 11:29:20 -0800
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Feb 2015 16:29:14 -0300
-Message-ID: <1424978954-25411-1-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>
+	Thu, 26 Feb 2015 20:08:17 +0000 (UTC)
+Received: by qcqi8 with SMTP id i8so10457632qcq.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Feb 2015 12:08:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YE3CbK9bhZ/ar5WIhaAPxKpt0jICiYEngDpHi92oirQ=;
+	b=WpQZCjmZw1Rvw+KnOcjPk+Z7CTvDCg1qKDf6sWV1aMJiu8T2t9pAwrRNkA1+263H2f
+	8sEMWxpoUb58FuByVkLJy1F6dLQh7nTWno3ioOWPeV29BaTmBY7af/kJjDkCi484Dwuz
+	6fMgSGAz+BTglmMljcKL+TLbwm4t2UrxL7H06HQ0SZKHyLEGnhSbNOztT9BgxfPWx9oO
+	H+bvpQvCNLEVHwnUpPd3LLHpSm4jR6tF80rUVLWLikXE1ltg/LC4aX4M6wwLZFItz52z
+	qX9YyGr5EyULxB8u1BhyUVf5n5G4z12P7Q0aiX5wuuPRjUZjkYMvn5eQ87I3PvEX1Mp4
+	6jhQ==
+X-Gm-Message-State: ALoCoQmbm1fg1pspZji9Ryd1sRZAOdFymvW2rzQu5dl7ITI3qhINLdzELeqtcAjRePhaio2IiVWH
+X-Received: by 10.140.85.9 with SMTP id m9mr20596085qgd.7.1424981299046; Thu,
+	26 Feb 2015 12:08:19 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.218.99.156]
-Subject: [PATCH] mkefidisk: change filesystem to be writeable on grub
+Received: by 10.140.102.203 with HTTP; Thu, 26 Feb 2015 12:07:57 -0800 (PST)
+In-Reply-To: <84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
+References: <cover.1424877305.git.cristian.iorga@intel.com>
+	<84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Feb 2015 20:07:57 +0000
+Message-ID: <CAJTo0LYy7G3d=YbBDfwScqv6SJ5TN2-8BgAcd9ScaA+KCZ9qGA@mail.gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 19:29:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Feb 2015 20:08:18 -0000
+Content-Type: multipart/alternative; boundary=001a11c12e96243fec05100350eb
 
-This patch changes grub configuration so the filesystem will be writeable
-instead, just read only when running the script.
----
- scripts/contrib/mkefidisk.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--001a11c12e96243fec05100350eb
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index b96b7d4..9b84831 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -342,7 +342,7 @@ if [ -e "$GRUB_CFG" ]; then
- 	sed -i "s/ LABEL=[^ ]*/ /" $GRUB_CFG
- 
- 	sed -i "s@ root=[^ ]*@ @" $GRUB_CFG
--	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait quiet @" $GRUB_CFG
-+	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS rw rootwait quiet @" $GRUB_CFG
- fi
- 
- # Look for a gummiboot installation
--- 
-1.9.1
+On 25 February 2015 at 15:15, Cristian Iorga <cristian.iorga@intel.com>
+wrote:
 
+> oe.utils.both_contain() just does a find() on the value
+> rather than splitting the value and then looking in the
+> list of split items. The result is that if you add a
+> feature to MACHINE_FEATURES that itself has a substring
+> that matches one of the values looked for when building
+> COMBINED_FEATURES, you end up with an incomprehensible
+> error (here with "ext2i" in MACHINE_FEATURES):
+>
 
+This looks right but you know what it needs: a test suite.  Add a small
+test case that demonstrates it breaking before the fix and then working
+after the fix.  We've been adding test cases to bitbake as bugs are found
+and it's really helping demonstrate that changes work.
+
+Ross
+
+--001a11c12e96243fec05100350eb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 February 2015 at 15:15, Cristian Iorga <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:cristian.iorga@intel.com" target=3D"_blank">cristian.iorga@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":59=
+r" class=3D"a3s" style=3D"overflow:hidden">oe.utils.<span class=3D"il">both=
+_contain</span>() just does a find() on the value<br>
+rather than splitting the value and then looking in the<br>
+list of split items. The result is that if you add a<br>
+feature to MACHINE_FEATURES that itself has a substring<br>
+that matches one of the values looked for when building<br>
+COMBINED_FEATURES, you end up with an incomprehensible<br>
+error (here with &quot;ext2i&quot; in MACHINE_FEATURES):</div></blockquote>=
+</div><br>This looks right but you know what it needs: a test suite.=C2=A0 =
+Add a small test case that demonstrates it breaking before the fix and then=
+ working after the fix.=C2=A0 We&#39;ve been adding test cases to bitbake a=
+s bugs are found and it&#39;s really helping demonstrate that changes work.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
+
+--001a11c12e96243fec05100350eb--
