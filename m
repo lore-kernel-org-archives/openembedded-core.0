@@ -1,28 +1,31 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id C8F4565C7B
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 927B4733AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 20:41:35 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id B53DDF811DC; Thu, 26 Feb 2015 13:41:36 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 5730AF811DB;
-	Thu, 26 Feb 2015 13:41:36 -0700 (MST)
-Message-ID: <54EF850E.8080303@mlbassoc.com>
-Date: Thu, 26 Feb 2015 13:41:50 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Thu, 26 Feb 2015 20:59:53 +0000 (UTC)
+Received: from [99.240.204.5] (port=54971 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YR5XD-0004yw-Ib for openembedded-core@lists.openembedded.org;
+	Thu, 26 Feb 2015 15:59:51 -0500
+Date: Thu, 26 Feb 2015 15:59:50 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1502261554100.6816@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1424953625-26492-1-git-send-email-gary@mlbassoc.com>
-In-Reply-To: <1424953625-26492-1-git-send-email-gary@mlbassoc.com>
-Subject: Re: [PATCH] sysvinit: Fix bootlogd startup
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: any value in keeping INITRAMFS_TASK?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 20:41:42 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Feb 2015 20:59:56 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 2015-02-26 05:27, Gary Thomas wrote:
-> The bootlogd program currently does not start correctly.  This
-> is because it is being started at S07, but the program requires
-> access to /dev/pts which is normally started at S38.  This yields
-> an error like:
->      bootlogd: cannot allocate pseudo tty: No such file or directory
->
-> Starting bootlogd at S39 fixes this.
->
-> n.b. Moving the creation of /dev/pts to S06 in the initscripts
-> package is an alternative solution.
->
-> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
 
-Never mind.  This issue only occurs when booting a kernel which does not
-implement legacy PTY devices.  If your kernel supports legacy PTY devices,
-the bootlogd works as currently configured (S07)
+  just tripped over INITRAMFS_TASK in kernel.bbclass, which claims to
+be only for backward compatibility and should be replaced by
+INITRAMFS_IMAGE:
 
-> ---
->   meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> index 00d3333..c740bf3 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> @@ -91,7 +91,7 @@ do_install () {
->   	install -m 0755    ${WORKDIR}/bootlogd.init     ${D}${sysconfdir}/init.d/bootlogd
->   	ln -sf bootlogd ${D}${sysconfdir}/init.d/stop-bootlogd
->
-> -	update-rc.d -r ${D} bootlogd start 07 S .
-> +	update-rc.d -r ${D} bootlogd start 39 S .
->   	update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
->
->   	install -d ${D}${sysconfdir}/default/volatiles
->
+    # NOTE: setting INITRAMFS_TASK is for backward compatibility
+    #       The preferred method is to set INITRAMFS_IMAGE, because
+    #       this INITRAMFS_TASK has circular dependency problems
+    #       if the initramfs requires kernel modules
+
+but i still see usage over in
+meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tiny-kexecboot_3.1[07].bb:
+
+INITRAMFS_IMAGE = "initramfs-kexecboot-klibc-image"
+INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+
+should that be updated, and INITRAMFS_TASK tossed?
+
+rday
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
