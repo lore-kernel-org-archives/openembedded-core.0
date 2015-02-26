@@ -1,36 +1,28 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B4A71637
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D1DD171637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 22:27:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id A535F3151240;
-	Thu, 26 Feb 2015 23:27:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id fTjnktdkCV1q; Thu, 26 Feb 2015 23:27:13 +0100 (CET)
-Received: from [172.22.22.61] (55d4473d.access.ecotel.net [85.212.71.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 8EAD9315123E;
-	Thu, 26 Feb 2015 23:27:13 +0100 (CET)
-Message-ID: <54EF9DC1.20403@opendreambox.org>
-Date: Thu, 26 Feb 2015 23:27:13 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Thu, 26 Feb 2015 22:35:51 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Feb 2015 14:35:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="460049914"
+Received: from rbarry-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.22.31])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2015 14:20:15 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Feb 2015 22:35:50 +0000
+Message-ID: <3098634.xUVi2ZDfg6@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <CAJTo0Lao_XRie0O_Kb+Cw6-Zh-q+d--XJti6ogbu=WeUqmQhmw@mail.gmail.com>
+References: <cover.1424877305.git.cristian.iorga@intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F443500@irsmsx105.ger.corp.intel.com>
+	<CAJTo0Lao_XRie0O_Kb+Cw6-Zh-q+d--XJti6ogbu=WeUqmQhmw@mail.gmail.com>
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>	<1424987235.26813.42.camel@linuxfoundation.org>	<54EF969E.7080000@opendreambox.org>
-	<CAP9ODKpyYwZ1bAzfo9U0gcagLHyYdfbDEYOcLcD52UKH2WKbZg@mail.gmail.com>
-In-Reply-To: <CAP9ODKpyYwZ1bAzfo9U0gcagLHyYdfbDEYOcLcD52UKH2WKbZg@mail.gmail.com>
-Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 22:27:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Feb 2015 22:35:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 26.02.2015 23:11, Otavio Salvador wrote:
-> On Thu, Feb 26, 2015 at 6:56 PM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
->> On 26.02.2015 22:47, Richard Purdie wrote:
->>> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
->>>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
->>>> the filename. This is useful not only for MSVC, but also with gcc/Linux
->>>> when doing cross-compilation builds and out-of-tree builds.
->>>
->>> Ultimately I think we need to address this issue in gcc itself, probably
->>> setting some kind of base path in the environment which it removes from
->>> __FILE__ (set to ${S}). There were more complex discussions about using
->>> the same mapping code as can be used with the debug symbols code too.
->>
->> FWIW, here's a patch I'm using with gcc 4.8, which just cuts off the
->> whole directory part.
->>
->> http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/master&id=a1e8d6cfb71367d745f2478c13a7250e41ca4f1b
+On Thursday 26 February 2015 20:34:36 Burton, Ross wrote:
+> On 26 February 2015 at 20:19, Iorga, Cristian <cristian.iorga@intel.com>
 > 
-> Ideally it could drop the S from the string. So the internal path
-> would be respected.
+> wrote:
+> > Can you point me to a tutorial in this kind of test suites?
 > 
-> What do you think?
+> I sure can, see meta/lib/oe/tests/test_utils.py.  Should be fairly obvious.
 
-I thought about that before, but preferred not to do it for the sake of
-simplicity. Usually __FILE__ is used for debug output, so it's printed
-together with a more or less unique debug message. I guess it should be
-easy to find the right location inside the source tree in almost every
-case, even if some filenames might appear more than once in a project.
+Genuine question, which I should have asked last time those files were touched 
+- how do those tests relate to oe-selftest tests?
 
-Note that generated source files may live in ${B}, which is not below
-${S}. You could cut off ${WORKDIR} instead, though.
+Cheers,
+Paul
 
-Regards,
-Andreas
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
