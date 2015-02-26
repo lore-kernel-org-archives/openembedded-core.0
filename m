@@ -1,39 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7478D73768
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E6EE960670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 18:01:51 +0000 (UTC)
-Received: by wggx12 with SMTP id x12so13342430wgg.6
+	Thu, 26 Feb 2015 19:03:49 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id v63so11302961oia.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 10:01:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=bEtNk1h8nHXBCcFrllWO+Vtj9uk1VG1QMiIUStA6Fdk=;
-	b=Cjb3m5M1lRcbLGyMt10lQwsUp+0RNAnmknU3hL9G7VQBUFqZHDXQE7zLVoxw3TuSHj
-	UvktWOyDSXReEtXS6oyegXJluqFInkMRMD/z+ulO2EdLrzFyLDQi8s4TcdmS4DFqmv+b
-	s4iO9R3ek+T6WMQEhFDumHhKFeKikpNQfDgHgho9mFBsZSMKl1nVMDZEiMaHgpwF2BJ+
-	3FMZnxeBHCtYXj4w8Jx+Kl8W36bb6/LGMOa6t+tfQQ12rxvvIfMrj0Arlg0HGYhIzjUS
-	t5jNpqXU7lkLCyfH/peJ2saUAcXG0ByXkoDlufRMygRxx2P/TCpTVXg8lP6VaJZabUTH
-	lYVA==
-X-Gm-Message-State: ALoCoQkE76aOSKbEEF0KpaqcFAJhBtVmkuliPVwDyRhRWLP5MnIerT7ZgFcyzljRKt8y6msXfxs7
-X-Received: by 10.180.11.205 with SMTP id s13mr52203795wib.32.1424973712838;
-	Thu, 26 Feb 2015 10:01:52 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id kj8sm2433359wjc.29.2015.02.26.10.01.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Feb 2015 10:01:52 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Feb 2015 17:59:02 +0000
-Message-Id: <1424973542-30540-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1424973542-30540-1-git-send-email-ross.burton@intel.com>
-References: <1424973542-30540-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] gaku: remove (replaced by gst-player)
+	Thu, 26 Feb 2015 11:03:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=HusFzelnWglj4XQ6bhtbcjUG7hn4YUjk6MFbDzRNGzM=;
+	b=0h7zwNVn3/r9D8QzzBNyvEcFnrpVkf/hybYS4sJqvY+gsu/e285P3gW8Sr2VtHpX5x
+	N5MPiM2DoV6pKz8sJUb9XI3fCN7/Wk/tOKSmgGTjOkedPF6+KvJqEMowajfaksRpcW9W
+	+Xav8GX4k8fmY8pnSyDF+uv3DHPx/hhb5NtrXvz23uBtfGmMNPb6JTx3yufF00jaRSS8
+	89fdbOrcRwMz28tOWNfslnZpEoUUZEZwQZ8VXx6R+OvNu9NsMfvo5wrEzPMGdWBQCmEg
+	r0eYTVsSnPfSoOWqlyedNN4Pxw8akLk8giJ0sdr3NxUCMKtjPVs3WJHKwB7T7V8d7lxI
+	0H1A==
+MIME-Version: 1.0
+X-Received: by 10.60.82.194 with SMTP id k2mr7165701oey.65.1424977430394; Thu,
+	26 Feb 2015 11:03:50 -0800 (PST)
+Received: by 10.182.148.1 with HTTP; Thu, 26 Feb 2015 11:03:50 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.11.1502250340130.25049@localhost>
+References: <alpine.LFD.2.11.1502250320080.23957@localhost>
+	<1424853407.26813.29.camel@linuxfoundation.org>
+	<alpine.LFD.2.11.1502250340130.25049@localhost>
+Date: Thu, 26 Feb 2015 11:03:50 -0800
+Message-ID: <CAOLEWZUtewq_Z6xjaniVs-ujgmYq-zXc11P8JPL7gj=E=BOYCQ@mail.gmail.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: on current linux distros, what are potential candidates for ASSUME_PROVIDED?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +41,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 18:01:54 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 19:03:52 -0000
+Content-Type: multipart/alternative; boundary=047d7b6729f88d3d980510026958
 
-Gaku was buggy and use GStreamer 0.10, gst-player is less buggy and uses
-GStreamer 1.x.
+--047d7b6729f88d3d980510026958
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/gaku/gaku_git.bb |   25 -------------------------
- 1 file changed, 25 deletions(-)
- delete mode 100644 meta/recipes-sato/gaku/gaku_git.bb
+I would agree that for classroom purposes, some of the best time savers are
+things like pre-fetching downloads to a local machine, pre-cloning kernel
+repos, and shared cache.
 
-diff --git a/meta/recipes-sato/gaku/gaku_git.bb b/meta/recipes-sato/gaku/gaku_git.bb
-deleted file mode 100644
-index 5e1cba5..0000000
---- a/meta/recipes-sato/gaku/gaku_git.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--SUMMARY = "Simple music player using GTK+ and GStreamer"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
--                    file://main.c;beginline=1;endline=20;md5=0c02b4ef945956832b37a036b9cc103a"
--DEPENDS = "gtk+ gstreamer libowl-av"
--
--RDEPENDS_${PN} = "gst-plugins-base-audioconvert \
--            gst-plugins-base-audioresample \
--            gst-plugins-base-typefindfunctions \
--            gst-plugins-base-playbin"
--
--RRECOMMENDS_${PN} = "gst-plugins-good-id3demux \
--               gst-plugins-base-vorbis \
--               gst-plugins-base-alsa \
--               gst-plugins-base-ogg \
--               ${COMMERCIAL_AUDIO_PLUGINS}"
--
--SRCREV = "a0be2fe4b5f12b8b07f4e3bd624b3729657f0ac5"
--PV = "0.1+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/${BPN}"
--
--S = "${WORKDIR}/git"
--
--inherit autotools pkgconfig
--- 
-1.7.10.4
+Also, IIRC several of the course lab examples (in the LF Yocto course)
+didn't quite work as expected (mostly kernel variables for some reason).  I
+would probably recommend keeping things simple, as in teaching the config
+fragment approach (as is done in the kernel lab training thing).  Can't
+remember what the all the issues were exactly as I normally build off
+master which gives me recurring deja vu, but keeping course materials
+current is always an ongoing issue for me...
 
+Just my $.02 ...
 
+Steve
+
+On Wed, Feb 25, 2015 at 12:41 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+
+> On Wed, 25 Feb 2015, Richard Purdie wrote:
+>
+> > On Wed, 2015-02-25 at 03:25 -0500, Robert P. J. Day wrote:
+> > >   for the sake of reducing build time in the classroom, what are some
+> > > of the potential (and relatively safe) candidates to add to
+> > > ASSUME_PROVIDED for a build from scratch?
+> >
+> > This path is fraught with danger to be honest. There are some things
+> > which are "safe" like subversion and git but they don't make that much
+> > difference to a build and there are not as many as you'd think.
+> >
+> > The biggest difference you can make is an sstate cache you share amongst
+> > the pupils. The time is spent:
+> >
+> > a) building gcc
+> > b) building libc
+> > c) building gettext
+> > d) building glib
+> >
+> > each of these is a bottle neck which then opens up a new set of targets
+> > as none of them are ASSUME_PROVIDED material.
+>
+>   ok, fair enough.
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--047d7b6729f88d3d980510026958
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div>I would agree that for classroom purposes, =
+some of the best time savers are things like pre-fetching downloads to a lo=
+cal machine, pre-cloning kernel repos, and shared cache.<br><br></div>Also,=
+ IIRC several of the course lab examples (in the LF Yocto course) didn&#39;=
+t quite work as expected (mostly kernel variables for some reason).=C2=A0 I=
+ would probably recommend keeping things simple, as in teaching the config =
+fragment approach (as is done in the kernel lab training thing).=C2=A0 Can&=
+#39;t remember what the all the issues were exactly as I normally build off=
+ master which gives me recurring deja vu, but keeping course materials curr=
+ent is always an ongoing issue for me...<br><br></div>Just my $.02 ...<br><=
+br></div>Steve<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
+quote">On Wed, Feb 25, 2015 at 12:41 AM, Robert P. J. Day <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@cras=
+hcourse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
+ass=3D"">On Wed, 25 Feb 2015, Richard Purdie wrote:<br>
+<br>
+&gt; On Wed, 2015-02-25 at 03:25 -0500, Robert P. J. Day wrote:<br>
+&gt; &gt;=C2=A0 =C2=A0for the sake of reducing build time in the classroom,=
+ what are some<br>
+&gt; &gt; of the potential (and relatively safe) candidates to add to<br>
+&gt; &gt; ASSUME_PROVIDED for a build from scratch?<br>
+&gt;<br>
+&gt; This path is fraught with danger to be honest. There are some things<b=
+r>
+&gt; which are &quot;safe&quot; like subversion and git but they don&#39;t =
+make that much<br>
+&gt; difference to a build and there are not as many as you&#39;d think.<br=
+>
+&gt;<br>
+&gt; The biggest difference you can make is an sstate cache you share among=
+st<br>
+&gt; the pupils. The time is spent:<br>
+&gt;<br>
+&gt; a) building gcc<br>
+&gt; b) building libc<br>
+&gt; c) building gettext<br>
+&gt; d) building glib<br>
+&gt;<br>
+&gt; each of these is a bottle neck which then opens up a new set of target=
+s<br>
+&gt; as none of them are ASSUME_PROVIDED material.<br>
+<br>
+</span>=C2=A0 ok, fair enough.<br>
+<span class=3D"im HOEnZb"><br>
+rday<br>
+<br>
+--<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
+ CANADA<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://crashcourse.ca" target=3D"_blank">http://crash=
+course.ca</a><br>
+<br>
+Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
+ href=3D"http://twitter.com/rpjday" target=3D"_blank">http://twitter.com/rp=
+jday</a><br>
+LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
+com/in/rpjday" target=3D"_blank">http://ca.linkedin.com/in/rpjday</a><br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+</span><div class=3D"HOEnZb"><div class=3D"h5">--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+</div></div></blockquote></div><br></div>
+
+--047d7b6729f88d3d980510026958--
