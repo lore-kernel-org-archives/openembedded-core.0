@@ -1,41 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6955571637
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D01E271637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 22:40:54 +0000 (UTC)
-Received: by yhai57 with SMTP id i57so6201677yha.1
+	Thu, 26 Feb 2015 23:10:24 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id z60so11401444qgd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 14:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=1rNpbcV94ZEPybvD67FH1dHBw2hcqstODEDsrrp6AAw=;
-	b=o2FurEqPQBRzaS46dFhlgqg9GTfFKXHNs4MDAJ4HiHltHTdgK2IkH+UHsa0pM4/VyF
-	Dy7KDGV6JLVXnce9KfgSNQJundJvRKxs1NH9DrU2OX6tXnZwd2Cb/e0kQGqIZRI2bC+7
-	b+MpzMNaFFu56VzGsxJSwaoi+YtC2WbjdzkFHhIq317U1irA9aoJUMZT06v0yFrJx/ca
-	IvTWBTOfGowm9L1BTrm4oVL7uqOsvyuTEgtULOfXLnvkjWNS5hdivQqVZfXZPUUPRbe3
-	115YnhMR/ZAq0ggcHaoeqBT++z3wLZ/A683d2ZQg+7ipFaC1aNtWLzmcy5HsebkOGxbE
-	0HMA==
+	Thu, 26 Feb 2015 15:10:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Xr4GNTHpvUC7d3Tf2a+4fDowyz9VK8O4KvE+8KtD+UU=;
+	b=iIKHEBWctuJDJ/WFrx8VPP6ffQh8GZBXrcU+Wr+/QnQOYdKfJ3VIZ7E2x6Pk1qdoMF
+	U5NilOIS1eyhkd3MxxyBgWykVGYFg4iaGQORTi/JLt9nQR05pdrkl0rRwKHSNrXm7bPk
+	kJLqwUJqgKxD6oJOF4270E37OEgKomABr2q/BF1WCqRMUxWgkL9lCYapA5bDkDb/GKrL
+	HGgNhZIkKRS3k0QW4pS2DRrsy48j8BlxWu72M8rnqIWAvG4eTNhLiySHEg0zJLEymerP
+	v2ZcyBN0CFs4JY5Z2sS/AXcoDWeR/h27X4F+g/8d/Pe8az47IsLGAWXUrXVungRc7LWs
+	x4cg==
+X-Gm-Message-State: ALoCoQkF7AuyVIxHHHRuT8RJAO96OSElUd2RwKN9Cdc+sFbdSzNFCW6JTjp4tHvbeot24b1IBYYG
+X-Received: by 10.140.233.79 with SMTP id e76mr23672968qhc.100.1424992225912; 
+	Thu, 26 Feb 2015 15:10:25 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.170.195.144 with SMTP id m138mr10399255yke.50.1424990455708; 
-	Thu, 26 Feb 2015 14:40:55 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.133 with HTTP; Thu, 26 Feb 2015 14:40:55 -0800 (PST)
-In-Reply-To: <54EFA03E.9030904@linux.intel.com>
-References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>
-	<1424987235.26813.42.camel@linuxfoundation.org>
-	<CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
-	<54EFA03E.9030904@linux.intel.com>
-Date: Thu, 26 Feb 2015 19:40:55 -0300
-X-Google-Sender-Auth: YAwLqKKKSIomUIUsKmJQuZV31fs
-Message-ID: <CAP9ODKqcbOTD=qLEmLa94TZbLA6_p3njAS0R263bJ3JVv7jrcA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Randy Witt <randy.e.witt@linux.intel.com>
-Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
+Received: by 10.140.102.203 with HTTP; Thu, 26 Feb 2015 15:10:05 -0800 (PST)
+In-Reply-To: <3098634.xUVi2ZDfg6@peggleto-mobl5.ger.corp.intel.com>
+References: <cover.1424877305.git.cristian.iorga@intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F443500@irsmsx105.ger.corp.intel.com>
+	<CAJTo0Lao_XRie0O_Kb+Cw6-Zh-q+d--XJti6ogbu=WeUqmQhmw@mail.gmail.com>
+	<3098634.xUVi2ZDfg6@peggleto-mobl5.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Feb 2015 23:10:05 +0000
+Message-ID: <CAJTo0LbWjNyXSqSnsjWn3q2o31cRTDornXcDUwLX=H=a5r=9OA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,37 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 22:40:55 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 23:10:26 -0000
+Content-Type: multipart/alternative; boundary=001a113535066f199e051005db6b
+
+--001a113535066f199e051005db6b
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Feb 26, 2015 at 7:37 PM, Randy Witt
-<randy.e.witt@linux.intel.com> wrote:
-> On 02/26/2015 02:00 PM, Otavio Salvador wrote:
->>
->> On Thu, Feb 26, 2015 at 6:47 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>>
->>> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
->>>>
->>>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
->>>> the filename. This is useful not only for MSVC, but also with gcc/Linux
->>>> when doing cross-compilation builds and out-of-tree builds.
->>>
->>>
->>> Ultimately I think we need to address this issue in gcc itself, probably
->>> setting some kind of base path in the environment which it removes from
->>> __FILE__ (set to ${S}). There were more complex discussions about using
->>> the same mapping code as can be used with the debug symbols code too.
+On 26 February 2015 at 22:35, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
+
+> Genuine question, which I should have asked last time those files were
+> touched
+> - how do those tests relate to oe-selftest tests?
 >
->
-> The bug https://gcc.gnu.org/bugzilla/show_bug.cgi?id=47047 looks to still be
-> open. Should we open a Yocto bug to update that patch to apply to a more
-> recent gcc?
 
-Even nicer :D
+Looks like they're unrelated.  As they're standard unittest modules it
+should be fairly simple to teach oe-selftest to load them all, right?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+(AR taken to file a bug)
 
+Ross
+
+--001a113535066f199e051005db6b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 February 2015 at 22:35, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
+inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":1vm" class=3D"a3s" style=3D"overflow:hidden">Genuine question, whic=
+h I should have asked last time those files were touched<br>
+- how do those tests relate to oe-selftest tests?</div></blockquote></div><=
+br>Looks like they&#39;re unrelated.=C2=A0 As they&#39;re standard unittest=
+ modules it should be fairly simple to teach oe-selftest to load them all, =
+right?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>(AR taken to file a bug)</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--001a113535066f199e051005db6b--
