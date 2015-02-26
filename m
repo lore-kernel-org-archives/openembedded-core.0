@@ -1,23 +1,27 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D412365C7B
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A649260670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Feb 2015 21:27:25 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2015 13:23:03 -0800
+	Thu, 26 Feb 2015 21:44:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 26 Feb 2015 13:36:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="460027346"
-Received: from gaponcec-mobl2.amr.corp.intel.com (HELO
-	aehernan-DevStation.zpn.intel.com) ([10.219.4.48])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2015 13:11:50 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Feb 2015 15:27:25 -0600
-Message-Id: <ebda2f7138e66a721c7986b1d09a6c2bbc6e19b1.1424985901.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1424985901.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1424985901.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] python: Fix ctypes/libffi configure
+X-IronPort-AV: E=Sophos;i="5.09,655,1418112000"; d="scan'208";a="657790076"
+Received: from localhost.jf.intel.com (HELO [10.7.201.37]) ([10.7.201.37])
+	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2015 13:44:18 -0800
+Message-ID: <54EF93B1.2020902@linux.intel.com>
+Date: Thu, 26 Feb 2015 13:44:17 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <bruno.bottazzini@intel.com>
+	<1424978954-25411-1-git-send-email-bruno.bottazzini@intel.com>
+In-Reply-To: <1424978954-25411-1-git-send-email-bruno.bottazzini@intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [PATCH] mkefidisk: change filesystem to be writeable on grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Feb 2015 21:27:25 -0000
+X-List-Received-Date: Thu, 26 Feb 2015 21:44:17 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Forces the creation of a configure script for ctypes/libffi Module
-by calling autoreconf after it being deleted on do_configure().
+On 02/26/2015 11:29 AM, Bruno Bottazzini wrote:
+> This patch changes grub configuration so the filesystem will be writeable
+> instead, just read only when running the script.
+> ---
+>   scripts/contrib/mkefidisk.sh | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> index b96b7d4..9b84831 100755
+> --- a/scripts/contrib/mkefidisk.sh
+> +++ b/scripts/contrib/mkefidisk.sh
+> @@ -342,7 +342,7 @@ if [ -e "$GRUB_CFG" ]; then
+>   	sed -i "s/ LABEL=[^ ]*/ /" $GRUB_CFG
+>
+>   	sed -i "s@ root=[^ ]*@ @" $GRUB_CFG
+> -	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait quiet @" $GRUB_CFG
+> +	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS rw rootwait quiet @" $GRUB_CFG
+>   fi
+>
+>   # Look for a gummiboot installation
+>
 
-Fixes configuration hence compilation of this Python module.
+This change basically reverts 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=24cd3ddeb70a3d3f2985ec71c87ae0108f3d2777 
+by Darren. It also doesn't change the ro option when using gummiboot instead.
 
-[YOCTO #7373]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-devtools/python/python-native_2.7.9.bb | 2 +-
- meta/recipes-devtools/python/python_2.7.9.bb        | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-native_2.7.9.bb b/meta/recipes-devtools/python/python-native_2.7.9.bb
-index 28aaa11..34f5c29 100644
---- a/meta/recipes-devtools/python/python-native_2.7.9.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.9.bb
-@@ -37,7 +37,7 @@ EXTRA_OEMAKE = '\
-   STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
- '
- 
--do_configure_prepend() {
-+do_configure_append() {
- 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
- }
- 
-diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
-index 048ec39..4087c2c 100644
---- a/meta/recipes-devtools/python/python_2.7.9.bb
-+++ b/meta/recipes-devtools/python/python_2.7.9.bb
-@@ -39,9 +39,9 @@ TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
- # The following is a hack until we drop ac_cv_sizeof_off_t from site files
- EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)} ac_cv_file__dev_ptmx=no ac_cv_file__dev_ptc=no"
- 
--do_configure_prepend() {
-+do_configure_append() {
- 	rm -f ${S}/Makefile.orig
--	autoreconf -Wcross --verbose --install --force --exclude=autopoint Modules/_ctypes/libffi || bbnote "_ctypes failed to autoreconf"
-+        autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
- }
- 
- do_compile() {
--- 
-1.9.1
-
+What is this change trying to fix?
 
