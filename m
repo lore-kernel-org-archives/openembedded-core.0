@@ -1,33 +1,36 @@
-Return-Path: <tomaz.canabrava@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B159605B3
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D609D72491
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 19:11:50 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2015 11:07:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,661,1418112000"; d="scan'208";a="684508235"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2015 11:11:50 -0800
-Received: from crsmsx152.amr.corp.intel.com (172.18.7.35) by
-	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Fri, 27 Feb 2015 11:11:50 -0800
-Received: from crsmsx101.amr.corp.intel.com ([169.254.1.220]) by
-	CRSMSX152.amr.corp.intel.com ([169.254.5.100]) with mapi id
-	14.03.0224.002; Fri, 27 Feb 2015 13:11:49 -0600
-From: "Canabrava, Tomaz" <tomaz.canabrava@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] Fake python2 env if python3 is the one found in /env
-Thread-Index: AQHQUsE82RRgrliyEUW5Of2t+xJV6A==
-Date: Fri, 27 Feb 2015 19:11:48 +0000
-Message-ID: <040082D7AEE4DB4C97F6A371B20485EC083C9346@CRSMSX101.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.41]
-MIME-Version: 1.0
-Subject: [PATCH] Fake python2 env if python3 is the one found in /env
+	Fri, 27 Feb 2015 19:33:03 +0000 (UTC)
+Received: by wggx12 with SMTP id x12so22357933wgg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Feb 2015 11:33:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=7CKej1XUVnesImZuhSm0rh/NAIi0dO6QDcTDDTfV6wo=;
+	b=dNoKsbCVn0zL/7v7GAjgotuYCScUT8FjPKQD4CRxW5rm/ofStaUM5WcNMK1/1ZRiFo
+	joiClptppRCvJFasExE7IKeWLdKQHLV3zmXu+50IRObOH09E4ff3ghaqn6zgDrYisch+
+	7O16C5rVd510/XVFlNoLYFDEgkClzdGgvYLNIrmh3QCwcb0fMw7iprWef6ZWe6JEMeuS
+	DtnbnalUXRf1Ym74NActc4uiphuYcy6dMpTlVM0sTOxCOAYK/xn5eKRS3pmvsldVILw8
+	EUcpKHqAV1YlgbY47nwwUpDSw8NVQNDBjknGVYDkm7RjkAxqutObA16THPLia0vnv/uq
+	LSeA==
+X-Received: by 10.194.2.43 with SMTP id 11mr31333600wjr.104.1425065584036;
+	Fri, 27 Feb 2015 11:33:04 -0800 (PST)
+Received: from s42.loc (91-119-229-249.dynamic.xdsl-line.inode.at.
+	[91.119.229.249])
+	by mx.google.com with ESMTPSA id p1sm4097783wib.23.2015.02.27.11.33.02
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 27 Feb 2015 11:33:02 -0800 (PST)
+Received: from cow by s42.loc with local (Exim 4.80)
+	(envelope-from <rep.dot.nop@gmail.com>)
+	id 1YRQej-0003CB-FZ; Fri, 27 Feb 2015 20:33:01 +0100
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Feb 2015 20:32:58 +0100
+Message-Id: <1425065579-12253-1-git-send-email-rep.dot.nop@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] scripts/runqemu: clarify help text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 19:11:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 27 Feb 2015 19:33:04 -0000
 
-commit efb963f900951e0bfe2256331626f1715a582e11=0A=
-Author: Tomaz Canabrava <tomaz.canabrava@intel.com>=0A=
-Date:   Tue Feb 24 11:30:46 2015 -0300=0A=
-=0A=
-    Add a call to python-virtualenv2 if the py3 is the default one=0A=
-    =0A=
-    This patch adds a call to python-virtualenv to run python2 instead=0A=
-    of python3 ( wich used to give an error ) when python3 is the default=
-=0A=
-    python executable, but python 2 is also installed on the system.=0A=
-    =0A=
-    It works by faking the pythonpath for the current session only.=0A=
-    =0A=
-    Signed-off-by: Tomaz Canabrava <tomaz.canabrava@intel.com>=0A=
-=0A=
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal=0A=
-index bba6f8f..5d2c58f 100755=0A=
---- a/scripts/oe-buildenv-internal=0A=
-+++ b/scripts/oe-buildenv-internal=0A=
-@@ -35,9 +35,10 @@ fi=0A=
- # can offer a meaningful error message.=0A=
- py_v3_check=3D`/usr/bin/env python --version 2>&1 | grep "Python 3"`=0A=
- if [ "$py_v3_check" !=3D "" ]; then=0A=
--       echo >&2 "Bitbake is not compatible with python v3"=0A=
--       echo >&2 "Please set up python v2 as your default python interprete=
-r"=0A=
--       return 1=0A=
-+       command -v virtualenv2 >/dev/null 2>&1 || { echo >&2 "The system py=
-thon is v3, we need python-virtualenv2 to use the correct one,  Aborting.";=
- exit 1; }=0A=
-+       py2_virtualenv_check=3D`virtualenv2 --version`=0A=
-+       virtualenv2 venv=0A=
-+       source venv/bin/activate=0A=
- fi=0A=
- =0A=
+Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+---
+ scripts/runqemu |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 7ba92fb..1277e82 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -21,7 +21,7 @@ usage() {
+     MYNAME=`basename $0`
+     echo ""
+     echo "Usage: you can run this script with any valid combination"
+-    echo "of the following options (in any order):"
++    echo "of the following environment variables (in any order):"
+     echo "  QEMUARCH - the qemu machine architecture to use"
+     echo "  KERNEL - the kernel image file to use"
+     echo "  ROOTFS - the rootfs image file or nfsroot directory to use"
+-- 
+1.7.10.4
+
 
