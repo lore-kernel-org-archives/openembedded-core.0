@@ -1,35 +1,38 @@
-Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F466737CC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 12:27:13 +0000 (UTC)
-X-TPG-Junk-Status: Message not scanned
-X-TPG-Antivirus: Passed
-X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Fri, 27 Feb 2015 23:27:08 +1100
-Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
-	[60.242.171.118])
-	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id t1RCR6en022866
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Fri, 27 Feb 2015 23:27:08 +1100
-Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <openembedded-devel@urbanec.net>)
-	id 1YRK0Y-0007FX-5V; Fri, 27 Feb 2015 23:27:06 +1100
-Message-ID: <54F0629A.9080700@urbanec.net>
-Date: Fri, 27 Feb 2015 23:27:06 +1100
-From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 27CAB737C3;
+	Fri, 27 Feb 2015 13:20:58 +0000 (UTC)
+Received: by widem10 with SMTP id em10so139919wid.0;
+	Fri, 27 Feb 2015 05:20:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=3l/pA/nG60jjDKeTzJG476g/AnTkrmfGgSlwvgIi3sc=;
+	b=ZHcDK1fRVaOOQ4tw2sXj6UQi0aUyzUQQU0+uP3TunXCxBI4Oc1lgcWenSgJznscBXm
+	o1uR1FYT2PdwIY352g1cLKlMd3OcYPnjyMXgGcSkWLBas3hh6P+g4lDe1dc4f001S2HU
+	lprOdMECdJdg3oQ9FEdlL675xZY1IiZN9k8T/pzB5Udrwyv/gv8KQAKlf7RBv1zSNtjk
+	L3q/gW15WTp3sqOMeyM8JE8peWT+cFEidU38gyhvgKbsVsj26/hyWmGlEF9+5Slh9Pw0
+	BGPEjqss/2q5tQsRKTjWQbWLNkn+ECFFPvnSGePFz7oyoyQ3Px7Z/ntXn0Gl5jrydHG7
+	eO1w==
+X-Received: by 10.194.200.1 with SMTP id jo1mr27145533wjc.64.1425043259140;
+	Fri, 27 Feb 2015 05:20:59 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	lb6sm5049424wjb.22.2015.02.27.05.20.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Feb 2015 05:20:58 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 27 Feb 2015 14:21:17 +0100
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Message-ID: <20150227132117.GL2309@jama>
+References: <20150227074233.1D2E3502AE@opal.openembedded.org>
 MIME-Version: 1.0
-To: Andreas Oberritter <obi@opendreambox.org>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1424973442-24727-1-git-send-email-openembedded-devel@urbanec.net>	<CAJTo0La5_Wdf537Ct-ZkLqsx7=5KrYsCCpG9fH8g-hdWNjDQpw@mail.gmail.com>	<54EFDF33.2000609@urbanec.net>
-	<54F03A47.8020208@opendreambox.org>
-In-Reply-To: <54F03A47.8020208@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0*git: Update to build current AUTOREV from master branch.
+In-Reply-To: <20150227074233.1D2E3502AE@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Khem Raj : systemd: Upgrade 218 -> 219
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +45,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 12:27:14 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Feb 2015 13:21:01 -0000
+X-Groupsio-MsgNum: 62804
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UK1lfQXsnwKrySH9"
+Content-Disposition: inline
 
-On 27/02/15 20:35, Andreas Oberritter wrote:
-> as far as I remember, OE-Core policy forbids AUTOREV in recipes, because
-> it would make network access mandatory.
+--UK1lfQXsnwKrySH9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fair enough. If that is the policy, it would probably be appropriate to 
-move the gstreamer1.01-*_git.bb recipes out of oe-core or at least fix 
-them so that it is possible to use ${AUTOREV} from another layer.
+On Fri, Feb 27, 2015 at 07:42:33AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 041570e584b98b580cc75f9ee23372da74a84377
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D041570e584b98b580cc75f9ee23372da74a84377
+>=20
+> Author: Khem Raj <raj.khem@gmail.com>
+> Date:   Wed Feb 25 02:55:57 2015 +0000
+>=20
+> systemd: Upgrade 218 -> 219
+>=20
+> 219 has been in the docks for sometime, the older patch got merged
+> this patch is now upgrading 218 to 219
+>=20
+> Make all patches using git
 
-> The syntax for enabling it from local.conf is:
-> SRCREV_pn-gstreamer1.0 = "${AUTOREV}"
+Fails to build in world builds, looks like missing dependency:
 
-This only works for the main gstreamer1.0 recipe. It fails with infinite 
-recursion on any of the gstreamer1.0-plugins-*.bb recipes as I mentioned 
-before. This is because the plugins use a python method for SRC_URI 
-which references PV. This blows up when you try to use SRCREV="${AUTOREV}"
-
-I guess the question is what next? Should I just drop this and leave the 
-oe-core gstreamer1.0*git.bb recipes as they are (referencing git commits 
-from circa 2013) or should I put a bit more effort into cleaning up the 
-issues with infinite recursion when used with AUTOREV? I suspect that 
-the cleanup will just involve removing the current code and inserting a 
-bunch of conditionals that translate "gstreamer1.0-" to "gst-"
-
-In my opinion the current version of the recipes is of limited value. I 
-understand that there has recently been some activity on implementing 
-something that could deliver the functionality of gitpkgv at the oe-core 
-level. Should I perhaps just wait and see how that pans out? 
-gstreamer1.0*git.bb could be a good test case. ;-)
-
-Cheers and beers,
-
-	Peter
+| checking for MOUNT... no
+| configure: error: *** libmount support required but libraries not found
+| Configure failed. The contents of all config.log files follows to aid deb=
+ugging
+| ERROR: oe_runconf failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_configure (log file is located at /home/jenkin=
+s/oe/world/shr-core/tmp-glibc/work/armv5e-oe-linux-gnueabi/systemd/1_219+gi=
+tAUTOINC+a88abde721-r0/temp/log.do_configure.18534)
+NOTE: recipe systemd-1_219+gitAUTOINC+a88abde721-r0: task do_configure: Fai=
+led
 
 
+> Change-Id: Ib0350144592aba26cad56c13c9a5522515915c58
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  ...r-getty-to-agetty-in-console-setup-system.patch |  44 +++++++++
+>  ...ed-missing.h-fall-back-to-insecure-getenv.patch |  25 +++++
+>  ...t-install-dependency-links-at-install-tim.patch |  74 ++++++++++++++
+>  ...eck-for-additional-features-that-uclibc-.patch} |  26 ++++-
+>  ...n-Use-execvpe-only-when-libc-supports-it.patch} |  32 ++++--
+>  ...al-Use-posix-fallocate-only-if-available.patch} |  48 +++++----
+>  ...til-Use-mkostemp-only-if-libc-supports-it.patch |  42 ++++++++
+>  ...unimplemented-_SC_PHYS_PAGES-system-conf.patch} |  29 ++++--
+>  ...or-add-support-for-executing-scripts-und.patch} |  43 ++++----
+>  ...-Make-root-s-home-directory-configurable.patch} | 108 +++++++++++----=
+------
+>  ...011-systemd-user-avoid-using-system-auth.patch} |  12 ++-
+>  .../systemd/systemd/binfmt-install.patch           |  57 -----------
+>  .../systemd/systemd/optional_secure_getenv.patch   |  19 ----
+>  .../systemd/systemd-pam-fix-getty-unit.patch       |  35 -------
+>  .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  30 ------
+>  .../systemd/{systemd_218.bb =3D> systemd_219.bb}     |  37 ++++---
+>  16 files changed, 384 insertions(+), 277 deletions(-)
+>=20
+> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dcommi=
+tdiff;h=3D041570e584b98b580cc75f9ee23372da74a84377
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--UK1lfQXsnwKrySH9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlTwb00ACgkQN1Ujt2V2gBwlqQCgrpBYx2kWTRtqSBPFDCCzL35a
+DmIAoIIEYM8S+uAysQdFqRkslxFc1KCu
+=B1eI
+-----END PGP SIGNATURE-----
+
+--UK1lfQXsnwKrySH9--
