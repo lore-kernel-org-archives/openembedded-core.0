@@ -1,35 +1,33 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7F7718DD
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 18:13:41 +0000 (UTC)
-Received: by lbvp9 with SMTP id p9so19026787lbv.0
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 10:13:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=geJ5r/VxAg8D75FvkIZ7bBimRCV5sad+w+qEyNRN/qw=;
-	b=OK0Kigjw6y21Vir3KctESn8Dv2olU54hnyynwHPC0nXV7TYkEWHWjy9QVJa9fM/iEq
-	zpMN9ShT10UhnqP78qNTuY3gjrdvb9TYK92UHwZi/Dj/cUOsE72zDuO0vMpRKc5/UmUd
-	4dNDUhdcOiCgmgizeu9gbxhVFvaXxD0nhFGItYG0pZrchRAdMJU6c99rbE8kMhg7DfdM
-	XEd/bgG1SsFyGJQXpjvMW945f81gWD4+PZJZrJNOOBAA3u6JFDogvwfVjOBF5IVY6yBn
-	FJK2sWH0VzXgSQ9BfiEtn/pe0OqV36tsT843pK80otvwniIPIHvG5nKznZltwDFITSRf
-	eJdQ==
+Return-Path: <tomaz.canabrava@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B159605B3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Feb 2015 19:11:50 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2015 11:07:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,661,1418112000"; d="scan'208";a="684508235"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2015 11:11:50 -0800
+Received: from crsmsx152.amr.corp.intel.com (172.18.7.35) by
+	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Fri, 27 Feb 2015 11:11:50 -0800
+Received: from crsmsx101.amr.corp.intel.com ([169.254.1.220]) by
+	CRSMSX152.amr.corp.intel.com ([169.254.5.100]) with mapi id
+	14.03.0224.002; Fri, 27 Feb 2015 13:11:49 -0600
+From: "Canabrava, Tomaz" <tomaz.canabrava@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] Fake python2 env if python3 is the one found in /env
+Thread-Index: AQHQUsE82RRgrliyEUW5Of2t+xJV6A==
+Date: Fri, 27 Feb 2015 19:11:48 +0000
+Message-ID: <040082D7AEE4DB4C97F6A371B20485EC083C9346@CRSMSX101.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.41]
 MIME-Version: 1.0
-X-Received: by 10.152.87.178 with SMTP id az18mr14194478lab.122.1425060821803; 
-	Fri, 27 Feb 2015 10:13:41 -0800 (PST)
-Received: by 10.112.40.11 with HTTP; Fri, 27 Feb 2015 10:13:41 -0800 (PST)
-In-Reply-To: <BN3PR0501MB1090B6DA7D327EEE4D86FA72BB150@BN3PR0501MB1090.namprd05.prod.outlook.com>
-References: <BN3PR0501MB1090B6DA7D327EEE4D86FA72BB150@BN3PR0501MB1090.namprd05.prod.outlook.com>
-Date: Fri, 27 Feb 2015 13:13:41 -0500
-Message-ID: <CADkTA4MBgcCvdUbDr_Zo9Aj0bBJ+t3oguWvYWEUUB2qvZ9WbZQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Build error on Fedora 21: "Unsupported version of git (2.1.0)"
+Subject: [PATCH] Fake python2 env if python3 is the one found in /env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 18:13:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Feb 2015 19:11:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 27, 2015 at 12:17 PM, Bryan Evenson <bevenson@melinkcorp.com> wrote:
-> All,
->
-> I'm transitioning to a new laptop and I've installed Fedora 21 on the new one.  I'm trying to build for the first time and I'm running into some issues.
->
-> I'm still on the dylan branch.  I have an image that is based on core-image-minimal with a few additional packages.  When I attempt to build my image, it fails when attempting to patch the Linux kernel.  The failure message in log.do_patch says:
->
->         Unsupported version of git (2.1.0)
->         [ERROR] unable to complete push
->         pending patches are:
->         Unsupported version of git (2.1.0)
->         ERROR. could not update git tree
->         ERROR. Could not apply patches for at91sam9x5ek.
->
-> So I'm assuming what happened was the build system's version of Git was used for the initial kernel checkout but the host's version of Git is being used in the do_patch step.  However, I haven't a clue what to do about it.  Any ideas?
-
-That older set of kern tools used guilt to push / maintain the kernel patch
-queue. guilt unfortunately has a version check, and if the version hasn't
-been added, it aborts.
-
-So you'd need to patch guilt to add that version into its case statement (and
-then hope that no other behaviours have changed to break the commands
-guilt is running).
-
-Bruce
-
->
-> Thanks,
-> Bryan
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+commit efb963f900951e0bfe2256331626f1715a582e11=0A=
+Author: Tomaz Canabrava <tomaz.canabrava@intel.com>=0A=
+Date:   Tue Feb 24 11:30:46 2015 -0300=0A=
+=0A=
+    Add a call to python-virtualenv2 if the py3 is the default one=0A=
+    =0A=
+    This patch adds a call to python-virtualenv to run python2 instead=0A=
+    of python3 ( wich used to give an error ) when python3 is the default=
+=0A=
+    python executable, but python 2 is also installed on the system.=0A=
+    =0A=
+    It works by faking the pythonpath for the current session only.=0A=
+    =0A=
+    Signed-off-by: Tomaz Canabrava <tomaz.canabrava@intel.com>=0A=
+=0A=
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal=0A=
+index bba6f8f..5d2c58f 100755=0A=
+--- a/scripts/oe-buildenv-internal=0A=
++++ b/scripts/oe-buildenv-internal=0A=
+@@ -35,9 +35,10 @@ fi=0A=
+ # can offer a meaningful error message.=0A=
+ py_v3_check=3D`/usr/bin/env python --version 2>&1 | grep "Python 3"`=0A=
+ if [ "$py_v3_check" !=3D "" ]; then=0A=
+-       echo >&2 "Bitbake is not compatible with python v3"=0A=
+-       echo >&2 "Please set up python v2 as your default python interprete=
+r"=0A=
+-       return 1=0A=
++       command -v virtualenv2 >/dev/null 2>&1 || { echo >&2 "The system py=
+thon is v3, we need python-virtualenv2 to use the correct one,  Aborting.";=
+ exit 1; }=0A=
++       py2_virtualenv_check=3D`virtualenv2 --version`=0A=
++       virtualenv2 venv=0A=
++       source venv/bin/activate=0A=
+ fi=0A=
+ =0A=
 
