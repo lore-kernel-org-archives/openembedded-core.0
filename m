@@ -1,36 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 401EC7380D;
-	Fri, 27 Feb 2015 15:50:52 +0000 (UTC)
-Received: by iecrp18 with SMTP id rp18so31765189iec.9;
-	Fri, 27 Feb 2015 07:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=B/RTtltKQc3WSdqPEDx+MWV5QbH6Tfm1MWtdKbAVCZ4=;
-	b=IIFZo6n9KKQV8zbCruInuH9CLsRQ6MWfiWASARQMkgUCCIqZgX1JeZCcEvUhFBuzhc
-	kV8cIeshvNMND+l3TIRY9oo2PWcswD5IzD8NDwhFO1DlUw7Cq9hutY61ReTKjjfbV58C
-	gStL5/ySmlwuZpTL198+IDROk+MdXnyOkCBpx8SVzuVDnjtmyQZZubQa2qe2NQmv/Xp1
-	LiyOIVmJxU1d5OKwK/gO6Zxwzdml79SAGoDSt8XPiVk7lE4pYMUAvyIq0gxT1IOC1+2V
-	WvP+UBMu0xnnhrR7DsL3iI+hqF8CWkWU7wD6D39lJ+wzhGqNMlx8WQOVkHfszoxkqJbA
-	TrdQ==
-X-Received: by 10.43.34.137 with SMTP id ss9mr16424415icb.11.1425052254044;
-	Fri, 27 Feb 2015 07:50:54 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 4688D73689
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Feb 2015 16:04:08 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id j5so2872968qga.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Feb 2015 08:04:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=5762GxWG4LQlHjm52R+Ld1vMzPG9KZAjnyYgoltRQt4=;
+	b=SA7VZ4iJsDWD+3xfQ87VCdXBDaU+FisfINu0Z22VPP/sGpPSb6fcwKjr6ciEWGXAVy
+	1k5lkuGRKZNog03KkHKOTMsdmFQqIO72/JpmS3egaK8jutX7RCo3eAKeIEqo/kDRrnlY
+	yFXw9DnhS1lguwi5j2+WTW/PgDu1eOFex7lJ9mRNLDCxew4JhSDSZqy8Q/PuAHfh4ZeQ
+	dC5mbKSlYaEV3CdqzEaoBb7fBYZ75C2FRKy3YVq6fJjhe4lbxoO/8sXlgJ6qXoqGYjHj
+	uD+m/2jHDPiEwVCNiM09kcowMli1inGyX1wqCLOFYU1TwDHl5NoNwNllKkNbA5MFPHkY
+	llwg==
+X-Gm-Message-State: ALoCoQn248t0Ll2FYRw0Yf83d7xn56SPkJJ6LbXu30nrwGQ0FR55AjXlt6IKs1037m2msLvvW7B4
+X-Received: by 10.55.50.74 with SMTP id y71mr676148qky.51.1425053049725; Fri,
+	27 Feb 2015 08:04:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Fri, 27 Feb 2015 07:50:23 -0800 (PST)
-In-Reply-To: <CAJTo0La-wVzOVVtibXyR-cnOqr-AO7BmZomXPcw=OXOh_zxyNA@mail.gmail.com>
-References: <20150227074233.1D2E3502AE@opal.openembedded.org>
-	<20150227132117.GL2309@jama>
-	<CAJTo0La-wVzOVVtibXyR-cnOqr-AO7BmZomXPcw=OXOh_zxyNA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Feb 2015 07:50:23 -0800
-Message-ID: <CAMKF1srBvdDRypEioCmOzJ1PeC9dKcXN_d8X2p4nCopJ7V97VQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Khem Raj : systemd: Upgrade 218 -> 219
+Received: by 10.140.102.203 with HTTP; Fri, 27 Feb 2015 08:03:48 -0800 (PST)
+In-Reply-To: <CAMKF1srCWK008StDy4q6-PKdqBaAhxdNPfu38SaBvQU5SEhHUg@mail.gmail.com>
+References: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0Lax5EpeTy2y0PUGt+x3hM90U6V=oMaTnLGgRi8LtPGikw@mail.gmail.com>
+	<CAMKF1srCWK008StDy4q6-PKdqBaAhxdNPfu38SaBvQU5SEhHUg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 27 Feb 2015 16:03:48 +0000
+Message-ID: <CAJTo0LYRKaBTMNUx_wuPJOSGx2-aJiBmDATsN+dkUEH=0SApQQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Upgrade 218 -> 219
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 15:50:58 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 16:04:13 -0000
+Content-Type: multipart/alternative; boundary=001a11470ce2d0bbd10510140449
+
+--001a11470ce2d0bbd10510140449
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Feb 27, 2015 at 5:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On 27 February 2015 at 15:49, Khem Raj <raj.khem@gmail.com> wrote:
+
+> I did not see it yet, since they were not part of my distro
 >
-> On 27 February 2015 at 13:21, Martin Jansa <martin.jansa@gmail.com> wrote:
->>
->> Fails to build in world builds, looks like missing dependency:
->
->
-> Yep, in the upgrade the util-linux dependency was dropped.
+> Pushed a fix here please try it out
 >
 
-missed my testing since its pulled in indirectly. Pushed a fix
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/gcc-5.0&id=70d1beede31ee50ded93ea55cff27b8886161af9
+I just sent a patch that does roughly the same thing apart from disabling
+iptables (well, libiptc) by default.  Does anyone have a strong preference
+either way?
 
-> Ross
+Ross
 
+--001a11470ce2d0bbd10510140449
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 February 2015 at 15:49, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":5r8" class=3D"a3s" st=
+yle=3D"overflow:hidden">I did not see it yet, since they were not part of m=
+y distro<br>
+<br>
+Pushed a fix here please try it out</div></blockquote></div><br>I just sent=
+ a patch that does roughly the same thing apart from disabling iptables (we=
+ll, libiptc) by default.=C2=A0 Does anyone have a strong preference either =
+way?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a11470ce2d0bbd10510140449--
