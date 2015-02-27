@@ -1,34 +1,36 @@
 Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail12.tpgi.com.au (mail12.tpgi.com.au [203.12.160.162])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ACDB718DD
+Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E8BB718DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 03:06:37 +0000 (UTC)
+	Fri, 27 Feb 2015 03:28:13 +0000 (UTC)
 X-TPG-Junk-Status: Message not scanned
 X-TPG-Antivirus: Passed
 X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Fri, 27 Feb 2015 14:06:30 +1100
+	date=Fri, 27 Feb 2015 14:28:08 +1100
 Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
 	[60.242.171.118])
-	by mail12.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id t1R36SF7006567
+	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t1R3S5US029300
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Fri, 27 Feb 2015 14:06:30 +1100
+	Fri, 27 Feb 2015 14:28:08 +1100
 Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
 	(envelope-from <openembedded-devel@urbanec.net>)
-	id 1YRBFz-0006Jb-Re; Fri, 27 Feb 2015 14:06:27 +1100
-Message-ID: <54EFDF33.2000609@urbanec.net>
-Date: Fri, 27 Feb 2015 14:06:27 +1100
+	id 1YRBav-0006Lw-LC; Fri, 27 Feb 2015 14:28:05 +1100
+Message-ID: <54EFE445.7030209@urbanec.net>
+Date: Fri, 27 Feb 2015 14:28:05 +1100
 From: Peter Urbanec <openembedded-devel@urbanec.net>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1424973442-24727-1-git-send-email-openembedded-devel@urbanec.net>
-	<CAJTo0La5_Wdf537Ct-ZkLqsx7=5KrYsCCpG9fH8g-hdWNjDQpw@mail.gmail.com>
-In-Reply-To: <CAJTo0La5_Wdf537Ct-ZkLqsx7=5KrYsCCpG9fH8g-hdWNjDQpw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0*git: Update to build current AUTOREV from master branch.
+To: Otavio Salvador <otavio@ossystems.com.br>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>	<1424987235.26813.42.camel@linuxfoundation.org>
+	<CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 03:06:38 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 03:28:15 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 27/02/15 08:52, Burton, Ross wrote:
+On 27/02/15 09:00, Otavio Salvador wrote:
+> On Thu, Feb 26, 2015 at 6:47 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
+>>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
+>>> the filename. This is useful not only for MSVC, but also with gcc/Linux
+>>> when doing cross-compilation builds and out-of-tree builds.
+>>
+>> Ultimately I think we need to address this issue in gcc itself, probably
+>> setting some kind of base path in the environment which it removes from
+>> __FILE__ (set to ${S}). There were more complex discussions about using
+>> the same mapping code as can be used with the debug symbols code too.
 >
-> On 26 February 2015 at 17:57, Peter Urbanec
-> <openembedded-devel@urbanec.net <mailto:openembedded-devel@urbanec.net>>
-> wrote:
->
->     -SRCREV = "127202d6f65584891dabf92be031f0d170b0e7f1"
->     +SRCREV ?= "${AUTOREV}"
->
->
-> I'd say that the git packages should track the tarball releases *and be
-> tested as such* so that they actually work out of the box and don't
-> break over time as upstream changes.
+> Agreed; this should indeed be a global fix as this affects virtually
+> all packages.
 
-I disagree. There's no point in having a git version of a package that 
-is exactly the same as a release version. Doing so would also bring in 
-all the patches specific to that release, which may not be appropriate 
-for a different git revision. If you want a tested release, you would 
-stick to something like gstreamer1.0*1.4.5.bb instead of choosing a git 
-version.
+I also agree, but this patch can go ahead regardless of what the global 
+solution is. The patch enables a mechanism that already exists in 
+gstreamer (but is only enabled on WIN32) and solves an immediate need in 
+that context. Whatever the global solution is, this patch is very likely 
+to continue working correctly.
 
-> If someone wants to make a bleeding-edge build then it's a simple change
-> to set the SRCREV to AUTOREV at the distro level.
+Having a proper solution at the gcc level will significantly reduce the 
+size of the generated files, so there is certainly a win to be had 
+there. I had a look at both C99 and C++98 standards and the semantics of 
+the __FILE__ macro are implementation defined and do not stipulate any 
+particular interpretation. In particular, there's no requirement to have 
+path information preserved.
 
-Well, as it's shaping up, that may actually not be possible in oe-core 
-packages. It certainly does not work with the current gstreamer1.0*git 
-recipes, because as soon as you do that you end up with infinite 
-recursion when expanding SRC_URI.
-
-I think there are two main use cases for git builds. Case one is keeping 
-up with the bleeding edge, which implies SRCREV="${AUTOREV}". Case two 
-is freezing at a particular revision that suits you, which implies 
-SRCREV="git-hash". In case one, you will probably want to run a fairly 
-lean set of patches (or even none) to track the upstream. In case two, 
-you could potentially have a comprehensive set of patches that will only 
-apply to that revision. Both cases will be a lot easier to manage if the 
-*git.bb recipe gives you a clean git repository without patches.
-
+I think a simple patch to gcc to transform a full pathname to basename 
+is probably sufficient for oe-core - the less complexity is introduced 
+the better.
 
