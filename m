@@ -1,36 +1,34 @@
-Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E8BB718DD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 02C4272007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 03:28:13 +0000 (UTC)
-X-TPG-Junk-Status: Message not scanned
-X-TPG-Antivirus: Passed
-X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Fri, 27 Feb 2015 14:28:08 +1100
-Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
-	[60.242.171.118])
-	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id t1R3S5US029300
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Fri, 27 Feb 2015 14:28:08 +1100
-Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <openembedded-devel@urbanec.net>)
-	id 1YRBav-0006Lw-LC; Fri, 27 Feb 2015 14:28:05 +1100
-Message-ID: <54EFE445.7030209@urbanec.net>
-Date: Fri, 27 Feb 2015 14:28:05 +1100
-From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Fri, 27 Feb 2015 06:51:52 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id nt9so16283462obb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Feb 2015 22:51:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=YZPRR8uOjCnj1DsFWSOgxI9BGZ2vgHk28ZSr3FCwuYI=;
+	b=oc4NiLV4zX2r2i8n5XFmndI1cHfMFVdP1HkOsRL/ePDwtvQp+04pInygSRw7QtBJA5
+	DCqTo396tfxpuLuYgKGoS+lfth4c1hpwJwfMemEUJQu5v74xs3y8vHC9xc2KQpa2+AQw
+	VRFqXlNdhBkj62mx3K+oHjHfNy1EpIkqo5MKz6zNm4CG1v0wb9cWIHie3Y7LIbwKdAis
+	6sp3rTScIhcfMiMu1iVdDMP5BJCcCdZoj6iGpQg/uCsNhgjkiElXUfQlm0Bp5/oDUmZX
+	8OrCAhBqslkuls1TS2bLDRycha4UEZqBIPE4v124rcVq15zJSiTvyXN6+e/S/aQOeMbx
+	NLOg==
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1424971893-6258-1-git-send-email-openembedded-devel@urbanec.net>	<1424987235.26813.42.camel@linuxfoundation.org>
-	<CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKoZO1m-2BomHz6h_YtmwKsoEURsCxAMXPmYN3X6E1xqfQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Shorten __FILE__ in gst_debug_log output on all platforms.
+X-Received: by 10.60.42.171 with SMTP id p11mr6466720oel.41.1425019913627;
+	Thu, 26 Feb 2015 22:51:53 -0800 (PST)
+Received: by 10.202.217.69 with HTTP; Thu, 26 Feb 2015 22:51:53 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.11.1502241825100.7215@localhost>
+References: <alpine.LFD.2.11.1502241825100.7215@localhost>
+Date: Thu, 26 Feb 2015 22:51:53 -0800
+Message-ID: <CAJ86T=VOP4fFhy_7R9FvaAmre+oC3erL17Xmtj2B0EqfEJhqaw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Replace deprecated SERIAL_CONSOLE with SERIAL_CONSOLES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 03:28:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Feb 2015 06:51:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 27/02/15 09:00, Otavio Salvador wrote:
-> On Thu, Feb 26, 2015 at 6:47 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2015-02-27 at 04:31 +1100, Peter Urbanec wrote:
->>> On WIN32 the file argument to gst_debug_log_valist is shortened to just
->>> the filename. This is useful not only for MSVC, but also with gcc/Linux
->>> when doing cross-compilation builds and out-of-tree builds.
->>
->> Ultimately I think we need to address this issue in gcc itself, probably
->> setting some kind of base path in the environment which it removes from
->> __FILE__ (set to ${S}). There were more complex discussions about using
->> the same mapping code as can be used with the debug symbols code too.
+On Tue, Feb 24, 2015 at 3:27 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> Agreed; this should indeed be a global fix as this affects virtually
-> all packages.
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+>
+> ---
+>
+>   there are still a few remaining references to SERIAL_CONSOLE, but
+> i'll leave it to someone else to decide when to remove that entirely.
+> i'm assuming this is a fairly obvious textual replacement.
+>
+> diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+> index d07084b..3e05bfa 100644
+> --- a/meta/conf/machine/qemuarm.conf
+> +++ b/meta/conf/machine/qemuarm.conf
+> @@ -8,5 +8,5 @@ require conf/machine/include/tune-arm926ejs.inc
+>
+>  KERNEL_IMAGETYPE = "zImage"
+>
+> -SERIAL_CONSOLE = "115200 ttyAMA0"
+> +SERIAL_CONSOLES = "115200;ttyAMA0"
+>
 
-I also agree, but this patch can go ahead regardless of what the global 
-solution is. The patch enables a mechanism that already exists in 
-gstreamer (but is only enabled on WIN32) and solves an immediate need in 
-that context. Whatever the global solution is, this patch is very likely 
-to continue working correctly.
+When SERIAL_CONSOLES is set by bitbake.conf the assignment is with
+"??=", so this change will break things unexpectedly for anyone who
+may rely on over-riding SERIAL_CONSOLES from a local.conf file, etc.
 
-Having a proper solution at the gcc level will significantly reduce the 
-size of the generated files, so there is certainly a win to be had 
-there. I had a look at both C99 and C++98 standards and the semantics of 
-the __FILE__ macro are implementation defined and do not stipulate any 
-particular interpretation. In particular, there's no requirement to have 
-path information preserved.
-
-I think a simple patch to gcc to transform a full pathname to basename 
-is probably sufficient for oe-core - the less complexity is introduced 
-the better.
+Perhaps better to make these new SERIAL_CONSOLES assignments with "?="
+instead of "=" ?
 
