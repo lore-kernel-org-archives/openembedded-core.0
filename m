@@ -1,37 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 169C572277
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C14072491
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 16:14:54 +0000 (UTC)
-Received: by igkb16 with SMTP id b16so1545447igk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 08:14:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=NitRt4Sdj1lMHg8WrlJlkH1Yvhwz6tV5oihRCxrFydk=;
-	b=TDz1H2J9WTGTe5RxXwkSTXnDpSV5BHfS6MNkG/yp8Wdg4osbgfsNwhSrIitv2e479n
-	a4pextC3H9/atuHhFqP8pxAmxlb3QmtFKQj9z0tuTf7zopGwVP1P2oS4R9lJcc6sLD9L
-	vxNgj0Xg4nl5wFFVD0x6F/O5heqyTE4xX5jtW43HKFGpjaoQ8aPSFYHs5fr6jIY1f9MI
-	kl1dEtOujhy8ZZMKB1Y6O2KWsI5zejuipDRNpuqJihltj0wEP1HKu8+RzVwUMadpdNol
-	k+MMSWcm/Pk62Cke4yzATAnWAX864s52loVbTim+mOuyNFBtm/JRwHOactrFzPOQa3ir
-	TNwQ==
-X-Received: by 10.50.142.106 with SMTP id rv10mr5229946igb.18.1425053695330;
-	Fri, 27 Feb 2015 08:14:55 -0800 (PST)
+	Fri, 27 Feb 2015 16:27:09 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Feb 2015 08:27:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,660,1418112000"; d="scan'208";a="684435634"
+Received: from unknown (HELO [10.219.4.153]) ([10.219.4.153])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2015 08:27:04 -0800
+Message-ID: <54F09AE3.5030701@linux.intel.com>
+Date: Fri, 27 Feb 2015 10:27:15 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Fri, 27 Feb 2015 08:14:25 -0800 (PST)
-In-Reply-To: <CAJTo0LYRKaBTMNUx_wuPJOSGx2-aJiBmDATsN+dkUEH=0SApQQ@mail.gmail.com>
-References: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0Lax5EpeTy2y0PUGt+x3hM90U6V=oMaTnLGgRi8LtPGikw@mail.gmail.com>
-	<CAMKF1srCWK008StDy4q6-PKdqBaAhxdNPfu38SaBvQU5SEhHUg@mail.gmail.com>
-	<CAJTo0LYRKaBTMNUx_wuPJOSGx2-aJiBmDATsN+dkUEH=0SApQQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Feb 2015 08:14:25 -0800
-Message-ID: <CAMKF1srfUT-spNvexB96kWnFEzCyVumEQu-Hr=HctJgeh=pnzQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Upgrade 218 -> 219
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+References: <1414607656-12144-1-git-send-email-anibal.limon@linux.intel.com>	
+	<2739283.cBzxHPFgeW@peggleto-mobl5.ger.corp.intel.com>	
+	<CAPhnLPCWaaeaFgjkY1-NTyHGRa6DPcY1HiNi+HMHo_ZWtu3o7Q@mail.gmail.com>	
+	<CAPhnLPBS-v5YKmBQgb2UmuNKK7gBwcFCZURVe0E02x0rfJbfqQ@mail.gmail.com>
+	<1424973056.26813.34.camel@linuxfoundation.org>
+In-Reply-To: <1424973056.26813.34.camel@linuxfoundation.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] license_class: Added support for LICENSE_PRIORITY in manifest creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 16:14:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Feb 2015 16:27:11 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 27, 2015 at 8:03 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 27 February 2015 at 15:49, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> I did not see it yet, since they were not part of my distro
->>
->> Pushed a fix here please try it out
->
->
-> I just sent a patch that does roughly the same thing apart from disabling
-> iptables (well, libiptc) by default.  Does anyone have a strong preference
-> either way?
+HI Richard,
 
-I would be fine if it was a packageconfig and off by default.
+I can do the rebase this change affects documentation that needs to 
+describe LICENSE_PRIORITY feature.
 
+Kind regards,
+     alimon
+
+On 26/02/15 11:50, Richard Purdie wrote:
+> On Thu, 2015-02-26 at 16:34 +0000, Flanagan, Elizabeth wrote:
+>> Actually, this contains almost exactly what I was writing. So yes, I
+>> ACKing.
+> Can someone post a rebased patch of what we're looking to merge please?
 >
-> Ross
+> Cheers,
+>
+> Richard
+>
+>
+
 
