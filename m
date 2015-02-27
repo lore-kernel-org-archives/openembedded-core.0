@@ -1,37 +1,35 @@
-Return-Path: <michael.g.wood@intel.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0AE73751
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F466737CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 12:15:23 +0000 (UTC)
-Received: by wghl2 with SMTP id l2so19976699wgh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 04:15:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=cZwf9IWH87rLYhkQdkqktZJ1vxj2FpRSiiqRba7GWWw=;
-	b=AF2r1Nm6qRtBVOIze9Fw0kQylX81+4qMjbiqS8FFLW8f7fn5bpU6umtvBD8AC5fYKG
-	yJLZ5F6UKzEBFZETFWAc6CCuvJUNmnBdRGG8autUfrtsxnmfjf6bAb6QEAEPTP9DabHi
-	yj180JOl/MwkUQ7hp4HbdcwT9wQ8VRc8xbXKaBQ8JFdzZSYyD1YcGrI+lKtEIpx7Vh65
-	PJJjSm+1jS7KHmihhB40Gkp9DGnMhi5AsRx2UveQ19Pem6TNkfi2vBzSpZoo4LIQ05to
-	3W2GexKwqWr197X33j33g+/MK3z5TF2u7CjNIALdwF5cInu4opd4LXX4ioTLGTSOJou0
-	58Fw==
-X-Gm-Message-State: ALoCoQksgGbJP8euVR/0P35z7kdwvcWANPFgo44ZLqxHgTs1ku5Hdc5/B7fC+NibQVQPtvZvAKo6
-X-Received: by 10.180.91.47 with SMTP id cb15mr5830463wib.39.1425039323364;
-	Fri, 27 Feb 2015 04:15:23 -0800 (PST)
-Received: from draco.icx.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id v9sm1862732wib.0.2015.02.27.04.15.22
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Feb 2015 04:15:22 -0800 (PST)
-From: Michael Wood <michael.g.wood@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Feb 2015 12:15:19 +0000
-Message-Id: <1425039319-20503-1-git-send-email-michael.g.wood@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1425037674-19569-1-git-send-email-michael.g.wood@intel.com>
-References: <1425037674-19569-1-git-send-email-michael.g.wood@intel.com>
-Subject: [PATCH] report-error: Update information on the submission process
+	Fri, 27 Feb 2015 12:27:13 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Fri, 27 Feb 2015 23:27:08 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t1RCR6en022866
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+	Fri, 27 Feb 2015 23:27:08 +1100
+Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <openembedded-devel@urbanec.net>)
+	id 1YRK0Y-0007FX-5V; Fri, 27 Feb 2015 23:27:06 +1100
+Message-ID: <54F0629A.9080700@urbanec.net>
+Date: Fri, 27 Feb 2015 23:27:06 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Andreas Oberritter <obi@opendreambox.org>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <1424973442-24727-1-git-send-email-openembedded-devel@urbanec.net>	<CAJTo0La5_Wdf537Ct-ZkLqsx7=5KrYsCCpG9fH8g-hdWNjDQpw@mail.gmail.com>	<54EFDF33.2000609@urbanec.net>
+	<54F03A47.8020208@opendreambox.org>
+In-Reply-To: <54F03A47.8020208@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0*git: Update to build current AUTOREV from master branch.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 12:15:24 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 12:27:14 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The new send-error-report will prompt for review of items and the server is
-now specified by using the -s argument.
+On 27/02/15 20:35, Andreas Oberritter wrote:
+> as far as I remember, OE-Core policy forbids AUTOREV in recipes, because
+> it would make network access mandatory.
 
-Signed-off-by: Michael Wood <michael.g.wood@intel.com>
----
- meta/classes/report-error.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Fair enough. If that is the policy, it would probably be appropriate to 
+move the gstreamer1.01-*_git.bb recipes out of oe-core or at least fix 
+them so that it is possible to use ${AUTOREV} from another layer.
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 5f155e3..9edf2ce 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -66,8 +66,8 @@ python errorreport_handler () {
-             if(len(failures) > 0):
-                 filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
-                 datafile = errorreport_savedata(e, jsondata, filename)
--                bb.note("The errors for this build are stored in %s\nYou can send the errors to an upstream server by running:\n  send-error-report %s [server]" % (datafile, datafile))
--                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. If you need to do so, please ensure you remove any identifying or proprietary information before sending.")
-+                bb.note("The errors for this build are stored in %s\nYou can send the errors to a reports server by running:\n  send-error-report %s [-s server]" % (datafile, datafile))
-+                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.")
- }
- 
- addhandler errorreport_handler
--- 
-2.1.0
+> The syntax for enabling it from local.conf is:
+> SRCREV_pn-gstreamer1.0 = "${AUTOREV}"
+
+This only works for the main gstreamer1.0 recipe. It fails with infinite 
+recursion on any of the gstreamer1.0-plugins-*.bb recipes as I mentioned 
+before. This is because the plugins use a python method for SRC_URI 
+which references PV. This blows up when you try to use SRCREV="${AUTOREV}"
+
+I guess the question is what next? Should I just drop this and leave the 
+oe-core gstreamer1.0*git.bb recipes as they are (referencing git commits 
+from circa 2013) or should I put a bit more effort into cleaning up the 
+issues with infinite recursion when used with AUTOREV? I suspect that 
+the cleanup will just involve removing the current code and inserting a 
+bunch of conditionals that translate "gstreamer1.0-" to "gst-"
+
+In my opinion the current version of the recipes is of limited value. I 
+understand that there has recently been some activity on implementing 
+something that could deliver the functionality of gitpkgv at the oe-core 
+level. Should I perhaps just wait and see how that pans out? 
+gstreamer1.0*git.bb could be a good test case. ;-)
+
+Cheers and beers,
+
+	Peter
 
 
