@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 0883873751
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0AE73751
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 12:02:52 +0000 (UTC)
-Received: by qcqi8 with SMTP id i8so13361416qcq.3
+	Fri, 27 Feb 2015 12:15:23 +0000 (UTC)
+Received: by wghl2 with SMTP id l2so19976699wgh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 04:02:53 -0800 (PST)
+	Fri, 27 Feb 2015 04:15:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=e94ffqeNyAWFkUsBaX3MLPIvS6et82lDQaChZH6kor4=;
-	b=iOiSQ0zY5e//QjijwfgInPALT0iN8nsBmhna4unKkuhR0Iz29PZppiDMwzt7sVoZ0s
-	pmnYOIjLXcNMY8OVKm8L8hoCSmRjWd9pkLQa5LQjPObGPPKo9vn/vicXYFJjcj+s0ca7
-	aEQ1FqjOU0o6eBLU6EvQmJMaHP6qhO6V7AagRpr+1mRS41Y/ek6uGOqhA7asqyxp7fPn
-	G5IAX72+Ge+bNFsMswH+OewepyLWaM0y+fhxUh2uuHho+zDbfXvxVL60a3O87Okptkyl
-	KnwcqgdpMCGLuBJAEwPcP+gRuDu0Lvwo/gso6yW3H7gxA7ZIwuXzYyeN+uSSOYQmsTqB
-	o/pA==
-X-Gm-Message-State: ALoCoQmhm65W1Pq5dU2AZZHVdXpjt7mWm6gaztVopcqtQRV37+GUSnN0zymIC/qrmbMmTazUdi3P
-X-Received: by 10.55.50.74 with SMTP id y71mr285149qky.51.1425038573491; Fri,
-	27 Feb 2015 04:02:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Fri, 27 Feb 2015 04:02:33 -0800 (PST)
-In-Reply-To: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
-References: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 27 Feb 2015 12:02:33 +0000
-Message-ID: <CAJTo0Lax5EpeTy2y0PUGt+x3hM90U6V=oMaTnLGgRi8LtPGikw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Upgrade 218 -> 219
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=cZwf9IWH87rLYhkQdkqktZJ1vxj2FpRSiiqRba7GWWw=;
+	b=AF2r1Nm6qRtBVOIze9Fw0kQylX81+4qMjbiqS8FFLW8f7fn5bpU6umtvBD8AC5fYKG
+	yJLZ5F6UKzEBFZETFWAc6CCuvJUNmnBdRGG8autUfrtsxnmfjf6bAb6QEAEPTP9DabHi
+	yj180JOl/MwkUQ7hp4HbdcwT9wQ8VRc8xbXKaBQ8JFdzZSYyD1YcGrI+lKtEIpx7Vh65
+	PJJjSm+1jS7KHmihhB40Gkp9DGnMhi5AsRx2UveQ19Pem6TNkfi2vBzSpZoo4LIQ05to
+	3W2GexKwqWr197X33j33g+/MK3z5TF2u7CjNIALdwF5cInu4opd4LXX4ioTLGTSOJou0
+	58Fw==
+X-Gm-Message-State: ALoCoQksgGbJP8euVR/0P35z7kdwvcWANPFgo44ZLqxHgTs1ku5Hdc5/B7fC+NibQVQPtvZvAKo6
+X-Received: by 10.180.91.47 with SMTP id cb15mr5830463wib.39.1425039323364;
+	Fri, 27 Feb 2015 04:15:23 -0800 (PST)
+Received: from draco.icx.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id v9sm1862732wib.0.2015.02.27.04.15.22
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 27 Feb 2015 04:15:22 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Feb 2015 12:15:19 +0000
+Message-Id: <1425039319-20503-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1425037674-19569-1-git-send-email-michael.g.wood@intel.com>
+References: <1425037674-19569-1-git-send-email-michael.g.wood@intel.com>
+Subject: [PATCH] report-error: Update information on the submission process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 12:02:53 -0000
-Content-Type: multipart/alternative; boundary=001a11470ce2f778be051010a52a
+X-List-Received-Date: Fri, 27 Feb 2015 12:15:24 -0000
 
---001a11470ce2f778be051010a52a
-Content-Type: text/plain; charset=UTF-8
+The new send-error-report will prompt for review of items and the server is
+now specified by using the -s argument.
 
-On 25 February 2015 at 02:47, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/classes/report-error.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 219 has been in the docks for sometime, the older patch got merged
-> this patch is now upgrading 218 to 219
->
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 5f155e3..9edf2ce 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -66,8 +66,8 @@ python errorreport_handler () {
+             if(len(failures) > 0):
+                 filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
+                 datafile = errorreport_savedata(e, jsondata, filename)
+-                bb.note("The errors for this build are stored in %s\nYou can send the errors to an upstream server by running:\n  send-error-report %s [server]" % (datafile, datafile))
+-                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. If you need to do so, please ensure you remove any identifying or proprietary information before sending.")
++                bb.note("The errors for this build are stored in %s\nYou can send the errors to a reports server by running:\n  send-error-report %s [-s server]" % (datafile, datafile))
++                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.")
+ }
+ 
+ addhandler errorreport_handler
+-- 
+2.1.0
 
-With this merged I'm now getting these warnings from QA:
 
-WARNING: QA Issue: systemd rdepends on iptables, but it isn't a build
-dependency? [build-deps]
-WARNING: QA Issue: systemd rdepends on libxkbcommon, but it isn't a build
-dependency? [build-deps]
-
-Ross
-
---001a11470ce2f778be051010a52a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 February 2015 at 02:47, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div id=3D":68v" class=3D"" style=3D"overflow:h=
-idden">219 has been in the docks for sometime, the older patch got merged<b=
-r>
-this patch is now upgrading 218 to 219</div></blockquote></div><br>With thi=
-s merged I&#39;m now getting these warnings from QA:</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">W=
-ARNING: QA Issue: systemd rdepends on iptables, but it isn&#39;t a build de=
-pendency? [build-deps]</div><div class=3D"gmail_extra">WARNING: QA Issue: s=
-ystemd rdepends on libxkbcommon, but it isn&#39;t a build dependency? [buil=
-d-deps]</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div></div>
-
---001a11470ce2f778be051010a52a--
