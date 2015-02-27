@@ -1,23 +1,23 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 88772718DD
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 380DF72491
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 27 Feb 2015 17:20:04 +0000 (UTC)
-Received: by igkb16 with SMTP id b16so2088494igk.1
+Received: by igbhn18 with SMTP id hn18so2086221igb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 09:20:05 -0800 (PST)
+	Fri, 27 Feb 2015 09:20:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rFUd/+76YBjvo5vzz4RMOSJIJRTPWJcblMH4UopceJA=;
-	b=XT+4sogvM9yBfza4/o2hyst4mjXw5jy0tQmuVxfQdbZZhXL2FgW/cZJ88l9PCONqDe
-	71LJlyQ1ZRHlRPE1t5fHaTgVYaN2HOfHiA2PFKqFbg6cWa9sW+xTltn1kmpgteeKkqGM
-	OBoQBZltdgix5qof3oD0F9VTAqEdoURVmQYLXYrUOcXQzAJ/ndYISfJV/w2/AlVJ2/eE
-	MsZrA8+YDk8gO4Kgc6y/8oeUMYEyMkYcWhl9BXOZ/0H1FI8wpKwTxy3Jt7Kvh3fet4n/
-	NxmE3wNC/mqxC5Y9OVRTruF3d3SqbfqhNGfTYfTlyo1wTuwX5QwQLU7TuL0yNpmHAMIs
-	NuJQ==
-X-Received: by 10.43.67.3 with SMTP id xs3mr16484102icb.39.1425057605739;
-	Fri, 27 Feb 2015 09:20:05 -0800 (PST)
+	bh=tAz1ERoJjd5Jrtw+fZVwh+Cwb0uRdSLh/4Vvt/WVIMU=;
+	b=dfQavgj4sf2AMaItTcrpFPB+U0JsY7lYPOYtVoi1ps58hcaAYm2hV8ATqC5QuIgNTC
+	B8ClV7UPq0tzw1yf6GJHFxyuF3XN8Uw/iSBFPcxmzDdjNotHhaQxWowFZQWHneplptko
+	Mdn+pccxp1nBAEAa4cpLNgmd38cG5qg2kcthTOkXNicxHsYwXGtweun2lCN8+xk/N6/f
+	f//zoQLZnB9nsZn8p0jwhnyXl4CDmj1jVRhFCB9L/Hm8/sfIacfF88qDjF1Y4mCcwIW6
+	BrZPz/YPF2MtSqRnA7kZ1ewRfFaLavmYC6N3ctHukTwC9GtykzVzdTwsRV4lI7gTZsFe
+	eEwA==
+X-Received: by 10.42.188.133 with SMTP id da5mr16646567icb.37.1425057606342;
+	Fri, 27 Feb 2015 09:20:06 -0800 (PST)
 Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	[96.119.88.205])
 	by mx.google.com with ESMTPSA id r78sm2594257ioi.22.2015.02.27.09.20.05
@@ -25,12 +25,12 @@ Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	Fri, 27 Feb 2015 09:20:05 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Feb 2015 17:19:53 +0000
-Message-Id: <1425057596-28243-2-git-send-email-raj.khem@gmail.com>
+Date: Fri, 27 Feb 2015 17:19:54 +0000
+Message-Id: <1425057596-28243-3-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
 References: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/6] libgpg-error: Add -P option to CPPFLAGS
+Subject: [PATCH 3/6] mtd-utils: update to latest and fix static inlining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,76 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 17:20:04 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 17:20:05 -0000
 
-Fixes https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1301822.html
+use static storage class instead of extern for inline functions
+and remove duplicate definitions as a result
 
-libgpg-error FTBFS when built with gcc-5. Here is the relevant excerpt:
-
-| Making all in src
-| make[4]: Entering directory '/tmp/buildd/libgpg-error/libgpg-error-1.17/src'
-| gawk -f ./mkstrtable.awk -v textidx=3 \
-|         ./err-sources.h.in >err-sources.h
-| gawk -f ./mkstrtable.awk -v textidx=3 \
-|         ./err-codes.h.in >err-codes.h
-| gawk -f ./mkerrnos.awk ./errnos.in >code-to-errno.h
-| gawk -f ./mkerrcodes1.awk ./errnos.in >_mkerrcodes.h
-| gcc -E -D_FORTIFY_SOURCE=2  _mkerrcodes.h | grep GPG_ERR_ | \
-|                gawk -f ./mkerrcodes.awk >mkerrcodes.h
-| rm _mkerrcodes.h
-| gcc -I. -I. -o mkerrcodes ./mkerrcodes.c
-| In file included from ./mkerrcodes.c:26:0:
-| ./mkerrcodes.h:9:5: error: expected expression before ',' token
-|    { , "GPG_ERR_E2BIG" },
-|      ^
-
-It makes invalid assumptions on undefined behaviour of gcc. To see why,
-let us look at the contents of the intermediate steps:
-
-_mkerrcodes.h (deleted):
-| ...
-| #ifdef E2BIG
-| E2BIG   GPG_ERR_E2BIG
-| #endif
-| #ifdef WSAE2BIG
-| WSAE2BIG        GPG_ERR_E2BIG
-| #endif
-| ...
-
-gcc -E -D_FORTIFY_SOURCE=2  _mkerrcodes.h | grep -v '^$':
-| ...
-| # 26 "_mkerrcodes.h" 2
-| 7
-| # 31 "_mkerrcodes.h"
-|      GPG_ERR_E2BIG
-| # 37 "_mkerrcodes.h" 3 4
-| 13
-| # 37 "_mkerrcodes.h"
-|       GPG_ERR_EACCES
-| ...
-
-As can be seen here, the cpp from gcc-5 can split lines and "grep
-GPG_ERR_" fails to account for that.
-
-Change-Id: I6f1476e4afc7163ebc3a05106ceaa3b83e3fab3e
+Change-Id: I72e8c5f19dff656c18f719d1e9e2ca697c9a856f
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libgpg-error/libgpg-error_1.18.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...emove-duplicate-hashtable_iterator_value-.patch | 56 ++++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  3 +-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-index 9501b67..6d11605 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "9ff1d6e61d4cef7c1d0607ceef6d40dc33f3da7a3094170c3718c00153
- BINCONFIG = "${bindir}/gpg-error-config"
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
+new file mode 100644
+index 0000000..695f020
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
+@@ -0,0 +1,56 @@
++From b856ff35c20124ceae40bbc4d32584df47618c96 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 25 Feb 2015 09:28:26 +0000
++Subject: [PATCH] hashtable: Remove duplicate
++ hashtable_iterator_value/hashtable_iterator_key
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ mkfs.ubifs/hashtable/hashtable_itr.c | 12 ------------
++ 1 file changed, 12 deletions(-)
++
++Index: git/mkfs.ubifs/hashtable/hashtable_itr.h
++===================================================================
++--- git.orig/mkfs.ubifs/hashtable/hashtable_itr.h
+++++ git/mkfs.ubifs/hashtable/hashtable_itr.h
++@@ -28,7 +28,7 @@ hashtable_iterator(struct hashtable *h);
++ /* hashtable_iterator_key
++  * - return the value of the (key,value) pair at the current position */
++ 
++-extern inline void *
+++static inline void *
++ hashtable_iterator_key(struct hashtable_itr *i)
++ {
++     return i->e->k;
++@@ -37,7 +37,7 @@ hashtable_iterator_key(struct hashtable_
++ /*****************************************************************************/
++ /* value - return the value of the (key,value) pair at the current position */
++ 
++-extern inline void *
+++static inline void *
++ hashtable_iterator_value(struct hashtable_itr *i)
++ {
++     return i->e->v;
++Index: git/mkfs.ubifs/hashtable/hashtable_itr.c
++===================================================================
++--- git.orig/mkfs.ubifs/hashtable/hashtable_itr.c
+++++ git/mkfs.ubifs/hashtable/hashtable_itr.c
++@@ -35,18 +35,6 @@ hashtable_iterator(struct hashtable *h)
++ }
++ 
++ /*****************************************************************************/
++-/* key      - return the key of the (key,value) pair at the current position */
++-/* value    - return the value of the (key,value) pair at the current position */
++-
++-void *
++-hashtable_iterator_key(struct hashtable_itr *i)
++-{ return i->e->k; }
++-
++-void *
++-hashtable_iterator_value(struct hashtable_itr *i)
++-{ return i->e->v; }
++-
++-/*****************************************************************************/
++ /* advance - advance the iterator to the next element
++  *           returns zero if advanced to end of table */
++ 
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 267d1e9..ce63695 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
  
- inherit autotools binconfig-disabled pkgconfig gettext
--
-+CPPFLAGS += "-P"
- do_compile_prepend() {
- 	TARGET_FILE=linux-gnu
- 	if [ ${TARGET_OS} != "linux" ]; then
+ # Use the latest version at 26 Oct, 2013
+-SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
++SRCREV = "92686f212c9a4e16891c6a3c57629cbf4f0f8360"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+ 		file://fix-armv7-neon-alignment.patch \
++		file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \
+ "
+ 
+ PV = "1.5.1+git${SRCPV}"
 -- 
 2.1.4
 
