@@ -1,40 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1514E737FC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B81F2737FB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 15:00:20 +0000 (UTC)
-Received: by widem10 with SMTP id em10so761540wid.0
+	Fri, 27 Feb 2015 15:49:55 +0000 (UTC)
+Received: by igdh15 with SMTP id h15so1327770igd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 07:00:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Y9DrteEfJgD8w3464BQuatGBGeJyO0dUoRAQbB5Lts4=;
-	b=aSDhHry/BdGO9qhae+GIBnkjIGO+i3gOA1EeQpQ39CPBLAjIq1KVLgeSY77SMSuKaP
-	vTM00sq8HWQeNcaKrCCvWvkrEFvmcVPt1TnMKyh1cNWrRU2UXGPtfVBB/6rBWC6JTLGg
-	CB2Jz3WHTYnpKwQIKi5JDO2sKtjuuVmLvUQcucuZs9qLpszraHKi+BEYi9htrTAnUMRS
-	k3lH4AO6F3mgkcRDuT5GLFf3mVJc4uYmdPhOB0r554uZwdNXI/DCdY+0ODmGFUbYzQco
-	7LsFn0btx17n1ARYitH7ySfce8BgHbetO6viDzL3KwR8lQ1zVXxfyUhGe1bRmjyEhSZ+
-	L72g==
-X-Gm-Message-State: ALoCoQnJx/w/zK8hWdRIGCNVnpA0JkJ5FtBt84TN8bYv8eORVTTpy/s5gBqz7pkR5DO0WUHvgTnq
-X-Received: by 10.180.82.129 with SMTP id i1mr7117445wiy.77.1425049221786;
-	Fri, 27 Feb 2015 07:00:21 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id dt7sm3138905wib.19.2015.02.27.07.00.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Feb 2015 07:00:20 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Feb 2015 14:57:48 +0000
-Message-Id: <1425049068-11139-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1425049068-11139-1-git-send-email-ross.burton@intel.com>
-References: <1425049068-11139-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] systemd: add PACKAGECONFIG for xkbcommon and iptables
+	Fri, 27 Feb 2015 07:49:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=H7BaH46wuYJITePYV8DumBaHvSDMV7LwsPsXAR/Iyb8=;
+	b=dcAj8HDptUDa6Z6Kj5WGBhFJ+Zd4A9A4nJalwyf5MUH9ShYTICD9MzsVyWCXNy4T92
+	wIxa9SFaLsgOiv9pZ0kamoV1kGag5hZgLUO2okjahM7Dh/hCTVS44eC/zAtTsRJ/lCex
+	sXGiNeZdnLk4bDmePXy0uBbhNtwPxzTmsRe8Etou4K2LA8jKlUs8wD5gYdn6HnCuhRRp
+	sg6+tNyuJl++6/vi76WawBeccaHSbAxgHMk5wlo0AUrEEbUfKsEyltyXLbkOjwlMkWSZ
+	ffTPvofghfu82u2sQFt6Jj4mRTSYgeuldREMTHHSB5M1wtrrYUmjDzT3FzFzhXRA9Y/o
+	IcMA==
+X-Received: by 10.107.12.167 with SMTP id 39mr19448693iom.71.1425052195522;
+	Fri, 27 Feb 2015 07:49:55 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.117.7 with HTTP; Fri, 27 Feb 2015 07:49:25 -0800 (PST)
+In-Reply-To: <CAJTo0Lax5EpeTy2y0PUGt+x3hM90U6V=oMaTnLGgRi8LtPGikw@mail.gmail.com>
+References: <1424832475-20806-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0Lax5EpeTy2y0PUGt+x3hM90U6V=oMaTnLGgRi8LtPGikw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 27 Feb 2015 07:49:25 -0800
+Message-ID: <CAMKF1srCWK008StDy4q6-PKdqBaAhxdNPfu38SaBvQU5SEhHUg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Upgrade 218 -> 219
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,48 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 15:00:21 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 15:50:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-systemd has optional support for xkbcommon (verify keymaps when locale changes)
-and iptables (configure NAT rules).
+On Fri, Feb 27, 2015 at 4:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 25 February 2015 at 02:47, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> 219 has been in the docks for sometime, the older patch got merged
+>> this patch is now upgrading 218 to 219
+>
+>
+> With this merged I'm now getting these warnings from QA:
+>
+> WARNING: QA Issue: systemd rdepends on iptables, but it isn't a build
+> dependency? [build-deps]
+> WARNING: QA Issue: systemd rdepends on libxkbcommon, but it isn't a build
+> dependency? [build-deps]
+>
 
-Add PACKAGECONFIG options for these, disabling iptables by default and
-respecting the X11 DISTRO_FEATURE for libxkbcommon (as the code involves X11
-keymaps).
+I did not see it yet, since they were not part of my distro
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_219.bb |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Pushed a fix here please try it out
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 747964e..f245239 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -55,7 +55,10 @@ LDFLAGS_append_libc-uclibc = " -lrt"
- 
- GTKDOC_DOCDIR = "${S}/docs/"
- 
--PACKAGECONFIG ??= "xz ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-+PACKAGECONFIG ??= "xz \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
-+
- PACKAGECONFIG[journal-upload] = "--enable-libcurl,--disable-libcurl,curl"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
-@@ -73,6 +76,10 @@ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
- PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
- PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
-+# Verify keymaps on locale change
-+PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
-+# Update NAT firewall rules
-+PACKAGECONFIG[iptc] = "--enable-libiptc,--disable-libiptc,iptables"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
--- 
-1.7.10.4
-
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/gcc-5.0&id=70d1beede31ee50ded93ea55cff27b8886161af9
 
