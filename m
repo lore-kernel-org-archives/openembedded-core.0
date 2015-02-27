@@ -1,36 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F8A737A9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 17:20:06 +0000 (UTC)
-Received: by igbhn18 with SMTP id hn18so2086405igb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RedQA2S5FDTo9ganC53ViKqbpFTprb8Gjl8olPHHFek=;
-	b=hNS1jZAD3QcXeQwVDqTV/ADMOsG3nNTZco93Lvns9mbMdGS5mMJaXG5ft39HtNznNN
-	sa9A3zlvIG6OreSesGi3O45yWf9IG/WDag4JrWyErgx7HWTndbpKHkcKRSBHz1ivwZCI
-	sJXtT9LSkGqr74rs+6bpTbZUANtBxPSMdU82oCgGx+GeG7ZoLQCXDTdYMprHvRISLfPK
-	jLUbD0IjlFnVbmLxYbA0x1iQH6b1B/ct3+xATLpG42R5B1Gpvf0HAMiqHnAjKbK2I2ou
-	sO4M3k/oSmddSjEK1tRzlGCQ1D3wIetWOGIb8xFQD8WPCsAGUfU4vOZywOnVNjLB72yw
-	mk8Q==
-X-Received: by 10.50.234.194 with SMTP id ug2mr4305255igc.39.1425057607786;
-	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
-Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
-	[96.119.88.205])
-	by mx.google.com with ESMTPSA id r78sm2594257ioi.22.2015.02.27.09.20.07
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Feb 2015 17:19:56 +0000
-Message-Id: <1425057596-28243-5-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
-References: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 5/6] buildstats.bbclass: typecast argument to os.minor/os.major to long
+Return-Path: <bevenson@melinkcorp.com>
+X-Greylist: delayed 1066 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 27 Feb 2015 17:50:23 UTC
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0147.outbound.protection.outlook.com [207.46.100.147])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AB04718DD
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 27 Feb 2015 17:50:23 +0000 (UTC)
+Received: from BN3PR0501MB1091.namprd05.prod.outlook.com (25.160.113.13) by
+	BN3PR0501MB1169.namprd05.prod.outlook.com (25.160.113.154) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.99.14; Fri, 27 Feb 2015 17:17:21 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (25.160.113.12) by
+	BN3PR0501MB1091.namprd05.prod.outlook.com (25.160.113.13) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.99.14; Fri, 27 Feb 2015 17:17:19 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) by
+	BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) with
+	mapi id 15.01.0099.004; Fri, 27 Feb 2015 17:17:19 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Thread-Topic: Build error on Fedora 21: "Unsupported version of git (2.1.0)"
+Thread-Index: AdBSr0Pbn4LHvR7cQFutEJRdFkGOxQ==
+Date: Fri, 27 Feb 2015 17:17:18 +0000
+Message-ID: <BN3PR0501MB1090B6DA7D327EEE4D86FA72BB150@BN3PR0501MB1090.namprd05.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-vipre-scanned: 00EC5A2500944C00EC5B72
+x-originating-ip: [98.100.91.242]
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none;
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1091;
+	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1169; 
+x-microsoft-antispam-prvs: <BN3PR0501MB10914ACE24C065837CCE871DC7150@BN3PR0501MB1091.namprd05.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0; RULEID:(601004)(5005006);
+	SRVR:BN3PR0501MB1091; BCL:0; PCL:0; RULEID:;
+	SRVR:BN3PR0501MB1091; 
+x-forefront-prvs: 05009853EF
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(164054003)(92566002)(46102003)(74316001)(33656002)(99286002)(76576001)(102836002)(2900100001)(86362001)(54356999)(450100001)(62966003)(77156002)(66066001)(40100003)(122556002)(87936001)(2501003)(107886001)(110136001)(229853001)(2656002)(2351001)(50986999);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1091;
+	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2015 17:17:18.7278 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1091
+X-OriginatorOrg: melinkcorp.com
+Subject: Build error on Fedora 21: "Unsupported version of git (2.1.0)"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,60 +63,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 17:20:09 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 17:50:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Started to run into this error on ubuntu 15.04
-
-ERROR: Execution of event handler 'run_buildstats' failed
-Traceback (most recent call last):
-  File "run_buildstats(e)", line 18, in run_buildstats(e=<bb.event.BuildStarted object at 0x7f93341c1b50>)
-  File "buildstats.bbclass", line 17, in set_device(e=<bb.event.BuildStarted object at 0x7f93341c1b50>)
-SystemError: ../Objects/longobject.c:998: bad argument to internal function
-
-ERROR: Command execution failed: Traceback (most recent call last):
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
-    commandmethod(self.cmds_async, self, options)
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/command.py", line 303, in buildTargets
-    command.cooker.buildTargets(pkgs_to_build, task)
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/cooker.py", line 1336, in buildTargets
-    bb.event.fire(bb.event.BuildStarted(buildname, fulltargetlist), self.data)
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 163, in fire
-    fire_class_handlers(event, d)
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 102, in fire_class_handlers
-    execute_handler(name, handler, event, d)
-  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 76, in execute_handler
-    ret = handler(event)
-  File "run_buildstats(e)", line 18, in run_buildstats
-  File "buildstats.bbclass", line 17, in set_device
-SystemError: ../Objects/longobject.c:998: bad argument to internal function
-
-similar to here
-http://pycuda.2962900.n2.nabble.com/bad-argument-to-internal-function-td4063274.html
-
-If it is right fix .. Dont know
-
-Change-Id: I84f3a4043ad5246e080dfd7e2f066e5292d4af91
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/buildstats.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 89ae72c..4844264 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -52,8 +52,8 @@ def set_device(e):
-     # If we end up hitting one of these fs, we'll just skip diskstats collection.
-     ############################################################################
-     device=os.stat(tmpdir)
--    majordev=os.major(device.st_dev)
--    minordev=os.minor(device.st_dev)
-+    majordev=os.major(long(device.st_dev))
-+    minordev=os.minor(long(device.st_dev))
-     ############################################################################
-     # Bug 1700: 
-     # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
--- 
-2.1.4
-
+QWxsLA0KDQpJJ20gdHJhbnNpdGlvbmluZyB0byBhIG5ldyBsYXB0b3AgYW5kIEkndmUgaW5zdGFs
+bGVkIEZlZG9yYSAyMSBvbiB0aGUgbmV3IG9uZS4gIEknbSB0cnlpbmcgdG8gYnVpbGQgZm9yIHRo
+ZSBmaXJzdCB0aW1lIGFuZCBJJ20gcnVubmluZyBpbnRvIHNvbWUgaXNzdWVzLg0KDQpJJ20gc3Rp
+bGwgb24gdGhlIGR5bGFuIGJyYW5jaC4gIEkgaGF2ZSBhbiBpbWFnZSB0aGF0IGlzIGJhc2VkIG9u
+IGNvcmUtaW1hZ2UtbWluaW1hbCB3aXRoIGEgZmV3IGFkZGl0aW9uYWwgcGFja2FnZXMuICBXaGVu
+IEkgYXR0ZW1wdCB0byBidWlsZCBteSBpbWFnZSwgaXQgZmFpbHMgd2hlbiBhdHRlbXB0aW5nIHRv
+IHBhdGNoIHRoZSBMaW51eCBrZXJuZWwuICBUaGUgZmFpbHVyZSBtZXNzYWdlIGluIGxvZy5kb19w
+YXRjaCBzYXlzOg0KDQoJVW5zdXBwb3J0ZWQgdmVyc2lvbiBvZiBnaXQgKDIuMS4wKQ0KCVtFUlJP
+Ul0gdW5hYmxlIHRvIGNvbXBsZXRlIHB1c2gNCglwZW5kaW5nIHBhdGNoZXMgYXJlOg0KCVVuc3Vw
+cG9ydGVkIHZlcnNpb24gb2YgZ2l0ICgyLjEuMCkNCglFUlJPUi4gY291bGQgbm90IHVwZGF0ZSBn
+aXQgdHJlZQ0KCUVSUk9SLiBDb3VsZCBub3QgYXBwbHkgcGF0Y2hlcyBmb3IgYXQ5MXNhbTl4NWVr
+Lg0KDQpTbyBJJ20gYXNzdW1pbmcgd2hhdCBoYXBwZW5lZCB3YXMgdGhlIGJ1aWxkIHN5c3RlbSdz
+IHZlcnNpb24gb2YgR2l0IHdhcyB1c2VkIGZvciB0aGUgaW5pdGlhbCBrZXJuZWwgY2hlY2tvdXQg
+YnV0IHRoZSBob3N0J3MgdmVyc2lvbiBvZiBHaXQgaXMgYmVpbmcgdXNlZCBpbiB0aGUgZG9fcGF0
+Y2ggc3RlcC4gIEhvd2V2ZXIsIEkgaGF2ZW4ndCBhIGNsdWUgd2hhdCB0byBkbyBhYm91dCBpdC4g
+IEFueSBpZGVhcz8NCg0KVGhhbmtzLA0KQnJ5YW4NCg==
 
