@@ -1,36 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 752CB718DD
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id F3F8A737A9
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 27 Feb 2015 17:20:06 +0000 (UTC)
-Received: by iecar1 with SMTP id ar1so32630767iec.0
+Received: by igbhn18 with SMTP id hn18so2086405igb.2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gDzoHwcR8nMYSSc7qRKafmGi3fJwXs7Zv8h1DOojCTY=;
-	b=eREX8t/9qT1ChSzjq7J3iveEH5HOqIjlbft90RKiTkz15nwt/386VDtZUava2ES9c7
-	2WTx38xO9xOW5BtvHkx7ifCDmAtjgq6J/eJqy79BAu5Mb/WTtw6E9FLbFoRg5nSpSxmp
-	0mnm7A8wgEO4utU2L4cJ7M5ludaI0f4L8QsbepaWlsQ57Ynv5lb3Vk/j13gRE7El2LZ2
-	657dRMglbjMq6oH4YqMaGt2iNPjUNWfiWhcHj/pC4owT/k7wwHFZOUAgKM0UGQfqZlJl
-	E6r4IXYDIjLze7crehY+dchmfDhqPXXFp6v5kPDvfZDT6hiAUvnkvTZfZQ7LzXO048nX
-	wxlw==
-X-Received: by 10.107.129.138 with SMTP id l10mr20436789ioi.37.1425057607198; 
+	bh=RedQA2S5FDTo9ganC53ViKqbpFTprb8Gjl8olPHHFek=;
+	b=hNS1jZAD3QcXeQwVDqTV/ADMOsG3nNTZco93Lvns9mbMdGS5mMJaXG5ft39HtNznNN
+	sa9A3zlvIG6OreSesGi3O45yWf9IG/WDag4JrWyErgx7HWTndbpKHkcKRSBHz1ivwZCI
+	sJXtT9LSkGqr74rs+6bpTbZUANtBxPSMdU82oCgGx+GeG7ZoLQCXDTdYMprHvRISLfPK
+	jLUbD0IjlFnVbmLxYbA0x1iQH6b1B/ct3+xATLpG42R5B1Gpvf0HAMiqHnAjKbK2I2ou
+	sO4M3k/oSmddSjEK1tRzlGCQ1D3wIetWOGIb8xFQD8WPCsAGUfU4vOZywOnVNjLB72yw
+	mk8Q==
+X-Received: by 10.50.234.194 with SMTP id ug2mr4305255igc.39.1425057607786;
 	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
 Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	[96.119.88.205])
-	by mx.google.com with ESMTPSA id r78sm2594257ioi.22.2015.02.27.09.20.06
+	by mx.google.com with ESMTPSA id r78sm2594257ioi.22.2015.02.27.09.20.07
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Feb 2015 09:20:06 -0800 (PST)
+	Fri, 27 Feb 2015 09:20:07 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Feb 2015 17:19:55 +0000
-Message-Id: <1425057596-28243-4-git-send-email-raj.khem@gmail.com>
+Date: Fri, 27 Feb 2015 17:19:56 +0000
+Message-Id: <1425057596-28243-5-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
 References: <1425057596-28243-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 4/6] glibc_2.21.bb: Fix condition to skip parsing the recipe for non-glibc libc
+Subject: [PATCH 5/6] buildstats.bbclass: typecast argument to os.minor/os.major to long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 17:20:08 -0000
+X-List-Received-Date: Fri, 27 Feb 2015 17:20:09 -0000
 
-The condition should be uclibc 'or' musl then we know its not glibc
-right now it checks with 'and' operator, that condition will never be
-true
+Started to run into this error on ubuntu 15.04
 
-Change-Id: Ifc48e81fd0b3c18d8e1ef76a18c216dc6acda092
+ERROR: Execution of event handler 'run_buildstats' failed
+Traceback (most recent call last):
+  File "run_buildstats(e)", line 18, in run_buildstats(e=<bb.event.BuildStarted object at 0x7f93341c1b50>)
+  File "buildstats.bbclass", line 17, in set_device(e=<bb.event.BuildStarted object at 0x7f93341c1b50>)
+SystemError: ../Objects/longobject.c:998: bad argument to internal function
+
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
+    commandmethod(self.cmds_async, self, options)
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/command.py", line 303, in buildTargets
+    command.cooker.buildTargets(pkgs_to_build, task)
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/cooker.py", line 1336, in buildTargets
+    bb.event.fire(bb.event.BuildStarted(buildname, fulltargetlist), self.data)
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 163, in fire
+    fire_class_handlers(event, d)
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 102, in fire_class_handlers
+    execute_handler(name, handler, event, d)
+  File "/home/ubuntu/work/bleeding/openembedded-core/bitbake/lib/bb/event.py", line 76, in execute_handler
+    ret = handler(event)
+  File "run_buildstats(e)", line 18, in run_buildstats
+  File "buildstats.bbclass", line 17, in set_device
+SystemError: ../Objects/longobject.c:998: bad argument to internal function
+
+similar to here
+http://pycuda.2962900.n2.nabble.com/bad-argument-to-internal-function-td4063274.html
+
+If it is right fix .. Dont know
+
+Change-Id: I84f3a4043ad5246e080dfd7e2f066e5292d4af91
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc_2.21.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/buildstats.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 6e54046..693d937 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -67,7 +67,7 @@ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn
- #
- python __anonymous () {
-     import re
--    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) and (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
-+    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) or (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
-     if notglibc:
-         raise bb.parse.SkipPackage("incompatible with target %s" %
-                                    d.getVar('TARGET_OS', True))
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 89ae72c..4844264 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -52,8 +52,8 @@ def set_device(e):
+     # If we end up hitting one of these fs, we'll just skip diskstats collection.
+     ############################################################################
+     device=os.stat(tmpdir)
+-    majordev=os.major(device.st_dev)
+-    minordev=os.minor(device.st_dev)
++    majordev=os.major(long(device.st_dev))
++    minordev=os.minor(long(device.st_dev))
+     ############################################################################
+     # Bug 1700: 
+     # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
 -- 
 2.1.4
 
