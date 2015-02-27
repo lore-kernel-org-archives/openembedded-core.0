@@ -1,39 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B2EE737B1
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail14.tpgi.com.au (mail14.tpgi.com.au [203.12.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B493872667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 13:32:26 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id i50so14030728qgf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Feb 2015 05:32:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TMhcG4lx624/qTrPUVCbZIlJCdl/LrBOJWfSs7RSlrM=;
-	b=cbVZQG7w4CcEzJJS3wlbtAyZVgEuzUIMnmaHsgbxoVYcHe1JrItBr1sFpanOT/C1KW
-	5Xk98SN1EX9gpLscbR1L0nLrYBzw8UeXetdrEeftBx2obNxXT+e5O54duHw+oDIZBYQW
-	nuN2NsGzOcTj1x8VhR/A4WlNhwosmNQh0J4EdNDWY8ooLuzDJy0KAo5nEGlRS1NmsZFb
-	RRofoCYjJpqky6nBJz86sxExk7LpvZl9ExG3lyRQHzaNv8Vp5Xo80cgIZetuUTAtHO37
-	nilTdLMO96lqhjxsfbZiDGHmIHkDWJhSGCEMDzi/uUrdUnp6fi5A/58BjWkT+yoqXgyP
-	ZN7w==
-X-Gm-Message-State: ALoCoQkjY++pjbFQ1WZ/tuVLwihKQxCV5Pv813CKGcyDPK6uGVXZa47eT5ZbDhvOYKfpBs1YK5Ut
-X-Received: by 10.140.150.21 with SMTP id 21mr29466675qhw.69.1425043948076;
-	Fri, 27 Feb 2015 05:32:28 -0800 (PST)
+	Fri, 27 Feb 2015 13:47:34 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Sat, 28 Feb 2015 00:47:29 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail14.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t1RDlRAK030548
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+	Sat, 28 Feb 2015 00:47:29 +1100
+Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <openembedded-devel@urbanec.net>)
+	id 1YRLGJ-0000x6-5D; Sat, 28 Feb 2015 00:47:27 +1100
+Message-ID: <54F0756E.7020205@urbanec.net>
+Date: Sat, 28 Feb 2015 00:47:26 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Fri, 27 Feb 2015 05:32:07 -0800 (PST)
-In-Reply-To: <20150227132117.GL2309@jama>
-References: <20150227074233.1D2E3502AE@opal.openembedded.org>
-	<20150227132117.GL2309@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 27 Feb 2015 13:32:07 +0000
-Message-ID: <CAJTo0La-wVzOVVtibXyR-cnOqr-AO7BmZomXPcw=OXOh_zxyNA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Khem Raj : systemd: Upgrade 218 -> 219
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1424210642.git.alejandro.hernandez@linux.intel.com>
+In-Reply-To: <cover.1424210642.git.alejandro.hernandez@linux.intel.com>
+Subject: Re: [PATCH v2 0/1] Python: Upgrade from 2.7.3 to 2.7.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Feb 2015 13:32:28 -0000
-Content-Type: multipart/alternative; boundary=001a11353fbc509b2d051011e619
+X-List-Received-Date: Fri, 27 Feb 2015 13:47:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11353fbc509b2d051011e619
-Content-Type: text/plain; charset=UTF-8
+Just a couple of observations on this upgrade:
 
-On 27 February 2015 at 13:21, Martin Jansa <martin.jansa@gmail.com> wrote:
+1. Python 2.7.9 now does strict SSL certificate checking as per 
+http://www.python.org/dev/peps/pep-0476/ and as a result I had at least 
+one package break due to:
 
-> Fails to build in world builds, looks like missing dependency:
->
+[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)
 
-Yep, in the upgrade the util-linux dependency was dropped.
+I managed to fix that issue by switching the source URL from https:// to 
+http:// Although this change in behaviour is desirable in the grand 
+scheme of things, it is likely to cause some pains along the way.
 
-Ross
+2. python-imaging build just locks up for me. I don't know what's wrong. 
+I tried an strace but all I can see is a python process waiting on a futex.
 
---001a11353fbc509b2d051011e619
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I think it may be a good idea to keep python 2.7.3 packages in oe-core 
+because a move from 2.7.3 to 2.7.9 is likely to break some systems. At 
+least in terms of item 1, we have a large potential for breakage, since 
+the SSL cert checking will break anything that uses self-signed SSL 
+certs for HTTPS without deploying the correct CA to the client systems. 
+As far as I can tell, there is no system wide override for this behaviour.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 February 2015 at 13:21, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":68x" clas=
-s=3D"a3s" style=3D"overflow:hidden">Fails to build in world builds, looks l=
-ike missing dependency:<br></div></blockquote></div><br>Yep, in the upgrade=
- the util-linux dependency was dropped.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11353fbc509b2d051011e619--
