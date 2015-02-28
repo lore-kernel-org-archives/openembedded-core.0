@@ -1,38 +1,33 @@
 Return-Path: <mgloff@emacinc.com>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2D5737B4
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D018D65C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Feb 2015 19:49:41 +0000 (UTC)
-Received: by iecvy18 with SMTP id vy18so38792738iec.13
+	Sat, 28 Feb 2015 20:39:00 +0000 (UTC)
+Received: by iecvy18 with SMTP id vy18so38945242iec.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Feb 2015 11:49:42 -0800 (PST)
+	Sat, 28 Feb 2015 12:39:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Bx2oO340ESowf0J2DscW49kQFkGaj41y6FtHZxG6Uks=;
-	b=WjWd3CJwT7Ne85Q5CNMh+b5cet1xL5QU7YQd+bbni5dXq46aPHm4qM17ot0CQwr2aG
-	B1IZmfWdJ6TPVV4s3TAqOySspWht24sJKt2ajDSsHP0L20IcrhYja8tCphMoonOiAfkl
-	Zvv5px/8gK7ziNs7PQToeF9Gu+gZcWtk6a/wvC6qtCXZ8T/IXyLC0OuFIbg6n4rt8lcn
-	0ZzeNFfoIRKZzS4jEknp8dnkKcwUKWe6nGRY18fV24bmb1fSWfvUbgLS+xrk+Pr4btzT
-	6UcIDo1tP07FAEkimTzClmwYU01jT8h34etmlaNPSFAsharCVVXJaKUA0S/XW6u/iGAe
-	0VaA==
-X-Gm-Message-State: ALoCoQkvZpwTwHLsTR6iX9+ulS95aGkyUruklTiEOcR9yoOTOOIsuyPJMQGDhKBO80VNFRPsajA7
-X-Received: by 10.50.142.38 with SMTP id rt6mr12581140igb.39.1425152982494;
-	Sat, 28 Feb 2015 11:49:42 -0800 (PST)
-Received: from eng-20-lx.emacinc.com ([66.186.100.194])
-	by mx.google.com with ESMTPSA id i93sm4847313iod.7.2015.02.28.11.49.42
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 28 Feb 2015 11:49:42 -0800 (PST)
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=b8MdQMoNEa9XFTPKqEJnjwmEGJTLOJTBQimu94zax1U=;
+	b=dgHQxLsxZy4rKqARR+I/TFaN1utf00Rf5iz+cwXNKsX0/fi7homm7jmhquZBz27VN/
+	VkwFzNzG7aWI/iuR5v8U92tunXuFO9hRCrGT//p8w62XkpvSuNrXO3fC7yZitDNqGIfc
+	tban9bKJlnRhMBauEBzI3v11AWHhnv5ZilQC8ZhdFG9u7smM+K4xleNRkvNLuIzm+XUF
+	OHkI1qI4XSjyz+m+mKfyIbrWfiiZ7lL6FemGEhKXVqCGq918lQG02j+uwUSuDKGAyYu3
+	soRLBv61WA8+akMGmXtgqJnXyqP7T2VjVTBov/okDNPJVU43UiSiaP218983CizPsat0
+	2+sg==
+X-Gm-Message-State: ALoCoQljj2OYOFvepkX2yFone84qnM1k2eF+KTiQhk7L2caQQz+nhNWX+EtmbmhFgy5N1NO99vL+
+MIME-Version: 1.0
+X-Received: by 10.42.249.2 with SMTP id mi2mr22541190icb.36.1425155941317;
+	Sat, 28 Feb 2015 12:39:01 -0800 (PST)
+Received: by 10.107.46.169 with HTTP; Sat, 28 Feb 2015 12:39:01 -0800 (PST)
+Date: Sat, 28 Feb 2015 14:39:01 -0600
+Message-ID: <CALXw4G4Sw72OzA10BKVrOA7cz2=WM8M2gnAdT_RdoZ+M8P5xMg@mail.gmail.com>
 From: Michael Gloff <mgloff@emacinc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Feb 2015 13:49:32 -0600
-Message-Id: <1425152972-18918-2-git-send-email-mgloff@emacinc.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1425152972-18918-1-git-send-email-mgloff@emacinc.com>
-References: <1425152972-18918-1-git-send-email-mgloff@emacinc.com>
-Subject: [PATCH V3 2/2] volatiles: Change linking ordering of resolv.conf
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: NFS server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +40,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Feb 2015 19:49:43 -0000
+X-List-Received-Date: Sat, 28 Feb 2015 20:39:01 -0000
+X-Groupsio-MsgNum: 62838
+Content-Type: multipart/mixed; boundary=90e6ba4fbda4a1f26305102bf9c6
 
-    Fixes error on boot on readonly rootfs
-        rm: can't remove '/etc/resolv.conf': Read-only file system
-        ln: /etc/resolv.conf: File exists
+--90e6ba4fbda4a1f26305102bf9c6
+Content-Type: multipart/alternative; boundary=90e6ba4fbda4a1f26005102bf9c4
 
-Signed-off-by: Michael Gloff <mgloff@emacinc.com>
----
- .../initscripts/initscripts-1.0/volatiles          |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--90e6ba4fbda4a1f26005102bf9c4
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index 1fc5816..e6f0695 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -32,7 +32,7 @@ l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
- f root root 0664 /var/run/utmp none
--l root root 0644 /etc/resolv.conf /var/run/resolv.conf
- f root root 0644 /var/run/resolv.conf none
-+l root root 0644 /etc/resolv.conf /var/run/resolv.conf
- d root root 1777 /run/media none
- l root root 1777 /media /run/media
--- 
-1.7.9.5
+All,
+I have run into the issue of nfs server seg faulting when trying to start.
+After some searching I found that it is related to GCC 4.9.x and
+nfs-utils-1.3.X
 
+http://lists.linuxfromscratch.org/pipermail/blfs-dev/2014-July/027853.html
 
+There is a patch that I have tested locally that works.
+
+I'm not sure how to proceed, but this pretty much breaks nfs server
+capabilities.
+
+Michael Gloff
+
+--90e6ba4fbda4a1f26005102bf9c4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div><div>All, <br></div>I have run into the iss=
+ue of nfs server seg faulting when trying to start. After some searching I =
+found that it is related to GCC 4.9.x and nfs-utils-1.3.X<br><br><a href=3D=
+"http://lists.linuxfromscratch.org/pipermail/blfs-dev/2014-July/027853.html=
+">http://lists.linuxfromscratch.org/pipermail/blfs-dev/2014-July/027853.htm=
+l</a><br><br></div>There is a patch that I have tested locally that works.<=
+br><br></div>I&#39;m not sure how to proceed, but this pretty much breaks n=
+fs server capabilities.<br><br></div>Michael Gloff<br></div>
+
+--90e6ba4fbda4a1f26005102bf9c4--
+
+--90e6ba4fbda4a1f26305102bf9c6
+Content-Type: text/x-patch; charset=US-ASCII; name="nfs-gcc.patch"
+Content-Disposition: attachment; filename="nfs-gcc.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_i6pgtj0h0
+
+RnJvbSAyNWU4M2MyMjcwYjJkMjk2NmM5OTI4ODVmYWVkMGI3OWJlMDlmNDc0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+
+CkRhdGU6IFRodSwgMSBNYXkgMjAxNCAxMToxNToxNiAtMDQwMApTdWJqZWN0OiBbUEFUQ0ggW25m
+cy11dGlsc11dIG1vdW50ZDogZml4IHNlZ2ZhdWx0IGluIGFkZF9uYW1lIHdpdGggbmV3ZXIgZ2Nj
+CiBjb21waWxlcnMKCkkgaGl0IGEgc2VnZmF1bHQgaW4gYWRkX25hbWUgd2l0aCBhIG1vdW50ZCBi
+dWlsdCB3aXRoIGdjYy00LjkuMC4gU29tZQpOVUxMIHBvaW50ZXIgY2hlY2tzIGdvdCByZW9yZGVy
+ZWQgc3VjaCB0aGF0IGEgcG9pbnRlciB3YXMgZGVyZWZlcmVuY2VkCmJlZm9yZSBjaGVja2luZyB0
+byBzZWUgd2hldGhlciBpdCB3YXMgTlVMTC4gVGhlIHByb2JsZW0gd2FzIGR1ZSB0bwpuZnMtdXRp
+bHMgcmVseWluZyBvbiB1bmRlZmluZWQgYmVoYXZpb3IsIHdoaWNoIHRyaWNrZWQgZ2NjIGludG8g
+YXNzdW1pbmcKdGhhdCB0aGUgcG9pbnRlciB3b3VsZCBuZXZlciBiZSBOVUxMLgoKQXQgZmlyc3Qg
+SSBhc3N1bWVkIHRoYXQgdGhpcyB3YXMgYSBjb21waWxlciBidWcsIGJ1dCBKYWt1YiBKZWxpbmVr
+IGFuZApKZWZmIExhdyBwb2ludGVkIG91dDoKCiJJZiBvbGQgaXMgTlVMTCwgdGhlbjoKCglzdHJu
+Y3B5KG5ldywgb2xkLCBjcC1vbGQpOwoKaXMgdW5kZWZpbmVkIGJlaGF2aW9yIChldmVuIHdoZW4g
+Y3AgPT0gb2xkID09IE5VTEwgaW4gdGhhdCBjYXNlKSwKdGhlcmVmb3JlIGdjYyBhc3N1bWVzIHRo
+YXQgb2xkIGlzIG5ldmVyIE5VTEwsIGFzIG90aGVyd2lzZSBpdCB3b3VsZCBiZQppbnZhbGlkLgoK
+SnVzdCBndWFyZAoJc3RybmNweShuZXcsIG9sZCwgY3Atb2xkKTsKCW5ld1tjcC1vbGRdID0gMDsK
+d2l0aCBpZiAob2xkKSB7IC4uLiB9LiIKClRoaXMgcGF0Y2ggZG9lcyB0aGF0LiBJZiBvbGQgaXMg
+TlVMTCB0aG91Z2gsIHRoZW4gd2Ugc3RpbGwgbmVlZCB0bwplbnN1cmUgdGhhdCBuZXcgaXMgTlVM
+TCB0ZXJtaW5hdGVkLCBsZXN0IHRoZSBzdWJzZXF1ZW50IHN0cmNhdHMgd2FsayBvZmYKdGhlIGVu
+ZCBvZiBpdC4KCkNjOiBKZWZmIExhdyA8bGF3QHJlZGhhdC5jb20+CkNjOiBKYWt1YiBKZWxpbmVr
+IDxqYWt1YkByZWRoYXQuY29tPgpTaWduZWQtb2ZmLWJ5OiBKZWZmIExheXRvbiA8amxheXRvbkBw
+b29jaGllcmVkcy5uZXQ+ClNpZ25lZC1vZmYtYnk6IFN0ZXZlIERpY2tzb24gPHN0ZXZlZEByZWRo
+YXQuY29tPgotLS0KIHN1cHBvcnQvZXhwb3J0L2NsaWVudC5jIHwgOCArKysrKystLQogMSBmaWxl
+IGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9z
+dXBwb3J0L2V4cG9ydC9jbGllbnQuYyBiL3N1cHBvcnQvZXhwb3J0L2NsaWVudC5jCmluZGV4IGRi
+ZjQ3YjkuLmY4NWUxMWMgMTAwNjQ0Ci0tLSBhL3N1cHBvcnQvZXhwb3J0L2NsaWVudC5jCisrKyBi
+L3N1cHBvcnQvZXhwb3J0L2NsaWVudC5jCkBAIC00ODIsOCArNDgyLDEyIEBAIGFkZF9uYW1lKGNo
+YXIgKm9sZCwgY29uc3QgY2hhciAqYWRkKQogCQllbHNlCiAJCQljcCA9IGNwICsgc3RybGVuKGNw
+KTsKIAl9Ci0Jc3RybmNweShuZXcsIG9sZCwgY3Atb2xkKTsKLQluZXdbY3Atb2xkXSA9IDA7CisJ
+aWYgKG9sZCkgeworCQlzdHJuY3B5KG5ldywgb2xkLCBjcC1vbGQpOworCQluZXdbY3Atb2xkXSA9
+IDA7CisJfSBlbHNlIHsKKwkJbmV3WzBdID0gMDsKKwl9CiAJaWYgKGNwICE9IG9sZCAmJiAhKmNw
+KQogCQlzdHJjYXQobmV3LCAiLCIpOwogCXN0cmNhdChuZXcsIGFkZCk7Ci0tIAoyLjAuMAoK
+
+--90e6ba4fbda4a1f26305102bf9c6--
