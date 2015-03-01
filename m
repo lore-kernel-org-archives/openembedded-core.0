@@ -1,26 +1,28 @@
 Return-Path: <alexandre.belloni@free-electrons.com>
 Received: from mail.free-electrons.com (down.free-electrons.com
 	[37.187.137.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F94E71637
+	by mail.openembedded.org (Postfix) with ESMTP id 6092472A5A
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  1 Mar 2015 12:54:20 +0000 (UTC)
 Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id CC3E3496; Sun,  1 Mar 2015 13:54:19 +0100 (CET)
+	id 64B78497; Sun,  1 Mar 2015 13:54:20 +0100 (CET)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	mail.free-electrons.com
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.4.0
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
+	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
 Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 95FB2494;
-	Sun,  1 Mar 2015 13:54:19 +0100 (CET)
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 293F6494;
+	Sun,  1 Mar 2015 13:54:20 +0100 (CET)
 From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Sun,  1 Mar 2015 13:54:14 +0100
-Message-Id: <1425214456-12241-1-git-send-email-alexandre.belloni@free-electrons.com>
+Date: Sun,  1 Mar 2015 13:54:15 +0100
+Message-Id: <1425214456-12241-2-git-send-email-alexandre.belloni@free-electrons.com>
 X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1425214456-12241-1-git-send-email-alexandre.belloni@free-electrons.com>
+References: <1425214456-12241-1-git-send-email-alexandre.belloni@free-electrons.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] wic: fix fstab generation
+Subject: [PATCH 2/3] wic: add fsimage plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +37,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 01 Mar 2015 12:54:26 -0000
 
-Commit 0a6668f6e60b4195ff4163c00fc972bacdb27b4b still included some
-debug and is not working properly as the new fstab is generated too
-late.
+The fsimage plugin allows to add an already existing filesystem image in
+the partition layout.
 
 Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 ---
- scripts/lib/wic/imager/direct.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/lib/wic/plugins/source/fsimage.py | 70 +++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+ create mode 100644 scripts/lib/wic/plugins/source/fsimage.py
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index c605e6423826..d368401af439 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -136,7 +136,7 @@ class DirectImageCreator(BaseImageCreator):
-             fstab_lines.append(fstab_entry)
- 
-     def _write_fstab(self, fstab, fstab_lines):
--        fstab = open(fstab + ".new", "w")
-+        fstab = open(fstab, "w")
-         for line in fstab_lines:
-             fstab.write(line)
-         fstab.close()
-@@ -250,6 +250,8 @@ class DirectImageCreator(BaseImageCreator):
-             if not self.ks.handler.bootloader.source and p.mountpoint == "/boot":
-                 self.ks.handler.bootloader.source = p.source
- 
-+        fstab = self.__write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
+new file mode 100644
+index 000000000000..0967883afa88
+--- /dev/null
++++ b/scripts/lib/wic/plugins/source/fsimage.py
+@@ -0,0 +1,70 @@
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
 +
-         for p in parts:
-             # need to create the filesystems in order to get their
-             # sizes before we can add them and do the layout.
-@@ -274,7 +276,6 @@ class DirectImageCreator(BaseImageCreator):
-                                        no_table = p.no_table,
-                                        part_type = p.part_type)
- 
--        fstab = self.__write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-         self._restore_fstab(fstab)
- 
-         self.__image.layout_partitions(self._ptable_format)
++import os
++import re
++
++from wic import msger
++from wic.pluginbase import SourcePlugin
++from wic.utils.oe.misc import *
++
++class FSImagePlugin(SourcePlugin):
++    name = 'fsimage'
++
++    @classmethod
++    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++                        bootimg_dir, kernel_dir, native_sysroot):
++        """
++        Called after all partitions have been prepared and assembled into a
++        disk image. Do nothing.
++        """
++        pass
++
++    @classmethod
++    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++                               oe_builddir, bootimg_dir, kernel_dir,
++                               native_sysroot):
++        """
++        Called before do_prepare_partition(). Possibly prepare
++        configuration files of some sort.
++        """
++        pass
++
++    @classmethod
++    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++                             oe_builddir, bootimg_dir, kernel_dir,
++                             rootfs_dir, native_sysroot):
++        """
++        Called to do the actual content population for a partition i.e. it
++        'prepares' the partition to be incorporated into the image.
++        """
++        if not bootimg_dir:
++            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not bootimg_dir:
++                msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
++
++        msger.debug('Bootimg dir: %s' % bootimg_dir)
++
++        if ('file' not in source_params):
++            msger.error("No file specified\n")
++            return
++
++        src = os.path.join(bootimg_dir, source_params['file'])
++
++
++        msger.debug('Preparing partition using image %s' % (src))
++        part.prepare_rootfs_from_fs_image(cr_workdir, src, "")
 -- 
 2.1.0
 
