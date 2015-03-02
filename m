@@ -1,27 +1,37 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B0D3772130
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E432E73841
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 11:40:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="61159281"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Mar 2015 19:36:45 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t22BdUKQ012141
+	Mon,  2 Mar 2015 11:44:14 +0000 (UTC)
+Received: by widem10 with SMTP id em10so13393826wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Mar 2015 19:39:30 +0800
-Received: from localhost.localdomain (10.167.226.31) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 2 Mar 2015 19:40:24 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Mar 2015 19:34:48 +0800
-Message-ID: <1425296088-8201-1-git-send-email-biannm@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.31]
-Subject: [PATCH] gcc-source: fix bug to avoid building error.
+	Mon, 02 Mar 2015 03:44:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=LOcGXL+uOzVzRYTxFVtC88e2VnBgC9Z9j2oTWiw+Hnc=;
+	b=F+44Ifv7Q0wPy6o/RqQdeKvGXir0JTgPmVJdhQFW4iBpx8FspQR4HNosAwY6JQinRb
+	eMf5e7qmlfyrVOBLzq72fW8OvGiaUusPNyCGgzDFtqdngJOXh58nX/GdmEL5VlKkezWu
+	TOWTJf67JIrQL2eniJyBd56qJ9lZTJ+IOWDOhecEIWG0MtcihNWWzNMfFTJqyD/RQCRw
+	2r4TpAKnWXwd7MsdJuQJCHniJSt5qXQI3DEMICUkGjiR9SfnAIwUvW0F58RlIDEgOQ/9
+	WyO/jYD3pm56ecJ8cIMGep/JoPJrIg4ExDFGyp8GrtRcTN+WjXD+FxlUw5URnPEfgAii
+	v5AQ==
+X-Gm-Message-State: ALoCoQleqRxRhJyZSIUH8kyy/+FkXL/sNe9YSHaJ4euQKPHnKvYJf80vCrRFmcyt/0CRzB8A3TNt
+X-Received: by 10.181.8.225 with SMTP id dn1mr35841167wid.55.1425296655865;
+	Mon, 02 Mar 2015 03:44:15 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id l6sm556359wjx.33.2015.03.02.03.44.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Mar 2015 03:44:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Mar 2015 11:41:47 +0000
+Message-Id: <1425296507-5896-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] gst-player: port to GTK+ 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +44,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 11:40:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Mar 2015 11:44:17 -0000
 
-gcc-source don't do do_package_write_rpm, so we should set
-PACKAGES = "" to avoid the building error if we want generate srpm,
-otherwise, we get the error as below.
+Whilst Sato still uses GTK+ 2 we don't want the overhead of building both GTK+ 2
+and GKT+ 3.  Luckily gtk-play is a simple application and it's just a small
+patch away from building with GTK+ 2.
 
-ERROR: Task do_deploy_archives in meta/recipes-devtools/gcc/gcc-source_4.9.bb \
-       depends upon non-existent task do_package_write_rpm in \
-       meta/recipes-devtools/gcc/gcc-source_4.9.bb
+When Sato is ported to GTK+ 3 (the mythical Shuku proposal) this patch can be
+removed.
 
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-source.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../gstreamer/gst-player/gtk2.patch                |   71 ++++++++++++++++++++
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |    3 +-
+ 2 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
-index 968830a..10e9285 100644
---- a/meta/recipes-devtools/gcc/gcc-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-source.inc
-@@ -19,6 +19,7 @@ STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-[0-9]*-*"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch b/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
+new file mode 100644
+index 0000000..2cd18bb
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
+@@ -0,0 +1,71 @@
++As the rest of Sato is GTK+ 2, patch gtk-play to use GTK+ 2.  When the rest of
++Sato has been ported to GTK+ 3 this patch can be dropped.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++
++diff --git a/configure.ac b/configure.ac
++index b8af13b..90ab74c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -60,7 +60,7 @@ AC_SUBST(GLIB_PREFIX)
++ GST_PREFIX="`$PKG_CONFIG --variable=prefix gstreamer-1.0`"
++ AC_SUBST(GST_PREFIX)
++ 
++-PKG_CHECK_MODULES(GTK, [gtk+-3.0], [have_gtk="yes"], [have_gtk="no"])
+++PKG_CHECK_MODULES(GTK, [gtk+-2.0], [have_gtk="yes"], [have_gtk="no"])
++ AM_CONDITIONAL(HAVE_GTK, test "x$have_gtk" != "xno")
++ 
++ GOBJECT_INTROSPECTION_CHECK([1.31.1])
++diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
++index f015077..954d6fb 100644
++--- a/gtk/gtk-play.c
+++++ b/gtk/gtk-play.c
++@@ -34,6 +34,46 @@ typedef struct
++   gulong seekbar_value_changed_signal_id;
++ } GtkPlay;
++ 
+++/* Compat stubs */
+++GtkWidget *
+++gtk_box_new (GtkOrientation orientation,
+++             gint spacing)
+++{
+++  switch (orientation) {
+++  case GTK_ORIENTATION_HORIZONTAL:
+++    return gtk_hbox_new (FALSE, spacing);
+++  case GTK_ORIENTATION_VERTICAL:
+++    return gtk_vbox_new (FALSE, spacing);
+++  }
+++}
+++
+++GtkWidget*
+++gtk_button_new_from_icon_name (const gchar *icon_name,
+++                               GtkIconSize  size)
+++{
+++  GtkWidget *button;
+++  GtkWidget *image;
+++
+++  image = gtk_image_new_from_icon_name (icon_name, size);
+++  button =  g_object_new (GTK_TYPE_BUTTON,
+++                         "image", image,
+++                         NULL);
+++  return button;
+++}
+++
+++GtkWidget *
+++gtk_scale_new_with_range (GtkOrientation orientation,
+++                          gdouble min,
+++                          gdouble max,
+++                          gdouble step)
+++{
+++  switch (orientation) {
+++  case GTK_ORIENTATION_HORIZONTAL:
+++    return gtk_hscale_new_with_range (min, max, step);
+++  case GTK_ORIENTATION_VERTICAL:
+++    return gtk_vscale_new_with_range (min, max, step);
+++  }
+++}
++ 
++ static void
++ set_title (GtkPlay * play, const gchar * title)
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+index cd96d77..988c407 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+@@ -3,10 +3,11 @@ SUMMARY="GStreamer playback helper library and examples"
+ LICENSE = "LGPL-2.0+"
+ LIC_FILES_CHKSUM = "file://lib/gst/player/gstplayer.c;beginline=1;endline=19;md5=03aeca9d8295f811817909075a15ff65"
  
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = ""
-+PACKAGES = ""
+-DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+3"
++DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+"
  
- python do_preconfigure () {
-     import subprocess
+ SRC_URI = "git://github.com/sdroege/gst-player.git \
+            file://filechooser.patch \
++           file://gtk2.patch \
+            file://gst-player.desktop"
+ 
+ SRCREV = "5386c5b984d40ef5434673ed62204e69aaf52645"
 -- 
-1.9.1
+1.7.10.4
 
 
