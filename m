@@ -1,22 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A11B73820
+	by mail.openembedded.org (Postfix) with ESMTP id 6A18B7385A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 18:55:40 +0000 (UTC)
+	Mon,  2 Mar 2015 18:55:42 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 02 Mar 2015 10:55:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="692853704"
+X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="692853705"
 Received: from localhost.jf.intel.com ([10.7.201.37])
 	by orsmga002.jf.intel.com with ESMTP; 02 Mar 2015 10:55:41 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2015 10:55:37 -0800
-Message-Id: <1425322538-40169-2-git-send-email-randy.e.witt@linux.intel.com>
+Date: Mon,  2 Mar 2015 10:55:38 -0800
+Message-Id: <1425322538-40169-3-git-send-email-randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <1425322538-40169-1-git-send-email-randy.e.witt@linux.intel.com>
 References: <1425322538-40169-1-git-send-email-randy.e.witt@linux.intel.com>
-Subject: [PATCH 1/2] base.bbclass: Add LIC_FILES_CHKSUM files to checksum files.
+Subject: [PATCH 2/2] lib/oeqa/selftest/lic-checksum: Verify failure when checksum changes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +31,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 02 Mar 2015 18:55:43 -0000
 
-Previously, files with absolute paths in LIC_FILES_CHKSUM such as
-"file://${COMMON_LICENSE_DIR}/foo" would not result in a qa failure
-when the license file changed.
-
-To fix this problem, add any files with absolute paths from
-LIC_FILES_CHKSUM to the file-checksums varflag, so that changes in the
-license file are detected and cause the qa task for licenses to run.
+The test added verifies that when a file with an absolute path in
+LIC_FILES_CHKSUM changes without a corresponding change to the md5sum,
+it triggers the license qa test again with a failure.
 
 [Yocto #6450]
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/base.bbclass | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ meta-selftest/recipes-test/emptytest/emptytest.bb |  5 ++++
+ meta/lib/oeqa/selftest/lic-checksum.py            | 28 +++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/emptytest/emptytest.bb
+ create mode 100644 meta/lib/oeqa/selftest/lic-checksum.py
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 789af3b..2c2d019 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -94,9 +94,26 @@ def extra_path_elements(d):
- 
- PATH_prepend = "${@extra_path_elements(d)}"
- 
-+def get_lic_checksum_file_list(d):
-+    filelist = []
-+    lic_files = d.getVar("LIC_FILES_CHKSUM", True) or ''
+diff --git a/meta-selftest/recipes-test/emptytest/emptytest.bb b/meta-selftest/recipes-test/emptytest/emptytest.bb
+new file mode 100644
+index 0000000..e87f4d7
+--- /dev/null
++++ b/meta-selftest/recipes-test/emptytest/emptytest.bb
+@@ -0,0 +1,5 @@
++include test_recipe.inc
 +
-+    urls = lic_files.split()
-+    for url in urls:
-+        # We only care about items that are absolute paths since
-+        # any others should be covered by SRC_URI.
-+        try:
-+            path = bb.fetch.decodeurl(url)[2]
-+            if path[0] == '/':
-+                filelist.append(path + ":" + str(os.path.exists(path)))
-+        except bb.fetch.MalformedUrl:
-+            raise bb.build.FuncFailed(d.getVar('PN', True) + ": LIC_FILES_CHKSUM contains an invalid URL: " + url)
-+    return " ".join(filelist)
++# Set LICENSE to something so that bitbake -p that is ran at the beginning
++# is successful since test_recipe.inc has not yet been modified.
++LICENSE = ""
+diff --git a/meta/lib/oeqa/selftest/lic-checksum.py b/meta/lib/oeqa/selftest/lic-checksum.py
+new file mode 100644
+index 0000000..0c1afa6
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/lic-checksum.py
+@@ -0,0 +1,28 @@
++import os
++import tempfile
 +
- addtask fetch
- do_fetch[dirs] = "${DL_DIR}"
- do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
-+do_fetch[file-checksums] += " ${@get_lic_checksum_file_list(d)}"
- do_fetch[vardeps] += "SRCREV"
- python base_do_fetch() {
- 
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake
++from oeqa.utils import CommandError
++
++class LicenseTests(oeSelfTest):
++    
++    # Verify that changing a license file that has an absolute path causes
++    # the license qa to fail due to a mismatched md5sum.
++    def test_foo(self):
++        bitbake_cmd = '-c configure emptytest'
++        error_msg = 'ERROR: emptytest: The new md5 checksum is 8d777f385d3dfec8815d20f7496026dc'
++
++        lic_file, lic_path = tempfile.mkstemp()
++        os.close(lic_file)
++        self.track_for_cleanup(lic_path)
++
++        self.write_recipeinc('emptytest', 'LIC_FILES_CHKSUM = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"' % lic_path)
++        result = bitbake(bitbake_cmd)
++
++        with open(lic_path, "w") as f:
++            f.write("data")
++
++        result = bitbake(bitbake_cmd, ignore_status=True)
++        if error_msg not in result.output:
++            raise AssertionError(result.output)
 -- 
 1.9.3
 
