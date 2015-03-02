@@ -1,34 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id CA1F665C7B
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6755665C88
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 02:40:05 +0000 (UTC)
-Received: by iecar1 with SMTP id ar1so44491141iec.0
+	Mon,  2 Mar 2015 02:49:00 +0000 (UTC)
+Received: by iecrd18 with SMTP id rd18so44438600iec.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Mar 2015 18:40:06 -0800 (PST)
+	Sun, 01 Mar 2015 18:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=5IuJj9JvvmMbL6Gw9huo89e/FmmRJ5SeU6lcKTeleO4=;
-	b=elvA6FC44EELUZO33+NA0mQHaySUGKT8M2QNe4mR7gjh1IKa4drS6NTaToYBDpDfiW
-	9BhoSdyBif++dGMHMw/U/QAvH6IZYGynvKMSdNuYyS3OLMHaCvbKbBcfzG+RPkzKJzmf
-	/oyes4fjB3DhcCOk9Q/GSTuCJ0Vdm388JoYEJ2V+JW7QthnfaKLCG3SxLDgeQwrQlJxW
-	0RhzJrSgIh3xfgKsGpebqnHC/1q2yNO1tn+2nhSAQv5/QUsDuTUfno3tPdZYb+ljPK/G
-	dW6Gk8Dt9PzxvFnhU6pJpoWeWQwlF0x1l/bXxN/wZ5ewdQNs9Qjj401CMpByjOZo8Zps
-	6zCw==
-X-Received: by 10.50.29.68 with SMTP id i4mr19828123igh.4.1425264006793;
-	Sun, 01 Mar 2015 18:40:06 -0800 (PST)
+	bh=SYfFYpRdy3rlOg73tnuNM5ClSRx2dI/BfpXpAkYlEPM=;
+	b=mGNrU88KgRisyXvFMTHt5CWBBfH4Fx4X7yF5hosf6TciYsCkU+84sRfrlq+sHQonrL
+	QWaVl1H5iIAfoKYXmXFVjIVVHgmKiGiFkX+1TrOO3cK8Q4nV0XYl82ZdjC+KVyRJ2T3s
+	SOQ26uo7VtlfkA+2SijRXgzEw0S0pvMX1QDF6Y7dRmHiDvWrJFaQPF6YcSOzSSVSSMzO
+	6Sw2+tQxWI4oDbIFrLNnS31f4GXnXrEvUdgHCq68sariAL2zgv40r5z4mpMhIOBaHmYE
+	7yHiQSHsj0azjt3DY7UG2ixEFFYcUcfYhwRxJfA7U3xoJ52efut2pA+g7BH0P9L3dQLI
+	i/4Q==
+X-Received: by 10.42.145.133 with SMTP id f5mr27651521icv.82.1425264541265;
+	Sun, 01 Mar 2015 18:49:01 -0800 (PST)
 Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
 	[96.119.88.205])
-	by mx.google.com with ESMTPSA id ht8sm6200467igb.0.2015.03.01.18.40.06
+	by mx.google.com with ESMTPSA id gz4sm6177254igb.19.2015.03.01.18.49.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Mar 2015 18:40:06 -0800 (PST)
+	Sun, 01 Mar 2015 18:49:00 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2015 02:39:59 +0000
-Message-Id: <1425263999-2615-1-git-send-email-raj.khem@gmail.com>
+Date: Mon,  2 Mar 2015 02:48:53 +0000
+Message-Id: <1425264533-8777-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 4/4 V2] gdb: Upgrade 7.8.1 -> 7.9
+Subject: [PATCH 4/4 V3] gdb: Upgrade 7.8.1 -> 7.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 02:40:13 -0000
+X-List-Received-Date: Mon, 02 Mar 2015 02:49:05 -0000
 
 Refresh patches against new baseline
 
@@ -56,13 +56,13 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...0001-make-man-install-relative-to-DESTDIR.patch |  28 +
  .../gdb/gdb/0002-Change-order-of-CFLAGS.patch      |  34 +
  ...-support-for-Renesas-SH-sh4-architecture.patch} | 854 +++++----------------
- .../gdb/0004-Change-comment-in-gdb-compile.patch   |  62 ++
+ .../gdb/0004-Change-comment-in-gdb-compile.patch   |  48 ++
  .../gdb/gdb/gdbserver-cflags-last.diff             |  25 -
  .../recipes-devtools/gdb/gdb/sim-install-6.6.patch |  14 -
  meta/recipes-devtools/gdb/gdb/sim-install.patch    |  36 -
  meta/recipes-devtools/gdb/gdb/uclibc.patch         | 196 -----
  .../gdb/{gdb_7.8.1.bb => gdb_7.9.bb}               |   0
- 14 files changed, 331 insertions(+), 935 deletions(-)
+ 14 files changed, 317 insertions(+), 935 deletions(-)
  rename meta/recipes-devtools/gdb/{gdb-7.8.1.inc => gdb-7.9.inc} (68%)
  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.8.1.bb => gdb-cross-canadian_7.9.bb} (100%)
  delete mode 100644 meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb
@@ -1215,10 +1215,10 @@ index 15ff620..d82d269 100644
 +
 diff --git a/meta/recipes-devtools/gdb/gdb/0004-Change-comment-in-gdb-compile.patch b/meta/recipes-devtools/gdb/gdb/0004-Change-comment-in-gdb-compile.patch
 new file mode 100644
-index 0000000..5876ef9
+index 0000000..4df552c
 --- /dev/null
 +++ b/meta/recipes-devtools/gdb/gdb/0004-Change-comment-in-gdb-compile.patch
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,48 @@
 +Upstream-Status: Backport
 +
 +From 09de64b93c2402e068daf0bce1c4a1dda833b646 Mon Sep 17 00:00:00 2001
@@ -1238,20 +1238,6 @@ index 0000000..5876ef9
 + gdb/compile/compile-object-load.c | 2 +-
 + 3 files changed, 8 insertions(+), 2 deletions(-)
 +
-+diff --git a/gdb/ChangeLog b/gdb/ChangeLog
-+index 5f5fa51..37a69e8 100644
-+--- a/gdb/ChangeLog
-++++ b/gdb/ChangeLog
-+@@ -1,3 +1,9 @@
-++2015-02-26  Jan Kratochvil  <jan.kratochvil@redhat.com>
-++
-++	PR build/18033
-++	* compile/compile-c-support.c (c_compute_program): Change // comment.
-++	* compile/compile-object-load.c (setup_sections): Change // comment.
-++
-+ 2015-02-26  Joel Brobecker  <brobecker@adacore.com>
-+ 
-+ 	PR build/18033:
 +diff --git a/gdb/compile/compile-c-support.c b/gdb/compile/compile-c-support.c
 +index 8f1f45d..1711cda 100644
 +--- a/gdb/compile/compile-c-support.c
