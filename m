@@ -1,33 +1,27 @@
 Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CBDA473820
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A106B73820
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 19:03:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Mar 2015 11:03:59 -0800
+	Mon,  2 Mar 2015 20:21:19 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Mar 2015 12:21:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="659359865"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by orsmga001.jf.intel.com with ESMTP; 02 Mar 2015 11:03:57 -0800
-Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:55 -0800
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX160.amr.corp.intel.com (10.22.226.43) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:56 -0800
-Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.51) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:55 -0800
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Mar 2015 16:03:41 -0300
-Message-ID: <1425323021-11091-1-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <bruno.bottazzini@intel.com>
+X-IronPort-AV: E=Sophos;i="5.09,677,1418112000"; d="scan'208";a="535045416"
+Received: from unknown (HELO [10.218.99.51]) ([10.218.99.51])
+	by orsmga003.jf.intel.com with ESMTP; 02 Mar 2015 12:21:22 -0800
+Message-ID: <1425327675.2707.24.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Date: Mon, 02 Mar 2015 17:21:15 -0300
+In-Reply-To: <54D50BD3.8020608@linux.intel.com>
 References: <bruno.bottazzini@intel.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.218.99.51]
-Subject: [PATCH] systemd: verify if file test-udev and systemd-journal-flush exists
+	<1423069496-25819-1-git-send-email-bruno.bottazzini@intel.com>
+	<1423069496-25819-3-git-send-email-bruno.bottazzini@intel.com>
+	<54D50BD3.8020608@linux.intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/2] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,43 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 19:03:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Mar 2015 20:21:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If we compile using EXTRA_OECONF with '--disable-tests' option, the files
-test-udev and systemd-journal-flush will not be created and the systemd
-install phase will fail.
----
- meta/recipes-core/systemd/systemd_219.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Hello Randy,
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index f245239..b30f14d 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -165,7 +165,9 @@ do_install() {
- 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
- 	# its needed in 216 upstream has fixed it with 919699ec301ea507edce4a619141ed22e789ac0d
- 	# don't order journal flushing afte remote-fs.target
--	sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
-+       if [ -s ${D}${systemd_unitdir}/system/systemd-journal-flush.service ]; then
-+            sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
-+       fi
- 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
- 	# for existence else it fails
- 	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
-@@ -176,7 +178,9 @@ do_install() {
- do_install_ptest () {
-        install -d ${D}${PTEST_PATH}/test
-        cp -rf ${S}/test/* ${D}${PTEST_PATH}/test
--       install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
-+       if [ -s ${B}/test-udev ]; then
-+         install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
-+       fi
-        install -d ${D}${PTEST_PATH}/build-aux
-        cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-        cp -rf ${B}/rules ${D}${PTEST_PATH}/
--- 
-1.9.1
+On Sex, 2015-02-06 at 10:45 -0800, Randy Witt wrote:
+> On 02/04/2015 09:04 AM, Bruno Bottazzini wrote:
+> > It wil be able to choose what systemd module to be installed.
+> > The final result may get smaller, if the user wanted to.
+> > By default it will install the whole systemd which may be big.
+> > ---
+> >   meta/recipes-core/systemd/systemd_218.bb | 1059 ++++++++++++++++++++++++++----
+> >   1 file changed, 914 insertions(+), 145 deletions(-)
+> 
+> This patch will push a lot of maintenance work onto the Yocto systemd maintainer 
+> every time there is an upgrade. It's also easy to miss dependencies because of 
+> the inter-dependencies that can exist between services.
+
+This is not a problem, we can give this maintenance.
+
+> 
+> For items such as systemd-cgls and the tools, a change like this would be 
+> maintainable since those items are self-contained. But yanking out the services 
+> into separate packages means the maintainer will have to inspect them on each 
+> upgrade to make sure they still work.
+> 
+> Would it be sufficient to use PACKAGECONFIG for each of the items that can be 
+> disabled via configure? That way the granularity configuration is done by the 
+> systemd maintainers rather than the Yocto maintainer.
+
+With PACKAGECONFIG, we may not get everything "for free" as some data files 
+will be installed regardless as well as some components from systemd cannot 
+be disabled by their build system but we can run without them, for instance 
+we can run without journald.
+
+The problem is understanding that although systemd is a single repository 
+it contains multiple services and daemons in it that can run even without the 
+core PID1, udev or the many helpers used to configure the system such as resolved, 
+timedated, localed... 
+
+All of these components are runtime independent, we can install or remove them and 
+they should not create problems.
+
+Even Ubuntu is shipping with some of these daemons even if systemd is not used (yet).
+If they were different GIT repos then it would be clear that they are separate daemons, 
+but as they are all in a single repository people can make a confusion about it.
+
+I see that in the master branch it has already the version 219.
+
+I will make a split packages for the newest version that was just released.
+
+Best Regards,
+
+Bruno Bottazzini
+
+> 
+> 
+> 
+
+
 
 
