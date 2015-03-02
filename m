@@ -1,20 +1,33 @@
-Return-Path: <randy.e.witt@linux.intel.com>
+Return-Path: <bruno.bottazzini@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B528673820
+	by mail.openembedded.org (Postfix) with ESMTP id CBDA473820
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 18:55:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Mar 2015 10:55:41 -0800
+	Mon,  2 Mar 2015 19:03:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Mar 2015 11:03:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="692853703"
-Received: from localhost.jf.intel.com ([10.7.201.37])
-	by orsmga002.jf.intel.com with ESMTP; 02 Mar 2015 10:55:41 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2015 10:55:36 -0800
-Message-Id: <1425322538-40169-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/2] Add fix and test for [Yocto #6450]
+X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="659359865"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga001.jf.intel.com with ESMTP; 02 Mar 2015 11:03:57 -0800
+Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:55 -0800
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX160.amr.corp.intel.com (10.22.226.43) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:56 -0800
+Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.51) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 2 Mar 2015 11:03:55 -0800
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Mar 2015 16:03:41 -0300
+Message-ID: <1425323021-11091-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.218.99.51]
+Subject: [PATCH] systemd: verify if file test-udev and systemd-journal-flush exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 18:55:44 -0000
+X-List-Received-Date: Mon, 02 Mar 2015 19:03:57 -0000
+Content-Type: text/plain
 
-The following changes since commit bf1a68e97f2069a4f66664c351d4bafd416358eb:
+If we compile using EXTRA_OECONF with '--disable-tests' option, the files
+test-udev and systemd-journal-flush will not be created and the systemd
+install phase will fail.
+---
+ meta/recipes-core/systemd/systemd_219.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-  taglib: Fix cmake floating dependency on boost (2015-03-02 18:06:53 +0000)
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index f245239..b30f14d 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -165,7 +165,9 @@ do_install() {
+ 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+ 	# its needed in 216 upstream has fixed it with 919699ec301ea507edce4a619141ed22e789ac0d
+ 	# don't order journal flushing afte remote-fs.target
+-	sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
++       if [ -s ${D}${systemd_unitdir}/system/systemd-journal-flush.service ]; then
++            sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
++       fi
+ 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
+ 	# for existence else it fails
+ 	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
+@@ -176,7 +178,9 @@ do_install() {
+ do_install_ptest () {
+        install -d ${D}${PTEST_PATH}/test
+        cp -rf ${S}/test/* ${D}${PTEST_PATH}/test
+-       install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
++       if [ -s ${B}/test-udev ]; then
++         install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
++       fi
+        install -d ${D}${PTEST_PATH}/build-aux
+        cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
+        cp -rf ${B}/rules ${D}${PTEST_PATH}/
+-- 
+1.9.1
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib rewitt/license_fix
-
-for you to fetch changes up to a35e9afe37fe87921f0e9e915208364a271d89c3:
-
-  lib/oeqa/selftest/lic-checksum: Verify failure when checksum changes. (2015-03-02 10:28:23 -0800)
-
-----------------------------------------------------------------
-Randy Witt (2):
-      base.bbclass: Add LIC_FILES_CHKSUM files to checksum files.
-      lib/oeqa/selftest/lic-checksum: Verify failure when checksum changes.
-
- meta-selftest/recipes-test/emptytest/emptytest.bb |  5 ++++
- meta/classes/base.bbclass                         | 17 ++++++++++++++
- meta/lib/oeqa/selftest/lic-checksum.py            | 28 +++++++++++++++++++++++
- 3 files changed, 50 insertions(+)
- create mode 100644 meta-selftest/recipes-test/emptytest/emptytest.bb
- create mode 100644 meta/lib/oeqa/selftest/lic-checksum.py
 
