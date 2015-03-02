@@ -1,39 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 3277672130
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 92D2872130
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 10:27:22 +0000 (UTC)
-Received: by wggy19 with SMTP id y19so32398726wgg.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2015 02:27:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=6Nrjk3Nhsf/Fw8B7ApJ8YqqTt/hlw5SU2/jB8C8G5H0=;
-	b=MyshAhxzWLlCm3B5VyAXgOiC4pomvEnNrSl00oRq0XwABJNeYpUm52ZgGrlTFmgmHu
-	KRxEEWvX0n07hj2B8o3dg7MWQ6wmeSsaLkakRqTuD+rDnMC/h1mKZSM5OXGQ9AzVMaSB
-	zyAKCRpBSMRarxGKzb4HYKFtcXkq0m+1jynRQlY798mmGAraaCDfRwtx9dTgRTfk6wqx
-	Gkj9dmDYibBuMRzyXQ4dH5LIeUfY37WmylxO9TvQFw6i18Ae04UgMFoNhN//Wn32gq+w
-	kQ6C1B6c9AbuVGF0DUDIymaJ97clcTHeIVKFY1psmlbw8WsBWIKeiOoVrCKIhKcjYysX
-	SESA==
-X-Received: by 10.180.79.232 with SMTP id m8mr35075418wix.81.1425292044019;
-	Mon, 02 Mar 2015 02:27:24 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id ul1sm299055wjc.0.2015.03.02.02.27.23
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Mar 2015 02:27:23 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 2 Mar 2015 11:27:46 +0100
-To: Florian Boor <florian.boor@kernelconcepts.de>
-Message-ID: <20150302102746.GZ2309@jama>
-References: <1425291313-9669-1-git-send-email-florian.boor@kernelconcepts.de>
+	Mon,  2 Mar 2015 10:30:03 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Mon, 2 Mar 2015 21:30:00 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id t22ATwpM020642
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+	Mon, 2 Mar 2015 21:30:00 +1100
+Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <openembedded-devel@urbanec.net>)
+	id 1YSNbq-0000VW-92; Mon, 02 Mar 2015 21:29:58 +1100
+Message-ID: <54F43BA5.8010101@urbanec.net>
+Date: Mon, 02 Mar 2015 21:29:57 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-In-Reply-To: <1425291313-9669-1-git-send-email-florian.boor@kernelconcepts.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Florian Boor <florian@kernelconcepts.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] fltk: Replace use of freetype-config with pkg-config Drop blacklist entry
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1424210642.git.alejandro.hernandez@linux.intel.com>	<54F0756E.7020205@urbanec.net>
+	<CAJTo0LbPVzhW9C7e3-2J45Yc5HiTEsby=c95PuaCRhF+bV01tQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbPVzhW9C7e3-2J45Yc5HiTEsby=c95PuaCRhF+bV01tQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/1] Python: Upgrade from 2.7.3 to 2.7.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,114 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 10:27:23 -0000
-X-Groupsio-MsgNum: 62863
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WxezjuMNsgvRf6mf"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Mar 2015 10:30:05 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---WxezjuMNsgvRf6mf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 28/02/15 03:07, Burton, Ross wrote:
+> IIRC the general argument is if that if you're assuming a self-signed
+> certification is valid, you've lost so much security.  We're in the
+> middle of a development cycle so this will only impact people using or
+> moving to 1.8.
 
-On Mon, Mar 02, 2015 at 11:15:13AM +0100, Florian Boor wrote:
-> From: Florian Boor <florian@kernelconcepts.de>
->=20
-> Tested building for MIPS 32bit QEMU
+I'm completely in favour of this change from the security point of view. 
+However, it is likely to trip up a few people, so the change in 
+behaviour should be prominently highlighted in the release notes. I also 
+think that it may be a good idea to keep 2.7.3 around so that it is 
+possible to move to new oe-core and keep the old python around. I would 
+not be surprised if there were other differences between 2.7.3 and 2.7.9 
+that complicate life. My main rationale for keeping both 2.7.3 and 2.7.9 
+would be that 2.7.9 can not be made backwards compatible when it comes 
+to the SSL certificates. The only fix is at the source code level for 
+every application that uses SSL based protocols or alternatively 
+convincing the server operators to use certificates issued by well known 
+CAs. For my use case scenario, that's not workable because the user of 
+the device can download packages from third party feeds, including 
+closed source plugins. Yes, 2.7.9 is doing the right thing, but in this 
+case doing the right thing breaks too much stuff.
 
-Wrong ML, please resend to oe-devel.
+> I've just verified that python-imaging works for me (and works on the
+> autobuilders), so if you can replicate the failure on demand that filing
+> a bug would be useful.
 
->=20
-> Signed-off-by: Florian Boor <florian@kernelconcepts.de>
-> ---
->  .../fltk/fltk-1.1.10/fltk-no-freetype-config.patch   |   18 ++++++++++++=
-++++++
->  meta-oe/recipes-support/fltk/fltk_1.1.10.bb          |    7 +++----
->  2 files changed, 21 insertions(+), 4 deletions(-)
->  create mode 100644 meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-free=
-type-config.patch
->=20
-> diff --git a/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-co=
-nfig.patch b/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-conf=
-ig.patch
-> new file mode 100644
-> index 0000000..5dbb054
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-config.pa=
-tch
-> @@ -0,0 +1,18 @@
-> +--- a/configure.in.orig	2015-03-01 16:00:35.956432907 +0100
-> ++++ b/configure.in	2015-03-01 16:04:23.269580093 +0100
-> +@@ -865,11 +865,11 @@
-> +         AC_ARG_ENABLE(xft, [  --enable-xft            turn on Xft suppo=
-rt [default=3Dno]])
-> +=20
-> + 	if test x$enable_xft =3D xyes; then
-> +-            AC_PATH_PROG(FTCONFIG,freetype-config)
-> ++            AC_PATH_PROG(PKGCONFIG,pkg-config)
-> +=20
-> +-	    if test "x$FTCONFIG" !=3D x; then
-> +-	        CPPFLAGS=3D"`$FTCONFIG --cflags` $CPPFLAGS"
-> +-	        CXXFLAGS=3D"`$FTCONFIG --cflags` $CXXFLAGS"
-> ++	    if test "x$PKGCONFIG" !=3D x; then
-> ++	        CPPFLAGS=3D"`$PKGCONFIG --cflags xft` $CPPFLAGS"
-> ++	        CXXFLAGS=3D"`$PKGCONFIG --cflags xft` $CXXFLAGS"
-> +=20
-> + 		AC_CHECK_HEADER(X11/Xft/Xft.h,
-> + 		    AC_CHECK_LIB(Xft, XftDrawCreate,
-> diff --git a/meta-oe/recipes-support/fltk/fltk_1.1.10.bb b/meta-oe/recipe=
-s-support/fltk/fltk_1.1.10.bb
-> index 4fd3645..3229ed0 100644
-> --- a/meta-oe/recipes-support/fltk/fltk_1.1.10.bb
-> +++ b/meta-oe/recipes-support/fltk/fltk_1.1.10.bb
-> @@ -6,19 +6,18 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1c0b73db6688=
-4b6a925e727400315130"
-> =20
->  DEPENDS =3D "alsa-lib zlib jpeg libpng libxext libxft"
-> =20
-> -PR =3D "r1"
-> -
-> -PNBLACKLIST[fltk] ?=3D "broken: still uses /usr/bin/freetype-config"
-> +PR =3D "r2"
-> =20
->  SRC_URI =3D "ftp://ftp.rz.tu-bs.de/pub/mirror/ftp.easysw.com/ftp/pub/flt=
-k/${PV}/fltk-${PV}-source.tar.bz2 \
->             file://disable_test.patch \
->             file://dso-fix.patch \
->             file://libpng15.patch \
-> +           file://fltk-no-freetype-config.patch \
->  "
-> =20
->  S =3D "${WORKDIR}/fltk-${PV}"
-> =20
-> -inherit lib_package autotools-brokensep binconfig
-> +inherit lib_package autotools-brokensep binconfig pkgconfig
-> =20
->  TARGET_CC_ARCH +=3D "${LDFLAGS} -DXFT_MAJOR=3D2"
-> =20
-> --=20
-> 1.7.10.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Good to know that is is something that is specific to my setup. I'll 
+look into it again when I have a little bit of time on my hands. Right 
+now I've put python 2.7.3 in my local overlay and am using it to get 
+work done.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---WxezjuMNsgvRf6mf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlT0OyIACgkQN1Ujt2V2gByp1wCfSnxknsuqKJE7ieSH2O7PXDcK
-nywAoLY5qZq9VROoVZr5sce2LTD+amO3
-=/TNi
------END PGP SIGNATURE-----
-
---WxezjuMNsgvRf6mf--
