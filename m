@@ -1,32 +1,30 @@
 Return-Path: <openembedded-devel@urbanec.net>
 Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 468BD7212A
+	by mail.openembedded.org (Postfix) with ESMTP id C749D7212A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 04:23:58 +0000 (UTC)
+	Mon,  2 Mar 2015 04:28:30 +0000 (UTC)
 X-TPG-Junk-Status: Message not scanned
 X-TPG-Antivirus: Passed
 X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Mon, 2 Mar 2015 15:23:53 +1100
+	date=Mon, 2 Mar 2015 15:28:31 +1100
 Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
 	[60.242.171.118])
 	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id t224NmL8006051
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Mon, 2 Mar 2015 15:23:53 +1100
+	(8.14.3/8.14.3) with ESMTP id t224STke021789
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Mar 2015 15:28:31 +1100
 Received: from beep.urbanec.net ([192.168.42.2]) by gw.urbanec.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim 4.84)
 	(envelope-from <openembedded-devel@urbanec.net>)
-	id 1YSHtU-0008Jt-7M; Mon, 02 Mar 2015 15:23:48 +1100
-Message-ID: <54F3E5D4.7070808@urbanec.net>
-Date: Mon, 02 Mar 2015 15:23:48 +1100
+	id 1YSHy0-0008KR-Tb; Mon, 02 Mar 2015 15:28:29 +1100
 From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1424759999-25846-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [PATCH] glibc: Help compile with -Os
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Mar 2015 15:28:22 +1100
+Message-Id: <1425270502-22898-1-git-send-email-openembedded-devel@urbanec.net>
+X-Mailer: git-send-email 2.3.1
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>
+Subject: [PATCH] glibc: Fix check for -Os.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 04:24:01 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2015 04:28:32 -0000
 
-On 24/02/15 17:39, Khem Raj wrote:
-> When we modify to use -Os
-> -Werror doesnt go well with it, glibc needs to be
-> cleaned up for that but until then lets disable -Werror
-> when using -Os
->
-> Change-Id: I5495255fce67953f15c07e423e3e0eef41d4ce5e
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/recipes-core/glibc/glibc.inc                  |  3 ++
->   .../glibc/glibc/eglibc-use-option-groups.patch     | 47 ++++++++++++++++++----
->   2 files changed, 43 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-> index 99a4753..4d5e98b 100644
-> --- a/meta/recipes-core/glibc/glibc.inc
-> +++ b/meta/recipes-core/glibc/glibc.inc
-> @@ -15,6 +15,9 @@ def get_optimization(d):
->       if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
->           bb.note("glibc can't be built with -O0, -O2 will be used instead.")
->           return selected_optimization.replace("-O0", "-O2")
-> +    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-> +        bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
-> +        return selected_optimization.replace("-Os", "-Os -Wno-error")
+The check is supposed to be for -Os, but it's actually testing -O0.
 
-I think there's a typo here which prevents this from working as 
-intended. The second check is done on "-O0" when it's supposed to be "-Os"
+Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
+---
+ meta/recipes-core/glibc/glibc.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-	Peter
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 4d5e98b..e33f596 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -15,7 +15,7 @@ def get_optimization(d):
+     if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+         bb.note("glibc can't be built with -O0, -O2 will be used instead.")
+         return selected_optimization.replace("-O0", "-O2")
+-    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
++    elif bb.utils.contains("SELECTED_OPTIMIZATION", "-Os", "x", "", d) == "x":
+         bb.note("glibc can't be built with -Os, -Os -Wno-error will be used instead.")
+         return selected_optimization.replace("-Os", "-Os -Wno-error")
+     return selected_optimization
+-- 
+2.3.1
 
 
