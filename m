@@ -1,30 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 410187378D
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B3C7382E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 13:32:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t22DWRAj003539; Mon, 2 Mar 2015 13:32:27 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NUa1u9CGv20V; Mon,  2 Mar 2015 13:32:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t22DWBSW003531
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 2 Mar 2015 13:32:23 GMT
-Message-ID: <1425303131.26813.67.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Gejgus <Peter.Gejgus@kistler.com>
-Date: Mon, 02 Mar 2015 13:32:11 +0000
-In-Reply-To: <672D6A2F0F2E8A43891580C45CE5D2E6013E3418@kihagwinex02.int.kistler.com>
-References: <672D6A2F0F2E8A43891580C45CE5D2E6013E3418@kihagwinex02.int.kistler.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Bitbake class - how to escape special characters?
+	Mon,  2 Mar 2015 14:54:06 +0000 (UTC)
+Received: from amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.54])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id DDEA03F481
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=3.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Mon, 2 Mar 2015 15:55:22 +0100
+Message-ID: <54F4798C.8070402@topic.nl>
+Date: Mon, 2 Mar 2015 15:54:04 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Building with OpenMP support in OE fails on #include <omp.h>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +51,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 13:32:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2015 14:54:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2015-03-02 at 11:49 +0000, Peter Gejgus wrote:
-> Hello,
-> 
-> This is the excerpt of my bitbake class:
-> 
-> data_migration_common() {
-> 	if [ x"$D" = "x" ]; then
-> 		if [[ ! ${CURRENT_DATA_VERSION} =~ ^[0-9]?[0-9].[0-9]?[0-9]$ ]]; then
-> 			error-exit "Version information was provided in invalid format!"
-> 		fi
-> 	...
-> 	fi
-> }
-> 
-> python populate_packages_append() {
->     data_migration_pkgs = d.getVar('DATA_MIGRATION_PACKAGES', True).split()
-> 
->     for pkg in data_migration_pkgs:
->         bb.note("adding data migration postinst scripts to %s" % pkg)
->         postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
->         if not postinst:
->             postinst = '#!/bin/sh\n'
->         postinst += d.getVar('data_migration_common', True)
->         d.setVar('pkg_postinst_%s' % pkg, postinst)
-> }
-> 
-> This class generates post-install scriptlet for the packages
-> inheriting from this bitbake class.
->
-> But bitbake is unable to parse the code in the data_migration_common
-> function and claiming:
-> ERROR: ExpansionError during parsing .../xyz_0.1.0.bb: Failure
-> expanding variable data_migration_common: ShellSyntaxError: Invalid
-> token "%s"
->
-> This problem is because the regular expression in the function
-> data_migration_common contains character '$'. Bitbake succeeds when I
-> remove character '$' from this regular expression. Is there some way
-> to escape this '$' character? Because I need '$' in my regex.
+=EF=BB=BFHere's the problem, running in a devshell:
 
-The problem is in the shell parser that bitbake uses (lib/bb/pysh)
-doesn't like that syntax. The expression you have above is bash specific
-and we tend to support /bin/dash as /bin/sh so the function you have
-there isn't portable.
+# echo '#include <omp.h>' > /tmp/compileme.c
+# $CC -c -fopenmp /tmp/compileme.c
+/tmp/compileme.c:1:17: fatal error: omp.h: No such file or directory
+  #include <omp.h>
+                  ^
+compilation terminated.
 
-Cheers,
 
-Richard
+The #pragma's and linking of OpenMP work just fine, it's just the inclusion=
+ of=20
+omp.h that appears to fail.
+
+What I was actually trying to do is to activate OpenMP in OpenCV to get dec=
+ent=20
+performance on a multicore ARM system. But this is holding me back now.
+
+Looking in the sysroots reveals that the include file is actually there:
+
+$ find tmp-glibc/sysroots/topic-miami-florida-med-xc7z030 -name omp.h
+tmp-glibc/sysroots/topic-miami-florida-med-xc7z030/usr/lib/gcc/arm-oe-linux=
+-gnueabi/4.9.1/include/omp.h
+
+
+Maybe something missing in the OE compiler options for the compiler?
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
