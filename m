@@ -1,44 +1,26 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B3C7382E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E91C737FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 14:54:06 +0000 (UTC)
-Received: from amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.54])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id DDEA03F481
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.899
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.899 tagged_above=-999 required=3.5
-	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 15:54:06 +0100 (CET)
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 2 Mar 2015 15:55:22 +0100
-Message-ID: <54F4798C.8070402@topic.nl>
-Date: Mon, 2 Mar 2015 15:54:04 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Mon,  2 Mar 2015 15:45:11 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Mar 2015 07:45:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,676,1418112000"; d="scan'208";a="673919453"
+Received: from dsloan-mobl4.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.6.98])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2015 07:45:12 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 02 Mar 2015 15:45:11 +0000
+Message-ID: <5774096.IiVkEzFHVb@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <54F4798C.8070402@topic.nl>
+References: <54F4798C.8070402@topic.nl>
 MIME-Version: 1.0
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Building with OpenMP support in OE fails on #include <omp.h>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Building with OpenMP support in OE fails on #include <omp.h>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,55 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 14:54:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Mar 2015 15:45:13 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=EF=BB=BFHere's the problem, running in a devshell:
+Hi Mike,
 
-# echo '#include <omp.h>' > /tmp/compileme.c
-# $CC -c -fopenmp /tmp/compileme.c
-/tmp/compileme.c:1:17: fatal error: omp.h: No such file or directory
-  #include <omp.h>
-                  ^
-compilation terminated.
+On Monday 02 March 2015 15:54:04 Mike Looijmans wrote:
+> Here's the problem, running in a devshell:
+> 
+> # echo '#include <omp.h>' > /tmp/compileme.c
+> # $CC -c -fopenmp /tmp/compileme.c
+> /tmp/compileme.c:1:17: fatal error: omp.h: No such file or directory
+>   #include <omp.h>
+>                   ^
+> compilation terminated.
+> 
+> 
+> The #pragma's and linking of OpenMP work just fine, it's just the inclusion
+> of omp.h that appears to fail.
+> 
+> What I was actually trying to do is to activate OpenMP in OpenCV to get
+> decent performance on a multicore ARM system. But this is holding me back
+> now.
+> 
+> Looking in the sysroots reveals that the include file is actually there:
+> 
+> $ find tmp-glibc/sysroots/topic-miami-florida-med-xc7z030 -name omp.h
+> tmp-glibc/sysroots/topic-miami-florida-med-xc7z030/usr/lib/gcc/arm-oe-linux-
+> gnueabi/4.9.1/include/omp.h
 
+Funnily enough this is an issue I fixed a few weeks ago - here's the bug which 
+contains a link to the fix:
 
-The #pragma's and linking of OpenMP work just fine, it's just the inclusion=
- of=20
-omp.h that appears to fail.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7141
 
-What I was actually trying to do is to activate OpenMP in OpenCV to get dec=
-ent=20
-performance on a multicore ARM system. But this is holding me back now.
+Cheers,
+Paul
 
-Looking in the sysroots reveals that the include file is actually there:
+-- 
 
-$ find tmp-glibc/sysroots/topic-miami-florida-med-xc7z030 -name omp.h
-tmp-glibc/sysroots/topic-miami-florida-med-xc7z030/usr/lib/gcc/arm-oe-linux=
--gnueabi/4.9.1/include/omp.h
-
-
-Maybe something missing in the OE compiler options for the compiler?
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
