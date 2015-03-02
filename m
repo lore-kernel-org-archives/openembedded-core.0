@@ -1,25 +1,24 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A38CB7384D
+Return-Path: <florian.boor@kernelconcepts.de>
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 303707384D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 10:30:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t22AUhM6023269
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Mar 2015 02:30:43 -0800 (PST)
-Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 2 Mar 2015 02:30:42 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Mar 2015 18:30:22 +0800
-Message-ID: <1425292222-2756-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon,  2 Mar 2015 10:35:31 +0000 (UTC)
+Received: from [192.168.2.140] by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>) id 1YSNgz-0005CF-7E
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Mar 2015 11:35:17 +0100
+Message-ID: <54F43CE6.1040301@kernelconcepts.de>
+Date: Mon, 02 Mar 2015 11:35:18 +0100
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.4.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.243]
-Subject: [PATCH] libtool: put libltdl.la in the right package.
+CC: openembedded-core@lists.openembedded.org
+References: <1425291313-9669-1-git-send-email-florian.boor@kernelconcepts.de>
+	<20150302102746.GZ2309@jama>
+In-Reply-To: <20150302102746.GZ2309@jama>
+Subject: Re: [meta-oe][PATCH] fltk: Replace use of freetype-config with pkg-config Drop blacklist entry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 10:30:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Mar 2015 10:35:31 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The libltdl libraries are put in libltdl-* packages, but libltdl.la
-is packaged in libtool-dev. This change puts libltdl.la in libltdl-dev
-package instead of libtool-dev.
+Hi,
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- meta/recipes-devtools/libtool/libtool-2.4.6.inc |    1 +
- 1 file changed, 1 insertion(+)
+On 02.03.2015 11:27, Martin Jansa wrote:
+> Wrong ML, please resend to oe-devel.
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index ff5abcb..2125de3 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -45,6 +45,7 @@ FILES_${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
- #FILES_${PN}-dev := "${@oe_filter_out('${datadir}/aclocal', '${FILES_libtool-dev}', d)}"
- FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
- FILES_libltdl-dev = "${libdir}/libltdl${SOLIBSDEV} ${includedir}"
-+FILES_libltdl-dev =+ "${libdir}/libltdl.la"
- FILES_libltdl-staticdev = "${libdir}/libltdl.a"
- FILES_libltdl-dbg = "${libdir}/.debug/"
- 
+oh indeed - sorry...
+
+Greetings
+
+Florian
+
 -- 
-1.7.9.5
-
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
