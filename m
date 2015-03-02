@@ -1,27 +1,26 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A106B73820
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F1ED57381B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 20:21:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Mar 2015 12:21:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.09,677,1418112000"; d="scan'208";a="535045416"
-Received: from unknown (HELO [10.218.99.51]) ([10.218.99.51])
-	by orsmga003.jf.intel.com with ESMTP; 02 Mar 2015 12:21:22 -0800
-Message-ID: <1425327675.2707.24.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Randy Witt <randy.e.witt@linux.intel.com>
-Date: Mon, 02 Mar 2015 17:21:15 -0300
-In-Reply-To: <54D50BD3.8020608@linux.intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1423069496-25819-1-git-send-email-bruno.bottazzini@intel.com>
-	<1423069496-25819-3-git-send-email-bruno.bottazzini@intel.com>
-	<54D50BD3.8020608@linux.intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
+	Mon,  2 Mar 2015 21:36:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t22Laik8005503
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Mar 2015 13:36:44 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 2 Mar 2015 13:36:44 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 2 Mar 2015 16:36:40 -0500
+Message-ID: <c52de149df8e7ab73a9cf823960dbfc45b018941.1425331960.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1425331960.git.bruce.ashfield@windriver.com>
+References: <cover.1425331960.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] systemd: split modules into packages
+Subject: [PATCH 3/4] linux-yocto/3.14: OcteonIII support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,66 +33,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 20:21:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2015 21:36:46 -0000
+Content-Type: text/plain
 
-Hello Randy,
+With these SRCREV updates, we add the following support to the kernel:
 
-On Sex, 2015-02-06 at 10:45 -0800, Randy Witt wrote:
-> On 02/04/2015 09:04 AM, Bruno Bottazzini wrote:
-> > It wil be able to choose what systemd module to be installed.
-> > The final result may get smaller, if the user wanted to.
-> > By default it will install the whole systemd which may be big.
-> > ---
-> >   meta/recipes-core/systemd/systemd_218.bb | 1059 ++++++++++++++++++++++++++----
-> >   1 file changed, 914 insertions(+), 145 deletions(-)
-> 
-> This patch will push a lot of maintenance work onto the Yocto systemd maintainer 
-> every time there is an upgrade. It's also easy to miss dependencies because of 
-> the inter-dependencies that can exist between services.
+The following has been verified with the branch sources:
 
-This is not a problem, we can give this maintenance.
+ On 68xx:
 
-> 
-> For items such as systemd-cgls and the tools, a change like this would be 
-> maintainable since those items are self-contained. But yanking out the services 
-> into separate packages means the maintainer will have to inspect them on each 
-> upgrade to make sure they still work.
-> 
-> Would it be sufficient to use PACKAGECONFIG for each of the items that can be 
-> disabled via configure? That way the granularity configuration is done by the 
-> systemd maintainers rather than the Yocto maintainer.
+   * SGMII, XAUI Packet IO interfaces.
+   * PCIe devices
+   * EHCI/OHCI USB driver
 
-With PACKAGECONFIG, we may not get everything "for free" as some data files 
-will be installed regardless as well as some components from systemd cannot 
-be disabled by their build system but we can run without them, for instance 
-we can run without journald.
+ On 78XX:
 
-The problem is understanding that although systemd is a single repository 
-it contains multiple services and daemons in it that can run even without the 
-core PID1, udev or the many helpers used to configure the system such as resolved, 
-timedated, localed... 
+   * Ran LTP testsuite
+   * SGMII, XAUI Packet IO interfaces
+   * MMC driver (which covers GPIO interrupts in the driver)
+   * PCIe devices
+   * XHCI USB driver
 
-All of these components are runtime independent, we can install or remove them and 
-they should not create problems.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++++--------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-Even Ubuntu is shipping with some of these daemons even if systemd is not used (yet).
-If they were different GIT repos then it would be clear that they are separate daemons, 
-but as they are all in a single repository people can make a confusion about it.
-
-I see that in the master branch it has already the version 219.
-
-I will make a split packages for the newest version that was just released.
-
-Best Regards,
-
-Bruno Bottazzini
-
-> 
-> 
-> 
-
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+index bd61c4a927c8..4080aca495db 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+@@ -3,8 +3,8 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "fbe20225d041672b110e93c3ad171737b69e2126"
+-SRCREV_machine_qemuppc ?= "11f38e2b2a63c5b1138617c197b3f5b96cd74a65"
++SRCREV_machine ?= "eb2c9c93de9b806f2a52c26bba229089a7a71385"
++SRCREV_machine_qemuppc ?= "bd470d1c8337323b0f7d1529df70a1c68108df0b"
+ SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+index d110297246c1..f6b95a218ad7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.14.29"
+ KMETA = "meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "f65678ef48c5d41af914d2769e4dd01411c1df96"
++SRCREV_machine ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+ SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index 9cdd3eea0d5c..0d0d8b2ee22a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
+ KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "1a9f9edade8d8c0120d2f47dfd15edd41c7a3439"
+-SRCREV_machine_qemuarm64 ?= "f65678ef48c5d41af914d2769e4dd01411c1df96"
+-SRCREV_machine_qemumips ?= "68e9a20079f3cc333c3b7d945bb65fa74772aa37"
+-SRCREV_machine_qemuppc ?= "a992646d267f012f87967f1c8b88608c950c7e58"
+-SRCREV_machine_qemux86 ?= "2f37d969c5d3b28d936ac3533862e2ab034d4f37"
+-SRCREV_machine_qemux86-64 ?= "f65678ef48c5d41af914d2769e4dd01411c1df96"
+-SRCREV_machine_qemumips64 ?= "e93012684a290e9b60d61f58c2dbd36ab3f2e549"
+-SRCREV_machine ?= "f65678ef48c5d41af914d2769e4dd01411c1df96"
++SRCREV_machine_qemuarm ?= "38d0249598bef8263f1f1e280badf6b92a0bc668"
++SRCREV_machine_qemuarm64 ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
++SRCREV_machine_qemumips ?= "d2138247c6f1ba8f082f7c2b0d4a6a4efb0cf908"
++SRCREV_machine_qemuppc ?= "2ec2927314d58a012403cbaccdf0a8a1f5c5d666"
++SRCREV_machine_qemux86 ?= "9ed9a63eeafbcbee0e378e304a1029bb14d45697"
++SRCREV_machine_qemux86-64 ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
++SRCREV_machine_qemumips64 ?= "afdaa94d540bf671f4d4d198ec6b891df22fb323"
++SRCREV_machine ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+ SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+-- 
+2.1.0
 
 
