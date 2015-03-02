@@ -1,40 +1,20 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id DB9987372E
+Return-Path: <florian.boor@kernelconcepts.de>
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EABC7372E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 10:13:20 +0000 (UTC)
-Received: by wevm14 with SMTP id m14so32243774wev.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2015 02:13:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=ib5wnrpxf/co/wemYFjHAFEEuj2nuq13zBkEPGfosMs=;
-	b=dWqKl/Iqj1R7l77JGUtw/xDaYZ/JMoz3CrjKS1IwqKjelAumB9V6ldDBkU6gSrUz9q
-	E1vjrra1MoQMzqr6gCwdzOEdJ5slJ+ti21N3O29q6y/pQQH4vTqUQ+Ast+YBWzj9/FOy
-	YenOCWLEUcc9EwRV76hI9TMODbHDPgL1xInEBxYqwCLLyRhVkR4nOD0BS0JrMmc06Ccw
-	hP0BLhlpziCT3HJHaT1GikKoIn/wJkBsxIpbS9D64VR0m3WznkMP8IpRjUmnK8B9kP8+
-	4Ms1XL+mseXCEC+tiB4T7fSgKel/yuCowOxWaa/5axF0a8xhEwnTPNPjm1ygPWisOzul
-	MN0g==
-X-Gm-Message-State: ALoCoQmZHZWaEX9kzig144tAMFk3di6GVsK5UMfyEuIK8rSOp23sb2vf57iK1ak/9x6/2ONFwGwo
-X-Received: by 10.180.108.13 with SMTP id hg13mr34032733wib.7.1425291201092;
-	Mon, 02 Mar 2015 02:13:21 -0800 (PST)
-Received: from lpapp@archlinux.us (mail.polatis.com. [212.44.19.228])
-	by mx.google.com with ESMTPSA id ga8sm15398575wib.6.2015.03.02.02.13.18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Mar 2015 02:13:20 -0800 (PST)
-Sender: Laszlo Papp <lpapp@archlinux.us>
-From: Laszlo Papp <lpapp@kde.org>
-X-Google-Original-From: Laszlo Papp <laszlo.papp@polatis.com>
-Received: by lpapp@archlinux.us (sSMTP sendmail emulation);
-	Mon, 02 Mar 2015 10:13:16 +0000
+	Mon,  2 Mar 2015 10:15:27 +0000 (UTC)
+Received: from [192.168.2.78] (helo=serenity.kc.loc)
+	by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>)
+	id 1YSNNU-00057y-NG; Mon, 02 Mar 2015 11:15:08 +0100
+From: Florian Boor <florian.boor@kernelconcepts.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2015 10:12:06 +0000
-Message-Id: <1425291126-1729-1-git-send-email-laszlo.papp@polatis.com>
-X-Mailer: git-send-email 2.3.0
-Cc: Laszlo Papp <laszlo.papp@polatis.com>
-Subject: [PATCH] Add init script (sysv) support for busybox's ntpd
+Date: Mon,  2 Mar 2015 11:15:13 +0100
+Message-Id: <1425291313-9669-1-git-send-email-florian.boor@kernelconcepts.de>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Florian Boor <florian@kernelconcepts.de>
+Subject: [meta-oe][PATCH] fltk: Replace use of freetype-config with pkg-config Drop blacklist entry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,144 +27,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 10:13:22 -0000
+X-List-Received-Date: Mon, 02 Mar 2015 10:15:32 -0000
 
-Signed-off-by: Laszlo Papp <laszlo.papp@polatis.com>
+From: Florian Boor <florian@kernelconcepts.de>
+
+Tested building for MIPS 32bit QEMU
+
+Signed-off-by: Florian Boor <florian@kernelconcepts.de>
 ---
- meta/recipes-core/busybox/busybox.inc             | 12 +++--
- meta/recipes-core/busybox/busybox_1.23.1.bb       |  2 +
- meta/recipes-core/busybox/files/busybox-ntpd      | 54 +++++++++++++++++++++++
- meta/recipes-core/busybox/files/busybox-ntpd.conf |  2 +
- 4 files changed, 67 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/busybox/files/busybox-ntpd
- create mode 100644 meta/recipes-core/busybox/files/busybox-ntpd.conf
+ .../fltk/fltk-1.1.10/fltk-no-freetype-config.patch   |   18 ++++++++++++++++++
+ meta-oe/recipes-support/fltk/fltk_1.1.10.bb          |    7 +++----
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+ create mode 100644 meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-config.patch
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 0769d92..b33d624 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -19,7 +19,7 @@ export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
- export EXTRA_OEMAKE += "'LD=${CCLD}'"
+diff --git a/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-config.patch b/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-config.patch
+new file mode 100644
+index 0000000..5dbb054
+--- /dev/null
++++ b/meta-oe/recipes-support/fltk/fltk-1.1.10/fltk-no-freetype-config.patch
+@@ -0,0 +1,18 @@
++--- a/configure.in.orig	2015-03-01 16:00:35.956432907 +0100
+++++ b/configure.in	2015-03-01 16:04:23.269580093 +0100
++@@ -865,11 +865,11 @@
++         AC_ARG_ENABLE(xft, [  --enable-xft            turn on Xft support [default=no]])
++ 
++ 	if test x$enable_xft = xyes; then
++-            AC_PATH_PROG(FTCONFIG,freetype-config)
+++            AC_PATH_PROG(PKGCONFIG,pkg-config)
++ 
++-	    if test "x$FTCONFIG" != x; then
++-	        CPPFLAGS="`$FTCONFIG --cflags` $CPPFLAGS"
++-	        CXXFLAGS="`$FTCONFIG --cflags` $CXXFLAGS"
+++	    if test "x$PKGCONFIG" != x; then
+++	        CPPFLAGS="`$PKGCONFIG --cflags xft` $CPPFLAGS"
+++	        CXXFLAGS="`$PKGCONFIG --cflags xft` $CXXFLAGS"
++ 
++ 		AC_CHECK_HEADER(X11/Xft/Xft.h,
++ 		    AC_CHECK_LIB(Xft, XftDrawCreate,
+diff --git a/meta-oe/recipes-support/fltk/fltk_1.1.10.bb b/meta-oe/recipes-support/fltk/fltk_1.1.10.bb
+index 4fd3645..3229ed0 100644
+--- a/meta-oe/recipes-support/fltk/fltk_1.1.10.bb
++++ b/meta-oe/recipes-support/fltk/fltk_1.1.10.bb
+@@ -6,19 +6,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1c0b73db66884b6a925e727400315130"
  
--PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
-+PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock ${PN}-ntpd"
+ DEPENDS = "alsa-lib zlib jpeg libpng libxext libxft"
  
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
-@@ -27,15 +27,17 @@ FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfd
- FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
- FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
- FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
-+FILES_${PN}-ntpd = "${sysconfdir}/init.d/busybox-ntpd ${sysconfdir}/busybox-ntpd.conf"
+-PR = "r1"
+-
+-PNBLACKLIST[fltk] ?= "broken: still uses /usr/bin/freetype-config"
++PR = "r2"
  
--INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
-+INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock ${PN}-ntpd"
- 
- INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
- INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
- INITSCRIPT_NAME_${PN}-mdev = "mdev"
- INITSCRIPT_PARAMS_${PN}-mdev = "start 03 S ."
- INITSCRIPT_NAME_${PN}-syslog = "syslog"
--INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
-+INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
-+INITSCRIPT_NAME_${PN}-ntpd = "busybox-ntpd"
- 
- SYSTEMD_PACKAGES = "${PN}-syslog"
- SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
-@@ -273,6 +275,10 @@ do_install () {
-                        install -m 0755 ${WORKDIR}/mdev-mount.sh ${D}${sysconfdir}/mdev
-                fi
- 	fi
-+    if grep "CONFIG_NTPD=y" ${B}/.config; then
-+        install -m 0755 ${WORKDIR}/busybox-ntpd ${D}${sysconfdir}/init.d/
-+        install -m 0644 ${WORKDIR}/busybox-ntpd.conf ${D}${sysconfdir}/
-+    fi
- 
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-         if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
-diff --git a/meta/recipes-core/busybox/busybox_1.23.1.bb b/meta/recipes-core/busybox/busybox_1.23.1.bb
-index 1742390..8e57381 100644
---- a/meta/recipes-core/busybox/busybox_1.23.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.1.bb
-@@ -31,6 +31,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://recognize_connmand.patch \
-            file://busybox-cross-menuconfig.patch \
-            file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
-+           file://busybox-ntpd \
-+           file://busybox-ntpd.conf \
+ SRC_URI = "ftp://ftp.rz.tu-bs.de/pub/mirror/ftp.easysw.com/ftp/pub/fltk/${PV}/fltk-${PV}-source.tar.bz2 \
+            file://disable_test.patch \
+            file://dso-fix.patch \
+            file://libpng15.patch \
++           file://fltk-no-freetype-config.patch \
  "
  
- SRC_URI[tarball.md5sum] = "5c94d6301a964cd91619bd4d74605245"
-diff --git a/meta/recipes-core/busybox/files/busybox-ntpd b/meta/recipes-core/busybox/files/busybox-ntpd
-new file mode 100644
-index 0000000..b318cda
---- /dev/null
-+++ b/meta/recipes-core/busybox/files/busybox-ntpd
-@@ -0,0 +1,54 @@
-+#!/bin/sh
-+
-+### BEGIN INIT INFO
-+# Provides:
-+# Required-Start:    $local_fs $remote_fs $network $syslog
-+# Required-Stop:     $local_fs $remote_fs $network $syslog
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: Small busybox ntp server
-+# Description:       busybox-ntpd is a small and fast busybox ntp applet
-+### END INIT INFO
-+
-+DAEMON=/sbin/ntpd
-+NAME=ntpd
-+DESC="Busybox NTP Daemon"
-+source /etc/busybox-ntpd.conf
-+ARGS="-p $PEER"
-+
-+test -f $DAEMON || exit 0
-+
-+set -e
-+
-+case "$1" in
-+    start)
-+        if [ -z "$PEER" ]; then
-+            echo "PEER needs to be specified"
-+        else
-+            start-stop-daemon -S -b -n $NAME -a $DAEMON -- $ARGS
-+            echo "done."
-+        fi
-+        ;;
-+    stop)
-+        echo -n "stopping $DESC: $NAME... "
-+        start-stop-daemon -K -n $NAME
-+        echo "done."
-+        ;;
-+    restart)
-+        echo "restarting $DESC: $NAME... "
-+        $0 stop
-+        $0 start
-+        echo "done."
-+        ;;
-+    reload)
-+        echo -n "reloading $DESC: $NAME... "
-+        killall -HUP $(basename ${DAEMON})
-+        echo "done."
-+        ;;
-+    *)
-+        echo "Usage: $0 {start|stop|restart|reload}"
-+        exit 1
-+        ;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-core/busybox/files/busybox-ntpd.conf b/meta/recipes-core/busybox/files/busybox-ntpd.conf
-new file mode 100644
-index 0000000..9d9255c
---- /dev/null
-+++ b/meta/recipes-core/busybox/files/busybox-ntpd.conf
-@@ -0,0 +1,2 @@
-+# Specify your peer.
-+# PEER=pool.ntp.org
+ S = "${WORKDIR}/fltk-${PV}"
+ 
+-inherit lib_package autotools-brokensep binconfig
++inherit lib_package autotools-brokensep binconfig pkgconfig
+ 
+ TARGET_CC_ARCH += "${LDFLAGS} -DXFT_MAJOR=2"
+ 
 -- 
-2.3.0
+1.7.10.4
 
 
