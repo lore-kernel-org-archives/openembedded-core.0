@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 810047382E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 410187378D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2015 12:58:33 +0000 (UTC)
-Received: by wiwl15 with SMTP id l15so14637891wiw.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2015 04:58:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Vq1Y/4Y1zqtUM7kjjtl6G+5Hh59Sn+Jsg3Y138PVx+Y=;
-	b=SaQe32rfOmBt+7rDq+8ctmQa2slhmoDKDZJZ7JuWmx2Qkc+vFaPGNqbNAr5HxBV6xG
-	OgmQulRUb6kjrj75rVIR9ZIJfaitPpRzEPJinDFgi9Ck90vlm8LoG++ohv3MdUqG8pmD
-	77VNFA5yMMq0pOCBVPM5vngAOye+8iBn1tSzIxH5o1fIFzHtAg+Wa3LG2ZVuK1A7on7x
-	17sIL5Ws11VHG5KwD61XQBzfV5+mZBxIikyPecjzYLFOUAoh+uSJvahtk2G2q/V/Ji6D
-	xHFU0WMLfTf1hM/2wyjNzJpsaqfUG3AnNqSU0PgwBwiatSKLuw9Mo4vFUrnW1AMQTe7m
-	Yzxg==
-X-Gm-Message-State: ALoCoQnMNEI1u2ulyFfFH1BFGIT9KBCpE2rvL9Oo937zKARytQGUQbgT4xQ/W8L9GHwPhdozdIFf
-X-Received: by 10.180.214.99 with SMTP id nz3mr36216880wic.82.1425301114286;
-	Mon, 02 Mar 2015 04:58:34 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id hs7sm15971808wib.4.2015.03.02.04.58.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Mar 2015 04:58:33 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2015 12:56:06 +0000
-Message-Id: <1425300967-22557-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] security_flags: remove PIE flags from flex and gstreamer1.0-plugins-bad
+	Mon,  2 Mar 2015 13:32:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t22DWRAj003539; Mon, 2 Mar 2015 13:32:27 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NUa1u9CGv20V; Mon,  2 Mar 2015 13:32:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t22DWBSW003531
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 2 Mar 2015 13:32:23 GMT
+Message-ID: <1425303131.26813.67.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Gejgus <Peter.Gejgus@kistler.com>
+Date: Mon, 02 Mar 2015 13:32:11 +0000
+In-Reply-To: <672D6A2F0F2E8A43891580C45CE5D2E6013E3418@kihagwinex02.int.kistler.com>
+References: <672D6A2F0F2E8A43891580C45CE5D2E6013E3418@kihagwinex02.int.kistler.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Bitbake class - how to escape special characters?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +37,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2015 12:58:35 -0000
+X-List-Received-Date: Mon, 02 Mar 2015 13:32:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-These recipes both fail to build with "relocation R_X86_64_PC32 against
-undefined hidden symbol `__init_array_start' can not be used when making a
-shared object" when using PIE.
+On Mon, 2015-03-02 at 11:49 +0000, Peter Gejgus wrote:
+> Hello,
+> 
+> This is the excerpt of my bitbake class:
+> 
+> data_migration_common() {
+> 	if [ x"$D" = "x" ]; then
+> 		if [[ ! ${CURRENT_DATA_VERSION} =~ ^[0-9]?[0-9].[0-9]?[0-9]$ ]]; then
+> 			error-exit "Version information was provided in invalid format!"
+> 		fi
+> 	...
+> 	fi
+> }
+> 
+> python populate_packages_append() {
+>     data_migration_pkgs = d.getVar('DATA_MIGRATION_PACKAGES', True).split()
+> 
+>     for pkg in data_migration_pkgs:
+>         bb.note("adding data migration postinst scripts to %s" % pkg)
+>         postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
+>         if not postinst:
+>             postinst = '#!/bin/sh\n'
+>         postinst += d.getVar('data_migration_common', True)
+>         d.setVar('pkg_postinst_%s' % pkg, postinst)
+> }
+> 
+> This class generates post-install scriptlet for the packages
+> inheriting from this bitbake class.
+>
+> But bitbake is unable to parse the code in the data_migration_common
+> function and claiming:
+> ERROR: ExpansionError during parsing .../xyz_0.1.0.bb: Failure
+> expanding variable data_migration_common: ShellSyntaxError: Invalid
+> token "%s"
+>
+> This problem is because the regular expression in the function
+> data_migration_common contains character '$'. Bitbake succeeds when I
+> remove character '$' from this regular expression. Is there some way
+> to escape this '$' character? Because I need '$' in my regex.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/security_flags.inc |    2 ++
- 1 file changed, 2 insertions(+)
+The problem is in the shell parser that bitbake uses (lib/bb/pysh)
+doesn't like that syntax. The expression you have above is bash specific
+and we tend to support /bin/dash as /bin/sh so the function you have
+there isn't portable.
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 16a5748..f3f0082 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -29,6 +29,7 @@ SECURITY_CFLAGS_pn-glibc-initial = ""
- SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc-runtime = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -43,6 +44,7 @@ SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-gstreamer1.0-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
--- 
-1.7.10.4
+Cheers,
+
+Richard
 
 
