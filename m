@@ -1,45 +1,34 @@
-Return-Path: <Javier.Viguera@digi.com>
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.7])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AFF065DA3
+Return-Path: <baptiste.durand@gmail.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A62BC6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2015 11:00:19 +0000 (UTC)
-Received: from [216.82.249.131] by server-7.bemta-12.messagelabs.com id
-	64/6B-03164-34495F45; Tue, 03 Mar 2015 11:00:19 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-8.tower-28.messagelabs.com!1425380418!32227972!1
-X-Originating-IP: [66.77.174.14]
-X-StarScan-Received: 
-X-StarScan-Version: 6.13.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 24716 invoked from network); 3 Mar 2015 11:00:18 -0000
-Received: from mail.mx2.digi.com (HELO mcl-sms-ns2.DIGI.COM) (66.77.174.14)
-	by server-8.tower-28.messagelabs.com with RC4-SHA encrypted SMTP;
-	3 Mar 2015 11:00:18 -0000
-Received: from MTK-SMS-XCH02.digi.com (10.10.8.196) by mail.mx2.digi.com
-	(172.16.1.14) with Microsoft SMTP Server (TLS) id 8.3.389.2;
-	Tue, 3 Mar 2015 05:00:31 -0600
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH02.digi.com
-	(10.10.8.196) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 3 Mar 2015 05:00:17 -0600
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 3 Mar 2015 12:00:15 +0100
-Message-ID: <54F59438.1070304@digi.com>
-Date: Tue, 3 Mar 2015 12:00:08 +0100
-From: Javier Viguera <javier.viguera@digi.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1424177294-41586-1-git-send-email-javier.viguera@digi.com>
-	<54ECB8AB.1090709@digi.com>
-In-Reply-To: <54ECB8AB.1090709@digi.com>
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Subject: Re: [backport][dizzy][daisy] utils.bbclass: fix create_cmdline_wrapper
+	Tue,  3 Mar 2015 11:01:56 +0000 (UTC)
+Received: by widem10 with SMTP id em10so21700473wid.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=rf8GIlAQtUXE5P6VKcoeZHDkk4/hl9XExXmhjbKc9KI=;
+	b=FEsyoM/o3sXyJpo5Nb4oVzzGS25EUjMtnmHBRJySaMuO4I6/C/DfHhATHSUDLn7L5L
+	NSMT+fvbFeR6dhi2IG0BRLvv88qR/4chvNAsXBOEFrURLOkWKLzgY5Pqxj5rrjGhroAR
+	rgD1GsQFb4pEbLNavZSowu+uW9tRbyu3hiVCZwLItw0iiGiH3vBrIaZOdP+0XPMOTExU
+	9a5GFfMGUcCbM5t/oY4iu2yNMxDvO/KTtP8dlBrejHouiJLY8JRdBpd6mCVgT35t45mE
+	VXULJexr4jC7/PHpsYNQgpy0YpoCSKX0FSlIC2J40PWK0hzgeId4syJHM0QADKUO8g3J
+	JgbA==
+X-Received: by 10.194.193.9 with SMTP id hk9mr69893947wjc.42.1425380517891;
+	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
+Received: from PCL140002.eurogiciel.fr (130.167.26.109.rev.sfr.net.
+	[109.26.167.130])
+	by mx.google.com with ESMTPSA id fu1sm1963451wic.2.2015.03.03.03.01.55
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
+From: Baptiste DURAND <baptiste.durand@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Mar 2015 12:01:17 +0100
+Message-Id: <1425380477-16279-1-git-send-email-baptiste.durand@gmail.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] sanity.bbclass: Add syntax check on MACHINE variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,25 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 11:00:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2015 11:02:00 -0000
 
-On 24/02/15 18:45, Javier Viguera wrote:
-> Hi all,
->
-> I see this patch was merged into master. Thanks for that.
->
-> Could it be backported to Daisy and Dizzy?
->
-> A cherry-pick of the commit in master should apply just fine.
+MACHINE variable should not contain uppercase characters.
 
-Ping.
+Having uppercase in Machine name can lead to this kind of error : (here Machine is set to nuc-E3815)
+ERROR: initramfs-live-boot not found in the base feeds (nuc_E3815 corei7-64-intel-common corei7-64 core2-64 x86_64 noarch any all).
 
-Master commit: 49ab89eb9f83388e99069a4b53bdc4cba22bb6f3
+Signed-off-by: Baptiste DURAND <baptiste.durand@gmail.com>
+---
+ meta/classes/sanity.bbclass | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
--
-Regards,
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 31b99d4..1fa2e58 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -713,12 +713,17 @@ def check_sanity_everybuild(status, d):
+ 
+     # Check that the MACHINE is valid, if it is set
+     machinevalid = True
+-    if d.getVar('MACHINE', True):
+-        if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
+-            status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
+-            machinevalid = False
++    machinevar = d.getVar('MACHINE', True)
++    if machinevar:
++        if machinevar == machinevar.lower():
++            if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
++               status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
++               machinevalid = False
++            else:
++               status.addresult(check_sanity_validmachine(d))
+         else:
+-            status.addresult(check_sanity_validmachine(d))
++            status.addresult('Please set a valid MACHINE : uppercase characters are not allowed in machine name : ${MACHINE} should be ' + machinevar.lower() + ' \n    Please rename file conf/machine/${MACHINE}.conf as conf/machine/' + machinevar.lower() + '.conf\n')
++            machinevalid = False
+     else:
+         status.addresult('Please set a MACHINE in your local.conf or environment\n')
+         machinevalid = False
+-- 
+1.8.1.4
 
-Javier Viguera
 
