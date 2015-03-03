@@ -1,34 +1,26 @@
-Return-Path: <baptiste.durand@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A62BC6017E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CADE65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2015 11:01:56 +0000 (UTC)
-Received: by widem10 with SMTP id em10so21700473wid.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=rf8GIlAQtUXE5P6VKcoeZHDkk4/hl9XExXmhjbKc9KI=;
-	b=FEsyoM/o3sXyJpo5Nb4oVzzGS25EUjMtnmHBRJySaMuO4I6/C/DfHhATHSUDLn7L5L
-	NSMT+fvbFeR6dhi2IG0BRLvv88qR/4chvNAsXBOEFrURLOkWKLzgY5Pqxj5rrjGhroAR
-	rgD1GsQFb4pEbLNavZSowu+uW9tRbyu3hiVCZwLItw0iiGiH3vBrIaZOdP+0XPMOTExU
-	9a5GFfMGUcCbM5t/oY4iu2yNMxDvO/KTtP8dlBrejHouiJLY8JRdBpd6mCVgT35t45mE
-	VXULJexr4jC7/PHpsYNQgpy0YpoCSKX0FSlIC2J40PWK0hzgeId4syJHM0QADKUO8g3J
-	JgbA==
-X-Received: by 10.194.193.9 with SMTP id hk9mr69893947wjc.42.1425380517891;
-	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
-Received: from PCL140002.eurogiciel.fr (130.167.26.109.rev.sfr.net.
-	[109.26.167.130])
-	by mx.google.com with ESMTPSA id fu1sm1963451wic.2.2015.03.03.03.01.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Mar 2015 03:01:57 -0800 (PST)
-From: Baptiste DURAND <baptiste.durand@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Mar 2015 12:01:17 +0100
-Message-Id: <1425380477-16279-1-git-send-email-baptiste.durand@gmail.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] sanity.bbclass: Add syntax check on MACHINE variable
+	Tue,  3 Mar 2015 11:25:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Mar 2015 03:20:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,681,1418112000"; d="scan'208";a="659695992"
+Received: from tmlemanx-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.7.97])
+	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2015 03:25:48 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 03 Mar 2015 11:25:43 +0000
+Message-ID: <1842926.0Cr3xtp9ZT@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1502271553110.8885@localhost>
+References: <alpine.LFD.2.11.1502271553110.8885@localhost>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: inconsistency with adding LICENSE lines to images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 11:02:00 -0000
+X-List-Received-Date: Tue, 03 Mar 2015 11:25:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-MACHINE variable should not contain uppercase characters.
+On Friday 27 February 2015 15:58:32 Robert P. J. Day wrote:
+>   just noticed the following ... in OE image definition files under
+> recipes-core:
+> 
+> core-image-base.bb
+> core-image-minimal.bb
+> core-image-minimal-dev.bb
+> core-image-minimal-initramfs.bb
+> core-image-minimal-mtdutils.bb
+> 
+> it *seems* to make sense that image definitions that require or
+> include other core image bb files don't need to add the line:
+> 
+> LICENSE = "MIT"
+> 
+> as they pick it up from the include'd or require'd file, but image
+> recipe files that
+> 
+> inherit core-image
+> 
+> *do* need to define their own license.
+> 
+>   but if one then goes under recipes-extended/images, it looks a bit
+> strange as, for example, here's core-image-full-cmdline.bb:
+> 
+> DESCRIPTION = "A console-only image with more full-featured Linux system \
+> functionality installed."
+> 
+> IMAGE_FEATURES += "splash ssh-server-openssh"
+> 
+> IMAGE_INSTALL = "\
+>     packagegroup-core-boot \
+>     packagegroup-core-full-cmdline \
+>     ${CORE_IMAGE_EXTRA_INSTALL} \
+>     "
+> 
+> inherit core-image
+> 
+>   so ... what's the licensing there? this image inherits directly from
+> core-image, but doesn't define a license? am i misunderstanding the
+> need for a license?
 
-Having uppercase in Machine name can lead to this kind of error : (here Machine is set to nuc-E3815)
-ERROR: initramfs-live-boot not found in the base feeds (nuc_E3815 corei7-64-intel-common corei7-64 core2-64 x86_64 noarch any all).
+There shouldn't be a need to set this for image recipes whether they inherit 
+image or core-image, since recipes don't generally distribute any files other 
+than those that come from packages that they include (which have their own 
+licenses) - it wouldn't be practical to list all of the licenses for all of 
+the components of the image, that is what we produce the license manifest for. 
 
-Signed-off-by: Baptiste DURAND <baptiste.durand@gmail.com>
----
- meta/classes/sanity.bbclass | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+On the other hand, if you re-enable do_fetch and add files to SRC_URI within 
+the image recipe (which should generally be avoided but is done in rare cases 
+- build-appliance-image is one example) then you probably ought to be 
+concerned with the LICENSE value. Having said that I don't know if the license 
+manifest logic actually looks at the LICENSE value for the image at all, I 
+suspect it does not.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 31b99d4..1fa2e58 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -713,12 +713,17 @@ def check_sanity_everybuild(status, d):
- 
-     # Check that the MACHINE is valid, if it is set
-     machinevalid = True
--    if d.getVar('MACHINE', True):
--        if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
--            status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
--            machinevalid = False
-+    machinevar = d.getVar('MACHINE', True)
-+    if machinevar:
-+        if machinevar == machinevar.lower():
-+            if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
-+               status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
-+               machinevalid = False
-+            else:
-+               status.addresult(check_sanity_validmachine(d))
-         else:
--            status.addresult(check_sanity_validmachine(d))
-+            status.addresult('Please set a valid MACHINE : uppercase characters are not allowed in machine name : ${MACHINE} should be ' + machinevar.lower() + ' \n    Please rename file conf/machine/${MACHINE}.conf as conf/machine/' + machinevar.lower() + '.conf\n')
-+            machinevalid = False
-     else:
-         status.addresult('Please set a MACHINE in your local.conf or environment\n')
-         machinevalid = False
+Cheers,
+Paul
+
 -- 
-1.8.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
