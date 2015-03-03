@@ -1,38 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E7646017E
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E4C3D65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2015 12:17:47 +0000 (UTC)
-Received: by ykt10 with SMTP id 10so16418875ykt.1
+	Tue,  3 Mar 2015 12:54:22 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id le20so6460637vcb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 04:17:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=8Bz4MbgOEG2JO+rxukNtKHAefWfFV5CH9Xt8c/0iAIg=;
-	b=JY1y5o6TtcLbdMkK65s1HX8d5rpHP7vKccZGqda8mdKuFkSDCHqOAhVXklcHIH54+U
-	/wrDaODbG0gjn7EWb4HPv2HeUZ9PzGztK8TKhEim3zCjp1ROQl4IjBq24GxHWNTr4Xp3
-	QeDoFZ5DW5MmC/NfliEe4xogW0EN8yZm+xozPV2WaYaN8dxDJmlVsJR+e6bwkwa8ilq3
-	6t2WWpk/Jm5fSgfVr6OBUzWirU/NlMtKBNx1x2KEsh9H8k+AqqAn+vC9eKe9qdyn6NCc
-	ZlZCQy4byaCnCRc0VdjJvIxJf5btbz998/anYoc/xPfwp9xFwnOTlCDKTxtuiGavt3/s
-	mDqw==
+	Tue, 03 Mar 2015 04:54:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=XhvdtWcQo0J1pjCfW5KATVD8L+U1qJ0VLtN7mAM25+4=;
+	b=cR9skkRLpFs8xoEQII7/4+42lBnW6xhUti8ruyRTo5gHcmLxEjcaxw0B38ckzkJjXm
+	q+kFSVm6ewSl7jqepjxhEJua0YVXDYxiA0UKgsj+cQTfADVWBE26FwTRbCX++kVRAgSo
+	FRQ/RWZQVm9908BCbVvADUF8SaZrBOpwuPCxsTd47LNrgwL981NrQ56Tkwckq/QtCWEE
+	2Tr/zuSm6rvQusac698ZC3HBQMPgvyFhjnoqSeS9g6bnAJBTAvo0LsX9b3WLW0jTz/o2
+	SO509uPT1AOXlWnvNWP+42j8uA/Z9pKUG9zSZgXlN9PJ1GE3kqNlqPw/DICM3MfO1kkV
+	JEeQ==
+X-Gm-Message-State: ALoCoQlACRCEGufJFHxiD9XCKzxg/P4KemSq4zsThUJPc/EPYX653ZcmT2DRWDN/UWz4WKNyoYx6
 MIME-Version: 1.0
-X-Received: by 10.236.190.5 with SMTP id d5mr29264370yhn.67.1425385069092;
-	Tue, 03 Mar 2015 04:17:49 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.123.133 with HTTP; Tue, 3 Mar 2015 04:17:49 -0800 (PST)
-In-Reply-To: <54F59438.1070304@digi.com>
-References: <1424177294-41586-1-git-send-email-javier.viguera@digi.com>
-	<54ECB8AB.1090709@digi.com> <54F59438.1070304@digi.com>
-Date: Tue, 3 Mar 2015 09:17:49 -0300
-X-Google-Sender-Auth: Ny0sdIN2C_nNfYOoh-sNSd-shug
-Message-ID: <CAP9ODKr3GxPaxtBSPvqQ02DRU8LWP2Ybim7EzJHeFcjPD3NGOA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Javier Viguera <javier.viguera@digi.com>, Saul Wold <saul.wold@intel.com>
+X-Received: by 10.52.146.171 with SMTP id td11mr9022523vdb.48.1425387263666;
+	Tue, 03 Mar 2015 04:54:23 -0800 (PST)
+Received: by 10.52.124.76 with HTTP; Tue, 3 Mar 2015 04:54:23 -0800 (PST)
+In-Reply-To: <1842926.0Cr3xtp9ZT@peggleto-mobl5.ger.corp.intel.com>
+References: <alpine.LFD.2.11.1502271553110.8885@localhost>
+	<1842926.0Cr3xtp9ZT@peggleto-mobl5.ger.corp.intel.com>
+Date: Tue, 3 Mar 2015 12:54:23 +0000
+Message-ID: <CAPhnLPBf86qXk_WSA8NcWu_5KdDu6BiUFfOHkMJXMEU+WeiRvA@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [backport][dizzy][daisy] utils.bbclass: fix create_cmdline_wrapper
+Subject: Re: inconsistency with adding LICENSE lines to images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +47,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 12:17:48 -0000
+X-List-Received-Date: Tue, 03 Mar 2015 12:54:27 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Javier,
-
-On Tue, Mar 3, 2015 at 8:00 AM, Javier Viguera <javier.viguera@digi.com> wrote:
-> On 24/02/15 18:45, Javier Viguera wrote:
+On 3 March 2015 at 11:25, Paul Eggleton <paul.eggleton@linux.intel.com> wro=
+te:
+> On Friday 27 February 2015 15:58:32 Robert P. J. Day wrote:
+>>   just noticed the following ... in OE image definition files under
+>> recipes-core:
 >>
->> Hi all,
+>> core-image-base.bb
+>> core-image-minimal.bb
+>> core-image-minimal-dev.bb
+>> core-image-minimal-initramfs.bb
+>> core-image-minimal-mtdutils.bb
 >>
->> I see this patch was merged into master. Thanks for that.
+>> it *seems* to make sense that image definitions that require or
+>> include other core image bb files don't need to add the line:
 >>
->> Could it be backported to Daisy and Dizzy?
+>> LICENSE =3D "MIT"
 >>
->> A cherry-pick of the commit in master should apply just fine.
+>> as they pick it up from the include'd or require'd file, but image
+>> recipe files that
+>>
+>> inherit core-image
+>>
+>> *do* need to define their own license.
+>>
+>>   but if one then goes under recipes-extended/images, it looks a bit
+>> strange as, for example, here's core-image-full-cmdline.bb:
+>>
+>> DESCRIPTION =3D "A console-only image with more full-featured Linux syst=
+em \
+>> functionality installed."
+>>
+>> IMAGE_FEATURES +=3D "splash ssh-server-openssh"
+>>
+>> IMAGE_INSTALL =3D "\
+>>     packagegroup-core-boot \
+>>     packagegroup-core-full-cmdline \
+>>     ${CORE_IMAGE_EXTRA_INSTALL} \
+>>     "
+>>
+>> inherit core-image
+>>
+>>   so ... what's the licensing there? this image inherits directly from
+>> core-image, but doesn't define a license? am i misunderstanding the
+>> need for a license?
 >
+> There shouldn't be a need to set this for image recipes whether they inhe=
+rit
+> image or core-image, since recipes don't generally distribute any files o=
+ther
+> than those that come from packages that they include (which have their ow=
+n
+> licenses) - it wouldn't be practical to list all of the licenses for all =
+of
+> the components of the image, that is what we produce the license manifest=
+ for.
 >
-> Ping.
+> On the other hand, if you re-enable do_fetch and add files to SRC_URI wit=
+hin
+> the image recipe (which should generally be avoided but is done in rare c=
+ases
+> - build-appliance-image is one example) then you probably ought to be
+> concerned with the LICENSE value. Having said that I don't know if the li=
+cense
+> manifest logic actually looks at the LICENSE value for the image at all, =
+I
+> suspect it does not.
+
+It doesn't. It actually should in this case (and probably all cases).
+Once An=C3=ADbals patches that fix some of the performance issues we've
+been seeing in license.bbclass hit master, let's fix that. That said,
+there are other license manifest issues with build-appliance.
+
+Example from the build-appliance recipe:
+
+cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
+
+Right there, as we're not necessarily building out all those downloads
+in that build run, we're not getting all of that captured within the
+manifest. So, essentially, the manifest for ba is inaccurate unless
+DL_DIR is completely empty.
+
+I think build-appliance is going to have to be a very special case
+when it comes to creating a manifest for it.
+
+-b
+
 >
-> Master commit: 49ab89eb9f83388e99069a4b53bdc4cba22bb6f3
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Adding Saul in Cc.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--=20
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
