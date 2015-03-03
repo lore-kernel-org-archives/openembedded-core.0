@@ -1,34 +1,35 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C776017E
+Return-Path: <naresh.bhat@linaro.org>
+Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
+	[209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9552F6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2015 13:32:09 +0000 (UTC)
-Received: by pdbnh10 with SMTP id nh10so22626904pdb.4
+	Tue,  3 Mar 2015 15:46:40 +0000 (UTC)
+Received: by ykbq200 with SMTP id q200so17109337ykb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 05:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Mwlri8LAllaQfEYh8U8+z9kycjA9PTQOwObn3YdujBo=;
-	b=kqJt79JsXoFDjDpCUdZxhQEpOUR0IQrgqltWNW2OO5nY9UjgUXKu2rlh5VnyXFkfL7
-	Ofqsfo17+MjnsbFepLFXHE23oVfsUVpmYSUjUmFPgVZaJycdzvsrOCPds3hYUgPu41qj
-	8/x1LOnZddXHb2eOouhwaLTYy+og3VAKXRnxfn1PkfBr+xuAVYmzU6KfWqdWULKEw4hr
-	JVlDw87T0gNnbSbL7iKnNoq2gk9HJ+Tva/t0gxyHePKAIjrChoZ3JO+689JxgN9PJxxs
-	jG3zL0/4VxNUREeRbEz9ypjX5C4KkxzFQzcxv8nrfSYbK7kcmwHcbVLFfQfa99Ghfxcb
-	oWvA==
-X-Received: by 10.68.253.233 with SMTP id ad9mr56119473pbd.167.1425389530859; 
-	Tue, 03 Mar 2015 05:32:10 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id cy6sm1103292pdb.15.2015.03.03.05.32.08
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Mar 2015 05:32:09 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
+	Tue, 03 Mar 2015 07:46:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=61JwvtiXqcqy4lA3NeCYELUqovqwOscLlrdoNcFXYDg=;
+	b=gJGD/aohX3tfb9DrgiPCrzUskF23pB5Y9GWNL9VVj8403zKgvNc+rVvo67eKk8eyvk
+	gZm+wnV3ZhCI/P9ISwxIE4Y8YYGFONwqRVy1nbu1qpGDIwvVd7B3qYrkf1fXaugikRxe
+	6jXKRNvY5CglwgxVzi4vxAhUM1ATvOLN6mNKm4OzcHPxdkGx12A8+I0DoDgm7JY2ubaN
+	8U8fPh53R3yp1l+5/R4FxEri9vpoAIMke0IH5kdzoXlcSXHdeOGxzhwysKlzYOXgUI6/
+	g5yf+8193oAvK4NPaKW8BJjCTUaaTL7VdBEy/L/PaG8ftZKVj5CM73mf4VF93SgTJvxD
+	BN1A==
+X-Gm-Message-State: ALoCoQlk/hi9J069MskXWnoQ6WdMNuTL93PfmJJRbSW9sLj+Y9V5v6u67p+aXHvEXkSwCWa4M5bv
+X-Received: by 10.236.36.102 with SMTP id v66mr31771094yha.81.1425397601269;
+	Tue, 03 Mar 2015 07:46:41 -0800 (PST)
+Received: from Latitude-E6430.caveonetworks.com ([111.93.218.67])
+	by mx.google.com with ESMTPSA id n22sm831796yho.1.2015.03.03.07.46.38
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Mar 2015 07:46:40 -0800 (PST)
+From: Naresh Bhat <naresh.bhat@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Mar 2015 00:31:31 +1100
-Message-Id: <1425389491-31479-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] kernel-devsrc: avoid splitting debug info
+Date: Tue,  3 Mar 2015 21:16:20 +0530
+Message-Id: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [OE-core Yocto PATCH 0/4] aarch64 changes for meta layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 13:32:13 -0000
+X-List-Received-Date: Tue, 03 Mar 2015 15:46:44 -0000
 
-This fixes "QA Issue: non debug package contains .debug directory"
-for some kernels.
+Hi,
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 1 +
- 1 file changed, 1 insertion(+)
+I am adding the support of aarch64 to LUV OS Distribution project. 
+The luv-yocto project is based on poky distribution.  
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index e36de1b..c3cad05 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -72,3 +72,4 @@ do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- PACKAGES = "kernel-devsrc"
- FILES_${PN} = "${KERNEL_SRC_PATH}"
- RDEPENDS_${PN} = "bc"
-+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+https://01.org/linux-uefi-validation
+
+While adding support I find that these are the few meta layer changes,
+which I have been asked to upstream. If we merge these changes into 
+openembedded-core it will be more helpful to maintain the minimum set
+patches at dependency projects like luv-yocto.  
+
+Please let me know your feedback on these set of changes.
+
+Thanks and Regards
+-Naresh Bhat
+
+Naresh Bhat (4):
+  grub-efi: Add to support to install grubaa64 efi
+  bootimg: Add support to install Image
+  bootimg: Skip build iso image for aarch64
+  grub: Update grub git recipe
+
+ meta/classes/bootimg.bbclass      |   16 ++++++++++--
+ meta/classes/grub-efi.bbclass     |    3 +++
+ meta/recipes-bsp/grub/grub_git.bb |   51 ++++++++++++++++++++++++++++++++-----
+ 3 files changed, 62 insertions(+), 8 deletions(-)
+
 -- 
-2.3.1
+1.7.9.5
 
 
