@@ -1,39 +1,39 @@
 Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
-	[209.85.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id CF44071708
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 71CEF7387A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2015 15:46:46 +0000 (UTC)
-Received: by ykr79 with SMTP id 79so407945ykr.7
+	Tue,  3 Mar 2015 15:46:43 +0000 (UTC)
+Received: by yhoc41 with SMTP id c41so1993872yho.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 07:46:47 -0800 (PST)
+	Tue, 03 Mar 2015 07:46:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Bfx37TbHSa+8ten8gPG9/DRdMmwxewy9rvIjMXtVr/E=;
-	b=hH97Ix64TBfcSMnpmg3etEeQMLl6QFgLsBks8zYwTBglHnDkNWws8nwIPbSq0Yh2uH
-	3S4OOhtGuMwav7+6KQwMt4ORhp0NDs5JbDMmkCLlmr6Plw0sXmV4RWoO8omC55QHtfZg
-	2MaBCDnh4EFI+TxsTJTv+t06TiDcfDzrxygQNktddErn8VY5RmiXsJI/YvzI1Vyl8Qrc
-	M0sPWE+tXm+G1YqeT0lxyd3SdSN7gNIK/g4TBkxgDBAsTR+qlgwO7WWd1XrlZtNDN3Tj
-	urKXByI53JqWvd/W4KG7rUDF8Ql0A+AqCy78hd/sMm0b+p9xZ3UBcmLnWh8VXJ87w6NB
-	cgzg==
-X-Gm-Message-State: ALoCoQmq5E6jys8fpdgvC5aPhFMg2pvVLRh0Vi02S8mPhyLnixU6kiXOnSMvIvUZl16WJG5ZrVbj
-X-Received: by 10.236.222.34 with SMTP id s32mr31506442yhp.164.1425397607879; 
-	Tue, 03 Mar 2015 07:46:47 -0800 (PST)
+	bh=p82Jx7I5Mz9pAJfB7WCMBil9xf4ljDPaSu6We+70lA0=;
+	b=SBrpwmm437ryzGlr6dIvy6l5jg6U6eWvxx8rciS2wOUNos1R2Q5q/T6FbJREGdVGNh
+	9sF/a6tuW0Ly6/gJLBunVxbztD7Jyzf2xlnFmugFCRGHiuh8Qnd+k+yE0IVGo2e/Et+u
+	J5P6Ksqe5GqW3jrREGc5Jpve/h7+QV7wGEd1+cF2GCZ9eF6hv82HxgXGF3Z0YS15d924
+	FzPK/08JYdeIzqbEuu5lc1y9KWVV6c3pi66OsM67vwqRbVtvPWA+pbo6hmTz9GfOt6DT
+	K9W77H2g2df+1gnT24G9m43daeC/gWG2xgkShwbP7QFAqLMrLtp54XJgcG8QLOP8RBdp
+	XOuw==
+X-Gm-Message-State: ALoCoQnI7Y9abAwxD/oVNd928khA7T8e5u3TNqxVRyjnKiCcRXFJf9gzZaWqAwZQBLg13i4+ILt3
+X-Received: by 10.236.53.69 with SMTP id f45mr30952493yhc.12.1425397604638;
+	Tue, 03 Mar 2015 07:46:44 -0800 (PST)
 Received: from Latitude-E6430.caveonetworks.com ([111.93.218.67])
-	by mx.google.com with ESMTPSA id n22sm831796yho.1.2015.03.03.07.46.44
+	by mx.google.com with ESMTPSA id n22sm831796yho.1.2015.03.03.07.46.41
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 03 Mar 2015 07:46:46 -0800 (PST)
+	Tue, 03 Mar 2015 07:46:43 -0800 (PST)
 From: Naresh Bhat <naresh.bhat@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Mar 2015 21:16:22 +0530
-Message-Id: <1425397584-5154-3-git-send-email-naresh.bhat@linaro.org>
+Date: Tue,  3 Mar 2015 21:16:21 +0530
+Message-Id: <1425397584-5154-2-git-send-email-naresh.bhat@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
 References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
 Cc: Matt Fleming <matt.fleming@intel.com>
-Subject: [OE-core Yocto PATCH 2/4] bootimg: Add support to install Image
+Subject: [OE-core Yocto PATCH 1/4] grub-efi: Add to support to install grubaa64 efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 15:46:47 -0000
+X-List-Received-Date: Tue, 03 Mar 2015 15:46:48 -0000
 
-Add support to install kernel image for aarch64
+Add to support to install grubaa64.efi binary for aarch64
 
 Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
 Signed-off-by: Matt Fleming <matt.fleming@intel.com>
 ---
- meta/classes/bootimg.bbclass |   10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/classes/grub-efi.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index b1c03ba..a8e0c19 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -66,8 +66,16 @@ populate() {
- 	DEST=$1
- 	install -d ${DEST}
- 
-+	SRC_KERNEL_IMAGE=bzImage
-+	DEST_KERNEL_IMAGE=vmlinuz
-+
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 47bd35e..455dc8d 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -37,6 +37,9 @@ efi_populate() {
+ 	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+ 		GRUB_IMAGE="bootx64.efi"
+ 	fi
 +	if [ "${TARGET_ARCH}" = "aarch64" ]; then
-+		SRC_KERNEL_IMAGE=Image
-+		DEST_KERNEL_IMAGE=Image
-+	fi
-+
- 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage ${DEST}/vmlinuz
-+	install -m 0644 ${STAGING_KERNEL_DIR}/${SRC_KERNEL_IMAGE} ${DEST}/${DEST_KERNEL_IMAGE}
- 	
- 	# initrd is made of concatenation of multiple filesystem images
- 	if [ -n "${INITRD}" ]; then
++                GRUB_IMAGE="grubaa64.efi"
++        fi
+ 	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
+ 
+ 	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
 -- 
 1.7.9.5
 
