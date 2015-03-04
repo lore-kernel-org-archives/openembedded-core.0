@@ -1,39 +1,39 @@
 Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4300E65C88
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FA7465C88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 06:53:28 +0000 (UTC)
-Received: by labgf13 with SMTP id gf13so17902535lab.10
+	Wed,  4 Mar 2015 06:57:39 +0000 (UTC)
+Received: by lbiv13 with SMTP id v13so23583421lbi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 22:53:29 -0800 (PST)
+	Tue, 03 Mar 2015 22:57:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=qqMdzQ7VDSSLMmlnTenyYwNVFiXIiaviUptmgEApo2M=;
-	b=Mm3ODn76RY7P0J8PxSxRkJ5tGPmEw0/4cXcH/QEkrhh7zTLJY+4iWqTQxvYLS2TN1V
-	+6PLoj5dWPtMQ0UAsIfCyuTAonSgcXvvv22MS0tV8MGgQhOejkLxe1MFxfoAjPOO3TT/
-	tWI7AZqsp1cN5EBkwchrgfqOY0KeMkxkZUmJVl5KAPfEz/5uEHb4Yz9dwoBnM+IvAg1R
-	UvBdY+9wpmIqI3IytTMe/GaHrOggw1nLns1uvTN8QzEkYvFcRodBkMqxFIV6yUFNX4mh
-	FuqEGZmqexJFvYMZXwWxbtqlGPmxT23yz2ELDUJFrfrJPZhsXTe0C8xlW28B0RUuPScv
-	wHCg==
-X-Gm-Message-State: ALoCoQkjM6tbTXrm/t2zZJBu9bguf5scoVm0KRIGtkvl8L+BtuBdRIFpmDQrlcgmPrhq/kHYxMo6
+	bh=tHhOt3q91dghljOOLFeWS0sLbWfdfR9NR6/hZr8vU00=;
+	b=l5eNi+/Fdr2ZxjWmmiYc8G5dUTkXdp9IYsuuZMJPBDjyYI5EQJKUpoQwzAR69OxCeX
+	ykHTOUTGFpAP6LSzJiQ+la15ZwyftnrhnCthcLhb/gEyCIDBg4gfeuz6Ouh+saVdia4a
+	uKkji6G5kZ6SURQS7hWsK9PSa04aTwQv06ZaaSQZOLNzVr2GlSGecxATEVBWqNZtaEfW
+	rCjDqud0RrMf4gn2AmLXXhn4nXnD2iWg0UYHjOPyk8vLVZ7z6j2FckPc5yH8Mp1+JXOB
+	wbddaqGpzJIccx1h90/QYpKTi5BU2PkHE+4KxGF88qcHIQ4T6gusBL5Ll/g71YIBVKzJ
+	xmGA==
+X-Gm-Message-State: ALoCoQn8jJxb+q+IDv2JQu4/+7eYOyVHoRDP6iuu3Or17VH1Dy+xhfTZh5mT9u/YAy7LmBZJqg1i
 MIME-Version: 1.0
-X-Received: by 10.112.146.66 with SMTP id ta2mr2271195lbb.0.1425452008977;
-	Tue, 03 Mar 2015 22:53:28 -0800 (PST)
-Received: by 10.112.225.172 with HTTP; Tue, 3 Mar 2015 22:53:28 -0800 (PST)
-In-Reply-To: <CAC1BbcSV76Gd0HQZx0TzadSD7Nd+NSUecjaDmA2C9M_-aat-mA@mail.gmail.com>
+X-Received: by 10.112.126.98 with SMTP id mx2mr2138243lbb.52.1425452260108;
+	Tue, 03 Mar 2015 22:57:40 -0800 (PST)
+Received: by 10.112.225.172 with HTTP; Tue, 3 Mar 2015 22:57:40 -0800 (PST)
+In-Reply-To: <CAC1BbcQhpMtqn8vFWC2ko3DSQ3g2uNuSR9xY3aWvyWKxche74g@mail.gmail.com>
 References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
-	<1425397584-5154-2-git-send-email-naresh.bhat@linaro.org>
-	<CAC1BbcSV76Gd0HQZx0TzadSD7Nd+NSUecjaDmA2C9M_-aat-mA@mail.gmail.com>
-Date: Wed, 4 Mar 2015 12:23:28 +0530
-Message-ID: <CAFoFrHYFrwQWi9zJMFhJi-ESZbwM4k041PM0Yd=tVijmtsY9dQ@mail.gmail.com>
+	<1425397584-5154-3-git-send-email-naresh.bhat@linaro.org>
+	<CAC1BbcQhpMtqn8vFWC2ko3DSQ3g2uNuSR9xY3aWvyWKxche74g@mail.gmail.com>
+Date: Wed, 4 Mar 2015 12:27:40 +0530
+Message-ID: <CAFoFrHY04=JzGaNCCHrjK6wfL6FcNSz+8YQiWKX9vQQRJYSTTw@mail.gmail.com>
 From: Naresh Bhat <naresh.bhat@linaro.org>
 To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 Cc: Matt Fleming <matt.fleming@intel.com>,
 	oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core Yocto PATCH 1/4] grub-efi: Add to support to install grubaa64 efi
+Subject: Re: [OE-core Yocto PATCH 2/4] bootimg: Add support to install Image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 06:53:32 -0000
+X-List-Received-Date: Wed, 04 Mar 2015 06:57:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 3 March 2015 at 23:22, Bernhard Reutner-Fischer
+On 3 March 2015 at 23:17, Bernhard Reutner-Fischer
 <rep.dot.nop@gmail.com> wrote:
 > On 3 March 2015 at 16:46, Naresh Bhat <naresh.bhat@linaro.org> wrote:
->> Add to support to install grubaa64.efi binary for aarch64
+>> Add support to install kernel image for aarch64
 >>
 >> Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
 >> Signed-off-by: Matt Fleming <matt.fleming@intel.com>
 >> ---
->>  meta/classes/grub-efi.bbclass |    3 +++
->>  1 file changed, 3 insertions(+)
+>>  meta/classes/bootimg.bbclass |   10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
 >>
->> diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
->> index 47bd35e..455dc8d 100644
->> --- a/meta/classes/grub-efi.bbclass
->> +++ b/meta/classes/grub-efi.bbclass
->> @@ -37,6 +37,9 @@ efi_populate() {
->>         if [ "${TARGET_ARCH}" = "x86_64" ]; then
->>                 GRUB_IMAGE="bootx64.efi"
->>         fi
+>> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+>> index b1c03ba..a8e0c19 100644
+>> --- a/meta/classes/bootimg.bbclass
+>> +++ b/meta/classes/bootimg.bbclass
+>> @@ -66,8 +66,16 @@ populate() {
+>>         DEST=$1
+>>         install -d ${DEST}
+>>
+>> +       SRC_KERNEL_IMAGE=bzImage
+>> +       DEST_KERNEL_IMAGE=vmlinuz
+>> +
 >> +       if [ "${TARGET_ARCH}" = "aarch64" ]; then
->> +                GRUB_IMAGE="grubaa64.efi"
->> +        fi
+>> +               SRC_KERNEL_IMAGE=Image
+>> +               DEST_KERNEL_IMAGE=Image
+>> +       fi
+>> +
+>>         # Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
+>> -       install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage ${DEST}/vmlinuz
+>> +       install -m 0644 ${STAGING_KERNEL_DIR}/${SRC_KERNEL_IMAGE} ${DEST}/${DEST_KERNEL_IMAGE}
 >
-> Assuming you're adding at least the second call to test(1) in a row
-> I'd have switched the whole thing to a case statement.
-Thank you very much.  That makes sense.
-> This would be easier to read, fewer lines and on some shells fewer
-> forks of test(1), fwiw.
-Agreed. I will implement the same in my next series.
+> while you touch this, I'd remove the -d above and instead -D, like:
+> install -m 0644 -D ${STAGING_KERNEL_DIR}/${SRC_KERNEL_IMAGE}
+> ${DEST}/${DEST_KERNEL_IMAGE}
 >
 > thanks,
+ok,  Thank you very much.  That's a good suggestion.  I will make the
+necessary changes.
 
