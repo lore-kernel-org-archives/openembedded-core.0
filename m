@@ -1,52 +1,26 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A99D7389D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E491738B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 09:23:02 +0000 (UTC)
-Received: by lbdu14 with SMTP id u14so21742439lbd.0
+	Wed,  4 Mar 2015 09:23:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t249NTOc008548
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2015 01:23:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=4NStgAO6+pUxvrh3gQwWNU2Ce0Fi9qth/bnSQlk1gKM=;
-	b=CAZPKJI5qg/vP9SyrEy2cM3DP7F3wk+EM0c8jqeU/mX/2lCLx3T0S+mpm1eOMJ3NFi
-	xBqI+hpMg7bLEKq+ApZCl+a4dapDGucDsXv87+BMLF2W9sbtP9fYQCky8SvpNo7BoYx9
-	Vhz5DKIVcfwwqOn1QnoxapBjR0PUWLcz4J3/YLbSegN5jXSQP8fqecIOGMEO5xKSN9C3
-	rvnfuBYbIrKBUe0uEIe4v/6InPuOVWV+y1fogQMbGQxVTs+k5P2KfN/pldSxw0j/03mr
-	dqZxnnNneIitEdDav5jSb5Ke8kYXZeWEycRv5iq4WTwwrIHU6AA8Us/Wvcek+jOuH1LQ
-	oQ4w==
-X-Gm-Message-State: ALoCoQkkKrRqHUdus1annE+SXRppIF9mMTmqOloS8XF/Q3P1O84Z62HfQDil+wuvRMJwm6+NrsFe
-X-Received: by 10.152.87.134 with SMTP id ay6mr2387301lab.75.1425460983447;
-	Wed, 04 Mar 2015 01:23:03 -0800 (PST)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id i13sm647127lab.38.2015.03.04.01.23.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Mar 2015 01:23:02 -0800 (PST)
-Date: Wed, 4 Mar 2015 10:22:59 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150304092259.GB19788@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <bruno.bottazzini@intel.com>
-	<1423069496-25819-1-git-send-email-bruno.bottazzini@intel.com>
-	<1423069496-25819-3-git-send-email-bruno.bottazzini@intel.com>
-	<54D50BD3.8020608@linux.intel.com>
-	<1425327675.2707.24.camel@bottazzini-ThinkPad-T430>
+	Wed, 4 Mar 2015 01:23:29 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 4 Mar 2015 01:23:29 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Mar 2015 01:23:28 -0800
+Message-ID: <ab080f058a65abb743f6a87048d9ecb418f5b158.1425460972.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1425460972.git.liezhi.yang@windriver.com>
+References: <cover.1425460972.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1425327675.2707.24.camel@bottazzini-ThinkPad-T430>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH v2 2/2] systemd: split modules into packages
+Subject: [PATCH 1/1] bash 3.2.48: disable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 09:23:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Mar 2015 09:23:29 -0000
+Content-Type: text/plain
 
-* Bottazzini, Bruno <bruno.bottazzini@intel.com> [150302 21:22]:
+It's Makefile has the two rules:
+$(BUILTINS_LIBRARY): $(BUILTIN_DEFS) $(BUILTIN_C_SRC) config.h ${BASHINCDIR}/memalloc.h version.h
+    @(cd $(DEFDIR) && $(MAKE) $(MFLAGS) DEBUG=${DEBUG} libbuiltins.a ) || exit 1
 
-> The problem is understanding that although systemd is a single repository 
-> it contains multiple services and daemons in it that can run even without the 
-> core PID1, udev or the many helpers used to configure the system such as resolved, 
-> timedated, localed... 
+${DEFDIR}/builtext.h: $(BUILTIN_DEFS)
+    @(cd $(DEFDIR) && $(MAKE) $(MFLAGS) builtext.h ) || exit 1
 
-> All of these components are runtime independent, we can install or remove them and 
-> they should not create problems.
+which causes parallel issues:
+mkbuiltins.o: file not recognized: File truncated
+collect2: ld returned 1 exit status
 
-> Even Ubuntu is shipping with some of these daemons even if systemd is not used (yet).
-> If they were different GIT repos then it would be clear that they are separate daemons, 
-> but as they are all in a single repository people can make a confusion about it.
+I don't have any good ideas to fix the problem, so disable parallel
+build for it.
 
-> I see that in the master branch it has already the version 219.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-extended/bash/bash_3.2.48.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-I look forward to your updated patch.
-
-This is something I've been thinking about doing for a while, and it
-feels more and more necessary, as the systemd repo grows with more
-tools.
-
-Cheers,
-Anders
-
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index 35e624b..34272d1 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -41,3 +41,5 @@ SRC_URI[patch056.md5sum] = "222eaa3a2c26f54a15aa5e08817a534a"
+ SRC_URI[patch056.sha256sum] = "063a8d8d74e4407bf07a32b965b8ef6d213a66abdb6af26cc3584a437a56bbb4"
+ SRC_URI[patch057.md5sum] = "47d98e3e042892495c5efe54ec6e5913"
+ SRC_URI[patch057.sha256sum] = "5fc689394d515990f5ea74e2df765fc6e5e42ca44b4591b2c6f9be4b0cadf0f0"
++
++PARALLEL_MAKE = ""
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.7.9.5
+
 
