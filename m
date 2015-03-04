@@ -1,24 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D14738B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 38D8560144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 09:29:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t249TrAJ002054
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  4 Mar 2015 12:30:51 +0000 (UTC)
+Received: by qcvs11 with SMTP id s11so2091849qcv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Mar 2015 01:29:54 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 4 Mar 2015 01:29:53 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Mar 2015 01:29:52 -0800
-Message-ID: <cover.1425461365.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 04 Mar 2015 04:30:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9ywrDSrLQAKvzCVCPAcDKuoltXL2NIQqnIZklUVN9+8=;
+	b=gaQuO766yrOxBnsk/JornKII29I2TtzczFYrWWxqDF+TJmiAsF5yYhE6IjvUPRmR1Q
+	FyvPPR78tVy6o6QDtuaEY1Vj9KgVYUkM4S+PC4A0xyydQbKde9MIOrYHbySygOfdEqa6
+	mK5lAGa2lX9o82kHT5t2YojLvK5qfbGqLLdhDv7a3+4zhVyYQXXf7yhPp6HKrc4EjdK+
+	6eWYMb9dXnykMzlc+poRz5rC0HLGGqwpG2dK8KKKZh4y9n7uSv14ht2IGWPCjsiavXMu
+	G25ruf92csFIeLX1iN1rSnWbh4veeZ7EVw9iJOFA9+4B5sLGMKLOZI3h3luGzrIm+0u9
+	e4zg==
+X-Gm-Message-State: ALoCoQlb0hIAiLmdahVtpinOjsW12C53ENNBz3RzV8dyZ+1VM6xWalab8RjscmEikrHZEiyh+LWk
+X-Received: by 10.55.20.143 with SMTP id 15mr6820517qku.36.1425472252558; Wed,
+	04 Mar 2015 04:30:52 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 0/1] create-pull-request: fix git GIT_VERSION
+Received: by 10.140.102.203 with HTTP; Wed, 4 Mar 2015 04:30:32 -0800 (PST)
+In-Reply-To: <1425418365-16648-3-git-send-email-rob.woolley@windriver.com>
+References: <1425418365-16648-1-git-send-email-rob.woolley@windriver.com>
+	<1425418365-16648-3-git-send-email-rob.woolley@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 Mar 2015 12:30:32 +0000
+Message-ID: <CAJTo0LaZ92AKahsVriO02mAO3czZi6BTA+JyxwCGbV5ja5L=8A@mail.gmail.com>
+To: Rob Woolley <rob.woolley@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] logrotate: Identify CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 09:29:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Mar 2015 12:30:53 -0000
+Content-Type: multipart/alternative; boundary=001a114001384055cd0510759f4e
 
-The following changes since commit 3c78468f12296abd02abce6eeac0f69bc7509958:
+--001a114001384055cd0510759f4e
+Content-Type: text/plain; charset=UTF-8
 
-  build-appliance-image: Update to master head revision (2015-03-03 13:12:50 +0000)
+On 3 March 2015 at 21:32, Rob Woolley <rob.woolley@windriver.com> wrote:
 
-are available in the git repository at:
+> +CONFFILES_${PN} += "/var/lib/logrotate.status /etc/logrotate.conf"
+>
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/fix_git
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/fix_git
+${localstatedir} and ${sysconfdir}, please.
 
-Robert Yang (1):
-  create-pull-request: fix git GIT_VERSION
+Ross
 
- scripts/create-pull-request |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--001a114001384055cd0510759f4e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-1.7.9.5
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 March 2015 at 21:32, Rob Woolley <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:rob.woolley@windriver.com" target=3D"_blank">rob.woolley@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1fa" cla=
+ss=3D"a3s" style=3D"overflow:hidden">+CONFFILES_${PN} +=3D &quot;/var/lib/l=
+ogrotate.status /etc/logrotate.conf&quot;<br></div></blockquote></div><br>$=
+{localstatedir} and ${sysconfdir}, please.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-
+--001a114001384055cd0510759f4e--
