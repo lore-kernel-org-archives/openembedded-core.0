@@ -1,29 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2506C60144
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B5F3273899
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 16:49:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t24GnKwa009827; Wed, 4 Mar 2015 16:49:20 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vejx1dqADc2O; Wed,  4 Mar 2015 16:49:19 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t24Gn8i3009813
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 4 Mar 2015 16:49:19 GMT
-Message-ID: <1425487748.26813.105.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Liu <net147@gmail.com>
-Date: Wed, 04 Mar 2015 16:49:08 +0000
-In-Reply-To: <1425389491-31479-1-git-send-email-net147@gmail.com>
-References: <1425389491-31479-1-git-send-email-net147@gmail.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel-devsrc: avoid splitting debug info
+	Wed,  4 Mar 2015 16:51:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Mar 2015 08:46:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.09,688,1418112000"; d="scan'208";a="686852122"
+Received: from aaceves-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.183.174])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2015 08:51:45 -0800
+Message-ID: <54F73821.2070307@linux.intel.com>
+Date: Wed, 04 Mar 2015 08:51:45 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Final call for Daisy (1.6.3) patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 16:49:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Mar 2015 16:51:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-03-04 at 00:31 +1100, Jonathan Liu wrote:
-> This fixes "QA Issue: non debug package contains .debug directory"
-> for some kernels.
-> 
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index e36de1b..c3cad05 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -72,3 +72,4 @@ do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
->  PACKAGES = "kernel-devsrc"
->  FILES_${PN} = "${KERNEL_SRC_PATH}"
->  RDEPENDS_${PN} = "bc"
-> +INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-Why would your kernel source directory contain built binaries? I guess
-I'd like to understand more about what "some kernels" are doing
-differently.
+Folks,
 
-Cheers,
+As we are coming up on the year for Daisy support, I would like to get 
+any final issues that people deem important and want in the 1.6.3 release.
 
-Richard
+Please send pull requests marked with [Daisy] to this list and I will 
+see that they are merged.
+
+Thanks
+
+-- 
+     Sau!
+
+Saul Wold
+Yocto Component Wrangler @ Intel
+Yocto Project / Poky Build System
 
 
