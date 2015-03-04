@@ -1,28 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F064565C88;
-	Wed,  4 Mar 2015 03:40:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t243elxg000510
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Mar 2015 19:40:47 -0800 (PST)
-Received: from server.local (128.224.20.18) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 3 Mar 2015 19:40:46 -0800
-Message-ID: <54F67EBD.4060609@windriver.com>
-Date: Tue, 3 Mar 2015 22:40:45 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+Return-Path: <naresh.bhat@linaro.org>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4300E65C88
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Mar 2015 06:53:28 +0000 (UTC)
+Received: by labgf13 with SMTP id gf13so17902535lab.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2015 22:53:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=qqMdzQ7VDSSLMmlnTenyYwNVFiXIiaviUptmgEApo2M=;
+	b=Mm3ODn76RY7P0J8PxSxRkJ5tGPmEw0/4cXcH/QEkrhh7zTLJY+4iWqTQxvYLS2TN1V
+	+6PLoj5dWPtMQ0UAsIfCyuTAonSgcXvvv22MS0tV8MGgQhOejkLxe1MFxfoAjPOO3TT/
+	tWI7AZqsp1cN5EBkwchrgfqOY0KeMkxkZUmJVl5KAPfEz/5uEHb4Yz9dwoBnM+IvAg1R
+	UvBdY+9wpmIqI3IytTMe/GaHrOggw1nLns1uvTN8QzEkYvFcRodBkMqxFIV6yUFNX4mh
+	FuqEGZmqexJFvYMZXwWxbtqlGPmxT23yz2ELDUJFrfrJPZhsXTe0C8xlW28B0RUuPScv
+	wHCg==
+X-Gm-Message-State: ALoCoQkjM6tbTXrm/t2zZJBu9bguf5scoVm0KRIGtkvl8L+BtuBdRIFpmDQrlcgmPrhq/kHYxMo6
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20150302220550.8A2F450367@opal.openembedded.org>
-	<20150304022312.GF2337@jama>
-In-Reply-To: <20150304022312.GF2337@jama>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: improve patch application performance
+X-Received: by 10.112.146.66 with SMTP id ta2mr2271195lbb.0.1425452008977;
+	Tue, 03 Mar 2015 22:53:28 -0800 (PST)
+Received: by 10.112.225.172 with HTTP; Tue, 3 Mar 2015 22:53:28 -0800 (PST)
+In-Reply-To: <CAC1BbcSV76Gd0HQZx0TzadSD7Nd+NSUecjaDmA2C9M_-aat-mA@mail.gmail.com>
+References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
+	<1425397584-5154-2-git-send-email-naresh.bhat@linaro.org>
+	<CAC1BbcSV76Gd0HQZx0TzadSD7Nd+NSUecjaDmA2C9M_-aat-mA@mail.gmail.com>
+Date: Wed, 4 Mar 2015 12:23:28 +0530
+Message-ID: <CAFoFrHYFrwQWi9zJMFhJi-ESZbwM4k041PM0Yd=tVijmtsY9dQ@mail.gmail.com>
+From: Naresh Bhat <naresh.bhat@linaro.org>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Cc: Matt Fleming <matt.fleming@intel.com>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core Yocto PATCH 1/4] grub-efi: Add to support to install grubaa64 efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,90 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 03:40:50 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Mar 2015 06:53:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2015-03-03 9:23 PM, Martin Jansa wrote:
-> On Mon, Mar 02, 2015 at 10:05:50PM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 148c78e0f5de2689de3ad9beaa9f6de618d87758
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=148c78e0f5de2689de3ad9beaa9f6de618d87758
+On 3 March 2015 at 23:22, Bernhard Reutner-Fischer
+<rep.dot.nop@gmail.com> wrote:
+> On 3 March 2015 at 16:46, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+>> Add to support to install grubaa64.efi binary for aarch64
 >>
->> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Date:   Mon Mar  2 16:36:41 2015 -0500
->>
->> kern-tools: improve patch application performance
->>
->> Update the SRCREV for the following incremental improvement in patch
->> processing time:
->>
->>      kgit-meta: skip patches on non-leaf nodes
->>
->>      In a similar way as commit 0768d697 [kgit-meta: dont run kgit-s2q
->>      for
->>      non-leaf nodes], we can save even more processing time by not even
->>      analysing and linking patches if we aren't on the leaf node of the
->>      tree.
->>
->>      This early exit can save nearly 95% of the time required to "patch"
->>      a tree when no changes are actually applied.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Not sure if it's related to this, but today's world build is failing
-> with:
->
-
-No luck here. I was able to do a clean build of qemux86 against the 3.19
-kernel.
-
-I'll keep trying, but am looking for a reproducer at this point.
-
-Bruce
-
-> ERROR: Function failed: do_kernel_configme (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19+gitAUTOINC+f7a81274b4_43b9eced9b-r0/temp/log.do_kernel_configme.29401)
-> ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19+gitAUTOINC+f7a81274b4_43b9eced9b-r0/temp/log.do_kernel_configme.29401
-> Log data follows:
-> | DEBUG: Executing shell function do_kernel_configme
-> | NOTE: kernel configme
-> | [INFO] Configuring target/machine combo: "standard/qemux86"
-> | [INFO] collecting configs in .meta/meta-series
-> | mv: cannot move `/home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19+gitAUTOINC+f7a81274b4_43b9eced9b-r0/linux-qemux86-standard-build/.tmp.config.PKIfLNkSVj' to `.meta/cfg/standard/common-pc/qemux86-standard-config-3.19': No such file or directory
-> | creation of pre-processed config data failed
-> | config of "standard/qemux86" failed
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_kernel_configme (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19+gitAUTOINC+f7a81274b4_43b9eced9b-r0/temp/log.do_kernel_configme.29401)
-> NOTE: recipe linux-yocto-3.19+gitAUTOINC+f7a81274b4_43b9eced9b-r0: task do_kernel_configme: Failed
-> ERROR: Task 30091 (/home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_3.19.bb, do_kernel_configme) failed with exit code '1'
->
->>
+>> Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
+>> Signed-off-by: Matt Fleming <matt.fleming@intel.com>
 >> ---
+>>  meta/classes/grub-efi.bbclass |    3 +++
+>>  1 file changed, 3 insertions(+)
 >>
->>   meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> index 80d26f9..131c5e9 100644
->> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
->>
->>   DEPENDS = "git-native"
->>
->> -SRCREV = "cab17f884998b43692244a863dea6f505c7f67af"
->> +SRCREV = "0c51a3d02fa54726141f32824b11d0676960e0a5"
->>   PR = "r12"
->>   PV = "0.2+git${SRCPV}"
->>
->>
->> --
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>> diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+>> index 47bd35e..455dc8d 100644
+>> --- a/meta/classes/grub-efi.bbclass
+>> +++ b/meta/classes/grub-efi.bbclass
+>> @@ -37,6 +37,9 @@ efi_populate() {
+>>         if [ "${TARGET_ARCH}" = "x86_64" ]; then
+>>                 GRUB_IMAGE="bootx64.efi"
+>>         fi
+>> +       if [ "${TARGET_ARCH}" = "aarch64" ]; then
+>> +                GRUB_IMAGE="grubaa64.efi"
+>> +        fi
 >
-
+> Assuming you're adding at least the second call to test(1) in a row
+> I'd have switched the whole thing to a case statement.
+Thank you very much.  That makes sense.
+> This would be easier to read, fewer lines and on some shells fewer
+> forks of test(1), fwiw.
+Agreed. I will implement the same in my next series.
+>
+> thanks,
 
