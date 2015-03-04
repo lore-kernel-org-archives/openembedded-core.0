@@ -1,36 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D09C360144
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DBBE7378D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 13:03:54 +0000 (UTC)
-Received: by wghk14 with SMTP id k14so2664073wgh.7
+	Wed,  4 Mar 2015 13:03:56 +0000 (UTC)
+Received: by wesp10 with SMTP id p10so44011902wes.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2015 05:03:55 -0800 (PST)
+	Wed, 04 Mar 2015 05:03:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=25XN4oxl0AOusB4ccWPiiOE1SwW5A3QbCI+oV1K3NVM=;
-	b=AaxHltV/qUy8iOazBYLYMvBdQoAHBh0VsBl4EMAN5tNRQf+RDd1ulgXM78n/QuWNqL
-	8sWDdJKnq6in8lEulFjJVb6Ihxw1JSw6l8Q0MbSeGhms/TYmRYpt7bcB9G34qgJnNISC
-	qefUODrbap47ID6NkfPB9c00RGitIMEwzRbaoZbVOSAKQsWm9gzmP4vDKNpPyrnXHt5g
-	lAaOR8qozG6Cwilw7BuoF9kVSfd15AiT0KXyN8TZEgrLCuHGCil7QmrxpDgSl5gGp5kk
-	PDyP3WtKWBc4R5yFi0ohBZjlUd6HAGuXIJ0ZJ0xMXVXAIstP0IHPoK81EwA4AEPJj+FZ
-	b+MQ==
-X-Gm-Message-State: ALoCoQlKg6JtpvQiRT/n5plaUKMp4E+vevB5yyC3sOxswmKdCR/CqWLv2wWDAWRxcrdJCayhfQVu
-X-Received: by 10.194.121.68 with SMTP id li4mr7838833wjb.138.1425474235049;
-	Wed, 04 Mar 2015 05:03:55 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=LpZ92pszRc8iOSgfCGCkc/LeQUO6R44YT/qcAFmhiXs=;
+	b=KE/37jFdnXn7wGWQUMN/GL5figbNE6vwagupix8Gpnt9lg4F3lulJt43KMgGBpIdry
+	ObH+f28lJejANAReztKj3xLwsO2URCGEAaYphp9EyTXnBkhlJBy4xGuaWB2DbGTjYh+D
+	YQeXfcO1yHJbpqFw8NuiZnRufVVgQiw4DGiWZdtLmvHmsl+UsAZQFst/cidYetC28RIP
+	4PvXKlT0yEzwAS/Zqi09D1bVa+ip6prLsKAbPRbDIcw0GrlIH+AbF6RTZJXPpOJth6UJ
+	lHfQaqJ5LjFDqsTgBS700Jo47bCcSCBl4Z8GBE0iDJr7HQCTo+EeLt10ThkwUW8uBxf6
+	DXTw==
+X-Gm-Message-State: ALoCoQkAWy5FwWrTM2AehTxD4jXQeVkOWMtrSsbOcKSl335HlN+w6NuX7I/+WvEoXl6fTR4uqSjM
+X-Received: by 10.194.75.193 with SMTP id e1mr7686045wjw.126.1425474237298;
+	Wed, 04 Mar 2015 05:03:57 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id hl8sm5873667wjb.38.2015.03.04.05.03.53
+	by mx.google.com with ESMTPSA id hl8sm5873667wjb.38.2015.03.04.05.03.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Mar 2015 05:03:54 -0800 (PST)
+	Wed, 04 Mar 2015 05:03:55 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Mar 2015 13:01:22 +0000
-Message-Id: <1425474083-4782-1-git-send-email-ross.burton@intel.com>
+Date: Wed,  4 Mar 2015 13:01:23 +0000
+Message-Id: <1425474083-4782-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] rpm: don't put LDFLAGS into the .pc file
+In-Reply-To: <1425474083-4782-1-git-send-email-ross.burton@intel.com>
+References: <1425474083-4782-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] pkg-config: strip system library paths reliably
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 13:03:55 -0000
+X-List-Received-Date: Wed, 04 Mar 2015 13:03:59 -0000
 
-The LDFLAGS are not generally useful with pkg-config and mean that the .pc file
-contains references to the sysroot directory, so remove it.
+pkg-config was skipping every other link flag due to a list manipulation bug,
+backport a commit from git to fix this.
+
+This will stop users of zlib.pc from inserting the sysroot directory indirectly
+into builds.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../rpm/rpm/no-ldflags-in-pkgconfig.patch                |   14 ++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.14.bb                  |    1 +
- 2 files changed, 15 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
+ ...Strip-system-library-directories-reliably.patch |   30 ++++++++++++++++++++
+ meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb  |    1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch b/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch b/meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch
 new file mode 100644
-index 0000000..410623f
+index 0000000..84d0dd8
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
-@@ -0,0 +1,14 @@
-+Don't put LDFLAGS into the Libs.private, all it generally contains is a linker
-+hash selection (harmless) and the absolute path to the libdir in the sysroot
-+(actively harmful).
-+
-+Upstream-Status: Pending
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch
+@@ -0,0 +1,30 @@
++Upstream-Status: Backport (will be in 0.29)
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+diff --git a/scripts/rpm.pc.in b/scripts/rpm.pc.in
-+index 8293471..2ea469c 100644
-+--- a/scripts/rpm.pc.in
-++++ b/scripts/rpm.pc.in
-+@@ -17 +17 @@ Libs: -L${libdir} -lrpmbuild${suffix} -lrpm${suffix} -lrpmdb${suffix} -lrpmio${s
-+-Libs.private: @LDFLAGS@ @LIBS@
-++Libs.private: @LIBS@
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index d99a300..03a24f0 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -95,6 +95,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
- 	   file://rpmqv_cc_b_gone.patch \
- 	   file://rpm-realpath.patch \
- 	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
-+	   file://no-ldflags-in-pkgconfig.patch \
- 	  "
++From ce1a2416ce0f0bd9a8a8a5caaf7dad20cda4d47d Mon Sep 17 00:00:00 2001
++From: Andrew Oakley <aoakley@espial.com>
++Date: Tue, 29 Apr 2014 13:14:35 +0100
++Subject: [PATCH] Strip system library directories reliably
++
++This loop was changed from a while loop to a for loop in commit
++9bf6277b, but the iterator is now advanced twice each time round the
++loop.
++---
++ pkg.c |    1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/pkg.c b/pkg.c
++index 3697fec..c847c95 100644
++--- a/pkg.c
+++++ b/pkg.c
++@@ -917,7 +917,6 @@ verify_package (Package *pkg)
++             }
++           system_dir_iter = system_dir_iter->next;
++         }
++-      iter = iter->next;
++     }
++   g_list_free (system_directories);
++ 
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
+index 3070da9..57a22d4 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
+@@ -4,6 +4,7 @@ SRC_URI += " \
+             file://pkg-config-native.in \
+             file://fix-glib-configure-libtool-usage.patch \
+             file://obsolete_automake_macros.patch \
++            file://0001-Strip-system-library-directories-reliably.patch \
+            "
  
- # Uncomment the following line to enable platform score debugging
+ SRC_URI[md5sum] = "aa3c86e67551adc3ac865160e34a2a0d"
 -- 
 1.7.10.4
 
