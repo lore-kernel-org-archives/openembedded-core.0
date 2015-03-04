@@ -1,42 +1,38 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id EFD39738B2
+Return-Path: <naresh.bhat@linaro.org>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B7EE865C88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2015 07:26:21 +0000 (UTC)
-Received: by wivz2 with SMTP id z2so8856756wiv.4
+	Wed,  4 Mar 2015 07:46:46 +0000 (UTC)
+Received: by lbvp9 with SMTP id p9so19446852lbv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2015 23:26:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to:cc
-	:message-id; bh=jMvi5Ged1rMNt6cx2/b5LrRZU4alOwQdfmr8qA89Jug=;
-	b=S3ro5vgfw05hJPW9vPCXAE1N6mngwEq0UU9mHqd8iR6SOTzRTehJ60fFsuKMgjPJ4k
-	YwQRZThFXopK/ecg7DmCRgvv7Lyms6BBgGaduG6Z7clBuBMF3sPchUdWNPI5j8V/bjR3
-	iSAAbvd9jHiyd76Zq8ZU4aoT6aEXhn8hwU2CILZPCKFLPwtq9wnl6hA7kV9TCa7QqzWY
-	vDL/OSWbteIOGEqeaqS0I+iAY0qhzt8UPaHAf8act80C1Vy5HBXIeSDfQ5BchL+y+NJ/
-	wzEzRdAuWkl4GYdUwBZ6xQisR4HWZg43s7iAfPyGzlo0SRvojI9stHNR4ivjlYcKmOfl
-	6DxA==
-X-Received: by 10.194.184.148 with SMTP id eu20mr4702936wjc.77.1425453981858; 
-	Tue, 03 Mar 2015 23:26:21 -0800 (PST)
-Received: from [10.34.113.24] (089144213024.atnat0022.highway.a1.net.
-	[89.144.213.24])
-	by mx.google.com with ESMTPSA id y3sm4643252wju.14.2015.03.03.23.26.19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Mar 2015 23:26:21 -0800 (PST)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAFoFrHZnnK+SuTcVVn7JSZE_A0DKBy2+9R9wtubWBf5zupPhnw@mail.gmail.com>
-References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
-	<1425397584-5154-4-git-send-email-naresh.bhat@linaro.org>
-	<CAC1BbcSv-o_=GD9LJkZJyX38TbAmyXkmtJY+NBZ0-xqSDNeUBA@mail.gmail.com>
-	<CAFoFrHZnnK+SuTcVVn7JSZE_A0DKBy2+9R9wtubWBf5zupPhnw@mail.gmail.com>
+	Tue, 03 Mar 2015 23:46:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=umUu7VviZ73z3Z0zQ3oxg40reyo67M4d92V/yx8cB1E=;
+	b=jWj9rg85LZiKl+j2tZ5KGNoZpnGnmp+bQI9Jolu7RHfvflo9XY6fVLKBGnfrjs5RvB
+	QpMIisXIpxCsam/meSFbIIFziP8LfHelM7ran9UwWydTU5tl8JLhzeyGmdmwsdggTHbS
+	psSH7+ViBIY/xqm+761N5u9TjTbE+g1lnQaAFKFngjTAaBVgvqz0QpHz089byfa8D4/T
+	hLnVP4UlHCS9/I6DgFl9K5D+JKdwPNnUzQAQBNTWZ1LHk5PNp2kWxXX0EVA1SOE9bQSY
+	A7qgjUn2lIltf1llAhodxDA7ulorOuzC5wrEFlD0XUtG5FpZx3lmCdOKfkXEbcEZK5if
+	4fJg==
+X-Gm-Message-State: ALoCoQmZWDas/uQIxQg1nCcv+fi0uAONS/cI+EFwNGOkhTIdTQTzOSl2jieesQBno080cI6juFCd
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Wed, 04 Mar 2015 08:26:07 +0100
-To: Naresh Bhat <naresh.bhat@linaro.org>
-Message-ID: <081F4A97-C2A2-4221-9A7F-CFC1022D71A1@gmail.com>
+X-Received: by 10.112.11.136 with SMTP id q8mr2286915lbb.30.1425455207793;
+	Tue, 03 Mar 2015 23:46:47 -0800 (PST)
+Received: by 10.112.225.172 with HTTP; Tue, 3 Mar 2015 23:46:47 -0800 (PST)
+In-Reply-To: <CAC1BbcS_ZWC38KgLUQceEL6hWt2jz0JE8W09Sjku8zCV5QJJng@mail.gmail.com>
+References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
+	<1425397584-5154-5-git-send-email-naresh.bhat@linaro.org>
+	<CAC1BbcS_ZWC38KgLUQceEL6hWt2jz0JE8W09Sjku8zCV5QJJng@mail.gmail.com>
+Date: Wed, 4 Mar 2015 13:16:47 +0530
+Message-ID: <CAFoFrHa7TdpNSo25q21BO+SOtaqVkJw26Vz3dK+ntGAtKkMd=g@mail.gmail.com>
+From: Naresh Bhat <naresh.bhat@linaro.org>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core Yocto PATCH 3/4] bootimg: Skip build iso image for aarch64
+Subject: Re: [OE-core Yocto PATCH 4/4] grub: Update grub git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,64 +45,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2015 07:26:28 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Wed, 04 Mar 2015 07:46:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On March 4, 2015 8:15:15 AM GMT+01:00, Naresh Bhat <naresh.bhat@linaro.org> wrote:
->On 3 March 2015 at 23:27, Bernhard Reutner-Fischer
-><rep.dot.nop@gmail.com> wrote:
->> On 3 March 2015 at 16:46, Naresh Bhat <naresh.bhat@linaro.org> wrote:
->>> Build iso image required syslinux package.  We have already skip the
->syslinux
->>> package.  Hence just skip the iso image build too.
->>>
->>> Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
->>> Reviewed-by: Matt Fleming <matt.fleming@intel.com>
->>> ---
->>>  meta/classes/bootimg.bbclass |    6 +++++-
->>>  1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/bootimg.bbclass
->b/meta/classes/bootimg.bbclass
->>> index a8e0c19..2edba3a 100644
->>> --- a/meta/classes/bootimg.bbclass
->>> +++ b/meta/classes/bootimg.bbclass
->>> @@ -266,7 +266,11 @@ python do_bootimg() {
->>>      if d.getVar("EFI", True) == "1":
->>>          bb.build.exec_func('build_efi_cfg', d)
->>>      bb.build.exec_func('build_hddimg', d)
->>> -    bb.build.exec_func('build_iso', d)
->>> +
->>> +    if [ "${TARGET_ARCH}" == "aarch64" ]:
->>> +             return
+On 3 March 2015 at 23:33, Bernhard Reutner-Fischer
+<rep.dot.nop@gmail.com> wrote:
+> On 3 March 2015 at 16:46, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+>> Update the grub git recipe with the following actions for native and non-native
+>> - Base class extend to native
+>> - do_configure_prepand
+>
+> s/prepand/prepend/
+Thanks, I will make the change.
+>
+>> - do_install_append
+>> - do_mkimage native
+>> - do_deploy
 >>
->> erm is this shell-code or python-code?
+>> Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
+>> Reviewed-by: Graeme Gregory <graeme.gregory@linaro.org>
+>> Reviewed-by: Matt Fleming <matt.fleming@intel.com>
+>> ---
+>>  meta/recipes-bsp/grub/grub_git.bb |   51 ++++++++++++++++++++++++++++++++-----
+>>  1 file changed, 45 insertions(+), 6 deletions(-)
 >>
->> For the former there is no "==" operator for POSIX-compliant test(1)
->> implementations, for the latter the "[" looks suspicious.
+>> diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
+>> index 3ab675b..a2abe01 100644
+>> --- a/meta/recipes-bsp/grub/grub_git.bb
+>> +++ b/meta/recipes-bsp/grub/grub_git.bb
+>> @@ -8,6 +8,7 @@ DEFAULT_PREFERENCE_arm = "1"
+>>  PV = "2.00+${SRCPV}"
+>>  SRCREV = "87de66d9d83446ecddb29cfbdf7369102c8e209e"
+>>  SRC_URI = "git://git.savannah.gnu.org/grub.git \
+>> +           file://cfg \
+>>             file://grub-2.00-fpmath-sse-387-fix.patch \
+>>             file://autogen.sh-exclude-pc.patch \
+>>             file://grub-2.00-add-oe-kernel.patch \
+>> @@ -18,7 +19,7 @@ S = "${WORKDIR}/git"
 >>
->> What am i missing?
->> thanks,
+>>  COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
+>>
+>> -inherit autotools gettext texinfo
+>> +inherit autotools gettext texinfo deploy
+>>
+>>  PACKAGECONFIG ??= ""
+>>  PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
+>> @@ -31,24 +32,62 @@ GRUBPLATFORM_arm = "uboot"
+>>  GRUBPLATFORM_aarch64 = "efi"
+>>  GRUBPLATFORM ??= "pc"
+>>
+>> +CACHED_CONFIGUREVARS += "ac_cv_path_HELP2MAN="
+>>  EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
+>>                  --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+>>
+>> +B = "${S}"
+>> +
+>> +export ac_cv_path_HELP2MAN=""
+>> +
+>>  do_configure_prepend() {
+>> -    ( cd ${S}
+>> -      ${S}/autogen.sh )
+>> +      ./autogen.sh
+>> +}
 >
->Ah my mistake, Probably I could have implemented as below
+> I did not follow the recentish B / S changes so i'm curious if the
+> part(s) above are an improvement?
+As far as I understand, when autotools is inherited, it jumps to ${B}
+to build, and B is assigned with ${WORKDIR}/build
 >
->if d.getVar('TARGET_ARCH', True) == "aarch64":
->               return
+>> +
+>> +do_install_append_class-native() {
+>> +        install -d ${D}${bindir}
+>> +        install -m 755 grub-mkimage ${D}${bindir}
 >
->Does it make sense ?
-
-At least the parser should grok it.
-The change itself does not make sense to me either way.
-
-Thanks,
+> again, cut down on forks, use install -D
+ok,  I will do the change
 >
->>> +    else:
->>> +            bb.build.exec_func('build_iso', d)
->>>  }
->>>
->>>  IMAGE_TYPEDEP_iso = "ext3"
-
-
+>>  }
+>>
+>> -do_install_append () {
+>> +do_install_append_class-target() {
+>> +    # Search for the grub.cfg on the local boot media by using the
+>> +    # built in cfg file provided via this recipe
+>> +    grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+>> +        -O ${GRUB_TARGET}-${GRUBPLATFORM} -o ./${GRUB_IMAGE} \
+>> +        boot linux ext2 fat serial part_msdos part_gpt \
+>> +        normal efi_gop iso9660 search efinet tftp all_video chain \
+>> +        gfxmenu jpeg gfxterm
+>> +
+>>      install -d ${D}${sysconfdir}/grub.d
+>> -
+>> +    install -m 0755 ${B}/${GRUB_IMAGE} ${D}${bindir}
+>
+> install -D, again?
+yes, I will change it.
+>
+>> +}
+>> +
+>> +GRUB_TARGET_aarch64 = "arm64"
+>> +GRUB_IMAGE_aarch64 = "grubaa64.efi"
+>> +
+>> +do_mkimage_class-native() {
+>> +        :
+>> +}
+>> +
+>> +do_deploy() {
+>> +    install -d ${DEPLOYDIR}
+>> +    install -m 0755 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+>
+> .. and again.
+I will do the change.
+>
+> PS: Sorry, I seem to be in nitpicking mood right now ;)
+> thanks,
+Thank you very much for reviewing all the patches.
+>
+>>  }
+>>
+>> +do_deploy_class-native() {
+>> +        :
+>> +}
+>> +
+>> +addtask deploy after do_install before do_build
+>> +
+>>  # debugedit chokes on bare metal binaries
+>>  INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+>>
+>> -RDEPENDS_${PN} = "diffutils freetype"
+>> +RDEPENDS_${PN}_class-target = "diffutils freetype"
+>>  FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+>>
+>>  INSANE_SKIP_${PN} = "arch"
+>>  INSANE_SKIP_${PN}-dbg = "arch"
+>> +
+>> +DEPENDS_class-target += "grub-native"
+>> +BBCLASSEXTEND = "native"
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
