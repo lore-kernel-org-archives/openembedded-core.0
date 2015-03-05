@@ -1,28 +1,40 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 462F065C7B
+Return-Path: <naresh.bhat@linaro.org>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id AAD4765C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 13:16:38 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2015 05:16:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="660855464"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
-	([10.218.99.51])
-	by orsmga001.jf.intel.com with ESMTP; 05 Mar 2015 05:16:39 -0800
-Message-ID: <1425561390.2707.29.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Thu, 05 Mar 2015 10:16:30 -0300
-In-Reply-To: <54F83775.5040604@opendreambox.org>
-References: <bruno.bottazzini@intel.com>
-	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
-	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
-	<54F83775.5040604@opendreambox.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] dbus: split tools package.
+	Thu,  5 Mar 2015 13:54:54 +0000 (UTC)
+Received: by lamq1 with SMTP id q1so28419801lam.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 05:54:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=wqNOZQtYISfUjah8ar0iEC34OCBNXm5z00ZjzqZPMH0=;
+	b=IasklZnMq/LUARWUhi9DxkFrJ5vsobSzAGePiYsuDoWfmhint8FNal7W8rb1KD2cpW
+	pxpevFBg6kCjQ2WAMRp4qQhINpdCpsmw1y3hjT4EQa+i2pZDMrgrSu1HpfIKCeNVmFvS
+	vDddxNRuX4TJ7/PTIzHb2IsaW00Dg1GMx9h/Y5L8FVql+2VPSgDFjoYsHRPRwGAZfZKv
+	3ov7Q6PGBljyqFAa3E2PmvGkKFwy56WdMnk/ztY7kd2o/GEa/fGjBh2ggm2hXhUG8kNL
+	TTApM5IR1KUasvBF2Y3+9FyxJLJAiAm3pEZ5vQ17kbs8E1YFWSMf9iWpT8ywrNIC8HBi
+	RLCQ==
+X-Gm-Message-State: ALoCoQkwQvWcGn8kAtfRJ1bYgvuozNmYhBqHKk6cuGBMiTNcBfdlR9RzfaqUMYqpck+WO/wVi8/0
+MIME-Version: 1.0
+X-Received: by 10.112.24.235 with SMTP id x11mr8012198lbf.18.1425563695251;
+	Thu, 05 Mar 2015 05:54:55 -0800 (PST)
+Received: by 10.112.225.172 with HTTP; Thu, 5 Mar 2015 05:54:55 -0800 (PST)
+In-Reply-To: <CAJTo0Lbsd6zB4xMo7gpdNREsoVjVhpQn9-O7YWJU95YY3ageBw@mail.gmail.com>
+References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
+	<1425397584-5154-5-git-send-email-naresh.bhat@linaro.org>
+	<CAC1BbcS_ZWC38KgLUQceEL6hWt2jz0JE8W09Sjku8zCV5QJJng@mail.gmail.com>
+	<CAFoFrHa7TdpNSo25q21BO+SOtaqVkJw26Vz3dK+ntGAtKkMd=g@mail.gmail.com>
+	<CAJTo0Lbsd6zB4xMo7gpdNREsoVjVhpQn9-O7YWJU95YY3ageBw@mail.gmail.com>
+Date: Thu, 5 Mar 2015 19:24:55 +0530
+Message-ID: <CAFoFrHYqDxzhvncztKF6CGMu_YUNf7JKZm2fZvLHH55gRfZyUQ@mail.gmail.com>
+From: Naresh Bhat <naresh.bhat@linaro.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core Yocto PATCH 4/4] grub: Update grub git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 13:16:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Mar 2015 13:54:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Qui, 2015-03-05 at 12:01 +0100, Andreas Oberritter wrote:
-> Hello Gustavo,
-> 
-> On 04.03.2015 22:27, Bruno Bottazzini wrote:
-> > From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
-> > 
-> > Most tools are not required if one is launching a simple daemon.
-> > The user will be able to exclude dbus-tool and save some space in his
-> > build
-> > 
-> > Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
-> > ---
-> >  meta/recipes-core/dbus/dbus.inc | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-> > index fb5d017..f975dc9 100644
-> > --- a/meta/recipes-core/dbus/dbus.inc
-> > +++ b/meta/recipes-core/dbus/dbus.inc
-> > @@ -39,13 +39,13 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
-> >  
-> >  DEBIANNAME_${PN} = "dbus-1"
-> >  
-> > -PACKAGES =+ "${PN}-lib"
-> > +PACKAGES =+ "${PN}-lib ${PN}-tools"
-> >  
-> >  OLDPKGNAME = "dbus-x11"
-> >  OLDPKGNAME_class-nativesdk = ""
-> >  
-> >  # for compatibility
-> > -RPROVIDES_${PN} = "${OLDPKGNAME}"
-> > +RPROVIDES_${PN} = "${OLDPKGNAME} ${PN}-native-tools-native"
-> 
-> this line seems to be wrong. What are you trying to solve with it?
-> 
-> Regards,
-> Andreas
-
-Hello Andreas, 
-
-Could you be more specific what is wrong with this line ?
-
-Have you tried removing it and compile it ?
-
-Try compiling this patch and see what it provides.
-
-If you want to exclude the dbus-tools just add the following at your 
-local conf file: 
-PACKAGE_EXCLUDE = "dbus-tools".
-
-Best Regards,
-
-Bruno Bottazzini
-
-> 
-> >  RREPLACES_${PN} += "${OLDPKGNAME}"
-> >  
-> >  FILES_${PN} = "${bindir}/dbus-daemon* \
-> > @@ -64,6 +64,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
-> >  FILES_${PN}-lib = "${libdir}/lib*.so.*"
-> >  RRECOMMENDS_${PN}-lib = "${PN}"
-> >  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
-> > +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
-> > +                      ${bindir}/dbus-cleanup-sockets \
-> > +                      ${bindir}/dbus-monitor \
-> > +                      ${bindir}/dbus-launch \
-> > +                      ${bindir}/dbus-run-session"
-> > +RRECOMMENDS_${PN} = "${PN}-tools"
-> >  
-> >  pkg_postinst_dbus() {
-> >  	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
-> > 
-> 
-
-
+On 5 March 2015 at 02:05, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 4 March 2015 at 07:46, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+>>
+>> As far as I understand, when autotools is inherited, it jumps to ${B}
+>> to build, and B is assigned with ${WORKDIR}/build
+>
+>
+> Thats right, but if the recipe fails to work with B!=S then please inherit
+> autotools-brokensep instead of autotools, so broken recipes are clearly
+> marked as such.  B!=S makes builds far more reliable so fixing the
+> recipe/upstream to work with that is preferable to simply using
+> autotools-brokensep.
+Thank you very much.  I will try to use it.
+>
+> Also we're feature frozen now, so merging of these patches will have to wait
+> for the 1.9 cycle to open.
+ok, l will wait for next cycle to open.
+>
+> Ross
 
