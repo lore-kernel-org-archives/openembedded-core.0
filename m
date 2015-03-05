@@ -1,39 +1,23 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D46371637
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 31A6671637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 16:18:46 +0000 (UTC)
-Received: by lbvp9 with SMTP id p9so29447092lbv.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 08:18:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=DaHzKfBCthq0bP6xTOvopsvj/s5pg3x/24RJvgvfOK0=;
-	b=fqFAlHDyIxgYJQDOZFJ9RwHGh/+djvOEONgSk9RGOKuc6szZK7jvzXLeoxIXQyFubd
-	g5U9aGMq3sJkELkt+NF1qNtg1cpH9FU4yuAT2HnRQEbncDg+RHG4EpDxdfOlA+0a5Jqm
-	iT7yOSdLBVbTA19r+lCy5FEW+3CqTNYBcbGX1PGVtBaLSAYC+zgRGZJq4ULMytvyOxMG
-	Pn9ePYPdvJ0ssocsHv+2nD0DtaqGUgHNMM1fBWtG9265+woUmwQ+SKPslDx78w3kdbim
-	CTXJhB39+SgxiL5aigfOVExlt9vSwreNahV9mxW/df4p+adJg6h9y0cQDjiWjqLprALo
-	4ubQ==
-MIME-Version: 1.0
-X-Received: by 10.112.180.198 with SMTP id dq6mr8541487lbc.93.1425572327419;
-	Thu, 05 Mar 2015 08:18:47 -0800 (PST)
-Received: by 10.152.111.200 with HTTP; Thu, 5 Mar 2015 08:18:47 -0800 (PST)
-In-Reply-To: <CAFoFrHYSHJfyWWfgaVGk6cukkVECzTv7TA+4Ur4BnfE2aC=mrA@mail.gmail.com>
-References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
-	<1425397584-5154-4-git-send-email-naresh.bhat@linaro.org>
-	<CAC1BbcSv-o_=GD9LJkZJyX38TbAmyXkmtJY+NBZ0-xqSDNeUBA@mail.gmail.com>
-	<CAFoFrHZnnK+SuTcVVn7JSZE_A0DKBy2+9R9wtubWBf5zupPhnw@mail.gmail.com>
-	<081F4A97-C2A2-4221-9A7F-CFC1022D71A1@gmail.com>
-	<CAFoFrHYSHJfyWWfgaVGk6cukkVECzTv7TA+4Ur4BnfE2aC=mrA@mail.gmail.com>
-Date: Thu, 5 Mar 2015 17:18:47 +0100
-Message-ID: <CAC1BbcRkNO_U+XFmzoLwDUV+7Gn8NC5-JUXOqfVTwHOt_osrag@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Naresh Bhat <naresh.bhat@linaro.org>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core Yocto PATCH 3/4] bootimg: Skip build iso image for aarch64
+	Thu,  5 Mar 2015 16:23:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2015 08:23:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="694434176"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2015 08:23:54 -0800
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Mar 2015 08:17:37 +0000
+Message-Id: <1425543457-12938-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <1425312122-38561-1-git-send-email-benjamin.esquivel@linux.intel.com>
+References: <1425312122-38561-1-git-send-email-benjamin.esquivel@linux.intel.com>
+Subject: [PATCH v3] glibc: 'yes' within the path sets wrong variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +30,290 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 16:18:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Mar 2015 16:23:54 -0000
 
-On 5 March 2015 at 15:06, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+The AC_EGREP_CPP macro is looking for a 'yes' string that is likely
+to be found in the path where the file is stored. This false positive
+match causes variables to be mistakenly set.
 
->>>if d.getVar('TARGET_ARCH', True) == "aarch64":
->>>               return
->>>
->>>Does it make sense ?
->>
->> At least the parser should grok it.
->> The change itself does not make sense to me either way.
-> I did this change because it does not make any sense to build the ISO
-> image for aarch64 architecture.  The HDD image should be sufficient.
-> Correct me if I am wrong.  I find a dependency of syslinux package to
-> build ISO image (isolinux.bin).  I have skipped the syslinux package
-> dependency @luvOS distribution.  The syslinux package contains lot of
-> x86 assembly code. That's the reason I just want to skip the ISO image
-> build for aarch64 architecture.
+The fix is to use a more elaborated string instead.
 
-COMPATIBLE_HOST of syslinux should have prevented you from building
-syslinux for aarch64 in the first place, no?
+This has to be done at the configure and the configure.ac files, because
+a reconfigure does not happen in the regular build flow.
 
-My assumption is that building this part of bootimg class for aarch64
-is wrong, you should have gotten an error when you attempt to build
-the HDD-image for non-i386 compatible targets.
-So, maybe, NOHDD should be (automagically) set based on
-COMPATIBLE_HOST or something like this?
-But then i don't really see why your aarch64 is the first to encounter
-this so maybe your config is just wrong instead?
+[YOCTO #6614]
 
-Not my homework though ;)
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+---
+ ...thin-the-path-sets-wrong-config-variables.patch | 245 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb              |   1 +
+ 2 files changed, 246 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
 
-thanks,
+diff --git a/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
+new file mode 100644
+index 0000000..827e980
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
+@@ -0,0 +1,245 @@
++'yes' within the path sets wrong config variables
++
++It seems that the 'AC_EGREP_CPP(yes...' example is quite popular
++but being such a short word to grep it is likely to produce
++false-positive matches with the path it is configured into.
++
++The change is to use a more elaborated string to grep for.
++
++Upstream-Status: Submitted [libc-alpha@sourceware.org]
++
++Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
++---
++diff --git a/sysdeps/aarch64/configure b/sysdeps/aarch64/configure
++index 5bd355a..3bc5537 100644
++--- a/sysdeps/aarch64/configure
+++++ b/sysdeps/aarch64/configure
++@@ -148,12 +148,12 @@ else
++   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ #ifdef __AARCH64EB__
++-                      yes
+++                      is_aarch64_be
++                      #endif
++ 
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "is_aarch64_be" >/dev/null 2>&1; then :
++   libc_cv_aarch64_be=yes
++ else
++   libc_cv_aarch64_be=no
++diff --git a/sysdeps/aarch64/configure.ac b/sysdeps/aarch64/configure.ac
++index 7851dd4..6e92381 100644
++--- a/sysdeps/aarch64/configure.ac
+++++ b/sysdeps/aarch64/configure.ac
++@@ -10,8 +10,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++ # the dynamic linker via %ifdef.
++ AC_CACHE_CHECK([for big endian],
++   [libc_cv_aarch64_be],
++-  [AC_EGREP_CPP(yes,[#ifdef __AARCH64EB__
++-                      yes
+++  [AC_EGREP_CPP(is_aarch64_be,[#ifdef __AARCH64EB__
+++                      is_aarch64_be
++                      #endif
++   ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
++ if test $libc_cv_aarch64_be = yes; then
++diff --git a/sysdeps/arm/configure b/sysdeps/arm/configure
++index 45667cc..0b2ef11 100644
++--- a/sysdeps/arm/configure
+++++ b/sysdeps/arm/configure
++@@ -150,12 +150,12 @@ else
++   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ #ifdef __ARM_PCS_VFP
++-		      yes
+++		      use_arm_pcs_vfp
++ 		     #endif
++ 
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "use_arm_pcs_vfp" >/dev/null 2>&1; then :
++   libc_cv_arm_pcs_vfp=yes
++ else
++   libc_cv_arm_pcs_vfp=no
++diff --git a/sysdeps/arm/configure.ac b/sysdeps/arm/configure.ac
++index 002b8ef..e1746a7 100644
++--- a/sysdeps/arm/configure.ac
+++++ b/sysdeps/arm/configure.ac
++@@ -16,8 +16,8 @@ dnl it.  Until we do, don't define it.
++ # the dynamic linker via %ifdef.
++ AC_CACHE_CHECK([whether the compiler is using the ARM hard-float ABI],
++   [libc_cv_arm_pcs_vfp],
++-  [AC_EGREP_CPP(yes,[#ifdef __ARM_PCS_VFP
++-		      yes
+++  [AC_EGREP_CPP(use_arm_pcs_vfp,[#ifdef __ARM_PCS_VFP
+++		      use_arm_pcs_vfp
++ 		     #endif
++   ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
++ if test $libc_cv_arm_pcs_vfp = yes; then
++diff --git a/sysdeps/mips/configure b/sysdeps/mips/configure
++index 4e13248..f14af95 100644
++--- a/sysdeps/mips/configure
+++++ b/sysdeps/mips/configure
++@@ -143,11 +143,11 @@ else
++ /* end confdefs.h.  */
++ dnl
++ #ifdef __mips_nan2008
++-yes
+++use_mips_nan2008
++ #endif
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
++   libc_cv_mips_nan2008=yes
++ else
++   libc_cv_mips_nan2008=no
++diff --git a/sysdeps/mips/configure.ac b/sysdeps/mips/configure.ac
++index bcbdaff..ad3057f 100644
++--- a/sysdeps/mips/configure.ac
+++++ b/sysdeps/mips/configure.ac
++@@ -6,9 +6,9 @@ dnl position independent way.
++ dnl AC_DEFINE(PI_STATIC_AND_HIDDEN)
++ 
++ AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
++-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
+++  libc_cv_mips_nan2008, [AC_EGREP_CPP(use_mips_nan2008, [dnl
++ #ifdef __mips_nan2008
++-yes
+++use_mips_nan2008
++ #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
++ if test x$libc_cv_mips_nan2008 = xyes; then
++   AC_DEFINE(HAVE_MIPS_NAN2008)
++diff --git a/sysdeps/nios2/configure b/sysdeps/nios2/configure
++index 14c8a3a..dde3814 100644
++--- a/sysdeps/nios2/configure
+++++ b/sysdeps/nios2/configure
++@@ -142,12 +142,12 @@ else
++   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ #ifdef __nios2_big_endian__
++-                      yes
+++                      is_nios2_be
++                      #endif
++ 
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "is_nios2_be" >/dev/null 2>&1; then :
++   libc_cv_nios2_be=yes
++ else
++   libc_cv_nios2_be=no
++diff --git a/sysdeps/nios2/configure.ac b/sysdeps/nios2/configure.ac
++index f05f438..dc86399 100644
++--- a/sysdeps/nios2/configure.ac
+++++ b/sysdeps/nios2/configure.ac
++@@ -4,8 +4,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++ # Nios II big endian is not yet supported.
++ AC_CACHE_CHECK([for big endian],
++   [libc_cv_nios2_be],
++-  [AC_EGREP_CPP(yes,[#ifdef __nios2_big_endian__
++-                      yes
+++  [AC_EGREP_CPP(is_nios2_be,[#ifdef __nios2_big_endian__
+++                      is_nios2_be
++                      #endif
++   ], libc_cv_nios2_be=yes, libc_cv_nios2_be=no)])
++ if test $libc_cv_nios2_be = yes; then
++diff --git a/sysdeps/unix/sysv/linux/mips/configure b/sysdeps/unix/sysv/linux/mips/configure
++index 83f8b13..2b6cbee 100644
++--- a/sysdeps/unix/sysv/linux/mips/configure
+++++ b/sysdeps/unix/sysv/linux/mips/configure
++@@ -387,11 +387,11 @@ else
++ /* end confdefs.h.  */
++ dnl
++ #ifdef __mips_nan2008
++-yes
+++use_mips_nan2008
++ #endif
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
++   libc_cv_mips_nan2008=yes
++ else
++   libc_cv_mips_nan2008=no
++diff --git a/sysdeps/unix/sysv/linux/mips/configure.ac b/sysdeps/unix/sysv/linux/mips/configure.ac
++index 5039ec9..1035f76 100644
++--- a/sysdeps/unix/sysv/linux/mips/configure.ac
+++++ b/sysdeps/unix/sysv/linux/mips/configure.ac
++@@ -98,9 +98,9 @@ AC_COMPILE_IFELSE(
++ LIBC_CONFIG_VAR([mips-mode-switch],[${libc_mips_mode_switch}])
++ 
++ AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
++-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
+++  libc_cv_mips_nan2008, [AC_EGREP_CPP(use_mips_nan2008, [dnl
++ #ifdef __mips_nan2008
++-yes
+++use_mips_nan2008
++ #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
++ 
++ libc_mips_nan=
++diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
++index 70bb18a..ffd9e3e 100644
++--- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
++@@ -155,12 +155,12 @@ else
++   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ #if _CALL_ELF == 2
++-                      yes
+++                      use_ppc_elfv2_abi
++                      #endif
++ 
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "use_ppc_elfv2_abi" >/dev/null 2>&1; then :
++   libc_cv_ppc64_elfv2_abi=yes
++ else
++   libc_cv_ppc64_elfv2_abi=no
++@@ -188,12 +188,12 @@ else
++   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ #ifdef _CALL_ELF
++-                         yes
+++                         is_def_call_elf
++                        #endif
++ 
++ _ACEOF
++ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++-  $EGREP "yes" >/dev/null 2>&1; then :
+++  $EGREP "is_def_call_elf" >/dev/null 2>&1; then :
++   libc_cv_ppc64_def_call_elf=yes
++ else
++   libc_cv_ppc64_def_call_elf=no
++diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
++index 0822915..9a32fdd 100644
++--- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
++@@ -6,8 +6,8 @@ LIBC_SLIBDIR_RTLDDIR([lib64], [lib64])
++ # Define default-abi according to compiler flags.
++ AC_CACHE_CHECK([whether the compiler is using the PowerPC64 ELFv2 ABI],
++   [libc_cv_ppc64_elfv2_abi],
++-  [AC_EGREP_CPP(yes,[#if _CALL_ELF == 2
++-                      yes
+++  [AC_EGREP_CPP(use_ppc_elfv2_abi,[#if _CALL_ELF == 2
+++                      use_ppc_elfv2_abi
++                      #endif
++   ], libc_cv_ppc64_elfv2_abi=yes, libc_cv_ppc64_elfv2_abi=no)])
++ if test $libc_cv_ppc64_elfv2_abi = yes; then
++@@ -19,8 +19,8 @@ else
++   # Compiler that do not support ELFv2 ABI does not define _CALL_ELF
++   AC_CACHE_CHECK([whether the compiler defines _CALL_ELF],
++     [libc_cv_ppc64_def_call_elf],
++-    [AC_EGREP_CPP(yes,[#ifdef _CALL_ELF
++-                         yes
+++    [AC_EGREP_CPP(is_def_call_elf,[#ifdef _CALL_ELF
+++                         is_def_call_elf
++                        #endif
++     ], libc_cv_ppc64_def_call_elf=yes, libc_cv_ppc64_def_call_elf=no)])
++   if test $libc_cv_ppc64_def_call_elf = no; then
++-- 
++1.8.4.5
++
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 1ef494b..6a9e482 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -24,6 +24,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
+            file://fix_am_rootsbindir.patch \
+            file://0001-Add-unused-attribute.patch \
+            file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
++           file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
+            ${EGLIBCPATCHES} \
+           "
+ EGLIBCPATCHES = "\
+-- 
+1.8.4.5
+
 
