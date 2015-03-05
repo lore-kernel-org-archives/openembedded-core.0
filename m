@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 9080B65C7B
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AD7E65C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 10:57:59 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id x12so1061708qac.13
+	Thu,  5 Mar 2015 11:01:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 740433151408
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 02:58:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=HIMdEdD+yoOIR7NZYdxWR+y5UyQcODfHZ4JZpRmjtUo=;
-	b=MptI2x47OfS6jwHq7gWEAyWXMrj7JPJ73tC0+2xZ5pn4+tYGVxmsNp992h8TVTJcxs
-	XVf3mplvi61iSQ2qUW1avAQmnuiE87VYVmSQfUhy7KSoz4dOSlI0D3eyfv/dDzTNMYxy
-	CkuaDnchI+J7YMFV5ES8goXPQt7/xrKDaXnrxWTJws88qYmrX8Xuem0TNO/tvCWZJyky
-	L2I8m6rgnokLNySz0hQyXaIkJT1Uya6jd52weVa7dIIcll21iEfa7mYYMwrAu6RZR+oS
-	vo1OupGlEH63lXad8g6y0d7dOHkehRK3zRH67LtSbdNidbwuFlljJX+PH/hduc907YO6
-	JF0g==
-X-Gm-Message-State: ALoCoQkf7/8CJxgOGi7YaJEVrqzRcbBPfvqYCLHUcfibNLrGmOTdCGIzeW2R1L+NkhYR1DaFH0dP
-X-Received: by 10.140.43.199 with SMTP id e65mr11401811qga.34.1425553080499;
-	Thu, 05 Mar 2015 02:58:00 -0800 (PST)
+	Thu,  5 Mar 2015 12:01:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id A8Mq0lfT2fzl
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Mar 2015 12:01:09 +0100 (CET)
+Received: from [172.22.22.61] (55d44e54.access.ecotel.net [85.212.78.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 70C623151406
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Mar 2015 12:01:09 +0100 (CET)
+Message-ID: <54F83775.5040604@opendreambox.org>
+Date: Thu, 05 Mar 2015 12:01:09 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 5 Mar 2015 02:57:40 -0800 (PST)
-In-Reply-To: <1425518629-19739-1-git-send-email-raj.khem@gmail.com>
-References: <1425518629-19739-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Mar 2015 10:57:40 +0000
-Message-ID: <CAJTo0LZSLk5tewPiw5WiTMsdFybSQ0Yp43PkKewKz8WPs0pX4w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] tcmode-default: Define one gdb version
+To: openembedded-core@lists.openembedded.org
+References: <bruno.bottazzini@intel.com>	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
+In-Reply-To: <1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
+Subject: Re: [PATCH 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 10:58:02 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baaf8eaca0510887037
+X-List-Received-Date: Thu, 05 Mar 2015 11:01:16 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---001a113a9baaf8eaca0510887037
-Content-Type: text/plain; charset=UTF-8
+Hello Gustavo,
 
-On 5 March 2015 at 01:23, Khem Raj <raj.khem@gmail.com> wrote:
+On 04.03.2015 22:27, Bruno Bottazzini wrote:
+> From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
+> 
+> Most tools are not required if one is launching a simple daemon.
+> The user will be able to exclude dbus-tool and save some space in his
+> build
+> 
+> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> ---
+>  meta/recipes-core/dbus/dbus.inc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> index fb5d017..f975dc9 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -39,13 +39,13 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+>  
+>  DEBIANNAME_${PN} = "dbus-1"
+>  
+> -PACKAGES =+ "${PN}-lib"
+> +PACKAGES =+ "${PN}-lib ${PN}-tools"
+>  
+>  OLDPKGNAME = "dbus-x11"
+>  OLDPKGNAME_class-nativesdk = ""
+>  
+>  # for compatibility
+> -RPROVIDES_${PN} = "${OLDPKGNAME}"
+> +RPROVIDES_${PN} = "${OLDPKGNAME} ${PN}-native-tools-native"
 
-> +PREFERRED_VERSION_gdb-cross-${ARGET_ARCH} ?= "${GDBVERSION}"
->
+this line seems to be wrong. What are you trying to solve with it?
 
-ARGET_ARCH? :)
+Regards,
+Andreas
 
-Ross
+>  RREPLACES_${PN} += "${OLDPKGNAME}"
+>  
+>  FILES_${PN} = "${bindir}/dbus-daemon* \
+> @@ -64,6 +64,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+>  FILES_${PN}-lib = "${libdir}/lib*.so.*"
+>  RRECOMMENDS_${PN}-lib = "${PN}"
+>  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+> +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
+> +                      ${bindir}/dbus-cleanup-sockets \
+> +                      ${bindir}/dbus-monitor \
+> +                      ${bindir}/dbus-launch \
+> +                      ${bindir}/dbus-run-session"
+> +RRECOMMENDS_${PN} = "${PN}-tools"
+>  
+>  pkg_postinst_dbus() {
+>  	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+> 
 
---001a113a9baaf8eaca0510887037
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 March 2015 at 01:23, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":36q" class=3D"a3s" style=
-=3D"overflow:hidden">+PREFERRED_VERSION_gdb-cross-${ARGET_ARCH} ?=3D &quot;=
-${GDBVERSION}&quot;<br></div></blockquote></div><br>ARGET_ARCH? :)</div><di=
-v class=3D"gmail_extra"><br>Ross</div></div>
-
---001a113a9baaf8eaca0510887037--
