@@ -1,62 +1,36 @@
-Return-Path: <B40290@freescale.com>
-X-Greylist: delayed 5594 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 05 Mar 2015 11:11:27 UTC
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0138.outbound.protection.outlook.com [157.56.110.138])
-	by mail.openembedded.org (Postfix) with ESMTP id E6DA565C7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DC2965C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 11:11:27 +0000 (UTC)
-Received: from BN3PR0301CA0078.namprd03.prod.outlook.com (25.160.152.174) by
-	DM2PR0301MB1200.namprd03.prod.outlook.com (25.160.217.15) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.99.14; Thu, 5 Mar 2015 09:38:12 +0000
-Received: from BL2FFO11FD052.protection.gbl (2a01:111:f400:7c09::167) by
-	BN3PR0301CA0078.outlook.office365.com (2a01:111:e400:401e::46) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.106.15 via Frontend Transport; Thu, 5 Mar 2015
-	09:38:12 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BL2FFO11FD052.mail.protection.outlook.com (10.173.161.214) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.99.6 via Frontend Transport; Thu, 5 Mar 2015
-	09:38:12 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t259c8gF011936;
-	Thu, 5 Mar 2015 02:38:09 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Mar 2015 17:38:05 +0800
-Message-ID: <1425548285-16530-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.158.2 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=B40290@freescale.com; freescale.mail.onmicrosoft.com;
-	dkim=none (message not signed) header.d=none;
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI; BMV:0;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(189002)(199003)(105606002)(104016003)(92566002)(19580395003)(46102003)(62966003)(110136001)(229853001)(50986999)(77156002)(86362001)(19580405001)(106466001)(48376002)(2351001)(87936001)(450100001)(77096005)(85426001)(6806004)(50226001)(36756003)(50466002)(47776003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1200;
-	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
-	LANG:en; 
+	Thu,  5 Mar 2015 11:48:06 +0000 (UTC)
+Received: by qgdz107 with SMTP id z107so4620490qgd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 03:48:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=+f1ac8rHgS6gZAe2Ilxhhhj3QFUdxpyycPZsAJTuRm8=;
+	b=AlzOeGUv0eiBJpfB60zs9ENlrQINJXf/EC0D8jDcz3LzTqIWpL6t4Iht/wobjXYOYq
+	Gb44KZyOf2fP5ykU/rpiZxRXPAZ22QrLf/QyW2eR2yaTwDp6CSgkfRwm50jF1diiH/AU
+	7i6Ul6G1RC79bU4cnqT+CyfaYFwlSJxpzfKbfJ8VgShjaIryItRJJlI6/QD+zAKPovua
+	ZWH2EVdxAeFt6imFUpg+pp+M0L2Z7hvmN78feIq7I5HC2iNR1hod95+bWHeJ2EZjRq9o
+	feE2k3PnzVVeD1bwt3iZ9R4AqxdtSGLr9AtW0sqDdCjVAxsYDJUBoWwhNeqQbKI7zIhk
+	iCkQ==
+X-Gm-Message-State: ALoCoQnCDcapIPL8jBZ+S4eDRRW2/OK8sx2FWWWOXhuICdwBaGakP9FQSO9o/FYr7wyhCwa+qDSn
+X-Received: by 10.140.165.76 with SMTP id l73mr11963383qhl.16.1425556087577;
+	Thu, 05 Mar 2015 03:48:07 -0800 (PST)
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB1200;
-X-Microsoft-Antispam-PRVS: <DM2PR0301MB1200B2902947F971574BCA3AC71F0@DM2PR0301MB1200.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(5001007); SRVR:DM2PR0301MB1200; BCL:0;
-	PCL:0; RULEID:; SRVR:DM2PR0301MB1200; 
-X-Forefront-PRVS: 05066DEDBB
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2015 09:38:12.1991 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1200
-Subject: [PATCH] u-boot.inc: fix rename image error
+Received: by 10.140.102.203 with HTTP; Thu, 5 Mar 2015 03:47:47 -0800 (PST)
+In-Reply-To: <1425548285-16530-1-git-send-email-B40290@freescale.com>
+References: <1425548285-16530-1-git-send-email-B40290@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Mar 2015 11:47:47 +0000
+Message-ID: <CAJTo0Lb-=hZ_jUXkXY85H0PvcQHw_N4uiHJ8Vm-5d=-UbdVHwA@mail.gmail.com>
+To: Chunrong Guo <B40290@freescale.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot.inc: fix rename image error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,114 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 11:11:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Mar 2015 11:48:10 -0000
+Content-Type: multipart/alternative; boundary=001a1134ef8c3538370510892491
 
-  Resolve mismatch between U-Boot configs and uboot image name.
-  The ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} may alway be false
-  and repeat compile or install so we need to check if ${type} match ${config} .
+--001a1134ef8c3538370510892491
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 32 +++++++++++---------------------
- 1 file changed, 11 insertions(+), 21 deletions(-)
+On 5 March 2015 at 09:38, Chunrong Guo <B40290@freescale.com> wrote:
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 6bdc86a..aa7c20f 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -66,15 +66,13 @@ do_compile () {
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
-+            for type in ${UBOOT_CONFIG}; do
-                 if [ "${type}"x = "in"x ]
-                 then
-                     continue
-                 fi
--                if [ -d "${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}" ]
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                 then
--                    break
--                else
-                     oe_runmake O=${config} ${config}
-                     oe_runmake O=${config} ${UBOOT_MAKE_TARGET}
-                     cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
-@@ -92,15 +90,13 @@ do_install () {
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
-+            for type in ${UBOOT_CONFIG}; do
-                 if [ "${type}"x = "in"x ]
-                 then
-                     continue
-                 fi
--                if [ -d "${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}" ]
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                 then
--                    break
--                else
-                     install -d ${D}/boot
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
-                     ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-@@ -123,15 +119,13 @@ do_install () {
-         if [ "x${UBOOT_CONFIG}" != "x" ]   
-         then
-             for config in ${UBOOT_MACHINE}; do
--                for type in in ${UBOOT_CONFIG}; do
-+                for type in ${UBOOT_CONFIG}; do
-                      if [ "${type}"x = "in"x ]
-                      then
-                          continue
-                      fi
--                     if [ -d "${D}/boot/${SPL_IMAGE}-${type}" ]
-+                     if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                      then
--                         break
--                     else
-                          install ${S}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}
-@@ -157,15 +151,13 @@ do_deploy () {
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
-+            for type in ${UBOOT_CONFIG}; do
-                 if [ "${type}"x = "in"x ]  
-                 then
-                     continue
-                 fi
--                if [ -d "${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}" ]
--                then 
--                    break
--                else
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-+                then
-                     install -d ${DEPLOYDIR}
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}
-                     cd ${DEPLOYDIR}
-@@ -190,15 +182,13 @@ do_deploy () {
-          if [ "x${UBOOT_CONFIG}" != "x" ]   
-          then
-              for config in ${UBOOT_MACHINE}; do
--                 for type in in ${UBOOT_CONFIG}; do
-+                 for type in ${UBOOT_CONFIG}; do
-                       if [ "${type}"x = "in"x ]
-                       then
-                           continue
-                       fi
--                      if [ -d "${DEPLOYDIR}/${SPL_IMAGE}-${type}" ]
-+                      if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                       then
--                          break
--                      else
-                           install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}
-                           rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-                           ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}-${type}
--- 
-1.9.2
+> -            for type in in ${UBOOT_CONFIG}; do
+> +            for type in ${UBOOT_CONFIG}; do
+>                  if [ "${type}"x = "in"x ]
+>                  then
+>                      continue
+>                  fi
+>
 
+The if "${type}x" = "inx" check demonstrates that the in was repeated for a
+reason, which you've just broken.
 
+Of course all of that isn't required as a simple test demonstrates:
+
+$ UBOOT_CONFIG=""
+~
+$ for type in ${UBOOT_CONFIG}; do echo x$type; done
+~
+$
+
+You can remove the "typex = inx" tests as if UBOOT_CONFIG isn't set the
+loop won't be entered.
+
+Ross
+
+--001a1134ef8c3538370510892491
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 March 2015 at 09:38, Chunrong Guo <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:B40290@freescale.com" target=3D"_blank">B40290@freescale.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
+t-style:solid;padding-left:1ex"><div id=3D":1z2" class=3D"" style=3D"overfl=
+ow:hidden">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for type in in ${UBOO=
+T_CONFIG}; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for type in ${UBOOT_CONFIG}; do<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${=
+type}&quot;x =3D &quot;in&quot;x ]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0continue<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi</div></blo=
+ckquote></div><br>The if &quot;${type}x&quot; =3D &quot;inx&quot; check dem=
+onstrates that the in was repeated for a reason, which you&#39;ve just brok=
+en.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Of=
+ course all of that isn&#39;t required as a simple test demonstrates:</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=
+=3D"gmail_extra">$ UBOOT_CONFIG=3D&quot;&quot;</div><div class=3D"gmail_ext=
+ra">~</div><div class=3D"gmail_extra">$ for type in ${UBOOT_CONFIG}; do ech=
+o x$type; done</div><div class=3D"gmail_extra">~</div><div class=3D"gmail_e=
+xtra">$</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">You can remove the &quot;typex =3D inx&quot; tests as if UBOOT_CONFIG isn=
+&#39;t set the loop won&#39;t be entered.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--001a1134ef8c3538370510892491--
