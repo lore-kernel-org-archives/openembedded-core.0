@@ -1,51 +1,30 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 327DA7388F
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 24515738D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 14:28:05 +0000 (UTC)
-Received: by lbdu14 with SMTP id u14so30492543lbd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 06:28:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=212JU/4sKVxQGWxST44G8fVlY2+bR6coClgOlLSeOH8=;
-	b=h1OWvBQFQFw+vv8CxYFYrNtTvxmVZMvOePO7TafXORVSm/6pIO7c5P394yl8J+7MOg
-	bganflU54tzlLBqCs2Mrpoc6LhZp4vlgeeMGJ86j2vXZhR2y/+j8yKIIoIjvGJehYGhI
-	/u1jr5UIG9G0kdryWJnYhRt5IVAJxBQ4pPTh/tPgjRpZpVHKTS0jTYWS5Z/auRQtw3LH
-	DIOLQ2tobqqRtUBP8CjXMr/ltsqZeovcF2RLZVAgydhguLuxVWSMWrqVdAp/v1kJ0SAo
-	u6+4eASVGNTC2AhYsBBdr2NadpAlNoBdh7/UmQMP4KC2hKbSJarIERFzzDtf4JDCLn4Z
-	1JmQ==
-X-Gm-Message-State: ALoCoQkooh3amLvB3qF+dCtVyHNQzjSQRRNtV9AivJNKTvTOk2SMfQgvnR9pmRp+9TDpW1hTt9Zt
-X-Received: by 10.152.25.132 with SMTP id c4mr8170453lag.101.1425565685810;
-	Thu, 05 Mar 2015 06:28:05 -0800 (PST)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id ei4sm168376lad.31.2015.03.05.06.28.03
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Mar 2015 06:28:04 -0800 (PST)
-Date: Thu, 5 Mar 2015 15:28:02 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>
-Message-ID: <20150305142802.GA6833@ad.chargestorm.se>
-Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
+	Thu,  5 Mar 2015 14:29:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 05 Mar 2015 06:26:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="694376862"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
+	([10.218.99.51])
+	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2015 06:29:16 -0800
+Message-ID: <1425565747.2831.4.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Thu, 05 Mar 2015 11:29:07 -0300
+In-Reply-To: <54F863AC.1050204@opendreambox.org>
 References: <bruno.bottazzini@intel.com>
 	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
-	<1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
+	<54F83775.5040604@opendreambox.org>
+	<1425561390.2707.29.camel@bottazzini-ThinkPad-T430>
+	<54F863AC.1050204@opendreambox.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] systemd: split modules into packages
+Subject: Re: [PATCH 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 14:28:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Mar 2015 14:29:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Bruno Bottazzini <bruno.bottazzini@intel.com> [150304 22:28]:
-> if one wants to launch a simple deamon, most modules are not
-> required.
-> He will be able to save space and exclude unwanted packages
-> from the final image.
-> ---
->  meta/recipes-core/systemd/systemd_219.bb | 1071 ++++++++++++++++++++++++++----
->  1 file changed, 942 insertions(+), 129 deletions(-)
+On Qui, 2015-03-05 at 15:09 +0100, Andreas Oberritter wrote:
+> On 05.03.2015 14:16, Bottazzini, Bruno wrote:
+> > On Qui, 2015-03-05 at 12:01 +0100, Andreas Oberritter wrote:
+> >> Hello Gustavo,
+> >>
+> >> On 04.03.2015 22:27, Bruno Bottazzini wrote:
+> >>> From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
+> >>>
+> >>> Most tools are not required if one is launching a simple daemon.
+> >>> The user will be able to exclude dbus-tool and save some space in his
+> >>> build
+> >>>
+> >>> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> >>> ---
+> >>>  meta/recipes-core/dbus/dbus.inc | 10 ++++++++--
+> >>>  1 file changed, 8 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> >>> index fb5d017..f975dc9 100644
+> >>> --- a/meta/recipes-core/dbus/dbus.inc
+> >>> +++ b/meta/recipes-core/dbus/dbus.inc
+> >>> @@ -39,13 +39,13 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+> >>>  
+> >>>  DEBIANNAME_${PN} = "dbus-1"
+> >>>  
+> >>> -PACKAGES =+ "${PN}-lib"
+> >>> +PACKAGES =+ "${PN}-lib ${PN}-tools"
+> >>>  
+> >>>  OLDPKGNAME = "dbus-x11"
+> >>>  OLDPKGNAME_class-nativesdk = ""
+> >>>  
+> >>>  # for compatibility
+> >>> -RPROVIDES_${PN} = "${OLDPKGNAME}"
+> >>> +RPROVIDES_${PN} = "${OLDPKGNAME} ${PN}-native-tools-native"
+> >>
+> >> this line seems to be wrong. What are you trying to solve with it?
+> >>
+> >> Regards,
+> >> Andreas
+> > 
+> > Hello Andreas, 
+> > 
+> > Could you be more specific what is wrong with this line ?
+> > 
+> > Have you tried removing it and compile it ?
+> 
+> No, I haven't. What kind of problem will it raise?
 
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6a8b5b8..fd6cf57 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -56,10 +56,31 @@ LDFLAGS_append_libc-uclibc = " -lrt"
+I receive the following problem:
+ERROR: Nothing RPROVIDES 'dbus-native-tools-native' (but
+virtual:native:PATH/poky/meta/recipes-core/dbus/dbus_1.8.10.bb RDEPENDS
+on or otherwise requires it
 
->  GTKDOC_DOCDIR = "${S}/docs/"
+Any suggestion of how to fix it?
+> 
+> It looks wrong, because the package dbus doesn't provide dbus-tools, but
+> dbus-tools is instead provided by dbus-tools itself (with your patch
+> applied).
+> 
+> Furthermore, having "native" twice in a package name seems odd, but
+> there's no reason for target packages to provide anything "native" in
+> the first place.
+> 
+> Regards,
+> Andreas
+> 
+> > Try compiling this patch and see what it provides.
+> > 
+> > If you want to exclude the dbus-tools just add the following at your 
+> > local conf file: 
+> > PACKAGE_EXCLUDE = "dbus-tools".
+> > 
+> > Best Regards,
+> > 
+> > Bruno Bottazzini
+> > 
+> >>
+> >>>  RREPLACES_${PN} += "${OLDPKGNAME}"
+> >>>  
+> >>>  FILES_${PN} = "${bindir}/dbus-daemon* \
+> >>> @@ -64,6 +64,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+> >>>  FILES_${PN}-lib = "${libdir}/lib*.so.*"
+> >>>  RRECOMMENDS_${PN}-lib = "${PN}"
+> >>>  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+> >>> +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
+> >>> +                      ${bindir}/dbus-cleanup-sockets \
+> >>> +                      ${bindir}/dbus-monitor \
+> >>> +                      ${bindir}/dbus-launch \
+> >>> +                      ${bindir}/dbus-run-session"
+> >>> +RRECOMMENDS_${PN} = "${PN}-tools"
+> >>>  
+> >>>  pkg_postinst_dbus() {
+> >>>  	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+> >>>
+> >>
+> > 
+> > 
+> 
 
-> -PACKAGECONFIG ??= "xz \
-> +DEPENDS += "curl"
-> +
-> +PACKAGECONFIG ??= "acl \
-> +                   blkid \
-> +                   efi \
-> +                   kmod \
-> +                   gcrypt \
-> +                   lz4 \
-> +                   xz \
-> +                   libidn \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
 
-Just a quick question before I look into the patch in more detail.
-
-Is the new setting of PACKAGECONFIG consistent with how systemd was
-built previously? I guess it is.
-
-Another comment, you should remove the dependcies that gets added using
-PACKAGECONFIG from DEPENDS, e.g. acl etc. (Or are they required
-nevertheless?)
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
