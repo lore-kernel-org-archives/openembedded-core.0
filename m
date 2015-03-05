@@ -1,32 +1,30 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C24865C7B
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id A9D4065C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 16:05:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Mar 2015 08:05:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="675647350"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
-	([10.218.99.51])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2015 08:05:09 -0800
-Message-ID: <1425571500.2831.8.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Thu, 05 Mar 2015 13:05:00 -0300
-In-Reply-To: <54F86D09.5060501@opendreambox.org>
-References: <bruno.bottazzini@intel.com>
-	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
-	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
-	<54F83775.5040604@opendreambox.org>
-	<1425561390.2707.29.camel@bottazzini-ThinkPad-T430>
-	<54F863AC.1050204@opendreambox.org>
-	<1425565747.2831.4.camel@bottazzini-ThinkPad-T430>
-	<54F86D09.5060501@opendreambox.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] dbus: split tools package.
+	Thu,  5 Mar 2015 16:14:55 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id A4046F811E4; Thu,  5 Mar 2015 09:14:56 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id DF777F811E3;
+	Thu,  5 Mar 2015 09:14:55 -0700 (MST)
+Message-ID: <54F88105.8020509@mlbassoc.com>
+Date: Thu, 05 Mar 2015 09:15:01 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1425570531-9477-1-git-send-email-gary@mlbassoc.com>
+	<CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] opkg: Fix error when recompiled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,34 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 16:05:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 05 Mar 2015 16:14:58 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Qui, 2015-03-05 at 15:49 +0100, Andreas Oberritter wrote:
-> On 05.03.2015 15:29, Bottazzini, Bruno wrote:
-> > I receive the following problem:
-> > ERROR: Nothing RPROVIDES 'dbus-native-tools-native' (but
-> > virtual:native:PATH/poky/meta/recipes-core/dbus/dbus_1.8.10.bb RDEPENDS
-> > on or otherwise requires it
-> > 
-> > Any suggestion of how to fix it?
-> 
-> Try setting RRECOMMENDS_${PN}_class-native = "".
+On 2015-03-05 08:52, Burton, Ross wrote:
+> Hi Gary,
+>
+> On 5 March 2015 at 15:48, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
+>
+>     v2: Move the update of the opkg.conf file into 'do_install' which
+>     will prevent any erroneous [multiple] options to be added to 'opkg.conf'
+>
+>
+> Don't put commentary about v2 in the commit message, as when it's merged the content of v1 isn't relevant.
 
-Nice! it worked perfectly and looks better, indeed.
-As soon as we review the patch set, I will send a V2 with this
-correction.
+Noted.
 
-> 
-> I still wonder why "-native" appears twice inside this dependency, but I
-> fail to spot the cause inside the dbus recipe.
+> (I've removed it and merged to mut)
 
-You are right, it is strange.
+Thanks
 
-> 
-> Regards,
-> Andreas
-
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
