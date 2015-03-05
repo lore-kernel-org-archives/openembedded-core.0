@@ -1,30 +1,28 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id A9D4065C7B
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E8CD65C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 16:14:55 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id A4046F811E4; Thu,  5 Mar 2015 09:14:56 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id DF777F811E3;
-	Thu,  5 Mar 2015 09:14:55 -0700 (MST)
-Message-ID: <54F88105.8020509@mlbassoc.com>
-Date: Thu, 05 Mar 2015 09:15:01 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1425570531-9477-1-git-send-email-gary@mlbassoc.com>
-	<CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] opkg: Fix error when recompiled
+	Thu,  5 Mar 2015 16:15:04 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Mar 2015 08:15:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="462977764"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
+	([10.218.99.51])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Mar 2015 08:08:44 -0800
+Message-ID: <1425572096.2831.16.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Anders Darander <anders@chargestorm.se>
+Date: Thu, 05 Mar 2015 13:14:56 -0300
+In-Reply-To: <20150305142802.GA6833@ad.chargestorm.se>
+References: <bruno.bottazzini@intel.com>
+	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
+	<20150305142802.GA6833@ad.chargestorm.se>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 16:14:58 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 05 Mar 2015 16:15:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2015-03-05 08:52, Burton, Ross wrote:
-> Hi Gary,
->
-> On 5 March 2015 at 15:48, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->
->     v2: Move the update of the opkg.conf file into 'do_install' which
->     will prevent any erroneous [multiple] options to be added to 'opkg.conf'
->
->
-> Don't put commentary about v2 in the commit message, as when it's merged the content of v1 isn't relevant.
+On Qui, 2015-03-05 at 15:28 +0100, Anders Darander wrote:
+> * Bruno Bottazzini <bruno.bottazzini@intel.com> [150304 22:28]:
+> > if one wants to launch a simple deamon, most modules are not
+> > required.
+> > He will be able to save space and exclude unwanted packages
+> > from the final image.
+> > ---
+> >  meta/recipes-core/systemd/systemd_219.bb | 1071 ++++++++++++++++++++++++++----
+> >  1 file changed, 942 insertions(+), 129 deletions(-)
+> 
+> > diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> > index 6a8b5b8..fd6cf57 100644
+> > --- a/meta/recipes-core/systemd/systemd_219.bb
+> > +++ b/meta/recipes-core/systemd/systemd_219.bb
+> > @@ -56,10 +56,31 @@ LDFLAGS_append_libc-uclibc = " -lrt"
+> 
+> >  GTKDOC_DOCDIR = "${S}/docs/"
+> 
+> > -PACKAGECONFIG ??= "xz \
+> > +DEPENDS += "curl"
+> > +
+> > +PACKAGECONFIG ??= "acl \
+> > +                   blkid \
+> > +                   efi \
+> > +                   kmod \
+> > +                   gcrypt \
+> > +                   lz4 \
+> > +                   xz \
+> > +                   libidn \
+> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
+> 
+> Just a quick question before I look into the patch in more detail.
+> 
+> Is the new setting of PACKAGECONFIG consistent with how systemd was
+> built previously? I guess it is.
 
-Noted.
+Hi Anders,
 
-> (I've removed it and merged to mut)
+it is consistent with how systemd was built previously. If you apply the
+patch and bitbake it. Systemd will be built and shipped normally.
 
-Thanks
+But now it will give some options on how to customize it by excluding
+packages you don't want to be with systemd.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> 
+> Another comment, you should remove the dependcies that gets added using
+> PACKAGECONFIG from DEPENDS, e.g. acl etc. (Or are they required
+> nevertheless?)
+
+You mean I should do the following ?
+- PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
++ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl"
+
+If I get what you said correctly, yes they are required. 
+
+Best Regards,
+
+> 
+> Cheers,
+> Anders
+> 
+
+
 
