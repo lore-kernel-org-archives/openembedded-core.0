@@ -1,36 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE137385B
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C24865C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 15:53:05 +0000 (UTC)
-Received: by qgfh3 with SMTP id h3so5823386qgf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 07:53:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YAu7I8zWW4+r2hapJRBG5N4UdUDnHMypzhDnM+07bnQ=;
-	b=KqZ9u4JgfWGtccfwIDLnruDGPcDxRE5qIp+FHI8Zqu0RZsyUXpWKt6KRjZrPqskAts
-	KmyX8NPJyXz92Klv2hCW/P5pZbWA2pkviJQsp3gWLyukeQrlZAm0sOCN7DtXJAmrmUMZ
-	vapbuZU0KwwIlWeLObwGwKg57vdxJN/z62/yBpYrC9WaM94/kWqeTLhYvdtkeHfZfv/z
-	P7CdPSI5KF5GEu6Jzwog+S5B0jWtg76QIfSU/S1qvCySk5w+5j7TFJqwcHLyq/2gKDit
-	oJkfX6qZKPVk9HQt4tksq7W8of4/FE1Pc5kgTgmwFoS1Y+kSfHMCE7JFkJo8ZXhmXAOQ
-	EDQw==
-X-Gm-Message-State: ALoCoQnT33qQ7p8CncjqM02h7XpFUOnkiCM5XxOPLDe9cgSOdQY+fuAVz8wIayCc9EiFxMm7TVTe
-X-Received: by 10.55.23.135 with SMTP id 7mr19341808qkx.19.1425570786427; Thu,
-	05 Mar 2015 07:53:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 5 Mar 2015 07:52:46 -0800 (PST)
-In-Reply-To: <1425570531-9477-1-git-send-email-gary@mlbassoc.com>
-References: <1425570531-9477-1-git-send-email-gary@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Mar 2015 15:52:46 +0000
-Message-ID: <CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] opkg: Fix error when recompiled
+	Thu,  5 Mar 2015 16:05:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Mar 2015 08:05:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="675647350"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
+	([10.218.99.51])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2015 08:05:09 -0800
+Message-ID: <1425571500.2831.8.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Thu, 05 Mar 2015 13:05:00 -0300
+In-Reply-To: <54F86D09.5060501@opendreambox.org>
+References: <bruno.bottazzini@intel.com>
+	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
+	<54F83775.5040604@opendreambox.org>
+	<1425561390.2707.29.camel@bottazzini-ThinkPad-T430>
+	<54F863AC.1050204@opendreambox.org>
+	<1425565747.2831.4.camel@bottazzini-ThinkPad-T430>
+	<54F86D09.5060501@opendreambox.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 15:53:06 -0000
-Content-Type: multipart/alternative; boundary=001a1147b57653d8b905108c905e
+X-List-Received-Date: Thu, 05 Mar 2015 16:05:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1147b57653d8b905108c905e
-Content-Type: text/plain; charset=UTF-8
+On Qui, 2015-03-05 at 15:49 +0100, Andreas Oberritter wrote:
+> On 05.03.2015 15:29, Bottazzini, Bruno wrote:
+> > I receive the following problem:
+> > ERROR: Nothing RPROVIDES 'dbus-native-tools-native' (but
+> > virtual:native:PATH/poky/meta/recipes-core/dbus/dbus_1.8.10.bb RDEPENDS
+> > on or otherwise requires it
+> > 
+> > Any suggestion of how to fix it?
+> 
+> Try setting RRECOMMENDS_${PN}_class-native = "".
 
-Hi Gary,
+Nice! it worked perfectly and looks better, indeed.
+As soon as we review the patch set, I will send a V2 with this
+correction.
 
-On 5 March 2015 at 15:48, Gary Thomas <gary@mlbassoc.com> wrote:
+> 
+> I still wonder why "-native" appears twice inside this dependency, but I
+> fail to spot the cause inside the dbus recipe.
 
-> v2: Move the update of the opkg.conf file into 'do_install' which
-> will prevent any erroneous [multiple] options to be added to 'opkg.conf'
->
+You are right, it is strange.
 
-Don't put commentary about v2 in the commit message, as when it's merged
-the content of v1 isn't relevant.
+> 
+> Regards,
+> Andreas
 
-(I've removed it and merged to mut)
 
-Ross
 
---001a1147b57653d8b905108c905e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Gary,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 5 March 2015 at 15:48, Gary Tho=
-mas <span dir=3D"ltr">&lt;<a href=3D"mailto:gary@mlbassoc.com" target=3D"_b=
-lank">gary@mlbassoc.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":2hb" class=3D"a3s" style=3D"overflow:hidden">v2: Move the =
-update of the opkg.conf file into &#39;do_install&#39; which<br>
-will prevent any erroneous [multiple] options to be added to &#39;opkg.conf=
-&#39;</div></blockquote></div><br>Don&#39;t put commentary about v2 in the =
-commit message, as when it&#39;s merged the content of v1 isn&#39;t relevan=
-t.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(I&=
-#39;ve removed it and merged to mut)</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1147b57653d8b905108c905e--
