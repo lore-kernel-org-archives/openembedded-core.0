@@ -1,39 +1,32 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 01C1771637
+Return-Path: <roosesweb@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C966771637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 14:49:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 3BEEC315143F;
-	Thu,  5 Mar 2015 15:49:47 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id skmUfm0E1lF2; Thu,  5 Mar 2015 15:49:45 +0100 (CET)
-Received: from [172.22.22.61] (55d44e54.access.ecotel.net [85.212.78.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 6910D315143B;
-	Thu,  5 Mar 2015 15:49:45 +0100 (CET)
-Message-ID: <54F86D09.5060501@opendreambox.org>
-Date: Thu, 05 Mar 2015 15:49:45 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Thu,  5 Mar 2015 14:53:24 +0000 (UTC)
+Received: by wiwl15 with SMTP id l15so3657229wiw.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 06:53:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to:content-type;
+	bh=uiIgL0azdsvq4wiFalS4iRRQl+BQs1jcO0gLhV2JrlU=;
+	b=hcefirIUHSLXcdQNHyipO8ExGbE0IN2/HBCtlolMHSwvSBF76ftsvtpZ0DFSCvsCan
+	OQqLyAn39t5YBkGpd1koKxrFjuqAKR/6Liq8FOSgkt876lOiaow8xsegZXEYdH15BfWN
+	g7v79KMcWZvhQAR+lFoYoH+xtgz0JB7r0UDHTNovVx+2UB5AB8L32faE2+xsvx3cJc0y
+	M5l5wCkssT26jpUZ2ADloUwpMFUkd+fsm8WZ71/nBxN7zzKKxg1sBfTPEn8iGcvHb23U
+	z5VHg4IntADhSz1GWg2EYa1+BpkudXBg1wD0KzFjBic0lnCHwjLdxhvYtMHUDIIosuJw
+	esXg==
+X-Received: by 10.194.81.1 with SMTP id v1mr18758344wjx.50.1425567205164; Thu,
+	05 Mar 2015 06:53:25 -0800 (PST)
 MIME-Version: 1.0
-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>	
-	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>	
-	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>	
-	<54F83775.5040604@opendreambox.org>	
-	<1425561390.2707.29.camel@bottazzini-ThinkPad-T430>	
-	<54F863AC.1050204@opendreambox.org>
-	<1425565747.2831.4.camel@bottazzini-ThinkPad-T430>
-In-Reply-To: <1425565747.2831.4.camel@bottazzini-ThinkPad-T430>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] dbus: split tools package.
+Sender: roosesweb@gmail.com
+Received: by 10.194.119.194 with HTTP; Thu, 5 Mar 2015 06:53:04 -0800 (PST)
+From: Thomas Roos <thomas@roosesweb.de>
+Date: Thu, 5 Mar 2015 15:53:04 +0100
+X-Google-Sender-Auth: 2BuzMuAWQSz7gLW5IJGE81TTOI4
+Message-ID: <CAAVZOXsFDXnWjSRETihjbwuJie4-kJK_9ucmRvrxA3OJ02qSqg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: regenerate pyc files when py files changed by sed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,23 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 14:49:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Mar 2015 14:53:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05.03.2015 15:29, Bottazzini, Bruno wrote:
-> I receive the following problem:
-> ERROR: Nothing RPROVIDES 'dbus-native-tools-native' (but
-> virtual:native:PATH/poky/meta/recipes-core/dbus/dbus_1.8.10.bb RDEPENDS
-> on or otherwise requires it
-> 
-> Any suggestion of how to fix it?
+---
+ meta/classes/distutils.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Try setting RRECOMMENDS_${PN}_class-native = "".
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 6ed7ecc..c6963ee 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -42,8 +42,8 @@ distutils_do_install() {
+         bbfatal "${PYTHON_PN} setup.py install execution failed."
 
-I still wonder why "-native" appears twice inside this dependency, but I
-fail to spot the cause inside the dbus recipe.
+         # support filenames with *spaces*
+-        # only modify file if it contains path to avoid recompilation
+on the target
+-        find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i
+-e s:${D}::g {} \;
++        # only modify file if it contains path and recompile it
++                find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec
+sed -i -e s:${D}::g {} \; -exec
+${STAGING_BINDIR_NATIVE}/python-native/python -mcompileall {} \;
 
-Regards,
-Andreas
+         if test -e ${D}${bindir} ; then
+             for i in ${D}${bindir}/* ; do \
+-- 
+1.9.1
 
