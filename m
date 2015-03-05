@@ -1,36 +1,37 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AD7E65C7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id C673865C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 11:01:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 740433151408
+	Thu,  5 Mar 2015 11:03:32 +0000 (UTC)
+Received: by wibbs8 with SMTP id bs8so6064550wib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 12:01:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id A8Mq0lfT2fzl
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 12:01:09 +0100 (CET)
-Received: from [172.22.22.61] (55d44e54.access.ecotel.net [85.212.78.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 70C623151406
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 12:01:09 +0100 (CET)
-Message-ID: <54F83775.5040604@opendreambox.org>
-Date: Thu, 05 Mar 2015 12:01:09 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
+	Thu, 05 Mar 2015 03:03:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bpq1BCIO/8nVvhk4fE0ZCNenA6rh8Lzkjngm2kI9hwI=;
+	b=gJt8AnQk2/3JC+Hz1JHaEXP9wYzMaFvLaNt7gG64gPJ0ydFHFlwJziMWXoGQ6eHrHL
+	fJI04VLK5MllN96Zn6VUJggR7nXImHNMcMIXwWyJ4uX4l6L4koLco/TNN6od0vIVOU1D
+	YOsMPy5HrWb5fkSZtYgUJVXJG1n3WRRtZf42nElxEsr/y+2FPTDpO67e/UD+SaIUNcbQ
+	P26rSDxyOQrcxwI37T65050Z0UKbYGdSmA//Qk7W58Di65rkeV2mq1V7a8nS/c9FABXw
+	OYd5kT/4jS5AE60x6hicMQqbBc2hl0Yqa1Ms+PJTqsH8BlvgB5yxNGXx78/4HrRgm6+M
+	2pQQ==
+X-Gm-Message-State: ALoCoQnN2w5aEXnY6N9p3b5rZJGFdiYmYPZIKuc0Vu/QQQD/t4QPnUOu42QNEskeEK8PgRyAxgaM
+X-Received: by 10.194.88.131 with SMTP id bg3mr17539228wjb.119.1425553413639; 
+	Thu, 05 Mar 2015 03:03:33 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id kr5sm10010497wjc.1.2015.03.05.03.03.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Mar 2015 03:03:32 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <bruno.bottazzini@intel.com>	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
-	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
-In-Reply-To: <1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
-Subject: Re: [PATCH 1/3] dbus: split tools package.
+Date: Thu,  5 Mar 2015 11:00:58 +0000
+Message-Id: <1425553258-2941-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] gdb: add whitespace to _append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,63 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 11:01:16 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Mar 2015 11:03:39 -0000
 
-Hello Gustavo,
+Add leading whitepace to EXTRA_OECONF_append so it doesn't rely on the original
+value ending with trailing whitespace.  Spotted by Robert P. J. Day.
 
-On 04.03.2015 22:27, Bruno Bottazzini wrote:
-> From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
-> 
-> Most tools are not required if one is launching a simple daemon.
-> The user will be able to exclude dbus-tool and save some space in his
-> build
-> 
-> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
-> ---
->  meta/recipes-core/dbus/dbus.inc | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-> index fb5d017..f975dc9 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -39,13 +39,13 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
->  
->  DEBIANNAME_${PN} = "dbus-1"
->  
-> -PACKAGES =+ "${PN}-lib"
-> +PACKAGES =+ "${PN}-lib ${PN}-tools"
->  
->  OLDPKGNAME = "dbus-x11"
->  OLDPKGNAME_class-nativesdk = ""
->  
->  # for compatibility
-> -RPROVIDES_${PN} = "${OLDPKGNAME}"
-> +RPROVIDES_${PN} = "${OLDPKGNAME} ${PN}-native-tools-native"
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-this line seems to be wrong. What are you trying to solve with it?
-
-Regards,
-Andreas
-
->  RREPLACES_${PN} += "${OLDPKGNAME}"
->  
->  FILES_${PN} = "${bindir}/dbus-daemon* \
-> @@ -64,6 +64,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
->  FILES_${PN}-lib = "${libdir}/lib*.so.*"
->  RRECOMMENDS_${PN}-lib = "${PN}"
->  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
-> +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
-> +                      ${bindir}/dbus-cleanup-sockets \
-> +                      ${bindir}/dbus-monitor \
-> +                      ${bindir}/dbus-launch \
-> +                      ${bindir}/dbus-run-session"
-> +RRECOMMENDS_${PN} = "${PN}-tools"
->  
->  pkg_postinst_dbus() {
->  	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
-> 
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+index 844dce9..4fd60a6 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+@@ -11,7 +11,7 @@ RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-
+ 
+ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+ 
+-EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
++EXTRA_OECONF_append = " --with-python=${WORKDIR}/python"
+ 
+ SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
+ 
+-- 
+1.7.10.4
 
 
