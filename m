@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5756465C7B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F8217385B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 17:31:27 +0000 (UTC)
-Received: by qgea108 with SMTP id a108so6369256qge.8
+	Thu,  5 Mar 2015 18:10:44 +0000 (UTC)
+Received: by igal13 with SMTP id l13so48242290iga.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 09:31:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ZAz+N0RApqghxlzgEimPnmfcjzrHX4kAWHhSkN/lSPQ=;
-	b=WoUIFACTAzG8NMsv9swFWOknjbTxMlIbdv4js2dipPrDE8hICLuv1Xhs16Ig/xK7H1
-	p0bEP8N0UIhR8DyG0B8srQPAWsosJlwiDZlQwNvQzNeHL80czW062paWbbZuct11Yvkr
-	kV4DMo1WgWdk8vsiMgvcy3MkwFICcf4/pu+iaqiSN3YhoJC0WEdA2v6sXaVZhWADQ1Qm
-	hQKgkpqZ8pCXWxKC4pE7vHFYAuNb9ZTEXk67V4jHTCsHHma9xblz3qrBco2FQusPFji/
-	HIkC3rwVqkCIRD9KKXS+ClfClsYGWAVWKXo7RnDfX0x6xFZa5EJ9MU9eiyWcHcwmnuRc
-	22YA==
-X-Gm-Message-State: ALoCoQk6uY4dOLRnWrCBlNcf7LddU1pFR/rl+MHc+t4p3CuaHrKUGBMWJiUu2vJAw5wwkTezWCpc
-X-Received: by 10.229.28.9 with SMTP id k9mr4038464qcc.11.1425576688727; Thu,
-	05 Mar 2015 09:31:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 5 Mar 2015 09:31:07 -0800 (PST)
-In-Reply-To: <1425570333-17554-1-git-send-email-raj.khem@gmail.com>
-References: <1425570333-17554-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Mar 2015 17:31:07 +0000
-Message-ID: <CAJTo0LacwjVi-_BYKCwPDVUF15YiK=+3v1B2eRRFVMGVYDHieg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/2] tcmode-default: Define one gdb version
+	Thu, 05 Mar 2015 10:10:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=pP90+QqC0Fatke2MkPw0+jU2AW654Lodjh+DEstNG+0=;
+	b=ZTCk1ll6Bhz7b6NOi/ud2iOg7no1l3nxRNgmA8RLVihaKhKS/J/O64CbSNRj+5JR3X
+	wo6P9dJKhPfcRD+bHpuGVdjHmT7qkVBXq9ppHFs2IE0Jth1AOLpRJgtATr1pcP1OET4J
+	PZowAgyUuCb+y/oPU/dkl1elHKsFDpnHw4kMw2xGZx3hjOXWDo+xT6UMlgESSPl1Es17
+	ER2Jp49oGqXILE0c9CWVgBjrDONII1s/pTA8V1HoqJgb/TscujY5/hGeIEEW1m3B0nSC
+	oLQyIXZgpNp6phgx4qQuiBGTNekcZ9USe26U77JNflsHK4qbvHubPKHrMl1RsHqvWcQV
+	6NzQ==
+X-Received: by 10.42.206.203 with SMTP id fv11mr5119994icb.72.1425579046082;
+	Thu, 05 Mar 2015 10:10:46 -0800 (PST)
+Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
+	[96.119.88.205])
+	by mx.google.com with ESMTPSA id 5sm13251498igr.17.2015.03.05.10.10.45
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Mar 2015 10:10:45 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Mar 2015 18:10:36 +0000
+Message-Id: <1425579036-31022-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V3 1/2] tcmode-default: Define one gdb version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 17:31:29 -0000
-Content-Type: multipart/alternative; boundary=001a1133ba9a21cbd005108df06b
+X-List-Received-Date: Thu, 05 Mar 2015 18:10:48 -0000
 
---001a1133ba9a21cbd005108df06b
-Content-Type: text/plain; charset=UTF-8
+Sometimes we need to override the gdb from third party
+tool SDKs, this helps out, moreover it also makes it consistent
+with in OE-Core too to have multiple versions of gdb if we ever
+needed to
 
-On 5 March 2015 at 15:45, Khem Raj <raj.khem@gmail.com> wrote:
+Change-Id: Ibe1ae59175984bbc661c243764c81cd99fef54d1
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/tcmode-default.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> Sometimes we need to override the gdb from third party
-> tool SDKs, this helps out, moreover it also makes it consistent
-> with in OE-Core too to have multiple versions of gdb if we ever
-> needed to
->
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index c17e0eb..f69fe9a 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -25,6 +25,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ GCCVERSION ?= "4.9%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.25"
++GDBVERSION ?= "7.8%"
+ GLIBCVERSION ?= "2.21"
+ UCLIBCVERSION ?= "0.9.33+git%"
+ LINUXLIBCVERSION ?= "3.19"
+@@ -49,6 +50,10 @@ PREFERRED_VERSION_binutils-native ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-crosssdk-${SDK_ARCH} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
++PREFERRED_VERSION_gdb ?= "${GDBVERSION}"
++PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?= "${GDBVERSION}"
++PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GDBVERSION}"
++
+ PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_nativesdk-linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_glibc                    ?= "${GLIBCVERSION}"
+-- 
+2.1.4
 
-We're feature frozen now so the upgrade isn't going in - if you can change
-this so it's against master then this can be merged now and the upgrade
-later.
 
-Ross
-
---001a1133ba9a21cbd005108df06b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 March 2015 at 15:45, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":1sl" class=3D"a3s" style=
-=3D"overflow:hidden">Sometimes we need to override the gdb from third party=
-<br>
-tool SDKs, this helps out, moreover it also makes it consistent<br>
-with in OE-Core too to have multiple versions of gdb if we ever<br>
-needed to</div></blockquote></div><br>We&#39;re feature frozen now so the u=
-pgrade isn&#39;t going in - if you can change this so it&#39;s against mast=
-er then this can be merged now and the upgrade later.</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1133ba9a21cbd005108df06b--
