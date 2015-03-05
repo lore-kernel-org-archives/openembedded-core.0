@@ -1,20 +1,37 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B74D71637
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 20:47:49 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 05 Mar 2015 12:47:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,348,1422950400"; d="scan'208";a="536725579"
-Received: from localhost.jf.intel.com ([10.7.201.37])
-	by orsmga003.jf.intel.com with ESMTP; 05 Mar 2015 12:47:39 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Mar 2015 12:47:50 -0800
-Message-Id: <1425588470-8098-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] systemd: Fix runtime failures in systemd-tmpfiles-setup.service.
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 15F017388F;
+	Thu,  5 Mar 2015 21:22:07 +0000 (UTC)
+Received: by wggy19 with SMTP id y19so56059081wgg.13;
+	Thu, 05 Mar 2015 13:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0hssuX8HJzxd0fJPf+nxUm3m3QHv9R8I/0Y9ykxXm50=;
+	b=VWA4jjhiASevHuQOGKjc8EdrY1cnyuEOd9iaxEJ6sv+Lq4AzPDyT0nWBubXxcVgmoT
+	R/2xmRQbnYHn4hi5QBkBsMS5nDkb+O98dZicgNpVgLMsTajWQPZIEN7335gkosNJtJgv
+	INB4ZEIKPTVLNnRBguFCq3FAdMLwuD4bg99K5nUbFOf7v7/J4fuezwncXPru1YQeizJT
+	2uSaQV9IFHbtGGZWOWo6sQVRbb1bEMmKIlb34wxeYRMKIUZzD3dSOb+uly31MbfVQsgA
+	Va55bRXcI1lPWV8/1PaUiDrlML+gYNLW9KSgnk5Cj1h5aSAtZUFbP/yiBDcjEiu1vLZN
+	9V9g==
+X-Received: by 10.194.175.164 with SMTP id cb4mr2168068wjc.14.1425590528364;
+	Thu, 05 Mar 2015 13:22:08 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	e18sm12151923wjz.27.2015.03.05.13.22.07
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Mar 2015 13:22:07 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 5 Mar 2015 22:22:12 +0100
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20150305212212.GZ2337@jama>
+References: <20141211092332.GA2467@jama>
+MIME-Version: 1.0
+In-Reply-To: <20141211092332.GA2467@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, test-dependencies 2015-03-05
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,229 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 20:47:50 -0000
+X-List-Received-Date: Thu, 05 Mar 2015 21:22:08 -0000
+X-Groupsio-MsgNum: 63022
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="MziYxCZO8WOaTd4I"
+Content-Disposition: inline
 
-There were failures at boot from systemd-tmpfiles-setup.service due to
-tmpfiles.d not honoring the ordering of entries in the files.
+--MziYxCZO8WOaTd4I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The patch here fixes the ordering issue which subsequently fixes the
-failures on boot.
+On Thu, Dec 11, 2014 at 10:23:32AM +0100, Martin Jansa wrote:
+> On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
+> > Complete logs:
+> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.2014080=
+8_063907.log/
+> >=20
+> > ERROR: 483 issues were found in these recipes: directfb engrave epiphan=
+y expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchive=
+ libmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2de=
+c mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunnel =
+synergy tesseract tracker
+>=20
+> Complete logs;
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20141210_=
+162427.log/
+>=20
+> This was only partial build, so the results don't look so bad.
+> ERROR: 27 issues were found in these recipes: android-audiosystem
+> collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
+> polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
+>=20
+> Found differences:=20
+> WARN: collectd: collectd rdepends on libcrypto, but it isn't a build depe=
+ndency?
+> WARN: collectd: collectd rdepends on libesmtp, but it isn't a build depen=
+dency?
+> WARN: collectd: collectd rdepends on libssl, but it isn't a build depende=
+ncy?
+> WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
+> WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad-r=
+tmp, but it isn't a build dependency?
+> WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a build =
+dependency?
+> WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a bui=
+ld dependency?
+> WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build d=
+ependency?
+> WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependenc=
+y?
+> WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
+>=20
+> Found errors:=20
+> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when b=
+uilding with minimal dependencies?
+> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created wh=
+en building with minimal dependencies?
 
-[Yocto #7393]
+I've another partial build which basically confirmed that some of these
+issues are still there.
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- ...files.c-Honor-ordering-within-files-as-th.patch | 187 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_219.bb           |   1 +
- 2 files changed, 188 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
+Found differences:=20
+WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
+WARN: fbida: fbida rdepends on lirc, but it isn't a build dependency?
+WARN: qt5-creator: qt5-creator rdepends on qt-creator, but it isn't a build=
+ dependency?
+WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependency?
+WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
 
-diff --git a/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch b/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
-new file mode 100644
-index 0000000..c2b38bd
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
-@@ -0,0 +1,187 @@
-+From 2abf886295b979bce6d3f0a240f6f5ecfd70ba37 Mon Sep 17 00:00:00 2001
-+From: Randy Witt <randy.e.witt@linux.intel.com>
-+Date: Wed, 4 Mar 2015 18:32:40 -0800
-+Subject: [PATCH] tmpfiles.c: Honor ordering within files as the docs say.
-+
-+Previously, globs would always get processed first followed by any other
-+items in arbitrary order. This is contrary to the documentation which
-+states "Otherwise, the files/directories are processed in the order they
-+are listed."
-+
-+To fix this, remove the separate "globs" hashmap, and instead use only one
-+marking each entry as a glob or not. There should be little overhead
-+from doing this, considering the only time nested processing will occur
-+is for processing of globs which are not of type "X".
-+
-+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-+
-+Upstream-Status: Submitted systemd-devel@lists.freedesktop.org
-+---
-+ src/tmpfiles/tmpfiles.c | 53 ++++++++++++++++++++++---------------------------
-+ 1 file changed, 24 insertions(+), 29 deletions(-)
-+
-+diff --git a/src/tmpfiles/tmpfiles.c b/src/tmpfiles/tmpfiles.c
-+index 917bb3c..0b6d226 100644
-+--- a/src/tmpfiles/tmpfiles.c
-++++ b/src/tmpfiles/tmpfiles.c
-+@@ -116,6 +116,7 @@ typedef struct Item {
-+         bool force:1;
-+ 
-+         bool done:1;
-++        bool glob:1;
-+ } Item;
-+ 
-+ typedef struct ItemArray {
-+@@ -137,7 +138,7 @@ static const char conf_file_dirs[] = CONF_DIRS_NULSTR("tmpfiles");
-+ 
-+ #define MAX_DEPTH 256
-+ 
-+-static Hashmap *items = NULL, *globs = NULL;
-++static OrderedHashmap *items = NULL;
-+ static Set *unix_sockets = NULL;
-+ 
-+ static bool needs_glob(ItemType t) {
-+@@ -176,17 +177,17 @@ static bool takes_ownership(ItemType t) {
-+                       RECURSIVE_REMOVE_PATH);
-+ }
-+ 
-+-static struct Item* find_glob(Hashmap *h, const char *match) {
-++static struct Item* find_glob(OrderedHashmap *h, const char *match) {
-+         ItemArray *j;
-+         Iterator i;
-+ 
-+-        HASHMAP_FOREACH(j, h, i) {
-++        ORDERED_HASHMAP_FOREACH(j, h, i) {
-+                 unsigned n;
-+ 
-+                 for (n = 0; n < j->count; n++) {
-+                         Item *item = j->items + n;
-+ 
-+-                        if (fnmatch(item->path, match, FNM_PATHNAME|FNM_PERIOD) == 0)
-++                        if (item->glob && fnmatch(item->path, match, FNM_PATHNAME|FNM_PERIOD) == 0)
-+                                 return item;
-+                 }
-+         }
-+@@ -391,12 +392,12 @@ static int dir_cleanup(
-+                 }
-+ 
-+                 /* Is there an item configured for this path? */
-+-                if (hashmap_get(items, sub_path)) {
-++                if (ordered_hashmap_get(items, sub_path)) {
-+                         log_debug("Ignoring \"%s\": a separate entry exists.", sub_path);
-+                         continue;
-+                 }
-+ 
-+-                if (find_glob(globs, sub_path)) {
-++                if (find_glob(items, sub_path)) {
-+                         log_debug("Ignoring \"%s\": a separate glob exists.", sub_path);
-+                         continue;
-+                 }
-+@@ -1378,7 +1379,7 @@ static int process_item(Item *i) {
-+         PATH_FOREACH_PREFIX(prefix, i->path) {
-+                 ItemArray *j;
-+ 
-+-                j = hashmap_get(items, prefix);
-++                j = ordered_hashmap_get(items, prefix);
-+                 if (j) {
-+                         int s;
-+ 
-+@@ -1505,7 +1506,6 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
-+         _cleanup_free_ char *action = NULL, *mode = NULL, *user = NULL, *group = NULL, *age = NULL, *path = NULL;
-+         _cleanup_(item_free_contents) Item i = {};
-+         ItemArray *existing;
-+-        Hashmap *h;
-+         int r, c = -1, pos;
-+         bool force = false, boot = false;
-+ 
-+@@ -1739,9 +1739,9 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
-+                 i.age_set = true;
-+         }
-+ 
-+-        h = needs_glob(i.type) ? globs : items;
-++        i.glob = needs_glob(i.type);
-+ 
-+-        existing = hashmap_get(h, i.path);
-++        existing = ordered_hashmap_get(items, i.path);
-+         if (existing) {
-+                 unsigned n;
-+ 
-+@@ -1752,7 +1752,7 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
-+                 }
-+         } else {
-+                 existing = new0(ItemArray, 1);
-+-                r = hashmap_put(h, i.path, existing);
-++                r = ordered_hashmap_put(items, i.path, existing);
-+                 if (r < 0)
-+                         return log_oom();
-+         }
-+@@ -1911,14 +1911,20 @@ static int read_config_file(const char *fn, bool ignore_enoent) {
-+         }
-+ 
-+         /* we have to determine age parameter for each entry of type X */
-+-        HASHMAP_FOREACH(i, globs, iterator) {
-++        ORDERED_HASHMAP_FOREACH(i, items, iterator) {
-+                 Iterator iter;
-+                 Item *j, *candidate_item = NULL;
-++                int number = 0;
-+ 
-++                if (!i->glob)
-++                        continue;
-+                 if (i->type != IGNORE_DIRECTORY_PATH)
-+                         continue;
-+ 
-+-                HASHMAP_FOREACH(j, items, iter) {
-++                ORDERED_HASHMAP_FOREACH(j, items, iter) {
-++                        number++;
-++                        if (j == i)
-++                                continue;
-+                         if (j->type != CREATE_DIRECTORY && j->type != TRUNCATE_DIRECTORY && j->type != CREATE_SUBVOLUME)
-+                                 continue;
-+ 
-+@@ -1964,10 +1970,9 @@ int main(int argc, char *argv[]) {
-+ 
-+         mac_selinux_init(NULL);
-+ 
-+-        items = hashmap_new(&string_hash_ops);
-+-        globs = hashmap_new(&string_hash_ops);
-++        items = ordered_hashmap_new(&string_hash_ops);
-+ 
-+-        if (!items || !globs) {
-++        if (!items) {
-+                 r = log_oom();
-+                 goto finish;
-+         }
-+@@ -2000,27 +2005,17 @@ int main(int argc, char *argv[]) {
-+                 }
-+         }
-+ 
-+-        HASHMAP_FOREACH(a, globs, iterator) {
-+-                k = process_item_array(a);
-+-                if (k < 0 && r == 0)
-+-                        r = k;
-+-        }
-+-
-+-        HASHMAP_FOREACH(a, items, iterator) {
-++        ORDERED_HASHMAP_FOREACH(a, items, iterator) {
-+                 k = process_item_array(a);
-+                 if (k < 0 && r == 0)
-+                         r = k;
-+         }
-+ 
-+ finish:
-+-        while ((a = hashmap_steal_first(items)))
-+-                item_array_free(a);
-+-
-+-        while ((a = hashmap_steal_first(globs)))
-++        while ((a = ordered_hashmap_steal_first(items)))
-+                 item_array_free(a);
-+ 
-+-        hashmap_free(items);
-+-        hashmap_free(globs);
-++        ordered_hashmap_free(items);
-+ 
-+         free(arg_include_prefixes);
-+         free(arg_exclude_prefixes);
-+-- 
-+1.9.3
-+
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 9c90c03..3c4b6cf 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -42,6 +42,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://0011-systemd-user-avoid-using-system-auth.patch \
-            file://0001-tmpfiles-avoid-creating-duplicate-acl-entries.patch \
-            file://0002-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch \
-+           file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch \
-            file://tmpfiles-pam.patch \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
--- 
-1.9.3
+Logs weren't uploaded this time, because we've run out of space on
+logs.nslu2-linux.org/buildlogs/
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--MziYxCZO8WOaTd4I
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlT4yQQACgkQN1Ujt2V2gBx0VQCbB4379xlYcLbYIL5rfr7zZOgH
+bwgAoIl+rT6Sxq8NdWJwHXizH3aJ0ouZ
+=1ESb
+-----END PGP SIGNATURE-----
+
+--MziYxCZO8WOaTd4I--
