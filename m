@@ -1,37 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F017388F;
-	Thu,  5 Mar 2015 21:22:07 +0000 (UTC)
-Received: by wggy19 with SMTP id y19so56059081wgg.13;
-	Thu, 05 Mar 2015 13:22:08 -0800 (PST)
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5127F738E4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Mar 2015 23:03:23 +0000 (UTC)
+Received: by wesw55 with SMTP id w55so2688463wes.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 15:03:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0hssuX8HJzxd0fJPf+nxUm3m3QHv9R8I/0Y9ykxXm50=;
-	b=VWA4jjhiASevHuQOGKjc8EdrY1cnyuEOd9iaxEJ6sv+Lq4AzPDyT0nWBubXxcVgmoT
-	R/2xmRQbnYHn4hi5QBkBsMS5nDkb+O98dZicgNpVgLMsTajWQPZIEN7335gkosNJtJgv
-	INB4ZEIKPTVLNnRBguFCq3FAdMLwuD4bg99K5nUbFOf7v7/J4fuezwncXPru1YQeizJT
-	2uSaQV9IFHbtGGZWOWo6sQVRbb1bEMmKIlb34wxeYRMKIUZzD3dSOb+uly31MbfVQsgA
-	Va55bRXcI1lPWV8/1PaUiDrlML+gYNLW9KSgnk5Cj1h5aSAtZUFbP/yiBDcjEiu1vLZN
-	9V9g==
-X-Received: by 10.194.175.164 with SMTP id cb4mr2168068wjc.14.1425590528364;
-	Thu, 05 Mar 2015 13:22:08 -0800 (PST)
+	h=from:to:cc:subject:date:message-id;
+	bh=aEE9Mr7a+/8rOUVFDqqlHumOH7boP8WsauAepKcVyFc=;
+	b=K/SQOK3KvS03oDNN1UUdb/d+JMmT6Bs4Yv0d+VF0dYji/dGhdad62bKuMK/qS+8eMs
+	B7mn9IpqK+QiuWkp/M6dtvLdzKDmZB14K3za0wTgsvsBco9zkXRHmXb3U9JecZlnRJbV
+	U0omU+++imACWYJzjrOHa4laCgbxE1RNvN98Du/KRPeXccWTDxj0YaC+WmeVAEpRrgZF
+	1b4MqStl6QAC4BYKy6rd9GWTbL4i4JhgKSo/5TH7dZ8jh3luxqPqtTbwasvw4/gM4bm4
+	0CZBxr32wIDIjRIWmXmsyCXoEeptA2j9Ew1jtegVKr8IKGL43HoeseKiMFttiHUKh6ER
+	tPpw==
+X-Received: by 10.180.86.35 with SMTP id m3mr27362417wiz.83.1425596604894;
+	Thu, 05 Mar 2015 15:03:24 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	e18sm12151923wjz.27.2015.03.05.13.22.07
+	kr5sm12454153wjc.1.2015.03.05.15.03.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Mar 2015 13:22:07 -0800 (PST)
+	Thu, 05 Mar 2015 15:03:23 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 5 Mar 2015 22:22:12 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20150305212212.GZ2337@jama>
-References: <20141211092332.GA2467@jama>
-MIME-Version: 1.0
-In-Reply-To: <20141211092332.GA2467@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, test-dependencies 2015-03-05
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Mar 2015 00:03:28 +0100
+Message-Id: <1425596608-24197-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.1
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [dizzy][PATCH] serf: fix 'ccache' builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,91 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 21:22:08 -0000
-X-Groupsio-MsgNum: 63022
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MziYxCZO8WOaTd4I"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Mar 2015 23:03:26 -0000
 
---MziYxCZO8WOaTd4I
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-On Thu, Dec 11, 2014 at 10:23:32AM +0100, Martin Jansa wrote:
-> On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
-> > Complete logs:
-> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.2014080=
-8_063907.log/
-> >=20
-> > ERROR: 483 issues were found in these recipes: directfb engrave epiphan=
-y expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchive=
- libmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2de=
-c mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunnel =
-synergy tesseract tracker
->=20
-> Complete logs;
-> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20141210_=
-162427.log/
->=20
-> This was only partial build, so the results don't look so bad.
-> ERROR: 27 issues were found in these recipes: android-audiosystem
-> collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
-> polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
->=20
-> Found differences:=20
-> WARN: collectd: collectd rdepends on libcrypto, but it isn't a build depe=
-ndency?
-> WARN: collectd: collectd rdepends on libesmtp, but it isn't a build depen=
-dency?
-> WARN: collectd: collectd rdepends on libssl, but it isn't a build depende=
-ncy?
-> WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
-> WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad-r=
-tmp, but it isn't a build dependency?
-> WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a build =
-dependency?
-> WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a bui=
-ld dependency?
-> WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build d=
-ependency?
-> WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependenc=
-y?
-> WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
->=20
-> Found errors:=20
-> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when b=
-uilding with minimal dependencies?
-> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created wh=
-en building with minimal dependencies?
+'scons' cleans the environment which breaks ccache builds because
+CCACHEDIR can point to an unexpected location:
 
-I've another partial build which basically confirmed that some of these
-issues are still there.
+| ccache arm-linux-gnueabi-gcc ... context.c
+| ccache: failed to create .../serf/1.3.8-r0/.home/.ccache (No such file or directory)
 
-Found differences:=20
-WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
-WARN: fbida: fbida rdepends on lirc, but it isn't a build dependency?
-WARN: qt5-creator: qt5-creator rdepends on qt-creator, but it isn't a build=
- dependency?
-WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependency?
-WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
+Issue is described in
 
-Logs weren't uploaded this time, because we've run out of space on
-logs.nslu2-linux.org/buildlogs/
+  http://www.scons.org/wiki/ImportingEnvironmentSettings
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+and because 'bitbake' cleans environment we can pass it completely
+instead of trying to enumerate needed env.
 
---MziYxCZO8WOaTd4I
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+With the 'env.patch' the FULLCC variable is not needed anymore (which
+would break when CC is 'ccache arm-...-gcc' and host ccache is used)
+because the correct $PATH is available during scons build:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+| sh: .../sysroots/x86_64-oe-linux/usr/bin/arm-linux-gnueabi/ccache: No such file or directory
+| scons: *** [context.o] Error 127
 
-iEYEARECAAYFAlT4yQQACgkQN1Ujt2V2gBx0VQCbB4379xlYcLbYIL5rfr7zZOgH
-bwgAoIl+rT6Sxq8NdWJwHXizH3aJ0ouZ
-=1ESb
------END PGP SIGNATURE-----
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/serf/serf/env.patch | 28 ++++++++++++++++++++++++++++
+ meta/recipes-support/serf/serf_1.3.7.bb  |  8 +++-----
+ 2 files changed, 31 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-support/serf/serf/env.patch
 
---MziYxCZO8WOaTd4I--
+diff --git a/meta/recipes-support/serf/serf/env.patch b/meta/recipes-support/serf/serf/env.patch
+new file mode 100644
+index 0000000..9d073e9
+--- /dev/null
++++ b/meta/recipes-support/serf/serf/env.patch
+@@ -0,0 +1,28 @@
++'scons' cleans the environment which breaks ccache builds because
++CCACHEDIR can point to an unexpected location:
++
++| ccache arm-linux-gnueabi-gcc ... context.c
++| ccache: failed to create .../serf/1.3.6-r0/.home/.ccache (No such file or directory)
++
++Issue is described in
++
++  http://www.scons.org/wiki/ImportingEnvironmentSettings
++
++and because 'bitbake' cleans environment we can pass it completely
++instead of trying to enumerate needed env.
++
++Upstream-Status: Inappropriate
++
++
++Index: serf-1.3.6/SConstruct
++===================================================================
++--- serf-1.3.6.orig/SConstruct
+++++ serf-1.3.6/SConstruct
++@@ -149,6 +149,7 @@ if sys.platform == 'win32':
++ env = Environment(variables=opts,
++                   tools=('default', 'textfile',),
++                   CPPPATH=['.', ],
+++                  ENV = os.environ,
++                   )
++
++ env.Append(BUILDERS = {
+diff --git a/meta/recipes-support/serf/serf_1.3.7.bb b/meta/recipes-support/serf/serf_1.3.7.bb
+index 5230ef7..b87a04a 100644
+--- a/meta/recipes-support/serf/serf_1.3.7.bb
++++ b/meta/recipes-support/serf/serf_1.3.7.bb
+@@ -1,6 +1,7 @@
+ 
+ SRC_URI = "http://serf.googlecode.com/svn/src_releases/serf-1.3.7.tar.bz2 \
+-           file://norpath.patch"
++           file://norpath.patch \
++           file://env.patch"
+ SRC_URI[md5sum] = "0a6fa745df4517dd8f79c75c538919bc"
+ SRC_URI[sha256sum] = "ecccb74e665e6ea7539271e126a21d0f7eeddfeaa8ce090adb3aec6682f9f0ae"
+ 
+@@ -9,12 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+ DEPENDS = "python-scons-native openssl apr apr-util util-linux expat"
+ 
+-FULLCC = "${STAGING_BINDIR_TOOLCHAIN}/${CC}"
+-FULLCC_class-native = "${CC}"
+-
+ do_compile() {
+ 	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} \
+-		CC="${FULLCC}" \
++		CC="${CC}" \
+ 		APR=`which apr-1-config` APU=`which apu-1-config` \
+ 		CFLAGS="${CFLAGS}" LINKFLAGS="${LDFLAGS}" \
+ 		OPENSSL="${STAGING_EXECPREFIXDIR}"
+-- 
+2.3.1
+
+
