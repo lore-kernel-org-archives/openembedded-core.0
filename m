@@ -1,36 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DC2965C7B
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 462F065C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 11:48:06 +0000 (UTC)
-Received: by qgdz107 with SMTP id z107so4620490qgd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2015 03:48:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+f1ac8rHgS6gZAe2Ilxhhhj3QFUdxpyycPZsAJTuRm8=;
-	b=AlzOeGUv0eiBJpfB60zs9ENlrQINJXf/EC0D8jDcz3LzTqIWpL6t4Iht/wobjXYOYq
-	Gb44KZyOf2fP5ykU/rpiZxRXPAZ22QrLf/QyW2eR2yaTwDp6CSgkfRwm50jF1diiH/AU
-	7i6Ul6G1RC79bU4cnqT+CyfaYFwlSJxpzfKbfJ8VgShjaIryItRJJlI6/QD+zAKPovua
-	ZWH2EVdxAeFt6imFUpg+pp+M0L2Z7hvmN78feIq7I5HC2iNR1hod95+bWHeJ2EZjRq9o
-	feE2k3PnzVVeD1bwt3iZ9R4AqxdtSGLr9AtW0sqDdCjVAxsYDJUBoWwhNeqQbKI7zIhk
-	iCkQ==
-X-Gm-Message-State: ALoCoQnCDcapIPL8jBZ+S4eDRRW2/OK8sx2FWWWOXhuICdwBaGakP9FQSO9o/FYr7wyhCwa+qDSn
-X-Received: by 10.140.165.76 with SMTP id l73mr11963383qhl.16.1425556087577;
-	Thu, 05 Mar 2015 03:48:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 5 Mar 2015 03:47:47 -0800 (PST)
-In-Reply-To: <1425548285-16530-1-git-send-email-B40290@freescale.com>
-References: <1425548285-16530-1-git-send-email-B40290@freescale.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Mar 2015 11:47:47 +0000
-Message-ID: <CAJTo0Lb-=hZ_jUXkXY85H0PvcQHw_N4uiHJ8Vm-5d=-UbdVHwA@mail.gmail.com>
-To: Chunrong Guo <B40290@freescale.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot.inc: fix rename image error
+	Thu,  5 Mar 2015 13:16:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2015 05:16:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="660855464"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
+	([10.218.99.51])
+	by orsmga001.jf.intel.com with ESMTP; 05 Mar 2015 05:16:39 -0800
+Message-ID: <1425561390.2707.29.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Thu, 05 Mar 2015 10:16:30 -0300
+In-Reply-To: <54F83775.5040604@opendreambox.org>
+References: <bruno.bottazzini@intel.com>
+	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-2-git-send-email-bruno.bottazzini@intel.com>
+	<54F83775.5040604@opendreambox.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,69 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 11:48:10 -0000
-Content-Type: multipart/alternative; boundary=001a1134ef8c3538370510892491
+X-List-Received-Date: Thu, 05 Mar 2015 13:16:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1134ef8c3538370510892491
-Content-Type: text/plain; charset=UTF-8
+On Qui, 2015-03-05 at 12:01 +0100, Andreas Oberritter wrote:
+> Hello Gustavo,
+> 
+> On 04.03.2015 22:27, Bruno Bottazzini wrote:
+> > From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
+> > 
+> > Most tools are not required if one is launching a simple daemon.
+> > The user will be able to exclude dbus-tool and save some space in his
+> > build
+> > 
+> > Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> > ---
+> >  meta/recipes-core/dbus/dbus.inc | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> > index fb5d017..f975dc9 100644
+> > --- a/meta/recipes-core/dbus/dbus.inc
+> > +++ b/meta/recipes-core/dbus/dbus.inc
+> > @@ -39,13 +39,13 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+> >  
+> >  DEBIANNAME_${PN} = "dbus-1"
+> >  
+> > -PACKAGES =+ "${PN}-lib"
+> > +PACKAGES =+ "${PN}-lib ${PN}-tools"
+> >  
+> >  OLDPKGNAME = "dbus-x11"
+> >  OLDPKGNAME_class-nativesdk = ""
+> >  
+> >  # for compatibility
+> > -RPROVIDES_${PN} = "${OLDPKGNAME}"
+> > +RPROVIDES_${PN} = "${OLDPKGNAME} ${PN}-native-tools-native"
+> 
+> this line seems to be wrong. What are you trying to solve with it?
+> 
+> Regards,
+> Andreas
 
-On 5 March 2015 at 09:38, Chunrong Guo <B40290@freescale.com> wrote:
+Hello Andreas, 
 
-> -            for type in in ${UBOOT_CONFIG}; do
-> +            for type in ${UBOOT_CONFIG}; do
->                  if [ "${type}"x = "in"x ]
->                  then
->                      continue
->                  fi
->
+Could you be more specific what is wrong with this line ?
 
-The if "${type}x" = "inx" check demonstrates that the in was repeated for a
-reason, which you've just broken.
+Have you tried removing it and compile it ?
 
-Of course all of that isn't required as a simple test demonstrates:
+Try compiling this patch and see what it provides.
 
-$ UBOOT_CONFIG=""
-~
-$ for type in ${UBOOT_CONFIG}; do echo x$type; done
-~
-$
+If you want to exclude the dbus-tools just add the following at your 
+local conf file: 
+PACKAGE_EXCLUDE = "dbus-tools".
 
-You can remove the "typex = inx" tests as if UBOOT_CONFIG isn't set the
-loop won't be entered.
+Best Regards,
 
-Ross
+Bruno Bottazzini
 
---001a1134ef8c3538370510892491
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> 
+> >  RREPLACES_${PN} += "${OLDPKGNAME}"
+> >  
+> >  FILES_${PN} = "${bindir}/dbus-daemon* \
+> > @@ -64,6 +64,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+> >  FILES_${PN}-lib = "${libdir}/lib*.so.*"
+> >  RRECOMMENDS_${PN}-lib = "${PN}"
+> >  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+> > +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
+> > +                      ${bindir}/dbus-cleanup-sockets \
+> > +                      ${bindir}/dbus-monitor \
+> > +                      ${bindir}/dbus-launch \
+> > +                      ${bindir}/dbus-run-session"
+> > +RRECOMMENDS_${PN} = "${PN}-tools"
+> >  
+> >  pkg_postinst_dbus() {
+> >  	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+> > 
+> 
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 March 2015 at 09:38, Chunrong Guo <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:B40290@freescale.com" target=3D"_blank">B40290@freescale.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
-t-style:solid;padding-left:1ex"><div id=3D":1z2" class=3D"" style=3D"overfl=
-ow:hidden">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for type in in ${UBOO=
-T_CONFIG}; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for type in ${UBOOT_CONFIG}; do<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${=
-type}&quot;x =3D &quot;in&quot;x ]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0continue<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi</div></blo=
-ckquote></div><br>The if &quot;${type}x&quot; =3D &quot;inx&quot; check dem=
-onstrates that the in was repeated for a reason, which you&#39;ve just brok=
-en.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Of=
- course all of that isn&#39;t required as a simple test demonstrates:</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=
-=3D"gmail_extra">$ UBOOT_CONFIG=3D&quot;&quot;</div><div class=3D"gmail_ext=
-ra">~</div><div class=3D"gmail_extra">$ for type in ${UBOOT_CONFIG}; do ech=
-o x$type; done</div><div class=3D"gmail_extra">~</div><div class=3D"gmail_e=
-xtra">$</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">You can remove the &quot;typex =3D inx&quot; tests as if UBOOT_CONFIG isn=
-&#39;t set the loop won&#39;t be entered.</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a1134ef8c3538370510892491--
+
