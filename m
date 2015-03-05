@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A0FF773878
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 697ED738BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 08:05:59 +0000 (UTC)
+	Thu,  5 Mar 2015 08:05:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t25860Kp008633
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2585xGZ016004
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Mar 2015 00:06:01 -0800 (PST)
+	Thu, 5 Mar 2015 00:05:59 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 5 Mar 2015 00:06:00 -0800
+	14.3.224.2; Thu, 5 Mar 2015 00:05:59 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Mar 2015 16:06:03 +0800
-Message-ID: <d0760019e61d2045c64c62684cf437a01c7f39da.1425542599.git.Qi.Chen@windriver.com>
+Date: Thu, 5 Mar 2015 16:06:02 +0800
+Message-ID: <cover.1425542599.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1425542599.git.Qi.Chen@windriver.com>
-References: <cover.1425542599.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dbus-test: make do_install run to trigger the effect of cleandirs flag
+Subject: [PATCH 0/1] dbus-test: make do_install run to trigger the effect of cleandirs flag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 08:06:02 -0000
+X-List-Received-Date: Thu, 05 Mar 2015 08:06:04 -0000
 Content-Type: text/plain
 
-For now, we would meet the following QA error if we build dbus-test in
-the same build directory with multilib enabled/disabled.
+The following changes since commit bc393da30306891617adbb5eda5f57c9209ff24f:
 
-The steps are as follows:
-1. Enable multilib and `bitbake dbus-ptest'
-2. Disable multilib and `bitbake dbus-ptest'
+  build-appliance-image: Update to master head revision (2015-02-27 21:15:53 +0000)
 
-The error message is as follows:
-ERROR: QA Issue: dbus-test: Files/directories were installed but not shipped
-  /usr/lib64
-  /usr/lib64/dbus-test
-  /usr/lib64/dbus-test/ptest
-  /usr/lib64/dbus-test/ptest/run-ptest
-  ...
+are available in the git repository at:
 
-The problem is that the ${D} is not cleaned up at the second build while it
-should be.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/dbus-test-do_install
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/dbus-test-do_install
 
-This patch fixes the above problem.
+Chen Qi (1):
+  dbus-test: make do_install run to trigger the effect of cleandirs flag
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
  meta/recipes-core/dbus/dbus-test_1.8.10.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.8.10.bb b/meta/recipes-core/dbus/dbus-test_1.8.10.bb
-index fb796fb..719c1f9 100644
---- a/meta/recipes-core/dbus/dbus-test_1.8.10.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.8.10.bb
-@@ -44,6 +44,7 @@ EXTRA_OECONF = "--enable-tests \
-                 ${EXTRA_OECONF_X}"
- 
- do_install() {
-+    :
- }
- 
- do_install_ptest() {
 -- 
 1.9.1
 
