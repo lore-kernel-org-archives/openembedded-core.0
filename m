@@ -1,23 +1,45 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 31A6671637
+Return-Path: <scerveau@connected-labs.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D4EFE71637
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2015 16:23:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2015 08:23:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,347,1422950400"; d="scan'208";a="694434176"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2015 08:23:54 -0800
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+	Thu,  5 Mar 2015 16:26:45 +0000 (UTC)
+Received: by wibbs8 with SMTP id bs8so8303812wib.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 08:26:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:message-id:date:from:user-agent
+	:mime-version:to:subject:references:in-reply-to:content-type;
+	bh=7x8hCK92Uy699prh3AHSmz2M6nFQY/Z4kqzNTXRQsTQ=;
+	b=Wch+5J4hBC8IeCxWu2WMpfOu1hS0TQluqHdTgnr626GV4LFTI8DzLCe1fafTXtqLkh
+	3OOiiaDxmYRNXZPbBAF4IsEJwlYYc3gdMFm5H3NwoUIHRdV9gt74jHRTsEUHOp3OnD8r
+	+hmiVPogh/iXcUYz7OkFohaHysNuE5lUkRcVsHBzlheZR/EW3aXkbwtAWOUrBNrrdMAI
+	yE+FTbla1DQfF32MASgO9bAgayWQOx3FiFMt+GUpAUHYD7r+WTAe/6WmO5IG8kzt56Z1
+	RD8ZAYgxyWBJyWVoEnqVLEPkf0hSlire7ZdAgzBIX4OF2kAFETZxqUJkAP7lN20zGSGl
+	4wgA==
+X-Gm-Message-State: ALoCoQkW3mKCetk/eyq/RYZTJbYeao/B+/g7f5yyKOcEAYF7L1EPR/joTY4u0w0XHvCoeT8+C9Vo
+X-Received: by 10.194.62.198 with SMTP id a6mr20579150wjs.90.1425572806355;
+	Thu, 05 Mar 2015 08:26:46 -0800 (PST)
+Received: from [172.24.63.26]
+	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
+	by mx.google.com with ESMTPSA id
+	lj13sm12314950wic.9.2015.03.05.08.26.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Mar 2015 08:26:44 -0800 (PST)
+Sender: Stephane Cerveau <scerveau@connected-labs.com>
+Message-ID: <54F883C3.3050407@voxtok.com>
+Date: Thu, 05 Mar 2015 17:26:43 +0100
+From: scerveau <scerveau@voxtok.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Mar 2015 08:17:37 +0000
-Message-Id: <1425543457-12938-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <1425312122-38561-1-git-send-email-benjamin.esquivel@linux.intel.com>
-References: <1425312122-38561-1-git-send-email-benjamin.esquivel@linux.intel.com>
-Subject: [PATCH v3] glibc: 'yes' within the path sets wrong variables
+References: <54F88355.1090908@gmail.com>
+In-Reply-To: <54F88355.1090908@gmail.com>
+X-Forwarded-Message-Id: <54F88355.1090908@gmail.com>
+Subject: [PATCH] GstVolume with dizzy is not working when changing to a value inferior to 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,290 +52,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2015 16:23:54 -0000
+X-List-Received-Date: Thu, 05 Mar 2015 16:26:46 -0000
+X-Groupsio-MsgNum: 63018
+Content-Type: multipart/mixed; boundary="------------070006070008000908060708"
 
-The AC_EGREP_CPP macro is looking for a 'yes' string that is likely
-to be found in the path where the file is stored. This false positive
-match causes variables to be mistakenly set.
+--------------070006070008000908060708
+Content-Type: multipart/alternative;
+ boundary="------------040300030403000908020308"
 
-The fix is to use a more elaborated string instead.
+--------------040300030403000908020308
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This has to be done at the configure and the configure.ac files, because
-a reconfigure does not happen in the regular build flow.
 
-[YOCTO #6614]
+Dear all,
 
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
----
- ...thin-the-path-sets-wrong-config-variables.patch | 245 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.21.bb              |   1 +
- 2 files changed, 246 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
+Here is a patch which fixes the use of gstvolume in 
+gstreamer1.0-plugins-base-1.4.1.
+The patch has been submitted to gstreamer1.0 master branch
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
-new file mode 100644
-index 0000000..827e980
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-yes-within-the-path-sets-wrong-config-variables.patch
-@@ -0,0 +1,245 @@
-+'yes' within the path sets wrong config variables
-+
-+It seems that the 'AC_EGREP_CPP(yes...' example is quite popular
-+but being such a short word to grep it is likely to produce
-+false-positive matches with the path it is configured into.
-+
-+The change is to use a more elaborated string to grep for.
-+
-+Upstream-Status: Submitted [libc-alpha@sourceware.org]
-+
-+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-+---
-+diff --git a/sysdeps/aarch64/configure b/sysdeps/aarch64/configure
-+index 5bd355a..3bc5537 100644
-+--- a/sysdeps/aarch64/configure
-++++ b/sysdeps/aarch64/configure
-+@@ -148,12 +148,12 @@ else
-+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ #ifdef __AARCH64EB__
-+-                      yes
-++                      is_aarch64_be
-+                      #endif
-+ 
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "is_aarch64_be" >/dev/null 2>&1; then :
-+   libc_cv_aarch64_be=yes
-+ else
-+   libc_cv_aarch64_be=no
-+diff --git a/sysdeps/aarch64/configure.ac b/sysdeps/aarch64/configure.ac
-+index 7851dd4..6e92381 100644
-+--- a/sysdeps/aarch64/configure.ac
-++++ b/sysdeps/aarch64/configure.ac
-+@@ -10,8 +10,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+ # the dynamic linker via %ifdef.
-+ AC_CACHE_CHECK([for big endian],
-+   [libc_cv_aarch64_be],
-+-  [AC_EGREP_CPP(yes,[#ifdef __AARCH64EB__
-+-                      yes
-++  [AC_EGREP_CPP(is_aarch64_be,[#ifdef __AARCH64EB__
-++                      is_aarch64_be
-+                      #endif
-+   ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
-+ if test $libc_cv_aarch64_be = yes; then
-+diff --git a/sysdeps/arm/configure b/sysdeps/arm/configure
-+index 45667cc..0b2ef11 100644
-+--- a/sysdeps/arm/configure
-++++ b/sysdeps/arm/configure
-+@@ -150,12 +150,12 @@ else
-+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ #ifdef __ARM_PCS_VFP
-+-		      yes
-++		      use_arm_pcs_vfp
-+ 		     #endif
-+ 
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "use_arm_pcs_vfp" >/dev/null 2>&1; then :
-+   libc_cv_arm_pcs_vfp=yes
-+ else
-+   libc_cv_arm_pcs_vfp=no
-+diff --git a/sysdeps/arm/configure.ac b/sysdeps/arm/configure.ac
-+index 002b8ef..e1746a7 100644
-+--- a/sysdeps/arm/configure.ac
-++++ b/sysdeps/arm/configure.ac
-+@@ -16,8 +16,8 @@ dnl it.  Until we do, don't define it.
-+ # the dynamic linker via %ifdef.
-+ AC_CACHE_CHECK([whether the compiler is using the ARM hard-float ABI],
-+   [libc_cv_arm_pcs_vfp],
-+-  [AC_EGREP_CPP(yes,[#ifdef __ARM_PCS_VFP
-+-		      yes
-++  [AC_EGREP_CPP(use_arm_pcs_vfp,[#ifdef __ARM_PCS_VFP
-++		      use_arm_pcs_vfp
-+ 		     #endif
-+   ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
-+ if test $libc_cv_arm_pcs_vfp = yes; then
-+diff --git a/sysdeps/mips/configure b/sysdeps/mips/configure
-+index 4e13248..f14af95 100644
-+--- a/sysdeps/mips/configure
-++++ b/sysdeps/mips/configure
-+@@ -143,11 +143,11 @@ else
-+ /* end confdefs.h.  */
-+ dnl
-+ #ifdef __mips_nan2008
-+-yes
-++use_mips_nan2008
-+ #endif
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
-+   libc_cv_mips_nan2008=yes
-+ else
-+   libc_cv_mips_nan2008=no
-+diff --git a/sysdeps/mips/configure.ac b/sysdeps/mips/configure.ac
-+index bcbdaff..ad3057f 100644
-+--- a/sysdeps/mips/configure.ac
-++++ b/sysdeps/mips/configure.ac
-+@@ -6,9 +6,9 @@ dnl position independent way.
-+ dnl AC_DEFINE(PI_STATIC_AND_HIDDEN)
-+ 
-+ AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
-+-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
-++  libc_cv_mips_nan2008, [AC_EGREP_CPP(use_mips_nan2008, [dnl
-+ #ifdef __mips_nan2008
-+-yes
-++use_mips_nan2008
-+ #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
-+ if test x$libc_cv_mips_nan2008 = xyes; then
-+   AC_DEFINE(HAVE_MIPS_NAN2008)
-+diff --git a/sysdeps/nios2/configure b/sysdeps/nios2/configure
-+index 14c8a3a..dde3814 100644
-+--- a/sysdeps/nios2/configure
-++++ b/sysdeps/nios2/configure
-+@@ -142,12 +142,12 @@ else
-+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ #ifdef __nios2_big_endian__
-+-                      yes
-++                      is_nios2_be
-+                      #endif
-+ 
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "is_nios2_be" >/dev/null 2>&1; then :
-+   libc_cv_nios2_be=yes
-+ else
-+   libc_cv_nios2_be=no
-+diff --git a/sysdeps/nios2/configure.ac b/sysdeps/nios2/configure.ac
-+index f05f438..dc86399 100644
-+--- a/sysdeps/nios2/configure.ac
-++++ b/sysdeps/nios2/configure.ac
-+@@ -4,8 +4,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+ # Nios II big endian is not yet supported.
-+ AC_CACHE_CHECK([for big endian],
-+   [libc_cv_nios2_be],
-+-  [AC_EGREP_CPP(yes,[#ifdef __nios2_big_endian__
-+-                      yes
-++  [AC_EGREP_CPP(is_nios2_be,[#ifdef __nios2_big_endian__
-++                      is_nios2_be
-+                      #endif
-+   ], libc_cv_nios2_be=yes, libc_cv_nios2_be=no)])
-+ if test $libc_cv_nios2_be = yes; then
-+diff --git a/sysdeps/unix/sysv/linux/mips/configure b/sysdeps/unix/sysv/linux/mips/configure
-+index 83f8b13..2b6cbee 100644
-+--- a/sysdeps/unix/sysv/linux/mips/configure
-++++ b/sysdeps/unix/sysv/linux/mips/configure
-+@@ -387,11 +387,11 @@ else
-+ /* end confdefs.h.  */
-+ dnl
-+ #ifdef __mips_nan2008
-+-yes
-++use_mips_nan2008
-+ #endif
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
-+   libc_cv_mips_nan2008=yes
-+ else
-+   libc_cv_mips_nan2008=no
-+diff --git a/sysdeps/unix/sysv/linux/mips/configure.ac b/sysdeps/unix/sysv/linux/mips/configure.ac
-+index 5039ec9..1035f76 100644
-+--- a/sysdeps/unix/sysv/linux/mips/configure.ac
-++++ b/sysdeps/unix/sysv/linux/mips/configure.ac
-+@@ -98,9 +98,9 @@ AC_COMPILE_IFELSE(
-+ LIBC_CONFIG_VAR([mips-mode-switch],[${libc_mips_mode_switch}])
-+ 
-+ AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
-+-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
-++  libc_cv_mips_nan2008, [AC_EGREP_CPP(use_mips_nan2008, [dnl
-+ #ifdef __mips_nan2008
-+-yes
-++use_mips_nan2008
-+ #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
-+ 
-+ libc_mips_nan=
-+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-+index 70bb18a..ffd9e3e 100644
-+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-+@@ -155,12 +155,12 @@ else
-+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ #if _CALL_ELF == 2
-+-                      yes
-++                      use_ppc_elfv2_abi
-+                      #endif
-+ 
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "use_ppc_elfv2_abi" >/dev/null 2>&1; then :
-+   libc_cv_ppc64_elfv2_abi=yes
-+ else
-+   libc_cv_ppc64_elfv2_abi=no
-+@@ -188,12 +188,12 @@ else
-+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ #ifdef _CALL_ELF
-+-                         yes
-++                         is_def_call_elf
-+                        #endif
-+ 
-+ _ACEOF
-+ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+-  $EGREP "yes" >/dev/null 2>&1; then :
-++  $EGREP "is_def_call_elf" >/dev/null 2>&1; then :
-+   libc_cv_ppc64_def_call_elf=yes
-+ else
-+   libc_cv_ppc64_def_call_elf=no
-+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
-+index 0822915..9a32fdd 100644
-+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
-++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
-+@@ -6,8 +6,8 @@ LIBC_SLIBDIR_RTLDDIR([lib64], [lib64])
-+ # Define default-abi according to compiler flags.
-+ AC_CACHE_CHECK([whether the compiler is using the PowerPC64 ELFv2 ABI],
-+   [libc_cv_ppc64_elfv2_abi],
-+-  [AC_EGREP_CPP(yes,[#if _CALL_ELF == 2
-+-                      yes
-++  [AC_EGREP_CPP(use_ppc_elfv2_abi,[#if _CALL_ELF == 2
-++                      use_ppc_elfv2_abi
-+                      #endif
-+   ], libc_cv_ppc64_elfv2_abi=yes, libc_cv_ppc64_elfv2_abi=no)])
-+ if test $libc_cv_ppc64_elfv2_abi = yes; then
-+@@ -19,8 +19,8 @@ else
-+   # Compiler that do not support ELFv2 ABI does not define _CALL_ELF
-+   AC_CACHE_CHECK([whether the compiler defines _CALL_ELF],
-+     [libc_cv_ppc64_def_call_elf],
-+-    [AC_EGREP_CPP(yes,[#ifdef _CALL_ELF
-+-                         yes
-++    [AC_EGREP_CPP(is_def_call_elf,[#ifdef _CALL_ELF
-++                         is_def_call_elf
-+                        #endif
-+     ], libc_cv_ppc64_def_call_elf=yes, libc_cv_ppc64_def_call_elf=no)])
-+   if test $libc_cv_ppc64_def_call_elf = no; then
-+-- 
-+1.8.4.5
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 1ef494b..6a9e482 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -24,6 +24,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
-            file://fix_am_rootsbindir.patch \
-            file://0001-Add-unused-attribute.patch \
-            file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
-+           file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
-            ${EGLIBCPATCHES} \
-           "
- EGLIBCPATCHES = "\
+https://bugzilla.gnome.org/show_bug.cgi?id=745667
+http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=40f4daffd12b84dceb23942a992815e11b5a0839
+
+Best regards.
+
+Stéphane
+
+-------- Forwarded Message --------
+Subject: 	Re: [meta-freescale] GstVolume with dizzy is not working when 
+changing to a value inferior to 1
+Date: 	Thu, 5 Mar 2015 10:39:28 -0300
+From: 	Otavio Salvador <otavio@ossystems.com.br>
+To: 	scerveau <scerveau@gmail.com>
+CC: 	Carlos Rafael Giani <dv@pseudoterminal.org>, 
+meta-freescale@yoctoproject.org <meta-freescale@yoctoproject.org>
+
+
+
+On Thu, Mar 5, 2015 at 10:34 AM, scerveau<scerveau@gmail.com>  wrote:
+> Dear all,
+>
+> Here is the patch who can be merged in meta-freescale concerning gstvolume.c
+> in gstreamer1.0-plugins-base
+> I guess this patch should be merged in poky and not in meta-freescale seen
+> that the bug is also on raspberry pi 2 by example.
+>
+> A bug entry has been submitted to gcc bug tracker system:
+>
+>https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65325
+
+Yes; this should be done in OE-Core so it fixes the problem in the
+base. We shouldn't handle this in the BSP.
+
 -- 
-1.8.4.5
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br         http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
 
+
+
+
+
+--------------040300030403000908020308
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <div class="moz-forward-container">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      Dear all,<br>
+      <br>
+      Here is a patch which fixes the use of gstvolume in
+      gstreamer1.0-plugins-base-1.4.1.<br>
+      The patch has been submitted to gstreamer1.0 master branch <br>
+      <div class="moz-forward-container"><br>
+        <a moz-do-not-send="true" class="moz-txt-link-freetext"
+          href="https://bugzilla.gnome.org/show_bug.cgi?id=745667">https://bugzilla.gnome.org/show_bug.cgi?id=745667</a><br>
+        <a moz-do-not-send="true" class="moz-txt-link-freetext"
+href="http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=40f4daffd12b84dceb23942a992815e11b5a0839">http://cgit.freedesktop.org/gstreamer/gst-plugins-base/commit/?id=40f4daffd12b84dceb23942a992815e11b5a0839</a><br>
+        <br>
+        Best regards.<br>
+        <br>
+        Stéphane<br>
+        <br>
+        -------- Forwarded Message --------
+        <table class="moz-email-headers-table" border="0"
+          cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <th align="RIGHT" nowrap="nowrap" valign="BASELINE">Subject:
+
+              </th>
+              <td>Re: [meta-freescale] GstVolume with dizzy is not
+                working when changing to a value inferior to 1</td>
+            </tr>
+            <tr>
+              <th align="RIGHT" nowrap="nowrap" valign="BASELINE">Date:
+              </th>
+              <td>Thu, 5 Mar 2015 10:39:28 -0300</td>
+            </tr>
+            <tr>
+              <th align="RIGHT" nowrap="nowrap" valign="BASELINE">From:
+              </th>
+              <td>Otavio Salvador <a moz-do-not-send="true"
+                  class="moz-txt-link-rfc2396E"
+                  href="mailto:otavio@ossystems.com.br">&lt;otavio@ossystems.com.br&gt;</a></td>
+            </tr>
+            <tr>
+              <th align="RIGHT" nowrap="nowrap" valign="BASELINE">To: </th>
+              <td>scerveau <a moz-do-not-send="true"
+                  class="moz-txt-link-rfc2396E"
+                  href="mailto:scerveau@gmail.com">&lt;scerveau@gmail.com&gt;</a></td>
+            </tr>
+            <tr>
+              <th align="RIGHT" nowrap="nowrap" valign="BASELINE">CC: </th>
+              <td>Carlos Rafael Giani <a moz-do-not-send="true"
+                  class="moz-txt-link-rfc2396E"
+                  href="mailto:dv@pseudoterminal.org">&lt;dv@pseudoterminal.org&gt;</a>,
+                <a moz-do-not-send="true"
+                  class="moz-txt-link-abbreviated"
+                  href="mailto:meta-freescale@yoctoproject.org">meta-freescale@yoctoproject.org</a>
+                <a moz-do-not-send="true" class="moz-txt-link-rfc2396E"
+                  href="mailto:meta-freescale@yoctoproject.org">&lt;meta-freescale@yoctoproject.org&gt;</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <br>
+        <pre>On Thu, Mar 5, 2015 at 10:34 AM, scerveau <a moz-do-not-send="true" class="moz-txt-link-rfc2396E" href="mailto:scerveau@gmail.com">&lt;scerveau@gmail.com&gt;</a> wrote:
+&gt; Dear all,
+&gt;
+&gt; Here is the patch who can be merged in meta-freescale concerning gstvolume.c
+&gt; in gstreamer1.0-plugins-base
+&gt; I guess this patch should be merged in poky and not in meta-freescale seen
+&gt; that the bug is also on raspberry pi 2 by example.
+&gt;
+&gt; A bug entry has been submitted to gcc bug tracker system:
+&gt;
+&gt; <a moz-do-not-send="true" class="moz-txt-link-freetext" href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65325">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65325</a>
+
+Yes; this should be done in OE-Core so it fixes the problem in the
+base. We shouldn't handle this in the BSP.
+
+-- 
+Otavio Salvador                             O.S. Systems
+<a moz-do-not-send="true" class="moz-txt-link-freetext" href="http://www.ossystems.com.br">http://www.ossystems.com.br</a>        <a moz-do-not-send="true" class="moz-txt-link-freetext" href="http://code.ossystems.com.br">http://code.ossystems.com.br</a>
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+</pre>
+        <br>
+      </div>
+      <br>
+      <br>
+    </div>
+    <br>
+  </body>
+</html>
+
+--------------040300030403000908020308--
+
+--------------070006070008000908060708
+Content-Type: text/x-patch;
+ name="0001-GSTVolume-setting-volume-to-less-than-1.0.patch"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment;
+ filename="0001-GSTVolume-setting-volume-to-less-than-1.0.patch"
+
+From d48ce237e7641d896948b75eb5867be78037a5d3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?St=C3=A9phane=20Cerveau?= <scerveau@connected-labs.com>
+Date: Thu, 5 Mar 2015 17:20:19 +0100
+Subject: [PATCH] GSTVolume: setting volume to less than 1.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The volume element in gstreamer1.0-plugins-base was not working
+properly on arm platform if the volume is less 1.0.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=745667
+
+Signed-off-by: Stéphane Cerveau <scerveau@connected-labs.com>
+---
+ ...olume_explicitely_cast_integers_to_double.patch |   23 ++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.4.1.bb   |    1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/volume_explicitely_cast_integers_to_double.patch
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/volume_explicitely_cast_integers_to_double.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/volume_explicitely_cast_integers_to_double.patch
+new file mode 100644
+index 0000000..f67a840
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/volume_explicitely_cast_integers_to_double.patch
+@@ -0,0 +1,23 @@
++diff --git a/gst/volume/gstvolume.c b/gst/volume/gstvolume.c
++index 0f5b362..94d03a3 100644
++--- a/gst/volume/gstvolume.c
+++++ b/gst/volume/gstvolume.c
++@@ -250,10 +250,14 @@ volume_update_volume (GstVolume * self, const GstAudioInfo * info,
++     self->current_mute = FALSE;
++     self->current_volume = volume;
++ 
++-    self->current_vol_i8 = volume * VOLUME_UNITY_INT8;
++-    self->current_vol_i16 = volume * VOLUME_UNITY_INT16;
++-    self->current_vol_i24 = volume * VOLUME_UNITY_INT24;
++-    self->current_vol_i32 = volume * VOLUME_UNITY_INT32;
+++    self->current_vol_i8 =
+++        (gint) ((gdouble) volume * (gdouble) VOLUME_UNITY_INT8);
+++    self->current_vol_i16 =
+++        (gint) ((gdouble) volume * (gdouble) VOLUME_UNITY_INT16);
+++    self->current_vol_i24 =
+++        (gint) ((gdouble) volume * (gdouble) VOLUME_UNITY_INT24);
+++    self->current_vol_i32 =
+++        (gint) ((gdouble) volume * (gdouble) VOLUME_UNITY_INT32);
++ 
++     passthrough = (self->current_vol_i16 == VOLUME_UNITY_INT16);
++   }
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
+index 0db42ce..4198b1a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+ 
+ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://get-caps-from-src-pad-when-query-caps.patch \
++            file://volume_explicitely_cast_integers_to_double.patch \
+ "
+ 
+ SRC_URI[md5sum] = "a825628225bd0a58c0df87cdd2a5db91"
+-- 
+1.7.9.5
+
+
+
+--------------070006070008000908060708--
