@@ -1,41 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E16D6017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 30E116017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 12:17:55 +0000 (UTC)
-Received: by wiwl15 with SMTP id l15so2997022wiw.1
+	Fri,  6 Mar 2015 12:24:33 +0000 (UTC)
+Received: by qcwb13 with SMTP id b13so12286391qcw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2015 04:17:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=9tJ+N6kx7hgl4zwBdQ5f4JxKWYBf1GtxA+OT8c/dAqo=;
-	b=uhgUJRiL8FgRhsEFb5R6c3Evqeykzdsbg8VZuz5KZVszxhVRS0eeJi5iIqtj0OpLXS
-	sZ0hD2UQcKQL+P1uRKDHa3JX78c/r6gPVB4g++5JKGWX4XCb4uJg0eSld8Ul2tUDpmMC
-	PPjS64O4jOO+qczdMk7eiPjYPoYz7iNhCJZADMMDOcWXWhbOMLCoiTRpRYDgDp1hzJtv
-	T1nRWsYm9ygTlj02x7LEWpILmcJnEIBOPW4x3NhHguuQpvQygzcBF/obWXKsj5+qbnvA
-	lCJEYhR4Uux6tDhQZvX72X1iavQWoqeHb8c80aU2avWoF1uXhq+UJYLracBy2GwhwUUz
-	+Y4g==
-X-Received: by 10.194.19.10 with SMTP id a10mr29024277wje.153.1425644276622;
-	Fri, 06 Mar 2015 04:17:56 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	yr10sm11890702wjc.0.2015.03.06.04.17.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Mar 2015 04:17:55 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 6 Mar 2015 13:18:01 +0100
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20150306121801.GE2337@jama>
-References: <cover.1425634271.git.liezhi.yang@windriver.com>
-	<008e0da7a6c62109e58ea1418062b988cc68d8ef.1425634271.git.liezhi.yang@windriver.com>
+	Fri, 06 Mar 2015 04:24:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0rEk4j51BXxKuY7jyzXfSiXAmtJQr858HWjWL/qlUt8=;
+	b=i2QQ5Fo6BQADgJu+7M5mN2UVd/guFdttr/7nAAOnpyAdO7eIOi+hAr/n9kvfBdca0R
+	hc6hUY+8VGR4DxqLB+bsYop1Mc+vgH7WgdlCbEyucVWh5cycta+Lg4p4WgD5KSpIKarh
+	4rLR6QW7x+giC7rC+MBna2F84Id3RthGkQi9pN9o5VxnYExloZtlXCPGXQcxvFmqtPzJ
+	OMqpNtV13LH31fsUZVoS+46yJNhmy5uzwHNMjVxa5RyOERptfyZk8x5QOm18vnxGi4t/
+	fIMKSfE6VJ7YY4ZVuufbTe2N/OCuubytL02sT+ywstULGcMiKoaMgyPxBDh8o0kr4Mne
+	Ca6g==
+X-Gm-Message-State: ALoCoQl/VrxRi4iOQswdSYH+M1uTF79EdWA+wqXCnJXfw1RrGPNedLr7ISfEs+q/55B6rM3PIJOv
+X-Received: by 10.55.56.145 with SMTP id f139mr28376065qka.74.1425644674688;
+	Fri, 06 Mar 2015 04:24:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <008e0da7a6c62109e58ea1418062b988cc68d8ef.1425634271.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] xinetd: fixe HOMEPAGE and SRC_URI
+Received: by 10.140.102.203 with HTTP; Fri, 6 Mar 2015 04:24:14 -0800 (PST)
+In-Reply-To: <20872591b3fade728dbbe3b655045417450b3021.1425634271.git.liezhi.yang@windriver.com>
+References: <cover.1425634271.git.liezhi.yang@windriver.com>
+	<20872591b3fade728dbbe3b655045417450b3021.1425634271.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Mar 2015 12:24:14 +0000
+Message-ID: <CAJTo0Ladja3vEp4_stvqQPg2igWr0C47M8GV5SjusfGTJ=K3VA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] net-tools: 1.60-25 -> 1.60-26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,95 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 12:17:56 -0000
-X-Groupsio-MsgNum: 63049
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="xa9f45Qb6lv8AimG"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 Mar 2015 12:24:34 -0000
+Content-Type: multipart/alternative; boundary=001a11470082693ac405109dc4d2
 
---xa9f45Qb6lv8AimG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11470082693ac405109dc4d2
+Content-Type: text/plain; charset=UTF-8
+
+On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> The old net-tools_1.60-25.diff.gz is not available any more.
+>
+
+As I said yesterday, we're feature-frozen now.  Instead of upgrading can we
+use a different mirror.  snapshot.debian.org is useful as they archive all
+releases there:
+
+http://snapshot.debian.org/package/net-tools/1.60-25/
+
+Ross
+
+--001a11470082693ac405109dc4d2
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 06, 2015 at 01:32:33AM -0800, Robert Yang wrote:
-> The www.xinetd.org is not available, use github to instead of it.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-extended/xinetd/xinetd_2.3.15.bb |   10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes=
--extended/xinetd/xinetd_2.3.15.bb
-> index 288186e..98c4aeb 100644
-> --- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> +++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> @@ -1,5 +1,5 @@
->  SUMMARY =3D "Socket-based service activation daemon"
-> -HOMEPAGE =3D "http://www.xinetd.org"
-> +HOMEPAGE =3D "https://github.com/xinetd-org/xinetd"
-> =20
->  # xinetd is a BSD-like license
->  # Apple and Gentoo say BSD here.
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D8ad861519854=
-2444f84d28a6cf226dd8"
->  DEPENDS =3D ""
->  PR =3D "r2"
-> =20
-> -SRC_URI =3D "http://www.xinetd.org/xinetd-${PV}.tar.gz \
-> +SRC_URI =3D "https://github.com/xinetd-org/xinetd/archive/xinetd-2-3-15.=
-tar.gz \
->        file://xinetd.init \
->        file://xinetd.conf \
->        file://xinetd.default \
-> @@ -20,8 +20,8 @@ SRC_URI =3D "http://www.xinetd.org/xinetd-${PV}.tar.gz \
->        file://xinetd.service \
->        "
-> =20
-> -SRC_URI[md5sum] =3D "77358478fd58efa6366accae99b8b04c"
-> -SRC_URI[sha256sum] =3D "bf4e060411c75605e4dcbdf2ac57c6bd9e1904470a2f91e0=
-1ba31b50a80a5be3"
-> +SRC_URI[md5sum] =3D "dbd435d2bc822ea4566dd18632c09379"
-> +SRC_URI[sha256sum] =3D "620b25f4ab4d72fdf32b13797156ea40df2049f1c07e6401=
-77e5fec544e9a94c"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 March 2015 at 09:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D":1vy" class=3D"" style=
+=3D"overflow:hidden">The old net-tools_1.60-25.diff.gz is not available any=
+ more.<br></div></blockquote></div><br>As I said yesterday, we&#39;re featu=
+re-frozen now.=C2=A0 Instead of upgrading can we use a different mirror. =
+=C2=A0<a href=3D"http://snapshot.debian.org">snapshot.debian.org</a> is use=
+ful as they archive all releases there:</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra"><a href=3D"http://snapshot.debian.org/pac=
+kage/net-tools/1.60-25/">http://snapshot.debian.org/package/net-tools/1.60-=
+25/</a><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
 
-Did you compare the archives?
-Explain the difference in commit message.
-
->  inherit autotools update-rc.d systemd
-> =20
-> @@ -35,6 +35,8 @@ EXTRA_OECONF=3D"--disable-nls"
->  PACKAGECONFIG ??=3D "tcp-wrappers"
->  PACKAGECONFIG[tcp-wrappers] =3D "--with-libwrap,,tcp-wrappers"
-> =20
-> +S =3D "${WORKDIR}/${BPN}-${BPN}-2-3-15"
-> +
->  do_configure() {
->  	# Looks like configure.in is broken, so we are skipping
->  	# rebuilding configure and are just using the shipped one
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---xa9f45Qb6lv8AimG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlT5mvkACgkQN1Ujt2V2gBwZUwCgi3Ltf6Gfv0fkr38MAhge3h2x
-/zQAniXMAe0k1f6zbNEUFueMJM0MT738
-=O4Jp
------END PGP SIGNATURE-----
-
---xa9f45Qb6lv8AimG--
+--001a11470082693ac405109dc4d2--
