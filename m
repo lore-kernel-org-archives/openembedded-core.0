@@ -1,30 +1,24 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F76B6017E
+Return-Path: <florian.boor@kernelconcepts.de>
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EE576017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 14:03:40 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 06 Mar 2015 06:00:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,353,1422950400"; d="scan'208";a="687977205"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.51])
-	([10.218.99.51])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2015 06:03:33 -0800
-Message-ID: <1425650611.2831.20.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Anders Darander <anders@chargestorm.se>
-Date: Fri, 06 Mar 2015 11:03:31 -0300
-In-Reply-To: <20150306082330.GA14309@ad.chargestorm.se>
-References: <bruno.bottazzini@intel.com>
-	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
-	<1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
-	<20150305142802.GA6833@ad.chargestorm.se>
-	<1425572096.2831.16.camel@bottazzini-ThinkPad-T430>
-	<20150306082330.GA14309@ad.chargestorm.se>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] systemd: split modules into packages
+	Fri,  6 Mar 2015 14:41:51 +0000 (UTC)
+Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>) id 1YTtRn-0001Oi-EH
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Mar 2015 15:41:51 +0100
+Message-ID: <54F9BC93.6060102@kernelconcepts.de>
+Date: Fri, 06 Mar 2015 15:41:23 +0100
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.4.0
+MIME-Version: 1.0
+CC: OE-core <openembedded-core@lists.openembedded.org>
+References: <1425408376-16981-1-git-send-email-florian.boor@kernelconcepts.de>
+	<CAJTo0LZL=jaHMLP-txpcDFWbpi_c4R3xWJQ0dk51mbF7ZdaWgQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZL=jaHMLP-txpcDFWbpi_c4R3xWJQ0dk51mbF7ZdaWgQ@mail.gmail.com>
+Subject: Re: [PATCH] directfb: Allow native builds of directfb 1.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,65 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 14:03:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Mar 2015 14:41:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Sex, 2015-03-06 at 09:23 +0100, Anders Darander wrote:
-> * Bottazzini, Bruno <bruno.bottazzini@intel.com> [150305 17:15]:
-> 
-> > On Qui, 2015-03-05 at 15:28 +0100, Anders Darander wrote:
-> 
-> > > Just a quick question before I look into the patch in more detail.
-> 
-> > > Is the new setting of PACKAGECONFIG consistent with how systemd was
-> > > built previously? I guess it is.
-> 
-> > Hi Anders,
-> 
-> > it is consistent with how systemd was built previously. If you apply the
-> > patch and bitbake it. Systemd will be built and shipped normally.
-> 
-> > But now it will give some options on how to customize it by excluding
-> > packages you don't want to be with systemd.
-> 
-> Nice, I'm really liking this! That's something I've planned on doing
-> myself for a while.
-> 
-> > > Another comment, you should remove the dependcies that gets added using
-> > > PACKAGECONFIG from DEPENDS, e.g. acl etc. (Or are they required
-> > > nevertheless?)
-> 
-> > You mean I should do the following ?
-> > - PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
-> > + PACKAGECONFIG[acl] = "--enable-acl,--disable-acl"
-> 
-> No, I  meant to remove them from the long 
-> DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
-> line. (Unless I overlooked that part in your patch?)
-> 
-> > If I get what you said correctly, yes they are required. 
-> 
-> What I meant, was thas unless e.g. acl is required even when building
-> with --disable-acl, it's better to add the acl dependency in the
-> PACKAGECONFIG like you to. Though, at the same time, remove acl from the
-> long DEPENDS-line. (As otherwise we'll build acl anyway).
+Hi Ross,
 
-Anders,
+On 06.03.2015 12:46, Burton, Ross wrote:
+> Presumably you have patches to enable those for native, or would it be best to
+> disable them in the native case as presumably all you need are the tools?
 
-You are right. 
+you are right, I have these as well but I used bbappend to get native support
+for these. I will take a look for the easiest solution and create a patch.
 
-It is not needed to specify the libs on depends. 
+Greetings
 
-I have removed it and as soon as we review the whole patch I will send a
-new version with this corrected
+Florian
 
-Best Regards,
-Bruno Bottazzini
-> 
-> Cheers,
-> Anders
-> 
-
-
+-- 
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
