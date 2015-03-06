@@ -1,60 +1,36 @@
-Return-Path: <B40290@freescale.com>
-X-Greylist: delayed 63939 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 06 Mar 2015 03:57:34 UTC
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0138.outbound.protection.outlook.com [65.55.169.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 64A566017E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A68F76017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 03:57:34 +0000 (UTC)
-Received: from BY2PR03CA009.namprd03.prod.outlook.com (10.255.93.26) by
-	DM2PR03MB446.namprd03.prod.outlook.com (10.141.85.17) with Microsoft
-	SMTP Server (TLS) id 15.1.106.11; Fri, 6 Mar 2015 03:57:33 +0000
-Received: from BN1BFFO11FD037.protection.gbl (10.255.93.4) by
-	BY2PR03CA009.outlook.office365.com (10.255.93.26) with Microsoft SMTP
-	Server (TLS) id 15.1.106.15 via Frontend Transport;
-	Fri, 6 Mar 2015 03:57:32 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BN1BFFO11FD037.mail.protection.outlook.com (10.58.144.100) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.99.6 via Frontend Transport; Fri, 6 Mar 2015
-	03:57:32 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t263vTPo009823;
-	Thu, 5 Mar 2015 20:57:30 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Mar 2015 11:57:27 +0800
-Message-ID: <1425614247-20219-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.158.2 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=B40290@freescale.com; freescale.mail.onmicrosoft.com;
-	dkim=none (message not signed) header.d=none;
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI; BMV:1;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(189002)(199003)(48376002)(19580405001)(87936001)(19580395003)(106466001)(50986999)(105606002)(50466002)(86362001)(50226001)(47776003)(77096005)(2351001)(36756003)(85426001)(46102003)(77156002)(110136001)(104016003)(450100001)(6806004)(62966003)(92566002)(229853001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR03MB446;
-	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
-	LANG:en; 
+	Fri,  6 Mar 2015 04:22:37 +0000 (UTC)
+Received: by iecat20 with SMTP id at20so29244359iec.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Mar 2015 20:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=y/2uINmJ6QRPBP5fJj3bhIJDJc0OPNJCnGSag+d/nyI=;
+	b=p0wWIwB6l/zF/9X7pmB8ayKZVTVQgDylgWQg/HrnWBCA+REO9gv23sGyRPBTSHffJW
+	k+EjWXJNYnyPFjRontQBVuKkEgXzcI/l+lwBUgSqEmFr8EBtrjBMqEwJoKcWFsxg+AzK
+	sWDme6f08hSRAOAf4cQnwE1WpEig0fx7w2XlvorshrJb+xRZS9R1CsZICZMvPg6YyM8I
+	v9eB4AuPvxWVW5qdW1riZ6GcLd4ctJwWVC0DkLSwUHyEeb7n94d+mzhzMv93dT2Uuxe4
+	a/oPmO6vqx44aV6H4ebLtSXcMhZXfzUp9ucx5cLszlrayAirEJ0m1TUGmuDy/DG0RSib
+	k1Fw==
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR03MB446;
-X-Microsoft-Antispam-PRVS: <DM2PR03MB4462AA8593E7DDC86CD4D3E841C0@DM2PR03MB446.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5002007)(5005006); SRVR:DM2PR03MB446; BCL:0;
-	PCL:0; RULEID:; SRVR:DM2PR03MB446; 
-X-Forefront-PRVS: 05079D8470
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2015 03:57:32.6947 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR03MB446
-Subject: [PATCH v2] u-boot.inc: fix rename image error
+X-Received: by 10.107.157.195 with SMTP id g186mr25768771ioe.72.1425615758443; 
+	Thu, 05 Mar 2015 20:22:38 -0800 (PST)
+Received: by 10.50.117.7 with HTTP; Thu, 5 Mar 2015 20:22:38 -0800 (PST)
+Received: by 10.50.117.7 with HTTP; Thu, 5 Mar 2015 20:22:38 -0800 (PST)
+In-Reply-To: <1425607906-21810-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1425607906-21810-1-git-send-email-randy.e.witt@linux.intel.com>
+Date: Thu, 5 Mar 2015 20:22:38 -0800
+Message-ID: <CAMKF1soVNp5GsNKOkmZRCb9KUkzFcRW337smGBs9YNtVu3XNWQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Fix the problem of an empty journal on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,117 +43,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 03:57:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Mar 2015 04:22:40 -0000
+Content-Type: multipart/alternative; boundary=001a11409accde4b7605109708d9
 
-  Resolve mismatch between U-Boot configs and uboot image name.
-  The ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} may alway be false
-  and repeat compile or install so we need to check if ${type} match ${config} .
+--001a11409accde4b7605109708d9
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 51 ++++++++------------------------------
- 1 file changed, 11 insertions(+), 40 deletions(-)
+On Mar 5, 2015 6:13 PM, "Randy Witt" <randy.e.witt@linux.intel.com> wrote:
+>
+> systemd by default tries to write the journal to /var/log/journal.
+> But base-files has a symlink /var/log -> /var/volatile/log. And
+> /var/volatile is a tmpfs mount in /etc/fstab.
+>
+> If the journal service started before /var/volatile was mounted (which
+> was the typical scenario) then the journal would appear empty since
+> the old location was mounted over.
+>
+> This change fixes the problem by ensuring that the journal doesn't start
+> until after the mount happens.
+>
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 6bdc86a..b514893 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -63,18 +63,13 @@ do_compile () {
- 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
- 	fi
-     
-+
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x = "in"x ]
--                then
--                    continue
--                fi
--                if [ -d "${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}" ]
-+            for type in ${UBOOT_CONFIG}; do
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                 then
--                    break
--                else
-                     oe_runmake O=${config} ${config}
-                     oe_runmake O=${config} ${UBOOT_MAKE_TARGET}
-                     cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
-@@ -92,15 +87,9 @@ do_install () {
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x = "in"x ]
--                then
--                    continue
--                fi
--                if [ -d "${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}" ]
-+            for type in ${UBOOT_CONFIG}; do
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                 then
--                    break
--                else
-                     install -d ${D}/boot
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
-                     ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-@@ -123,15 +112,9 @@ do_install () {
-         if [ "x${UBOOT_CONFIG}" != "x" ]   
-         then
-             for config in ${UBOOT_MACHINE}; do
--                for type in in ${UBOOT_CONFIG}; do
--                     if [ "${type}"x = "in"x ]
-+                for type in ${UBOOT_CONFIG}; do
-+                     if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                      then
--                         continue
--                     fi
--                     if [ -d "${D}/boot/${SPL_IMAGE}-${type}" ]
--                     then
--                         break
--                     else
-                          install ${S}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}
-@@ -157,15 +140,9 @@ do_deploy () {
-     if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x = "in"x ]  
-+            for type in ${UBOOT_CONFIG}; do
-+                if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                 then
--                    continue
--                fi
--                if [ -d "${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}" ]
--                then 
--                    break
--                else
-                     install -d ${DEPLOYDIR}
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}
-                     cd ${DEPLOYDIR}
-@@ -190,15 +167,9 @@ do_deploy () {
-          if [ "x${UBOOT_CONFIG}" != "x" ]   
-          then
-              for config in ${UBOOT_MACHINE}; do
--                 for type in in ${UBOOT_CONFIG}; do
--                      if [ "${type}"x = "in"x ]
--                      then
--                          continue
--                      fi
--                      if [ -d "${DEPLOYDIR}/${SPL_IMAGE}-${type}" ]
-+                 for type in ${UBOOT_CONFIG}; do
-+                      if [ "`echo ${config} | cut -d'_' -f2`" = "${type}" ]
-                       then
--                          break
--                      else
-                           install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}
-                           rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-                           ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}-${type}
--- 
-1.9.2
+What happens if folks have a different fstab then default? Will it still
+work
 
+> [Yocto #7388]
+>
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> ---
+>  meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 ++++++
+>  meta/recipes-core/systemd/systemd_219.bb                 | 2 ++
+>  2 files changed, 8 insertions(+)
+>  create mode 100644
+meta/recipes-core/systemd/systemd/journald-volatile.conf
+>
+> diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf
+b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+> new file mode 100644
+> index 0000000..b11e160
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+> @@ -0,0 +1,6 @@
+> +# If /var/volatile is a mount point then make sure to mount it before
+> +# the journal starts. This is because base-files creates a symlink
+> +# /var/log -> /var/volatile/log. And if the journal starts before the
+mount
+> +# happens, the journal will appear empty until restarted.
+> +[Unit]
+> +After=var-volatile.mount
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb
+b/meta/recipes-core/systemd/systemd_219.bb
+> index 3c4b6cf..2be66af 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -48,6 +48,7 @@ SRC_URI = "git://
+anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+>             file://00-create-volatile.conf \
+>             file://init \
+>             file://run-ptest \
+> +           file://journald-volatile.conf \
+>            "
+>
+>  S = "${WORKDIR}/git"
+> @@ -143,6 +144,7 @@ do_install() {
+>         install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
+>
+>         install -m 0644 ${WORKDIR}/00-create-volatile.conf
+${D}${sysconfdir}/tmpfiles.d/
+> +       install -D -m 0644 ${WORKDIR}/journald-volatile.conf
+${D}${systemd_unitdir}/system/systemd-journald.service.d/journald-volatile.conf
+>
+>         if
+${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+>                 install -d ${D}${sysconfdir}/init.d
+> --
+> 1.9.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--001a11409accde4b7605109708d9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"><br>
+On Mar 5, 2015 6:13 PM, &quot;Randy Witt&quot; &lt;<a href=3D"mailto:randy.=
+e.witt@linux.intel.com">randy.e.witt@linux.intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; systemd by default tries to write the journal to /var/log/journal.<br>
+&gt; But base-files has a symlink /var/log -&gt; /var/volatile/log. And<br>
+&gt; /var/volatile is a tmpfs mount in /etc/fstab.<br>
+&gt;<br>
+&gt; If the journal service started before /var/volatile was mounted (which=
+<br>
+&gt; was the typical scenario) then the journal would appear empty since<br=
+>
+&gt; the old location was mounted over.<br>
+&gt;<br>
+&gt; This change fixes the problem by ensuring that the journal doesn&#39;t=
+ start<br>
+&gt; until after the mount happens.<br>
+&gt;</p>
+<p dir=3D"ltr">What happens if folks have a different fstab then default? W=
+ill it still=C2=A0 work </p>
+<p dir=3D"ltr">&gt; [Yocto #7388]<br>
+&gt;<br>
+&gt; Signed-off-by: Randy Witt &lt;<a href=3D"mailto:randy.e.witt@linux.int=
+el.com">randy.e.witt@linux.intel.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 +++=
++++<br>
+&gt; =C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_219.bb">syst=
+emd_219.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 2 ++<br>
+&gt; =C2=A02 files changed, 8 insertions(+)<br>
+&gt; =C2=A0create mode 100644 meta/recipes-core/systemd/systemd/journald-vo=
+latile.conf<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf =
+b/meta/recipes-core/systemd/systemd/journald-volatile.conf<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..b11e160<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf<br>
+&gt; @@ -0,0 +1,6 @@<br>
+&gt; +# If /var/volatile is a mount point then make sure to mount it before=
+<br>
+&gt; +# the journal starts. This is because base-files creates a symlink<br=
+>
+&gt; +# /var/log -&gt; /var/volatile/log. And if the journal starts before =
+the mount<br>
+&gt; +# happens, the journal will appear empty until restarted.<br>
+&gt; +[Unit]<br>
+&gt; +After=3Dvar-volatile.mount<br>
+&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_219.b=
+b">systemd_219.bb</a> b/meta/recipes-core/systemd/<a href=3D"http://systemd=
+_219.bb">systemd_219.bb</a><br>
+&gt; index 3c4b6cf..2be66af 100644<br>
+&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_219.bb">syst=
+emd_219.bb</a><br>
+&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_219.bb">syst=
+emd_219.bb</a><br>
+&gt; @@ -48,6 +48,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://anongit.fr=
+eedesktop.org/systemd/systemd;branch=3Dmaster;protocol=3D">anongit.freedesk=
+top.org/systemd/systemd;branch=3Dmaster;protocol=3D</a><br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://00-create-volatile.co=
+nf \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://init \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://journald-volatile.con=
+f \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;<br>
+&gt; =C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; @@ -143,6 +144,7 @@ do_install() {<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${WORKDIR}/*.rules ${D}${s=
+ysconfdir}/udev/rules.d/<br>
+&gt;<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${WORKDIR}/00-create-volat=
+ile.conf ${D}${sysconfdir}/tmpfiles.d/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -D -m 0644 ${WORKDIR}/journald-vol=
+atile.conf ${D}${systemd_unitdir}/system/systemd-journald.service.d/journal=
+d-volatile.conf<br>
+&gt;<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FEATUR=
+ES&#39;,&#39;sysvinit&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D=
+}${sysconfdir}/init.d<br>
+&gt; --<br>
+&gt; 1.9.3<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
+
+--001a11409accde4b7605109708d9--
