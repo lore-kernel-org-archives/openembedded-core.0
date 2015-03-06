@@ -1,39 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 305176017E;
-	Fri,  6 Mar 2015 06:27:49 +0000 (UTC)
-Received: by wesu56 with SMTP id u56so57450386wes.10;
-	Thu, 05 Mar 2015 22:27:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qaSnt+u49sO8HGrFm+n83Cd/53de6hkC5inczEHPMlc=;
-	b=RZvBwP+MM/SypAlGupzq1bHKYGQHqmapFZV41YPLG2J9skwuuTGt8KjhPeAJbqf7yG
-	QFrQiOh6k7/2A5z+PxFjZ8GMuJLAwfiWDLx2xNwTL+Lk4MNy93YYuWlHSMaiADwwfvJR
-	rRrKn0+MGlMGpNzuuSIJ67PWC7KkL+7/zPyQR37VKN8XFRp1oKHNzX2Gabka9+xW4nRX
-	mYK1NTE1FFJNgBMLc4fOl6Ifjw0lmnW8qDgkVctw3izuVMVTxHibzgk3+xrky9GtRpWF
-	k85zWrlA4W97JTTeFU2SiaZL9JIAFpwT+nT4AwSs2VlDfmqBGN+xZnEwWZ1fRB43yT3d
-	nGew==
-X-Received: by 10.194.177.195 with SMTP id cs3mr25042387wjc.141.1425623270340; 
-	Thu, 05 Mar 2015 22:27:50 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	n3sm13492020wja.36.2015.03.05.22.27.49
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CA7166017E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Mar 2015 08:23:33 +0000 (UTC)
+Received: by labhs14 with SMTP id hs14so56151769lab.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Mar 2015 00:23:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=4j72XrTyo5EBcD7xWS051Vl1eJqaWzKH4oyrKoaAPSM=;
+	b=CAH3DDtK076H97+L9xLjl9er4TCa9BhLVjnm9qRpBvlFyD1huzh0vRu5NG9So6mNdO
+	DFFku38ZCtPlTgA5URc2lNw51EQvtu2NUMc2ALu4fisbq9MD1t6gWUO1aea0pGgAnl7C
+	ZLeLWr5IJGF0gWbO6rNH0+E+gj4mYiekqipRWxrt20W2agpgGGEWM7DvsvM0W9VlJ30W
+	hhjjg+QBsY3IODaES53eHSJ9djCgdV8CdnqBGMTAe3gPHOkzYi5o3o2zPIh8AGImWLHZ
+	0myCxoepDYwyxCKK0ZdH4JKGWB3bfSityVLqDyrr0Aotj0IoiSar4aG+5h2Iui4AqVla
+	4zbg==
+X-Gm-Message-State: ALoCoQkCl5rq22+ZsX+PoNCPD11EABQUvM92YLPCASXbGGQaGTI7qTkMriG3FhbRYTqkGcZTL3of
+X-Received: by 10.112.98.201 with SMTP id ek9mr11764588lbb.68.1425630213175;
+	Fri, 06 Mar 2015 00:23:33 -0800 (PST)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id c2sm1683129lbn.10.2015.03.06.00.23.32
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Mar 2015 22:27:49 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 6 Mar 2015 07:27:55 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20150306062755.GD2337@jama>
-References: <20141211092332.GA2467@jama>
- <20150305212212.GZ2337@jama>
+	Fri, 06 Mar 2015 00:23:32 -0800 (PST)
+Date: Fri, 6 Mar 2015 09:23:30 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+Message-ID: <20150306082330.GA14309@ad.chargestorm.se>
+Mail-Followup-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <bruno.bottazzini@intel.com>
+	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
+	<20150305142802.GA6833@ad.chargestorm.se>
+	<1425572096.2831.16.camel@bottazzini-ThinkPad-T430>
 MIME-Version: 1.0
-In-Reply-To: <20150305212212.GZ2337@jama>
+In-Reply-To: <1425572096.2831.16.camel@bottazzini-ThinkPad-T430>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: State of bitbake world, test-dependencies 2015-03-05
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,97 +60,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 06:27:50 -0000
-X-Groupsio-MsgNum: 63030
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aSMWOr4h/ZU3vZ/E"
-Content-Disposition: inline
-
---aSMWOr4h/ZU3vZ/E
+X-List-Received-Date: Fri, 06 Mar 2015 08:23:34 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 05, 2015 at 10:22:12PM +0100, Martin Jansa wrote:
-> On Thu, Dec 11, 2014 at 10:23:32AM +0100, Martin Jansa wrote:
-> > On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
-> > > Complete logs:
-> > > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140=
-808_063907.log/
-> > >=20
-> > > ERROR: 483 issues were found in these recipes: directfb engrave epiph=
-any expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchi=
-ve libmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2=
-dec mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunne=
-l synergy tesseract tracker
-> >=20
-> > Complete logs;
-> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.2014121=
-0_162427.log/
-> >=20
-> > This was only partial build, so the results don't look so bad.
-> > ERROR: 27 issues were found in these recipes: android-audiosystem
-> > collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
-> > polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
-> >=20
-> > Found differences:=20
-> > WARN: collectd: collectd rdepends on libcrypto, but it isn't a build de=
-pendency?
-> > WARN: collectd: collectd rdepends on libesmtp, but it isn't a build dep=
-endency?
-> > WARN: collectd: collectd rdepends on libssl, but it isn't a build depen=
-dency?
-> > WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
-> > WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad=
--rtmp, but it isn't a build dependency?
-> > WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a buil=
-d dependency?
-> > WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a b=
-uild dependency?
-> > WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build=
- dependency?
-> > WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build depende=
-ncy?
-> > WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
-> >=20
-> > Found errors:=20
-> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when=
- building with minimal dependencies?
-> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created =
-when building with minimal dependencies?
->=20
-> I've another partial build which basically confirmed that some of these
-> issues are still there.
->=20
-> Found differences:=20
-> WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
-> WARN: fbida: fbida rdepends on lirc, but it isn't a build dependency?
-> WARN: qt5-creator: qt5-creator rdepends on qt-creator, but it isn't a bui=
-ld dependency?
-> WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependenc=
-y?
-> WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
->=20
-> Logs weren't uploaded this time, because we've run out of space on
-> logs.nslu2-linux.org/buildlogs/
+* Bottazzini, Bruno <bruno.bottazzini@intel.com> [150305 17:15]:
 
-Now we have the logs as well
-http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20150305_21=
-3704.log/
+> On Qui, 2015-03-05 at 15:28 +0100, Anders Darander wrote:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> > Just a quick question before I look into the patch in more detail.
 
---aSMWOr4h/ZU3vZ/E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> > Is the new setting of PACKAGECONFIG consistent with how systemd was
+> > built previously? I guess it is.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+> Hi Anders,
 
-iEYEARECAAYFAlT5SOsACgkQN1Ujt2V2gBzaKQCcCiYiopLFAQAEouVG6Zhh54+z
-KNgAn3MsmFc+sJJx13FkLxvExqyFa+eq
-=3RdD
------END PGP SIGNATURE-----
+> it is consistent with how systemd was built previously. If you apply the
+> patch and bitbake it. Systemd will be built and shipped normally.
 
---aSMWOr4h/ZU3vZ/E--
+> But now it will give some options on how to customize it by excluding
+> packages you don't want to be with systemd.
+
+Nice, I'm really liking this! That's something I've planned on doing
+myself for a while.
+
+> > Another comment, you should remove the dependcies that gets added using
+> > PACKAGECONFIG from DEPENDS, e.g. acl etc. (Or are they required
+> > nevertheless?)
+
+> You mean I should do the following ?
+> - PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+> + PACKAGECONFIG[acl] = "--enable-acl,--disable-acl"
+
+No, I  meant to remove them from the long 
+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
+line. (Unless I overlooked that part in your patch?)
+
+> If I get what you said correctly, yes they are required. 
+
+What I meant, was thas unless e.g. acl is required even when building
+with --disable-acl, it's better to add the acl dependency in the
+PACKAGECONFIG like you to. Though, at the same time, remove acl from the
+long DEPENDS-line. (As otherwise we'll build acl anyway).
+
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
+
