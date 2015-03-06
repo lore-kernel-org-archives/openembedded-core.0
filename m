@@ -1,24 +1,28 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E9416017E
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB4B738F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 19:53:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t26JrQa6008141
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Mar 2015 11:53:26 -0800 (PST)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Fri, 6 Mar 2015 11:53:25 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Mar 2015 11:53:25 -0800
-Message-ID: <1425671605-6763-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Fri,  6 Mar 2015 19:54:48 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 9E70EF811E3; Fri,  6 Mar 2015 12:54:49 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 23620F811E3;
+	Fri,  6 Mar 2015 12:54:49 -0700 (MST)
+Message-ID: <54FA0610.5000805@mlbassoc.com>
+Date: Fri, 06 Mar 2015 12:54:56 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] security_flags: eliminate FORTIFY_SOURCE for debug builds
+To: openembedded-core@lists.openembedded.org
+References: <54F9E933.9070508@topic.nl>
+In-Reply-To: <54F9E933.9070508@topic.nl>
+Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 19:53:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Mar 2015 19:54:49 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If -D_FORTIFY_SOURCE=2 is included in CFLAGS for debug builds,
-many warnings will be generated and some packages will fail to
-build.  So, only conditionally include it.
+On 2015-03-06 10:51, Mike Looijmans wrote:
+> Commit 4ceff7d0a1f28eb1ce5d288111015bff8d5e9a7e "libav: drop older 0.8.* and use libav-9 by default" removed libav 0.8 in favor of the "9" edition. However, after compiling this
+> for a MIPS box, the gst-ffmpeg plugin now refuses to load and displays the following at runtime:
+>
+> (gst-plugin-scanner:971): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/lib/gstreamer-0.10/libgstffmpeg.so: undefined symbol:
+> avcodec_get_context_defaults
+>
+> The "avcodec_get_context_defaults" method is mentioned even in libav-9.patch.
+>
+> Reverting to the 0.8 version "resolves" it.
+>
+> I wonder if we're the only ones getting this?
+>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/conf/distro/include/security_flags.inc |   11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+I get a different error, but surely just as deadly since it
+fails to register the whole ffmpeg plugin:
+(gst-plugin-scanner:1108): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/li
+b/gstreamer-0.10/libgstffmpeg.so: undefined symbol: av_get_bits_per_sample_format
+(gst-plugin-scanner:1108): GLib-GObject-WARNING **: cannot register existing type 'GstVorbisDec'
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index f3f0082..287f30f 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -1,10 +1,15 @@
--SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
--SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
-+# _FORTIFY_SOURCE does not play well with debug builds
-+#
-+lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
-+
-+SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie ${lcl_maybe_fortify}"
-+SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all ${lcl_maybe_fortify}"
-+
- SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
- SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
- 
- # powerpc does not get on with pie for reasons not looked into as yet
--SECURITY_CFLAGS_powerpc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
-+SECURITY_CFLAGS_powerpc = "-fstack-protector-all ${lcl_maybe_fortify}"
- # Deal with ppc specific linker failures when using the cflags
- SECURITY_CFLAGS_pn-dbus_powerpc = ""
- SECURITY_CFLAGS_pn-dbus-ptest_powerpc = ""
 -- 
-1.7.9.5
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
