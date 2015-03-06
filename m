@@ -1,32 +1,39 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 72A536017E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 06:01:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2015 22:01:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,351,1422950400"; d="scan'208";a="694757822"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2015 22:01:34 -0800
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 46383300001; Thu,  5 Mar 2015 22:01:18 -0800 (PST)
-Received: from 10.254.177.107 (SquirrelMail authenticated user randy.e.witt)
-	by linux.intel.com with HTTP; Thu, 5 Mar 2015 22:01:18 -0800 (PST)
-Message-ID: <64249.10.254.177.107.1425621678.squirrel@linux.intel.com>
-In-Reply-To: <CAMKF1soVNp5GsNKOkmZRCb9KUkzFcRW337smGBs9YNtVu3XNWQ@mail.gmail.com>
-References: <1425607906-21810-1-git-send-email-randy.e.witt@linux.intel.com>
-	<CAMKF1soVNp5GsNKOkmZRCb9KUkzFcRW337smGBs9YNtVu3XNWQ@mail.gmail.com>
-Date: Thu, 5 Mar 2015 22:01:18 -0800 (PST)
-From: randy.e.witt@linux.intel.com
-To: "Khem Raj" <raj.khem@gmail.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 305176017E;
+	Fri,  6 Mar 2015 06:27:49 +0000 (UTC)
+Received: by wesu56 with SMTP id u56so57450386wes.10;
+	Thu, 05 Mar 2015 22:27:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=qaSnt+u49sO8HGrFm+n83Cd/53de6hkC5inczEHPMlc=;
+	b=RZvBwP+MM/SypAlGupzq1bHKYGQHqmapFZV41YPLG2J9skwuuTGt8KjhPeAJbqf7yG
+	QFrQiOh6k7/2A5z+PxFjZ8GMuJLAwfiWDLx2xNwTL+Lk4MNy93YYuWlHSMaiADwwfvJR
+	rRrKn0+MGlMGpNzuuSIJ67PWC7KkL+7/zPyQR37VKN8XFRp1oKHNzX2Gabka9+xW4nRX
+	mYK1NTE1FFJNgBMLc4fOl6Ifjw0lmnW8qDgkVctw3izuVMVTxHibzgk3+xrky9GtRpWF
+	k85zWrlA4W97JTTeFU2SiaZL9JIAFpwT+nT4AwSs2VlDfmqBGN+xZnEwWZ1fRB43yT3d
+	nGew==
+X-Received: by 10.194.177.195 with SMTP id cs3mr25042387wjc.141.1425623270340; 
+	Thu, 05 Mar 2015 22:27:50 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	n3sm13492020wja.36.2015.03.05.22.27.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Mar 2015 22:27:49 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 6 Mar 2015 07:27:55 +0100
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20150306062755.GD2337@jama>
+References: <20141211092332.GA2467@jama>
+ <20150305212212.GZ2337@jama>
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Fix the problem of an empty journal on boot
+In-Reply-To: <20150305212212.GZ2337@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: State of bitbake world, test-dependencies 2015-03-05
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,91 +46,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 06:01:39 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Mar 2015 06:27:50 -0000
+X-Groupsio-MsgNum: 63030
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="aSMWOr4h/ZU3vZ/E"
+Content-Disposition: inline
 
-> On Mar 5, 2015 6:13 PM, "Randy Witt" <randy.e.witt@linux.intel.com> wrote:
->>
->> systemd by default tries to write the journal to /var/log/journal.
->> But base-files has a symlink /var/log -> /var/volatile/log. And
->> /var/volatile is a tmpfs mount in /etc/fstab.
->>
->> If the journal service started before /var/volatile was mounted (which
->> was the typical scenario) then the journal would appear empty since
->> the old location was mounted over.
->>
->> This change fixes the problem by ensuring that the journal doesn't start
->> until after the mount happens.
->>
->
-> What happens if folks have a different fstab then default? Will it still
-> work
+--aSMWOr4h/ZU3vZ/E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, the "After" only changes behavior if something else has caused
-var-volatile.mount to be in the set of services to be started.
+On Thu, Mar 05, 2015 at 10:22:12PM +0100, Martin Jansa wrote:
+> On Thu, Dec 11, 2014 at 10:23:32AM +0100, Martin Jansa wrote:
+> > On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
+> > > Complete logs:
+> > > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140=
+808_063907.log/
+> > >=20
+> > > ERROR: 483 issues were found in these recipes: directfb engrave epiph=
+any expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchi=
+ve libmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2=
+dec mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunne=
+l synergy tesseract tracker
+> >=20
+> > Complete logs;
+> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.2014121=
+0_162427.log/
+> >=20
+> > This was only partial build, so the results don't look so bad.
+> > ERROR: 27 issues were found in these recipes: android-audiosystem
+> > collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
+> > polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
+> >=20
+> > Found differences:=20
+> > WARN: collectd: collectd rdepends on libcrypto, but it isn't a build de=
+pendency?
+> > WARN: collectd: collectd rdepends on libesmtp, but it isn't a build dep=
+endency?
+> > WARN: collectd: collectd rdepends on libssl, but it isn't a build depen=
+dency?
+> > WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
+> > WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad=
+-rtmp, but it isn't a build dependency?
+> > WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a buil=
+d dependency?
+> > WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a b=
+uild dependency?
+> > WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build=
+ dependency?
+> > WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build depende=
+ncy?
+> > WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
+> >=20
+> > Found errors:=20
+> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when=
+ building with minimal dependencies?
+> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created =
+when building with minimal dependencies?
+>=20
+> I've another partial build which basically confirmed that some of these
+> issues are still there.
+>=20
+> Found differences:=20
+> WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
+> WARN: fbida: fbida rdepends on lirc, but it isn't a build dependency?
+> WARN: qt5-creator: qt5-creator rdepends on qt-creator, but it isn't a bui=
+ld dependency?
+> WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependenc=
+y?
+> WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
+>=20
+> Logs weren't uploaded this time, because we've run out of space on
+> logs.nslu2-linux.org/buildlogs/
 
-I verified that was the case by removing /var/volatile from /etc/fstab and
-the journal still starts with no errors.
+Now we have the logs as well
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20150305_21=
+3704.log/
 
->> [Yocto #7388]
->>
->> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
->> ---
->>  meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 ++++++
->>  meta/recipes-core/systemd/systemd_219.bb                 | 2 ++
->>  2 files changed, 8 insertions(+)
->>  create mode 100644
-> meta/recipes-core/systemd/systemd/journald-volatile.conf
->>
->> diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf
-> b/meta/recipes-core/systemd/systemd/journald-volatile.conf
->> new file mode 100644
->> index 0000000..b11e160
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
->> @@ -0,0 +1,6 @@
->> +# If /var/volatile is a mount point then make sure to mount it before
->> +# the journal starts. This is because base-files creates a symlink
->> +# /var/log -> /var/volatile/log. And if the journal starts before the
-> mount
->> +# happens, the journal will appear empty until restarted.
->> +[Unit]
->> +After=var-volatile.mount
->> diff --git a/meta/recipes-core/systemd/systemd_219.bb
-> b/meta/recipes-core/systemd/systemd_219.bb
->> index 3c4b6cf..2be66af 100644
->> --- a/meta/recipes-core/systemd/systemd_219.bb
->> +++ b/meta/recipes-core/systemd/systemd_219.bb
->> @@ -48,6 +48,7 @@ SRC_URI = "git://
-> anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
->>             file://00-create-volatile.conf \
->>             file://init \
->>             file://run-ptest \
->> +           file://journald-volatile.conf \
->>            "
->>
->>  S = "${WORKDIR}/git"
->> @@ -143,6 +144,7 @@ do_install() {
->>         install -m 0644 ${WORKDIR}/*.rules
->> ${D}${sysconfdir}/udev/rules.d/
->>
->>         install -m 0644 ${WORKDIR}/00-create-volatile.conf
-> ${D}${sysconfdir}/tmpfiles.d/
->> +       install -D -m 0644 ${WORKDIR}/journald-volatile.conf
-> ${D}${systemd_unitdir}/system/systemd-journald.service.d/journald-volatile.conf
->>
->>         if
-> ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
->>                 install -d ${D}${sysconfdir}/init.d
->> --
->> 1.9.3
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--aSMWOr4h/ZU3vZ/E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlT5SOsACgkQN1Ujt2V2gBzaKQCcCiYiopLFAQAEouVG6Zhh54+z
+KNgAn3MsmFc+sJJx13FkLxvExqyFa+eq
+=3RdD
+-----END PGP SIGNATURE-----
+
+--aSMWOr4h/ZU3vZ/E--
