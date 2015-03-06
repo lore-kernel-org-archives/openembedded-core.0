@@ -1,20 +1,37 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 9E63C6017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FFC06017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 12:35:49 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Fri, 6 Mar 2015
-	13:35:49 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Mar 2015 13:35:47 +0100
-Message-ID: <1425645347-16348-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  6 Mar 2015 12:35:58 +0000 (UTC)
+Received: by qcxm20 with SMTP id m20so49969818qcx.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Mar 2015 04:35:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=GXdSm10J0nwRyl02eUywrS06gRNwrQ23/9amDEmC4bo=;
+	b=LDBWNbZce+Zx2URTcwkUaA/atWeavUEwmk0/+IvwPCAGgCvFrxGQScR6pZWM11DPoW
+	tNsx8fcSu/Rv98qadIbmO/f1oRj4ddynHU1UPqKnbxhusr2TYKGQ6xSYV+5yyl0+QyfD
+	gaqBQ6QrO8r48KxVTnBmy8kO8xMqMbXnVqaXt0TVrSmXwOwqmrkFUPJ3M/G6vNCTW0EB
+	HweFh7MjgUgw/g/tTxQ7eXgUR6Rf6R09znzT0ntnrO61Vwx4dXz0rx6R4AKp0Ba6qGzR
+	01/0+jlTmcij+5ivGxNEp/klzulQzeYyxRSQNG2r0Za7JKmOXvjAT3xb+TmtV9GgPLP7
+	ieSQ==
+X-Gm-Message-State: ALoCoQk/b6zjnRul4IqbcxZq3SPWP6w+ueWOLChmlpecyAkWWr8fBed4aarKPmvNLXKgCyOrrGc/
+X-Received: by 10.140.233.79 with SMTP id e76mr19320327qhc.100.1425645359836; 
+	Fri, 06 Mar 2015 04:35:59 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [daisy][PATCH] elfutils: CVE-2014-9447
+Received: by 10.140.102.203 with HTTP; Fri, 6 Mar 2015 04:35:39 -0800 (PST)
+In-Reply-To: <1eade737f0d2e1279a75c27335e110140b28503f.1425634271.git.liezhi.yang@windriver.com>
+References: <cover.1425634271.git.liezhi.yang@windriver.com>
+	<1eade737f0d2e1279a75c27335e110140b28503f.1425634271.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Mar 2015 12:35:39 +0000
+Message-ID: <CAJTo0La_2aZHEs5MfbaV+UZ9Bf+qLfnm0Dj=9uurcLVz9KUHvQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] apt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,91 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 12:35:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Mar 2015 12:36:00 -0000
+Content-Type: multipart/alternative; boundary=001a113535063fc73405109ded52
 
-Fixes directory traversal vulnerability in elfutils 'ar' utility
+--001a113535063fc73405109ded52
+Content-Type: text/plain; charset=UTF-8
 
-Reference
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9447
+On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../elfutils/elfutils/CVE-2014-9447.patch          | 51 ++++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
+> -SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/apt_${PV}.tar.gz \
+> +SRC_URI = "
+> https://launchpad.net/debian/+archive/primary/+files/apt_0.9.9.4.tar.gz \
+>
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
-new file mode 100644
-index 0000000..8edec1b
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
-@@ -0,0 +1,51 @@
-+libelf: Fix dir traversal vuln in ar extraction.
-+
-+read_long_names terminates names at the first '/' found but
-+then skips one character without checking (it's supposed to
-+be '\n'). Hence the next name could start with any character
-+including '/'. This leads to a directory traversal vulnerability
-+at the time the contents of the archive is extracted.
-+
-+The danger is mitigated by the fact that only one '/' is
-+possible in a resulting filename and only in the leading position.
-+Hence only files in the root directory can be written via this vuln
-+and only when ar is executed as root. The fix for the vuln is to not
-+skip any characters while looking for '/'.
-+
-+Upstream commit:
-+https://git.fedorahosted.org/cgit/elfutils.git/commit/
-+?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
-+
-+Fixes CVE-2014-9447
-+Upstream-Status: Backport
-+
-+Signed-off-by: Alexander Cherepanov <cherepan@mccme.ru>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+diff -ruN a/libelf/ChangeLog b/libelf/ChangeLog
-+--- a/libelf/ChangeLog	2015-03-03 10:45:03.586045753 +0100
-++++ b/libelf/ChangeLog	2015-03-03 10:47:14.052545814 +0100
-+@@ -1,3 +1,8 @@
-++2014-12-28  Alexander Cherepanov  <cherepan@mccme.ru>
-++
-++       * elf_begin.c (read_long_names): Don't miss '/' right after
-++       another '/'. Fixes a dir traversal vuln in ar extraction.
-++
-+ 2010-06-14  Ulrich Drepper  <drepper@redhat.com>
-+ 
-+ 	* gelf_update_shdr.c: Implicitly set ELF_F_DIRTY bit.
-+diff -ruN a/libelf/elf_begin.c b/libelf/elf_begin.c
-+--- a/libelf/elf_begin.c	2015-03-03 10:45:04.414010849 +0100
-++++ b/libelf/elf_begin.c	2015-03-03 10:45:46.736226750 +0100
-+@@ -765,10 +765,7 @@
-+ 	    break;
-+ 
-+ 	  /* NUL-terminate the string.  */
-+-	  *runp = '\0';
-+-
-+-	  /* Skip the NUL byte and the \012.  */
-+-	  runp += 2;
-++	  *runp++ = '\0';
-+ 
-+ 	  /* A sanity check.  Somebody might have generated invalid
-+ 	     archive.  */
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index 1106242..d65867e 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -32,6 +32,7 @@ SRC_URI += "\
- 	file://dso-link-change.patch \
- 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
- 	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
-+        file://CVE-2014-9447.patch \
- "
- # Only apply when building uclibc based target recipe
- SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
--- 
-1.9.1
+Surely this should continue using ${PV}, especially as this is a .inc.
 
+Ross
 
+--001a113535063fc73405109ded52
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 March 2015 at 09:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":40" clas=
+s=3D"a3s" style=3D"overflow:hidden">-SRC_URI =3D &quot;${DEBIAN_MIRROR}/mai=
+n/a/apt/apt_${PV}.tar.gz \<br>
++SRC_URI =3D &quot;<a href=3D"https://launchpad.net/debian/+archive/primary=
+/+files/apt_0.9.9.4.tar.gz" target=3D"_blank">https://launchpad.net/debian/=
++archive/primary/+files/apt_0.9.9.4.tar.gz</a> \</div></blockquote></div><b=
+r>Surely this should continue using ${PV}, especially as this is a .inc.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--001a113535063fc73405109ded52--
