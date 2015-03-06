@@ -1,47 +1,43 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 327816013D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E4E93738C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 09:15:02 +0000 (UTC)
-Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id D14963F4CC
+	Fri,  6 Mar 2015 09:18:41 +0000 (UTC)
+Received: by padet14 with SMTP id et14so26165395pad.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 10:15:01 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.898
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.898 tagged_above=-999 required=3.5
-	tests=[BAYES_00=-2.9, RCVD_IN_DNSWL_BLOCKED=0.001,
-	URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 10:15:01 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 10:14:59 +0100 (CET)
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Fri, 6 Mar 2015 10:16:12 +0100
-Message-ID: <54F9700E.1050501@topic.nl>
-Date: Fri, 6 Mar 2015 10:14:54 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.11.1503050340460.25779@Device-040570>
-In-Reply-To: <alpine.LFD.2.11.1503050340460.25779@Device-040570>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: is standard for COMPATIBLE_MACHINE to use "()" or not?
+	Fri, 06 Mar 2015 01:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=S9fdJeRb83JYLVqo6DzPvBFQkX6CRVEWMDcEPLpoymw=;
+	b=xJ6wuPNXX97tTo7zK9f6PK/P4RFSdo8EcMGCYg8NqzZNf+zFbIuJybwuEWuCyEkfSp
+	brAZvPnWdwAFGuNbDLn9gjA8ytgzS+wnJy4xNGNzq0McVLeI6fFbaBQ2vqF4mYmUtHB3
+	93OZphyd57+wB7eZp5NhV1ZdGhOw4Uf0FUO2L7bOB7TSwZE0YnHNjOgjXJaiUMo+94qd
+	+qoKLZiXdrQ3svP0q/QlDQchXPhCpV7bqKdZCqsc0mxeo6OkpuTmxGOMRfB5rywYJTd5
+	+N1FTnVxtJi+Aux8hrPyMQPTkAZYLbWyPrc/phD5tmsBK+P4eF6Qeim4WtmQUod1JwC0
+	kRMQ==
+X-Received: by 10.66.154.17 with SMTP id vk17mr23601774pab.5.1425633522595;
+	Fri, 06 Mar 2015 01:18:42 -0800 (PST)
+Received: from ?IPv6:2601:9:3580:84c:c942:8a96:3860:e4e6?
+	([2601:9:3580:84c:c942:8a96:3860:e4e6])
+	by mx.google.com with ESMTPSA id d9sm9108571pdk.3.2015.03.06.01.18.41
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 06 Mar 2015 01:18:41 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+X-Priority: 3 (Normal)
+In-Reply-To: <64249.10.254.177.107.1425621678.squirrel@linux.intel.com>
+Date: Fri, 6 Mar 2015 01:18:40 -0800
+Message-Id: <F29A110F-58F7-4878-ACFA-B1683AEFD651@gmail.com>
+References: <1425607906-21810-1-git-send-email-randy.e.witt@linux.intel.com>
+	<CAMKF1soVNp5GsNKOkmZRCb9KUkzFcRW337smGBs9YNtVu3XNWQ@mail.gmail.com>
+	<64249.10.254.177.107.1425621678.squirrel@linux.intel.com>
+To: randy.e.witt@linux.intel.com
+X-Mailer: Apple Mail (2.2070.6)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Fix the problem of an empty journal on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +50,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 09:15:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 06 Mar 2015 09:18:47 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 05-03-15 09:43, Robert P. J. Day wrote:
->
->    a style guide thing ... it appears that COMPATIBLE_MACHINE happily
-> acccepts a matching RE within parentheses or not, is there a
-> preference?
->
->    also, in checking that, i ran across this in oe-core:
->
-> linux-yocto_3.14.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|qem=
-uppc|qemumips|qemumips64|qemux86-64"
-> linux-yocto_3.19.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|qem=
-uppc|qemumips|qemumips64|qemux86-64"
-> linux-yocto-dev.bb:COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemum=
-ips|qemumips64|qemux86-64)"
 
-The regex should have been "qemu(arm|x86|ppc|mips|mips64|x86-64)"
+> On Mar 5, 2015, at 10:01 PM, randy.e.witt@linux.intel.com wrote:
+>=20
+>> On Mar 5, 2015 6:13 PM, "Randy Witt" <randy.e.witt@linux.intel.com> =
+wrote:
+>>>=20
+>>> systemd by default tries to write the journal to /var/log/journal.
+>>> But base-files has a symlink /var/log -> /var/volatile/log. And
+>>> /var/volatile is a tmpfs mount in /etc/fstab.
+>>>=20
+>>> If the journal service started before /var/volatile was mounted =
+(which
+>>> was the typical scenario) then the journal would appear empty since
+>>> the old location was mounted over.
+>>>=20
+>>> This change fixes the problem by ensuring that the journal doesn't =
+start
+>>> until after the mount happens.
+>>>=20
+>>=20
+>> What happens if folks have a different fstab then default? Will it =
+still
+>> work
+>=20
+> Yes, the "After" only changes behavior if something else has caused
+> var-volatile.mount to be in the set of services to be started.
+>=20
+> I verified that was the case by removing /var/volatile from /etc/fstab =
+and
+> the journal still starts with no errors.
 
-And since "x86-64" already matches "x86", that could have been omitted.
+perfect thanks. I will test it out in few hrs myself.
 
-> where the first two recipes list "qemuarm64" but the dev version
-> doesn't ... is that deliberate?
-
-Probably not, but "qemuarm64" matches "qemuarm" already.
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+>=20
+>>> [Yocto #7388]
+>>>=20
+>>> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+>>> ---
+>>> meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 ++++++
+>>> meta/recipes-core/systemd/systemd_219.bb                 | 2 ++
+>>> 2 files changed, 8 insertions(+)
+>>> create mode 100644
+>> meta/recipes-core/systemd/systemd/journald-volatile.conf
+>>>=20
+>>> diff --git =
+a/meta/recipes-core/systemd/systemd/journald-volatile.conf
+>> b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+>>> new file mode 100644
+>>> index 0000000..b11e160
+>>> --- /dev/null
+>>> +++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+>>> @@ -0,0 +1,6 @@
+>>> +# If /var/volatile is a mount point then make sure to mount it =
+before
+>>> +# the journal starts. This is because base-files creates a symlink
+>>> +# /var/log -> /var/volatile/log. And if the journal starts before =
+the
+>> mount
+>>> +# happens, the journal will appear empty until restarted.
+>>> +[Unit]
+>>> +After=3Dvar-volatile.mount
+>>> diff --git a/meta/recipes-core/systemd/systemd_219.bb
+>> b/meta/recipes-core/systemd/systemd_219.bb
+>>> index 3c4b6cf..2be66af 100644
+>>> --- a/meta/recipes-core/systemd/systemd_219.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_219.bb
+>>> @@ -48,6 +48,7 @@ SRC_URI =3D "git://
+>> anongit.freedesktop.org/systemd/systemd;branch=3Dmaster;protocol=3D
+>>>            file://00-create-volatile.conf \
+>>>            file://init \
+>>>            file://run-ptest \
+>>> +           file://journald-volatile.conf \
+>>>           "
+>>>=20
+>>> S =3D "${WORKDIR}/git"
+>>> @@ -143,6 +144,7 @@ do_install() {
+>>>        install -m 0644 ${WORKDIR}/*.rules
+>>> ${D}${sysconfdir}/udev/rules.d/
+>>>=20
+>>>        install -m 0644 ${WORKDIR}/00-create-volatile.conf
+>> ${D}${sysconfdir}/tmpfiles.d/
+>>> +       install -D -m 0644 ${WORKDIR}/journald-volatile.conf
+>> =
+${D}${systemd_unitdir}/system/systemd-journald.service.d/journald-volatile=
+.conf
+>>>=20
+>>>        if
+>> ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; =
+then
+>>>                install -d ${D}${sysconfdir}/init.d
+>>> --
+>>> 1.9.3
+>>>=20
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
