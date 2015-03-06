@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE7DA738F7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3179273902
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 09:32:38 +0000 (UTC)
+	Fri,  6 Mar 2015 09:32:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t269We8v012812
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t269WeNd000480
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 6 Mar 2015 01:32:40 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	Fri, 6 Mar 2015 01:32:40 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Mar 2015 01:32:37 -0800
-Message-ID: <07207d00d28d2d30a85df99eb0c0c07c272075a9.1425634271.git.liezhi.yang@windriver.com>
+Date: Fri, 6 Mar 2015 01:32:38 -0800
+Message-ID: <1eade737f0d2e1279a75c27335e110140b28503f.1425634271.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1425634271.git.liezhi.yang@windriver.com>
 References: <cover.1425634271.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] resolvconf: 1.76 -> 1.76.1
+Subject: [PATCH 6/6] apt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 09:32:38 -0000
+X-List-Received-Date: Fri, 06 Mar 2015 09:32:39 -0000
 Content-Type: text/plain
 
-The old source is not available any more.
+The old one is not available any more.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{resolvconf_1.76.bb => resolvconf_1.76.1.bb}   |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.76.bb => resolvconf_1.76.1.bb} (94%)
+ meta/recipes-devtools/apt/apt.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.1.bb
-similarity index 94%
-rename from meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-rename to meta/recipes-connectivity/resolvconf/resolvconf_1.76.1.bb
-index 20a2c19..fb9ca2b 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.1.bb
-@@ -16,9 +16,8 @@ SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
-            file://99_resolvconf \
-           "
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 378021a..12dfcaf 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
+ LICENSE = "GPLv2.0+"
+ SECTION = "base"
  
--
--SRC_URI[md5sum] = "d78ce30ea068999cd3e0523300b27255"
--SRC_URI[sha256sum] = "c9f40f7405b37399ddbf29ca4205b4911ee35cb9ffd9be7671faa2385b1fa573"
-+SRC_URI[md5sum] = "16f395f43ef5d832922b0cd4a82efcaa"
-+SRC_URI[sha256sum] = "05318a7988f2b6fa400468ea096f0ccf73d166ac47a4fbab287ff63bea9502d3"
- 
- inherit allarch
- 
+-SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/apt_${PV}.tar.gz \
++SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/apt_0.9.9.4.tar.gz \
+            file://no-ko-translation.patch \
+            file://use-host.patch \
+            file://makerace.patch \
 -- 
 1.7.9.5
 
