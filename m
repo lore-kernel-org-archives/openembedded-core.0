@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 310DF738C9
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B60996017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 11:47:09 +0000 (UTC)
-Received: by qgfh3 with SMTP id h3so11799173qgf.2
+	Fri,  6 Mar 2015 12:10:20 +0000 (UTC)
+Received: by qgdq107 with SMTP id q107so11916407qgd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2015 03:47:10 -0800 (PST)
+	Fri, 06 Mar 2015 04:10:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=T9lhxtB8NMduyYsBwfGGfy9/s66GZm3HJEQT8AhtrO4=;
-	b=G9EZkBabgthhwwmYAQU6Fx795/9h35iIlvM6gONuV2JYCmYGYGeD55p6HsYcmsTbY+
-	2QTXeTXa2a+RNLinlsyFYntqKndgbwSaYoRCgKVW+aWb6/8LBvf58UyhJ1k5P2ddEp4p
-	uBEbPslV61xh/pacwB1GcU0uH3Bf5mvTtNqVmPVS2rRBFVctzrCKRgSDZHm/LUzxV+Ra
-	18r+3M48wO35Ew4F2Nr1T48xHCVQs23kdMjdpnlu8/pIzKl14jtAExKxE6c4W+dakz7H
-	P046ajEWMG0Ta7iIU8IThUZwi/UCC5L28o26moSAkKt5MNuHf5bMZDRNty1mFtlCfHIF
-	MriA==
-X-Gm-Message-State: ALoCoQkYNu3+34LGvtX2WLmoFWnqPOQGMzJOO7AovH8fArCV4weO+TNSRMGAJAryphEnBubaUxjW
-X-Received: by 10.55.21.12 with SMTP id f12mr28044098qkh.40.1425642430793;
-	Fri, 06 Mar 2015 03:47:10 -0800 (PST)
+	bh=n65A7hkc9ZLEFBZmkdTf0GBGWWgPH/QQt55FRts7ies=;
+	b=R2bz0eggzURK+S+aub+ak8rWQ42BZ30ZKX026ZwNLMCdwCfsD9G/dHvlhBp+BNlVzX
+	i19+UnRDVlutrEB+DSDY6YQgvHEC7Nc/8tGZ5uhSzSe299YKG2HvU+0pWaEU7W77r4BQ
+	QrK1Mno70d4MAUWKvPeR7gIQjamIdkTOF+FCgDlNKQ25uZ2tg6abeSKLt2Slluu3Z+SE
+	MDP6mNNByQpPc7zAXA06+0rVXXqO+aHKQZ2E6o4rUnFPvaD2P2AJkAsHz/vgorR7NNa0
+	Akj5ADl6sJwzsQ8a3FdzPdTegZcNm6p7hLjlqR/4sfcRgpojqDedXx2IcAzyrLwX1pyZ
+	uoxQ==
+X-Gm-Message-State: ALoCoQmjs9zB0NxQXjl1pFCNvIr9us2m1XNf+e3Hk3AMSFgY9YdJ37ImAm4Qlt4NQh7G30GyeQPu
+X-Received: by 10.55.41.106 with SMTP id p103mr27665872qkh.102.1425643821338; 
+	Fri, 06 Mar 2015 04:10:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Fri, 6 Mar 2015 03:46:50 -0800 (PST)
-In-Reply-To: <1425408376-16981-1-git-send-email-florian.boor@kernelconcepts.de>
-References: <1425408376-16981-1-git-send-email-florian.boor@kernelconcepts.de>
+Received: by 10.140.102.203 with HTTP; Fri, 6 Mar 2015 04:10:01 -0800 (PST)
+In-Reply-To: <008e0da7a6c62109e58ea1418062b988cc68d8ef.1425634271.git.liezhi.yang@windriver.com>
+References: <cover.1425634271.git.liezhi.yang@windriver.com>
+	<008e0da7a6c62109e58ea1418062b988cc68d8ef.1425634271.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Mar 2015 11:46:50 +0000
-Message-ID: <CAJTo0LZL=jaHMLP-txpcDFWbpi_c4R3xWJQ0dk51mbF7ZdaWgQ@mail.gmail.com>
-To: Florian Boor <florian.boor@kernelconcepts.de>
-Cc: Florian Boor <florian@kernelconcepts.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb: Allow native builds of directfb 1.7.6
+Date: Fri, 6 Mar 2015 12:10:01 +0000
+Message-ID: <CAJTo0LazeFECH=QX1CEqtGLKPqMkt-xy0UuDzMazC6GSH+W_+g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/6] xinetd: fixe HOMEPAGE and SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,64 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 11:47:10 -0000
-Content-Type: multipart/alternative; boundary=001a1147f3f4aa21a905109d3ebf
+X-List-Received-Date: Fri, 06 Mar 2015 12:10:21 -0000
+Content-Type: multipart/alternative; boundary=001a11406c9a8c5a2205109d917a
 
---001a1147f3f4aa21a905109d3ebf
+--001a11406c9a8c5a2205109d917a
 Content-Type: text/plain; charset=UTF-8
 
-On 3 March 2015 at 18:46, Florian Boor <florian.boor@kernelconcepts.de>
-wrote:
+On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> Required by some DirectFB applications like dfbsee.
+> +SRC_URI = "
+> https://github.com/xinetd-org/xinetd/archive/xinetd-2-3-15.tar.gz \
 >
 
-ERROR: Nothing PROVIDES 'tslib-native' (but
-virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-graphics/directfb/
-directfb_1.7.6.bb DEPENDS on or otherwise requires it). Close matches:
-  zlib-native
-  libxt-native
-  libsm-native
-ERROR: Nothing PROVIDES 'sysfsutils-native' (but
-virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-graphics/directfb/
-directfb_1.7.6.bb DEPENDS on or otherwise requires it). Close matches:
-  elfutils-native
-  findutils-native
-  dosfstools-native
-
-Presumably you have patches to enable those for native, or would it be best
-to disable them in the native case as presumably all you need are the tools?
+Have GitHub changed their archive behaviour?  Last I heard the archives are
+cached for a while but can be re-generated at any moment, resulting in a
+checksum change.
 
 Ross
 
---001a1147f3f4aa21a905109d3ebf
+--001a11406c9a8c5a2205109d917a
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 March 2015 at 18:46, Florian Boor <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:florian.boor@kernelconcepts.de" target=3D"_blank">florian.boor@kernelco=
-ncepts.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":3iw" class=
-=3D"" style=3D"overflow:hidden">Required by some <span class=3D"">DirectFB<=
-/span> applications like dfbsee.<br></div></blockquote></div><br><div class=
-=3D"gmail_extra">ERROR: Nothing PROVIDES &#39;tslib-native&#39; (but virtua=
-l:native:/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/bui=
-ld/meta/recipes-graphics/directfb/<a href=3D"http://directfb_1.7.6.bb">dire=
-ctfb_1.7.6.bb</a> DEPENDS on or otherwise requires it). Close matches:</div=
-><div class=3D"gmail_extra">=C2=A0 zlib-native</div><div class=3D"gmail_ext=
-ra">=C2=A0 libxt-native</div><div class=3D"gmail_extra">=C2=A0 libsm-native=
-</div><div class=3D"gmail_extra">ERROR: Nothing PROVIDES &#39;sysfsutils-na=
-tive&#39; (but virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worke=
-r/build-appliance/build/meta/recipes-graphics/directfb/<a href=3D"http://di=
-rectfb_1.7.6.bb">directfb_1.7.6.bb</a> DEPENDS on or otherwise requires it)=
-. Close matches:</div><div class=3D"gmail_extra">=C2=A0 elfutils-native</di=
-v><div class=3D"gmail_extra">=C2=A0 findutils-native</div><div class=3D"gma=
-il_extra">=C2=A0 dosfstools-native</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Presumably you have patches to enable those fo=
-r native, or would it be best to disable them in the native case as presuma=
-bly all you need are the tools?</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div></div>
+On 6 March 2015 at 09:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3zl" cla=
+ss=3D"a3s" style=3D"overflow:hidden">+SRC_URI =3D &quot;<a href=3D"https://=
+github.com/xinetd-org/xinetd/archive/xinetd-2-3-15.tar.gz" target=3D"_blank=
+">https://github.com/xinetd-org/xinetd/archive/xinetd-2-3-15.tar.gz</a> \<b=
+r></div></blockquote></div><br>Have GitHub changed their archive behaviour?=
+=C2=A0 Last I heard the archives are cached for a while but can be re-gener=
+ated at any moment, resulting in a checksum change.</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1147f3f4aa21a905109d3ebf--
+--001a11406c9a8c5a2205109d917a--
