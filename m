@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 30E116017E
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 9E63C6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 12:24:33 +0000 (UTC)
-Received: by qcwb13 with SMTP id b13so12286391qcw.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2015 04:24:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0rEk4j51BXxKuY7jyzXfSiXAmtJQr858HWjWL/qlUt8=;
-	b=i2QQ5Fo6BQADgJu+7M5mN2UVd/guFdttr/7nAAOnpyAdO7eIOi+hAr/n9kvfBdca0R
-	hc6hUY+8VGR4DxqLB+bsYop1Mc+vgH7WgdlCbEyucVWh5cycta+Lg4p4WgD5KSpIKarh
-	4rLR6QW7x+giC7rC+MBna2F84Id3RthGkQi9pN9o5VxnYExloZtlXCPGXQcxvFmqtPzJ
-	OMqpNtV13LH31fsUZVoS+46yJNhmy5uzwHNMjVxa5RyOERptfyZk8x5QOm18vnxGi4t/
-	fIMKSfE6VJ7YY4ZVuufbTe2N/OCuubytL02sT+ywstULGcMiKoaMgyPxBDh8o0kr4Mne
-	Ca6g==
-X-Gm-Message-State: ALoCoQl/VrxRi4iOQswdSYH+M1uTF79EdWA+wqXCnJXfw1RrGPNedLr7ISfEs+q/55B6rM3PIJOv
-X-Received: by 10.55.56.145 with SMTP id f139mr28376065qka.74.1425644674688;
-	Fri, 06 Mar 2015 04:24:34 -0800 (PST)
+	Fri,  6 Mar 2015 12:35:49 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Fri, 6 Mar 2015
+	13:35:49 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Mar 2015 13:35:47 +0100
+Message-ID: <1425645347-16348-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Fri, 6 Mar 2015 04:24:14 -0800 (PST)
-In-Reply-To: <20872591b3fade728dbbe3b655045417450b3021.1425634271.git.liezhi.yang@windriver.com>
-References: <cover.1425634271.git.liezhi.yang@windriver.com>
-	<20872591b3fade728dbbe3b655045417450b3021.1425634271.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Mar 2015 12:24:14 +0000
-Message-ID: <CAJTo0Ladja3vEp4_stvqQPg2igWr0C47M8GV5SjusfGTJ=K3VA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] net-tools: 1.60-25 -> 1.60-26
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [daisy][PATCH] elfutils: CVE-2014-9447
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 12:24:34 -0000
-Content-Type: multipart/alternative; boundary=001a11470082693ac405109dc4d2
+X-List-Received-Date: Fri, 06 Mar 2015 12:35:51 -0000
+Content-Type: text/plain
 
---001a11470082693ac405109dc4d2
-Content-Type: text/plain; charset=UTF-8
+Fixes directory traversal vulnerability in elfutils 'ar' utility
 
-On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com> wrote:
+Reference
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9447
 
-> The old net-tools_1.60-25.diff.gz is not available any more.
->
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../elfutils/elfutils/CVE-2014-9447.patch          | 51 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
 
-As I said yesterday, we're feature-frozen now.  Instead of upgrading can we
-use a different mirror.  snapshot.debian.org is useful as they archive all
-releases there:
+diff --git a/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
+new file mode 100644
+index 0000000..8edec1b
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
+@@ -0,0 +1,51 @@
++libelf: Fix dir traversal vuln in ar extraction.
++
++read_long_names terminates names at the first '/' found but
++then skips one character without checking (it's supposed to
++be '\n'). Hence the next name could start with any character
++including '/'. This leads to a directory traversal vulnerability
++at the time the contents of the archive is extracted.
++
++The danger is mitigated by the fact that only one '/' is
++possible in a resulting filename and only in the leading position.
++Hence only files in the root directory can be written via this vuln
++and only when ar is executed as root. The fix for the vuln is to not
++skip any characters while looking for '/'.
++
++Upstream commit:
++https://git.fedorahosted.org/cgit/elfutils.git/commit/
++?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
++
++Fixes CVE-2014-9447
++Upstream-Status: Backport
++
++Signed-off-by: Alexander Cherepanov <cherepan@mccme.ru>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++diff -ruN a/libelf/ChangeLog b/libelf/ChangeLog
++--- a/libelf/ChangeLog	2015-03-03 10:45:03.586045753 +0100
+++++ b/libelf/ChangeLog	2015-03-03 10:47:14.052545814 +0100
++@@ -1,3 +1,8 @@
+++2014-12-28  Alexander Cherepanov  <cherepan@mccme.ru>
+++
+++       * elf_begin.c (read_long_names): Don't miss '/' right after
+++       another '/'. Fixes a dir traversal vuln in ar extraction.
+++
++ 2010-06-14  Ulrich Drepper  <drepper@redhat.com>
++ 
++ 	* gelf_update_shdr.c: Implicitly set ELF_F_DIRTY bit.
++diff -ruN a/libelf/elf_begin.c b/libelf/elf_begin.c
++--- a/libelf/elf_begin.c	2015-03-03 10:45:04.414010849 +0100
+++++ b/libelf/elf_begin.c	2015-03-03 10:45:46.736226750 +0100
++@@ -765,10 +765,7 @@
++ 	    break;
++ 
++ 	  /* NUL-terminate the string.  */
++-	  *runp = '\0';
++-
++-	  /* Skip the NUL byte and the \012.  */
++-	  runp += 2;
+++	  *runp++ = '\0';
++ 
++ 	  /* A sanity check.  Somebody might have generated invalid
++ 	     archive.  */
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 1106242..d65867e 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -32,6 +32,7 @@ SRC_URI += "\
+ 	file://dso-link-change.patch \
+ 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+ 	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
++        file://CVE-2014-9447.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
+-- 
+1.9.1
 
-http://snapshot.debian.org/package/net-tools/1.60-25/
 
-Ross
-
---001a11470082693ac405109dc4d2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 March 2015 at 09:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D":1vy" class=3D"" style=
-=3D"overflow:hidden">The old net-tools_1.60-25.diff.gz is not available any=
- more.<br></div></blockquote></div><br>As I said yesterday, we&#39;re featu=
-re-frozen now.=C2=A0 Instead of upgrading can we use a different mirror. =
-=C2=A0<a href=3D"http://snapshot.debian.org">snapshot.debian.org</a> is use=
-ful as they archive all releases there:</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra"><a href=3D"http://snapshot.debian.org/pac=
-kage/net-tools/1.60-25/">http://snapshot.debian.org/package/net-tools/1.60-=
-25/</a><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a11470082693ac405109dc4d2--
