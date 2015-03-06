@@ -1,52 +1,47 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 63BB46013D
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 327816013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2015 08:26:44 +0000 (UTC)
-Received: by labgq15 with SMTP id gq15so2171830lab.13
+	Fri,  6 Mar 2015 09:15:02 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id D14963F4CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2015 00:26:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=4vImPHdHM9Jx10O1TxAWH27QMkoJUg/nDWF41Y1cqA8=;
-	b=cq6sfrM4oWmp8WTeh71ocg4idZZkQ8Kkb7tIBpKcYlQJDA8BCYwpWMffOzXRCZdGDl
-	vA7Xw3M/yxu3CHGy1F+qoMATPvQ+9ob/ZD6w+qGPA3hL5EgcCd48hIlvPGB5MtnFwmkC
-	eN0TonIjfhGbrLuWvViufdpjfvv/MTYQ2Bwu5spYgSbr3boWzQJUXNk63WirSBus6dEl
-	502zoOiXX2Run6zqQrjEOvY7IDufvAB8s9tIXptcW7aT0QiMmNdd1748Z4xGvK8iMx0U
-	S3wQYBO2eJDhKDHbEbTjar/aqdOipWLML4oli+0qaZtCzdWNLO1+st/S/iqxwFgI02bf
-	jNrw==
-X-Gm-Message-State: ALoCoQkRJt7rmWH1W2+aM0K0TElvJMMZKRjS2XWiXYP0a0NLldEGhURHzH7ylgTxqQfI+pAPlClV
-X-Received: by 10.112.98.201 with SMTP id ek9mr11775479lbb.68.1425630404764;
-	Fri, 06 Mar 2015 00:26:44 -0800 (PST)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id i6sm1682075lai.1.2015.03.06.00.26.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Mar 2015 00:26:44 -0800 (PST)
-Date: Fri, 6 Mar 2015 09:26:42 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <20150306082642.GB14309@ad.chargestorm.se>
-Mail-Followup-To: Gary Thomas <gary@mlbassoc.com>,
-	"Burton, Ross" <ross.burton@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <1425570531-9477-1-git-send-email-gary@mlbassoc.com>
-	<CAJTo0La0cGM+YSFjj5XmR7eex7m5o7xc0rkmz96z2GGvY-jeEQ@mail.gmail.com>
-	<54F88105.8020509@mlbassoc.com>
+	Fri,  6 Mar 2015 10:15:01 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.898
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.898 tagged_above=-999 required=3.5
+	tests=[BAYES_00=-2.9, RCVD_IN_DNSWL_BLOCKED=0.001,
+	URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Mar 2015 10:15:01 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Mar 2015 10:14:59 +0100 (CET)
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 6 Mar 2015 10:16:12 +0100
+Message-ID: <54F9700E.1050501@topic.nl>
+Date: Fri, 6 Mar 2015 10:14:54 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-In-Reply-To: <54F88105.8020509@mlbassoc.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] opkg: Fix error when recompiled
+To: <openembedded-core@lists.openembedded.org>
+References: <alpine.LFD.2.11.1503050340460.25779@Device-040570>
+In-Reply-To: <alpine.LFD.2.11.1503050340460.25779@Device-040570>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: is standard for COMPATIBLE_MACHINE to use "()" or not?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2015 08:26:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 Mar 2015 09:15:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-* Gary Thomas <gary@mlbassoc.com> [150305 17:15]:
-> On 2015-03-05 08:52, Burton, Ross wrote:
-> >On 5 March 2015 at 15:48, Gary Thomas <gary@mlbassoc.com
-> ><mailto:gary@mlbassoc.com>> wrote:
+=EF=BB=BFOn 05-03-15 09:43, Robert P. J. Day wrote:
+>
+>    a style guide thing ... it appears that COMPATIBLE_MACHINE happily
+> acccepts a matching RE within parentheses or not, is there a
+> preference?
+>
+>    also, in checking that, i ran across this in oe-core:
+>
+> linux-yocto_3.14.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|qem=
+uppc|qemumips|qemumips64|qemux86-64"
+> linux-yocto_3.19.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|qem=
+uppc|qemumips|qemumips64|qemux86-64"
+> linux-yocto-dev.bb:COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemum=
+ips|qemumips64|qemux86-64)"
 
-> >    v2: Move the update of the opkg.conf file into 'do_install' which
-> >    will prevent any erroneous [multiple] options to be added to
-> >    'opkg.conf'
+The regex should have been "qemu(arm|x86|ppc|mips|mips64|x86-64)"
+
+And since "x86-64" already matches "x86", that could have been omitted.
+
+> where the first two recipes list "qemuarm64" but the dev version
+> doesn't ... is that deliberate?
+
+Probably not, but "qemuarm64" matches "qemuarm" already.
 
 
-> >Don't put commentary about v2 in the commit message, as when it's
-> >merged the content of v1 isn't relevant.
 
-> Noted.
+Met vriendelijke groet / kind regards,
 
-But for single patches, please keep it in the e-mail by putting it below
-the first --- line. I.e. just before the list of all changed files.
+Mike Looijmans
+System Expert
 
-It's really nice to see a changelog together with a v2, v3, v... patch.
 
-Cheers,
-Anders
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
+
 
