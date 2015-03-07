@@ -1,34 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E746013D
+Return-Path: <sadlife1990@gmail.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 516D3738ED
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2015 08:54:18 +0000 (UTC)
-Received: by wggy19 with SMTP id y19so600660wgg.9
+	Sat,  7 Mar 2015 10:04:33 +0000 (UTC)
+Received: by wesw62 with SMTP id w62so1084351wes.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2015 00:54:19 -0800 (PST)
+	Sat, 07 Mar 2015 02:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZJsYg4y9LAyCVNk7LkXY649sopqk2270UBTmRMEXTEA=;
-	b=v41W1f/IMOhpvRAIoy3NPiXUHPrHk3wq/gz4USprVcRSeQ5PSdVovCaPGcOCGqhrln
-	YNTEYFjRQDMW+C4DAA3GrmFrJ6gUWAZ+t5Q5VowBY0NLEapzM/Yh0oPRp/WL+pp9KQgY
-	yOyEbVGv4yTQh5yXBchbGSRZD0uOofTLn1hYWqAoXrEaookKOicoFFa3LJmYxLGhCloB
-	cRc90d0Lapd7hp1MV7Sc4T0VpqdEMIl7MSmmtwktKo/ZtQbojwybj62u//vfLl/qXLUR
-	TIMv/p186bPuxLb8zZhh7pHGFMzRUbHlkLIORwUrpec4wymJakZ+CsyPcBZTteYajaM5
-	wd2g==
-X-Received: by 10.194.86.135 with SMTP id p7mr37917755wjz.89.1425718459730;
-	Sat, 07 Mar 2015 00:54:19 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	m4sm5773543wik.20.2015.03.07.00.54.18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 07 Mar 2015 00:54:18 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Mar 2015 09:54:24 +0100
-Message-Id: <1425718464-23707-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] test-dependencies.sh: strip only .bb suffix II
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=L/b07jGCQiYaV6QaVusoN9Wc8p9DMF0FcKAxo5npWds=;
+	b=d7uAmb3FAG9LWqmofMcyYi2E1S4MhQV+GPy2WilTjax3jUK4sY5fPcNjx1+u1EMdSG
+	Jkfqoxdey7XLyZGUXAsFNTZu4oqAkiFCGQ+LLE195UJ0u+zBNFCNPDth6ow/rl0HuYpM
+	9akMDtryHYGpQt8clHD4v8bsUxUxoyTuaLQ5lJt7Ly5DKxo6OXmowkhAFLrGInx7bRpL
+	r0XXm0Ze9MbgvPKefmDXZ+xOtkH+OPH16ybrljLIKQcG8CgSbrbHdJZMcTYN9gXmPxQ3
+	6CTndPFcTIbvJrUUurPS7HLXcjN6ajIfmt3DBXFvjb1EnD3wado8ZFaOO0ThIiUbIOER
+	RGug==
+MIME-Version: 1.0
+X-Received: by 10.180.75.132 with SMTP id c4mr40194036wiw.78.1425722674865;
+	Sat, 07 Mar 2015 02:04:34 -0800 (PST)
+Received: by 10.194.36.196 with HTTP; Sat, 7 Mar 2015 02:04:34 -0800 (PST)
+Date: Sat, 7 Mar 2015 12:04:34 +0200
+Message-ID: <CAAHuHfyHaY1fyqeV5K2TCwt3MJ7bjSD-JTs32HZmWruTn3TyTA@mail.gmail.com>
+From: Life Life <sadlife1990@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: ghostscript: build cups filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2015 08:54:20 -0000
+X-List-Received-Date: Sat, 07 Mar 2015 10:04:35 -0000
+Content-Type: multipart/alternative; boundary=f46d04389525956a0a0510afedcc
 
-* we were stripping too much when stripping recipe name from line like this:
-  ERROR: Task 12016 (/some/patch/something.dot.bar.bb, do_fetch) failed with exit code '1'
-  where the recipe name contains dots and doesn't end with _<version>.bb
-* apply the same fix as 8c9a25ae70d249b823ab2b0385d539eb8bbc1374 while
-  building individual recipes
+--f46d04389525956a0a0510afedcc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/test-dependencies.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-index e01acbe..0170947 100755
---- a/scripts/test-dependencies.sh
-+++ b/scripts/test-dependencies.sh
-@@ -178,7 +178,7 @@ build_every_recipe() {
-       RESULT+=${RECIPE_RESULT}
-       mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
-       grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\..*@@g' >> ${OUTPUTB}/failed-recipes.log
-+      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' >> ${OUTPUTB}/failed-recipes.log
-       # and append also ${recipe} in case the failed task was from some dependency
-       echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
-     else
--- 
-2.3.1
+I found this link, to build ghostscript cups filter but it's failed. Do you
+have any idea ? I see error on this line
++RDEPENDS_${PN}-cups = ${PN}
 
+https://git.congatec.com/yocto/poky/commit/b5ad3773afa99580f11292bcc730d355cae2e39a
 
+--f46d04389525956a0a0510afedcc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,<br><br></div>I found this link, to build ghost=
+script cups filter but it&#39;s failed. Do you have any idea ? I see error =
+on this line <br>+RDEPENDS_${PN}-cups =3D ${PN}<br><br><a href=3D"https://g=
+it.congatec.com/yocto/poky/commit/b5ad3773afa99580f11292bcc730d355cae2e39a"=
+ target=3D"_blank">https://git.congatec.com/yocto/poky/commit/b5ad3773afa99=
+580f11292bcc730d355cae2e39a</a></div>
+
+--f46d04389525956a0a0510afedcc--
