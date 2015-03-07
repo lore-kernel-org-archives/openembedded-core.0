@@ -1,28 +1,31 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id E24C0738EC
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 6495973905
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2015 13:29:38 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 7E660F811E5; Sat,  7 Mar 2015 06:29:39 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E8834F811E4;
-	Sat,  7 Mar 2015 06:29:38 -0700 (MST)
-Message-ID: <54FAFD4B.1040903@mlbassoc.com>
-Date: Sat, 07 Mar 2015 06:29:47 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Sat,  7 Mar 2015 14:04:54 +0000 (UTC)
+Received: from [99.240.204.5] (port=41237 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YUFLc-0006P1-HR for openembedded-core@lists.openembedded.org;
+	Sat, 07 Mar 2015 09:04:56 -0500
+Date: Sat, 7 Mar 2015 09:04:52 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@Device-040570
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1503070902110.16088@Device-040570>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <54F9E933.9070508@topic.nl> <54FA0610.5000805@mlbassoc.com>
-In-Reply-To: <54FA0610.5000805@mlbassoc.com>
-Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what's with the loop with "in in" in u-boot.inc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2015 13:29:40 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Mar 2015 14:04:55 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 2015-03-06 12:54, Gary Thomas wrote:
-> On 2015-03-06 10:51, Mike Looijmans wrote:
->> Commit 4ceff7d0a1f28eb1ce5d288111015bff8d5e9a7e "libav: drop older 0.8.* and use libav-9 by default" removed libav 0.8 in favor of the "9" edition. However, after compiling this
->> for a MIPS box, the gst-ffmpeg plugin now refuses to load and displays the following at runtime:
->>
->> (gst-plugin-scanner:971): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/lib/gstreamer-0.10/libgstffmpeg.so: undefined symbol:
->> avcodec_get_context_defaults
->>
->> The "avcodec_get_context_defaults" method is mentioned even in libav-9.patch.
->>
->> Reverting to the 0.8 version "resolves" it.
->>
->> I wonder if we're the only ones getting this?
->>
->
-> I get a different error, but surely just as deadly since it
-> fails to register the whole ffmpeg plugin:
-> (gst-plugin-scanner:1108): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/li
-> b/gstreamer-0.10/libgstffmpeg.so: undefined symbol: av_get_bits_per_sample_format
-> (gst-plugin-scanner:1108): GLib-GObject-WARNING **: cannot register existing type 'GstVorbisDec'
->
 
-Submitted as bug #7425
+  based on a recent post to this(?) list, i was curious about the
+following loop construct in u-boot.inc:
+
+        for config in ${UBOOT_MACHINE}; do
+            for type in in ${UBOOT_CONFIG}; do
+                if [ "${type}"x = "in"x ]
+                then
+                    continue
+                fi
+
+  the words "in in" above don't appear to be a typo, as the next
+condition explicitly checks for the value "in" and skips it. what's
+the rationale for that? i used "git blame" to examine the commit that
+introduced that, but it says nothing about that curiosity.
+
+rday
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
