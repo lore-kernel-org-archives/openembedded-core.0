@@ -1,38 +1,26 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C9A76013D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE9A7378D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2015 17:48:19 +0000 (UTC)
-Received: by wggx13 with SMTP id x13so19117672wgg.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2015 09:48:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to
-	:message-id; bh=6+WLHEYgB3ecAegsB5RCJUdJCZqY8RU4Cos/19Xd5QQ=;
-	b=p/bE8nmjCKTP+matTOxtUqHBMfrWUcawiZNXnL5E4kXqhmeLfYwnR3AVbMYFw3+q7u
-	DhFqY2dj3Lj/qqnlWBkPBhDtKEz6zYo2lyOXHVXt9Yj0zxmrrZdLf0KBWNsDnui4NUj7
-	4aaf/gswl4SrkX8H57dBsDh261S+/ubAZd5hKA6R0mrOoNUkP22/XoyEbKC46uRs9Lad
-	GzI3iaArqCwwiqpkHGiWJBxd8I+V9Qm276U8QfqauaxgtaKDhjdI42ikcfrE7CmK4ZuX
-	Fi4AxoOqiM8xlM9n4Oz+my9y6ai5GQqyKk9OOG1KYu4yR1ihbsRsCYDrlu9LJKMyfWxr
-	cpbg==
-X-Received: by 10.180.99.194 with SMTP id es2mr44708416wib.23.1425750500617;
-	Sat, 07 Mar 2015 09:48:20 -0800 (PST)
-Received: from android-5344fe5e44c2fa60
-	(212-60-165-84.adsl.highway.telekom.at. [212.60.165.84])
-	by mx.google.com with ESMTPSA id k1sm20226488wjn.9.2015.03.07.09.48.18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 07 Mar 2015 09:48:19 -0800 (PST)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <alpine.LFD.2.11.1503070902110.16088@Device-040570>
-References: <alpine.LFD.2.11.1503070902110.16088@Device-040570>
+	Sat,  7 Mar 2015 19:32:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Mar 2015 11:32:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,359,1422950400"; d="scan'208";a="676686882"
+Received: from gustyuzh-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.6.78])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2015 11:32:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Sat, 07 Mar 2015 19:32:26 +0000
+Message-ID: <95053983.gSqlKBTLmC@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1503070931520.19814@Device-040570>
+References: <alpine.LFD.2.11.1503070931520.19814@Device-040570>
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Sat, 07 Mar 2015 18:48:09 +0100
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <F503D67F-FDF9-49B6-BBC9-149D56AA3EE4@gmail.com>
-Subject: Re: what's with the loop with "in in" in u-boot.inc?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: proper "style" for VAR_append_override?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2015 17:48:22 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Sat, 07 Mar 2015 19:32:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On March 7, 2015 3:04:52 PM GMT+01:00, "Robert P. J. Day" <rpjday@crashcourse.ca> wrote:
->
->  based on a recent post to this(?) list, i was curious about the
->following loop construct in u-boot.inc:
->
->        for config in ${UBOOT_MACHINE}; do
->            for type in in ${UBOOT_CONFIG}; do
->                if [ "${type}"x = "in"x ]
->                then
->                    continue
->                fi
->
->  the words "in in" above don't appear to be a typo, as the next
->condition explicitly checks for the value "in" and skips it. what's
->the rationale for that? i used "git blame" to examine the commit that
+On Saturday 07 March 2015 09:43:34 Robert P. J. Day wrote:
+>   more nitpickery, but i've noticed a couple different ways in the OE
+> code base and documentation for conditionally appending based on an
+> override, and it might just be that i'm confused about the underlying
+> mechanics of the append operators.
+> 
+>   first, there's this from qemu.inc:
+> 
+> KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+> 
+> i've always read that as, "if override of linux-yocto package is in
+> effect, then add this feature to KERNEL_FEATURES using the "append"
+> operator, which will leave the appending to the end and, in addition,
+> *requires* that we explicitly have that leading space given that we're
+> using _append.
+> 
+>   it's also my understanding that i can have multiple assignments like
+> that (possibly based on different overrides), and they will all be
+> processed properly and finally appended to (in this case)
+> KERNEL_FEATURES. so far, so good?
+> 
+>   but if i check the YP ref manual, i see documentation like this:
+> 
+> ref-variables.xml:     KERNEL_FEATURES_append_cedartrail +=
+> "bsp/cedartrail/cedartrail-pvr-merge.scc" ref-variables.xml:    
+> KERNEL_FEATURES_append_cedartrail += "cfg/efi-ext.scc" ref-variables.xml:  
+>   KERNEL_FEATURES_append_cedartrail-nopvr += " cfg/smp.scc"
+> 
+> which looks a bit weird -- combining "_append" with "+=" (and even
+> inconsistently adding that leading space).
+> 
+>   is there some difference between the above approaches i've never
+> understood? is there a preferred style?
 
-for may barf on empty iteration input.
-One usually uses for i in ${foo} '';
-and skips i with zero length. Any other is obviously fine, too though so nothing wrong or odd here.
+IMO, '..._append +=' shouldn't be used. It might be assumed that the += 
+accomplishes more than just adding a leading space, which it doesn't. It's 
+much simpler to just include the leading space in the value.
 
-HTH,
+Cheers,
+Paul
 
->introduced that, but it says nothing about that curiosity.
->
->rday
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
