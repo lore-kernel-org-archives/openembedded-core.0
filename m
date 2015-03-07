@@ -1,31 +1,28 @@
-Return-Path: <sadlife1990@gmail.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 516D3738ED
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id E24C0738EC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2015 10:04:33 +0000 (UTC)
-Received: by wesw62 with SMTP id w62so1084351wes.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2015 02:04:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=L/b07jGCQiYaV6QaVusoN9Wc8p9DMF0FcKAxo5npWds=;
-	b=d7uAmb3FAG9LWqmofMcyYi2E1S4MhQV+GPy2WilTjax3jUK4sY5fPcNjx1+u1EMdSG
-	Jkfqoxdey7XLyZGUXAsFNTZu4oqAkiFCGQ+LLE195UJ0u+zBNFCNPDth6ow/rl0HuYpM
-	9akMDtryHYGpQt8clHD4v8bsUxUxoyTuaLQ5lJt7Ly5DKxo6OXmowkhAFLrGInx7bRpL
-	r0XXm0Ze9MbgvPKefmDXZ+xOtkH+OPH16ybrljLIKQcG8CgSbrbHdJZMcTYN9gXmPxQ3
-	6CTndPFcTIbvJrUUurPS7HLXcjN6ajIfmt3DBXFvjb1EnD3wado8ZFaOO0ThIiUbIOER
-	RGug==
+	Sat,  7 Mar 2015 13:29:38 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 7E660F811E5; Sat,  7 Mar 2015 06:29:39 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id E8834F811E4;
+	Sat,  7 Mar 2015 06:29:38 -0700 (MST)
+Message-ID: <54FAFD4B.1040903@mlbassoc.com>
+Date: Sat, 07 Mar 2015 06:29:47 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-X-Received: by 10.180.75.132 with SMTP id c4mr40194036wiw.78.1425722674865;
-	Sat, 07 Mar 2015 02:04:34 -0800 (PST)
-Received: by 10.194.36.196 with HTTP; Sat, 7 Mar 2015 02:04:34 -0800 (PST)
-Date: Sat, 7 Mar 2015 12:04:34 +0200
-Message-ID: <CAAHuHfyHaY1fyqeV5K2TCwt3MJ7bjSD-JTs32HZmWruTn3TyTA@mail.gmail.com>
-From: Life Life <sadlife1990@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: ghostscript: build cups filters
+To: openembedded-core@lists.openembedded.org
+References: <54F9E933.9070508@topic.nl> <54FA0610.5000805@mlbassoc.com>
+In-Reply-To: <54FA0610.5000805@mlbassoc.com>
+Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2015 10:04:35 -0000
-Content-Type: multipart/alternative; boundary=f46d04389525956a0a0510afedcc
+X-List-Received-Date: Sat, 07 Mar 2015 13:29:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d04389525956a0a0510afedcc
-Content-Type: text/plain; charset=UTF-8
+On 2015-03-06 12:54, Gary Thomas wrote:
+> On 2015-03-06 10:51, Mike Looijmans wrote:
+>> Commit 4ceff7d0a1f28eb1ce5d288111015bff8d5e9a7e "libav: drop older 0.8.* and use libav-9 by default" removed libav 0.8 in favor of the "9" edition. However, after compiling this
+>> for a MIPS box, the gst-ffmpeg plugin now refuses to load and displays the following at runtime:
+>>
+>> (gst-plugin-scanner:971): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/lib/gstreamer-0.10/libgstffmpeg.so: undefined symbol:
+>> avcodec_get_context_defaults
+>>
+>> The "avcodec_get_context_defaults" method is mentioned even in libav-9.patch.
+>>
+>> Reverting to the 0.8 version "resolves" it.
+>>
+>> I wonder if we're the only ones getting this?
+>>
+>
+> I get a different error, but surely just as deadly since it
+> fails to register the whole ffmpeg plugin:
+> (gst-plugin-scanner:1108): GStreamer-WARNING **: Failed to load plugin '/usr/lib/gstreamer-0.10/libgstffmpeg.so': /usr/li
+> b/gstreamer-0.10/libgstffmpeg.so: undefined symbol: av_get_bits_per_sample_format
+> (gst-plugin-scanner:1108): GLib-GObject-WARNING **: cannot register existing type 'GstVorbisDec'
+>
 
-Hello,
+Submitted as bug #7425
 
-I found this link, to build ghostscript cups filter but it's failed. Do you
-have any idea ? I see error on this line
-+RDEPENDS_${PN}-cups = ${PN}
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
-https://git.congatec.com/yocto/poky/commit/b5ad3773afa99580f11292bcc730d355cae2e39a
-
---f46d04389525956a0a0510afedcc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,<br><br></div>I found this link, to build ghost=
-script cups filter but it&#39;s failed. Do you have any idea ? I see error =
-on this line <br>+RDEPENDS_${PN}-cups =3D ${PN}<br><br><a href=3D"https://g=
-it.congatec.com/yocto/poky/commit/b5ad3773afa99580f11292bcc730d355cae2e39a"=
- target=3D"_blank">https://git.congatec.com/yocto/poky/commit/b5ad3773afa99=
-580f11292bcc730d355cae2e39a</a></div>
-
---f46d04389525956a0a0510afedcc--
