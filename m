@@ -1,36 +1,34 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 32A11738F6
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 705E6738F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 12:56:44 +0000 (UTC)
-Received: by igkb16 with SMTP id b16so20457359igk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 05:56:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VoQYF+AkLbVmtsfWMG0D4arI1v7dF0Fntde+bT0DkdY=;
-	b=MaRAq7NYmc8DlSd77EE7SDUDT9cUWkm4bb0XsDscCjWeIg5gmddTfTFDXgqaHI7W4x
-	wji8ryGgtFW8T1oL2Ee4KElO1JLS2mA3rUW3zV/yzIUeJwT1MaeFyZFYQsNBUcxSoRuy
-	nRiwGweVaQHFc8t1ptKPOZUDGLrpZCDSXXhmESwLi2K32TIGJS67eHfEDNuhRrHCGG1G
-	KCn18PTU1lk1+Q/NnuiA6BTEmS52BHOuj+zGkYsa5i/p/4PQbnMClWvFplfGInk7LbuZ
-	OlTEp6g/Dr2/0HI8vWQZ9ERaX6yhgWuxaWkq8369vCXbVONJzHHSRUz2IS0Qf2rFNQ7O
-	sN1Q==
-X-Gm-Message-State: ALoCoQmfHTlXH+EtcSylrqGwYvZEoSMHCXyqMcPvHvG0M23+WIsHxWVPL9jFeiIzFUXfsdTU7vTl
-X-Received: by 10.42.110.10 with SMTP id n10mr26710625icp.65.1425905805569;
-	Mon, 09 Mar 2015 05:56:45 -0700 (PDT)
-Received: from pohly-mobl1.ger.corp.intel.com (p5DE8D980.dip0.t-ipconnect.de.
-	[93.232.217.128]) by mx.google.com with ESMTPSA id
-	b137sm1952925ioe.36.2015.03.09.05.56.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 09 Mar 2015 05:56:44 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Mar 2015 13:56:39 +0100
-Message-Id: <1425905799-9101-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] combo-layer: make Signed-off-by optional
+	Mon,  9 Mar 2015 13:37:12 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2015 06:37:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,367,1422950400"; d="scan'208";a="662512763"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.143])
+	([10.218.99.143])
+	by orsmga001.jf.intel.com with ESMTP; 09 Mar 2015 06:37:11 -0700
+Message-ID: <1425908226.2831.22.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 09 Mar 2015 10:37:06 -0300
+In-Reply-To: <CAMKF1sp4pDdt_rS223_YqmeyB0yAVFkafR7tnuq3uztm9vV56Q@mail.gmail.com>
+References: <bruno.bottazzini@intel.com>
+	<1425504462-6979-1-git-send-email-bruno.bottazzini@intel.com>
+	<1425504462-6979-4-git-send-email-bruno.bottazzini@intel.com>
+	<20150305142802.GA6833@ad.chargestorm.se>
+	<1425572096.2831.16.camel@bottazzini-ThinkPad-T430>
+	<20150306082330.GA14309@ad.chargestorm.se>
+	<1425650611.2831.20.camel@bottazzini-ThinkPad-T430>
+	<CAMKF1sp4pDdt_rS223_YqmeyB0yAVFkafR7tnuq3uztm9vV56Q@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: Anders Darander <anders@chargestorm.se>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,65 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 12:56:45 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 13:37:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It depends on the diligence of the person running the combo-layer tool
-whether the Signed-off-by line added to each commit actually indicates
-that the person was involved in validating the change.
+On Sex, 2015-03-06 at 14:51 -0800, Khem Raj wrote:
+> On Fri, Mar 6, 2015 at 6:03 AM, Bottazzini, Bruno
+> <bruno.bottazzini@intel.com> wrote:
+> > On Sex, 2015-03-06 at 09:23 +0100, Anders Darander wrote:
+> >> * Bottazzini, Bruno <bruno.bottazzini@intel.com> [150305 17:15]:
+> >>
+> >> > On Qui, 2015-03-05 at 15:28 +0100, Anders Darander wrote:
+> >>
+> >> > > Just a quick question before I look into the patch in more detail.
+> >>
+> >> > > Is the new setting of PACKAGECONFIG consistent with how systemd was
+> >> > > built previously? I guess it is.
+> >>
+> >> > Hi Anders,
+> >>
+> >> > it is consistent with how systemd was built previously. If you apply the
+> >> > patch and bitbake it. Systemd will be built and shipped normally.
+> >>
+> >> > But now it will give some options on how to customize it by excluding
+> >> > packages you don't want to be with systemd.
+> >>
+> >> Nice, I'm really liking this! That's something I've planned on doing
+> >> myself for a while.
+> >>
+> >> > > Another comment, you should remove the dependcies that gets added using
+> >> > > PACKAGECONFIG from DEPENDS, e.g. acl etc. (Or are they required
+> >> > > nevertheless?)
+> >>
+> >> > You mean I should do the following ?
+> >> > - PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+> >> > + PACKAGECONFIG[acl] = "--enable-acl,--disable-acl"
+> >>
+> >> No, I  meant to remove them from the long
+> >> DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
+> >> line. (Unless I overlooked that part in your patch?)
+> >>
+> >> > If I get what you said correctly, yes they are required.
+> >>
+> >> What I meant, was thas unless e.g. acl is required even when building
+> >> with --disable-acl, it's better to add the acl dependency in the
+> >> PACKAGECONFIG like you to. Though, at the same time, remove acl from the
+> >> long DEPENDS-line. (As otherwise we'll build acl anyway).
+> >
+> > Anders,
+> >
+> > You are right.
+> >
+> > It is not needed to specify the libs on depends.
+> >
+> > I have removed it and as soon as we review the whole patch I will send a
+> > new version with this corrected
+> >
+> 
+> On top of all this 'acl' is a distro feature so that should be
+> accounted for too.
 
-When the import is purely automatic, it is better to not add the line,
-because the history is more useful without it (searching for the person
-really only lists changes he or she was involved with) and it would
-be a false statement.
+Hello Khem,
 
-This needs to be configurable, achieved with a new global "signoff"
-boolean property in combo-layer.conf, in the "DEFAULT" section.
+It will be accounted when acl flag is enabled on systemd.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- scripts/combo-layer              | 4 +++-
- scripts/combo-layer.conf.example | 6 ++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+Best Regards,
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 19d64e6..60ead5b 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -75,6 +75,8 @@ class Configuration(object):
-             self.parser.readfp(f)
- 
-         self.repos = {}
-+        self.signoff = not self.parser.has_option('DEFAULT', 'signoff') or \
-+                       self.parser.getboolean('DEFAULT', 'signoff')
-         for repo in self.parser.sections():
-             self.repos[repo] = {}
-             readsection(self.parser, repo, repo)
-@@ -471,7 +473,7 @@ def apply_patchlist(conf, repos):
-                 if os.path.getsize(patchfile) == 0:
-                     logger.info("(skipping %d/%d %s - no changes)" % (i, linecount, patchdisp))
-                 else:
--                    cmd = "git am --keep-cr -s -p1 %s" % patchfile
-+                    cmd = "git am --keep-cr %s-p1 %s" % ('-s ' if conf.signoff else '', patchfile)
-                     logger.info("Applying %d/%d: %s" % (i, linecount, patchdisp))
-                     try:
-                         runcmd(cmd)
-diff --git a/scripts/combo-layer.conf.example b/scripts/combo-layer.conf.example
-index 010a692..8ad8615 100644
---- a/scripts/combo-layer.conf.example
-+++ b/scripts/combo-layer.conf.example
-@@ -1,5 +1,11 @@
- # combo-layer example configuration file
- 
-+# global options
-+[DEFAULT]
-+
-+# Add 'Signed-off-by' to all commits that get imported automatically.
-+signoff = True
-+
- # component name
- [bitbake]
- # mandatory options
--- 
-2.1.4
+
+
+
 
 
