@@ -1,31 +1,35 @@
-Return-Path: <sadlife1990@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E1001738ED
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 423C87391C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 10:29:59 +0000 (UTC)
-Received: by wiwl15 with SMTP id l15so18815329wiw.4
+	Mon,  9 Mar 2015 10:51:18 +0000 (UTC)
+Received: by wggy19 with SMTP id y19so10027481wgg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 03:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=zV+4M/lzeqaoP7eF2e6/v/sjrIbli4dRDn08DKEOg+s=;
-	b=u4WtOuX7qIJ7exmplGXds1CGLav+KvtUPLd+DsPni7GtZj0N+dujmBqAsgq+KdfnI+
-	mTqXshs0ErVASlcLNwVXIpmkGyq+K1JUIpNNoVmVU6Zrfa0lL0v6HcjMAY25n7EysZsB
-	j8b1ro30uM6YU62ZHCZt+X07dGsdvEIOrdt2vjnb0pt6i28iN9W4krD3JyPjdjiEjc96
-	/yh85oKozIRu2p9Y2J+j4VFPh62V2N1NJRKTy+6XwcBQvWbTm5szdN63j03zmOagft3c
-	pxY+09q8DUPoWOCwR6izOQu0yC4rtxPfxKtcdocQc+Hsk2UF9lhg/Ke23ZJPCSfYB+7+
-	delw==
-MIME-Version: 1.0
-X-Received: by 10.180.219.102 with SMTP id pn6mr57333350wic.50.1425897000414; 
-	Mon, 09 Mar 2015 03:30:00 -0700 (PDT)
-Received: by 10.194.36.196 with HTTP; Mon, 9 Mar 2015 03:30:00 -0700 (PDT)
-Date: Mon, 9 Mar 2015 12:30:00 +0200
-Message-ID: <CAAHuHfxzC86bfWMeehHSXnNwNNvNeCVOGOH6h18agfwbR=D42A@mail.gmail.com>
-From: Life Life <sadlife1990@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: cups filters bannertopdf
+	Mon, 09 Mar 2015 03:51:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ElxDC6DrNPVtWShMlFHOGcnVaKty0MzPT3oWCkoixho=;
+	b=En4HXxSdkoP+6UWIIgR+gXSDgqZKT8s3yp7TSavp/WG6soH/2H+jkASZmTH/jpz+2z
+	t5IkI34QTFl8DUlKZ0oJa++IsOQcJUShCgltBLP6K7VeXjSN55CxoTNk5fvLDJ4TLd0U
+	8tRymdPM3igueIhijpWzvdAJEM5h57vg0qso4LHlANeRZWP8VZIvTx6H/DZmimHenQrp
+	azIt+mcwYBHy0jiAs/6h5Qe8uXGBSIBcoTNxkNXlAftN/3chGKJ0dwhREunqFeuyAE6J
+	+Bq8zVHMdUdOxaJV7aQb2T7Zoac1S+gNDLbMUgzpmZ9z11lNdVyCAA9w6FsWmCr4yqJh
+	KrTg==
+X-Gm-Message-State: ALoCoQl8JAIy+Tta6mLYfSWMlOWKEflXdQEEVPoz/jcMM4SONE4GrLidbmparFHnnbw1EokaE/eZ
+X-Received: by 10.194.61.51 with SMTP id m19mr57243454wjr.39.1425898279835;
+	Mon, 09 Mar 2015 03:51:19 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id j7sm14993013wix.4.2015.03.09.03.51.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Mar 2015 03:51:19 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Mar 2015 11:51:11 +0100
+Message-Id: <1425898271-10881-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] bitbake.conf: use http:// for GNU_MIRROR instead of ftp://
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 10:30:02 -0000
-Content-Type: multipart/alternative; boundary=001a1135ecea3234ed0510d884f5
+X-List-Received-Date: Mon, 09 Mar 2015 10:51:23 -0000
 
---001a1135ecea3234ed0510d884f5
-Content-Type: text/plain; charset=UTF-8
+The past few weeks ftp://ftp.gnu.org has been intermittently giving errors like this:
 
-Hello,
+WARNING: Failed to fetch URL ftp://ftp.gnu.org/gnu/emacs/emacs-23.4.tar.gz;name=tarball, attempting MIRRORS if available
+ERROR: Fetcher failure: Fetch command failed with exit code 4, output:
+Cannot parse PASV response.
+accept: Connection timed out
+Cannot parse PASV response.
+Error in server response, closing control connection.
 
-I'm try to add cups filter for  yocto 1.6.2 daisy I add to Ghostscrip bb
-this line is not work.
- ${exec_prefix}/lib/cups/filter/bannertopdf
+Which is annoying because binutils lives there. Using http://ftp.gnu.org hasn't given any problems so far.
 
-But I add to this lines its work.
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FILES_${PN}-cups += "${exec_prefix}/lib/cups/filter/gstoraster \
-                     ${exec_prefix}/lib/cups/filter/gstopxl \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 10ee42a..f3586da 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -565,7 +565,7 @@ DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://git.gnome.org"
+ GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
+-GNU_MIRROR = "ftp://ftp.gnu.org/gnu"
++GNU_MIRROR = "http://ftp.gnu.org/gnu"
+ GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+ KERNELORG_MIRROR = "http://kernel.org/pub"
+ SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
+-- 
+1.9.3
 
-create cups filter folder and gstopxl and gstoraster filter was created.
 
-Could you give me help how to add cups filter bannertopdf thanks.
-
---001a1135ecea3234ed0510d884f5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div><div>Hello,<br><br></div>I&#39;m try to add=
- cups filter for=C2=A0 yocto 1.6.2 daisy I add to Ghostscrip bb this line i=
-s not work.<br>=C2=A0${exec_prefix}/lib/cups/filter/bannertopdf<br><br></di=
-v>But I add to this lines its work.<br><br>FILES_${PN}-cups +=3D &quot;${ex=
-ec_prefix}/lib/cups/filter/gstoraster \<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 ${exec_prefix}/lib/cups/filter/gstopxl \<br><br></div>creat=
-e cups filter folder and gstopxl and gstoraster filter was created.<br><br>=
-</div>Could you give me help how to add cups filter bannertopdf thanks.<br>=
-</div>
-
---001a1135ecea3234ed0510d884f5--
