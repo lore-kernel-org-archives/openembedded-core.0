@@ -1,29 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F3CA06AC2B
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B5EEE65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 01:39:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t291dnae009138
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 8 Mar 2015 18:39:49 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Sun, 8 Mar 2015 18:39:49 -0700
-Message-ID: <54FCF9E3.3070002@windriver.com>
-Date: Mon, 9 Mar 2015 09:39:47 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1425634271.git.liezhi.yang@windriver.com>
-	<1eade737f0d2e1279a75c27335e110140b28503f.1425634271.git.liezhi.yang@windriver.com>
-	<CAJTo0La_2aZHEs5MfbaV+UZ9Bf+qLfnm0Dj=9uurcLVz9KUHvQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La_2aZHEs5MfbaV+UZ9Bf+qLfnm0Dj=9uurcLVz9KUHvQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] apt: fix SRC_URI
+	Mon,  9 Mar 2015 02:29:16 +0000 (UTC)
+Received: by pdbfl12 with SMTP id fl12so60110353pdb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Mar 2015 19:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=MRnvX1A1nIopTKLWu4CSxwNLcrlwf2NaqhATdiZzwXI=;
+	b=nuPiUFH+sSZIkw4RgmsE7JPns+drfzI5mrvclzON5DtonE4GdLSfVqvR8t5/d5SO9o
+	nW8S5xJA6UrAhmbFb9P2VkncBfugbNk8gJaPfEY3u5BmoVCaIhh3r15s4TKcFw9OLWjn
+	0GvALKladets2rWIo1YJq92mOGzRFZcJJ2oc6S8k7CILDU8JS5RrVeJ1nUNc5Zd5c7v6
+	w/WmoZcg/W/BepawcnIMnWmePJ31k7ccydwBvrMWMbYmMM2wizGi8gAl3yopqEQVzd47
+	Fvjqi3+yWaQa8Q4GQaCGPGawMFd9YgCRZgVNSqJaijGJ8gHNa/ACog7+eidy+Xti2cL8
+	zNYQ==
+X-Received: by 10.70.38.227 with SMTP id j3mr16595274pdk.149.1425868157554;
+	Sun, 08 Mar 2015 19:29:17 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id pm9sm3187851pdb.59.2015.03.08.19.29.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 08 Mar 2015 19:29:15 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Mar 2015 13:28:37 +1100
+Message-Id: <1425868117-11979-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.3.1
+Subject: [PATCH] postinst-intercepts/update_font_cache: fix ownership of fontconfig cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 01:39:51 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Mar 2015 02:29:17 -0000
 
+The file ownership of the cache files in /var/cache/fontconfig needs to
+be set to root:root otherwise it inherits the user and group id of the
+build user.
 
+[YOCTO #7411]
 
-On 03/06/2015 08:35 PM, Burton, Ross wrote:
->
-> On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     -SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/apt_${PV}.tar.gz \
->     +SRC_URI =
->     "https://launchpad.net/debian/+archive/primary/+files/apt_0.9.9.4.tar.gz \
->
->
-> Surely this should continue using ${PV}, especially as this is a .inc.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/fontcache.bbclass                | 2 +-
+ scripts/postinst-intercepts/update_font_cache | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Thanks, I will update them and resend these patches.
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index dcd1f04..dfbdfa1 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -12,7 +12,7 @@ FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
+ fontcache_common() {
+ if [ "x$D" != "x" ] ; then
+ 	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
+-		libdir=${libdir} base_libdir=${base_libdir}
++		libdir=${libdir} base_libdir=${base_libdir} localstatedir=${localstatedir}
+ else
+ 	fc-cache
+ fi
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index 78f3365..3907f25 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -2,5 +2,6 @@
+ 
+ PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+ 					$D${bindir}/fc-cache --sysroot=$D
++chown -R root:root $D${localstatedir}/cache/fontconfig
+ 
+ 
+-- 
+2.3.1
 
-// Robert
-
->
-> Ross
 
