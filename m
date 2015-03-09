@@ -1,38 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F2B4739A8
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DF0BB739A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 20:57:52 +0000 (UTC)
-Received: by qgdz107 with SMTP id z107so31817299qgd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 13:57:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TVvDBL2B6aOvdMYGXOeKhOZlqnNrdwEcJ/wopU9y5vU=;
-	b=fieowxzrjhx9eqq1LeIP73LUviipl7/KB4ruRiA4wnLD4H8OoRghDZvctBBnfG67fg
-	0F/3JhoAuHg2SK6IeegueOKhMLAcOQbSpzEi9uIe6ZhxxaeYpNtk0B5B4L80WRoa+ypd
-	JVtI8aOx6IWPm0eRb+lKiQfliMdwNOcVXTMf6lh2frD4jZUm5g3dZVfwrG9tWALhF5O0
-	VgHjYoF87Dn9gx8cMLK468Yth/+kYnqz2nr/3JvmvTzL1p9+nx4iG6iIzjnlo/7xeFPb
-	Hs18s6DZu16IAlq5QRCWjfz+T5horegCX14u4JggyqVIi/tzkkm/C5VhcTbwcu2jYOlK
-	FFIA==
-X-Gm-Message-State: ALoCoQktKTnJ3H7HDqmbEYdkl9fSwzeQU5QI3XH0aAltxbj7MwIih6jbn9uk1GnyOOJiYMDGuZTG
-X-Received: by 10.140.232.3 with SMTP id d3mr38986513qhc.82.1425934674105;
-	Mon, 09 Mar 2015 13:57:54 -0700 (PDT)
+	Mon,  9 Mar 2015 21:11:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 09 Mar 2015 14:08:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,370,1422950400"; d="scan'208";a="696149482"
+Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
+	by orsmga002.jf.intel.com with ESMTP; 09 Mar 2015 14:11:08 -0700
+Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
+	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:07 -0700
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:07 -0700
+Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.143) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:06 -0700
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Mar 2015 18:10:49 -0300
+Message-ID: <1425935453-15437-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 13:57:33 -0700 (PDT)
-In-Reply-To: <371E240E6FC1D44DA5E51EE9DCDCB784012B9C4987@NA-MBX-01.mgc.mentorg.com>
-References: <371E240E6FC1D44DA5E51EE9DCDCB784012B9C4987@NA-MBX-01.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Mar 2015 20:57:33 +0000
-Message-ID: <CAJTo0Lboahoc8Y6BDoEfOLQpG=y-_UuA0cEakNNaTy=nZo818A@mail.gmail.com>
-To: "Mehaffey, John" <John_Mehaffey@mentor.com>
-Cc: "mehaf@gedanken.com" <mehaf@gedanken.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lttng: Add tracing group when building lttng-tools
+X-Originating-IP: [10.218.99.143]
+Subject: [PATCH V2 0/4] systemd and dbus split into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +40,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 20:57:53 -0000
-Content-Type: multipart/alternative; boundary=001a11c128b0b94a610510e14947
+X-List-Received-Date: Mon, 09 Mar 2015 21:11:08 -0000
+Content-Type: text/plain
 
---001a11c128b0b94a610510e14947
-Content-Type: text/plain; charset=UTF-8
+Differences from v1:
 
-On 27 February 2015 at 02:17, Mehaffey, John <John_Mehaffey@mentor.com>
-wrote:
+dbus: Adding change that Andreas Oberritter recommended.
+-Setting RRECOMMENDS_${PN}_class-native instead RPROVIDES 
+ dbus-native-tools-native.
 
-> +inherit autotools-brokensep ptest pkgconfig adduser
->
+systemd: Adding change that Anders Darander and Khem Raj recommended
+-Modifying PACKAGECONFIG as requested to use it with bbutils.
 
-Did you mean useradd?  Or is adduser something Mentor-specific?
+systemd: Adding change that Khem Raj requested:
+-Porting patches that was used on the release of the 219 stable version
+ instead of changing the repository.
 
-Ross
 
---001a11c128b0b94a610510e14947
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-------------------------------------------------------------------------------
+In this patchset we include the following:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 February 2015 at 02:17, Mehaffey, John <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:John_Mehaffey@mentor.com" target=3D"_blank">John_Mehaffey@mentor=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7p=
-b" class=3D"a3s" style=3D"overflow:hidden">+inherit autotools-brokensep pte=
-st pkgconfig adduser<br></div></blockquote></div><br>Did you mean useradd?=
-=C2=A0 Or is adduser something Mentor-specific?</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+1- dbus: split tools package
+   Most tools are not required if one is launching a simple daemon.
+   So, we split it into two packages dbus and dbus-tools which the user
+   will be able to exclude it from the image if he wants to.
 
---001a11c128b0b94a610510e14947--
+2- systemd: verify if files test-udev and systemd-journal-flush exists
+   If the user put --disable-tests on EXTRA_OECONF for systemd, some files will
+   not be created and systemd do_install phase
+   will fail.
+   This patch will give this flexibility for the user
+
+3- systemd: split modules into packages
+   Since systemd repo grows with more and more tools, the recipe will provide
+   a customizable layer and he will be able to choose what he wants to ship
+   to the final image.
+   He will be able to save space and exclude unwanted packages from the
+   final image.
+
+4- systemd: add patches from systemd 219 - stable
+   Adding patches that fix bugs for 219 version.
+   This will get the same consistency of the stable systemd 219 version.
+
+
+Bruno Bottazzini (3):
+  systemd: verify if files test-udev and systemd-journal-flush exists
+  systemd: split modules into packages
+  systemd: v219 with stable fixes
+
+Gustavo Sverzut Barbieri (1):
+  dbus: split tools package.
+
+Bruno Bottazzini (3):
+  systemd: verify if files test-udev and systemd-journal-flush exists
+  systemd: split modules into packages
+  systemd: v219 with stable fixes
+
+Gustavo Sverzut Barbieri (1):
+  dbus: split tools package.
+
+ meta/recipes-core/dbus/dbus.inc                    |    9 +-
+ ...remote-fix-certificate-status-memory-leak.patch |   31 +
+ ...ournal-remote-fix-client_cert-memory-leak.patch |   35 +
+ ...0003-tmpfiles-Fix-parse_acl-error-message.patch |   28 +
+ ...-test-utf8-fix-utf16-tests-on-BE-machines.patch |   26 +
+ ...iles-avoid-creating-duplicate-acl-entries.patch |  131 +++
+ .../0006-shared-time-util-fix-gcc5-warning.patch   |   32 +
+ ...time-test-infinity-parsing-in-nanoseconds.patch |   36 +
+ .../0008-bootchart-fix-default-init-path.patch     |   44 +
+ ...emctl-bump-NOFILE-only-for-systemctl_main.patch |   44 +
+ ...0-Make-root-s-home-directory-configurable.patch |   89 +-
+ ...-util-avoid-freeing-uninitialized-pointer.patch |   37 +
+ ...11-bootchart-svg-fix-checking-of-list-end.patch |   28 +
+ ...md-add-getrandom-syscall-numbers-for-MIPS.patch |   38 +
+ ...aker-dependencies-between-mount-and-devic.patch |   33 +
+ ...topping-due-to-BindsTo-log-which-unit-cau.patch |   43 +
+ ...grade-message-about-sysctl-overrides-to-d.patch |   30 +
+ ...l-add-some-hints-how-to-override-settings.patch |   39 +
+ .../0017-core-rework-device-state-logic.patch      |  912 ++++++++++++++++
+ .../0018-core-fix-return-value-on-OOM.patch        |   26 +
+ ...e-x-machine-unix-prefix-for-the-container.patch |   33 +
+ ...0-shared-AFS-is-also-a-network-filesystem.patch |   25 +
+ ...downgrade-unit-type-not-supported-message.patch |   31 +
+ ...ournal-remote-fix-saving-of-binary-fields.patch |   97 ++
+ ...ix-Inappropriate-ioctl-for-device-on-ext4.patch |   37 +
+ ...eplace-VLA-with-alloca-to-make-llvm-happy.patch |   53 +
+ ...ietly-ignore-ACLs-on-unsupported-filesyst.patch |   84 ++
+ ...-assume-ac-when-sys-class-power_supply-is.patch |   30 +
+ meta/recipes-core/systemd/systemd_219.bb           | 1111 +++++++++++++++++---
+ 29 files changed, 3006 insertions(+), 186 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-remote-fix-certificate-status-memory-leak.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-journal-remote-fix-client_cert-memory-leak.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0003-tmpfiles-Fix-parse_acl-error-message.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0004-test-utf8-fix-utf16-tests-on-BE-machines.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0005-tmpfiles-avoid-creating-duplicate-acl-entries.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0006-shared-time-util-fix-gcc5-warning.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0007-test-time-test-infinity-parsing-in-nanoseconds.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0008-bootchart-fix-default-init-path.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0009-systemctl-bump-NOFILE-only-for-systemctl_main.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0010-acl-util-avoid-freeing-uninitialized-pointer.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0011-bootchart-svg-fix-checking-of-list-end.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-add-getrandom-syscall-numbers-for-MIPS.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0013-unit-use-weaker-dependencies-between-mount-and-devic.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0014-unit-When-stopping-due-to-BindsTo-log-which-unit-cau.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0015-sysctl-downgrade-message-about-sysctl-overrides-to-d.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0016-sysctl-add-some-hints-how-to-override-settings.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0017-core-rework-device-state-logic.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0018-core-fix-return-value-on-OOM.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0019-machined-use-x-machine-unix-prefix-for-the-container.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0020-shared-AFS-is-also-a-network-filesystem.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0021-core-downgrade-unit-type-not-supported-message.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0022-journal-remote-fix-saving-of-binary-fields.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-sd-daemon-replace-VLA-with-alloca-to-make-llvm-happy.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0025-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-shared-util-assume-ac-when-sys-class-power_supply-is.patch
+
+-- 
+1.9.1
+
+
