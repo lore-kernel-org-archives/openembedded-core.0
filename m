@@ -1,30 +1,36 @@
-Return-Path: <ssinfod@gmail.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 21CA573929
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B641C6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 14:31:17 +0000 (UTC)
-Received: by wesx3 with SMTP id x3so28507326wes.4
+	Mon,  9 Mar 2015 15:24:44 +0000 (UTC)
+Received: by qgdq107 with SMTP id q107so29167093qgd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 07:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=RnR2w1BVLR1fuFbIiqoP8a5PGPweotwWByhKt/Z/DKQ=;
-	b=OqDpsX5teATeG07Bu4wpy5mCnSNTPlpDuExosmQZRvGCSvsUXyfnG0DBBGfqoQbeE4
-	JWKUlIVhcuF7LCHe7XeB3Y2xvkblhq9HkMbFsQHw91PoetMyOzseese8Q5UGukS4kdLE
-	Y2anrA1iGaV9uSNQQvIN75TKWogSwTnYGJRuke0GKYIgMQE2NboF90pjv7KzsrEPiWvx
-	B64XbTMLlTrPXi+g3dhrcJwLqdUQ22IbWrE8ajD4pW21bYIMTp8PHgRUEzHSq5i1Y97R
-	ZWSYuEdKL3LiJ+uXrkUoNZ4RR0mi3KzQrFQQz7LE2oheQYXROaGGqBjCq4Gl1EXGM5nA
-	HIZw==
+	Mon, 09 Mar 2015 08:24:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=52EG5dN3kWXI9aJ82uVf/DBYTzQ+SWzF4I2h/FSNGXk=;
+	b=O35nJLqauZtPAo3jSft5HsHuHqpbgKWHeZSaB5EoPkohGQaNtWq/FE5Eb5ThO08FLx
+	e6ZAg8h1Cu/p7BuuKVuVu6QtOBWzAMytkRnULUxTE3Q6rG7Qu81GjFA6/HcpkGC3z1Th
+	6kSOT2tA0hzawZeTqd3tIzkVht7WsoGNLFN1mdLLpQTE0uWj1v4nl36zVgPakPwym+r1
+	iaGoOJRy4VwDdlfEr4VkBu2podg3cxRaqxkEbFzQKj5fU7bhmCugo3Tj0aNKSfWVvKyi
+	Tef7w+0wIky6Q4O5Jo8lRfyYsFiz8xUessNxhOY0yOBKDy86kpJr8PVwp8xETXNLECYQ
+	aI5w==
+X-Gm-Message-State: ALoCoQkjRunOsWTzPoVPLnYc/hwDE2kGdyQgsNrvYfGKUgPZnD1lPPfSFunDuwZHTgAaF9Q/VrIF
+X-Received: by 10.140.42.195 with SMTP id c61mr2868916qga.94.1425914685637;
+	Mon, 09 Mar 2015 08:24:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.194.86.194 with SMTP id r2mr59910490wjz.41.1425911478381;
-	Mon, 09 Mar 2015 07:31:18 -0700 (PDT)
-Received: by 10.194.93.228 with HTTP; Mon, 9 Mar 2015 07:31:18 -0700 (PDT)
-Date: Mon, 9 Mar 2015 10:31:18 -0400
-Message-ID: <CAHUo2cxmz74Mw-z7i9MHB9-tm5srq5jhcG8XYrA8C8qcrQumGw@mail.gmail.com>
-From: ss infod <ssinfod@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Problem with mesa_10.1.3.bb for angstrom on i.mx 6
+Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 08:24:25 -0700 (PDT)
+In-Reply-To: <54F9E933.9070508@topic.nl>
+References: <54F9E933.9070508@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Mar 2015 15:24:25 +0000
+Message-ID: <CAJTo0LaCP4mqxdKEnd-mB3sTGCC8PhbkYQgz-kdc9NoLceGMyQ@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,99 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 14:31:19 -0000
-Content-Type: multipart/alternative; boundary=089e0102faea267d020510dbe36d
+X-List-Received-Date: Mon, 09 Mar 2015 15:24:46 -0000
+Content-Type: multipart/alternative; boundary=001a113abef4517fc30510dca239
 
---089e0102faea267d020510dbe36d
+--001a113abef4517fc30510dca239
 Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On 6 March 2015 at 17:51, Mike Looijmans <mike.looijmans@topic.nl> wrote:
 
-I'm trying to build an angstrom image for an i.mx 6 (wandboard).
-I'm able to build a console image but I have a problem when I build an
-image which includes xfce or gnome.
+> Commit 4ceff7d0a1f28eb1ce5d288111015bff8d5e9a7e "libav: drop older 0.8.*
+> and use libav-9 by default" removed libav 0.8 in favor of the "9" edition.
+> However, after compiling this for a MIPS box, the gst-ffmpeg plugin now
+> refuses to load and displays the following at runtime:
+>
 
-My bitbake commands are:
-MACHINE=wandboard-quad ./oebb.sh bitbake development-gnome-image
-(or)
-MACHINE=wandboard-quad ./oebb.sh bitbake development-xfce-image
+Hm, bad testing, sorry.  This would be why gstreamer-libav 1.0 defaults to
+using it's own internal copy of libav then. :/
 
-The bitbake error is:
+I see that gstreamer-ffmpeg_0.10 defaults to using the internal libav, and
+as the API clearly changed we need to do that.  Can you verify that
+removing external-libav from the PACKAGECONFIG fixes this problem?
 
-| configure: error: cannot enable egl_gallium without EGL
-| Configure failed. The contents of all config.log files follows to aid
-debugging
-| ERROR: oe_runconf failed
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_configure (log file is located at
-/home/dev/WBD-ang/setup-scripts/build/tmp-angstrom_v2014_12-glibc/work/cortexa9hf-vfp-neon-mx6qdl-angstrom-linux-gnueabi/mesa/2_10.1.3-r0/temp/log.do_configure.8747)
-ERROR: Task 4345
-(/home/dev/WBD-ang/setup-scripts/sources/openembedded-core/meta/recipes-graphics/mesa/
-mesa_10.1.3.bb, do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 1376 tasks of which 1374 didn't need to be
-rerun and 1 failed.
-NOTE: Writing buildhistory
-Waiting for 0 running tasks to finish:
+Ross
 
-It seems there is a configuration problem with mesa (3D) support.
-
-Here is the list of commands I used to came to this conclusion. The last
-commands gives the error.
-git clone git://github.com/Angstrom-distribution/setup-scripts.git
-cd setup-scripts/
-git checkout angstrom-v2014.12-yocto1.7
-MACHINE=wandboard-quad ./oebb.sh config wandboard-quad
-source ./environment-angstrom-v2014.12
-MACHINE=wandboard-quad ./oebb.sh update
-MACHINE=wandboard-quad ./oebb.sh bitbake core-image-minimal
-MACHINE=wandboard-quad ./oebb.sh bitbake development-xfce-image
-
-Is there a way to build my image while disabling the mesa support ? (I want
-a GUI but I don't need the 3D support).
-
-Why is "mesa_10.1.3.bb" failing for this configuration ?
-
-Thanks
-ssinfod
-
---089e0102faea267d020510dbe36d
+--001a113abef4517fc30510dca239
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello,<br></div><div><br></div><div>I&#39;m trying to=
- build an angstrom image for an <a href=3D"http://i.mx">i.mx</a> 6 (wandboa=
-rd).</div><div>I&#39;m able to build a console image but I have a problem w=
-hen I build an image which includes xfce or gnome.</div><div><br></div><div=
->My bitbake commands are:</div><div>MACHINE=3Dwandboard-quad ./oebb.sh bitb=
-ake development-gnome-image</div><div>(or)</div><div>MACHINE=3Dwandboard-qu=
-ad ./oebb.sh bitbake development-xfce-image</div><div><br></div><div>The bi=
-tbake error is:</div><div><br></div><div>| configure: error: cannot enable =
-egl_gallium without EGL</div><div>| Configure failed. The contents of all c=
-onfig.log files follows to aid debugging</div><div>| ERROR: oe_runconf fail=
-ed</div><div>| WARNING: exit code 1 from a shell command.</div><div>| ERROR=
-: Function failed: do_configure (log file is located at /home/dev/WBD-ang/s=
-etup-scripts/build/tmp-angstrom_v2014_12-glibc/work/cortexa9hf-vfp-neon-mx6=
-qdl-angstrom-linux-gnueabi/mesa/2_10.1.3-r0/temp/log.do_configure.8747)</di=
-v><div>ERROR: Task 4345 (/home/dev/WBD-ang/setup-scripts/sources/openembedd=
-ed-core/meta/recipes-graphics/mesa/<a href=3D"http://mesa_10.1.3.bb">mesa_1=
-0.1.3.bb</a>, do_configure) failed with exit code &#39;1&#39;</div><div>NOT=
-E: Tasks Summary: Attempted 1376 tasks of which 1374 didn&#39;t need to be =
-rerun and 1 failed.</div><div>NOTE: Writing buildhistory</div><div>Waiting =
-for 0 running tasks to finish:</div><div><br></div><div>It seems there is a=
- configuration problem with mesa (3D) support.</div><div><br></div><div>Her=
-e is the list of commands I used to came to this conclusion. The last comma=
-nds gives the error.</div><div>git clone git://<a href=3D"http://github.com=
-/Angstrom-distribution/setup-scripts.git">github.com/Angstrom-distribution/=
-setup-scripts.git</a></div><div>cd setup-scripts/</div><div>git checkout an=
-gstrom-v2014.12-yocto1.7</div><div>MACHINE=3Dwandboard-quad ./oebb.sh confi=
-g wandboard-quad</div><div>source ./environment-angstrom-v2014.12</div><div=
->MACHINE=3Dwandboard-quad ./oebb.sh update</div><div>MACHINE=3Dwandboard-qu=
-ad ./oebb.sh bitbake core-image-minimal</div><div>MACHINE=3Dwandboard-quad =
-./oebb.sh bitbake development-xfce-image</div><div><br></div><div>Is there =
-a way to build my image while disabling the mesa support ? (I want a GUI bu=
-t I don&#39;t need the 3D support).</div><div><br></div><div>Why is &quot;<=
-a href=3D"http://mesa_10.1.3.bb">mesa_10.1.3.bb</a>&quot; failing for this =
-configuration ?</div><div><br></div><div>Thanks</div><div>ssinfod</div></di=
-v>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 March 2015 at 17:51, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3yt" clas=
+s=3D"a3s" style=3D"overflow:hidden">Commit 4ceff7d0a1f28eb1ce5d288111015b<u=
+></u>ff8d5e9a7e &quot;libav: drop older 0.8.* and use libav-9 by default&qu=
+ot; removed libav 0.8 in favor of the &quot;9&quot; edition. However, after=
+ compiling this for a MIPS box, the gst-ffmpeg plugin now refuses to load a=
+nd displays the following at runtime:</div></blockquote></div><br>Hm, bad t=
+esting, sorry.=C2=A0 This would be why gstreamer-libav 1.0 defaults to usin=
+g it&#39;s own internal copy of libav then. :/</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">I see that gstreamer-ffmpeg_0.10 d=
+efaults to using the internal libav, and as the API clearly changed we need=
+ to do that.=C2=A0 Can you verify that removing external-libav from the PAC=
+KAGECONFIG fixes this problem?</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">Ross</div></div>
 
---089e0102faea267d020510dbe36d--
+--001a113abef4517fc30510dca239--
