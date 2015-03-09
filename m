@@ -1,30 +1,38 @@
-Return-Path: <kmsywula@ecsmtp.ir.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C117D739A6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F2B4739A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 20:27:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Mar 2015 13:27:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,369,1422950400"; d="scan'208";a="538274577"
-Received: from irvmail001.ir.intel.com ([163.33.26.43])
-	by orsmga003.jf.intel.com with ESMTP; 09 Mar 2015 13:27:14 -0700
-Received: from irsswdev001.ir.intel.com (irsswdev001.ir.intel.com
-	[163.33.195.157])
-	by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
-	t29KRh2a022585; Mon, 9 Mar 2015 20:27:43 GMT
-Received: from irsswdev001.ir.intel.com (localhost [127.0.0.1])
-	by irsswdev001.ir.intel.com with ESMTP id t29KRhkf000397;
-	Mon, 9 Mar 2015 20:27:43 GMT
-Received: (from kmsywula@localhost)
-	by irsswdev001.ir.intel.com with œ id t29KRhd1000392;
-	Mon, 9 Mar 2015 20:27:43 GMT
-From: krzysztof.m.sywula@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Mar 2015 20:26:31 +0000
-Message-Id: <1425932792-32505-1-git-send-email-krzysztof.m.sywula@intel.com>
-X-Mailer: git-send-email 1.8.2
-Subject: [dylan][PATCH 1/2] dtc: remove unnecessary 'protocol=git'
+	Mon,  9 Mar 2015 20:57:52 +0000 (UTC)
+Received: by qgdz107 with SMTP id z107so31817299qgd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Mar 2015 13:57:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=TVvDBL2B6aOvdMYGXOeKhOZlqnNrdwEcJ/wopU9y5vU=;
+	b=fieowxzrjhx9eqq1LeIP73LUviipl7/KB4ruRiA4wnLD4H8OoRghDZvctBBnfG67fg
+	0F/3JhoAuHg2SK6IeegueOKhMLAcOQbSpzEi9uIe6ZhxxaeYpNtk0B5B4L80WRoa+ypd
+	JVtI8aOx6IWPm0eRb+lKiQfliMdwNOcVXTMf6lh2frD4jZUm5g3dZVfwrG9tWALhF5O0
+	VgHjYoF87Dn9gx8cMLK468Yth/+kYnqz2nr/3JvmvTzL1p9+nx4iG6iIzjnlo/7xeFPb
+	Hs18s6DZu16IAlq5QRCWjfz+T5horegCX14u4JggyqVIi/tzkkm/C5VhcTbwcu2jYOlK
+	FFIA==
+X-Gm-Message-State: ALoCoQktKTnJ3H7HDqmbEYdkl9fSwzeQU5QI3XH0aAltxbj7MwIih6jbn9uk1GnyOOJiYMDGuZTG
+X-Received: by 10.140.232.3 with SMTP id d3mr38986513qhc.82.1425934674105;
+	Mon, 09 Mar 2015 13:57:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 13:57:33 -0700 (PDT)
+In-Reply-To: <371E240E6FC1D44DA5E51EE9DCDCB784012B9C4987@NA-MBX-01.mgc.mentorg.com>
+References: <371E240E6FC1D44DA5E51EE9DCDCB784012B9C4987@NA-MBX-01.mgc.mentorg.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Mar 2015 20:57:33 +0000
+Message-ID: <CAJTo0Lboahoc8Y6BDoEfOLQpG=y-_UuA0cEakNNaTy=nZo818A@mail.gmail.com>
+To: "Mehaffey, John" <John_Mehaffey@mentor.com>
+Cc: "mehaf@gedanken.com" <mehaf@gedanken.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng: Add tracing group when building lttng-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 20:27:45 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 20:57:53 -0000
+Content-Type: multipart/alternative; boundary=001a11c128b0b94a610510e14947
 
-From: Krzysztof Sywula <Krzysztof.M.Sywula@intel.com>
+--001a11c128b0b94a610510e14947
+Content-Type: text/plain; charset=UTF-8
 
-backporting change from master
-88c5e10d6296efb175f05c3aae6e308972854cb1
+On 27 February 2015 at 02:17, Mehaffey, John <John_Mehaffey@mentor.com>
+wrote:
 
-Signed-off-by: Krzysztof Sywula <Krzysztof.M.Sywula@intel.com>
----
- meta/recipes-kernel/dtc/dtc.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +inherit autotools-brokensep ptest pkgconfig adduser
+>
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 18847c6..6bf2363 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -6,7 +6,7 @@ DEPENDS = "flex-native bison-native"
- 
- inherit autotools
- 
--SRC_URI = "git://www.jdl.com/software/dtc.git;protocol=git \
-+SRC_URI = "git://www.jdl.com/software/dtc.git \
-            file://make_install.patch \
- 	  "
- 
--- 
-1.8.2
+Did you mean useradd?  Or is adduser something Mentor-specific?
 
+Ross
 
+--001a11c128b0b94a610510e14947
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 February 2015 at 02:17, Mehaffey, John <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:John_Mehaffey@mentor.com" target=3D"_blank">John_Mehaffey@mentor=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7p=
+b" class=3D"a3s" style=3D"overflow:hidden">+inherit autotools-brokensep pte=
+st pkgconfig adduser<br></div></blockquote></div><br>Did you mean useradd?=
+=C2=A0 Or is adduser something Mentor-specific?</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c128b0b94a610510e14947--
