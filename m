@@ -1,34 +1,29 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F206C65CD0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F3CA06AC2B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 01:14:21 +0000 (UTC)
-Received: by pdjp10 with SMTP id p10so53757257pdj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Mar 2015 18:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=z0MlpOZE1160exoFBMk6CrVmSd0B8FwfnwZawvYaSqg=;
-	b=1B6NcmQthmebhUttlT8ivfufQtGhWnJMcQLEFrBlaQP7Y5mAA7mvciT8LOJsXhZbQ6
-	Nw/T1f3yQ7+uLX1FkoAPBUbkP9Hx5dcVi1JbCxkCLI7nrDMomygUXL+fT3rIwHut8LY3
-	eKUIeZXa5NJlq5QJuYjYoTGSCsA0FaFIg6XqU3xAgfUE5JvkGGkylnmXdkilAgLnGk/U
-	mfAk1sCqL/9jwVmpuyTG4QfxKCOnOqgCrO0uRNr1/8QlbhsZX/7SSP34coHRjm0nXfIG
-	LdiupjoB/dlwxN1BYGK77hb9G8dJfVLlmYx2iJ4E0nvdF5s3VudDFuUU8VfKqP8XXfnO
-	4V6A==
-X-Received: by 10.66.150.165 with SMTP id uj5mr5093816pab.54.1425863662481;
-	Sun, 08 Mar 2015 18:14:22 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id tr8sm4592517pab.4.2015.03.08.18.14.20
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 08 Mar 2015 18:14:21 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Mar 2015 12:13:56 +1100
-Message-Id: <1425863636-5742-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+	Mon,  9 Mar 2015 01:39:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t291dnae009138
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 8 Mar 2015 18:39:49 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Sun, 8 Mar 2015 18:39:49 -0700
+Message-ID: <54FCF9E3.3070002@windriver.com>
+Date: Mon, 9 Mar 2015 09:39:47 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1425634271.git.liezhi.yang@windriver.com>
+	<1eade737f0d2e1279a75c27335e110140b28503f.1425634271.git.liezhi.yang@windriver.com>
+	<CAJTo0La_2aZHEs5MfbaV+UZ9Bf+qLfnm0Dj=9uurcLVz9KUHvQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La_2aZHEs5MfbaV+UZ9Bf+qLfnm0Dj=9uurcLVz9KUHvQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] apt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 01:14:22 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 01:39:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Appending to PACKAGEFUNCS results in the font packages missing the
-postinst/postrm scripts and the fontconfig cache not being generated
-in /var/cache/fontconfig when creating images or installing font
-packages. This is because the package data has already been emitted
-by emit_pkgdata in PACKAGEFUNCS. Prepend to PACKAGEFUNCS to ensure
-add_fontcache_postinsts is executed before emit_pkgdata.
 
-[YOCTO #7410]
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/fontcache.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/06/2015 08:35 PM, Burton, Ross wrote:
+>
+> On 6 March 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     -SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/apt_${PV}.tar.gz \
+>     +SRC_URI =
+>     "https://launchpad.net/debian/+archive/primary/+files/apt_0.9.9.4.tar.gz \
+>
+>
+> Surely this should continue using ${PV}, especially as this is a .inc.
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index 2bf1e4b..dcd1f04 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -42,4 +42,4 @@ python add_fontcache_postinsts() {
-         d.setVar('pkg_postrm_%s' % pkg, postrm)
- }
- 
--PACKAGEFUNCS += "add_fontcache_postinsts"
-+PACKAGEFUNCS =+ "add_fontcache_postinsts"
--- 
-2.3.1
+Thanks, I will update them and resend these patches.
 
+// Robert
+
+>
+> Ross
 
