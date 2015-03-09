@@ -1,36 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 01A0E7393D
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp01.online.nl (smtp01.online.nl [194.134.41.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E477397F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 17:54:10 +0000 (UTC)
-Received: by qcxr5 with SMTP id r5so8643316qcx.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 10:54:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DX20zrhCVT/ONOvVl4GWvaATxEF6faayebD+AQPnLzc=;
-	b=mbgEvBgD3Xa1TYWmRQua/dcSc3enUJIUvZ15GUs2XghJ4GbyanOJ3tbhoJeUvBtbrh
-	lyI/MHgpN0JUSjeG8EN0UV0VTia0+psHmXCDcLxk2aJ6R0lJ1Cw0Nf+hNIj6v5yXuz1+
-	o1OsUcP4dcKbNPVWdgpmOLjxz0VN+r16Ibuh9C7ui26S/W8juiRj/SfV6qaTZMWpOc8/
-	v979ZNpCnsvssnMro9xePCgP39Ddi+SUzApYFW9shbIxyR/fRslFzr5xAt6FwQWxSp/e
-	rpbx9ivZMihDHN5ABQZlAoFdLBZ/EBZuO81awmJnDB3RjhV6vI1mp8AkmdazIMZg3jvs
-	Q4rg==
-X-Gm-Message-State: ALoCoQkw7yjU4sOy4L8NhdmHRcIAMFXEJ977d15DVV1sUT36TAWGwz+VlxmZjb2BkbUh5ytGkkOV
-X-Received: by 10.140.29.138 with SMTP id b10mr35836242qgb.78.1425923651668;
-	Mon, 09 Mar 2015 10:54:11 -0700 (PDT)
+	Mon,  9 Mar 2015 18:13:44 +0000 (UTC)
+Received: from smtp01.online.nl (localhost [127.0.0.1])
+	by smtp01.online.nl (Postfix) with ESMTP id 970DF8E0DB;
+	Mon,  9 Mar 2015 19:13:43 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp01.online.nl (Postfix) with ESMTP;
+	Mon,  9 Mar 2015 19:13:43 +0100 (CET)
+Message-ID: <54FDE2D7.4050409@topic.nl>
+Date: Mon, 09 Mar 2015 19:13:43 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 10:53:51 -0700 (PDT)
-In-Reply-To: <CAHUo2cxmz74Mw-z7i9MHB9-tm5srq5jhcG8XYrA8C8qcrQumGw@mail.gmail.com>
-References: <CAHUo2cxmz74Mw-z7i9MHB9-tm5srq5jhcG8XYrA8C8qcrQumGw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Mar 2015 17:53:51 +0000
-Message-ID: <CAJTo0LYJh4GCjb0ewCnZ2RvoNv5WtgxGV5x+a=ogoXWfBL1BeQ@mail.gmail.com>
-To: ss infod <ssinfod@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <54F9E933.9070508@topic.nl>
+	<CAJTo0LaCP4mqxdKEnd-mB3sTGCC8PhbkYQgz-kdc9NoLceGMyQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaCP4mqxdKEnd-mB3sTGCC8PhbkYQgz-kdc9NoLceGMyQ@mail.gmail.com>
+X-Online-Scanned: by Cloudmark authority (on smtp01.online.nl)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Problem with mesa_10.1.3.bb for angstrom on i.mx 6
+Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 17:54:13 -0000
-Content-Type: multipart/alternative; boundary=001a113a75a2bc210d0510deb8e5
+X-List-Received-Date: Mon, 09 Mar 2015 18:13:51 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113a75a2bc210d0510deb8e5
-Content-Type: text/plain; charset=UTF-8
-
-On 9 March 2015 at 14:31, ss infod <ssinfod@gmail.com> wrote:
-
-> Is there a way to build my image while disabling the mesa support ? (I
-> want a GUI but I don't need the 3D support).
+On 09-03-15 16:24, Burton, Ross wrote:
 >
-> Why is "mesa_10.1.3.bb" failing for this configuration ?
+> On 6 March 2015 at 17:51, Mike Looijmans <mike.looijmans@topic.nl
+> <mailto:mike.looijmans@topic.nl>> wrote:
 >
+>     Commit 4ceff7d0a1f28eb1ce5d288111015b__ff8d5e9a7e "libav: drop older
+>     0.8.* and use libav-9 by default" removed libav 0.8 in favor of the
+>     "9" edition. However, after compiling this for a MIPS box, the
+>     gst-ffmpeg plugin now refuses to load and displays the following at
+>     runtime:
+>
+>
+> Hm, bad testing, sorry.  This would be why gstreamer-libav 1.0 defaults
+> to using it's own internal copy of libav then. :/
 
-You can try disabling opengl by doing DISTRO_FEATURES_remove="opengl" in
-your local.conf but some distributions don't actually work with this
-disabled, so your mileage may vary.
+There's actually a page long rant that displays on screen if you link 
+externally, like we do...
 
-I'd suggest that this is a BSP/distro problem before an oe-core problem so
-you should probably start on the Angstrom/wandaboard lists, where
-presumably someone else has seen this.
+> I see that gstreamer-ffmpeg_0.10 defaults to using the internal libav,
+> and as the API clearly changed we need to do that.  Can you verify that
+> removing external-libav from the PACKAGECONFIG fixes this problem?
 
-Ross
+Tried that, it required a small patch to the configure.ac script to make 
+it past the configure stage:
 
---001a113a75a2bc210d0510deb8e5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Index: gst-ffmpeg-0.10.13/configure.ac
+===================================================================
+--- gst-ffmpeg-0.10.13.orig/configure.ac
++++ gst-ffmpeg-0.10.13/configure.ac
+@@ -385,7 +385,7 @@ else
+       if test -z "$srcdir" -o "$srcdir" = .; then
+         confcmd=./configure
+       else
+-       confcmd="$origdir"/"$ac_top_srcdir"/gst-libs/ext/libav/configure
++       confcmd="$ac_top_srcdir"/gst-libs/ext/libav/configure
+       fi
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 March 2015 at 14:31, ss infod <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-ssinfod@gmail.com" target=3D"_blank">ssinfod@gmail.com</a>&gt;</span> wrote=
-:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><div>Is there a way to build my image w=
-hile disabling the mesa support ? (I want a GUI but I don&#39;t need the 3D=
- support).</div><div><br></div><div>Why is &quot;<a href=3D"http://mesa_10.=
-1.3.bb" target=3D"_blank">mesa_10.1.3.bb</a>&quot; failing for this configu=
-ration ?</div><div></div></blockquote></div><br>You can try disabling openg=
-l by doing DISTRO_FEATURES_remove=3D&quot;opengl&quot; in your local.conf b=
-ut some distributions don&#39;t actually work with this disabled, so your m=
-ileage may vary.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">I&#39;d suggest that this is a BSP/distro problem before an oe-c=
-ore problem so you should probably start on the Angstrom/wandaboard lists, =
-where presumably someone else has seen this.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+       AS_MKDIR_P(["$ac_top_build_prefix"gst-libs/ext/libav])
 
---001a113a75a2bc210d0510deb8e5--
+
+Then it at least gets a bit further, but then you get bombed by a load 
+of missing includes/headers/classes/andwhatnots during compile.
+
+I guess some of the 50 or so patches are intented to make it work with 
+the external library, and hence break building against the included one.
+
+-- 
+Mike Looijmans
+
