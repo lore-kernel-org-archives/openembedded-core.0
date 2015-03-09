@@ -1,28 +1,34 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp02.online.nl (smtp02.online.nl [194.134.41.32])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AB186AC33
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id F206C65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Mar 2015 12:29:20 +0000 (UTC)
-Received: from smtp02.online.nl (localhost [127.0.0.1])
-	by smtp02.online.nl (Postfix) with ESMTP id 1CB01A2E7
+	Mon,  9 Mar 2015 01:14:21 +0000 (UTC)
+Received: by pdjp10 with SMTP id p10so53757257pdj.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Mar 2015 13:29:20 +0100 (CET)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp02.online.nl (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Mar 2015 13:29:20 +0100 (CET)
-Message-ID: <54FC409F.9040107@topic.nl>
-Date: Sun, 08 Mar 2015 13:29:19 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: OE <openembedded-core@lists.openembedded.org>
-References: <1422713174-18522-1-git-send-email-mike.looijmans@topic.nl>
-In-Reply-To: <1422713174-18522-1-git-send-email-mike.looijmans@topic.nl>
-X-Online-Scanned: by Cloudmark authority (on smtp02.online.nl)
-Subject: Re: [PATCH 0/2] RFC: Integrating gitpkgv functionality
+	Sun, 08 Mar 2015 18:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=z0MlpOZE1160exoFBMk6CrVmSd0B8FwfnwZawvYaSqg=;
+	b=1B6NcmQthmebhUttlT8ivfufQtGhWnJMcQLEFrBlaQP7Y5mAA7mvciT8LOJsXhZbQ6
+	Nw/T1f3yQ7+uLX1FkoAPBUbkP9Hx5dcVi1JbCxkCLI7nrDMomygUXL+fT3rIwHut8LY3
+	eKUIeZXa5NJlq5QJuYjYoTGSCsA0FaFIg6XqU3xAgfUE5JvkGGkylnmXdkilAgLnGk/U
+	mfAk1sCqL/9jwVmpuyTG4QfxKCOnOqgCrO0uRNr1/8QlbhsZX/7SSP34coHRjm0nXfIG
+	LdiupjoB/dlwxN1BYGK77hb9G8dJfVLlmYx2iJ4E0nvdF5s3VudDFuUU8VfKqP8XXfnO
+	4V6A==
+X-Received: by 10.66.150.165 with SMTP id uj5mr5093816pab.54.1425863662481;
+	Sun, 08 Mar 2015 18:14:22 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id tr8sm4592517pab.4.2015.03.08.18.14.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 08 Mar 2015 18:14:21 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Mar 2015 12:13:56 +1100
+Message-Id: <1425863636-5742-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.3.1
+Subject: [PATCH] fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Mar 2015 12:29:22 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Mar 2015 01:14:22 -0000
 
-On 31-01-15 15:06, Mike Looijmans wrote:
-> Follow-up on the discussion here:
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100345.html
->
-> This is a preliminary implementation of gitpkgv in OE-core. It modifies the
-> fetcher to optionally provide an incremental numbering scheme for GIT
-> repositories.
->
-> These two patches implement this. The change in __init__ is basically ready for
-> public consumption. The modification to git.py is a prototype that I've used to
-> test feasibility. It imitates gitpkgv perfectly for the recipes I tried.
->
-> To make this ready for production, we should provide better names and likely
-> a GITPKGV or similarly named variable that can be used in recipes instead of
-> "${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}".
->
-> Mike Looijmans (2):
->    fetch2/__init__.py: Make get_srcrev output configurable
->    fetch2/git.py: Add gitpkgv_revision alternative version information
->
->   lib/bb/fetch2/__init__.py |    9 ++++++---
->   lib/bb/fetch2/git.py      |   25 +++++++++++++++++++++++++
->   2 files changed, 31 insertions(+), 3 deletions(-)
->
+Appending to PACKAGEFUNCS results in the font packages missing the
+postinst/postrm scripts and the fontconfig cache not being generated
+in /var/cache/fontconfig when creating images or installing font
+packages. This is because the package data has already been emitted
+by emit_pkgdata in PACKAGEFUNCS. Prepend to PACKAGEFUNCS to ensure
+add_fontcache_postinsts is executed before emit_pkgdata.
 
+[YOCTO #7410]
 
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/fontcache.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index 2bf1e4b..dcd1f04 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -42,4 +42,4 @@ python add_fontcache_postinsts() {
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
+ }
+ 
+-PACKAGEFUNCS += "add_fontcache_postinsts"
++PACKAGEFUNCS =+ "add_fontcache_postinsts"
 -- 
-Mike Looijmans
+2.3.1
+
 
