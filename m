@@ -1,25 +1,25 @@
 Return-Path: <Rob.Woolley@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 73DA573970
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CE12A739B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 23:53:02 +0000 (UTC)
+	Mon,  9 Mar 2015 23:53:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t29Nr1oJ001267
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t29Nr38W004693
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Mar 2015 16:53:02 -0700 (PDT)
+	Mon, 9 Mar 2015 16:53:03 -0700 (PDT)
 Received: from yow-rwoolley-lx.wrs.com (128.224.20.140) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 9 Mar 2015 16:53:01 -0700
+	14.3.224.2; Mon, 9 Mar 2015 16:53:02 -0700
 From: Rob Woolley <rob.woolley@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Mar 2015 19:52:56 -0400
-Message-ID: <1425945178-14806-2-git-send-email-rob.woolley@windriver.com>
+Date: Mon, 9 Mar 2015 19:52:57 -0400
+Message-ID: <1425945178-14806-3-git-send-email-rob.woolley@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
 References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/3] nfs-utils: Install nfsmount.conf
+Subject: [PATCH v2 2/3] nfs-utils: Identify CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 23:53:03 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 23:53:05 -0000
 Content-Type: text/plain
 
-The file nfsmount.conf is present in nfs-utils but not installed to the 
-filesystem.  It has been added to nfs-utils-client as it seemed to be 
-missing accidentally rather than being removed intentionally.  The binary
-files in nfs-utils-client have a hard-coded reference to it and we 
-already provide the manpage for it in nfs-utils-doc.
+Some package formats explicitly track which files are configuration files
+so that they are not overwritten on updates. We must use an explicit list
+instead of a wildcard as nfs-utils-client provides files under 
+${localstatedir}/lib/nfs that are not configuration files.
 
 Signed-off by: Rob Woolley <rob.woolley@windriver.com>
 diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-index e4655d9..1439063 100644
+index 1439063..6f64e9d 100644
 --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
 +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-@@ -73,6 +73,7 @@ FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
- 		      ${sbindir}/showmount ${sbindir}/nfsstat \
- 		      ${localstatedir}/lib/nfs \
- 		      ${sysconfdir}/nfs-utils.conf \
-+		      ${sysconfdir}/nfsmount.conf \
- 		      ${sysconfdir}/init.d/nfscommon \
- 		      ${systemd_unitdir}/system/nfs-statd.service"
- FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
-@@ -90,6 +91,8 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/nfscommon ${D}${sysconfdir}/init.d/nfscommon
+@@ -68,6 +68,13 @@ PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
+ INHIBIT_AUTO_STAGE = "1"
  
- 	install -m 0755 ${WORKDIR}/nfs-utils.conf ${D}${sysconfdir}
-+	install -m 0755 ${S}/utils/mount/nfsmount.conf ${D}${sysconfdir}
+ PACKAGES =+ "${PN}-client ${PN}-stats"
 +
- 	install -d ${D}${systemd_unitdir}/system
- 	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_unitdir}/system/
- 	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_unitdir}/system/
++CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
++			   ${localstatedir}/lib/nfs/rmtab \
++			   ${localstatedir}/lib/nfs/xtab \
++			   ${localstatedir}/lib/nfs/statd/state \
++			   ${sysconfdir}/nfsmount.conf"
++
+ FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
+ 		      ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
+ 		      ${sbindir}/showmount ${sbindir}/nfsstat \
 
