@@ -1,39 +1,39 @@
-Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AA0739A7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C1F73991
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 18:32:06 +0000 (UTC)
-Received: by iecrd18 with SMTP id rd18so15028132iec.13
+	Mon,  9 Mar 2015 20:02:42 +0000 (UTC)
+Received: by qgdz60 with SMTP id z60so31447379qgd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 11:32:08 -0700 (PDT)
+	Mon, 09 Mar 2015 13:02:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=SzVFzmeiYoMPXvx+KuFYV7/fXk5iPrz4XKVYCsN8Lyc=;
-	b=HdJjefNF8woJ9OzreYWRBE2yYcLTxWlmLHLu9TMY9g9eokdtOyI9OlJU33VfVg05N0
-	H+y7UDmafqvGN9pue6GcyfIHaqRZkJruD3f1sueD8+M4jxX4R44GJ7e/Z56jlAz9xm29
-	81vikksFvUpXux1VOhfTieDEtEDecTGKg3xsGo9juxdg46mKG2fY0hKByLZKp800ssHp
-	pFF/ujVyyWlV/9+0C0vLrbLk/dNYBvqJdwUpGiaCEGf6z+Kvh1hpVHnc2C/JZsNQZ+/L
-	dFVSfs7grk7YRP/QBWlXDy4yF5LfVVobVHF2We5VZktf7e4ZGSUVAFP5uLtCOi3Th7sM
-	VrkA==
-X-Gm-Message-State: ALoCoQnBOEYQCaCay6/So/l/f6HjhQr/d5Skp2+rBquwj0WIaqlwZFTP3uckxMJpttITWE5q/rcN
-X-Received: by 10.42.118.7 with SMTP id v7mr28692439icq.30.1425925928185;
-	Mon, 09 Mar 2015 11:32:08 -0700 (PDT)
-Received: from Latitude-E6430.domain.name (64.2.3.194.ptr.us.xo.net.
-	[64.2.3.194])
-	by mx.google.com with ESMTPSA id w3sm6552503igz.4.2015.03.09.11.32.05
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Mar 2015 11:32:07 -0700 (PDT)
-From: Naresh Bhat <naresh.bhat@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Mar 2015 00:01:16 +0530
-Message-Id: <1425925876-9663-6-git-send-email-naresh.bhat@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1425925876-9663-1-git-send-email-naresh.bhat@linaro.org>
-References: <1425925876-9663-1-git-send-email-naresh.bhat@linaro.org>
-Subject: [OE-core v1 PATCH 5/5] grub-efi: Add support to install grubaa64 efi
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=TULsL0t111x8AcQe5HBoPm/WgjsogFF2uQVtrLXFhOc=;
+	b=jysdf0EoYuvK4L1+gksqu/T49bVeh5ccSwjpVXO5JB8kUDuYdPeBPCHmgHULKgQJ75
+	QOTsJZ4Z61GpqtvB3pDU1FooOYnvt5bR+3FahmXKkDrzIiznK3+iZ71z93n1TNB1T9+m
+	Tb/FnxV2PL3LKZnfk/UJhr+GXzcqnvA3fnUOIaCiT7HbRwN1QX99Ct5mOLDwxcu/Uz59
+	FqBiNAi+xZP5FXsx3tQpk/sDDWpzdU4LKCajMBjDhdN/Z20ULG72czFqOd4hT5OMFs2s
+	sGXOtTuCNNbOynqIOszClR1WvDQxzKdvGA+NiGyN15iOEejGg62qY2xu6x6B5KC6sGsN
+	/Zpw==
+X-Gm-Message-State: ALoCoQnlFrU7hm2kECcMqXbWBQ1rpnyuD9V3hJ5pOc4fruVraXNBK+kWUKRZ/UlRhzv2OGOjrJOS
+X-Received: by 10.55.55.15 with SMTP id e15mr58247543qka.21.1425931364027;
+	Mon, 09 Mar 2015 13:02:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 13:02:23 -0700 (PDT)
+In-Reply-To: <54FDE3DB.6080803@topic.nl>
+References: <54F9E933.9070508@topic.nl>
+	<CAJTo0LaCP4mqxdKEnd-mB3sTGCC8PhbkYQgz-kdc9NoLceGMyQ@mail.gmail.com>
+	<CAJTo0LamzLa+FE0oEejxfW838HWpURUZquyG=f9KoToEY8Gkuw@mail.gmail.com>
+	<54FDE3DB.6080803@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Mar 2015 20:02:23 +0000
+Message-ID: <CAJTo0LYTABVigsJ4+0_FNgOYdjhgcrGG=hhuK5p1qGdgRi61Sw@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +46,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 18:32:07 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 20:02:43 -0000
+Content-Type: multipart/alternative; boundary=001a1146f1ca6d82fe0510e08435
 
-Add support to install grubaa64.efi image.  By default GRUB_IMAGE contains
-the bootia32.efi image.  Depending on the architecture type the variable is
-being updated to either bootia64.efi or grubaa64.efi
+--001a1146f1ca6d82fe0510e08435
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
----
- meta/classes/grub-efi.bbclass |   17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+On 9 March 2015 at 18:18, Mike Looijmans <mike.looijmans@topic.nl> wrote:
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 47bd35e..cded1a0 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -31,15 +31,20 @@ efi_populate() {
- 	# nested under a top level directory.
- 	DEST=$1
- 
--	install -d ${DEST}${EFIDIR}
--
- 	GRUB_IMAGE="bootia32.efi"
--	if [ "${TARGET_ARCH}" = "x86_64" ]; then
-+
-+	case ${TARGET_ARCH} in
-+		x86_64 )
- 		GRUB_IMAGE="bootx64.efi"
--	fi
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
-+		;;
-+		aarch64 )
-+		GRUB_IMAGE="grubaa64.efi"
-+		;;
-+	esac
-+
-+	install -m 0644 -D ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
- 
--	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
-+	install -m 0644 -D ${GRUBCFG} ${DEST}${EFIDIR}
- }
- 
- efi_iso_populate() {
--- 
-1.7.9.5
+> It works, and we're stuck with vendors providing no support for 1.x, and
+> we've been trying to get the 1.x version integrated but that's a rather big
+> task and the total lack of decent "how to migrate from 0.1 to 1.x" guides
+> isn't doing much to speed that up either.
+>
 
+That's just depressing.  0.10 has been unmaintained for *ages* and I'd have
+hoped that BSP providers would have upped their game somewhat.
 
+Ross
+
+--001a1146f1ca6d82fe0510e08435
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 March 2015 at 18:18, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflo=
+w:hidden">It works, and we&#39;re stuck with vendors providing no support f=
+or 1.x, and we&#39;ve been trying to get the 1.x version integrated but tha=
+t&#39;s a rather big task and the total lack of decent &quot;how to migrate=
+ from 0.1 to 1.x&quot; guides isn&#39;t doing much to speed that up either.=
+<br></div></blockquote></div><br>That&#39;s just depressing. =C2=A00.10 has=
+ been unmaintained for *ages* and I&#39;d have hoped that BSP providers wou=
+ld have upped their game somewhat.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1146f1ca6d82fe0510e08435--
