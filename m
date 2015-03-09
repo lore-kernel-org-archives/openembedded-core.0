@@ -1,33 +1,34 @@
 Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0BB739A3
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D994739B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 21:11:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 09 Mar 2015 14:08:21 -0700
+	Mon,  9 Mar 2015 21:11:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Mar 2015 14:11:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,370,1422950400"; d="scan'208";a="696149482"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
-	by orsmga002.jf.intel.com with ESMTP; 09 Mar 2015 14:11:08 -0700
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:07 -0700
+X-IronPort-AV: E=Sophos;i="5.11,370,1422950400"; d="scan'208";a="677505128"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2015 14:11:10 -0700
+Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
+	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:09 -0700
 Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:07 -0700
+	ORSMSX115.amr.corp.intel.com (10.22.240.11) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:09 -0700
 Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.143) by
 	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:06 -0700
+	(TLS) id 14.3.195.1; Mon, 9 Mar 2015 14:11:08 -0700
 From: Bruno Bottazzini <bruno.bottazzini@intel.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Mar 2015 18:10:49 -0300
-Message-ID: <1425935453-15437-1-git-send-email-bruno.bottazzini@intel.com>
+Date: Mon, 9 Mar 2015 18:10:50 -0300
+Message-ID: <1425935453-15437-2-git-send-email-bruno.bottazzini@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <bruno.bottazzini@intel.com>
+In-Reply-To: <1425935453-15437-1-git-send-email-bruno.bottazzini@intel.com>
 References: <bruno.bottazzini@intel.com>
+	<1425935453-15437-1-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.218.99.143]
-Subject: [PATCH V2 0/4] systemd and dbus split into packages
+Subject: [PATCH v2 1/4] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,122 +41,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 21:11:08 -0000
+X-List-Received-Date: Mon, 09 Mar 2015 21:11:11 -0000
 Content-Type: text/plain
 
-Differences from v1:
+From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
 
-dbus: Adding change that Andreas Oberritter recommended.
--Setting RRECOMMENDS_${PN}_class-native instead RPROVIDES 
- dbus-native-tools-native.
+Most tools are not required if one is launching a simple daemon.
+The user will be able to exclude dbus-tool and save some space in his
+build
 
-systemd: Adding change that Anders Darander and Khem Raj recommended
--Modifying PACKAGECONFIG as requested to use it with bbutils.
+Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-systemd: Adding change that Khem Raj requested:
--Porting patches that was used on the release of the 219 stable version
- instead of changing the repository.
-
-
--------------------------------------------------------------------------------
-In this patchset we include the following:
-
-1- dbus: split tools package
-   Most tools are not required if one is launching a simple daemon.
-   So, we split it into two packages dbus and dbus-tools which the user
-   will be able to exclude it from the image if he wants to.
-
-2- systemd: verify if files test-udev and systemd-journal-flush exists
-   If the user put --disable-tests on EXTRA_OECONF for systemd, some files will
-   not be created and systemd do_install phase
-   will fail.
-   This patch will give this flexibility for the user
-
-3- systemd: split modules into packages
-   Since systemd repo grows with more and more tools, the recipe will provide
-   a customizable layer and he will be able to choose what he wants to ship
-   to the final image.
-   He will be able to save space and exclude unwanted packages from the
-   final image.
-
-4- systemd: add patches from systemd 219 - stable
-   Adding patches that fix bugs for 219 version.
-   This will get the same consistency of the stable systemd 219 version.
-
-
-Bruno Bottazzini (3):
-  systemd: verify if files test-udev and systemd-journal-flush exists
-  systemd: split modules into packages
-  systemd: v219 with stable fixes
-
-Gustavo Sverzut Barbieri (1):
-  dbus: split tools package.
-
-Bruno Bottazzini (3):
-  systemd: verify if files test-udev and systemd-journal-flush exists
-  systemd: split modules into packages
-  systemd: v219 with stable fixes
-
-Gustavo Sverzut Barbieri (1):
-  dbus: split tools package.
-
- meta/recipes-core/dbus/dbus.inc                    |    9 +-
- ...remote-fix-certificate-status-memory-leak.patch |   31 +
- ...ournal-remote-fix-client_cert-memory-leak.patch |   35 +
- ...0003-tmpfiles-Fix-parse_acl-error-message.patch |   28 +
- ...-test-utf8-fix-utf16-tests-on-BE-machines.patch |   26 +
- ...iles-avoid-creating-duplicate-acl-entries.patch |  131 +++
- .../0006-shared-time-util-fix-gcc5-warning.patch   |   32 +
- ...time-test-infinity-parsing-in-nanoseconds.patch |   36 +
- .../0008-bootchart-fix-default-init-path.patch     |   44 +
- ...emctl-bump-NOFILE-only-for-systemctl_main.patch |   44 +
- ...0-Make-root-s-home-directory-configurable.patch |   89 +-
- ...-util-avoid-freeing-uninitialized-pointer.patch |   37 +
- ...11-bootchart-svg-fix-checking-of-list-end.patch |   28 +
- ...md-add-getrandom-syscall-numbers-for-MIPS.patch |   38 +
- ...aker-dependencies-between-mount-and-devic.patch |   33 +
- ...topping-due-to-BindsTo-log-which-unit-cau.patch |   43 +
- ...grade-message-about-sysctl-overrides-to-d.patch |   30 +
- ...l-add-some-hints-how-to-override-settings.patch |   39 +
- .../0017-core-rework-device-state-logic.patch      |  912 ++++++++++++++++
- .../0018-core-fix-return-value-on-OOM.patch        |   26 +
- ...e-x-machine-unix-prefix-for-the-container.patch |   33 +
- ...0-shared-AFS-is-also-a-network-filesystem.patch |   25 +
- ...downgrade-unit-type-not-supported-message.patch |   31 +
- ...ournal-remote-fix-saving-of-binary-fields.patch |   97 ++
- ...ix-Inappropriate-ioctl-for-device-on-ext4.patch |   37 +
- ...eplace-VLA-with-alloca-to-make-llvm-happy.patch |   53 +
- ...ietly-ignore-ACLs-on-unsupported-filesyst.patch |   84 ++
- ...-assume-ac-when-sys-class-power_supply-is.patch |   30 +
- meta/recipes-core/systemd/systemd_219.bb           | 1111 +++++++++++++++++---
- 29 files changed, 3006 insertions(+), 186 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-remote-fix-certificate-status-memory-leak.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-journal-remote-fix-client_cert-memory-leak.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0003-tmpfiles-Fix-parse_acl-error-message.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0004-test-utf8-fix-utf16-tests-on-BE-machines.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0005-tmpfiles-avoid-creating-duplicate-acl-entries.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0006-shared-time-util-fix-gcc5-warning.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0007-test-time-test-infinity-parsing-in-nanoseconds.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0008-bootchart-fix-default-init-path.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0009-systemctl-bump-NOFILE-only-for-systemctl_main.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0010-acl-util-avoid-freeing-uninitialized-pointer.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0011-bootchart-svg-fix-checking-of-list-end.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-add-getrandom-syscall-numbers-for-MIPS.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0013-unit-use-weaker-dependencies-between-mount-and-devic.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0014-unit-When-stopping-due-to-BindsTo-log-which-unit-cau.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0015-sysctl-downgrade-message-about-sysctl-overrides-to-d.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0016-sysctl-add-some-hints-how-to-override-settings.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0017-core-rework-device-state-logic.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0018-core-fix-return-value-on-OOM.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0019-machined-use-x-machine-unix-prefix-for-the-container.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0020-shared-AFS-is-also-a-network-filesystem.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0021-core-downgrade-unit-type-not-supported-message.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0022-journal-remote-fix-saving-of-binary-fields.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0024-sd-daemon-replace-VLA-with-alloca-to-make-llvm-happy.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0025-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0026-shared-util-assume-ac-when-sys-class-power_supply-is.patch
-
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index fb5d017..58dd728 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -39,7 +39,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-tools"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -47,6 +47,7 @@ OLDPKGNAME_class-nativesdk = ""
+ # for compatibility
+ RPROVIDES_${PN} = "${OLDPKGNAME}"
+ RREPLACES_${PN} += "${OLDPKGNAME}"
++RRECOMMENDS_${PN}_class-native = ""
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+@@ -64,6 +65,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
++FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
++                      ${bindir}/dbus-cleanup-sockets \
++                      ${bindir}/dbus-monitor \
++                      ${bindir}/dbus-launch \
++                      ${bindir}/dbus-run-session"
++RRECOMMENDS_${PN} = "${PN}-tools"
+ 
+ pkg_postinst_dbus() {
+ 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
 -- 
 1.9.1
 
