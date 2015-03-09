@@ -1,39 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id A3C1F73991
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ABD873991
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 20:02:42 +0000 (UTC)
-Received: by qgdz60 with SMTP id z60so31447379qgd.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2015 13:02:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TULsL0t111x8AcQe5HBoPm/WgjsogFF2uQVtrLXFhOc=;
-	b=jysdf0EoYuvK4L1+gksqu/T49bVeh5ccSwjpVXO5JB8kUDuYdPeBPCHmgHULKgQJ75
-	QOTsJZ4Z61GpqtvB3pDU1FooOYnvt5bR+3FahmXKkDrzIiznK3+iZ71z93n1TNB1T9+m
-	Tb/FnxV2PL3LKZnfk/UJhr+GXzcqnvA3fnUOIaCiT7HbRwN1QX99Ct5mOLDwxcu/Uz59
-	FqBiNAi+xZP5FXsx3tQpk/sDDWpzdU4LKCajMBjDhdN/Z20ULG72czFqOd4hT5OMFs2s
-	sGXOtTuCNNbOynqIOszClR1WvDQxzKdvGA+NiGyN15iOEejGg62qY2xu6x6B5KC6sGsN
-	/Zpw==
-X-Gm-Message-State: ALoCoQnlFrU7hm2kECcMqXbWBQ1rpnyuD9V3hJ5pOc4fruVraXNBK+kWUKRZ/UlRhzv2OGOjrJOS
-X-Received: by 10.55.55.15 with SMTP id e15mr58247543qka.21.1425931364027;
-	Mon, 09 Mar 2015 13:02:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 9 Mar 2015 13:02:23 -0700 (PDT)
-In-Reply-To: <54FDE3DB.6080803@topic.nl>
-References: <54F9E933.9070508@topic.nl>
-	<CAJTo0LaCP4mqxdKEnd-mB3sTGCC8PhbkYQgz-kdc9NoLceGMyQ@mail.gmail.com>
-	<CAJTo0LamzLa+FE0oEejxfW838HWpURUZquyG=f9KoToEY8Gkuw@mail.gmail.com>
-	<54FDE3DB.6080803@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Mar 2015 20:02:23 +0000
-Message-ID: <CAJTo0LYTABVigsJ4+0_FNgOYdjhgcrGG=hhuK5p1qGdgRi61Sw@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: gst-ffmpeg is broken since the libav-9 introduction
+	Mon,  9 Mar 2015 20:04:15 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 09 Mar 2015 13:01:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,369,1422950400"; d="scan'208";a="696121826"
+Received: from localhost.jf.intel.com ([10.7.201.37])
+	by orsmga002.jf.intel.com with ESMTP; 09 Mar 2015 13:04:17 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Mar 2015 13:04:14 -0700
+Message-Id: <1425931454-38009-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] lib/oeqa/runtime/systemd: Add a basic runtime test for the journal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 20:02:43 -0000
-Content-Type: multipart/alternative; boundary=001a1146f1ca6d82fe0510e08435
+X-List-Received-Date: Mon, 09 Mar 2015 20:04:18 -0000
 
---001a1146f1ca6d82fe0510e08435
-Content-Type: text/plain; charset=UTF-8
+The test_systemd_journal() test will fail if journalctl exits with a
+non-zero exit status. The exit status is non-zero even if there are no
+journal files, which is what drove the creation of this test.
 
-On 9 March 2015 at 18:18, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+[Yocto #7388]
 
-> It works, and we're stuck with vendors providing no support for 1.x, and
-> we've been trying to get the 1.x version integrated but that's a rather big
-> task and the total lack of decent "how to migrate from 0.1 to 1.x" guides
-> isn't doing much to speed that up either.
->
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/lib/oeqa/runtime/systemd.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-That's just depressing.  0.10 has been unmaintained for *ages* and I'd have
-hoped that BSP providers would have upped their game somewhat.
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index 1451698..5935edd 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -86,3 +86,9 @@ class SystemdServiceTests(SystemdTest):
+         self.systemctl('is-enabled', 'avahi-daemon.service', expected=1)
+         self.systemctl('enable', 'avahi-daemon.service')
+         self.systemctl('is-enabled', 'avahi-daemon.service')
++
++class SystemdJournalTests(SystemdTest):
++    @skipUnlessPassed('test_ssh')
++    def test_systemd_journal(self):
++        (status, output) = self.target.run('journalctl')
++        self.assertEqual(status, 0, output)
+-- 
+1.9.3
 
-Ross
 
---001a1146f1ca6d82fe0510e08435
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 March 2015 at 18:18, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflo=
-w:hidden">It works, and we&#39;re stuck with vendors providing no support f=
-or 1.x, and we&#39;ve been trying to get the 1.x version integrated but tha=
-t&#39;s a rather big task and the total lack of decent &quot;how to migrate=
- from 0.1 to 1.x&quot; guides isn&#39;t doing much to speed that up either.=
-<br></div></blockquote></div><br>That&#39;s just depressing. =C2=A00.10 has=
- been unmaintained for *ages* and I&#39;d have hoped that BSP providers wou=
-ld have upped their game somewhat.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a1146f1ca6d82fe0510e08435--
