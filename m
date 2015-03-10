@@ -1,36 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 69F5F739D9
+Return-Path: <Rob.Woolley@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2408B73A66
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 16:54:26 +0000 (UTC)
-Received: by iecsl2 with SMTP id sl2so22007747iec.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 09:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=GkmYz0Y6W5LLLXd0Q+LXUNBfAZALdFvYE97LdzNn6TE=;
-	b=CDrNVtdnWTvQEQn2i8cbqSZrZMwSIoiM69M7+lYgWihBRojeQbG9oRnPHv+EPazmL1
-	PNOopIFnBR0Fg4JYlp24cp/zIcEpGqyRjx5i5ZC4GhAWwqMd4kx16plkYVz4iu6JEdcs
-	bkILItfsPhLq1m5SdMvVhFfjE5GZkHoqRql+AswTsW/1y1/mGis17JQg9rbQl/dQsxyN
-	ob0nJ/nOHmmuKSMm36fMu6+Ei0uzUoJU0nlvBM28dCsw0GRHYuxVO46QA8nZiW5N4fZG
-	cZEHvpatJPI4xk4bG9wuwGlMaNi4t8PTLPrQWqtU/ixF9bbDkIBemAJuCni+WeECJWDJ
-	7vnw==
-X-Received: by 10.50.43.198 with SMTP id y6mr84935840igl.16.1426004916829;
-	Tue, 10 Mar 2015 09:28:36 -0700 (PDT)
+	Tue, 10 Mar 2015 17:14:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2AHEaME006088
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Mar 2015 10:14:37 -0700 (PDT)
+Received: from yow-rwoolley-lx.wrs.com (128.224.20.147) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 10 Mar 2015 10:14:36 -0700
+Message-ID: <54FF267B.5000108@windriver.com>
+Date: Tue, 10 Mar 2015 13:14:35 -0400
+From: Rob Woolley <rob.woolley@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Tue, 10 Mar 2015 09:28:06 -0700 (PDT)
-In-Reply-To: <30f590c7e3d62ff1adb5d6b14fe0dca71f555f5f.1425979509.git.liezhi.yang@windriver.com>
-References: <cover.1425979509.git.liezhi.yang@windriver.com>
-	<30f590c7e3d62ff1adb5d6b14fe0dca71f555f5f.1425979509.git.liezhi.yang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 Mar 2015 09:28:06 -0700
-Message-ID: <CAMKF1sqgaHnXqynr2rEihsJ62QPnUyTw8q07-YihWA=3kUyZ=Q@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] btrfs-tools: workaround DEBUG_BUILD for arm
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
+	<1425945178-14806-3-git-send-email-rob.woolley@windriver.com>
+	<CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com>
+X-Originating-IP: [128.224.20.147]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/3] nfs-utils: Identify CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +37,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 16:54:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Mar 2015 17:14:42 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060200020906030102070408"
 
-On Tue, Mar 10, 2015 at 2:25 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Workaround when:
-> MACHINE = "qemuarm"
-> DEBUG_BUILD = "1"
->
-> Errors:
-> {standard input}: Assembler messages:
-> {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
-> {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
-> make: *** [cmds-fi-disk_usage.o] Error 1
->
+--------------060200020906030102070408
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-can you post full compiler command ?
+Hi Ross,
 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../btrfs-tools/btrfs-tools_git.bb                 |    7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> index d86075c..382ee7c 100644
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> @@ -28,3 +28,10 @@ do_install () {
->  }
->
->  BBCLASSEXTEND = "native"
-> +
-> +# Workaround when DEBUG_BUILD:
-> +# {standard input}: Assembler messages:
-> +# {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
-> +# {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
-> +# make: *** [cmds-fi-disk_usage.o] Error 1
-> +CFLAGS_append_arm = " -O2"
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+My understanding is that they are used to help make NFS state-full. The 
+"state" file is part of the extension to add Network Status Monitoring 
+(NSM) to NFS.
 
+In the RPM world, they need to label them as configuration files to 
+avoid them getting overwritten during an upgrade.
+
+The Debian approach removes them on a "purge" in the postrm stage and 
+ignore them when doing an "upgrade" in the prerm stage.
+
+So, technically they are not configuration files.  Would another 
+approach such as removing them as packaged files and touching the files 
+in a postinstall script be preferred?
+
+Regards,
+Rob
+
+On 03/10/2015 12:05 PM, Burton, Ross wrote:
+>
+> On 9 March 2015 at 23:52, Rob Woolley <rob.woolley@windriver.com 
+> <mailto:rob.woolley@windriver.com>> wrote:
+>
+>     +CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
+>     +                          ${localstatedir}/lib/nfs/rmtab \
+>     +                          ${localstatedir}/lib/nfs/xtab \
+>     +                          ${localstatedir}/lib/nfs/statd/state \
+>     +                          ${sysconfdir}/nfsmount.conf"
+>
+>
+> NFS puts configuration files in /var/lib?  Are files called "state" 
+> really configuration files?
+>
+> Ross
+
+
+--------------060200020906030102070408
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    Hi Ross,<br>
+    <br>
+    My understanding is that they are used to help make NFS state-full. 
+    The "state" file is part of the extension to add Network Status
+    Monitoring (NSM) to NFS.<br>
+    <br>
+    In the RPM world, they need to label them as configuration files to
+    avoid them getting overwritten during an upgrade.  <br>
+    <br>
+    The Debian approach removes them on a "purge" in the postrm stage
+    and ignore them when doing an "upgrade" in the prerm stage.<br>
+    <br>
+    So, technically they are not configuration files.  Would another
+    approach such as removing them as packaged files and touching the
+    files in a postinstall script be preferred?<br>
+    <br>
+    Regards,<br>
+    Rob<br>
+    <br>
+    <div class="moz-cite-prefix">On 03/10/2015 12:05 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 9 March 2015 at 23:52, Rob Woolley
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:rob.woolley@windriver.com" target="_blank">rob.woolley@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":28m" class="a3s" style="overflow:hidden">+CONFFILES_${PN}-client
+                += "${localstatedir}/lib/<span class="il">nfs</span>/etab
+                \<br>
+                +                          ${localstatedir}/lib/<span
+                  class="il">nfs</span>/rmtab \<br>
+                +                          ${localstatedir}/lib/<span
+                  class="il">nfs</span>/xtab \<br>
+                +                          ${localstatedir}/lib/<span
+                  class="il">nfs</span>/statd/state \<br>
+                +                          ${sysconfdir}/nfsmount.conf"</div>
+            </blockquote>
+          </div>
+          <br>
+          NFS puts configuration files in /var/lib?  Are files called
+          "state" really configuration files?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060200020906030102070408--
