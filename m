@@ -1,31 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5934173A08
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 32FF573A15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 12:02:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2AC2M7h004253; Tue, 10 Mar 2015 12:02:22 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id r48uX1ZJooxU; Tue, 10 Mar 2015 12:02:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2AC25n6004190
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 10 Mar 2015 12:02:16 GMT
-Message-ID: <1425988925.9114.6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 10 Mar 2015 12:02:05 +0000
-In-Reply-To: <20150303070532.GA2337@jama>
-References: <cover.1423484647.git.Martin.Jansa@gmail.com>
-	<1b8369849e9c3f271231c88e9303e9cbba261a94.1423484647.git.Martin.Jansa@gmail.com>
-	<20150227092322.GK2309@jama> <20150303070532.GA2337@jama>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: Re: [PATCHv6 1/1] recipes: add x11 to required DISTRO_FEATURES
+	Tue, 10 Mar 2015 13:33:36 +0000 (UTC)
+Received: by wiwh11 with SMTP id h11so19848488wiw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Mar 2015 06:33:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=k7+eeFF77rn61i4bNHrK96mVmEyFf/Kq90SR2MCyIEg=;
+	b=UNrXCMRnuOqT/TKflG0Sa3pD/jvJkO4qPF2ZK54pirWNzWVpE9j6IHCG2jZ6bf+yar
+	mQq5r4/b/OjRRLloOtc4+NUtrvmV3u9nwExVl71ExqwtjJqSgx0310VQCht5Fs21PhIi
+	UFOS1BTOTTEzzjnKkb/wpHznfeixyd+JNTcB5v8AfQsNiTzXi+YiKBu3mtpkLNJq20xR
+	2xncsPe2uSwGHefOtdTBzw9tPpYwCdozd34InO8lKB/Y27SY6nUiZuX93G3csePa5xXo
+	tiHk+2nFTA+hpkmd2+f6hUGogzT+1Yk81/+gX2PxWk+h40izBXttV22LZ5v/yuyqmTD8
+	HwTA==
+X-Received: by 10.181.8.75 with SMTP id di11mr113626958wid.26.1425994418020;
+	Tue, 10 Mar 2015 06:33:38 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	nb4sm933317wjc.20.2015.03.10.06.33.37
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 10 Mar 2015 06:33:37 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 10 Mar 2015 14:34:08 +0100
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20150310133408.GB2340@jama>
+References: <1425919096-19919-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKpbN_n-hHqN6iVzkfCf6282y3os757=q2SxpdAeDxyc8A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKpbN_n-hHqN6iVzkfCf6282y3os757=q2SxpdAeDxyc8A@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] liberation-fonts: inherit allarch as fonts are arch-independent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +49,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 12:02:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Mar 2015 13:33:37 -0000
+X-Groupsio-MsgNum: 63161
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
+Content-Disposition: inline
 
-On Tue, 2015-03-03 at 08:05 +0100, Martin Jansa wrote:
-> On Fri, Feb 27, 2015 at 10:23:22AM +0100, Martin Jansa wrote:
-> > On Mon, Feb 09, 2015 at 01:25:15PM +0100, Martin Jansa wrote:
-> > > * it's not complete, but recipes depending on virtual/libx11 are easiest
-> > >   to spot, I've long list of PNBLACKLIST for all recipes which cannot
-> > >   be built in distro without x11 in DISTRO_FEATURES
-> > 
-> > PING
-> > 
-> > This was first sent 8 months ago, it's trivial change, please merge it
-> > in 1.8.
-> 
-> Ping!
-> 
-> This is very disappointing and probably one of my last patches to
-> oe-core.
+--WhfpMioaduB5tiZL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I did already talk and apologise to Martin about this, and there is a
-thread about this on the TSC list. This kind of delay is unacceptable,
-there were some reasons for it related to wanting to ideally do this
-better in bitbake. No such work has been forthcoming, nor is it likely
-to any time soon so I've taken this patch.
+On Mon, Mar 09, 2015 at 01:42:14PM -0300, Otavio Salvador wrote:
+> On Mon, Mar 9, 2015 at 1:38 PM, Ross Burton <ross.burton@intel.com> wrote:
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+>=20
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Sorry about the delay. Hopefully this is an exception rather than the
-way things tend to work.
+It fontcache adds dependency on TUNE_PKGARCH fontconfig-utils so
+technically they aren't independent (from sstate signatures point of
+view).
 
-I also do realise patches have been slow over the past week or two.
-Feature freeze caused a stampede of build breaking patches and its taken
-us a while to weed out the problematic ones and fix various bits of
-breakage :(. Hopefully we're back to "normal" now (keeping in mind this
-is now bug fixing for release in April). There are some upgrades that
-won't make it in, there was just too much too late to get everything in
-and maintain quality.
+> Once this is merged, please backport it to Dizzy as well
 
-Cheers,
+Please don't, especially with issues when recipes are moved between
+PACKAGE_ARCHs https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4102
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--WhfpMioaduB5tiZL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlT+8tAACgkQN1Ujt2V2gBzH1QCgoWKw4tCKSNmo86489qewpWYy
+d3cAoKRC9nP2UC1HEwVkkaGkaHrCE4SR
+=WJcS
+-----END PGP SIGNATURE-----
+
+--WhfpMioaduB5tiZL--
