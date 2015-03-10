@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6677D73A08
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E9DBD73A73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 14:20:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2AEKu4t014364 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 14:20:56 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id unDPvKFneu_P
+	Tue, 10 Mar 2015 14:50:14 +0000 (UTC)
+Received: by pdbfp1 with SMTP id fp1so2692220pdb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 14:20:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2AEKida014328
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 14:20:55 GMT
-Message-ID: <1425997244.9114.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Mar 2015 14:20:44 +0000
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa/parselogs: Skip hda opcode errors
+	Tue, 10 Mar 2015 07:50:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=Wj1vTLir+BoPgvMuEv776NbIZEJ9RXWpXFQWhyJIlfs=;
+	b=tooEi/yonXo0QPqqaHOHDXEYhZTwSSnGnkVh2JiwvDRifyxIG/2Lz7PkRDh/upSE5b
+	r+FkJkzRRSlx/FHBOammjrSzrec6vmUtD35sTqCM4yQcZWZZHiT/sehBsnBhbeS5Snfp
+	Y0mwplqzmLH7VT7H2vWI1usIg7XFo816PX1DkHo4ivw880gBbsLC55vor9vxEUrgLfyF
+	pEa2qSCZANnirkmV9UhkoKFf2uT3kQjgj/UVIYFSp2fq/GEtDWuM+v6np+LBeYFAAtTR
+	nv+X4NjLm8y5Iz4HaJV28AAtDGFEaKzE1PlBkVq0hKEPduWTu3JBem5hx8ORvlQjt2dE
+	vwFQ==
+X-Received: by 10.70.48.39 with SMTP id i7mr14354610pdn.116.1425999015087;
+	Tue, 10 Mar 2015 07:50:15 -0700 (PDT)
+Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id rd7sm1317543pdb.85.2015.03.10.07.50.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 10 Mar 2015 07:50:12 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2015 07:50:08 -0700
+Message-Id: <cover.1425995488.git.akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 00/17] [Dizzy] Next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +44,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 14:21:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Mar 2015 14:50:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-These occur when running images under virtualisation on machines with
-high load which sometimes trigger timeouts in the kernel DMA code.
-They're harmless to ignore in these cases.
+Please conzider these changes for the next Dizzy release
 
-Adding this since "failing" the build due to this is more annoying
-thank useful.
+The following changes since commit 93e3df91aaebd48b9c4af946247f3488681d32b6:
 
-[YOCTO #7387]
+  documenation: Updates to release month for rev history tables. (2015-03-10 11:07:55 +0000)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+are available in the git repository at:
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index b1dcc1e..cf0f67c 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -22,7 +22,8 @@ common_errors = [
-     "Failed to load module modesetting",
-     "Failed to load module \"glx\"",
-     "Failed to load module glx",
--    "[drm] Cannot find any crtc or sizes - going 1024x768"
-+    "[drm] Cannot find any crtc or sizes - going 1024x768",
-+    "hd.: possibly failed opcode"
-     ]
- 
- x86_common = [
+  git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
 
+Aníbal Limón (1):
+  files/toolchain-shar-template.sh: fix replace target_sdk_dir twice in
+    environment setup file
+
+Bian Naimeng (1):
+  gcc-4.9: fix bug of 0056-top-level-reorder_gcc-bug-61144.patch
+
+Bruce Ashfield (3):
+  linux-yocto/3.10: update to v3.10.65
+  linux-yocto/3.14: update to 3.14.29
+  linux-yocto/3.17: update to v3.17.8
+
+Chen Qi (1):
+  package_manager.py: fix rootfs failure with multilib enabled
+
+Enrico Scholz (1):
+  serf: fix 'ccache' builds
+
+Martin Jansa (2):
+  xorg-driver: add x11 to required DISTRO_FEATURES
+  piglit: add x11 to required DISTRO_FEATURES
+
+Patrick Ohly (2):
+  binconfig-disabled: try harder to prevent usage of config scripts
+  binconfig-disabled: install config scripts in sysroot
+
+Richard Purdie (1):
+  gcc-target: Don't install target gcc libdir files
+
+Robert Yang (2):
+  dpkg: add perl to RDEPENDS
+  which 2.18: fix SRC_URI
+
+Ross Burton (2):
+  bitbake: tests/data: add test for incorrect remove behaviour
+  bitbake: data_smart: split expanded removal values when handling
+    _remove
+
+Saul Wold (1):
+  linux-yocto-tiny_3.17: Update to actually use 3.17 git repo
+
+ bitbake/lib/bb/data_smart.py                       |  3 +-
+ bitbake/lib/bb/tests/data.py                       |  7 ++++
+ meta/classes/binconfig-disabled.bbclass            | 13 +++++++
+ meta/files/toolchain-shar-template.sh              |  1 +
+ meta/lib/oe/package_manager.py                     |  5 ++-
+ meta/recipes-devtools/dpkg/dpkg.inc                |  2 +-
+ .../0056-top-level-reorder_gcc-bug-61144.patch     | 42 ++++++++++------------
+ meta/recipes-devtools/gcc/gcc-target.inc           |  9 +++++
+ meta/recipes-extended/which/which_2.18.bb          |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb         |  4 ++-
+ .../xorg-driver/xorg-driver-common.inc             |  4 ++-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++-----
+ meta/recipes-support/serf/serf/env.patch           | 28 +++++++++++++++
+ meta/recipes-support/serf/serf_1.3.7.bb            |  8 ++---
+ 21 files changed, 139 insertions(+), 79 deletions(-)
+ create mode 100644 meta/recipes-support/serf/serf/env.patch
+
+-- 
+1.9.1
 
 
