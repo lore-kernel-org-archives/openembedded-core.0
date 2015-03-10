@@ -1,30 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4188671F1B
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 63D7D739B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 03:21:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2A3LC7Z022594
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Mar 2015 20:21:12 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 9 Mar 2015 20:21:11 -0700
-Message-ID: <54FE6326.4040407@windriver.com>
-Date: Tue, 10 Mar 2015 11:21:10 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
-References: <cover.1425885208.git.liezhi.yang@windriver.com>
-	<a27ea935811250778c8d581dbe107a7151b2ac5f.1425885208.git.liezhi.yang@windriver.com>
-	<C089D3E9-4157-4FCA-B39D-7A3FF80B97D2@gmail.com>
-	<CAJTo0LZQFif9FAnFA0XAwQWPL2pnYD+Wg7PTC1i34hnzswg=pQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZQFif9FAnFA0XAwQWPL2pnYD+Wg7PTC1i34hnzswg=pQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/6] net-tools: fix SRC_URI
+	Tue, 10 Mar 2015 03:26:05 +0000 (UTC)
+Received: by pdbfp1 with SMTP id fp1so62549540pdb.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Mar 2015 20:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=9nM4H+9hmdBq/WtwSw6flkAl8Luy5kd7LX0Ov0PCSqI=;
+	b=C7TXcbpj+QzRyAOamN4mMSHvozjfUU69oVmDIIPydwH70VDKmBIJumbCFqSnClJYba
+	oR6uLBjNlwzAfbTliPmc0Nu2EmSodZ75wG4araYc8qVC/xHz/kqBG8vLvnmLq6KxeCNb
+	ooRmuQ4omzx1BiA/WSmR/3saXW3FTIZSQGZJBJyI+6tVbLU3tthn0VACsGRX+q0QkS2D
+	6E5/4v6v91vaNC2m/EmtqC+caOM3cDAuibiJyfFlWAxh0z7PvdeadyafWTNI+W0c98M5
+	hwhrLKNH8m6KID64DAECii5jNW9rQHs6ZEPGhJsltcn558vqppa270YMY6z+F7RItWf/
+	3RQg==
+X-Received: by 10.70.64.228 with SMTP id r4mr60215040pds.15.1425957966746;
+	Mon, 09 Mar 2015 20:26:06 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id t5sm6155132pde.51.2015.03.09.20.26.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Mar 2015 20:26:06 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2015 14:25:30 +1100
+Message-Id: <1425957930-8061-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.3.1
+Subject: [PATCH] systemd: fix /var/log/journal ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 03:21:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Mar 2015 03:26:07 -0000
 
+The ownership needs to be explicitly set otherwise it inherits the user
+and group id of the build user.
 
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_219.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 03/10/2015 12:06 AM, Burton, Ross wrote:
->
-> On 9 March 2015 at 16:03, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->
->     it would be nicer to use
->     http://archive.debian.org/debian/pool/main/n/net-tools/ instead of
->     snapshot.debian.org <http://snapshot.debian.org> through out this series
->
->
-> Apart from that 1.6.0-25.diff.gz isn't in
-> http://archive.debian.org/debian/pool/main/n/net-tools/.
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index 24486f1..6a4f4e8 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -147,6 +147,8 @@ do_install() {
+ 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
+ 	fi
+ 
++	chown root:root ${D}/${localstatedir}/log/journal
++
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
+ 
+-- 
+2.3.1
 
-Yes, that's why we need fix it.
-
-// Robert
-
->
-> Ross
 
