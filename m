@@ -1,42 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 32FF573A15
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 210A973A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 13:33:36 +0000 (UTC)
-Received: by wiwh11 with SMTP id h11so19848488wiw.1
+	Tue, 10 Mar 2015 13:51:32 +0000 (UTC)
+Received: by qgef51 with SMTP id f51so1902031qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 06:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=k7+eeFF77rn61i4bNHrK96mVmEyFf/Kq90SR2MCyIEg=;
-	b=UNrXCMRnuOqT/TKflG0Sa3pD/jvJkO4qPF2ZK54pirWNzWVpE9j6IHCG2jZ6bf+yar
-	mQq5r4/b/OjRRLloOtc4+NUtrvmV3u9nwExVl71ExqwtjJqSgx0310VQCht5Fs21PhIi
-	UFOS1BTOTTEzzjnKkb/wpHznfeixyd+JNTcB5v8AfQsNiTzXi+YiKBu3mtpkLNJq20xR
-	2xncsPe2uSwGHefOtdTBzw9tPpYwCdozd34InO8lKB/Y27SY6nUiZuX93G3csePa5xXo
-	tiHk+2nFTA+hpkmd2+f6hUGogzT+1Yk81/+gX2PxWk+h40izBXttV22LZ5v/yuyqmTD8
-	HwTA==
-X-Received: by 10.181.8.75 with SMTP id di11mr113626958wid.26.1425994418020;
-	Tue, 10 Mar 2015 06:33:38 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	nb4sm933317wjc.20.2015.03.10.06.33.37
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Mar 2015 06:33:37 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 10 Mar 2015 14:34:08 +0100
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20150310133408.GB2340@jama>
-References: <1425919096-19919-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKpbN_n-hHqN6iVzkfCf6282y3os757=q2SxpdAeDxyc8A@mail.gmail.com>
+	Tue, 10 Mar 2015 06:51:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CemfSQDgVVqaPx7ksD+WMMDjIvPCb47A2GbOEN2+po4=;
+	b=HO+hf+NuLPBPgrQxgQrat2V5c5dbfGusuJsepFv1slWSSVUEi9G9GLAfQqdnKNWgZu
+	tS2zyKewhXWNsgfWZG7SIs1df7foh/Qi5t1OOzS4Fgu0cF/4WlQ9Qoyl1+eDXAUI9pWL
+	U0zMKD6r0J96PwhMIBpcl/LB8E6XlnzuvC4yB57h5CiAer/X1pEbRksVxjOuuZCKFI/o
+	GHIk5BLoy5k5LbKaYjxPyWs5sEf6cBLocDa4kzi68WJy0ipaQxn5cAqvSSwE1rpf/YvP
+	qr5prL3docm86i2hLrMc/IE62FiMQc8dwKFCmtxN/bVjakHX3hL1PNbsKAu/CxhvNOat
+	Zy7w==
+X-Gm-Message-State: ALoCoQkL6QfWRL6htNifeYlDlnV9KIm80fPPixO8I0oc3vBMuiH7o/4tsiByZQN85YAnWQACF9dR
+X-Received: by 10.55.42.17 with SMTP id q17mr51309669qkh.61.1425995493717;
+	Tue, 10 Mar 2015 06:51:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKpbN_n-hHqN6iVzkfCf6282y3os757=q2SxpdAeDxyc8A@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] liberation-fonts: inherit allarch as fonts are arch-independent
+Received: by 10.140.102.203 with HTTP; Tue, 10 Mar 2015 06:51:13 -0700 (PDT)
+In-Reply-To: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
+References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Mar 2015 13:51:13 +0000
+Message-ID: <CAJTo0LY-DwnvrtA0mfDTKnggkBZ491POJJVMTTap87koO+c4Fw@mail.gmail.com>
+To: Rob Woolley <rob.woolley@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/3] Identify existing configuration files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 13:33:37 -0000
-X-Groupsio-MsgNum: 63161
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 10 Mar 2015 13:51:33 -0000
+Content-Type: multipart/alternative; boundary=001a11473b16dadd350510ef7297
 
---WhfpMioaduB5tiZL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11473b16dadd350510ef7297
+Content-Type: text/plain; charset=UTF-8
+
+Hi Rob,
+
+On 9 March 2015 at 23:52, Rob Woolley <rob.woolley@windriver.com> wrote:
+
+> Some package formats explicitly track which files are configuration files
+> so that they are not overwritten on updates.
+>
+> This series explicitly identifies files that were already being packaged,
+> but not known as configuration files.
+>
+
+Do you have these patches in a branch?  git am is claiming they're
+corrupted, so something must have happened to them in transit.
+
+Cheers,
+Ross
+
+--001a11473b16dadd350510ef7297
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 09, 2015 at 01:42:14PM -0300, Otavio Salvador wrote:
-> On Mon, Mar 9, 2015 at 1:38 PM, Ross Burton <ross.burton@intel.com> wrote:
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
->=20
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Rob,</div><div class=3D"gmai=
+l_extra"><br><div class=3D"gmail_quote">On 9 March 2015 at 23:52, Rob Wooll=
+ey <span dir=3D"ltr">&lt;<a href=3D"mailto:rob.woolley@windriver.com" targe=
+t=3D"_blank">rob.woolley@windriver.com</a>&gt;</span> wrote:<br><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><div id=3D":232" class=3D"a3s" style=3D"overflow:hidden=
+">Some package formats explicitly track which files are configuration files=
+<br>
+so that they are not overwritten on updates.<br>
+<br>
+This series explicitly identifies files that were already being packaged,<b=
+r>
+but not known as configuration files.</div></blockquote></div><br>Do you ha=
+ve these patches in a branch? =C2=A0git am is claiming they&#39;re corrupte=
+d, so something must have happened to them in transit.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div class=3D=
+"gmail_extra">Ross</div></div>
 
-It fontcache adds dependency on TUNE_PKGARCH fontconfig-utils so
-technically they aren't independent (from sstate signatures point of
-view).
-
-> Once this is merged, please backport it to Dizzy as well
-
-Please don't, especially with issues when recipes are moved between
-PACKAGE_ARCHs https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4102
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---WhfpMioaduB5tiZL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlT+8tAACgkQN1Ujt2V2gBzH1QCgoWKw4tCKSNmo86489qewpWYy
-d3cAoKRC9nP2UC1HEwVkkaGkaHrCE4SR
-=WJcS
------END PGP SIGNATURE-----
-
---WhfpMioaduB5tiZL--
+--001a11473b16dadd350510ef7297--
