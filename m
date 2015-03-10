@@ -1,30 +1,37 @@
-Return-Path: <Rob.Woolley@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2408B73A66
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C3BD473A65
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 17:14:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2AHEaME006088
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Mar 2015 10:14:37 -0700 (PDT)
-Received: from yow-rwoolley-lx.wrs.com (128.224.20.147) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 10 Mar 2015 10:14:36 -0700
-Message-ID: <54FF267B.5000108@windriver.com>
-Date: Tue, 10 Mar 2015 13:14:35 -0400
-From: Rob Woolley <rob.woolley@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
-	<1425945178-14806-3-git-send-email-rob.woolley@windriver.com>
-	<CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com>
-X-Originating-IP: [128.224.20.147]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/3] nfs-utils: Identify CONFFILES
+	Tue, 10 Mar 2015 17:53:42 +0000 (UTC)
+Received: by wevl61 with SMTP id l61so3540697wev.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Mar 2015 10:53:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5JyrCv+HG3Wqib/UA+xAXCvRcRr0/DDV8U3vkpiAZ7M=;
+	b=lSxy9+iTtxuFYvIt+aWhKVW4SediRBqVKmr5YTawDsPysrwCMqsqbAy5p7gHBwJ58S
+	ZLFynQw9GVWMnEshoZIBk4+KbgtvI5b1ro3WA/I2pazjPkcQ3P7cNG8tQ3tzGvE7NSK+
+	nRcnzEVaV9SYnrI9WTbVGNKDIb5FC4psaMHV6wYAaXxc+N1aNN4+k8JQIsKUCPuURMGM
+	InSceH8NU3S/zU0NeH7SvCgffrteLQyM+QWDrCQGBPtPMuMvy/HhDxhzV5dawZkrCWdX
+	WPglFoJcJjygFU20jqhH/kg7TT3nGqtwro37nTyjX+PnHVAG56mjfYnBmILRou6/PL0a
+	F5EA==
+X-Gm-Message-State: ALoCoQls02tmDsPUdbiyHuf86xOffeGjAB29kyeEgry/wjK31WJnPUpM5FuGbLvQr01jdzegueTG
+X-Received: by 10.180.73.205 with SMTP id n13mr71039485wiv.64.1426010023391;
+	Tue, 10 Mar 2015 10:53:43 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id ha5sm21282355wib.1.2015.03.10.10.53.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 10 Mar 2015 10:53:42 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2015 17:50:57 +0000
+Message-Id: <1426009857-1224-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] devshell: start in ${B} not ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,116 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 17:14:42 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060200020906030102070408"
+X-List-Received-Date: Tue, 10 Mar 2015 17:53:46 -0000
 
---------------060200020906030102070408
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+When S=B this is a no-op, but when B!=S this means you can run make and so on
+without having to change directory first.
 
-Hi Ross,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/devshell.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My understanding is that they are used to help make NFS state-full. The 
-"state" file is part of the extension to add Network Status Monitoring 
-(NSM) to NFS.
-
-In the RPM world, they need to label them as configuration files to 
-avoid them getting overwritten during an upgrade.
-
-The Debian approach removes them on a "purge" in the postrm stage and 
-ignore them when doing an "upgrade" in the prerm stage.
-
-So, technically they are not configuration files.  Would another 
-approach such as removing them as packaged files and touching the files 
-in a postinstall script be preferred?
-
-Regards,
-Rob
-
-On 03/10/2015 12:05 PM, Burton, Ross wrote:
->
-> On 9 March 2015 at 23:52, Rob Woolley <rob.woolley@windriver.com 
-> <mailto:rob.woolley@windriver.com>> wrote:
->
->     +CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
->     +                          ${localstatedir}/lib/nfs/rmtab \
->     +                          ${localstatedir}/lib/nfs/xtab \
->     +                          ${localstatedir}/lib/nfs/statd/state \
->     +                          ${sysconfdir}/nfsmount.conf"
->
->
-> NFS puts configuration files in /var/lib?  Are files called "state" 
-> really configuration files?
->
-> Ross
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index 41164a3..051ab72 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -17,7 +17,7 @@ python do_devshell () {
+ 
+ addtask devshell after do_patch
+ 
+-do_devshell[dirs] = "${S}"
++do_devshell[dirs] = "${B}"
+ do_devshell[nostamp] = "1"
+ 
+ # devshell and fakeroot/pseudo need careful handling since only the final
+-- 
+1.7.10.4
 
 
---------------060200020906030102070408
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Hi Ross,<br>
-    <br>
-    My understanding is that they are used to help make NFS state-full. 
-    The "state" file is part of the extension to add Network Status
-    Monitoring (NSM) to NFS.<br>
-    <br>
-    In the RPM world, they need to label them as configuration files to
-    avoid them getting overwritten during an upgrade.  <br>
-    <br>
-    The Debian approach removes them on a "purge" in the postrm stage
-    and ignore them when doing an "upgrade" in the prerm stage.<br>
-    <br>
-    So, technically they are not configuration files.  Would another
-    approach such as removing them as packaged files and touching the
-    files in a postinstall script be preferred?<br>
-    <br>
-    Regards,<br>
-    Rob<br>
-    <br>
-    <div class="moz-cite-prefix">On 03/10/2015 12:05 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 9 March 2015 at 23:52, Rob Woolley
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:rob.woolley@windriver.com" target="_blank">rob.woolley@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":28m" class="a3s" style="overflow:hidden">+CONFFILES_${PN}-client
-                += "${localstatedir}/lib/<span class="il">nfs</span>/etab
-                \<br>
-                +                          ${localstatedir}/lib/<span
-                  class="il">nfs</span>/rmtab \<br>
-                +                          ${localstatedir}/lib/<span
-                  class="il">nfs</span>/xtab \<br>
-                +                          ${localstatedir}/lib/<span
-                  class="il">nfs</span>/statd/state \<br>
-                +                          ${sysconfdir}/nfsmount.conf"</div>
-            </blockquote>
-          </div>
-          <br>
-          NFS puts configuration files in /var/lib?  Are files called
-          "state" really configuration files?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------060200020906030102070408--
