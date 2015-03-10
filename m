@@ -1,39 +1,39 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B06F9739CD
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EA12739CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 10:11:03 +0000 (UTC)
-Received: by iecvj10 with SMTP id vj10so8118973iec.0
+	Tue, 10 Mar 2015 10:11:06 +0000 (UTC)
+Received: by igdh15 with SMTP id h15so29035826igd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 03:11:04 -0700 (PDT)
+	Tue, 10 Mar 2015 03:11:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=joJNNLR8J7uF5WK2ZP4cK8nACtIkFTmWcFLjQnWKel4=;
-	b=LnqTTkuQVlid9PX9ZbIglrTpihAiB8kmZ2J0nI14EjVA41OkeBDJnIMQ8BXU0UwLwv
-	Mk4fk8uvnvf1jrzUlg7xAX2Zme5jmdQNvxoDtAV+s1imrb2p4A3JYwndh6VCYyELobYw
-	7PAQJYGvdFrIEEJ+1FgEdac7aCsQHXtjk24KirqvQnmJSP5oBMbamqvkt/QFy2BVLF9Q
-	FGrI5cSIMJIlKmht503LQvBkb2CUjE+fu/2q5Ae0Rub4qgfH+77pSzyYAjRgNBKbLBuy
-	mBL4Y5r8sFvXOn+IdGUViSbFwoJIaHQofzV5rmqsUtm2ool3CnmDOaVbLh5/Ikr+yO2d
-	DYpg==
-X-Gm-Message-State: ALoCoQnycEuYQUgNLSa5FxvzkOFBGFsrPvQgXAK5FPTHNAW8d63Ay3y7029H1m4pVQPyXMLib7pg
-X-Received: by 10.42.66.208 with SMTP id q16mr33310764ici.11.1425982264454;
-	Tue, 10 Mar 2015 03:11:04 -0700 (PDT)
+	bh=PGjfCFP9jhDKMhI6dp2YIwXTrpmzJsdDUHngw8N0HZk=;
+	b=jBkkrm+Yq2Ik6Mfoqc6An9fny9WiQ2ezTgN0Qs2tlCSi2At7jSOohxAfV6woJlAJF9
+	LncZdGyh0Dyh0wJfnXMpTJU6vM+g5YTMgbQfHcQaZIVKeJAFP5kCvEuJ+VKvNUPJxgbv
+	oSeSaXPvW+Yup0pGEVeWI7ayds8aAddgKr1ICo7ypeNtH4l9xAf9lYqyC/Ob0baYAxzR
+	UhyrSFiZ57Domo7WPacS2geTIKrvmDlwVC9zTDzG4brYfLOvgMFOrN5r14TR3Xb/ytZr
+	uR7TKp7fT3cnHMhuxxW8SoL2qa007MJediCdR8PyX0wjbjtRcPznL7gRej1WW/F1mbSD
+	rJvg==
+X-Gm-Message-State: ALoCoQki7FUgSr75tWGDTJbG/JJQXmrYoyP/nMACLPqhsqT0PwGigD3eaXZOPWBMS4V7KVT/ubxX
+X-Received: by 10.43.69.68 with SMTP id yb4mr21141633icb.96.1425982267535;
+	Tue, 10 Mar 2015 03:11:07 -0700 (PDT)
 Received: from pohly-mobl1.ger.corp.intel.com (p5DE8F5CE.dip0.t-ipconnect.de.
 	[93.232.245.206])
-	by mx.google.com with ESMTPSA id k9sm225110ige.6.2015.03.10.03.11.02
+	by mx.google.com with ESMTPSA id k9sm225110ige.6.2015.03.10.03.11.05
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 10 Mar 2015 03:11:03 -0700 (PDT)
+	Tue, 10 Mar 2015 03:11:06 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Mar 2015 11:10:48 +0100
-Message-Id: <1425982249-17652-2-git-send-email-patrick.ohly@intel.com>
+Date: Tue, 10 Mar 2015 11:10:49 +0100
+Message-Id: <1425982249-17652-3-git-send-email-patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1425982249-17652-1-git-send-email-patrick.ohly@intel.com>
 References: <1425982249-17652-1-git-send-email-patrick.ohly@intel.com>
-Subject: [PATCH 1/2] combo-layer: runcmd() with separate output
+Subject: [PATCH 2/2] combo-layer: exclude files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,61 +46,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 10:11:03 -0000
+X-List-Received-Date: Tue, 10 Mar 2015 10:11:06 -0000
 
-Allow the caller to specify a separate output stream. stderr is always
-a temporary file opened by runcmd(), so read from that to capture
-output for error reporting *and* the return value.
+Some combined repos intentionally do not include certain files.
+For example, Poky does not include bitbake's setup files and
+OE-core's sample files under meta/conf.
 
-The reasoning for the latter is a) that this preserves the traditional
-behavior when out=None and b) if the caller wants the content of
-stdout, it can read from the stream itself, which is not possible for
-the temporary stderr.
+When these files get modified in the upstream repository, applying the
+patches fails and requires manual intervention. That is merely a
+nuisance for someone familiar with the problem, but a real show
+stopper when having the import run automatically or by someone less
+experienced.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Therefore this change introduces "file_exclude", a new per-repo list
+of file patterns which removes all matching files when initializing or
+updating a combined repository. Because fnmatch is used under the hood
+to match full path strings, removing entire directories must be done
+with a pattern ending in a '/*' (in contrast to file_filter).
+
+For Poky, the additional configuration looks like this:
+
+[bitbake]
+...
+file_exclude = classes/base.bbclass
+	conf/bitbake.conf
+	.gitignore
+	MANIFEST.in
+	setup.py
+	TODO
+
+[openembedded-core]
+...
+file_exclude = meta/conf/bblayers.conf.sample
+	meta/conf/local.conf.sample
+	meta/conf/local.conf.sample.extended
+	meta/conf/site.conf.sample
 ---
- scripts/combo-layer | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ scripts/combo-layer              | 41 +++++++++++++++++++++++++++++++++++++++-
+ scripts/combo-layer.conf.example | 14 ++++++++++++++
+ 2 files changed, 54 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 5f10e83..fb3fb50 100755
+index fb3fb50..b121c99 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -149,23 +149,27 @@ class Configuration(object):
-             logger.error("ERROR: patchutils package is missing, please install it (e.g. # apt-get install patchutils)")
-             sys.exit(1)
+@@ -20,6 +20,7 @@
+ # with this program; if not, write to the Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  
--def runcmd(cmd,destdir=None,printerr=True):
-+def runcmd(cmd,destdir=None,printerr=True,out=None):
-     """
-         execute command, raise CalledProcessError if fail
-         return output if succeed
-     """
-     logger.debug("run cmd '%s' in %s" % (cmd, os.getcwd() if destdir is None else destdir))
--    out = os.tmpfile()
-+    if not out:
-+        out = os.tmpfile()
-+        err = out
-+    else:
-+        err = os.tmpfile()
-     try:
--        subprocess.check_call(cmd, stdout=out, stderr=out, cwd=destdir, shell=True)
-+        subprocess.check_call(cmd, stdout=out, stderr=err, cwd=destdir, shell=isinstance(cmd, str))
-     except subprocess.CalledProcessError,e:
--        out.seek(0)
-+        err.seek(0)
-         if printerr:
--            logger.error("%s" % out.read())
-+            logger.error("%s" % err.read())
-         raise e
++import fnmatch
+ import os, sys
+ import optparse
+ import logging
+@@ -208,7 +209,18 @@ def action_init(conf, args):
+             else:
+                 extract_dir = os.getcwd()
+             file_filter = repo.get('file_filter', "")
+-            runcmd("git archive %s | tar -x -C %s %s" % (initialrev, extract_dir, file_filter), ldir)
++            files = runcmd("git archive %s | tar -x -v -C %s %s" % (initialrev, extract_dir, file_filter), ldir)
++            exclude_patterns = repo.get('file_exclude', '').split()
++            if exclude_patterns:
++                # Implement file removal by letting tar create the
++                # file and then deleting it in the file system
++                # again. Uses the list of files created by tar (easier
++                # than walking the tree).
++                for file in files.split('\n'):
++                    for pattern in exclude_patterns:
++                        if fnmatch.fnmatch(file, pattern):
++                            os.unlink(os.path.join(extract_dir, file))
++                            break
+             if not lastrev:
+                 lastrev = runcmd("git rev-parse %s" % initialrev, ldir).strip()
+                 conf.update(name, "last_revision", lastrev, initmode=True)
+@@ -423,6 +435,33 @@ def action_update(conf, args):
+                 runcmd("%s %s %s %s" % (repo['hook'], patch, revlist[count], name))
+                 count=count-1
  
--    out.seek(0)
--    output = out.read()
-+    err.seek(0)
-+    output = err.read()
-     logger.debug("output: %s" % output )
-     return output
++        # Step 3a: Filter out unwanted files and patches.
++        exclude = repo.get('file_exclude', '')
++        if exclude:
++            filter = ['filterdiff', '-p1']
++            for path in exclude.split():
++                filter.append('-x')
++                filter.append(path)
++            for patch in patchlist[:]:
++                filtered = patch + '.tmp'
++                with open(filtered, 'w') as f:
++                    runcmd(filter + [patch], out=f)
++                # Now check for empty patches.
++                if runcmd(['filterdiff', '--list', filtered]):
++                    # Possibly modified.
++                    os.unlink(patch)
++                    os.rename(filtered, patch)
++                else:
++                    # Empty, ignore it. Must also remove from revlist.
++                    fromline = open(patch, 'r').readline()
++                    m = re.match(r'''^From ([0-9a-fA-F]+) .*\n''', fromline)
++                    rev = m.group(1)
++                    logger.debug('skipping empty patch %s = %s' % (patch, rev))
++                    os.unlink(patch)
++                    os.unlink(filtered)
++                    patchlist.remove(patch)
++                    revlist.remove(rev)
++
+         # Step 4: write patch list and revision list to file, for user to edit later
+         patchlist_file = os.path.join(os.getcwd(), patch_dir, "patchlist-%s" % name)
+         repo['patchlist'] = patchlist_file
+diff --git a/scripts/combo-layer.conf.example b/scripts/combo-layer.conf.example
+index 8ad8615..0ef80cb 100644
+--- a/scripts/combo-layer.conf.example
++++ b/scripts/combo-layer.conf.example
+@@ -38,6 +38,20 @@ last_revision =
+ #   file_filter = src/*.c : only include the src *.c file
+ #   file_filter = src/main.c src/Makefile.am : only include these two files
  
++# file_exclude: filter out these file(s)
++# file_exclude = [path] [path] ...
++#
++# Each entry must match a file name. In contrast do file_filter, matching
++# a directory has no effect. To achieve that, use append a * wildcard
++# at the end.
++#
++# Wildcards are applied to the complete path and also match slashes.
++#
++# example:
++#   file_exclude = src/foobar/*  : exclude everything under src/foobar
++#   file_exclude = src/main.c : filter out main.c after including it with file_filter = src/*.c
++#   file_exclude = *~ : exclude backup files
++
+ # hook: if provided, the tool will call the hook to process the generated
+ #     patch from upstream, and then apply the modified patch to the combo
+ #     repo.
 -- 
 2.1.4
 
