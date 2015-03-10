@@ -1,25 +1,35 @@
-Return-Path: <Rob.Woolley@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 692A4739AF
+Return-Path: <net147@gmail.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 769D9739AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2015 23:53:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t29Nr4k0001277
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Mar 2015 16:53:04 -0700 (PDT)
-Received: from yow-rwoolley-lx.wrs.com (128.224.20.140) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 9 Mar 2015 16:53:03 -0700
-From: Rob Woolley <rob.woolley@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Mar 2015 19:52:58 -0400
-Message-ID: <1425945178-14806-4-git-send-email-rob.woolley@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
-References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
+	Tue, 10 Mar 2015 00:08:30 +0000 (UTC)
+Received: by qcvp6 with SMTP id p6so9621562qcv.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Mar 2015 17:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=h1L+SzVHonWL0bQqPZcFuJuVjTI6hPBVJaN1baMzCxI=;
+	b=EdpHa/zaZqvZCWE2xUtk+igWQbYIwn6Ugcf3MGFlrDGOZTDaCnpSxpAcsV1HuNj12k
+	Si4u8E0Y5z4bJ2sBd3ncOfuBxikijXD98alG6d4Ql0DWllYmAsgxVQuIqjSY+pWXRDsb
+	zvSgKQjSHobJLzGSFndsOuYWqzDkcPnMi+gwdD3qIOp6419BlH2CR7JNJRvb2FaH+IGV
+	N9NAdX7rT/ie4wyLaIIlekiqSu6oXRgYyJhdoYJXcPo6uK7bWDW0GMRMqZOFCGmYwi7v
+	SybP6pcpSOLq6y93/+3upQPqg9XCQ+p63+Y0okT77+/SfG583nYg2/oPzaVTAGasVVH4
+	TRnA==
 MIME-Version: 1.0
-Subject: [PATCH v2 3/3] logrotate: Identify CONFFILES
+X-Received: by 10.55.23.6 with SMTP id i6mr7732973qkh.39.1425946111151; Mon,
+	09 Mar 2015 17:08:31 -0700 (PDT)
+Received: by 10.96.56.100 with HTTP; Mon, 9 Mar 2015 17:08:31 -0700 (PDT)
+In-Reply-To: <1425919096-19919-1-git-send-email-ross.burton@intel.com>
+References: <1425919096-19919-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 10 Mar 2015 11:08:31 +1100
+Message-ID: <CANwerB1U-FhCe+k_syG19p_eSnvpXAcbcz2iV62pJeCHTB-48A@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] liberation-fonts: inherit allarch as fonts are arch-independent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2015 23:53:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Mar 2015 00:08:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Some package formats explicitly track which files are configuration files
-so that they are not overwritten on updates. We must use an explicit list
-instead of a wildcard as logrotate also provides files under ${sysconfdir}
-that are not configuration files.
+Hi Ross,
 
-Signed-off by: Rob Woolley <rob.woolley@windriver.com>
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.8.bb b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-index 00432de..e3cfa90 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-@@ -27,6 +27,9 @@ PACKAGECONFIG ?= "\
- PACKAGECONFIG[acl] = ",,acl"
- PACKAGECONFIG[selinux] = ",,libselinux"
- 
-+CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
-+		    ${sysconfdir}/logrotate.conf"
-+
- # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
- # optimization variables, so use it rather than EXTRA_CFLAGS.
- EXTRA_OEMAKE = "\
+On 10 March 2015 at 03:38, Ross Burton <ross.burton@intel.com> wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Should probably do the same for ttf-bitstream-vera.
+
+Regards,
+Jonathan
 
