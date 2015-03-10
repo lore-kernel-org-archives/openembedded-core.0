@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C3D1E739B0
+	by mail.openembedded.org (Postfix) with ESMTP id C4DAC739B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 03:34:53 +0000 (UTC)
+	Tue, 10 Mar 2015 03:34:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2A3Yss5006089
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2A3YrLV006086
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Mar 2015 20:34:54 -0700 (PDT)
+	Mon, 9 Mar 2015 20:34:53 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 9 Mar 2015 20:34:54 -0700
+	(TLS) id 14.3.224.2; Mon, 9 Mar 2015 20:34:53 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Mar 2015 11:26:44 +0800
-Message-ID: <9f2fb3684a5540193af1d1dafd70327cf931dfd2.1425957496.git.kai.kang@windriver.com>
+Date: Tue, 10 Mar 2015 11:26:43 +0800
+Message-ID: <5d35d7ac8050e090a80dd10c72ece9e4e1509579.1425957496.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1425957496.git.kai.kang@windriver.com>
 References: <cover.1425957496.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 2/3] lsb: update init-functions and remove sendmail
+Subject: [PATCH 1/3] systemd: correct permission mode of /var/volatile/tmp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +37,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 10 Mar 2015 03:34:55 -0000
 Content-Type: text/plain
 
-According to LSB specification Ref1, LSB checks file
-/lib/lsb/init-functions. But for 64 bits system it is installed in
-/lib64. Install init-functions to /lib/lsb to conform with LSB
-specification.
-
-Link file /usr/lib/sendmail which points to /usr/sbin/sendmail is
-required by LSB according to Linux FHS[Ref 2]. But it should be done by
-packages which provides command sendmail such as msmtp, postfix and
-esmtp etc.
-
-Refs:
-1 http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html
-2 http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS13
+Permission mode of directory /var/volatile/tmp should be 1777,
+correct it.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/lsb/lsb_4.1.bb | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ meta/recipes-core/systemd/systemd/00-create-volatile.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index b4ef98e..f05c30c 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -72,19 +72,18 @@ do_install(){
+diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+index 9ffa88e..87cbe1e 100644
+--- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+@@ -4,4 +4,4 @@
  
- do_install_append(){
-        install -d ${D}${sysconfdir}/core-lsb
--       install -d ${D}/${baselib}/lsb
-        for i in lsb_killproc lsb_log_message lsb_pidofproc lsb_start_daemon
-        do
-            install -m 0755 ${WORKDIR}/${i} ${D}${sysconfdir}/core-lsb
-        done
--       install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
-+
-+       install -d ${D}/lib/lsb
-+       install -m 0755 ${WORKDIR}/init-functions ${D}/lib/lsb
  
-        # creat links for LSB test
-        install -d ${D}/usr/lib/lsb
-        ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/install_initd
-        ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/remove_initd
--       install -d ${D}/${libdir}
--       ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
- 
-        if [ "${TARGET_ARCH}" = "x86_64" ];then
- 	       cd ${D}
-@@ -119,13 +118,4 @@ do_install_append(){
- FILES_${PN} += "/lib64 \
- 		/usr/lib/lsb \
-                 ${base_libdir}/lsb/* \
--		${libdir}/sendmail \
-                "
--
--# The sysroot/${libdir}/sendmail conflicts with esmtp's, and it's a
--# symlink to ${sbindir}/sendmail which is meaningless for sysroot, so
--# remove it.
--SYSROOT_PREPROCESS_FUNCS += "remove_sysroot_sendmail"
--remove_sysroot_sendmail() {
--    rm -r "${SYSROOT_DESTDIR}${libdir}/sendmail"
--}
+ d		/var/volatile/log		-	-	-	-
+-d		/var/volatile/tmp		-	-	-	-
++d		/var/volatile/tmp		1777	-	-
 -- 
 1.9.1
 
