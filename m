@@ -1,32 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
-	[209.85.214.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E4773A5F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D659A73A05
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 18:57:34 +0000 (UTC)
-Received: by obcva8 with SMTP id va8so3860309obc.8
+	Tue, 10 Mar 2015 19:53:39 +0000 (UTC)
+Received: by yhai57 with SMTP id i57so2070744yha.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 11:57:35 -0700 (PDT)
+	Tue, 10 Mar 2015 12:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=fkkWL51VnaEC1jzcI4iDqk9dnuiYB3alBipksyM2lUU=;
-	b=ywe8LjOxHSVsT90CSQ6D9CnJNk7zQwKglhHCV15v6glSpfTiL1n5Dyq3gIlS0FtkoL
-	c8U/WKkqh+Y2fn6nng0dsEVLZ8k6UErzZVoY8OCu9dy4gSTvNKsMNKtXYHPjLxIgsc9d
-	gKMw4hl1W3AmDUoAIy+cvkpXMFTewsjHZB33hFhqJ/EYf0pwWTgx7ucUqAZebBUzIg4e
-	VE7Jz6UgSFs4Ex+W0mnmqb1AwoNc0CgrL8AxT+tNUHN8T/fBcfYx/5gkYyp6chgF0ezt
-	VsOHVszwtxAVgad/7fXyBudxcGqWYLL4c50auUkj0BggkaHBlf83X9t0t+8ikH4qT7OF
-	iskg==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=xnw3IA0Ocp1UxJJXlZDUUzpDVSWFFRgEM5E+lQV6A0g=;
+	b=dezSKth5LEMm4cDv2u8+P4uTA/VxEtX7weGpiGvSS9mPWw5dlD2p8uqrcDUhd+s6RM
+	5TtSY47imDqaWsqNZBjVBBWnLZWROBNNBf5ju7W1dIDxBYLv3zk50PHyniAdiUFi9l/C
+	o9CjgKV8wul7bcT7gqv6+Zx37YfwH8pZlkKogWmdMlwjpezWE82YX88iAgmGo1Vns602
+	0BzlshEfFlt0zc3wyLVzoDYdoQIJiLA9ZhvWGqjkMBTtaIZQmv8tHOkpIR92teSyQdGH
+	RHOPtyYBwNhqxJwITSFSsgzj0SQFSHXHxUdbUon/WVllnRLxlIB1F+4MJ0FM8i+WlC6A
+	51WQ==
 MIME-Version: 1.0
-X-Received: by 10.182.68.104 with SMTP id v8mr27589424obt.64.1426013855727;
-	Tue, 10 Mar 2015 11:57:35 -0700 (PDT)
-Received: by 10.202.217.69 with HTTP; Tue, 10 Mar 2015 11:57:35 -0700 (PDT)
-In-Reply-To: <1426009857-1224-1-git-send-email-ross.burton@intel.com>
+X-Received: by 10.236.229.200 with SMTP id h68mr34040244yhq.90.1426017220448; 
+	Tue, 10 Mar 2015 12:53:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.112.71 with HTTP; Tue, 10 Mar 2015 12:53:40 -0700 (PDT)
+In-Reply-To: <CAJ86T=WcRjnrPt89mRyK_O80r5MyyjA6ifwJ+pGSDewxP+JsgQ@mail.gmail.com>
 References: <1426009857-1224-1-git-send-email-ross.burton@intel.com>
-Date: Tue, 10 Mar 2015 11:57:35 -0700
-Message-ID: <CAJ86T=WcRjnrPt89mRyK_O80r5MyyjA6ifwJ+pGSDewxP+JsgQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+	<CAJ86T=WcRjnrPt89mRyK_O80r5MyyjA6ifwJ+pGSDewxP+JsgQ@mail.gmail.com>
+Date: Tue, 10 Mar 2015 16:53:40 -0300
+X-Google-Sender-Auth: YUqZzpb3h6bTTk1Cyrw3jdV81ew
+Message-ID: <CAP9ODKpFX=p4Jr6eORVRAA0vmD+8dRiZhMz00=YPCDQVT_UsbA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] devshell: start in ${B} not ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,42 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 18:57:36 -0000
+X-List-Received-Date: Tue, 10 Mar 2015 19:53:40 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Mar 10, 2015 at 10:50 AM, Ross Burton <ross.burton@intel.com> wrote:
-> When S=B this is a no-op, but when B!=S this means you can run make and so on
-> without having to change directory first.
+On Tue, Mar 10, 2015 at 3:57 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Tue, Mar 10, 2015 at 10:50 AM, Ross Burton <ross.burton@intel.com> wrote:
+>> When S=B this is a no-op, but when B!=S this means you can run make and so on
+>> without having to change directory first.
+>
+> Just my opinion, but I'd vote against this change. Running
+> "../temp/run.do_compile" works from either directory but editing
+> sources and running "quilt refresh" etc only works from ${S}.
 
-Just my opinion, but I'd vote against this change. Running
-"../temp/run.do_compile" works from either directory but editing
-sources and running "quilt refresh" etc only works from ${S}.
++1
 
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/devshell.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> index 41164a3..051ab72 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -17,7 +17,7 @@ python do_devshell () {
->
->  addtask devshell after do_patch
->
-> -do_devshell[dirs] = "${S}"
-> +do_devshell[dirs] = "${B}"
->  do_devshell[nostamp] = "1"
->
->  # devshell and fakeroot/pseudo need careful handling since only the final
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
