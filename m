@@ -1,46 +1,26 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E397273953
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AA02739C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 09:12:39 +0000 (UTC)
-Received: by wiwl15 with SMTP id l15so28300547wiw.4
+	Tue, 10 Mar 2015 09:23:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2A9NFla008292
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 02:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to:cc
-	:message-id; bh=kvc/tdQ5FTVBH/tz/cPXysf//kHQQMsbhketGmsFfBw=;
-	b=Pa0OIL0LlGh16tR2bxHdbp3V5SFbCIlgY5kqdUVGXRinqM1FITqt4Y/RSZdc2aBZ2M
-	vKVSL5pqvb8Stf2qSMfc+DmsUd0OaFlUPJvF2t/wGAtlEotqYIx1WCIjelmn81J/aShO
-	2SOwjoSqeohkv01wLLAFU5X7DvXVF50nutJcP1vUW7X36NEDxzXswq4frLx4r9RN28NB
-	9X8VMVjD4PcSYqn3sveA+m8Dqlt/tmgwGS1rjw8BhsLxk6M4OhmsEuR63DliDzehdjyM
-	mFUWoKm8O+9YcRz5giSrCP+Y1NV6kpFoUrI67GweUCZ9RvRyVhxZaHLhrWrPt1M+ghrp
-	RH5A==
-X-Received: by 10.180.94.199 with SMTP id de7mr49409850wib.53.1425978759951;
-	Tue, 10 Mar 2015 02:12:39 -0700 (PDT)
-Received: from [192.168.100.51] (91-119-229-249.dynamic.xdsl-line.inode.at.
-	[91.119.229.249])
-	by mx.google.com with ESMTPSA id w8sm32074876wja.4.2015.03.10.02.12.38
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Mar 2015 02:12:39 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAFoFrHbNUfefWimW+jO9ts+rpKJ5ax0eD4FJEfsF3tUpAGjnyQ@mail.gmail.com>
-References: <1425397584-5154-1-git-send-email-naresh.bhat@linaro.org>
-	<1425397584-5154-4-git-send-email-naresh.bhat@linaro.org>
-	<CAC1BbcSv-o_=GD9LJkZJyX38TbAmyXkmtJY+NBZ0-xqSDNeUBA@mail.gmail.com>
-	<CAFoFrHZnnK+SuTcVVn7JSZE_A0DKBy2+9R9wtubWBf5zupPhnw@mail.gmail.com>
-	<081F4A97-C2A2-4221-9A7F-CFC1022D71A1@gmail.com>
-	<CAFoFrHYSHJfyWWfgaVGk6cukkVECzTv7TA+4Ur4BnfE2aC=mrA@mail.gmail.com>
-	<CAC1BbcRkNO_U+XFmzoLwDUV+7Gn8NC5-JUXOqfVTwHOt_osrag@mail.gmail.com>
-	<CAFoFrHbNUfefWimW+jO9ts+rpKJ5ax0eD4FJEfsF3tUpAGjnyQ@mail.gmail.com>
+	Tue, 10 Mar 2015 02:23:16 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 10 Mar 2015 02:23:15 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Mar 2015 02:23:13 -0700
+Message-ID: <620478a60aaf4644f3cfd5bfb8978fad601d86d5.1425979323.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1425979323.git.liezhi.yang@windriver.com>
+References: <cover.1425979323.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Tue, 10 Mar 2015 10:12:35 +0100
-To: Naresh Bhat <naresh.bhat@linaro.org>
-Message-ID: <A5F8DCD5-DA8E-4995-8D54-33F6801CD020@gmail.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core Yocto PATCH 3/4] bootimg: Skip build iso image for aarch64
+Subject: [PATCH 1/2] mtd-utils: disable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,17 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 09:12:41 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Tue, 10 Mar 2015 09:23:15 -0000
+Content-Type: text/plain
 
-On March 9, 2015 9:11:29 AM GMT+01:00, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+Disable parallel build because of:
+git/.compr.c.dep:46: warning: NUL character seen; rest of line ignored
+git/.compr.c.dep:47: *** missing separator.  Stop.
 
->today/tomorrow.  Can we please continue the discussion on my next
->series.  Probably you can give me few more points on my next patch
->series.
+Because both mkfs.jffs2 and mkfs.ubifs depend on compr.c, and
+.compr.c.dep may generate twice at the same time.
 
-Please CC me so i do not overlook the new series, TIA.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/mtd/mtd-utils_git.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 267d1e9..f934b17 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -30,3 +30,7 @@ FILES_mtd-utils-ubifs = "${sbindir}/mkfs.ubifs ${sbindir}/ubi*"
+ FILES_mtd-utils-misc = "${sbindir}/nftl* ${sbindir}/ftl* ${sbindir}/rfd* ${sbindir}/doc* ${sbindir}/serve_image ${sbindir}/recv_image"
+ 
+ BBCLASSEXTEND = "native"
++
++# git/.compr.c.dep:46: warning: NUL character seen; rest of line ignored
++# git/.compr.c.dep:47: *** missing separator.  Stop.
++PARALLEL_MAKE = ""
+-- 
+1.7.9.5
 
 
