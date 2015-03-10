@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C158973A6E
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 043E473A68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 16:06:06 +0000 (UTC)
-Received: by qcxm20 with SMTP id m20so3040039qcx.3
+	Tue, 10 Mar 2015 16:30:48 +0000 (UTC)
+Received: by wiwl15 with SMTP id l15so30030294wiw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 09:06:07 -0700 (PDT)
+	Tue, 10 Mar 2015 09:30:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=q8E+nJ7itgwOf5tteoAN9GCthTI2D0TAqdgu5jysJus=;
-	b=IzcldxCCdIM5w2cnPjkhRbK4TQilVBmsMOI7YvaaS1JYL+izJj7t9VMp5j7zp6y78I
-	epXJN3pRDrdHR8DWsXRAaz7RfakSd0mhmWlnV4r+8LxTGX9ZIR1KhXh83XxkJ8y10At7
-	RTg9zNzsXVeSefnCus4TEbOBBrnSVzlhBehMW+hYnEm5nt+2lHMiiDNAZMXi0PJ02w0L
-	B8fEN6s50XTxpyins/uF0clzgsdC59J8Rhdcmq61mxMXfH1G+WmETU8bcsxH7P57SyFD
-	rTxgr4AeniOPofNFdpKjbDBUjSJz80TmEvLEPGrZsAAi549riX20gI68oTm/L1g2HPul
-	TcEg==
-X-Gm-Message-State: ALoCoQkTxTKV5owIwjKkgepffLcp44qA6OLl64A2AIGIvTCxzEllEG8ZyEkxR3Q3rznuC+SVIXBV
-X-Received: by 10.55.24.160 with SMTP id 32mr49448007qky.23.1426003567805;
-	Tue, 10 Mar 2015 09:06:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 10 Mar 2015 09:05:47 -0700 (PDT)
-In-Reply-To: <1425945178-14806-3-git-send-email-rob.woolley@windriver.com>
-References: <1425945178-14806-1-git-send-email-rob.woolley@windriver.com>
-	<1425945178-14806-3-git-send-email-rob.woolley@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Mar 2015 16:05:47 +0000
-Message-ID: <CAJTo0LYTFRQVdH9XFcUJ4_CLRoH0Fa8JeDCeKRohe_8zNxwdxA@mail.gmail.com>
-To: Rob Woolley <rob.woolley@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/3] nfs-utils: Identify CONFFILES
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4PQPkNZJcypy6dVg0fGM7Csj7oTEQhtG2lEYAylundk=;
+	b=dWzhTzTI7nOLk9inRArT1jAHqraqR3sPzgPXxtvmPOBc/PTUmdqRuXoT2a8xiKZ0Ga
+	q+P7HOzEnUwrb6Y4T1MwQWRxYbEae6sZ9fBrWyvR2PSoipLarvgoaoCzhwm9IkCtepJP
+	EGPwOBvuQ9a3j1NMwFbBYVBzWrXBCR972ymuJUlbONFYe7QFRo/OsYdaavWV8pBLJaqC
+	HMpo8dlGMfKS8nT4BUIEe+hWpQ+82pFe3areMi8KfApZ5lPs+YB81enoqcyzls7iXISl
+	F3FqRMmt9TLlyU1SQWR4u2dCMuAJludHFlTeRBd6MXghaqzUshVpflQ9wLcPdEdFx7mY
+	TM9Q==
+X-Gm-Message-State: ALoCoQmm3liZs68Nu7K08avFuOd/EeU6iaSi8cqq2KZHA2w3BXslCN3umBn9gi7mHuA8YSmETQJF
+X-Received: by 10.194.71.175 with SMTP id w15mr67387138wju.16.1426005049855;
+	Tue, 10 Mar 2015 09:30:49 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id hw7sm1587414wjb.24.2015.03.10.09.30.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 10 Mar 2015 09:30:48 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2015 16:28:08 +0000
+Message-Id: <1426004888-15913-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] layer.conf: bump version as error-report interface changed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 16:06:07 -0000
-Content-Type: multipart/alternative; boundary=001a114414621b9f9c0510f154ef
+X-List-Received-Date: Tue, 10 Mar 2015 16:30:50 -0000
 
---001a114414621b9f9c0510f154ef
-Content-Type: text/plain; charset=UTF-8
+The error-report tooling command-line options were changed and anyone doing
+automated builds and using error-reports needs to know what options to parse.
 
-On 9 March 2015 at 23:52, Rob Woolley <rob.woolley@windriver.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/layer.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
-> +                          ${localstatedir}/lib/nfs/rmtab \
-> +                          ${localstatedir}/lib/nfs/xtab \
-> +                          ${localstatedir}/lib/nfs/statd/state \
-> +                          ${sysconfdir}/nfsmount.conf"
->
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index e5e1f06..573579a 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -9,7 +9,7 @@ BBFILE_PRIORITY_core = "5"
+ 
+ # This should only be incremented on significant changes that will
+ # cause compatibility issues with other layers
+-LAYERVERSION_core = "4"
++LAYERVERSION_core = "5"
+ 
+ BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
+ 
+-- 
+1.7.10.4
 
-NFS puts configuration files in /var/lib?  Are files called "state" really
-configuration files?
 
-Ross
-
---001a114414621b9f9c0510f154ef
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 March 2015 at 23:52, Rob Woolley <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:rob.woolley@windriver.com" target=3D"_blank">rob.woolley@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":28m" cla=
-ss=3D"a3s" style=3D"overflow:hidden">+CONFFILES_${PN}-client +=3D &quot;${l=
-ocalstatedir}/lib/<span class=3D"il">nfs</span>/etab \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ${localstatedir}/lib/<span class=3D"il">nfs</span>/rmtab =
-\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ${localstatedir}/lib/<span class=3D"il">nfs</span>/xtab \=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ${localstatedir}/lib/<span class=3D"il">nfs</span>/statd/=
-state \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ${sysconfdir}/nfsmount.conf&quot;</div></blockquote></div=
-><br>NFS puts configuration files in /var/lib?=C2=A0 Are files called &quot=
-;state&quot; really configuration files?</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114414621b9f9c0510f154ef--
