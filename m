@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B6DA73966
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EA0F7392B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 17:57:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2BHvFWv017857; Wed, 11 Mar 2015 17:57:15 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RimHNAepQTiM; Wed, 11 Mar 2015 17:57:15 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2BHv2Ss017762
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 11 Mar 2015 17:57:14 GMT
-Message-ID: <1426096622.9114.48.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 11 Mar 2015 17:57:02 +0000
-In-Reply-To: <550079EA.7030500@windriver.com>
-References: <alpine.LFD.2.11.1503111228420.5897@localhost>
-	<550079EA.7030500@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how many ways to delete/de-activate a recipe's task?
+	Wed, 11 Mar 2015 18:07:32 +0000 (UTC)
+Received: by igkb16 with SMTP id b16so14573325igk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Mar 2015 11:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=wen0BgBxwcrVJkGF/TjLvdGf2nnqbud8hx4YeXWM5wo=;
+	b=UOPWqXVYCMPrUjtv6q0eiZqmMDSOXXZYiardesvwcjZTo5Yo5u0LmQLOaeKFj7YGtU
+	Lch0Y2xkxAMHwvd/5gv6mzR1RGqZmeCkseAiMPXK/UuM25WT3TU9uNV1Pid1H4kdcu2m
+	XavSmtvA3VUEy8VzWX7D6KsfE7ph/4hgBMgAK5Z67YaskL21mbZ5jPNo1TiBa84gIDVC
+	hezGC7PXYHhXHdcGTFjeh3/2qnb7fTamA8LwgbnIQDquce/BHUIV1p85+kdFhl3i9hBR
+	/RegWGVEwgJ/QTlOTI8jzTKcc5J1sF7YX9dfb+PgFyhJCLgB6GjXd8c8o+RCo0ESofal
+	lhCw==
+X-Received: by 10.42.119.202 with SMTP id c10mr36410545icr.4.1426097254026;
+	Wed, 11 Mar 2015 11:07:34 -0700 (PDT)
+Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
+	[96.119.88.205])
+	by mx.google.com with ESMTPSA id b6sm2881088igb.15.2015.03.11.11.07.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Mar 2015 11:07:33 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2015 18:07:14 +0000
+Message-Id: <1426097234-10554-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V2] var/volatile: Mount it if doing ro-rfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 17:57:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Mar 2015 18:07:33 -0000
 
-On Wed, 2015-03-11 at 12:22 -0500, Mark Hatle wrote:
-> On 3/11/15 11:30 AM, Robert P. J. Day wrote:
-> > 
-> >   i recall that richard purdie might have explained this once but i
-> > have no idea where that post is and i need to add something to it,
-> > anyway ... how many ways are there to "delete" a task from a recipe,
-> > and what are the differences?
-> > 
-> >   so far, i've seen:
-> > 
-> > 1) bitbake supports a "deltask" directive
-> 
-> The task and all it's dependencies go away.  So anything dependent on it and the
-> things it depends on, are no longer dependent.
-> 
-> > 2) you can use the [noexec] task flag
-> 
-> The task and it's dependencies remain, but nothing is executed.
-> 
-> > 3) i've also seen redefining the task with a no-op ":" command
-> 
-> The task is executed and does nothing.  (I believe this dumps a stamp file and
-> the noexec does not.. but I may be wrong.)
+- Do not mount /var/volatile to be tmpfs always only when generating
+  readonly rootfs
+- Generate var-volatile.mount unit when using system in readonly-rootfs
+  to mount /var/volatile as tmpfs
+- for sysvinit, mount /var/volatile to be tmpfs if its not already
+  mounted so
+- Use RequiresMountsFor instead of After=, so systemd figures out the
+  needed dependencies for making /var/volatile accessible for journald
+  and not us.
 
-What Mark said. 3) is the old way of doing 2), we added 2) to make it
-more efficient since there is no task execution overhead (which at one
-point was measurable, it may be less so now).
+Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/image.bbclass                                             | 1 +
+ meta/recipes-core/base-files/base-files/fstab                          | 1 -
+ meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh | 2 +-
+ meta/recipes-core/systemd/systemd/journald-volatile.conf               | 2 +-
+ 4 files changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 89eb5f3..818af86 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -228,6 +228,7 @@ read_only_rootfs_hook () {
+ 	fi
+ 
+ 	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
++	    sed -e 's#/tmp#/var/volatile#g' ${IMAGE_ROOTFS}/lib/systemd/system/tmp.mount > ${IMAGE_ROOTFS}/lib/systemd/system/var-volatile.mount
+ 	    # Update user database files so that services don't fail for a read-only systemd system
+ 	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
+ 		[ -e $conffile ] || continue
+diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
+index 739b844..56b14d7 100644
+--- a/meta/recipes-core/base-files/base-files/fstab
++++ b/meta/recipes-core/base-files/base-files/fstab
+@@ -5,7 +5,6 @@ proc                 /proc                proc       defaults              0  0
+ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
+ usbdevfs             /proc/bus/usb        usbdevfs   noauto                0  0
+ tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+-tmpfs                /var/volatile        tmpfs      defaults              0  0
+ 
+ # uncomment this if your device has a SD/MMC/Transflash slot
+ #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index 1a0328d..3ff39f4 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -29,7 +29,7 @@ is_on_read_only_partition () {
+ 
+ if [ "$1" = "start" ] ; then
+ 	if [ `is_on_read_only_partition /var/lib` = "yes" ]; then
+-		grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
++		grep -q "tmpfs /var/volatile" /proc/mounts || mount -t tmpfs -o strictatime tmpfs /var/volatile
+ 		mkdir -p /var/volatile/lib
+ 		cp -a /var/lib/* /var/volatile/lib
+ 		mount --bind /var/volatile/lib /var/lib
+diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+index b11e160..9356a4e 100644
+--- a/meta/recipes-core/systemd/systemd/journald-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+@@ -3,4 +3,4 @@
+ # /var/log -> /var/volatile/log. And if the journal starts before the mount
+ # happens, the journal will appear empty until restarted.
+ [Unit]
+-After=var-volatile.mount
++RequiresMountsFor=/var/volatile
+-- 
+2.1.4
 
 
