@@ -1,24 +1,24 @@
-Return-Path: <Jian.Liu@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F04C5739CE
+	by mail.openembedded.org (Postfix) with ESMTP id AA18473956
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 05:12:30 +0000 (UTC)
+	Wed, 11 Mar 2015 06:46:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B5CVro020935
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B6kuis021370
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 22:12:31 -0700 (PDT)
-Received: from localhost.localdomain (128.224.153.43) by
+	Tue, 10 Mar 2015 23:46:56 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 10 Mar 2015 22:12:30 -0700
-From: Jian Liu <jian.liu@windriver.com>
+	14.3.224.2; Tue, 10 Mar 2015 23:46:55 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 13:12:29 +0800
-Message-ID: <1426050749-1942-1-git-send-email-jian.liu@windriver.com>
-X-Mailer: git-send-email 1.7.0.5
+Date: Wed, 11 Mar 2015 14:47:07 +0800
+Message-ID: <cover.1426056350.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] bootchart2: add dependency for bootchartd
+Subject: [PATCH 0/1] util-linux: fix CVE-2014-9114
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 05:12:31 -0000
+X-List-Received-Date: Wed, 11 Mar 2015 06:46:59 -0000
 Content-Type: text/plain
 
-bootchartd use the command lsb_release and pidof during running, 
-and also the two commands are not installed defaultly.
-So add sysvinit-pidof and lsb in the RDEPENDS.
+The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
----
- meta/recipes-devtools/bootchart2/bootchart2_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-index 04fb901..2c6d0ff 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-@@ -136,6 +136,7 @@ do_install () {
- 
- PACKAGES =+ "pybootchartgui"
- FILES_pybootchartgui += "${libdir}/python*/site-packages/pybootchartgui ${bindir}/pybootchartgui"
-+RDEPENDS_bootchart2 = "sysvinit-pidof lsb"
- RDEPENDS_pybootchartgui = "python-pycairo python-compression python-image python-textutils python-shell python-compression python-codecs"
- DEPENDS_append_class-native = " python-pycairo-native"
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/util-linux-CVE-2014-9114
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/util-linux-CVE-2014-9114
+
+Chen Qi (1):
+  util-linux: fix CVE-2014-9114
+
+ .../util-linux/util-linux/CVE-2014-9114.patch      | 174 +++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.25.2.bb  |   1 +
+ 2 files changed, 175 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2014-9114.patch
+
 -- 
-1.8.5.2.233.g932f7e4
+1.9.1
 
 
