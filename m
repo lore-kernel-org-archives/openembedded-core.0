@@ -1,24 +1,20 @@
 Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 486367398C
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B0257398C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 21:28:11 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Mar 2015 14:22:41 -0700
+	Wed, 11 Mar 2015 21:28:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Mar 2015 14:29:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,384,1422950400"; d="scan'208";a="697415346"
-Received: from localhost.jf.intel.com (HELO [10.7.201.37]) ([10.7.201.37])
-	by orsmga002.jf.intel.com with ESMTP; 11 Mar 2015 14:28:12 -0700
-Message-ID: <5500B36C.6060304@linux.intel.com>
-Date: Wed, 11 Mar 2015 14:28:12 -0700
+X-IronPort-AV: E=Sophos;i="5.11,384,1422950400"; d="scan'208";a="663951364"
+Received: from localhost.jf.intel.com ([10.7.201.37])
+	by orsmga001.jf.intel.com with ESMTP; 11 Mar 2015 14:29:00 -0700
 From: Randy Witt <randy.e.witt@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1426109145-12904-1-git-send-email-randy.e.witt@linux.intel.com>
-In-Reply-To: <1426109145-12904-1-git-send-email-randy.e.witt@linux.intel.com>
-Subject: Re: [PATCH] lib/oeqa/runtime/systemd: Add a basic runtime test for the journal
+Date: Wed, 11 Mar 2015 14:28:59 -0700
+Message-Id: <1426109339-12975-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] systemd: Instruct the journal to always be volatile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 21:28:14 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Mar 2015 21:28:59 -0000
 
-Sorry, please ignore this previously submitted patch.
+When the storage mode for the journal is "auto" if /var/log/journal
+exists then the journal will flush to /var/log/journal assuming that
+/var/log/journal is persistent.
 
-On 03/11/2015 02:25 PM, Randy Witt wrote:
-> The test_systemd_journal() test will fail if journalctl exits with a
-> non-zero exit status. The exit status is non-zero even if there are no
-> journal files, which is what drove the creation of this test.
-> [Yocto #7388]
->
-> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-> ---
->   meta/lib/oeqa/runtime/systemd.py | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
-> index 1451698..5935edd 100644
-> --- a/meta/lib/oeqa/runtime/systemd.py
-> +++ b/meta/lib/oeqa/runtime/systemd.py
-> @@ -86,3 +86,9 @@ class SystemdServiceTests(SystemdTest):
->           self.systemctl('is-enabled', 'avahi-daemon.service', expected=1)
->           self.systemctl('enable', 'avahi-daemon.service')
->           self.systemctl('is-enabled', 'avahi-daemon.service')
-> +
-> +class SystemdJournalTests(SystemdTest):
-> +    @skipUnlessPassed('test_ssh')
-> +    def test_systemd_journal(self):
-> +        (status, output) = self.target.run('journalctl')
-> +        self.assertEqual(status, 0, output)
->
+However /var/log -> /var/volatile/log in poky, so even though
+/var/log/journal exists, it is still volatile.
+
+Since this can cause ordering issues due to /var/volatile needing to be mounted before the journal actually writes to it, just specify that the journal
+should always be volatile and never try to write to "persistent"
+storage. The journal will exist in /run/log/journal only.
+
+This also disables the "After" of the journal on var-volatile.mount
+since the ordering is no longer necessary when the journal is only
+stored in /run/log/journal.
+
+[Yocto #7388]
+
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 ------
+ meta/recipes-core/systemd/systemd_219.bb                 | 4 ++--
+ 2 files changed, 2 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/journald-volatile.conf
+
+diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+deleted file mode 100644
+index b11e160..0000000
+--- a/meta/recipes-core/systemd/systemd/journald-volatile.conf
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# If /var/volatile is a mount point then make sure to mount it before
+-# the journal starts. This is because base-files creates a symlink
+-# /var/log -> /var/volatile/log. And if the journal starts before the mount
+-# happens, the journal will appear empty until restarted.
+-[Unit]
+-After=var-volatile.mount
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index d5eed08..f3bb0c4 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -48,7 +48,6 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://00-create-volatile.conf \
+            file://init \
+            file://run-ptest \
+-           file://journald-volatile.conf \
+           "
+ 
+ S = "${WORKDIR}/git"
+@@ -145,7 +144,6 @@ do_install() {
+ 	install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
+ 
+ 	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
+-	install -D -m 0644 ${WORKDIR}/journald-volatile.conf ${D}${systemd_unitdir}/system/systemd-journald.service.d/journald-volatile.conf
+ 
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+ 		install -d ${D}${sysconfdir}/init.d
+@@ -170,6 +168,8 @@ do_install() {
+ 
+ 	# Enable journal to forward message to syslog daemon
+ 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
++	# Make the journal volatile by default.
++	sed -i -e 's/.*Storage.*/Storage=volatile/' ${D}${sysconfdir}/systemd/journald.conf
+ 	# its needed in 216 upstream has fixed it with 919699ec301ea507edce4a619141ed22e789ac0d
+ 	# don't order journal flushing afte remote-fs.target
+ 	sed -i -e 's/ remote-fs.target$//' ${D}${systemd_unitdir}/system/systemd-journal-flush.service
+-- 
+1.9.3
 
 
