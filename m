@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7891D73AB8
+	by mail.openembedded.org (Postfix) with ESMTP id 4231E73ACC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 08:35:41 +0000 (UTC)
+	Wed, 11 Mar 2015 08:35:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8ZgQ6022278
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8ZhOU022281
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 01:35:42 -0700 (PDT)
+	Wed, 11 Mar 2015 01:35:44 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 01:35:42 -0700
+	Wed, 11 Mar 2015 01:35:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 01:35:38 -0700
-Message-ID: <18cec0bedc4916b29d28d6ee078bfa8d7f05d895.1426062917.git.liezhi.yang@windriver.com>
+Date: Wed, 11 Mar 2015 01:35:40 -0700
+Message-ID: <65b213ba776607778e25b5dea91eab036a62b8ae.1426062917.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1426062917.git.liezhi.yang@windriver.com>
 References: <cover.1426062917.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] license.bbclass: set dirs for do_populate_lic_setscene
+Subject: [PATCH 3/4] kernelsrc.bbclass: fix KERNEL_VERSION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Mar 2015 08:35:43 -0000
 Content-Type: text/plain
 
-Fixed:
-ERROR: Build of do_populate_lic failed
-ERROR: Traceback (most recent call last):
-  File "bitbake/lib/bb/build.py", line 497, in exec_task
-    return _exec_task(fn, task, d, quieterr)
-  File "bitbake/lib/bb/build.py", line 437, in _exec_task
-    exec_func(func, localdata)
-  File "bitbake/lib/bb/build.py", line 212, in exec_func
-    exec_func_python(func, d, runfile, cwd=adir)
-  File "/home/nxadm/nx/ala-blade44.1/builds-2015-03-09-163005/qemuppc_world_oe_bp/bitbake/lib/bb/build.py", line 237, in exec_func_python
-    os.chdir(cwd)
-OSError: [Errno 2] No such file or directory: 'bitbake_build/tmp/work/ppc7400-wrs-linux/taglib/1.9.1-r0/build'
+The kernel-abiversion is now in STAGING_KERNEL_BUILDDIR not in S.
 
-When running setscene, the cwd is $B which maybe removed by
-autotools.bbclass or cmake.bbclass when rebuild.
+Fixed rpm pkg like perf: (note the None version)
+perf-None-r9.qemux86.rpm
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/license.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/kernelsrc.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 044b3b0..95e0121 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -438,6 +438,8 @@ do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
+index 4208eff..9efd46a 100644
+--- a/meta/classes/kernelsrc.bbclass
++++ b/meta/classes/kernelsrc.bbclass
+@@ -4,7 +4,7 @@ do_unpack[depends] += "virtual/kernel:do_patch"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+ do_package[depends] += "virtual/kernel:do_populate_sysroot"
+-KERNEL_VERSION = "${@get_kernelversion_file("${S}")}"
++KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
  
- ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
+ inherit linux-kernel-base
  
-+do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
-+do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
- python do_populate_lic_setscene () {
-     sstate_setscene(d)
- }
 -- 
 1.7.9.5
 
