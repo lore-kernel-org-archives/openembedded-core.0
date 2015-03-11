@@ -1,38 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CE3073B0B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 89172739AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 13:56:51 +0000 (UTC)
-Received: by yhot59 with SMTP id t59so4467248yho.7
+	Wed, 11 Mar 2015 14:53:07 +0000 (UTC)
+Received: by igkb16 with SMTP id b16so12696549igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 06:56:53 -0700 (PDT)
+	Wed, 11 Mar 2015 07:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=lmvcgIQhYaYacVP7NpyfnZSlHiKKsW2jgFyR5m3Ytas=;
-	b=qJN/ytvvz47dg+ZaH4emNWCncd/8rdk7h2p8tF4wags4fyywFxN98w38+qmAW9p766
-	BuZIcm3vhmr5bAwQjmNs0f3UwcQQdjBqtxvsM+hG4ivXOgWO5AO4ig0HqClipAre0qqJ
-	3+U/0Els6ADWF2uAb7rKunlMoIunAo5kAnEjkkFojlEuIc6VyiO0NkNPVvFdxfLiCnN2
-	E1bR8AUzD8DmIwWwDUbceey8OHxDY5UKIASpf9CulQCnWaNZQvphhNRFXamNQ7Kp5FQQ
-	WcfaDTgbuJ7w8rc+mTfjWnvTTs4VdXDc+UTV4V1/Dg+oz6G9b7hmg6rTjz+Q9fnXYBSM
-	rQGw==
-X-Received: by 10.170.71.68 with SMTP id n65mr40626968ykn.71.1426082212995;
-	Wed, 11 Mar 2015 06:56:52 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=a8TN5jbh7UZxiHvYvMAM4idX9hVeQLNGQzHKf7pi9j8=;
+	b=ypJXWSxSWexH4Wf5FejuisztbPYc6hu5LPSmZXXH5pEYc8T6yfaAfqVrQwRORqvZVF
+	VFydSs+FlKyKcdOuEMzEfpm7ph5wjtL7hb2mIHesMpgdkiHAIZJCS0KOVxKLHvMANtTT
+	ebj+Yp4R+CKa9eeZTXjbRH5Rz1yGqWbbU8EwWk65V8HyXj94rTCXTNbNkUuOSlx3vR2X
+	OkI4aARMLDrJtyVUe2cLqbHHD6gIqGWS1IVWT+lwQjEOVd2mfwROMHxeWXXyqZLqbjBp
+	7WhpSTJmrTQVCrqpzxzDCw2QdtQf/+dc6F2KV4A24iscfmrEGGeo6zlXtItrGBPm96Uk
+	u02w==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.170.148.7 with HTTP; Wed, 11 Mar 2015 06:56:32 -0700 (PDT)
-In-Reply-To: <18cec0bedc4916b29d28d6ee078bfa8d7f05d895.1426062917.git.liezhi.yang@windriver.com>
-References: <cover.1426062917.git.liezhi.yang@windriver.com>
-	<18cec0bedc4916b29d28d6ee078bfa8d7f05d895.1426062917.git.liezhi.yang@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 11 Mar 2015 06:56:32 -0700
-X-Google-Sender-Auth: QVZX6NxQI9dbGHny_B-Atgcmw2A
-Message-ID: <CABcZANmaePrX5TE3z3J+vS+09zT0mXKb9o-e4mvUqm1D2btB_g@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.50.32.71 with SMTP id g7mr80905497igi.4.1426085588235; Wed,
+	11 Mar 2015 07:53:08 -0700 (PDT)
+Received: by 10.50.117.7 with HTTP; Wed, 11 Mar 2015 07:53:08 -0700 (PDT)
+In-Reply-To: <1426069160.9114.41.camel@linuxfoundation.org>
+References: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
+	<1426069160.9114.41.camel@linuxfoundation.org>
+Date: Wed, 11 Mar 2015 07:53:08 -0700
+Message-ID: <CAMKF1soiYrSG_MARzY0hLj+WbvHnBci5MmupLhdps6oo9=UkVg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] license.bbclass: set dirs for do_populate_lic_setscene
+Subject: Re: [PATCH] var/volatile: Mount it if doing ro-rfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,85 +43,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 13:56:53 -0000
-Content-Type: multipart/alternative; boundary=001a11399268b9e81d051103a376
+X-List-Received-Date: Wed, 11 Mar 2015 14:53:10 -0000
+Content-Type: multipart/alternative; boundary=047d7b10cb2de7fa8d0511046c62
 
---001a11399268b9e81d051103a376
+--047d7b10cb2de7fa8d0511046c62
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Mar 11, 2015 at 1:35 AM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+On Wednesday, March 11, 2015, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> Fixed:
-> ERROR: Build of do_populate_lic failed
-> ERROR: Traceback (most recent call last):
->   File "bitbake/lib/bb/build.py", line 497, in exec_task
->     return _exec_task(fn, task, d, quieterr)
->   File "bitbake/lib/bb/build.py", line 437, in _exec_task
->     exec_func(func, localdata)
->   File "bitbake/lib/bb/build.py", line 212, in exec_func
->     exec_func_python(func, d, runfile, cwd=adir)
->   File
-> "/home/nxadm/nx/ala-blade44.1/builds-2015-03-09-163005/qemuppc_world_oe_bp/
-> bitbake/lib/bb/build.py", line 237, in exec_func_python
->     os.chdir(cwd)
-> OSError: [Errno 2] No such file or directory:
-> 'bitbake_build/tmp/work/ppc7400-wrs-linux/taglib/1.9.1-r0/build'
+> On Wed, 2015-03-11 at 08:33 +0000, Khem Raj wrote:
+> > - Do not mount /var/volatile to be tmpfs always only when generating
+> >   readonly rootfs
+> > - Generate var-volatile.mount unit when using system in readonly-rootfs
+> >   to mount /var/volatile as tmpfs
+> > - for sysvinit, mount /var/volatile to be tmpfs if its not already
+> >   mounted so
+> > - Use RequiresMountsFor instead of After=, so systemd figures out the
+> >   needed dependencies for making /var/volatile accessible for journald
+> >   and not us.
+> >
+> > Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com <javascript:;>>
+> > ---
+> >  meta/classes/image.bbclass
+>  | 1 +
+> >  meta/recipes-core/base-files/base-files/fstab
+> | 1 -
+> >  meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+> | 2 +-
+> >  meta/recipes-core/systemd/systemd/journald-volatile.conf
+>  | 2 +-
+> >  4 files changed, 3 insertions(+), 3 deletions(-)
 >
-> When running setscene, the cwd is $B which maybe removed by
-> autotools.bbclass or cmake.bbclass when rebuild.
+> Which combinations has this been tested with? Given the time the patch
+> has existed for, I'm sceptical all the combinations we need have been
+> tested, I'd love to be wrong.
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> This is a pretty major change of behaviour and given the problems
+> previous changes have caused, I'm very very very nervous about what
+> issues this is going to cause :(.
+
+
+Systemd in both ways but not sysvinit
+
+>
+> Cheers,
+>
+> Richard
+>
 >
 
-For reference: https://bugzilla.yoctoproject.org/show_bug.cgi?id=4634
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11399268b9e81d051103a376
+--047d7b10cb2de7fa8d0511046c62
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Mar 11, 2015 at 1:35 AM, Robert Yang <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
-4,204);border-left-style:solid;padding-left:1ex"><div id=3D":4il" class=3D"=
-" style=3D"overflow:hidden">Fixed:<br>
-ERROR: Build of do_populate_lic failed<br>
-ERROR: Traceback (most recent call last):<br>
-=C2=A0 File &quot;<span class=3D"">bitbake</span>/lib/<span class=3D"">bb</=
-span>/build.py&quot;, line 497, in exec_task<br>
-=C2=A0 =C2=A0 return _exec_task(fn, task, d, quieterr)<br>
-=C2=A0 File &quot;<span class=3D"">bitbake</span>/lib/<span class=3D"">bb</=
-span>/build.py&quot;, line 437, in _exec_task<br>
-=C2=A0 =C2=A0 exec_func(func, localdata)<br>
-=C2=A0 File &quot;<span class=3D"">bitbake</span>/lib/<span class=3D"">bb</=
-span>/build.py&quot;, line 212, in exec_func<br>
-=C2=A0 =C2=A0 exec_func_python(func, d, runfile, cwd=3Dadir)<br>
-=C2=A0 File &quot;/home/nxadm/nx/ala-blade44.1/builds-2015-03-09-163005/qem=
-uppc_world_oe_bp/<span class=3D"">bitbake</span>/lib/<span class=3D"">bb</s=
-pan>/build.py&quot;, line 237, in exec_func_python<br>
-=C2=A0 =C2=A0 os.chdir(cwd)<br>
-OSError: [Errno 2] No such file or directory: &#39;bitbake_build/tmp/work/p=
-pc7400-wrs-linux/taglib/1.9.1-r0/build&#39;<br>
+<br><br>On Wednesday, March 11, 2015, Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">On Wed, 2015-03-11 at 08:33 +0=
+000, Khem Raj wrote:<br>
+&gt; - Do not mount /var/volatile to be tmpfs always only when generating<b=
+r>
+&gt;=C2=A0 =C2=A0readonly rootfs<br>
+&gt; - Generate var-volatile.mount unit when using system in readonly-rootf=
+s<br>
+&gt;=C2=A0 =C2=A0to mount /var/volatile as tmpfs<br>
+&gt; - for sysvinit, mount /var/volatile to be tmpfs if its not already<br>
+&gt;=C2=A0 =C2=A0mounted so<br>
+&gt; - Use RequiresMountsFor instead of After=3D, so systemd figures out th=
+e<br>
+&gt;=C2=A0 =C2=A0needed dependencies for making /var/volatile accessible fo=
+r journald<br>
+&gt;=C2=A0 =C2=A0and not us.<br>
+&gt;<br>
+&gt; Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"javascript:;" onclick=3D"_e(eve=
+nt, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.khem@gmail.com</a>&g=
+t;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/image.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 meta/recipes-core/base-files/base-files/fstab=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+ 1 -<br>
+&gt;=C2=A0 meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-h=
+ook.sh | 2 +-<br>
+&gt;=C2=A0 meta/recipes-core/systemd/systemd/journald-volatile.conf=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 4 files changed, 3 insertions(+), 3 deletions(-)<br>
 <br>
-When running setscene, the cwd is $B which maybe removed by<br>
-autotools.<span class=3D"">bbclass</span> or cmake.<span class=3D"">bbclass=
-</span> when rebuild.<br>
+Which combinations has this been tested with? Given the time the patch<br>
+has existed for, I&#39;m sceptical all the combinations we need have been<b=
+r>
+tested, I&#39;d love to be wrong.<br>
 <br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;</div></blockquote></div><br>For referenc=
-e:=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4634=
-">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4634</a><br>-- <br><d=
-iv class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot c=
-om<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>=
-Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+This is a pretty major change of behaviour and given the problems<br>
+previous changes have caused, I&#39;m very very very nervous about what<br>
+issues this is going to cause :(.</blockquote><div><br></div><div>Systemd i=
+n both ways but not sysvinit=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote>
 
---001a11399268b9e81d051103a376--
+--047d7b10cb2de7fa8d0511046c62--
