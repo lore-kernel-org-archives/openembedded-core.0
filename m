@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4231E73ACC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FCE073ACF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 08:35:43 +0000 (UTC)
+	Wed, 11 Mar 2015 08:35:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8ZhOU022281
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8Zgkb014617
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 01:35:44 -0700 (PDT)
+	Wed, 11 Mar 2015 01:35:42 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 01:35:43 -0700
+	Wed, 11 Mar 2015 01:35:41 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 01:35:40 -0700
-Message-ID: <65b213ba776607778e25b5dea91eab036a62b8ae.1426062917.git.liezhi.yang@windriver.com>
+Date: Wed, 11 Mar 2015 01:35:37 -0700
+Message-ID: <cover.1426062917.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1426062917.git.liezhi.yang@windriver.com>
-References: <cover.1426062917.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] kernelsrc.bbclass: fix KERNEL_VERSION
+Subject: [PATCH 0/4] meta: 4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +34,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Mar 2015 08:35:43 -0000
 Content-Type: text/plain
 
-The kernel-abiversion is now in STAGING_KERNEL_BUILDDIR not in S.
+The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
 
-Fixed rpm pkg like perf: (note the None version)
-perf-None-r9.qemux86.rpm
+  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/kernelsrc.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
-index 4208eff..9efd46a 100644
---- a/meta/classes/kernelsrc.bbclass
-+++ b/meta/classes/kernelsrc.bbclass
-@@ -4,7 +4,7 @@ do_unpack[depends] += "virtual/kernel:do_patch"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
- do_package[depends] += "virtual/kernel:do_populate_sysroot"
--KERNEL_VERSION = "${@get_kernelversion_file("${S}")}"
-+KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
- 
- inherit linux-kernel-base
- 
+  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
+
+Robert Yang (4):
+  license.bbclass: set dirs for do_populate_lic_setscene
+  mailx: disable parallel build
+  kernelsrc.bbclass: fix KERNEL_VERSION
+  pixbufcache.bbclass: add harfbuzz-native to PIXBUFCACHE_SYSROOT_DEP
+
+ meta/classes/kernelsrc.bbclass            |    2 +-
+ meta/classes/license.bbclass              |    2 ++
+ meta/classes/pixbufcache.bbclass          |    7 ++++++-
+ meta/recipes-extended/mailx/mailx_12.5.bb |    5 +++++
+ 4 files changed, 14 insertions(+), 2 deletions(-)
+
 -- 
 1.7.9.5
 
