@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6148573A05
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2534771637
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 10:12:22 +0000 (UTC)
-Received: by wivr20 with SMTP id r20so37542752wiv.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 03:12:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1gnTd/pCnPr7GJrbZX+OTRTTnfIwfXCk1O6e3wDQYTc=;
-	b=Ilu11doKx29c95zVRWjnUQZ3Rs1AGA4cO81mGD0djXqh7VlpOjgBFgrop4NTJD+gaO
-	cdvriG7IhR8+FSCuv39qJRO+wkiIN3FoSvMgLlmN+OSVrv3JEXo7qgMKQoa6KI57EouW
-	yYDdilVpIKO0dt4j3b1Eiebf0pfV2McwvnpeicfErpwfgPaJMmmHpAONZf06DOIIubL7
-	nvUNY8jT3kMp3VW3EufZ7778G3WhcVFC8DuU7EbCpxZJHXsLRROJMwXbDO1qPwt9cKMK
-	5+DHCi5Irj/yID6W23Gf2QnMyb4xn6m92ULZP+NLWcmdAdKx/v2V3zJgx5E1//vbU1YD
-	i9Sw==
-X-Gm-Message-State: ALoCoQlCE6DqNKoeImwo+AuqlkmfeF/st3tEdNGb+ivs/o1oS5buk3R4dyhmpxz68FEyo5PtTASZ
-X-Received: by 10.180.108.177 with SMTP id hl17mr119797301wib.35.1426068743513;
-	Wed, 11 Mar 2015 03:12:23 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id vh8sm4755879wjc.12.2015.03.11.03.12.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Mar 2015 03:12:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2015 10:09:42 +0000
-Message-Id: <1426068582-4103-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] devshell: allow the starting directory to be overridden
+	Wed, 11 Mar 2015 10:19:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2BAJZYJ019277; Wed, 11 Mar 2015 10:19:35 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gY0CVPV5XZxj; Wed, 11 Mar 2015 10:19:35 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2BAJKZj019268
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 11 Mar 2015 10:19:31 GMT
+Message-ID: <1426069160.9114.41.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 11 Mar 2015 10:19:20 +0000
+In-Reply-To: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
+References: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] var/volatile: Mount it if doing ro-rfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 10:12:25 -0000
+X-List-Received-Date: Wed, 11 Mar 2015 10:19:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Some people like to have the devshell start in ${B} instead of ${S}, so allow
-this to be overridden.
+On Wed, 2015-03-11 at 08:33 +0000, Khem Raj wrote:
+> - Do not mount /var/volatile to be tmpfs always only when generating
+>   readonly rootfs
+> - Generate var-volatile.mount unit when using system in readonly-rootfs
+>   to mount /var/volatile as tmpfs
+> - for sysvinit, mount /var/volatile to be tmpfs if its not already
+>   mounted so
+> - Use RequiresMountsFor instead of After=, so systemd figures out the
+>   needed dependencies for making /var/volatile accessible for journald
+>   and not us.
+> 
+> Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/image.bbclass                                             | 1 +
+>  meta/recipes-core/base-files/base-files/fstab                          | 1 -
+>  meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh | 2 +-
+>  meta/recipes-core/systemd/systemd/journald-volatile.conf               | 2 +-
+>  4 files changed, 3 insertions(+), 3 deletions(-)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/devshell.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Which combinations has this been tested with? Given the time the patch
+has existed for, I'm sceptical all the combinations we need have been
+tested, I'd love to be wrong. 
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index 41164a3..8ae3dc3 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -17,7 +17,8 @@ python do_devshell () {
- 
- addtask devshell after do_patch
- 
--do_devshell[dirs] = "${S}"
-+DEVSHELL_STARTDIR ?= "${S}"
-+do_devshell[dirs] = "${DEVSHELL_STARTDIR}"
- do_devshell[nostamp] = "1"
- 
- # devshell and fakeroot/pseudo need careful handling since only the final
--- 
-1.7.10.4
+This is a pretty major change of behaviour and given the problems
+previous changes have caused, I'm very very very nervous about what
+issues this is going to cause :(.
+
+Cheers,
+
+Richard
 
 
