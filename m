@@ -1,40 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 33263739F4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1016F739F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 01:32:49 +0000 (UTC)
-Received: by pdjz10 with SMTP id z10so6719392pdj.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 18:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=0ux9vFMm9DSgw1/sthrIjgFwbDI7HdRGLuLFXmRiIN4=;
-	b=Lc5J5vPatwPUISHckveLUJ16BgAnAm+7duS54tJZoAaKqWMqG6vtiDMjh0yZuEob0R
-	qnvkiFhh6xI4rBezoejoXEHkRpADkmBolUv0g04QuECmqLwqSdBAPh3slU/UFgmAW6ku
-	PXmIPhoLGcijnEyX4KxlIOruGI0xgMDWU/hnQZe6W47vSaNHMUYab9uKjVpJFl3hul/L
-	rZK5RjEI9MQmYsjzT1x/X0iu5bg6bR9oaxbJMS7UqNwyPV4/iMk+fnjF0agkiq2qaEbl
-	PpmgtgwPsYvZ6lXfemyYbh4pL3BCpAceR0dvT7BHNzr8vMWhJ9E/CBZI8aLiTry+x7+5
-	QYtw==
-X-Received: by 10.70.39.106 with SMTP id o10mr53752117pdk.88.1426037570798;
-	Tue, 10 Mar 2015 18:32:50 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:7c40:73df:255f:421c?
-	([2601:9:3580:84c:7c40:73df:255f:421c])
-	by mx.google.com with ESMTPSA id o17sm3079883pdj.26.2015.03.10.18.32.49
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 10 Mar 2015 18:32:49 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1426035387-18421-1-git-send-email-armccurdy@gmail.com>
-Date: Tue, 10 Mar 2015 18:32:48 -0700
-Message-Id: <0ED70D83-4980-495B-94B4-0A7A0E1DB1E5@gmail.com>
-References: <CAJ86T=VcAgAVpk0EtU10miZzUjVb7RCqw1DQ0zgZHrktuyZ_DA@mail.gmail.com>
-	<1426035387-18421-1-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] chrpath.bbclass: handle RUNPATH as well as RPATH
+	Wed, 11 Mar 2015 02:05:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B25PhV020009
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Mar 2015 19:05:25 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 10 Mar 2015 19:05:25 -0700
+Message-ID: <54FFA2E4.5080500@windriver.com>
+Date: Wed, 11 Mar 2015 10:05:24 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1425979509.git.liezhi.yang@windriver.com>
+	<30f590c7e3d62ff1adb5d6b14fe0dca71f555f5f.1425979509.git.liezhi.yang@windriver.com>
+	<CAMKF1sqgaHnXqynr2rEihsJ62QPnUyTw8q07-YihWA=3kUyZ=Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sqgaHnXqynr2rEihsJ62QPnUyTw8q07-YihWA=3kUyZ=Q@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] btrfs-tools: workaround DEBUG_BUILD for arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,50 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 01:32:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 11 Mar 2015 02:05:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-> On Mar 10, 2015, at 5:56 PM, Andre McCurdy <armccurdy@gmail.com> =
-wrote:
->=20
-> Binaries linked with gold may contain a RUNPATH instead of an RPATH.
-> Update chrpath.bbclass process_file_linux() to handle both cases.
->=20
 
-This is ok. RPATH is deprecated, gold is forward looking by default, may =
-be we should add --enable-new-dtags to binutils configuration in OE
+On 03/11/2015 12:28 AM, Khem Raj wrote:
+> On Tue, Mar 10, 2015 at 2:25 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> Workaround when:
+>> MACHINE = "qemuarm"
+>> DEBUG_BUILD = "1"
+>>
+>> Errors:
+>> {standard input}: Assembler messages:
+>> {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
+>> {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
+>> make: *** [cmds-fi-disk_usage.o] Error 1
+>>
+>
+> can you post full compiler command ?
+
+Sorry, there is no detailed compile log by default, I will try to print them
+later, here is default log:
+
+     [CC]     cmds-qgroup.o
+     [CC]     cmds-check.o
+     [CC]     cmds-replace.o
+     [CC]     cmds-restore.o
+     [CC]     chunk-recover.o
+     [CC]     cmds-rescue.o
+     [CC]     super-recover.o
+     [CC]     cmds-property.o
+     [CC]     cmds-fi-disk_usage.o
+     [CC]     btrfs-map-logical.o
+     [CC]     btrfs-image.o
+     [CC]     btrfs-zero-log.o
+     [CC]     btrfs-convert.o
+     [CC]     btrfs-find-root.o
+     [CC]     btrfstune.o
+     [CC]     btrfs-show-super.o
+{standard input}: Assembler messages:
+{standard input}:3368: Error: invalid operands (.text and *UND* sections) for `-'
+{standard input}:3374: Error: invalid operands (.text and *UND* sections) for `-'
+     [AR]     libbtrfs.a
+     [LD]     libbtrfs.so.0.1
+Makefile:129: recipe for target 'cmds-fi-disk_usage.o' failed
+make: *** [cmds-fi-disk_usage.o] Error 1
+make: *** Waiting for unfinished jobs....
 
 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
-> meta/classes/chrpath.bbclass | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/classes/chrpath.bbclass =
-b/meta/classes/chrpath.bbclass
-> index 77b1937..7a5d960 100644
-> --- a/meta/classes/chrpath.bbclass
-> +++ b/meta/classes/chrpath.bbclass
-> @@ -10,6 +10,8 @@ def process_file_linux(cmd, fpath, rootdir, =
-baseprefix, tmpdir, d):
->     if p.returncode !=3D 0:
->         return
->=20
-> +    # Handle RUNPATH as well as RPATH
-> +    err =3D err.replace("RUNPATH=3D","RPATH=3D")
->     # Throw away everything other than the rpath list
->     curr_rpath =3D err.partition("RPATH=3D")[2]
->     #bb.note("Current rpath for %s is %s" % (fpath, =
-curr_rpath.strip()))
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+// RObert
 
+>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../btrfs-tools/btrfs-tools_git.bb                 |    7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> index d86075c..382ee7c 100644
+>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> @@ -28,3 +28,10 @@ do_install () {
+>>   }
+>>
+>>   BBCLASSEXTEND = "native"
+>> +
+>> +# Workaround when DEBUG_BUILD:
+>> +# {standard input}: Assembler messages:
+>> +# {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
+>> +# {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
+>> +# make: *** [cmds-fi-disk_usage.o] Error 1
+>> +CFLAGS_append_arm = " -O2"
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
