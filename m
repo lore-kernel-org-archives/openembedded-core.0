@@ -1,37 +1,24 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EEFE73AD4
+Return-Path: <florian.boor@kernelconcepts.de>
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 12917739D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 08:50:58 +0000 (UTC)
-Received: by wesu56 with SMTP id u56so7456772wes.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 01:50:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YPfuUsa/u/CHMeKh5WjgrrYeWB+xklpch6a4OKYb/W0=;
-	b=S7jypwy7WKovU8pev1jYcFFzMpNZt/Tp6mD5NSzjny1PVsCgPUNdEiKhlQD9ue/YJW
-	685YelzIQBH0odHENFQijdM7Nv4YKMHq/IgUPokY50xxzI7MIVPhqNJ5XjJsPtPRTcq3
-	YPjB8sd0iIKKejJaIn35Xa/aGjnWR0Wce7y6oJpBEc4j4RfXFnM+8O0B0I4l2LKYXQZ1
-	JV15ysYSW1za8gi1Px1H3birc2Z3LHonk2TUK6MKK/fyY72QQ8hEx2U2/DIGb5ogl0o2
-	agyL7A9yQybP5q7YLJEKx/gw1EN1XCZ0pXJLrq1gSl4CIAnvl9Gg4kCfz8TTC3mJwpwe
-	Wzjw==
-X-Gm-Message-State: ALoCoQlOX2WkmAorAA+hG83OdI+Ku4Iz+ulSpB2UWM7gFX9y4OSrd5+JM7p/T3Xfj0N36ozEjhXj
-X-Received: by 10.180.92.71 with SMTP id ck7mr75003729wib.48.1426063858870;
-	Wed, 11 Mar 2015 01:50:58 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id
-	hj10sm4388859wjc.48.2015.03.11.01.50.57
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Mar 2015 01:50:58 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2015 09:50:51 +0100
-Message-Id: <1426063851-24840-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] sysprof: fix arm big-endian build.
+	Wed, 11 Mar 2015 09:25:03 +0000 (UTC)
+Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>)
+	id 1YVcsu-0000gV-LD; Wed, 11 Mar 2015 10:25:00 +0100
+Message-ID: <550009C1.80502@kernelconcepts.de>
+Date: Wed, 11 Mar 2015 10:24:17 +0100
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.4.0
+MIME-Version: 1.0
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1426025096-24078-1-git-send-email-florian.boor@kernelconcepts.de>
+	<CAJ86T=WvZ=cU2GCQ=P3XPar-WhQvhZFX0MbPcL7ahtkiW8xrhA@mail.gmail.com>
+In-Reply-To: <CAJ86T=WvZ=cU2GCQ=P3XPar-WhQvhZFX0MbPcL7ahtkiW8xrhA@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] directfb: Allow native builds of directfb 1.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 08:50:58 -0000
+X-List-Received-Date: Wed, 11 Mar 2015 09:25:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Applying the existing ARM patch for armeb makes it work.
+Hi Arndre,
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-kernel/sysprof/sysprof_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 10.03.2015 23:32, Andre McCurdy wrote:
+> Are you sure that excluding tslib-native from DEPENDS works? Since
+> -lts is hardcoded in LDFLAGS (see directfb.inc) the linker won't run
+> unless libts.so is found in sysroot (regardless of whether or not you
+> configure with "--with-inputdrivers=none"). That being said, I don't
+> know if -lts really needs to be hardcoded in LDFLAGS, it's been there
+> since directfb was first imported into oe-core, with no explanation of
+> comment.
 
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-index e18aebf..19c3e10 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://git.gnome.org/sysprof \
-           "
- 
- SRC_URI_append_arm  = " file://rmb-arm.patch"
-+SRC_URI_append_armeb  = " file://rmb-arm.patch"
- SRC_URI_append_mips = " file://rmb-mips.patch"
- SRC_URI_append_mips64 = " file://rmb-mips.patch"
- SRC_URI_append_mips64n32 = " file://rmb-mips.patch"
+yes it works - tested it and made sure that there was no native libts around
+from a previous build.
+But you are right, this hardcoded -lts in LDFLAGS looks strange. I can take a
+look at this later since I need to build and test this anyway.
+
+Greetings
+
+Florian
+
 -- 
-1.9.3
-
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
