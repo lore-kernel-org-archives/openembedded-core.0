@@ -1,27 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1016F739F1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D75BA739F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 02:05:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2B25PhV020009
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Mar 2015 19:05:25 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 10 Mar 2015 19:05:25 -0700
-Message-ID: <54FFA2E4.5080500@windriver.com>
-Date: Wed, 11 Mar 2015 10:05:24 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Wed, 11 Mar 2015 02:13:20 +0000 (UTC)
+Received: by iecsf10 with SMTP id sf10so4519255iec.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Mar 2015 19:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=L0tPH1+s7btRlIr8N/kVk80lXSvVCIA/CCWdKwiUMn0=;
+	b=iOdMQa99E0oOr7z3lpA0Wr7pONsaTDuhLKiG9RMC17jHevDDOKMqMC4IXuZODRz7A5
+	VauVrbC8fDp+rU6NG1gXnLjF6cMsnK9y6pQcnjkQbmBmjwN7W+HZeML1U1a1YUQo/3+o
+	+JJ21Ies4GQxCOuKAz0w+3/+tA2RXH8AMf59mHPRxq5ukdXPkmss2ZGORc+qOJ5rkcyG
+	VQ2woxBlp5x0rQfW6hh2Nm2/oQTNCKFaynM7glcl0UfmNOM8gNfRYS3isL/WC8qaz/Ff
+	V3q8ln82WBHgCcGFCk3n8OYy1yRwP2fGgLDDjIbyORCmq5K64Vr9GLLUGqqykZ/JDpcd
+	gVOA==
+X-Received: by 10.50.72.108 with SMTP id c12mr4063464igv.27.1426039995878;
+	Tue, 10 Mar 2015 19:13:15 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
+Received: by 10.50.117.7 with HTTP; Tue, 10 Mar 2015 19:12:45 -0700 (PDT)
+In-Reply-To: <54FFA2E4.5080500@windriver.com>
 References: <cover.1425979509.git.liezhi.yang@windriver.com>
 	<30f590c7e3d62ff1adb5d6b14fe0dca71f555f5f.1425979509.git.liezhi.yang@windriver.com>
 	<CAMKF1sqgaHnXqynr2rEihsJ62QPnUyTw8q07-YihWA=3kUyZ=Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sqgaHnXqynr2rEihsJ62QPnUyTw8q07-YihWA=3kUyZ=Q@mail.gmail.com>
+	<54FFA2E4.5080500@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Mar 2015 19:12:45 -0700
+Message-ID: <CAMKF1sq2BnBr_cdVJOngc5Ltmsiv2pzd7aFQFpE8cn7WgVtWwA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] btrfs-tools: workaround DEBUG_BUILD for arm
@@ -37,87 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 02:05:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Mar 2015 02:13:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Mar 10, 2015 at 7:05 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>     [CC]     btrfs-show-super.o
+> {standard input}: Assembler messages:
+> {standard input}:3368: Error: invalid operands (.text and *UND* sections)
+> for `-'
+> {standard input}:3374: Error: invalid operands (.text and *UND* sections)
+> for `-'
+>     [AR]     libbtrfs.a
 
-
-On 03/11/2015 12:28 AM, Khem Raj wrote:
-> On Tue, Mar 10, 2015 at 2:25 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> Workaround when:
->> MACHINE = "qemuarm"
->> DEBUG_BUILD = "1"
->>
->> Errors:
->> {standard input}: Assembler messages:
->> {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
->> {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
->> make: *** [cmds-fi-disk_usage.o] Error 1
->>
->
-> can you post full compiler command ?
-
-Sorry, there is no detailed compile log by default, I will try to print them
-later, here is default log:
-
-     [CC]     cmds-qgroup.o
-     [CC]     cmds-check.o
-     [CC]     cmds-replace.o
-     [CC]     cmds-restore.o
-     [CC]     chunk-recover.o
-     [CC]     cmds-rescue.o
-     [CC]     super-recover.o
-     [CC]     cmds-property.o
-     [CC]     cmds-fi-disk_usage.o
-     [CC]     btrfs-map-logical.o
-     [CC]     btrfs-image.o
-     [CC]     btrfs-zero-log.o
-     [CC]     btrfs-convert.o
-     [CC]     btrfs-find-root.o
-     [CC]     btrfstune.o
-     [CC]     btrfs-show-super.o
-{standard input}: Assembler messages:
-{standard input}:3368: Error: invalid operands (.text and *UND* sections) for `-'
-{standard input}:3374: Error: invalid operands (.text and *UND* sections) for `-'
-     [AR]     libbtrfs.a
-     [LD]     libbtrfs.so.0.1
-Makefile:129: recipe for target 'cmds-fi-disk_usage.o' failed
-make: *** [cmds-fi-disk_usage.o] Error 1
-make: *** Waiting for unfinished jobs....
-
-
-// RObert
-
->
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../btrfs-tools/btrfs-tools_git.bb                 |    7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> index d86075c..382ee7c 100644
->> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> @@ -28,3 +28,10 @@ do_install () {
->>   }
->>
->>   BBCLASSEXTEND = "native"
->> +
->> +# Workaround when DEBUG_BUILD:
->> +# {standard input}: Assembler messages:
->> +# {standard input}:3383: Error: invalid operands (.text and *UND* sections) for `-'
->> +# {standard input}:3389: Error: invalid operands (.text and *UND* sections) for `-'
->> +# make: *** [cmds-fi-disk_usage.o] Error 1
->> +CFLAGS_append_arm = " -O2"
->> --
->> 1.7.9.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+I meant detailed. use V=1
 
