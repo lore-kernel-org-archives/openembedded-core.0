@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FCE073ACF
+	by mail.openembedded.org (Postfix) with ESMTP id 6122273AD0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 11 Mar 2015 08:35:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8Zgkb014617
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2B8Zhk4014620
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 01:35:42 -0700 (PDT)
+	Wed, 11 Mar 2015 01:35:43 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 01:35:41 -0700
+	Wed, 11 Mar 2015 01:35:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 01:35:37 -0700
-Message-ID: <cover.1426062917.git.liezhi.yang@windriver.com>
+Date: Wed, 11 Mar 2015 01:35:39 -0700
+Message-ID: <21bed609c2a1ce2675d33a2a2e70b2b56f53604b.1426062917.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1426062917.git.liezhi.yang@windriver.com>
+References: <cover.1426062917.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] meta: 4 fixes
+Subject: [PATCH 2/4] mailx: disable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Mar 2015 08:35:43 -0000
 Content-Type: text/plain
 
-The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
+The makeconfig can't run parallelly, otherwise the checking results
+might be incorrect and lead to errors:
+fio.c:56:17: fatal error: ssl.h: No such file or directory
 
-  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
-
-Robert Yang (4):
-  license.bbclass: set dirs for do_populate_lic_setscene
-  mailx: disable parallel build
-  kernelsrc.bbclass: fix KERNEL_VERSION
-  pixbufcache.bbclass: add harfbuzz-native to PIXBUFCACHE_SYSROOT_DEP
-
- meta/classes/kernelsrc.bbclass            |    2 +-
- meta/classes/license.bbclass              |    2 ++
- meta/classes/pixbufcache.bbclass          |    7 ++++++-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-extended/mailx/mailx_12.5.bb |    5 +++++
- 4 files changed, 14 insertions(+), 2 deletions(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/meta/recipes-extended/mailx/mailx_12.5.bb b/meta/recipes-extended/mailx/mailx_12.5.bb
+index 080d71f..a53da3a 100644
+--- a/meta/recipes-extended/mailx/mailx_12.5.bb
++++ b/meta/recipes-extended/mailx/mailx_12.5.bb
+@@ -29,3 +29,8 @@ inherit autotools-brokensep
+ CFLAGS_append = " -D_BSD_SOURCE -DDEBIAN -I${S}/EXT"
+ EXTRA_OEMAKE = "SENDMAIL=${sbindir}/sendmail"
+ 
++# The makeconfig can't run parallelly, otherwise the checking results
++# might be incorrect and lead to errors:
++# fio.c:56:17: fatal error: ssl.h: No such file or directory
++# #include <ssl.h>
++PARALLEL_MAKE = ""
 -- 
 1.7.9.5
 
