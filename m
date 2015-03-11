@@ -1,34 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EA0F7392B
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4086D73A05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 18:07:32 +0000 (UTC)
-Received: by igkb16 with SMTP id b16so14573325igk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 11:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=wen0BgBxwcrVJkGF/TjLvdGf2nnqbud8hx4YeXWM5wo=;
-	b=UOPWqXVYCMPrUjtv6q0eiZqmMDSOXXZYiardesvwcjZTo5Yo5u0LmQLOaeKFj7YGtU
-	Lch0Y2xkxAMHwvd/5gv6mzR1RGqZmeCkseAiMPXK/UuM25WT3TU9uNV1Pid1H4kdcu2m
-	XavSmtvA3VUEy8VzWX7D6KsfE7ph/4hgBMgAK5Z67YaskL21mbZ5jPNo1TiBa84gIDVC
-	hezGC7PXYHhXHdcGTFjeh3/2qnb7fTamA8LwgbnIQDquce/BHUIV1p85+kdFhl3i9hBR
-	/RegWGVEwgJ/QTlOTI8jzTKcc5J1sF7YX9dfb+PgFyhJCLgB6GjXd8c8o+RCo0ESofal
-	lhCw==
-X-Received: by 10.42.119.202 with SMTP id c10mr36410545icr.4.1426097254026;
-	Wed, 11 Mar 2015 11:07:34 -0700 (PDT)
-Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
-	[96.119.88.205])
-	by mx.google.com with ESMTPSA id b6sm2881088igb.15.2015.03.11.11.07.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Mar 2015 11:07:33 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 11 Mar 2015 18:47:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Mar 2015 11:41:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,383,1422950400"; d="scan'208";a="697347374"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga002.jf.intel.com with ESMTP; 11 Mar 2015 11:47:19 -0700
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2015 18:07:14 +0000
-Message-Id: <1426097234-10554-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH V2] var/volatile: Mount it if doing ro-rfs
+Date: Wed, 11 Mar 2015 10:40:46 +0000
+Message-Id: <1426070446-15934-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] oe-setup-builddir: output message cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,75 +28,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 18:07:33 -0000
+X-List-Received-Date: Wed, 11 Mar 2015 18:47:21 -0000
 
-- Do not mount /var/volatile to be tmpfs always only when generating
-  readonly rootfs
-- Generate var-volatile.mount unit when using system in readonly-rootfs
-  to mount /var/volatile as tmpfs
-- for sysvinit, mount /var/volatile to be tmpfs if its not already
-  mounted so
-- Use RequiresMountsFor instead of After=, so systemd figures out the
-  needed dependencies for making /var/volatile accessible for journald
-  and not us.
+Moved a Yoctoproject documentation banner to the end of the first-time
+run messages section
 
-Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+[YOCTO #7368]
+
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 ---
- meta/classes/image.bbclass                                             | 1 +
- meta/recipes-core/base-files/base-files/fstab                          | 1 -
- meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh | 2 +-
- meta/recipes-core/systemd/systemd/journald-volatile.conf               | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/oe-setup-builddir | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 89eb5f3..818af86 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -228,6 +228,7 @@ read_only_rootfs_hook () {
- 	fi
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index c91e079..f73aa34 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -66,6 +66,7 @@ if [ -n "$TEMPLATECONF" ]; then
+     OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
+ fi
  
- 	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
-+	    sed -e 's#/tmp#/var/volatile#g' ${IMAGE_ROOTFS}/lib/systemd/system/tmp.mount > ${IMAGE_ROOTFS}/lib/systemd/system/var-volatile.mount
- 	    # Update user database files so that services don't fail for a read-only systemd system
- 	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
- 		[ -e $conffile ] || continue
-diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
-index 739b844..56b14d7 100644
---- a/meta/recipes-core/base-files/base-files/fstab
-+++ b/meta/recipes-core/base-files/base-files/fstab
-@@ -5,7 +5,6 @@ proc                 /proc                proc       defaults              0  0
- devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
- usbdevfs             /proc/bus/usb        usbdevfs   noauto                0  0
- tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
--tmpfs                /var/volatile        tmpfs      defaults              0  0
++unset SHOWYPDOC
+ if [ -z "$OECORELOCALCONF" ]; then
+     OECORELOCALCONF="$OEROOT/meta/conf/local.conf.sample"
+ fi
+@@ -77,15 +78,9 @@ different MACHINE (target hardware) or enable parallel build options to take
+ advantage of multiple cores for example. See the file for more information as 
+ common configuration options are commented.
  
- # uncomment this if your device has a SD/MMC/Transflash slot
- #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-index 1a0328d..3ff39f4 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-@@ -29,7 +29,7 @@ is_on_read_only_partition () {
+-The Yocto Project has extensive documentation about OE including a reference manual
+-which can be found at:
+-    http://yoctoproject.org/documentation
+-
+-For more information about OpenEmbedded see their website:
+-    http://www.openembedded.org/
+-
+ EOM
+     cp -f $OECORELOCALCONF $BUILDDIR/conf/local.conf
++    SHOWYPDOC=yes
+ fi
  
- if [ "$1" = "start" ] ; then
- 	if [ `is_on_read_only_partition /var/lib` = "yes" ]; then
--		grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
-+		grep -q "tmpfs /var/volatile" /proc/mounts || mount -t tmpfs -o strictatime tmpfs /var/volatile
- 		mkdir -p /var/volatile/lib
- 		cp -a /var/lib/* /var/volatile/lib
- 		mount --bind /var/volatile/lib /var/lib
-diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf b/meta/recipes-core/systemd/systemd/journald-volatile.conf
-index b11e160..9356a4e 100644
---- a/meta/recipes-core/systemd/systemd/journald-volatile.conf
-+++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
-@@ -3,4 +3,4 @@
- # /var/log -> /var/volatile/log. And if the journal starts before the mount
- # happens, the journal will appear empty until restarted.
- [Unit]
--After=var-volatile.mount
-+RequiresMountsFor=/var/volatile
+ if [ -z "$OECORELAYERCONF" ]; then
+@@ -97,14 +92,6 @@ You had no conf/bblayers.conf file. The configuration file has been created for
+ you with some default values. To add additional metadata layers into your
+ configuration please add entries to this file.
+ 
+-The Yocto Project has extensive documentation about OE including a reference manual
+-which can be found at:
+-    http://yoctoproject.org/documentation
+-
+-For more information about OpenEmbedded see their website:
+-    http://www.openembedded.org/
+-
+-
+ EOM
+ 
+     # Put the abosolute path to the layers in bblayers.conf so we can run
+@@ -114,12 +101,27 @@ EOM
+     sed -e "s|##OEROOT##|$OEROOT|g" \
+         -e "s|##COREBASE##|$OEROOT|g" \
+         $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
++    SHOWYPDOC=yes
+ fi
+ 
+ # Prevent disturbing a new GIT clone in same console
+ unset OECORELOCALCONF
+ unset OECORELAYERCONF
+ 
++# Ending the first-time run message. Show the YP Documentation banner.
++if [ ! -z "$SHOWYPDOC" ]; then
++    cat <<EOM
++The Yocto Project has extensive documentation about OE including a reference
++manual which can be found at:
++    http://yoctoproject.org/documentation
++
++For more information about OpenEmbedded see their website:
++    http://www.openembedded.org/
++
++EOM
++#    unset SHOWYPDOC
++fi
++
+ cat <<EOM
+ 
+ ### Shell environment set up for builds. ###
 -- 
-2.1.4
+1.8.4.5
 
 
