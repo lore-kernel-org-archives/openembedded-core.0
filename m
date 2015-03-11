@@ -1,29 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2534771637
+Return-Path: <Javier.Viguera@digi.com>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 11 Mar 2015 10:38:10 UTC
+Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
+	[216.82.243.201])
+	by mail.openembedded.org (Postfix) with ESMTP id CA29073AD3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 10:19:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2BAJZYJ019277; Wed, 11 Mar 2015 10:19:35 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gY0CVPV5XZxj; Wed, 11 Mar 2015 10:19:35 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2BAJKZj019268
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 11 Mar 2015 10:19:31 GMT
-Message-ID: <1426069160.9114.41.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Mar 2015 10:19:20 +0000
-In-Reply-To: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
-References: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] var/volatile: Mount it if doing ro-rfs
+	Wed, 11 Mar 2015 10:38:10 +0000 (UTC)
+Received: from [216.82.241.196] by server-9.bemta-8.messagelabs.com id
+	4A/9F-19216-86910055; Wed, 11 Mar 2015 10:31:04 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-10.tower-46.messagelabs.com!1426069861!7713215!1
+X-Originating-IP: [192.109.95.98]
+X-StarScan-Received: 
+X-StarScan-Version: 6.13.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17818 invoked from network); 11 Mar 2015 10:31:02 -0000
+Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
+	by server-10.tower-46.messagelabs.com with AES128-SHA encrypted SMTP;
+	11 Mar 2015 10:31:02 -0000
+Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
+	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0224.002;
+	Wed, 11 Mar 2015 11:30:59 +0100
+From: "Viguera, Javier" <Javier.Viguera@digi.com>
+To: 'Saul Wold' <saul.wold@intel.com>, 'Otavio Salvador'
+	<otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [backport][dizzy][daisy] utils.bbclass: fix
+	create_cmdline_wrapper
+Thread-Index: AQHQVawzlc0XqencZEmJkjC5Us5gw50K18sAgAxHwDA=
+Date: Wed, 11 Mar 2015 10:30:58 +0000
+Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0F72F5@dor-sms-xch01.digi.com>
+References: <1424177294-41586-1-git-send-email-javier.viguera@digi.com>
+	<54ECB8AB.1090709@digi.com> <54F59438.1070304@digi.com>
+	<CAP9ODKr3GxPaxtBSPvqQ02DRU8LWP2Ybim7EzJHeFcjPD3NGOA@mail.gmail.com>
+	<54F5D892.5010400@intel.com>
+In-Reply-To: <54F5D892.5010400@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.101.2.188]
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean
+MIME-Version: 1.0
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [backport][dizzy][daisy] utils.bbclass: fix create_cmdline_wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 10:19:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Mar 2015 10:38:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2015-03-11 at 08:33 +0000, Khem Raj wrote:
-> - Do not mount /var/volatile to be tmpfs always only when generating
->   readonly rootfs
-> - Generate var-volatile.mount unit when using system in readonly-rootfs
->   to mount /var/volatile as tmpfs
-> - for sysvinit, mount /var/volatile to be tmpfs if its not already
->   mounted so
-> - Use RequiresMountsFor instead of After=, so systemd figures out the
->   needed dependencies for making /var/volatile accessible for journald
->   and not us.
-> 
-> Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/image.bbclass                                             | 1 +
->  meta/recipes-core/base-files/base-files/fstab                          | 1 -
->  meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh | 2 +-
->  meta/recipes-core/systemd/systemd/journald-volatile.conf               | 2 +-
->  4 files changed, 3 insertions(+), 3 deletions(-)
+Hi Saul,
 
-Which combinations has this been tested with? Given the time the patch
-has existed for, I'm sceptical all the combinations we need have been
-tested, I'd love to be wrong. 
+> Added to my pending branch for Daisy, I am doing a sweep of the list
+> now
+> for a 1.6.3 build later this week.
+>=20
+> Sau!
 
-This is a pretty major change of behaviour and given the problems
-previous changes have caused, I'm very very very nervous about what
-issues this is going to cause :(.
+I see this patch didn't make it to the just-built 'yocto-1.6.3.rc1'.
 
-Cheers,
+Is there any problem with it? It's included in master and Dizzy but if it n=
+eeds rework for Daisy I can do that.
 
-Richard
+-
+Thanks
+
+Javier Viguera
 
 
