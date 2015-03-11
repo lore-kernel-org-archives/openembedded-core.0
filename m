@@ -1,22 +1,37 @@
-Return-Path: <Alexandru.Vaduva@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3B5DE73A1F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6148573A05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 09:52:25 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 10:52:25 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4470)	id 0CC3F2800CB;
-	Wed, 11 Mar 2015 10:52:25 +0100 (CET)
-From: Alexandru.Vaduva <Alexandru.Vaduva@enea.com>
-To: <openembedded-core@lists.openembedded.org>, <yocto@yoctoproject.org>
-Date: Wed, 11 Mar 2015 10:52:18 +0100
-Message-ID: <1426067538-21975-1-git-send-email-Alexandru.Vaduva@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: Alexandru.Vaduva@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] linux-yocto-rt: removed duplicated line
+	Wed, 11 Mar 2015 10:12:22 +0000 (UTC)
+Received: by wivr20 with SMTP id r20so37542752wiv.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Mar 2015 03:12:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1gnTd/pCnPr7GJrbZX+OTRTTnfIwfXCk1O6e3wDQYTc=;
+	b=Ilu11doKx29c95zVRWjnUQZ3Rs1AGA4cO81mGD0djXqh7VlpOjgBFgrop4NTJD+gaO
+	cdvriG7IhR8+FSCuv39qJRO+wkiIN3FoSvMgLlmN+OSVrv3JEXo7qgMKQoa6KI57EouW
+	yYDdilVpIKO0dt4j3b1Eiebf0pfV2McwvnpeicfErpwfgPaJMmmHpAONZf06DOIIubL7
+	nvUNY8jT3kMp3VW3EufZ7778G3WhcVFC8DuU7EbCpxZJHXsLRROJMwXbDO1qPwt9cKMK
+	5+DHCi5Irj/yID6W23Gf2QnMyb4xn6m92ULZP+NLWcmdAdKx/v2V3zJgx5E1//vbU1YD
+	i9Sw==
+X-Gm-Message-State: ALoCoQlCE6DqNKoeImwo+AuqlkmfeF/st3tEdNGb+ivs/o1oS5buk3R4dyhmpxz68FEyo5PtTASZ
+X-Received: by 10.180.108.177 with SMTP id hl17mr119797301wib.35.1426068743513;
+	Wed, 11 Mar 2015 03:12:23 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id vh8sm4755879wjc.12.2015.03.11.03.12.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Mar 2015 03:12:22 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2015 10:09:42 +0000
+Message-Id: <1426068582-4103-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] devshell: allow the starting directory to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,27 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 09:52:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Mar 2015 10:12:25 -0000
 
-Seemed that the recipe contained redundant information.
+Some people like to have the devshell start in ${B} instead of ${S}, so allow
+this to be overridden.
 
-Signed-off-by: Alexandru.Vaduva <Alexandru.Vaduva@enea.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/devshell.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 7dbf82c..bcfd754 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -23,5 +23,4 @@ COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
- KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
- KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index 41164a3..8ae3dc3 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -17,7 +17,8 @@ python do_devshell () {
+ 
+ addtask devshell after do_patch
+ 
+-do_devshell[dirs] = "${S}"
++DEVSHELL_STARTDIR ?= "${S}"
++do_devshell[dirs] = "${DEVSHELL_STARTDIR}"
+ do_devshell[nostamp] = "1"
+ 
+ # devshell and fakeroot/pseudo need careful handling since only the final
 -- 
-1.9.1
+1.7.10.4
 
 
