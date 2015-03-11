@@ -1,35 +1,34 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 940F073ABF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B3AE973AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 07:00:21 +0000 (UTC)
-Received: by padet14 with SMTP id et14so9076152pad.0
+	Wed, 11 Mar 2015 08:33:48 +0000 (UTC)
+Received: by iecsl2 with SMTP id sl2so18762755iec.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 00:00:22 -0700 (PDT)
+	Wed, 11 Mar 2015 01:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=5t+Ca0az3BWZ6FvyFKzFAtUQXjgJWuV090nuoj9fSug=;
-	b=uBMNAXksFmS6Gn5yI+9WwcZqg0KwZi79coyfJlaGfse6lvYobgcTGZai/tMJ44bb39
-	jdqh+V/Xq/M29l/TfbuIggZV2pAfM39+vY+de3I5EsYHgjcVP2kiGv9wY9LV2YDTEW7a
-	WHvmzAlP9eNEjJhf/uqESfpZktbZfmCbLhZ6i+0YzCNFSVOOwrDNVEDv9IdDVAMdJHgx
-	5kSnf++tySo2/dvTgLsE/1dHHLGGaPzYlLx83Cm7KFrC37bp232zMMRdnySDHq5p/HEl
-	VBuWXPoD9OpfgM3fmh5TpfjcLKJc9AJnwC/+o0xWAAyZkzxOYlykY0hNPXAdn8/mRe05
-	jP1g==
-X-Received: by 10.66.142.100 with SMTP id rv4mr75509202pab.84.1426057222338;
-	Wed, 11 Mar 2015 00:00:22 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	di10sm4240884pad.41.2015.03.11.00.00.20
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Mar 2015 00:00:21 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	bh=IThg4R+kZxCcDSRgxGbghox5+RbtuTHHP0c7BHmZ04k=;
+	b=MJg8T4u6EYmpwBQDTdmUwJVrdexnZQsXA6vEDypdrfVMFj08/uKCWMumd9YyT2F/73
+	ZvIRnu3Vj296QePlGDzO65jWg8vG7iOQ5YrKiLouYrRb4sVjStX1Lg4ItQltlHlFez41
+	8oHeGaCcDcKc917O6muQKu4xMIYIOUCXgfy28XKk0/9VfGCgg7XrPkIjZY8MHzaROwn2
+	7E4c6HtT3SxmN2iFOqmU3rnsBqgxspjKagN27qJkxx729iu4KI+wXPF6fgWNRv0zYbaI
+	/moTP24Kb9naIr3LFDj1Ny8XWsxkyJxQs3vRHNmTylOb2A2CyK55LNhg8iSfxd+RmP6/
+	8JkQ==
+X-Received: by 10.42.47.73 with SMTP id n9mr40414120icf.20.1426062830208;
+	Wed, 11 Mar 2015 01:33:50 -0700 (PDT)
+Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
+	[96.119.88.205])
+	by mx.google.com with ESMTPSA id e3sm3183837igg.16.2015.03.11.01.33.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Mar 2015 01:33:49 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2015 18:00:02 +1100
-Message-Id: <1426057202-17789-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] util-linux: split libsmartcols into separate sub-package
+Date: Wed, 11 Mar 2015 08:33:29 +0000
+Message-Id: <1426062809-1844-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] var/volatile: Mount it if doing ro-rfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 07:00:21 -0000
+X-List-Received-Date: Wed, 11 Mar 2015 08:33:56 -0000
 
-This avoids util-linux-fdisk pulling in util-linux and all the
-associated sub-packages.
+- Do not mount /var/volatile to be tmpfs always only when generating
+  readonly rootfs
+- Generate var-volatile.mount unit when using system in readonly-rootfs
+  to mount /var/volatile as tmpfs
+- for sysvinit, mount /var/volatile to be tmpfs if its not already
+  mounted so
+- Use RequiresMountsFor instead of After=, so systemd figures out the
+  needed dependencies for making /var/volatile accessible for journald
+  and not us.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+Change-Id: I0b176b3e1c1e88e84d2c93154aac04cef565d8ea
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/image.bbclass                                             | 1 +
+ meta/recipes-core/base-files/base-files/fstab                          | 1 -
+ meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh | 2 +-
+ meta/recipes-core/systemd/systemd/journald-volatile.conf               | 2 +-
+ 4 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 3d8a4d0..a081d95 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -28,7 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
- PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-libblkid \
--             util-linux-libmount util-linux-libuuid util-linux-uuidd \
-+             util-linux-libmount util-linux-libsmartcols util-linux-libuuid util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-@@ -89,6 +89,7 @@ FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
- FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
- FILES_util-linux-pylibmount = "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.so \
-                                ${libdir}/${PYTHON_DIR}/dist-packages/libmount/__init__.*"
-+FILES_util-linux-libsmartcols = "${base_libdir}/libsmartcols.so.*"
- FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 89eb5f3..7e49e7a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -228,6 +228,7 @@ read_only_rootfs_hook () {
+ 	fi
  
+ 	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
++	    sed -i -e 's#/tmp#/var/volatile#g' ${IMAGE_ROOTFS}/lib/systemd/system/tmp.mount > ${IMAGE_ROOTFS}/lib/systemd/system/var-volatile.mount
+ 	    # Update user database files so that services don't fail for a read-only systemd system
+ 	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
+ 		[ -e $conffile ] || continue
+diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
+index 739b844..56b14d7 100644
+--- a/meta/recipes-core/base-files/base-files/fstab
++++ b/meta/recipes-core/base-files/base-files/fstab
+@@ -5,7 +5,6 @@ proc                 /proc                proc       defaults              0  0
+ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
+ usbdevfs             /proc/bus/usb        usbdevfs   noauto                0  0
+ tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+-tmpfs                /var/volatile        tmpfs      defaults              0  0
+ 
+ # uncomment this if your device has a SD/MMC/Transflash slot
+ #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index 1a0328d..3ff39f4 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -29,7 +29,7 @@ is_on_read_only_partition () {
+ 
+ if [ "$1" = "start" ] ; then
+ 	if [ `is_on_read_only_partition /var/lib` = "yes" ]; then
+-		grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
++		grep -q "tmpfs /var/volatile" /proc/mounts || mount -t tmpfs -o strictatime tmpfs /var/volatile
+ 		mkdir -p /var/volatile/lib
+ 		cp -a /var/lib/* /var/volatile/lib
+ 		mount --bind /var/volatile/lib /var/lib
+diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+index b11e160..9356a4e 100644
+--- a/meta/recipes-core/systemd/systemd/journald-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+@@ -3,4 +3,4 @@
+ # /var/log -> /var/volatile/log. And if the journal starts before the mount
+ # happens, the journal will appear empty until restarted.
+ [Unit]
+-After=var-volatile.mount
++RequiresMountsFor=/var/volatile
 -- 
-2.3.1
+2.1.4
 
 
