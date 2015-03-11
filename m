@@ -1,38 +1,44 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DA4173ABC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 23840739CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 04:07:41 +0000 (UTC)
-Received: by qcwr17 with SMTP id r17so7397444qcw.11
+	Wed, 11 Mar 2015 04:48:45 +0000 (UTC)
+Received: by pdjy10 with SMTP id y10so7969928pdj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2015 21:07:42 -0700 (PDT)
+	Tue, 10 Mar 2015 21:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=IgbZS+Koyd75DLkfUysQ2DFlqGAI7pbF22ntTo4kuRk=;
-	b=dqZdAy6ADpSioVtaWyRqgo+0wV5z5/AxF+i1CkccNn2et0GjSEmTt/Am9shpvWAqHa
-	NBnymcT9y0T5z90rMGU8vi3DVA9jQ65IJboKD9f7CKaVICqsWxMXDoExqf1/UDBLDFNc
-	l3MfBJOxzCrMNJjiSPL4ByxMWNnTMQuYry87O4zMV5XoEKruUP3Pa+idVuOVfdjBttrq
-	ObVMaClZ/myjVks2Fj2YHWCL17jJ4zg+MR8u0al+VvNIOG1nqsXZpCVKLpRGae8o0fac
-	56MwQoYJNNO+NsvJxEltjS/ieAlpySJbvAKVgetUDJ4osJIyXM8tpPL4ZkGLbGIOza/C
-	N0Ow==
-MIME-Version: 1.0
-X-Received: by 10.55.23.6 with SMTP id i6mr19113626qkh.39.1426046862285; Tue,
-	10 Mar 2015 21:07:42 -0700 (PDT)
-Received: by 10.96.56.100 with HTTP; Tue, 10 Mar 2015 21:07:42 -0700 (PDT)
-In-Reply-To: <7511E9C6-04D6-40AF-AA84-FCA7DFA21B66@gmail.com>
-References: <1426041185-27916-1-git-send-email-net147@gmail.com>
-	<5AFC8E79-5AD6-4CED-BE24-98C2A6D6F944@gmail.com>
-	<CANwerB3641NBFH6QB-3CBZi15_s2YT7AErY7HKKYAL=fXqJKiA@mail.gmail.com>
-	<7511E9C6-04D6-40AF-AA84-FCA7DFA21B66@gmail.com>
-Date: Wed, 11 Mar 2015 15:07:42 +1100
-Message-ID: <CANwerB3MG_6oXREt-YLzD3m1op4U+sZiLkYni03Sq6FmFOSeYA@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=/5s/xQwflE8ioLh4mD5AqwzwAbysrRwl4F7U3A6f7Uc=;
+	b=Bx4tBHgSaw77smeesSzLRu2h+G9xNneoWtrJ1bYnGZl6raBVnNt2ZX+gi4faHUgsee
+	VgWQHCv1lzaX4+dKTDs+sVLtF4yQGDwdlVjDF9nsySQoVPnmOa3JDOm11QcVybZv03jn
+	okljis38x0iwDaOXXUu1RAVEVkmcUwaZQCm45VB/KNViPvsFrqQZy8dcQzSQOt00YzPf
+	6D9VxXT9bsOH8ayAAcKZ7sGmFGLkjUOkGPIlCyfDpsUt4p7ciUdbeRiE8X49JMjlCZrv
+	eaAGlRL3tQI+V6LGdsDJnbFpyoEDslhhl8M/0Q+gsk8/9MOVDAiWmDMOb9poLP5ucP7L
+	hGqA==
+X-Received: by 10.66.66.166 with SMTP id g6mr74326216pat.88.1426049327367;
+	Tue, 10 Mar 2015 21:48:47 -0700 (PDT)
+Received: from 10.25.113.106-ra01.pleasanton.ca.sfba.comcast.net
+	([69.241.124.150])
+	by mx.google.com with ESMTPSA id qv9sm3642690pab.27.2015.03.10.21.48.45
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 10 Mar 2015 21:48:46 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAMKF1srpq6+Z_S6dZSwZvJ3Xg9W_fvqHPVbKpHw9VM4KBTxckw@mail.gmail.com>
+Date: Tue, 10 Mar 2015 21:48:45 -0700
+Message-Id: <F6AE3B74-9753-4302-AB1A-12BEFBC2D2DA@gmail.com>
+References: <1425607906-21810-1-git-send-email-randy.e.witt@linux.intel.com>
+	<CAMKF1soVNp5GsNKOkmZRCb9KUkzFcRW337smGBs9YNtVu3XNWQ@mail.gmail.com>
+	<64249.10.254.177.107.1425621678.squirrel@linux.intel.com>
+	<F29A110F-58F7-4878-ACFA-B1683AEFD651@gmail.com>
+	<CAMKF1srpq6+Z_S6dZSwZvJ3Xg9W_fvqHPVbKpHw9VM4KBTxckw@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dizzy][PATCH] libunwind: backport patch to link against libgcc_s intead of libgcc
+Subject: Re: [PATCH] systemd: Fix the problem of an empty journal on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,83 +51,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 04:07:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Mar 2015 04:48:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 11 March 2015 at 14:19, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Mar 10, 2015, at 8:05 PM, Jonathan Liu <net147@gmail.com> wrote:
->>
->> On 11 March 2015 at 13:43, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>>> On Mar 10, 2015, at 7:33 PM, Jonathan Liu <net147@gmail.com> wrote:
->>>>
->>>> Signed-off-by: Jonathan Liu <net147@gmail.com>
->>>> ---
->>>> ...-libunwind-to-libgcc_s-rather-than-libgcc.patch | 42 ++++++++++++++++++++++
->>>> meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
->>>> 2 files changed, 43 insertions(+)
->>>> create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Link-libunwind-to-libgcc_s-rather-than-libgcc.patch
->>>>
->>>> diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Link-libunwind-to-libgcc_s-rather-than-libgcc.patch b/meta/recipes-support/libunwind/libunwind-1.1/Link-libunwind-to-libgcc_s-rather-than-libgcc.patch
->>>> new file mode 100644
->>>> index 0000000..0e55c91
->>>> --- /dev/null
->>>> +++ b/meta/recipes-support/libunwind/libunwind-1.1/Link-libunwind-to-libgcc_s-rather-than-libgcc.patch
->>>> @@ -0,0 +1,42 @@
->>>> +From 508ca17a7be01d1cc960d9a07d0af4513948fb8d Mon Sep 17 00:00:00 2001
->>>> +From: Thierry Reding <treding@nvidia.com>
->>>> +Date: Fri, 27 Jun 2014 08:40:33 +0200
->>>> +Subject: [PATCH] Link libunwind to libgcc_s rather than libgcc
->>>> +
->>>> +For some architectures, -lgcc and -lgcc_s are not equivalent. On ARM for
->>>> +example, libgcc_s.so.1 contains some symbols needed by libunwind which
->>>> +are not present in libgcc.
->>>> +
->>>> +This causes the following link error when building the X.Org X server
->>>> +with libunwind support:
->>>> +
->>>> +       CCLD     Xorg
->>>> +     /usr/lib/libunwind.so: undefined reference to `__aeabi_unwind_cpp_pr0'
->>>> +     /usr/lib/libunwind.so: undefined reference to `__aeabi_unwind_cpp_pr1'
->>>> +
->>>> +Linking against libgcc_s explicitly solves this problem.
->>>> +
->>>
->>> have you tried it at runtime too ?
->>>
->> strace 4.9 with libunwind PACKAGECONFIG wouldn't build on master
->> without the patch.
->> If I add strace 4.9 recipe to dizzy branch, using the libunwind
->> PACKAGECONFIG also fails to build without the patch. It gives the same
->> errors during linking.
->>
->> I tested at runtime on master branch which has libunwind 1.1 running
->> strace 4.9 on the target and didn't notice any issues. I haven't
->> tested on dizzy branch at runtime though.
->
-> OK thanks, it would be interesting to see if exception handling in some binaries and shared objects is able to unwind through
-> to make sure this all works
->
 
-Seems to work on dizzy branch too with strace 4.9 + libunwind 1.1 +
-libunwind patch:
-# strace -k uname 2>&1 | sed -n '/^write(1/,$p'
-write(1, "Linux\n", 6Linux
-)                  = 6
-> /lib/libc-2.20.so(__write+0x1c) [0xbf8cc]
-> /lib/libc-2.20.so(_IO_file_write+0x20) [0x69c10]
-> /lib/libc-2.20.so(_IO_file_setbuf+0xd0) [0x690b8]
-> /lib/libc-2.20.so(_IO_do_write+0x1c) [0x6ab20]
-> /lib/libc-2.20.so(_IO_file_sync+0xc0) [0x68fb0]
-> /lib/libc-2.20.so(fflush+0x8c) [0x5e1f4]
-> /bin/busybox.nosuid(+0x0) [0x67178]
-exit_group(0)                           = ?
-+++ exited with 0 +++
-> /lib/libc-2.20.so(_exit+0x10) [0x9a930]
-> /lib/libc-2.20.so(__libc_secure_getenv+0xf8) [0x30dc8]
-> /bin/busybox.nosuid(+0x0) [0x67194]
+> On Mar 7, 2015, at 11:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> On Fri, Mar 6, 2015 at 1:18 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>=20
+>>> On Mar 5, 2015, at 10:01 PM, randy.e.witt@linux.intel.com wrote:
+>>>=20
+>>>> On Mar 5, 2015 6:13 PM, "Randy Witt" <randy.e.witt@linux.intel.com> =
+wrote:
+>>>>>=20
+>>>>> systemd by default tries to write the journal to /var/log/journal.
+>>>>> But base-files has a symlink /var/log -> /var/volatile/log. And
+>>>>> /var/volatile is a tmpfs mount in /etc/fstab.
+>>>>>=20
+>>>>> If the journal service started before /var/volatile was mounted =
+(which
+>>>>> was the typical scenario) then the journal would appear empty =
+since
+>>>>> the old location was mounted over.
+>>>>>=20
+>>>>> This change fixes the problem by ensuring that the journal doesn't =
+start
+>>>>> until after the mount happens.
+>>>>>=20
+>>>>=20
+>>>> What happens if folks have a different fstab then default? Will it =
+still
+>>>> work
+>>>=20
+>>> Yes, the "After" only changes behavior if something else has caused
+>>> var-volatile.mount to be in the set of services to be started.
+>>>=20
+>>> I verified that was the case by removing /var/volatile from =
+/etc/fstab and
+>>> the journal still starts with no errors.
+>>=20
+>> perfect thanks. I will test it out in few hrs myself.
+>=20
+> for some reason, my console never comes up now. I am not sure if this
+> is the patch causing it. I will try to single it out.
 
-Regards,
-Jonathan
+This patch should not be applied, but I see it has been applied anyway =
+meanwhile, So we might have to solve this issue differently.=20
+
+This is actually the cause of my console not coming up. It was coming up =
+after 15 minutes
+systemd-analyse blame said systemd-tmpfiles-setup-dev.service is taking =
+14 mins to come up.
+I then traced through it and the problem is evident that its trying to =
+write journal when creating /dev entries but we have delayed the =
+journald starting point and caused a use-before-define situation.
+I deleted /var/volatile symlinks and let /var/log be proper directory =
+and same for /var/tmp. All worked fine, without this patch. We should =
+probably stop doing /var/volatile thing anyway its not in FHS standard =
+either, for ro-rfs do something else ( may be copy-binds into /tmp/) and =
+for general case just leave it alone.=20
+
+00:04:23 read(4, "#  This file is part of systemd."..., 4096) =3D 1244
+00:04:23 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/user\" does not match"..., 62}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:04:33 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/user\" does not match"..., 62}, {"\n", 1}], 5) =3D 90
+00:04:33 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/utmp\" does not match"..., 62}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:04:43 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/utmp\" does not match"..., 62}, {"\n", 1}], 5) =3D 90
+00:04:43 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/ask-password"..., 78}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Resou
+rce temporarily unavailable)
+00:04:53 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/ask-password"..., 78}, {"\n", 1}], 5) =3D 106
+00:04:53 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/seats\" does "..., 71}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:03 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/seats\" does "..., 71}, {"\n", 1}], 5) =3D 99
+00:05:03 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/sessions\" do"..., 74}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:13 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/sessions\" do"..., 74}, {"\n", 1}], 5) =3D =
+102
+00:05:13 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/users\" does "..., 71}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:23 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/users\" does "..., 71}, {"\n", 1}], 5) =3D 99
+00:05:23 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/machines\" do"..., 74}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:33 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/machines\" do"..., 74}, {"\n", 1}], 5) =3D =
+102
+00:05:33 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/systemd/shutdown\" do"..., 74}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:43 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/systemd/shutdown\" do"..., 74}, {"\n", 1}], 5) =3D =
+102
+00:05:43 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/log\" does not match "..., 61}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:05:53 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/log\" does not match "..., 61}, {"\n", 1}], 5) =3D 89
+00:05:53 sendmsg(3, {msg_name(0)=3DNULL, =
+msg_iov(4)=3D[{"PRIORITY=3D7\nSYSLOG_FACILITY=3D3\nCOD"..., 284}, =
+{"MESSAGE=3D", 8}, {"Entry \"/run/log/journal\" does no"..., 69}, {"\n", =
+1}], msg_controllen=3D0, msg_flags=3D0}, MSG_NOSIGNAL) =3D -1 EAGAIN =
+(Reso
+urce temporarily unavailable)
+00:06:03 writev(5, [{"<31>", 4}, {"systemd-tmpfiles", 16}, {"[114]: ", =
+7}, {"Entry \"/run/log/journal\" does no"..., 69}, {"\n", 1}], 5) =3D 97
+00:06:03 open("/etc/machine-id", =
+O_RDONLY|O_NOCTTY|O_LARGEFILE|O_CLOEXEC) =3D 6
+
+
 
