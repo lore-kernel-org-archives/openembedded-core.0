@@ -1,30 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 05AAF73810
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A0173B41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 07:35:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2C7ZhsA019252
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Mar 2015 00:35:43 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Thu, 12 Mar 2015 00:35:43 -0700
-Message-ID: <550141DC.5050704@windriver.com>
-Date: Thu, 12 Mar 2015 15:35:56 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Thu, 12 Mar 2015 07:52:27 +0000 (UTC)
+Received: from [99.240.204.5] (port=46438 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1YVxuw-00071Z-LT; Thu, 12 Mar 2015 03:52:30 -0400
+Date: Thu, 12 Mar 2015 03:52:24 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1426096622.9114.48.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.11.1503120340500.12180@localhost>
+References: <alpine.LFD.2.11.1503111228420.5897@localhost>
+	<550079EA.7030500@windriver.com>
+	<1426096622.9114.48.camel@linuxfoundation.org>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1425957930-8061-1-git-send-email-net147@gmail.com>
-	<55013CDD.3050708@windriver.com>
-	<1C1D4049-981D-4FA6-AC57-7F1AA5B45125@gmail.com>
-In-Reply-To: <1C1D4049-981D-4FA6-AC57-7F1AA5B45125@gmail.com>
-X-Originating-IP: [128.224.162.236]
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: fix /var/log/journal ownership
+Subject: Re: how many ways to delete/de-activate a recipe's task?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +42,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 07:35:48 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Mar 2015 07:52:29 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 03/12/2015 03:21 PM, Khem Raj wrote:
->> On Mar 12, 2015, at 12:14 AM, ChenQi <Qi.Chen@windriver.com> wrote:
->>
->> On 03/10/2015 11:25 AM, Jonathan Liu wrote:
->>> The ownership needs to be explicitly set otherwise it inherits the user
->>> and group id of the build user.
->>>
->>> Signed-off-by: Jonathan Liu <net147@gmail.com>
->>> ---
->>>   meta/recipes-core/systemd/systemd_219.bb | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
->>> index 24486f1..6a4f4e8 100644
->>> --- a/meta/recipes-core/systemd/systemd_219.bb
->>> +++ b/meta/recipes-core/systemd/systemd_219.bb
->>> @@ -147,6 +147,8 @@ do_install() {
->>>   		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
->>>   	fi
->>>   +	chown root:root ${D}/${localstatedir}/log/journal
->>> +
->>>           # Delete journal README, as log can be symlinked inside volatile.
->>>           rm -f ${D}/${localstatedir}/log/README
->>>   
->> I think it should be root:systemd-journal.
->> What do you think?
->>
->> And this patch would also fix the following bug.
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7293
-> /var/log is symlinked (its not a copy-bind) into /var/volatile/log and /var/volatile  is mounted as tmpfs on runtime as of now
-> so how is this patch helping out with anything ?
+On Wed, 11 Mar 2015, Richard Purdie wrote:
 
-Hmm... You are right. I think we should just delete the directory.
-
-//Chen Qi
-
->> Regards,
->> Chen Qi
->>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Wed, 2015-03-11 at 12:22 -0500, Mark Hatle wrote:
+> > On 3/11/15 11:30 AM, Robert P. J. Day wrote:
+> > >
+> > >   i recall that richard purdie might have explained this once but i
+> > > have no idea where that post is and i need to add something to it,
+> > > anyway ... how many ways are there to "delete" a task from a recipe,
+> > > and what are the differences?
+> > >
+> > >   so far, i've seen:
+> > >
+> > > 1) bitbake supports a "deltask" directive
+> >
+> > The task and all it's dependencies go away.  So anything dependent on it and the
+> > things it depends on, are no longer dependent.
+> >
+> > > 2) you can use the [noexec] task flag
+> >
+> > The task and it's dependencies remain, but nothing is executed.
+> >
+> > > 3) i've also seen redefining the task with a no-op ":" command
+> >
+> > The task is executed and does nothing.  (I believe this dumps a stamp file and
+> > the noexec does not.. but I may be wrong.)
 >
->
+> What Mark said. 3) is the old way of doing 2), we added 2) to make
+> it more efficient since there is no task execution overhead (which
+> at one point was measurable, it may be less so now).
 
+  so that first part -- that 2) is a newer, tidier(?) way of doing 3)
+-- is pretty much what i remember from once upon a time. good.
+
+  as for 1), i'm still confused by that explanation. say we have the
+dependency chain A -> B -> C ... A depends on B which depends on C. if
+i "deltask B", then any dependency links which involve B will
+disappear, both incoming and outgoing in the DAG. but will A be
+adjusted to now depend on C? (i'm guessing not, just want to be sure.)
+
+  finally, is it just a matter of personal taste whether one deletes a
+task using "deltask" or uses [noexec]? i'm looking at examples under
+OE and here are a couple.
+
+  clearly, for image.bbclass, there are a *pile* of tasks that are not
+relevant, so the following makes sense:
+
+meta/classes/image.bbclass:do_fetch[noexec] = "1"
+meta/classes/image.bbclass:do_unpack[noexec] = "1"
+meta/classes/image.bbclass:do_patch[noexec] = "1"
+meta/classes/image.bbclass:do_configure[noexec] = "1"
+meta/classes/image.bbclass:do_compile[noexec] = "1"
+meta/classes/image.bbclass:do_install[noexec] = "1"
+meta/classes/image.bbclass:do_populate_sysroot[noexec] = "1"
+meta/classes/image.bbclass:do_package[noexec] = "1"
+meta/classes/image.bbclass:do_package_qa[noexec] = "1"
+meta/classes/image.bbclass:do_packagedata[noexec] = "1"
+meta/classes/image.bbclass:do_package_write_ipk[noexec] = "1"
+meta/classes/image.bbclass:do_package_write_deb[noexec] = "1"
+meta/classes/image.bbclass:do_package_write_rpm[noexec] = "1"
+meta/classes/image.bbclass:do_bundle_initramfs[noexec] = "1"
+
+  similarly, for native.bbclass, the following also makes sense, but
+uses "deltask":
+
+meta/classes/native.bbclass:deltask package
+meta/classes/native.bbclass:deltask packagedata
+meta/classes/native.bbclass:deltask package_qa
+meta/classes/native.bbclass:deltask package_write_ipk
+meta/classes/native.bbclass:deltask package_write_deb
+meta/classes/native.bbclass:deltask package_write_rpm
+meta/classes/native.bbclass:deltask package_write
+
+  so why does the first use [noexec] and the second use deltask? is
+there a functional difference?
+
+rday
+
+p.s. i believe i appreciate the difference in *mechanics* of the
+above. [noexec] doesn't affect the DAG of task dependencies, it simply
+turns off the execution of that recipe-specific task, while "deltask"
+affects the actual underlying task DAG.
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
