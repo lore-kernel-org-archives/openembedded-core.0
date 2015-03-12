@@ -1,37 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2626073B6A;
-	Thu, 12 Mar 2015 16:27:55 +0000 (UTC)
-Received: by padbj1 with SMTP id bj1so21726981pad.12;
-	Thu, 12 Mar 2015 09:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:message-id:date
-	:to:mime-version;
-	bh=NGz/StgNcF2gbIYY/chDoVeRYvZriMNxXXQROuyEswo=;
-	b=BQSv0uqnp7LQQXWhcURK8ldis5q5BamTaZoyxL9SM4MDF7ZtH52qD8dF7UfSsnRc7u
-	hyfrVJEe04ISfCosfeNBvHDYRg2K6jI72Wk4QnN6wmPy7ezYJxJV/ytlABaz8f1GpgN7
-	/m2mMLVLuNjJ3WMi4McVrsnAxM5VQg+bNWEIG6/X4OneTW+saKda/vm774PpAMBjBiHI
-	FZHx5ADyuBmisoss0/u482NqzbZzFapWHNojm4/t2D0Z6wcWJnUQeGgR1tGQ+/CQiA1X
-	38JqMi8iP2pJpCto3V/+BJ61+9QoZOd62tRUb2gLWeHJwuY805DFhaPk/Gds9JZqJVxT
-	1Qvw==
-X-Received: by 10.70.52.8 with SMTP id p8mr91692713pdo.27.1426177676859;
-	Thu, 12 Mar 2015 09:27:56 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85])
-	by mx.google.com with ESMTPSA id r8sm11819949pdp.10.2015.03.12.09.27.55
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Mar 2015 09:27:55 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Message-Id: <1C32BA8A-B6B1-4CD6-A980-72C07E978FA2@gmail.com>
-Date: Thu, 12 Mar 2015 09:27:53 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	yocto <yocto@yoctoproject.org>
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-X-Mailer: Apple Mail (2.2070.6)
-Subject: clang cross compiler for OE available in meta-clang
+Return-Path: <tf+lists.yocto@r-finger.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 12 Mar 2015 18:09:58 UTC
+Received: from r-finger.com (r-finger.com [178.79.160.5])
+	by mail.openembedded.org (Postfix) with ESMTP id AE78173954
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Mar 2015 18:09:58 +0000 (UTC)
+Received: from [192.168.0.4] (unknown [213.122.222.218])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 8A13F9513;
+	Thu, 12 Mar 2015 18:02:51 +0000 (GMT)
+Message-ID: <5501D4CA.2090209@r-finger.com>
+Date: Thu, 12 Mar 2015 18:02:50 +0000
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Icedove/24.3.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <20150312143521.GD2338@jama>
+In-Reply-To: <20150312143521.GD2338@jama>
+Subject: Re: meta-gir issues and maintenance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 16:27:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Mar 2015 18:10:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi All,
+Martin,
 
-Finally, clang/llvm is now in a working state as a cross compiler in =
-meta-clang layer
+On 12/03/15 14:35, Martin Jansa wrote:
+> I was trying to use meta-gir in Dizzy release and found out that last
+> commit in this layer is 16 months ago and many .bbappends no longer
+> match with their recipes.
+> 
+> Was this layer superseded by something else or you just didn't have time
+> to update it for newer Yocto releases?
 
-https://github.com/kraj/meta-clang
+Unfortunately, life has been getting in the way of working on this layer
+(as well as meta-guacamayo), and it is not going to change in the
+foreseeable future. :-( It's a pity, as the gir stuff is
+useful/necessary for things like python bindings to gobject and related.
+If someone wanted to take over, it would make sense to move the repo
+somewhere more central (yocto, oe) as well.
 
-Currently, It will build clang and stage it along with gcc cross =
-compilers, default remains
-as it is. If you wish to compile an additional recipe using clang you =
-will add following two entries per recipe
-
-
-TOOLCHAIN_pn-<recipe> =3D "clang"
-DEPENDS_append_pn-<recipe> =3D " clang-cross "
-
-to conf/clang.conf=20
-
-and it will start using clang for that component. Right now it only has =
-one entry for =E2=80=98lzo=E2=80=99 :)
-I am hoping to have this list grow soon
-
-Right now, its only the cross compiler, which means compiler runtime is =
-still same from gcc
-and binutils are used in same way
-
-Eventually, I will add compiler-rt and libc++ as well and also add =
-cross-canadian builds of clang and make it cohabit in SDK
-along with gcc.
-
-If you would like to help trying/porting recipes to use clang/llvm or =
-improve the layer, please lend your hand
-
-Thanks for your time
-
--Khem
+Tomas
 
 
