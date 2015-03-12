@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FA3B7399D
+	by mail.openembedded.org (Postfix) with ESMTP id DE3E87399D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Mar 2015 01:39:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2C1d1bF003884
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2C1d2Yq003887
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 18:39:01 -0700 (PDT)
+	Wed, 11 Mar 2015 18:39:02 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 18:39:01 -0700
+	Wed, 11 Mar 2015 18:39:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 18:38:56 -0700
-Message-ID: <cover.1426124214.git.liezhi.yang@windriver.com>
+Date: Wed, 11 Mar 2015 18:38:58 -0700
+Message-ID: <b8270da6015fae58ea569cdf3d41892ce43d1671.1426124214.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1426124214.git.liezhi.yang@windriver.com>
+References: <cover.1426124214.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [V3 PATCH 0/5] meta: fix SRC_URI
+Subject: [PATCH 2/5] libevent: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 01:39:00 -0000
+X-List-Received-Date: Thu, 12 Mar 2015 01:39:01 -0000
 Content-Type: text/plain
 
-* V3
-Use git repo for xinetd.
+The wget reported errors for the past URI since it can't follow the redirection well:
+Connecting to cloud.github.com (cloud.github.com)|54.192.140.6|:443... connected.
+OpenSSL: error:14077410:SSL routines:SSL23_GET_SERVER_HELLO:sslv3 alert handshake failure
+Unable to establish SSL connection.
 
-* V2:
-Use snapshot.debian.org for the invalid SRC_URI when possible as Ross suggested.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-support/libevent/libevent_2.0.21.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-* V1:
-Initial version
-
-// Robert
-
-The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
-
-  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/uri
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/uri
-
-Robert Yang (5):
-  xinetd: fixe HOMEPAGE and SRC_URI
-  libevent: fix SRC_URI
-  apt: fix SRC_URI
-  net-tools: fix SRC_URI
-  resolvconf: fix SRC_URI
-
- .../resolvconf/resolvconf_1.76.bb                  |    3 +--
- meta/recipes-devtools/apt/apt.inc                  |    2 +-
- .../net-tools/net-tools_1.60-25.bb                 |    4 ++--
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    9 +++++----
- meta/recipes-support/libevent/libevent_2.0.21.bb   |    2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
-
+diff --git a/meta/recipes-support/libevent/libevent_2.0.21.bb b/meta/recipes-support/libevent/libevent_2.0.21.bb
+index 5a1ff3b..1230e92 100644
+--- a/meta/recipes-support/libevent/libevent_2.0.21.bb
++++ b/meta/recipes-support/libevent/libevent_2.0.21.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=45c5316ff684bcfe2f9f86d8b1279559"
+ 
+ PR = "r1"
+ 
+-SRC_URI = "http://github.com/downloads/libevent/libevent/${BPN}-${PV}-stable.tar.gz \
++SRC_URI = "${SOURCEFORGE_MIRROR}/levent/${BP}-stable.tar.gz \
+            file://obsolete_automake_macros.patch \
+            file://disable_tests.patch \
+ "
 -- 
 1.7.9.5
 
