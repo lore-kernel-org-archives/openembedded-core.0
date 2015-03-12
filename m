@@ -1,34 +1,21 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 334F37395A
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 78098739E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 09:21:02 +0000 (UTC)
-Received: by pdbnh10 with SMTP id nh10so18677614pdb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 02:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=JWvcZ2LN3n4czezP3EhcD9/A5e7WOAPrfFMq4dPNLBk=;
-	b=rvWn6lHv1mSR3ZEYdztCjjc/3ZiyhKcB9MB45nsMUcRWk4c865x8/c+ml+I84rhX54
-	Ps/+3qRidwpMPD9mGayfnQcERDvLzEY39dO/wjLTek9mgshPtPlr1oYR8HS/gypk1E4V
-	pQBkUvY/H+N982gBZU6w29MJ8Kh3OwjLVseINq7t0MuV09OsP/gdLsysJOVRBuaOr8al
-	cpeVrfLjcIz39jmg3dSNSKAXZzjJXTihsJYP3s5hG1i4AOq+4MraRJAf43w4Ey28W6dz
-	1zeRb4Q8z3zA5b/pWmsLEJJt5wOJDxBgIwZ+fpLVsNR4eL0EgqZBOAkMyZ6HozoLXCz0
-	5OXA==
-X-Received: by 10.70.128.49 with SMTP id nl17mr87701547pdb.67.1426152064299;
-	Thu, 12 Mar 2015 02:21:04 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id c9sm9997412pdo.13.2015.03.12.02.21.03
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Mar 2015 02:21:03 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2015 20:20:47 +1100
-Message-Id: <1426152047-20625-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [daisy][PATCH v2] systemd: fix /var/log/journal ownership
+	Thu, 12 Mar 2015 10:01:13 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 12 Mar 2015 11:01:07 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Mar 2015 11:01:01 +0100
+Message-ID: <1426154461-24083-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Cc: sona@enea.se
+Subject: [PATCH] e2fsprogs: CVE-2015-0247
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,30 +28,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 09:21:03 -0000
+X-List-Received-Date: Thu, 12 Mar 2015 10:01:18 -0000
+Content-Type: text/plain
 
-The ownership needs to be explicitly set otherwise it inherits the user
-and group id of the build user.
+Fixes a heap buffer overflow in lib/ext2fs/openfs.c which allows
+a trivial arbitrary memory write under certain conditions.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+References
+http://git.kernel.org/cgit/fs/ext2/e2fsprogs.git/commit/?id=f66e6ce4
+http://www.ocert.org/advisories/ocert-2015-002.html
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-core/systemd/systemd_211.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../e2fsprogs/e2fsprogs/CVE-2015-0247.patch        | 58 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_211.bb b/meta/recipes-core/systemd/systemd_211.bb
-index 567c323..98c4aca 100644
---- a/meta/recipes-core/systemd/systemd_211.bb
-+++ b/meta/recipes-core/systemd/systemd_211.bb
-@@ -124,6 +124,8 @@ do_install() {
- 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
- 	fi
- 
-+	chown root:systemd-journal ${D}/${localstatedir}/log/journal
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
+new file mode 100644
+index 0000000..4de67c9
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
+@@ -0,0 +1,58 @@
++From f66e6ce4446738c2c7f43d41988a3eb73347e2f5 Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Sat, 9 Aug 2014 12:24:54 -0400
++Subject: libext2fs: avoid buffer overflow if s_first_meta_bg is too big
 +
-         # Delete journal README, as log can be symlinked inside volatile.
-         rm -f ${D}/${localstatedir}/log/README
- }
++If s_first_meta_bg is greater than the of number block group
++descriptor blocks, then reading or writing the block group descriptors
++will end up overruning the memory buffer allocated for the
++descriptors.  Fix this by limiting first_meta_bg to no more than
++fs->desc_blocks.  This doesn't correct the bad s_first_meta_bg value,
++but it avoids causing the e2fsprogs userspace programs from
++potentially crashing.
++
++Fixes CVE-2015-0247
++Upstream-Status: Backport
++
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++
++diff --git a/lib/ext2fs/closefs.c b/lib/ext2fs/closefs.c
++index 4599eef..1f99113 100644
++--- a/lib/ext2fs/closefs.c
+++++ b/lib/ext2fs/closefs.c
++@@ -344,9 +344,11 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
++ 	 * superblocks and group descriptors.
++ 	 */
++ 	group_ptr = (char *) group_shadow;
++-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
+++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
++ 		old_desc_blocks = fs->super->s_first_meta_bg;
++-	else
+++		if (old_desc_blocks > fs->super->s_first_meta_bg)
+++			old_desc_blocks = fs->desc_blocks;
+++	} else
++ 		old_desc_blocks = fs->desc_blocks;
++ 
++ 	ext2fs_numeric_progress_init(fs, &progress, NULL,
++diff --git a/lib/ext2fs/openfs.c b/lib/ext2fs/openfs.c
++index a1a3517..ba501e6 100644
++--- a/lib/ext2fs/openfs.c
+++++ b/lib/ext2fs/openfs.c
++@@ -378,9 +378,11 @@ errcode_t ext2fs_open2(const char *name, const char *io_options,
++ #ifdef WORDS_BIGENDIAN
++ 	groups_per_block = EXT2_DESC_PER_BLOCK(fs->super);
++ #endif
++-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
+++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
++ 		first_meta_bg = fs->super->s_first_meta_bg;
++-	else
+++		if (first_meta_bg > fs->desc_blocks)
+++			first_meta_bg = fs->desc_blocks;
+++	} else
++ 		first_meta_bg = fs->desc_blocks;
++ 	if (first_meta_bg) {
++ 		retval = io_channel_read_blk(fs->io, group_block +
++-- 
++cgit v0.10.2
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index 656793f..87e06e3 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -20,6 +20,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://0001-e2fsprogs-fix-cross-compilation-problem.patch \
+             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
+             file://cache_inode.patch \
++            file://CVE-2015-0247.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
 -- 
-2.3.1
+1.9.1
 
 
