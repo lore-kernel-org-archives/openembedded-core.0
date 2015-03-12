@@ -1,26 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F0F607393A
+	by mail.openembedded.org (Postfix) with ESMTP id 3ECAF739A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 18:21:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2015 11:21:21 -0700
+	Thu, 12 Mar 2015 18:33:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2015 11:33:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,390,1422950400"; d="scan'208";a="691232904"
+X-IronPort-AV: E=Sophos;i="5.11,390,1422950400"; d="scan'208";a="664442670"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.252.24.97])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Mar 2015 11:21:20 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2015 11:33:10 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Thu, 12 Mar 2015 18:21:19 +0000
-Message-ID: <1687842.XY6UoZ3apI@peggleto-mobl5.ger.corp.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Mar 2015 18:33:09 +0000
+Message-ID: <1586927.DOV2yj0OdG@peggleto-mobl5.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <1425905799-9101-1-git-send-email-patrick.ohly@intel.com>
-References: <1425905799-9101-1-git-send-email-patrick.ohly@intel.com>
+In-Reply-To: <1425982249-17652-2-git-send-email-patrick.ohly@intel.com>
+References: <1425982249-17652-1-git-send-email-patrick.ohly@intel.com>
+	<1425982249-17652-2-git-send-email-patrick.ohly@intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] combo-layer: make Signed-off-by optional
+Subject: Re: [PATCH 1/2] combo-layer: runcmd() with separate output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +33,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 18:21:22 -0000
+X-List-Received-Date: Thu, 12 Mar 2015 18:33:15 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Patrick,
-
-On Monday 09 March 2015 13:56:39 Patrick Ohly wrote:
-> It depends on the diligence of the person running the combo-layer tool
-> whether the Signed-off-by line added to each commit actually indicates
-> that the person was involved in validating the change.
+On Tuesday 10 March 2015 11:10:48 Patrick Ohly wrote:
+> Allow the caller to specify a separate output stream. stderr is always
+> a temporary file opened by runcmd(), so read from that to capture
+> output for error reporting *and* the return value.
 > 
-> When the import is purely automatic, it is better to not add the line,
-> because the history is more useful without it (searching for the person
-> really only lists changes he or she was involved with) and it would
-> be a false statement.
-> 
-> This needs to be configurable, achieved with a new global "signoff"
-> boolean property in combo-layer.conf, in the "DEFAULT" section.
+> The reasoning for the latter is a) that this preserves the traditional
+> behavior when out=None and b) if the caller wants the content of
+> stdout, it can read from the stream itself, which is not possible for
+> the temporary stderr.
 > 
 > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 > ---
->  scripts/combo-layer              | 4 +++-
->  scripts/combo-layer.conf.example | 6 ++++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
+>  scripts/combo-layer | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 > 
 > diff --git a/scripts/combo-layer b/scripts/combo-layer
-> index 19d64e6..60ead5b 100755
+> index 5f10e83..fb3fb50 100755
 > --- a/scripts/combo-layer
 > +++ b/scripts/combo-layer
-> @@ -75,6 +75,8 @@ class Configuration(object):
->              self.parser.readfp(f)
+> @@ -149,23 +149,27 @@ class Configuration(object):
+>              logger.error("ERROR: patchutils package is missing, please
+> install it (e.g. # apt-get install patchutils)") sys.exit(1)
 > 
->          self.repos = {}
-> +        self.signoff = not self.parser.has_option('DEFAULT', 'signoff') or
-> \ +                       self.parser.getboolean('DEFAULT', 'signoff') 
-> for repo in self.parser.sections():
->              self.repos[repo] = {}
->              readsection(self.parser, repo, repo)
-> @@ -471,7 +473,7 @@ def apply_patchlist(conf, repos):
->                  if os.path.getsize(patchfile) == 0:
->                      logger.info("(skipping %d/%d %s - no changes)" % (i,
-> linecount, patchdisp)) else:
-> -                    cmd = "git am --keep-cr -s -p1 %s" % patchfile
-> +                    cmd = "git am --keep-cr %s-p1 %s" % ('-s ' if
-> conf.signoff else '', patchfile) logger.info("Applying %d/%d: %s" % (i,
-> linecount, patchdisp)) try:
->                          runcmd(cmd)
-> diff --git a/scripts/combo-layer.conf.example
-> b/scripts/combo-layer.conf.example index 010a692..8ad8615 100644
-> --- a/scripts/combo-layer.conf.example
-> +++ b/scripts/combo-layer.conf.example
-> @@ -1,5 +1,11 @@
->  # combo-layer example configuration file
+> -def runcmd(cmd,destdir=None,printerr=True):
+> +def runcmd(cmd,destdir=None,printerr=True,out=None):
+>      """
+>          execute command, raise CalledProcessError if fail
+>          return output if succeed
+>      """
+>      logger.debug("run cmd '%s' in %s" % (cmd, os.getcwd() if destdir is
+> None else destdir)) -    out = os.tmpfile()
+> +    if not out:
+> +        out = os.tmpfile()
+> +        err = out
+> +    else:
+> +        err = os.tmpfile()
+>      try:
+> -        subprocess.check_call(cmd, stdout=out, stderr=out, cwd=destdir,
+> shell=True) +        subprocess.check_call(cmd, stdout=out, stderr=err,
+> cwd=destdir, shell=isinstance(cmd, str)) except
+> subprocess.CalledProcessError,e:
+> -        out.seek(0)
+> +        err.seek(0)
+>          if printerr:
+> -            logger.error("%s" % out.read())
+> +            logger.error("%s" % err.read())
+>          raise e
 > 
-> +# global options
-> +[DEFAULT]
-> +
-> +# Add 'Signed-off-by' to all commits that get imported automatically.
-> +signoff = True
-> +
->  # component name
->  [bitbake]
->  # mandatory options
+> -    out.seek(0)
+> -    output = out.read()
+> +    err.seek(0)
+> +    output = err.read()
+>      logger.debug("output: %s" % output )
+>      return output
 
-So I'm OK with adding this in as an option. However to me a name like DEFAULT 
-implies you're establishing a general section to apply default settings for 
-all components where the component can override those defaults if it chooses, 
-which doesn't really represent what this does - so a different name might be 
-more appropriate (GLOBAL or _global_ perhaps?)
+I'm fine with this change, but FYI unfortunately we have a number of copies of 
+this function floating around. We'll probably end up having to do a refactoring 
+of these at some point soon.
 
 Cheers,
 Paul
