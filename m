@@ -1,36 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EC90C73923
+Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 245ED7399F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 23:42:14 +0000 (UTC)
-Received: by iecvj10 with SMTP id vj10so2431678iec.0
+	Thu, 12 Mar 2015 00:27:49 +0000 (UTC)
+Received: by iecvj10 with SMTP id vj10so4366047iec.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 16:42:15 -0700 (PDT)
+	Wed, 11 Mar 2015 17:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ELnEM/UbSAEf7uVkWyjrFRL/QoDF7JumU99vVXs2f0M=;
-	b=hvAf6qfAuVo/xKAOAb+2KzyVBZuCZUFnyJAcR2PDXlYwUycu0Mqm0vlUmUmgajYf2r
-	bdRke/6QQyRl6XP5tzqJQurCBD/Rgrg7lA/COf2X3u9GtgLjZFosFtorh1xXMqioP2Wz
-	/CQqFmlgkq4wQBuas5LaMi0LxCs/q6nkO1ZADIqt+DegqmpDvcvez6PmlSOd84pHK8ZD
-	aKcyQIg9nFzRHWIMTKyJ0eHuQXBlKkObdPRSgFIj/TYcG9WO8HQ+uy+v0nDgUAqM/Kmz
-	9LOMaLGb0acsBeetOO6m8SzVCw6axl14Mx4cGzfZvK+ZBB26E5Uv7gMU4/20yIa9CW11
-	VaKg==
-MIME-Version: 1.0
-X-Received: by 10.202.102.21 with SMTP id a21mr30705323oic.118.1426117335082; 
-	Wed, 11 Mar 2015 16:42:15 -0700 (PDT)
-Received: by 10.202.217.69 with HTTP; Wed, 11 Mar 2015 16:42:15 -0700 (PDT)
-In-Reply-To: <550009C1.80502@kernelconcepts.de>
-References: <1426025096-24078-1-git-send-email-florian.boor@kernelconcepts.de>
-	<CAJ86T=WvZ=cU2GCQ=P3XPar-WhQvhZFX0MbPcL7ahtkiW8xrhA@mail.gmail.com>
-	<550009C1.80502@kernelconcepts.de>
-Date: Wed, 11 Mar 2015 16:42:15 -0700
-Message-ID: <CAJ86T=X3UcOPoE4AJKauCvfDZkt8WsKBj25XScZ5F0Sd47O6=A@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=XXgd2IhaZn0ATJzf0l5H4dHIAgNeWqeDyxj+QQ+hJGA=;
+	b=KIQEz6FPmHm4f28TR3wHjES56nGRg7DYKV3Awu7ldlcLVE9UC80/o31DW+HFQskM4C
+	EryxW7dcq3odeMm9ZjvKM4REdlCRryNuJTSQxusYfPsxywosmvqJ4fACyQaofc3wf9Cl
+	PgQ4CYEQG86TcMoc6GQ6BvknsmHeyO9gwJ+9p/+1jQ0pLulaCUom3KGFiMpkGRFYP06R
+	TqQAnllV5guHUXeGMoI7KxPsx+1ev2vmZHZqqheEVe98d5kteT6ehdky71w1oe252CIm
+	V8hq44NKUuGwP/6h0Ff9z9zJkxFaXDK+IwZB5xR7kWr2pWLyZIvkzCSpU87+V+VMMKIr
+	CaDA==
+X-Received: by 10.50.79.229 with SMTP id m5mr95492494igx.23.1426120068312;
+	Wed, 11 Mar 2015 17:27:48 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id g74sm3425171ioi.42.2015.03.11.17.27.47
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Mar 2015 17:27:47 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Florian Boor <florian.boor@kernelconcepts.de>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] directfb: Allow native builds of directfb 1.7.6
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2015 17:27:38 -0700
+Message-Id: <1426120058-1776-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] curl: remove samba from PACKAGECONFIG[smb] DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2015 23:42:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Mar 2015 00:27:50 -0000
 
-Hi Florian,
+Enabling support for the smb protocol does not create
+a build time dependency on samba.
 
-On Wed, Mar 11, 2015 at 2:24 AM, Florian Boor
-<florian.boor@kernelconcepts.de> wrote:
-> Hi Arndre,
->
-> On 10.03.2015 23:32, Andre McCurdy wrote:
->> Are you sure that excluding tslib-native from DEPENDS works? Since
->> -lts is hardcoded in LDFLAGS (see directfb.inc) the linker won't run
->> unless libts.so is found in sysroot (regardless of whether or not you
->> configure with "--with-inputdrivers=none"). That being said, I don't
->> know if -lts really needs to be hardcoded in LDFLAGS, it's been there
->> since directfb was first imported into oe-core, with no explanation of
->> comment.
->
-> yes it works - tested it and made sure that there was no native libts around
-> from a previous build.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/curl/curl_7.40.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That's a bit mysterious. It does fail for me.
+diff --git a/meta/recipes-support/curl/curl_7.40.0.bb b/meta/recipes-support/curl/curl_7.40.0.bb
+index d4b4ee3..4cde9c6 100644
+--- a/meta/recipes-support/curl/curl_7.40.0.bb
++++ b/meta/recipes-support/curl/curl_7.40.0.bb
+@@ -29,7 +29,7 @@ PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+ PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
+ PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
+ PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
+-PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,samba"
++PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
+ 
+ EXTRA_OECONF = "--without-libidn \
+                 --enable-crypto-auth \
+-- 
+1.9.1
 
-I wonder if your build is somehow finding a libts.so from the host system?
-
-> But you are right, this hardcoded -lts in LDFLAGS looks strange. I can take a
-> look at this later since I need to build and test this anyway.
-
-Good, I think removing the hardcoded -lts from LDFLAGS is going to be
-the right approach.
-
->
-> Greetings
->
-> Florian
->
-> --
-> The dream of yesterday                  Florian Boor
-> is the hope of today                    Tel: +49 271-771091-15
-> and the reality of tomorrow.            Fax: +49 271-771091-19
-> [Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
->                                         http://www.kernelconcepts.de/en
 
