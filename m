@@ -1,28 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 06D0B73B3F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B6666AC3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 11:33:46 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 12 Mar 2015 04:30:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,388,1422950400"; d="scan'208";a="539874000"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.24.97])
-	by orsmga003.jf.intel.com with ESMTP; 12 Mar 2015 04:33:05 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Thu, 12 Mar 2015 11:33:45 +0000
-Message-ID: <5754681.VTnbJoMohW@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <alpine.LFD.2.11.1503080420110.11437@Device-040570>
-References: <alpine.LFD.2.11.1503070931520.19814@Device-040570>
-	<95053983.gSqlKBTLmC@peggleto-mobl5.ger.corp.intel.com>
-	<alpine.LFD.2.11.1503080420110.11437@Device-040570>
+	Thu, 12 Mar 2015 12:09:05 +0000 (UTC)
+Received: by qgfh3 with SMTP id h3so17243588qgf.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Mar 2015 05:09:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=uEzLgarb+v+j6OPRGeyZwRbQVUr/182Tc/oFveGrHks=;
+	b=efi8J/mNd3FKMcT0kCafnnFh68NVMKnHGjM2wfl2f0kDsX1t2+bCPsNSEcfg3s9CW2
+	M2JtZWbO7vIPo8Ffon+OxkckO7bM9hVSVMV44AdAjIGScwGL03piIRTvkl+4p7lb0Zvq
+	29CeZY4Z4zo6c1VxPDqok88dV4B3EGpWoZuSSKzTmJGXv/qtL72UwOFvnHYmMO6Cz3rr
+	9eIBBCRrR/bov4MI817CQxfH5+tsFtIBavp2quMuBJx1GfEjcCHpgn254XJNWKeKkOUD
+	HrhqVrS8mTsmxGrjDY+De0gUJKDK782No0eiWusuzC+nFlxAKFvrSvJ9Ldj442xAVo6O
+	Kg0g==
+X-Gm-Message-State: ALoCoQmbrXe82YqRWhAPKUWKry4Cf7SFVvICYARk/2CXpzVLYXGvG03HZUUiCUceHN3UfANvq945
+X-Received: by 10.55.18.8 with SMTP id c8mr31167883qkh.25.1426162146772; Thu,
+	12 Mar 2015 05:09:06 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: combining "_append" with "+=" (was: proper "style" for VAR_append_override?)
+Received: by 10.140.102.203 with HTTP; Thu, 12 Mar 2015 05:08:46 -0700 (PDT)
+In-Reply-To: <1426147044-31359-1-git-send-email-fabrice.coulon@axis.com>
+References: <1426147044-31359-1-git-send-email-fabrice.coulon@axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Mar 2015 12:08:46 +0000
+Message-ID: <CAJTo0LapTGk+BhrE5s0SDFWs5_9EeZFtETePK07d2pW=nZgfCA@mail.gmail.com>
+To: Fabrice Coulon <fabrice.coulon@axis.com>
+Cc: Fabrice Coulon <fabrice@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta/lib/oe/package.py: Fix for bug 7428
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,123 +44,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 11:33:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 12 Mar 2015 12:09:06 -0000
+Content-Type: multipart/alternative; boundary=001a11475ccc269b74051116400c
 
-On Sunday 08 March 2015 04:45:14 Robert P. J. Day wrote:
-> On Sat, 7 Mar 2015, Paul Eggleton wrote:
-> > On Saturday 07 March 2015 09:43:34 Robert P. J. Day wrote:
-> > >   more nitpickery, but i've noticed a couple different ways in the OE
-> > > 
-> > > code base and documentation for conditionally appending based on an
-> > > override, and it might just be that i'm confused about the underlying
-> > > mechanics of the append operators.
-> > > 
-> > >   first, there's this from qemu.inc:
-> > > KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
-> > > 
-> > > i've always read that as, "if override of linux-yocto package is in
-> > > effect, then add this feature to KERNEL_FEATURES using the "append"
-> > > operator, which will leave the appending to the end and, in addition,
-> > > *requires* that we explicitly have that leading space given that we're
-> > > using _append.
-> > > 
-> > >   it's also my understanding that i can have multiple assignments like
-> > > 
-> > > that (possibly based on different overrides), and they will all be
-> > > processed properly and finally appended to (in this case)
-> > > KERNEL_FEATURES. so far, so good?
-> > > 
-> > >   but if i check the YP ref manual, i see documentation like this:
-> > > ref-variables.xml:     KERNEL_FEATURES_append_cedartrail +=
-> > > "bsp/cedartrail/cedartrail-pvr-merge.scc" ref-variables.xml:
-> > > 
-> > > KERNEL_FEATURES_append_cedartrail += "cfg/efi-ext.scc" ref-variables.xml:
-> > >   KERNEL_FEATURES_append_cedartrail-nopvr += " cfg/smp.scc"
-> > > 
-> > > which looks a bit weird -- combining "_append" with "+=" (and even
-> > > inconsistently adding that leading space).
-> > > 
-> > >   is there some difference between the above approaches i've never
-> > > 
-> > > understood? is there a preferred style?
-> > 
-> > IMO, '..._append +=' shouldn't be used. It might be assumed that the
-> > += accomplishes more than just adding a leading space, which it
-> > doesn't. It's much simpler to just include the leading space in the
-> > value.
-> 
->   i agree, and there's a ton of that stuff under the meta-yocto layer
-> in scripts/lib/bsp/substrate/target/arch (obviously directly related
-> to the very example i pulled out of the reference manual):
-> 
-> $ grep -r "_append.*+=" *
-> i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend:KERNEL_FEATURES_app
-> end_{{=machine}} += " cfg/smp.scc"
-> i386/recipes-kernel/linux/linux-yocto_3.17.bbappend:KERNEL_FEATURES_append_
-> {{=machine}} += " cfg/smp.scc"
-> i386/recipes-kernel/linux/linux-yocto-dev.bbappend:KERNEL_FEATURES_append_{
-> {=machine}} += " cfg/smp.scc"
-> i386/recipes-kernel/linux/linux-yocto_3.14.bbappend:KERNEL_FEATURES_append_
-> {{=machine}} += " cfg/smp.scc"
-> mips/recipes-kernel/linux/linux-yocto-rt_3.10.bbappend:KERNEL_FEATURES_appe
-> nd_{{=machine}} += " cfg/smp.scc"
-> mips/recipes-kernel/linux/linux-yocto-tiny_3.10.bbappend:KERNEL_FEATURES_ap
-> pend_{{=machine}} += " cfg/smp.scc"
-> mips/recipes-kernel/linux/linux-yocto-tiny_3.17.bbappend:KERNEL_FEATURES_ap
-> pend_{{=machine}} += " cfg/smp.scc"
-> mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend:KERNEL_FEATURES_appe
-> nd_{{=machine}} += " cfg/smp.scc"
-> mips/recipes-kernel/linux/linux-yocto_3.10.bbappend:KERNEL_FEATURES_append_
-> {{=machine}} += " cfg/smp.scc" ... snip lots more of exactly the same stuff
-> ...
-> $
-> 
->   it's obviously not hard to grep for the string "_append.*+=" to see
-> where stuff like this is happening -- i'll let someone else decide
-> what to do about it; most of it is in the meta-yocto layer under
-> scripts/.
+--001a11475ccc269b74051116400c
+Content-Type: text/plain; charset=UTF-8
 
-I think pretty much all of those should get fixed. They've probably fallen 
-under the radar since they aren't strictly part of the metadata, but they are 
-important as these are the templates from which new BSPs are created from 
-yocto-bsp.
+Please change the commit summary to describe what the problem/fix is,
+instead of just linking to the bug number.  Then at the end of the commit
+message, refer to the bug like [YOCTO #7428].
 
->   final note: i realize that a lot of my nitpickery is just that --
-> nitpickery -- but i'm trying to prevent possibilities for confusion
-> for newer readers and users. in cases like this, if the (bitbake)
-> manual explains that there's one way to do appending (+=) and a second
-> way to do appending (_append), and readers think they understand the
-> difference, then it's definitely setting them up for confusion to see
-> both constructs being used at the same time on the same line. hence,
-> the relentless pedantry.
+Ross
 
-Right, and we certainly do appreciate all of your input, I hope we don't seem 
-too grumpy or dismissive in response ;) Our recipes should be the ultimate 
-example in how to do things properly and we should try to make sure that they 
-are if at all possible.
+On 12 March 2015 at 07:57, Fabrice Coulon <fabrice.coulon@axis.com> wrote:
 
-> p.s.  a small number of examples of the same thing under OE layer:
-> 
-> $ grep -r "_append_.*+=" *
-> recipes-core/libxml/libxml2.inc:RDEPENDS_${PN}-ptest_append_libc-glibc +=
-> "glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
-> recipes-devtools/unfs3/unfs3_0.9.22.r490.bb:DEPENDS_append_class-nativesdk
-> += "flex-nativesdk"
-> recipes-support/gnutls/gnutls.inc:LDFLAGS_append_libc-uclibc += " -pthread"
-> $
-> 
->   in cases like that, what is the "preferred" style?
+> This fix solves the problem with the ownership of files in packages.
+> The do_install task was producing correct and expected output but when
+> the files were being put in, e.g. a rpm package, the ownership could
+> be different than that in the do_install task.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
+> ---
+>  meta/lib/oe/package.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 7c728fc..8bc56c6 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -31,7 +31,7 @@ def runstrip(arg):
+>          extraflags = "--remove-section=.comment --remove-section=.note"
+>
+>      # Use mv to break hardlinks
+> -    stripcmd = "'%s' %s '%s' -o '%s.tmp' && mv '%s.tmp' '%s'" % (strip,
+> extraflags, file, file, file, file)
+> +    stripcmd = "'%s' %s '%s' -o '%s.tmp' && chown --reference='%s'
+> '%s.tmp' && mv '%s.tmp' '%s'" % (strip, extraflags, file, file, file, file,
+> file, file)
+>      bb.debug(1, "runstrip: %s" % stripcmd)
+>
+>      ret = subprocess.call(stripcmd, shell=True)
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-I don't think the presence or absence of an override changes things - the same 
-concern applies.
+--001a11475ccc269b74051116400c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Paul
+<div dir=3D"ltr">Please change the commit summary to describe what the prob=
+lem/fix is, instead of just linking to the bug number.=C2=A0 Then at the en=
+d of the commit message, refer to the bug like [YOCTO #7428].<div><br></div=
+><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote">On 12 March 2015 at 07:57, Fabrice Coulon <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:fabrice.coulon@axis.com" target=3D"_blank">fabrice.coulon@axis.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This fix solves=
+ the problem with the ownership of files in packages.<br>
+The do_install task was producing correct and expected output but when<br>
+the files were being put in, e.g. a rpm package, the ownership could<br>
+be different than that in the do_install task.<br>
+<br>
+Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
+axis.com">peter.kjellerstedt@axis.com</a>&gt;<br>
+Signed-off-by: Fabrice Coulon &lt;<a href=3D"mailto:fabrice.coulon@axis.com=
+">fabrice.coulon@axis.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oe/package.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py<br>
+index 7c728fc..8bc56c6 100644<br>
+--- a/meta/lib/oe/package.py<br>
++++ b/meta/lib/oe/package.py<br>
+@@ -31,7 +31,7 @@ def runstrip(arg):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extraflags =3D &quot;--remove-section=3D.=
+comment --remove-section=3D.note&quot;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Use mv to break hardlinks<br>
+-=C2=A0 =C2=A0 stripcmd =3D &quot;&#39;%s&#39; %s &#39;%s&#39; -o &#39;%s.t=
+mp&#39; &amp;&amp; mv &#39;%s.tmp&#39; &#39;%s&#39;&quot; % (strip, extrafl=
+ags, file, file, file, file)<br>
++=C2=A0 =C2=A0 stripcmd =3D &quot;&#39;%s&#39; %s &#39;%s&#39; -o &#39;%s.t=
+mp&#39; &amp;&amp; chown --reference=3D&#39;%s&#39; &#39;%s.tmp&#39; &amp;&=
+amp; mv &#39;%s.tmp&#39; &#39;%s&#39;&quot; % (strip, extraflags, file, fil=
+e, file, file, file, file)<br>
+=C2=A0 =C2=A0 =C2=A0bb.debug(1, &quot;runstrip: %s&quot; % stripcmd)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0ret =3D subprocess.call(stripcmd, shell=3DTrue)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+</font></span></blockquote></div><br></div>
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--001a11475ccc269b74051116400c--
