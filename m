@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B6666AC3A
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C53A173B73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 12:09:05 +0000 (UTC)
-Received: by qgfh3 with SMTP id h3so17243588qgf.13
+	Thu, 12 Mar 2015 12:17:00 +0000 (UTC)
+Received: by qgfh3 with SMTP id h3so17294602qgf.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 05:09:06 -0700 (PDT)
+	Thu, 12 Mar 2015 05:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=uEzLgarb+v+j6OPRGeyZwRbQVUr/182Tc/oFveGrHks=;
-	b=efi8J/mNd3FKMcT0kCafnnFh68NVMKnHGjM2wfl2f0kDsX1t2+bCPsNSEcfg3s9CW2
-	M2JtZWbO7vIPo8Ffon+OxkckO7bM9hVSVMV44AdAjIGScwGL03piIRTvkl+4p7lb0Zvq
-	29CeZY4Z4zo6c1VxPDqok88dV4B3EGpWoZuSSKzTmJGXv/qtL72UwOFvnHYmMO6Cz3rr
-	9eIBBCRrR/bov4MI817CQxfH5+tsFtIBavp2quMuBJx1GfEjcCHpgn254XJNWKeKkOUD
-	HrhqVrS8mTsmxGrjDY+De0gUJKDK782No0eiWusuzC+nFlxAKFvrSvJ9Ldj442xAVo6O
-	Kg0g==
-X-Gm-Message-State: ALoCoQmbrXe82YqRWhAPKUWKry4Cf7SFVvICYARk/2CXpzVLYXGvG03HZUUiCUceHN3UfANvq945
-X-Received: by 10.55.18.8 with SMTP id c8mr31167883qkh.25.1426162146772; Thu,
-	12 Mar 2015 05:09:06 -0700 (PDT)
+	bh=ZFxEhqR9jsJ/jCWMgKbsd3f1Sy8ggFWkbN7dihFwztQ=;
+	b=K+HN7/Q8YLOUx/VArTdGIOFSLIRmixR9BKaodTrAGwdCZXpf9NIQJQzAfjboIbZAWn
+	GfGyLugkFyTDpieW6KBuesKdH43LAocTu0ds+wzsXQgJeXT/rlH86IL1+nRKMpq5p2E5
+	TOFG4Nph/xiIbnv34DxLBaDh97D8gh3atAp0Vz+K7ouEHGC4oPusFwYbysushPQyn71M
+	FLEfaABTwGknO5CtDLvlnSmLKNDOdHJKwJr8AbgINdTdCYShi0dHvIfsENn3Vwk0l20T
+	1Baxufelsup0Fl4w5Vxdfe6hl5mQ4f+xyE/vS8aBdtPFF5OMhfebhT9ZWT66hhbfZ5IP
+	rO0A==
+X-Gm-Message-State: ALoCoQljwU82PvVK5P5ENqqYS710JoccXNJuAgKYRTEJ4X9+RS041DpktOBMQTyDnao+AySU24Zp
+X-Received: by 10.140.40.70 with SMTP id w64mr53375378qgw.14.1426162622198;
+	Thu, 12 Mar 2015 05:17:02 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 12 Mar 2015 05:08:46 -0700 (PDT)
-In-Reply-To: <1426147044-31359-1-git-send-email-fabrice.coulon@axis.com>
-References: <1426147044-31359-1-git-send-email-fabrice.coulon@axis.com>
+Received: by 10.140.102.203 with HTTP; Thu, 12 Mar 2015 05:16:40 -0700 (PDT)
+In-Reply-To: <418f6d2d447b8719d99dd9819cf13e213dc5c62a.1426140850.git.liezhi.yang@windriver.com>
+References: <cover.1426140850.git.liezhi.yang@windriver.com>
+	<418f6d2d447b8719d99dd9819cf13e213dc5c62a.1426140850.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 12 Mar 2015 12:08:46 +0000
-Message-ID: <CAJTo0LapTGk+BhrE5s0SDFWs5_9EeZFtETePK07d2pW=nZgfCA@mail.gmail.com>
-To: Fabrice Coulon <fabrice.coulon@axis.com>
-Cc: Fabrice Coulon <fabrice@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/lib/oe/package.py: Fix for bug 7428
+Date: Thu, 12 Mar 2015 12:16:40 +0000
+Message-ID: <CAJTo0LbtbqvHgJG9i6zdY+YcBU70dHJhVFE=fBX=k46ty8N8=g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] tar: set acpaths to avoid "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,112 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 12:09:06 -0000
-Content-Type: multipart/alternative; boundary=001a11475ccc269b74051116400c
+X-List-Received-Date: Thu, 12 Mar 2015 12:17:05 -0000
+Content-Type: multipart/alternative; boundary=001a11c14f4a7d075a0511165c5f
 
---001a11475ccc269b74051116400c
+--001a11c14f4a7d075a0511165c5f
 Content-Type: text/plain; charset=UTF-8
 
-Please change the commit summary to describe what the problem/fix is,
-instead of just linking to the bug number.  Then at the end of the commit
-message, refer to the bug like [YOCTO #7428].
+On 12 March 2015 at 06:14, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> +acpaths = "-I ./m4"
+>
+
+Why does this only happen on tar?  Why is it safe to pass just -I ./m4 when
+the detected list that you're overriding is effectively -I ./m4 -I ./tests?
+
+Would it be better to just make all include paths relative to ${S} when
+generating the acpaths?
 
 Ross
 
-On 12 March 2015 at 07:57, Fabrice Coulon <fabrice.coulon@axis.com> wrote:
-
-> This fix solves the problem with the ownership of files in packages.
-> The do_install task was producing correct and expected output but when
-> the files were being put in, e.g. a rpm package, the ownership could
-> be different than that in the do_install task.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
-> ---
->  meta/lib/oe/package.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index 7c728fc..8bc56c6 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -31,7 +31,7 @@ def runstrip(arg):
->          extraflags = "--remove-section=.comment --remove-section=.note"
->
->      # Use mv to break hardlinks
-> -    stripcmd = "'%s' %s '%s' -o '%s.tmp' && mv '%s.tmp' '%s'" % (strip,
-> extraflags, file, file, file, file)
-> +    stripcmd = "'%s' %s '%s' -o '%s.tmp' && chown --reference='%s'
-> '%s.tmp' && mv '%s.tmp' '%s'" % (strip, extraflags, file, file, file, file,
-> file, file)
->      bb.debug(1, "runstrip: %s" % stripcmd)
->
->      ret = subprocess.call(stripcmd, shell=True)
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a11475ccc269b74051116400c
+--001a11c14f4a7d075a0511165c5f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Please change the commit summary to describe what the prob=
-lem/fix is, instead of just linking to the bug number.=C2=A0 Then at the en=
-d of the commit message, refer to the bug like [YOCTO #7428].<div><br></div=
-><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote">On 12 March 2015 at 07:57, Fabrice Coulon <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:fabrice.coulon@axis.com" target=3D"_blank">fabrice.coulon@axis.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This fix solves=
- the problem with the ownership of files in packages.<br>
-The do_install task was producing correct and expected output but when<br>
-the files were being put in, e.g. a rpm package, the ownership could<br>
-be different than that in the do_install task.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
-axis.com">peter.kjellerstedt@axis.com</a>&gt;<br>
-Signed-off-by: Fabrice Coulon &lt;<a href=3D"mailto:fabrice.coulon@axis.com=
-">fabrice.coulon@axis.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/package.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py<br>
-index 7c728fc..8bc56c6 100644<br>
---- a/meta/lib/oe/package.py<br>
-+++ b/meta/lib/oe/package.py<br>
-@@ -31,7 +31,7 @@ def runstrip(arg):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extraflags =3D &quot;--remove-section=3D.=
-comment --remove-section=3D.note&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# Use mv to break hardlinks<br>
--=C2=A0 =C2=A0 stripcmd =3D &quot;&#39;%s&#39; %s &#39;%s&#39; -o &#39;%s.t=
-mp&#39; &amp;&amp; mv &#39;%s.tmp&#39; &#39;%s&#39;&quot; % (strip, extrafl=
-ags, file, file, file, file)<br>
-+=C2=A0 =C2=A0 stripcmd =3D &quot;&#39;%s&#39; %s &#39;%s&#39; -o &#39;%s.t=
-mp&#39; &amp;&amp; chown --reference=3D&#39;%s&#39; &#39;%s.tmp&#39; &amp;&=
-amp; mv &#39;%s.tmp&#39; &#39;%s&#39;&quot; % (strip, extraflags, file, fil=
-e, file, file, file, file)<br>
-=C2=A0 =C2=A0 =C2=A0bb.debug(1, &quot;runstrip: %s&quot; % stripcmd)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D subprocess.call(stripcmd, shell=3DTrue)<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</font></span></blockquote></div><br></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 March 2015 at 06:14, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);=
+border-left-style:solid;padding-left:1ex"><div id=3D":1fm" class=3D"" style=
+=3D"overflow:hidden">+acpaths =3D &quot;-I ./m4&quot;<br></div></blockquote=
+><div><br></div><div>Why does this only happen on tar?=C2=A0 Why is it safe=
+ to pass just -I ./m4 when the detected list that you&#39;re overriding is =
+effectively -I ./m4 -I ./tests?</div><div><br></div><div>Would it be better=
+ to just make all include paths relative to ${S} when generating the acpath=
+s?</div><div><br></div><div>Ross</div></div></div></div>
 
---001a11475ccc269b74051116400c--
+--001a11c14f4a7d075a0511165c5f--
