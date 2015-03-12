@@ -1,34 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 245ED7399F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FA3B7399D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 00:27:49 +0000 (UTC)
-Received: by iecvj10 with SMTP id vj10so4366047iec.0
+	Thu, 12 Mar 2015 01:39:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2C1d1bF003884
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 17:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XXgd2IhaZn0ATJzf0l5H4dHIAgNeWqeDyxj+QQ+hJGA=;
-	b=KIQEz6FPmHm4f28TR3wHjES56nGRg7DYKV3Awu7ldlcLVE9UC80/o31DW+HFQskM4C
-	EryxW7dcq3odeMm9ZjvKM4REdlCRryNuJTSQxusYfPsxywosmvqJ4fACyQaofc3wf9Cl
-	PgQ4CYEQG86TcMoc6GQ6BvknsmHeyO9gwJ+9p/+1jQ0pLulaCUom3KGFiMpkGRFYP06R
-	TqQAnllV5guHUXeGMoI7KxPsx+1ev2vmZHZqqheEVe98d5kteT6ehdky71w1oe252CIm
-	V8hq44NKUuGwP/6h0Ff9z9zJkxFaXDK+IwZB5xR7kWr2pWLyZIvkzCSpU87+V+VMMKIr
-	CaDA==
-X-Received: by 10.50.79.229 with SMTP id m5mr95492494igx.23.1426120068312;
-	Wed, 11 Mar 2015 17:27:48 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id g74sm3425171ioi.42.2015.03.11.17.27.47
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Mar 2015 17:27:47 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2015 17:27:38 -0700
-Message-Id: <1426120058-1776-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] curl: remove samba from PACKAGECONFIG[smb] DEPENDS
+	Wed, 11 Mar 2015 18:39:01 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 11 Mar 2015 18:39:01 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Mar 2015 18:38:56 -0700
+Message-ID: <cover.1426124214.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [V3 PATCH 0/5] meta: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,30 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 00:27:50 -0000
+X-List-Received-Date: Thu, 12 Mar 2015 01:39:00 -0000
+Content-Type: text/plain
 
-Enabling support for the smb protocol does not create
-a build time dependency on samba.
+* V3
+Use git repo for xinetd.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/curl_7.40.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* V2:
+Use snapshot.debian.org for the invalid SRC_URI when possible as Ross suggested.
 
-diff --git a/meta/recipes-support/curl/curl_7.40.0.bb b/meta/recipes-support/curl/curl_7.40.0.bb
-index d4b4ee3..4cde9c6 100644
---- a/meta/recipes-support/curl/curl_7.40.0.bb
-+++ b/meta/recipes-support/curl/curl_7.40.0.bb
-@@ -29,7 +29,7 @@ PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
- PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
- PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
--PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,samba"
-+PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
- 
- EXTRA_OECONF = "--without-libidn \
-                 --enable-crypto-auth \
+* V1:
+Initial version
+
+// Robert
+
+The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
+
+  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/uri
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/uri
+
+Robert Yang (5):
+  xinetd: fixe HOMEPAGE and SRC_URI
+  libevent: fix SRC_URI
+  apt: fix SRC_URI
+  net-tools: fix SRC_URI
+  resolvconf: fix SRC_URI
+
+ .../resolvconf/resolvconf_1.76.bb                  |    3 +--
+ meta/recipes-devtools/apt/apt.inc                  |    2 +-
+ .../net-tools/net-tools_1.60-25.bb                 |    4 ++--
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    9 +++++----
+ meta/recipes-support/libevent/libevent_2.0.21.bb   |    2 +-
+ 5 files changed, 10 insertions(+), 10 deletions(-)
+
 -- 
-1.9.1
+1.7.9.5
 
 
