@@ -1,44 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CEBAB7399F
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A651760034
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 08:40:38 +0000 (UTC)
-Received: by paceu11 with SMTP id eu11so18815467pac.1
+	Thu, 12 Mar 2015 09:02:43 +0000 (UTC)
+Received: by pdjy10 with SMTP id y10so18451856pdj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 01:40:40 -0700 (PDT)
+	Thu, 12 Mar 2015 02:02:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=GGCScB0sQSSh6EoK7HJysWqvNrKcQi8aoMdBQbsaAUE=;
-	b=kMOa4j3RF2ViaNP0g3HhxqMVVbKWDPwTMLA8FZrWR0U2ybC+putXBW3F/35lg8xHB9
-	kJImOgiqvV+nl+KCvs7+AwU3UwVx23nuTM34hlY7jZmh+a0a2BL04xeBQvRNBiSW+BMj
-	rLGktRuUtiK7ahHCA9BOt7wYso26awEs9ivE9JBoUrSwRDsQRPT6OAcJf+8bq03BfNZm
-	WdEVET53heGho3P3EFVdi1Ize9vRVCpL7ZKFUBAaL8C/erKfRbR6mlP5khevCAVQ3C9d
-	PQBqyTAQ6y4ZibQdynX/YppyFKIU6jHD35gtZc/DJ3F5Jt5gcIA5JeGAKaowiBLACMYR
-	c9Ew==
-X-Received: by 10.66.140.69 with SMTP id re5mr54610624pab.105.1426149638721;
-	Thu, 12 Mar 2015 01:40:38 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:24c5:b426:3d6b:ff44?
-	([2601:9:3580:84c:24c5:b426:3d6b:ff44])
-	by mx.google.com with ESMTPSA id qm6sm9812080pac.14.2015.03.12.01.40.37
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Mar 2015 01:40:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1426147451.9114.82.camel@linuxfoundation.org>
-Date: Thu, 12 Mar 2015 01:40:36 -0700
-Message-Id: <A7D2229A-D67A-4AEB-97D0-4FE730C6F6D7@gmail.com>
-References: <1426109339-12975-1-git-send-email-randy.e.witt@linux.intel.com>
-	<13FDACD4-FC30-49CD-AC52-9D614F407C5D@gmail.com>
-	<CAP9ODKqBs7sqNMrTESE_fiNfnRO3jLYTDoUkE4twwgczSU=L2g@mail.gmail.com>
-	<1426147451.9114.82.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Instruct the journal to always be volatile
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=vEpoVk2MTiQx5hQKrv2D8MWvUoK+EpAcjtxGxt8t88I=;
+	b=NmkWfM0iMcVAiqo/EmdaVWBdKjPynbuWePmQRXVW7VfwH1WhxiMbb1ivBDzlOy4HY0
+	oumBtZX/9wgqdLqUO+kQmWuT02AYhPZd1M0TybO61ICadsP6SSROVp9pzPjY/IE6MHeB
+	Ei9bb3npRlGGIm/DzvWlLb0WNHz4O4OsOcOBPsES2egNQouKqLMzKranh7fw7kRogN67
+	eTa/TMpfUPoUyuOqkDfJkqj7Fu1idaziw+wnS2OTiEptnRdem8hpuDdns2Hydt/V5oqo
+	3N7QixTFbWgDq1tZETPvDLpW/XzHO9vkyU8nBMEaZ+N0sITZwosLfhG52xPvZDiP+k9j
+	hWag==
+X-Received: by 10.70.136.202 with SMTP id qc10mr86729432pdb.117.1426150964062; 
+	Thu, 12 Mar 2015 02:02:44 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id lr1sm4114501pab.39.2015.03.12.02.02.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Mar 2015 02:02:43 -0700 (PDT)
+Message-ID: <5501562B.1040907@gmail.com>
+Date: Thu, 12 Mar 2015 20:02:35 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>, ChenQi <Qi.Chen@windriver.com>
+References: <1425957930-8061-1-git-send-email-net147@gmail.com>
+	<55013CDD.3050708@windriver.com>
+	<1C1D4049-981D-4FA6-AC57-7F1AA5B45125@gmail.com>
+In-Reply-To: <1C1D4049-981D-4FA6-AC57-7F1AA5B45125@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: fix /var/log/journal ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,71 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 08:40:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Mar 2015 09:02:44 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 12/03/2015 6:21 PM, Khem Raj wrote:
+>> On Mar 12, 2015, at 12:14 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>
+>> On 03/10/2015 11:25 AM, Jonathan Liu wrote:
+>>> The ownership needs to be explicitly set otherwise it inherits the user
+>>> and group id of the build user.
+>>>
+>>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>>> ---
+>>>   meta/recipes-core/systemd/systemd_219.bb | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+>>> index 24486f1..6a4f4e8 100644
+>>> --- a/meta/recipes-core/systemd/systemd_219.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_219.bb
+>>> @@ -147,6 +147,8 @@ do_install() {
+>>>   		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
+>>>   	fi
+>>>   +	chown root:root ${D}/${localstatedir}/log/journal
+>>> +
+>>>           # Delete journal README, as log can be symlinked inside volatile.
+>>>           rm -f ${D}/${localstatedir}/log/README
+>>>   
+>> I think it should be root:systemd-journal.
+>> What do you think?
+>>
+>> And this patch would also fix the following bug.
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7293
+> /var/log is symlinked (its not a copy-bind) into /var/volatile/log and /var/volatile  is mounted as tmpfs on runtime as of now
+> so how is this patch helping out with anything ?
+It fixes uid/gid of build user leaking into the filesystem image even if 
+the directory is hidden at runtime by tmpfs being mounted at /var/volatile.
 
-> On Mar 12, 2015, at 1:04 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Thu, 2015-03-12 at 04:18 -0300, Otavio Salvador wrote:
->> On Thu, Mar 12, 2015 at 12:09 AM, Khem Raj <raj.khem@gmail.com> =
-wrote:
->>>=20
->>>> On Mar 11, 2015, at 2:28 PM, Randy Witt =
-<randy.e.witt@linux.intel.com> wrote:
->>>>=20
->>>> When the storage mode for the journal is "auto" if /var/log/journal
->>>> exists then the journal will flush to /var/log/journal assuming =
-that
->>>> /var/log/journal is persistent.
->>>>=20
->>>> However /var/log -> /var/volatile/log in poky, so even though
->>>> /var/log/journal exists, it is still volatile.
->>>>=20
->>>> Since this can cause ordering issues due to /var/volatile needing =
-to be mounted before the journal actually writes to it, just specify =
-that the journal
->>>> should always be volatile and never try to write to "persistent"
->>>> storage. The journal will exist in /run/log/journal only.
->>>>=20
->>>> This also disables the "After" of the journal on var-volatile.mount
->>>> since the ordering is no longer necessary when the journal is only
->>>> stored in /run/log/journal.
->>>>=20
->>>> [Yocto #7388]
->>>=20
->>>=20
->>> This is not right. What if I want persistent logs.? the options is =
-just gone. Both cases should work. /var/volatile should only be used
->>> when doing ro-rfs its not FHS specified anyway. Lets not go with =
-this patch.
->>=20
->> Agreed.
->=20
-> This isn't quite so simple as "agreed". Are we saying that we want to
-> rework volatiles handling after feature freeze?
->=20
+I was considering removing /var/log/journal (actually 
+/var/volatile/log/journal) from the rootfs but it would be a behavior 
+change.
+journald.conf by default tests for the presence of the /var/log/journal 
+directory and if it exists it will write there (instead of 
+/run/log/journal) assuming it is persistent.
+An OpenEmbedded user could try making the journal persistent by removing 
+the /var/volatile tmpfs entry from /etc/fstab (I remember seeing this 
+mentioned somewhere on the web). This would make /var/volatile persistent...
 
-> My view on this is that yes, we do need to do something about it, but
-> right now during stabilisation is not the right time. Particularly =
-when
-> the patches proposed aren't even tested with sysvinit.
+I opted to keep /var/log/journal but fix the uid/gid to avoid surprises.
+You're right though, it should be root:systemd-journal.
 
-I usually send out patches early to take advantage of some community =
-testing especially Yocto auto builders, Since not everyone has hefty =
-machines
-to do all kind of builds for such changes. Meanwhile, keep doing it in =
-serial order.
-
->=20
-> So I'm interested in patches which make things work better without
-> making fundamental changes now. We can look at changing volatiles with =
-a
-> properly thought out plan in the next development cycle.
-
-Whatever is decided I have already said thats fine, so lets just stop =
-this thread here.
+Regards,
+Jonathan
 
 
