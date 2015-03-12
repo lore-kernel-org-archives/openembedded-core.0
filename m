@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3EF373B28
+	by mail.openembedded.org (Postfix) with ESMTP id 635C460144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 01:39:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2C1d3eF018900
+	Thu, 12 Mar 2015 02:33:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2C2XKeg023069
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 18:39:03 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 11 Mar 2015 18:39:03 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 11 Mar 2015 19:33:20 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 11 Mar 2015 19:33:20 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2015 18:39:01 -0700
-Message-ID: <d6f55a0bb1c436bd0ab48456fe6fc9f84e390778.1426124214.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1426124214.git.liezhi.yang@windriver.com>
-References: <cover.1426124214.git.liezhi.yang@windriver.com>
+Date: Thu, 12 Mar 2015 10:33:33 +0800
+Message-ID: <cover.1426127572.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 5/5] resolvconf: fix SRC_URI
+Subject: [PATCH 0/1] rootfs.py: fix logic error so that warnings are checked
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 01:39:01 -0000
+X-List-Received-Date: Thu, 12 Mar 2015 02:33:21 -0000
 Content-Type: text/plain
 
-Fixed:
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/r/resolvconf/resolvconf_1.76.tar.xz, attempting MIRRORS if available
+The following changes since commit 99f209a49a4390192b95184ff86bd6f973010111:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../resolvconf/resolvconf_1.76.bb                  |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+  layer.conf: bump version as error-report interface changed (2015-03-10 17:44:56 +0000)
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-index 20a2c19..797e9b0 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-@@ -11,12 +11,11 @@ AUTHOR = "Thomas Hood"
- HOMEPAGE = "http://packages.debian.org/resolvconf"
- RDEPENDS_${PN} = "bash"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20141013T184415Z/pool/main/r/${BPN}/${BPN}_1.76.tar.xz \
-            file://fix-path-for-busybox.patch \
-            file://99_resolvconf \
-           "
- 
--
- SRC_URI[md5sum] = "d78ce30ea068999cd3e0523300b27255"
- SRC_URI[sha256sum] = "c9f40f7405b37399ddbf29ca4205b4911ee35cb9ffd9be7671faa2385b1fa573"
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/rootfs-log-check
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/rootfs-log-check
+
+Chen Qi (1):
+  rootfs.py: fix logic error so that warnings are checked
+
+ meta/lib/oe/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.9.5
+1.9.1
 
 
