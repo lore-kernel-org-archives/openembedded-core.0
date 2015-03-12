@@ -1,26 +1,39 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 53F1E73B36
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B0E6573996
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 02:33:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2C2XLGU004179
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Mar 2015 03:09:21 +0000 (UTC)
+Received: by pdbnh10 with SMTP id nh10so16333051pdb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2015 19:33:21 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 11 Mar 2015 19:33:21 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Mar 2015 10:33:34 +0800
-Message-ID: <bdcf84820960e05397fdc52b1fed6ae4e56fc6d0.1426127572.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1426127572.git.Qi.Chen@windriver.com>
-References: <cover.1426127572.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] rootfs.py: fix logic error so that warnings are checked
+	Wed, 11 Mar 2015 20:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=of/TanIDvsac7lN0Pv9Qg4kZh1fS8qUUdB4AaK1qhMs=;
+	b=lxbnFh4sSVTk5B8eYpbCxc54TOs8oWFFOV6vx/poK5dv3nV8zhji2ODP01daY8S/Te
+	cvFQIh7MuZtWJ3eeqvQ3g2lz3GcsjHiz6he9BE3mCjoO19A21UVZ23m+ScWO5qRpmfBX
+	42VjerYoIjZsA4hAcg9L+iRX5SjbH26syIPDngYY7L0B9sv56FquIT+gFnE3rdHvphbJ
+	dSqUizKbz/01ifjq+hqyHKgftsqkJLYpY3+Nf+4bm3YK9tifsRRrK6hAPLVbcjsIquek
+	o3HljK9PBEWah6RfQnvrz7MrmbtHK3FhJZOACAAejenEhY9891n9aT7Ecr+aKQ4rHu9m
+	SBzA==
+X-Received: by 10.70.61.161 with SMTP id q1mr49022321pdr.33.1426129763055;
+	Wed, 11 Mar 2015 20:09:23 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:e8ac:8ca1:ebf9:d91f?
+	([2601:9:3580:84c:e8ac:8ca1:ebf9:d91f])
+	by mx.google.com with ESMTPSA id qh6sm8230609pab.34.2015.03.11.20.09.22
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 11 Mar 2015 20:09:22 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1426109339-12975-1-git-send-email-randy.e.witt@linux.intel.com>
+Date: Wed, 11 Mar 2015 20:09:22 -0700
+Message-Id: <13FDACD4-FC30-49CD-AC52-9D614F407C5D@gmail.com>
+References: <1426109339-12975-1-git-send-email-randy.e.witt@linux.intel.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: Instruct the journal to always be volatile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +46,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 02:33:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Mar 2015 03:09:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The following commit caused log checking for warnings not working for RPM
-rootfs.
 
-    rootfs.py: ignore "NOTE:" when catching warnings
+> On Mar 11, 2015, at 2:28 PM, Randy Witt <randy.e.witt@linux.intel.com> =
+wrote:
+>=20
+> When the storage mode for the journal is "auto" if /var/log/journal
+> exists then the journal will flush to /var/log/journal assuming that
+> /var/log/journal is persistent.
+>=20
+> However /var/log -> /var/volatile/log in poky, so even though
+> /var/log/journal exists, it is still volatile.
+>=20
+> Since this can cause ordering issues due to /var/volatile needing to =
+be mounted before the journal actually writes to it, just specify that =
+the journal
+> should always be volatile and never try to write to "persistent"
+> storage. The journal will exist in /run/log/journal only.
+>=20
+> This also disables the "After" of the journal on var-volatile.mount
+> since the ordering is no longer necessary when the journal is only
+> stored in /run/log/journal.
+>=20
+> [Yocto #7388]
 
-The problem is that checking for warnings is always skipped because the
-following statement is always true.
 
-    if 'log_check' or 'NOTE:' in line:
+This is not right. What if I want persistent logs.? the options is just =
+gone. Both cases should work. /var/volatile should only be used
+when doing ro-rfs its not FHS specified anyway. Lets not go with this =
+patch.
 
-This patch fixes the above problem so that warning checking in RPM rootfs
-can work again.
+>=20
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> ---
+> meta/recipes-core/systemd/systemd/journald-volatile.conf | 6 ------
+> meta/recipes-core/systemd/systemd_219.bb                 | 4 ++--
+> 2 files changed, 2 insertions(+), 8 deletions(-)
+> delete mode 100644 =
+meta/recipes-core/systemd/systemd/journald-volatile.conf
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd/journald-volatile.conf =
+b/meta/recipes-core/systemd/systemd/journald-volatile.conf
+> deleted file mode 100644
+> index b11e160..0000000
+> --- a/meta/recipes-core/systemd/systemd/journald-volatile.conf
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -# If /var/volatile is a mount point then make sure to mount it before
+> -# the journal starts. This is because base-files creates a symlink
+> -# /var/log -> /var/volatile/log. And if the journal starts before the =
+mount
+> -# happens, the journal will appear empty until restarted.
+> -[Unit]
+> -After=3Dvar-volatile.mount
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb =
+b/meta/recipes-core/systemd/systemd_219.bb
+> index d5eed08..f3bb0c4 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -48,7 +48,6 @@ SRC_URI =3D =
+"git://anongit.freedesktop.org/systemd/systemd;branch=3Dmaster;protocol=3D=
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oe/rootfs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index dd7aa44..7e8d5d1 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -359,7 +359,7 @@ class RpmRootfs(Rootfs):
-         log_path = self.d.expand("${T}/log.do_rootfs")
-         with open(log_path, 'r') as log:
-             for line in log.read().split('\n'):
--                if 'log_check' or 'NOTE:' in line:
-+                if 'log_check' in line or 'NOTE:' in line:
-                     continue
- 
-                 m = r.search(line)
--- 
-1.9.1
+>            file://00-create-volatile.conf \
+>            file://init \
+>            file://run-ptest \
+> -           file://journald-volatile.conf \
+>           "
+>=20
+> S =3D "${WORKDIR}/git"
+> @@ -145,7 +144,6 @@ do_install() {
+> 	install -m 0644 ${WORKDIR}/*.rules =
+${D}${sysconfdir}/udev/rules.d/
+>=20
+> 	install -m 0644 ${WORKDIR}/00-create-volatile.conf =
+${D}${sysconfdir}/tmpfiles.d/
+> -	install -D -m 0644 ${WORKDIR}/journald-volatile.conf =
+${D}${systemd_unitdir}/system/systemd-journald.service.d/journald-volatile=
+.conf
+>=20
+> 	if =
+${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; =
+then
+> 		install -d ${D}${sysconfdir}/init.d
+> @@ -170,6 +168,8 @@ do_install() {
+>=20
+> 	# Enable journal to forward message to syslog daemon
+> 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=3Dyes/' =
+${D}${sysconfdir}/systemd/journald.conf
+> +	# Make the journal volatile by default.
+> +	sed -i -e 's/.*Storage.*/Storage=3Dvolatile/' =
+${D}${sysconfdir}/systemd/journald.conf
+> 	# its needed in 216 upstream has fixed it with =
+919699ec301ea507edce4a619141ed22e789ac0d
+> 	# don't order journal flushing afte remote-fs.target
+> 	sed -i -e 's/ remote-fs.target$//' =
+${D}${systemd_unitdir}/system/systemd-journal-flush.service
+> --=20
+> 1.9.3
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
