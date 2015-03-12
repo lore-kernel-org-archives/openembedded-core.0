@@ -1,21 +1,28 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 78098739E4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 06D0B73B3F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 10:01:13 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 12 Mar 2015 11:01:07 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Mar 2015 11:01:01 +0100
-Message-ID: <1426154461-24083-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 12 Mar 2015 11:33:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 12 Mar 2015 04:30:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,388,1422950400"; d="scan'208";a="539874000"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.24.97])
+	by orsmga003.jf.intel.com with ESMTP; 12 Mar 2015 04:33:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Thu, 12 Mar 2015 11:33:45 +0000
+Message-ID: <5754681.VTnbJoMohW@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1503080420110.11437@Device-040570>
+References: <alpine.LFD.2.11.1503070931520.19814@Device-040570>
+	<95053983.gSqlKBTLmC@peggleto-mobl5.ger.corp.intel.com>
+	<alpine.LFD.2.11.1503080420110.11437@Device-040570>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Cc: sona@enea.se
-Subject: [PATCH] e2fsprogs: CVE-2015-0247
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: combining "_append" with "+=" (was: proper "style" for VAR_append_override?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,100 +35,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 10:01:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Mar 2015 11:33:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Fixes a heap buffer overflow in lib/ext2fs/openfs.c which allows
-a trivial arbitrary memory write under certain conditions.
+On Sunday 08 March 2015 04:45:14 Robert P. J. Day wrote:
+> On Sat, 7 Mar 2015, Paul Eggleton wrote:
+> > On Saturday 07 March 2015 09:43:34 Robert P. J. Day wrote:
+> > >   more nitpickery, but i've noticed a couple different ways in the OE
+> > > 
+> > > code base and documentation for conditionally appending based on an
+> > > override, and it might just be that i'm confused about the underlying
+> > > mechanics of the append operators.
+> > > 
+> > >   first, there's this from qemu.inc:
+> > > KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+> > > 
+> > > i've always read that as, "if override of linux-yocto package is in
+> > > effect, then add this feature to KERNEL_FEATURES using the "append"
+> > > operator, which will leave the appending to the end and, in addition,
+> > > *requires* that we explicitly have that leading space given that we're
+> > > using _append.
+> > > 
+> > >   it's also my understanding that i can have multiple assignments like
+> > > 
+> > > that (possibly based on different overrides), and they will all be
+> > > processed properly and finally appended to (in this case)
+> > > KERNEL_FEATURES. so far, so good?
+> > > 
+> > >   but if i check the YP ref manual, i see documentation like this:
+> > > ref-variables.xml:     KERNEL_FEATURES_append_cedartrail +=
+> > > "bsp/cedartrail/cedartrail-pvr-merge.scc" ref-variables.xml:
+> > > 
+> > > KERNEL_FEATURES_append_cedartrail += "cfg/efi-ext.scc" ref-variables.xml:
+> > >   KERNEL_FEATURES_append_cedartrail-nopvr += " cfg/smp.scc"
+> > > 
+> > > which looks a bit weird -- combining "_append" with "+=" (and even
+> > > inconsistently adding that leading space).
+> > > 
+> > >   is there some difference between the above approaches i've never
+> > > 
+> > > understood? is there a preferred style?
+> > 
+> > IMO, '..._append +=' shouldn't be used. It might be assumed that the
+> > += accomplishes more than just adding a leading space, which it
+> > doesn't. It's much simpler to just include the leading space in the
+> > value.
+> 
+>   i agree, and there's a ton of that stuff under the meta-yocto layer
+> in scripts/lib/bsp/substrate/target/arch (obviously directly related
+> to the very example i pulled out of the reference manual):
+> 
+> $ grep -r "_append.*+=" *
+> i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend:KERNEL_FEATURES_app
+> end_{{=machine}} += " cfg/smp.scc"
+> i386/recipes-kernel/linux/linux-yocto_3.17.bbappend:KERNEL_FEATURES_append_
+> {{=machine}} += " cfg/smp.scc"
+> i386/recipes-kernel/linux/linux-yocto-dev.bbappend:KERNEL_FEATURES_append_{
+> {=machine}} += " cfg/smp.scc"
+> i386/recipes-kernel/linux/linux-yocto_3.14.bbappend:KERNEL_FEATURES_append_
+> {{=machine}} += " cfg/smp.scc"
+> mips/recipes-kernel/linux/linux-yocto-rt_3.10.bbappend:KERNEL_FEATURES_appe
+> nd_{{=machine}} += " cfg/smp.scc"
+> mips/recipes-kernel/linux/linux-yocto-tiny_3.10.bbappend:KERNEL_FEATURES_ap
+> pend_{{=machine}} += " cfg/smp.scc"
+> mips/recipes-kernel/linux/linux-yocto-tiny_3.17.bbappend:KERNEL_FEATURES_ap
+> pend_{{=machine}} += " cfg/smp.scc"
+> mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend:KERNEL_FEATURES_appe
+> nd_{{=machine}} += " cfg/smp.scc"
+> mips/recipes-kernel/linux/linux-yocto_3.10.bbappend:KERNEL_FEATURES_append_
+> {{=machine}} += " cfg/smp.scc" ... snip lots more of exactly the same stuff
+> ...
+> $
+> 
+>   it's obviously not hard to grep for the string "_append.*+=" to see
+> where stuff like this is happening -- i'll let someone else decide
+> what to do about it; most of it is in the meta-yocto layer under
+> scripts/.
 
-References
-http://git.kernel.org/cgit/fs/ext2/e2fsprogs.git/commit/?id=f66e6ce4
-http://www.ocert.org/advisories/ocert-2015-002.html
+I think pretty much all of those should get fixed. They've probably fallen 
+under the radar since they aren't strictly part of the metadata, but they are 
+important as these are the templates from which new BSPs are created from 
+yocto-bsp.
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../e2fsprogs/e2fsprogs/CVE-2015-0247.patch        | 58 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
+>   final note: i realize that a lot of my nitpickery is just that --
+> nitpickery -- but i'm trying to prevent possibilities for confusion
+> for newer readers and users. in cases like this, if the (bitbake)
+> manual explains that there's one way to do appending (+=) and a second
+> way to do appending (_append), and readers think they understand the
+> difference, then it's definitely setting them up for confusion to see
+> both constructs being used at the same time on the same line. hence,
+> the relentless pedantry.
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
-new file mode 100644
-index 0000000..4de67c9
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
-@@ -0,0 +1,58 @@
-+From f66e6ce4446738c2c7f43d41988a3eb73347e2f5 Mon Sep 17 00:00:00 2001
-+From: Theodore Ts'o <tytso@mit.edu>
-+Date: Sat, 9 Aug 2014 12:24:54 -0400
-+Subject: libext2fs: avoid buffer overflow if s_first_meta_bg is too big
-+
-+If s_first_meta_bg is greater than the of number block group
-+descriptor blocks, then reading or writing the block group descriptors
-+will end up overruning the memory buffer allocated for the
-+descriptors.  Fix this by limiting first_meta_bg to no more than
-+fs->desc_blocks.  This doesn't correct the bad s_first_meta_bg value,
-+but it avoids causing the e2fsprogs userspace programs from
-+potentially crashing.
-+
-+Fixes CVE-2015-0247
-+Upstream-Status: Backport
-+
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+
-+diff --git a/lib/ext2fs/closefs.c b/lib/ext2fs/closefs.c
-+index 4599eef..1f99113 100644
-+--- a/lib/ext2fs/closefs.c
-++++ b/lib/ext2fs/closefs.c
-+@@ -344,9 +344,11 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
-+ 	 * superblocks and group descriptors.
-+ 	 */
-+ 	group_ptr = (char *) group_shadow;
-+-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
-++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
-+ 		old_desc_blocks = fs->super->s_first_meta_bg;
-+-	else
-++		if (old_desc_blocks > fs->super->s_first_meta_bg)
-++			old_desc_blocks = fs->desc_blocks;
-++	} else
-+ 		old_desc_blocks = fs->desc_blocks;
-+ 
-+ 	ext2fs_numeric_progress_init(fs, &progress, NULL,
-+diff --git a/lib/ext2fs/openfs.c b/lib/ext2fs/openfs.c
-+index a1a3517..ba501e6 100644
-+--- a/lib/ext2fs/openfs.c
-++++ b/lib/ext2fs/openfs.c
-+@@ -378,9 +378,11 @@ errcode_t ext2fs_open2(const char *name, const char *io_options,
-+ #ifdef WORDS_BIGENDIAN
-+ 	groups_per_block = EXT2_DESC_PER_BLOCK(fs->super);
-+ #endif
-+-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
-++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
-+ 		first_meta_bg = fs->super->s_first_meta_bg;
-+-	else
-++		if (first_meta_bg > fs->desc_blocks)
-++			first_meta_bg = fs->desc_blocks;
-++	} else
-+ 		first_meta_bg = fs->desc_blocks;
-+ 	if (first_meta_bg) {
-+ 		retval = io_channel_read_blk(fs->io, group_block +
-+-- 
-+cgit v0.10.2
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 656793f..87e06e3 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -20,6 +20,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://0001-e2fsprogs-fix-cross-compilation-problem.patch \
-             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
-             file://cache_inode.patch \
-+            file://CVE-2015-0247.patch \
- "
- 
- SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+Right, and we certainly do appreciate all of your input, I hope we don't seem 
+too grumpy or dismissive in response ;) Our recipes should be the ultimate 
+example in how to do things properly and we should try to make sure that they 
+are if at all possible.
+
+> p.s.  a small number of examples of the same thing under OE layer:
+> 
+> $ grep -r "_append_.*+=" *
+> recipes-core/libxml/libxml2.inc:RDEPENDS_${PN}-ptest_append_libc-glibc +=
+> "glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
+> recipes-devtools/unfs3/unfs3_0.9.22.r490.bb:DEPENDS_append_class-nativesdk
+> += "flex-nativesdk"
+> recipes-support/gnutls/gnutls.inc:LDFLAGS_append_libc-uclibc += " -pthread"
+> $
+> 
+>   in cases like that, what is the "preferred" style?
+
+I don't think the presence or absence of an override changes things - the same 
+concern applies.
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
