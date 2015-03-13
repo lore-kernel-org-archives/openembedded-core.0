@@ -1,35 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E60166013D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D50926013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 18:42:29 +0000 (UTC)
-Received: by wibbs8 with SMTP id bs8so8248578wib.4
+	Fri, 13 Mar 2015 21:57:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2DLvsOs018945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 11:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=HHhsYB2lbIIPRLx62Fme8UWJYfztnqBZE78h+S8Ai38=;
-	b=tqM3V6eQr8tHrpvtJxXvHAnSKxTlAyNop8tBY+h81X7++gSEueiy0GL5Mg0+aqEhpC
-	CMcm12cYOXRFLfBYiQZWo6aKE8bf5hQyo7PoKQk409wwcQ7MRW/oULZhPV5YsMdeAcWr
-	VQL9UkXVI0Rb4Ft5sfVpaeYRhQkzYOqPIDmf9UnTVZpFzWf13a6rg/bR9LdrF72mDQDe
-	vxoIsxZl8C+oSrbWU4imZC3Ha7AhjlrULLsvMPlBQKlbvmDCq4mQczzNgVn6TCoDSkDk
-	FVy+NBeuW3PrNqaSGqhEVQ1at1C6PmYrg9cixMRuDZV7X7gxyrJG4cS425WhOM+3cBvY
-	tktg==
-X-Received: by 10.180.96.197 with SMTP id du5mr74273625wib.68.1426272150466;
-	Fri, 13 Mar 2015 11:42:30 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	dj5sm3925674wjb.28.2015.03.13.11.42.29
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Mar 2015 11:42:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2015 19:43:23 +0100
-Message-Id: <1426272203-25312-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] rpcbind: don't try to enable rpcbind.socket twice
+	Fri, 13 Mar 2015 14:57:54 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 13 Mar 2015 14:57:54 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Mar 2015 14:57:53 -0700
+Message-ID: <1426283873-11784-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] package.bbclass: decouple splitting and stripping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +31,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 18:42:30 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 21:57:54 -0000
+Content-Type: text/plain
 
-* rpcbind.service requires rpcbind.socket and systemctl tries to add it twice
-* see log.do_rootfs:
-  Started /OE/build/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/systemctl --root=/OE/build/shr-core/tmp-glibc/work/nokia900-oe-linux-gnueabi/shr-image/2.0-r20/rootfs enable rpcbind.service rpcbind.socket
-  Try to find location of rpcbind.service...
-  Found rpcbind.service in /lib/systemd/system/rpcbind.service
-  Also=rpcbind.socket found in rpcbind.service
-  Started /OE/build/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/systemctl --root=/OE/build/shr-core/tmp-glibc/work/nokia900-oe-linux-gnueabi/shr-image/2.0-r20/rootfs enable rpcbind.socket
-  Try to find location of rpcbind.socket...
-  Found rpcbind.socket in /lib/systemd/system/rpcbind.socket
-  WantedBy=sockets.target found in rpcbind.socket
-  Enabled rpcbind.socket for sockets.target.
-  Try to find location of rpcbind.socket...
-  Found rpcbind.socket in /lib/systemd/system/rpcbind.socket
-  WantedBy=sockets.target found in rpcbind.socket
-  ln: failed to create symbolic link '/OE/build/shr-core/tmp-glibc/work/nokia900-oe-linux-gnueabi/shr-image/2.0-r20/rootfs/etc/systemd/system/sockets.target.wants/rpcbind.socket': File exists
-  Enabled rpcbind.socket for sockets.target.
+Fix logic in split_and_strip_files() to allow splitting or
+stripping independently.  We also return quickly from this
+function if we have nothing to do.  We seek the following behavior:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Strip / Split     Behavior
+yes   / yes       binaries stripped; debug info and source in -dbg
+no    / yes       debug info and source in -dbg
+yes   / no        binaries stripped; -dbg packages empty
+no    / no        -dbg packages empty (not a very useful case)
+
+Currently, no/yes does not work and is the same as no/no.
+
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/package.bbclass |  108 ++++++++++++++++++++++--------------------
+ 1 file changed, 57 insertions(+), 51 deletions(-)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-index fd4b2b5..1952b2a 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-@@ -34,7 +34,7 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
- INITSCRIPT_NAME = "rpcbind"
- INITSCRIPT_PARAMS = "start 12 2 3 4 5 . stop 60 0 1 6 ."
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 9f64ed7..ad8771f 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -812,6 +812,12 @@ python fixup_perms () {
+ }
  
--SYSTEMD_SERVICE_${PN} = "rpcbind.service rpcbind.socket"
-+SYSTEMD_SERVICE_${PN} = "rpcbind.service"
+ python split_and_strip_files () {
++
++    stripping = d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'
++    splitting = d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT', True) != '1'
++    if not (stripping or splitting):
++        return
++
+     import stat, errno
  
- inherit useradd
+     dvar = d.getVar('PKGD', True)
+@@ -879,64 +885,64 @@ python split_and_strip_files () {
+     kernmods = []
+     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir", True))
+     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
+-    if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
+-        for root, dirs, files in cpath.walk(dvar):
+-            for f in files:
+-                file = os.path.join(root, f)
+-                if file.endswith(".ko") and file.find("/lib/modules/") != -1:
+-                    kernmods.append(file)
+-                    continue
  
+-                # Skip debug files
+-                if debugappend and file.endswith(debugappend):
+-                    continue
+-                if debugdir and debugdir in os.path.dirname(file[len(dvar):]):
+-                    continue
++    for root, dirs, files in cpath.walk(dvar):
++        for f in files:
++            file = os.path.join(root, f)
++            if file.endswith(".ko") and file.find("/lib/modules/") != -1:
++                kernmods.append(file)
++                continue
+ 
+-                try:
+-                    ltarget = cpath.realpath(file, dvar, False)
+-                    s = cpath.lstat(ltarget)
+-                except OSError as e:
+-                    (err, strerror) = e.args
+-                    if err != errno.ENOENT:
+-                        raise
+-                    # Skip broken symlinks
+-                    continue
+-                if not s:
++            # Skip debug files
++            if debugappend and file.endswith(debugappend):
++                continue
++            if debugdir and debugdir in os.path.dirname(file[len(dvar):]):
++                continue
++
++            try:
++                ltarget = cpath.realpath(file, dvar, False)
++                s = cpath.lstat(ltarget)
++            except OSError as e:
++                (err, strerror) = e.args
++                if err != errno.ENOENT:
++                    raise
++                # Skip broken symlinks
++                continue
++            if not s:
++                continue
++            # Check its an excutable
++            if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
++                    or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
++                # If it's a symlink, and points to an ELF file, we capture the readlink target
++                if cpath.islink(file):
++                    target = os.readlink(file)
++                    if isELF(ltarget):
++                        #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
++                        symlinks[file] = target
+                     continue
+-                # Check its an excutable
+-                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
+-                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
+-                    # If it's a symlink, and points to an ELF file, we capture the readlink target
+-                    if cpath.islink(file):
+-                        target = os.readlink(file)
+-                        if isELF(ltarget):
+-                            #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
+-                            symlinks[file] = target
++                # It's a file (or hardlink), not a link
++                # ...but is it ELF, and is it already stripped?
++                elf_file = isELF(file)
++                if elf_file & 1:
++                    if elf_file & 2:
++                        if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
++                            bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
++                        else:
++                            msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
++                            package_qa_handle_error("already-stripped", msg, d)
+                         continue
+-                    # It's a file (or hardlink), not a link
+-                    # ...but is it ELF, and is it already stripped?
+-                    elf_file = isELF(file)
+-                    if elf_file & 1:
+-                        if elf_file & 2:
+-                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
+-                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
+-                            else:
+-                                msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
+-                                package_qa_handle_error("already-stripped", msg, d)
+-                            continue
+-                        # Check if it's a hard link to something else
+-                        if s.st_nlink > 1:
+-                            file_reference = "%d_%d" % (s.st_dev, s.st_ino)
+-                            # Hard link to something else
+-                            hardlinks[file] = file_reference
+-                            continue
+-                        elffiles[file] = elf_file
++                    # Check if it's a hard link to something else
++                    if s.st_nlink > 1:
++                        file_reference = "%d_%d" % (s.st_dev, s.st_ino)
++                        # Hard link to something else
++                        hardlinks[file] = file_reference
++                        continue
++                    elffiles[file] = elf_file
+ 
+     #
+     # First lets process debug splitting
+     #
+-    if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT', True) != '1'):
++    if splitting:
+         hardlinkmap = {}
+         # For hardlinks, process only one of the files
+         for file in hardlinks:
+@@ -1008,7 +1014,7 @@ python split_and_strip_files () {
+     #
+     # Now lets go back over things and strip them
+     #
+-    if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
++    if stripping:
+         strip = d.getVar("STRIP", True)
+         sfiles = []
+         for file in elffiles:
 -- 
-2.3.1
+1.7.9.5
 
 
