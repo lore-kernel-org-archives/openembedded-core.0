@@ -1,39 +1,39 @@
 Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 2600F6013D
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F68F6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 14:56:09 +0000 (UTC)
-Received: by yhl29 with SMTP id 29so1850390yhl.4
+	Fri, 13 Mar 2015 14:56:13 +0000 (UTC)
+Received: by ykp131 with SMTP id 131so10695906ykp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 07:56:10 -0700 (PDT)
+	Fri, 13 Mar 2015 07:56:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zHulOe8HxT0bCtKlHdEWCIHl6UwmaGSHsEuAzH9KLUo=;
-	b=eTjPMU/CRslQxsbq2ybfTH2bb5X5pfhfZTDPnV+JuXzDjUxyx43VXtA1Zc3kz6xWY1
-	rdr8bpJ+v5/g78A7ddrdrHWYlE3wrm2+appU6OiQPrcJoChyXgNRClKsnGPz0hl0DW26
-	qHkEhTNetgP722G9TIoIza6eJLsAi4lf4+yxBYdoaUrkH1EStszape8iOGTjlkrOEPKk
-	Xg/HOim3D4O+An+pCSeNKnUJYFsbN2SLdnlgDOMV3CByYE835tJZv0VS5HHHCoIrYL4Q
-	VYfHe/Lo8H6H8wK1fy1usr4OZvHmnRk7I4cBKTpV1Qzo/4H9s+/O9gmfc6euLYyFvfSX
-	7Gnw==
-X-Gm-Message-State: ALoCoQn0+pB9mamO0mlgMs+Oa2IgTHcbm1M6jid6E/h9KUM37Vt5cfahR2CRUCqGMok6ud1gNSeo
-X-Received: by 10.170.205.142 with SMTP id w136mr48480033yke.75.1426258570532; 
-	Fri, 13 Mar 2015 07:56:10 -0700 (PDT)
+	bh=rnNHA/RL7oxZ+JJkDoG+sUIuC6kVl6HAbL7eLBbnnCg=;
+	b=cQcErt8fU0nfswzkGjQqqpyFkA4Q/pvPWOUPSxo+g/OnYZqgoB5jE6ImjwAY/xn/Ug
+	Tyei8Uj9DzbXhHZHiZOJ8xmnyAD/114Ea8TbnMV0W4rcmA18Bys3xHIri9RFviVZ0vcD
+	f3zxBJCxae5UKG9CIiVOzh2FN2FHDVvVo+cN4AOPBEdBvb9hcuw1ep1JefBARHz1upEl
+	yWfPWHVSxmyULCoyM8JWgsyvCYAxHuseIvv8+V6OzDni/kvN0waqJVVbslbhZ/dQrAyU
+	PXP6dQAXIawQKv84KIr1AFf8tLh5HGgfBuoN9v9xDewMXHIjAPmWfJniLAgt6yjqWdna
+	nmHQ==
+X-Gm-Message-State: ALoCoQldR1RIyF/9tywZTIHW24Dx4WKABvgPOrMSO7lsQx+hLJNFu6suLnKOSyCTUvvh4YeSMaxU
+X-Received: by 10.236.25.68 with SMTP id y44mr47312882yhy.4.1426258574537;
+	Fri, 13 Mar 2015 07:56:14 -0700 (PDT)
 Received: from Latitude-E6430.caveonetworks.com ([111.93.218.67])
-	by mx.google.com with ESMTPSA id a74sm1773572yhq.31.2015.03.13.07.56.06
+	by mx.google.com with ESMTPSA id a74sm1773572yhq.31.2015.03.13.07.56.10
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Mar 2015 07:56:09 -0700 (PDT)
+	Fri, 13 Mar 2015 07:56:13 -0700 (PDT)
 From: Naresh Bhat <naresh.bhat@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2015 20:25:26 +0530
-Message-Id: <1426258527-2329-5-git-send-email-naresh.bhat@linaro.org>
+Date: Fri, 13 Mar 2015 20:25:27 +0530
+Message-Id: <1426258527-2329-6-git-send-email-naresh.bhat@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1426258527-2329-1-git-send-email-naresh.bhat@linaro.org>
 References: <1426258527-2329-1-git-send-email-naresh.bhat@linaro.org>
 Cc: matt.fleming@intel.com
-Subject: [OE-core v1 PATCH 4/5] grub: Update grub git recipe
+Subject: [OE-core v1 PATCH 5/5] grub-efi: Add to support to install grubaa64 efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,105 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 14:56:10 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 14:56:13 -0000
 
-Update the grub git recipe with the following actions for native and target
-- Base class extend to native
-- do_configure_prepend
-- do_install_append
-- do_mkimage native
-- do_deploy
+Add support to install grubaa64 efi image.  By default GRUB_IMAGE contains
+the bootia32.efi image.  Depending on the architecture type the variable is
+being updated to bootia64.efi or grubaa64.efi
 
 Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
 ---
- meta/recipes-bsp/grub/grub_git.bb |   48 +++++++++++++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 7 deletions(-)
+ meta/classes/grub-efi.bbclass |   17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 3ab675b..a5ab649 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -8,6 +8,7 @@ DEFAULT_PREFERENCE_arm = "1"
- PV = "2.00+${SRCPV}"
- SRCREV = "87de66d9d83446ecddb29cfbdf7369102c8e209e"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-+           file://cfg \
-            file://grub-2.00-fpmath-sse-387-fix.patch \
-            file://autogen.sh-exclude-pc.patch \
-            file://grub-2.00-add-oe-kernel.patch \
-@@ -18,7 +19,7 @@ S = "${WORKDIR}/git"
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 47bd35e..cded1a0 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -31,15 +31,20 @@ efi_populate() {
+ 	# nested under a top level directory.
+ 	DEST=$1
  
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
- 
--inherit autotools gettext texinfo
-+inherit autotools-brokensep gettext texinfo deploy
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
-@@ -31,24 +32,57 @@ GRUBPLATFORM_arm = "uboot"
- GRUBPLATFORM_aarch64 = "efi"
- GRUBPLATFORM ??= "pc"
- 
-+CACHED_CONFIGUREVARS += "ac_cv_path_HELP2MAN="
- EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
-                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
- 
-+export ac_cv_path_HELP2MAN=""
+-	install -d ${DEST}${EFIDIR}
+-
+ 	GRUB_IMAGE="bootia32.efi"
+-	if [ "${TARGET_ARCH}" = "x86_64" ]; then
 +
- do_configure_prepend() {
--    ( cd ${S}
--      ${S}/autogen.sh )
-+      ./autogen.sh
-+}
++	case ${TARGET_ARCH} in
++		x86_64 )
+ 		GRUB_IMAGE="bootx64.efi"
+-	fi
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
++		;;
++		aarch64 )
++		GRUB_IMAGE="grubaa64.efi"
++		;;
++	esac
 +
-+do_install_append_class-native() {
-+        install -m 755 -D grub-mkimage ${D}${bindir}
++	install -m 0644 -D ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
+ 
+-	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
++	install -m 0644 -D ${GRUBCFG} ${DEST}${EFIDIR}
  }
  
--do_install_append () {
--    install -d ${D}${sysconfdir}/grub.d
-- 
-+do_install_append_class-target() {
-+    # Search for the grub.cfg on the local boot media by using the
-+    # built in cfg file provided via this recipe
-+    grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+        -O ${GRUB_TARGET}-${GRUBPLATFORM} -o ./${GRUB_IMAGE} \
-+        boot linux ext2 fat serial part_msdos part_gpt \
-+        normal efi_gop iso9660 search efinet tftp all_video chain \
-+        gfxmenu jpeg gfxterm
-+
-+    install -m 0755 -D ${B}/${GRUB_IMAGE} ${D}${bindir}
-+}
-+
-+GRUB_TARGET_aarch64 = "arm64"
-+GRUB_IMAGE_aarch64 = "grubaa64.efi"
-+
-+do_mkimage_class-native() {
-+        :
- }
- 
-+do_deploy() {
-+    install -m 0755 -D ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+}
-+
-+do_deploy_class-native() {
-+        :
-+}
-+
-+addtask deploy after do_install before do_build
-+
- # debugedit chokes on bare metal binaries
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- 
--RDEPENDS_${PN} = "diffutils freetype"
-+RDEPENDS_${PN}_class-target = "diffutils freetype"
- FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
- 
- INSANE_SKIP_${PN} = "arch"
- INSANE_SKIP_${PN}-dbg = "arch"
-+
-+DEPENDS_class-target += "grub-native"
-+BBCLASSEXTEND = "native"
+ efi_iso_populate() {
 -- 
 1.7.9.5
 
