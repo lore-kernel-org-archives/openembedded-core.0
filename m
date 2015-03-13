@@ -1,29 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 575E96AC33
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B9BF66013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 01:51:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2D1pVNd017578
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Mar 2015 18:51:31 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 12 Mar 2015 18:51:30 -0700
-Message-ID: <550242A1.8020509@windriver.com>
-Date: Fri, 13 Mar 2015 09:51:29 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Fri, 13 Mar 2015 08:57:36 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 13 Mar 2015 01:55:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,393,1422950400"; d="scan'208";a="664716264"
+Received: from bonchen-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.8.183])
+	by orsmga001.jf.intel.com with ESMTP; 13 Mar 2015 01:57:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Fri, 13 Mar 2015 08:57:35 +0000
+Message-ID: <1782246.kyus0MKleI@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.7-100.fc20.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <1426189532.3602.9.camel@intel.com>
+References: <1425905799-9101-1-git-send-email-patrick.ohly@intel.com>
+	<1687842.XY6UoZ3apI@peggleto-mobl5.ger.corp.intel.com>
+	<1426189532.3602.9.camel@intel.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1426140850.git.liezhi.yang@windriver.com>
-	<418f6d2d447b8719d99dd9819cf13e213dc5c62a.1426140850.git.liezhi.yang@windriver.com>
-	<CAJTo0LbtbqvHgJG9i6zdY+YcBU70dHJhVFE=fBX=k46ty8N8=g@mail.gmail.com>
-In-Reply-To: <CAJTo0LbtbqvHgJG9i6zdY+YcBU70dHJhVFE=fBX=k46ty8N8=g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] tar: set acpaths to avoid "Argument list too long" error
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] combo-layer: make Signed-off-by optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 01:51:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Mar 2015 08:57:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thursday 12 March 2015 20:45:32 Patrick Ohly wrote:
+> On Thu, 2015-03-12 at 18:21 +0000, Paul Eggleton wrote:
+> > On Monday 09 March 2015 13:56:39 Patrick Ohly wrote:
+> > > +# global options
+> > > +[DEFAULT]
+> > > +
+> > > +# Add 'Signed-off-by' to all commits that get imported automatically.
+> > > +signoff = True
+> > > +
+> > > 
+> > >  # component name
+> > >  [bitbake]
+> > >  # mandatory options
+> > 
+> > So I'm OK with adding this in as an option. However to me a name like
+> > DEFAULT implies you're establishing a general section to apply default
+> > settings for all components where the component can override those
+> > defaults if it chooses, which doesn't really represent what this does -
+> > so a different name might be more appropriate (GLOBAL or _global_
+> > perhaps?)
+> 
+> "DEFAULT" is the special string that Python's ConfigParser uses, well,
+> by default for that special section which does not show up in the list
+> of sections. I don't know how to rename that.
+> 
+> I'm probably abusing this concept a bit here: it seems that special
+> section is meant to provide default values that get returned also for
+> the other sections when they don't have their own value.
+> 
+> Here's a cleaner solution:
+>       * Get rid of the [DEFAULT] section in the file.
+>       * When reading it, on-the-fly prepend the string
+>         '[this-is-not-really-a-repo'].
+>       * When reading global properties, get it from that section.
+>       * When listing sections to find repos, ignore it.
+> 
+> How about that?
 
+Hmm, ok, I wasn't aware of this built-in "DEFAULT" section behaviour. A simple 
+solution then would just be to make this setting per-component and keep the 
+DEFAULT usage in the example config - although I do realise it's unlikely to be 
+very useful on a per-component basis, at least it will work in the same way as 
+other values we read from there.
 
-On 03/12/2015 08:16 PM, Burton, Ross wrote:
->
-> On 12 March 2015 at 06:14, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     +acpaths = "-I ./m4"
->
->
-> Why does this only happen on tar?  Why is it safe to pass just -I ./m4 when the
-> detected list that you're overriding is effectively -I ./m4 -I ./tests?
+Cheers,
+Paul
 
-Not only tar has this problem, but also other recipes such as coreutils,
-because they have many 4 files, but we have fixed that others bfore,
-for example:
+-- 
 
-commit 238e9b54e228b850434f7d503870e86cfb12b775
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Sun Sep 15 09:13:12 2013 +0000
-
-     coreutils: set acpaths to avoid "Argument list too long" error
-
-
-Now I tested the build in the deep directory again, only found tar
-failed, and Chong had made a patch for it.
-
-If we don't set 'acpaths = "-I ./m4"', then it would use the absolute path,
-which would be too long, here is the related code in autotools.bbclass
-for acpaths:
-
-acpaths = "default"
-[snip]
-         ACLOCAL="aclocal --system-acdir=${ACLOCALDIR}/"
-         if [ x"${acpaths}" = xdefault ]; then
-             acpaths=
-             for i in `find ${S} -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
-                 grep -v 'acinclude.m4' | grep -v 'aclocal-copy' | sed -e 
-'s,\(.*/\).*$,\1,'|sort -u`; do
-                 acpaths="$acpaths -I $i"
-             done
-         else
-             acpaths="${acpaths}"
-         fi
-
-I think it's safe to set acpaths = "-I ./m4" as we had done for coreutils.
-
-// Robert
-
->
-> Would it be better to just make all include paths relative to ${S} when
-> generating the acpaths?
->
-> Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
