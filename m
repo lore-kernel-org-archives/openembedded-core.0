@@ -1,37 +1,40 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E736013D
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 16B9171F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 13:28:38 +0000 (UTC)
-Received: by igbhl2 with SMTP id hl2so820233igb.3
+	Fri, 13 Mar 2015 13:29:50 +0000 (UTC)
+Received: by ieclw3 with SMTP id lw3so105544418iec.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 06:28:40 -0700 (PDT)
+	Fri, 13 Mar 2015 06:29:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lcKuXfSgclEfUJXYKsbMYeZ2ZBt54aiKEZHrX0diJQ8=;
-	b=OvgC0nO3mfUWyHIiRn3xEj9UNgfw4TeUvhGmK4fHPliPMC1MJiu2ziN44AgXtZpTi1
-	6pWf6Pc+jiEjv5ONtSGtcEg2clMwIsGSsAhNHgd7lZyiFICet/o4MbOlkfjbLxgcqjRV
-	Kt4tQoCPGDPmoyHdV9sqQY5Hb40Ab1vjF8mb00zIWj/rs122NBP9Sx35xZyKu0K15CFH
-	6Sdm/OIUc4xcT/1gxP32RydMz9eD985TOKyyIY7ziMM5Uus6Op5mgzJtX6oNxPHNV6Q9
-	9+EexuJtelPJzQc1PZxi+qBNsRe6d3zu7c2YLGEdEytDPlBDDDPQFC83oaUnZp/zY06H
-	OhRQ==
-X-Gm-Message-State: ALoCoQnzeQnxIvSoaZskQP0Kqhleb4odas+uRLBWu25HmNDxQ+EGw4Xbi2jML9VWT9hivJK9PYt8
-X-Received: by 10.107.9.88 with SMTP id j85mr72405730ioi.60.1426253319933;
-	Fri, 13 Mar 2015 06:28:39 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=mgGVMCQ0XRM1TlrfBGeXwWFLEms9zhZ7qwWJiw+mZX4=;
+	b=W00IqQ1juXhl9WBbkEJui3XEKH2aTMj1l6Pd3ggqpKZfwaw4PsZcxMsmHy5Uw3o3df
+	87waG2HFPU2NZ0Q2H65S3tQiVbVprkjNyKEo36YmgsaiK4wEVULZ+yuzhNHKWJ41nQJ+
+	AMmuGLkNVKY4Na8Byyx/zyYfsgIkn8NVYuwwhlC4iFPhHeMFDQEZR/Uw4Zjv5Eu+5iJB
+	fqSvyEce6hI7KYazKivLzwc5PV9XpoxmloSve3TLXKzek7IM+FCquk03igIomwcdVQJR
+	DHPLAEibmHhAwJHKeWUZSlwW/Sv0hbJrPqeOsHfnlrUJ6G+PvqT6BIaosKY9KpbAJRAC
+	hkNQ==
+X-Gm-Message-State: ALoCoQmf0FOWmni/o9m0Lsgm10b/KGlAPa4tEZY9mPEfv3j6VR++iE1jyhOquj86glb9MTvoKq4z
+X-Received: by 10.42.47.8 with SMTP id m8mr55834848icf.27.1426253391429;
+	Fri, 13 Mar 2015 06:29:51 -0700 (PDT)
 Received: from pohly-mobl1.ger.corp.intel.com (p5DE8C8C2.dip0.t-ipconnect.de.
 	[93.232.200.194])
-	by mx.google.com with ESMTPSA id h19sm1268716igq.10.2015.03.13.06.28.37
+	by mx.google.com with ESMTPSA id h15sm1257487ioh.27.2015.03.13.06.29.48
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Mar 2015 06:28:38 -0700 (PDT)
+	Fri, 13 Mar 2015 06:29:50 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 13 Mar 2015 14:28:31 +0100
-Message-Id: <cover.1426252888.git.patrick.ohly@intel.com>
+Date: Fri, 13 Mar 2015 14:29:30 +0100
+Message-Id: <a9fe203d338f966d5afe631bd7956ee8232a6bf4.1426252888.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/11] combo-layer enhancements
+In-Reply-To: <cover.1426252888.git.patrick.ohly@intel.com>
+References: <cover.1426252888.git.patrick.ohly@intel.com>
+Subject: [PATCH 01/11] combo-layer: let user choose where properties get updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 13:28:39 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 13:29:51 -0000
 
-This replaces the four individual patches sent recently. It addresses
-the comments that Paul had, fixes one issue in file_exclude filtering
-of patches when combined with dest_dir, and last but not least,
-introduces full history importing during "init".
+When updating a property (at the moment, only 'last_revision'),
+first check whether the user already added it to the main config.
+If so, update there even if there is a local config.
 
-For the separate fixes see https://github.com/pohly/openembedded-core/commits/pending
+This way, 'last_revision' can be shared between developers
+as part of the repository while still configuring per-developer
+repo paths outside of the git repository in a local config.
 
-The following changes since commit fb29441216435b9bae47ca9cd42db5a6b1fe77d8:
+An example of a repository which is set up like that is tizen-distro,
+with instructions for such a collaborative maintenance found here:
+https://review.tizen.org/git/?p=scm/bb/tizen-distro.git;a=blob;f=README;hb=refs/heads/tizen-ivi
 
-  oeqa/parselogs: Skip hda opcode errors (2015-03-12 12:49:22 +0000)
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/combo-layer | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://github.com/pohly/openembedded-core combo-layer
-  https://github.com/pohly/openembedded-core/tree/combo-layer
-
-Patrick Ohly (11):
-  combo-layer: let user choose where properties get updated
-  combo-layer: make Signed-off-by optional
-  combo-layer: runcmd() with separate output
-  combo-layer: exclude files
-  combo-layer: update() also instance property
-  combo-layer: init with full history
-  combo-layer: combine trees via replacement objects
-  combo-layer: partial import for '--history init'
-  combo-layer-hook-default.sh: avoid duplicating prefix
-  combo-layer-hook-default.sh: beware of embedded patches
-  combo-layer-hook-default.sh: handle patches without Signed-off-by
-
- scripts/combo-layer                 | 277 ++++++++++++++++++++++++++++++++++--
- scripts/combo-layer-hook-default.sh |  11 +-
- scripts/combo-layer.conf.example    |  37 +++++
- 3 files changed, 311 insertions(+), 14 deletions(-)
-
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 851003d..71fa7b127 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -109,7 +109,9 @@ class Configuration(object):
+                         readsection(self.localparser, section, repo)
+ 
+     def update(self, repo, option, value, initmode=False):
+-        if self.localparser:
++        # If the main config has the option already, that is what we
++        # are expected to modify.
++        if self.localparser and not self.parser.has_option(repo, option):
+             parser = self.localparser
+             section = "%s|%s" % (repo, self.combobranch)
+             conffile = self.localconffile
 -- 
 2.1.4
 
