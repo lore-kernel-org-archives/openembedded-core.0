@@ -1,42 +1,42 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 104526013D
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EFBA73810
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 13:30:03 +0000 (UTC)
-Received: by ieclw3 with SMTP id lw3so105555606iec.2
+	Fri, 13 Mar 2015 13:30:08 +0000 (UTC)
+Received: by iecsl2 with SMTP id sl2so104875206iec.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 06:30:04 -0700 (PDT)
+	Fri, 13 Mar 2015 06:30:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=h+1yFqO8SAiyM4okYkVBJPYzZkBAdODPKpnr+4Ucl6s=;
-	b=M/0oWJkvh9mJhHW6ZsotMQuL8Hpu6NbJGLYOtB86wZ9soXL5pNT1dp8J5JrAE9+VVf
-	J+5fOIGkBuOhWTKuaaQaXcBU9U3nhkCk4drh9m1V8Nf53LontW0g4RXK2BYmKKhgvsys
-	BVaVtNGoBwxwmqbaT8uzumyDXA/fCIfodTX7hwBTrpcKmcJx0kS7kgSnjvf8B0aBxUMV
-	6Lq6HbzL5now0xdlc5qB13BtFhuaxWHanub16ifzWAnEhrSLPWBt6xfmalkhW8eOoNHh
-	QRDFbd2sAFpuZgpF0oPConBTjNTVzovZAsRnnF8s4mzaAdQtbglmmYngMkJc49rhSDSL
-	m4aw==
-X-Gm-Message-State: ALoCoQnLnbJKF/GlVXY9VCRc3nIgagTDLDRoGPMFFccDCG4nzBU3zxrxm3Mc4qUG44KtZTZe2Vy5
-X-Received: by 10.50.36.103 with SMTP id p7mr111054215igj.20.1426253404482;
-	Fri, 13 Mar 2015 06:30:04 -0700 (PDT)
+	bh=UgIx7wm3MtOSYs9sdFOuq6kF7jDTylogSzdJG0V4FTE=;
+	b=XvpTr4Bsa1pCG3JOdve1sybcqL75/zSfueI63HK6b8FoIpRSJuWdi7REw8vxh6CYHa
+	BAvPWZ3WPFZr2VNpU4slrN/L/GKjkugzaQjc6zjWbN9YzThy7e6eNygtpUOo/JISX6M6
+	NQUx6GBwmEpvKfz/l0I1RjkHgumArxKci8HERWc5oINC0GNibBWufgJqNBgIV9C22rc+
+	i+M0Tf9FWyHZqeBeGYMRhHPY3lKNGVQutG2H/cDqla63jokVUALF8aBIobbqzrGu3zMR
+	TgOc83tBB/wJJC9hkYES6zZXdJl7xqJPN3bLWjaVLWOtpDwrr8Z5i8MUnFzQ7SLKjpAS
+	RS0w==
+X-Gm-Message-State: ALoCoQnWbrxrmsnvPm0hIaIlu04/rc0Bx0UBIuMl31c+1SymKvuK+9mv7f5+7ZGLkWyqlrtplrJw
+X-Received: by 10.51.17.40 with SMTP id gb8mr83385059igd.44.1426253409280;
+	Fri, 13 Mar 2015 06:30:09 -0700 (PDT)
 Received: from pohly-mobl1.ger.corp.intel.com (p5DE8C8C2.dip0.t-ipconnect.de.
 	[93.232.200.194])
-	by mx.google.com with ESMTPSA id h15sm1257487ioh.27.2015.03.13.06.30.02
+	by mx.google.com with ESMTPSA id h15sm1257487ioh.27.2015.03.13.06.30.07
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Mar 2015 06:30:03 -0700 (PDT)
+	Fri, 13 Mar 2015 06:30:08 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 13 Mar 2015 14:29:31 +0100
-Message-Id: <987d508936059ce26d2474cd7d9639c9fab32275.1426252888.git.patrick.ohly@intel.com>
+Date: Fri, 13 Mar 2015 14:29:32 +0100
+Message-Id: <db472c3abdb97d71c6fd78273db5a63e6211ef33.1426252888.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <a9fe203d338f966d5afe631bd7956ee8232a6bf4.1426252888.git.patrick.ohly@intel.com>
 References: <a9fe203d338f966d5afe631bd7956ee8232a6bf4.1426252888.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1426252888.git.patrick.ohly@intel.com>
 References: <cover.1426252888.git.patrick.ohly@intel.com>
-Subject: [PATCH 02/11] combo-layer: make Signed-off-by optional
+Subject: [PATCH 03/11] combo-layer: runcmd() with separate output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,72 +49,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 13:30:04 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 13:30:08 -0000
 
-It depends on the diligence of the person running the combo-layer tool
-whether the Signed-off-by line added to each commit actually indicates
-that the person was involved in validating the change.
+Allow the caller to specify a separate output stream. stderr is always
+a temporary file opened by runcmd(), so read from that to capture
+output for error reporting *and* the return value.
 
-When the import is purely automatic, it is better to not add the line,
-because the history is more useful without it (searching for the person
-really only lists changes he or she was involved with) and it would
-be a false statement.
+The reasoning for the latter is a) that this preserves the traditional
+behavior when out=None and b) if the caller wants the content of
+stdout, it can read from the stream itself, which is not possible for
+the temporary stderr.
 
-The 'signoff' property can be set per repository, like every
-other property. But setting it in the special [DEFAULT] section
-is more useful, so that is what the example shows.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/combo-layer              |  7 ++++++-
- scripts/combo-layer.conf.example | 10 ++++++++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ scripts/combo-layer | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 71fa7b127..62f2cf8 100755
+index 62f2cf8..3ee9eb2 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -68,6 +68,11 @@ class Configuration(object):
-                 if value.startswith("@"):
-                     self.repos[repo][name] = eval(value.strip("@"))
-                 else:
-+                    # Apply special type transformations for some properties.
-+                    # Type matches the RawConfigParser.get*() methods.
-+                    types = {'signoff': 'boolean'}
-+                    if name in types:
-+                        value = getattr(parser, 'get' + types[name])(section, name)
-                     self.repos[repo][name] = value
+@@ -152,23 +152,27 @@ class Configuration(object):
+             logger.error("ERROR: patchutils package is missing, please install it (e.g. # apt-get install patchutils)")
+             sys.exit(1)
  
-         logger.debug("Loading config file %s" % self.conffile)
-@@ -482,7 +487,7 @@ def apply_patchlist(conf, repos):
-                 if os.path.getsize(patchfile) == 0:
-                     logger.info("(skipping %d/%d %s - no changes)" % (i, linecount, patchdisp))
-                 else:
--                    cmd = "git am --keep-cr -s -p1 %s" % patchfile
-+                    cmd = "git am --keep-cr %s-p1 %s" % ('-s ' if repo.get('signoff', True) else '', patchfile)
-                     logger.info("Applying %d/%d: %s" % (i, linecount, patchdisp))
-                     try:
-                         runcmd(cmd)
-diff --git a/scripts/combo-layer.conf.example b/scripts/combo-layer.conf.example
-index 010a692..427c1b3 100644
---- a/scripts/combo-layer.conf.example
-+++ b/scripts/combo-layer.conf.example
-@@ -1,7 +1,17 @@
- # combo-layer example configuration file
+-def runcmd(cmd,destdir=None,printerr=True):
++def runcmd(cmd,destdir=None,printerr=True,out=None):
+     """
+         execute command, raise CalledProcessError if fail
+         return output if succeed
+     """
+     logger.debug("run cmd '%s' in %s" % (cmd, os.getcwd() if destdir is None else destdir))
+-    out = os.tmpfile()
++    if not out:
++        out = os.tmpfile()
++        err = out
++    else:
++        err = os.tmpfile()
+     try:
+-        subprocess.check_call(cmd, stdout=out, stderr=out, cwd=destdir, shell=True)
++        subprocess.check_call(cmd, stdout=out, stderr=err, cwd=destdir, shell=isinstance(cmd, str))
+     except subprocess.CalledProcessError,e:
+-        out.seek(0)
++        err.seek(0)
+         if printerr:
+-            logger.error("%s" % out.read())
++            logger.error("%s" % err.read())
+         raise e
  
-+# Default values for all sections.
-+[DEFAULT]
-+
-+# Add 'Signed-off-by' to all commits that get imported automatically.
-+signoff = True
-+
- # component name
- [bitbake]
-+
-+# Override signedoff default above (not very useful, but possible).
-+signoff = False
-+
- # mandatory options
- # git upstream uri
- src_uri = git://git.openembedded.org/bitbake
+-    out.seek(0)
+-    output = out.read()
++    err.seek(0)
++    output = err.read()
+     logger.debug("output: %s" % output )
+     return output
+ 
 -- 
 2.1.4
 
