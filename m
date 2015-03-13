@@ -1,23 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 276F173960
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 575E96AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2015 20:14:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Mar 2015 13:08:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,390,1422950400"; d="scan'208";a="664484504"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2015 13:14:24 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id DB376300001;
-	Thu, 12 Mar 2015 13:14:05 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2015 22:14:03 +0200
-Message-Id: <1426191243-12206-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] kernel.bbclass: Fix race condition
+	Fri, 13 Mar 2015 01:51:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2D1pVNd017578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Mar 2015 18:51:31 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 12 Mar 2015 18:51:30 -0700
+Message-ID: <550242A1.8020509@windriver.com>
+Date: Fri, 13 Mar 2015 09:51:29 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1426140850.git.liezhi.yang@windriver.com>
+	<418f6d2d447b8719d99dd9819cf13e213dc5c62a.1426140850.git.liezhi.yang@windriver.com>
+	<CAJTo0LbtbqvHgJG9i6zdY+YcBU70dHJhVFE=fBX=k46ty8N8=g@mail.gmail.com>
+In-Reply-To: <CAJTo0LbtbqvHgJG9i6zdY+YcBU70dHJhVFE=fBX=k46ty8N8=g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] tar: set acpaths to avoid "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,61 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2015 20:14:24 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 01:51:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Race condition between do_compile_kernelmodules and do_shared_workdir
-tasks occurs when do_compilemodules changes files in include/generated/*
-while do_shared_workdir tries to copy them to shared working directory.
 
-Functionality of do_shared_workdir has been moved to separate function
-mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
-left in the code as it may be used in many recipes.
 
-[YOCTO #7321]
+On 03/12/2015 08:16 PM, Burton, Ross wrote:
+>
+> On 12 March 2015 at 06:14, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     +acpaths = "-I ./m4"
+>
+>
+> Why does this only happen on tar?  Why is it safe to pass just -I ./m4 when the
+> detected list that you're overriding is effectively -I ./m4 -I ./tests?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/kernel.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Not only tar has this problem, but also other recipes such as coreutils,
+because they have many 4 files, but we have fixed that others bfore,
+for example:
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 125ed88..aad430a 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -231,6 +231,8 @@ kernel_do_install() {
- 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
- 	install -d ${D}${sysconfdir}/modules-load.d
- 	install -d ${D}${sysconfdir}/modprobe.d
-+
-+	mk_shared_workdir
- }
- do_install[prefuncs] += "package_get_auto_pr"
- 
-@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
- 
- PACKAGEFUNCS += "emit_depmod_pkgdata"
- 
--do_shared_workdir () {
-+mk_shared_workdir () {
- 	cd ${B}
- 
- 	kerneldir=${STAGING_KERNEL_BUILDDIR}
-@@ -289,6 +291,14 @@ do_shared_workdir () {
- 	fi
- }
- 
-+# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
-+# and called from kernel_do_compile.
-+# It caused race condition with do_compile_kernelmodules when it runs
-+# in parallel with do_compile_kernelmodules
-+do_shared_workdir () {
-+	:
-+}
-+
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
- sysroot_stage_all () {
- 	:
--- 
-2.1.4
+commit 238e9b54e228b850434f7d503870e86cfb12b775
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Sun Sep 15 09:13:12 2013 +0000
 
+     coreutils: set acpaths to avoid "Argument list too long" error
+
+
+Now I tested the build in the deep directory again, only found tar
+failed, and Chong had made a patch for it.
+
+If we don't set 'acpaths = "-I ./m4"', then it would use the absolute path,
+which would be too long, here is the related code in autotools.bbclass
+for acpaths:
+
+acpaths = "default"
+[snip]
+         ACLOCAL="aclocal --system-acdir=${ACLOCALDIR}/"
+         if [ x"${acpaths}" = xdefault ]; then
+             acpaths=
+             for i in `find ${S} -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+                 grep -v 'acinclude.m4' | grep -v 'aclocal-copy' | sed -e 
+'s,\(.*/\).*$,\1,'|sort -u`; do
+                 acpaths="$acpaths -I $i"
+             done
+         else
+             acpaths="${acpaths}"
+         fi
+
+I think it's safe to set acpaths = "-I ./m4" as we had done for coreutils.
+
+// Robert
+
+>
+> Would it be better to just make all include paths relative to ${S} when
+> generating the acpaths?
+>
+> Ross
 
