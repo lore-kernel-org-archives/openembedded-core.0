@@ -1,42 +1,42 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
 	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EA0E73924
+	by mail.openembedded.org (Postfix) with ESMTP id 80B3D73913
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 13:30:29 +0000 (UTC)
-Received: by iegc3 with SMTP id c3so107542759ieg.3
+	Fri, 13 Mar 2015 13:30:35 +0000 (UTC)
+Received: by iecsl2 with SMTP id sl2so104896419iec.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 06:30:30 -0700 (PDT)
+	Fri, 13 Mar 2015 06:30:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=s8XQesAExycGypyvEv3T6hCsKGeu047tR926kYMh/9w=;
-	b=Na4XRF8oSjjUcNQyqUByimFLVog6NBkYqYCExlI3oHr2y7goIvAQxACSz9fYtF2lbn
-	CTDEme14ltEFnYiRO7sK0fJ6BzrMMUOz1YDbxx0ZpKWeQlK2193MX/4Y5vuGAJhap64f
-	1zd+bPanKKmggQzknr4FxTd4Jutvi4D/8ev8FjIjAkBQBk9ZlBK0mQqjB6yC2lGq+U49
-	Fn37WyE3Puyw3B/Ab3jkx3omFAbn3oC5mgjLYurEjDGlgkwvbFC7ktXfNYS3g/Katb9D
-	g9dtCspliDOT1T4M82gqanJkOo8lPXJPC/UjnKAJb3Pjc0OwtICeG8NwfnGHwRpVln9u
-	fxYA==
-X-Gm-Message-State: ALoCoQmlxn9MOEgXh07AnF5j+LyVbDqH0bsrWNDDcGyI9MG8X6dpJQoNveByv0ZtyUghcTwR2TIJ
-X-Received: by 10.50.43.138 with SMTP id w10mr110142881igl.19.1426253426384;
-	Fri, 13 Mar 2015 06:30:26 -0700 (PDT)
+	bh=ehAO0m27I/zEhN5c+HFJeSaAIik+XNsx/VN52j3g/uQ=;
+	b=ODNWq5PCyuCVp7eCToI8psRV+ruAeRlcqUTfrU2h0P4T0yfIrbJjm0R2Ww+TqNrQ+c
+	ZY3B7w6vkvMd4tsxafA5h9mSYWnogAxUXZvwp5RB3pRnIHk3932rWGMw3S7k+7ukBEAE
+	800xFeAGPhM438a3pVCpG5tqB8o76slQh80nAldEcuXu2BoIlC/517HFv7GZ4c97PdQA
+	Jw5yK1dBqVsIE6q9Oq/xq6ba7fyvap3FO0aceE+5BY/GvWsNWoPf74F56ZBd8IVFh11G
+	j8IFtKp94ztVl0mUcKU8ZV8zidtjWf2uieaPWBUp/xEkHHBInlF0Q7PiGlTuK90EUk6U
+	i7CA==
+X-Gm-Message-State: ALoCoQm82n9N5/j39Mtzq8FeY/hp2WIjZOcHdXnCOFmW51NgmV8hGBXoOxNi245nbTHcfnfG0uZ+
+X-Received: by 10.107.37.132 with SMTP id l126mr84322165iol.42.1426253432093; 
+	Fri, 13 Mar 2015 06:30:32 -0700 (PDT)
 Received: from pohly-mobl1.ger.corp.intel.com (p5DE8C8C2.dip0.t-ipconnect.de.
 	[93.232.200.194])
-	by mx.google.com with ESMTPSA id h15sm1257487ioh.27.2015.03.13.06.30.24
+	by mx.google.com with ESMTPSA id h15sm1257487ioh.27.2015.03.13.06.30.30
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Mar 2015 06:30:25 -0700 (PDT)
+	Fri, 13 Mar 2015 06:30:31 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 13 Mar 2015 14:29:38 +0100
-Message-Id: <47a0cfa7cab65d5fa1fbf004d1e5dc4e1c551eaa.1426252888.git.patrick.ohly@intel.com>
+Date: Fri, 13 Mar 2015 14:29:40 +0100
+Message-Id: <ef456bc46e01a164e37470af85ad2eda6289e18a.1426252888.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <a9fe203d338f966d5afe631bd7956ee8232a6bf4.1426252888.git.patrick.ohly@intel.com>
 References: <a9fe203d338f966d5afe631bd7956ee8232a6bf4.1426252888.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1426252888.git.patrick.ohly@intel.com>
 References: <cover.1426252888.git.patrick.ohly@intel.com>
-Subject: [PATCH 09/11] combo-layer-hook-default.sh: avoid duplicating prefix
+Subject: [PATCH 11/11] combo-layer-hook-default.sh: handle patches without Signed-off-by
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 13:30:31 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 13:30:35 -0000
 
-The existing patch might already have the desired prefix, perhaps
-even multiple times (due to some previous import error). Ensure
-that after the replace, the prefix is present exactly once.
+Inserting the "From rev" comment depended on having at least one
+Signed-off-by line in the patch header. Some old repository commits in
+openembedded-core and bitbake do not have those.
+
+When inporting those, just insert at the end of the patch
+header. While doing so, ensure that there's exactly one blank line
+since the last non-blank line.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/combo-layer-hook-default.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/combo-layer-hook-default.sh | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/combo-layer-hook-default.sh b/scripts/combo-layer-hook-default.sh
-index 8b148ac..9dd5aed 100755
+index 46f2b70..1e3a3b9 100755
 --- a/scripts/combo-layer-hook-default.sh
 +++ b/scripts/combo-layer-hook-default.sh
-@@ -9,5 +9,5 @@ patchfile=$1
- rev=$2
+@@ -10,4 +10,11 @@ rev=$2
  reponame=$3
  
--sed -i -e "s#^Subject: \[PATCH\] \(.*\)#Subject: \[PATCH\] $reponame: \1#" $patchfile
-+sed -i -e "s#^Subject: \[PATCH\] \($reponame: \)*\(.*\)#Subject: \[PATCH\] $reponame: \2#" $patchfile
- sed -i -e "0,/^Signed-off-by:/s#\(^Signed-off-by:.*\)#\($reponame rev: $rev\)\n\n\1#" $patchfile
+ sed -i -e "0,/^Subject:/s#^Subject: \[PATCH\] \($reponame: \)*\(.*\)#Subject: \[PATCH\] $reponame: \2#" $patchfile
+-sed -i -e "0,/^Signed-off-by:/s#\(^Signed-off-by:.*\)#\($reponame rev: $rev\)\n\n\1#" $patchfile
++if grep -q '^Signed-off-by:' $patchfile; then
++    # Insert before Signed-off-by.
++    sed -i -e "0,/^Signed-off-by:/s#\(^Signed-off-by:.*\)#\(From $reponame rev: $rev\)\n\n\1#" $patchfile
++else
++    # Insert before final --- separator, with extra blank lines removed.
++    perl -e "\$_ = join('', <>); s/^(.*\S[ \t]*)(\n|\n\s*\n)---\n/\$1\n\nFrom $reponame rev: $rev\n---\n/s; print;" $patchfile >$patchfile.tmp
++    mv $patchfile.tmp $patchfile
++fi
 -- 
 2.1.4
 
