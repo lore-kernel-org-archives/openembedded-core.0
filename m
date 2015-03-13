@@ -1,39 +1,39 @@
 Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 835DB65DA3
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7596D6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 14:56:00 +0000 (UTC)
-Received: by yhzz6 with SMTP id z6so12057265yhz.3
+	Fri, 13 Mar 2015 14:56:04 +0000 (UTC)
+Received: by yhnv1 with SMTP id v1so12048124yhn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 07:56:02 -0700 (PDT)
+	Fri, 13 Mar 2015 07:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0Cs+AnUMF3+FnKjQ6fh5wrvK9Ga3zgv9FZeufGaUJMs=;
-	b=nH+m2Kk5r0bSOX1dOmFyeM2He33bRsQPg3FP04vzzLYgsD79VwgVuOsb7u0OZyt518
-	qH3t/W0IkkeRy/aU3I+0xHzZSC+g3nvZzXU+tLMNVB1fm7j+q3elPY0djtqB1hcxQ+W8
-	ilyFXBSJiktAXvV+K1Ztrv33xqeJTNR2NprERAb8TFQB8kl5sjI7U+os3Xmq9PpbaY/V
-	ot3b26x+hdOCFsVnWn1nL28y+oSFN/vwCan8kJjwb2mqd5MpOELZvGC1rpoxNmRh4nQj
-	7O+JB2YFmH9O1vfn1wmRH6W67u3fyGyjnSiJT2l5SPHhDBnuy2e43jLcCLkqyxBoIZes
-	Uchw==
-X-Gm-Message-State: ALoCoQk7IamdpWp58xOlY+itCmVPjiCPN0eEIBROfKLahpSBlpUUB+f8aVQaQQqAENm2Xrn7Gfv1
-X-Received: by 10.236.227.166 with SMTP id d36mr46851987yhq.185.1426258562169; 
-	Fri, 13 Mar 2015 07:56:02 -0700 (PDT)
+	bh=mY2DC60qYMYcFUmJkRFVPwaJA5wT5p7HFAbG9Y5unUE=;
+	b=CEOXrjzoh/OpvX59fZRnXtFqkQ5X5zj6v3UMlVLTQoWZeP1LhB9jXQSIHjsvnIOGlt
+	hkJAiB+Mpjk8vNY6WcOdtgfBiPE78MDm+Z5QbUM1UjLKOJNIjgzxYGCnvXY1STvx4KgF
+	KhSzWS8Y+OHHsX9J5ocJFypwCqjKUUL8OIYEwUC2wdvhwzrm1i+8y3DK5+XbWQnkit9O
+	iFsKPSGW6T5esaHbj/Y4688TXE8x5JNjnHpmQ2q+g6YXaFFym5IhqnxXL4NnUQ7KBaY7
+	KUQU3j+jseLAYV+HTWaJ3z/UBUAy7je4lpVpKAwNUzlwotDlGn0xmpx4m3oZhMJgKuZW
+	VQzw==
+X-Gm-Message-State: ALoCoQmmIeOKW83kTY/VXk9AOnsPk+meMksW+8GG1e+sM80GDMQGE/CnFX/Ny4tLlDBuw1ET64HD
+X-Received: by 10.236.140.163 with SMTP id e23mr47343628yhj.155.1426258566083; 
+	Fri, 13 Mar 2015 07:56:06 -0700 (PDT)
 Received: from Latitude-E6430.caveonetworks.com ([111.93.218.67])
-	by mx.google.com with ESMTPSA id a74sm1773572yhq.31.2015.03.13.07.55.58
+	by mx.google.com with ESMTPSA id a74sm1773572yhq.31.2015.03.13.07.56.02
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Mar 2015 07:56:00 -0700 (PDT)
+	Fri, 13 Mar 2015 07:56:05 -0700 (PDT)
 From: Naresh Bhat <naresh.bhat@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2015 20:25:24 +0530
-Message-Id: <1426258527-2329-3-git-send-email-naresh.bhat@linaro.org>
+Date: Fri, 13 Mar 2015 20:25:25 +0530
+Message-Id: <1426258527-2329-4-git-send-email-naresh.bhat@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1426258527-2329-1-git-send-email-naresh.bhat@linaro.org>
 References: <1426258527-2329-1-git-send-email-naresh.bhat@linaro.org>
 Cc: matt.fleming@intel.com
-Subject: [OE-core v1 PATCH 2/5] syslinux: Remove bootimg dependency on aarch64
+Subject: [OE-core v1 PATCH 3/5] bootimg: Skip build iso image for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 14:56:01 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 14:56:05 -0000
 
-Remove the bootimg dependency as syslinux for aarch64. The reason to skip the syslinux package
-- syslinux package contains x86 assembly code. Hence it cannot be compiled on aarch64.
-- There is no BIOS on aarch64 to answer syscalls.
+Build iso image required syslinux package.  We have already skip the syslinux
+package.  Hence just skip the iso image build too.
 
 Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
 ---
- meta/classes/syslinux.bbclass |   10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/classes/bootimg.bbclass |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index d6498d9..7bd8fed 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -17,7 +17,15 @@
- # ${SYSLINUX_SERIAL_TTY} - Set alternate console=tty... kernel boot argument
- # ${SYSLINUX_KERNEL_ARGS} - Add additional kernel arguments
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index ed7b32f..d8c2a59 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -265,7 +265,11 @@ python do_bootimg() {
+     if d.getVar("EFI", True) == "1":
+         bb.build.exec_func('build_efi_cfg', d)
+     bb.build.exec_func('build_hddimg', d)
+-    bb.build.exec_func('build_iso', d)
++
++    if d.getVar('TARGET_ARCH', True) == "aarch64":
++            return
++    else:
++            bb.build.exec_func('build_iso', d)
+ }
  
--do_bootimg[depends] += "${MLPREFIX}syslinux:do_populate_sysroot \
-+def boot_image_depends(bb, d):
-+         import re
-+         deps = bb.data.getVar('TARGET_PREFIX', d, True)
-+         if re.search("(x86_64|i.86).*",deps):
-+                 return "${MLPREFIX}syslinux:do_populate_sysroot"
-+         if re.search("aarch64",deps):
-+                 return ""
-+BIMGDEP = "${@boot_image_depends(bb, d)}"
-+do_bootimg[depends] += "${BIMGDEP} \
-                         syslinux-native:do_populate_sysroot"
- 
- SYSLINUXCFG  = "${S}/syslinux.cfg"
+ IMAGE_TYPEDEP_iso = "ext3"
 -- 
 1.7.9.5
 
