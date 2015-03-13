@@ -1,23 +1,37 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A367D71F1B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E736013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2015 12:56:09 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Mar 2015 05:54:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,394,1422950400"; d="scan'208";a="698267578"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 13 Mar 2015 05:56:11 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id DDE8E300001;
-	Fri, 13 Mar 2015 05:55:53 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2015 14:54:56 +0200
-Message-Id: <1426251296-25891-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] oeqa/runtime: Fixed a problem in logparser where it failed to whitelist some common errors.
+	Fri, 13 Mar 2015 13:28:38 +0000 (UTC)
+Received: by igbhl2 with SMTP id hl2so820233igb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Mar 2015 06:28:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lcKuXfSgclEfUJXYKsbMYeZ2ZBt54aiKEZHrX0diJQ8=;
+	b=OvgC0nO3mfUWyHIiRn3xEj9UNgfw4TeUvhGmK4fHPliPMC1MJiu2ziN44AgXtZpTi1
+	6pWf6Pc+jiEjv5ONtSGtcEg2clMwIsGSsAhNHgd7lZyiFICet/o4MbOlkfjbLxgcqjRV
+	Kt4tQoCPGDPmoyHdV9sqQY5Hb40Ab1vjF8mb00zIWj/rs122NBP9Sx35xZyKu0K15CFH
+	6Sdm/OIUc4xcT/1gxP32RydMz9eD985TOKyyIY7ziMM5Uus6Op5mgzJtX6oNxPHNV6Q9
+	9+EexuJtelPJzQc1PZxi+qBNsRe6d3zu7c2YLGEdEytDPlBDDDPQFC83oaUnZp/zY06H
+	OhRQ==
+X-Gm-Message-State: ALoCoQnzeQnxIvSoaZskQP0Kqhleb4odas+uRLBWu25HmNDxQ+EGw4Xbi2jML9VWT9hivJK9PYt8
+X-Received: by 10.107.9.88 with SMTP id j85mr72405730ioi.60.1426253319933;
+	Fri, 13 Mar 2015 06:28:39 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p5DE8C8C2.dip0.t-ipconnect.de.
+	[93.232.200.194])
+	by mx.google.com with ESMTPSA id h19sm1268716igq.10.2015.03.13.06.28.37
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Mar 2015 06:28:38 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Fri, 13 Mar 2015 14:28:31 +0100
+Message-Id: <cover.1426252888.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/11] combo-layer enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2015 12:56:12 -0000
+X-List-Received-Date: Fri, 13 Mar 2015 13:28:39 -0000
 
-And some minor tweaks like moving some errors from qemu to common.
+This replaces the four individual patches sent recently. It addresses
+the comments that Paul had, fixes one issue in file_exclude filtering
+of patches when combined with dest_dir, and last but not least,
+introduces full history importing during "init".
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/parselogs.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+For the separate fixes see https://github.com/pohly/openembedded-core/commits/pending
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index cf0f67c..7721912 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -13,8 +13,8 @@ common_errors = [
-     "usbhid: probe of ",
-     "_OSC failed (AE_ERROR)",
-     "_OSC failed (AE_SUPPORT)",
--    "AE_ALREADY_EXISTS"
--    "ACPI _OSC request failed (AE_SUPPORT)"
-+    "AE_ALREADY_EXISTS",
-+    "ACPI _OSC request failed (AE_SUPPORT)",
-     "can\'t disable ASPM",
-     "Failed to load module \"vesa\"",
-     "Failed to load module vesa",
-@@ -23,6 +23,9 @@ common_errors = [
-     "Failed to load module \"glx\"",
-     "Failed to load module glx",
-     "[drm] Cannot find any crtc or sizes - going 1024x768",
-+    "_OSC failed (AE_NOT_FOUND); disabling ASPM",
-+    "Open ACPI failed (/var/run/acpid.socket) (No such file or directory)",
-+    "NX (Execute Disable) protection cannot be enabled: non-PAE kernel!",
-     "hd.: possibly failed opcode"
-     ]
- 
-@@ -35,8 +38,6 @@ x86_common = [
- 
- qemux86_common = [
-     'Fast TSC calibration', 
--    '_OSC failed (AE_NOT_FOUND); disabling ASPM',
--    'Open ACPI failed (/var/run/acpid.socket) (No such file or directory)',
-     'wrong ELF class',
- ] + common_errors
- 
+The following changes since commit fb29441216435b9bae47ca9cd42db5a6b1fe77d8:
+
+  oeqa/parselogs: Skip hda opcode errors (2015-03-12 12:49:22 +0000)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core combo-layer
+  https://github.com/pohly/openembedded-core/tree/combo-layer
+
+Patrick Ohly (11):
+  combo-layer: let user choose where properties get updated
+  combo-layer: make Signed-off-by optional
+  combo-layer: runcmd() with separate output
+  combo-layer: exclude files
+  combo-layer: update() also instance property
+  combo-layer: init with full history
+  combo-layer: combine trees via replacement objects
+  combo-layer: partial import for '--history init'
+  combo-layer-hook-default.sh: avoid duplicating prefix
+  combo-layer-hook-default.sh: beware of embedded patches
+  combo-layer-hook-default.sh: handle patches without Signed-off-by
+
+ scripts/combo-layer                 | 277 ++++++++++++++++++++++++++++++++++--
+ scripts/combo-layer-hook-default.sh |  11 +-
+ scripts/combo-layer.conf.example    |  37 +++++
+ 3 files changed, 311 insertions(+), 14 deletions(-)
+
 -- 
-2.1.0
+2.1.4
 
 
