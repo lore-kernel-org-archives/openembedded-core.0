@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 75385738AE
+	by mail.openembedded.org (Postfix) with ESMTP id A21A965CD0
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 14 Mar 2015 18:50:05 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2015 11:48:10 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2015 11:48:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,401,1422950400"; d="scan'208";a="680177388"
+X-IronPort-AV: E=Sophos;i="5.11,401,1422950400"; d="scan'208";a="680177394"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
 	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2015 11:50:06 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Mar 2015 10:45:03 +0000
-Message-Id: <a7792ce961722c4db3108a720731b052754002f7.1426328088.git.anibal.limon@linux.intel.com>
+Date: Sat, 14 Mar 2015 10:45:05 +0000
+Message-Id: <84b857f508e9c0bdcb887f4323c0aeb243cef14c.1426328088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1426328088.git.anibal.limon@linux.intel.com>
 References: <cover.1426328088.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1426328088.git.anibal.limon@linux.intel.com>
 References: <cover.1426328088.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] license: Add support for handle INCOMPATIBLE_LICENSE in manifest creation
+Subject: [PATCH 5/5] glibc/glibc-collateral.inc: Add LIC_FILES_CHKSUM to avoid warnings in manifest creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,163 +37,26 @@ X-List-Received-Date: Sat, 14 Mar 2015 18:50:05 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When INCOMPATIBLE_LICENSE's is specified it need to be removed from
-license.manifest and also avoid copy to target image.
-
-Add ManifestVisitor that walk the license string searching for
-INCOMPATIBLE_LICENSE's if found remove it also add validation for avoid
-copy INCOMPATIBLE_LICENSE's to target image.
-
-[YOCTO #6765]
+Add licenses point to COMMON_LICENSE_DIR because glibc-collateral.inc is
+a recipe that don't provide tarball/repo with LICENSE files.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/license.bbclass | 29 ++++++++++++++++--
- meta/lib/oe/license.py       | 70 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 96 insertions(+), 3 deletions(-)
+ meta/recipes-core/glibc/glibc-collateral.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 4e8e96b..3cdee5d 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -29,6 +29,10 @@ python license_create_manifest() {
-     import re
-     import oe.packagedata
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index dfcebae..f82db06 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -1,5 +1,7 @@
+ INHIBIT_DEFAULT_DEPS = "1"
+ LICENSE = "GPLv2 & LGPLv2.1"
++LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6 \
++                     file://${COMMON_LICENSE_DIR}/LGPL-2.1;md5=1a6d268fd218675ffea8be556788b780"
+ HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
  
-+    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
-+    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-+    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
-+
-     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
-     if build_images_from_feeds == "1":
-         return 0
-@@ -51,14 +55,24 @@ python license_create_manifest() {
-                         d.getVar('IMAGE_NAME', True), 'license.manifest')
-     with open(license_manifest, "w") as license_file:
-         for pkg in sorted(pkg_dic):
-+            if bad_licenses:
-+                try:
-+                    (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
-+                        oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
-+                        bad_licenses, canonical_license, d)
-+                except oe.license.LicenseError as exc:
-+                    bb.fatal('%s: %s' % (d.getVar('P', True), exc))
-+            else:
-+                pkg_dic[pkg]["LICENSES"] = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
-+                pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ', pkg_dic[pkg]["LICENSES"])
-+                pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
-+
-             license_file.write("PACKAGE NAME: %s\n" % pkg)
-             license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
-             license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
-             license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE"])
- 
--            licenses = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
--            licenses = re.sub('  *', ' ', licenses)
--            for lic in licenses.split():
-+            for lic in pkg_dic[pkg]["LICENSES"]:
-                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-                                         pkg_dic[pkg]["PN"], "generic_%s" % 
-                                         re.sub('\+', '', lic))
-@@ -94,11 +108,20 @@ python license_create_manifest() {
-                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
- 
-                     if re.match("^generic_.*$", lic):
-+                        generic_lic = re.search("^generic_(.*)$", lic).group(1)
-+                        if oe.license.license_ok(canonical_license(d,
-+                            generic_lic), bad_licenses) == False:
-+                            continue
-+
-                         if not os.path.exists(rootfs_license):
-                             os.link(pkg_license, rootfs_license)
- 
-                         os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-                     else:
-+                        if oe.license.license_ok(canonical_license(d,
-+                            lic), bad_licenses) == False:
-+                            continue
-+
-                         os.link(pkg_license, pkg_rootfs_license)
- }
- 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index bc146a2..c2e523c 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -129,3 +129,73 @@ def is_included(licensestr, whitelist=None, blacklist=None):
-         return False, excluded
-     else:
-         return True, included
-+
-+class ManifestVisitor(LicenseVisitor):
-+    """Walk license tree (parsed from a string) removing the incompatible
-+    licenses specified"""
-+    def __init__(self, dont_want_licenses, canonical_license, d):
-+        self._dont_want_licenses = dont_want_licenses
-+        self._canonical_license = canonical_license
-+        self._d = d
-+        self._operators = []
-+
-+        self.licenses = []
-+        self.licensestr = ''
-+
-+        LicenseVisitor.__init__(self)
-+
-+    def visit(self, node):
-+        if isinstance(node, ast.Str):
-+            lic = node.s
-+
-+            if license_ok(self._canonical_license(self._d, lic),
-+                    self._dont_want_licenses) == True:
-+                if self._operators:
-+                    ops = []
-+                    for op in self._operators:
-+                        if op == '[':
-+                            ops.append(op)
-+                        elif op == ']':
-+                            ops.append(op)
-+                        else:
-+                            if not ops:
-+                                ops.append(op)
-+                            elif ops[-1] in ['[', ']']:
-+                                ops.append(op)
-+                            else:
-+                                ops[-1] = op 
-+
-+                    if ops[0] != ']':
-+                        self.licensestr += ' '
-+                    self.licensestr += ' '.join(ops)
-+                    if len(ops) == 1:
-+                        self.licensestr += ' '
-+
-+                self.licensestr += lic
-+                self.licenses.append(lic)
-+                self._operators = []
-+        elif isinstance(node, ast.BitAnd):
-+            self._operators.append("&")
-+        elif isinstance(node, ast.BitOr):
-+            self._operators.append("|")
-+        elif isinstance(node, ast.List):
-+            self._operators.append("[")
-+        elif isinstance(node, ast.Load):
-+            self.licensestr += ']'
-+
-+        self.generic_visit(node)
-+
-+def manifest_licenses(licensestr, dont_want_licenses, canonical_license, d):
-+    """Given a license string and dont_want_licenses list,
-+       return license string filtered and a list of licenses"""
-+    manifest = ManifestVisitor(dont_want_licenses, canonical_license, d)
-+
-+    # Replace '()' to '[]' for handle in ast as List and Load types.
-+    licensestr = licensestr.replace('(', '[').replace(')', ']')
-+    try:
-+        manifest.visit_string(licensestr)
-+    except SyntaxError as exc:
-+        raise LicenseSyntaxError(licensestr, exc)
-+    manifest.licensestr = manifest.licensestr.replace('[', '(').replace(']', ')')
-+
-+    return (manifest.licensestr, manifest.licenses)
+ # This needs to match with glibc.inc, otherwise glibc-scripts and glibc-locale
 -- 
 1.8.4.5
 
