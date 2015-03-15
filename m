@@ -1,22 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5E1C60034
+	by mail.openembedded.org (Postfix) with ESMTP id F25B26AC33
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 15 Mar 2015 21:28:48 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga103.jf.intel.com with ESMTP; 15 Mar 2015 14:25:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,405,1422950400"; d="scan'208";a="467614972"
+X-IronPort-AV: E=Sophos;i="5.11,405,1422950400"; d="scan'208";a="467614976"
 Received: from feifeich-mobl.amr.corp.intel.com (HELO
 	alimon-ThinkPad-W540.amr.corp.intel.com) ([10.252.141.167])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2015 14:21:41 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2015 14:21:43 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Mar 2015 15:28:50 -0600
-Message-Id: <cover.1426454666.git.anibal.limon@linux.intel.com>
+Date: Sun, 15 Mar 2015 15:28:51 -0600
+Message-Id: <2a63e10e80bed078d38f118372516efb6c2c9430.1426454666.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1426454666.git.anibal.limon@linux.intel.com>
+References: <cover.1426454666.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1426454666.git.anibal.limon@linux.intel.com>
+References: <cover.1426454666.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] fixes for x32 ABI build
+Subject: [PATCH 1/3] mdadm: Fix build in x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +37,60 @@ X-List-Received-Date: Sun, 15 Mar 2015 21:28:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The next set of patches fixes builds for mdadm, systemtap and puzzles related 
-to time_t that is long long int in x32 ABI instead of long int in normal x86_64.
+Add a patch for fix build in x32 ABI, the fail is cause by time_t
+printf because time_t is long int in x64 and long long int in x32.
 
-The following changes since commit 7f30749fe026e9ceb75d73b89271145a45a60763:
+[YOCTO #7422]
 
-  oeqa/parselogs: Skip hda opcode errors (2015-03-12 12:50:24 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib alimon/x32_time_t_bugs
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/x32_time_t_bugs
-
-Aníbal Limón (3):
-  mdadm: Fix build in x32 ABI
-  systemtap: Fix build in x32 ABI
-  puzzles: Fix build in x32 ABI
-
- .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 24 ++++++++++++++++
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 24 ++++++++++++++++++++++
  meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |  1 +
- .../systemtap/systemtap/x32_abi_time.patch         | 32 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 +
- .../puzzles/files/puzzles_x32_abi_time.patch       | 28 +++++++++++++++++++
- meta/recipes-sato/puzzles/puzzles_r10116.bb        |  1 +
- 6 files changed, 87 insertions(+)
+ 2 files changed, 25 insertions(+)
  create mode 100644 meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/x32_abi_time.patch
- create mode 100644 meta/recipes-sato/puzzles/files/puzzles_x32_abi_time.patch
 
+diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+new file mode 100644
+index 0000000..79f21b5
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+@@ -0,0 +1,24 @@
++Upstream-Status: Pending
++
++When try to print time_t values as a long int it causes an error because time_t
++data type in x32 ABI is long long int.
++
++diff --git a/monitor.c b/monitor.c
++index f81e707..19ea041 100644
++--- a/monitor.c
+++++ b/monitor.c
++@@ -260,8 +260,13 @@ static int read_and_act(struct active_array *a)
++ 	}
++ 
++ 	gettimeofday(&tv, NULL);
+++#if defined(__x86_64__) && defined(__ILP32__)
+++	dprintf("%s(%d): %lld.%06lld state:%s prev:%s action:%s prev: %s start:%llu\n",
+++#else
++ 	dprintf("%s(%d): %ld.%06ld state:%s prev:%s action:%s prev: %s start:%llu\n",
++-		__func__, a->info.container_member,
+++#endif
+++		__func__,
+++		a->info.container_member,
++ 		tv.tv_sec, tv.tv_usec,
++ 		array_states[a->curr_state],
++ 		array_states[a->prev_state],
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+index 7140990..c6a5635 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://mdadm-3.2.2_fix_for_x32.patch \
+            file://gcc-4.9.patch \
++           file://mdadm-3.3.2_x32_abi_time_t.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
 -- 
 1.9.1
 
