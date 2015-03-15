@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F25B26AC33
+	by mail.openembedded.org (Postfix) with ESMTP id 13C8D72E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2015 21:28:48 +0000 (UTC)
+	Sun, 15 Mar 2015 21:28:49 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 15 Mar 2015 14:25:42 -0700
+	by orsmga103.jf.intel.com with ESMTP; 15 Mar 2015 14:25:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,405,1422950400"; d="scan'208";a="467614976"
+X-IronPort-AV: E=Sophos;i="5.11,405,1422950400"; d="scan'208";a="467614978"
 Received: from feifeich-mobl.amr.corp.intel.com (HELO
 	alimon-ThinkPad-W540.amr.corp.intel.com) ([10.252.141.167])
 	by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2015 14:21:43 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Mar 2015 15:28:51 -0600
-Message-Id: <2a63e10e80bed078d38f118372516efb6c2c9430.1426454666.git.anibal.limon@linux.intel.com>
+Date: Sun, 15 Mar 2015 15:28:52 -0600
+Message-Id: <73d1060469e895a677d7aaee5e62489f982f5fa7.1426454666.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1426454666.git.anibal.limon@linux.intel.com>
 References: <cover.1426454666.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1426454666.git.anibal.limon@linux.intel.com>
 References: <cover.1426454666.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] mdadm: Fix build in x32 ABI
+Subject: [PATCH 2/3] systemtap: Fix build in x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +37,68 @@ X-List-Received-Date: Sun, 15 Mar 2015 21:28:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add a patch for fix build in x32 ABI, the fail is cause by time_t
-printf because time_t is long int in x64 and long long int in x32.
+Add a patch for fix printing of time_t value that is long long int
+in x32 ABI instead of long int.
 
-[YOCTO #7422]
+[YOCTO #7423]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 24 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+ .../systemtap/systemtap/x32_abi_time.patch         | 32 ++++++++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/x32_abi_time.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+diff --git a/meta/recipes-kernel/systemtap/systemtap/x32_abi_time.patch b/meta/recipes-kernel/systemtap/systemtap/x32_abi_time.patch
 new file mode 100644
-index 0000000..79f21b5
+index 0000000..9447376
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
-@@ -0,0 +1,24 @@
++++ b/meta/recipes-kernel/systemtap/systemtap/x32_abi_time.patch
+@@ -0,0 +1,32 @@
 +Upstream-Status: Pending
 +
-+When try to print time_t values as a long int it causes an error because time_t
-+data type in x32 ABI is long long int.
++Fix time_t print because in x32 ABI is long long int instead of long int.
 +
-+diff --git a/monitor.c b/monitor.c
-+index f81e707..19ea041 100644
-+--- a/monitor.c
-++++ b/monitor.c
-+@@ -260,8 +260,13 @@ static int read_and_act(struct active_array *a)
-+ 	}
-+ 
-+ 	gettimeofday(&tv, NULL);
-++#if defined(__x86_64__) && defined(__ILP32__)
-++	dprintf("%s(%d): %lld.%06lld state:%s prev:%s action:%s prev: %s start:%llu\n",
++diff --git a/cache.cxx b/cache.cxx
++index 3546b30..19c77ca 100644
++--- a/cache.cxx
+++++ b/cache.cxx
++@@ -294,7 +294,11 @@ clean_cache(systemtap_session& s)
++         {
++           //interval not passed, don't continue
++           if (s.verbose > 1)
+++#if defined(__x86_64__) && defined (__ILP32__)
+++            clog << _F("Cache cleaning skipped, interval not reached %lld s / %lu s.",
 ++#else
-+ 	dprintf("%s(%d): %ld.%06ld state:%s prev:%s action:%s prev: %s start:%llu\n",
-+-		__func__, a->info.container_member,
++             clog << _F("Cache cleaning skipped, interval not reached %lu s / %lu s.",
 ++#endif
-++		__func__,
-++		a->info.container_member,
-+ 		tv.tv_sec, tv.tv_usec,
-+ 		array_states[a->curr_state],
-+ 		array_states[a->prev_state],
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-index 7140990..c6a5635 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://mdadm-3.2.2_fix_for_x32.patch \
-            file://gcc-4.9.patch \
-+           file://mdadm-3.3.2_x32_abi_time_t.patch \
- 	  "
++                        (current_time.tv_sec-sb.st_mtime), cache_clean_interval)  << endl;
++           return;
++         }
++@@ -302,7 +306,11 @@ clean_cache(systemtap_session& s)
++         {
++           //interval reached, continue
++           if (s.verbose > 1)
+++#if defined(__x86_64__) && defined (__ILP32__)
+++            clog << _F("Cleaning cache, interval reached %lld s > %lu s.",
+++#else
++             clog << _F("Cleaning cache, interval reached %lu s > %lu s.",
+++#endif
++                        (current_time.tv_sec-sb.st_mtime), cache_clean_interval)  << endl;
++         }
++ 
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 4a1f4fb..59a578d 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -8,6 +8,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://obsolete_automake_macros.patch \
+            file://system_map_location.patch \
+            file://configure-allow-to-disable-libvirt.patch \
++           file://x32_abi_time.patch \
+           "
  
- SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
+ # systemtap doesn't support mips
 -- 
 1.9.1
 
