@@ -1,39 +1,37 @@
 Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FD4560034
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 412C96AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 08:53:47 +0000 (UTC)
-Received: by webcq43 with SMTP id cq43so32831765web.2
+	Mon, 16 Mar 2015 08:53:48 +0000 (UTC)
+Received: by webcq43 with SMTP id cq43so32831908web.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 01:53:48 -0700 (PDT)
+	Mon, 16 Mar 2015 01:53:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MJAF1JlqI7LjGA+dhX3e8d02IEVhSZjjE8loF1uUQJA=;
-	b=q8YVoEbMH+KS4QDlbEiA1Vpb0S1RoDnuLHmi6Hajh0W8J1olp+Fq4VJ2awhN56YFCm
-	fyTGGsrmqMnDBJzrfNY0sV9aMgegGuu6Wcru6N4BgbYLMbV8FDH1l8bAP022vRo6lOwN
-	236jo5BIDJE2GmyDD6s2q6MkLqaXvydgiGOpq4xIF4VVmVuT2RCgd34qh8pNuPrsKlz8
-	Ze1omx/oHGXOV73DN+2TX5rse4LTUJSPoGw8THYNhufy8uMAjys9V4m9i0u5r9aJgzll
-	RBHsPD4fKFkcYgmmowp12e649ggnqVZz6+olUtlDCJIILBBkivW9ZDL2D2dQpkS7NFvG
-	hMVg==
-X-Received: by 10.180.74.135 with SMTP id t7mr31789710wiv.72.1426496028668;
-	Mon, 16 Mar 2015 01:53:48 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=6ONmBOfQJJvwFRA1xFQwi1/dACmuAzKSTOSmiDEQuKs=;
+	b=zpYwdqEiNwg4EHFOKCanT5fRg4np7B2cSVFglT5WaUNXiSA4HH5rRA00dYDWBXnMA/
+	th4fyjvJkf8PrMGASOGxqmv8saF2SNw0zWx39b28oM2Xw7eI59mX6HfssjbUb6ELefUV
+	WYNkbEc9ijaz3dGJnNYoZAsbjaNREDtan8L6HHDanBUt1144LWoy4+OwtYm+f4Bl8+nn
+	Ao33vPNliB/VPMfaTKPz5nVcZmvqZPAd77DfOeKvZk/FusH9Iw9KMIrXgMgXDBSxMKLn
+	gHRi+tkB9KsF/pgLgToT/nEChKsArlGTGvG3CWMVF/eWTKtgHTuNI53ZatJPUqnHa5gL
+	72tw==
+X-Received: by 10.194.8.99 with SMTP id q3mr123277998wja.88.1426496029180;
+	Mon, 16 Mar 2015 01:53:49 -0700 (PDT)
 Received: from s42.loc (91-119-229-249.dynamic.xdsl-line.inode.at.
 	[91.119.229.249]) by mx.google.com with ESMTPSA id
-	i10sm14369089wja.40.2015.03.16.01.53.47
+	ga8sm14352848wib.11.2015.03.16.01.53.47
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
 	Mon, 16 Mar 2015 01:53:47 -0700 (PDT)
 Received: from cow by s42.loc with local (Exim 4.80)
 	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1YXQmQ-00071A-BD; Mon, 16 Mar 2015 09:53:46 +0100
+	id 1YXQmQ-000716-7W; Mon, 16 Mar 2015 09:53:46 +0100
 From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2015 09:53:44 +0100
-Message-Id: <1426496025-26942-2-git-send-email-rep.dot.nop@gmail.com>
+Date: Mon, 16 Mar 2015 09:53:43 +0100
+Message-Id: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
-References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
-Subject: [PATCH 2/3] rpcbind: respin patches
+Subject: [PATCH 1/3] libtirpc: respin patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,213 +55,493 @@ upstream master, add backported patches for the current tarball.
 
 Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 ---
- ...001-configure.ac-Check-for-rpcsvc-mount.h.patch |   64 ++++++++++++++++++++
- .../rpcbind/rpcbind/0001-uclibc-nss.patch          |   30 ---------
- .../rpcbind/0002-uclibc-rpcsvc-defines.patch       |   60 ------------------
- meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb     |    8 +--
- 4 files changed, 66 insertions(+), 96 deletions(-)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-configure.ac-Check-for-rpcsvc-mount.h.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
+ ...0001-configure.ac-Allow-for-disabling-NIS.patch |  169 ++++++++++++++++
+ ...configure.ac-Allow-for-disabling-auth-DES.patch |  203 ++++++++++++++++++++
+ .../libtirpc/0003-debug.h-Include-stdarg.patch     |   20 ++
+ .../libtirpc/libtirpc/remove-des-uclibc.patch      |   38 ----
+ meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb   |    6 +-
+ 5 files changed, 397 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
+ delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-configure.ac-Check-for-rpcsvc-mount.h.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-configure.ac-Check-for-rpcsvc-mount.h.patch
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
 new file mode 100644
-index 0000000..cd3137f
+index 0000000..5b2aa3d
 --- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/0001-configure.ac-Check-for-rpcsvc-mount.h.patch
-@@ -0,0 +1,64 @@
-+From 8c5e97b9ff5699a5eafad6c4348bbb0b84ec30e0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
+@@ -0,0 +1,169 @@
++From b562294d35d8a87af2bcdbc32c15cc973e50ed4e Mon Sep 17 00:00:00 2001
 +From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-+Date: Tue, 3 Mar 2015 01:59:50 +0100
-+Subject: [PATCH,rpcbind 2/4] configure.ac: Check for rpcsvc/mount.h
-+To: Steve Dickson <SteveD@redhat.com>
-+Cc: libtirpc-devel@lists.sourceforge.net
++Date: Sun, 1 Mar 2015 12:18:05 +0100
++Subject: [PATCH 1/2] configure.ac: Allow for disabling NIS
++To: libtirpc-devel@lists.sourceforge.net
++Cc: Steve Dickson <SteveD@redhat.com>
 +
-+The function check_callit() attempts to reference a number of defines
-+from files that might not be available for everything but glibc.
-+
-+For simplicity assume that if there is no rpcsvc/mount.h all the other
-+includes do not exist either.
++Yellow Pages might not be available, provide a config knob to disable
++it.
 +
 +Upstream-Status: Submitted
 +
 +Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 +---
-+ configure.ac   |  2 +-
-+ src/security.c | 17 +++++++++++++++++
-+ 2 files changed, 18 insertions(+), 1 deletion(-)
++ configure.ac    | 16 ++++++++++++++++
++ src/Makefile.am |  6 +++++-
++ src/auth_des.c  | 18 +++++++++++++++++-
++ src/auth_time.c |  3 ++-
++ 4 files changed, 40 insertions(+), 3 deletions(-)
 +
-+diff -rdup rpcbind-0.2.2.orig/configure.ac rpcbind-0.2.2/configure.ac
-+--- rpcbind-0.2.2.orig/configure.ac	2014-11-25 21:34:48.000000000 +0100
-++++ rpcbind-0.2.2/configure.ac	2015-03-12 10:47:12.613608115 +0100
-+@@ -55,4 +55,6 @@ AS_IF([test x$enable_libwrap = xyes], [
++diff --git a/configure.ac b/configure.ac
++index 10d17ea..d006ac9 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -32,6 +32,22 @@ AC_CHECK_HEADERS([arpa/inet.h fcntl.h libintl.h limits.h locale.h netdb.h netine
++ AC_CHECK_LIB([pthread], [pthread_create])
++ AC_CHECK_LIB([nsl], [yp_get_default_domain])
 + 
-+ AC_SEARCH_LIBS([pthread_create], [pthread])
+++AC_ARG_ENABLE([nis],
+++	[AC_HELP_STRING([--disable-nis],
+++		[Disable Yellow Pages (NIS) support @<:@default=no@:>@])],
+++	[],[enable_nis=yes])
+++if test "x$enable_nis" != xno; then
+++	AC_CHECK_HEADERS([rpcsvc/nis.h])
+++	if test "x$ac_cv_header_rpcsvc_nis_h" != xyes; then
+++		AC_WARN([NIS enabled but no rpcsvc/nis.h header found])
+++		AC_WARN([Turning off NIS / YP support])
+++		enable_nis="no"
+++	fi
+++fi
+++if test "x$enable_nis" != xno; then
+++	AC_DEFINE([YP], [1], [Define to 1 if NIS is available])
+++fi
+++AM_CONDITIONAL([YP], [test "x$enable_nis" != xno])
 + 
-++AC_CHECK_HEADERS([nss.h rpcsvc/mount.h])
++ AC_CONFIG_FILES([Makefile src/Makefile man/Makefile doc/Makefile])
++ AC_OUTPUT(libtirpc.pc)
++diff --git a/src/Makefile.am b/src/Makefile.am
++index de57c8f..7861057 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -51,7 +51,7 @@ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c bindresvport.c cln
++         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
++         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
++         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
++-        auth_time.c auth_des.c authdes_prot.c debug.c
+++        auth_des.c authdes_prot.c debug.c
++ 
++ ## XDR
++ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
++@@ -63,6 +63,10 @@ if GSS
++     libtirpc_la_CFLAGS = -DHAVE_RPCSEC_GSS $(GSSAPI_CFLAGS)
++ endif
++ 
+++if YP
+++    libtirpc_la_SOURCES += auth_time.c
+++endif
 ++
-+ AC_OUTPUT([Makefile])
-+diff -rdup rpcbind-0.2.2.orig/src/security.c rpcbind-0.2.2/src/security.c
-+--- rpcbind-0.2.2.orig/src/security.c	2014-11-25 21:34:48.000000000 +0100
-++++ rpcbind-0.2.2/src/security.c	2015-03-12 10:45:40.580434845 +0100
-+@@ -20,12 +20,29 @@
-+ /*
-+  * XXX for special case checks in check_callit.
-+  */
-++#ifdef HAVE_RPCSVC_MOUNT_H
-+ #include <rpcsvc/mount.h>
-+ #include <rpcsvc/rquota.h>
-+ #include <rpcsvc/nfs_prot.h>
-+ #include <rpcsvc/yp.h>
-+ #include <rpcsvc/ypclnt.h>
-+ #include <rpcsvc/yppasswd.h>
-++#else
-++# define MOUNTPROC_MNT	1
-++# define MOUNTPROC_UMNT	3
-++# define NFS_PROGRAM	100003
-++# define YPPROG		100004
-++# define MOUNTPROG	100005
-++# define YPBINDPROG	100007
-++# define YPPASSWDPROG	100009
-++# define RQUOTAPROG	100011
-++
-++# define YPBINDPROC_SETDOM	2
-++# define YPPROC_MATCH	3
-++# define YPPROC_FIRST	4
-++# define YPPROC_NEXT	5
-++# define YPPROC_ALL	8
++ ## libtirpc_a_SOURCES += key_call.c key_prot_xdr.c getpublickey.c
++ ## libtirpc_a_SOURCES += netname.c netnamer.c rpcdname.c \
++ ## libtirpc_a_SOURCES += rtime.c \
++diff --git a/src/auth_des.c b/src/auth_des.c
++index cff777c..be9d364 100644
++--- a/src/auth_des.c
+++++ b/src/auth_des.c
++@@ -48,7 +48,9 @@
++ #include <rpc/xdr.h>
++ #include <sys/socket.h>
++ #undef NIS
+++#ifdef HAVE_RPCSVC_NIS_H
++ #include <rpcsvc/nis.h>
 ++#endif
 + 
-+ #include "rpcbind.h"
++ #if defined(LIBC_SCCS) && !defined(lint)
++ #endif
++@@ -68,8 +70,13 @@ extern bool_t xdr_authdes_cred( XDR *, struct authdes_cred *);
++ extern bool_t xdr_authdes_verf( XDR *, struct authdes_verf *);
++ extern int key_encryptsession_pk();
 + 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
+++#ifdef YP
++ extern bool_t __rpc_get_time_offset(struct timeval *, nis_server *, char *,
++ 	char **, char **);
+++#else
+++# define __rpc_get_time_offset(__a,__b,__c,__d, __e) (1) /* always valid */
+++# define nis_server char
+++#endif
++ 
++ /* 
++  * DES authenticator operations vector
++@@ -103,7 +110,9 @@ struct ad_private {
++ 	u_char ad_pkey[1024];		/* Server's actual public key */
++ 	char *ad_netid;			/* Timehost netid */
++ 	char *ad_uaddr;			/* Timehost uaddr */
+++#ifdef YP
++ 	nis_server *ad_nis_srvr;	/* NIS+ server struct */
+++#endif
++ };
++ 
++ AUTH *authdes_pk_seccreate(const char *, netobj *, u_int, const char *,
++@@ -148,7 +157,8 @@ authdes_seccreate(const char *servername, const u_int win,
++  */
++ AUTH *
++ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
++-	const char *timehost, const des_block *ckey, nis_server *srvr)
+++	const char *timehost, const des_block *ckey, nis_server *srvr
+++	)
++ {
++ 	AUTH *auth;
++ 	struct ad_private *ad;
++@@ -171,7 +181,9 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
++ 	ad->ad_timehost = NULL;
++ 	ad->ad_netid = NULL;
++ 	ad->ad_uaddr = NULL;
+++#ifdef YP
++ 	ad->ad_nis_srvr = NULL;
+++#endif
++ 	ad->ad_timediff.tv_sec = 0;
++ 	ad->ad_timediff.tv_usec = 0;
++ 	memcpy(ad->ad_pkey, pkey->n_bytes, pkey->n_len);
++@@ -194,9 +206,11 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
++ 		}
++ 		memcpy(ad->ad_timehost, timehost, strlen(timehost) + 1);
++ 		ad->ad_dosync = TRUE;
+++#ifdef YP
++ 	} else if (srvr != NULL) {
++ 		ad->ad_nis_srvr = srvr;	/* transient */
++ 		ad->ad_dosync = TRUE;
+++#endif
++ 	} else {
++ 		ad->ad_dosync = FALSE;
++ 	}
++@@ -224,7 +238,9 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
++ 	if (!authdes_refresh(auth, NULL)) {
++ 		goto failed;
++ 	}
+++#ifdef YP
++ 	ad->ad_nis_srvr = NULL; /* not needed any longer */
+++#endif
++ 	auth_get(auth);		/* Reference for caller */
++ 	return (auth);
++ 
++diff --git a/src/auth_time.c b/src/auth_time.c
++index 7cfbb7e..111de90 100644
++--- a/src/auth_time.c
+++++ b/src/auth_time.c
++@@ -43,8 +43,9 @@
++ //#include <clnt_soc.h>
++ #include <sys/select.h>
++ #undef NIS
+++#ifdef HAVE_RPCSVC_NIS_H
++ #include <rpcsvc/nis.h>
++-
+++#endif
++ 
++ #ifdef TESTING
++ #define	msg(x)	printf("ERROR: %s\n", x)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch b/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
+new file mode 100644
+index 0000000..098f4c4
+--- /dev/null
++++ b/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
+@@ -0,0 +1,203 @@
++From 538365a9319a100cd0aa8bf344b86e4c48426069 Mon Sep 17 00:00:00 2001
++From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
++Date: Sun, 1 Mar 2015 13:40:25 +0100
++Subject: [PATCH 2/2] configure.ac: Allow for disabling auth DES
++To: libtirpc-devel@lists.sourceforge.net
++Cc: Steve Dickson <SteveD@redhat.com>
++
++DES encryption might not be available.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
++---
++ Makefile.am      | 12 ++++++++----
++ configure.ac     | 12 ++++++++++++
++ libtirpc.pc.in   |  2 +-
++ src/Makefile.am  |  6 +++++-
++ src/rpc_soc.c    |  2 ++
++ tirpc/rpc/auth.h |  9 +++++++++
++ tirpc/rpc/rpc.h  |  2 ++
++ 7 files changed, 39 insertions(+), 6 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 9b812eb..e588ae0 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -27,17 +27,21 @@ nobase_include_HEADERS = tirpc/netconfig.h \
++ 			 tirpc/rpc/pmap_prot.h \
++ 			 tirpc/rpc/pmap_clnt.h \
++ 			 tirpc/rpc/nettype.h \
++-			 tirpc/rpc/des.h \
++-			 tirpc/rpc/des_crypt.h \
++ 			 tirpc/rpc/clnt_stat.h \
++ 			 tirpc/rpc/clnt_soc.h \
++ 			 tirpc/rpc/clnt.h \
++ 			 tirpc/rpc/auth_unix.h \
++ 			 tirpc/rpc/auth_kerb.h \
++ 			 tirpc/rpc/auth.h \
++-			 tirpc/rpc/auth_gss.h \
+++			 tirpc/rpc/auth_gss.h
+++
+++if AUTHDES
+++nobase_include_HEADERS += \
+++			 tirpc/rpc/des.h \
+++			 tirpc/rpc/des_crypt.h \
++ 			 tirpc/rpc/auth_des.h
++-    
+++endif
+++
++ pkgconfigdir=$(libdir)/pkgconfig
++ pkgconfig_DATA = libtirpc.pc
++ 
++diff --git a/configure.ac b/configure.ac
++index d006ac9..6d623cf 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -49,5 +49,17 @@ if test "x$enable_nis" != xno; then
++ fi
++ AM_CONDITIONAL([YP], [test "x$enable_nis" != xno])
++ 
+++AC_ARG_ENABLE([authdes],
+++	[AC_HELP_STRING([--disable-authdes],
+++		[Disable DES authentication @<:@default=no@:>@])],
+++	[],[enable_authdes=yes])
+++AM_CONDITIONAL([AUTHDES], [test "x$enable_authdes" != xno])
+++if test "x$enable_authdes" != xno; then
+++	AC_DEFINE([AUTHDES], [1],
+++		[Define to 1 if DES authentication is enabled])
+++	CFLAG_AUTHDES="-D_HAS_AUTH_DES=1"
+++	AC_SUBST([CFLAG_AUTHDES])
+++fi
+++
++ AC_CONFIG_FILES([Makefile src/Makefile man/Makefile doc/Makefile])
++ AC_OUTPUT(libtirpc.pc)
++diff --git a/libtirpc.pc.in b/libtirpc.pc.in
++index 38034c5..ebbc66f 100644
++--- a/libtirpc.pc.in
+++++ b/libtirpc.pc.in
++@@ -8,4 +8,5 @@ Description: Transport Independent RPC L
++ Requires:
++ Version: @PACKAGE_VERSION@
++ Libs: -L@libdir@ -ltirpc
+++Libs.private: -lpthread
++-Cflags: -I@includedir@/tirpc
+++Cflags: -I@includedir@/tirpc @CFLAG_AUTHDES@
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 7861057..121a500 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -51,7 +51,7 @@ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c bindresvport.c cln
++         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
++         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
++         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
++-        auth_des.c authdes_prot.c debug.c
+++        debug.c
++ 
++ ## XDR
++ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
++@@ -67,6 +67,10 @@ if YP
++     libtirpc_la_SOURCES += auth_time.c
++ endif
++ 
+++if AUTHDES
+++    libtirpc_la_SOURCES += auth_des.c authdes_prot.c
+++endif
+++
++ ## libtirpc_a_SOURCES += key_call.c key_prot_xdr.c getpublickey.c
++ ## libtirpc_a_SOURCES += netname.c netnamer.c rpcdname.c \
++ ## libtirpc_a_SOURCES += rtime.c \
++diff --git a/src/rpc_soc.c b/src/rpc_soc.c
++index e146ed4..c3d0e6e 100644
++--- a/src/rpc_soc.c
+++++ b/src/rpc_soc.c
++@@ -520,6 +520,7 @@ clnt_broadcast(prog, vers, proc, xargs, argsp, xresults, resultsp, eachresult)
++ 	    (resultproc_t) rpc_wrap_bcast, "udp");
++ }
++ 
+++#ifdef _HAS_AUTH_DES
++ /*
++  * Create the client des authentication object. Obsoleted by
++  * authdes_seccreate().
++@@ -551,6 +552,7 @@ fallback:
++ 	dummy = authdes_seccreate(servername, window, NULL, ckey);
++ 	return (dummy);
++ }
+++#endif /* _HAS_AUTH_DES */
++ 
++ /*
++  * Create a client handle for a unix connection. Obsoleted by clnt_vc_create()
++diff --git a/tirpc/rpc/auth.h b/tirpc/rpc/auth.h
++index 7c8f813..4493a4d 100644
++--- a/tirpc/rpc/auth.h
+++++ b/tirpc/rpc/auth.h
++@@ -164,9 +164,11 @@ union des_block {
++ 	char c[8];
++ };
++ typedef union des_block des_block;
+++#ifdef _HAS_AUTH_DES
++ __BEGIN_DECLS
++ extern bool_t xdr_des_block(XDR *, des_block *);
++ __END_DECLS
+++#endif /* _HAS_AUTH_DES */
++ 
++ /*
++  * Authentication info.  Opaque to client.
++@@ -305,6 +307,8 @@ extern AUTH *authunix_create(char *, uid_t, uid_t, int, uid_t *);
++ extern AUTH *authunix_create_default(void);	/* takes no parameters */
++ extern AUTH *authnone_create(void);		/* takes no parameters */
++ __END_DECLS
+++
+++#ifdef _HAS_AUTH_DES
++ /*
++  * DES style authentication
++  * AUTH *authsecdes_create(servername, window, timehost, ckey)
++@@ -318,6 +322,7 @@ extern AUTH *authdes_create (char *, u_int, struct sockaddr *, des_block *);
++ extern AUTH *authdes_seccreate (const char *, const u_int, const  char *,
++     const  des_block *);
++ __END_DECLS
+++#endif /* _HAS_AUTH_DES */
++ 
++ __BEGIN_DECLS
++ extern bool_t xdr_opaque_auth		(XDR *, struct opaque_auth *);
++@@ -335,7 +340,9 @@ extern int host2netname(char *, const char *, const char *);
++ extern int user2netname(char *, const uid_t, const char *);
++ extern int netname2user(char *, uid_t *, gid_t *, int *, gid_t *);
++ extern int netname2host(char *, char *, const int);
+++#ifdef _HAS_AUTH_DES
++ extern void passwd2des ( char *, char * );
+++#endif /* _HAS_AUTH_DES */
++ __END_DECLS
++ 
++ /*
++@@ -346,7 +353,9 @@ __END_DECLS
++ __BEGIN_DECLS
++ extern int key_decryptsession(const char *, des_block *);
++ extern int key_encryptsession(const char *, des_block *);
+++#ifdef _HAS_AUTH_DES
++ extern int key_gendes(des_block *);
+++#endif /* _HAS_AUTH_DES */
++ extern int key_setsecret(const char *);
++ extern int key_secretkey_is_set(void);
++ __END_DECLS
++diff --git a/tirpc/rpc/rpc.h b/tirpc/rpc/rpc.h
++index 6c0222e..a7231a0 100644
++--- a/tirpc/rpc/rpc.h
+++++ b/tirpc/rpc/rpc.h
++@@ -52,11 +52,13 @@
++ #include <rpc/rpc_msg.h>	/* protocol for rpc messages */
++ #include <rpc/auth_unix.h>	/* protocol for unix style cred */
++ 
+++#ifdef _HAS_AUTH_DES
++ /*
++  *  Uncomment-out the next line if you are building the rpc library with
++  *  DES Authentication (see the README file in the secure_rpc/ directory).
++  */
++ #include <rpc/auth_des.h>	/* protocol for des style cred */
+++#endif /* _HAS_AUTH_DES */
++ 
++ #ifdef HAVE_RPCSEC_GSS
++ #include <rpc/auth_gss.h>   /* RPCSEC_GSS */
++-- 
++2.1.4
++
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch b/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
+new file mode 100644
+index 0000000..d29c1fb
+--- /dev/null
++++ b/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
+@@ -0,0 +1,20 @@
++Subject: [PATCH] debug.h: add missing include
++
++Upstream-Status: Pending
++
++In file included from src/clnt_bcast.c:67:0:
++src/debug.h:39:47: error: unknown type name 'va_list'
++ vlibtirpc_log_dbg(int level, const char *fmt, va_list args)
++
++
++diff -rdup libtirpc-0.2.5.oorig/src/debug.h libtirpc-0.2.5/src/debug.h
++--- libtirpc-0.2.5.oorig/src/debug.h	2014-08-08 18:24:34.000000000 +0200
+++++ libtirpc-0.2.5/src/debug.h	2015-03-11 20:55:29.141397172 +0100
++@@ -21,6 +21,7 @@
++ 
++ #ifndef _DEBUG_H
++ #define _DEBUG_H
+++#include <stdarg.h>
++ #include <syslog.h>
++ 
++ extern int libtirpc_debug_level;
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch b/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
 deleted file mode 100644
-index afa55f3..0000000
---- a/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
+index d003348..0000000
+--- a/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
--Upstream-Status: Pending
+@@ -1,38 +0,0 @@
+-uclibc does not provide des functionality unlike eglibc so lets disable ssl support
 -
--From b8f0d7b7318ba344c25785d6f5cf3f8de98012d4 Mon Sep 17 00:00:00 2001
--From: Natanael Copa <ncopa@alpinelinux.org>
--Date: Tue, 2 Feb 2010 09:36:03 +0000
--Subject: [PATCH 1/2] uclibc-nss
+-Upstream-Status: Inappropriate [uclibc specific]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
-----
-- src/rpcbind.c |    4 ++++
-- 1 files changed, 4 insertions(+), 0 deletions(-)
--
--diff --git a/src/rpcbind.c b/src/rpcbind.c
--index 525ffba..1fe1a60 100644
----- a/src/rpcbind.c
--+++ b/src/rpcbind.c
--@@ -67,7 +67,11 @@
-- #include <pwd.h>
-- #include <string.h>
-- #include <errno.h>
--+#if defined(__UCLIBC__)
--+#define __nss_configure_lookup(x,y)
--+#else
-- #include <nss.h>
--+#endif
-- #include "config.h"
-- #include "rpcbind.h"
+-Index: libtirpc-0.2.3/src/rpc_soc.c
+-===================================================================
+---- libtirpc-0.2.3.orig/src/rpc_soc.c	2013-03-10 16:00:51.355282153 -0700
+-+++ libtirpc-0.2.3/src/rpc_soc.c	2013-03-10 16:00:51.703282148 -0700
+-@@ -520,6 +520,7 @@
+- 	    (resultproc_t) rpc_wrap_bcast, "udp");
+- }
 - 
---- 
--1.6.6.1
--
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch b/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
-deleted file mode 100644
-index c54fc96..0000000
---- a/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--Upstream-Status: Pending
--
--From 077add040c2e30d3ac507362f4afe350f47be027 Mon Sep 17 00:00:00 2001
--From: Natanael Copa <ncopa@alpinelinux.org>
--Date: Tue, 2 Feb 2010 09:47:57 +0000
--Subject: [PATCH 2/2] uclibc-rpcsvc-defines
--
-----
-- src/security.c |   28 ++++++++++++++++++++++++++++
-- 1 files changed, 28 insertions(+), 0 deletions(-)
--
--diff --git a/src/security.c b/src/security.c
--index 0edeac6..e9fed55 100644
----- a/src/security.c
--+++ b/src/security.c
--@@ -20,6 +20,32 @@
+-+#if 0
 - /*
--  * XXX for special case checks in check_callit.
--  */
--+#if defined(__UCLIBC__)
--+
--+#define MOUNTPROC_MNT 1
--+#define MOUNTPROC_UMNT 3
--+
--+#define NFS_PROGRAM	100003
--+#define YPPROG		100004
--+#define MOUNTPROG	100005
--+#define YPBINDPROG	100007
--+#define YPPASSWDPROG	100009
--+#define RQUOTAPROG	100011
--+
--+#define YPPROC_NULL	0
--+#define YPPROC_DOMAIN 	1
--+#define YPPROC_DOMAIN_NONACK 2
--+#define YPPROC_MATCH	3
--+#define YPPROC_FIRST	4
--+#define YPPROC_NEXT	5
--+#define YPPROC_XFR	6
--+#define YPPROC_CLEAR	7
--+#define YPPROC_ALL	8
--+
--+#define YPBINDPROC_SETDOM	2
--+
--+#else
--+
-- #include <rpcsvc/mount.h>
-- #include <rpcsvc/rquota.h>
-- #include <rpcsvc/nfs_prot.h>
--@@ -27,6 +53,8 @@
-- #include <rpcsvc/ypclnt.h>
-- #include <rpcsvc/yppasswd.h>
-- 
+-  * Create the client des authentication object. Obsoleted by
+-  * authdes_seccreate().
+-@@ -551,6 +552,7 @@
+- 	dummy = authdes_seccreate(servername, window, NULL, ckey);
+- 	return (dummy);
+- }
 -+#endif
--+
-- #include "rpcbind.h"
 - 
-- #ifdef LIBWRAP
---- 
--1.6.6.1
--
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-index fd4b2b5..7414d89 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.2.bb
-@@ -10,19 +10,15 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
-                     file://src/rpcinfo.c;beginline=1;endline=27;md5=f8a8cd2cb25ac5aa16767364fb0e3c24"
+- /*
+-  * Create a client handle for a unix connection. Obsoleted by clnt_vc_create()
+-Index: libtirpc-0.2.3/src/Makefile.am
+-===================================================================
+---- libtirpc-0.2.3.orig/src/Makefile.am	2013-03-10 16:00:51.355282153 -0700
+-+++ libtirpc-0.2.3/src/Makefile.am	2013-03-10 16:00:51.703282148 -0700
+-@@ -50,7 +50,7 @@
+-         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
+-         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
+-         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
+--        auth_time.c auth_des.c authdes_prot.c
+-+        auth_time.c
+- 
+- ## XDR
+- libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
+index 3edf002..fc880c4 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
+@@ -10,12 +10,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
+ DEPENDS += "xz-native"
+ PROVIDES = "virtual/librpc"
  
 +PR = "r1"
- SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://init.d \
--           ${UCLIBCPATCHES} \
-+           file://0001-configure.ac-Check-for-rpcsvc-mount.h.patch \
-            file://rpcbind.conf \
-            file://rpcbind.socket \
-            file://rpcbind.service \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
+            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
+            file://libtirpc-0.2.1-fortify.patch \
++           file://0001-configure.ac-Allow-for-disabling-NIS.patch \
++           file://0002-configure.ac-Allow-for-disabling-auth-DES.patch \
++           file://0003-debug.h-Include-stdarg.patch \
            "
  
--UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
--                             file://0002-uclibc-rpcsvc-defines.patch \
--                            "
--UCLIBCPATCHES ?= ""
--
- SRC_URI[md5sum] = "8acf839bfef2364a05fbd6be5f8edf9a"
- SRC_URI[sha256sum] = "13dbc8c796dbe0ce8df873007bea0490c8460b56202d918c9eb6fa0358a08f29"
+-SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch"
++EXTRA_OECONF_append_libc-uclibc = " --disable-nis --disable-authdes"
  
+ SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
+ SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
 -- 
 1.7.10.4
 
