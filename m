@@ -1,34 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E9556013D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 128196013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 11:31:28 +0000 (UTC)
-Received: by pabyw6 with SMTP id yw6so62518668pab.2
+	Mon, 16 Mar 2015 11:37:17 +0000 (UTC)
+Received: by qcaz10 with SMTP id z10so40339172qca.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 04:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=tG8ssLryk46GOmvTkRYxQx6NZ91+xx3hhPNFhAPKyFs=;
-	b=l1VrH+2BXIdwHWHwwS1bDETW2aRep6dUmrL6DL7jVJHKje5fcj18S3wLK7D/JJ23c2
-	xeuAQiP6Ckd5pTVXUdSBW5sGxwc75r+LUmh4tFvaUgXCwKC0wYTsBovURiLz3wGwmyAU
-	4lKm2PtyLjtfePwe/mYCyGbGg96QRdD0ipkn2WONoQB0tvYr8lrHFItZRVeXKQK79MoT
-	9gVNQJmywKIu9BEBPUbaY+bkANCEJBQIGjCa7RyRC07NbbCdakYRtfmmZO2xgb8TwxBZ
-	4p0rorbU/1INJrUawP1c2nvELMQpoUz0D//HX3CTC+DIld/+5Ltl7HmV5Znu3NDInMyV
-	RYeA==
-X-Received: by 10.70.14.226 with SMTP id s2mr134843619pdc.145.1426505489546;
-	Mon, 16 Mar 2015 04:31:29 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id y2sm16890361pdm.31.2015.03.16.04.31.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Mar 2015 04:31:28 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2015 22:29:48 +1100
-Message-Id: <1426505388-32713-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.3.1
-Subject: [dizzy][PATCH] liburcu: revert ARM GCC blacklist commit
+	Mon, 16 Mar 2015 04:37:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=AIFiRb4as8ebYHFxWsKEHUZhu2WpuzqaavCczI9ai/8=;
+	b=fM5avjh8gSxBWkDlVBvKxYCATPeGaQx/aphTF+oExyRLXo+ayhBr6oYysNhtxbKMzy
+	S5AF94FfOel6L+BJqvwjj855NBUk1jBMZBEPXQqD1dUCWZPCvkkkTTwM+8L7vpEHLvJx
+	0SJfLaVEbKAhmqh2xJmi8vvSiaOrjLuXhX1nW4wq2AGPZ7NpdchqRuVv8QrC507/7NTO
+	uMpGVs5hfaanr/nv5v7PYTvdp8cWBgDBG36tCIQwVswWs91foc7UG498nmgru2Vp4tzG
+	QUTTekWZd6vhQT2nLntExVdBs6gNLhMbB41bLdQjUOdsFm+FUwvgyFU4FuzL13yPnTde
+	+NVg==
+X-Gm-Message-State: ALoCoQkNzP4/0lOyJQjduAL9zQb+638JSHPivP9honCkPT29GMVVpe/w6MZ+CKezQ+tO4du3jU/G
+X-Received: by 10.55.31.32 with SMTP id f32mr59073833qkf.41.1426505838401;
+	Mon, 16 Mar 2015 04:37:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Mon, 16 Mar 2015 04:36:58 -0700 (PDT)
+In-Reply-To: <cover.1426454666.git.anibal.limon@linux.intel.com>
+References: <cover.1426454666.git.anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Mar 2015 13:36:58 +0200
+Message-ID: <CAJTo0Lb3=5uZ0nm6Zzu-1ewP5jVaJonLjb4QUrESRkGMGh9jmg@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] fixes for x32 ABI build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,87 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 11:31:33 -0000
+X-List-Received-Date: Mon, 16 Mar 2015 11:37:23 -0000
+Content-Type: multipart/alternative; boundary=001a1147b0dcc4b3f1051166456d
 
-This fixes the following error when building liburcu:
-"Your gcc version produces clobbered frame accesses"
+--001a1147b0dcc4b3f1051166456d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-OE-Core is using a patched GCC 4.8.2 which is able to compile liburcu
-properly.
+Hi Anibal,
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- ...evert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch | 47 ++++++++++++++++++++++
- meta/recipes-support/liburcu/liburcu_0.8.4.bb      |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch
+On 15 March 2015 at 23:28, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel=
+.com>
+wrote:
 
-diff --git a/meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch b/meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch
-new file mode 100644
-index 0000000..535a738
---- /dev/null
-+++ b/meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch
-@@ -0,0 +1,47 @@
-+From 7b3df100346128d780f218b881d563d1fd12e310 Mon Sep 17 00:00:00 2001
-+From: Jonathan Liu <net147@gmail.com>
-+Date: Mon, 20 Oct 2014 13:46:10 +1100
-+Subject: [PATCH] Revert "Blacklist ARM gcc 4.8.0, 4.8.1, 4.8.2"
-+
-+This reverts commit 4b79310aa3d408ba30fee02cc497a68072d38a99.
-+OE-Core is using a patched GCC 4.8.2 which is able to compile liburcu
-+properly.
-+
-+Upstream-Status: Inappropriate [OE specific]
-+
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
-+---
-+ urcu/compiler.h | 19 -------------------
-+ 1 file changed, 19 deletions(-)
-+
-+diff --git a/urcu/compiler.h b/urcu/compiler.h
-+index 1e30903..19534f0 100644
-+--- a/urcu/compiler.h
-++++ b/urcu/compiler.h
-+@@ -108,23 +108,4 @@
-+ 
-+ #define CAA_ARRAY_SIZE(x)	(sizeof(x) / sizeof((x)[0]))
-+ 
-+-/*
-+- * Don't allow compiling with buggy compiler.
-+- */
-+-
-+-#ifdef __GNUC__
-+-# define URCU_GCC_VERSION	(__GNUC__ * 10000 \
-+-				+ __GNUC_MINOR__ * 100 \
-+-				+ __GNUC_PATCHLEVEL__)
-+-
-+-/*
-+- * http://gcc.gnu.org/bugzilla/show_bug.cgi?id=58854
-+- */
-+-# ifdef __ARMEL__
-+-#  if URCU_GCC_VERSION >= 40800 && URCU_GCC_VERSION <= 40802
-+-#   error Your gcc version produces clobbered frame accesses
-+-#  endif
-+-# endif
-+-#endif
-+-
-+ #endif /* _URCU_COMPILER_H */
-+-- 
-+2.1.2
-+
-diff --git a/meta/recipes-support/liburcu/liburcu_0.8.4.bb b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-index cd7af24..963029e 100644
---- a/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
-                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
- 
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
-+           file://Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch \
-           "
- 
- SRC_URI[md5sum] = "2ca6671b20a550aa0e8020a1a9a96fd4"
--- 
-2.3.1
+> An=C3=ADbal Lim=C3=B3n (3):
+>   mdadm: Fix build in x32 ABI
+>   systemtap: Fix build in x32 ABI
+>   puzzles: Fix build in x32 ABI
+>
 
+The patches need a Signed-off-by alongside the Upstream-Status tags.
 
+Ross
+
+--001a1147b0dcc4b3f1051166456d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Anibal,</div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">On 15 March 2015 at 23:28, An=C3=
+=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@linu=
+x.intel.com" target=3D"_blank">anibal.limon@linux.intel.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":25e" class=3D"a3s" sty=
+le=3D"overflow:hidden">An=C3=ADbal Lim=C3=B3n (3):<br>
+=C2=A0 mdadm: Fix build in x32 ABI<br>
+=C2=A0 systemtap: Fix build in x32 ABI<br>
+=C2=A0 puzzles: Fix build in x32 ABI</div></blockquote></div><br>The patche=
+s need a Signed-off-by alongside the Upstream-Status tags.</div><div class=
+=3D"gmail_extra"><br>Ross</div></div>
+
+--001a1147b0dcc4b3f1051166456d--
