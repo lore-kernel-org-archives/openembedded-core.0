@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A5AF73942
+	by mail.openembedded.org (Postfix) with ESMTP id 79DA373919
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 14:19:19 +0000 (UTC)
+	Mon, 16 Mar 2015 14:19:20 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 16 Mar 2015 07:17:20 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 Mar 2015 07:17:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,409,1422950400"; d="scan'208";a="680778286"
+X-IronPort-AV: E=Sophos;i="5.11,409,1422950400"; d="scan'208";a="680778294"
 Received: from sgconnee-mobl2.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.8.217])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2015 07:19:20 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2015 07:19:21 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2015 14:19:01 +0000
-Message-Id: <5f26b64f6149ec038d4220e8ef9cad4f09811c77.1426515313.git.paul.eggleton@linux.intel.com>
+Date: Mon, 16 Mar 2015 14:19:02 +0000
+Message-Id: <5bfae729e15602ec29ddcc4dca0f8b9b5019d4c9.1426515313.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1426515313.git.paul.eggleton@linux.intel.com>
 References: <cover.1426515313.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1426515313.git.paul.eggleton@linux.intel.com>
 References: <cover.1426515313.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 15/16] recipetool: fix duplicate licenses being picked up
+Subject: [PATCH 16/16] oe-selftest: add missing dependency to test_recipetool_create_git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 14:19:19 -0000
+X-List-Received-Date: Mon, 16 Mar 2015 14:19:20 -0000
 
-If a license file matched more than one of the specifications (e.g.
-COPYING.GPL) then it was being added to LIC_FILES_CHKSUM more than once.
+libmatchbox links to libjpeg if it is present so just explicitly build
+it and then check it appears in DEPENDS.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/devtool.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index ae599cb..1c71b24 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -310,7 +310,9 @@ def guess_license(srctree):
-         for fn in files:
-             for spec in licspecs:
-                 if fnmatch.fnmatch(fn, spec):
--                    licfiles.append(os.path.join(root, fn))
-+                    fullpath = os.path.join(root, fn)
-+                    if not fullpath in licfiles:
-+                        licfiles.append(fullpath)
-     for licfile in licfiles:
-         md5value = bb.utils.md5_file(licfile)
-         license = md5sums.get(md5value, 'Unknown')
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 869fecf..dc1cf21 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -67,7 +67,7 @@ class DevtoolTests(oeSelfTest):
+ 
+     def test_recipetool_create_git(self):
+         # Ensure we have the right data in shlibs/pkgdata
+-        bitbake('libpng pango libx11 libxext')
++        bitbake('libpng pango libx11 libxext jpeg')
+         # Try adding a recipe
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+@@ -83,7 +83,7 @@ class DevtoolTests(oeSelfTest):
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '1.0+git${SRCPV}'
+         checkvars['SRC_URI'] = srcuri
+-        checkvars['DEPENDS'] = 'libpng pango libx11 libxext'
++        checkvars['DEPENDS'] = 'libpng pango libx11 libxext jpeg'
+         inherits = []
+         with open(recipefile, 'r') as f:
+             for line in f:
 -- 
 1.9.3
 
