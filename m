@@ -1,37 +1,26 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 412C96AC43
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 981F76013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 08:53:48 +0000 (UTC)
-Received: by webcq43 with SMTP id cq43so32831908web.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 01:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6ONmBOfQJJvwFRA1xFQwi1/dACmuAzKSTOSmiDEQuKs=;
-	b=zpYwdqEiNwg4EHFOKCanT5fRg4np7B2cSVFglT5WaUNXiSA4HH5rRA00dYDWBXnMA/
-	th4fyjvJkf8PrMGASOGxqmv8saF2SNw0zWx39b28oM2Xw7eI59mX6HfssjbUb6ELefUV
-	WYNkbEc9ijaz3dGJnNYoZAsbjaNREDtan8L6HHDanBUt1144LWoy4+OwtYm+f4Bl8+nn
-	Ao33vPNliB/VPMfaTKPz5nVcZmvqZPAd77DfOeKvZk/FusH9Iw9KMIrXgMgXDBSxMKLn
-	gHRi+tkB9KsF/pgLgToT/nEChKsArlGTGvG3CWMVF/eWTKtgHTuNI53ZatJPUqnHa5gL
-	72tw==
-X-Received: by 10.194.8.99 with SMTP id q3mr123277998wja.88.1426496029180;
-	Mon, 16 Mar 2015 01:53:49 -0700 (PDT)
-Received: from s42.loc (91-119-229-249.dynamic.xdsl-line.inode.at.
-	[91.119.229.249]) by mx.google.com with ESMTPSA id
-	ga8sm14352848wib.11.2015.03.16.01.53.47
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 16 Mar 2015 01:53:47 -0700 (PDT)
-Received: from cow by s42.loc with local (Exim 4.80)
-	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1YXQmQ-000716-7W; Mon, 16 Mar 2015 09:53:46 +0100
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2015 09:53:43 +0100
-Message-Id: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/3] libtirpc: respin patches
+	Mon, 16 Mar 2015 09:54:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Mar 2015 02:54:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,407,1422950400"; d="scan'208";a="467808708"
+Received: from sgconnee-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.8.217])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2015 02:47:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 16 Mar 2015 09:54:18 +0000
+Message-ID: <1560666.CFdVa8e3ff@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-100.fc20.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <1426480377-32757-1-git-send-email-sgw@linux.intel.com>
+References: <1426480377-32757-1-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_manager: Create variable for install_dir_name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,505 +33,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 08:53:48 -0000
+X-List-Received-Date: Mon, 16 Mar 2015 09:54:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Due to libc-dependant conditional patching (which should be completely
-forbidden -- fix it properly instead) the last PV bump forgot to adjust
-patches so they failed to apply.
+Hi Saul,
 
-Fix this by redoing the patches. These patches were submitted for
-upstream master, add backported patches for the current tarball.
+A couple of minor things:
 
-Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
----
- ...0001-configure.ac-Allow-for-disabling-NIS.patch |  169 ++++++++++++++++
- ...configure.ac-Allow-for-disabling-auth-DES.patch |  203 ++++++++++++++++++++
- .../libtirpc/0003-debug.h-Include-stdarg.patch     |   20 ++
- .../libtirpc/libtirpc/remove-des-uclibc.patch      |   38 ----
- meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb   |    6 +-
- 5 files changed, 397 insertions(+), 39 deletions(-)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
+On Sunday 15 March 2015 22:32:57 Saul Wold wrote:
+> This patch creates a variable for the install_dir name so it can be
+> something other than /install, also by doing this we can correctly
+> clean up the empty directories (/install/tmp) during the clean-up
+> phase. The new default is /oe_install so as to not conflict with other
+> possible packages that might use /install to place files.
+> 
+> [YOCTO #7353]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/lib/oe/package_manager.py | 15 ++++++++-------
+>  meta/lib/oe/rootfs.py          |  5 ++++-
+>  2 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 69bef1d..63bce27 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -578,7 +578,8 @@ class RpmPM(PackageManager):
+>          self.fullpkglist = list()
+>          self.deploy_dir = self.d.getVar('DEPLOY_DIR_RPM', True)
+>          self.etcrpm_dir = os.path.join(self.target_rootfs, "etc/rpm")
+> -        self.install_dir = os.path.join(self.target_rootfs, "install")
+> +        self.install_dir_name = os.path.join("oe_install")
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
-new file mode 100644
-index 0000000..5b2aa3d
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0001-configure.ac-Allow-for-disabling-NIS.patch
-@@ -0,0 +1,169 @@
-+From b562294d35d8a87af2bcdbc32c15cc973e50ed4e Mon Sep 17 00:00:00 2001
-+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-+Date: Sun, 1 Mar 2015 12:18:05 +0100
-+Subject: [PATCH 1/2] configure.ac: Allow for disabling NIS
-+To: libtirpc-devel@lists.sourceforge.net
-+Cc: Steve Dickson <SteveD@redhat.com>
-+
-+Yellow Pages might not be available, provide a config knob to disable
-+it.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-+---
-+ configure.ac    | 16 ++++++++++++++++
-+ src/Makefile.am |  6 +++++-
-+ src/auth_des.c  | 18 +++++++++++++++++-
-+ src/auth_time.c |  3 ++-
-+ 4 files changed, 40 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 10d17ea..d006ac9 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -32,6 +32,22 @@ AC_CHECK_HEADERS([arpa/inet.h fcntl.h libintl.h limits.h locale.h netdb.h netine
-+ AC_CHECK_LIB([pthread], [pthread_create])
-+ AC_CHECK_LIB([nsl], [yp_get_default_domain])
-+ 
-++AC_ARG_ENABLE([nis],
-++	[AC_HELP_STRING([--disable-nis],
-++		[Disable Yellow Pages (NIS) support @<:@default=no@:>@])],
-++	[],[enable_nis=yes])
-++if test "x$enable_nis" != xno; then
-++	AC_CHECK_HEADERS([rpcsvc/nis.h])
-++	if test "x$ac_cv_header_rpcsvc_nis_h" != xyes; then
-++		AC_WARN([NIS enabled but no rpcsvc/nis.h header found])
-++		AC_WARN([Turning off NIS / YP support])
-++		enable_nis="no"
-++	fi
-++fi
-++if test "x$enable_nis" != xno; then
-++	AC_DEFINE([YP], [1], [Define to 1 if NIS is available])
-++fi
-++AM_CONDITIONAL([YP], [test "x$enable_nis" != xno])
-+ 
-+ AC_CONFIG_FILES([Makefile src/Makefile man/Makefile doc/Makefile])
-+ AC_OUTPUT(libtirpc.pc)
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index de57c8f..7861057 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -51,7 +51,7 @@ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c bindresvport.c cln
-+         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
-+         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
-+         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
-+-        auth_time.c auth_des.c authdes_prot.c debug.c
-++        auth_des.c authdes_prot.c debug.c
-+ 
-+ ## XDR
-+ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
-+@@ -63,6 +63,10 @@ if GSS
-+     libtirpc_la_CFLAGS = -DHAVE_RPCSEC_GSS $(GSSAPI_CFLAGS)
-+ endif
-+ 
-++if YP
-++    libtirpc_la_SOURCES += auth_time.c
-++endif
-++
-+ ## libtirpc_a_SOURCES += key_call.c key_prot_xdr.c getpublickey.c
-+ ## libtirpc_a_SOURCES += netname.c netnamer.c rpcdname.c \
-+ ## libtirpc_a_SOURCES += rtime.c \
-+diff --git a/src/auth_des.c b/src/auth_des.c
-+index cff777c..be9d364 100644
-+--- a/src/auth_des.c
-++++ b/src/auth_des.c
-+@@ -48,7 +48,9 @@
-+ #include <rpc/xdr.h>
-+ #include <sys/socket.h>
-+ #undef NIS
-++#ifdef HAVE_RPCSVC_NIS_H
-+ #include <rpcsvc/nis.h>
-++#endif
-+ 
-+ #if defined(LIBC_SCCS) && !defined(lint)
-+ #endif
-+@@ -68,8 +70,13 @@ extern bool_t xdr_authdes_cred( XDR *, struct authdes_cred *);
-+ extern bool_t xdr_authdes_verf( XDR *, struct authdes_verf *);
-+ extern int key_encryptsession_pk();
-+ 
-++#ifdef YP
-+ extern bool_t __rpc_get_time_offset(struct timeval *, nis_server *, char *,
-+ 	char **, char **);
-++#else
-++# define __rpc_get_time_offset(__a,__b,__c,__d, __e) (1) /* always valid */
-++# define nis_server char
-++#endif
-+ 
-+ /* 
-+  * DES authenticator operations vector
-+@@ -103,7 +110,9 @@ struct ad_private {
-+ 	u_char ad_pkey[1024];		/* Server's actual public key */
-+ 	char *ad_netid;			/* Timehost netid */
-+ 	char *ad_uaddr;			/* Timehost uaddr */
-++#ifdef YP
-+ 	nis_server *ad_nis_srvr;	/* NIS+ server struct */
-++#endif
-+ };
-+ 
-+ AUTH *authdes_pk_seccreate(const char *, netobj *, u_int, const char *,
-+@@ -148,7 +157,8 @@ authdes_seccreate(const char *servername, const u_int win,
-+  */
-+ AUTH *
-+ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
-+-	const char *timehost, const des_block *ckey, nis_server *srvr)
-++	const char *timehost, const des_block *ckey, nis_server *srvr
-++	)
-+ {
-+ 	AUTH *auth;
-+ 	struct ad_private *ad;
-+@@ -171,7 +181,9 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
-+ 	ad->ad_timehost = NULL;
-+ 	ad->ad_netid = NULL;
-+ 	ad->ad_uaddr = NULL;
-++#ifdef YP
-+ 	ad->ad_nis_srvr = NULL;
-++#endif
-+ 	ad->ad_timediff.tv_sec = 0;
-+ 	ad->ad_timediff.tv_usec = 0;
-+ 	memcpy(ad->ad_pkey, pkey->n_bytes, pkey->n_len);
-+@@ -194,9 +206,11 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
-+ 		}
-+ 		memcpy(ad->ad_timehost, timehost, strlen(timehost) + 1);
-+ 		ad->ad_dosync = TRUE;
-++#ifdef YP
-+ 	} else if (srvr != NULL) {
-+ 		ad->ad_nis_srvr = srvr;	/* transient */
-+ 		ad->ad_dosync = TRUE;
-++#endif
-+ 	} else {
-+ 		ad->ad_dosync = FALSE;
-+ 	}
-+@@ -224,7 +238,9 @@ authdes_pk_seccreate(const char *servername, netobj *pkey, u_int window,
-+ 	if (!authdes_refresh(auth, NULL)) {
-+ 		goto failed;
-+ 	}
-++#ifdef YP
-+ 	ad->ad_nis_srvr = NULL; /* not needed any longer */
-++#endif
-+ 	auth_get(auth);		/* Reference for caller */
-+ 	return (auth);
-+ 
-+diff --git a/src/auth_time.c b/src/auth_time.c
-+index 7cfbb7e..111de90 100644
-+--- a/src/auth_time.c
-++++ b/src/auth_time.c
-+@@ -43,8 +43,9 @@
-+ //#include <clnt_soc.h>
-+ #include <sys/select.h>
-+ #undef NIS
-++#ifdef HAVE_RPCSVC_NIS_H
-+ #include <rpcsvc/nis.h>
-+-
-++#endif
-+ 
-+ #ifdef TESTING
-+ #define	msg(x)	printf("ERROR: %s\n", x)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch b/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
-new file mode 100644
-index 0000000..098f4c4
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0002-configure.ac-Allow-for-disabling-auth-DES.patch
-@@ -0,0 +1,203 @@
-+From 538365a9319a100cd0aa8bf344b86e4c48426069 Mon Sep 17 00:00:00 2001
-+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-+Date: Sun, 1 Mar 2015 13:40:25 +0100
-+Subject: [PATCH 2/2] configure.ac: Allow for disabling auth DES
-+To: libtirpc-devel@lists.sourceforge.net
-+Cc: Steve Dickson <SteveD@redhat.com>
-+
-+DES encryption might not be available.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-+---
-+ Makefile.am      | 12 ++++++++----
-+ configure.ac     | 12 ++++++++++++
-+ libtirpc.pc.in   |  2 +-
-+ src/Makefile.am  |  6 +++++-
-+ src/rpc_soc.c    |  2 ++
-+ tirpc/rpc/auth.h |  9 +++++++++
-+ tirpc/rpc/rpc.h  |  2 ++
-+ 7 files changed, 39 insertions(+), 6 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 9b812eb..e588ae0 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -27,17 +27,21 @@ nobase_include_HEADERS = tirpc/netconfig.h \
-+ 			 tirpc/rpc/pmap_prot.h \
-+ 			 tirpc/rpc/pmap_clnt.h \
-+ 			 tirpc/rpc/nettype.h \
-+-			 tirpc/rpc/des.h \
-+-			 tirpc/rpc/des_crypt.h \
-+ 			 tirpc/rpc/clnt_stat.h \
-+ 			 tirpc/rpc/clnt_soc.h \
-+ 			 tirpc/rpc/clnt.h \
-+ 			 tirpc/rpc/auth_unix.h \
-+ 			 tirpc/rpc/auth_kerb.h \
-+ 			 tirpc/rpc/auth.h \
-+-			 tirpc/rpc/auth_gss.h \
-++			 tirpc/rpc/auth_gss.h
-++
-++if AUTHDES
-++nobase_include_HEADERS += \
-++			 tirpc/rpc/des.h \
-++			 tirpc/rpc/des_crypt.h \
-+ 			 tirpc/rpc/auth_des.h
-+-    
-++endif
-++
-+ pkgconfigdir=$(libdir)/pkgconfig
-+ pkgconfig_DATA = libtirpc.pc
-+ 
-+diff --git a/configure.ac b/configure.ac
-+index d006ac9..6d623cf 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -49,5 +49,17 @@ if test "x$enable_nis" != xno; then
-+ fi
-+ AM_CONDITIONAL([YP], [test "x$enable_nis" != xno])
-+ 
-++AC_ARG_ENABLE([authdes],
-++	[AC_HELP_STRING([--disable-authdes],
-++		[Disable DES authentication @<:@default=no@:>@])],
-++	[],[enable_authdes=yes])
-++AM_CONDITIONAL([AUTHDES], [test "x$enable_authdes" != xno])
-++if test "x$enable_authdes" != xno; then
-++	AC_DEFINE([AUTHDES], [1],
-++		[Define to 1 if DES authentication is enabled])
-++	CFLAG_AUTHDES="-D_HAS_AUTH_DES=1"
-++	AC_SUBST([CFLAG_AUTHDES])
-++fi
-++
-+ AC_CONFIG_FILES([Makefile src/Makefile man/Makefile doc/Makefile])
-+ AC_OUTPUT(libtirpc.pc)
-+diff --git a/libtirpc.pc.in b/libtirpc.pc.in
-+index 38034c5..ebbc66f 100644
-+--- a/libtirpc.pc.in
-++++ b/libtirpc.pc.in
-+@@ -8,4 +8,5 @@ Description: Transport Independent RPC L
-+ Requires:
-+ Version: @PACKAGE_VERSION@
-+ Libs: -L@libdir@ -ltirpc
-++Libs.private: -lpthread
-+-Cflags: -I@includedir@/tirpc
-++Cflags: -I@includedir@/tirpc @CFLAG_AUTHDES@
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 7861057..121a500 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -51,7 +51,7 @@ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c bindresvport.c cln
-+         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
-+         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
-+         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
-+-        auth_des.c authdes_prot.c debug.c
-++        debug.c
-+ 
-+ ## XDR
-+ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
-+@@ -67,6 +67,10 @@ if YP
-+     libtirpc_la_SOURCES += auth_time.c
-+ endif
-+ 
-++if AUTHDES
-++    libtirpc_la_SOURCES += auth_des.c authdes_prot.c
-++endif
-++
-+ ## libtirpc_a_SOURCES += key_call.c key_prot_xdr.c getpublickey.c
-+ ## libtirpc_a_SOURCES += netname.c netnamer.c rpcdname.c \
-+ ## libtirpc_a_SOURCES += rtime.c \
-+diff --git a/src/rpc_soc.c b/src/rpc_soc.c
-+index e146ed4..c3d0e6e 100644
-+--- a/src/rpc_soc.c
-++++ b/src/rpc_soc.c
-+@@ -520,6 +520,7 @@ clnt_broadcast(prog, vers, proc, xargs, argsp, xresults, resultsp, eachresult)
-+ 	    (resultproc_t) rpc_wrap_bcast, "udp");
-+ }
-+ 
-++#ifdef _HAS_AUTH_DES
-+ /*
-+  * Create the client des authentication object. Obsoleted by
-+  * authdes_seccreate().
-+@@ -551,6 +552,7 @@ fallback:
-+ 	dummy = authdes_seccreate(servername, window, NULL, ckey);
-+ 	return (dummy);
-+ }
-++#endif /* _HAS_AUTH_DES */
-+ 
-+ /*
-+  * Create a client handle for a unix connection. Obsoleted by clnt_vc_create()
-+diff --git a/tirpc/rpc/auth.h b/tirpc/rpc/auth.h
-+index 7c8f813..4493a4d 100644
-+--- a/tirpc/rpc/auth.h
-++++ b/tirpc/rpc/auth.h
-+@@ -164,9 +164,11 @@ union des_block {
-+ 	char c[8];
-+ };
-+ typedef union des_block des_block;
-++#ifdef _HAS_AUTH_DES
-+ __BEGIN_DECLS
-+ extern bool_t xdr_des_block(XDR *, des_block *);
-+ __END_DECLS
-++#endif /* _HAS_AUTH_DES */
-+ 
-+ /*
-+  * Authentication info.  Opaque to client.
-+@@ -305,6 +307,8 @@ extern AUTH *authunix_create(char *, uid_t, uid_t, int, uid_t *);
-+ extern AUTH *authunix_create_default(void);	/* takes no parameters */
-+ extern AUTH *authnone_create(void);		/* takes no parameters */
-+ __END_DECLS
-++
-++#ifdef _HAS_AUTH_DES
-+ /*
-+  * DES style authentication
-+  * AUTH *authsecdes_create(servername, window, timehost, ckey)
-+@@ -318,6 +322,7 @@ extern AUTH *authdes_create (char *, u_int, struct sockaddr *, des_block *);
-+ extern AUTH *authdes_seccreate (const char *, const u_int, const  char *,
-+     const  des_block *);
-+ __END_DECLS
-++#endif /* _HAS_AUTH_DES */
-+ 
-+ __BEGIN_DECLS
-+ extern bool_t xdr_opaque_auth		(XDR *, struct opaque_auth *);
-+@@ -335,7 +340,9 @@ extern int host2netname(char *, const char *, const char *);
-+ extern int user2netname(char *, const uid_t, const char *);
-+ extern int netname2user(char *, uid_t *, gid_t *, int *, gid_t *);
-+ extern int netname2host(char *, char *, const int);
-++#ifdef _HAS_AUTH_DES
-+ extern void passwd2des ( char *, char * );
-++#endif /* _HAS_AUTH_DES */
-+ __END_DECLS
-+ 
-+ /*
-+@@ -346,7 +353,9 @@ __END_DECLS
-+ __BEGIN_DECLS
-+ extern int key_decryptsession(const char *, des_block *);
-+ extern int key_encryptsession(const char *, des_block *);
-++#ifdef _HAS_AUTH_DES
-+ extern int key_gendes(des_block *);
-++#endif /* _HAS_AUTH_DES */
-+ extern int key_setsecret(const char *);
-+ extern int key_secretkey_is_set(void);
-+ __END_DECLS
-+diff --git a/tirpc/rpc/rpc.h b/tirpc/rpc/rpc.h
-+index 6c0222e..a7231a0 100644
-+--- a/tirpc/rpc/rpc.h
-++++ b/tirpc/rpc/rpc.h
-+@@ -52,11 +52,13 @@
-+ #include <rpc/rpc_msg.h>	/* protocol for rpc messages */
-+ #include <rpc/auth_unix.h>	/* protocol for unix style cred */
-+ 
-++#ifdef _HAS_AUTH_DES
-+ /*
-+  *  Uncomment-out the next line if you are building the rpc library with
-+  *  DES Authentication (see the README file in the secure_rpc/ directory).
-+  */
-+ #include <rpc/auth_des.h>	/* protocol for des style cred */
-++#endif /* _HAS_AUTH_DES */
-+ 
-+ #ifdef HAVE_RPCSEC_GSS
-+ #include <rpc/auth_gss.h>   /* RPCSEC_GSS */
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch b/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
-new file mode 100644
-index 0000000..d29c1fb
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0003-debug.h-Include-stdarg.patch
-@@ -0,0 +1,20 @@
-+Subject: [PATCH] debug.h: add missing include
-+
-+Upstream-Status: Pending
-+
-+In file included from src/clnt_bcast.c:67:0:
-+src/debug.h:39:47: error: unknown type name 'va_list'
-+ vlibtirpc_log_dbg(int level, const char *fmt, va_list args)
-+
-+
-+diff -rdup libtirpc-0.2.5.oorig/src/debug.h libtirpc-0.2.5/src/debug.h
-+--- libtirpc-0.2.5.oorig/src/debug.h	2014-08-08 18:24:34.000000000 +0200
-++++ libtirpc-0.2.5/src/debug.h	2015-03-11 20:55:29.141397172 +0100
-+@@ -21,6 +21,7 @@
-+ 
-+ #ifndef _DEBUG_H
-+ #define _DEBUG_H
-++#include <stdarg.h>
-+ #include <syslog.h>
-+ 
-+ extern int libtirpc_debug_level;
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch b/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
-deleted file mode 100644
-index d003348..0000000
---- a/meta/recipes-extended/libtirpc/libtirpc/remove-des-uclibc.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--uclibc does not provide des functionality unlike eglibc so lets disable ssl support
--
--Upstream-Status: Inappropriate [uclibc specific]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: libtirpc-0.2.3/src/rpc_soc.c
--===================================================================
----- libtirpc-0.2.3.orig/src/rpc_soc.c	2013-03-10 16:00:51.355282153 -0700
--+++ libtirpc-0.2.3/src/rpc_soc.c	2013-03-10 16:00:51.703282148 -0700
--@@ -520,6 +520,7 @@
-- 	    (resultproc_t) rpc_wrap_bcast, "udp");
-- }
-- 
--+#if 0
-- /*
--  * Create the client des authentication object. Obsoleted by
--  * authdes_seccreate().
--@@ -551,6 +552,7 @@
-- 	dummy = authdes_seccreate(servername, window, NULL, ckey);
-- 	return (dummy);
-- }
--+#endif
-- 
-- /*
--  * Create a client handle for a unix connection. Obsoleted by clnt_vc_create()
--Index: libtirpc-0.2.3/src/Makefile.am
--===================================================================
----- libtirpc-0.2.3.orig/src/Makefile.am	2013-03-10 16:00:51.355282153 -0700
--+++ libtirpc-0.2.3/src/Makefile.am	2013-03-10 16:00:51.703282148 -0700
--@@ -50,7 +50,7 @@
--         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
--         rpcb_st_xdr.c svc.c svc_auth.c svc_dg.c svc_auth_unix.c svc_auth_none.c \
--         svc_generic.c svc_raw.c svc_run.c svc_simple.c svc_vc.c getpeereid.c \
---        auth_time.c auth_des.c authdes_prot.c
--+        auth_time.c
-- 
-- ## XDR
-- libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-index 3edf002..fc880c4 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-@@ -10,12 +10,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
- DEPENDS += "xz-native"
- PROVIDES = "virtual/librpc"
- 
-+PR = "r1"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
-            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
-            file://libtirpc-0.2.1-fortify.patch \
-+           file://0001-configure.ac-Allow-for-disabling-NIS.patch \
-+           file://0002-configure.ac-Allow-for-disabling-auth-DES.patch \
-+           file://0003-debug.h-Include-stdarg.patch \
-           "
- 
--SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch"
-+EXTRA_OECONF_append_libc-uclibc = " --disable-nis --disable-authdes"
- 
- SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
- SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
+You aren't joining anything, best to just set the variable outright surely?
+
+> +        self.install_dir_path = os.path.join(self.target_rootfs,
+> self.install_dir_name) self.rpm_cmd = bb.utils.which(os.getenv('PATH'),
+> "rpm")
+>          self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
+>          self.smart_opt = "--quiet --data-dir=" +
+> os.path.join(target_rootfs, @@ -749,9 +750,9 @@ class
+> RpmPM(PackageManager):
+>          bb.utils.mkdirhier(self.etcrpm_dir)
+> 
+>          # Setup temporary directory -- install...
+> -        if os.path.exists(self.install_dir):
+> -            bb.utils.remove(self.install_dir, True)
+> -        bb.utils.mkdirhier(os.path.join(self.install_dir, 'tmp'))
+> +        if os.path.exists(self.install_dir_path):
+> +            bb.utils.remove(self.install_dir_path, True)
+> +        bb.utils.mkdirhier(os.path.join(self.install_dir_path, 'tmp'))
+> 
+>          channel_priority = 5
+>          platform_dir = os.path.join(self.etcrpm_dir, "platform")
+> @@ -838,7 +839,7 @@ class RpmPM(PackageManager):
+>          self._invoke_smart('config --set rpm-dbpath=/var/lib/rpm')
+>          self._invoke_smart('config --set rpm-extra-macros._var=%s' %
+>                             self.d.getVar('localstatedir', True))
+> -        cmd = 'config --set rpm-extra-macros._tmppath=/install/tmp'
+> +        cmd = "config --set rpm-extra-macros._tmppath=/%s/tmp" %
+> (self.install_dir_name)
+> 
+>          prefer_color = self.d.getVar('RPM_PREFER_ELF_ARCH', True)
+>          if prefer_color:
+> @@ -992,7 +993,7 @@ class RpmPM(PackageManager):
+>              cmd += "--dbpath=/var/lib/rpm "
+>              cmd += "--define='_cross_scriptlet_wrapper %s' " % \
+>                     self.scriptlet_wrapper
+> -            cmd += "--define='_tmppath /install/tmp' %s" % ' '.join(pkgs)
+> +            cmd += "--define='_tmppath /%s/tmp' %s" %
+> (self.install_dir_name, ' '.join(pkgs)) else:
+>              # for pkg in pkgs:
+>              #   bb.note('Debug: What required: %s' % pkg)
+> @@ -1027,7 +1028,7 @@ class RpmPM(PackageManager):
+>          bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/opkg'),
+> True)
+> 
+>          # remove temp directory
+> -        bb.utils.remove(self.d.expand('${IMAGE_ROOTFS}/install'), True)
+> +        bb.utils.remove(self.d.expand('${IMAGE_ROOTFS}/%s' %
+> (self.install_dir_name)), True)
+
+Obviously you're just following existing code, but shouldn't we just use 
+self.install_dir_path here?
+
+> 
+>      def backup_packaging_data(self):
+>          # Save the rpmlib for increment rpm image generation
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index dd7aa44..9493d22b 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -409,7 +409,10 @@ class RpmRootfs(Rootfs):
+>          # __db.00* (Berkeley DB files that hold locks, rpm specific
+> environment # settings, etc.), that should not get into the final rootfs
+> self.pm.unlock_rpm_db()
+> -        bb.utils.remove(self.image_rootfs + "/install", True)
+> +        if os.path.isdir(self.pm.install_dir_path + "/tmp") and not
+> os.listdir(self.pm.install_dir_path + "/tmp"): +          
+> bb.utils.remove(self.pm.install_dir_path + "/tmp", True) +        if
+> os.path.isdir(self.pm.install_dir_path) and not
+> os.listdir(self.pm.install_dir_path): +          
+> bb.utils.remove(self.pm.install_dir_path, True)
+> 
+> 
+>  class DpkgRootfs(Rootfs):
+
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
