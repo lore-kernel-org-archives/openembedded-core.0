@@ -1,41 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 56B4D7391C
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id CF8E5723BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 16:43:06 +0000 (UTC)
-Received: by pacwe9 with SMTP id we9so69624480pac.1
+	Mon, 16 Mar 2015 16:52:33 +0000 (UTC)
+Received: by lbcds1 with SMTP id ds1so35255321lbc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 09:43:08 -0700 (PDT)
+	Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=ZXeGqO50H1ppsqYUFtujTwjQCcN7+99p0yneVkvSLUs=;
-	b=WyrGfIUk0nePsYmlVibebWmK5geYlr+wkEycrwcxzzsCU3i80YfgycvU2bL4ZCnKkH
-	U0lPdc40d8vwHn0F50nSez+5Lbvy/4sl3m0fuVY06GGXBJT6pr44cOj7Sac5aGkBxsgS
-	uyV4dryxwmF2TJTEAlhPdDf5fcpuksaKGUsWgtEH5pXml6wASwcZWadlzluwlxDQtFGC
-	1hQ+uLT/bukOYKq4QzPiOWtmmYTe8K2fpIMhJuyyyOSVkn0QaJzE9buQ+PjvPqwQsxPO
-	xX8tEfhiF/DvWpSZYsII6DO1Cwhsz1OmaaevIyhwsHTr+0ZuB7vApxOQgNlPCmFf9ugW
-	o7PA==
-X-Received: by 10.66.185.230 with SMTP id ff6mr141058153pac.102.1426524188029; 
-	Mon, 16 Mar 2015 09:43:08 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:1d43:cf03:319c:2e61?
-	([2601:9:3580:84c:1d43:cf03:319c:2e61])
-	by mx.google.com with ESMTPSA id
-	d13sm11475717pdj.92.2015.03.16.09.43.07
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Mar 2015 09:43:07 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAC1BbcS+CutVKhSgx16ii7c_eMrszoA3QS5itBa80AbWFN+RdA@mail.gmail.com>
-Date: Mon, 16 Mar 2015 09:43:06 -0700
-Message-Id: <DA889C06-A8D0-4B7C-A790-E70A2C504614@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=7XESLDtJECGXSQSqWVJI2h1BSHNXoaskweSIR2gQXT8=;
+	b=MrhfELlmzjn/t9N48IDgdJMDaR40uRizwQMAY5MxeaFf8tgJ/8KuKUEvBzAw1I8IAI
+	KrRrwQNTNQ+4NfIZuorl5G5u+dXlMFpML+2icsOXipUjQl8+KazaRtLGmiqTs4fbc0jb
+	43+1NpTnDhPzUsAtzHvrRy2TGsUBoJj03AI1o7+WFZ+873LZ6vi1Qis4CbjnfUwzoxv1
+	cwmR4KHJXp0hYHVU/YWb55fsxfhXqFHed/PN4iRUHkIgNb08JWQSh7mNKo9dm6sOAnwp
+	mfNvgGt6SOjF9rAWFUm1W5Xvkpf0o3gSaAB6SWELXy0fgum7WBrPBtEAwOmCI9rwjP9c
+	pdGw==
+MIME-Version: 1.0
+X-Received: by 10.112.110.231 with SMTP id id7mr56284054lbb.28.1426524753270; 
+	Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
+Received: by 10.152.146.4 with HTTP; Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
+In-Reply-To: <DA889C06-A8D0-4B7C-A790-E70A2C504614@gmail.com>
 References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
 	<73D5E895-8D8E-445E-B269-68F62A89B413@gmail.com>
 	<CAJTo0LZvk3Y7ZuN1pX7ES2iGFThRLE_0w=w904xVVkupmCJULA@mail.gmail.com>
 	<CAC1BbcS+CutVKhSgx16ii7c_eMrszoA3QS5itBa80AbWFN+RdA@mail.gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-X-Mailer: Apple Mail (2.2070.6)
+	<DA889C06-A8D0-4B7C-A790-E70A2C504614@gmail.com>
+Date: Mon, 16 Mar 2015 17:52:33 +0100
+Message-ID: <CAC1BbcS2E_eNswi_C2LytNfkKPSOnyC4E_w_6WWRLZyhHdjOog@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] libtirpc: respin patches
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,57 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 16:43:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 Mar 2015 16:52:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 16 March 2015 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
 
-> On Mar 16, 2015, at 9:37 AM, Bernhard Reutner-Fischer =
-<rep.dot.nop@gmail.com> wrote:
->=20
-> On 16 March 2015 at 17:26, Burton, Ross <ross.burton@intel.com> wrote:
->>=20
->> On 16 March 2015 at 18:24, Khem Raj <raj.khem@gmail.com> wrote:
->>>=20
->>> Patches are fine in this series, however I just want to set the
->>> expectations right here. While having that libc-independent goal is =
-fine.
->>> Sometimes we just can not do it, since uclibc or musl
->>> does not have all the features that glibc has and an app might also =
-be
->>> using it.
->>> making glibc users not have those features is unfair
->>> given that we have a strong mechanism of overrides in OE, it should =
-be
->>> used to this advantage.
->>=20
->>=20
->> But these patches, which add configure options to enable/disable the
->> relevant functionality and have been sent upstream - represent the =
-ideal
->> case as once they're merged won't cost us any effort in the future.
->=20
-> I just disable NIS / YP for uClibc and leave glibc (or any other libc
-> for that matter) to do what they previously did.
-> libtirpc is an excellent example for this unchanged behaviour:
->=20
-> src/getrpcent.c:        if (!__yp_nomap && _yp_check(&d->domain)) {
->=20
-> and i did not change that since first, i don't care and second, maybe
-> glibc-users do fun stuff to let _yp_check resolv to the proper
-> __yp_check, i don't know nor really care ATM.
->=20
-> I think uClibc-users do not expect to have NIS support, we never
-> implemented Yellow Pages support since that is usually way out of
-> scope for those setups.
->=20
-> Maybe i misread your comment, though, Khem?
-> Or do you refer to a glitch i introduced? If so, what did i botch? :)
+> patches are fine. I was merely pointing on the sweeping statement regarding patches should be always libc-independent.
 
-patches are fine. I was merely pointing on the sweeping statement =
-regarding patches should be always libc-independent.
+yep.
+IMO patches should always be applied and not depend on a certain
+architecture nor a certain libc or the like,
+There may be a very, very few legit exceptions to this rule but from
+my experience conditional patching usually papers over low-quality
+patches.
 
->=20
-> thanks,
-
+cheers,
 
