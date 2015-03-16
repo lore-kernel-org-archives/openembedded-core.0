@@ -1,38 +1,21 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CF8E5723BF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 54A376AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 16:52:33 +0000 (UTC)
-Received: by lbcds1 with SMTP id ds1so35255321lbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=7XESLDtJECGXSQSqWVJI2h1BSHNXoaskweSIR2gQXT8=;
-	b=MrhfELlmzjn/t9N48IDgdJMDaR40uRizwQMAY5MxeaFf8tgJ/8KuKUEvBzAw1I8IAI
-	KrRrwQNTNQ+4NfIZuorl5G5u+dXlMFpML+2icsOXipUjQl8+KazaRtLGmiqTs4fbc0jb
-	43+1NpTnDhPzUsAtzHvrRy2TGsUBoJj03AI1o7+WFZ+873LZ6vi1Qis4CbjnfUwzoxv1
-	cwmR4KHJXp0hYHVU/YWb55fsxfhXqFHed/PN4iRUHkIgNb08JWQSh7mNKo9dm6sOAnwp
-	mfNvgGt6SOjF9rAWFUm1W5Xvkpf0o3gSaAB6SWELXy0fgum7WBrPBtEAwOmCI9rwjP9c
-	pdGw==
-MIME-Version: 1.0
-X-Received: by 10.112.110.231 with SMTP id id7mr56284054lbb.28.1426524753270; 
-	Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
-Received: by 10.152.146.4 with HTTP; Mon, 16 Mar 2015 09:52:33 -0700 (PDT)
-In-Reply-To: <DA889C06-A8D0-4B7C-A790-E70A2C504614@gmail.com>
-References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
-	<73D5E895-8D8E-445E-B269-68F62A89B413@gmail.com>
-	<CAJTo0LZvk3Y7ZuN1pX7ES2iGFThRLE_0w=w904xVVkupmCJULA@mail.gmail.com>
-	<CAC1BbcS+CutVKhSgx16ii7c_eMrszoA3QS5itBa80AbWFN+RdA@mail.gmail.com>
-	<DA889C06-A8D0-4B7C-A790-E70A2C504614@gmail.com>
-Date: Mon, 16 Mar 2015 17:52:33 +0100
-Message-ID: <CAC1BbcS2E_eNswi_C2LytNfkKPSOnyC4E_w_6WWRLZyhHdjOog@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] libtirpc: respin patches
+	Mon, 16 Mar 2015 17:21:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Mar 2015 10:21:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,410,1422950400"; d="scan'208";a="692892299"
+Received: from jayundt-mobl3.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.196.101])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2015 10:21:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Mar 2015 11:21:30 -0600
+Message-Id: <1426526490-32236-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 1/2 v2] package_manager: Create variable for install_dir_name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,19 +28,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 16:52:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Mar 2015 17:21:48 -0000
 
-On 16 March 2015 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
+This patch creates a variable for the install_dir name so it can be
+something other than /install, also by doing this we can correctly
+clean up the empty directories (/install/tmp) during the clean-up
+phase. The new default is /oe_install so as to not conflict with other
+possible packages that might use /install to place files.
 
-> patches are fine. I was merely pointing on the sweeping statement regarding patches should be always libc-independent.
+[YOCTO #7353]
 
-yep.
-IMO patches should always be applied and not depend on a certain
-architecture nor a certain libc or the like,
-There may be a very, very few legit exceptions to this rule but from
-my experience conditional patching usually papers over low-quality
-patches.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 15 ++++++++-------
+ meta/lib/oe/rootfs.py          |  5 ++++-
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-cheers,
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 69bef1d..c9a8084 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -578,7 +578,8 @@ class RpmPM(PackageManager):
+         self.fullpkglist = list()
+         self.deploy_dir = self.d.getVar('DEPLOY_DIR_RPM', True)
+         self.etcrpm_dir = os.path.join(self.target_rootfs, "etc/rpm")
+-        self.install_dir = os.path.join(self.target_rootfs, "install")
++        self.install_dir_name = "oe_install"
++        self.install_dir_path = os.path.join(self.target_rootfs, self.install_dir_name)
+         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+         self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
+         self.smart_opt = "--quiet --data-dir=" + os.path.join(target_rootfs,
+@@ -749,9 +750,9 @@ class RpmPM(PackageManager):
+         bb.utils.mkdirhier(self.etcrpm_dir)
+ 
+         # Setup temporary directory -- install...
+-        if os.path.exists(self.install_dir):
+-            bb.utils.remove(self.install_dir, True)
+-        bb.utils.mkdirhier(os.path.join(self.install_dir, 'tmp'))
++        if os.path.exists(self.install_dir_path):
++            bb.utils.remove(self.install_dir_path, True)
++        bb.utils.mkdirhier(os.path.join(self.install_dir_path, 'tmp'))
+ 
+         channel_priority = 5
+         platform_dir = os.path.join(self.etcrpm_dir, "platform")
+@@ -838,7 +839,7 @@ class RpmPM(PackageManager):
+         self._invoke_smart('config --set rpm-dbpath=/var/lib/rpm')
+         self._invoke_smart('config --set rpm-extra-macros._var=%s' %
+                            self.d.getVar('localstatedir', True))
+-        cmd = 'config --set rpm-extra-macros._tmppath=/install/tmp'
++        cmd = "config --set rpm-extra-macros._tmppath=/%s/tmp" % (self.install_dir_name)
+ 
+         prefer_color = self.d.getVar('RPM_PREFER_ELF_ARCH', True)
+         if prefer_color:
+@@ -992,7 +993,7 @@ class RpmPM(PackageManager):
+             cmd += "--dbpath=/var/lib/rpm "
+             cmd += "--define='_cross_scriptlet_wrapper %s' " % \
+                    self.scriptlet_wrapper
+-            cmd += "--define='_tmppath /install/tmp' %s" % ' '.join(pkgs)
++            cmd += "--define='_tmppath /%s/tmp' %s" % (self.install_dir_name, ' '.join(pkgs))
+         else:
+             # for pkg in pkgs:
+             #   bb.note('Debug: What required: %s' % pkg)
+@@ -1027,7 +1028,7 @@ class RpmPM(PackageManager):
+         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/opkg'), True)
+ 
+         # remove temp directory
+-        bb.utils.remove(self.d.expand('${IMAGE_ROOTFS}/install'), True)
++        bb.utils.remove(self.install_dir_path, True)
+ 
+     def backup_packaging_data(self):
+         # Save the rpmlib for increment rpm image generation
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index dd7aa44..9493d22b 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -409,7 +409,10 @@ class RpmRootfs(Rootfs):
+         # __db.00* (Berkeley DB files that hold locks, rpm specific environment
+         # settings, etc.), that should not get into the final rootfs
+         self.pm.unlock_rpm_db()
+-        bb.utils.remove(self.image_rootfs + "/install", True)
++        if os.path.isdir(self.pm.install_dir_path + "/tmp") and not os.listdir(self.pm.install_dir_path + "/tmp"):
++           bb.utils.remove(self.pm.install_dir_path + "/tmp", True)
++        if os.path.isdir(self.pm.install_dir_path) and not os.listdir(self.pm.install_dir_path):
++           bb.utils.remove(self.pm.install_dir_path, True)
+ 
+ 
+ class DpkgRootfs(Rootfs):
+-- 
+2.1.0
+
 
