@@ -1,27 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BA226AC3E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC3F6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2015 15:43:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 16 Mar 2015 08:43:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,410,1422950400"; d="scan'208";a="692839936"
-Received: from rhannah-mobl.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.105.230])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2015 08:43:45 -0700
-Message-ID: <5506FA30.9000002@linux.intel.com>
-Date: Mon, 16 Mar 2015 09:43:44 -0600
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1426485217-18563-1-git-send-email-sgw@linux.intel.com>
-	<55067537.1060108@windriver.com>
-In-Reply-To: <55067537.1060108@windriver.com>
-Subject: Re: [PATCH] openssl: fix libssl.pc to Require libcrypto
+	Mon, 16 Mar 2015 16:24:31 +0000 (UTC)
+Received: by pacwe9 with SMTP id we9so69189726pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Mar 2015 09:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=/OKABOt5Za/hAQ+ESQdY4NnBW4BQUxRpMi6Shij+DFQ=;
+	b=blUuYeaFZmw4hXlCJHNjpbl3pdxQu9F94ydK9cKDw8K+T8NYbYXfYqLX45BUdmGKbM
+	/cSomIdWY9ILPQGPt1GyfUOyQuVoeOtusAzEfJq5FGaJTUCA8lWhBpwOnz24VtiUlCkt
+	Th++2SlG/PJzdm0KMGNaiMnpLvSDGQp8e4BJ9Ti6APZ5OhyUWUE7Te2BzsMKjHFp267U
+	4DvHsKBFAdtMVFW4QpfcgsggXonAL3vtEjTJl0nOZXyonEIPXS3bgbiMo8xBG3V6h0mY
+	YDlJrp5aStUFn3F4KZqcCFr55ozP96TMJe+eLZzBsZC525BFPHuj95XpWPMdHhAXS4kx
+	RCxQ==
+X-Received: by 10.66.248.132 with SMTP id ym4mr87367500pac.147.1426523072701; 
+	Mon, 16 Mar 2015 09:24:32 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:1d43:cf03:319c:2e61?
+	([2601:9:3580:84c:1d43:cf03:319c:2e61])
+	by mx.google.com with ESMTPSA id
+	oq4sm18060073pdb.73.2015.03.16.09.24.31
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Mar 2015 09:24:32 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
+Date: Mon, 16 Mar 2015 09:24:30 -0700
+Message-Id: <73D5E895-8D8E-445E-B269-68F62A89B413@gmail.com>
+References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] libtirpc: respin patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2015 15:43:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Mar 2015 16:24:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 03/16/2015 12:16 AM, Robert Yang wrote:
->
-> I'm afraid that it doesn't work, the error is the same as before
-> for openflow.
->
-Hmm, I tested it here, will try again, I can change the Libs: entry, I 
-know that works for sure.
 
-Also I realized I sent it late and forgot to add the patch 
-Upstream-Status info and SOB
+> On Mar 16, 2015, at 1:53 AM, Bernhard Reutner-Fischer =
+<rep.dot.nop@gmail.com> wrote:
+>=20
+> Due to libc-dependant conditional patching (which should be completely
+> forbidden -- fix it properly instead) the last PV bump forgot to =
+adjust
+> patches so they failed to apply.
 
-Sau!
-
-> // Robert
->
-> On 03/16/2015 01:53 PM, Saul Wold wrote:
->> The 1.0.2 version of libssl requires that libcrypto be linked so don't
->> keep it private anymore.
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   .../openssl/openssl/fix_Makefile_creation_of_libssl.patch   | 13
->> +++++++++++++
->>   meta/recipes-connectivity/openssl/openssl_1.0.2.bb          |  1 +
->>   2 files changed, 14 insertions(+)
->>   create mode 100644
->> meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
->>
->>
->> diff --git
->> a/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
->> b/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
->>
->> new file mode 100644
->> index 0000000..dbf1f3c
->> --- /dev/null
->> +++
->> b/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
->>
->> @@ -0,0 +1,13 @@
->> +Index: openssl-1.0.2/Makefile
->> +===================================================================
->> +--- openssl-1.0.2.orig/Makefile
->> ++++ openssl-1.0.2/Makefile
->> +@@ -381,7 +381,7 @@ libssl.pc: Makefile
->> +         echo 'Name: OpenSSL-libssl'; \
->> +         echo 'Description: Secure Sockets Layer and cryptography
->> libraries'; \
->> +         echo 'Version: '$(VERSION); \
->> +-        echo 'Requires.private: libcrypto'; \
->> ++        echo 'Requires: libcrypto'; \
->> +         echo 'Libs: -L$${libdir} -lssl'; \
->> +         echo 'Libs.private: $(EX_LIBS)'; \
->> +         echo 'Cflags: -I$${includedir} $(KRB5_INCLUDES)' ) > libssl.pc
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
->> b/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
->> index 79537f9..a980855 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
->> @@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
->>               file://Makefiles-ptest.patch \
->>               file://ptest-deps.patch \
->>               file://run-ptest \
->> +            file://fix_Makefile_creation_of_libssl.patch \
->>              "
->>
->>   SRC_URI[md5sum] = "38373013fc85c790aabf8837969c5eba"
->>
->
->
+Patches are fine in this series, however I just want to set the =
+expectations right here. While having that libc-independent goal is =
+fine.
+Sometimes we just can not do it, since uclibc or musl
+does not have all the features that glibc has and an app might also be =
+using it.
+making glibc users not have those features is unfair
+given that we have a strong mechanism of overrides in OE, it should be =
+used to this advantage.=
 
