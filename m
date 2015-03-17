@@ -1,41 +1,39 @@
-Return-Path: <Javier.Viguera@digi.com>
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E21D723BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id ADA956013D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 13:06:55 +0000 (UTC)
-Received: from [216.82.249.147] by server-13.bemta-12.messagelabs.com id
-	A2/7B-12053-0F628055; Tue, 17 Mar 2015 13:06:56 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-6.tower-29.messagelabs.com!1426597613!32224849!2
-X-Originating-IP: [192.109.95.98]
-X-StarScan-Received: 
-X-StarScan-Version: 6.13.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 3427 invoked from network); 17 Mar 2015 13:06:56 -0000
-Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
-	by server-6.tower-29.messagelabs.com with AES128-SHA encrypted SMTP;
-	17 Mar 2015 13:06:56 -0000
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by DOR-VMS-XCH01.digi.com
-	(10.49.8.98) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 17 Mar 2015 14:06:53 +0100
-Received: from log-cln-jviguera.digi.com (10.101.2.54) by
-	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
-	14.3.224.2; Tue, 17 Mar 2015 14:06:53 +0100
-From: Javier Viguera <javier.viguera@digi.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Mar 2015 14:06:50 +0100
-Message-ID: <1426597610-1582-2-git-send-email-javier.viguera@digi.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <1426597610-1582-1-git-send-email-javier.viguera@digi.com>
-References: <1426597610-1582-1-git-send-email-javier.viguera@digi.com>
+	Tue, 17 Mar 2015 13:48:22 +0000 (UTC)
+Received: by qcbkw5 with SMTP id kw5so8431641qcb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Mar 2015 06:48:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HUQ3ZlIaISQG6BczavFxySr+l+dQJsr23Hb1SL9pnbk=;
+	b=hauOzq7DRuUtZExF3lg9cK6RSeTOOfjmNU0b7r/7C8SRVc/gByPgV/HOhd3TxvcNCj
+	ByU/EpIvB0kGKlAYL9ZHy/nVVPEucjEkT781Vtinx8C4IfzmR2T+dGVfjrQCoc/nGJyd
+	1sVlkCoJD3mP50/aPD2ts4/WMM7JDf/6pAJJVHlyT+QWBoML4BQRPbvppf1pw29bAiHf
+	6kcY2G4Lknpv7vqyuvK3x6iOq4rRZb6zJUTaSKN8ZZ+MDf7Gpxnhul3b2JmNnYCqh0K5
+	3B5Bl24SoX0vcJEniDlCJGz1YunEjINl2kurKzWLHvX3fz8zVEseIIWrXk/P6j1Z9Olu
+	3p2g==
+X-Gm-Message-State: ALoCoQkZXZt3D4ytyZkddlvv9vEhT8CeOew3kWXgvMRhAryFWCZNIPnIV8hZjS4d5QhxeLKTV6yx
+X-Received: by 10.140.104.242 with SMTP id a105mr81495479qgf.89.1426600103360; 
+	Tue, 17 Mar 2015 06:48:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-Subject: [PATCH] udev: remove 'modprobe' local rule
+Received: by 10.140.102.203 with HTTP; Tue, 17 Mar 2015 06:48:02 -0700 (PDT)
+In-Reply-To: <55081BFD.40607@windriver.com>
+References: <cover.1426525757.git.bruce.ashfield@windriver.com>
+	<82c728adf7229f85982233033cf23c1c6041069c.1426525757.git.bruce.ashfield@windriver.com>
+	<CAJTo0LYgteZ1kuHLj4WJr6D12_9JRD2+McYtO7TVrCAOoUDtKg@mail.gmail.com>
+	<55081BFD.40607@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Mar 2015 15:48:02 +0200
+Message-ID: <CAJTo0LYcmMzAd-q84HhmCO38XJjWmdnGPQAe+X-EqieBoUER-Q@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] perf: drop PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,34 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 13:06:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Mar 2015 13:48:24 -0000
+Content-Type: multipart/alternative; boundary=001a1134f76865cf6d05117c38f7
 
-Since udev version 176 (udev commit 06316d9) udev switched modprobe
-explicit rules by the builtin kmod support.
+--001a1134f76865cf6d05117c38f7
+Content-Type: text/plain; charset=UTF-8
 
-The rule using the builtin kmod support is in
-'/lib/udev/rules.d/80-drivers.rules':
+On 17 March 2015 at 14:20, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
 
-DRIVER!="?*", ENV{MODALIAS}=="?*", IMPORT{builtin}="kmod load $env{MODALIAS}"
+> But doesn't that mean that my bash RDEPENDS fix needs a PR
+> bump ?
+>
 
-Signed-off-by: Javier Viguera <javier.viguera@digi.com>
----
- meta/recipes-core/udev/udev/local.rules | 3 ---
- 1 file changed, 3 deletions(-)
+No, you don't need to bump as the PR service will bump when it rebuilds.
 
-diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
-index 9d4da493f782..d502cdd6ba18 100644
---- a/meta/recipes-core/udev/udev/local.rules
-+++ b/meta/recipes-core/udev/udev/local.rules
-@@ -13,9 +13,6 @@
- # %% the '%' char itself
- #
- 
--# Try and modprobe for drivers for new hardware
--ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
--
- # Create a symlink to any touchscreen input device
- # Trigger based on input type, that the evbit (-e) has EV_SYN and EV_ABS,
- # has an EV_ABS value (-a) which is used for touchscreen type devices.
+Ross
 
+--001a1134f76865cf6d05117c38f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 March 2015 at 14:20, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":fh" class=3D"a3s" style=3D"overflow:hidden">But doesn&#39;t that mean =
+that my bash RDEPENDS fix needs a PR<br>
+bump ?<br></div></blockquote></div><br>No, you don&#39;t need to bump as th=
+e PR service will bump when it rebuilds.</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1134f76865cf6d05117c38f7--
