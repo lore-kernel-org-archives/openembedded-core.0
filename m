@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DD460034
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A53660034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 21:20:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2HLKLnF016202; Tue, 17 Mar 2015 21:20:21 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vOQl7ZkZ_3ws; Tue, 17 Mar 2015 21:20:21 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2HLK8WI016192
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 17 Mar 2015 21:20:19 GMT
-Message-ID: <1426627208.23698.39.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Tue, 17 Mar 2015 21:20:08 +0000
-In-Reply-To: <4010D2ED-6067-4B6B-9C27-B2C5FC465DC9@gmail.com>
-References: <1426283873-11784-1-git-send-email-jslater@windriver.com>
-	<4010D2ED-6067-4B6B-9C27-B2C5FC465DC9@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Joe Slater <jslater@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] package.bbclass: decouple splitting	and stripping
+	Tue, 17 Mar 2015 22:14:39 +0000 (UTC)
+Received: by iecvj10 with SMTP id vj10so24157108iec.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Mar 2015 15:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=5gmHeTbFJQcnQ24uU8wW3vV+aMnbAJ+4lbXGwHToZNw=;
+	b=ry9BifZzfEo4Izlge1OlwZN9Q9im3q9dWlvSbd7UK3JGM1lltAwcbNAKnH90vqkgx+
+	o3Nrj7IahCMO69ZXzGJuR7ucbI51KHwdEyJfD2Ydy0xqOL7BsCAOihZi5ky3Ntcz+OJS
+	SxalRwH3QILzhy8/plWu2gqWDMBPqvvcJBFg6LZoXYWO28g8YWqhQOZMhe2/7nw7GbrV
+	3kdlT29TnH5f0aKWvfX0p9ZGX2B1cdneMV8ZByrPtzL5a4ArOdK9IqvK6B9tiz5f9p8g
+	laNNyu0nLQqqR2F+39z4kbWEWM3La5zJf5UFvcfMmOtFvkwYZ4BHB7+eE909Y8Yaz8B9
+	4pGA==
+X-Received: by 10.42.76.6 with SMTP id c6mr89027985ick.52.1426630479763; Tue,
+	17 Mar 2015 15:14:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.117.7 with HTTP; Tue, 17 Mar 2015 15:14:09 -0700 (PDT)
+In-Reply-To: <1426618681.2828.0.camel@bottazzini-ThinkPad-T430>
+References: <bruno.bottazzini@intel.com>
+	<1425935453-15437-1-git-send-email-bruno.bottazzini@intel.com>
+	<1426170396.16718.0.camel@bottazzini-ThinkPad-T430>
+	<1426618681.2828.0.camel@bottazzini-ThinkPad-T430>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Mar 2015 15:14:09 -0700
+Message-ID: <CAMKF1sqB_aYJOBJX-nmfLEsfDOEvHfKFWxEXjg7kkoV3DeG=gw@mail.gmail.com>
+To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 0/4] systemd and dbus split into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,69 +45,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 21:20:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Mar 2015 22:14:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2015-03-13 at 23:50 +0100, Bernhard Reutner-Fischer wrote:
-> On March 13, 2015 10:57:53 PM GMT+01:00, Joe Slater <jslater@windriver.com> wrote:
-> >Fix logic in split_and_strip_files() to allow splitting or
-> >stripping independently.  We also return quickly from this
-> >function if we have nothing to do.  We seek the following behavior:
-> >
-> >Strip / Split     Behavior
-> >yes   / yes       binaries stripped; debug info and source in -dbg
-> >no    / yes       debug info and source in -dbg
-> >yes   / no        binaries stripped; -dbg packages empty
-> >no    / no        -dbg packages empty (not a very useful case)
-> >
-> >Currently, no/yes does not work and is the same as no/no.
-> >
-> >Signed-off-by: Joe Slater <jslater@windriver.com>
-> >---
-> >meta/classes/package.bbclass |  108
-> >++++++++++++++++++++++--------------------
-> > 1 file changed, 57 insertions(+), 51 deletions(-)
-> >
-> >diff --git a/meta/classes/package.bbclass
-> >b/meta/classes/package.bbclass
-> >index 9f64ed7..ad8771f 100644
-> >--- a/meta/classes/package.bbclass
-> >+++ b/meta/classes/package.bbclass
-> >@@ -812,6 +812,12 @@ python fixup_perms () {
-> > }
-> > 
-> > python split_and_strip_files () {
-> 
-> >+    for root, dirs, files in cpath.walk(dvar):
-> >+        for f in files:
-> >+            file = os.path.join(root, f)
-> >+            if file.endswith(".ko") and file.find("/lib/modules/") !=
-> >-1:
-> >+                kernmods.append(file)
-> >+                continue
-> >  
-> >+            # Skip debug files
-> >+            if debugappend and file.endswith(debugappend):
-> >+                continue
-> >+            if debugdir and debugdir in
-> >os.path.dirname(file[len(dvar):]):
-> >+                continue
-> >+
-> 
-> It's a pity to first construct the files just to throw them away right afterwards.
-> Maybe there are other cpath.walk spots that would benefit from file_not_endswith and dir filters?
+On Tue, Mar 17, 2015 at 11:58 AM, Bottazzini, Bruno
+<bruno.bottazzini@intel.com> wrote:
+> Could you guys look at this patch ?
+>
 
-FWIW cpath is actually a caching wrapper around os.path so there is some
-amount of caching going on here behind the scenes. The current code has
-been profiled and the worst hot spots worked around with the cache...
+I would hold off this until after 1.8 and consider this for master and
+backport immediately for 1.8.1 release.
 
-Its not perfect and I don't doubt more could be done but these pieces do
-seem to help a lot. The best thing we did is avoid a lot of syscall
-overhead.
-
-Cheers,
-
-Richard
-
+> On Qui, 2015-03-12 at 11:26 -0300, Bottazzini, Bruno wrote:
+>> Ping
+>>
+>> On Seg, 2015-03-09 at 18:10 -0300, Bruno Bottazzini wrote:
+>> > Differences from v1:
+>> >
+>> > dbus: Adding change that Andreas Oberritter recommended.
+>> > -Setting RRECOMMENDS_${PN}_class-native instead RPROVIDES
+>> >  dbus-native-tools-native.
+>> >
+>> > systemd: Adding change that Anders Darander and Khem Raj recommended
+>> > -Modifying PACKAGECONFIG as requested to use it with bbutils.
+>> >
+>> > systemd: Adding change that Khem Raj requested:
+>> > -Porting patches that was used on the release of the 219 stable version
+>> >  instead of changing the repository.
+>> >
+>> >
+>> > -------------------------------------------------------------------------------
+>> > In this patchset we include the following:
+>> >
+>> > 1- dbus: split tools package
+>> >    Most tools are not required if one is launching a simple daemon.
+>> >    So, we split it into two packages dbus and dbus-tools which the user
+>> >    will be able to exclude it from the image if he wants to.
+>> >
+>> > 2- systemd: verify if files test-udev and systemd-journal-flush exists
+>> >    If the user put --disable-tests on EXTRA_OECONF for systemd, some files will
+>> >    not be created and systemd do_install phase
+>> >    will fail.
+>> >    This patch will give this flexibility for the user
+>> >
+>> > 3- systemd: split modules into packages
+>> >    Since systemd repo grows with more and more tools, the recipe will provide
+>> >    a customizable layer and he will be able to choose what he wants to ship
+>> >    to the final image.
+>> >    He will be able to save space and exclude unwanted packages from the
+>> >    final image.
+>> >
+>> > 4- systemd: add patches from systemd 219 - stable
+>> >    Adding patches that fix bugs for 219 version.
+>> >    This will get the same consistency of the stable systemd 219 version.
+>> >
+>> >
+>> > Bruno Bottazzini (3):
+>> >   systemd: verify if files test-udev and systemd-journal-flush exists
+>> >   systemd: split modules into packages
+>> >   systemd: v219 with stable fixes
+>> >
+>> > Gustavo Sverzut Barbieri (1):
+>> >   dbus: split tools package.
+>> >
+>> > Bruno Bottazzini (3):
+>> >   systemd: verify if files test-udev and systemd-journal-flush exists
+>> >   systemd: split modules into packages
+>> >   systemd: v219 with stable fixes
+>> >
+>> > Gustavo Sverzut Barbieri (1):
+>> >   dbus: split tools package.
+>> >
+>> >  meta/recipes-core/dbus/dbus.inc                    |    9 +-
+>> >  ...remote-fix-certificate-status-memory-leak.patch |   31 +
+>> >  ...ournal-remote-fix-client_cert-memory-leak.patch |   35 +
+>> >  ...0003-tmpfiles-Fix-parse_acl-error-message.patch |   28 +
+>> >  ...-test-utf8-fix-utf16-tests-on-BE-machines.patch |   26 +
+>> >  ...iles-avoid-creating-duplicate-acl-entries.patch |  131 +++
+>> >  .../0006-shared-time-util-fix-gcc5-warning.patch   |   32 +
+>> >  ...time-test-infinity-parsing-in-nanoseconds.patch |   36 +
+>> >  .../0008-bootchart-fix-default-init-path.patch     |   44 +
+>> >  ...emctl-bump-NOFILE-only-for-systemctl_main.patch |   44 +
+>> >  ...0-Make-root-s-home-directory-configurable.patch |   89 +-
+>> >  ...-util-avoid-freeing-uninitialized-pointer.patch |   37 +
+>> >  ...11-bootchart-svg-fix-checking-of-list-end.patch |   28 +
+>> >  ...md-add-getrandom-syscall-numbers-for-MIPS.patch |   38 +
+>> >  ...aker-dependencies-between-mount-and-devic.patch |   33 +
+>> >  ...topping-due-to-BindsTo-log-which-unit-cau.patch |   43 +
+>> >  ...grade-message-about-sysctl-overrides-to-d.patch |   30 +
+>> >  ...l-add-some-hints-how-to-override-settings.patch |   39 +
+>> >  .../0017-core-rework-device-state-logic.patch      |  912 ++++++++++++++++
+>> >  .../0018-core-fix-return-value-on-OOM.patch        |   26 +
+>> >  ...e-x-machine-unix-prefix-for-the-container.patch |   33 +
+>> >  ...0-shared-AFS-is-also-a-network-filesystem.patch |   25 +
+>> >  ...downgrade-unit-type-not-supported-message.patch |   31 +
+>> >  ...ournal-remote-fix-saving-of-binary-fields.patch |   97 ++
+>> >  ...ix-Inappropriate-ioctl-for-device-on-ext4.patch |   37 +
+>> >  ...eplace-VLA-with-alloca-to-make-llvm-happy.patch |   53 +
+>> >  ...ietly-ignore-ACLs-on-unsupported-filesyst.patch |   84 ++
+>> >  ...-assume-ac-when-sys-class-power_supply-is.patch |   30 +
+>> >  meta/recipes-core/systemd/systemd_219.bb           | 1111 +++++++++++++++++---
+>> >  29 files changed, 3006 insertions(+), 186 deletions(-)
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-remote-fix-certificate-status-memory-leak.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0002-journal-remote-fix-client_cert-memory-leak.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0003-tmpfiles-Fix-parse_acl-error-message.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0004-test-utf8-fix-utf16-tests-on-BE-machines.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0005-tmpfiles-avoid-creating-duplicate-acl-entries.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0006-shared-time-util-fix-gcc5-warning.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0007-test-time-test-infinity-parsing-in-nanoseconds.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0008-bootchart-fix-default-init-path.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0009-systemctl-bump-NOFILE-only-for-systemctl_main.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0010-acl-util-avoid-freeing-uninitialized-pointer.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0011-bootchart-svg-fix-checking-of-list-end.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-add-getrandom-syscall-numbers-for-MIPS.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0013-unit-use-weaker-dependencies-between-mount-and-devic.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0014-unit-When-stopping-due-to-BindsTo-log-which-unit-cau.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0015-sysctl-downgrade-message-about-sysctl-overrides-to-d.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0016-sysctl-add-some-hints-how-to-override-settings.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0017-core-rework-device-state-logic.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0018-core-fix-return-value-on-OOM.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0019-machined-use-x-machine-unix-prefix-for-the-container.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0020-shared-AFS-is-also-a-network-filesystem.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0021-core-downgrade-unit-type-not-supported-message.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0022-journal-remote-fix-saving-of-binary-fields.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0024-sd-daemon-replace-VLA-with-alloca-to-make-llvm-happy.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0025-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch
+>> >  create mode 100644 meta/recipes-core/systemd/systemd/0026-shared-util-assume-ac-when-sys-class-power_supply-is.patch
+>> >
+>> > --
+>> > 1.9.1
+>> >
+>>
+>>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
