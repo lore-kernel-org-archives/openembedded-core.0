@@ -1,30 +1,21 @@
-Return-Path: <kmsywula@ecsmtp.ir.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AE5FD6AC3E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 841AC6AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 01:06:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 16 Mar 2015 18:03:02 -0700
+	Tue, 17 Mar 2015 01:35:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Mar 2015 18:35:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,412,1422950400"; d="scan'208";a="699635821"
-Received: from irvmail001.ir.intel.com ([163.33.26.43])
-	by orsmga002.jf.intel.com with ESMTP; 16 Mar 2015 18:06:13 -0700
-Received: from irsswdev001.ir.intel.com (irsswdev001.ir.intel.com
-	[163.33.195.157])
-	by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
-	t2H16AN1003533; Tue, 17 Mar 2015 01:06:10 GMT
-Received: from irsswdev001.ir.intel.com (localhost [127.0.0.1])
-	by irsswdev001.ir.intel.com with ESMTP id t2H16ASf005023;
-	Tue, 17 Mar 2015 01:06:10 GMT
-Received: (from kmsywula@localhost)
-	by irsswdev001.ir.intel.com with œ id t2H16AUQ005019;
-	Tue, 17 Mar 2015 01:06:10 GMT
-From: Krzysztof Sywula <krzysztof.m.sywula@intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,412,1422950400"; d="scan'208";a="666172433"
+Received: from jayundt-mobl3.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.196.101])
+	by orsmga001.jf.intel.com with ESMTP; 16 Mar 2015 18:35:16 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2015 01:05:40 +0000
-Message-Id: <1426554340-4898-1-git-send-email-krzysztof.m.sywula@intel.com>
-X-Mailer: git-send-email 1.8.2
-Subject: [meta-mingw][dylan][PATCH] mingw headers to be built before gcc-crosssdk-initial
+Date: Mon, 16 Mar 2015 19:35:01 -0600
+Message-Id: <1426556101-32053-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2] openssl: fix libssl.pc to use libcrypto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 01:06:13 -0000
+X-List-Received-Date: Tue, 17 Mar 2015 01:35:18 -0000
 
-Signed-off-by: Krzysztof Sywula <krzysztof.m.sywula@intel.com>
+The 1.0.2 version of libssl requires that libcrypto be linked so don't
+keep it private anymore.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- recipes-devtools/gcc/gcc-crosssdk-initial_4.7.bbappend | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../openssl/fix_Makefile_creation_of_libssl.patch        | 16 ++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl_1.0.2.bb       |  1 +
+ 2 files changed, 17 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
 
-diff --git a/recipes-devtools/gcc/gcc-crosssdk-initial_4.7.bbappend b/recipes-devtools/gcc/gcc-crosssdk-initial_4.7.bbappend
-index 7a7ca37..7e6c51c 100644
---- a/recipes-devtools/gcc/gcc-crosssdk-initial_4.7.bbappend
-+++ b/recipes-devtools/gcc/gcc-crosssdk-initial_4.7.bbappend
-@@ -1,3 +1,4 @@
-+DEPENDS_append_mingw32 = " nativesdk-mingw-w64-headers"
+diff --git a/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch b/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
+new file mode 100644
+index 0000000..e76ab2e
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/fix_Makefile_creation_of_libssl.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Pending
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: openssl-1.0.2/Makefile.org
++===================================================================
++--- openssl-1.0.2.orig/Makefile.org
+++++ openssl-1.0.2/Makefile.org
++@@ -381,7 +381,7 @@ libssl.pc: Makefile
++ 	    echo 'Description: Secure Sockets Layer and cryptography libraries'; \
++ 	    echo 'Version: '$(VERSION); \
++ 	    echo 'Requires.private: libcrypto'; \
++-	    echo 'Libs: -L$${libdir} -lssl'; \
+++	    echo 'Libs: -L$${libdir} -lssl -lcrypto'; \
++ 	    echo 'Libs.private: $(EX_LIBS)'; \
++ 	    echo 'Cflags: -I$${includedir} $(KRB5_INCLUDES)' ) > libssl.pc
++ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
+index 79537f9..a980855 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
++            file://fix_Makefile_creation_of_libssl.patch \
+            "
  
- do_install_append_mingw32 () {
- 	ln -s  ${STAGING_DIR_TARGET}/${target_exec_prefix}/ ${D}/${exec_prefix}/${TARGET_SYS}
-@@ -5,4 +6,4 @@ do_install_append_mingw32 () {
- 
- sysroot_stage_all_append_mingw32 () {
- 	sysroot_stage_dir ${D}${exec_prefix}/${TARGET_SYS} ${SYSROOT_DESTDIR}${exec_prefix}/${TARGET_SYS}
--}
-\ No newline at end of file
-+}
+ SRC_URI[md5sum] = "38373013fc85c790aabf8837969c5eba"
 -- 
-1.8.2
+2.1.0
 
 
