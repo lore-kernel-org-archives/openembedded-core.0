@@ -1,35 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EF3660034
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 08A5C60034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 14:15:27 +0000 (UTC)
-Received: by igbue6 with SMTP id ue6so53692712igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 07:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ZwW2Ge7hQsQODtf6Lrg2bHMPST1eTtIhNLIaukHFf04=;
-	b=CkVO6Q9isSLEoFY2AJF5eMYF6IBeUDXGV3wIRrh0QqTjarA5kx0V9FayNaAK5tCDFp
-	b6aFlukUxxweOZIbbtbkgYKoFV83/rpqMd4u/0HAimBWDOoBExJM92iVzBuncP88rFaH
-	sLykN28GnetGcxOjyJSBfcaqIPjbLDHXXThaM1U3jatGDljoD5XhDV5NWWaOT+wBxmw6
-	80hSF5Cthe5NvgGkSQEeuH+utN1P3jft+QEfIooo1lB+qLEGTsvBLJnokHU7ncTpgUv5
-	5xJ3JtiVVZbC8Au6ui20hxfrAKs8IBirjtwarB/w9gV8zM6oVJ9vKLT395Z7LEtgnERP
-	IRXw==
+	Tue, 17 Mar 2015 16:06:28 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Mar 2015 09:06:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,417,1422950400"; d="scan'208";a="542145561"
+Received: from gwu9-mobl.amr.corp.intel.com (HELO
+	alimon-ThinkPad-W540.amr.corp.intel.com) ([10.252.136.33])
+	by orsmga003.jf.intel.com with ESMTP; 17 Mar 2015 09:05:23 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Mar 2015 10:06:23 -0600
+Message-Id: <d3bf276e7d64763dec9a3684e283bc6f07274263.1426608243.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1426608243.git.anibal.limon@linux.intel.com>
+References: <cover.1426608243.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1426608243.git.anibal.limon@linux.intel.com>
+References: <cover.1426608243.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.50.124.133 with SMTP id mi5mr21883887igb.13.1426601729050;
-	Tue, 17 Mar 2015 07:15:29 -0700 (PDT)
-Received: by 10.50.117.7 with HTTP; Tue, 17 Mar 2015 07:15:28 -0700 (PDT)
-In-Reply-To: <CAJTo0LbyqjXJutC9nrj2zheJqrHGryVAydGeHffuCMB+5a-m0Q@mail.gmail.com>
-References: <1425579036-31022-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LbyqjXJutC9nrj2zheJqrHGryVAydGeHffuCMB+5a-m0Q@mail.gmail.com>
-Date: Tue, 17 Mar 2015 07:15:28 -0700
-Message-ID: <CAMKF1sq3a-_XoAcN24Kddu0Rz6af_emVgR2Fabw3XaL2+FRN7g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/2] tcmode-default: Define one gdb version
+Subject: [PATCHv2 1/3] mdadm: Fix build in x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 14:15:31 -0000
-Content-Type: multipart/alternative; boundary=001a1135f5784bcd1705117c9988
-
---001a1135f5784bcd1705117c9988
+X-List-Received-Date: Tue, 17 Mar 2015 16:06:30 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, March 17, 2015, Burton, Ross <ross.burton@intel.com> wrote:
+Add a patch for fix build in x32 ABI, the fail is cause by time_t
+printf because time_t is long int in x64 and long long int in x32.
 
->
-> On 5 March 2015 at 20:10, Khem Raj <raj.khem@gmail.com
-> <javascript:_e(%7B%7D,'cvml','raj.khem@gmail.com');>> wrote:
->
->> +GDBVERSION ?= "7.8%"
->>
->
-> What's the rationale behind wildcarding this instead of using the version
-> of gdb in oe-core (7.8.1)?
->
+[YOCTO #7422]
 
-It could be 7.8.1, rationale is if you update recipe to next minor version
-then you don't have to change it.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 26 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |  1 +
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
 
->
-> Ross
->
+diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+new file mode 100644
+index 0000000..143a8d9
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+@@ -0,0 +1,26 @@
++When try to print time_t values as a long int it causes an error because time_t
++data type in x32 ABI is long long int.
++
++Upstream-Status: Pending
++
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++
++diff --git a/monitor.c b/monitor.c
++index f81e707..19ea041 100644
++--- a/monitor.c
+++++ b/monitor.c
++@@ -260,8 +260,13 @@ static int read_and_act(struct active_array *a)
++ 	}
++ 
++ 	gettimeofday(&tv, NULL);
+++#if defined(__x86_64__) && defined(__ILP32__)
+++	dprintf("%s(%d): %lld.%06lld state:%s prev:%s action:%s prev: %s start:%llu\n",
+++#else
++ 	dprintf("%s(%d): %ld.%06ld state:%s prev:%s action:%s prev: %s start:%llu\n",
++-		__func__, a->info.container_member,
+++#endif
+++		__func__,
+++		a->info.container_member,
++ 		tv.tv_sec, tv.tv_usec,
++ 		array_states[a->curr_state],
++ 		array_states[a->prev_state],
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+index 7140990..c6a5635 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://mdadm-3.2.2_fix_for_x32.patch \
+            file://gcc-4.9.patch \
++           file://mdadm-3.3.2_x32_abi_time_t.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
+-- 
+1.9.1
 
---001a1135f5784bcd1705117c9988
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Tuesday, March 17, 2015, Burton, Ross &lt;<a href=3D"mailto:ross=
-.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 5 March 2015 at 20:10, Khem Raj <span dir=3D"ltr">&lt;<=
-a href=3D"javascript:_e(%7B%7D,&#39;cvml&#39;,&#39;raj.khem@gmail.com&#39;)=
-;" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><div style=3D"overflow:hidden">+GDBVERSION ?=3D &quot;=
-7.8%&quot;<br></div></blockquote><div><br></div><div>What&#39;s the rationa=
-le behind wildcarding this instead of using the version of gdb in oe-core (=
-7.8.1)?</div></div></div></div></blockquote><div><br></div><div>It could be=
- 7.8.1, rationale is if you update recipe to next minor version then you do=
-n&#39;t have to change it.=C2=A0=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div=
-><br></div><div>Ross=C2=A0</div></div></div></div>
-</blockquote>
-
---001a1135f5784bcd1705117c9988--
