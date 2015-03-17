@@ -1,29 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B101465CD0
+Return-Path: <Javier.Viguera@digi.com>
+Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
+	[216.82.251.16])
+	by mail.openembedded.org (Postfix) with ESMTP id DDA926AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 12:21:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2HCLDw7025868
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Mar 2015 05:21:13 -0700 (PDT)
-Received: from server.local (128.224.20.209) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 17 Mar 2015 05:21:13 -0700
-Message-ID: <55081C38.9080901@windriver.com>
-Date: Tue, 17 Mar 2015 08:21:12 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Tue, 17 Mar 2015 13:06:55 +0000 (UTC)
+Received: from [216.82.249.147] by server-16.bemta-12.messagelabs.com id
+	F0/A7-29523-0F628055; Tue, 17 Mar 2015 13:06:56 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-6.tower-29.messagelabs.com!1426597613!32224849!1
+X-Originating-IP: [192.109.95.98]
+X-StarScan-Received: 
+X-StarScan-Version: 6.13.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 3359 invoked from network); 17 Mar 2015 13:06:55 -0000
+Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
+	by server-6.tower-29.messagelabs.com with AES128-SHA encrypted SMTP;
+	17 Mar 2015 13:06:55 -0000
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by DOR-VMS-XCH01.digi.com
+	(10.49.8.98) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 17 Mar 2015 14:06:52 +0100
+Received: from log-cln-jviguera.digi.com (10.101.2.54) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.224.2; Tue, 17 Mar 2015 14:06:53 +0100
+From: Javier Viguera <javier.viguera@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Mar 2015 14:06:49 +0100
+Message-ID: <1426597610-1582-1-git-send-email-javier.viguera@digi.com>
+X-Mailer: git-send-email 2.3.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1426525757.git.bruce.ashfield@windriver.com>
-	<1cd7d6881e747b3458140e34d7801141b0ae62d1.1426525757.git.bruce.ashfield@windriver.com>
-	<CAJTo0LbvjhZ8nUzua80y+K23n7CS+sY7QcDYg3PqjJWLe+_fwQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LbvjhZ8nUzua80y+K23n7CS+sY7QcDYg3PqjJWLe+_fwQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] kernel-yocto: split meta data generation from patching phase
+X-Originating-IP: [10.101.2.54]
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+Subject: udev error messages on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 12:21:15 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Mar 2015 13:06:56 -0000
+Content-Type: text/plain
 
-On 2015-03-17 2:52 AM, Burton, Ross wrote:
->
-> On 16 March 2015 at 19:27, Bruce Ashfield <bruce.ashfield@windriver.com
-> <mailto:bruce.ashfield@windriver.com>> wrote:
->
->     -       createme ${createme_flags} ${ARCH} ${machine_branch}
->     +       createme -v -v ${createme_flags} ${ARCH} ${machine_branch}
->
->
-> Was adding -v -v intentional?
 
-It was. The extra output only goes to the logs, and it is helpful
-in diagnosing problems.
+Hi all,
 
-.. and yes, the obvious follow up is that I should have put that
-in the commit message!
+This patch fixes an error message that appears sometimes on boot. It seems mostly cosmetic, but annoying nevertheless. It happens probably due to a race condition between two udev rules trying to do the same (the builtin support to load modules in '/lib/udev/rules.d/80-drivers.rules' and the explicit modprobe call in '/etc/udev/rules.d/local.rules').
 
-Bruce
+udevd[135]: '/sbin/modprobe of:NhwmonT<NULL>Cdlg,da9063-hwmon' [286] terminated by signal 61 (Real-time signal 27)
+udevd[121]: '/sbin/modprobe of:Nsound-hdmiT<NULL>Cfsl,imx6q-audio-hdmiCfsl,imx-audio-hdmi' [330] terminated by signal 52 (Real-time signal 18)
+udevd[124]: '/sbin/modprobe of:NhwmonT<NULL>Cdlg,da9063-hwmon' [298] terminated by signal 61 (Real-time signal 27)
+udevd[125]: '/sbin/modprobe of:NgpioT<NULL>Cdlg,da9063-gpio' [330] terminated by signal 114 (Unknown signal 114)
+udevd[127]: '/sbin/modprobe of:Ni2cT<NULL>Cfsl,imx6q-i2cCfsl,imx21-i2c' [289] terminated by signal 49 (Real-time signal 15)
+udevd[127]: '/sbin/modprobe of:NhwmonT<NULL>Cdlg,da9063-hwmon' [298] terminated by signal 61 (Real-time signal 27)
+udevd[124]: '/sbin/modprobe of:NrtcT<NULL>Cdlg,da9063-rtc' [273] terminated by signal 95 (Unknown signal 95)
+udevd[126]: '/sbin/modprobe of:NgpioT<NULL>Cdlg,da9063-gpio' [296] terminated by signal 114 (Unknown signal 114)
+udevd[125]: '/sbin/modprobe of:NrtcT<NULL>Cdlg,da9063-rtc' [293] terminated by signal 95 (Unknown signal 95)
+udevd[126]: '/sbin/modprobe of:NserialT<NULL>Cfsl,imx6q-uartCfsl,imx21-uart' [324] terminated by signal 83 (Unknown signal 83)
+udevd[124]: '/sbin/modprobe of:NserialT<NULL>Cfsl,imx6q-uartCfsl,imx21-uart' [329] terminated by signal 83 (Unknown signal 83)
+udevd[138]: '/sbin/modprobe of:NserialT<NULL>Cfsl,imx6q-uartCfsl,imx21-uart' [301] terminated by signal 83 (Unknown signal 83)
+udevd[127]: '/sbin/modprobe of:Ni2cT<NULL>Cfsl,imx6q-i2cCfsl,imx21-i2c' [305] terminated by signal 53 (Real-time signal 19)
+udevd[133]: '/sbin/modprobe of:NledsT<NULL>Cdlg,da9063-leds' [287] terminated by signal 114 (Unknown signal 114)
 
->
-> Ross
+In this test the error appeared 14 times on a series of 100 loops.
+
+The builtin kmod support was added in udev at version 176, so all openembedded-core maintained revisions (Daisy, Dizzy, master) would benefit from this patch (as they use udev-182).
+
+-
+Regards,
+
+Javier Viguera
 
 
