@@ -1,20 +1,22 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 233EF60034
+	by mail.openembedded.org (Postfix) with ESMTP id F0F966013D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Mar 2015 22:25:57 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2015 15:25:59 -0700
+	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2015 15:26:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,425,1422950400"; d="scan'208";a="694185150"
+X-IronPort-AV: E=Sophos;i="5.11,425,1422950400"; d="scan'208";a="694185164"
 Received: from aehernan-devstation.zpn.intel.com ([10.219.4.44])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2015 15:25:57 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2015 15:25:59 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 16:25:54 -0600
-Message-Id: <1426717555-4589-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Wed, 18 Mar 2015 16:25:55 -0600
+Message-Id: <1426717555-4589-2-git-send-email-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2 1/2] python-pexpect: Creates a recipe for the pexpect python module
+In-Reply-To: <1426717555-4589-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1426717555-4589-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Subject: [PATCH v2 2/2] python-pexpect: Adds this module to buildtools, since it is needed by some of the automated runtime test code.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,47 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 22:25:57 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 22:25:58 -0000
 
-Based on the recipe contained in http://layers.openembedded.org/layerindex/branch/master/layer/meta-python
-
-[YOCTO #7279]
+[YOCTO 7279]
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-pexpect_3.3.bb | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-pexpect_3.3.bb
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python-pexpect_3.3.bb b/meta/recipes-devtools/python/python-pexpect_3.3.bb
-new file mode 100644
-index 0000000..cd80aeb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pexpect_3.3.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "A Pure Python Expect like Module for Python"
-+HOMEPAGE = "http://pexpect.readthedocs.org/"
-+SECTION = "devel/python"
-+LICENSE = "ISC"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c25d9a0770ba69a9965acc894e9f3644"
-+
-+SRC_URI = "https://pypi.python.org/packages/source/p/pexpect/pexpect-${PV}.tar.gz"
-+SRC_URI[md5sum] = "0de72541d3f1374b795472fed841dce8"
-+SRC_URI[sha256sum] = "dfea618d43e83cfff21504f18f98019ba520f330e4142e5185ef7c73527de5ba"
-+
-+S = "${WORKDIR}/pexpect-${PV}"
-+
-+inherit distutils
-+
-+RDEPENDS_${PN} = "\
-+    python-core \
-+    python-io \
-+    python-terminal \
-+    python-resource \
-+    python-fcntl \
-+"
-+
-+BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 302510c..6d4c8c8 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -12,6 +12,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-python-modules \
+     nativesdk-python-misc \
+     nativesdk-python-git \
++    nativesdk-python-pexpect \
+     nativesdk-ncurses-terminfo-base \
+     nativesdk-chrpath \
+     nativesdk-tar \
 -- 
 1.9.1
 
