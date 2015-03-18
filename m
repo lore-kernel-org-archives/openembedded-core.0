@@ -1,28 +1,30 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BE8860034
+Return-Path: <diego.ml@zoho.com>
+X-Greylist: delayed 904 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 18 Mar 2015 16:11:12 UTC
+Received: from sender1.zohomail.com (sender1.zohomail.com [74.201.84.157])
+	by mail.openembedded.org (Postfix) with ESMTP id 863F160034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 15:47:03 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 18 Mar 2015 08:43:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,423,1422950400"; d="scan'208";a="468977643"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.155])
-	([10.219.4.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Mar 2015 08:39:39 -0700
-Message-ID: <55099DF2.70809@linux.intel.com>
-Date: Wed, 18 Mar 2015 09:46:58 -0600
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	Chen Qi <qi.chen@windriver.com>
-References: <cover.1426670089.git.Qi.Chen@windriver.com>	<003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
-	<5575166.bgVZKFq0RH@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <5575166.bgVZKFq0RH@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] rootfs.py: two changes regarding log checking
+	Wed, 18 Mar 2015 16:11:12 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id; 
+	b=cxtFcmuOz2ea9eoG0ad70nu42CmfAtr5XMHqH/tVYwb1xVPT9IGbhF7fGf6nmx4AYffgfA9G06CM
+	+BmLVjmAt5IlMqMtdJdaolE9gA/lX1PMHU8fo7Ro4C5+LEuYddaP  
+Received: from localhost.localdomain
+	(host65-246-static.10-188-b.business.telecomitalia.it
+	[188.10.246.65]) by mx.zohomail.com
+	with SMTPS id 1426694166083318.9358481062817;
+	Wed, 18 Mar 2015 08:56:06 -0700 (PDT)
+From: Diego Rondini <diego.ml@zoho.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Mar 2015 16:50:45 +0100
+Message-Id: <1426693845-1805-1-git-send-email-diego.ml@zoho.com>
+X-Mailer: git-send-email 1.7.9.5
+X-ZohoMail: Ss  SS_10 UW UB UW UB  ZSF-HLOLL_2 SF_TD_EXT  SGR3_1_11025_229
+X-ZohoMail-Owner: <1426693845-1805-1-git-send-email-diego.ml@zoho.com>+zmo_0_<diego.ml@zoho.com>
+X-ZohoMail-Sender: 188.10.246.65
+X-Zoho-Virus-Status: 2
+Cc: Diego Rondini <diego.ml@zoho.com>
+Subject: [PATCH] watchdog: Provide and install initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +37,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 15:47:07 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Mar 2015 16:11:16 -0000
 
-Hi Paul, Chen,
+Provide and install an initscript for the watchdog package.
+In particular:
+- watchdog-init.patch adapts redhat initscript to be compatibile with
+  OpenEmbedded;
+- watchdog-conf.patch selects /dev/watchdog as default device;
+- changes to the recipe install and configure the initscript.
 
-Days ago i sent a patchset for handle INCOMPATIBLE_LICENSE in manifest 
-creation [1] that contains
-a rewrite of license_manifest_creation from shell to python, i mean now 
-these warnings appears.
+Signed-off-by: Diego Rondini <diego.ml@zoho.com>
+---
+ .../watchdog/watchdog/watchdog-conf.patch          |   11 ++++
+ .../watchdog/watchdog/watchdog-init.patch          |   53 ++++++++++++++++++++
+ meta/recipes-extended/watchdog/watchdog_5.14.bb    |   12 ++++-
+ 3 files changed, 75 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
 
-Also i sent a similar patches like Chen's ones to avoid warnings 
-[2][3],  You said (Paul) that packagegroups
-should not have files, how we can address these case to avoid license 
-warnings in packagegroups?
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+new file mode 100644
+index 0000000..36f2968
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+@@ -0,0 +1,11 @@
++--- watchdog-5.13.orig/watchdog.conf	2013-02-01 12:15:44.000000000 +0100
+++++ watchdog-5.13/watchdog.conf	2014-11-13 10:59:43.233943000 +0100
++@@ -20,7 +20,7 @@
++ #test-binary		= 
++ #test-timeout		= 
++ 
++-#watchdog-device	= /dev/watchdog
+++watchdog-device	= /dev/watchdog
++ 
++ # Defaults compiled into the binary
++ #temperature-device	=
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
+new file mode 100644
+index 0000000..0fa8ee9
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
+@@ -0,0 +1,53 @@
++--- watchdog-5.13.orig/redhat/watchdog.init	2014-11-12 17:18:39.125943000 +0100
+++++ watchdog-5.13/redhat/watchdog.init	2014-11-12 18:27:36.189943000 +0100
++@@ -7,7 +7,7 @@
++ #                 Henning P. Schmiedehausen <hps@tanstaafl.de>
++ 
++ # Source function library.
++-. /etc/rc.d/init.d/functions
+++. /etc/init.d/functions
++ 
++ [ -x /usr/sbin/watchdog -a -e /etc/watchdog.conf ] || exit 0
++ 
++@@ -23,22 +23,22 @@
++ 
++ start() {
++ 
++-	echo -n $"Starting $prog: "
+++	echo -n "Starting $prog: "
++ 	if [ -n "$(pidofproc $prog)" ]; then
++-		echo -n $"$prog: already running"
++-		echo_failure
+++		echo -n "$prog: already running "
+++		failure
++ 		echo
++ 		return 1
++ 	fi
++ 	if [ "$VERBOSE" = "yes" ]; then
++-	    daemon /usr/sbin/${prog} -v
+++	    /usr/sbin/${prog} -v
++ 	else
++-	    daemon /usr/sbin/${prog}
+++	    /usr/sbin/${prog}
++         fi
++ 	RETVAL=$?
++ 	[ $RETVAL -eq 0 ] && touch $lockfile
++-	[ $RETVAL -eq 0 ] && echo_success
++-	[ $RETVAL -ne 0 ] && echo_failure
+++	[ $RETVAL -eq 0 ] && success
+++	[ $RETVAL -ne 0 ] && failure
++ 	echo
++ 	return $RETVAL
++ }
++@@ -50,8 +50,10 @@
++ 	# and reboot the box.
++ 	killproc $prog -TERM
++ 	RETVAL=$?
++-	echo
++ 	[ $RETVAL -eq 0 ] && rm -f $lockfile $pidfile
+++	[ $RETVAL -eq 0 ] && success
+++	[ $RETVAL -ne 0 ] && failure
+++	echo
++ 	return $RETVAL
++ }
++ 
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+index c77d91d..9ec0a8e 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+@@ -10,11 +10,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+            file://fixsepbuild.patch \
+-	   file://fix-ping-failure.patch"
++	   file://fix-ping-failure.patch \
++	   file://watchdog-init.patch \
++	   file://watchdog-conf.patch"
+ 
+ SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
+ SRC_URI[sha256sum] = "620b2f49e9879f2e85c73d4c1f422f9101e6b38e824fea2414befd8bb6866ad1"
+ 
+ inherit autotools
++inherit update-rc.d
++
++INITSCRIPT_NAME = "watchdog.sh"
++INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
+ 
+ RRECOMMENDS_${PN} = "kernel-module-softdog"
++
++do_install_append() {
++	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
++}
+-- 
+1.7.9.5
 
-Cheers,
-     alimon
-
-[1] 
-http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102684.html
-[2] 
-http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102683.html
-[3] 
-http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102682.html
-
-On 18/03/15 03:48, Paul Eggleton wrote:
-> On Wednesday 18 March 2015 17:16:10 Chen Qi wrote:
->> 1. Extend the regular expression to also catch '^WRARNING:' in
->> _log_check_warn. Warnings from bb.note or bbnote begin with 'WARNING:'. So
->> if we decide to catch warnings at rootfs time, we should not ignore those
->> produced by the build system itself.
-> FYI, I still have an unfinished patchset to ensure bbwarn calls from shell
-> functions get piped through to BitBake's event system, with the result that
-> such warnings actually get logged and displayed by the BitBake UI. (That
-> doesn't mean this patch shouldn't go in in the mean time, though.)
->
-> Cheers,
-> Paul
->
 
 
