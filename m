@@ -1,34 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 52CCA60034
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B9BA72D78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 02:37:42 +0000 (UTC)
-Received: by pacwe9 with SMTP id we9so27682893pac.1
+	Wed, 18 Mar 2015 05:32:19 +0000 (UTC)
+Received: by pdbcz9 with SMTP id cz9so32018170pdb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 19:37:44 -0700 (PDT)
+	Tue, 17 Mar 2015 22:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=zEyrAxh+nw+aJfuPbRyZe4AS3rhwGdoJVY7Acd8JcO0=;
-	b=J2xlv2OWppV8vj6vanV4AfAmzsQh+xY6W+BAeqvdf2TjKs66SATbVd0iaAYGIC4iru
-	JM+JNXazWgLw7a4XcpsKM1FnmVTsIf2lh3dKxV61uU9cUrIm3A43tFLjPs+IKpitybwg
-	YLVtcX5J6eu91LedEW0MyMm4KkyQdsQoSQFkDG0dRP42Mf3njlB9y/lvf+/ujqYKwdlp
-	Oq+k9AyKvIKtfBdvLVfQjo9oD8IMZwISrG1ib+DEuCBkf7eU2wTrY0A3IbEa4idkxsMF
-	ir46qPQsXt4l3MjRsBmnRwo9WR6rQHn6jR5FMMFG66g2uxD3k9iT4azvxQotHDuivKuR
-	zzfg==
-X-Received: by 10.66.148.165 with SMTP id tt5mr148858519pab.38.1426646263916; 
-	Tue, 17 Mar 2015 19:37:43 -0700 (PDT)
+	bh=lR3D5RGrZQKo5sCU0Ksr5cMdd9GiEWdwrbuY8YutSHg=;
+	b=Qmsp8c7AWy0wYS0U091gtfky4JnXcJLpCnQE9ZJ6UWxD0Bf3ZrYN8+QGAWqT7JVoNG
+	E8XLZXgx04dZZdQYTKOO4JOOdY0wbG+1Ywh67Q2yuUl0AHreTwtdbL38Bs2nTHo6mRo2
+	11EXeU/0JudnTlfaESkShaoix1HJ99Othzu6wSFJe95vUnyfRhF/crMpBmxqnyf3Dn3g
+	0kamMrbDBPhxcUi8sCzcyYqXNx+k+sPRWFEZWX5b3dS35V4uCzUedFteuy0PYDvctvPY
+	Kah60ZGLwYiM5xmRJxDHCsBYsniskJeQPpWgvqrr1bjVVD5x5dAOZRUZkb9eILurcjDr
+	A5hQ==
+X-Received: by 10.66.147.169 with SMTP id tl9mr156259926pab.63.1426656740906; 
+	Tue, 17 Mar 2015 22:32:20 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id o4sm24622795pdh.6.2015.03.17.19.37.41
+	by mx.google.com with ESMTPSA id
+	pu9sm25249218pdb.49.2015.03.17.22.32.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Mar 2015 19:37:42 -0700 (PDT)
+	Tue, 17 Mar 2015 22:32:20 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 13:37:21 +1100
-Message-Id: <1426646241-19022-1-git-send-email-net147@gmail.com>
+Date: Wed, 18 Mar 2015 16:31:57 +1100
+Message-Id: <1426656717-32428-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 2.3.1
-Subject: [PATCH] systemd: set the location of binaries used by service files
+Subject: [PATCH] base.bbclass: clean up warning message for 'S'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 02:37:44 -0000
-
-Otherwise systemd uses AC_PROG_PATH and finds it in the sysroot or host
-system, which won't work on the target.
-
-[YOCTO #7408]
+X-List-Received-Date: Wed, 18 Mar 2015 05:32:25 -0000
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index ff29a3f..e8383c3 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -88,7 +88,11 @@ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
- PACKAGECONFIG[iptc] = "--enable-libiptc,--disable-libiptc,iptables"
- PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 2c2d019..3d9235e 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -151,7 +151,7 @@ python base_do_unpack() {
+         raise bb.build.FuncFailed(e)
  
--CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
-+CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
-+CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
-+CACHED_CONFIGUREVARS += "ac_cv_path_QUOTACHECK=${sbindir}/quotacheck"
-+CACHED_CONFIGUREVARS += "ac_cv_path_QUOTAON=${sbindir}/quotaon"
-+CACHED_CONFIGUREVARS += "ac_cv_path_SULOGIN=${base_sbindir}/sulogin"
+     if not os.path.exists(s_dir):
+-        bb.warn("%s ('S') don't exist, you must set 'S' to a proper value" % s_dir)
++        bb.warn("%s ('S') doesn't exist, please set 'S' to a proper value" % s_dir)
+ }
  
- # Helper variables to clarify locations.  This mirrors the logic in systemd's
- # build system.
+ def pkgarch_mapping(d):
 -- 
 2.3.1
 
