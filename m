@@ -1,39 +1,37 @@
-Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id CBD2973979
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 808706013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 11:27:39 +0000 (UTC)
-Received: by pdbop1 with SMTP id op1so40508821pdb.2
+	Wed, 18 Mar 2015 11:53:28 +0000 (UTC)
+Received: by qcbkw5 with SMTP id kw5so35137308qcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 04:27:41 -0700 (PDT)
+	Wed, 18 Mar 2015 04:53:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ZOT+8Anf584/G+lAR1XSMRUM22Cj8QhngEIMYP1x0po=;
-	b=ST5emZpXWgXBfis9hqaIbyTsZvIGYedf2Y1ID7IciL9Mf1QMxSLiS4YSrKnxX9OpOP
-	5NEogBRfcpWQQ4iuyV1dhj+cdl6TwppCzsr0Y0Y/4bu2GwSRjus9cpXbiT8aaRJPRGfh
-	RWJD5fCzyqMyyTnRdTYzAFj7ilAeRQHEdgVZv/2HR4eyodOt8LbstAaLCeXWH7RfvfKQ
-	4CMeeKJZNJwJ967PB4T4ZJP+7dZdhpx9V8R7djTUvOyi5vEa7Y9HcSU8hs/HGd3FZSA9
-	EKjWMQs8nQqjXDK10HNFusAgs0RoPwguIdpSUc6VQHux+Rx9RHFswdLMiMD31yhZjQsv
-	1S7A==
-X-Gm-Message-State: ALoCoQnqA/elonyuYP0RRzSgXV3riaPNG6A9KZKu4apc17eibrakEJ9SRw+Idr2lbDKCzg2Q78Vj
-X-Received: by 10.70.130.97 with SMTP id od1mr46875809pdb.0.1426678061384;
-	Wed, 18 Mar 2015 04:27:41 -0700 (PDT)
-Received: from Latitude-E6430.domain.name ([119.82.123.224])
-	by mx.google.com with ESMTPSA id x1sm27111518pdr.17.2015.03.18.04.27.38
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 18 Mar 2015 04:27:40 -0700 (PDT)
-From: Naresh Bhat <naresh.bhat@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 16:57:09 +0530
-Message-Id: <1426678029-19516-6-git-send-email-naresh.bhat@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
-References: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
-Cc: matt.fleming@intel.com
-Subject: [OE-core v2 PATCH 5/5] grub: Update grub git recipe
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=+aMUt7HG4EQh3lbB9zWLOfP89vexlowM2D4pfwTRtdM=;
+	b=d3d/6doOmMVloGI0ruPuCk/O7qV/YAARG2qayON13Rm+E0Y2qMaKBHMQf4vbv2WKDw
+	LBHf7i7xDoetUKyzmXBR6A19HAo6VvReR0vZWBC3WTBJSlbMqUBOWI+xbn77rwc5umZO
+	YPSyi/c5BvQh5YBMeLe3Ho27qKbpX68fNp3gyDJeiQkzoklhfzmAJuA5aXLdOqDb4PvA
+	L6YHG9BS2DBOBixKp9N5NHdq31y5sRQLA9EVyQKaMjlVuVek7RQY2ejRqKtHJHMDGM3V
+	J9NvvOU7sYd3OAqJKqcUWtfn0XEI17QUBv7m7tncEV5aZQkx8UaVk4UK7g40f/YIcqYL
+	D0nA==
+X-Gm-Message-State: ALoCoQk60e0sDkApHNO5x8OgzKZSl3B1CkoM55AqBu+S0N72PAPlbxOu65LzL2R/2BEIgOENB1UX
+X-Received: by 10.140.150.79 with SMTP id 76mr46054145qhw.66.1426679610046;
+	Wed, 18 Mar 2015 04:53:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Wed, 18 Mar 2015 04:53:09 -0700 (PDT)
+In-Reply-To: <1426496025-26942-2-git-send-email-rep.dot.nop@gmail.com>
+References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
+	<1426496025-26942-2-git-send-email-rep.dot.nop@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Mar 2015 13:53:09 +0200
+Message-ID: <CAJTo0LbC_-Cj6VdfCNL65bO6OyMeQKMpsgXdXEHhxahor7OtAQ@mail.gmail.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] rpcbind: respin patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,117 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 11:27:40 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 11:53:30 -0000
+Content-Type: multipart/alternative; boundary=001a1135487a5da06205118ebb0b
 
-Update the grub git recipe with the following actions for native and target
+--001a1135487a5da06205118ebb0b
+Content-Type: text/plain; charset=UTF-8
 
-- Base class extend to native
+On 16 March 2015 at 10:53, Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+wrote:
 
-This is required because on aarch64 we need native recipe to be compiled for host architecture and generate grub-mkimage, which is
-executed on host machine to generate grubaa64.efi binary for target architecture. In the case of x86/x86_64 architecture
-it does not make any difference because host=target. The flow on aarch64 is as below
+> Due to libc-dependant conditional patching (which should be completely
+> forbidden -- fix it properly instead) the last PV bump forgot to adjust
+> patches so they failed to apply.
+>
+> Fix this by redoing the patches. These patches were submitted for
+> upstream master, add backported patches for the current tarball.
+>
 
-grub-native compile for host (generates grub-mkimage) ==> do_install_append_class-target() generates grubaa64.efi binary by executing host executable binary grub-mkimage ==> do_deploy() deploy the grubaa64.efi
+The autobuilder is failing on this recipe (
+http://errors.yoctoproject.org/Errors/Details/9409/):
 
-Hence add the below lines
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-skeleton/build/build/tmp/sysroots/qemux86-64/usr/lib/../lib/libtirpc.so:
+undefined reference to `_yp_check'
 
-+DEPENDS_class-target += "grub-native"
-+BBCLASSEXTEND = "native"
+Ross
 
-- Add autotools-brokensep
+--001a1135487a5da06205118ebb0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The recipe is fails to work (because B!=S) when I have add this recipe to luvOS, hence inherit autotools-brokensep instead of autotools.
-May be this needs to be fixed.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 March 2015 at 10:53, Bernhard Reutner-Fischer <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:rep.dot.nop@gmail.com" target=3D"_blank">rep.dot.nop@gmail=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
+204);border-left-style:solid;padding-left:1ex"><div id=3D":3ih" class=3D"" =
+style=3D"overflow:hidden">Due to libc-dependant conditional patching (which=
+ should be completely<br>
+forbidden -- fix it properly instead) the last PV bump forgot to adjust<br>
+patches so they failed to apply.<br>
+<br>
+Fix this by redoing the patches. These patches were submitted for<br>
+upstream master, add backported patches for the current tarball.</div></blo=
+ckquote></div><br>The autobuilder is failing on this recipe (<a href=3D"htt=
+p://errors.yoctoproject.org/Errors/Details/9409/">http://errors.yoctoprojec=
+t.org/Errors/Details/9409/</a>):</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">/home/pokybuild/yocto-autobuilder/yocto-worker/n=
+ightly-qa-skeleton/build/build/tmp/sysroots/qemux86-64/usr/lib/../lib/libti=
+rpc.so: undefined reference to `_yp_check&#39;<br></div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-- On x86 architecture the recipe builds only for PC, It may be required to extend this recipe.
-
-Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
----
- meta/recipes-bsp/grub/grub_git.bb |   47 +++++++++++++++++++++++++++++++------
- 1 file changed, 40 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 3ab675b..1ac99f9 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -8,6 +8,7 @@ DEFAULT_PREFERENCE_arm = "1"
- PV = "2.00+${SRCPV}"
- SRCREV = "87de66d9d83446ecddb29cfbdf7369102c8e209e"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-+           file://cfg \
-            file://grub-2.00-fpmath-sse-387-fix.patch \
-            file://autogen.sh-exclude-pc.patch \
-            file://grub-2.00-add-oe-kernel.patch \
-@@ -18,7 +19,7 @@ S = "${WORKDIR}/git"
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
- 
--inherit autotools gettext texinfo
-+inherit autotools-brokensep gettext texinfo deploy
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
-@@ -34,21 +35,53 @@ GRUBPLATFORM ??= "pc"
- EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
-                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
- 
-+export ac_cv_path_HELP2MAN=""
-+
- do_configure_prepend() {
--    ( cd ${S}
--      ${S}/autogen.sh )
-+      ./autogen.sh
-+}
-+
-+do_install_append_class-native() {
-+        install -m 755 -D grub-mkimage ${D}${bindir}
- }
- 
--do_install_append () {
--    install -d ${D}${sysconfdir}/grub.d
-- 
-+do_install_append_class-target() {
-+    # Search for the grub.cfg on the local boot media by using the
-+    # built in cfg file provided via this recipe
-+    grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+        -O ${GRUB_TARGET}-${GRUBPLATFORM} -o ./${GRUB_IMAGE} \
-+        boot linux ext2 fat serial part_msdos part_gpt \
-+        normal efi_gop iso9660 search efinet tftp all_video chain \
-+        gfxmenu jpeg gfxterm
-+
-+    install -m 0755 -D ${B}/${GRUB_IMAGE} ${D}${bindir}
-+}
-+
-+GRUB_TARGET_aarch64 = "arm64"
-+GRUB_IMAGE_aarch64 = "grubaa64.efi"
-+
-+do_mkimage_class-native() {
-+        :
- }
- 
-+do_deploy() {
-+    install -m 0755 -D ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+}
-+
-+do_deploy_class-native() {
-+        :
-+}
-+
-+addtask deploy after do_install before do_build
-+
- # debugedit chokes on bare metal binaries
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- 
--RDEPENDS_${PN} = "diffutils freetype"
-+RDEPENDS_${PN}_class-target = "diffutils freetype"
- FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
- 
- INSANE_SKIP_${PN} = "arch"
- INSANE_SKIP_${PN}-dbg = "arch"
-+
-+DEPENDS_class-target += "grub-native"
-+BBCLASSEXTEND = "native"
--- 
-1.7.9.5
-
-
+--001a1135487a5da06205118ebb0b--
