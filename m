@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E14DE60034
+Return-Path: <naresh.bhat@linaro.org>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E09A560034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 09:48:03 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Mar 2015 02:48:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,421,1422950400"; d="scan'208";a="681786333"
-Received: from mferguso-mobl4.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.10.180])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2015 02:48:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chen Qi <qi.chen@windriver.com>
-Date: Wed, 18 Mar 2015 09:48:02 +0000
-Message-ID: <5575166.bgVZKFq0RH@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.4; x86_64; ; )
-In-Reply-To: <003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
-References: <cover.1426670089.git.Qi.Chen@windriver.com>
-	<003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] rootfs.py: two changes regarding log checking
+	Wed, 18 Mar 2015 11:27:22 +0000 (UTC)
+Received: by pdbni2 with SMTP id ni2so40572853pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Mar 2015 04:27:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0FOuap2yZuUIgJjXb2ylsfBi3I1L/EJi5lrUWMoEZTI=;
+	b=efB3EPlfDiKqdMRF/CCfIk+zAFNke3KiXwoo7XYOWScquKMIIMKRgahBMkDZxd9+h7
+	tlSJ7UpPOalSWuzzZdSDq5R5gUmbsyNWQvNIgHLJqnUrjgu5dprNReffl4DUuJLhHqPS
+	22nseRfr0TJCSUyfvSMocsyVa6kjcGEZhMli9zbDcwfyPm4eFFrVjySrxmOlioC/XVxJ
+	Dix5onGr7zx3oJpxJd5+Q18jr1Y2L4fE+mEWrFB5N+XlTn481ejv3ZR6YLXOurBysV9s
+	+9b5OCamyatsgd+P2H0XCUCLocRTnUtH+hnm6e1cIO1Zo+rG69455BnxYJZT3cuQJo40
+	qo/w==
+X-Gm-Message-State: ALoCoQngtTX+eB8vO2WYns2xzSfWDIFbIA/mSgtJMOd1bTb4U4cO4GbvRrgOuknUHTuHoA+giuw2
+X-Received: by 10.70.91.131 with SMTP id ce3mr151487656pdb.30.1426678043773;
+	Wed, 18 Mar 2015 04:27:23 -0700 (PDT)
+Received: from Latitude-E6430.domain.name ([119.82.123.224])
+	by mx.google.com with ESMTPSA id x1sm27111518pdr.17.2015.03.18.04.27.20
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 18 Mar 2015 04:27:22 -0700 (PDT)
+From: Naresh Bhat <naresh.bhat@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Mar 2015 16:57:04 +0530
+Message-Id: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
+X-Mailer: git-send-email 1.7.9.5
+Cc: matt.fleming@intel.com
+Subject: [OE-core v2 PATCH 0/5] aarch64 changes for meta layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 09:48:06 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 18 Mar 2015 11:27:24 -0000
 
-On Wednesday 18 March 2015 17:16:10 Chen Qi wrote:
-> 1. Extend the regular expression to also catch '^WRARNING:' in
-> _log_check_warn. Warnings from bb.note or bbnote begin with 'WARNING:'. So
-> if we decide to catch warnings at rootfs time, we should not ignore those
-> produced by the build system itself.
+I am adding the support of aarch64 to LUV OS Distribution project.
+The luv-yocto project is based on poky distribution.
 
-FYI, I still have an unfinished patchset to ensure bbwarn calls from shell 
-functions get piped through to BitBake's event system, with the result that 
-such warnings actually get logged and displayed by the BitBake UI. (That 
-doesn't mean this patch shouldn't go in in the mean time, though.)
+https://01.org/linux-uefi-validation
 
-Cheers,
-Paul
+While adding support I find that these are the few meta layer changes,
+which I have been asked to upstream. If we merge these changes into
+openembedded-core it will be more helpful to maintain the minimum set
+patches at dependency projects like luv-yocto.
+
+Changes since V0:[RFC series]
+- grub: grub-efi: bootimg: Include all the chages suggested by Bernhard Reutner-Fischer
+- grub: Add grub recipe changes suggested by Burton Ross
+
+Changes since V1:
+- grub: More documentation on grub recipe and remove CACHED_CONFIGUREVARS as suggested by Richard Purdie 
+- bootimg: Add NOISO as suggested by Bernhard Reutner-Fischer
+- syslinux: Impliment as suggested by Richard Purdie
+
+-Naresh
+
+Naresh Bhat (5):
+  bootimg: Add support to install Image
+  syslinux: Remove bootimg dependency on aarch64
+  bootimg: Skip iso image build on aarch64
+  grub-efi: Add to support to install grubaa64 efi
+  grub: Update grub git recipe
+
+ meta/classes/bootimg.bbclass      |   12 ++++++++--
+ meta/classes/grub-efi.bbclass     |   17 +++++++++-----
+ meta/classes/syslinux.bbclass     |    5 +++-
+ meta/recipes-bsp/grub/grub_git.bb |   47 +++++++++++++++++++++++++++++++------
+ 4 files changed, 65 insertions(+), 16 deletions(-)
 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
