@@ -1,36 +1,36 @@
 Return-Path: <rep.dot.nop@gmail.com>
 Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
 	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B55056013D
+	by mail.openembedded.org (Postfix) with ESMTP id 86D066013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 12:23:00 +0000 (UTC)
-Received: by lagg8 with SMTP id g8so34408821lag.1
+	Wed, 18 Mar 2015 12:35:44 +0000 (UTC)
+Received: by labjg1 with SMTP id jg1so34670486lab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 05:23:00 -0700 (PDT)
+	Wed, 18 Mar 2015 05:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=VySFRo2im6xmdNWCwJEgNEsf5hzg3HTyRcT8Pw+hlDg=;
-	b=dhwc9iswRB9Ah+IF+0c00oITREK+XlDv/BDpjCxtypXSiN1EuYzwjb3m2k0Bf/RTrh
-	lkQLsUHxL35YZ+Jzm/SFQLjrWlj4C4bsG8MkfIuf+NG9rKy2joniMSqKvpN6+Mfa7yxj
-	bBcqUwc7C0tzTsgDrIvSD+HpBy3Dcpts4XocpPzQ5YnDqBRaz6RNZPhDS4x4oRn2HHmE
-	pYigdDQ2C2ZaXaBdLNVM9eYk4WuM1Vg994JrXDKlIX55ExvVOsdx/1JokHVi2bhCnu/X
-	SSuzQCH92Qh+CVUGOJV9o2k/bz7rG+VHBeHqjUPb0mkmS+IMATB5fDi0psqILJjHYkkw
-	jnzw==
+	bh=6KnEGk66rw3neBqBJIg24vRLCdzh9qxYThfaFTYpPUU=;
+	b=jSgeBKxM3uV6HiseojKihqsTC5Ltih78PNFMYt3JdVBGxtFDw1OBMHTKwlS8jzAhsZ
+	6iBudWv3eQtlMunVE6mnlfP7vae/Aaoi2wsDQd937uUHGD/RKh9HKkNjFGUYsoGnS4Uw
+	Uq+DmocJz59TJ1/fNYRVHVRuwEd6STCMtAhJuqQn763VuPBf8ncvovsBOd4UoXFTThAR
+	2Uqma+AELtXhL+F5g/jwlCrlT6h7kpnnKXXEn+gyrOj+3nwLbla+QyQB8tIbVmxY0nQk
+	lh0vZ+3vCEzj51end/x+buk3ONS1PyOYxrJOEjVng5TBk89jFPLCPxO0+Ozq7FMNhNj8
+	mxjQ==
 MIME-Version: 1.0
-X-Received: by 10.112.41.236 with SMTP id i12mr36001901lbl.14.1426681380036;
-	Wed, 18 Mar 2015 05:23:00 -0700 (PDT)
-Received: by 10.152.146.4 with HTTP; Wed, 18 Mar 2015 05:22:59 -0700 (PDT)
-In-Reply-To: <CAJTo0LbC_-Cj6VdfCNL65bO6OyMeQKMpsgXdXEHhxahor7OtAQ@mail.gmail.com>
-References: <1426496025-26942-1-git-send-email-rep.dot.nop@gmail.com>
-	<1426496025-26942-2-git-send-email-rep.dot.nop@gmail.com>
-	<CAJTo0LbC_-Cj6VdfCNL65bO6OyMeQKMpsgXdXEHhxahor7OtAQ@mail.gmail.com>
-Date: Wed, 18 Mar 2015 13:22:59 +0100
-Message-ID: <CAC1BbcTBOcGnBhLv18d+V8dS_mTwqFyMNt9ZWyiCKibgsybsJA@mail.gmail.com>
+X-Received: by 10.153.8.135 with SMTP id dk7mr63202582lad.93.1426682145169;
+	Wed, 18 Mar 2015 05:35:45 -0700 (PDT)
+Received: by 10.152.146.4 with HTTP; Wed, 18 Mar 2015 05:35:45 -0700 (PDT)
+In-Reply-To: <1426678029-19516-4-git-send-email-naresh.bhat@linaro.org>
+References: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
+	<1426678029-19516-4-git-send-email-naresh.bhat@linaro.org>
+Date: Wed, 18 Mar 2015 13:35:45 +0100
+Message-ID: <CAC1BbcTHOXPNLyWBLYkNW5=4qMRGjF=XgMB=R-nZ=PSfCJA0hw@mail.gmail.com>
 From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] rpcbind: respin patches
+To: Naresh Bhat <naresh.bhat@linaro.org>
+Cc: Matt Fleming <matt.fleming@intel.com>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core v2 PATCH 3/5] bootimg: Skip iso image build on aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 12:23:01 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 12:35:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 March 2015 at 12:53, Burton, Ross <ross.burton@intel.com> wrote:
+On 18 March 2015 at 12:27, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+> To generate bootable ISO image the x86 architecture uses syslinux package (syslinux/isolinux.bin).
+> We have already skip the syslinux package on aarch64.  Hence skip the iso image build on aarch64.
 >
-> On 16 March 2015 at 10:53, Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-> wrote:
->>
->> Due to libc-dependant conditional patching (which should be completely
->> forbidden -- fix it properly instead) the last PV bump forgot to adjust
->> patches so they failed to apply.
->>
->> Fix this by redoing the patches. These patches were submitted for
->> upstream master, add backported patches for the current tarball.
+> Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
+> ---
+>  meta/classes/bootimg.bbclass |    1 +
+>  1 file changed, 1 insertion(+)
 >
+> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+> index ed7b32f..5a8e70c 100644
+> --- a/meta/classes/bootimg.bbclass
+> +++ b/meta/classes/bootimg.bbclass
+> @@ -33,6 +33,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
 >
-> The autobuilder is failing on this recipe
-> (http://errors.yoctoproject.org/Errors/Details/9409/):
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-skeleton/build/build/tmp/sysroots/qemux86-64/usr/lib/../lib/libtirpc.so:
-> undefined reference to `_yp_check'
+>  PACKAGES = " "
+>  EXCLUDE_FROM_WORLD = "1"
+> +NOISO_aarch64 = "1"
 
-yes. I suggest you disable NIS / YP support for glibc too.
-Alternatively you most likely want upstream to
-sed -i -e "s/_yp_check/__yp_check/g" src/getrpcent.c
+how does that help !COMPATIBLE_HOST (of syslinux) except aarch64?
 
-This IMO is a pre-existing bug in the upstream libtirpc that i
-deliberately did not fix since i don't do YP anymore nowadays.
+I meant you to
+def mycheck(d):
+  h = d.getVar('COMPATIBLE_HOST', True)
+  if h:
+    t = d.getVar('TARGET_ARCH', True)
+    if re.match(h, t):
+      return 0
+  return 1
+
+and use that to set NOISO ?= "${@mycheck(d)}"
+(modulo typos and testing)
+
+I think something like that should work and i think this would be
+preferable to adding all those upcoming NOISO_baz
+See what i mean?
 
 thanks,
 
