@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 950BC60034
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CF019739B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 09:15:54 +0000 (UTC)
+	Wed, 18 Mar 2015 09:15:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2I9FuDi029092
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2I9Fvj5013317
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 02:15:56 -0700 (PDT)
+	Wed, 18 Mar 2015 02:15:57 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 18 Mar 2015 02:15:55 -0700
+	14.3.224.2; Wed, 18 Mar 2015 02:15:56 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Mar 2015 17:16:13 +0800
-Message-ID: <6b8b68a587eb90d9168f8c37f12d067cdd6021a2.1426670089.git.Qi.Chen@windriver.com>
+Date: Wed, 18 Mar 2015 17:16:14 +0800
+Message-ID: <e66cc10fbeda93a118d2358d19527c0cf6c4709d.1426670089.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1426670089.git.Qi.Chen@windriver.com>
 References: <cover.1426670089.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] os-release: add LIC_FILES_CHKSUM
+Subject: [PATCH 5/5] glibc-collateral.inc: add LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 09:15:54 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 09:15:56 -0000
 Content-Type: text/plain
 
-Add LIC_FILES_CHKSUM to avoid the warning below at rootfs time.
+Add LIC_FILES_CHKSUM to avoid warnings like below at rootfs time.
 
-    WARNING: The license listed MIT was not in the licenses collected for os-release
+    WARNING: The license listed GPLv2 was not in the licenses collected for glibc-locale
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/os-release/os-release.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/glibc/glibc-collateral.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index 33e9581..87fea6f 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -3,6 +3,7 @@ inherit allarch
- SUMMARY = "Operating system identification"
- DESCRIPTION = "The /etc/os-release file contains operating system identification data."
- LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index dfcebae..e7258b9 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -1,5 +1,7 @@
  INHIBIT_DEFAULT_DEPS = "1"
+ LICENSE = "GPLv2 & LGPLv2.1"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6 \
++                    file://${COMMON_LICENSE_DIR}/LGPL-2.1;md5=1a6d268fd218675ffea8be556788b780"
+ HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
  
- do_fetch[noexec] = "1"
+ # This needs to match with glibc.inc, otherwise glibc-scripts and glibc-locale
 -- 
 1.9.1
 
