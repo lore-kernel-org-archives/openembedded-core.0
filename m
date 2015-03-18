@@ -1,39 +1,39 @@
 Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 787CF6AC43
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D17B6AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 11:27:33 +0000 (UTC)
-Received: by pdbni2 with SMTP id ni2so40577127pdb.1
+	Wed, 18 Mar 2015 11:27:36 +0000 (UTC)
+Received: by padcy3 with SMTP id cy3so39986558pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 04:27:35 -0700 (PDT)
+	Wed, 18 Mar 2015 04:27:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=SYFdSEUhS3wCI+2lx4aub5I/Gkz2EaV5eoXSVYM0Oog=;
-	b=RTu6gdkraiXQjCbLhTJcKR8dF+PIaA221pr+CrDcnt7hzyFCHWfRsVc0sAdOLAQ4X3
-	amOuMbL960upVLEYUuRyJQwXdUu0p9g4SCEjq55wWuFIfVodSiGp63nLp2lqa8RJYE9P
-	EpT6MINDpnVBCt+5SnQPx0rRNG3swvLpJPIJUrOMiqa/i55Xgwq93CMGEnXvykFoPH5e
-	qMgjGRgh3/uyaof9xUvgWs8thCwwukCzMp3iG/xrJXndiLPDKV2ngX7jSP9G31q10VP2
-	KZP7fSBEJ7afQfBTxhfW3qH6uYDe/LN7hW+8rjWcI0Q2x3bEeYi903RxurrpN+0wLZHm
-	7wVA==
-X-Gm-Message-State: ALoCoQnrqfPOz2lcF6eto6lLQyWGBDvYIckbRSgK0t1XY/qK8SsVNil0nKX8/vmC/eUB76YH7RpV
-X-Received: by 10.70.101.137 with SMTP id fg9mr119926427pdb.101.1426678055073; 
-	Wed, 18 Mar 2015 04:27:35 -0700 (PDT)
+	bh=rnNHA/RL7oxZ+JJkDoG+sUIuC6kVl6HAbL7eLBbnnCg=;
+	b=Yonyp0EnwixcOas8fih60tWduaKdbGWGsK8y5+gg2IyJI79C7ALyRx0o+X7oSgqIWd
+	nwPpq6Zbqd+YcXoRpMDS95QLoRU+Ma+J6dp+tY+CJ7bkPckHq2lVLrCdVI3CXk2I98kr
+	aXpM2HkIQtb2kL4JEPSuZ0fWUhPL0qbCoCX/bOXAQGy23TJkeN//63ujaWCbWvPjrCIk
+	uBnlOK1UFKuObA391VZ+GSyfa43HAac4omY9xNHLnK1cYrHnh4YA/tyKOAALtHnwGiGr
+	NYR8FD2LUkkt/zjYLK+b1UBFFsJPNbeJrX8yFNmYlFVeXIRVZBUxPCLO7Gg6nrqEyUpC
+	tPCA==
+X-Gm-Message-State: ALoCoQnio6ASeOyv+wX54+ukKYfMckwEsxmFlLfJz/gZ4M3IQS3XUrXF6CZCTzSrrbbhq9pMjAOE
+X-Received: by 10.70.89.195 with SMTP id bq3mr119501468pdb.138.1426678058082; 
+	Wed, 18 Mar 2015 04:27:38 -0700 (PDT)
 Received: from Latitude-E6430.domain.name ([119.82.123.224])
-	by mx.google.com with ESMTPSA id x1sm27111518pdr.17.2015.03.18.04.27.30
+	by mx.google.com with ESMTPSA id x1sm27111518pdr.17.2015.03.18.04.27.35
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 18 Mar 2015 04:27:34 -0700 (PDT)
+	Wed, 18 Mar 2015 04:27:37 -0700 (PDT)
 From: Naresh Bhat <naresh.bhat@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 16:57:07 +0530
-Message-Id: <1426678029-19516-4-git-send-email-naresh.bhat@linaro.org>
+Date: Wed, 18 Mar 2015 16:57:08 +0530
+Message-Id: <1426678029-19516-5-git-send-email-naresh.bhat@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
 References: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
 Cc: matt.fleming@intel.com
-Subject: [OE-core v2 PATCH 3/5] bootimg: Skip iso image build on aarch64
+Subject: [OE-core v2 PATCH 4/5] grub-efi: Add to support to install grubaa64 efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,28 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 11:27:33 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 11:27:38 -0000
 
-To generate bootable ISO image the x86 architecture uses syslinux package (syslinux/isolinux.bin).
-We have already skip the syslinux package on aarch64.  Hence skip the iso image build on aarch64.
+Add support to install grubaa64 efi image.  By default GRUB_IMAGE contains
+the bootia32.efi image.  Depending on the architecture type the variable is
+being updated to bootia64.efi or grubaa64.efi
 
 Signed-off-by: Naresh Bhat <naresh.bhat@linaro.org>
 ---
- meta/classes/bootimg.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/grub-efi.bbclass |   17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index ed7b32f..5a8e70c 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -33,6 +33,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 47bd35e..cded1a0 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -31,15 +31,20 @@ efi_populate() {
+ 	# nested under a top level directory.
+ 	DEST=$1
  
- PACKAGES = " "
- EXCLUDE_FROM_WORLD = "1"
-+NOISO_aarch64 = "1"
+-	install -d ${DEST}${EFIDIR}
+-
+ 	GRUB_IMAGE="bootia32.efi"
+-	if [ "${TARGET_ARCH}" = "x86_64" ]; then
++
++	case ${TARGET_ARCH} in
++		x86_64 )
+ 		GRUB_IMAGE="bootx64.efi"
+-	fi
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
++		;;
++		aarch64 )
++		GRUB_IMAGE="grubaa64.efi"
++		;;
++	esac
++
++	install -m 0644 -D ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
  
- HDDDIR = "${S}/hddimg"
- ISODIR = "${S}/iso"
+-	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
++	install -m 0644 -D ${GRUBCFG} ${DEST}${EFIDIR}
+ }
+ 
+ efi_iso_populate() {
 -- 
 1.7.9.5
 
