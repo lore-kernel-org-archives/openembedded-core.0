@@ -1,30 +1,26 @@
-Return-Path: <diego.ml@zoho.com>
-X-Greylist: delayed 904 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 18 Mar 2015 16:11:12 UTC
-Received: from sender1.zohomail.com (sender1.zohomail.com [74.201.84.157])
-	by mail.openembedded.org (Postfix) with ESMTP id 863F160034
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+X-Greylist: delayed 627 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 18 Mar 2015 16:30:54 UTC
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F65A60034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 16:11:12 +0000 (UTC)
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
-	h=from:to:cc:subject:date:message-id; 
-	b=cxtFcmuOz2ea9eoG0ad70nu42CmfAtr5XMHqH/tVYwb1xVPT9IGbhF7fGf6nmx4AYffgfA9G06CM
-	+BmLVjmAt5IlMqMtdJdaolE9gA/lX1PMHU8fo7Ro4C5+LEuYddaP  
-Received: from localhost.localdomain
-	(host65-246-static.10-188-b.business.telecomitalia.it
-	[188.10.246.65]) by mx.zohomail.com
-	with SMTPS id 1426694166083318.9358481062817;
-	Wed, 18 Mar 2015 08:56:06 -0700 (PDT)
-From: Diego Rondini <diego.ml@zoho.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 16:50:45 +0100
-Message-Id: <1426693845-1805-1-git-send-email-diego.ml@zoho.com>
-X-Mailer: git-send-email 1.7.9.5
-X-ZohoMail: Ss  SS_10 UW UB UW UB  ZSF-HLOLL_2 SF_TD_EXT  SGR3_1_11025_229
-X-ZohoMail-Owner: <1426693845-1805-1-git-send-email-diego.ml@zoho.com>+zmo_0_<diego.ml@zoho.com>
-X-ZohoMail-Sender: 188.10.246.65
-X-Zoho-Virus-Status: 2
-Cc: Diego Rondini <diego.ml@zoho.com>
-Subject: [PATCH] watchdog: Provide and install initscript
+	Wed, 18 Mar 2015 16:30:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.11,423,1422918000"; d="scan'208";a="71399894"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 18 Mar 2015 17:20:27 +0100
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.210.2; Wed, 18 Mar 2015 17:20:26 +0100
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.3.210.2; Wed, 18 Mar 2015 17:20:26 +0100
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Mar 2015 17:20:20 +0100
+Message-ID: <1426695620-4731-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
+MIME-Version: 1.0
+Subject: [PATCH] postinst_intercept script: drop pipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,129 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 16:11:16 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 16:30:56 -0000
+Content-Type: text/plain
 
-Provide and install an initscript for the watchdog package.
-In particular:
-- watchdog-init.patch adapts redhat initscript to be compatibile with
-  OpenEmbedded;
-- watchdog-conf.patch selects /dev/watchdog as default device;
-- changes to the recipe install and configure the initscript.
+Avoid useless subshell.
+There's no word splitting in variable assignment.
 
-Signed-off-by: Diego Rondini <diego.ml@zoho.com>
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 ---
- .../watchdog/watchdog/watchdog-conf.patch          |   11 ++++
- .../watchdog/watchdog/watchdog-init.patch          |   53 ++++++++++++++++++++
- meta/recipes-extended/watchdog/watchdog_5.14.bb    |   12 ++++-
- 3 files changed, 75 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
- create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
+ scripts/postinst-intercepts/postinst_intercept | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
-new file mode 100644
-index 0000000..36f2968
---- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
-@@ -0,0 +1,11 @@
-+--- watchdog-5.13.orig/watchdog.conf	2013-02-01 12:15:44.000000000 +0100
-++++ watchdog-5.13/watchdog.conf	2014-11-13 10:59:43.233943000 +0100
-+@@ -20,7 +20,7 @@
-+ #test-binary		= 
-+ #test-timeout		= 
-+ 
-+-#watchdog-device	= /dev/watchdog
-++watchdog-device	= /dev/watchdog
-+ 
-+ # Defaults compiled into the binary
-+ #temperature-device	=
-diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
-new file mode 100644
-index 0000000..0fa8ee9
---- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
-@@ -0,0 +1,53 @@
-+--- watchdog-5.13.orig/redhat/watchdog.init	2014-11-12 17:18:39.125943000 +0100
-++++ watchdog-5.13/redhat/watchdog.init	2014-11-12 18:27:36.189943000 +0100
-+@@ -7,7 +7,7 @@
-+ #                 Henning P. Schmiedehausen <hps@tanstaafl.de>
-+ 
-+ # Source function library.
-+-. /etc/rc.d/init.d/functions
-++. /etc/init.d/functions
-+ 
-+ [ -x /usr/sbin/watchdog -a -e /etc/watchdog.conf ] || exit 0
-+ 
-+@@ -23,22 +23,22 @@
-+ 
-+ start() {
-+ 
-+-	echo -n $"Starting $prog: "
-++	echo -n "Starting $prog: "
-+ 	if [ -n "$(pidofproc $prog)" ]; then
-+-		echo -n $"$prog: already running"
-+-		echo_failure
-++		echo -n "$prog: already running "
-++		failure
-+ 		echo
-+ 		return 1
-+ 	fi
-+ 	if [ "$VERBOSE" = "yes" ]; then
-+-	    daemon /usr/sbin/${prog} -v
-++	    /usr/sbin/${prog} -v
-+ 	else
-+-	    daemon /usr/sbin/${prog}
-++	    /usr/sbin/${prog}
-+         fi
-+ 	RETVAL=$?
-+ 	[ $RETVAL -eq 0 ] && touch $lockfile
-+-	[ $RETVAL -eq 0 ] && echo_success
-+-	[ $RETVAL -ne 0 ] && echo_failure
-++	[ $RETVAL -eq 0 ] && success
-++	[ $RETVAL -ne 0 ] && failure
-+ 	echo
-+ 	return $RETVAL
-+ }
-+@@ -50,8 +50,10 @@
-+ 	# and reboot the box.
-+ 	killproc $prog -TERM
-+ 	RETVAL=$?
-+-	echo
-+ 	[ $RETVAL -eq 0 ] && rm -f $lockfile $pidfile
-++	[ $RETVAL -eq 0 ] && success
-++	[ $RETVAL -ne 0 ] && failure
-++	echo
-+ 	return $RETVAL
-+ }
-+ 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-index c77d91d..9ec0a8e 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-@@ -10,11 +10,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
+diff --git a/scripts/postinst-intercepts/postinst_intercept b/scripts/postinst-intercepts/postinst_intercept
+index 27c2568..a257198 100755
+--- a/scripts/postinst-intercepts/postinst_intercept
++++ b/scripts/postinst-intercepts/postinst_intercept
+@@ -41,7 +41,7 @@ fi
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
-            file://fixsepbuild.patch \
--	   file://fix-ping-failure.patch"
-+	   file://fix-ping-failure.patch \
-+	   file://watchdog-init.patch \
-+	   file://watchdog-conf.patch"
+ chmod +x "$intercept_script"
  
- SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
- SRC_URI[sha256sum] = "620b2f49e9879f2e85c73d4c1f422f9101e6b38e824fea2414befd8bb6866ad1"
- 
- inherit autotools
-+inherit update-rc.d
-+
-+INITSCRIPT_NAME = "watchdog.sh"
-+INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- 
- RRECOMMENDS_${PN} = "kernel-module-softdog"
-+
-+do_install_append() {
-+	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
-+}
+-pkgs_line="$(cat $intercept_script|grep "##PKGS:")"
++pkgs_line=$(grep "##PKGS:" $intercept_script)
+ if [ -n "$pkgs_line" ]; then
+ 	# line exists, add this package to the list only if it's not already there
+ 	if [ -z "$(echo "$pkgs_line" | grep " $package_name ")" ]; then
 -- 
-1.7.9.5
-
+1.9.1
 
 
