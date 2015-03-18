@@ -1,34 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CE9D86013D
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A4A060034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 06:07:16 +0000 (UTC)
-Received: by igbue6 with SMTP id ue6so34685993igb.1
+	Wed, 18 Mar 2015 09:15:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2I9FqBc013306
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2015 23:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=erCn9FnsEB3QxLoafD6C5UnivT48fNWz2D4EzmZpBp4=;
-	b=DmLki5RdDL0mbv3LaQTapzoqU6Mzl1I9ddMaQjC/UVBnKADJWJmAUVGf/QSPmdZ+72
-	d70/MYxYuHeES4EoYwNR9LNoHE4YWCx4CV9EmgTTU/Xs87ALf8YsX+twBUYwItGaz2kD
-	Dd2P2DL/99O/sVcrg1beKIj29sqEZBUemUiPDd1RdXt7GzJZ1/Mj09earVVhEFD592Tv
-	MMCPw3RwE4YYdvqwikYM1LJovWk9wPRrEDrd6ImsFhJJXMLoDz2U+5kDO78beQ5OH4Rn
-	5o4YRrSCogBBsugsn0TwiRNcmph6q6GpcOAA4lv0bShN/nkrK5W7pgi09Q1H8r82VrQV
-	esIg==
-X-Received: by 10.107.14.141 with SMTP id 135mr57295423ioo.15.1426658837750;
-	Tue, 17 Mar 2015 23:07:17 -0700 (PDT)
-Received: from kraj-ch2e.sys.comcast.net (a-96-119-88-205.sys.comcast.net.
-	[96.119.88.205])
-	by mx.google.com with ESMTPSA id v13sm1032804igd.14.2015.03.17.23.07.17
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 Mar 2015 23:07:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 06:06:58 +0000
-Message-Id: <1426658818-8179-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] glibc: Fix kconfig to work in non interactive mode
+	Wed, 18 Mar 2015 02:15:52 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 18 Mar 2015 02:15:51 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Mar 2015 17:16:10 +0800
+Message-ID: <003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1426670089.git.Qi.Chen@windriver.com>
+References: <cover.1426670089.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/5] rootfs.py: two changes regarding log checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,36 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2015 06:07:16 -0000
+X-List-Received-Date: Wed, 18 Mar 2015 09:15:53 -0000
+Content-Type: text/plain
 
-For glibc kconfig patch that we have we have three options implemented
-defconfig, config and menuconfig
-config is what we use and it calls conf program with --oldaskconfig
-option which is suppose to behave as expected waiting for inputs from
-line oriented program
+This patch involves two changes.
 
-[YOCTO #6614]
+1. Extend the regular expression to also catch '^WRARNING:' in _log_check_warn.
+   Warnings from bb.note or bbnote begin with 'WARNING:'. So if we decide to
+   catch warnings at rootfs time, we should not ignore those produced by
+   the build system itself.
 
-Change-Id: Icb74b0343d57dcbfae5122b0c772d260481ee125
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+2. Delay _log_check in rootfs process so that more warnings are likely to be
+   catched. Note that we should at least delay the _log_check after the
+   execution of ROOTFS_POSTPROCESS_COMMANDS, because we want to catch warnings
+   there.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/glibc/glibc_2.21.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index d2e69c4..f57e3f9 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -111,7 +111,7 @@ do_configure () {
-         fi
-         (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
-         find ${S} -name "configure" | xargs touch
--        CPPFLAGS="" oe_runconf
-+        yes '' | CPPFLAGS="" oe_runconf
- }
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 7e8d5d1..3a77e86 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -128,6 +128,7 @@ class Rootfs(object):
+             self._generate_kernel_module_deps()
  
- rpcsvc = "bootparam_prot.x nlm_prot.x rstat.x \
+         self._cleanup()
++        self._log_check()
+ 
+     def _uninstall_unneeded(self):
+         # Remove unneeded init script symlinks
+@@ -327,8 +328,6 @@ class RpmRootfs(Rootfs):
+ 
+         self.pm.install_complementary()
+ 
+-        self._log_check()
+-
+         if self.inc_rpm_image_gen == "1":
+             self.pm.backup_packaging_data()
+ 
+@@ -355,7 +354,7 @@ class RpmRootfs(Rootfs):
+         pass
+ 
+     def _log_check_warn(self):
+-        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn)')
++        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn|WARNING:)')
+         log_path = self.d.expand("${T}/log.do_rootfs")
+         with open(log_path, 'r') as log:
+             for line in log.read().split('\n'):
 -- 
-2.1.4
+1.9.1
 
 
