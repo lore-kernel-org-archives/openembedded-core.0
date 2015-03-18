@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A4A060034
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 711386AC3A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 09:15:50 +0000 (UTC)
+	Wed, 18 Mar 2015 09:15:49 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2I9FqBc013306
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2I9Fo0m029076
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 02:15:52 -0700 (PDT)
+	Wed, 18 Mar 2015 02:15:50 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 18 Mar 2015 02:15:51 -0700
+	14.3.224.2; Wed, 18 Mar 2015 02:15:50 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Mar 2015 17:16:10 +0800
-Message-ID: <003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
+Date: Wed, 18 Mar 2015 17:16:09 +0800
+Message-ID: <cover.1426670089.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1426670089.git.Qi.Chen@windriver.com>
-References: <cover.1426670089.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] rootfs.py: two changes regarding log checking
+Subject: [PATCH 0/5] Changes regarding log checking and license checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +34,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 18 Mar 2015 09:15:53 -0000
 Content-Type: text/plain
 
-This patch involves two changes.
+The following changes since commit 0752c79282b1cc9699743e719518e6c341d50a3a:
 
-1. Extend the regular expression to also catch '^WRARNING:' in _log_check_warn.
-   Warnings from bb.note or bbnote begin with 'WARNING:'. So if we decide to
-   catch warnings at rootfs time, we should not ignore those produced by
-   the build system itself.
+  systemd: fix /var/log/journal ownership (2015-03-16 17:38:51 +0000)
 
-2. Delay _log_check in rootfs process so that more warnings are likely to be
-   catched. Note that we should at least delay the _log_check after the
-   execution of ROOTFS_POSTPROCESS_COMMANDS, because we want to catch warnings
-   there.
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oe/rootfs.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/log-check-license-warn
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/log-check-license-warn
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 7e8d5d1..3a77e86 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -128,6 +128,7 @@ class Rootfs(object):
-             self._generate_kernel_module_deps()
- 
-         self._cleanup()
-+        self._log_check()
- 
-     def _uninstall_unneeded(self):
-         # Remove unneeded init script symlinks
-@@ -327,8 +328,6 @@ class RpmRootfs(Rootfs):
- 
-         self.pm.install_complementary()
- 
--        self._log_check()
--
-         if self.inc_rpm_image_gen == "1":
-             self.pm.backup_packaging_data()
- 
-@@ -355,7 +354,7 @@ class RpmRootfs(Rootfs):
-         pass
- 
-     def _log_check_warn(self):
--        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn)')
-+        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn|WARNING:)')
-         log_path = self.d.expand("${T}/log.do_rootfs")
-         with open(log_path, 'r') as log:
-             for line in log.read().split('\n'):
+Chen Qi (5):
+  rootfs.py: two changes regarding log checking
+  rootfs.py: add log checking ability for deb and ipk
+  packagegroup: add LIC_FILES_CHKSUM
+  os-release: add LIC_FILES_CHKSUM
+  glibc-collateral.inc: add LIC_FILES_CHKSUM
+
+ meta/lib/oe/rootfs.py                              | 64 +++++++++++++++-------
+ meta/recipes-core/glibc/glibc-collateral.inc       |  2 +
+ meta/recipes-core/os-release/os-release.bb         |  1 +
+ .../packagegroups/packagegroup-base.bb             |  1 +
+ .../packagegroups/packagegroup-core-boot.bb        |  1 +
+ .../packagegroup-core-buildessential.bb            |  1 +
+ .../packagegroup-core-eclipse-debug.bb             |  1 +
+ .../packagegroups/packagegroup-core-nfs.bb         |  1 +
+ .../packagegroups/packagegroup-core-sdk.bb         |  1 +
+ .../packagegroup-core-ssh-dropbear.bb              |  1 +
+ .../packagegroups/packagegroup-core-ssh-openssh.bb |  1 +
+ .../packagegroup-core-standalone-sdk-target.bb     |  1 +
+ .../packagegroups/packagegroup-core-tools-debug.bb |  1 +
+ .../packagegroup-core-tools-profile.bb             |  1 +
+ .../packagegroup-core-tools-testapps.bb            |  1 +
+ .../packagegroups/packagegroup-cross-canadian.bb   |  1 +
+ .../packagegroups/packagegroup-self-hosted.bb      |  1 +
+ .../packagegroup-core-device-devel.bb              |  1 +
+ .../packagegroup-core-full-cmdline.bb              |  1 +
+ .../packagegroups/packagegroup-core-lsb.bb         |  1 +
+ .../packagegroups/packagegroup-core-clutter.bb     |  1 +
+ .../packagegroups/packagegroup-core-directfb.bb    |  1 +
+ .../packagegroups/packagegroup-core-x11-base.bb    |  1 +
+ .../packagegroups/packagegroup-core-x11-xserver.bb |  1 +
+ .../packagegroups/packagegroup-core-x11.bb         |  1 +
+ .../packagegroups/packagegroup-core-qt.bb          |  1 +
+ .../packagegroups/packagegroup-core-qt4e.bb        |  1 +
+ .../packagegroup-qt-toolchain-target.inc           |  1 +
+ .../packagegroups/packagegroup-core-x11-sato.bb    |  1 +
+ 29 files changed, 74 insertions(+), 19 deletions(-)
+
 -- 
 1.9.1
 
