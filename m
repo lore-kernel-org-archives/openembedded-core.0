@@ -1,34 +1,27 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 58A1265CD0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D964165CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 06:29:27 +0000 (UTC)
-Received: by iecsl2 with SMTP id sl2so57835272iec.1
+	Thu, 19 Mar 2015 07:45:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2J7jQtG006531
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 23:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=jP9nzPexhNDDxhoszkmCAxgOuTT3Aj9zOuVeebTP3Yk=;
-	b=MzGxknuq1ZDvtrjiDFrGPPJGlj1oMMVuqhDg+1HXbELciYT0BHDYfD63vNv7FvDD1T
-	Hwrc+QP3db+DTZSPr5mqWGg7bFMM3sZ3cOQAWTZM/6S20nEF9UrzoLSjZpc50VL3PY8j
-	qdNqJJsx0FowSWLiLyiFlTrjhXuqT7iTS1siNelguzSxOmSgQqAjMBkpEfYbb40eFmz6
-	Y/dN+VeHGjLMxbkr4xKWMcgDwch+lz/6BfFiW9HjOHUnT/U7MnNuLGtBe7EbdXXRIMZA
-	CFCYE4CCCSugq6MEpkZJeUiU+oBkAnSWrhSp7t3g8VW5BWXarhsdAkHJ1keWXilLDJf/
-	JAvg==
-X-Received: by 10.50.60.72 with SMTP id f8mr13513378igr.31.1426746568968;
-	Wed, 18 Mar 2015 23:29:28 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id k2sm330179iok.11.2015.03.18.23.29.27
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Mar 2015 23:29:28 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 23:29:18 -0700
-Message-Id: <1426746558-2920-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gst-plugins-good: fix nondeterministic udev dependency
+	Thu, 19 Mar 2015 00:45:26 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 19 Mar 2015 00:45:26 -0700
+Message-ID: <550A7E94.9010500@windriver.com>
+Date: Thu, 19 Mar 2015 15:45:24 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: Li Zhou <li.zhou@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1425292222-2756-1-git-send-email-li.zhou@windriver.com>
+In-Reply-To: <1425292222-2756-1-git-send-email-li.zhou@windriver.com>
+Subject: Re: [PATCH] libtool: put libltdl.la in the right package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 06:29:28 -0000
+X-List-Received-Date: Thu, 19 Mar 2015 07:45:30 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Make the v4l PACKAGECONFIG option control building of the video4linux2
-plug-in (not use of libv4l, as it did before) and enable by default.
-Add a separate libv4l PACKAGECONFIG to control use of libv4l (disabled
-by default since libv4l is not part of oe-core).
+ping.
 
-The default config for gst-plugins-good and gstreamer1.0-plugins-good
-is now aligned with regards to v4l, ie:
+// Robert
 
-  v4l support: enabled by default
-  v4l use of libgudev: enabled by default
-  v4l use of libv4l2: disabled by default
-
-This commit fixes the following build-deps QA Warnings:
-
-  WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libudev, but it isn't a build dependency? [build-deps]
-  WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libgudev, but it isn't a build dependency? [build-deps]
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index 85f2196..af18281 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 
- PR = "r8"
- 
--PACKAGECONFIG ?= "jpeg \
-+PACKAGECONFIG ?= "jpeg v4l \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
- "
-@@ -16,7 +16,9 @@ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg"
- PACKAGECONFIG[wavpack] = "--enable-wavpack,--disable-wavpack,wavpack"
- PACKAGECONFIG[gdkpixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
--PACKAGECONFIG[v4l] = "--with-libv4l2,--without-libv4l2,libv4l"
-+PACKAGECONFIG[v4l] = "--enable-gst_v4l2 --with-gudev,--disable-gst_v4l2 --without-gudev,udev"
-+# sub-feature of v4l, but control separately since libv4l is not part of oe-core
-+PACKAGECONFIG[libv4l] = "--with-libv4l2,--without-libv4l2,libv4l"
- PACKAGECONFIG[bzip2] = "--enable-bz2,--disable-bz2,bzip2"
- PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
- PACKAGECONFIG[x11] = "--enable-x,--disable-x,virtual/libx11 libxfixes libxdamage"
--- 
-1.9.1
-
+On 03/02/2015 06:30 PM, Li Zhou wrote:
+> The libltdl libraries are put in libltdl-* packages, but libltdl.la
+> is packaged in libtool-dev. This change puts libltdl.la in libltdl-dev
+> package instead of libtool-dev.
+>
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> ---
+>   meta/recipes-devtools/libtool/libtool-2.4.6.inc |    1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+> index ff5abcb..2125de3 100644
+> --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+> +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+> @@ -45,6 +45,7 @@ FILES_${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
+>   #FILES_${PN}-dev := "${@oe_filter_out('${datadir}/aclocal', '${FILES_libtool-dev}', d)}"
+>   FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
+>   FILES_libltdl-dev = "${libdir}/libltdl${SOLIBSDEV} ${includedir}"
+> +FILES_libltdl-dev =+ "${libdir}/libltdl.la"
+>   FILES_libltdl-staticdev = "${libdir}/libltdl.a"
+>   FILES_libltdl-dbg = "${libdir}/.debug/"
+>
+>
 
