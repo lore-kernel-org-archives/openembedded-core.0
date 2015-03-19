@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DDD49739C2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C8D69739BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 05:17:58 +0000 (UTC)
+	Thu, 19 Mar 2015 05:17:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2J5HxR0025152
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2J5I1KA014866
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 22:18:00 -0700 (PDT)
+	Wed, 18 Mar 2015 22:18:01 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 18 Mar 2015 22:17:59 -0700
+	14.3.224.2; Wed, 18 Mar 2015 22:18:00 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2015 13:17:53 +0800
-Message-ID: <d8e7b2d1abbd057db495d0e112475964670b9d49.1426742194.git.Qi.Chen@windriver.com>
+Date: Thu, 19 Mar 2015 13:17:54 +0800
+Message-ID: <076d15fec541333ac5ce7d7cc59c6fc01f9c69c7.1426742194.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1426742194.git.Qi.Chen@windriver.com>
 References: <cover.1426742194.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 3/5] license.bbclass: skip license checking if the package contains no file
+Subject: [PATCH V3 4/5] os-release: add LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 05:17:59 -0000
+X-List-Received-Date: Thu, 19 Mar 2015 05:18:00 -0000
 Content-Type: text/plain
 
-If the package doesn't contain any file, then the license isn't relevant
-as far as the final image is concerned. So we skip the license checking
-in license_create_manifest if such case.
+Add LIC_FILES_CHKSUM to avoid the warning below at rootfs time.
+
+    WARNING: The license listed MIT was not in the licenses collected for os-release
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/license.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-core/os-release/os-release.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 95e0121..73a0e97 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -50,6 +50,7 @@ license_create_manifest() {
- 		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
- 		pkged_name="$(basename $(readlink ${filename}))"
- 		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; p }" ${filename})"
-+		pkged_size="$(sed -n "/^PKGSIZE_${pkged_name}: /{ s/^PKGSIZE_${pkged_name}: //; p }" ${filename})"
- 		if [ -z "${pkged_lic}" ]; then
- 			# fallback checking value of LICENSE
- 			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; p }" ${filename})"
-@@ -61,6 +62,13 @@ license_create_manifest() {
- 		echo "LICENSE:" ${pkged_lic} >> ${LICENSE_MANIFEST}
- 		echo "" >> ${LICENSE_MANIFEST}
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index 33e9581..87fea6f 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -3,6 +3,7 @@ inherit allarch
+ SUMMARY = "Operating system identification"
+ DESCRIPTION = "The /etc/os-release file contains operating system identification data."
+ LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ INHIBIT_DEFAULT_DEPS = "1"
  
-+		# If the package doesn't contain any file, that is, its size is 0, the license
-+		# isn't relevant as far as the final image is concerned. So doing license check
-+		# doesn't make much sense, skip it.
-+		if [ "$pkged_size" = "0" ]; then
-+			continue
-+		fi
-+
- 		lics="$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | sed "s/  */ /g" )"
- 		for lic in ${lics}; do
- 			# to reference a license file trim trailing + symbol
+ do_fetch[noexec] = "1"
 -- 
 1.9.1
 
