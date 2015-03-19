@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E17FA73689
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by mail.openembedded.org (Postfix) with ESMTP id EBE1B65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 11:33:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2JBXipB002048 for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 11:33:44 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id kzdUVqE2HUO1
+	Thu, 19 Mar 2015 12:20:33 +0000 (UTC)
+Received: by ykek76 with SMTP id k76so27715250yke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 11:33:44 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2JBXU6b002021
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 11:33:42 GMT
-Message-ID: <1426764810.29168.49.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2015 11:33:30 +0000
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] runqemu-internal: Add cpio support for qemux86 so that we can boot poky-tiny images
+	Thu, 19 Mar 2015 05:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Nh1PpV/SefN1dFYCqim8eVggHh0rG8XgBqan13ohAX8=;
+	b=bnz8JX/45lIv9cHQ/NgqrJdEpYXs554A2jAa/e20+LmOr98qLZ9OdTvEoAaRl+BCkL
+	iMr35nE15hNEqsVBXAKUmpzAQDDmEoIpIFTUOW+fnE1XTu4RVNHy4pKmqvHI+TBUYjoW
+	6xViqjivB5iTkPWvbAIJ50JreEb7yu0nNqUyl2EOe9X8ZNMl29S1XZ1w7xma/FZFe1Wt
+	nYB+wP57u08W1/TdgyHeE3V7pWczgVtek6MpkErOJIARQNq8CcVdoS6zVPAK7x1QtBqq
+	NdofOKIx1PwrO5XsOQqNmrcYATdcvMilILZm2KFd4ihv3UQvVus9j4+Q9XytagZ+InoP
+	wEfw==
+MIME-Version: 1.0
+X-Received: by 10.170.219.9 with SMTP id l9mr87235765ykf.105.1426767634559;
+	Thu, 19 Mar 2015 05:20:34 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.112.82 with HTTP; Thu, 19 Mar 2015 05:20:34 -0700 (PDT)
+In-Reply-To: <1426746558-2920-1-git-send-email-armccurdy@gmail.com>
+References: <1426746558-2920-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 19 Mar 2015 09:20:34 -0300
+X-Google-Sender-Auth: 7N17ZnoPskS_jW0oPViCsR6yEVk
+Message-ID: <CAP9ODKo7=Ehs-BOL3NUFXXx8Mjt4tMR6GeKyZtokXfugEnX6BA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gst-plugins-good: fix nondeterministic udev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +44,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 11:33:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Mar 2015 12:20:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-poky-tiny generates cpio.gz images, add support for these so we can boot
-them using runqemu.
+On Thu, Mar 19, 2015 at 3:29 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Make the v4l PACKAGECONFIG option control building of the video4linux2
+> plug-in (not use of libv4l, as it did before) and enable by default.
+> Add a separate libv4l PACKAGECONFIG to control use of libv4l (disabled
+> by default since libv4l is not part of oe-core).
+>
+> The default config for gst-plugins-good and gstreamer1.0-plugins-good
+> is now aligned with regards to v4l, ie:
+>
+>   v4l support: enabled by default
+>   v4l use of libgudev: enabled by default
+>   v4l use of libv4l2: disabled by default
+>
+> This commit fixes the following build-deps QA Warnings:
+>
+>   WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libudev, but it isn't a build dependency? [build-deps]
+>   WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libgudev, but it isn't a build dependency? [build-deps]
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> index 85f2196..af18281 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>
+>  PR = "r8"
+>
+> -PACKAGECONFIG ?= "jpeg \
+> +PACKAGECONFIG ?= "jpeg v4l \
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This is not needed.
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 6594dc3..2db5566 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -408,6 +408,11 @@ if [ "$MACHINE" = "qemux86" ]; then
-         KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-     fi
-+    if [ "${FSTYPE:0:4}" = "cpio" ]; then
-+        KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=/dev/ram0 rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -initrd $ROOTFS $QEMU_UI_OPTIONS"
-+    fi
-+
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-             echo "Error: NFS mount point $ROOTFS doesn't exist."
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+>  "
+> @@ -16,7 +16,9 @@ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
+>  PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg"
+>  PACKAGECONFIG[wavpack] = "--enable-wavpack,--disable-wavpack,wavpack"
+>  PACKAGECONFIG[gdkpixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+> -PACKAGECONFIG[v4l] = "--with-libv4l2,--without-libv4l2,libv4l"
+> +PACKAGECONFIG[v4l] = "--enable-gst_v4l2 --with-gudev,--disable-gst_v4l2 --without-gudev,udev"
+> +# sub-feature of v4l, but control separately since libv4l is not part of oe-core
+> +PACKAGECONFIG[libv4l] = "--with-libv4l2,--without-libv4l2,libv4l"
+>  PACKAGECONFIG[bzip2] = "--enable-bz2,--disable-bz2,bzip2"
+>  PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+>  PACKAGECONFIG[x11] = "--enable-x,--disable-x,virtual/libx11 libxfixes libxdamage"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
