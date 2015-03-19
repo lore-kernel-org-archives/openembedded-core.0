@@ -1,27 +1,22 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D964165CD0
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4870865CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 07:45:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2J7jQtG006531
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 00:45:26 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 19 Mar 2015 00:45:26 -0700
-Message-ID: <550A7E94.9010500@windriver.com>
-Date: Thu, 19 Mar 2015 15:45:24 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: Li Zhou <li.zhou@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1425292222-2756-1-git-send-email-li.zhou@windriver.com>
-In-Reply-To: <1425292222-2756-1-git-send-email-li.zhou@windriver.com>
-Subject: Re: [PATCH] libtool: put libltdl.la in the right package.
+	Thu, 19 Mar 2015 08:17:35 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 19 Mar 2015 01:17:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,428,1422950400"; d="scan'208";a="469371466"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
+	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com)
+	([10.252.7.188])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Mar 2015 01:17:35 -0700
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Mar 2015 10:17:33 +0200
+Message-Id: <1426753053-29649-1-git-send-email-tanu.kaskinen@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] pulseaudio: remove obsolete resampler patching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 07:45:30 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Mar 2015 08:17:38 -0000
 
-ping.
+This sed script hasn't worked since PulseAudio 0.9.8 (released in
+2007), because the match condition refers to "sinc-fastest", while the
+default resampler is nowadays speex-float-1.
 
-// Robert
+The idea behind the sed script might be good, but it seems obvious
+that nobody is actually depending on the script, so let's just delete
+it.
 
-On 03/02/2015 06:30 PM, Li Zhou wrote:
-> The libltdl libraries are put in libltdl-* packages, but libltdl.la
-> is packaged in libtool-dev. This change puts libltdl.la in libltdl-dev
-> package instead of libtool-dev.
->
-> Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> ---
->   meta/recipes-devtools/libtool/libtool-2.4.6.inc |    1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> index ff5abcb..2125de3 100644
-> --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> @@ -45,6 +45,7 @@ FILES_${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
->   #FILES_${PN}-dev := "${@oe_filter_out('${datadir}/aclocal', '${FILES_libtool-dev}', d)}"
->   FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
->   FILES_libltdl-dev = "${libdir}/libltdl${SOLIBSDEV} ${includedir}"
-> +FILES_libltdl-dev =+ "${libdir}/libltdl.la"
->   FILES_libltdl-staticdev = "${libdir}/libltdl.a"
->   FILES_libltdl-dbg = "${libdir}/.debug/"
->
->
+Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index c307c27..d6ddc3b 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -59,10 +59,6 @@ OE_LT_RPATH_ALLOW[export]="1"
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/default/volatiles
+ 	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
+-	
+-	if [ "x${TARGET_PFPU}" = "xsoft" ] ; then 
+-	     sed -i -e s:\;\ resample-method\ =\ sinc-fastest:resample-method\ =\ trivial: ${D}${sysconfdir}/pulse/daemon.conf
+-	fi
+ }
+ 
+ USERADD_PACKAGES = "pulseaudio-server"
+-- 
+1.9.3
+
 
