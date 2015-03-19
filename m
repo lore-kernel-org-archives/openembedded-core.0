@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 039FF65CD0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1078F6AC3E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Mar 2015 09:17:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2J9HhCK025179
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2J9Hi4I026755
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 02:17:43 -0700 (PDT)
+	Thu, 19 Mar 2015 02:17:44 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Thu, 19 Mar 2015 02:17:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2015 02:17:42 -0700
-Message-ID: <cover.1426756518.git.liezhi.yang@windriver.com>
+Date: Thu, 19 Mar 2015 02:17:43 -0700
+Message-ID: <2d7e85e6c09f99cac9e6f7c7bd9e33411dc7ac63.1426756518.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1426756518.git.liezhi.yang@windriver.com>
+References: <cover.1426756518.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] insane.bbclass: add missing QA to WARN_QA
+Subject: [PATCH 1/1] insane.bbclass: add missing QA to WARN_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 19 Mar 2015 09:17:43 -0000
 Content-Type: text/plain
 
-The following changes since commit 0752c79282b1cc9699743e719518e6c341d50a3a:
+The following QA were not in WARN_QA or ERROR_QA, so they are not in
+ALL_QA:
+buildpaths
+desktop
+libexec
+pkgname
+symlink-to-sysroot
+unsafe-references-in-binaries
+unsafe-references-in-scripts
 
-  systemd: fix /var/log/journal ownership (2015-03-16 17:38:51 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qa
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/qa
-
-Robert Yang (1):
-  insane.bbclass: add missing QA to WARN_QA
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/insane.bbclass |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 061ce5b..c201c9b 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -30,7 +30,9 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+             pn-overrides infodir build-deps file-rdeps \
+-            unknown-configure-option \
++            unknown-configure-option buildpaths desktop libexec pkgname \
++            symlink-to-sysroot unsafe-references-in-binaries \
++            unsafe-references-in-scripts \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
 -- 
 1.7.9.5
 
