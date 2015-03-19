@@ -1,34 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F21C65CD0
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A5473943
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:50:34 +0000 (UTC)
-Received: by igcau2 with SMTP id au2so101183813igc.0
+	Thu, 19 Mar 2015 17:50:38 +0000 (UTC)
+Received: by ieclw3 with SMTP id lw3so72722496iec.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 10:50:35 -0700 (PDT)
+	Thu, 19 Mar 2015 10:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=gNzO6s9Bbs4H0VZoerYOl4JVJh/k/8Y0Fqeughlh51A=;
-	b=e30CG84gRC0/siu5TLECtznlMYjONrlHOA13szMT0D7JBxiyFS6+E8F2FoW/QDNuiW
-	pg2qHzmdlD6eUqGz0c8hiffQlcrtMTTimAFz8Bj1SPFO6r+RRfBcIkvLGTzccYnz9knT
-	hoNbL5TLMurKUEy6k4jCAt6CU+tAVq0UuUGiOzIKQp/Sn+XstPnhFOlmqAQN8OsI6AW7
-	zixJCklCjXw/dvndqFQVvQBsXjzrdcsMYsMWBWnoSMCUnWFanmrdVKPmP+/ZAWTcNO1U
-	292Ol6Qn39cTFgK12RSm7uSwd/v7iqgu47GcY9feZUuxCQV4aFahlsldRz8yIjNyhzMY
-	JAFw==
-X-Received: by 10.107.3.2 with SMTP id 2mr117397911iod.92.1426787435449;
-	Thu, 19 Mar 2015 10:50:35 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=UHydG/nImrR0FSupiszbH48+dXVSMNOxeKHfonIYEJo=;
+	b=P00SVaw/puv5Xt7lekpNLLzCR1U8xWbZNevcEResjLDa6x6Zrc7RplgZvCnrZf/0F2
+	vRIz6CaBt62QvXrufuA3w+XAJhLLJfiVjDyvJWZuZJZ7zG0YDecxmzmqREZdS49mn0zV
+	mX12BTmIlc9Eh3MvrKH0Bimbc/ANDuDUd0N0q0lwEtmgQqEQEmw86ebC8UPvYkpJNWIX
+	xCguIAg8DXVP9HJ964j7NyVRUsZ9tSL1kVuO8PhgYFfbeC/zZfuk4M123t2N9+MAyx1J
+	azrXMTtP6KvwQOwymhJW9k5Ms6DJzYpwyuAw40Vv9USjKGB9j41QbjnK5UIY5jdaEVJ8
+	4Jpg==
+X-Received: by 10.107.155.131 with SMTP id d125mr142402780ioe.17.1426787440204;
+	Thu, 19 Mar 2015 10:50:40 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id w17sm1339265iod.44.2015.03.19.10.50.34
+	by mx.google.com with ESMTPSA id w17sm1339265iod.44.2015.03.19.10.50.39
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 Mar 2015 10:50:34 -0700 (PDT)
+	Thu, 19 Mar 2015 10:50:39 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2015 10:50:18 -0700
-Message-Id: <1426787419-16672-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 19 Mar 2015 10:50:19 -0700
+Message-Id: <1426787419-16672-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [dizzy][PATCH 1/2] busybox: lzop: add overflow check (CVE-2014-4607)
+In-Reply-To: <1426787419-16672-1-git-send-email-armccurdy@gmail.com>
+References: <1426787419-16672-1-git-send-email-armccurdy@gmail.com>
+Subject: [dizzy][PATCH 2/2] busybox: libarchive: open_zipped() does not need to check extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,101 +47,96 @@ X-List-Received-Date: Thu, 19 Mar 2015 17:50:39 -0000
 
 Backport from busybox 1_22_stable branch:
 
-  http://git.busybox.net/busybox/commit/?h=1_22_stable&id=5698ff93233b47218a677fd7facd8cc90211d1a4
+  http://git.busybox.net/busybox/commit/?h=1_22_stable&id=28dd64a0e1a9cffcde7799f2849b66c0e16bb9cc
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../busybox/busybox/lzop-add-overflow-check.patch  | 71 ++++++++++++++++++++++
+ ...open_zipped-does-not-need-to-check-extens.patch | 66 ++++++++++++++++++++++
  meta/recipes-core/busybox/busybox_1.22.1.bb        |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/libarchive-open_zipped-does-not-need-to-check-extens.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch b/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
+diff --git a/meta/recipes-core/busybox/busybox/libarchive-open_zipped-does-not-need-to-check-extens.patch b/meta/recipes-core/busybox/busybox/libarchive-open_zipped-does-not-need-to-check-extens.patch
 new file mode 100644
-index 0000000..63d4948
+index 0000000..cf91433
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
-@@ -0,0 +1,71 @@
++++ b/meta/recipes-core/busybox/busybox/libarchive-open_zipped-does-not-need-to-check-extens.patch
+@@ -0,0 +1,66 @@
 +Upstream-status: Backport
-+http://git.busybox.net/busybox/commit/?h=1_22_stable&id=5698ff93233b47218a677fd7facd8cc90211d1a4
++http://git.busybox.net/busybox/commit/?h=1_22_stable&id=28dd64a0e1a9cffcde7799f2849b66c0e16bb9cc
 +
-+From 5698ff93233b47218a677fd7facd8cc90211d1a4 Mon Sep 17 00:00:00 2001
++From 28dd64a0e1a9cffcde7799f2849b66c0e16bb9cc Mon Sep 17 00:00:00 2001
 +From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Mon, 30 Jun 2014 10:14:34 +0200
-+Subject: [PATCH] lzop: add overflow check
++Date: Fri, 10 Jan 2014 14:06:57 +0100
++Subject: [PATCH] libarchive: open_zipped() does not need to check extensions for e.g. gzip
 +
-+See CVE-2014-4607
-+http://www.openwall.com/lists/oss-security/2014/06/26/20
++We only need to check for signature-less extensions,
++currently only .lzma. The rest can be happily autodetected.
 +
-+function                                             old     new   delta
-+lzo1x_decompress_safe                               1010    1031     +21
++This fixes "zcat FILE_WITHOUT_GZ_EXT" case, among others.
 +
 +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++(cherry picked from commit 7c47b560a8fc97956dd8132bd7f1863d83c19866)
 +Signed-off-by: Mike Frysinger <vapier@gentoo.org>
-+(cherry picked from commit a9dc7c2f59dc5e92870d2d46316ea5c1f14740e3)
 +---
-+ archival/libarchive/liblzo.h  | 2 ++
-+ archival/libarchive/lzo1x_d.c | 3 +++
-+ 2 files changed, 5 insertions(+)
++ archival/libarchive/open_transformer.c | 23 +++++++++++------------
++ 1 file changed, 11 insertions(+), 12 deletions(-)
 +
-+diff --git a/archival/libarchive/liblzo.h b/archival/libarchive/liblzo.h
-+index 843997c..4596620 100644
-+--- a/archival/libarchive/liblzo.h
-++++ b/archival/libarchive/liblzo.h
-+@@ -76,11 +76,13 @@
-+ #    define TEST_IP             (ip < ip_end)
-+ #    define NEED_IP(x) \
-+             if ((unsigned)(ip_end - ip) < (unsigned)(x))  goto input_overrun
-++#    define TEST_IV(x)          if ((x) > (unsigned)0 - (511)) goto input_overrun
++diff --git a/archival/libarchive/open_transformer.c b/archival/libarchive/open_transformer.c
++index 4e98264..1aeba13 100644
++--- a/archival/libarchive/open_transformer.c
+++++ b/archival/libarchive/open_transformer.c
++@@ -182,27 +182,26 @@ int FAST_FUNC setup_unzip_on_fd(int fd, int fail_if_not_detected)
 + 
-+ #    undef TEST_OP              /* don't need both of the tests here */
-+ #    define TEST_OP             1
-+ #    define NEED_OP(x) \
-+             if ((unsigned)(op_end - op) < (unsigned)(x))  goto output_overrun
-++#    define TEST_OV(x)          if ((x) > (unsigned)0 - (511)) goto output_overrun
++ int FAST_FUNC open_zipped(const char *fname)
++ {
++-	char *sfx;
++ 	int fd;
 + 
-+ #define HAVE_ANY_OP 1
++ 	fd = open(fname, O_RDONLY);
++ 	if (fd < 0)
++ 		return fd;
 + 
-+diff --git a/archival/libarchive/lzo1x_d.c b/archival/libarchive/lzo1x_d.c
-+index 9bc1270..40b167e 100644
-+--- a/archival/libarchive/lzo1x_d.c
-++++ b/archival/libarchive/lzo1x_d.c
-+@@ -92,6 +92,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
-+ 				ip++;
-+ 				NEED_IP(1);
-+ 			}
-++			TEST_IV(t);
-+ 			t += 15 + *ip++;
++-	sfx = strrchr(fname, '.');
++-	if (sfx) {
++-		sfx++;
++-		if (ENABLE_FEATURE_SEAMLESS_LZMA && strcmp(sfx, "lzma") == 0)
++-			/* .lzma has no header/signature, just trust it */
+++	if (ENABLE_FEATURE_SEAMLESS_LZMA) {
+++		/* .lzma has no header/signature, can only detect it by extension */
+++		char *sfx = strrchr(fname, '.');
+++		if (sfx && strcmp(sfx+1, "lzma") == 0) {
++ 			open_transformer_with_sig(fd, unpack_lzma_stream, "unlzma");
++-		else
++-		if ((ENABLE_FEATURE_SEAMLESS_GZ && strcmp(sfx, "gz") == 0)
++-		 || (ENABLE_FEATURE_SEAMLESS_BZ2 && strcmp(sfx, "bz2") == 0)
++-		 || (ENABLE_FEATURE_SEAMLESS_XZ && strcmp(sfx, "xz") == 0)
++-		) {
++-			setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 1);
+++			return fd;
 + 		}
-+ 		/* copy literals */
-+@@ -224,6 +225,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
-+ 						ip++;
-+ 						NEED_IP(1);
-+ 					}
-++					TEST_IV(t);
-+ 					t += 31 + *ip++;
-+ 				}
-+ #if defined(COPY_DICT)
-+@@ -265,6 +267,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
-+ 						ip++;
-+ 						NEED_IP(1);
-+ 					}
-++					TEST_IV(t);
-+ 					t += 7 + *ip++;
-+ 				}
-+ #if defined(COPY_DICT)
++ 	}
+++	if ((ENABLE_FEATURE_SEAMLESS_GZ)
+++	 || (ENABLE_FEATURE_SEAMLESS_BZ2)
+++	 || (ENABLE_FEATURE_SEAMLESS_XZ)
+++	) {
+++		setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 1);
+++	}
++ 
++ 	return fd;
++ }
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
-index 7736520..3934278 100644
+index 3934278..ae8eca7 100644
 --- a/meta/recipes-core/busybox/busybox_1.22.1.bb
 +++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://recognize_connmand.patch \
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://busybox-cross-menuconfig.patch \
             file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
-+           file://lzop-add-overflow-check.patch \
+            file://lzop-add-overflow-check.patch \
++           file://libarchive-open_zipped-does-not-need-to-check-extens.patch \
  "
  
  SRC_URI[tarball.md5sum] = "337d1a15ab1cb1d4ed423168b1eb7d7e"
