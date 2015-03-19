@@ -1,26 +1,38 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id CB17C6AC43
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id F31066013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 00:36:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Mar 2015 17:36:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,426,1422950400"; d="scan'208";a="542951790"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga003.jf.intel.com with ESMTP; 18 Mar 2015 17:36:18 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 16:31:15 +0000
-Message-Id: <0beb60149642c6811c8b650bb24412ae82e0aa1d.1426695976.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1426695976.git.anibal.limon@linux.intel.com>
-References: <cover.1426695976.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1426695976.git.anibal.limon@linux.intel.com>
-References: <cover.1426695976.git.anibal.limon@linux.intel.com>
+	Thu, 19 Mar 2015 00:43:09 +0000 (UTC)
+Received: by yhle43 with SMTP id e43so8557702yhl.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Mar 2015 17:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=IhktHDnhxPdlxMUjv98rp6sIKNzzdNFd6lql6naTBV0=;
+	b=KkzgzSVypT0HC7UKk5UipnAhkRQF0c6TBaqz1EgSy9xrF5mHr1jjKjVv0e3EhvTsCG
+	n3nyxfMZ6YDO29/BoRSnoS8UkOro1hbzLp5ql8Vd9jdHiksbzvuy8dEfdVPNsrkmAJT4
+	6c8L0keryExysUsC6rb8JBHEyPt4fG89T+SupRGClQEdiYdcu6ontAGyZDojuVRU2ykK
+	LgZ+kKjk8/N48hrpqwisgPykmGuSIOYe7T80gGjc+xjAs3zH+Y0wXjk8tGAKvaQVaAtk
+	e2sX+nsCmmN3YKAoWMY9Oufb3WDZww8wPuequjM8IQ4pufk9PbUzaMOPajd/k0Amn66z
+	JcgQ==
 MIME-Version: 1.0
-Subject: [PATCH 1/2] sysvinit-inittab: Fix no tty in runlevel 1.
+X-Received: by 10.170.124.210 with SMTP id q201mr34710417ykb.70.1426725790563; 
+	Wed, 18 Mar 2015 17:43:10 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.112.82 with HTTP; Wed, 18 Mar 2015 17:43:10 -0700 (PDT)
+In-Reply-To: <21a24c032ec5e2f5feffc593f7995fc086d14556.1426695976.git.anibal.limon@linux.intel.com>
+References: <cover.1426695976.git.anibal.limon@linux.intel.com>
+	<21a24c032ec5e2f5feffc593f7995fc086d14556.1426695976.git.anibal.limon@linux.intel.com>
+Date: Wed, 18 Mar 2015 21:43:10 -0300
+X-Google-Sender-Auth: JWYyJAuDZdi4iO55q-w3FUjofX4
+Message-ID: <CAP9ODKrSS_+1TUVG0WGU_75cGvOZrQk9J1X4yGrdipn+pFE6Bw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] initscripts: Add changetodefaultvt for 2, 3, 4 runlevels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 00:36:20 -0000
+X-List-Received-Date: Thu, 19 Mar 2015 00:43:10 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-When switch to runlevel 1 (Single user mode), tty was not
-re-spawn and appears to be a machine hang.
+On Wed, Mar 18, 2015 at 1:31 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> When change between runlevel 5 to another non-graphic runlevel
+> the console stays in the tty where X was launched.
+>
+> This patchs add a default switch to tty1.
+>
+> [YOCTO #5336]
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
 
-[YOCTO #5336]
+If not using X this is pointless. Make this dependant of X distro
+feature please.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index eed2104..e087f0f 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -41,7 +41,7 @@ EOF
- 
-         for n in ${SYSVINIT_ENABLED_GETTYS}
-         do
--            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-+            echo "$n:12345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-         done
-         echo "" >> ${D}${sysconfdir}/inittab
-     fi
--- 
-1.8.4.5
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
