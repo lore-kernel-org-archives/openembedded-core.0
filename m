@@ -1,33 +1,40 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CAEE65CD0
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2797665CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 16:44:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2JGixqQ009588
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Mar 2015 09:44:59 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.14]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0224.002;
-	Thu, 19 Mar 2015 09:44:59 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] ltp: find all .debug directories
-Thread-Index: AQHQYcui6TtHmJkZi0aouvkxsIYOD50jWpyAgAConzA=
-Date: Thu, 19 Mar 2015 16:44:59 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84776A1D91@ALA-MBA.corp.ad.wrs.com>
-References: <1426718042-18369-1-git-send-email-jslater@windriver.com>
-	<CAMKF1so99EyEXQhDT9kp+NPp1Zu0HHWMov6-wJU3MV5bUksnxg@mail.gmail.com>
-In-Reply-To: <CAMKF1so99EyEXQhDT9kp+NPp1Zu0HHWMov6-wJU3MV5bUksnxg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.76]
+	Thu, 19 Mar 2015 16:54:55 +0000 (UTC)
+Received: by wetk59 with SMTP id k59so62359151wet.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Mar 2015 09:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=user-agent:in-reply-to:references:mime-version
+	:content-transfer-encoding:content-type:subject:from:date:to
+	:message-id; bh=RwdNbGPo/m79jqQhIud2el0aGTyUGDaMB3+nTknt4CU=;
+	b=UTuFHQJxGzg5+O1DsjKwjftsXwrsvVEvQQUwG88HTSTqpYOD3PpNILAF+2OWlAS55U
+	Ou7whaAmw5VreCZOQUGp8Woa4k4oq6b6I2GP2acDUvU2ULtJIE2qWNxaeQixNnbPuLg/
+	B4d0WZ03s5/XxmEsXc7BZ+UpPZ8f88H9HyeR8vPktFpfvQpQXeddKv00nMWJtTsJiFQ7
+	yRGjCG8cXv/nlpY670/+GW0dvcAR+LApw19LY6FG3uolIiaMS9fN2JjcMTANqfaHit+n
+	ejRpli+VVhLvOQUhzW8pHx6NQyl8wGVrI9pEb4iTsPBjHHawnm+M2X7tqrc1Rk0o9u2m
+	34xw==
+X-Received: by 10.194.5.37 with SMTP id p5mr155490138wjp.20.1426784096495;
+	Thu, 19 Mar 2015 09:54:56 -0700 (PDT)
+Received: from [10.53.92.192] (089144230192.atnat0039.highway.a1.net.
+	[89.144.230.192])
+	by mx.google.com with ESMTPSA id a13sm2675402wjx.30.2015.03.19.09.54.55
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Mar 2015 09:54:55 -0700 (PDT)
+User-Agent: K-9 Mail for Android
+In-Reply-To: <B83906C4-D2EF-4D2A-80FD-C8CBF3AEA6B3@gmail.com>
+References: <1426764810.29168.49.camel@linuxfoundation.org>
+	<B83906C4-D2EF-4D2A-80FD-C8CBF3AEA6B3@gmail.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ltp: find all .debug directories
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Date: Thu, 19 Mar 2015 17:54:50 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <44B0A5F7-418B-47EC-A1B0-10E1AD9D1E0A@gmail.com>
+Subject: Re: [PATCH] runqemu-internal: Add cpio support for qemux86 so that we can boot poky-tiny images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,23 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 16:45:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 19 Mar 2015 16:54:57 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=UTF-8
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogW21haWx0
-bzpyYWoua2hlbUBnbWFpbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgTWFyY2ggMTgsIDIwMTUg
-NDozNyBQTQ0KPiBUbzogU2xhdGVyLCBKb3NlcGgNCj4gQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Np
-b25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW29l
-LWNvcmVdW1BBVENIIDEvMV0gbHRwOiBmaW5kIGFsbCAuZGVidWcgZGlyZWN0b3JpZXMNCj4gDQo+
-IE9uIFdlZCwgTWFyIDE4LCAyMDE1IGF0IDM6MzQgUE0sIEpvZSBTbGF0ZXIgPGpzbGF0ZXJAd2lu
-ZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4gIElOSElCSVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KPiA+
-ICsjIEhvd2V2ZXIsIHRlc3RfYXJjaF9zdHJpcHBlZCBpcyBhbHJlYWR5IHN0cmlwcGVkLCBzby4u
-Lg0KPiA+ICtJTlNBTkVfU0tJUF8ke1BOfSArPSAiYWxyZWFkeS1zdHJpcHBlZCINCj4gPiArDQo+
-IA0KPiBDYW4gdGhpcyBiZSBhdm9pZGVkIGluIHRoZSBjb21wb25lbnQgbWFrZSBzeXN0ZW0gaW5z
-dGVhZA0KDQpEbyB5b3UgbWVhbiBub3Qgc3RyaXAgaXQgd2hlbiB3ZSBidWlsZCBpdD8gIEkgaGVz
-aXRhdGUgdG8gaGF2ZSBzb21lIG5hbWVkIF9zdHJpcHBlZA0Kbm90IGJlLiAgU2luY2Ugbm9ib2R5
-IHNlZW1zIHVwc2V0IGJ5IHRoZSBjdXJyZW50IHFhICJlcnJvciIsIEkgZ3Vlc3Mgd2UgY291bGQg
-YWxzbw0KanVzdCBpZ25vcmUgaXQuDQoNCkpvZQ0KDQo=
+On March 19, 2015 5:39:12 PM GMT+01:00, Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
+>On March 19, 2015 12:33:30 PM GMT+01:00, Richard Purdie
+><richard.purdie@linuxfoundation.org> wrote:
+>>poky-tiny generates cpio.gz images, add support for these so we can
+>>boot
+>>them using runqemu.
+>>
+>>Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>>diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+>>index 6594dc3..2db5566 100755
+>>--- a/scripts/runqemu-internal
+>>+++ b/scripts/runqemu-internal
+>>@@ -408,6 +408,11 @@ if [ "$MACHINE" = "qemux86" ]; then
+>>KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw
+>>mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+>>QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS
+>>$QEMU_UI_OPTIONS"
+>>     fi
+>>+    if [ "${FSTYPE:0:4}" = "cpio" ]; then
+>
+>Is that positional handling mandated by the POSIX-1003.1 2008 shell?
+>
+>Otherwise case $FSTYPE in ..
+>Would cleanup the rest if the mess below..
+
+of the if, even ;)
+
+I didn't see :n:m ranges in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+
+but maybe I didn't look at the right spot?
+
+Thanks,
+>
+>With that clarified it changed
+>Acked-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+>
+>Thanks,
+
+
 
