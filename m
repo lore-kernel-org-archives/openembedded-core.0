@@ -1,41 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C645665CD0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F21C65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:48:26 +0000 (UTC)
-Received: by qgfa8 with SMTP id a8so72005245qgf.0
+	Thu, 19 Mar 2015 17:50:34 +0000 (UTC)
+Received: by igcau2 with SMTP id au2so101183813igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 10:48:27 -0700 (PDT)
+	Thu, 19 Mar 2015 10:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=vlEPsHt6yxy3xMP/hm4DgRF4eOdPILWI9q3yIWG7NOQ=;
-	b=DW6rtg5Wq9hVuNOpZaOvsZDBiS9Cb7p5AjEmi6deY2RqresWHOgFaobbeysuYKtsNd
-	zpNVez9HU4fCQ3k1HfxKJiHp0oXh3vbr27DIH+Ipe5WJ3rtO9glE4XVHiHwdtzqO0iS9
-	010fbaRqz0pEOUsFK/PfLGILMwy7m1FQgeYf0J29BNyIlv1o9+JtJNkz/EP3SemKJbEX
-	tf6i/kQKsbh/p3acyIUSpVYrKDwcxwgIY9IDhiPRzUh5bgV3IPS/KZs/fDAcuIWbDZ6U
-	32i9C7R78wLZHunhCMun8IMSuV5KecP4QGKGfpDUjlc38rL0w9iohjJjrMLj5VwbiYAS
-	PJ5w==
-X-Received: by 10.140.97.203 with SMTP id m69mr94719420qge.39.1426787307857;
-	Thu, 19 Mar 2015 10:48:27 -0700 (PDT)
-Received: from 10.25.255.72-ra01.westchester.pa.bo.comcast.net ([68.87.42.115])
-	by mx.google.com with ESMTPSA id a77sm1250728qkh.42.2015.03.19.10.48.26
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Mar 2015 10:48:26 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84776A1D91@ALA-MBA.corp.ad.wrs.com>
-Date: Thu, 19 Mar 2015 10:48:32 -0700
-Message-Id: <FA76AC4C-F70F-4BE2-BB65-A2F781911D98@gmail.com>
-References: <1426718042-18369-1-git-send-email-jslater@windriver.com>
-	<CAMKF1so99EyEXQhDT9kp+NPp1Zu0HHWMov6-wJU3MV5bUksnxg@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84776A1D91@ALA-MBA.corp.ad.wrs.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ltp: find all .debug directories
+	h=from:to:cc:subject:date:message-id;
+	bh=gNzO6s9Bbs4H0VZoerYOl4JVJh/k/8Y0Fqeughlh51A=;
+	b=e30CG84gRC0/siu5TLECtznlMYjONrlHOA13szMT0D7JBxiyFS6+E8F2FoW/QDNuiW
+	pg2qHzmdlD6eUqGz0c8hiffQlcrtMTTimAFz8Bj1SPFO6r+RRfBcIkvLGTzccYnz9knT
+	hoNbL5TLMurKUEy6k4jCAt6CU+tAVq0UuUGiOzIKQp/Sn+XstPnhFOlmqAQN8OsI6AW7
+	zixJCklCjXw/dvndqFQVvQBsXjzrdcsMYsMWBWnoSMCUnWFanmrdVKPmP+/ZAWTcNO1U
+	292Ol6Qn39cTFgK12RSm7uSwd/v7iqgu47GcY9feZUuxCQV4aFahlsldRz8yIjNyhzMY
+	JAFw==
+X-Received: by 10.107.3.2 with SMTP id 2mr117397911iod.92.1426787435449;
+	Thu, 19 Mar 2015 10:50:35 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id w17sm1339265iod.44.2015.03.19.10.50.34
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 19 Mar 2015 10:50:34 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Mar 2015 10:50:18 -0700
+Message-Id: <1426787419-16672-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [dizzy][PATCH 1/2] busybox: lzop: add overflow check (CVE-2014-4607)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +41,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 17:48:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 Mar 2015 17:50:39 -0000
 
+Backport from busybox 1_22_stable branch:
 
-> On Mar 19, 2015, at 9:44 AM, Slater, Joseph <joe.slater@windriver.com> =
-wrote:
->=20
->=20
->=20
->> -----Original Message-----
->> From: Khem Raj [mailto:raj.khem@gmail.com]
->> Sent: Wednesday, March 18, 2015 4:37 PM
->> To: Slater, Joseph
->> Cc: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [oe-core][PATCH 1/1] ltp: find all .debug =
-directories
->>=20
->> On Wed, Mar 18, 2015 at 3:34 PM, Joe Slater <jslater@windriver.com> =
-wrote:
->>> INHIBIT_PACKAGE_STRIP =3D "1"
->>> +# However, test_arch_stripped is already stripped, so...
->>> +INSANE_SKIP_${PN} +=3D "already-stripped"
->>> +
->>=20
->> Can this be avoided in the component make system instead
->=20
-> Do you mean not strip it when we build it?
+  http://git.busybox.net/busybox/commit/?h=1_22_stable&id=5698ff93233b47218a677fd7facd8cc90211d1a4
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../busybox/busybox/lzop-add-overflow-check.patch  | 71 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.22.1.bb        |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
 
-yes
-
->  I hesitate to have some named _stripped
-> not be.
-
-?
-
->  Since nobody seems upset by the current qa "error", I guess we could =
-also
-> just ignore it.
-
-I think it can cause debugging gripes. So its good to fix it
-
->=20
-> Joe
->=20
+diff --git a/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch b/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
+new file mode 100644
+index 0000000..63d4948
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/lzop-add-overflow-check.patch
+@@ -0,0 +1,71 @@
++Upstream-status: Backport
++http://git.busybox.net/busybox/commit/?h=1_22_stable&id=5698ff93233b47218a677fd7facd8cc90211d1a4
++
++From 5698ff93233b47218a677fd7facd8cc90211d1a4 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Mon, 30 Jun 2014 10:14:34 +0200
++Subject: [PATCH] lzop: add overflow check
++
++See CVE-2014-4607
++http://www.openwall.com/lists/oss-security/2014/06/26/20
++
++function                                             old     new   delta
++lzo1x_decompress_safe                               1010    1031     +21
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++Signed-off-by: Mike Frysinger <vapier@gentoo.org>
++(cherry picked from commit a9dc7c2f59dc5e92870d2d46316ea5c1f14740e3)
++---
++ archival/libarchive/liblzo.h  | 2 ++
++ archival/libarchive/lzo1x_d.c | 3 +++
++ 2 files changed, 5 insertions(+)
++
++diff --git a/archival/libarchive/liblzo.h b/archival/libarchive/liblzo.h
++index 843997c..4596620 100644
++--- a/archival/libarchive/liblzo.h
+++++ b/archival/libarchive/liblzo.h
++@@ -76,11 +76,13 @@
++ #    define TEST_IP             (ip < ip_end)
++ #    define NEED_IP(x) \
++             if ((unsigned)(ip_end - ip) < (unsigned)(x))  goto input_overrun
+++#    define TEST_IV(x)          if ((x) > (unsigned)0 - (511)) goto input_overrun
++ 
++ #    undef TEST_OP              /* don't need both of the tests here */
++ #    define TEST_OP             1
++ #    define NEED_OP(x) \
++             if ((unsigned)(op_end - op) < (unsigned)(x))  goto output_overrun
+++#    define TEST_OV(x)          if ((x) > (unsigned)0 - (511)) goto output_overrun
++ 
++ #define HAVE_ANY_OP 1
++ 
++diff --git a/archival/libarchive/lzo1x_d.c b/archival/libarchive/lzo1x_d.c
++index 9bc1270..40b167e 100644
++--- a/archival/libarchive/lzo1x_d.c
+++++ b/archival/libarchive/lzo1x_d.c
++@@ -92,6 +92,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
++ 				ip++;
++ 				NEED_IP(1);
++ 			}
+++			TEST_IV(t);
++ 			t += 15 + *ip++;
++ 		}
++ 		/* copy literals */
++@@ -224,6 +225,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
++ 						ip++;
++ 						NEED_IP(1);
++ 					}
+++					TEST_IV(t);
++ 					t += 31 + *ip++;
++ 				}
++ #if defined(COPY_DICT)
++@@ -265,6 +267,7 @@ int lzo1x_decompress_safe(const uint8_t* in, unsigned in_len,
++ 						ip++;
++ 						NEED_IP(1);
++ 					}
+++					TEST_IV(t);
++ 					t += 7 + *ip++;
++ 				}
++ #if defined(COPY_DICT)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
+index 7736520..3934278 100644
+--- a/meta/recipes-core/busybox/busybox_1.22.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://recognize_connmand.patch \
+            file://busybox-cross-menuconfig.patch \
+            file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
++           file://lzop-add-overflow-check.patch \
+ "
+ 
+ SRC_URI[tarball.md5sum] = "337d1a15ab1cb1d4ed423168b1eb7d7e"
+-- 
+1.9.1
 
 
