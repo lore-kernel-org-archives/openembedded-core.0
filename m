@@ -1,31 +1,28 @@
-Return-Path: <sam.nelson@ti.com>
-Received: from comal.ext.ti.com (comal.ext.ti.com [198.47.26.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 633BA6AC33
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 948F065CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 22:55:00 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id t2JMm4RC029534
+	Thu, 19 Mar 2015 23:09:39 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 56F2E5C0FE3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:48:04 -0500
-Received: from DLEE70.ent.ti.com (dlemailx.itg.ti.com [157.170.170.113])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id t2JMm3gv027112
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:48:03 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE70.ent.ti.com
-	(157.170.170.113) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 19 Mar 2015 17:48:02 -0500
-Received: from udb0862859.am.dhcp.ti.com (ileax41-snat.itg.ti.com
-	[10.172.224.153])	by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	t2JMlxrH028937;	Thu, 19 Mar 2015 17:48:02 -0500
-From: Sam Nelson <sam.nelson@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2015 18:47:55 -0400
-Message-ID: <1426805275-4766-2-git-send-email-sam.nelson@ti.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
-References: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
+	Fri, 20 Mar 2015 00:09:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=agner.ch; s=dkim;
+	t=1426806554; bh=i+sRkr3MvXrcTGVyV4TRPVbUQCz4pDmrYeuBi30FGJU=;
+	h=Date:From:To:Subject:In-Reply-To:References:From;
+	b=KEZ0otTpGNlTTJFdoRR06hP1q3svLL7QEKMvHq2IOGEQpYzNm0oLO5VgT9e1SCMW0
+	ipWO4y3TOzLK41Qhr31CkEt87PM4Lz+f4vklIUXdMT6impfnuYCkBU5DfEXPsoHIRs
+	qoMj75nVfSYoitXhHKxEzJ2xvBDWt6pKw3tIqU9E=
 MIME-Version: 1.0
-Subject: [meta-java][PATCH] openjdk: Add patch to avoid build issue with linaro toolchain 4.7
+Date: Fri, 20 Mar 2015 00:09:16 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+In-Reply-To: <a5c3b1a00286d1418413f73e9bc99fca@agner.ch>
+References: <a5c3b1a00286d1418413f73e9bc99fca@agner.ch>
+Message-ID: <e318605e6c49855aa1dc2191550fcb48@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.1.0
+Subject: Re: BAD_RECOMMENDATIONS with opkg and multiple architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,87 +35,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 22:55:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Mar 2015 23:09:41 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-- "-fuse-ld=bfd" is only supported in the linaro toolchain verion 4.8
-- This is work around to support the 4.7 version
+Just verified the issue again, building a machine with architecture
+armv7at2hf-vfp and one with armv7at2hf-vfp-neon in a row. The second
+machine gets  the package installed despite the correct status file:
 
-Signed-off-by: Sam Nelson <sam.nelson@ti.com>
----
- .../openjdk-7-25b30/icedtea-crosscompile-fix.patch |    9 +++++----
- .../openjdk-7-25b30/icedtea-zero-hotspotfix.patch  |    8 +++++---
- 2 files changed, 10 insertions(+), 7 deletions(-)
+=> /var/lib/opkg/status just after handle_bad_recommendations
+Package: busybox-syslog
+Version: 1.22.1-r0
+Depends: update-alternatives-opkg
+Provides: busybox-syslog-systemd
+Replaces: busybox-syslog-systemd
+Conflicts: busybox-syslog-systemd
+Status: deinstall hold not-installed
+Section: base
+Architecture: armv7at2hf-vfp
+Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
+MD5Sum: be66fec1a91a3c658022f3c1a5fad72a
+Size: 2580
+Filename: busybox-syslog_1.22.1-r0_armv7at2hf-vfp.ipk
+Source:
+http://www.busybox.net/downloads/busybox-1.22.1.tar.bz2;name=tarball
+file://get_header_tar.patch file://busybox-appletlib-dependency.patch
+file://busybox-udhcpc-no_deconfig.patch file://find-touchscreen.sh
+file://busybox-cron file://busybox-httpd file://busybox-udhcpd
+file://default.script file://simple.script file://hwclock.sh
+file://mount.busybox file://syslog file://syslog-startup.conf
+file://syslog.conf file://busybox-syslog.default file://mdev
+file://mdev.conf file://umount.busybox file://defconfig
+file://busybox-syslog.service.in file://busybox-klogd.service.in
+file://fail_on_no_media.patch file://run-ptest file://inetd.conf
+file://inetd file://login-utilities.cfg
+file://0001-build-system-Specify-nostldlib-when-linking-to-.o-fi.patch
+file://busybox-syslog.service.in file://busybox-klogd.service.in
+Description: Tiny versions of many common UNIX utilities in a single
+small executable
+ BusyBox combines tiny versions of many common UNIX utilities into a
+ single small executable. It provides minimalist replacements for most
+of
+ the utilities you usually find in GNU fileutils, shellutils, etc. The
+ utilities in BusyBox generally have fewer options than their full-
+ featured GNU cousins; however, the options that are included provide
+the
+ expected functionality and behave very much like their GNU
+counterparts.
+ BusyBox provides a fairly complete POSIX environment for any small or
+ embedded system.
 
-diff --git a/recipes-core/openjdk/openjdk-7-25b30/icedtea-crosscompile-fix.patch b/recipes-core/openjdk/openjdk-7-25b30/icedtea-crosscompile-fix.patch
-index 0c6aac4..61b7d8c 100644
---- a/recipes-core/openjdk/openjdk-7-25b30/icedtea-crosscompile-fix.patch
-+++ b/recipes-core/openjdk/openjdk-7-25b30/icedtea-crosscompile-fix.patch
-@@ -319,7 +319,7 @@ index 53d31f3..183c063 100644
-  endif # 32
-  endif # !macosx
-  endif # solaris
--@@ -337,15 +321,11 @@ WRAPPER_GENERATOR_TEMPDIR=$(TEMPDIR)/sun/awt/X11/generator
-+@@ -337,15 +321,12 @@ WRAPPER_GENERATOR_TEMPDIR=$(TEMPDIR)/sun/awt/X11/generator
-  WRAPPER_GENERATOR_CLASS=$(WRAPPER_GENERATOR_TEMPDIR)/WrapperGenerator.class 
-  XLIBTYPES=$(PLATFORM_SRC)/classes/sun/awt/X11/generator/xlibtypes.txt
-  
-@@ -332,11 +332,12 @@ index 53d31f3..183c063 100644
-  $(SIZERS): $(SIZERS_C) 
-  	$(prep-target)
- -	$(SIZERS_CC) $(CFLAGS_$(subst .,,$(suffix $@))) $(CPPFLAGS) -o $@ $(SIZER)$(suffix $@).c
--+	$(SIZERS_CC) $(CFLAGS_$(subst .,,$(suffix $@))) $(CPPFLAGS) -static -fuse-ld=bfd -o $@ $(SIZER)$(suffix $@).c
-++	$(SIZERS_CC) $(CFLAGS_$(subst .,,$(suffix $@))) $(CPPFLAGS) -static -fuse-ld=bfd -o $@ $(SIZER)$(suffix $@).c || \
-++	$(SIZERS_CC) $(CFLAGS_$(subst .,,$(suffix $@))) $(CPPFLAGS) -static -o $@ $(SIZER)$(suffix $@).c
-  
-  $(WRAPPER_GENERATOR_CLASS): $(WRAPPER_GENERATOR_JAVA)
-  	$(prep-target)
--@@ -358,6 +334,16 @@ $(SIZERS_C): $(WRAPPER_GENERATOR_CLASS) $(XLIBTYPES)
-+@@ -358,6 +335,16 @@ $(SIZERS_C): $(WRAPPER_GENERATOR_CLASS) $(XLIBTYPES)
-  	    $(SIZER_DIR) $(XLIBTYPES) "sizer" $(subst .,,$(suffix $(basename $@)))
-  
-  $(SIZES): $(SIZERS)
-@@ -353,7 +354,7 @@ index 53d31f3..183c063 100644
-  	@if [ "$(DOHACK)$@" = "true$(PREDEFINED_SIZES)" ]; then \
-  	    $(ECHO) COPYING $(PREDEFINED_SIZES_TMPL) into $@; \
-  	    $(CP) $(PREDEFINED_SIZES_TMPL) $@; \
--@@ -366,6 +352,7 @@ $(SIZES): $(SIZERS)
-+@@ -366,6 +353,7 @@ $(SIZES): $(SIZERS)
-  	    $(ECHO) GENERATING $@; \
-  	    $(WRAPPER_GENERATOR_DIR)/sizer$(suffix $@) > $@; \
-  	fi
-diff --git a/recipes-core/openjdk/openjdk-7-25b30/icedtea-zero-hotspotfix.patch b/recipes-core/openjdk/openjdk-7-25b30/icedtea-zero-hotspotfix.patch
-index 784f2de..baa7395 100644
---- a/recipes-core/openjdk/openjdk-7-25b30/icedtea-zero-hotspotfix.patch
-+++ b/recipes-core/openjdk/openjdk-7-25b30/icedtea-zero-hotspotfix.patch
-@@ -2,7 +2,7 @@ diff --git openjdk/hotspot/make/linux/makefiles/zeroshark.make openjdk/hotspot/m
- index c2a1484..156bdd0 100644
- --- openjdk/hotspot/make/linux/makefiles/zeroshark.make
- +++ openjdk/hotspot/make/linux/makefiles/zeroshark.make
--@@ -32,26 +32,28 @@ Obj_Files += cppInterpreter_arm.o
-+@@ -32,26 +32,30 @@ Obj_Files += cppInterpreter_arm.o
-  Obj_Files += thumb2.o
-  
-  CFLAGS += -DHOTSPOT_ASM
-@@ -25,13 +25,15 @@ index c2a1484..156bdd0 100644
-  mkbc:	$(GAMMADIR)/tools/mkbc.c
-  	@echo Compiling mkbc tool
- -	$(CC_COMPILE) -o $@ $< $(COMPILE_DONE)
--+	$(CC_COMPILE) -static -fuse-ld=bfd -o $@ $< $(COMPILE_DONE)
-++	$(CC_COMPILE) -static -fuse-ld=bfd -o $@ $< $(COMPILE_DONE) || \
-++	$(CC_COMPILE) -static -o $@ $< $(COMPILE_DONE)
-  
-  mkoffsets:	asm_helper.cpp
-  	@echo Compiling offset generator
-  	$(QUIETLY) $(REMOVE_TARGET)
- -	$(CC_COMPILE) $(CFLAGS) -DSTATIC_OFFSETS -o $@ $< $(COMPILE_DONE)
--+	$(CC_COMPILE) $(CFLAGS) -static -fuse-ld=bfd -DSTATIC_OFFSETS -o $@ $< $(COMPILE_DONE)
-++	$(CC_COMPILE) $(CFLAGS) -static -fuse-ld=bfd -DSTATIC_OFFSETS -o $@ $< $(COMPILE_DONE) || \
-++	$(CC_COMPILE) $(CFLAGS) -DSTATIC_OFFSETS -static -o $@ $< $(COMPILE_DONE)
-  
-  endif
-  
--- 
-1.7.9.5
+Package: busybox-syslog
+Version: 1.22.1-r0
+Depends: update-alternatives-opkg
+Provides: busybox-syslog-systemd
+Replaces: busybox-syslog-systemd
+Conflicts: busybox-syslog-systemd
+Status: deinstall hold not-installed
+Section: base
+Architecture: armv7at2hf-vfp-neon
+Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
+MD5Sum: 2f8312da8f8557a25770852c0708aa8b
+Size: 2584
+Filename: busybox-syslog_1.22.1-r0_armv7at2hf-vfp-neon.ipk
+Source:
+http://www.busybox.net/downloads/busybox-1.22.1.tar.bz2;name=tarball
+file://get_header_tar.patch file://busybox-appletlib-dependency.patch
+file://busybox-udhcpc-no_deconfig.patch file://find-touchscreen.sh
+file://busybox-cron file://busybox-httpd file://busybox-udhcpd
+file://default.script file://simple.script file://hwclock.sh
+file://mount.busybox file://syslog file://syslog-startup.conf
+file://syslog.conf file://busybox-syslog.default file://mdev
+file://mdev.conf file://umount.busybox file://defconfig
+file://busybox-syslog.service.in file://busybox-klogd.service.in
+file://fail_on_no_media.patch file://run-ptest file://inetd.conf
+file://inetd file://login-utilities.cfg
+file://0001-build-system-Specify-nostldlib-when-linking-to-.o-fi.patch
+file://busybox-syslog.service.in file://busybox-klogd.service.in
+Description: Tiny versions of many common UNIX utilities in a single
+small executable
+ BusyBox combines tiny versions of many common UNIX utilities into a
+ single small executable. It provides minimalist replacements for most
+of
+ the utilities you usually find in GNU fileutils, shellutils, etc. The
+ utilities in BusyBox generally have fewer options than their full-
+ featured GNU cousins; however, the options that are included provide
+the
+ expected functionality and behave very much like their GNU
+counterparts.
+ BusyBox provides a fairly complete POSIX environment for any small or
+ embedded system.
+
+
+=> /var/lib/opkg/status file at end
+...
+Package: busybox-syslog
+Version: 1.22.1-r0
+Depends: update-alternatives-opkg
+Provides: busybox-syslog-systemd
+Replaces: busybox-syslog-systemd
+Conflicts: busybox-syslog-systemd
+Status: deinstall hold not-installed
+Architecture: armv7at2hf-vfp-neon
+
+Package: busybox-syslog
+Version: 1.22.1-r0
+Depends: update-alternatives-opkg
+Provides: busybox-syslog-systemd
+Replaces: busybox-syslog-systemd
+Conflicts: busybox-syslog-systemd
+Status: install ok installed
+Architecture: armv7at2hf-vfp-neon
+Installed-Time: 1426805964
+Auto-Installed: yes
+...
+
+Interesting though, that the status file in the end contains the package
+with the right architecture and status ("Status: deinstall hold
+not-installed")... 
+
+But opkg installs the package happily:
+
+=> log.do_rootfs
+...
+Installing busybox (1.22.1-r0) to root...
+Downloading
+file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/busybox_1.22.1-r0_armv7at2hf-vfp-neon.ipk.
+Installing update-alternatives-opkg (0.1.8+git0+c33b217016-r0) to
+root...
+Downloading
+file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/update-alternatives-opkg_0.1.8+git0+c33b217016-r0_armv7at2hf-vfp-neon.ipk.
+Installing update-rc.d (0.7-r6) to root...
+Downloading
+file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/all/update-rc.d_0.7-r6_all.ipk.
+Installing busybox-syslog (1.22.1-r0) to root...
+Downloading
+file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/busybox-syslog_1.22.1-r0_armv7at2hf-vfp-neon.ipk.
+
+...
+
+--
+Stefan
+
+
 
 
