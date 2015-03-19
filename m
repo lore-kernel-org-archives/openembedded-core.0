@@ -1,40 +1,41 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 2797665CD0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C645665CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 16:54:55 +0000 (UTC)
-Received: by wetk59 with SMTP id k59so62359151wet.3
+	Thu, 19 Mar 2015 17:48:26 +0000 (UTC)
+Received: by qgfa8 with SMTP id a8so72005245qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 09:54:56 -0700 (PDT)
+	Thu, 19 Mar 2015 10:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to
-	:message-id; bh=RwdNbGPo/m79jqQhIud2el0aGTyUGDaMB3+nTknt4CU=;
-	b=UTuFHQJxGzg5+O1DsjKwjftsXwrsvVEvQQUwG88HTSTqpYOD3PpNILAF+2OWlAS55U
-	Ou7whaAmw5VreCZOQUGp8Woa4k4oq6b6I2GP2acDUvU2ULtJIE2qWNxaeQixNnbPuLg/
-	B4d0WZ03s5/XxmEsXc7BZ+UpPZ8f88H9HyeR8vPktFpfvQpQXeddKv00nMWJtTsJiFQ7
-	yRGjCG8cXv/nlpY670/+GW0dvcAR+LApw19LY6FG3uolIiaMS9fN2JjcMTANqfaHit+n
-	ejRpli+VVhLvOQUhzW8pHx6NQyl8wGVrI9pEb4iTsPBjHHawnm+M2X7tqrc1Rk0o9u2m
-	34xw==
-X-Received: by 10.194.5.37 with SMTP id p5mr155490138wjp.20.1426784096495;
-	Thu, 19 Mar 2015 09:54:56 -0700 (PDT)
-Received: from [10.53.92.192] (089144230192.atnat0039.highway.a1.net.
-	[89.144.230.192])
-	by mx.google.com with ESMTPSA id a13sm2675402wjx.30.2015.03.19.09.54.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Mar 2015 09:54:55 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <B83906C4-D2EF-4D2A-80FD-C8CBF3AEA6B3@gmail.com>
-References: <1426764810.29168.49.camel@linuxfoundation.org>
-	<B83906C4-D2EF-4D2A-80FD-C8CBF3AEA6B3@gmail.com>
-MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Thu, 19 Mar 2015 17:54:50 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Message-ID: <44B0A5F7-418B-47EC-A1B0-10E1AD9D1E0A@gmail.com>
-Subject: Re: [PATCH] runqemu-internal: Add cpio support for qemux86 so that we can boot poky-tiny images
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=vlEPsHt6yxy3xMP/hm4DgRF4eOdPILWI9q3yIWG7NOQ=;
+	b=DW6rtg5Wq9hVuNOpZaOvsZDBiS9Cb7p5AjEmi6deY2RqresWHOgFaobbeysuYKtsNd
+	zpNVez9HU4fCQ3k1HfxKJiHp0oXh3vbr27DIH+Ipe5WJ3rtO9glE4XVHiHwdtzqO0iS9
+	010fbaRqz0pEOUsFK/PfLGILMwy7m1FQgeYf0J29BNyIlv1o9+JtJNkz/EP3SemKJbEX
+	tf6i/kQKsbh/p3acyIUSpVYrKDwcxwgIY9IDhiPRzUh5bgV3IPS/KZs/fDAcuIWbDZ6U
+	32i9C7R78wLZHunhCMun8IMSuV5KecP4QGKGfpDUjlc38rL0w9iohjJjrMLj5VwbiYAS
+	PJ5w==
+X-Received: by 10.140.97.203 with SMTP id m69mr94719420qge.39.1426787307857;
+	Thu, 19 Mar 2015 10:48:27 -0700 (PDT)
+Received: from 10.25.255.72-ra01.westchester.pa.bo.comcast.net ([68.87.42.115])
+	by mx.google.com with ESMTPSA id a77sm1250728qkh.42.2015.03.19.10.48.26
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 19 Mar 2015 10:48:26 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84776A1D91@ALA-MBA.corp.ad.wrs.com>
+Date: Thu, 19 Mar 2015 10:48:32 -0700
+Message-Id: <FA76AC4C-F70F-4BE2-BB65-A2F781911D98@gmail.com>
+References: <1426718042-18369-1-git-send-email-jslater@windriver.com>
+	<CAMKF1so99EyEXQhDT9kp+NPp1Zu0HHWMov6-wJU3MV5bUksnxg@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84776A1D91@ALA-MBA.corp.ad.wrs.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ltp: find all .debug directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,49 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 16:54:57 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Thu, 19 Mar 2015 17:48:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On March 19, 2015 5:39:12 PM GMT+01:00, Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
->On March 19, 2015 12:33:30 PM GMT+01:00, Richard Purdie
-><richard.purdie@linuxfoundation.org> wrote:
->>poky-tiny generates cpio.gz images, add support for these so we can
->>boot
->>them using runqemu.
->>
->>Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->>diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
->>index 6594dc3..2db5566 100755
->>--- a/scripts/runqemu-internal
->>+++ b/scripts/runqemu-internal
->>@@ -408,6 +408,11 @@ if [ "$MACHINE" = "qemux86" ]; then
->>KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw
->>mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
->>QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS
->>$QEMU_UI_OPTIONS"
->>     fi
->>+    if [ "${FSTYPE:0:4}" = "cpio" ]; then
->
->Is that positional handling mandated by the POSIX-1003.1 2008 shell?
->
->Otherwise case $FSTYPE in ..
->Would cleanup the rest if the mess below..
 
-of the if, even ;)
+> On Mar 19, 2015, at 9:44 AM, Slater, Joseph <joe.slater@windriver.com> =
+wrote:
+>=20
+>=20
+>=20
+>> -----Original Message-----
+>> From: Khem Raj [mailto:raj.khem@gmail.com]
+>> Sent: Wednesday, March 18, 2015 4:37 PM
+>> To: Slater, Joseph
+>> Cc: Patches and discussions about the oe-core layer
+>> Subject: Re: [OE-core] [oe-core][PATCH 1/1] ltp: find all .debug =
+directories
+>>=20
+>> On Wed, Mar 18, 2015 at 3:34 PM, Joe Slater <jslater@windriver.com> =
+wrote:
+>>> INHIBIT_PACKAGE_STRIP =3D "1"
+>>> +# However, test_arch_stripped is already stripped, so...
+>>> +INSANE_SKIP_${PN} +=3D "already-stripped"
+>>> +
+>>=20
+>> Can this be avoided in the component make system instead
+>=20
+> Do you mean not strip it when we build it?
 
-I didn't see :n:m ranges in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 
-but maybe I didn't look at the right spot?
+yes
 
-Thanks,
->
->With that clarified it changed
->Acked-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->
->Thanks,
+>  I hesitate to have some named _stripped
+> not be.
 
+?
+
+>  Since nobody seems upset by the current qa "error", I guess we could =
+also
+> just ignore it.
+
+I think it can cause debugging gripes. So its good to fix it
+
+>=20
+> Joe
+>=20
 
 
