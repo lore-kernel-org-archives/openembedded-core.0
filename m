@@ -1,26 +1,22 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9224673689
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 56D6B6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:53:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2015 10:53:06 -0700
+	Thu, 19 Mar 2015 17:55:08 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 19 Mar 2015 10:55:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,431,1422950400"; d="scan'208";a="701173407"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2015 10:53:06 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,431,1422950400"; d="scan'208";a="543349858"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga003.jf.intel.com with ESMTP; 19 Mar 2015 10:55:09 -0700
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2015 09:47:59 +0000
-Message-Id: <9edc589ecf1a1554efeb23e4e71306476f790723.1426758356.git.anibal.limon@linux.intel.com>
+Date: Thu, 19 Mar 2015 09:48:16 +0000
+Message-Id: <1426758496-32643-1-git-send-email-benjamin.esquivel@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1426758356.git.anibal.limon@linux.intel.com>
-References: <cover.1426758356.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1426758356.git.anibal.limon@linux.intel.com>
-References: <cover.1426758356.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCHv2 2/2] initscripts: Add changetodefaultvt for 1, 2, 3, 4 runlevels
+Cc: richard.purdie@liuxfoundation.org
+Subject: [PATCH] oe-init-build-env-memres: Fix source check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +29,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 17:53:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Mar 2015 17:55:08 -0000
 
-When change between runlevel 5 to another non-graphic runlevel
-the console stays in the tty where X was launched.
+The source check was referring to oe-init-build-env instead of the
+memres. It could be executed without the proper failure message and the
+corresponding exit command out of the script. This commit makes the
+memres script look more like the oe-init-build-env with the correct
+script name.
 
-This patchs add a default switch to tty1.
+[YOCTO #7487]
 
-[YOCTO #5336]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 ---
- .../initscripts/initscripts-1.0/changetodefaultvt.sh           | 10 ++++++++++
- meta/recipes-core/initscripts/initscripts_1.0.bb               |  6 ++++++
- 2 files changed, 16 insertions(+)
- create mode 100755 meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
+ oe-init-build-env-memres | 45 +++++++++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh b/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
-new file mode 100755
-index 0000000..bbef7ed
---- /dev/null
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
-@@ -0,0 +1,10 @@
-+#!/bin/sh 
-+### BEGIN INIT INFO
-+# Provides:             changetodefaultvt
-+# Required-Start:
-+# Required-Stop:
-+# Default-Start:        1 2 3 4
-+# Default-Stop:
-+### END INIT INFO
+diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
+index 9b9e0f4..c1dc4fe 100755
+--- a/oe-init-build-env-memres
++++ b/oe-init-build-env-memres
+@@ -32,28 +32,33 @@ else
+     port=$1
+     shift
+ fi
+-if [ -z "$ZSH_NAME" ] && [ "x$0" = "x./oe-init-build-env" ]; then
+-   echo "Error: This script needs to be sourced. Please run as '. ./oe-init-build-env'"
 +
-+chvt 1
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index dfb75b2..e0841cf 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -33,6 +33,7 @@ SRC_URI = "file://functions \
-            file://GPLv2.patch \
-            file://dmesg.sh \
-            file://logrotate-dmesg.conf \
-+           file://changetodefaultvt.sh \
- "
- 
- S = "${WORKDIR}"
-@@ -100,6 +101,7 @@ do_install () {
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
-+	install -m 0755    ${WORKDIR}/changetodefaultvt.sh	${D}${sysconfdir}/init.d
- 
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
- 		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
-@@ -112,6 +114,10 @@ do_install () {
- #
- # Create runlevel links
- #
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'true', 'false', d)}; then
-+		update-rc.d -r ${D} changetodefaultvt.sh start 99 1 2 3 4 .
-+	fi
++if [ -n "$BASH_SOURCE" ]; then
++  OEROOT="`dirname $BASH_SOURCE`"
++elif [ -n "$ZSH_NAME" ]; then
++  OEROOT="`dirname $0`"
+ else
+-   if [ -n "$BASH_SOURCE" ]; then
+-      OEROOT="`dirname $BASH_SOURCE`"
+-   elif [ -n "$ZSH_NAME" ]; then
+-      OEROOT="`dirname $0`"
+-   else
+-      OEROOT="`pwd`"
+-   fi
+-   if [ -n "$BBSERVER" ]; then
+-      unset BBSERVER
+-   fi
+-            
+-   OEROOT=`readlink -f "$OEROOT"`
+-   export OEROOT
+-   . $OEROOT/scripts/oe-buildenv-internal && \
+-        $OEROOT/scripts/oe-setup-builddir && \
+-        [ -n "$BUILDDIR" ] && cd $BUILDDIR
+-   unset OEROOT
+-   unset BBPATH
++  OEROOT="`pwd`"
++fi
++if [ -n "$BBSERVER" ]; then
++  unset BBSERVER
++fi
 +
- 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
- 	update-rc.d -r ${D} sendsigs start 20 0 6 .
- 	update-rc.d -r ${D} urandom start 30 S 0 6 .
++THIS_SCRIPT=$OEROOT/oe-init-build-env-memres
++if [ -z "$ZSH_NAME" ] && [ "x$0" = "x$THIS_SCRIPT" ]; then
++   echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'"
++   exit 1
+ fi
++
++OEROOT=`readlink -f "$OEROOT"`
++export OEROOT
++. $OEROOT/scripts/oe-buildenv-internal && \
++    $OEROOT/scripts/oe-setup-builddir && \
++    [ -n "$BUILDDIR" ] && cd $BUILDDIR
++unset OEROOT
++unset BBPATH
++unset THIS_SCRIPT
++
+ res=1
+ if [ -e bitbake.lock ] && grep : bitbake.lock > /dev/null ; then
+     BBSERVER=`cat bitbake.lock` bitbake --status-only
 -- 
 1.8.4.5
 
