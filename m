@@ -1,28 +1,36 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 948F065CD0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB5865CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 23:09:39 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 56F2E5C0FE3
+	Thu, 19 Mar 2015 23:44:15 +0000 (UTC)
+Received: by qgfa8 with SMTP id a8so80096423qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 00:09:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=agner.ch; s=dkim;
-	t=1426806554; bh=i+sRkr3MvXrcTGVyV4TRPVbUQCz4pDmrYeuBi30FGJU=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=KEZ0otTpGNlTTJFdoRR06hP1q3svLL7QEKMvHq2IOGEQpYzNm0oLO5VgT9e1SCMW0
-	ipWO4y3TOzLK41Qhr31CkEt87PM4Lz+f4vklIUXdMT6impfnuYCkBU5DfEXPsoHIRs
-	qoMj75nVfSYoitXhHKxEzJ2xvBDWt6pKw3tIqU9E=
+	Thu, 19 Mar 2015 16:44:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=euyRULe+Di6Y28o+hgoOJ6OL50MaBFbhr+DmPX1IImo=;
+	b=QmFZe/Laa+g/JIZKqr4CeQGei3QOfAspP/2cFOMbwv+23o5u6pA1jUCHMYQSTR2K2l
+	CyvyYbuhJN8TbgjTTfzWE+/cfdn9hf/m0fb20Ud9NoN4F173Bi6BWOBlAVNn9WSZtStj
+	eM8XS/DlhbmFtLxkORantriwnXswViAytv5bbM7th0GQUwxc2OxpZn53BSi0G2mHC1Ct
+	hhdB8MzEEDotphXJ9pblvouAcdYJ0vPTlS3FrA7FnDzrpSrSJk6xkSViQTXvTSoyZsV3
+	Hg3ffosm7iu0pLrybZsGvffPlApe4hjvjocbQCmyaTE8xLTNlgJj7Cc9hPhwConoqP29
+	2P4A==
+X-Gm-Message-State: ALoCoQmqMcfwQhuegEaXY6SilhnNC4aBDtoR3zHbz2iRTTf8KWI289VnP/qVfbCNzQXoSLMVgxYO
+X-Received: by 10.140.41.169 with SMTP id z38mr95957164qgz.56.1426808656896;
+	Thu, 19 Mar 2015 16:44:16 -0700 (PDT)
 MIME-Version: 1.0
-Date: Fri, 20 Mar 2015 00:09:16 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-In-Reply-To: <a5c3b1a00286d1418413f73e9bc99fca@agner.ch>
-References: <a5c3b1a00286d1418413f73e9bc99fca@agner.ch>
-Message-ID: <e318605e6c49855aa1dc2191550fcb48@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.1.0
-Subject: Re: BAD_RECOMMENDATIONS with opkg and multiple architectures
+Received: by 10.140.102.203 with HTTP; Thu, 19 Mar 2015 16:43:56 -0700 (PDT)
+In-Reply-To: <1426718042-18369-1-git-send-email-jslater@windriver.com>
+References: <1426718042-18369-1-git-send-email-jslater@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 20 Mar 2015 01:43:56 +0200
+Message-ID: <CAJTo0LbWnUu4f=+g_jLVi4O4ob41OQ1jURd38siPAexGcTfAWg@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ltp: find all .debug directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,148 +43,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 23:09:41 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Mar 2015 23:44:18 -0000
+Content-Type: multipart/alternative; boundary=001a11c11dba2839330511acc782
 
-Just verified the issue again, building a machine with architecture
-armv7at2hf-vfp and one with armv7at2hf-vfp-neon in a row. The second
-machine gets  the package installed despite the correct status file:
+--001a11c11dba2839330511acc782
+Content-Type: text/plain; charset=UTF-8
 
-=> /var/lib/opkg/status just after handle_bad_recommendations
-Package: busybox-syslog
-Version: 1.22.1-r0
-Depends: update-alternatives-opkg
-Provides: busybox-syslog-systemd
-Replaces: busybox-syslog-systemd
-Conflicts: busybox-syslog-systemd
-Status: deinstall hold not-installed
-Section: base
-Architecture: armv7at2hf-vfp
-Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
-MD5Sum: be66fec1a91a3c658022f3c1a5fad72a
-Size: 2580
-Filename: busybox-syslog_1.22.1-r0_armv7at2hf-vfp.ipk
-Source:
-http://www.busybox.net/downloads/busybox-1.22.1.tar.bz2;name=tarball
-file://get_header_tar.patch file://busybox-appletlib-dependency.patch
-file://busybox-udhcpc-no_deconfig.patch file://find-touchscreen.sh
-file://busybox-cron file://busybox-httpd file://busybox-udhcpd
-file://default.script file://simple.script file://hwclock.sh
-file://mount.busybox file://syslog file://syslog-startup.conf
-file://syslog.conf file://busybox-syslog.default file://mdev
-file://mdev.conf file://umount.busybox file://defconfig
-file://busybox-syslog.service.in file://busybox-klogd.service.in
-file://fail_on_no_media.patch file://run-ptest file://inetd.conf
-file://inetd file://login-utilities.cfg
-file://0001-build-system-Specify-nostldlib-when-linking-to-.o-fi.patch
-file://busybox-syslog.service.in file://busybox-klogd.service.in
-Description: Tiny versions of many common UNIX utilities in a single
-small executable
- BusyBox combines tiny versions of many common UNIX utilities into a
- single small executable. It provides minimalist replacements for most
-of
- the utilities you usually find in GNU fileutils, shellutils, etc. The
- utilities in BusyBox generally have fewer options than their full-
- featured GNU cousins; however, the options that are included provide
-the
- expected functionality and behave very much like their GNU
-counterparts.
- BusyBox provides a fairly complete POSIX environment for any small or
- embedded system.
+On 19 March 2015 at 00:34, Joe Slater <jslater@windriver.com> wrote:
 
-Package: busybox-syslog
-Version: 1.22.1-r0
-Depends: update-alternatives-opkg
-Provides: busybox-syslog-systemd
-Replaces: busybox-syslog-systemd
-Conflicts: busybox-syslog-systemd
-Status: deinstall hold not-installed
-Section: base
-Architecture: armv7at2hf-vfp-neon
-Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
-MD5Sum: 2f8312da8f8557a25770852c0708aa8b
-Size: 2584
-Filename: busybox-syslog_1.22.1-r0_armv7at2hf-vfp-neon.ipk
-Source:
-http://www.busybox.net/downloads/busybox-1.22.1.tar.bz2;name=tarball
-file://get_header_tar.patch file://busybox-appletlib-dependency.patch
-file://busybox-udhcpc-no_deconfig.patch file://find-touchscreen.sh
-file://busybox-cron file://busybox-httpd file://busybox-udhcpd
-file://default.script file://simple.script file://hwclock.sh
-file://mount.busybox file://syslog file://syslog-startup.conf
-file://syslog.conf file://busybox-syslog.default file://mdev
-file://mdev.conf file://umount.busybox file://defconfig
-file://busybox-syslog.service.in file://busybox-klogd.service.in
-file://fail_on_no_media.patch file://run-ptest file://inetd.conf
-file://inetd file://login-utilities.cfg
-file://0001-build-system-Specify-nostldlib-when-linking-to-.o-fi.patch
-file://busybox-syslog.service.in file://busybox-klogd.service.in
-Description: Tiny versions of many common UNIX utilities in a single
-small executable
- BusyBox combines tiny versions of many common UNIX utilities into a
- single small executable. It provides minimalist replacements for most
-of
- the utilities you usually find in GNU fileutils, shellutils, etc. The
- utilities in BusyBox generally have fewer options than their full-
- featured GNU cousins; however, the options that are included provide
-the
- expected functionality and behave very much like their GNU
-counterparts.
- BusyBox provides a fairly complete POSIX environment for any small or
- embedded system.
+>  FILES_${PN}-dbg += "\
+>      /opt/ltp/runtest/.debug \
+> -    /opt/ltp/testcases/bin/.debug \
+> -    /opt/ltp/testcases/bin/*/bin/.debug \
+> -    /opt/ltp/testcases/bin/*/test/.debug \
+> +    /opt/ltp/testcases/*/.debug \
+> +    /opt/ltp/testcases/*/*/.debug \
+> +    /opt/ltp/testcases/*/*/*/.debug \
+>
 
+Interestingly now ltp is failing on edgerouter (mips64):
 
-=> /var/lib/opkg/status file at end
-...
-Package: busybox-syslog
-Version: 1.22.1-r0
-Depends: update-alternatives-opkg
-Provides: busybox-syslog-systemd
-Replaces: busybox-syslog-systemd
-Conflicts: busybox-syslog-systemd
-Status: deinstall hold not-installed
-Architecture: armv7at2hf-vfp-neon
+NOTE: Skipping file /opt/ltp/testcases/bin/test_arch_stripped from ltp for
+already-stripped QA test
+ERROR: debugedit failed with exit code 256 (cmd was
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit'
+-b
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux'
+-d '/usr/src/debug' -i -l
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/debugsources.list'
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj'):
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj:
+Unhandled relocation 2 in .debug_info section
 
-Package: busybox-syslog
-Version: 1.22.1-r0
-Depends: update-alternatives-opkg
-Provides: busybox-syslog-systemd
-Replaces: busybox-syslog-systemd
-Conflicts: busybox-syslog-systemd
-Status: install ok installed
-Architecture: armv7at2hf-vfp-neon
-Installed-Time: 1426805964
-Auto-Installed: yes
-...
+I'm off to bed now, any idea what "relocation 2 in ._debug_info" means?
 
-Interesting though, that the status file in the end contains the package
-with the right architecture and status ("Status: deinstall hold
-not-installed")... 
+Ross
 
-But opkg installs the package happily:
+--001a11c11dba2839330511acc782
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-=> log.do_rootfs
-...
-Installing busybox (1.22.1-r0) to root...
-Downloading
-file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/busybox_1.22.1-r0_armv7at2hf-vfp-neon.ipk.
-Installing update-alternatives-opkg (0.1.8+git0+c33b217016-r0) to
-root...
-Downloading
-file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/update-alternatives-opkg_0.1.8+git0+c33b217016-r0_armv7at2hf-vfp-neon.ipk.
-Installing update-rc.d (0.7-r6) to root...
-Downloading
-file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/all/update-rc.d_0.7-r6_all.ipk.
-Installing busybox-syslog (1.22.1-r0) to root...
-Downloading
-file:/build/ags/oe-core/build/out-eglibc/deploy/ipk/armv7at2hf-vfp-neon/busybox-syslog_1.22.1-r0_armv7at2hf-vfp-neon.ipk.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 March 2015 at 00:34, Joe Slater <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:jslater@windriver.com" target=3D"_blank">jslater@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
+ft-style:solid;padding-left:1ex"><div id=3D":27x" class=3D"" style=3D"overf=
+low:hidden">=C2=A0FILES_${PN}-dbg +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0/opt/<span class=3D"">ltp</span>/runtest/.debug \<br>
+-=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/.debug \<br>
+-=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/*/bin/.debug =
+\<br>
+-=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/*/test/.debug=
+ \<br>
++=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/.debug \<br>
++=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/*/.debug \<br>
++=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/*/*/.debug \</d=
+iv></blockquote></div><br></div><div class=3D"gmail_extra">Interestingly no=
+w ltp is failing on edgerouter (mips64):</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">NOTE: Skippin=
+g file /opt/ltp/testcases/bin/test_arch_stripped from ltp for already-strip=
+ped QA test</div><div class=3D"gmail_extra">ERROR: debugedit failed with ex=
+it code 256 (cmd was &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/ni=
+ghtly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit&=
+#39; -b &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/bu=
+ild/build/tmp/work/mips64-poky-linux&#39; -d &#39;/usr/src/debug&#39; -i -l=
+ &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/bui=
+ld/tmp/work/mips64-poky-linux/ltp/20150119-r0/debugsources.list&#39; &#39;/=
+home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/=
+work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj=
+&#39;):</div><div class=3D"gmail_extra">/home/pokybuild/yocto-autobuilder/y=
+octo-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/=
+bin/debugedit: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/=
+build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/test=
+cases/bin/d1.obj: Unhandled relocation 2 in .debug_info section</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;m off to be=
+d now, any idea what &quot;relocation 2 in ._debug_info&quot; means?</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div></div>
 
-...
-
---
-Stefan
-
-
-
-
+--001a11c11dba2839330511acc782--
