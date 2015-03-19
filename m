@@ -1,39 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C80D65CD0
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F64665CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 05:10:40 +0000 (UTC)
-Received: by pdbni2 with SMTP id ni2so64925985pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 22:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:organization:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding:content-type;
-	bh=rv1+TOET9vIBXDt3InyHJZwB/3Hl/XRpRdNVeNrTy0M=;
-	b=sLQwrxCM+Nv2ZSBQDnTBN4u6q3nODQMoI70UmLXCHwtC7ZIiXSBnh42QiEOp2m6aEp
-	2ou86079vZR84tdq7gV2YnHkdtlLL8+JwZDL+49G1t3h16dAw37TN0AbDXIp71hT3kuW
-	G0iym/S5NM0pO2ptN7+rgPNRvlL7uhEipTKSH1YalCf1RWPGMcN45LvcQ/DZWAPiISbM
-	Gvp7VEACngsMVe15bvXtEoHhQfeZBPZVJFns5ONSc6ZzlcW/zn5MmTASxVulb9pM9Vmn
-	wnMQW/uWgdXaUjwyEnJyLRPd8DI518G5ZWzbjxMf5yfJrBgStY2c1O/mwa8Z+Z4rFcy1
-	ZmDg==
-X-Received: by 10.66.55.68 with SMTP id q4mr154984002pap.71.1426741841875;
-	Wed, 18 Mar 2015 22:10:41 -0700 (PDT)
-Received: from apollo.localnet ([2601:9:3580:84c:c8b9:695e:11a6:752a])
-	by mx.google.com with ESMTPSA id sm5sm553463pac.10.2015.03.18.22.10.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Mar 2015 22:10:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 22:10:38 -0700
-Message-ID: <54881712.ATt6hKSpM9@apollo>
-Organization: HIMVIS LLC
-User-Agent: KMail/4.14.6 (Linux/3.19.0-9-generic; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <1426739912-13060-1-git-send-email-net147@gmail.com>
-References: <1426739912-13060-1-git-send-email-net147@gmail.com>
+	Thu, 19 Mar 2015 05:14:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2J5Ecf4025125
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 18 Mar 2015 22:14:38 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 18 Mar 2015 22:14:37 -0700
+Message-ID: <550A5B3B.9000508@windriver.com>
+Date: Thu, 19 Mar 2015 13:14:35 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] systemd: restore userspace firmware loading support
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1426733823.git.Qi.Chen@windriver.com>
+	<e017310c52ec2c0b47b3c8cef2ea76925c38fa08.1426733823.git.Qi.Chen@windriver.com>
+	<20150319050428.GE4738@jama>
+In-Reply-To: <20150319050428.GE4738@jama>
+X-Originating-IP: [128.224.162.236]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/5] rootfs.py: two changes regarding log checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,476 +37,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 05:10:41 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 19 Mar 2015 05:14:39 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday, March 19, 2015 03:38:32 PM Jonathan Liu wrote:
-> This changes the minimum required Linux version from 3.7 back to 3.0.
-> 
+On 03/19/2015 01:04 PM, Martin Jansa wrote:
+> On Thu, Mar 19, 2015 at 10:59:13AM +0800, Chen Qi wrote:
+>> This patch involves two changes.
+>>
+>> 1. Extend the regular expression to also catch '^WRANING:' in _log_check_warn.
+> Still has the typo I've reported earlier.
 
-what is justification for this patch ? I would rather not regress but go with 
-systemd community here.
+Oh...
+Thanks.
 
-> [YOCTO #7409]
-> 
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  ...evert-rules-remove-firmware-loading-rules.patch |  28 ++
->  ...-remove-userspace-firmware-loading-suppor.patch | 367
-> +++++++++++++++++++++ meta/recipes-core/systemd/systemd_219.bb           | 
->  3 +
->  3 files changed, 398 insertions(+)
->  create mode 100644
-> meta/recipes-core/systemd/systemd/0014-Revert-rules-remove-firmware-loading
-> -rules.patch create mode 100644
-> meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmwar
-> e-loading-suppor.patch
-> 
-> diff --git
-> a/meta/recipes-core/systemd/systemd/0014-Revert-rules-remove-firmware-loadi
-> ng-rules.patch
-> b/meta/recipes-core/systemd/systemd/0014-Revert-rules-remove-firmware-loadi
-> ng-rules.patch new file mode 100644
-> index 0000000..fe2ba53
-> --- /dev/null
-> +++
-> b/meta/recipes-core/systemd/systemd/0014-Revert-rules-remove-firmware-loadi
-> ng-rules.patch @@ -0,0 +1,28 @@
-> +From 4f0a722489154da99e7f6b3051afde984eed2f74 Mon Sep 17 00:00:00 2001
-> +From: Jonathan Liu <net147@gmail.com>
-> +Date: Thu, 19 Mar 2015 15:01:29 +1100
-> +Subject: [PATCH] Revert "rules: remove firmware loading rules"
-> +
-> +This reverts commit 70e7d754ddb356fb1a2942b262f8cee9650e2a19.
-> +Userspace firmware loading support is needed for Linux < 3.7.
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Jonathan Liu <net147@gmail.com>
-> +---
-> + rules/50-firmware.rules | 3 +++
-> + 1 file changed, 3 insertions(+)
-> + create mode 100644 rules/50-firmware.rules
-> +
-> +diff --git a/rules/50-firmware.rules b/rules/50-firmware.rules
-> +new file mode 100644
-> +index 0000000..f0ae684
-> +--- /dev/null
-> ++++ b/rules/50-firmware.rules
-> +@@ -0,0 +1,3 @@
-> ++# do not edit this file, it will be overwritten on update
-> ++
-> ++SUBSYSTEM=="firmware", ACTION=="add", RUN{builtin}="firmware"
-> +--
-> +2.3.3
-> +
-> diff --git
-> a/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmw
-> are-loading-suppor.patch
-> b/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmw
-> are-loading-suppor.patch new file mode 100644
-> index 0000000..3e3aa27
-> --- /dev/null
-> +++
-> b/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmw
-> are-loading-suppor.patch @@ -0,0 +1,367 @@
-> +From 7f074def4e32045353ba4336d703e17b8de7ec4e Mon Sep 17 00:00:00 2001
-> +From: Jonathan Liu <net147@gmail.com>
-> +Date: Thu, 19 Mar 2015 15:01:33 +1100
-> +Subject: [PATCH] Revert "udev: remove userspace firmware loading support"
-> +
-> +This reverts commit be2ea723b1d023b3d385d3b791ee4607cbfb20ca.
-> +Userspace firmware loading support is needed for Linux < 3.7.
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Jonathan Liu <net147@gmail.com>
-> +---
-> + Makefile.am                      |  12 +++
-> + README                           |   9 ++-
-> + TODO                             |   1 +
-> + configure.ac                     |  20 +++++
-> + src/udev/udev-builtin-firmware.c | 154
-> +++++++++++++++++++++++++++++++++++++++ + src/udev/udev-builtin.c         
-> |   3 +
-> + src/udev/udev.h                  |   6 ++
-> + src/udev/udevd.c                 |  13 ++++
-> + 8 files changed, 214 insertions(+), 4 deletions(-)
-> + create mode 100644 src/udev/udev-builtin-firmware.c
-> +
-> +diff --git a/Makefile.am b/Makefile.am
-> +index bf04d31..9394700 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -3678,6 +3678,18 @@ libudev_core_la_LIBADD = \
-> + 	$(BLKID_LIBS) \
-> + 	$(KMOD_LIBS)
-> +
-> ++libudev_core_la_CPPFLAGS = \
-> ++	$(AM_CPPFLAGS) \
-> ++	-DFIRMWARE_PATH="$(FIRMWARE_PATH)"
-> ++
-> ++if ENABLE_FIRMWARE
-> ++libudev_core_la_SOURCES += \
-> ++	src/udev/udev-builtin-firmware.c
-> ++
-> ++dist_udevrules_DATA += \
-> ++	rules/50-firmware.rules
-> ++endif
-> ++
-> + if HAVE_KMOD
-> + libudev_core_la_SOURCES += \
-> + 	src/udev/udev-builtin-kmod.c
-> +diff --git a/README b/README
-> +index c722092..db382d2 100644
-> +--- a/README
-> ++++ b/README
-> +@@ -36,7 +36,8 @@ LICENSE:
-> +         - except src/udev/* which is (currently still) GPLv2, GPLv2+
-> +
-> + REQUIREMENTS:
-> +-        Linux kernel >= 3.7
-> ++        Linux kernel >= 3.0
-> ++        Linux kernel >= 3.3 for loop device partition support features
-> with nspawn +         Linux kernel >= 3.8 for Smack support
-> +
-> +         Kernel Config Options:
-> +@@ -51,14 +52,14 @@ REQUIREMENTS:
-> +           CONFIG_PROC_FS
-> +           CONFIG_FHANDLE (libudev, mount and bind mount handling)
-> +
-> +-        udev will fail to work with the legacy sysfs layout:
-> ++        Udev will fail to work with the legacy layout:
-> +           CONFIG_SYSFS_DEPRECATED=n
-> +
-> +         Legacy hotplug slows down the system and confuses udev:
-> +           CONFIG_UEVENT_HELPER_PATH=""
-> +
-> +-        Userspace firmware loading is not supported and should
-> +-        be disabled in the kernel:
-> ++        Userspace firmware loading is deprecated, will go away, and
-> ++        sometimes causes problems:
-> +           CONFIG_FW_LOADER_USER_HELPER=n
-> +
-> +         Some udev rules and virtualization detection relies on it:
-> +diff --git a/TODO b/TODO
-> +index 255a4f2..407bdd0 100644
-> +--- a/TODO
-> ++++ b/TODO
-> +@@ -727,6 +727,7 @@ Features:
-> + * ExecOnFailure=/usr/bin/foo
-> +
-> + * udev:
-> ++  - remove src/udev/udev-builtin-firmware.c
-> (CONFIG_FW_LOADER_USER_HELPER=n) +   - move to LGPL
-> +   - kill scsi_id
-> +   - add trigger --subsystem-match=usb/usb_device device
-> +diff --git a/configure.ac b/configure.ac
-> +index 97a29d6..13b80ce 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -1245,6 +1245,25 @@ fi
-> + AM_CONDITIONAL(HAVE_MYHOSTNAME, [test "$have_myhostname" = "yes"])
-> +
-> + #
-> ---------------------------------------------------------------------------
-> --- ++AC_ARG_WITH(firmware-path,
-> ++       AS_HELP_STRING([--with-firmware-path=DIR[[[:DIR[...]]]]],
-> ++          [Firmware search path (default="")]),
-> ++       [], [with_firmware_path=""])
-> ++OLD_IFS=$IFS
-> ++IFS=:
-> ++for i in $with_firmware_path; do
-> ++       if test "x${FIRMWARE_PATH}" = "x"; then
-> ++              FIRMWARE_PATH="\\\"${i}/\\\""
-> ++       else
-> ++              FIRMWARE_PATH="${FIRMWARE_PATH}, \\\"${i}/\\\""
-> ++       fi
-> ++done
-> ++IFS=$OLD_IFS
-> ++AC_SUBST(FIRMWARE_PATH)
-> ++AS_IF([test "x${FIRMWARE_PATH}" != "x"], [ AC_DEFINE(HAVE_FIRMWARE, 1,
-> [Define if FIRMWARE is available]) ]) ++AM_CONDITIONAL(ENABLE_FIRMWARE,
-> [test "x${FIRMWARE_PATH}" != "x"]) ++
-> ++#
-> ---------------------------------------------------------------------------
-> --- + AC_ARG_ENABLE([gudev],
-> +        AS_HELP_STRING([--disable-gudev], [disable Gobject libudev support
-> @<:@default=enabled@:>@]), +        [], [enable_gudev=yes])
-> +@@ -1533,6 +1552,7 @@ AC_MSG_RESULT([
-> +         Build Python:            ${PYTHON}
-> +         Installation Python:     ${PYTHON_BINARY}
-> +         sphinx binary:           ${SPHINX_BUILD}
-> ++        firmware path:           ${FIRMWARE_PATH}
-> +         PAM modules dir:         ${with_pamlibdir}
-> +         PAM configuration dir:   ${with_pamconfdir}
-> +         D-Bus policy dir:        ${with_dbuspolicydir}
-> +diff --git a/src/udev/udev-builtin-firmware.c
-> b/src/udev/udev-builtin-firmware.c +new file mode 100644
-> +index 0000000..bd8c2fb
-> +--- /dev/null
-> ++++ b/src/udev/udev-builtin-firmware.c
-> +@@ -0,0 +1,154 @@
-> ++/*
-> ++ * firmware - Kernel firmware loader
-> ++ *
-> ++ * Copyright (C) 2009 Piter Punk <piterpunk@slackware.com>
-> ++ * Copyright (C) 2009-2011 Kay Sievers <kay@vrfy.org>
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or
-> ++ * modify it under the terms of the GNU General Public License as
-> ++ * published by the Free Software Foundation; either version 2 of the
-> ++ * License, or (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful, but
-> ++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++ * General Public License for more details:*
-> ++ */
-> ++
-> ++#include <unistd.h>
-> ++#include <stdlib.h>
-> ++#include <string.h>
-> ++#include <stdio.h>
-> ++#include <getopt.h>
-> ++#include <errno.h>
-> ++#include <stdbool.h>
-> ++#include <sys/utsname.h>
-> ++#include <sys/stat.h>
-> ++
-> ++#include "udev.h"
-> ++
-> ++static bool set_loading(struct udev *udev, char *loadpath, const char
-> *state) { ++        FILE *ldfile;
-> ++
-> ++        ldfile = fopen(loadpath, "we");
-> ++        if (ldfile == NULL) {
-> ++                log_error("error: can not open '%s'", loadpath);
-> ++                return false;
-> ++        };
-> ++        fprintf(ldfile, "%s\n", state);
-> ++        fclose(ldfile);
-> ++        return true;
-> ++}
-> ++
-> ++static bool copy_firmware(struct udev *udev, const char *source, const
-> char *target, size_t size) { ++        char *buf;
-> ++        FILE *fsource = NULL, *ftarget = NULL;
-> ++        bool ret = false;
-> ++
-> ++        buf = malloc(size);
-> ++        if (buf == NULL) {
-> ++                log_error("No memory available to load firmware file");
-> ++                return false;
-> ++        }
-> ++
-> ++        log_debug("writing '%s' (%zi) to '%s'", source, size, target);
-> ++
-> ++        fsource = fopen(source, "re");
-> ++        if (fsource == NULL)
-> ++                goto exit;
-> ++        ftarget = fopen(target, "we");
-> ++        if (ftarget == NULL)
-> ++                goto exit;
-> ++        if (fread(buf, size, 1, fsource) != 1)
-> ++                goto exit;
-> ++        if (fwrite(buf, size, 1, ftarget) == 1)
-> ++                ret = true;
-> ++exit:
-> ++        if (ftarget != NULL)
-> ++                fclose(ftarget);
-> ++        if (fsource != NULL)
-> ++                fclose(fsource);
-> ++        free(buf);
-> ++        return ret;
-> ++}
-> ++
-> ++static int builtin_firmware(struct udev_device *dev, int argc, char
-> *argv[], bool test) { ++        struct udev *udev =
-> udev_device_get_udev(dev);
-> ++        static const char *searchpath[] = { FIRMWARE_PATH };
-> ++        char loadpath[UTIL_PATH_SIZE];
-> ++        char datapath[UTIL_PATH_SIZE];
-> ++        char fwpath[UTIL_PATH_SIZE];
-> ++        const char *firmware;
-> ++        FILE *fwfile = NULL;
-> ++        struct utsname kernel;
-> ++        struct stat statbuf;
-> ++        unsigned int i;
-> ++        int rc = EXIT_SUCCESS;
-> ++
-> ++        firmware = udev_device_get_property_value(dev, "FIRMWARE");
-> ++        if (firmware == NULL) {
-> ++                log_error("firmware parameter missing");
-> ++                rc = EXIT_FAILURE;
-> ++                goto exit;
-> ++        }
-> ++
-> ++        /* lookup firmware file */
-> ++        uname(&kernel);
-> ++        for (i = 0; i < ELEMENTSOF(searchpath); i++) {
-> ++                strscpyl(fwpath, sizeof(fwpath), searchpath[i],
-> kernel.release, "/", firmware, NULL); ++                fwfile =
-> fopen(fwpath, "re");
-> ++                if (fwfile != NULL)
-> ++                        break;
-> ++
-> ++                strscpyl(fwpath, sizeof(fwpath), searchpath[i], firmware,
-> NULL); ++                fwfile = fopen(fwpath, "re");
-> ++                if (fwfile != NULL)
-> ++                        break;
-> ++        }
-> ++
-> ++        strscpyl(loadpath, sizeof(loadpath), udev_device_get_syspath(dev),
-> "/loading", NULL); ++
-> ++        if (fwfile == NULL) {
-> ++                log_debug("did not find firmware file '%s'", firmware);
-> ++                rc = EXIT_FAILURE;
-> ++                /*
-> ++                 * Do not cancel the request in the initrd, the real root
-> might have ++                 * the firmware file and the 'coldplug' run in
-> the real root will find ++                 * this pending request and
-> fulfill or cancel it. ++                 * */
-> ++                if (!in_initrd())
-> ++                        set_loading(udev, loadpath, "-1");
-> ++                goto exit;
-> ++        }
-> ++
-> ++        if (stat(fwpath, &statbuf) < 0 || statbuf.st_size == 0) {
-> ++                if (!in_initrd())
-> ++                        set_loading(udev, loadpath, "-1");
-> ++                rc = EXIT_FAILURE;
-> ++                goto exit;
-> ++        }
-> ++
-> ++        if (!set_loading(udev, loadpath, "1"))
-> ++                goto exit;
-> ++
-> ++        strscpyl(datapath, sizeof(datapath), udev_device_get_syspath(dev),
-> "/data", NULL); ++        if (!copy_firmware(udev, fwpath, datapath,
-> statbuf.st_size)) { ++                log_error("error sending firmware
-> '%s' to device", firmware); ++                set_loading(udev, loadpath,
-> "-1");
-> ++                rc = EXIT_FAILURE;
-> ++                goto exit;
-> ++        };
-> ++
-> ++        set_loading(udev, loadpath, "0");
-> ++exit:
-> ++        if (fwfile)
-> ++                fclose(fwfile);
-> ++        return rc;
-> ++}
-> ++
-> ++const struct udev_builtin udev_builtin_firmware = {
-> ++        .name = "firmware",
-> ++        .cmd = builtin_firmware,
-> ++        .help = "kernel firmware loader",
-> ++        .run_once = true,
-> ++};
-> +diff --git a/src/udev/udev-builtin.c b/src/udev/udev-builtin.c
-> +index 1950ec2..f21c0b6 100644
-> +--- a/src/udev/udev-builtin.c
-> ++++ b/src/udev/udev-builtin.c
-> +@@ -34,6 +34,9 @@ static const struct udev_builtin *builtins[] = {
-> +         [UDEV_BUILTIN_BLKID] = &udev_builtin_blkid,
-> + #endif
-> +         [UDEV_BUILTIN_BTRFS] = &udev_builtin_btrfs,
-> ++#ifdef HAVE_FIRMWARE
-> ++        [UDEV_BUILTIN_FIRMWARE] = &udev_builtin_firmware,
-> ++#endif
-> +         [UDEV_BUILTIN_HWDB] = &udev_builtin_hwdb,
-> +         [UDEV_BUILTIN_INPUT_ID] = &udev_builtin_input_id,
-> +         [UDEV_BUILTIN_KEYBOARD] = &udev_builtin_keyboard,
-> +diff --git a/src/udev/udev.h b/src/udev/udev.h
-> +index dece6ec..f7ee1e7 100644
-> +--- a/src/udev/udev.h
-> ++++ b/src/udev/udev.h
-> +@@ -151,6 +151,9 @@ enum udev_builtin_cmd {
-> +         UDEV_BUILTIN_BLKID,
-> + #endif
-> +         UDEV_BUILTIN_BTRFS,
-> ++#ifdef HAVE_FIRMWARE
-> ++        UDEV_BUILTIN_FIRMWARE,
-> ++#endif
-> +         UDEV_BUILTIN_HWDB,
-> +         UDEV_BUILTIN_INPUT_ID,
-> +         UDEV_BUILTIN_KEYBOARD,
-> +@@ -179,6 +182,9 @@ struct udev_builtin {
-> + extern const struct udev_builtin udev_builtin_blkid;
-> + #endif
-> + extern const struct udev_builtin udev_builtin_btrfs;
-> ++#ifdef HAVE_FIRMWARE
-> ++extern const struct udev_builtin udev_builtin_firmware;
-> ++#endif
-> + extern const struct udev_builtin udev_builtin_hwdb;
-> + extern const struct udev_builtin udev_builtin_input_id;
-> + extern const struct udev_builtin udev_builtin_keyboard;
-> +diff --git a/src/udev/udevd.c b/src/udev/udevd.c
-> +index 99d4c89..71af1e1 100644
-> +--- a/src/udev/udevd.c
-> ++++ b/src/udev/udevd.c
-> +@@ -99,6 +99,9 @@ struct event {
-> +         dev_t devnum;
-> +         int ifindex;
-> +         bool is_block;
-> ++#ifdef HAVE_FIRMWARE
-> ++        bool nodelay;
-> ++#endif
-> + };
-> +
-> + static inline struct event *node_to_event(struct udev_list_node *node) {
-> +@@ -472,6 +475,10 @@ static int event_queue_insert(struct udev_device *dev)
-> { +         event->devnum = udev_device_get_devnum(dev);
-> +         event->is_block = streq("block", udev_device_get_subsystem(dev));
-> +         event->ifindex = udev_device_get_ifindex(dev);
-> ++#ifdef HAVE_FIRMWARE
-> ++        if (streq(udev_device_get_subsystem(dev), "firmware"))
-> ++                event->nodelay = true;
-> ++#endif
-> +
-> +         log_debug("seq %llu queued, '%s' '%s'",
-> udev_device_get_seqnum(dev), +              udev_device_get_action(dev),
-> udev_device_get_subsystem(dev)); +@@ -548,6 +555,12 @@ static bool
-> is_devpath_busy(struct event *event) { +                         return
-> true;
-> +                 }
-> +
-> ++#ifdef HAVE_FIRMWARE
-> ++                /* allow to bypass the dependency tracking */
-> ++                if (event->nodelay)
-> ++                        continue;
-> ++#endif
-> ++
-> +                 /* parent device event found */
-> +                 if (event->devpath[common] == '/') {
-> +                         event->delaying_seqnum = loop_event->seqnum;
-> +--
-> +2.3.3
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb
-> b/meta/recipes-core/systemd/systemd_219.bb index e8383c3..b984256 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -44,6 +44,8 @@ SRC_URI =
-> "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-> file://0002-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch \
-> file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch \
-> file://0013-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch \ +   
->        file://0014-Revert-rules-remove-firmware-loading-rules.patch \ +    
->      
-> file://0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch \
-> file://tmpfiles-pam.patch \
->             file://touchscreen.rules \
->             file://00-create-volatile.conf \
-> @@ -110,6 +112,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
->                   --enable-split-usr \
->                   --without-python \
->                   --with-sysvrcnd-path=${sysconfdir} \
-> +                 --with-firmware-path=${rootlibdir}/firmware \
->                 "
->  # uclibc does not have NSS
->  EXTRA_OECONF_append_libc-uclibc = " --disable-myhostname "
+I'll send out V3.
+
+Best Regards,
+Chen Qi
+
+>>     Warnings from bb.note or bbnote begin with 'WARNING:'. So if we decide to
+>>     catch warnings at rootfs time, we should not ignore those produced by
+>>     the build system itself.
+>>
+>> 2. Delay _log_check in rootfs process so that more warnings are likely to be
+>>     catched. Note that we should at least delay the _log_check after the
+>>     execution of ROOTFS_POSTPROCESS_COMMANDS, because we want to catch warnings
+>>     there.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/lib/oe/rootfs.py | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+>> index 7e8d5d1..3a77e86 100644
+>> --- a/meta/lib/oe/rootfs.py
+>> +++ b/meta/lib/oe/rootfs.py
+>> @@ -128,6 +128,7 @@ class Rootfs(object):
+>>               self._generate_kernel_module_deps()
+>>   
+>>           self._cleanup()
+>> +        self._log_check()
+>>   
+>>       def _uninstall_unneeded(self):
+>>           # Remove unneeded init script symlinks
+>> @@ -327,8 +328,6 @@ class RpmRootfs(Rootfs):
+>>   
+>>           self.pm.install_complementary()
+>>   
+>> -        self._log_check()
+>> -
+>>           if self.inc_rpm_image_gen == "1":
+>>               self.pm.backup_packaging_data()
+>>   
+>> @@ -355,7 +354,7 @@ class RpmRootfs(Rootfs):
+>>           pass
+>>   
+>>       def _log_check_warn(self):
+>> -        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn)')
+>> +        r = re.compile('^(warn|Warn|NOTE: warn|NOTE: Warn|WARNING:)')
+>>           log_path = self.d.expand("${T}/log.do_rootfs")
+>>           with open(log_path, 'r') as log:
+>>               for line in log.read().split('\n'):
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
