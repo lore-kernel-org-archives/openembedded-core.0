@@ -1,26 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD746013D
+	by mail.openembedded.org (Postfix) with ESMTP id 0486260034
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 02:14:49 +0000 (UTC)
+	Thu, 19 Mar 2015 02:16:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2J2Eofi024329
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 19:14:50 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 18 Mar 2015 19:14:50 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Mar 2015 19:14:49 -0700
-Message-ID: <ed5c921caf1a88c6a177ac3802fc4008d28a575f.1426731250.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1426731250.git.liezhi.yang@windriver.com>
-References: <cover.1426731250.git.liezhi.yang@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2J2G5Bk024341
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 18 Mar 2015 19:16:05 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 18 Mar 2015 19:16:05 -0700
+Message-ID: <550A3162.6050701@windriver.com>
+Date: Thu, 19 Mar 2015 10:16:02 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sanity.bbclass: vmdk and live can't be built together
+To: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, Paul
+	Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1426670089.git.Qi.Chen@windriver.com>	<003afa4a3acb0670e6e3b9d3e12e9b276f03876c.1426670089.git.Qi.Chen@windriver.com>
+	<5575166.bgVZKFq0RH@peggleto-mobl.ger.corp.intel.com>
+	<55099DF2.70809@linux.intel.com>
+In-Reply-To: <55099DF2.70809@linux.intel.com>
+X-Originating-IP: [128.224.162.236]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/5] rootfs.py: two changes regarding log checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 02:14:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Mar 2015 02:16:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Both vmdk and live use syslinux, but they have different/conflicted
-configurations, the main conflictions are:
+On 03/18/2015 11:46 PM, Aníbal Limón wrote:
+> Hi Paul, Chen,
+>
+> Days ago i sent a patchset for handle INCOMPATIBLE_LICENSE in manifest 
+> creation [1] that contains
+> a rewrite of license_manifest_creation from shell to python, i mean 
+> now these warnings appears.
+>
+> Also i sent a similar patches like Chen's ones to avoid warnings 
+> [2][3],  You said (Paul) that packagegroups
+> should not have files, how we can address these case to avoid license 
+> warnings in packagegroups?
+>
 
-                    vmdk                live
-SYSLINUX_ROOT       root=/dev/sda2      root=/dev/ram0
-SYSLINUX_LABELS     boot                boot install
-INITRD              No                  yes
+Hi Alimon,
 
-So it would make the boot menu strange and vmdk can't be boot, we need
-add a few extra vars to fix the problem such as SYSLINUX_ROOT_VMDK
-SYSLINUX_ROOT_LIVE, but that needs a lot of changes in the code, so just
-add a sanity checking for it.
+Paul suggested to skip checking if the package contains no file, because 
+in such case the license is not relevant as long as the final image is 
+concerned.
+I will send out a new patchset using the above approach.
 
-[YOCTO #6889]
+Best Regards,
+Chen Qi
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sanity.bbclass |    4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 31b99d4..cca39c9 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -819,6 +819,10 @@ def check_sanity_everybuild(status, d):
-         with open(checkfile, "w") as f:
-             f.write(tmpdir)
- 
-+    # Check vmdk and live can't be built together.
-+    if 'vmdk' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
-+        status.addresult("Error, IMAGE_FSTYPES vmdk and live can't be built together\n")
-+
- def check_sanity(sanity_data):
-     import subprocess
- 
--- 
-1.7.9.5
+> Cheers,
+>     alimon
+>
+> [1] 
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102684.html
+> [2] 
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102683.html
+> [3] 
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-March/102682.html
+>
+> On 18/03/15 03:48, Paul Eggleton wrote:
+>> On Wednesday 18 March 2015 17:16:10 Chen Qi wrote:
+>>> 1. Extend the regular expression to also catch '^WRARNING:' in
+>>> _log_check_warn. Warnings from bb.note or bbnote begin with 
+>>> 'WARNING:'. So
+>>> if we decide to catch warnings at rootfs time, we should not ignore 
+>>> those
+>>> produced by the build system itself.
+>> FYI, I still have an unfinished patchset to ensure bbwarn calls from 
+>> shell
+>> functions get piped through to BitBake's event system, with the 
+>> result that
+>> such warnings actually get logged and displayed by the BitBake UI. (That
+>> doesn't mean this patch shouldn't go in in the mean time, though.)
+>>
+>> Cheers,
+>> Paul
+>>
+>
+>
+>
 
 
