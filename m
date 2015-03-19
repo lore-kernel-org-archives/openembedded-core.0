@@ -1,36 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB5865CD0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E597393E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 23:44:15 +0000 (UTC)
-Received: by qgfa8 with SMTP id a8so80096423qgf.0
+	Thu, 19 Mar 2015 23:44:34 +0000 (UTC)
+Received: by qcbkw5 with SMTP id kw5so80993204qcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 16:44:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=euyRULe+Di6Y28o+hgoOJ6OL50MaBFbhr+DmPX1IImo=;
-	b=QmFZe/Laa+g/JIZKqr4CeQGei3QOfAspP/2cFOMbwv+23o5u6pA1jUCHMYQSTR2K2l
-	CyvyYbuhJN8TbgjTTfzWE+/cfdn9hf/m0fb20Ud9NoN4F173Bi6BWOBlAVNn9WSZtStj
-	eM8XS/DlhbmFtLxkORantriwnXswViAytv5bbM7th0GQUwxc2OxpZn53BSi0G2mHC1Ct
-	hhdB8MzEEDotphXJ9pblvouAcdYJ0vPTlS3FrA7FnDzrpSrSJk6xkSViQTXvTSoyZsV3
-	Hg3ffosm7iu0pLrybZsGvffPlApe4hjvjocbQCmyaTE8xLTNlgJj7Cc9hPhwConoqP29
-	2P4A==
-X-Gm-Message-State: ALoCoQmqMcfwQhuegEaXY6SilhnNC4aBDtoR3zHbz2iRTTf8KWI289VnP/qVfbCNzQXoSLMVgxYO
-X-Received: by 10.140.41.169 with SMTP id z38mr95957164qgz.56.1426808656896;
-	Thu, 19 Mar 2015 16:44:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 19 Mar 2015 16:43:56 -0700 (PDT)
-In-Reply-To: <1426718042-18369-1-git-send-email-jslater@windriver.com>
-References: <1426718042-18369-1-git-send-email-jslater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Mar 2015 01:43:56 +0200
-Message-ID: <CAJTo0LbWnUu4f=+g_jLVi4O4ob41OQ1jURd38siPAexGcTfAWg@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ltp: find all .debug directories
+	Thu, 19 Mar 2015 16:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=UhE3/3eIVaG6yWoVm8z7yQ/rtNLitdQ3r5XQHEHa0Cg=;
+	b=OTLyJjsfy724T4FPLmWs8wGK9hovKGWM+Afw8QlnO8Exh0oRNJaOHzUDpEqudjEpqm
+	m7rghrw+vPLZTaVoUDY1ZlHtXDz0ZRiCRfZ0htWiSj7wNYIMtKNuXZWnqEbVyziQf4Xh
+	OVOd1AYGVHqkFHDFRXzCCL6UCA+34WRw9+THEV9Y+faSdOXMIILjp7ymGARuAUYimEHJ
+	0thkDqAHBMRING4LRDIEIFiDN20K2Q0NZNUon9GzYRFB7AP9ucO0mZQUkO2gwWUJ5ZwQ
+	nt6nXCbBtoJKgqvSeLQDsWmx0OtcLc9XIy9Elb3Ld45m0kKasfmV3kQbQXVUDLoPblWa
+	uB3g==
+X-Received: by 10.140.232.65 with SMTP id d62mr3363665qhc.82.1426808676178;
+	Thu, 19 Mar 2015 16:44:36 -0700 (PDT)
+Received: from 10.25.255.72-ra01.westchester.pa.bo.comcast.net ([68.87.42.115])
+	by mx.google.com with ESMTPSA id v76sm1898897qge.18.2015.03.19.16.44.34
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 19 Mar 2015 16:44:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZDFj=TXUyj9XAkK8yciQOXvhrU-eYDyVu96hv+xQg1Fg@mail.gmail.com>
+Date: Thu, 19 Mar 2015 16:44:40 -0700
+Message-Id: <166EFF25-177B-4897-8346-F6C0BB68D49A@gmail.com>
+References: <1426681293-30112-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<CAMKF1spV93W=+jfSvC_7JsuC8xokm5V=4PB3y4TUEO03iCow-g@mail.gmail.com>
+	<CAJTo0LZDFj=TXUyj9XAkK8yciQOXvhrU-eYDyVu96hv+xQg1Fg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: Khemraj Sharma <khem.raj@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: avoid configure stall by feeding prompt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,84 +49,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 23:44:18 -0000
-Content-Type: multipart/alternative; boundary=001a11c11dba2839330511acc782
+X-List-Received-Date: Thu, 19 Mar 2015 23:44:37 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_8A2F3101-B593-4C1E-8748-A8117B3DB75E"
 
---001a11c11dba2839330511acc782
-Content-Type: text/plain; charset=UTF-8
-
-On 19 March 2015 at 00:34, Joe Slater <jslater@windriver.com> wrote:
-
->  FILES_${PN}-dbg += "\
->      /opt/ltp/runtest/.debug \
-> -    /opt/ltp/testcases/bin/.debug \
-> -    /opt/ltp/testcases/bin/*/bin/.debug \
-> -    /opt/ltp/testcases/bin/*/test/.debug \
-> +    /opt/ltp/testcases/*/.debug \
-> +    /opt/ltp/testcases/*/*/.debug \
-> +    /opt/ltp/testcases/*/*/*/.debug \
->
-
-Interestingly now ltp is failing on edgerouter (mips64):
-
-NOTE: Skipping file /opt/ltp/testcases/bin/test_arch_stripped from ltp for
-already-stripped QA test
-ERROR: debugedit failed with exit code 256 (cmd was
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit'
--b
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux'
--d '/usr/src/debug' -i -l
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/debugsources.list'
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj'):
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit:
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj:
-Unhandled relocation 2 in .debug_info section
-
-I'm off to bed now, any idea what "relocation 2 in ._debug_info" means?
-
-Ross
-
---001a11c11dba2839330511acc782
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_8A2F3101-B593-4C1E-8748-A8117B3DB75E
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 March 2015 at 00:34, Joe Slater <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:jslater@windriver.com" target=3D"_blank">jslater@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
-ft-style:solid;padding-left:1ex"><div id=3D":27x" class=3D"" style=3D"overf=
-low:hidden">=C2=A0FILES_${PN}-dbg +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0/opt/<span class=3D"">ltp</span>/runtest/.debug \<br>
--=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/.debug \<br>
--=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/*/bin/.debug =
-\<br>
--=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/bin/*/test/.debug=
- \<br>
-+=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/.debug \<br>
-+=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/*/.debug \<br>
-+=C2=A0 =C2=A0 /opt/<span class=3D"">ltp</span>/testcases/*/*/*/.debug \</d=
-iv></blockquote></div><br></div><div class=3D"gmail_extra">Interestingly no=
-w ltp is failing on edgerouter (mips64):</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">NOTE: Skippin=
-g file /opt/ltp/testcases/bin/test_arch_stripped from ltp for already-strip=
-ped QA test</div><div class=3D"gmail_extra">ERROR: debugedit failed with ex=
-it code 256 (cmd was &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/ni=
-ghtly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit&=
-#39; -b &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/bu=
-ild/build/tmp/work/mips64-poky-linux&#39; -d &#39;/usr/src/debug&#39; -i -l=
- &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/bui=
-ld/tmp/work/mips64-poky-linux/ltp/20150119-r0/debugsources.list&#39; &#39;/=
-home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/build/tmp/=
-work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/testcases/bin/d1.obj=
-&#39;):</div><div class=3D"gmail_extra">/home/pokybuild/yocto-autobuilder/y=
-octo-worker/nightly-mips/build/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/=
-bin/debugedit: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/=
-build/build/tmp/work/mips64-poky-linux/ltp/20150119-r0/package/opt/ltp/test=
-cases/bin/d1.obj: Unhandled relocation 2 in .debug_info section</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;m off to be=
-d now, any idea what &quot;relocation 2 in ._debug_info&quot; means?</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div></div>
 
---001a11c11dba2839330511acc782--
+> On Mar 19, 2015, at 7:21 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+> Hi Khem,
+>=20
+> On 18 March 2015 at 22:29, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> That's ok
+>=20
+>=20
+> Does this complement, replace, or is obsoleted by the patch from you =
+that does the same yes| trick but at a different stage?
+>=20
+
+it replaces mine and is a better fix.
+
+> Ross
+
+
+--Apple-Mail=_8A2F3101-B593-4C1E-8748-A8117B3DB75E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Mar 19, 2015, at 7:21 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra">Hi Khem,</div><div =
+class=3D"gmail_extra"><br class=3D""><div class=3D"gmail_quote">On 18 =
+March 2015 at 22:29, Khem Raj <span dir=3D"ltr" class=3D"">&lt;<a =
+href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
+class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr" =
+class=3D"">That's ok</p><div class=3D"HOEnZb"></div></blockquote></div><br=
+ class=3D"">Does this complement, replace, or is obsoleted by the patch =
+from you that does the same yes| trick but at a different =
+stage?</div><div class=3D"gmail_extra"><br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>it replaces mine and is a better fix.</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_8A2F3101-B593-4C1E-8748-A8117B3DB75E--
