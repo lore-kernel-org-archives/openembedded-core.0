@@ -1,39 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D241772E57
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 79E786AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 05:16:15 +0000 (UTC)
-Received: by pdbni2 with SMTP id ni2so65053720pdb.1
+	Thu, 19 Mar 2015 05:17:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2J5HuGq014855
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2015 22:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:organization:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=fxLzglCvXlsEAqsXsb3nrp6LQKqmjBPKZi2FVk3xCls=;
-	b=Y2qfvqN6fmXHeAFmzfaHCn0d1kDCsnqrT18iW4LpzRRg3EjjK88fPAXuJlen2+2teb
-	7T8bzsy/+a68b0yjxHSxFMBC3Uw5TcfwwYORoQ5wVQ3NFnx05Wq0CKH2P7xpRIt+pH6j
-	uzsiu6dXJolQmVkdS0Tj2gNDHiJW5xYFNO1+rBE4Qnxm3u+OzlRJjejN7V9sjlOwyavc
-	/0uaapeKvKZM9zF7wCm8Ovvr775M9cAVNBTzpwzF+YbSo0JSICQMuJZS/Tn/9WT7KvAh
-	Qm9yWJ8XMB75oMLEOJcUD7PYnx5li5eyWgFp1yswWUEHX1tVj1C3vPOHF9iUWGpotZ5T
-	oFGQ==
-X-Received: by 10.70.45.227 with SMTP id q3mr105741143pdm.22.1426742177258;
-	Wed, 18 Mar 2015 22:16:17 -0700 (PDT)
-Received: from apollo.localnet ([2601:9:3580:84c:c8b9:695e:11a6:752a])
-	by mx.google.com with ESMTPSA id nj5sm559939pdb.35.2015.03.18.22.16.16
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Mar 2015 22:16:16 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Mar 2015 22:16:15 -0700
-Message-ID: <1677684.fR5X4LUuld@apollo>
-Organization: HIMVIS LLC
-User-Agent: KMail/4.14.6 (Linux/3.19.0-9-generic; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <7a6e7530acddd570b395ca2f3eedd473db7cec8a.1426733823.git.Qi.Chen@windriver.com>
-References: <cover.1426733823.git.Qi.Chen@windriver.com>
-	<7a6e7530acddd570b395ca2f3eedd473db7cec8a.1426733823.git.Qi.Chen@windriver.com>
+	Wed, 18 Mar 2015 22:17:56 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 18 Mar 2015 22:17:56 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Mar 2015 13:17:50 +0800
+Message-ID: <cover.1426742194.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH V2 5/5] glibc-collateral.inc: add LIC_FILES_CHKSUM
+Subject: [PATCH V3 0/5] Changes regarding log checking and license checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 05:16:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 19 Mar 2015 05:17:55 -0000
+Content-Type: text/plain
 
-On Thursday, March 19, 2015 10:59:17 AM Chen Qi wrote:
-> +LIC_FILES_CHKSUM =
-> "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6\
-> +                    file://${COMMON_LICENSE_DIR}/LGPL-2.1;md5=1a6d268fd218
-> 675ffea8be556788b780"
+The following changes since commit 0752c79282b1cc9699743e719518e6c341d50a3a:
 
+  systemd: fix /var/log/journal ownership (2015-03-16 17:38:51 +0000)
 
-why not access the file from glibc sources 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/log-check-license-warn
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/log-check-license-warn
+
+Chen Qi (5):
+  rootfs.py: two changes regarding log checking
+  rootfs.py: add log checking ability for deb and ipk
+  license.bbclass: skip license checking if the package contains no file
+  os-release: add LIC_FILES_CHKSUM
+  glibc-collateral.inc: add LIC_FILES_CHKSUM
+
+ meta/classes/license.bbclass                 |  8 ++++
+ meta/lib/oe/rootfs.py                        | 64 +++++++++++++++++++---------
+ meta/recipes-core/glibc/glibc-collateral.inc |  2 +
+ meta/recipes-core/os-release/os-release.bb   |  1 +
+ 4 files changed, 56 insertions(+), 19 deletions(-)
+
+-- 
+1.9.1
+
 
