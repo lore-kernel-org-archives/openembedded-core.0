@@ -1,38 +1,39 @@
-Return-Path: <ajlennon@gmail.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 425FC65CD0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A7C0C65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 13:18:20 +0000 (UTC)
-Received: by weop45 with SMTP id p45so57045069weo.0
+	Thu, 19 Mar 2015 14:21:53 +0000 (UTC)
+Received: by qcbjx9 with SMTP id jx9so28371951qcb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 06:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=LlXugtQHr7NBPf+rGeeauJDSiIrkAgBMvhRHhtvtwgM=;
-	b=G0ZbMVv1pea4Sjb5lipIp3+LjKexqOmRAhrG1caGLeqZ7eRjAhJQjJ/dH0OqTZjiIe
-	pYIxwNHG7zXmYiY/z4L+vAUZDpmXm6+t6uxdgATBsHCHHdmrKbTqtkj7+ouqNSwYActo
-	OmyHOl3GrBo4AVKVxzwky+WlzgPtvM+HYGM9AscJgMqnXy0gXNo/jHO4X/yQfoBfsfnc
-	yqaYBWtJ5vpCHH3GcHndMGxYnsikPACgNYxkCZynXBoEfZbuBZiOu3HnsrbHbiMkP4GV
-	ugejNF+jvb5wD0u+ObKk8ezgy3aRqJ9iW+6d9QVLXcoP09hyZb0f+ROXxpixV4t6YV/V
-	cVuA==
-X-Received: by 10.194.57.206 with SMTP id k14mr154726296wjq.1.1426771101315;
-	Thu, 19 Mar 2015 06:18:21 -0700 (PDT)
-Received: from localhost.localdomain
-	(AMarseille-651-1-76-237.w109-208.abo.wanadoo.fr. [109.208.171.237])
-	by mx.google.com with ESMTPSA id ge8sm1948572wjc.32.2015.03.19.06.18.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 Mar 2015 06:18:17 -0700 (PDT)
-Sender: Alex Lennon <ajlennon@gmail.com>
-From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2015 13:17:34 +0000
-Message-Id: <7c87cdf3c3ba961db9db89b0299ad0670e8c3d35.1426770861.git.ajlennon@dynamicdevices.co.uk>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1426770861.git.ajlennon@dynamicdevices.co.uk>
-References: <cover.1426770861.git.ajlennon@dynamicdevices.co.uk>
-Subject: [PATCH 1/1] e2fsprogs: Package resize2fs
+	Thu, 19 Mar 2015 07:21:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cKoxHHGVgMLg9Id8k/3eF6HVZyFW415G6hlSZdJ6MCA=;
+	b=A3SR+tNMJ3sSngMIks65VxsRfo3GIx0PJD5HkdkDBh8sK6ziN0L1Ytb/is2TqBDXbj
+	VgUfi79ZjRUY9qmZIGsjNG990HJIKPkq8Kk6VvVjRx0/Z79lGFK1xgkVPbl62pq8OxQP
+	vKqFKm1y78Nsr3f13Mfi1MsaMmM4oygFf4XvMV5OlFveIqSsopZHFoUyZTFJs7rQyIn3
+	EJcH9Bfp/9vS/rntsPTsFEe8vecTneo1zXQqRGYxT2+FaO8u8RBGqyrXlYFiwn2jyth/
+	X7rnbz/PhzorHndATNnO3z2CpQbwfHmDPFkjVfDYcDsdu6HEor2ott9qmtTF9bkMCI8o
+	OIcg==
+X-Gm-Message-State: ALoCoQloU0VL79OKKZ37uG8WLKkWCUxgatv8MbwRBItR6okJz8NG+JnEHpb0ReRLQ2xGRP4oJ40u
+X-Received: by 10.140.149.150 with SMTP id 144mr2503381qhv.16.1426774914949;
+	Thu, 19 Mar 2015 07:21:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Thu, 19 Mar 2015 07:21:34 -0700 (PDT)
+In-Reply-To: <CAMKF1spV93W=+jfSvC_7JsuC8xokm5V=4PB3y4TUEO03iCow-g@mail.gmail.com>
+References: <1426681293-30112-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<CAMKF1spV93W=+jfSvC_7JsuC8xokm5V=4PB3y4TUEO03iCow-g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 19 Mar 2015 16:21:34 +0200
+Message-ID: <CAJTo0LZDFj=TXUyj9XAkK8yciQOXvhrU-eYDyVu96hv+xQg1Fg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Khemraj Sharma <khem.raj@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: avoid configure stall by feeding prompt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 13:18:21 -0000
+X-List-Received-Date: Thu, 19 Mar 2015 14:21:55 -0000
+Content-Type: multipart/alternative; boundary=001a113577e2fafc100511a4eb1b
 
-Signed-off-by: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--001a113577e2fafc100511a4eb1b
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 1fb4a6cd..87243b2 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -63,9 +63,10 @@ do_install_append_class-target() {
- RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
- RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
- 
--PACKAGES =+ "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks"
-+PACKAGES =+ "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs"
- PACKAGES =+ "libcomerr libss libe2p libext2fs"
- 
-+FILES_e2fsprogs-resize2fs = "${base_sbindir}/resize2fs*"
- FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
- FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
- FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
--- 
-1.9.1
+Hi Khem,
 
+On 18 March 2015 at 22:29, Khem Raj <raj.khem@gmail.com> wrote:
 
+> That's ok
+>
+
+Does this complement, replace, or is obsoleted by the patch from you that
+does the same yes| trick but at a different stage?
+
+Ross
+
+--001a113577e2fafc100511a4eb1b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 18 March 2015 at 22:29, Khem Ra=
+j <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><p dir=3D"ltr">That&#39;s ok</p><div class=3D"HOEnZb"></div></blockquo=
+te></div><br>Does this complement, replace, or is obsoleted by the patch fr=
+om you that does the same yes| trick but at a different stage?</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113577e2fafc100511a4eb1b--
