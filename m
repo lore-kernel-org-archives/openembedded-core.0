@@ -1,31 +1,31 @@
 Return-Path: <sam.nelson@ti.com>
-X-Greylist: delayed 420 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 19 Mar 2015 22:54:59 UTC
 Received: from comal.ext.ti.com (comal.ext.ti.com [198.47.26.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D5EB65CD0
+	by mail.openembedded.org (Postfix) with ESMTP id 633BA6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 22:54:59 +0000 (UTC)
+	Thu, 19 Mar 2015 22:55:00 +0000 (UTC)
 Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id t2JMm0d5029531
+	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id t2JMm4RC029534
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:48:00 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id t2JMlx2f026971
+	Thu, 19 Mar 2015 17:48:04 -0500
+Received: from DLEE70.ent.ti.com (dlemailx.itg.ti.com [157.170.170.113])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id t2JMm3gv027112
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 17:47:59 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DFLE72.ent.ti.com
-	(128.247.5.109) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 19 Mar 2015 17:47:59 -0500
+	Thu, 19 Mar 2015 17:48:03 -0500
+Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE70.ent.ti.com
+	(157.170.170.113) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 19 Mar 2015 17:48:02 -0500
 Received: from udb0862859.am.dhcp.ti.com (ileax41-snat.itg.ti.com
 	[10.172.224.153])	by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	t2JMlxrG028937;	Thu, 19 Mar 2015 17:47:59 -0500
+	t2JMlxrH028937;	Thu, 19 Mar 2015 17:48:02 -0500
 From: Sam Nelson <sam.nelson@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2015 18:47:54 -0400
-Message-ID: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
+Date: Thu, 19 Mar 2015 18:47:55 -0400
+Message-ID: <1426805275-4766-2-git-send-email-sam.nelson@ti.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
+References: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
 MIME-Version: 1.0
-Subject: [PATCH] openjdk: Add patch to avoid build issue with linaro toolchain 4.7
+Subject: [meta-java][PATCH] openjdk: Add patch to avoid build issue with linaro toolchain 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
