@@ -1,40 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DBEE265CD0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AFA6265CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 19:20:29 +0000 (UTC)
-Received: by ykfc206 with SMTP id c206so32066606ykf.1
+	Thu, 19 Mar 2015 20:19:26 +0000 (UTC)
+Received: by oier21 with SMTP id r21so74957314oie.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 12:20:30 -0700 (PDT)
+	Thu, 19 Mar 2015 13:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=X6QnO9uEYNDjsPreUR8vwBCY5dh5WK8O+0Z6FOamhNM=;
-	b=N1ysXSPVh/qsL/Fi81IcFajOoaCIwjLVTWHd3UzCleaE4Qomv+9SpihoGDK70mVCeL
-	yDimLv+i2cEo4qE30+uYgVP9Mvo6FwRYMKwbADuEbbSkOFn6iSH6eE99SDEq2jvhuIfU
-	zrNc/fbWcGdh6mO4MA9v51UAqaAsf449WwZww002RlGJOePQJPL74QqD/aj8MRSzWFeI
-	7Gr0ROFxMYj/jH0d/quohqZUKMI1Hi4o+VrWk5qxZYnlgAdgXW5v8hOm+khZpZPpQTpv
-	A2cFSIbMl95ziIrZmcopzejOx6UfR2GlK1OCk05ApTFcoEo2RFLr6nEoEmSYAmG8ay1S
-	qYTQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Wb66vRrpRwjrIcdquP4Z7hm2UrLKSbTf2w2VkM4ETdM=;
+	b=Et+ykl6SMvKLUkBmRb23wuCl2MxChpN7tv/JgE7gRX7cDjzgmSWZrILoHmrfCK1In7
+	ibr7ezu5fA6NygXK/vBkqk7fD2MOVyyYQT9oHRDRe+mcdBh0rsK7UjL+hCdsT2Engh/8
+	1Lhpo3EGPvk/yRuTZ5qpgUZTzxUkIGnt/G8znwEIRbcBZOQtlXT3c1yIztK9M6PJaiRQ
+	GUM4t1vQJLCUmJcMQiu/gTnDN60SaClI0eEKUojt33rOMAC2AMXA6LUDQqOe3KSLPmUO
+	MX5N/qEAldHj4RJo79xQJgduzN94ZNeMvg57KC9TX3sILgHoK2LCkU2//iKtdwoxmya3
+	Pntg==
 MIME-Version: 1.0
-X-Received: by 10.236.229.200 with SMTP id h68mr80909422yhq.90.1426792830820; 
-	Thu, 19 Mar 2015 12:20:30 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.112.82 with HTTP; Thu, 19 Mar 2015 12:20:30 -0700 (PDT)
-In-Reply-To: <550B1EF6.8000808@linux.intel.com>
-References: <cover.1426762068.git.anibal.limon@linux.intel.com>
-	<68b7c8a2b55dcd1ee14e22e61cb93bfea299116f.1426762068.git.anibal.limon@linux.intel.com>
-	<CAP9ODKqW8cadpDE2FXLNVCh_sAXkAPttGcODR0m_Em4tRntUcA@mail.gmail.com>
-	<550B1EF6.8000808@linux.intel.com>
-Date: Thu, 19 Mar 2015 16:20:30 -0300
-X-Google-Sender-Auth: SwF2Jauo9pu3JvBMoN5C4Z02UJE
-Message-ID: <CAP9ODKrOVz5Ypaqa7NmSxXq0Bs3hToi6z-VsHPFvjOoJ=7ODOg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+X-Received: by 10.202.74.143 with SMTP id x137mr8705758oia.118.1426796367489; 
+	Thu, 19 Mar 2015 13:19:27 -0700 (PDT)
+Received: by 10.202.217.69 with HTTP; Thu, 19 Mar 2015 13:19:27 -0700 (PDT)
+In-Reply-To: <CAP9ODKo7=Ehs-BOL3NUFXXx8Mjt4tMR6GeKyZtokXfugEnX6BA@mail.gmail.com>
+References: <1426746558-2920-1-git-send-email-armccurdy@gmail.com>
+	<CAP9ODKo7=Ehs-BOL3NUFXXx8Mjt4tMR6GeKyZtokXfugEnX6BA@mail.gmail.com>
+Date: Thu, 19 Mar 2015 13:19:27 -0700
+Message-ID: <CAJ86T=UH09ye6Vpfv+exa4rwJjeQkbixx0wy_gd=4H8Xnv-8GA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 2/2] initscripts: Add changetodefaultvt for 1, 2, 3, 4 runlevels
+Subject: Re: [PATCH] gst-plugins-good: fix nondeterministic udev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,72 +43,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2015 19:20:35 -0000
+X-List-Received-Date: Thu, 19 Mar 2015 20:19:28 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 19, 2015 at 4:09 PM, An=C3=ADbal Lim=C3=B3n
-<anibal.limon@linux.intel.com> wrote:
-> Hi,
->
->
-> On 19/03/15 13:04, Otavio Salvador wrote:
+On Thu, Mar 19, 2015 at 5:20 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Thu, Mar 19, 2015 at 3:29 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> Make the v4l PACKAGECONFIG option control building of the video4linux2
+>> plug-in (not use of libv4l, as it did before) and enable by default.
+>> Add a separate libv4l PACKAGECONFIG to control use of libv4l (disabled
+>> by default since libv4l is not part of oe-core).
 >>
->> On Thu, Mar 19, 2015 at 7:52 AM, An=C3=ADbal Lim=C3=B3n
->> <anibal.limon@linux.intel.com> wrote:
->>>
->>> When change between runlevel 5 to another non-graphic runlevel
->>> the console stays in the tty where X was launched.
->>>
->>> This patchs add a default switch to tty1.
->>>
->>> [YOCTO #5336]
->>>
->>> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
->>> ---
->>>   .../initscripts/initscripts-1.0/changetodefaultvt.sh           | 10
->>> ++++++++++
->>>   meta/recipes-core/initscripts/initscripts_1.0.bb               |  8
->>> ++++++++
->>>   2 files changed, 18 insertions(+)
->>>   create mode 100755
->>> meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
->>>
->>> diff --git
->>> a/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
->>> b/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.sh
->>> new file mode 100755
->>> index 0000000..bbef7ed
->>> --- /dev/null
->>> +++ b/meta/recipes-core/initscripts/initscripts-1.0/changetodefaultvt.s=
-h
->>> @@ -0,0 +1,10 @@
->>> +#!/bin/sh
->>> +### BEGIN INIT INFO
->>> +# Provides:             changetodefaultvt
->>> +# Required-Start:
->>> +# Required-Stop:
->>> +# Default-Start:        1 2 3 4
->>> +# Default-Stop:
->>> +### END INIT INFO
->>> +
->>> +chvt 1
+>> The default config for gst-plugins-good and gstreamer1.0-plugins-good
+>> is now aligned with regards to v4l, ie:
 >>
->> You didn't answer the question. How general use distros are handling
->> this? It seems hackish!
+>>   v4l support: enabled by default
+>>   v4l use of libgudev: enabled by default
+>>   v4l use of libv4l2: disabled by default
+>>
+>> This commit fixes the following build-deps QA Warnings:
+>>
+>>   WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libudev, but it isn't a build dependency? [build-deps]
+>>   WARNING: QA Issue: gst-plugins-good-video4linux2 rdepends on libgudev, but it isn't a build dependency? [build-deps]
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb | 6 ++++--
+>>  1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+>> index 85f2196..af18281 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+>> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+>> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>>
+>>  PR = "r8"
+>>
+>> -PACKAGECONFIG ?= "jpeg \
+>> +PACKAGECONFIG ?= "jpeg v4l \
 >
-> Yes, its like hackish this is handled by display manager but we don't hav=
-e
-> one in sato.
+> This is not needed.
+
+The reasons I had for explicit enabling were:
+
+- The video4linux2 plug-in is typically being built now and judging by
+the patches to gst-plugins-good it's not unusual for it to break
+during kernel upgrades, so keeping it enabled maintains that test
+coverage.
+
+- The video4linux2 plug-in is enabled by default in
+gstreamer1.0-plugins-good (with a hardcoded option passed via
+EXTRA_OECONF), so explicit enabling in gst-plugins-good keeps the two
+versions in sync.
+
+
+>>      ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+>>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+>>  "
+>> @@ -16,7 +16,9 @@ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
+>>  PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg"
+>>  PACKAGECONFIG[wavpack] = "--enable-wavpack,--disable-wavpack,wavpack"
+>>  PACKAGECONFIG[gdkpixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+>> -PACKAGECONFIG[v4l] = "--with-libv4l2,--without-libv4l2,libv4l"
+>> +PACKAGECONFIG[v4l] = "--enable-gst_v4l2 --with-gudev,--disable-gst_v4l2 --without-gudev,udev"
+>> +# sub-feature of v4l, but control separately since libv4l is not part of oe-core
+>> +PACKAGECONFIG[libv4l] = "--with-libv4l2,--without-libv4l2,libv4l"
+>>  PACKAGECONFIG[bzip2] = "--enable-bz2,--disable-bz2,bzip2"
+>>  PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+>>  PACKAGECONFIG[x11] = "--enable-x,--disable-x,virtual/libx11 libxfixes libxdamage"
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> I think it need to by installed by xserver-nodm-init instead of here. I'l=
-l
-> send another version.
-
-Now it starts to make some sense.
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
