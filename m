@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6322C6AC33
+	by mail.openembedded.org (Postfix) with ESMTP id 7071C723BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2015 21:50:55 +0000 (UTC)
+	Thu, 19 Mar 2015 21:50:56 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 19 Mar 2015 14:50:56 -0700
+	by orsmga103.jf.intel.com with ESMTP; 19 Mar 2015 14:50:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,432,1422950400"; d="scan'208";a="701305688"
+X-IronPort-AV: E=Sophos;i="5.11,432,1422950400"; d="scan'208";a="701305691"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
-	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2015 14:50:56 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2015 14:50:57 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2015 13:45:48 +0000
-Message-Id: <0beb60149642c6811c8b650bb24412ae82e0aa1d.1426772606.git.anibal.limon@linux.intel.com>
+Date: Thu, 19 Mar 2015 13:45:49 +0000
+Message-Id: <72e05501cdcd7edf186d4aea4914c90fcb346327.1426772606.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1426772606.git.anibal.limon@linux.intel.com>
 References: <cover.1426772606.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1426772606.git.anibal.limon@linux.intel.com>
 References: <cover.1426772606.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv4 1/2] sysvinit-inittab: Fix no tty in runlevel 1.
+Subject: [PATCHv4 2/2] xserver-nodm-init: Change to vt1 when stop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +37,28 @@ X-List-Received-Date: Thu, 19 Mar 2015 21:50:58 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When switch to runlevel 1 (Single user mode), tty was not
-re-spawn and appears to be a machine hang.
+When X is stopped it remains in the same vt that was launched,
+change to vt1 instead to avoid manual vt switch.
 
 [YOCTO #5336]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index eed2104..e087f0f 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -41,7 +41,7 @@ EOF
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+index ef6c11c..2e3e090 100755
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+@@ -48,6 +48,7 @@ case "$1" in
+   stop)
+         echo "Stopping XServer"
+         killproc xinit
++        chvt 1
+   ;;
  
-         for n in ${SYSVINIT_ENABLED_GETTYS}
-         do
--            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-+            echo "$n:12345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-         done
-         echo "" >> ${D}${sysconfdir}/inittab
-     fi
+   restart)
 -- 
 1.8.4.5
 
