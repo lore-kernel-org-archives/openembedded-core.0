@@ -1,23 +1,26 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EB07473AAC
+	by mail.openembedded.org (Postfix) with ESMTP id C3A2073BA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 11:22:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 20 Mar 2015 04:23:00 -0700
+	Fri, 20 Mar 2015 11:38:26 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 20 Mar 2015 04:38:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,436,1422950400"; d="scan'208";a="701615557"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2015 04:22:59 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 49F5B6A408F;
-	Fri, 20 Mar 2015 04:22:40 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2015 13:22:50 +0200
-Message-Id: <1426850570-12024-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] lib/oe/lsb.py: Stop parsing /etc/SuSE-release
+X-IronPort-AV: E=Sophos;i="5.11,436,1422950400"; d="scan'208";a="470039165"
+Received: from ebtoomey-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.25.148])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2015 04:38:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Fri, 20 Mar 2015 11:38:25 +0000
+Message-ID: <1715446.SMLV1DZGVq@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.4; x86_64; ; )
+In-Reply-To: <1426850570-12024-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1426850570-12024-1-git-send-email-ed.bartosh@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lib/oe/lsb.py: Stop parsing /etc/SuSE-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 11:23:00 -0000
+X-List-Received-Date: Fri, 20 Mar 2015 11:38:27 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-/etc/SuSE-release should not be parsed to obtain release info
+Hi Ed,
 
-Here is the quote from /etc/SuSE-release:
-/etc/SuSE-release is deprecated and will be removed in the future,
-use /etc/os-release instead
+On Friday 20 March 2015 13:22:50 Ed Bartosh wrote:
+> /etc/SuSE-release should not be parsed to obtain release info
+> 
+> Here is the quote from /etc/SuSE-release:
+> /etc/SuSE-release is deprecated and will be removed in the future,
+> use /etc/os-release instead
+> 
+> All recent OpenSUSE versions already have /etc/os-release and
+> oe.lsb/release_dict_file function already parses it.
+> 
+> Current implementation of release_dict_file returns different values
+> when parsing /etc/SuSE-release and /etc/os-release. This is one more
+> advantage of getting rid of parsing /etc/SuSE-release.
 
-All recent OpenSUSE versions already have /etc/os-release and
-oe.lsb/release_dict_file function already parses it.
+How long ago did OpenSuSE start including /etc/os-release? My concern is if 
+someone did happen to run on an older OpenSuSE release and then submit a bug 
+report with an attached log, we'd rather see the actual version rather than 
+"Unknown". If that's a possible scenario, we might want to just swap the 
+blocks around so that /etc/os-release is looked for first.
 
-Current implementation of release_dict_file returns different values
-when parsing /etc/SuSE-release and /etc/os-release. This is one more
-advantage of getting rid of parsing /etc/SuSE-release.
+Cheers,
+Paul
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oe/lsb.py | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index 50c1d47..e25e282 100644
---- a/meta/lib/oe/lsb.py
-+++ b/meta/lib/oe/lsb.py
-@@ -37,14 +37,6 @@ def release_dict_file():
-             if match:
-                 data['DISTRIB_ID'] = match.group(1)
-                 data['DISTRIB_RELEASE'] = match.group(2)
--        elif os.path.exists('/etc/SuSE-release'):
--            data = {}
--            data['DISTRIB_ID'] = 'SUSE LINUX'
--            with open('/etc/SuSE-release') as f:
--                for line in f:
--                    if line.startswith('VERSION = '):
--                        data['DISTRIB_RELEASE'] = line[10:].rstrip()
--                        break
-         elif os.path.exists('/etc/os-release'):
-             data = {}
-             with open('/etc/os-release') as f:
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
