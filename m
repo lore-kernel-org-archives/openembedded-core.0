@@ -1,22 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C07473A76
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
+	[209.85.160.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1141373A17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 14:17:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2015 07:16:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,437,1422950400"; d="scan'208";a="668155822"
-Received: from swold-mobl.zpn.intel.com (HELO swold-mobl.amr.corp.intel.com)
-	([10.219.16.120])
-	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2015 07:16:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2015 08:16:36 -0600
-Message-Id: <1426860996-8715-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Cc: Caner Altinbasak <caner.altinbasak@gmail.com>
-Subject: [PATCH] util-linux-native: Fixed conflicts with shadow-native and ncurses-native
+	Fri, 20 Mar 2015 14:53:25 +0000 (UTC)
+Received: by ykfc206 with SMTP id c206so43447854ykf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 07:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=utmL2Fc/UZe3zETw8EKG+NuY62I92PdGArQDc1KHDfs=;
+	b=NBDnXtvn7n33l7fI7dU9tXNWPNSFB5gneSJ68lL9Mpy2v0Zdvhz1nJqY9McnGgEhVW
+	JKdQFfpzDhv7dKSZ96wM8YJi3kCFylYdFkoqcHjs58/VeO0VZU3SnpT3IcC4jDAH9LsE
+	BWlxnvjFixtpiSftbUT7QdXOyUzBeTJh1R7cjKpXmOucPZlOkonMV5g76nRlcjFfcjtr
+	dpjGFTPGetoNGEaPMg2MdtD2Txw8sGhoHL4T9rMRuw1MJXTYZY7i4Kv05ZDHXtHX0pil
+	4iPDDwdx65FWZPXVqdWeiWYVeppyXaMXEz6YMc7q+foZinYeuFlbTvSHtXgmwfAEtiOT
+	zWhg==
+MIME-Version: 1.0
+X-Received: by 10.236.30.98 with SMTP id j62mr82482771yha.105.1426863206529;
+	Fri, 20 Mar 2015 07:53:26 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.112.82 with HTTP; Fri, 20 Mar 2015 07:53:26 -0700 (PDT)
+In-Reply-To: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
+References: <1426805275-4766-1-git-send-email-sam.nelson@ti.com>
+Date: Fri, 20 Mar 2015 11:53:26 -0300
+X-Google-Sender-Auth: bmbBOB0yOgzT85mt-n2bEFNhUk4
+Message-ID: <CAP9ODKrtUp7ti26=S7wk0Xw_sgVK7dzmjmSmJNmV5Jzqf2m70Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Sam Nelson <sam.nelson@ti.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openjdk: Add patch to avoid build issue with linaro toolchain 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 14:17:03 -0000
+X-List-Received-Date: Fri, 20 Mar 2015 14:53:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Caner Altinbasak <caner.altinbasak@gmail.com>
+On Thu, Mar 19, 2015 at 7:47 PM, Sam Nelson <sam.nelson@ti.com> wrote:
+> - "-fuse-ld=bfd" is only supported in the linaro toolchain verion 4.8
+> - This is work around to support the 4.7 version
+>
+> Signed-off-by: Sam Nelson <sam.nelson@ti.com>
 
-    util-linux-native provides /bin/reset and /sbin/nologin. shadow-native
-    provides /sbin/nologin and ncurses-native provides /bin/reset. This
-    creates a conlict.
+I understand why you are doing this but this should be included in the
+layer supporting this toolchain, not meta-java. 4.7 is not supported
+in 1.8 so there is no reason for community to handle this patch.
 
-    [YOCTO #7484]
-
-    This commit fixes the conflict by deleting the /bin/reset and
-    /sbin/nologin from util-linux-native installation.
-
-    Signed-off-by: Caner Altinbasak <caner.altinbasak@gmail.com>
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 4cca897..10b14b3 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -163,6 +163,12 @@ do_install () {
- 	rm -f ${D}${bindir}/chkdupexe
- }
- 
-+# reset and nologin causes a conflict with ncurses-native and shadow-native
-+do_install_append_class-native () {
-+	rm -f ${D}${base_bindir}/reset
-+	rm -f ${D}${base_sbindir}/nologin
-+}
-+
- ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
 -- 
-2.1.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
