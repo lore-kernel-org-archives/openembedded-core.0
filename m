@@ -1,35 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C27173A7C
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A91B6AC3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 14:54:22 +0000 (UTC)
-Received: by ykfc206 with SMTP id c206so43462114ykf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 07:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=8B6V7P2EKnW6+hoM4m7mkK8aSRcfPMYNa9D2HaT1cTY=;
-	b=gNT0UsVmXtA3ubegRxoTBJTORujN1k0BEh85jnUyHo8ZMkkT2JschEhAH7r962uAaA
-	pdARO1QK+OXOO7CrlJlGE9JoHP5eJ9EQkfmTmQk/rZkJiQbEprkV2TUySszRK2oiPmJl
-	w6sk8YxkkIwRTIXQ5IQxy/l+LBKVR5mllBjZfarrfcJ8alh1sJ7QSzsd4LLnj6wluj39
-	p7JJN8zGRJJShBSZICuMdwgC53Q4Eg5MMS/CX/KrrvgT9nY3OGSdin4dQQXFZUydY8ej
-	ce9Xy+mqTpOESO3RJeWf/fEXEWXfJvJ7S8rqDXH2e9IkSyVQzhcQ2TdYzHZ/TKwOIftE
-	rhiA==
+	Fri, 20 Mar 2015 15:56:32 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 20 Mar 2015 08:56:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,437,1422950400"; d="scan'208";a="470134726"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.155])
+	([10.219.4.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2015 08:56:33 -0700
+Message-ID: <550C4334.3010200@linux.intel.com>
+Date: Fri, 20 Mar 2015 09:56:36 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.236.229.200 with SMTP id h68mr84312442yhq.90.1426863263341; 
-	Fri, 20 Mar 2015 07:54:23 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.112.82 with HTTP; Fri, 20 Mar 2015 07:54:23 -0700 (PDT)
-In-Reply-To: <72e05501cdcd7edf186d4aea4914c90fcb346327.1426772606.git.anibal.limon@linux.intel.com>
-References: <cover.1426772606.git.anibal.limon@linux.intel.com>
-	<72e05501cdcd7edf186d4aea4914c90fcb346327.1426772606.git.anibal.limon@linux.intel.com>
-Date: Fri, 20 Mar 2015 11:54:23 -0300
-X-Google-Sender-Auth: kDxjCtqseVwIw1cz2ryKs_zMg48
-Message-ID: <CAP9ODKprP=VK68oS0k6XmMAvj+BpXZPEyqYwad=52MthZkpi=Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1426772606.git.anibal.limon@linux.intel.com>	<72e05501cdcd7edf186d4aea4914c90fcb346327.1426772606.git.anibal.limon@linux.intel.com>
+	<CAP9ODKprP=VK68oS0k6XmMAvj+BpXZPEyqYwad=52MthZkpi=Q@mail.gmail.com>
+In-Reply-To: <CAP9ODKprP=VK68oS0k6XmMAvj+BpXZPEyqYwad=52MthZkpi=Q@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCHv4 2/2] xserver-nodm-init: Change to vt1 when stop
@@ -45,25 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 14:54:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Mar 2015 15:56:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 19, 2015 at 10:45 AM, An=C3=ADbal Lim=C3=B3n
-<anibal.limon@linux.intel.com> wrote:
-> When X is stopped it remains in the same vt that was launched,
-> change to vt1 instead to avoid manual vt switch.
+
+On 20/03/15 08:54, Otavio Salvador wrote:
+> On Thu, Mar 19, 2015 at 10:45 AM, Aníbal Limón
+> <anibal.limon@linux.intel.com> wrote:
+>> When X is stopped it remains in the same vt that was launched,
+>> change to vt1 instead to avoid manual vt switch.
+>>
+>> [YOCTO #5336]
+>>
+>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> Now  I like it :) Thanks for doing those changes :)
+Thanks to you for the feedback.
+
+     alimon
 >
-> [YOCTO #5336]
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 >
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
 
-Now  I like it :) Thanks for doing those changes :)
-
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
