@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CC2F36013D
+	by mail.openembedded.org (Postfix) with ESMTP id 947B06013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 09:30:57 +0000 (UTC)
+	Fri, 20 Mar 2015 10:38:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2K9UtFV027125; Fri, 20 Mar 2015 09:30:55 GMT
+	t2KAcqE6030610 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 10:38:52 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id O1veyhsclDeF; Fri, 20 Mar 2015 09:30:55 +0000 (GMT)
+	with LMTP id djJ-k_4T_KyH
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 10:38:52 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2K9Ue6M027102
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Mar 2015 09:30:51 GMT
-Message-ID: <1426843840.29168.68.camel@linuxfoundation.org>
+	t2KAcbR7030603
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 10:38:48 GMT
+Message-ID: <1426847917.29168.69.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-Date: Fri, 20 Mar 2015 09:30:40 +0000
-In-Reply-To: <550BD52C.1040601@linux.intel.com>
-References: <550BD52C.1040601@linux.intel.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Mar 2015 10:38:37 +0000
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Policy of explicit disabling of package features
+Subject: [PATCH] gcc-cross-canadian: Enable stripping and packaging of binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 09:30:59 -0000
+X-List-Received-Date: Fri, 20 Mar 2015 10:38:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-03-20 at 10:07 +0200, Tanu Kaskinen wrote:
-> It seems to me that a better policy would be to always explicitly 
-> disable *all* features that have external dependencies that aren't 
-> listed in DEPENDS. That kind of policy should reduce these 
-> non-determinism issues. Full compliance with such policy may not be 
-> feasible to achieve, since it requires great care to check for new 
-> optional dependencies whenever updating to new upstream versions, but I 
-> hope that at least "pre-emptive" patches that add explicit feature 
-> disabling will be accepted even before anyone has run into actual problems.
+This seems to have been disabled since the dawn of time for now good reason.
+Enable the .debug stripping and packaging allowing for a smaller SDK.
 
-This is the policy, if its not in DEPENDS, it shouldn't be using it.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-As you say, adherence to that policy can be tricky, its something we try
-and improve over time. Where we do find issue we fix them as you've seen
-from the patches. We do have better detection of these issues than we've
-ever had before.
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 0f79533..750a4f2 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -62,12 +62,10 @@ do_compile () {
+ 	oe_runmake all-host configure-target-libgcc
+ }
+ 
+-INHIBIT_PACKAGE_STRIP = "1"
+-
+ # Having anything auto depending on gcc-cross-sdk is a really bad idea...
+ EXCLUDE_FROM_SHLIBS = "1"
+ 
+-PACKAGES = "${PN} ${PN}-doc"
++PACKAGES = "${PN}-dbg ${PN} ${PN}-doc"
+ 
+ FILES_${PN} = "\
+     ${exec_prefix}/bin/* \
+@@ -86,6 +84,11 @@ FILES_${PN} = "\
+ "
+ INSANE_SKIP_${PN} += "dev-so"
+ 
++FILES_${PN}-dbg += " \
++    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/.debug \
++    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/plugin/.debug \
++"
++
+ FILES_${PN}-doc = "\
+     ${infodir} \
+     ${mandir} \
 
-Cheers,
-
-Richard
 
 
