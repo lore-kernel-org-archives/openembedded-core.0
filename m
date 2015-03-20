@@ -1,23 +1,34 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8765B73ACD
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id AA5EF73AD4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 12:42:08 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Mar 2015 05:42:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,436,1422950400"; d="scan'208";a="683084542"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2015 05:42:09 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 1EFD66A408F;
-	Fri, 20 Mar 2015 05:41:50 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2015 14:39:36 +0200
-Message-Id: <1426855176-10363-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] oeqa/runtime: Added a new auto rpm test
+	Fri, 20 Mar 2015 13:07:18 +0000 (UTC)
+Received: by lbbrr9 with SMTP id rr9so10324017lbb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 06:07:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=p2oATya+/0csSfzearoDtWSDvF1i3jAETYQiIBa7jrg=;
+	b=i3K62liFCPjdrUNHAdx1AW/Gj+hf586uGgtBSjUQ98CGIpa2/0BBljUr7fwqORGgSS
+	ysP30s3dHkzb4WJytGrFVjgk9kMciaC3TW8dW/TXs1k74mUVN7QeOQG9ibigeEchibiy
+	WHGoYHzjndvYpWQDVMpSniMzks5yq3tSMR0uNwTPqinxmXCU3mTkctXHtzGdoXW5nxIz
+	DgNKVLUczeRVPYp1FVXvMp6h+Uz/zURmSUfGPyyOBsv6zaHZi+0RWL+nnBU0wsoeRph4
+	wbt4DMABwLqiz/mvu1JQ87USoy+howY/SNShHR2fRqPyP0WefaE1HiLDIgV5liDq7Tjt
+	fQyQ==
+MIME-Version: 1.0
+X-Received: by 10.112.173.41 with SMTP id bh9mr71979535lbc.107.1426856838691; 
+	Fri, 20 Mar 2015 06:07:18 -0700 (PDT)
+Received: by 10.152.146.4 with HTTP; Fri, 20 Mar 2015 06:07:18 -0700 (PDT)
+In-Reply-To: <1347436503-17966-1-git-send-email-raj.khem@gmail.com>
+References: <1347436503-17966-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 20 Mar 2015 14:07:18 +0100
+Message-ID: <CAC1BbcR=K2mc7Z94+wpoWKCwzCzGqTfMuV2PQYU3u04TGZgmqQ@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 3/3] uclibc: Revert systemd regressing patch from upsteam uclibc and uprev SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +41,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 12:42:12 -0000
+X-List-Received-Date: Fri, 20 Mar 2015 13:07:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The test tries to query the rpm list with a non-root user
+On 12 September 2012 at 09:55, Khem Raj <raj.khem@gmail.com> wrote:
+> This patch is causing systemd based systemd to not boot
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/rpm.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+>  meta/recipes-core/uclibc/uclibc-git.inc            |    5 +-
+>  ...nt.c-wtent.c-move-functions-from-utxent.c.patch |  321 ++++++++++++++++++++
+>  2 files changed, 324 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
 
-diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
-index b17e8b4..0529992 100644
---- a/meta/lib/oeqa/runtime/rpm.py
-+++ b/meta/lib/oeqa/runtime/rpm.py
-@@ -47,6 +47,16 @@ class RpmInstallRemoveTest(oeRuntimeTest):
-         (status,output) = self.target.run('rpm -e rpm-doc')
-         self.assertEqual(status, 0, msg="Failed to remove rpm-doc package: %s" % output)
- 
-+    @testcase(1096)
-+    @skipUnlessPassed('test_ssh')
-+    def test_rpm_query_nonroot(self):
-+        (status, output) = self.target.run('useradd test1')
-+        self.assertTrue(status == 0, msg="Failed to create new user")
-+        (status, output) = self.target.run('sudo -u test1 id')
-+        self.assertTrue('(test1)' in output, msg="Failed to execute as new user")
-+        (status, output) = self.target.run('sudo -u test1 rpm -qa')
-+        self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa" % status)
-+
-     @classmethod
-     def tearDownClass(self):
-         oeRuntimeTest.tc.target.run('rm -f /tmp/rpm-doc.rpm')
--- 
-2.1.0
+Khem,
 
+Do you remember what exactly this was fixing?
+
+I don't immediately see how reverting it makes sense..
+Many thanks in advance for a hint or reproducer or instructions on how
+to reproduce!
 
