@@ -1,27 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DD2C6AC3A
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 253056013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 16:28:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2KGSHSW021282; Fri, 20 Mar 2015 16:28:17 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4Jbxzml8lDG5; Fri, 20 Mar 2015 16:28:17 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2KGS3AW021278
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Mar 2015 16:28:15 GMT
-Message-ID: <1426868883.29168.78.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Mar 2015 16:28:03 +0000
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+	Fri, 20 Mar 2015 16:47:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Mar 2015 09:47:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,437,1422950400"; d="scan'208";a="668227932"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.21.195])
+	([10.252.21.195])
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2015 09:47:25 -0700
+Message-ID: <1426870044.2879.4.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Mar 2015 18:47:24 +0200
+In-Reply-To: <1426843840.29168.68.camel@linuxfoundation.org>
+References: <550BD52C.1040601@linux.intel.com>
+	<1426843840.29168.68.camel@linuxfoundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
 Mime-Version: 1.0
-Cc: "markus.Lehtonen" <markus.Lehtonen@intel.com>
-Subject: [PATCH] scripts/combo-layer: Handle update with no repo/revision specified
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Policy of explicit disabling of package features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 16:28:24 -0000
+X-List-Received-Date: Fri, 20 Mar 2015 16:47:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Running an update operation with no repo/revision specified was failing.
-This fixes that code path which worked until the change from:
+On Fri, 2015-03-20 at 09:30 +0000, Richard Purdie wrote:
+> On Fri, 2015-03-20 at 10:07 +0200, Tanu Kaskinen wrote:
+> > It seems to me that a better policy would be to always explicitly 
+> > disable *all* features that have external dependencies that aren't 
+> > listed in DEPENDS. That kind of policy should reduce these 
+> > non-determinism issues. Full compliance with such policy may not be 
+> > feasible to achieve, since it requires great care to check for new 
+> > optional dependencies whenever updating to new upstream versions, but I 
+> > hope that at least "pre-emptive" patches that add explicit feature 
+> > disabling will be accepted even before anyone has run into actual problems.
+> 
+> This is the policy, if its not in DEPENDS, it shouldn't be using it.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/scripts/combo-layer?id=3592507a149b668c0a925e176535f7f2002fa543
+Ok, excellent! I'll make a patch that adds some --disable-foo options to
+pulseaudio.inc that are currently missing.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index cbff618..83cfc8e 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -571,12 +571,12 @@ def action_update(conf, args):
-         apply the generated patches
-     """
-     components = [arg.split(':')[0] for arg in args[1:]]
--    revisions = []
-+    revisions = {}
-     for arg in args[1:]:
--        revision= arg.split(':', 1)[1] if ':' in arg else None
--        revisions.append(revision)
--    # Map commitishes to repos
--    repos = OrderedDict(zip(get_repos(conf, components), revisions))
-+        if ':' in arg:
-+            a = arg.split(':', 1)
-+            revisions[a[0]] = a[1]
-+    repos = get_repos(conf, components)
- 
-     # make sure combo repo is clean
-     check_repo_clean(os.getcwd())
-@@ -592,7 +592,8 @@ def action_update(conf, args):
-     else:
-         action_pull(conf, ['arg0'] + components)
- 
--    for name, revision in repos.iteritems():
-+    for name in repos:
-+        revision = revisions.get(name, None)
-         repo = conf.repos[name]
-         ldir = repo['local_repo_dir']
-         dest_dir = repo['dest_dir']
-
+-- 
+Tanu
 
 
