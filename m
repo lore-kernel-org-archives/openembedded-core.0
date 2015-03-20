@@ -1,35 +1,44 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 903816AC3A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0111173A77
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 14:12:53 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2015 07:12:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,437,1422950400"; d="scan'208";a="470093743"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2015 07:12:53 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 00BFF6A408F;
-	Fri, 20 Mar 2015 07:12:34 -0700 (PDT)
-Date: Fri, 20 Mar 2015 16:12:47 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20150320141247.GA13743@linux.intel.com>
-References: <1426850570-12024-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1715446.SMLV1DZGVq@peggleto-mobl.ger.corp.intel.com>
+	Fri, 20 Mar 2015 14:13:58 +0000 (UTC)
+Received: by qcay5 with SMTP id y5so3678832qca.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2015 07:13:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wqw/hsSnwO7me+PEVIdJ123vgX1ze8TMAhT+WgbdTGE=;
+	b=OOBnZdwWiL3QGO1pyLU65VHbQ8U31QeB3eCAgQYHdolvdoj81zgRIGDVkr6PHvMpMv
+	5bu8OAbOQPDQLGiq7w7sLIaQtdXIZO0Rtlv0a+jIE3cYsbPvGSDEy4JD49Dc6bPmB9xt
+	mpkEsC8Ix1XeKChmaP4J1H6f/KIr5tykkaxPH+ArfHmvXo6UlnwyVE27KzDmtDtw1YNH
+	kegu3p6DPDcccbQr0JeJE2JcxGbFm4Na0eiyOZ9AIRLoomAzkThUIiUa5Q04nEOAFmxs
+	Yc5E3XZykHFQ7/gSTsEX5tzn3dFK9Q5ZcqZHpfVtYcVL0NxYqoEiebb03xiYGgqbniQ2
+	R5eA==
+X-Gm-Message-State: ALoCoQmWfv7gg+bf2zNzgEfVG0DvOU5hJa5LvlWi/CAaD3JdZsqzzlStQteuOJP4CrXVH4zz1BmC
+X-Received: by 10.55.23.84 with SMTP id i81mr100313877qkh.51.1426860839631;
+	Fri, 20 Mar 2015 07:13:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1715446.SMLV1DZGVq@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/oe/lsb.py: Stop parsing /etc/SuSE-release
+Received: by 10.140.102.203 with HTTP; Fri, 20 Mar 2015 07:13:39 -0700 (PDT)
+In-Reply-To: <166EFF25-177B-4897-8346-F6C0BB68D49A@gmail.com>
+References: <1426681293-30112-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<CAMKF1spV93W=+jfSvC_7JsuC8xokm5V=4PB3y4TUEO03iCow-g@mail.gmail.com>
+	<CAJTo0LZDFj=TXUyj9XAkK8yciQOXvhrU-eYDyVu96hv+xQg1Fg@mail.gmail.com>
+	<166EFF25-177B-4897-8346-F6C0BB68D49A@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 20 Mar 2015 16:13:39 +0200
+Message-ID: <CAJTo0LZSHZ6ZeDwo-kEt9q2vBu4+UdYbtSeBm47QQz-wKc+O0g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Khemraj Sharma <khem.raj@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: avoid configure stall by feeding prompt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -39,35 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 14:12:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Mar 2015 14:14:00 -0000
+Content-Type: multipart/alternative; boundary=001a1146fe627d926b0511b8edf3
 
-On Fri, Mar 20, 2015 at 11:38:25AM +0000, Paul Eggleton wrote:
-> Hi Ed,
-> 
-> On Friday 20 March 2015 13:22:50 Ed Bartosh wrote:
-> > /etc/SuSE-release should not be parsed to obtain release info
-> > 
-> > Here is the quote from /etc/SuSE-release:
-> > /etc/SuSE-release is deprecated and will be removed in the future,
-> > use /etc/os-release instead
-> > 
-> > All recent OpenSUSE versions already have /etc/os-release and
-> > oe.lsb/release_dict_file function already parses it.
-> > 
-> > Current implementation of release_dict_file returns different values
-> > when parsing /etc/SuSE-release and /etc/os-release. This is one more
-> > advantage of getting rid of parsing /etc/SuSE-release.
-> 
-> How long ago did OpenSuSE start including /etc/os-release? My concern is if 
-> someone did happen to run on an older OpenSuSE release and then submit a bug 
-> report with an attached log, we'd rather see the actual version rather than 
-> "Unknown". If that's a possible scenario, we might want to just swap the 
-> blocks around so that /etc/os-release is looked for first.
-> 
-I've checked opensuse versions starting from 12.3, which was released 2 years ago and became OOL in Jan 2015. If you think it's not enough I can check 12.2 and 12.1 or swap the blocks as you've suggested.
+--001a1146fe627d926b0511b8edf3
+Content-Type: text/plain; charset=UTF-8
 
-Regards,
-Ed
+On 20 March 2015 at 01:44, Khem Raj <raj.khem@gmail.com> wrote:
 
+> it replaces mine and is a better fix.
+>
+
+Thanks Khem.
+
+Ross
+
+--001a1146fe627d926b0511b8edf3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 March 2015 at 01:44, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div>it replaces mine and is a bette=
+r fix.</div></blockquote></div><br>Thanks Khem.</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1146fe627d926b0511b8edf3--
