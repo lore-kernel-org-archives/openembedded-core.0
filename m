@@ -1,35 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 162876013D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D73D6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 19:41:27 +0000 (UTC)
-Received: by iedm5 with SMTP id m5so36903444ied.3
+	Sat, 21 Mar 2015 01:40:29 +0000 (UTC)
+Received: by wetk59 with SMTP id k59so94539551wet.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2015 12:41:29 -0700 (PDT)
+	Fri, 20 Mar 2015 18:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=xXNAoesS0QMguDjUu1hPZzx1zrrmFOUFqpqLszJxk/8=;
-	b=ZEIa4+YmRF6SXpUZFscclQgRntOTs7WWoEY7bYIfzCwXtfuIUjPnlGq3Ju0UyHomlu
-	VzTorSRvIvNd8j5bcFpk53nxxm+ik0CGe2jXp7wqofMXwgmL4ZyALCRJugNWsFNTg62d
-	iCFQVjnSWJsH+YerSZG+SgABGKE8piTGcDTs/UrmolVK+GToSlzLsSvEAACqPEFZebEi
-	WqkeAE7hDVAtDSlmYHBkqUgTAbc/h01f3Ak/c7kmtAE3FMrGd0sexONx32C49LX32wJ1
-	k/MQXkpVeVr5Tb6QclZeqzpGFotovhryGeBojRLG5IVMd7h27lnS10YQCrn3w/XX1/A3
-	24pg==
-X-Received: by 10.43.66.131 with SMTP id xq3mr6721042icb.9.1426880488937;
-	Fri, 20 Mar 2015 12:41:28 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	bh=LhENxHIwfErKTXNvJ6SVqKauq7XwhkWDifcz7EB0qE8=;
+	b=xdKlu3ve85V5Qwws9QvZEn/tcJ7Lmq6tu2RvYVP5NlKSJvRAUJiwbNsO9QGG6dB5p4
+	w3miYLMwWkfy+eOWNxciNN+fMx+4ZHNkfOTu0gcxjkER1o7Y9JMPMWnAO1vCXrcSglc/
+	1ORUsqzJd7LtTAV2O2x7U92DT2HqcmDsVVEngs5r13mzl/t/mhXc7N77sNF3KO1RUQLx
+	KK1HFHm/fjHMkEmSRYAl5zpg9bzqDVnNQnGddzva53dDWzG0GJgKajpOzkYyoZ5wRyXi
+	PBF8jSQo17WSwdyIfTC8JOymf/rQHFua3k5fObU1C3eB8Jn1w+GZS/NVPwYxGUIkduQl
+	lvpg==
+X-Received: by 10.194.57.170 with SMTP id j10mr93741914wjq.102.1426902030665; 
+	Fri, 20 Mar 2015 18:40:30 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	o196sm3767722ioe.26.2015.03.20.12.41.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Mar 2015 12:41:28 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	y14sm8613495wjr.39.2015.03.20.18.40.29
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Mar 2015 18:40:29 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2015 12:41:20 -0700
-Message-Id: <1426880480-21423-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] directfb: define DEPENDS and EXTRA_OECONF via directfb.inc only
+Date: Sat, 21 Mar 2015 02:40:38 +0100
+Message-Id: <1426902038-6337-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.3
+Subject: [PATCH] nss: move /usr/bin/smime to nss-smime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,72 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2015 19:41:29 -0000
+X-List-Received-Date: Sat, 21 Mar 2015 01:40:30 -0000
 
-Remove duplicate EXTRA_OECONF definition from directfb_1.7.6.bb.
+* remove perl runtime dependency from main package
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/directfb/directfb.inc      | 11 ++++++-----
- meta/recipes-graphics/directfb/directfb_1.7.6.bb | 13 -------------
- 2 files changed, 6 insertions(+), 18 deletions(-)
+ meta/recipes-support/nss/nss.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index 669c0ff..13495b1 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -9,7 +9,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index 6330f4e..4be3557 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -26,7 +26,7 @@ inherit siteinfo
  
- HOMEPAGE = "http://directfb.org"
--DEPENDS = "jpeg libpng freetype zlib tslib"
-+DEPENDS = "jpeg libpng freetype zlib tslib sysfsutils"
+ DEPENDS = "sqlite3 nspr zlib nss-native"
+ DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
+-RDEPENDS_${PN} = "perl"
++RDEPENDS_${PN}-smime = "perl"
  
- SRC_URI = "http://www.directfb.org/downloads/Core/DirectFB-1.7/DirectFB-${PV}.tar.gz \
-            file://configurefix.patch \
-@@ -31,12 +31,13 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
+ TD = "${S}/tentative-dist"
+ TDS = "${S}/tentative-dist-staging"
+@@ -189,6 +189,10 @@ pkg_postinst_${PN} () {
+     signlibs.sh
+ }
  
- EXTRA_OECONF = "\
-   --with-gfxdrivers=none \
--  --enable-libmpeg3=no \
-   --enable-freetype=yes \
--  --enable-sdl=no \
--  --enable-vnc=no \
--  --disable-x11 \
-+  --enable-zlib \
-+  --disable-imlib2 \
-   --disable-mesa \
-+  --disable-sdl \
-+  --disable-vnc \
-+  --disable-x11 \
- "
- 
- #Once -fno-omit-frame-pointer option of gcc is added into TARGET_CLFAGS as default
-diff --git a/meta/recipes-graphics/directfb/directfb_1.7.6.bb b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
-index d25d987..1b49112 100644
---- a/meta/recipes-graphics/directfb/directfb_1.7.6.bb
-+++ b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
-@@ -2,19 +2,6 @@ require directfb.inc
- 
- RV = "1.7-6"
- 
--DEPENDS += "sysfsutils"
--
--EXTRA_OECONF = "\
--  --enable-freetype=yes \
--  --enable-zlib \
--  --with-gfxdrivers=none \
--  --disable-sdl \
--  --disable-vnc \
--  --disable-x11 \
--  --disable-imlib2 \
--  --disable-mesa \
--"
--
- LEAD_SONAME = "libdirectfb-1.7.so.0"
- 
- SRC_URI[md5sum] = "8a7bb06b3f58599b230b4cf314004512"
++PACKAGES =+ "${PN}-smime"
++FILES_${PN}-smime = "\
++    ${bindir}/smime \
++"
+ FILES_${PN} = "\
+     ${sysconfdir} \
+     ${bindir} \
 -- 
-1.9.1
+2.3.3
 
 
