@@ -1,37 +1,41 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF1A6AC3A
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Mar 2015 14:42:15 +0000 (UTC)
-Received: by pdbcz9 with SMTP id cz9so137285121pdb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Mar 2015 07:42:16 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F84060034;
+	Sat, 21 Mar 2015 14:54:53 +0000 (UTC)
+Received: by wetk59 with SMTP id k59so103333577wet.3;
+	Sat, 21 Mar 2015 07:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=g6ljQwsdCp0xVV7Mz4YXgDpJ0rFJw8LyGrd5YEeFp0E=;
-	b=W4cL0J5/MNAk2R3/cdTLYvfMKNA5BbA5oHd8TXOJW/kBlNcbMyHCL6K9q3TqDYFi4I
-	8YXiyZ6zaq5dMwLHV0bOb0NkQnikXIbQTQW0bT57Xt7/kZ9Wq2I0LX/EFbXZO7LOmLvr
-	OBOlIUFuaTKqtxNbfD2XXABF7Tky1bW+pFt/9mH0LcikitKHVAgAD9nN7B5hIFa8/25U
-	mW9zAzcYLYyqaszQmXa4S+Lndy5DpIKw5o5xetRYwBGae7eMIUu7MJuQbiG71rqzFWHq
-	IpuX4NXPc3phC60Sfkf7j9r3q4dfrmTXHNzbIMh+AnpAesaKMocYePf7M7VuwWM7fTUo
-	+IIQ==
-X-Received: by 10.66.141.165 with SMTP id rp5mr155152042pab.93.1426948936535; 
-	Sat, 21 Mar 2015 07:42:16 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id q4sm11846901pdj.2.2015.03.21.07.42.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 21 Mar 2015 07:42:15 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Mar 2015 07:42:09 -0700
-Message-Id: <1426948929-10625-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1426948929-10625-1-git-send-email-akuster808@gmail.com>
-References: <1426948929-10625-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] tzdata: update to 2015b
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Ruq2Q1Je1XXSSdALaYaBIn2AvDotVBqVfatxyYN0/ik=;
+	b=QWlWcd/xj7/Vutl2QxTX7Og9lAOzFLswwZcKQDUtgLQRRLh8ROZNnujvYRssWrWkuT
+	JhNsyxE8q7ecikZd4aVlX/k3jUDgE6tDQnRY3b/xCwDMMXYPRM9MMCFA566eWHbv2V13
+	ro7bZMgQd8jbET/03cuq1SvY8GA36VmTcjMVQFGVNFz/+Be6KoQH29GEmlqMY8uAW+n8
+	mDnUyUJqZEKMxZ8p8B7BYd/j/aPbTwMsP17FV/FVV5uU+sXqmQiOoLRQD6EUjo/lhoCq
+	83oSvvFpwvmuKBEO+rUux7kw4PlXg55Otk6pAwsAt9ILlnPoKuyuCPnkobVBHOqy9+qx
+	1TCg==
+X-Received: by 10.181.27.201 with SMTP id ji9mr4880875wid.20.1426949694666;
+	Sat, 21 Mar 2015 07:54:54 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	l10sm10925752wje.15.2015.03.21.07.54.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 21 Mar 2015 07:54:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sat, 21 Mar 2015 15:55:04 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150321145504.GG4738@jama>
+References: <20150316174236.48B8050234@opal.openembedded.org>
+	<20150321021120.GF4738@jama>
+	<1426930147.29168.104.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1426930147.29168.104.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +48,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Mar 2015 14:42:15 -0000
+X-List-Received-Date: Sat, 21 Mar 2015 14:54:54 -0000
+X-Groupsio-MsgNum: 63591
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vSsTm1kUtxIHoa7M"
+Content-Disposition: inline
 
-Changes affecting future time stamps
+--vSsTm1kUtxIHoa7M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Mongolia will start observing DST again this year, from the last
-Saturday in March at 02:00 to the last Saturday in September at 00:00.
-(Thanks to Ganbold Tsagaankhuu.)
+On Sat, Mar 21, 2015 at 09:29:07AM +0000, Richard Purdie wrote:
+> On Sat, 2015-03-21 at 03:11 +0100, Martin Jansa wrote:
+> > On Mon, Mar 16, 2015 at 05:42:36PM +0000, git@git.openembedded.org wrot=
+e:
+> > > Module: openembedded-core.git
+> > > Branch: master
+> > > Commit: f0e3db4eaacc32423934ce09b91bc619dc5dbd21
+> > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dco=
+mmit;h=3Df0e3db4eaacc32423934ce09b91bc619dc5dbd21
+> > >=20
+> > > Author: Jonathan Liu <net147@gmail.com>
+> > > Date:   Mon Mar  9 12:13:56 2015 +1100
+> > >=20
+> > > fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+> > >=20
+> > > Appending to PACKAGEFUNCS results in the font packages missing the
+> > > postinst/postrm scripts and the fontconfig cache not being generated
+> > > in /var/cache/fontconfig when creating images or installing font
+> > > packages. This is because the package data has already been emitted
+> > > by emit_pkgdata in PACKAGEFUNCS. Prepend to PACKAGEFUNCS to ensure
+> > > add_fontcache_postinsts is executed before emit_pkgdata.
+> >=20
+> > It's not caused by this change, but fixing this issue revealed that
+> > fc-cache doesn't really work here.
+> >=20
+> > Every time the intercept_scripts/update_font_cache executes qemu it gets
+> > "stuck" eating a lot of cpu and memory until it dies. Is anyone alse
+> > seeing this behavior?
+> >=20
+> > WARNING: The postinstall intercept hook 'update_font_cache' failed (exi=
+t code: 137)! See log for details!
+> > WARNING: The postinstalls for the following packages will be postponed =
+for first boot: liberation-fonts
+> > ERROR: The following packages could not be configured offline and rootf=
+s is read-only: ['liberation-fonts']
+> > ERROR: Function failed: do_rootfs
+> >=20
+> > bitbake  32618 98.8 67.1 11031512 10983420 pts/3 R+ 03:00   4:53
+> > qemu-i386 -r 2.6.32 -L /OE/rootfs -E uD_LIBRARY_PATH=3D/OE/rootfs//usr/=
+lib:/OE/rootfs//lib /OE/rootfs/usr/bin/fc-cache --sysroot=3D/OE/rootfs
+>=20
+> There are a couple of bugs in the bugzilla around this. One seemed to be
+> related to circular symlinks in udev's ptest package which was
+> supposedly fixed. The other claims to have been resolved by upgrading
+> fontconfig to a version which doesn't have issues with circular paths.
+>=20
+> There is general confusion about how to reproduce the issue and what the
+> real problem is though.
+>=20
+> Does your system have any recursive directory structures?
 
-Palestine will start DST on March 28, not March 27.  Also,
-correct the fall 2014 transition from September 26 to October 24.
-Adjust future predictions accordingly.  (Thanks to Steffen Thorsen.)
+I've tried to build a bit smaller image after sending the report and in
+that do_rootfs it finished successfully. I'll try to re-execute this to
+see if I get consistent results.
 
-Changes affecting past time stamps
+The bigger image has only few more packages in it, so if this is the
+case and smaller always works while bigger always fails I should be able
+to quickly find out which package/file is causing this.
 
-The 1982 zone shift in Pacific/Easter has been corrected, fixing a 2015a
-regression.  (Thanks to Stuart Bishop for reporting the problem.)
+I'll check the circular symlinks, I know there are some ptest packages
+in the bigger one.
 
-Some more zones have been turned into links, when they differed
-from existing zones only for older time stamps.  As usual,
-these changes affect UTC offsets in pre-1970 time stamps only.
-Their old contents have been moved to the 'backzone' file.
-The affected zones are: America/Antigua, America/Cayman,
-Pacific/Midway, and Pacific/Saipan.
+Thanks
 
-Changes affecting time zone abbreviations
+> I'd like to get to the bottom of the issue and fix it once and for all
+> but we likely need more info.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-Correct the 1992-2010 DST abbreviation in Volgograd from "MSK" to "MSD".
-(Thanks to Hank W.)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/tzdata_2015a.bb | 6 ------
- meta/recipes-extended/tzdata/tzdata_2015b.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-extended/tzdata/tzdata_2015a.bb
- create mode 100644 meta/recipes-extended/tzdata/tzdata_2015b.bb
+--vSsTm1kUtxIHoa7M
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015a.bb b/meta/recipes-extended/tzdata/tzdata_2015a.bb
-deleted file mode 100644
-index 6151aee..0000000
---- a/meta/recipes-extended/tzdata/tzdata_2015a.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
--
--SRC_URI[tzdata.md5sum] = "4ed11c894a74a5ea64201b1c6dbb8831"
--SRC_URI[tzdata.sha256sum] = "c52490917d00a8e7fc9b5f0b1b65ef6ec76d612b5b20c81bf86a04147af18e4c"
--
--require tzdata.inc
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015b.bb b/meta/recipes-extended/tzdata/tzdata_2015b.bb
-new file mode 100644
-index 0000000..df97d6d
---- /dev/null
-+++ b/meta/recipes-extended/tzdata/tzdata_2015b.bb
-@@ -0,0 +1,6 @@
-+SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
-+
-+SRC_URI[tzdata.md5sum] = "75571bb17c7b6be88a9f8872e45bc726"
-+SRC_URI[tzdata.sha256sum] = "556ac1a5b3a371adc1ad4e77138f78ddd7f8ddd7bc2b52545924598c7dc8ad62"
-+
-+require tzdata.inc
--- 
-1.9.1
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlUNhkgACgkQN1Ujt2V2gBw5wACfavuq1rLXaaQiYFcu1y5dGzYW
+rEcAnjvtdmSQTfsQIbdN0yxc1A/3waTI
+=5493
+-----END PGP SIGNATURE-----
 
+--vSsTm1kUtxIHoa7M--
