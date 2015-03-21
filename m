@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1156C60034;
-	Sat, 21 Mar 2015 09:29:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2L9TMcS000491; Sat, 21 Mar 2015 09:29:22 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GM9dktZ0iX5n; Sat, 21 Mar 2015 09:29:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2L9T7rB000484
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 21 Mar 2015 09:29:19 GMT
-Message-ID: <1426930147.29168.104.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 21 Mar 2015 09:29:07 +0000
-In-Reply-To: <20150321021120.GF4738@jama>
-References: <20150316174236.48B8050234@opal.openembedded.org>
-	<20150321021120.GF4738@jama>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C38060034
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Mar 2015 14:42:13 +0000 (UTC)
+Received: by pabxg6 with SMTP id xg6so126529067pab.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Mar 2015 07:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=Q5iX+5NxDJIvqB3eakK5Ca0JkkriVlym7Sm1aQNpXSY=;
+	b=LAKmSxVnGOZffBNyZ6ve1q01SSStcprzbtUtRy3qTWek/1ZXafL+KpnRhtYJ+JDpg1
+	aX+3lXVQT47dbA2cqSfPQL9w+jeirBmvWU5oHt6BEy6xy7lnJ3wag3rhIEJ50Anr7Mop
+	kt/bAKnvq0dd3HzR15C2yRquuWGLniBz9du1EXTskOnGXfVuhzqjPWt8+Cqi8Wj7ufqY
+	kDkN+nSj3nNcYRZPphARze1iSoL7cNY+dRHNk1UUe+6v1BWp47/Q02aiBBcfjtOuEUTo
+	SiBUO4Uwj4QITIt6AVNMBLQbqnjU8egR9BhREKQlzUUfuBKjGv2N7Gb7ET8q/g07S+zT
+	FfoA==
+X-Received: by 10.68.201.227 with SMTP id kd3mr5489731pbc.95.1426948934464;
+	Sat, 21 Mar 2015 07:42:14 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id q4sm11846901pdj.2.2015.03.21.07.42.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 21 Mar 2015 07:42:13 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 21 Mar 2015 07:42:08 -0700
+Message-Id: <1426948929-10625-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] tzcode: update to 2015b
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,59 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Mar 2015 09:29:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 21 Mar 2015 14:42:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2015-03-21 at 03:11 +0100, Martin Jansa wrote:
-> On Mon, Mar 16, 2015 at 05:42:36PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: f0e3db4eaacc32423934ce09b91bc619dc5dbd21
-> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=f0e3db4eaacc32423934ce09b91bc619dc5dbd21
-> > 
-> > Author: Jonathan Liu <net147@gmail.com>
-> > Date:   Mon Mar  9 12:13:56 2015 +1100
-> > 
-> > fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
-> > 
-> > Appending to PACKAGEFUNCS results in the font packages missing the
-> > postinst/postrm scripts and the fontconfig cache not being generated
-> > in /var/cache/fontconfig when creating images or installing font
-> > packages. This is because the package data has already been emitted
-> > by emit_pkgdata in PACKAGEFUNCS. Prepend to PACKAGEFUNCS to ensure
-> > add_fontcache_postinsts is executed before emit_pkgdata.
-> 
-> It's not caused by this change, but fixing this issue revealed that
-> fc-cache doesn't really work here.
-> 
-> Every time the intercept_scripts/update_font_cache executes qemu it gets
-> "stuck" eating a lot of cpu and memory until it dies. Is anyone alse
-> seeing this behavior?
-> 
-> WARNING: The postinstall intercept hook 'update_font_cache' failed (exit code: 137)! See log for details!
-> WARNING: The postinstalls for the following packages will be postponed for first boot: liberation-fonts
-> ERROR: The following packages could not be configured offline and rootfs is read-only: ['liberation-fonts']
-> ERROR: Function failed: do_rootfs
-> 
-> bitbake  32618 98.8 67.1 11031512 10983420 pts/3 R+ 03:00   4:53
-> qemu-i386 -r 2.6.32 -L /OE/rootfs -E uD_LIBRARY_PATH=/OE/rootfs//usr/lib:/OE/rootfs//lib /OE/rootfs/usr/bin/fc-cache --sysroot=/OE/rootfs
+Changes affecting code
 
-There are a couple of bugs in the bugzilla around this. One seemed to be
-related to circular symlinks in udev's ptest package which was
-supposedly fixed. The other claims to have been resolved by upgrading
-fontconfig to a version which doesn't have issues with circular paths.
+Fix integer overflow bug in reference 'mktime' implementation.
+(Problem reported by Jörg Richter.)
 
-There is general confusion about how to reproduce the issue and what the
-real problem is though.
+Allow -Dtime_tz=time_t compilations, and allow -Dtime_tz=... libraries
+to be used in the same executable as standard-library time_t functions.
+(Problems reported by Bradley White.)
 
-Does your system have any recursive directory structures?
+Changes affecting commentary
 
-I'd like to get to the bottom of the issue and fix it once and for all
-but we likely need more info.
+Cite the recent Mexican decree changing Quintana Roo's time zone.
+(Thanks to Carlos Raúl Perasso.)
 
-Cheers,
+Likewise for the recent Chilean decree.  (Thanks to Eduardo Romero Urra.)
 
-Richard
+Update info about Mars time.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-extended/tzcode/tzcode-native_2015a.bb | 10 ----------
+ meta/recipes-extended/tzcode/tzcode-native_2015b.bb | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015a.bb
+ create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015b.bb
+
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2015a.bb b/meta/recipes-extended/tzcode/tzcode-native_2015a.bb
+deleted file mode 100644
+index a0a31d6..0000000
+--- a/meta/recipes-extended/tzcode/tzcode-native_2015a.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# note that we allow for us to use data later than our code version
+-#
+-SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+-           ftp://ftp.iana.org/tz/releases/tzdata2015a.tar.gz;name=tzdata"
+-
+-SRC_URI[tzcode.md5sum] = "8f375ede46ae137fbac047ac431bda37"
+-SRC_URI[tzcode.sha256sum] = "885bab11f286852f34030d7a86ede7d4126319ca74b8ee22be8ca7c17d72dd19"
+-SRC_URI[tzdata.md5sum] = "4ed11c894a74a5ea64201b1c6dbb8831"
+-SRC_URI[tzdata.sha256sum] = "c52490917d00a8e7fc9b5f0b1b65ef6ec76d612b5b20c81bf86a04147af18e4c"
+-require tzcode-native.inc
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2015b.bb b/meta/recipes-extended/tzcode/tzcode-native_2015b.bb
+new file mode 100644
+index 0000000..a4ec72d
+--- /dev/null
++++ b/meta/recipes-extended/tzcode/tzcode-native_2015b.bb
+@@ -0,0 +1,10 @@
++# note that we allow for us to use data later than our code version
++#
++SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
++           ftp://ftp.iana.org/tz/releases/tzdata2015b.tar.gz;name=tzdata"
++
++SRC_URI[tzcode.md5sum] = "f073a7c9bca7f9fe408491f826e92968"
++SRC_URI[tzcode.sha256sum] = "e668f1235b998c90e43ecc93c8535728c65bb01d6bb93d22467e04b5ffa35d76"
++SRC_URI[tzdata.md5sum] = "75571bb17c7b6be88a9f8872e45bc726"
++SRC_URI[tzdata.sha256sum] = "556ac1a5b3a371adc1ad4e77138f78ddd7f8ddd7bc2b52545924598c7dc8ad62"
++require tzcode-native.inc
+-- 
+1.9.1
 
 
