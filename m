@@ -1,40 +1,41 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 391976AC33
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 75E8A6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 22:33:42 +0000 (UTC)
-Received: by pdbni2 with SMTP id ni2so200971378pdb.1
+	Mon, 23 Mar 2015 23:28:32 +0000 (UTC)
+Received: by wixw10 with SMTP id w10so78265418wix.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 15:33:43 -0700 (PDT)
+	Mon, 23 Mar 2015 16:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=ufFb6/P1FJ8TGe961fJyhZeyVLAz0Q056tdQVfW0iKk=;
-	b=MNAx7I5ise1yfvj19gK7oFORxjhjkkVvQpMxroTBdoBH4snC6G4jHVMqk2MzJ/zIS7
-	TtU/sU0raeDOkf2lIJTyVSvs+3TXcpJMNx39Ob/hkHBd432pxlapI+p7CRBrQJKGykyE
-	uoLRAemiyJr3+sczHNIRuDzCBrlu5AzCIYcKf6gWGxaLlkT8YbmSBGV+UzWrGrzp7UJe
-	CV6r99/K6AI3Z0NZ+iBWsIleBUUE7u5RTtfYHIaKbm04ThP/x7hTmXaSK6mDl22FNL4N
-	xinBHKPf05GmncSUOi3Iiou2MUaFNg4/6CPn7ur79uXXcwKNzYcdjhVd7fulSo49aiUn
-	ccKw==
-X-Received: by 10.70.48.37 with SMTP id i5mr2008548pdn.111.1427150023708;
-	Mon, 23 Mar 2015 15:33:43 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id fk4sm1971780pbb.80.2015.03.23.15.33.41
+	h=user-agent:in-reply-to:references:mime-version
+	:content-transfer-encoding:content-type:subject:from:date:to:cc
+	:message-id; bh=8+25AMWjnocXTgvGrjy+Eb9TGLOy37290vB12r1XxhQ=;
+	b=LOVA/GP0HaSMVLtOa+jcrNuRdIhBO/1ZdU1/v2X0ykgeYUP6SRCvdcgTNoBkFH5tvR
+	/oUztbmeeoUy8po1XytpoKhXoF6KtOKnKFwbzyfthoGGGNhnLcD031srdlKeYOW3Mn97
+	SGGWFvcW4fgNBgV4DAz54sQangrfT/RZXVK18Ejf1+srG796e8kNH+RzB3qtKSmbSrr2
+	b+QHlv0AwLzEtA+fwJ7fYk0XXfd2Img3U1mPX+VTvrZLEnSRoL+7IBOSeNOPzynG77TR
+	sYa74cjk202Uur+EVWB4nhu+NYlwg5pAlGn6v0wUlzb6uPbQ8Q112yylrRLt/Kr+8fCv
+	NU/g==
+X-Received: by 10.180.7.196 with SMTP id l4mr22951492wia.44.1427153313609;
+	Mon, 23 Mar 2015 16:28:33 -0700 (PDT)
+Received: from [10.42.42.77] (089144235077.atnat0044.highway.a1.net.
+	[89.144.235.77]) by mx.google.com with ESMTPSA id
+	fo9sm13323817wib.16.2015.03.23.16.28.32
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Mar 2015 15:33:42 -0700 (PDT)
-Message-ID: <551094C1.8020507@gmail.com>
-Date: Tue, 24 Mar 2015 09:33:37 +1100
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 23 Mar 2015 16:28:32 -0700 (PDT)
+User-Agent: K-9 Mail for Android
+In-Reply-To: <61B03CA5-4945-49E7-9463-87CEADB22C67@gmail.com>
+References: <1347436503-17966-1-git-send-email-raj.khem@gmail.com>
+	<CAC1BbcR=K2mc7Z94+wpoWKCwzCzGqTfMuV2PQYU3u04TGZgmqQ@mail.gmail.com>
+	<61B03CA5-4945-49E7-9463-87CEADB22C67@gmail.com>
 MIME-Version: 1.0
-To: Patrick Ohly <patrick.ohly@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1427147834.3412.89.camel@intel.com>
-In-Reply-To: <1427147834.3412.89.camel@intel.com>
-Subject: Re: systemd + run-postinsts.service
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Date: Tue, 24 Mar 2015 00:28:23 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <0F5768A5-BBE1-491A-8C22-3CDF941D8654@gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 3/3] uclibc: Revert systemd regressing patch from upsteam uclibc and uprev SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,68 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 22:33:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Mar 2015 23:28:34 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=UTF-8
 
-On 24/03/2015 8:57 AM, Patrick Ohly wrote:
-> Hello!
+On March 20, 2015 7:36:49 PM GMT+01:00, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> I'm using systemd from OE-core master to boot core-image-minimal. I'm
-> seeing a boot failure where "Run pending postinsts" (aka
-> run-postinsts.service) gets stuck during booting under very specific
-> circumstances:
+>> On Mar 20, 2015, at 6:07 AM, Bernhard Reutner-Fischer
+><rep.dot.nop@gmail.com> wrote:
+>> 
+>> On 12 September 2012 at 09:55, Khem Raj <raj.khem@gmail.com> wrote:
+>>> This patch is causing systemd based systemd to not boot
+>> 
+>>> meta/recipes-core/uclibc/uclibc-git.inc            |    5 +-
+>>> ...nt.c-wtent.c-move-functions-from-utxent.c.patch |  321
+>++++++++++++++++++++
+>>> 2 files changed, 324 insertions(+), 2 deletions(-)
+>>> create mode 100644
+>meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
+>> 
+>> Khem,
+>> 
+>> Do you remember what exactly this was fixing?
+>> 
+>> I don't immediately see how reverting it makes sense..
+>> Many thanks in advance for a hint or reproducer or instructions on
+>how
+>> to reproduce!
 >
->       1. The package has a pkg_postinst_${PN} which (intentionally)
->          failed during image building, thus delaying its execution to the
->          first boot.
->       2. The package uses "inherit systemd" to enable its own systemd
->          service.
->
-> It seems to be "systemctl start <service name>" which is hanging,
-> because I can reproduce the same behavior without systemd.bbclass in the
-> following pkg_postinst:
->
-> pkg_postinst_${PN} () {
-> #!/bin/sh -e
->     # Cannot run during image building...
->     if [ x"$D" != "x" ]; then
->        exit 1
->     fi
->
->     # Do something on target during first boot.
->
->     systemctl enable foobar
->     systemctl start foobar # <====
-> }
->
-> It works without the last line. The actual recipe is a bit more complex,
-> but I can try to create a dummy one if that would help.
->
-> Any idea what could be causing this and, more importantly, how to fix
-> it?
->
->
->
-I am not sure how well systemd works with executing systemctl to 
-manipulate services from within a service that is starting...
+>just remove the patch. System use to hard lock during boot. you will
+>not miss it.
 
-What is the definition of foobar.service?
-foobar.service may depend on other services/mounts/targets to start 
-before it but since "systemctl start" is blocking, those dependencies 
-may not be satisfied yet until sometime after run-postinsts.service 
-which can result in a circular dependency deadlock. See 
-DefaultDependencies, After, Before in 
-http://www.freedesktop.org/software/systemd/man/systemd.unit.html.
+Cannot reproduce this on current OE with qemux86-64 -smp 22 kvm nor qemumips (no smp as that just hangs before or early in the kernel) both sato images. Nevertheless I have reverted this now and will redo it piecemeal.
 
-Things to try:
-1. Refactor foobar.service and your image recipe to not require calling 
-systemctl from within a systemd service
-2. Change "systemctl start foobar" to "systemctl start --no-block 
-foobar" to let the startup continue without waiting until foobar is started
+Sounds more like a since fixed (?) systemd bug or something.
 
-Regards,
-Jonathan
+Thanks,
 
 
 
