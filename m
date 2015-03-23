@@ -1,32 +1,36 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0BF6AC33
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F81D6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 16:47:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id D7BDA315193D;
-	Mon, 23 Mar 2015 17:47:37 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id xr84oJDUgsJX; Mon, 23 Mar 2015 17:47:36 +0100 (CET)
-Received: from [172.22.22.61] (55d41d03.access.ecotel.net [85.212.29.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id D14FE3151732;
-	Mon, 23 Mar 2015 17:47:35 +0100 (CET)
-Message-ID: <551043A1.4040601@opendreambox.org>
-Date: Mon, 23 Mar 2015 17:47:29 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 23 Mar 2015 16:49:10 +0000 (UTC)
+Received: by qgez102 with SMTP id z102so64744814qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Mar 2015 09:49:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=d1u54Btps2d9WfhNTAditjCQHjjuj67tHX8bIxraa20=;
+	b=TpYGA/5yxm8b6jskUo1sBRMwHklylaXglDX/YUCHGWJthuQJq3Pmy0AZnBoMX0OsLP
+	tEU5DAfEzDbBQrwy2Biej59k2mwXn7SLk9pVrQqXJE96i4VtQWjjQuKlbILEOwEDSeYr
+	dLYwY5mjex5etSnS8iuZGwgwQVyTOiu/YgEStySyU7mrc6OUXENEJjW34QHJV/co9IRE
+	+NMObVHIRgi+fzz6A0e2IRbhi4pbAdT93EPI8Wcz/Z7R54Z1ARPwZ3ZqY6Jwf1YD4mmS
+	hnIl7KB9X05z5H1PK8Zbm2N9snceYbXEph5YHCNPdyP04euQcmApq+1x77LVuiThyDEb
+	ILpg==
+X-Gm-Message-State: ALoCoQnmzW6lKvOcTPTAuiz68mrwxgsc/UiuztYhUpGDs8ssuCP04XE2vMKJZUIzrdiYoJUUTPxy
+X-Received: by 10.55.52.83 with SMTP id b80mr332609qka.36.1427129324463; Mon,
+	23 Mar 2015 09:48:44 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.102.203 with HTTP; Mon, 23 Mar 2015 09:48:24 -0700 (PDT)
+In-Reply-To: <551043A1.4040601@opendreambox.org>
 References: <1427125293-27123-1-git-send-email-obi@opendreambox.org>
 	<CAJTo0LaG2kM=Q0ewEq+S7W3XMjRV=cvEc41jrsOSqHfkpee9uw@mail.gmail.com>
-In-Reply-To: <CAJTo0LaG2kM=Q0ewEq+S7W3XMjRV=cvEc41jrsOSqHfkpee9uw@mail.gmail.com>
+	<551043A1.4040601@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Mar 2015 18:48:24 +0200
+Message-ID: <CAJTo0LYcFx9GNtcOuYAhWP_TDX8pA3MbPfE4eWXWsissU05F3g@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libav: fix floating dependency on libasound
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,26 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 16:47:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Mar 2015 16:49:11 -0000
+Content-Type: multipart/alternative; boundary=001a114907746efe7d0511f770c2
 
-On 23.03.2015 16:48, Burton, Ross wrote:
-> 
-> On 23 March 2015 at 17:41, Andreas Oberritter <obi@opendreambox.org
-> <mailto:obi@opendreambox.org>> wrote:
-> 
->     -DEPENDS = "zlib libogg yasm-native"
->     +DEPENDS = "alsa-lib zlib libogg yasm-native"
-> 
-> 
-> Wouldn't this be better as a PACKAGECONFIG?
+--001a114907746efe7d0511f770c2
+Content-Type: text/plain; charset=UTF-8
 
-As far as I can tell there's no configure switch to disable alsa. I
-didn't care enough to patch libav's configure script, especially because
-it's not based on autotools. I'd say apply this simple patch first, then
-wait until someone wants to make the more complicated fix after the release.
+On 23 March 2015 at 18:47, Andreas Oberritter <obi@opendreambox.org> wrote:
 
-Regards,
-Andreas
+> As far as I can tell there's no configure switch to disable alsa. I
+> didn't care enough to patch libav's configure script, especially because
+> it's not based on autotools. I'd say apply this simple patch first, then
+> wait until someone wants to make the more complicated fix after the
+> release.
+>
 
+Agreed :)
+
+Ross
+
+--001a114907746efe7d0511f770c2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 March 2015 at 18:47, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1jk" class=
+=3D"a3s" style=3D"overflow:hidden">As far as I can tell there&#39;s no conf=
+igure switch to disable alsa. I<br>
+didn&#39;t care enough to patch libav&#39;s configure script, especially be=
+cause<br>
+it&#39;s not based on autotools. I&#39;d say apply this simple patch first,=
+ then<br>
+wait until someone wants to make the more complicated fix after the release=
+.<br></div></blockquote></div><br>Agreed :)</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114907746efe7d0511f770c2--
