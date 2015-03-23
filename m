@@ -1,35 +1,42 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 483FE6AC33
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 22:03:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 9F6533151A6C;
-	Mon, 23 Mar 2015 23:03:55 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id bYT0ZOMpPUCS; Mon, 23 Mar 2015 23:03:53 +0100 (CET)
-Received: from [172.22.22.61] (55d41d03.access.ecotel.net [85.212.29.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 6C3C2315193F;
-	Mon, 23 Mar 2015 23:03:53 +0100 (CET)
-Message-ID: <55108DC7.7020801@opendreambox.org>
-Date: Mon, 23 Mar 2015 23:03:51 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C1D906AC33;
+	Mon, 23 Mar 2015 22:21:00 +0000 (UTC)
+Received: by wibdy8 with SMTP id dy8so59815847wib.0;
+	Mon, 23 Mar 2015 15:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=LYU5NSB8zEQztnbtMKJEqUtYEX45Ml8/py92u2wOFZw=;
+	b=KmbKbhppjBGNCwRcEo9o6MiVYgXX+N/JFbL3x7SzsAQImOEwS4M6IZMvOUbvdO0VEH
+	05YJkN4yrpxvxrrXH0Glv1D2Jj6x2OH9bXVOWTr7wfY7tggybkyukUeFwylFyFuttJwM
+	yrzU0QiK7vrC7H0/fmhubhgth+I9xEtFMmb37obVKicq62O6VKwysg05yXe7CYdTG0K5
+	Fn8U8eUaJEoGhA3RFet2xuRrVSL8FNdALfqnzD2Uq6GFophxnpgGibCwTOHn7OEixdDd
+	eXnL3nqiUDXM4IK/504VKXG7nkh5PPv5xoFjFjWXQ/n4zIaB0PXD4sS39HNpKVQDQoSk
+	xIGA==
+X-Received: by 10.194.175.202 with SMTP id cc10mr2194446wjc.27.1427149261113; 
+	Mon, 23 Mar 2015 15:21:01 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	md2sm13128639wic.19.2015.03.23.15.20.59
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Mar 2015 15:21:00 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 23 Mar 2015 23:21:13 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150323222113.GD3904@jama>
+References: <20150316174236.48B8050234@opal.openembedded.org>
+	<20150321021120.GF4738@jama>
+	<1426930147.29168.104.camel@linuxfoundation.org>
+	<20150321145504.GG4738@jama>
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1427125146-4871-1-git-send-email-obi@opendreambox.org>
-	<CADkTA4MS10SSdxRibMSmUJbrBRGWwgmnk0COEwj_yUkjN8Howw@mail.gmail.com>
-In-Reply-To: <CADkTA4MS10SSdxRibMSmUJbrBRGWwgmnk0COEwj_yUkjN8Howw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-module-split.bbclass: fix autoloading from postinst script
+In-Reply-To: <20150321145504.GG4738@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,62 +49,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 22:03:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Mar 2015 22:21:01 -0000
+X-Groupsio-MsgNum: 63632
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="48TaNjbzBVislYPb"
+Content-Disposition: inline
 
-On 23.03.2015 21:51, Bruce Ashfield wrote:
-> On Mon, Mar 23, 2015 at 11:39 AM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
->> When using KERNEL_MODULE_AUTOLOAD, autoload was empty, causing
->> "modprobe None" to get appended to the postinst script.
-> 
-> I stared at this a bit and it looks right to me, but let me ask a
-> question. Are you saying
-> that KERNEL_MODULE_AUTOLOAD isn't working for anyone ? Or just in a specific
-> configuration ?
-> 
-> I don't have a build to check this at the moment, but I swear my
-> autoloads were working!
+--48TaNjbzBVislYPb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It already works on boot. This patch only fixes autoloading of modules
-installed from a package feed, i.e. modprobed by a postinst script.
+On Sat, Mar 21, 2015 at 03:55:04PM +0100, Martin Jansa wrote:
+> On Sat, Mar 21, 2015 at 09:29:07AM +0000, Richard Purdie wrote:
+> > On Sat, 2015-03-21 at 03:11 +0100, Martin Jansa wrote:
+> > > On Mon, Mar 16, 2015 at 05:42:36PM +0000, git@git.openembedded.org wr=
+ote:
+> > > > Module: openembedded-core.git
+> > > > Branch: master
+> > > > Commit: f0e3db4eaacc32423934ce09b91bc619dc5dbd21
+> > > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3D=
+commit;h=3Df0e3db4eaacc32423934ce09b91bc619dc5dbd21
+> > > >=20
+> > > > Author: Jonathan Liu <net147@gmail.com>
+> > > > Date:   Mon Mar  9 12:13:56 2015 +1100
+> > > >=20
+> > > > fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+> > > >=20
+> > > > Appending to PACKAGEFUNCS results in the font packages missing the
+> > > > postinst/postrm scripts and the fontconfig cache not being generated
+> > > > in /var/cache/fontconfig when creating images or installing font
+> > > > packages. This is because the package data has already been emitted
+> > > > by emit_pkgdata in PACKAGEFUNCS. Prepend to PACKAGEFUNCS to ensure
+> > > > add_fontcache_postinsts is executed before emit_pkgdata.
+> > >=20
+> > > It's not caused by this change, but fixing this issue revealed that
+> > > fc-cache doesn't really work here.
+> > >=20
+> > > Every time the intercept_scripts/update_font_cache executes qemu it g=
+ets
+> > > "stuck" eating a lot of cpu and memory until it dies. Is anyone alse
+> > > seeing this behavior?
+> > >=20
+> > > WARNING: The postinstall intercept hook 'update_font_cache' failed (e=
+xit code: 137)! See log for details!
+> > > WARNING: The postinstalls for the following packages will be postpone=
+d for first boot: liberation-fonts
+> > > ERROR: The following packages could not be configured offline and roo=
+tfs is read-only: ['liberation-fonts']
+> > > ERROR: Function failed: do_rootfs
+> > >=20
+> > > bitbake  32618 98.8 67.1 11031512 10983420 pts/3 R+ 03:00   4:53
+> > > qemu-i386 -r 2.6.32 -L /OE/rootfs -E uD_LIBRARY_PATH=3D/OE/rootfs//us=
+r/lib:/OE/rootfs//lib /OE/rootfs/usr/bin/fc-cache --sysroot=3D/OE/rootfs
+> >=20
+> > There are a couple of bugs in the bugzilla around this. One seemed to be
+> > related to circular symlinks in udev's ptest package which was
+> > supposedly fixed. The other claims to have been resolved by upgrading
+> > fontconfig to a version which doesn't have issues with circular paths.
+> >=20
+> > There is general confusion about how to reproduce the issue and what the
+> > real problem is though.
+> >=20
+> > Does your system have any recursive directory structures?
+>=20
+> I've tried to build a bit smaller image after sending the report and in
+> that do_rootfs it finished successfully. I'll try to re-execute this to
+> see if I get consistent results.
+>=20
+> The bigger image has only few more packages in it, so if this is the
+> case and smaller always works while bigger always fails I should be able
+> to quickly find out which package/file is causing this.
+>=20
+> I'll check the circular symlinks, I know there are some ptest packages
+> in the bigger one.
 
-Regards,
-Andreas
+In my case it's reproducible by adding udev-ptest to image, more specifical=
+ly
+having these 2 directories in rootfs:
+usr/lib/udev/ptest/test/sys/devices
+usr/lib/udev/ptest/test/sys/bus
 
-> 
-> Bruce
-> 
->>
->> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->> ---
->>  meta/classes/kernel-module-split.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
->> index 68a23f8..e1a70e6 100644
->> --- a/meta/classes/kernel-module-split.bbclass
->> +++ b/meta/classes/kernel-module-split.bbclass
->> @@ -148,7 +148,7 @@ python split_kernel_module_packages () {
->>              postinst = d.getVar('pkg_postinst_%s' % pkg, True)
->>              if not postinst:
->>                  bb.fatal("pkg_postinst_%s not defined" % pkg)
->> -            postinst += d.getVar('autoload_postinst_fragment', True) % autoload
->> +            postinst += d.getVar('autoload_postinst_fragment', True) % (autoload or basename)
->>              d.setVar('pkg_postinst_%s' % pkg, postinst)
->>
->>          # Write out any modconf fragment
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> 
+deleting them and re-triggering the qemu works.
+I can also confirm that it's not just lack of memory on the build machine.
+It triggers OOM killer after using 64GB as well as on machine with just 8GB.
+
+fc-bug/rootfs-broken$ time ../../../../sysroots/x86_64-linux/usr/bin/qemu-i=
+386 -r 2.6.32 -L . -E LD_LIBRARY_PATH=3Dusr/lib:lib usr/bin/fc-cache --sysr=
+oot=3D.
+=2E.. OOM killer in an hour or 2 ... (this time I didn't get a log, because=
+ it killed almost everything else except qemu-i386 :)
+fc-bug/rootfs-broken$ cd ..
+fc-bug$ cp -ra rootfs-broken rootfs-broken-without-udev-ptest-bus-devices
+fc-bug$ cd rootfs-broken-without-udev-ptest-bus-devices
+fc-bug/rootfs-broken-without-udev-ptest-bus-devices$ rm -rf usr/lib/udev/pt=
+est/test/sys/devices/ usr/lib/udev/ptest/test/sys/bus/
+fc-bug/rootfs-broken-without-udev-ptest-bus-devices$ time ../../../../sysro=
+ots/x86_64-linux/usr/bin/qemu-i386 -r 2.6.32 -L . -E LD_LIBRARY_PATH=3Dusr/=
+lib:lib usr/bin/fc-cache --sysroot=3D.
+
+real    0m30.424s
+user    0m29.714s
+sys     0m0.548s
+
+Comparing strace shows the broken one to cycle a lot in directories like th=
+is:
+< getdents(51, /* 8 entries */, 32768)    =3D 248
+< openat(AT_FDCWD, "//home/jenkins/anaconda/build-starfish-dizzy/build/BUIL=
+D/work/qemux86-starfish-linux/fc-bug/rootfs-broken/./usr/lib/udev/ptest/tes=
+t/sys/dev/block/8:1/subsystem/loop2/bdi/subsystem/0:16/subsystem/0:16/subsy=
+stem/0:16/subsystem/0:16/subsystem/0:16/subsystem/0:16/subsystem/0:16/subsy=
+stem/0:16/subsystem/0:16/subsystem/0:16/subsystem/0:16/subsystem/0:16/subsy=
+stem/0:16/subsystem/0:16/subsystem/0:16/subsystem/0:16/subsystem/8:16/subsy=
+stem/8:0/power", O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) =3D 52
+
+This issue forced me to finally set ulimit in my builds so that I can kill =
+the
+right process a bit sooner (instead of waiting for it to eat e.g. 128GB)
+
+I'll try to create smaller reproducer and check newer fontconfig.
+
+>=20
+> Thanks
+>=20
+> > I'd like to get to the bottom of the issue and fix it once and for all
+> > but we likely need more info.
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+> >=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--48TaNjbzBVislYPb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlUQkdkACgkQN1Ujt2V2gBxiYwCgt3a1Zzt79BK2HvS49eT1HywD
+I6AAoKWtMghoVPasUcDLx2yfB1rV1O1d
+=DOX+
+-----END PGP SIGNATURE-----
+
+--48TaNjbzBVislYPb--
