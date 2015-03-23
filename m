@@ -1,14 +1,14 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E58F6AC33
+	by mail.openembedded.org (Postfix) with ESMTP id 0E48A6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 18:58:51 +0000 (UTC)
+	Mon, 23 Mar 2015 18:59:30 +0000 (UTC)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 19:58:49 +0100
-Message-Id: <1427137129-10872-1-git-send-email-obi@opendreambox.org>
+Date: Mon, 23 Mar 2015 19:59:30 +0100
+Message-Id: <1427137170-11071-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] package.bbclass: Add SYSTEMD_SERVICE to list of package specific variables
+Subject: [PATCH] rootfs.py: Also uninstall update-alternatives and shadow for read-only-rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,30 +21,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 18:58:52 -0000
+X-List-Received-Date: Mon, 23 Mar 2015 18:59:30 -0000
 
-Changes to SYSTEMD_SERVICE should change the sstate checksum. To make that
-happen, it needs to be listed in the list of package specific variables,
-therefore add it.
+This brings back commit d41097a970e9bfa553cd4bc3c9fad4b9073d7bd5,
+which got lost during transition from image.bbclass to rootfs.py.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/package.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 9f64ed7..5558d0d 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1908,7 +1908,7 @@ python package_depchains() {
- 
- # Since bitbake can't determine which variables are accessed during package
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE"
- 
- def gen_packagevar(d):
-     ret = []
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4e4e6eb..6fb749f 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -190,6 +190,8 @@ class Rootfs(object):
+                         pkg = pkg_installed.split()[0]
+                         if pkg in ["update-rc.d",
+                                 "base-passwd",
++                                "shadow",
++                                "update-alternatives",
+                                 self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)
+                                 ]:
+                             pkgs_to_remove.append(pkg)
 -- 
 1.9.1
 
