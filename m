@@ -1,50 +1,23 @@
-Return-Path: <B40290@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0127.outbound.protection.outlook.com [65.55.169.127])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D8CD6AC33
+Return-Path: <george.l.musat@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D02F96AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 02:09:44 +0000 (UTC)
-Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
-	BY2PR03MB442.namprd03.prod.outlook.com (10.141.141.145) with Microsoft
-	SMTP Server (TLS) id 15.1.125.14; Mon, 23 Mar 2015 02:09:41 +0000
-Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
-	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
-	15.01.0125.002; Mon, 23 Mar 2015 02:09:40 +0000
-From: "B40290@freescale.com" <B40290@freescale.com>
-To: "B40290@freescale.com" <B40290@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH v4]  u-boot.inc: fix rename image error
-Thread-Index: AQHQW99rlo7+MttW20+UqNwNJBpZj50pZQcw
-Date: Mon, 23 Mar 2015 02:09:39 +0000
-Message-ID: <BY2PR03MB441ABAB2D76B74B50C50F61840D0@BY2PR03MB441.namprd03.prod.outlook.com>
-References: <1426066820-19627-1-git-send-email-B40290@freescale.com>
-In-Reply-To: <1426066820-19627-1-git-send-email-B40290@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [199.59.231.64]
-authentication-results: freescale.com; dkim=none (message not signed)
-	header.d=none;
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB442;
-x-microsoft-antispam-prvs: <BY2PR03MB44249D867172C7E47CB74B8840D0@BY2PR03MB442.namprd03.prod.outlook.com>
-x-forefront-antispam-report: BMV:1; SFV:NSPM;
-	SFS:(10019020)(6009001)(377454003)(86362001)(2501003)(33656002)(122556002)(76576001)(99286002)(66066001)(46102003)(40100003)(74316001)(77156002)(2950100001)(76176999)(50986999)(77096005)(102836002)(106116001)(2656002)(92566002)(87936001)(450100001)(62966003)(54356999)(19580405001)(19580395003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB442;
-	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(5002010); SRVR:BY2PR03MB442; BCL:0;
-	PCL:0; RULEID:; SRVR:BY2PR03MB442; 
-x-forefront-prvs: 05245CA661
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2015 02:09:39.7432 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR03MB442
-Subject: Re: [PATCH v4] u-boot.inc: fix rename image error
+	Mon, 23 Mar 2015 09:26:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 Mar 2015 02:26:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,451,1422950400"; d="scan'208";a="702707235"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2015 02:26:37 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 5EE306A4090;
+	Mon, 23 Mar 2015 02:26:18 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Mar 2015 11:24:03 +0200
+Message-Id: <1427102643-19366-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oeqa/selftest: New auto bitbake test for poky tiny.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,202 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 02:09:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Mar 2015 09:26:38 -0000
 
-Ping.
+The test builds a poky-tiny image, boots it in background and
+tries to comunicate with it via serial.
 
------Original Message-----
-From: Chunrong Guo [mailto:B40290@freescale.com]=20
-Sent: Wednesday, March 11, 2015 5:40 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Liu Ting-B28495; Luo Zhenhua-B19537; Guo Chunrong-B40290; Guo Chunrong-=
-B40290
-Subject: [OE-core][PATCH v4] u-boot.inc: fix rename image error
-
-  Resolve mismatch between U-Boot configs and uboot image name.
-  The ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} may alway be false
-  and repeat compile or install so we need to check if ${type} match ${conf=
-ig} .
-
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 85 ++++++++++++++++------------------=
-----
- 1 file changed, 35 insertions(+), 50 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
--boot.inc
-index 6bdc86a..9b52971 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -66,20 +66,17 @@ do_compile () {
-     if [ "x${UBOOT_CONFIG}" !=3D "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x =3D "in"x ]
-+            i=3D`expr $i + 1`;
-+            for type  in ${UBOOT_CONFIG}; do
-+                j=3D`expr $j + 1`;
-+                if [ $j -eq $i ]
-                 then
--                    continue
--                fi
--                if [ -d "${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}" ]
--                then
--                    break
--                else
-                     oe_runmake O=3D${config} ${config}
-                     oe_runmake O=3D${config} ${UBOOT_MAKE_TARGET}
-                     cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u-b=
-oot-${type}.${UBOOT_SUFFIX}
-                 fi
-             done
-+            unset  j
-         done
-     else
-         oe_runmake ${UBOOT_MACHINE}
-@@ -92,20 +89,17 @@ do_install () {
-     if [ "x${UBOOT_CONFIG}" !=3D "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x =3D "in"x ]
--                then
--                    continue
--                fi
--                if [ -d "${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}" ]
-+            i=3D`expr $i + 1`;
-+            for type in ${UBOOT_CONFIG}; do
-+                j=3D`expr $j + 1`;
-+                if [ $j -eq $i ]
-                 then
--                    break
--                else
-                     install -d ${D}/boot
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} =
-${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
-                     ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOO=
-T_BINARY}
-                 fi
-             done
-+            unset  j
-         done
-     else
-         install -d ${D}/boot
-@@ -123,20 +117,17 @@ do_install () {
-         if [ "x${UBOOT_CONFIG}" !=3D "x" ]  =20
-         then
-             for config in ${UBOOT_MACHINE}; do
--                for type in in ${UBOOT_CONFIG}; do
--                     if [ "${type}"x =3D "in"x ]
--                     then
--                         continue
--                     fi
--                     if [ -d "${D}/boot/${SPL_IMAGE}-${type}" ]
--                     then
--                         break
--                     else
-+                i=3D`expr $i + 1`;
-+                for type in ${UBOOT_CONFIG}; do
-+                    j=3D`expr $j + 1`;
-+                    if [ $j -eq $i ]
-+                    then
-                          install ${S}/${config}/${SPL_BINARY} ${D}/boot/${=
-SPL_IMAGE}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINAR=
-Y}-${type}
-                          ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINAR=
-Y}
--                     fi
-+                    fi
-                 done
-+                unset  j
-             done
-         else
-             install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE} @@ -157,15 +=
-148,11 @@ do_deploy () {
-     if [ "x${UBOOT_CONFIG}" !=3D "x" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
--            for type in in ${UBOOT_CONFIG}; do
--                if [ "${type}"x =3D "in"x ] =20
-+            i=3D`expr $i + 1`;
-+            for type in ${UBOOT_CONFIG}; do
-+                j=3D`expr $j + 1`;
-+                if [ $j -eq $i ]
-                 then
--                    continue
--                fi
--                if [ -d "${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}" ]
--                then=20
--                    break
--                else
-                     install -d ${DEPLOYDIR}
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} =
-${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}
-                     cd ${DEPLOYDIR}
-@@ -173,6 +160,7 @@ do_deploy () {
-                     ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-                 fi=20
-             done=20
-+            unset  j
-         done
-     else
-         install -d ${DEPLOYDIR}
-@@ -190,23 +178,20 @@ do_deploy () {
-          if [ "x${UBOOT_CONFIG}" !=3D "x" ]  =20
-          then
-              for config in ${UBOOT_MACHINE}; do
--                 for type in in ${UBOOT_CONFIG}; do
--                      if [ "${type}"x =3D "in"x ]
--                      then
--                          continue
--                      fi
--                      if [ -d "${DEPLOYDIR}/${SPL_IMAGE}-${type}" ]
--                      then
--                          break
--                      else
--                          install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR=
-}/${SPL_IMAGE}-${type}
--                          rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${=
-SPL_SYMLINK}-${type}
--                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_B=
-INARY}-${type}
--                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_B=
-INARY}
--                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_S=
-YMLINK}-${type}
--                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_S=
-YMLINK}
--                      fi
-+                 i=3D`expr $i + 1`;
-+                 for type in ${UBOOT_CONFIG}; do
-+                     j=3D`expr $j + 1`;
-+                     if [ $j -eq $i ]
-+                     then
-+                         install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR}=
-/${SPL_IMAGE}-${type}
-+                         rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${S=
-PL_SYMLINK}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BI=
-NARY}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BI=
-NARY}
-+                         ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SY=
-MLINK}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SY=
-MLINK}
-+                     fi
-                  done
-+                 unset  j
-              done
-          else
-              install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
---
-1.9.2
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index aeccbf5..6305550 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -3,6 +3,8 @@ import os
+ import logging
+ import re
+ import shutil
++import socket, select, signal, subprocess
++import time
+ 
+ import oeqa.utils.ftools as ftools
+ from oeqa.selftest.base import oeSelfTest
+@@ -187,4 +189,31 @@ class BitbakeTests(oeSelfTest):
+         self.assertEqual(result.status, 0)
+         self.assertFalse(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv3')))
+         self.assertTrue(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv2')))
++        ftools.remove_from_file(conf ,data)
++
++    def test_boot_poky_tiny(self):
++        conf = os.path.join(self.builddir, 'conf/local.conf')
++        data = 'DISTRO = "poky-tiny"'
++        ftools.append_file(conf ,data)
++        bitbake('core-image-minimal')
++        result = runCmd('qemu-system-i386 -kernel tmp/deploy/images/qemux86/bzImage-qemux86.bin -initrd tmp/deploy/images/qemux86/core-image-minimal-qemux86.cpio.gz -append "root=/dev/ram0 console=ttyS0" -nographic -serial unix:console.sock,server,nowait', bg=True, shell=True)
++        qemupid = result.pid
++        time.sleep(30)
++        clientsocket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++        clientsocket.connect('console.sock')
++        clientsocket.sendall('uname -r\n')
++        data = ''
++        stopread = False
++        endtime = time.time()+5
++        while time.time()<endtime and not stopread:
++                sread, _, _ = select.select([clientsocket],[],[],5)
++                for sock in sread:
++                        answer = sock.recv(1024)
++                        if answer:
++                                data += answer
++                        else:
++                                sock.close()
++                                stopread = True
++        self.assertTrue("yocto-tiny" in data, msg="Cannot detect poky tiny boot!")
++        subprocess.call(['pkill', '-9', '-P', str(qemupid)])
+         ftools.remove_from_file(conf ,data)
+\ No newline at end of file
+-- 
+2.1.0
 
 
