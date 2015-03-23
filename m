@@ -1,36 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id EA33F6AC36
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 15:48:55 +0000 (UTC)
-Received: by qgep97 with SMTP id p97so20057502qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 08:48:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=V93j08MWr669BnLUDT5KeFlFco8hwA3WvrFbmAejpTE=;
-	b=RXZz5jRLQdXlTmOfbD/91B0Pk93IiI7ORsE13Wjnb/7MTSRgeXpwfwKa+CwRkLatLW
-	sf5UMBl+M4TH05YkeZ01s/JNKyyBsy6KBVCtzpm6V+LYykA7AbcOrWmgVtJm3LWUV05w
-	lfHPMwnWmTPVVQY8JDvZM4OmahVKuQRhjynur3ZUxB9brxF0uDcdjJziR0MPpIrTnqeN
-	spKlHC+msn4hlberhgpm0nKJAAXP0HCzFdGrqdJ6KWiN5IQ5ui8h3DpM71ZPQ20BUSUo
-	L6vIZ6AitwIOD0+CFPCU0PKyOzMUOf544vto3tcmsLZqwcbvV+/goyh+MrUIL7+DuXON
-	DugQ==
-X-Gm-Message-State: ALoCoQmVjSLkN3OueHz9S1o/5f9Lvm25gpZcrNtuTNX6edHlIZHyF1RT+OFXTw07DMEQcAHeUfZ1
-X-Received: by 10.140.149.150 with SMTP id 144mr25292993qhv.16.1427125719697; 
-	Mon, 23 Mar 2015 08:48:39 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B55916AC33;
+	Mon, 23 Mar 2015 16:43:22 +0000 (UTC)
+Received: by wegp1 with SMTP id p1so142600669weg.1;
+	Mon, 23 Mar 2015 09:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=nZSJWIAaZISTzlIeDs99Fyl9YzYtWCeC7GoLzzREuDw=;
+	b=FDdNUBYIc6WvEBE+EW+35JWoCdjREbSVm6hJ7E9xFQBzz7xuFDbkM6Yk7BsjvM9vgR
+	Asa3Q8HtPPNoV2FWE95X2eFx9sz0oUutywFY4M+oWQ7JHEoH0f0tusgxuLAetdbjFsiP
+	SmeSz7eYelCh9RV7HWfXJmvqJcbqloEiNQ/AI01ZNT0Llow7C/ZARSczZP7m4dj5J7MW
+	dMY791Fi+j0F/gA/7+VEY7+DOxOjZM22HNRtH6BXIg5gbJ0p6zn4AJ8lQ0jsygf8JSg/
+	kYKZaj7D4+xaQxgd9aLfY8T/HacYdtN1cLdx8Uj4ZqfU2BX8UmoZz6J9qAl95diHcgob
+	jexA==
+X-Received: by 10.180.75.103 with SMTP id b7mr8955652wiw.32.1427129003083;
+	Mon, 23 Mar 2015 09:43:23 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	dn7sm11977488wid.12.2015.03.23.09.43.22
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Mar 2015 09:43:22 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 23 Mar 2015 17:43:35 +0100
+To: openembedded-core@lists.openembedded.org, Jonathan Liu <net147@gmail.com>
+Message-ID: <20150323164335.GB3904@jama>
+References: <20150323112736.11E9B50553@opal.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 23 Mar 2015 08:48:19 -0700 (PDT)
-In-Reply-To: <1427125293-27123-1-git-send-email-obi@opendreambox.org>
-References: <1427125293-27123-1-git-send-email-obi@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Mar 2015 17:48:19 +0200
-Message-ID: <CAJTo0LaG2kM=Q0ewEq+S7W3XMjRV=cvEc41jrsOSqHfkpee9uw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libav: fix floating dependency on libasound
+In-Reply-To: <20150323112736.11E9B50553@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Jonathan Liu : systemd: fix firmware path to match linux-firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +45,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 15:48:58 -0000
-Content-Type: multipart/alternative; boundary=001a113577e2929e3e0511f69957
+X-List-Received-Date: Mon, 23 Mar 2015 16:43:26 -0000
+X-Groupsio-MsgNum: 63613
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
+Content-Disposition: inline
 
---001a113577e2929e3e0511f69957
-Content-Type: text/plain; charset=UTF-8
-
-On 23 March 2015 at 17:41, Andreas Oberritter <obi@opendreambox.org> wrote:
-
-> -DEPENDS = "zlib libogg yasm-native"
-> +DEPENDS = "alsa-lib zlib libogg yasm-native"
->
-
-Wouldn't this be better as a PACKAGECONFIG?
-
-Ross
-
---001a113577e2929e3e0511f69957
-Content-Type: text/html; charset=UTF-8
+--gatW/ieO32f1wygP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2015 at 17:41, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6na" class=
-=3D"a3s" style=3D"overflow:hidden">-DEPENDS =3D &quot;zlib libogg yasm-nati=
-ve&quot;<br>
-+DEPENDS =3D &quot;alsa-lib zlib libogg yasm-native&quot;<br></div></blockq=
-uote></div><br>Wouldn&#39;t this be better as a PACKAGECONFIG?</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Mon, Mar 23, 2015 at 11:27:36AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: d3fcfe346b3472170641d9194243c4bbe06b8585
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Dd3fcfe346b3472170641d9194243c4bbe06b8585
+>=20
+> Author: Jonathan Liu <net147@gmail.com>
+> Date:   Mon Mar 23 22:18:46 2015 +1100
+>=20
+> systemd: fix firmware path to match linux-firmware
+>=20
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-core/systemd/systemd_219.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core=
+/systemd/systemd_219.bb
+> index 5ecdda9..f2d3c13 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -112,7 +112,7 @@ EXTRA_OECONF =3D " --with-rootprefix=3D${rootprefix} \
+>                   --enable-split-usr \
+>                   --without-python \
+>                   --with-sysvrcnd-path=3D${sysconfdir} \
+> -                 --with-firmware-path=3D${rootlibdir}/firmware \
+> +                 --with-firmware-path=3D/lib/firmware \
 
---001a113577e2929e3e0511f69957--
+Is this false-possitive from QA check or is this change really ignored
+by systemd build?
+
+NOTE: recipe systemd-1_219+gitAUTOINC+a88abde721-r0: task do_configure: Sta=
+rted
+WARNING: QA Issue: systemd: configure was passed unrecognised options: --wi=
+th-firmware-path [unknown-configure-option]
+NOTE: recipe systemd-1_219+gitAUTOINC+a88abde721-r0: task do_configure: Suc=
+ceeded
+
+>                 "
+>  # uclibc does not have NSS
+>  EXTRA_OECONF_append_libc-uclibc =3D " --disable-myhostname "
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--gatW/ieO32f1wygP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlUQQrcACgkQN1Ujt2V2gBy3sQCglFPQytUgX0QujPgRF544Zxbo
+M+0An2Re7T5IDmxRNXVlR41etcOBIfxI
+=Gjhm
+-----END PGP SIGNATURE-----
+
+--gatW/ieO32f1wygP--
