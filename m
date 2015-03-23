@@ -1,14 +1,14 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 785D56AC33
+	by mail.openembedded.org (Postfix) with ESMTP id DF6E16AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 19:09:25 +0000 (UTC)
+	Mon, 23 Mar 2015 19:10:54 +0000 (UTC)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 20:09:25 +0100
-Message-Id: <1427137765-15686-1-git-send-email-obi@opendreambox.org>
+Date: Mon, 23 Mar 2015 20:10:51 +0100
+Message-Id: <1427137851-16060-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] dpkg: Don't move update-alternatives to sbindir
+Subject: [PATCH] update-alternatives.bbclass: alternatives should be removed in prerm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,36 +21,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 19:09:27 -0000
+X-List-Received-Date: Mon, 23 Mar 2015 19:10:55 -0000
 
-Debian, Ubuntu and opkg all have it in bindir.
+This behaviour matches dpkg's manpage and fixes deinstalling
+alternatives for programs needed by the postrm script, e.g. /bin/sh.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/update-alternatives.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 7df8efa..bbbd881 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -46,7 +46,6 @@ do_install_append () {
- 		rm ${D}${bindir}/update-alternatives
- 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
- 	else
--		mv ${D}${bindir}/update-alternatives ${D}${sbindir}
- 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
- 	fi
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 4476ea6..2cb9825 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -222,16 +222,16 @@ python populate_packages_updatealternatives () {
+                 #bb.note('adding runtime requirement for update-alternatives for %s' % pkg)
+                 d.appendVar('RDEPENDS_%s' % pkg, ' ' + d.getVar('MLPREFIX') + provider)
  
-@@ -67,7 +66,7 @@ PROV_class-native = ""
- PROVIDES += "${PROV}"
+-            bb.note('adding update-alternatives calls to postinst/postrm for %s' % pkg)
++            bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
+             bb.note('%s' % alt_setup_links)
+             postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
+             postinst += alt_setup_links
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
  
- PACKAGES =+ "update-alternatives-dpkg"
--FILES_update-alternatives-dpkg = "${sbindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
-+FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
- RPROVIDES_update-alternatives-dpkg += "update-alternatives"
+             bb.note('%s' % alt_remove_links)
+-            postrm = d.getVar('pkg_postrm_%s' % pkg, True) or '#!/bin/sh\n'
+-            postrm += alt_remove_links
+-            d.setVar('pkg_postrm_%s' % pkg, postrm)
++            prerm = d.getVar('pkg_prerm_%s' % pkg, True) or '#!/bin/sh\n'
++            prerm += alt_remove_links
++            d.setVar('pkg_prerm_%s' % pkg, prerm)
+ }
  
- PACKAGES += "${PN}-perl"
+ python package_do_filedeps_append () {
 -- 
 1.9.1
 
