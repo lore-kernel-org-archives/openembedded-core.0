@@ -1,38 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F81D6AC33
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BCB66AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 16:49:10 +0000 (UTC)
-Received: by qgez102 with SMTP id z102so64744814qge.3
+	Mon, 23 Mar 2015 17:00:13 +0000 (UTC)
+Received: by qgep97 with SMTP id p97so23710312qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 09:49:12 -0700 (PDT)
+	Mon, 23 Mar 2015 10:00:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=d1u54Btps2d9WfhNTAditjCQHjjuj67tHX8bIxraa20=;
-	b=TpYGA/5yxm8b6jskUo1sBRMwHklylaXglDX/YUCHGWJthuQJq3Pmy0AZnBoMX0OsLP
-	tEU5DAfEzDbBQrwy2Biej59k2mwXn7SLk9pVrQqXJE96i4VtQWjjQuKlbILEOwEDSeYr
-	dLYwY5mjex5etSnS8iuZGwgwQVyTOiu/YgEStySyU7mrc6OUXENEJjW34QHJV/co9IRE
-	+NMObVHIRgi+fzz6A0e2IRbhi4pbAdT93EPI8Wcz/Z7R54Z1ARPwZ3ZqY6Jwf1YD4mmS
-	hnIl7KB9X05z5H1PK8Zbm2N9snceYbXEph5YHCNPdyP04euQcmApq+1x77LVuiThyDEb
-	ILpg==
-X-Gm-Message-State: ALoCoQnmzW6lKvOcTPTAuiz68mrwxgsc/UiuztYhUpGDs8ssuCP04XE2vMKJZUIzrdiYoJUUTPxy
-X-Received: by 10.55.52.83 with SMTP id b80mr332609qka.36.1427129324463; Mon,
-	23 Mar 2015 09:48:44 -0700 (PDT)
+	bh=0J3mWM6NxJzAd4j8rgFBkzOqvq5rfGebKOWQAF30Xug=;
+	b=HAMLkScSp2iJ4NKn4nbMI84sETagYRMgwmg9GEifA7e/Lpp7VEpQCDkrfVFz2NtVXt
+	KS50sHXwWwGbwEwFv0PH9zhX8HO1LLZLF6/LKaDqIhXjl9aLT7+V+SQgPFro9F1kTPKt
+	rxkg9OqmdxB5HE6D7ldFC5EIjRzh+Oaw1OjsKSWzqbo2M2hR3vBzBg2RkgxVVb1wKfhI
+	09tnecGJEHvMBNFKVKNPXixxTmIFh6xp9JHFA+GsjMVspl7SHKfOKBi1c/n/qAsdXg79
+	IYvB/8fVWMJxS2ZVrQVWLzSuPb3hZP0c/HEEKiwYkTfV7+nGsT8Qz93dKgFy3diLKOCN
+	1C4w==
+X-Gm-Message-State: ALoCoQktRDW3lrMfwBz3yebG8ihST5NlhWqRYHrrH3Oe0JtlhxOhyjBr83hwJlPAxDJT15L7/GzT
+X-Received: by 10.229.96.194 with SMTP id i2mr256025qcn.1.1427130014485; Mon,
+	23 Mar 2015 10:00:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Mon, 23 Mar 2015 09:48:24 -0700 (PDT)
-In-Reply-To: <551043A1.4040601@opendreambox.org>
-References: <1427125293-27123-1-git-send-email-obi@opendreambox.org>
-	<CAJTo0LaG2kM=Q0ewEq+S7W3XMjRV=cvEc41jrsOSqHfkpee9uw@mail.gmail.com>
-	<551043A1.4040601@opendreambox.org>
+Received: by 10.140.102.203 with HTTP; Mon, 23 Mar 2015 09:59:54 -0700 (PDT)
+In-Reply-To: <20150323164335.GB3904@jama>
+References: <20150323112736.11E9B50553@opal.openembedded.org>
+	<20150323164335.GB3904@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Mar 2015 18:48:24 +0200
-Message-ID: <CAJTo0LYcFx9GNtcOuYAhWP_TDX8pA3MbPfE4eWXWsissU05F3g@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libav: fix floating dependency on libasound
+Date: Mon, 23 Mar 2015 18:59:54 +0200
+Message-ID: <CAJTo0LbcOkfGgxLyG1kNJOpxyfOveLToO+cdSwXbEafAYFQ4xg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Jonathan Liu : systemd: fix firmware path to match linux-firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 16:49:11 -0000
-Content-Type: multipart/alternative; boundary=001a114907746efe7d0511f770c2
+X-List-Received-Date: Mon, 23 Mar 2015 17:00:15 -0000
+Content-Type: multipart/alternative; boundary=001a1133b6b48fe8e40511f799da
 
---001a114907746efe7d0511f770c2
+--001a1133b6b48fe8e40511f799da
 Content-Type: text/plain; charset=UTF-8
 
-On 23 March 2015 at 18:47, Andreas Oberritter <obi@opendreambox.org> wrote:
+On 23 March 2015 at 18:43, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> As far as I can tell there's no configure switch to disable alsa. I
-> didn't care enough to patch libav's configure script, especially because
-> it's not based on autotools. I'd say apply this simple patch first, then
-> wait until someone wants to make the more complicated fix after the
-> release.
+> WARNING: QA Issue: systemd: configure was passed unrecognised options:
+> --with-firmware-path [unknown-configure-option]
 >
 
-Agreed :)
+I for one don't see that.  Do you happen to have that build to hand still?
+Actually seeing log.do_configure would be useful.
 
 Ross
 
---001a114907746efe7d0511f770c2
+--001a1133b6b48fe8e40511f799da
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2015 at 18:47, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1jk" class=
-=3D"a3s" style=3D"overflow:hidden">As far as I can tell there&#39;s no conf=
-igure switch to disable alsa. I<br>
-didn&#39;t care enough to patch libav&#39;s configure script, especially be=
-cause<br>
-it&#39;s not based on autotools. I&#39;d say apply this simple patch first,=
- then<br>
-wait until someone wants to make the more complicated fix after the release=
-.<br></div></blockquote></div><br>Agreed :)</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 23 March 2015 at 18:43, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":48e" class=
+=3D"a3s" style=3D"overflow:hidden">WARNING: QA Issue: systemd: configure wa=
+s passed unrecognised options: --with-firmware-path [unknown-configure-opti=
+on]<br></div></blockquote></div><br>I for one don&#39;t see that.=C2=A0 Do =
+you happen to have that build to hand still?=C2=A0 Actually seeing log.do_c=
+onfigure would be useful.</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
 
---001a114907746efe7d0511f770c2--
+--001a1133b6b48fe8e40511f799da--
