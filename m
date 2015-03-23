@@ -1,20 +1,40 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F40496AC33
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A8A6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 21:33:14 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Mar 2015 14:33:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,454,1422950400"; d="scan'208";a="684473707"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.44])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2015 14:33:15 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	Mon, 23 Mar 2015 21:57:17 +0000 (UTC)
+Received: by igbqf9 with SMTP id qf9so51307688igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Mar 2015 14:57:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:content-type:mime-version:content-transfer-encoding;
+	bh=3u9NXAzvsJdNzJweGfB3FnaVTm5+VySq8Sm7Te1WECI=;
+	b=lu/lJJjp72R+pPdxJXJOnKfl+grArCnjEhqeTgQ7b+qVOw8Eb0dQite+wbPdOsWXhB
+	hy0O77GgOnHFCfEbJ5vQq4SswabEufOnqnOnsUMntaTMDflxfN54pqBmETzU+Ka3kZyq
+	HwU2QXb9Eutx+4DoXBgRbP6Kwm5Ha4nhEyonGQeccwAKGEdCaMXYlggBlzWTRiRCtrFH
+	ngqKw6FsnLpc/HNAAiOoMu2dOBokMzqmTZva6JfVrh/JrNSgifDk14tUn1cfjWhO8Wb7
+	Qa7iCvdoMTgDDMZPOTe/R+YRXyCAQWru59K2af8bm+Z3PPX7PhC/yCtUFei7xuHokMV0
+	1Acg==
+X-Gm-Message-State: ALoCoQku3TO2VN01e5DAzxLw3QMNSDQtVrVdmfP10aeeEdgMnBecRqp13kJMNjT5OsOyRHZJCCoP
+X-Received: by 10.50.43.138 with SMTP id w10mr17634465igl.19.1427147838423;
+	Mon, 23 Mar 2015 14:57:18 -0700 (PDT)
+Received: from pohly-mobl1 (p57A57677.dip0.t-ipconnect.de. [87.165.118.119])
+	by mx.google.com with ESMTPSA id
+	ie15sm7298993igb.12.2015.03.23.14.57.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Mar 2015 14:57:17 -0700 (PDT)
+Message-ID: <1427147834.3412.89.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 15:33:21 -0600
-Message-Id: <1427146401-5042-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] python: Fix PGEN linking errors
+Date: Mon, 23 Mar 2015 22:57:14 +0100
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: systemd + run-postinsts.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,76 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 21:33:15 -0000
+X-List-Received-Date: Mon, 23 Mar 2015 21:57:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Parallel make races when linking PGEN affects target's python
-compilation as well, adds patch from python-native to modify the
-Makefile and avoid parallel make races, also updates upstream status
+Hello!
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- .../avoid_parallel_make_races_on_pgen.patch        |  2 +-
- .../python/avoid_parallel_make_races_on_pgen.patch | 27 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.9.bb       |  1 +
- 3 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python/avoid_parallel_make_races_on_pgen.patch
+I'm using systemd from OE-core master to boot core-image-minimal. I'm
+seeing a boot failure where "Run pending postinsts" (aka
+run-postinsts.service) gets stuck during booting under very specific
+circumstances:
 
-diff --git a/meta/recipes-devtools/python/python-native/avoid_parallel_make_races_on_pgen.patch b/meta/recipes-devtools/python/python-native/avoid_parallel_make_races_on_pgen.patch
-index 1a8f68e..5279e7c 100644
---- a/meta/recipes-devtools/python/python-native/avoid_parallel_make_races_on_pgen.patch
-+++ b/meta/recipes-devtools/python/python-native/avoid_parallel_make_races_on_pgen.patch
-@@ -1,4 +1,4 @@
--Upstream-Status: Inappropriate [embedded specific]
-+Upstream-Status: Pending
- 
- Avoids parallel make races linking errors when making Parser/PGEN
- 
-diff --git a/meta/recipes-devtools/python/python/avoid_parallel_make_races_on_pgen.patch b/meta/recipes-devtools/python/python/avoid_parallel_make_races_on_pgen.patch
-new file mode 100644
-index 0000000..e9bae32
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/avoid_parallel_make_races_on_pgen.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Pending
-+
-+Avoids parallel make races linking errors when making Parser/PGEN
-+
-+- Implements Richard Purdie's idea
-+
-+Signed-Off-By: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Signed-Off-By: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-+
-+Index: Python-2.7.9/Makefile.pre.in
-+===================================================================
-+--- Python-2.7.9.orig/Makefile.pre.in
-++++ Python-2.7.9/Makefile.pre.in
-+@@ -611,12 +611,10 @@ Modules/grpmodule.o: $(srcdir)/Modules/g
-+ 
-+ Modules/pwdmodule.o: $(srcdir)/Modules/pwdmodule.c $(srcdir)/Modules/posixmodule.h
-+ 
-+-$(GRAMMAR_H): $(GRAMMAR_INPUT) $(PGENSRCS)
-++$(GRAMMAR_H): $(GRAMMAR_INPUT) $(PGENSRCS) $(PGEN)
-+ 		@$(MKDIR_P) Include
-+-		$(MAKE) $(PGEN)
-+ 		$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
-+ $(GRAMMAR_C): $(GRAMMAR_H) $(GRAMMAR_INPUT) $(PGENSRCS)
-+-		$(MAKE) $(GRAMMAR_H)
-+ 		touch $(GRAMMAR_C)
-+ 
-+ $(PGEN):	$(PGENOBJS)
-diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
-index 4087c2c..6d5b42a 100644
---- a/meta/recipes-devtools/python/python_2.7.9.bb
-+++ b/meta/recipes-devtools/python/python_2.7.9.bb
-@@ -25,6 +25,7 @@ SRC_URI += "\
-   file://run-ptest \
-   file://parallel-makeinst-create-bindir.patch \
-   file://use_sysroot_ncurses_instead_of_host.patch \
-+  file://avoid_parallel_make_races_on_pgen.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.9.1
+     1. The package has a pkg_postinst_${PN} which (intentionally)
+        failed during image building, thus delaying its execution to the
+        first boot.
+     2. The package uses "inherit systemd" to enable its own systemd
+        service.
+
+It seems to be "systemctl start <service name>" which is hanging,
+because I can reproduce the same behavior without systemd.bbclass in the
+following pkg_postinst:
+
+pkg_postinst_${PN} () {
+#!/bin/sh -e
+   # Cannot run during image building...
+   if [ x"$D" != "x" ]; then
+      exit 1
+   fi
+
+   # Do something on target during first boot.
+
+   systemctl enable foobar
+   systemctl start foobar # <====
+}
+
+It works without the last line. The actual recipe is a bit more complex,
+but I can try to create a dummy one if that would help.
+
+Any idea what could be causing this and, more importantly, how to fix
+it?
+
+
 
 
