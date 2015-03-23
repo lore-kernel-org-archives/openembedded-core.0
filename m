@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B15B6AC36
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3436AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 18:31:44 +0000 (UTC)
+	Mon, 23 Mar 2015 18:31:45 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Mar 2015 11:31:45 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 23 Mar 2015 11:31:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,453,1422950400"; d="scan'208";a="684400063"
+X-IronPort-AV: E=Sophos;i="5.11,453,1422950400"; d="scan'208";a="684400070"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2015 11:31:44 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2015 11:31:45 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 20:31:37 +0200
-Message-Id: <cover.1427135435.git.cristian.iorga@intel.com>
+Date: Mon, 23 Mar 2015 20:31:38 +0200
+Message-Id: <19f19ecbae2b46b3c46eed2d5f86c84c50fac780.1427135435.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/1] Fix for YOCTO #6931
+In-Reply-To: <cover.1427135435.git.cristian.iorga@intel.com>
+References: <cover.1427135435.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1427135435.git.cristian.iorga@intel.com>
+References: <cover.1427135435.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] webkit-gtk: disable JIT for armv5/armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,21 +33,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 23 Mar 2015 18:31:51 -0000
 
-The following changes since commit 4bd886fb0081954879aaa2f574f3c7f6ced745d5:
+JIT for JS causes webkit to crash for
+ARM v5 and ARM v6 arch, so disable it for now.
 
-  systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:21 +0000)
+TODO: re-evaluate after webkit-gtk upgrade.
 
-are available in the git repository at:
+Fixes [YOCTO #6931].
 
-  git://git.yoctoproject.org/poky-contrib ciorga/YB6931
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB6931
-
-Cristian Iorga (1):
-  webkit-gtk: disable JIT for armv5/armv6
-
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
  meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+index 920e1a0..15c73cf 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+@@ -50,6 +50,8 @@ EXTRA_OECONF = "\
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-webgl', '--disable-webgl', d)} \
+                 UNICODE_CFLAGS=-D_REENTRANT \
+                "
++EXTRA_OECONF_append_armv5 = " --disable-jit"
++EXTRA_OECONF_append_armv6 = " --disable-jit"
+ 
+ #default unicode backend icu breaks in cross-compile when target and host are different endian type
+ EXTRA_OECONF_append_powerpc = " --with-unicode-backend=glib"
 -- 
 2.1.0
 
