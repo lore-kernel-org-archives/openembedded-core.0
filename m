@@ -1,35 +1,37 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2178273BEB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
+	[209.85.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DB116AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 11:54:36 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2015 04:54:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,452,1422950400"; 
-	d="scan'208,217";a="471226986"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Mar 2015 04:54:28 -0700
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.110]) by
-	IRSMSX103.ger.corp.intel.com ([163.33.3.157]) with mapi id
-	14.03.0224.002; Mon, 23 Mar 2015 11:54:27 +0000
-From: "Musat, George L" <george.l.musat@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] oeqa/selftest: New auto bitbake test for
-	poky tiny.
-Thread-Index: AQHQZUt8vlN02qdFr0CW1eq90qAayJ0p4IGAgAARJzA=
-Date: Mon, 23 Mar 2015 11:54:27 +0000
-Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C2650EF29@IRSMSX107.ger.corp.intel.com>
-References: <1427102643-19366-1-git-send-email-george.l.musat@intel.com>
-	<CAJTo0LYhHBzr_pzzLSALuMsPh+WBcPu2KyLh+hfUKddEXBnR7Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LYhHBzr_pzzLSALuMsPh+WBcPu2KyLh+hfUKddEXBnR7Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Mon, 23 Mar 2015 11:58:42 +0000 (UTC)
+Received: by ykcn8 with SMTP id n8so70154338ykc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Mar 2015 04:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=FoGbQv7FMv0XrHbok3toP1iWZOCHblvGE2vD4hRtNj8=;
+	b=nVP3jwTrILeZmJ8W6zVdz1AB6LqpwuG7O3KprlcxW37Z3deS3V6N2Ea9fuqKmbWL9s
+	TSlmansdtuXjgMD8N3SFfRH5DKoDUOeoPjdIumIoiDcqZIEVD3VqZurZC1gD/QWuxZD+
+	z94j5BVtNLTUhTQifcQnrwnQBb/yheDIWfrSyiQ7uMHjOl2DLGrorlGjdiH4kuVsE3/Y
+	9uMucbWakasmi7CGL1zH+3/3bGOL64aaAR88sENJogezMbhuzDo0P3Jc8amBXGEKiLuB
+	r5A7LgmanXQwWulP96Zndjgr0tMk/oM4lGnUbfx+GNTDA+OmSj9Ajmy4DjyvR8/7NyaU
+	ng6w==
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/selftest: New auto bitbake test for poky tiny.
+X-Received: by 10.236.32.38 with SMTP id n26mr2624432yha.67.1427111923996;
+	Mon, 23 Mar 2015 04:58:43 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.112.82 with HTTP; Mon, 23 Mar 2015 04:58:43 -0700 (PDT)
+In-Reply-To: <1427109526-31351-1-git-send-email-net147@gmail.com>
+References: <1427109526-31351-1-git-send-email-net147@gmail.com>
+Date: Mon, 23 Mar 2015 08:58:43 -0300
+X-Google-Sender-Auth: qolG55bPefgkWw_4uxyIV-dRCD4
+Message-ID: <CAP9ODKrYVb77bUAd_6ARiOG3+U5Ej3Us9Akz4+267xg8miMcMg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Jonathan Liu <net147@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: fix firmware path to match linux-firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,95 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 11:54:37 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C2650EF29IRSMSX107gercor_"
+X-List-Received-Date: Mon, 23 Mar 2015 11:58:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C2650EF29IRSMSX107gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Mon, Mar 23, 2015 at 8:18 AM, Jonathan Liu <net147@gmail.com> wrote:
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd_219.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> index 5ecdda9..f2d3c13 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -112,7 +112,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+>                   --enable-split-usr \
+>                   --without-python \
+>                   --with-sysvrcnd-path=${sysconfdir} \
+> -                 --with-firmware-path=${rootlibdir}/firmware \
+> +                 --with-firmware-path=/lib/firmware \
 
-SGkgUm9zcywNCkkgYW0gdmlld2luZyB0aGlzIGFzIGEgYnVpbGQgdGVzdCBmb3IgdGhlIHBva3kt
-dGlueSBpbWFnZSwgdGhhdCBjaGVja3MgaWYgdGhlIGJ1aWxkIHdhcyBmaW5lIGJ5IGJvb3Rpbmcg
-aXQgYW5kIGNoZWNraW5nIHRoYXQgaXQgYm9vdGVkIGZpbmUgYW5kIGNoZWNraW5nIHRoYXQgaXTi
-gJlzIGluZGVlZCBhIHRpbnksIHJhdGhlciB0aGFuIGEgcnVudGltZSB0ZXN0Lg0KDQpGcm9tOiBC
-dXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBNb25kYXks
-IE1hcmNoIDIzLCAyMDE1IDEyOjM5IFBNDQpUbzogTXVzYXQsIEdlb3JnZSBMDQpDYzogT0UtY29y
-ZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9lcWEvc2VsZnRlc3Q6IE5ldyBhdXRv
-IGJpdGJha2UgdGVzdCBmb3IgcG9reSB0aW55Lg0KDQoNCk9uIDIzIE1hcmNoIDIwMTUgYXQgMTE6
-MjQsIEx1Y2lhbiBNdXNhdCA8Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2Uu
-bC5tdXNhdEBpbnRlbC5jb20+PiB3cm90ZToNClRoZSB0ZXN0IGJ1aWxkcyBhIHBva3ktdGlueSBp
-bWFnZSwgYm9vdHMgaXQgaW4gYmFja2dyb3VuZCBhbmQNCnRyaWVzIHRvIGNvbXVuaWNhdGUgd2l0
-aCBpdCB2aWEgc2VyaWFsLg0KDQpXb3VsZCB0aGlzIGJlIGJldHRlciBhcyBhIHRlc3QgaG9va2Vk
-IGludG8gdGhlIHVzdWFsIHBvc3QtYnVpbGQgdGVzdGltYWdlIHN1cHBvcnQ/DQoNClJvc3MNCg==
+Seems like the fix should be done in linux-firmware, not here.
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C2650EF29IRSMSX107gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkhpIFJvc3MsPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Qi
-PkkgYW0gdmlld2luZyB0aGlzIGFzIGEgYnVpbGQgdGVzdCBmb3IgdGhlIHBva3ktdGlueSBpbWFn
-ZSwgdGhhdCBjaGVja3MgaWYgdGhlIGJ1aWxkIHdhcyBmaW5lIGJ5IGJvb3RpbmcgaXQgYW5kIGNo
-ZWNraW5nIHRoYXQgaXQgYm9vdGVkIGZpbmUgYW5kIGNoZWNraW5nIHRoYXQNCiBpdOKAmXMgaW5k
-ZWVkIGEgdGlueSwgcmF0aGVyIHRoYW4gYSBydW50aW1lIHRlc3QuPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+
-PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGlu
-dGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBNb25kYXksIE1hcmNoIDIzLCAyMDE1IDEyOjM5
-IFBNPGJyPg0KPGI+VG86PC9iPiBNdXNhdCwgR2VvcmdlIEw8YnI+DQo8Yj5DYzo8L2I+IE9FLWNv
-cmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9lcWEvc2VsZnRl
-c3Q6IE5ldyBhdXRvIGJpdGJha2UgdGVzdCBmb3IgcG9reSB0aW55LjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAyMyBNYXJjaCAyMDE1IGF0IDExOjI0LCBMdWNpYW4g
-TXVzYXQgJmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20iIHRhcmdl
-dD0iX2JsYW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwv
-bzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
-ZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44
-cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6NmI2Ij4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPlRoZSB0ZXN0IGJ1aWxkcyBhIHBva3ktdGlueSBpbWFnZSwgYm9vdHMgaXQgaW4gYmFja2dy
-b3VuZCBhbmQ8YnI+DQp0cmllcyB0byBjb211bmljYXRlIHdpdGggaXQgdmlhIHNlcmlhbC48bzpw
-PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48YnI+DQpXb3VsZCB0aGlzIGJlIGJldHRlciBhcyBhIHRlc3QgaG9va2VkIGludG8g
-dGhlIHVzdWFsIHBvc3QtYnVpbGQgdGVzdGltYWdlIHN1cHBvcnQ/PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
-
---_000_042E875E1B5D414CA9BB78B7D4FA691C2650EF29IRSMSX107gercor_--
