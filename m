@@ -1,14 +1,14 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AE0373BD4
+	by mail.openembedded.org (Postfix) with ESMTP id 486A96AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 15:42:00 +0000 (UTC)
+	Mon, 23 Mar 2015 15:42:21 +0000 (UTC)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 16:33:18 +0100
-Message-Id: <1427124798-26263-1-git-send-email-obi@opendreambox.org>
+Date: Mon, 23 Mar 2015 16:42:21 +0100
+Message-Id: <1427125341-5101-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] kernel-module-split.bbclass: Avoid bogus recommends for modules ending with -dev
+Subject: [PATCH] python: fix cached config value for /dev/ptmx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,29 +21,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Mar 2015 15:42:01 -0000
+X-List-Received-Date: Mon, 23 Mar 2015 15:42:21 -0000
 
-Example: lirc-dev.ko -> kernel-module-lirc-dev
+Linux usually has /dev/ptmx, so set set it to yes.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/kernel-module-split.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/python/python_2.7.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 32b8085..68a23f8 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -176,6 +176,9 @@ python split_kernel_module_packages () {
-                 rdepends[dep] = []
-         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
+diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
+index 4087c2c..bc44c72 100644
+--- a/meta/recipes-devtools/python/python_2.7.9.bb
++++ b/meta/recipes-devtools/python/python_2.7.9.bb
+@@ -37,7 +37,7 @@ TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
+ TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
  
-+        # Avoid automatic -dev recommendations for modules ending with -dev.
-+        d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
-+
-     module_deps = parse_depmod()
-     module_regex = '^(.*)\.k?o$'
-     module_pattern = 'kernel-module-%s'
+ # The following is a hack until we drop ac_cv_sizeof_off_t from site files
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)} ac_cv_file__dev_ptmx=no ac_cv_file__dev_ptc=no"
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)} ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+ 
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
 -- 
 1.9.1
 
