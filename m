@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AC09273BFC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 510A473B9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 18:57:55 +0000 (UTC)
+	Tue, 24 Mar 2015 18:57:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2OIvtnd027235
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2OIvuC9010666
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Tue, 24 Mar 2015 11:57:56 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 24 Mar 2015 11:57:55 -0700
+	14.3.224.2; Tue, 24 Mar 2015 11:57:56 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 24 Mar 2015 14:57:50 -0400
-Message-ID: <293b7a5d863933f86a68973cdeb74c848e934637.1427222980.git.bruce.ashfield@windriver.com>
+Date: Tue, 24 Mar 2015 14:57:51 -0400
+Message-ID: <65fd1dbdd25accaf8986d05f8b8e9d651363d155.1427222980.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1427222980.git.bruce.ashfield@windriver.com>
 References: <cover.1427222980.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] linux-yocto/3.19: configuration updates and stable import
+Subject: [PATCH 3/5] linux-yocto/3.14: integrate korg stable and meta data changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +36,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 24 Mar 2015 18:57:56 -0000
 Content-Type: text/plain
 
-Updating the 3.19 SRCREVs to pick up the korg 3.19.2 release, as well
-as the following meta data changes:
-
-  ed82e1ac3196 features: soc: fix typo in baytrail.cfg
-  76bc151242d7 tiny.cfg: Enable BINFMT_SCRIPT
+Updating the 3.14 SRCREVs to import the v3.14.36 korg stable changes and
+configuration changes to the meta branch.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.19.bb      | 20 ++++++++++----------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 20 ++++++++++----------
+ 3 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
-index 98ffc5a3cc37..d5a07dd68918 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+index aff670271cb8..4b602b1b03f6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+@@ -3,13 +3,13 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "eb2c9c93de9b806f2a52c26bba229089a7a71385"
+-SRCREV_machine_qemuppc ?= "bd470d1c8337323b0f7d1529df70a1c68108df0b"
+-SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
++SRCREV_machine ?= "3fb54cf8f4c3254f628e6c4720fe3c731a9de0b2"
++SRCREV_machine_qemuppc ?= "ab935c000435b6f5af42543f8e2300e473995d5a"
++SRCREV_meta ?= "162dfe3bb092c1a792e5ed224fe09672e9814b24"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.14.29"
++LINUX_VERSION ?= "3.14.36"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+index f6b95a218ad7..afcc4dd6206c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
 @@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "3.19.1"
-+LINUX_VERSION ?= "3.19.2"
+-LINUX_VERSION ?= "3.14.29"
++LINUX_VERSION ?= "3.14.36"
  
  KMETA = "meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "8c38c1015bbb5fc121018f67ed45a7eb2f357cfe"
--SRCREV_meta ?= "e3303ca4bd7d7a5a3d9a9a9a9467c4c70db4258d"
-+SRCREV_machine ?= "31b35da6a5c8a2b162f6c33202e9b64dd13757d5"
-+SRCREV_meta ?= "8fc194deced3f83e78b0671c6ff8b45bdb7f80e7"
+-SRCREV_machine ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+-SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
++SRCREV_machine ?= "4434aa71ff7043c570f9eae493df1ccadbda9b85"
++SRCREV_meta ?= "162dfe3bb092c1a792e5ed224fe09672e9814b24"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-index 31321c55e984..ac1856abcecc 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-@@ -11,19 +11,19 @@ KBRANCH_qemux86  ?= "standard/common-pc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index 0d0d8b2ee22a..b71aea2b18e9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -11,19 +11,19 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
  KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
  KBRANCH_qemumips64 ?= "standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "a40304a6dfdad6618420854121ee91cf09481bd4"
--SRCREV_machine_qemuarm64 ?= "8c38c1015bbb5fc121018f67ed45a7eb2f357cfe"
--SRCREV_machine_qemumips ?= "6f1c5213591d7a35efc542a0971c70dcd16ea00e"
--SRCREV_machine_qemuppc ?= "6b9a1cb9e10e76d8a3102c046656c93651fde9ab"
--SRCREV_machine_qemux86 ?= "8c38c1015bbb5fc121018f67ed45a7eb2f357cfe"
--SRCREV_machine_qemux86-64 ?= "8c38c1015bbb5fc121018f67ed45a7eb2f357cfe"
--SRCREV_machine_qemumips64 ?= "723d6e1eb8dfa06f374d925d2c36e22feb1a2c86"
--SRCREV_machine ?= "8c38c1015bbb5fc121018f67ed45a7eb2f357cfe"
--SRCREV_meta ?= "e3303ca4bd7d7a5a3d9a9a9a9467c4c70db4258d"
-+SRCREV_machine_qemuarm ?= "473e2f3788730c51e82714a9785325b6308f6762"
-+SRCREV_machine_qemuarm64 ?= "31b35da6a5c8a2b162f6c33202e9b64dd13757d5"
-+SRCREV_machine_qemumips ?= "d43f1cbf282d020f7aa31d68a54b2876d2c0e81b"
-+SRCREV_machine_qemuppc ?= "35de413056b86191963ffe686913da31b978a9b3"
-+SRCREV_machine_qemux86 ?= "31b35da6a5c8a2b162f6c33202e9b64dd13757d5"
-+SRCREV_machine_qemux86-64 ?= "31b35da6a5c8a2b162f6c33202e9b64dd13757d5"
-+SRCREV_machine_qemumips64 ?= "d35649ef8cbb0a0404be5c721377b138866181ad"
-+SRCREV_machine ?= "31b35da6a5c8a2b162f6c33202e9b64dd13757d5"
-+SRCREV_meta ?= "8fc194deced3f83e78b0671c6ff8b45bdb7f80e7"
+-SRCREV_machine_qemuarm ?= "38d0249598bef8263f1f1e280badf6b92a0bc668"
+-SRCREV_machine_qemuarm64 ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+-SRCREV_machine_qemumips ?= "d2138247c6f1ba8f082f7c2b0d4a6a4efb0cf908"
+-SRCREV_machine_qemuppc ?= "2ec2927314d58a012403cbaccdf0a8a1f5c5d666"
+-SRCREV_machine_qemux86 ?= "9ed9a63eeafbcbee0e378e304a1029bb14d45697"
+-SRCREV_machine_qemux86-64 ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+-SRCREV_machine_qemumips64 ?= "afdaa94d540bf671f4d4d198ec6b891df22fb323"
+-SRCREV_machine ?= "3bab81113682d3a5ffc8ea60cf770beed4831492"
+-SRCREV_meta ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
++SRCREV_machine_qemuarm ?= "d1cea997ae512ee325600a247d75027e65655e0a"
++SRCREV_machine_qemuarm64 ?= "4434aa71ff7043c570f9eae493df1ccadbda9b85"
++SRCREV_machine_qemumips ?= "c37155f99472e7dc9f94b3bda72c73a3f718fdbf"
++SRCREV_machine_qemuppc ?= "521b9fd001dc25a446d39f349cdfb7f9f5697d05"
++SRCREV_machine_qemux86 ?= "f7cbba6012312f5bf9b7279bafa8bb09d18b547d"
++SRCREV_machine_qemux86-64 ?= "4434aa71ff7043c570f9eae493df1ccadbda9b85"
++SRCREV_machine_qemumips64 ?= "a777f11a26f075b71becb47b5133252c5d8fafff"
++SRCREV_machine ?= "4434aa71ff7043c570f9eae493df1ccadbda9b85"
++SRCREV_meta ?= "162dfe3bb092c1a792e5ed224fe09672e9814b24"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.19.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
  
--LINUX_VERSION ?= "3.19.1"
-+LINUX_VERSION ?= "3.19.2"
+-LINUX_VERSION ?= "3.14.29"
++LINUX_VERSION ?= "3.14.36"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
