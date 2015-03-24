@@ -1,22 +1,28 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 96F5C60034
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 41A6C73A99
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 17:27:14 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 24 Mar 2015 10:26:47 -0700
+	Tue, 24 Mar 2015 17:33:39 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 24 Mar 2015 10:33:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,459,1422950400"; d="scan'208";a="545640474"
-Received: from bitbang.jf.intel.com ([10.7.201.37])
-	by orsmga003.jf.intel.com with ESMTP; 24 Mar 2015 10:26:46 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Mar 2015 10:26:36 -0700
-Message-Id: <1427217996-10261-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
-References: <1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
-Subject: [PATCH v2] image.bbclass: Empty /var/volatile if it is a mount point
+X-IronPort-AV: E=Sophos;i="5.11,459,1422950400"; d="scan'208";a="471968371"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.155])
+	([10.219.4.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Mar 2015 10:33:33 -0700
+Message-ID: <55119FF4.6050800@linux.intel.com>
+Date: Tue, 24 Mar 2015 11:33:40 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Andreas Oberritter <obi@opendreambox.org>, 
+	openembedded-core@lists.openembedded.org
+References: <1427126707-38854-1-git-send-email-anibal.limon@linux.intel.com>
+	<55115179.7050506@opendreambox.org>
+	<55119205.9040605@linux.intel.com>
+In-Reply-To: <55119205.9040605@linux.intel.com>
+Subject: Re: [PATCH] package_manager/deb: apt-ftparchive needs a valid config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,64 +35,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 17:27:21 -0000
+X-List-Received-Date: Tue, 24 Mar 2015 17:33:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-If /var/volatile is a mount point it shouldn't contain any files before
-mount time. If files are there, they will no longer be able to be accessed
-once the tmpfs gets mounted at /var/volatile.
+Hi again,
 
-This problem can be seen for instance when systemd creates
-/var/volatile/log/journal as part of its package installation. It then
-assumes the journal is persistent even though /var/volatile/log/journal
-goes away shortly thereafter.
+On 24/03/15 10:34, Aníbal Limón wrote:
+> Hi Andreas,
+>
+> Your solution is better but i think we need to generalize the code in 
+> DpkgPM::_create_configs to avoid code duplicate.
 
-This change makes sure that there are no files in /var/volatile if it is
-to be used as a mount point.
+I reviewed the code and the issue is why PM's and Indexer's are 
+different classes i think they need to share common information.
+For now your patch is the best solution, now i'm doing a little 
+improvements and i'll send v2 with your signature.
 
-[Yocto #7388]
+Cheers,
+     alimon
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/image.bbclass | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 89eb5f3..d7e0734 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -181,6 +181,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
- 
-+ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
-+
- # some default locales
- IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- 
-@@ -377,6 +379,22 @@ set_systemd_default_target () {
- 	fi
- }
- 
-+# If /var/volatile is not empty, we have seen problems where programs such as the
-+# journal make assumptions based on the contents of /var/volatile. The journal
-+# would then write to /var/volatile before it was mounted, thus hiding the
-+# items previously written.
-+#
-+# This change is to attempt to fix those types of issues in a way that doesn't
-+# affect users that may not be using /var/volatile.
-+empty_var_volatile () {
-+	if [ -e ${IMAGE_ROOTFS}/etc/fstab ]; then
-+		match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
-+		if [ -n "$match" ]; then
-+			find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
-+		fi
-+	fi
-+}
-+
- # Turn any symbolic /sbin/init link into a file
- remove_init_link () {
- 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
--- 
-1.9.3
+>
+> Comments?
+>
+> Cheers,
+>     alimon
+>
+> On 24/03/15 05:58, Andreas Oberritter wrote:
+>> Hello Aníbal,
+>>
+>> On 23.03.2015 17:05, Aníbal Limón wrote:
+>>> Since we have support of log checking in deb/ipk [1] rootfs generation
+>>> in non Debian-based hosts fails because apt-ftparchive generates a
+>>> warn when not find /etc/apt/apt.conf.d/ (available in Debian-based
+>>> hosts).
+>>>
+>>> In order to fix,
+>>>
+>>>     package_manager.py: DpkgPMIndexer add support for export APT_CONF
+>>>     to environment.
+>>>
+>>> [1] 
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=86aec93902af2e2d7d73ca9a643707fcca45055c
+>>>
+>>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>>> ---
+>>>   meta/lib/oe/package_manager.py | 9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/lib/oe/package_manager.py 
+>>> b/meta/lib/oe/package_manager.py
+>>> index c9a8084..395c0d01 100644
+>>> --- a/meta/lib/oe/package_manager.py
+>>> +++ b/meta/lib/oe/package_manager.py
+>>> @@ -169,7 +169,14 @@ class OpkgIndexer(Indexer):
+>>>       class DpkgIndexer(Indexer):
+>>> +    def __init__(self, d, deploy_dir, apt_conf_file=None):
+>>> +        self.apt_conf_file = apt_conf_file
+>>> +        Indexer.__init__(self, d, deploy_dir)
+>>> +
+>>>       def write_index(self):
+>>> +        if not self.apt_conf_file is None:
+>>> +            os.environ['APT_CONFIG'] = self.apt_conf_file
+>>> +
+>>>           pkg_archs = self.d.getVar('PACKAGE_ARCHS', True)
+>>>           if pkg_archs is not None:
+>>>               arch_list = pkg_archs.split()
+>>> @@ -1507,7 +1514,7 @@ class DpkgPM(PackageManager):
+>>>             self._create_configs(archs, base_archs)
+>>>   -        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
+>>> +        self.indexer = DpkgIndexer(self.d, self.deploy_dir, 
+>>> self.apt_conf_file)
+>>>         """
+>>>       This function will change a package's status in 
+>>> /var/lib/dpkg/status file.
+>>>
+>> unfortunately, this approach doesn't work with "bitbake 
+>> package-index", which
+>> calls generate_index_files() in package_manager.py. That's why I 
+>> implemented
+>> a quite ugly solution covering all cases:
+>>
+>>
+>>  From 668fe52b58aba6ab47e4712ee460ed7dd06c948f Mon Sep 17 00:00:00 2001
+>> From: Andreas Oberritter <obi@opendreambox.org>
+>> Date: Wed, 8 Oct 2014 15:52:22 +0200
+>> Subject: [PATCH] package_manager/deb: apt-ftparchive needs a valid 
+>> config
+>>
+>> Without a valid config, apt-ftparchive aborts. Since apt-ftparchive
+>> defaults to /etc/apt if APT_CONFIG is unset, this is only an issue
+>> non non-Debian build hosts.
+>>
+>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+>> ---
+>>   meta/lib/oe/package_manager.py | 22 ++++++++++++++++++++++
+>>   1 file changed, 22 insertions(+)
+>>
+>> diff --git a/meta/lib/oe/package_manager.py 
+>> b/meta/lib/oe/package_manager.py
+>> index d4ac174..71f909c 100644
+>> --- a/meta/lib/oe/package_manager.py
+>> +++ b/meta/lib/oe/package_manager.py
+>> @@ -182,6 +182,28 @@ class DpkgIndexer(Indexer):
+>>           all_mlb_pkg_arch_list = 
+>> (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or 
+>> "").replace('-', '_').split()
+>>           arch_list.extend(arch for arch in all_mlb_pkg_arch_list if 
+>> arch not in arch_list)
+>>   +        apt_conf_dir = 
+>> self.d.expand("${APTCONF_TARGET}/apt-ftparchive")
+>> +        apt_conf_file = os.path.join(apt_conf_dir, "apt.conf")
+>> +
+>> +        bb.utils.mkdirhier(apt_conf_dir)
+>> +        bb.utils.mkdirhier(apt_conf_dir + "/lists/partial/")
+>> +        bb.utils.mkdirhier(apt_conf_dir + "/apt.conf.d/")
+>> +        bb.utils.mkdirhier(apt_conf_dir + "/preferences.d/")
+>> +
+>> +        with open(os.path.join(apt_conf_dir, "preferences"), "w") as 
+>> prefs_file:
+>> +            pass
+>> +        with open(os.path.join(apt_conf_dir, "sources.list"), "w+") 
+>> as sources_file:
+>> +            pass
+>> +
+>> +        with open(apt_conf_file, "w") as apt_conf:
+>> +            with 
+>> open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) 
+>> as apt_conf_sample:
+>> +                for line in apt_conf_sample.read().split("\n"):
+>> +                    line = re.sub("#ROOTFS#", "/dev/null", line)
+>> +                    line = re.sub("#APTCONF#", apt_conf_dir, line)
+>> +                    apt_conf.write(line + "\n")
+>> +
+>> +        os.environ['APT_CONFIG'] = apt_conf_file
+>> +
+>>           apt_ftparchive = bb.utils.which(os.getenv('PATH'), 
+>> "apt-ftparchive")
+>>           gzip = bb.utils.which(os.getenv('PATH'), "gzip")
+>
 
 
