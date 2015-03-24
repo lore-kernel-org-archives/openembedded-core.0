@@ -1,22 +1,22 @@
-Return-Path: <anibal.limon@linux.intel.com>
+Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B0536AC33
+	by mail.openembedded.org (Postfix) with ESMTP id 9C76A6AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 00:10:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 23 Mar 2015 17:10:23 -0700
+	Tue, 24 Mar 2015 00:28:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Mar 2015 17:28:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,455,1422950400"; d="scan'208";a="684533861"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2015 17:10:22 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,455,1422950400"; d="scan'208";a="669540458"
+Received: from bitbang.jf.intel.com ([10.7.201.37])
+	by orsmga001.jf.intel.com with ESMTP; 23 Mar 2015 17:28:17 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 16:05:07 +0000
-Message-Id: <1427126707-38854-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-MIME-Version: 1.0
-Subject: [PATCH] package_deb: Fix rootfs generation in non Debian-based hosts
+Date: Mon, 23 Mar 2015 17:28:14 -0700
+Message-Id: <1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
+Subject: [PATCH 2/2] image.bbclass: Empty /var/volatile if it is a mount point
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,56 +29,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 00:10:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Mar 2015 00:28:16 -0000
 
-Since we have support of log checking in deb/ipk [1] rootfs generation
-in non Debian-based hosts fails because apt-ftparchive generates a
-warn when not find /etc/apt/apt.conf.d/ (available in Debian-based
-hosts).
+If /var/volatile is a mount point it shouldn't contain any files before
+mount time. If files are there, they will no longer be able to be accessed
+once the tmpfs gets mounted at /var/volatile.
 
-In order to fix,
+This problem can be seen for instance when systemd creates
+/var/volatile/log/journal as part of its package installation. It then
+assumes the journal is persistent even though /var/volatile/log/journal
+goes away shortly thereafter.
 
-	package_manager.py: DpkgPMIndexer add support for export APT_CONF
-	to environment.
+This change makes sure that there are no files in /var/volatile if it is
+to be used as a mount point.
 
-[1] http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=86aec93902af2e2d7d73ca9a643707fcca45055c
+[Yocto #7388]
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/classes/image.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index c9a8084..395c0d01 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -169,7 +169,14 @@ class OpkgIndexer(Indexer):
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 89eb5f3..dfedf9d 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -181,6 +181,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
  
- 
- class DpkgIndexer(Indexer):
-+    def __init__(self, d, deploy_dir, apt_conf_file=None):
-+        self.apt_conf_file = apt_conf_file
-+        Indexer.__init__(self, d, deploy_dir)
++ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
 +
-     def write_index(self):
-+        if not self.apt_conf_file is None:
-+            os.environ['APT_CONFIG'] = self.apt_conf_file
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+@@ -377,6 +379,20 @@ set_systemd_default_target () {
+ 	fi
+ }
+ 
++# If /var/volatile is not empty, we have seen problems where programs such as the
++# journal make assumptions based on the contents of /var/volatile. The journal
++# would then write to /var/volatile before it was mounted, thus hiding the
++# items previously written.
++#
++# This change is to attempt to fix those types of issues in a way that doesn't
++# affect users that may not be using /var/volatile.
++empty_var_volatile () {
++	match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
++	if [ -n "$match" ]; then
++		find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
++	fi
++}
 +
-         pkg_archs = self.d.getVar('PACKAGE_ARCHS', True)
-         if pkg_archs is not None:
-             arch_list = pkg_archs.split()
-@@ -1507,7 +1514,7 @@ class DpkgPM(PackageManager):
- 
-         self._create_configs(archs, base_archs)
- 
--        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
-+        self.indexer = DpkgIndexer(self.d, self.deploy_dir, self.apt_conf_file)
- 
-     """
-     This function will change a package's status in /var/lib/dpkg/status file.
+ # Turn any symbolic /sbin/init link into a file
+ remove_init_link () {
+ 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
 -- 
-1.8.4.5
+1.9.3
 
 
