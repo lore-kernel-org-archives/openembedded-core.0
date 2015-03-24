@@ -1,36 +1,34 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B975573A99
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
+	[209.85.160.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D0DA60034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 19:30:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id AC3063151B0B;
-	Tue, 24 Mar 2015 20:30:09 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 07qTpRELBMiS; Tue, 24 Mar 2015 20:30:03 +0100 (CET)
-Received: from [172.22.22.61] (55d45afc.access.ecotel.net [85.212.90.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 1E5233151B0A;
-	Tue, 24 Mar 2015 20:30:03 +0100 (CET)
-Message-ID: <5511BB3A.40302@opendreambox.org>
-Date: Tue, 24 Mar 2015 20:30:02 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1427126707-38854-1-git-send-email-anibal.limon@linux.intel.com>
-	<55115179.7050506@opendreambox.org>
-	<55119205.9040605@linux.intel.com>
-	<55119FF4.6050800@linux.intel.com>
-In-Reply-To: <55119FF4.6050800@linux.intel.com>
-Subject: Re: [PATCH] package_manager/deb: apt-ftparchive needs a valid config
+	Tue, 24 Mar 2015 22:18:05 +0000 (UTC)
+Received: by ykfs63 with SMTP id s63so4096427ykf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 15:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6GgeUzN0PuaIBA+ROMQlSuXEsmCC3CLrZP8NKXe/3EU=;
+	b=vfERmkoGOMpldzImaaPQHWXEq7I6oslQ4T2+4y9KJkF52cGy1VzqWGww7dXY5UVAYk
+	yhuN8vl8vLt9sc0Fn8rXPApT68Gj+qVFACJ0cva728vc2v/Gzdr1zL6iznEle44t0mTe
+	9Mnz08ppFiZb+LpmrxKKEXDuatMKRDA1Z1irkhPZ1R6Ut6vlQdaZeAs7jq1k6xv9LdKJ
+	XlM0ZlED0YmhCoO4ScnEUAGXo6zIdUf4x9JoCuLNxCfnX/Sp/yJGgZhFrnu9nTsesdZ7
+	qTjzl9NJFyN/h3P8SJsw0DYabgL//mp5n0jIWGvFnuRj1Rq1pQqjL/+kq8HnWCret6Dv
+	PG1g==
+X-Received: by 10.52.113.10 with SMTP id iu10mr5022350vdb.88.1427235486616;
+	Tue, 24 Mar 2015 15:18:06 -0700 (PDT)
+Received: from metric.localdomain (CPE-76-177-97-210.natcky.res.rr.com.
+	[76.177.97.210])
+	by mx.google.com with ESMTPSA id zf3sm319826vdb.6.2015.03.24.15.18.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 24 Mar 2015 15:18:06 -0700 (PDT)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Mar 2015 18:17:10 -0400
+Message-Id: <1427235430-20299-1-git-send-email-tylerwhall@gmail.com>
+X-Mailer: git-send-email 2.3.1
+Subject: [PATCH] uninative-tarball: fix dependency on patchelf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,22 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 19:30:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Mar 2015 22:18:08 -0000
 
-On 24.03.2015 18:33, Aníbal Limón wrote:
-> I reviewed the code and the issue is why PM's and Indexer's are
-> different classes i think they need to share common information.
-> For now your patch is the best solution, now i'm doing a little
-> improvements and i'll send v2 with your signature.
+DEPENDS doesn't actually add the dependency on patchelf-native to the
+populate_sdk task. SDK_DEPENDS does this, but move the append to after
+inheriting the base class so it does not get overwritten.
 
-Thank you, Aníbal!
+Without this, uninative-tarball fails to build in a clean workspace on a
+system without patchelf.
 
-Btw., I think your development machine has a wrong timezone setting.
-Your patches appear to have a time offset of about seven hours.
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/recipes-core/meta/uninative-tarball.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Regards,
-Andreas
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index 53435f2..62bdde8 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -11,7 +11,6 @@ TOOLCHAIN_HOST_TASK = "\
+     "
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+-DEPENDS += "patchelf-native"
+ 
+ TOOLCHAIN_OUTPUTNAME ?= "${BUILD_ARCH}-nativesdk-libc"
+ 
+@@ -25,6 +24,8 @@ inherit populate_sdk
+ deltask install
+ deltask package
+ 
++SDK_DEPENDS += "patchelf-native"
++
+ SDK_PACKAGING_FUNC = ""
+ 
+ fakeroot create_sdk_files() {
+-- 
+2.3.1
 
 
