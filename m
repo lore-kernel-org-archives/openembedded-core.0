@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7460473BE3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DA8DB60034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 08:42:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2O8gjdr019497
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 24 Mar 2015 09:08:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2O98wC6012593 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 09:08:58 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gwNDQ-XtuO7d
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 01:42:46 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 24 Mar 2015 01:42:45 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Mar 2015 16:42:47 +0800
-Message-ID: <0b7df563632e70d436beee6acab8d03ede82b20d.1427186519.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1427186518.git.Qi.Chen@windriver.com>
-References: <cover.1427186518.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] package.bbclass: support persistent /var/log
+	Tue, 24 Mar 2015 09:08:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2O98f8k012590
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 09:08:53 GMT
+Message-ID: <1427188121.14020.22.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Mar 2015 09:08:41 +0000
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] qemu: Add patch to fix qemux86-64 EDSCA key problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 08:42:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Mar 2015 09:09:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add a new file, fs-perms-persistent-log.txt, which treats /var/log
-as a directory instead of a link.
-Modify package.bbclass to use this file if VOLATILE_LOG_DIR is set to "".
+Without this patch, x86_64 images would show invalid EDSCA key errors
+with sshd from openssh (but not dropbear) during init.
 
-[YOCTO #6132]
+This would cause problems with operation with some distros where EDSCA
+keys were mandatory. The issue was present in qemu 2.2.1 and not in
+2.3.0-rc0, bisected to this commit which was then backported. This fixes 
+intermittent failures on the autobuilder. Issue is not present when
+using KVM (consistent with a fault in TCG).
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/package.bbclass           |  2 +-
- meta/files/fs-perms-persistent-log.txt | 66 ++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+), 1 deletion(-)
- create mode 100644 meta/files/fs-perms-persistent-log.txt
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 9f64ed7..63a70b7 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -699,7 +699,7 @@ python fixup_perms () {
-         bbpath = d.getVar('BBPATH', True)
-         fs_perms_tables = d.getVar('FILESYSTEM_PERMS_TABLES', True)
-         if not fs_perms_tables:
--            fs_perms_tables = 'files/fs-perms.txt'
-+            fs_perms_tables = ['files/fs-perms-persistent-log.txt', 'files/fs-perms.txt'][d.getVar('VOLATILE_LOG_DIR', True) == 'log']
-         for conf_file in fs_perms_tables.split():
-             str += " %s" % bb.utils.which(bbpath, conf_file)
-         return str
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent-log.txt
+diff --git a/meta/recipes-devtools/qemu/qemu/37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch b/meta/recipes-devtools/qemu/qemu/37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch
 new file mode 100644
-index 0000000..fdeeb02
+index 0000000..6972355
 --- /dev/null
-+++ b/meta/files/fs-perms-persistent-log.txt
-@@ -0,0 +1,66 @@
-+# This file contains a list of files and directories with known permissions.
-+# It is used by the packaging class to ensure that the permissions, owners and
-+# group of listed files and directories are in sync across the system.
-+#
-+# The format of this file 
-+#
-+#<path>	<mode>	<uid>	<gid>	<walk>	<fmode>	<fuid>	<fgid>
-+#
-+# or
-+#
-+#<path> link <target>
-+#
-+# <path>: directory path
-+# <mode>: mode for directory
-+# <uid>:  uid for directory
-+# <gid>:  gid for directory
-+# <walk>: recursively walk the directory?  true or false
-+# <fmode>: if walking, new mode for files
-+# <fuid>:  if walking, new uid for files
-+# <fgid>:  if walking, new gid for files
-+# <target>: turn the directory into a symlink point to target
-+#
-+# in mode, uid or gid, a "-" means don't change any existing values
-+#
-+# /usr/src		0755	root	root	false	-	-	-
-+# /usr/share/man	0755	root	root	true	0644	root	root
++++ b/meta/recipes-devtools/qemu/qemu/37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch
+@@ -0,0 +1,59 @@
++Without this patch, x86_64 images would show invalid EDSCA key errors
++with sshd from openssh (but not dropbear) during init. 
 +
-+# Note: all standard config directories are automatically assigned "0755 root root false - - -"
++This would cause problems with operation with some distros where EDSCA 
++keys were mandatory. The issue was present in qemu 2.2.1 and not in 
++2.3.0-rc0, bisected to this commit which was then backported.
 +
-+# Documentation should always be corrected
-+${mandir}		0755	root	root	true	0644	root	root
-+${infodir}		0755	root	root	true	0644	root	root
-+${docdir}		0755	root	root	true	0644	root	root
-+${datadir}/gtk-doc	0755	root	root	true	0644	root	root
++From 37ed3bf1ee07bb1a26adca0df8718f601f231c0b Mon Sep 17 00:00:00 2001
++From: Richard Henderson <rth@twiddle.net>
++Date: Fri, 20 Feb 2015 11:13:50 -0800
++Subject: [PATCH] tcg: Complete handling of ALWAYS and NEVER
 +
-+# Fixup locales
-+${datadir}/locale	0755	root	root	true	0644	root	root
++Missing from movcond
 +
-+# Cleanup headers
-+${includedir}		0755	root	root	true	0644	root	root
-+${oldincludedir}	0755	root	root	true	0644	root	root
++Signed-off-by: Richard Henderson <rth@twiddle.net>
++---
++ tcg/tcg-op.c |   22 +++++++++++++++++-----
++ 1 files changed, 17 insertions(+), 5 deletions(-)
 +
-+# Cleanup debug src
-+/usr/src/debug		0755	root	root	true	-	root	root
++Upstream-Status: Backport
++RP 2015/3/24
 +
-+# Items from base-files
-+# Links
-+${localstatedir}/run	link	/run
-+${localstatedir}/lock	link	/run/lock
-+${localstatedir}/tmp	link	volatile/tmp
-+
-+/home				0755	root	root	false - - -
-+/srv				0755	root	root	false - - -
-+${prefix}/src			0755	root	root	false - - -
-+${localstatedir}/local		0755	root	root	false - - -
-+
-+# Special permissions from base-files
-+# Set 1777
-+/tmp				01777	root	root	false - - -
-+${localstatedir}/volatile/tmp	01777	root	root	false - - -
-+
-+# Set 755-lsb
-+/srv				0755	root	root	false - - -
-+
-+# Set 2775-lsb
-+/var/mail			02775	root	mail	false - - -
--- 
-1.9.1
++Index: qemu-2.2.0/tcg/tcg-op.h
++===================================================================
++--- qemu-2.2.0.orig/tcg/tcg-op.h
+++++ qemu-2.2.0/tcg/tcg-op.h
++@@ -2186,7 +2186,11 @@ static inline void tcg_gen_movcond_i32(T
++                                        TCGv_i32 c1, TCGv_i32 c2,
++                                        TCGv_i32 v1, TCGv_i32 v2)
++ {
++-    if (TCG_TARGET_HAS_movcond_i32) {
+++    if (cond == TCG_COND_ALWAYS) {
+++        tcg_gen_mov_i32(ret, v1);
+++    } else if (cond == TCG_COND_NEVER) {
+++        tcg_gen_mov_i32(ret, v2);
+++    } else if (TCG_TARGET_HAS_movcond_i32) {
++         tcg_gen_op6i_i32(INDEX_op_movcond_i32, ret, c1, c2, v1, v2, cond);
++     } else {
++         TCGv_i32 t0 = tcg_temp_new_i32();
++@@ -2205,6 +2209,11 @@ static inline void tcg_gen_movcond_i64(T
++                                        TCGv_i64 c1, TCGv_i64 c2,
++                                        TCGv_i64 v1, TCGv_i64 v2)
++ {
+++    if (cond == TCG_COND_ALWAYS) {
+++        tcg_gen_mov_i64(ret, v1);
+++    } else if (cond == TCG_COND_NEVER) {
+++        tcg_gen_mov_i64(ret, v2);
+++    } else {
++ #if TCG_TARGET_REG_BITS == 32
++     TCGv_i32 t0 = tcg_temp_new_i32();
++     TCGv_i32 t1 = tcg_temp_new_i32();
++@@ -2246,6 +2255,7 @@ static inline void tcg_gen_movcond_i64(T
++         tcg_temp_free_i64(t1);
++     }
++ #endif
+++    }
++ }
++ 
++ static inline void tcg_gen_add2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 al,
+diff --git a/meta/recipes-devtools/qemu/qemu_2.2.0.bb b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
+index 209b910..757de89 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.2.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch \
+             "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f7a5e2da22d057eb838a91da7aff43c8"
+
 
 
