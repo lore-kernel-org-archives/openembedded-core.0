@@ -1,30 +1,26 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 62D2273A99
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp01.online.nl (smtp01.online.nl [194.134.41.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C80C60034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 17:02:02 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 24 Mar 2015 10:02:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,459,1422950400"; d="scan'208";a="545625493"
-Received: from bitbang.jf.intel.com ([10.7.201.37])
-	by orsmga003.jf.intel.com with ESMTP; 24 Mar 2015 10:02:05 -0700
-Message-ID: <5511988B.4090302@linux.intel.com>
-Date: Tue, 24 Mar 2015 10:02:03 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
+	Tue, 24 Mar 2015 17:16:05 +0000 (UTC)
+Received: from smtp01.online.nl (localhost [127.0.0.1])
+	by smtp01.online.nl (Postfix) with ESMTP id 9087E8E774
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 18:16:05 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp01.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 18:16:05 +0100 (CET)
+Message-ID: <55119BD5.8060002@topic.nl>
+Date: Tue, 24 Mar 2015 18:16:05 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
-	<1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
-	<CAMKF1srT2URjkAjC4uEA6GFiAQqywgfBewS8t=Aoemym-rKuew@mail.gmail.com>
-	<59624.10.254.107.142.1427211967.squirrel@linux.intel.com>
-	<037A72AC-D36E-491E-84D1-16D6F1B014A0@gmail.com>
-In-Reply-To: <037A72AC-D36E-491E-84D1-16D6F1B014A0@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] image.bbclass: Empty /var/volatile if it is a mount point
+To: openembedded-core@lists.openembedded.org
+X-Online-Scanned: by Cloudmark authority (on smtp01.online.nl)
+Subject: Not selecting <old version of package> as installing it would break existing dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,106 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 17:02:04 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 24 Mar 2015 17:16:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/24/2015 08:53 AM, Khem Raj wrote:
->
->> On Mar 24, 2015, at 8:46 AM, randy.e.witt@linux.intel.com wrote:
->>
->>> On Mon, Mar 23, 2015 at 5:28 PM, Randy Witt
->>> <randy.e.witt@linux.intel.com> wrote:
->>>> If /var/volatile is a mount point it shouldn't contain any files before
->>>> mount time. If files are there, they will no longer be able to be
->>>> accessed
->>>> once the tmpfs gets mounted at /var/volatile.
->>>
->>> why not use copy-bind when mounting it second time as tmpfs ?
->>>
->>
->> Khem, could you elaborate? I'm not sure I know the mechanism to which you
->> are referring.
->
-> copy bind will copy the contents from old place to new mount. Then hopefully you do not lose the content
-> that was already there before remount happens see VOLATILE_BINDS implementation.
->
+After upgrading a library to a newer version, for example, something 
+called libdvbsi++ from 0.3.6 to 0.3.7, running opkg upgrade outputs the 
+following cryptic error message:
 
-I like this idea, but considering that /var/volatile/log/journal is within the 
-mountpoint I'm not sure how it could work. The contents will already be hidden 
-by the mount of /var/volatile before the files can be copied.
+Not selecting libdvbsi++1 0.3.6 as installing it would break existing 
+dependencies.
 
-Perhaps I am misunderstanding?
+Adding "-V2" to opkg upgrade expands that with the following message:
 
->>
->>>>
->>>> This problem can be seen for instance when systemd creates
->>>> /var/volatile/log/journal as part of its package installation. It then
->>>> assumes the journal is persistent even though /var/volatile/log/journal
->>>> goes away shortly thereafter.
->>>>
->>>> This change makes sure that there are no files in /var/volatile if it is
->>>> to be used as a mount point.
->>>>
->>>> [Yocto #7388]
->>>>
->>>> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
->>>> ---
->>>> meta/classes/image.bbclass | 16 ++++++++++++++++
->>>> 1 file changed, 16 insertions(+)
->>>>
->>>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->>>> index 89eb5f3..dfedf9d 100644
->>>> --- a/meta/classes/image.bbclass
->>>> +++ b/meta/classes/image.bbclass
->>>> @@ -181,6 +181,8 @@ POSTINST_LOGFILE ?=
->>>> "${localstatedir}/log/postinstall.log"
->>>> SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES",
->>>> "x11-base", "graphical.target", "multi-user.target", d)}'
->>>> ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES",
->>>> "systemd", "set_systemd_default_target; ", "", d)}'
->>>>
->>>> +ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
->>>> +
->>>> # some default locales
->>>> IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
->>>>
->>>> @@ -377,6 +379,20 @@ set_systemd_default_target () {
->>>>         fi
->>>> }
->>>>
->>>> +# If /var/volatile is not empty, we have seen problems where programs
->>>> such as the
->>>> +# journal make assumptions based on the contents of /var/volatile. The
->>>> journal
->>>> +# would then write to /var/volatile before it was mounted, thus hiding
->>>> the
->>>> +# items previously written.
->>>> +#
->>>> +# This change is to attempt to fix those types of issues in a way that
->>>> doesn't
->>>> +# affect users that may not be using /var/volatile.
->>>> +empty_var_volatile () {
->>>> +       match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}'
->>>> ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
->>>> +       if [ -n "$match" ]; then
->>>> +               find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
->>>> +       fi
->>>> +}
->>>> +
->>>> # Turn any symbolic /sbin/init link into a file
->>>> remove_init_link () {
->>>>         if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
->>>> --
->>>> 1.9.3
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->
+opkg_prepare_upgrade_pkg: Package libdvbsi++1 (0.3.7-r2.0) installed in 
+root is up to date.
 
+So apparently it knows about the later version, so why complain about 
+the old one?
+
+There is only one package that (r)depends on that lib (enigma2). Nothing 
+else needs it.
+
+This often happens with other packages as well. Is this a bug in opkg, 
+or is it trying to tell us we're doing something wrong?
+
+
+-- 
+Mike Looijmans
 
