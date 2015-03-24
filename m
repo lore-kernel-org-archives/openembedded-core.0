@@ -1,36 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 678BC60034
+Return-Path: <B40290@freescale.com>
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0143.outbound.protection.outlook.com [65.55.169.143])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC9560034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 05:15:03 +0000 (UTC)
-Received: by iecvj10 with SMTP id vj10so52594384iec.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Mar 2015 22:15:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=FXI0JA1/j1gGyL2eld+2Bhcs7hDvaOzHzPDR2I/26os=;
-	b=TcIOiaogtYhgCpoKopoKGahUY3igl3s45ZaFrQFdGgi9qirxucKP7O2Q+Z2EHfjN/y
-	11hrLG76Gr06DNtIl5bMBlR+08JrB4OpI9PRsF+4cJKUKZE1x266J74Fzdr/WuYI7rx2
-	5+rY/6xQcxM580ozIlV+KhixgdnGstmflpTROdMJvLxKbKFFqXJLyJeegA+IkN9a6irp
-	/NadiZkZ/3MLleedMbkrDibXVT9lbFp5nOIRBmmkgRn0g5ec56xIuh3xy8I2H3r/zdaS
-	oinDtUsnNFqNovG8NP3hXh+T3dblRN+eorV/KGbF0LlFZrX75Q8gLwCjGTSRz+xwl2Jh
-	MdlA==
-X-Received: by 10.107.149.210 with SMTP id x201mr3534793iod.33.1427174104402; 
-	Mon, 23 Mar 2015 22:15:04 -0700 (PDT)
+	Tue, 24 Mar 2015 07:34:16 +0000 (UTC)
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB442.namprd03.prod.outlook.com (10.141.141.145) with Microsoft
+	SMTP Server (TLS) id 15.1.125.14; Tue, 24 Mar 2015 07:34:16 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
+	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
+	15.01.0125.002; Tue, 24 Mar 2015 07:34:16 +0000
+From: "B40290@freescale.com" <B40290@freescale.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH v4] u-boot.inc: fix rename image error
+Thread-Index: AQHQZdm/G3IT2Dz9bU+upDVCfyd1aJ0rEVjQ
+Date: Tue, 24 Mar 2015 07:34:15 +0000
+Message-ID: <BY2PR03MB441043B1B2A76B4CA483B3B840A0@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1426066820-19627-1-git-send-email-B40290@freescale.com>
+	<CAP9ODKp=O30ACKGr8niGVg-ER6VxLwc32b5q6X5pa7eqP0F7iw@mail.gmail.com>
+In-Reply-To: <CAP9ODKp=O30ACKGr8niGVg-ER6VxLwc32b5q6X5pa7eqP0F7iw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.158.241.86]
+authentication-results: ossystems.com.br; dkim=none (message not signed)
+	header.d=none;
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB442;
+x-microsoft-antispam-prvs: <BY2PR03MB442F0A1B8A2D77E5CCCACAB840A0@BY2PR03MB442.namprd03.prod.outlook.com>
+x-forefront-antispam-report: BMV:1; SFV:NSPM;
+	SFS:(10019020)(6009001)(13464003)(377454003)(24454002)(51704005)(40100003)(33656002)(86362001)(46102003)(99286002)(122556002)(110136001)(76576001)(66066001)(74316001)(77156002)(2950100001)(2900100001)(2656002)(50986999)(76176999)(15975445007)(102836002)(77096005)(106116001)(92566002)(87936001)(62966003)(54356999)(16601075003)(19580395003)(19580405001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB442;
+	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(5002010); SRVR:BY2PR03MB442; BCL:0;
+	PCL:0; RULEID:; SRVR:BY2PR03MB442; 
+x-forefront-prvs: 0525BB0ADF
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Mon, 23 Mar 2015 22:14:34 -0700 (PDT)
-In-Reply-To: <1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
-References: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
-	<1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Mar 2015 22:14:34 -0700
-Message-ID: <CAMKF1srT2URjkAjC4uEA6GFiAQqywgfBewS8t=Aoemym-rKuew@mail.gmail.com>
-To: Randy Witt <randy.e.witt@linux.intel.com>
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2015 07:34:15.3424 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR03MB442
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] image.bbclass: Empty /var/volatile if it is a mount point
+Subject: Re: [PATCH v4] u-boot.inc: fix rename image error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,73 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 05:15:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 24 Mar 2015 07:34:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Mar 23, 2015 at 5:28 PM, Randy Witt
-<randy.e.witt@linux.intel.com> wrote:
-> If /var/volatile is a mount point it shouldn't contain any files before
-> mount time. If files are there, they will no longer be able to be accessed
-> once the tmpfs gets mounted at /var/volatile.
-
-why not use copy-bind when mounting it second time as tmpfs ?
-
->
-> This problem can be seen for instance when systemd creates
-> /var/volatile/log/journal as part of its package installation. It then
-> assumes the journal is persistent even though /var/volatile/log/journal
-> goes away shortly thereafter.
->
-> This change makes sure that there are no files in /var/volatile if it is
-> to be used as a mount point.
->
-> [Yocto #7388]
->
-> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-> ---
->  meta/classes/image.bbclass | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 89eb5f3..dfedf9d 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -181,6 +181,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
->  SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
->  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
->
-> +ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
-> +
->  # some default locales
->  IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
->
-> @@ -377,6 +379,20 @@ set_systemd_default_target () {
->         fi
->  }
->
-> +# If /var/volatile is not empty, we have seen problems where programs such as the
-> +# journal make assumptions based on the contents of /var/volatile. The journal
-> +# would then write to /var/volatile before it was mounted, thus hiding the
-> +# items previously written.
-> +#
-> +# This change is to attempt to fix those types of issues in a way that doesn't
-> +# affect users that may not be using /var/volatile.
-> +empty_var_volatile () {
-> +       match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
-> +       if [ -n "$match" ]; then
-> +               find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
-> +       fi
-> +}
-> +
->  # Turn any symbolic /sbin/init link into a file
->  remove_init_link () {
->         if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
-> --
-> 1.9.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGVsbG8gT3RhdmlvLA0KVGhhbmsgeW91IGZvciB5b3VyIGNvbW1lbnRzLg0KDQpCdXQgSSBkbyBu
+b3QgdW5kZXJzdGFuZCB3aGF0ICJvbGQgb25lIiBpcy4NCg0KVGhhbmtzDQpDaHVucm9uZw0KDQoN
+Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IG90YXZpby5zYWx2YWRvckBnbWFp
+bC5jb20gW21haWx0bzpvdGF2aW8uc2FsdmFkb3JAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgT3Rh
+dmlvIFNhbHZhZG9yDQpTZW50OiBUdWVzZGF5LCBNYXJjaCAyNCwgMjAxNSAxMDoyNSBBTQ0KVG86
+IEd1byBDaHVucm9uZy1CNDAyOTANCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0
+aGUgb2UtY29yZSBsYXllcjsgQnVydG9uLCBSb3NzDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
+QVRDSCB2NF0gdS1ib290LmluYzogZml4IHJlbmFtZSBpbWFnZSBlcnJvcg0KDQpIZWxsbyBDaHVu
+cm9uZywNCg0KT24gV2VkLCBNYXIgMTEsIDIwMTUgYXQgNjo0MCBBTSwgQ2h1bnJvbmcgR3VvIDxC
+NDAyOTBAZnJlZXNjYWxlLmNvbT4gd3JvdGU6DQo+ICAgUmVzb2x2ZSBtaXNtYXRjaCBiZXR3ZWVu
+IFUtQm9vdCBjb25maWdzIGFuZCB1Ym9vdCBpbWFnZSBuYW1lLg0KPiAgIFRoZSAke1N9LyR7Y29u
+ZmlnfS91LWJvb3QtJHt0eXBlfS4ke1VCT09UX1NVRkZJWH0gbWF5IGFsd2F5IGJlIGZhbHNlDQo+
+ICAgYW5kIHJlcGVhdCBjb21waWxlIG9yIGluc3RhbGwgc28gd2UgbmVlZCB0byBjaGVjayBpZiAk
+e3R5cGV9IG1hdGNoICR7Y29uZmlnfSAuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IENodW5yb25nIEd1
+byA8QjQwMjkwQGZyZWVzY2FsZS5jb20+DQoNCkZpcnN0IEknZCBsaWtlIHRvIGFwb2xvZ2l6ZSBm
+b3IgdGhlIGRlbGF5IGluIHRlc3RpbmcgaXQuIFRoYW5rcyBmb3IgeW91ciBwYXRpZW5jZS4gSSBn
+b3Qgc29tZSBmcmVlIHRpbWUgKHdhaXRpbmcgYmV0d2VlbiBidWlsZHMpIGFuZCBkZWNpZGVkIHRv
+IGNoZWNrIHRoaXMgLi4uDQoNClNvIGJ1aWxkIGlzIHdvcmtpbmcgZmluZSAuLiBob3dldmVyIHdl
+IG1pc3NlZCB0aGUgdmVyc2lvbiBpbiB0aGUgZmlsZS4NClRoaXMgaXMgdW5mb3J0dW5hdGUgYmVj
+YXVzZSBpZiB5b3UgZW5kIGJ1aWxkaW5nIHR3byB2ZXJzaW9ucyBpbiBhIHJvbGwgaW4gc2FtZSBk
+ZXBsb3kgZGlyZWN0b3J5IHlvdSBjYW5ub3QgcmVmZXIgdGhlIG9sZCBvbmUsIGZvciBleGFtcGxl
+Og0KDQpbSSBkbyBub3QgdW5kZXJzdGFuZCB3aGF0ICJvbGQgb25lIiBpcyBdIA0KDQoNCm90YXZp
+b0BjZW50cml1bSB+L3NyYy9vc3N5c3RlbXMveW9jdG8vYnVpbGQgJSBscw0KdG1wL2RlcGxveS9p
+bWFnZXMvaW14NnFzYWJyZXNkL3UtYm9vdCogLWwNCmxyd3hyd3hyd3ggMSBvdGF2aW8gb3Rhdmlv
+ICAgICAxOCBNYXIgMjMgMjM6MTcNCnRtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC91LWJv
+b3QuaW14IC0+IHUtYm9vdC1tZmd0b29sLmlteCoNCmxyd3hyd3hyd3ggMSBvdGF2aW8gb3Rhdmlv
+ICAgICAxOCBNYXIgMjMgMjM6MTcNCnRtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC91LWJv
+b3QtaW14NnFzYWJyZXNkLmlteCAtPg0KdS1ib290LW1mZ3Rvb2wuaW14Kg0KLXJ3eHIteHIteCAy
+IG90YXZpbyBvdGF2aW8gMzc5OTA0IE1hciAyMyAyMzoxNw0KdG1wL2RlcGxveS9pbWFnZXMvaW14
+NnFzYWJyZXNkL3UtYm9vdC1tZmd0b29sLmlteCoNCi1yd3hyLXhyLXggMiBvdGF2aW8gb3Rhdmlv
+IDM3OTkwNCBNYXIgMjMgMjM6MTcNCnRtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC91LWJv
+b3Qtc2QuaW14Kg0KDQotLSANCk90YXZpbyBTYWx2YWRvciAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgTy5TLiBTeXN0ZW1zDQpodHRwOi8vd3d3Lm9zc3lzdGVtcy5jb20uYnIgICAgICAgIGh0
+dHA6Ly9jb2RlLm9zc3lzdGVtcy5jb20uYnINCk1vYmlsZTogKzU1ICg1MykgOTk4MS03ODU0ICAg
+ICAgICAgICAgTW9iaWxlOiArMSAoMzQ3KSA5MDMtOTc1MA0K
 
