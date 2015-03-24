@@ -1,22 +1,20 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C76A6AC33
+	by mail.openembedded.org (Postfix) with ESMTP id A95436AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 00:28:15 +0000 (UTC)
+	Tue, 24 Mar 2015 00:28:16 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 23 Mar 2015 17:28:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,455,1422950400"; d="scan'208";a="669540458"
+X-IronPort-AV: E=Sophos;i="5.11,455,1422950400"; d="scan'208";a="669540456"
 Received: from bitbang.jf.intel.com ([10.7.201.37])
 	by orsmga001.jf.intel.com with ESMTP; 23 Mar 2015 17:28:17 -0700
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Mar 2015 17:28:14 -0700
-Message-Id: <1427156894-24614-3-git-send-email-randy.e.witt@linux.intel.com>
+Date: Mon, 23 Mar 2015 17:28:12 -0700
+Message-Id: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
-References: <1427156894-24614-1-git-send-email-randy.e.witt@linux.intel.com>
-Subject: [PATCH 2/2] image.bbclass: Empty /var/volatile if it is a mount point
+Subject: [PATCH 0/2] Less intrusive journal fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +29,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 Mar 2015 00:28:16 -0000
 
-If /var/volatile is a mount point it shouldn't contain any files before
-mount time. If files are there, they will no longer be able to be accessed
-once the tmpfs gets mounted at /var/volatile.
+The following changes since commit 4bd886fb0081954879aaa2f574f3c7f6ced745d5:
 
-This problem can be seen for instance when systemd creates
-/var/volatile/log/journal as part of its package installation. It then
-assumes the journal is persistent even though /var/volatile/log/journal
-goes away shortly thereafter.
+  systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:21 +0000)
 
-This change makes sure that there are no files in /var/volatile if it is
-to be used as a mount point.
+are available in the git repository at:
 
-[Yocto #7388]
+  git://git.yoctoproject.org/poky-contrib rewitt/empty-var-volatile
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/image.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+for you to fetch changes up to 34642f136f3830f8de88f816b9818ce855f9f129:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 89eb5f3..dfedf9d 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -181,6 +181,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
- 
-+ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
-+
- # some default locales
- IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- 
-@@ -377,6 +379,20 @@ set_systemd_default_target () {
- 	fi
- }
- 
-+# If /var/volatile is not empty, we have seen problems where programs such as the
-+# journal make assumptions based on the contents of /var/volatile. The journal
-+# would then write to /var/volatile before it was mounted, thus hiding the
-+# items previously written.
-+#
-+# This change is to attempt to fix those types of issues in a way that doesn't
-+# affect users that may not be using /var/volatile.
-+empty_var_volatile () {
-+	match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
-+	if [ -n "$match" ]; then
-+		find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
-+	fi
-+}
-+
- # Turn any symbolic /sbin/init link into a file
- remove_init_link () {
- 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
--- 
-1.9.3
+  image.bbclass: Empty /var/volatile if it is a mount point (2015-03-23 16:53:45 -0700)
 
+----------------------------------------------------------------
+Randy Witt (2):
+      Revert "systemd: Fix the problem of an empty journal on boot"
+      image.bbclass: Empty /var/volatile if it is a mount point
+
+ meta/classes/image.bbclass                               | 16 ++++++++++++++++
+ meta/recipes-core/systemd/systemd/journald-volatile.conf |  6 ------
+ meta/recipes-core/systemd/systemd_219.bb                 |  2 --
+ 3 files changed, 16 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/journald-volatile.conf
 
