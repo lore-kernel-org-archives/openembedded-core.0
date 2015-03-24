@@ -1,26 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C8D73C24
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B975573A99
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 18:57:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2OIvvkW010678
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Mar 2015 11:57:57 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 24 Mar 2015 11:57:57 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 24 Mar 2015 14:57:53 -0400
-Message-ID: <1c63179dfe46a004623f41434957fc34fe23d7e6.1427222980.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1427222980.git.bruce.ashfield@windriver.com>
-References: <cover.1427222980.git.bruce.ashfield@windriver.com>
+	Tue, 24 Mar 2015 19:30:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id AC3063151B0B;
+	Tue, 24 Mar 2015 20:30:09 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 07qTpRELBMiS; Tue, 24 Mar 2015 20:30:03 +0100 (CET)
+Received: from [172.22.22.61] (55d45afc.access.ecotel.net [85.212.90.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 1E5233151B0A;
+	Tue, 24 Mar 2015 20:30:03 +0100 (CET)
+Message-ID: <5511BB3A.40302@opendreambox.org>
+Date: Tue, 24 Mar 2015 20:30:02 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] skeleton: clarify linux-yocto-custom workflow
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1427126707-38854-1-git-send-email-anibal.limon@linux.intel.com>
+	<55115179.7050506@opendreambox.org>
+	<55119205.9040605@linux.intel.com>
+	<55119FF4.6050800@linux.intel.com>
+In-Reply-To: <55119FF4.6050800@linux.intel.com>
+Subject: Re: [PATCH] package_manager/deb: apt-ftparchive needs a valid config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 18:57:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Mar 2015 19:30:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-It was pointed out that the kernel development documentation recommends
-making a copy of linux-yocto-custom, while the comments in the recipe
-itself suggest a bbappend.
+On 24.03.2015 18:33, Aníbal Limón wrote:
+> I reviewed the code and the issue is why PM's and Indexer's are
+> different classes i think they need to share common information.
+> For now your patch is the best solution, now i'm doing a little
+> improvements and i'll send v2 with your signature.
 
-To keep things consistent between these two sources, we update the
-comment in the recipe itself to also recommend a copy (and rename).
+Thank you, Aníbal!
 
-[YOCTO: #6925]
+Btw., I think your development machine has a wrong timezone setting.
+Your patches appear to have a time offset of about seven hours.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-index b1a0784c1b7d..05463c026304 100644
---- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -4,11 +4,9 @@
- #   kernel classes to apply a subset of yocto kernel management to git
- #   managed kernel repositories.
- #
--#   To use linux-yocto-custom in your layer, create a
--#   linux-yocto-custom.bbappend file containing at least the following
--#   lines:
-+#   To use linux-yocto-custom in your layer, copy this recipe (optionally
-+#   rename it as well) and modify it appropriately for your machine. i.e.:
- #
--#     FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
- #     COMPATIBLE_MACHINE_yourmachine = "yourmachine"
- #
- #   You must also provide a Linux kernel configuration. The most direct
--- 
-2.1.0
+Regards,
+Andreas
 
 
