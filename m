@@ -1,25 +1,37 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BA8F6AC36
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D474D6AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 16:28:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2PGSsO5009078
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 Mar 2015 17:31:50 +0000 (UTC)
+Received: by qgfa8 with SMTP id a8so51344000qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 09:28:54 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 25 Mar 2015 09:28:53 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Mar 2015 12:28:34 -0400
-Message-ID: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 25 Mar 2015 10:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=xYEiKB3o4Qs9jPc+S/1g73tN3y2wn+IUS912JpXtnR0=;
+	b=dGz7RM9+lv8UxueAwrVJu26FrsL2T7dYSxTSWjpZ3Ot7MGwMI2W/1bxSZb/USNrZDF
+	QCRjYsvFnEMNqZ4lJy4KaQ5RB9p3sImxpLWIDPwktRXQ1Dwp88EG/Nn+vGFpn3gRAO+B
+	FuojFXB0Wn7Ty7FtodvclIF53XidoUQpuyZci4JFT39tsjL+9ZfD27Peyv5GDs0Xf6fE
+	Vq2AY6k8AFqss6L5C82sCaNtgkI2U+YM85Mwx87/9ZkdSLpa17Jy1pWtwUKK2UyVHspT
+	k51S9OAisZ/ubgWMruk8alKnVFCPGUkNfJsDuUj8LqkCXPbd9I8Ivgs+PmYv76uH2zwU
+	L1OQ==
+X-Received: by 10.140.16.99 with SMTP id 90mr12856730qga.105.1427304703797;
+	Wed, 25 Mar 2015 10:31:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.56.18]
-Subject: [PATCH] openssl: add a vardeps for configure on libdir
+Sender: kergoth@gmail.com
+Received: by 10.140.108.75 with HTTP; Wed, 25 Mar 2015 10:31:23 -0700 (PDT)
+In-Reply-To: <1427242586-23928-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1427242586-23928-1-git-send-email-randy.e.witt@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 25 Mar 2015 10:31:23 -0700
+X-Google-Sender-Auth: A27JRDgsRalHkdpRBGINmogwAmQ
+Message-ID: <CABcZANkfjcqPVHPOKZBjQYGAr2HRwmAEha1LgPM3spZ90NwxBw@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk_ext: Log the "Preparing build system" step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 16:28:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Mar 2015 17:31:51 -0000
+Content-Type: multipart/alternative; boundary=001a11c067a0db2f1f0512204585
 
-Configure makes use of 'libdir' to set 'openssldir'. Unfortunately
-openssl treats this as a hardcoded absolute path. The value passed in
-as openssl becomes part of header files and baked in to executables.
+--001a11c067a0db2f1f0512204585
+Content-Type: text/plain; charset=UTF-8
 
-For target builds libdir is not something that changes and for -native
-builds unless you move your builds around you will see no issue with
-the current implementation. If you do update libdir or if you move
-your build or reuse sstate by copying it to a new build you will start
-to see errors. These will be seen when you use the 'openssl' tool and
-look like the following:
+On Tue, Mar 24, 2015 at 5:16 PM, Randy Witt <randy.e.witt@linux.intel.com>
+wrote:
 
-WARNING: can't open config file: /home/build/bitbake_build/tmp/
-                        sysroots/x86_64-linux/usr/lib/ssl/openssl.cnf
+> When using bitbake to do the setscene as part of sdk setup, it would be
+> useful to have a log in the case where it fails.
+>
+> The log is called preparing_build_system.log and is in the top level
+> directory of the extracted sdk.
+>
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+>
 
-Knowing that openssl treats 'openssldir' as a hard coded absolute path
-and that we set this in configure we must add a 'vardeps' to ensure
-that things get re-configured and built whenever 'libdir' is
-modified. This will fix both target and -native builds per the
-usecases described above. If 'libdir' is unchanged things continue to
-function as they did before and a re-configure will not happen.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index d337017..105b3fa 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -54,6 +54,8 @@ do_configure_prepend_darwin () {
- 	sed -i -e '/version-script=openssl\.ld/d' Configure
- }
- 
-+do_configure[vardeps] += "${libdir}"
-+
- do_configure () {
- 	cd util
- 	perl perlpath.pl ${STAGING_BINDIR_NATIVE}
+Is this step just doing a setscene from shipped sstate, or is it intended
+to build anything from scratch? Because I've seen cases where the sstate
+isn't used as it should be, and it ends up taking ages to run real tasks.
 -- 
-2.0.1
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a11c067a0db2f1f0512204585
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Mar 24, 2015 at 5:16 PM, Randy Witt <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@lin=
+ux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":2u" class=3D"a3s" style=3D"overflow:hidden">When using <span class=3D=
+"il">bitbake</span> to do the setscene as part of sdk setup, it would be<br=
+>
+useful to have a log in the case where it fails.<br>
+<br>
+The log is called preparing_build_system.log and is in the top level<br>
+directory of the extracted sdk.<br>
+<br>
+Signed-off-by: Randy Witt &lt;<a href=3D"mailto:randy.e.witt@linux.intel.co=
+m">randy.e.witt@linux.intel.com</a>&gt;</div></blockquote></div><br>Is this=
+ step just doing a setscene from shipped sstate, or is it intended to build=
+ anything from scratch? Because I&#39;ve seen cases where the sstate isn&#3=
+9;t used as it should be, and it ends up taking ages to run real tasks.<br>=
+-- <br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kerg=
+oth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - =
+Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a11c067a0db2f1f0512204585--
