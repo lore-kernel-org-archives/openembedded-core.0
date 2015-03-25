@@ -1,41 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id A5F4D72B1E
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 20:42:27 +0000 (UTC)
-Received: by wgdm6 with SMTP id m6so41642426wgd.2
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 13:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ITyHs+XBBxPE9Z407nW0/YfmF2pI9Cnd5mV95coTVt4=;
-	b=Guh9hEzwumbEhSTdkAOUbiavDxEyPJK0ds0ohXFROw3gMiymaOoMSx6LODyI+IxG/D
-	ZSCYrFEW/VPwe6Xbf4uD0d7t3PIorDlZnZQPRVyysDnpTtTpQ0mt9sV6lH+O0mkyxADP
-	IeoinuklSjahL4qCtA9G8zOI5pBwkdNSUFZMalpmeoCourbKGxfyqjtqlSFJXQx2PG6O
-	XocHLJV9np6TDsHeAuEjs1gc1WEEfm0/0zNrRntuuAxDkyR/02i+4X092t92Biwp1eKy
-	ZDZXn2W0hfkv3mPNvvw5fFcDHT+4YnCGVWc94v09wiEXcfKGttRJplrpezdxxHD/joju
-	gYFQ==
-X-Received: by 10.194.61.244 with SMTP id t20mr20561448wjr.83.1427316148894;
-	Wed, 25 Mar 2015 13:42:28 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	md2sm22229679wic.19.2015.03.25.13.42.27
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Mar 2015 13:42:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 25 Mar 2015 21:42:42 +0100
-To: Janne Karhunen <janne.karhunen@gmail.com>
-Message-ID: <20150325204242.GM3904@jama>
-References: <CAE=NcrZ-ODzj8LYcrGO0-a0Wvzb3YcyAqS44-NOwMumU9NVuAw@mail.gmail.com>
-	<20150325183052.GL3904@jama>
-	<CAE=NcraiB0OH+4EPF=t7_P3B3p_rjbU97-F8MtnROg-48OeumA@mail.gmail.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id E2D7A72B1E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 20:45:17 +0000 (UTC)
+Received: by qgh3 with SMTP id 3so51165964qgh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 13:45:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=sPBbRba3Okg1idVeSxC31sFGBioZ+VLvxzccA1qliXc=;
+	b=NP08iakQ9lEIVUcVU+bxukmBmQche0qcTvBkG4X5Rq2q0HysGgQo/6cHDHaK62Ty0G
+	91ggb5FdY+cqi+vKCqEf71x2NUAMUGvMw/3K/n/nxnxkhf+oED+4P/21wxb2SNqMlzzp
+	Wp388ykPW3Se9t8M+FumLVwdSVdNm7ph86ah1Pk2tGV89nqX1dW2O9g2KM/iRYjHeUrY
+	0atfpbz/gsoBJYYIYFc9mmONKGzgQIb+l/DFZrBPSMb88cOiJymaPdvRzDhn+t/PTLou
+	lxH9FbFzKrfwZSyPPW0vK0VT0OYK63ffaQ+QlPvQ0l0DJusPDvLOAwzbEvLa7JcRik5b
+	q+sg==
+X-Gm-Message-State: ALoCoQkTGUnZKqXFMiUe+mO/nMNmqnmmDqdCW9s2sgHK2U5HrCvYsZ/NIp02bf4FaWt6chehKnN9
+X-Received: by 10.55.31.32 with SMTP id f32mr22844869qkf.41.1427316318091;
+	Wed, 25 Mar 2015 13:45:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAE=NcraiB0OH+4EPF=t7_P3B3p_rjbU97-F8MtnROg-48OeumA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: pam related dependency processing bug?
+Received: by 10.140.102.203 with HTTP; Wed, 25 Mar 2015 13:44:57 -0700 (PDT)
+In-Reply-To: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
+References: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 25 Mar 2015 20:44:57 +0000
+Message-ID: <CAJTo0LbqKtrxavRkmi=hxQAPGvGPzrwK-AJGnqDybSHup_puZw@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: add a vardeps for configure on libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,85 +43,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 20:42:29 -0000
-X-Groupsio-MsgNum: 63717
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tv2SIFopg1r47n4a"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Mar 2015 20:45:18 -0000
+Content-Type: multipart/alternative; boundary=001a1147b0dc1f523d051222fae2
 
---tv2SIFopg1r47n4a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a1147b0dc1f523d051222fae2
+Content-Type: text/plain; charset=UTF-8
+
+On 25 March 2015 at 16:28, Mark Asselstine <mark.asselstine@windriver.com>
+wrote:
+
+> For target builds libdir is not something that changes and for -native
+> builds unless you move your builds around you will see no issue with
+> the current implementation. If you do update libdir or if you move
+> your build or reuse sstate by copying it to a new build you will start
+> to see errors. These will be seen when you use the 'openssl' tool and
+> look like the following:
+>
+> WARNING: can't open config file: /home/build/bitbake_build/tmp/
+>                         sysroots/x86_64-linux/usr/lib/ssl/openssl.cnf
+>
+
+We don't generally require that native sstate is rebuilt when the build
+directory changes, as otherwise you wouldn't be able to share native sstate
+between builds and users.  Instead, paths are munged where possible when
+using sstate and wrapper scripts used to "fix" binaries.  Indeed
+openssl.inc does this:
+
+do_install_append_virtclass-native() {
+        create_wrapper ${D}${bindir}/openssl \
+            OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
+            SSL_CERT_DIR=${libdir}/ssl/certs \
+            SSL_CERT_FILE=${libdir}/ssl/cert.pem \
+            OPENSSL_ENGINES=${libdir}/ssl/engines
+}
+
+Is it possible that the binary isn't respecting the OPENSSL_CONF
+environment variable since that wrapper was written? (or the wrapper wasn't
+tested well enough)
+
+Ross
+
+--001a1147b0dc1f523d051222fae2
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 25, 2015 at 01:31:31PM -0700, Janne Karhunen wrote:
-> Hi,
->=20
-> Thanks, inherited that file and missed that - and my RPM legacy was
-> thinking that's about right.
->=20
-> How do you guys test people don't leak dependencies with global
-> DEPENDS? Even this must have been passing by accident quite a while :)
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 March 2015 at 16:28, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine@wi=
+ndriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(2=
+04,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":e1" class=
+=3D"" style=3D"overflow:hidden">For target builds libdir is not something t=
+hat changes and for -native<br>
+builds unless you move your builds around you will see no issue with<br>
+the current implementation. If you do update libdir or if you move<br>
+your build or reuse sstate by copying it to a new build you will start<br>
+to see errors. These will be seen when you use the &#39;openssl&#39; tool a=
+nd<br>
+look like the following:<br>
+<br>
+WARNING: can&#39;t open config file: /home/build/bitbake_build/tmp/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 sysroots/x86_64-linux/usr/lib/ssl/openssl.cnf</div></blockquote>=
+</div><div class=3D"gmail_extra"><br></div>We don&#39;t generally require t=
+hat native sstate is rebuilt when the build directory changes, as otherwise=
+ you wouldn&#39;t be able to share native sstate between builds and users.=
+=C2=A0 Instead, paths are munged where possible when using sstate and wrapp=
+er scripts used to &quot;fix&quot; binaries.=C2=A0 Indeed openssl.inc does =
+this:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+<div class=3D"gmail_extra">do_install_append_virtclass-native() {</div><div=
+ class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_wrapper ${D}${bin=
+dir}/openssl \</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 OPENSSL_CONF=3D${libdir}/ssl/openssl.cnf \</div><div class=3D=
+"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SSL_CERT_DIR=3D${li=
+bdir}/ssl/certs \</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 SSL_CERT_FILE=3D${libdir}/ssl/cert.pem \</div><div class=
+=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OPENSSL_ENGINES=
+=3D${libdir}/ssl/engines</div><div class=3D"gmail_extra">}</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Is it possible that t=
+he binary isn&#39;t respecting the OPENSSL_CONF environment variable since =
+that wrapper was written? (or the wrapper wasn&#39;t tested well enough)</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div></div>
 
-See
-openembedded-core/scripts/test-dependencies.sh
-
-but it can detect only dependencies which cause build to fail or
-autodetected dependencies which result in extra library being linked
-=66rom some binary in the tested package.
-
-> On Wed, Mar 25, 2015 at 11:30 AM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
-> > On Wed, Mar 25, 2015 at 10:39:34AM -0700, Janne Karhunen wrote:
-> >> Hi,
-> >>
-> >> Wonder if you guys can share some insights on how to debug this case.
-> >> I have a legacy PAM module recipe that says:
-> >>
-> >> DEPENDS_${PN} =3D "libpam"
-> >>
-> >> 'pam' is listed in DISTRO_FEATURES and is working fine. However, for
-> >> that pam module libpam dependency is silently dropped during the
-> >> build. If PAM happens to be compiled before that module, everything is
-> >> fine, but if not, build fails on missing pam headers.
-> >>
-> >> To make this interesting, 'bitbake -g -u depexp <module>' shows the
-> >> libpam dependency in place - yet it clearly is not there during the
-> >> build. Results are the same for both dizzy and daisy and host OS
-> >> doesn't seem to make a difference either.
-> >
-> > That's because
-> > DEPENDS_${PN}
-> > doesn't mean anything you should be using DEPENDS (only RDEPENDS,
-> > RPROVIDES, RREPLACES, RCONFLICTS variables are package specific and end
-> > with _<package-name> e.g. _${PN})
-> >
-> >>
-> >>
-> >> --
-> >> Janne
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---tv2SIFopg1r47n4a
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlUTHcIACgkQN1Ujt2V2gBxVsACdGqnNslftZg5LTEh+KyCYtx2b
-0AwAnRKQgvh+fgGDWdvOLuOxSzYhP5d9
-=lD+4
------END PGP SIGNATURE-----
-
---tv2SIFopg1r47n4a--
+--001a1147b0dc1f523d051222fae2--
