@@ -1,41 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B95773C06
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C8BA26E245
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 12:11:24 +0000 (UTC)
-Received: by qgh3 with SMTP id 3so26754859qgh.2
+	Wed, 25 Mar 2015 12:13:55 +0000 (UTC)
+Received: by lbcmq2 with SMTP id mq2so15919815lbc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 05:11:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DlYQn2s68GcZkEwtvn+AthdEJOwtjnHN3SIeebapXoc=;
-	b=Jw/LDZiBxdkrMJfQtlNaf81A6QgDul+1w8a2WKdAZraQIp+mRYrVwiVqkNigFYFP+W
-	cRBolOZovOuLtJvJPqdVTjxPAkJxNFJkZzs+tUZ4AREAigQ7+zsqh2MwDajcJFH3uuOI
-	F85R1SYYB4/xp6wFjbhq2kD+xy0meKzmClmDIUflG7yIX0j6a4VcydLth6wP25S/4/rB
-	YoQiLC1H58QQRGiP2HdbE8rKCMR3B1MvEj5Gy5USEjWM3zAQ2KEEDTFsMtyWNZnADyZ+
-	2MgMbp1Q/sKbBxQiGnnwoFkv+/mJuU6MQrtjoD+lp2wMb2D74TgvHWM/Tf4Bcda7AGwW
-	5Hug==
-X-Gm-Message-State: ALoCoQnP/wYTxu+OOtCtHStLbHBvHE8YhwoBqSJ4odEOeGCw/ddXQ/anOwKVdyp9gP1AU7D1yuDr
-X-Received: by 10.55.21.152 with SMTP id 24mr18703769qkv.40.1427285485830;
-	Wed, 25 Mar 2015 05:11:25 -0700 (PDT)
+	Wed, 25 Mar 2015 05:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=kcgekqQ/juUhrISv/+kp9h0jBiueFtZDj4RGQaH+578=;
+	b=B+i+E2flWHLzvhHAyW47AiMAmbvYVxCyw/fax+o7RVZy33oVxgldLyxpZ6IPRRN8rz
+	1/zCAxDYL+rDACTevqoMmR8RcerZn5KrqiLLxuUSIizlWXSBmvw9G2cCqNgJavD6M+dF
+	Nm7QwTLAHleYj8K5nzjMKpQpAsD005/y+SXYD6B4CGYZqY6smvau2jp2D7CKgrcfOlZd
+	BzfLGr/xhL0OtcXLUZ5DEEAlxTifEBh+Olss1uOQXxHxLdikTmCKTh8YVk7cloWbg+HL
+	wDLaIXl4Ti/6mcCYpZcIOrtbBrpmvASFJ/xX6M1U32n4usVbsP7Xis3eUDOzkQQXihsa
+	dfXw==
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Wed, 25 Mar 2015 05:11:05 -0700 (PDT)
-In-Reply-To: <20150323222113.GD3904@jama>
-References: <20150316174236.48B8050234@opal.openembedded.org>
-	<20150321021120.GF4738@jama>
-	<1426930147.29168.104.camel@linuxfoundation.org>
-	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Mar 2015 12:11:05 +0000
-Message-ID: <CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+X-Received: by 10.152.8.15 with SMTP id n15mr8086345laa.41.1427285636124; Wed,
+	25 Mar 2015 05:13:56 -0700 (PDT)
+Received: by 10.112.170.70 with HTTP; Wed, 25 Mar 2015 05:13:56 -0700 (PDT)
+In-Reply-To: <1427275585.14020.39.camel@linuxfoundation.org>
+References: <cover.1427222980.git.bruce.ashfield@windriver.com>
+	<1427275585.14020.39.camel@linuxfoundation.org>
+Date: Wed, 25 Mar 2015 08:13:56 -0400
+Message-ID: <CADkTA4NKxxge6-vqyHka3PnEA9shUW3WHyWX-v4T9L2FDeyD0Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 12:11:26 -0000
-Content-Type: multipart/alternative; boundary=001a1147a9b860b56905121bcc33
-
---001a1147a9b860b56905121bcc33
+X-List-Received-Date: Wed, 25 Mar 2015 12:13:58 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 23 March 2015 at 22:21, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> In my case it's reproducible by adding udev-ptest to image, more
-> specifically
-> having these 2 directories in rootfs:
-> usr/lib/udev/ptest/test/sys/devices
-> usr/lib/udev/ptest/test/sys/bus
+On Wed, Mar 25, 2015 at 5:26 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2015-03-24 at 14:57 -0400, Bruce Ashfield wrote:
+>> Hi all,
+>>
+>> Here is the latest linux-yocto consolidated pull request. It is a mix of
+>> kernel version -stable imports (CVEs and fixes), kernel configuration
+>> changes, a documentation update and kernel configuration enhancement.
+>>
+>> The -stable updates are routine, and I build/boot tested them here
+>> (with my fixup commits being evidence). These are ready for a round of
+>> autobuilder/soak testing.
 >
+> Something in here broke lttng-modules causing cascades of failures on
+> the autobuilder so I've updated it to the latest code on the 2.6 stable
+> branch and am retesting.
 
-oe-core 3f799b should mean that those directories are in a tarball instead
-of unpacked on the rootfs.  Do you have that commit?
+Gah. I built and booted here, but can't think of any reason why that didn't
+trigger and fail here.
 
-Ross
+I've started my own build as well, with a completely clean starting point.
 
---001a1147a9b860b56905121bcc33
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Bruce
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 March 2015 at 22:21, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div id=3D":36w" class=3D"" style=3D"o=
-verflow:hidden">In my case it&#39;s reproducible by adding udev-ptest to im=
-age, more specifically<br>
-having these 2 directories in rootfs:<br>
-usr/lib/udev/ptest/test/sys/devices<br>
-usr/lib/udev/ptest/test/sys/bus</div></blockquote><div><br></div><div>oe-co=
-re 3f799b should mean that those directories are in a tarball instead of un=
-packed on the rootfs.=C2=A0 Do you have that commit?</div><div><br></div><d=
-iv>Ross</div></div></div></div>
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1147a9b860b56905121bcc33--
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
