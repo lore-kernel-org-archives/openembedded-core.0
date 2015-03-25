@@ -1,46 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1E872B1E
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C7DB56013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 22:14:27 +0000 (UTC)
-Received: by wibgn9 with SMTP id gn9so59636107wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 15:14:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=YTTIf3RYhyuGz1XcdywqzN8PsPTA1TsUZkmgokUFAYs=;
-	b=RkVhd3jDHATEi0ghvq4F2/PD2Cpq6sDheJjAHhIwJ0hXgEHMNG70G/GUo/mPIx+cmV
-	zSaFaJID0Dp4oK0boHKBAXahyBe9zER40qC4rwMinEaaril+5Yj3BO4nIVeVXLB20Bv5
-	OXe4x8aOR0vXNAb0Sgq2HlP1lyMj+q11QedR+Ky41Rg125NtKqEXtljtcSRFYndFreYq
-	2aXZSgVBBlsM2MvBjMN/uEjOy2VIUhrTNZKqX0ohy41SCIVwQu5i82I3MjDEuDnGxmsa
-	XBlYuQrBn8a+bOA9Ohn4Pgi+lG5LNFIC0h67K2utCNtSKw8HZznbck50LjlCa8zGOjz+
-	riiQ==
-X-Received: by 10.194.121.68 with SMTP id li4mr22461130wjb.138.1427321668263; 
-	Wed, 25 Mar 2015 15:14:28 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	hl8sm5558713wjb.38.2015.03.25.15.14.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Mar 2015 15:14:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 25 Mar 2015 23:14:41 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150325221441.GN3904@jama>
-References: <20150316174236.48B8050234@opal.openembedded.org>
-	<20150321021120.GF4738@jama>
-	<1426930147.29168.104.camel@linuxfoundation.org>
-	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
-	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
-	<20150325161208.GK3904@jama>
-	<CAJTo0LZV65-iZ3XDy7aaSyRayNOZ3trVpCfZMwe_=qrq8SUG-A@mail.gmail.com>
+	Wed, 25 Mar 2015 22:26:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Mar 2015 15:26:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,467,1422950400"; d="scan'208";a="670643685"
+Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
+	([10.23.219.52])
+	by orsmga001.jf.intel.com with ESMTP; 25 Mar 2015 15:26:54 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Mar 2015 22:26:45 +0000
+Message-Id: <1427322405-34441-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZV65-iZ3XDy7aaSyRayNOZ3trVpCfZMwe_=qrq8SUG-A@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+Subject: [PATCH] lzop: Fix build using x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +29,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 22:14:30 -0000
-X-Groupsio-MsgNum: 63728
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8c07nsHwQobhlezh"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Mar 2015 22:26:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---8c07nsHwQobhlezh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When tries to build lzop using x32 ABI fails trying to get
+FLAGS register that is 64-bit and destination variable is
+32-bit size_t.
 
-On Wed, Mar 25, 2015 at 04:18:49PM +0000, Burton, Ross wrote:
-> On 25 March 2015 at 16:12, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > Oh, thanks for pointer. I was seeing the same issue in dizzy and master
-> > build, but this change can explain why I wasn't able to reproduce it in
-> > master yesterday.
-> >
->=20
-> Sounds like we should backport that to dizzy (CCing Armin).
+[YOCTO #7424]
 
-yes, I've verified that I can reproduce this issue in master after
-reverting this change and that it resolves the issue in dizzy if I
-backport it with one other change (just to apply it cleanly with
-additional bugfix), I've referenced the fontcache.bbclass fix, these
-3 should go in only together.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../lzop/lzop/x32_abi_miniacc_h.patch              | 36 ++++++++++++++++++++++
+ meta/recipes-support/lzop/lzop_1.03.bb             |  4 ++-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
 
-My bigger image build is still running, but this fix is definitely
-helping.
+diff --git a/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
+new file mode 100644
+index 0000000..527589f
+--- /dev/null
++++ b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
+@@ -0,0 +1,36 @@
++Fix get of FLAGS register in x32 ABI,
++
++x32 ABI requires to have 64-bit variable to store FLAGS register
++instead of size_t that is 32-bit variable, this fix operand
++type mismatch when try to pop previous pushf value.
++
++Upstream-status: Submitted
++
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++
++Index: lzop-1.03/src/miniacc.h
++===================================================================
++--- lzop-1.03.orig/src/miniacc.h
+++++ lzop-1.03/src/miniacc.h
++@@ -754,6 +754,9 @@
++ #elif defined(__amd64__) || defined(__x86_64__) || defined(_M_AMD64)
++ #  define ACC_ARCH_AMD64            1
++ #  define ACC_INFO_ARCH             "amd64"
+++#  if defined(__ILP32__)
+++#    define ACC_ARCH_AMD64_X32      1
+++#  endif
++ #elif defined(__thumb__) || (defined(_M_ARM) && defined(_M_THUMB))
++ #  define ACC_ARCH_ARM              1
++ #  define ACC_ARCH_ARM_THUMB        1
++@@ -6787,7 +6790,11 @@ ACCLIB_PUBLIC_NOINLINE(void, acc_debug_n
++ ACCLIB_PUBLIC_NOINLINE(int, acc_debug_align_check_query) (void)
++ {
++ #if (ACC_ARCH_AMD64 || ACC_ARCH_I386) && (ACC_ASM_SYNTAX_GNUC)
+++#  if defined(ACC_ARCH_AMD64_X32)
+++    unsigned long long r;
+++#  else
++     size_t r;
+++#  endif
++     __asm__ __volatile__("pushf\n pop %0\n" : "=a" (r) : : __ACC_ASM_CLOBBER);
++     return (int)(r >> 18) & 1;
++ #elif (ACC_ARCH_I386) && (ACC_ASM_SYNTAX_MSC)
+diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
+index abfc81c..85a4e52 100644
+--- a/meta/recipes-support/lzop/lzop_1.03.bb
++++ b/meta/recipes-support/lzop/lzop_1.03.bb
+@@ -6,13 +6,15 @@ compression ratio. The lzop compression utility was designed with the goals \n\
+ of reliability, speed, portability and with reasonable drop-in compatibility \n\
+ to gzip."
+ DEPENDS += "lzo"
++PR = "r1"
+ 
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
+                     file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
+ 
+ SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
+-           file://acinclude.m4"
++           file://acinclude.m4 \
++           file://x32_abi_miniacc_h.patch "
+ SRC_URI[md5sum] = "006c5e27fb78cdd14a628fdfa5aa1905"
+ SRC_URI[sha256sum] = "c1425b8c77d49f5a679d5a126c90ea6ad99585a55e335a613cae59e909dbb2c9"
+ 
+-- 
+1.8.4.5
 
-Thanks,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---8c07nsHwQobhlezh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlUTM1EACgkQN1Ujt2V2gBzhEgCff2CV0pion+6YHLVC3EF8e70I
-Q4IAnRz8IgF0G5b291Ygn8Nhe4vTsGt4
-=WtH5
------END PGP SIGNATURE-----
-
---8c07nsHwQobhlezh--
