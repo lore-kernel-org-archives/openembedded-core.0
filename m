@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 016AC723B3
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BBEC6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 21:10:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2PL927q007323; Wed, 25 Mar 2015 21:09:56 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cNA0dxwZxlPG; Wed, 25 Mar 2015 21:09:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2PL9gf5007372
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 25 Mar 2015 21:09:53 GMT
-Message-ID: <1427317782.14020.44.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 25 Mar 2015 21:09:42 +0000
-In-Reply-To: <CABcZANkfjcqPVHPOKZBjQYGAr2HRwmAEha1LgPM3spZ90NwxBw@mail.gmail.com>
-References: <1427242586-23928-1-git-send-email-randy.e.witt@linux.intel.com>
-	<CABcZANkfjcqPVHPOKZBjQYGAr2HRwmAEha1LgPM3spZ90NwxBw@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate_sdk_ext: Log the "Preparing build system" step
+	Wed, 25 Mar 2015 21:49:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Mar 2015 14:49:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,467,1422950400"; d="scan'208";a="670629591"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by orsmga001.jf.intel.com with ESMTP; 25 Mar 2015 14:49:49 -0700
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Wed, 25 Mar 2015 14:49:49 -0700
+Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.143) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Wed, 25 Mar 2015 14:49:48 -0700
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Mar 2015 18:49:19 -0300
+Message-ID: <1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.218.99.143]
+Subject: [PATCH v3 0/4] systemd and dbus split into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +37,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 21:10:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Mar 2015 21:49:49 -0000
+Content-Type: text/plain
 
-On Wed, 2015-03-25 at 10:31 -0700, Christopher Larson wrote:
-> 
-> On Tue, Mar 24, 2015 at 5:16 PM, Randy Witt
-> <randy.e.witt@linux.intel.com> wrote:
->         When using bitbake to do the setscene as part of sdk setup, it
->         would be
->         useful to have a log in the case where it fails.
->         
->         The log is called preparing_build_system.log and is in the top
->         level
->         directory of the extracted sdk.
->         
->         Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
-> 
-> Is this step just doing a setscene from shipped sstate, or is it
-> intended to build anything from scratch? Because I've seen cases where
-> the sstate isn't used as it should be, and it ends up taking ages to
-> run real tasks.
+Differences from v2:
+- Rebasing patch with version with 1.8 ( Head of the branch) as
+  Khem Raj suggested 
 
-Are you using http sstate mirrors out of interest?
+Differences from v1:
 
-I've been experimenting with them and there are some serious performance
-issues trying to do that if there is any kind of network latency :(.
+dbus: Adding change that Andreas Oberritter recommended.
+-Setting RRECOMMENDS_${PN}_class-native instead RPROVIDES 
+ dbus-native-tools-native.
 
-Cheers,
+systemd: Adding change that Anders Darander and Khem Raj recommended
+-Modifying PACKAGECONFIG as requested to use it with bbutils.
 
-Richard
+systemd: Adding change that Khem Raj requested:
+-Porting patches that was used on the release of the 219 stable version
+ instead of changing the repository.
 
+
+-------------------------------------------------------------------------------
+In this patchset we include the following:
+
+1- dbus: split tools package
+   Most tools are not required if one is launching a simple daemon.
+   So, we split it into two packages dbus and dbus-tools which the user
+   will be able to exclude it from the image if he wants to.
+
+2- systemd: verify if files test-udev and systemd-journal-flush exists
+   If the user put --disable-tests on EXTRA_OECONF for systemd, some files will
+   not be created and systemd do_install phase
+   will fail.
+   This patch will give this flexibility for the user
+
+3- systemd: split modules into packages
+   Since systemd repo grows with more and more tools, the recipe will provide
+   a customizable layer and he will be able to choose what he wants to ship
+   to the final image.
+   He will be able to save space and exclude unwanted packages from the
+   final image.
+
+4- systemd: add patches from systemd 219 - stable
+   Adding patches that fix bugs for 219 version.
+   This will get the same consistency of the stable systemd 219 version.
+
+Bruno Bottazzini (3):
+  systemd: verify if files test-udev and systemd-journal-flush exists
+  systemd: split modules into packages
+  systemd: v219 with stable fixes
+
+Gustavo Sverzut Barbieri (1):
+  dbus: split tools package.
+
+ meta/recipes-core/dbus/dbus.inc                    |    9 +-
+ ...remote-fix-certificate-status-memory-leak.patch |   31 +
+ ...ournal-remote-fix-client_cert-memory-leak.patch |   35 +
+ ...0003-tmpfiles-Fix-parse_acl-error-message.patch |   28 +
+ ...-test-utf8-fix-utf16-tests-on-BE-machines.patch |   26 +
+ ...iles-avoid-creating-duplicate-acl-entries.patch |  131 +++
+ .../0006-shared-time-util-fix-gcc5-warning.patch   |   32 +
+ ...time-test-infinity-parsing-in-nanoseconds.patch |   36 +
+ .../0008-bootchart-fix-default-init-path.patch     |   44 +
+ ...emctl-bump-NOFILE-only-for-systemctl_main.patch |   44 +
+ ...0-Make-root-s-home-directory-configurable.patch |   89 +-
+ ...-util-avoid-freeing-uninitialized-pointer.patch |   37 +
+ ...11-bootchart-svg-fix-checking-of-list-end.patch |   28 +
+ ...md-add-getrandom-syscall-numbers-for-MIPS.patch |   38 +
+ ...aker-dependencies-between-mount-and-devic.patch |   33 +
+ ...topping-due-to-BindsTo-log-which-unit-cau.patch |   43 +
+ ...grade-message-about-sysctl-overrides-to-d.patch |   30 +
+ ...l-add-some-hints-how-to-override-settings.patch |   39 +
+ .../0017-core-rework-device-state-logic.patch      |  912 ++++++++++++++++
+ .../0018-core-fix-return-value-on-OOM.patch        |   26 +
+ ...e-x-machine-unix-prefix-for-the-container.patch |   33 +
+ ...0-shared-AFS-is-also-a-network-filesystem.patch |   25 +
+ ...downgrade-unit-type-not-supported-message.patch |   31 +
+ ...ournal-remote-fix-saving-of-binary-fields.patch |   97 ++
+ ...ix-Inappropriate-ioctl-for-device-on-ext4.patch |   37 +
+ ...eplace-VLA-with-alloca-to-make-llvm-happy.patch |   53 +
+ ...ietly-ignore-ACLs-on-unsupported-filesyst.patch |   84 ++
+ ...-assume-ac-when-sys-class-power_supply-is.patch |   30 +
+ meta/recipes-core/systemd/systemd_219.bb           | 1112 +++++++++++++++++---
+ meta/recipes-core/util-linux/util-linux.inc        |    2 +-
+ 30 files changed, 3006 insertions(+), 189 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-remote-fix-certificate-status-memory-leak.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-journal-remote-fix-client_cert-memory-leak.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0003-tmpfiles-Fix-parse_acl-error-message.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0004-test-utf8-fix-utf16-tests-on-BE-machines.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0005-tmpfiles-avoid-creating-duplicate-acl-entries.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0006-shared-time-util-fix-gcc5-warning.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0007-test-time-test-infinity-parsing-in-nanoseconds.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0008-bootchart-fix-default-init-path.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0009-systemctl-bump-NOFILE-only-for-systemctl_main.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0010-acl-util-avoid-freeing-uninitialized-pointer.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0011-bootchart-svg-fix-checking-of-list-end.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-add-getrandom-syscall-numbers-for-MIPS.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0013-unit-use-weaker-dependencies-between-mount-and-devic.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0014-unit-When-stopping-due-to-BindsTo-log-which-unit-cau.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0015-sysctl-downgrade-message-about-sysctl-overrides-to-d.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0016-sysctl-add-some-hints-how-to-override-settings.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0017-core-rework-device-state-logic.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0018-core-fix-return-value-on-OOM.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0019-machined-use-x-machine-unix-prefix-for-the-container.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0020-shared-AFS-is-also-a-network-filesystem.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0021-core-downgrade-unit-type-not-supported-message.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0022-journal-remote-fix-saving-of-binary-fields.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-sd-daemon-replace-VLA-with-alloca-to-make-llvm-happy.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0025-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-shared-util-assume-ac-when-sys-class-power_supply-is.patch
+
+-- 
+1.9.1
 
 
