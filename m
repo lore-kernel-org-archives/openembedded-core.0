@@ -1,40 +1,31 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A86CC6013D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 016AC723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 20:54:41 +0000 (UTC)
-Received: by pdnc3 with SMTP id c3so40167301pdn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 13:54:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=yxR/8MOlpTNeGJ5CWHhKsUb/9q48ogrvIN1ob8LRx9g=;
-	b=HFYN3guka4HlYN3vla8tK9H7A8RQ+98dIQwQ76n48xKAkXzrNzcQOTBTC+bIr5Qncr
-	ww2yTjWH39lbpp+M7/Mhas2q8oPEtBfFyDJoCAMbU+IBdR+tKkDSwMtZPmUSVJvsUwPQ
-	Dio7xPAJJnVDPwbgWuIUysC6/hcFghEJLUH08mVVSfnot79uwfAFZoNbjQOYiCVKUjaZ
-	Za+Uq/2UP18fgzwcLNjOaADilmPW3FS9DTmg75mIaa0N9IhJ0FpAnc2M4avFaTaggRZ6
-	ZB8ysjViHA+nr2GrFSY9Z9M3BMh67F1PQayDQasngONyE0b77sCVSllfgZXHqgrtC1Gt
-	Ci2A==
-X-Received: by 10.67.7.195 with SMTP id de3mr20256734pad.79.1427316882582;
-	Wed, 25 Mar 2015 13:54:42 -0700 (PDT)
-Received: from [172.22.23.185] ([12.104.145.3])
-	by mx.google.com with ESMTPSA id x1sm3387042pdp.1.2015.03.25.13.54.40
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 25 Mar 2015 13:54:41 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Akuster808 <akuster808@gmail.com>
-X-Mailer: iPhone Mail (12D508)
-In-Reply-To: <5512FE5E.3090205@windriver.com>
-Date: Wed, 25 Mar 2015 13:54:39 -0700
-Message-Id: <D5839468-BEF3-437F-9FDB-27481A60D528@gmail.com>
-References: <54DA69AB.1020204@balister.org> <55030897.6010403@mvista.com>
-	<5503168F.6080408@balister.org> <5512FE5E.3090205@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: "<openembedded-core@lists.openembedded.org>"
+	Wed, 25 Mar 2015 21:10:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2PL927q007323; Wed, 25 Mar 2015 21:09:56 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cNA0dxwZxlPG; Wed, 25 Mar 2015 21:09:56 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2PL9gf5007372
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 25 Mar 2015 21:09:53 GMT
+Message-ID: <1427317782.14020.44.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 25 Mar 2015 21:09:42 +0000
+In-Reply-To: <CABcZANkfjcqPVHPOKZBjQYGAr2HRwmAEha1LgPM3spZ90NwxBw@mail.gmail.com>
+References: <1427242586-23928-1-git-send-email-randy.e.witt@linux.intel.com>
+	<CABcZANkfjcqPVHPOKZBjQYGAr2HRwmAEha1LgPM3spZ90NwxBw@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] OpenEmbedded Developer America's Meeting
+Subject: Re: [PATCH] populate_sdk_ext: Log the "Preparing build system" step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 20:54:42 -0000
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 25 Mar 2015 21:10:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Mark,
-
-I think its 9 am
-
-- Armin
-
-
-
-> On Mar 25, 2015, at 11:28, Mark Hatle <mark.hatle@windriver.com> wrote:
+On Wed, 2015-03-25 at 10:31 -0700, Christopher Larson wrote:
 > 
-> I didn't see this on the Wiki.  What is the expected start time both days?
+> On Tue, Mar 24, 2015 at 5:16 PM, Randy Witt
+> <randy.e.witt@linux.intel.com> wrote:
+>         When using bitbake to do the setscene as part of sdk setup, it
+>         would be
+>         useful to have a log in the case where it fails.
+>         
+>         The log is called preparing_build_system.log and is in the top
+>         level
+>         directory of the extracted sdk.
+>         
+>         Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 > 
-> --Mark
-> 
->> On 3/13/15 11:55 AM, Philip Balister wrote:
->> You can add yourself here (or drop me an email if you have trouble
->> logging in)
->> 
->> http://www.openembedded.org/wiki/OEDAM_2015
->> 
->> We plan to have a Hangout on the Air so people can follow along remotely.
->> 
->> Philip
->> 
->>> On 03/13/2015 11:56 AM, akuster wrote:
->>> Hello Folks,
->>> 
->>> OEDAM is nearing. If you have not signed up, please do so. It will help
->>> me with head count for badges.
->>> 
->>> We also need more subject matter the Agenda.  If you have any topics or
->>> ideas, please submit them.
->>> 
->>> kind regards,
->>> Armin
->>> 
->>>> On 02/10/2015 12:27 PM, Philip Balister wrote:
->>>> We've scheduled a meeting in San Jose at a Monte Vista facility for
->>>> March 27-28. This is after ELC (also in San Jose). There is a Yocto
->>>> Project developer Day the day after ELC.
->>>> 
->>>> I've made a page on the wiki to start collecting information:
->>>> 
->>>> http://openembedded.org/wiki/OEDAM_2015
->>>> 
->>>> To get an idea of what we cover, see the page from the prior year:
->>>> 
->>>> http://openembedded.org/wiki/OEDAM_2014
->>>> 
->>>> I apologize for the late notice. There were issues that led to a delay
->>>> with dates due to the YP Dev day.
->>>> 
->>>> Philip
-> 
+> Is this step just doing a setscene from shipped sstate, or is it
+> intended to build anything from scratch? Because I've seen cases where
+> the sstate isn't used as it should be, and it ends up taking ages to
+> run real tasks.
+
+Are you using http sstate mirrors out of interest?
+
+I've been experimenting with them and there are some serious performance
+issues trying to do that if there is any kind of network latency :(.
+
+Cheers,
+
+Richard
+
+
 
