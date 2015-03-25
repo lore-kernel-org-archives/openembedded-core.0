@@ -1,36 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E2D7A72B1E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A86CC6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 20:45:17 +0000 (UTC)
-Received: by qgh3 with SMTP id 3so51165964qgh.2
+	Wed, 25 Mar 2015 20:54:41 +0000 (UTC)
+Received: by pdnc3 with SMTP id c3so40167301pdn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 13:45:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=sPBbRba3Okg1idVeSxC31sFGBioZ+VLvxzccA1qliXc=;
-	b=NP08iakQ9lEIVUcVU+bxukmBmQche0qcTvBkG4X5Rq2q0HysGgQo/6cHDHaK62Ty0G
-	91ggb5FdY+cqi+vKCqEf71x2NUAMUGvMw/3K/n/nxnxkhf+oED+4P/21wxb2SNqMlzzp
-	Wp388ykPW3Se9t8M+FumLVwdSVdNm7ph86ah1Pk2tGV89nqX1dW2O9g2KM/iRYjHeUrY
-	0atfpbz/gsoBJYYIYFc9mmONKGzgQIb+l/DFZrBPSMb88cOiJymaPdvRzDhn+t/PTLou
-	lxH9FbFzKrfwZSyPPW0vK0VT0OYK63ffaQ+QlPvQ0l0DJusPDvLOAwzbEvLa7JcRik5b
-	q+sg==
-X-Gm-Message-State: ALoCoQkTGUnZKqXFMiUe+mO/nMNmqnmmDqdCW9s2sgHK2U5HrCvYsZ/NIp02bf4FaWt6chehKnN9
-X-Received: by 10.55.31.32 with SMTP id f32mr22844869qkf.41.1427316318091;
-	Wed, 25 Mar 2015 13:45:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Wed, 25 Mar 2015 13:44:57 -0700 (PDT)
-In-Reply-To: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
-References: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Mar 2015 20:44:57 +0000
-Message-ID: <CAJTo0LbqKtrxavRkmi=hxQAPGvGPzrwK-AJGnqDybSHup_puZw@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: add a vardeps for configure on libdir
+	Wed, 25 Mar 2015 13:54:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=yxR/8MOlpTNeGJ5CWHhKsUb/9q48ogrvIN1ob8LRx9g=;
+	b=HFYN3guka4HlYN3vla8tK9H7A8RQ+98dIQwQ76n48xKAkXzrNzcQOTBTC+bIr5Qncr
+	ww2yTjWH39lbpp+M7/Mhas2q8oPEtBfFyDJoCAMbU+IBdR+tKkDSwMtZPmUSVJvsUwPQ
+	Dio7xPAJJnVDPwbgWuIUysC6/hcFghEJLUH08mVVSfnot79uwfAFZoNbjQOYiCVKUjaZ
+	Za+Uq/2UP18fgzwcLNjOaADilmPW3FS9DTmg75mIaa0N9IhJ0FpAnc2M4avFaTaggRZ6
+	ZB8ysjViHA+nr2GrFSY9Z9M3BMh67F1PQayDQasngONyE0b77sCVSllfgZXHqgrtC1Gt
+	Ci2A==
+X-Received: by 10.67.7.195 with SMTP id de3mr20256734pad.79.1427316882582;
+	Wed, 25 Mar 2015 13:54:42 -0700 (PDT)
+Received: from [172.22.23.185] ([12.104.145.3])
+	by mx.google.com with ESMTPSA id x1sm3387042pdp.1.2015.03.25.13.54.40
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 25 Mar 2015 13:54:41 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Akuster808 <akuster808@gmail.com>
+X-Mailer: iPhone Mail (12D508)
+In-Reply-To: <5512FE5E.3090205@windriver.com>
+Date: Wed, 25 Mar 2015 13:54:39 -0700
+Message-Id: <D5839468-BEF3-437F-9FDB-27481A60D528@gmail.com>
+References: <54DA69AB.1020204@balister.org> <55030897.6010403@mvista.com>
+	<5503168F.6080408@balister.org> <5512FE5E.3090205@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: "<openembedded-core@lists.openembedded.org>"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] OpenEmbedded Developer America's Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,87 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 20:45:18 -0000
-Content-Type: multipart/alternative; boundary=001a1147b0dc1f523d051222fae2
+X-List-Received-Date: Wed, 25 Mar 2015 20:54:42 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
---001a1147b0dc1f523d051222fae2
-Content-Type: text/plain; charset=UTF-8
+Mark,
 
-On 25 March 2015 at 16:28, Mark Asselstine <mark.asselstine@windriver.com>
-wrote:
+I think its 9 am
 
-> For target builds libdir is not something that changes and for -native
-> builds unless you move your builds around you will see no issue with
-> the current implementation. If you do update libdir or if you move
-> your build or reuse sstate by copying it to a new build you will start
-> to see errors. These will be seen when you use the 'openssl' tool and
-> look like the following:
->
-> WARNING: can't open config file: /home/build/bitbake_build/tmp/
->                         sysroots/x86_64-linux/usr/lib/ssl/openssl.cnf
->
+- Armin
 
-We don't generally require that native sstate is rebuilt when the build
-directory changes, as otherwise you wouldn't be able to share native sstate
-between builds and users.  Instead, paths are munged where possible when
-using sstate and wrapper scripts used to "fix" binaries.  Indeed
-openssl.inc does this:
 
-do_install_append_virtclass-native() {
-        create_wrapper ${D}${bindir}/openssl \
-            OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
-            SSL_CERT_DIR=${libdir}/ssl/certs \
-            SSL_CERT_FILE=${libdir}/ssl/cert.pem \
-            OPENSSL_ENGINES=${libdir}/ssl/engines
-}
 
-Is it possible that the binary isn't respecting the OPENSSL_CONF
-environment variable since that wrapper was written? (or the wrapper wasn't
-tested well enough)
+> On Mar 25, 2015, at 11:28, Mark Hatle <mark.hatle@windriver.com> wrote:
+> 
+> I didn't see this on the Wiki.  What is the expected start time both days?
+> 
+> --Mark
+> 
+>> On 3/13/15 11:55 AM, Philip Balister wrote:
+>> You can add yourself here (or drop me an email if you have trouble
+>> logging in)
+>> 
+>> http://www.openembedded.org/wiki/OEDAM_2015
+>> 
+>> We plan to have a Hangout on the Air so people can follow along remotely.
+>> 
+>> Philip
+>> 
+>>> On 03/13/2015 11:56 AM, akuster wrote:
+>>> Hello Folks,
+>>> 
+>>> OEDAM is nearing. If you have not signed up, please do so. It will help
+>>> me with head count for badges.
+>>> 
+>>> We also need more subject matter the Agenda.  If you have any topics or
+>>> ideas, please submit them.
+>>> 
+>>> kind regards,
+>>> Armin
+>>> 
+>>>> On 02/10/2015 12:27 PM, Philip Balister wrote:
+>>>> We've scheduled a meeting in San Jose at a Monte Vista facility for
+>>>> March 27-28. This is after ELC (also in San Jose). There is a Yocto
+>>>> Project developer Day the day after ELC.
+>>>> 
+>>>> I've made a page on the wiki to start collecting information:
+>>>> 
+>>>> http://openembedded.org/wiki/OEDAM_2015
+>>>> 
+>>>> To get an idea of what we cover, see the page from the prior year:
+>>>> 
+>>>> http://openembedded.org/wiki/OEDAM_2014
+>>>> 
+>>>> I apologize for the late notice. There were issues that led to a delay
+>>>> with dates due to the YP Dev day.
+>>>> 
+>>>> Philip
+> 
 
-Ross
-
---001a1147b0dc1f523d051222fae2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 March 2015 at 16:28, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine@wi=
-ndriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(2=
-04,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":e1" class=
-=3D"" style=3D"overflow:hidden">For target builds libdir is not something t=
-hat changes and for -native<br>
-builds unless you move your builds around you will see no issue with<br>
-the current implementation. If you do update libdir or if you move<br>
-your build or reuse sstate by copying it to a new build you will start<br>
-to see errors. These will be seen when you use the &#39;openssl&#39; tool a=
-nd<br>
-look like the following:<br>
-<br>
-WARNING: can&#39;t open config file: /home/build/bitbake_build/tmp/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 sysroots/x86_64-linux/usr/lib/ssl/openssl.cnf</div></blockquote>=
-</div><div class=3D"gmail_extra"><br></div>We don&#39;t generally require t=
-hat native sstate is rebuilt when the build directory changes, as otherwise=
- you wouldn&#39;t be able to share native sstate between builds and users.=
-=C2=A0 Instead, paths are munged where possible when using sstate and wrapp=
-er scripts used to &quot;fix&quot; binaries.=C2=A0 Indeed openssl.inc does =
-this:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-<div class=3D"gmail_extra">do_install_append_virtclass-native() {</div><div=
- class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_wrapper ${D}${bin=
-dir}/openssl \</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 OPENSSL_CONF=3D${libdir}/ssl/openssl.cnf \</div><div class=3D=
-"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SSL_CERT_DIR=3D${li=
-bdir}/ssl/certs \</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 SSL_CERT_FILE=3D${libdir}/ssl/cert.pem \</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OPENSSL_ENGINES=
-=3D${libdir}/ssl/engines</div><div class=3D"gmail_extra">}</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Is it possible that t=
-he binary isn&#39;t respecting the OPENSSL_CONF environment variable since =
-that wrapper was written? (or the wrapper wasn&#39;t tested well enough)</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div></div>
-
---001a1147b0dc1f523d051222fae2--
