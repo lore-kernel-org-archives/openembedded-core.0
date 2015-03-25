@@ -1,20 +1,24 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CCB460034
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BF37060034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 00:16:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Mar 2015 17:16:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,461,1422950400"; d="scan'208";a="670103928"
-Received: from bitbang.jf.intel.com ([10.7.201.37])
-	by orsmga001.jf.intel.com with ESMTP; 24 Mar 2015 17:16:28 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Mar 2015 17:16:26 -0700
-Message-Id: <1427242586-23928-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] populate_sdk_ext: Log the "Preparing build system" step
+	Wed, 25 Mar 2015 02:19:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2P2JMTO000692
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Mar 2015 19:19:22 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 24 Mar 2015 19:19:22 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Mar 2015 10:19:15 +0800
+Message-ID: <1427249955-23047-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] nss: improve the script signlibs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 00:16:31 -0000
+X-List-Received-Date: Wed, 25 Mar 2015 02:19:21 -0000
+Content-Type: text/plain
 
-When using bitbake to do the setscene as part of sdk setup, it would be
-useful to have a log in the case where it fails.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-The log is called preparing_build_system.log and is in the top level
-directory of the extracted sdk.
+The *.chk files are installed in ${libdir} by nss,
+which is already known, no need to 'find' to get the
+file list, and 'ls' is more faster than 'find'.
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
+ meta/recipes-support/nss/nss/signlibs.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index ec1cff0..22e0ffc 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -182,7 +182,7 @@ sdk_ext_postinst() {
- 	# dash which is /bin/sh on Ubuntu will not preserve the
- 	# current working directory when first ran, nor will it set $1 when
- 	# sourcing a script. That is why this has to look so ugly.
--	sh -c ". buildtools/environment-setup* > /dev/null && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir > /dev/null && bitbake ${SDK_TARGETS} > /dev/null" || { echo "SDK preparation failed" ; exit 1 ; }
-+	sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
- 	echo done
- }
+diff --git a/meta/recipes-support/nss/nss/signlibs.sh b/meta/recipes-support/nss/nss/signlibs.sh
+index 1ec79f4..a74e499 100644
+--- a/meta/recipes-support/nss/nss/signlibs.sh
++++ b/meta/recipes-support/nss/nss/signlibs.sh
+@@ -9,7 +9,7 @@
+ # calculated on the host where they really need to be done on the
+ # target
  
+-CHK_FILES=`find /lib* /usr/lib* -name "*.chk"`
++CHK_FILES=`ls /lib*/*.chk /usr/lib*/*.chk 2>/dev/null`
+ SIGN_BINARY=`which shlibsign`
+ for I in $CHK_FILES
+ do
 -- 
-1.9.3
+1.9.1
 
 
