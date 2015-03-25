@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 35C82734E6
+	by mail.openembedded.org (Postfix) with ESMTP id A569972B1E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 05:41:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2P5fFCs001621
+	Wed, 25 Mar 2015 06:03:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2P63Hsm001696
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Mar 2015 22:41:15 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 24 Mar 2015 22:41:14 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Tue, 24 Mar 2015 23:03:17 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 24 Mar 2015 23:03:17 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Mar 2015 22:41:14 -0700
-Message-ID: <78a8e0beb1dd78a8461b994816267ec8848b2ca7.1427262046.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1427262046.git.liezhi.yang@windriver.com>
-References: <cover.1427262046.git.liezhi.yang@windriver.com>
+Date: Wed, 25 Mar 2015 14:03:24 +0800
+Message-ID: <cover.1427263291.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libarchive: set CLEANBROKEN
+Subject: [PATCH 0/1] systemd: fix SULOGIN path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 05:41:14 -0000
+X-List-Received-Date: Wed, 25 Mar 2015 06:03:16 -0000
 Content-Type: text/plain
 
-Errors when rebuild:
-checking for xml2-config... /path/to/tmp/sysroots/qemux86-64/usr/bin/crossscripts/xml2-config
-checking for xmlInitParser in -lxml2... no
-configure: error: in `/path/to/tmp/work/core2-64-poky-linux/libarchive/3.1.2-r0/libarchive-3.1.2':
-configure: error: Missing xml2 library
+The following changes since commit d3fcfe346b3472170641d9194243c4bbe06b8585:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../libarchive/libarchive_3.1.2.bb                 |    2 ++
- 1 file changed, 2 insertions(+)
+  systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:13 +0000)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-index 96e2d50..2ac8c5e 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
- 
- DEPENDS = "e2fsprogs-native"
- 
-+CLEANBROKEN = "1"
-+
- PACKAGECONFIG ?= "libxml2 zlib bz2"
- 
- PACKAGECONFIG_append_class-target = "\
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-SULOGIN-path
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-SULOGIN-path
+
+Chen Qi (1):
+  systemd: fix SULOGIN path
+
+ meta/recipes-core/systemd/systemd_219.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
-1.7.9.5
+1.9.1
 
 
