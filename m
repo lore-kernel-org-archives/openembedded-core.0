@@ -1,36 +1,30 @@
-Return-Path: <tylerwhall@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DF05172B1E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 17:36:19 +0000 (UTC)
-Received: by ignm3 with SMTP id m3so74934119ign.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 10:36:20 -0700 (PDT)
+Return-Path: <janne.karhunen@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B9D3D72B1E
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 17:39:33 +0000 (UTC)
+Received: by pagj7 with SMTP id j7so35782798pag.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 10:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0REUIFFw7N/hHCLoHVU6KlMPLXfje3yUOwj2mBoCMuI=;
-	b=R9u51nIGth52LrpLmsoYYaigjsA0ztqC/ZsmLSzMMARNIKvClyzjukwbkhvcnjU5Nk
-	q7ZkYSzJ849FCHHCQr7abqEYBM7/aDZ1pvmver29tI/wCV7Jh6arlu4lAZM4i57NLW3P
-	Xgrm1tUSwBDsadyssvKQryTUOqAe4ZWKBUWbbGiLpzsBqr3AH7tiniozLBDtPFHlhOAl
-	8bdUggRQp6UE7NW5l8BsxnF+x5IxRXvm2VL6+O2/Fng1XNW48aC9MxwZDvRr4yP/8Q9i
-	AMBM1OeXe5Kwkar6adrGsrjYPYXe3ygcBn1+JxD+2M2UPtCgNxyrHJJPTdeYqBd9LlGG
-	zGjg==
-X-Received: by 10.50.118.97 with SMTP id kl1mr23935139igb.23.1427304980406;
-	Wed, 25 Mar 2015 10:36:20 -0700 (PDT)
-Received: from metric.localdomain (CPE-76-177-97-210.natcky.res.rr.com.
-	[76.177.97.210])
-	by mx.google.com with ESMTPSA id h7sm1614932ioi.5.2015.03.25.10.36.19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Mar 2015 10:36:19 -0700 (PDT)
-From: Tyler Hall <tylerwhall@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Mar 2015 13:35:31 -0400
-Message-Id: <1427304931-29872-1-git-send-email-tylerwhall@gmail.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <1427235430-20299-1-git-send-email-tylerwhall@gmail.com>
-References: <1427235430-20299-1-git-send-email-tylerwhall@gmail.com>
-Subject: [PATCH v2] uninative-tarball: fix dependency on patchelf
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=oqkX1+ao2a2kKMcAYt7SefJWPpNYaYwcH2VWKBMrbTg=;
+	b=Ty4Emx6QZQh4XePXoQEHghPZPGl5jw3AW2kxHE/N1LU4Qmrot2SsTwoBdjdsYnQV/o
+	SjAPJGXxmpHzlrSHJEXNfwBSf+izuhQRTCIBKa9Q+x4Vst6DH2ObQ13zRiowQP3zKzHD
+	/KGL0UEx2IA/wXoUG6uEojmhIMRay1Nq059LHzSPHi3luAKOKRRxzVItxr/FMnbajYSv
+	DXW1I5yd9isw7HRyg/qVB+5YPPZYtqONtohl+JWtfpz+KBHl4VeondFAIOECMoM43+V2
+	qB6mSEoJbk9pb8wLmUSolh+P8d5b7UfwJp3rJuumThBsjfzP8oWbMVJGF60Hu//wZpek
+	KjKw==
+MIME-Version: 1.0
+X-Received: by 10.66.167.106 with SMTP id zn10mr12405870pab.126.1427305174112; 
+	Wed, 25 Mar 2015 10:39:34 -0700 (PDT)
+Received: by 10.70.103.39 with HTTP; Wed, 25 Mar 2015 10:39:34 -0700 (PDT)
+Date: Wed, 25 Mar 2015 10:39:34 -0700
+Message-ID: <CAE=NcrZ-ODzj8LYcrGO0-a0Wvzb3YcyAqS44-NOwMumU9NVuAw@mail.gmail.com>
+From: Janne Karhunen <janne.karhunen@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: pam related dependency processing bug?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 17:36:20 -0000
+X-List-Received-Date: Wed, 25 Mar 2015 17:39:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-DEPENDS doesn't actually add the dependency on patchelf-native to the
-populate_sdk task. SDK_DEPENDS does this, but move the append to after
-inheriting the base class so it does not get overwritten.
+Hi,
 
-Without this, uninative-tarball fails to build in a clean workspace on a
-system without patchelf.
+Wonder if you guys can share some insights on how to debug this case.
+I have a legacy PAM module recipe that says:
 
-[Yocto #7467]
+DEPENDS_${PN} = "libpam"
 
-Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
-Acked-by: Randy Witt <randy.e.witt@linux.intel.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/recipes-core/meta/uninative-tarball.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+'pam' is listed in DISTRO_FEATURES and is working fine. However, for
+that pam module libpam dependency is silently dropped during the
+build. If PAM happens to be compiled before that module, everything is
+fine, but if not, build fails on missing pam headers.
 
-diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
-index 53435f2..62bdde8 100644
---- a/meta/recipes-core/meta/uninative-tarball.bb
-+++ b/meta/recipes-core/meta/uninative-tarball.bb
-@@ -11,7 +11,6 @@ TOOLCHAIN_HOST_TASK = "\
-     "
- 
- INHIBIT_DEFAULT_DEPS = "1"
--DEPENDS += "patchelf-native"
- 
- TOOLCHAIN_OUTPUTNAME ?= "${BUILD_ARCH}-nativesdk-libc"
- 
-@@ -25,6 +24,8 @@ inherit populate_sdk
- deltask install
- deltask package
- 
-+SDK_DEPENDS += "patchelf-native"
-+
- SDK_PACKAGING_FUNC = ""
- 
- fakeroot create_sdk_files() {
--- 
-2.3.1
+To make this interesting, 'bitbake -g -u depexp <module>' shows the
+libpam dependency in place - yet it clearly is not there during the
+build. Results are the same for both dizzy and daisy and host OS
+doesn't seem to make a difference either.
 
+
+--
+Janne
 
