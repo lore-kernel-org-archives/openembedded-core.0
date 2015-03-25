@@ -1,28 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 99271723B3
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F14673C42
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 14:11:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2PEBLcm013002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 Mar 2015 14:11:49 +0000 (UTC)
+Received: by wgdm6 with SMTP id m6so29069001wgd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 07:11:22 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 25 Mar 2015 07:11:21 -0700
-Message-ID: <5512C214.4090309@windriver.com>
-Date: Wed, 25 Mar 2015 09:11:32 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20150325134027.GA19408@saldanha.aker.com.br>
-In-Reply-To: <20150325134027.GA19408@saldanha.aker.com.br>
-Subject: Re: initscripts + fsck.busybox problem
+	Wed, 25 Mar 2015 07:11:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=U8cifHYAnTO1PCMIGIS6SUntNnyHUK+ATT0LhFLLB6Y=;
+	b=aOK3cJ8lIyJFOKvuhKEz+yohLe/kWLRpmscp7mePTxyHtqidcwijVmWiRWQlWXElfw
+	7IobwYuBBPU6O9rEqpjPmOY9u5Mk1tSgZVUOsydNk7CU3MTDNlS1moAFghizFd67sbrI
+	AEjfUF2pLUJ8B2eMhdkj8TBgXP8x5BPvtm/XGx7SY+JjXtmpYU/2zss8mQBl/taLn+iE
+	2cRyJYL1k/w2dC1WoUfvvhPAiJUpmeQivi12WAKvAeJAbNgdKxNu+Wh//pfPPP/gOD85
+	VCUamUD06zMZNhks6dNF6YMiLs6VYiSKarK5J7zYt+5NNz0k6qTUHcZpAbKBep7rBGs+
+	DVsg==
+X-Gm-Message-State: ALoCoQkigkcIhpF+aaQ31OrrKEaE5ufMw2DSk6QfXDieluoBkvyHeZXYarLM7rev/XX5p7zSR9N5
+X-Received: by 10.180.72.175 with SMTP id e15mr39109555wiv.28.1427292709638;
+	Wed, 25 Mar 2015 07:11:49 -0700 (PDT)
+Received: from adamian-desk.local ([83.217.123.106])
+	by mx.google.com with ESMTPSA id eo1sm4483703wib.16.2015.03.25.07.11.48
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Mar 2015 07:11:48 -0700 (PDT)
+Received: by adamian-desk.local (Postfix, from userid 1000)
+	id 3B1FE561049; Wed, 25 Mar 2015 14:11:47 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Mar 2015 14:11:40 +0000
+Message-Id: <1427292701-379-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [FIDO 1/2] toaster.bbclass: do not add symbolic links to artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 14:11:21 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Mar 2015 14:11:54 -0000
 
-On 3/25/15 8:40 AM, Hugo Vasconcelos Saldanha wrote:
-> Hi all,
-> 
-> Everytime my image boots, the following error message is printed:
-> 
-> fsck (busybox 1.23.1, 2015-03-14 10:13:03 BRT)
-> 
-> Invalid non-numeric argument to -C ("-y")
-> 
-> It seems that checkroot.sh script from initscripts package is
-> calling the command "fsck -C -y". checkfs.sh script, apparently not
-> installed by default, does the same. The problem is that busybox's fsck
-> needs an argument to -C option, which is not needed by util-linux and
-> e2fsprogs' versions of the tool.
-> 
-> Possible approaches that I can think of:
-> 
-> 1) Fixing the scripts, maybe removing references to -C option
-> altogether.
-> 
-> 2) Placing a RDEPENDS in initscripts' recipe.
-> 
-> What do you think about it?
-> 
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-From the util-linux man page on the -C option:
+This patch removes the symbolic links from the artifact list.
 
-GUI front-ends may specify  a
-              file  descriptor  fd, in which case the progress bar information
-              will be sent to that file descriptor.
+[YOCTO #7184]
 
-So the fd option is supposed to be optional.  I'd recommend in this case the bug
-is with busybox, and someone submit a patch to make the fd optional in busybox.
- (default going to stdout)
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/classes/toaster.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Mark
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 55d0d28..eeca9de 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -162,7 +162,7 @@ python toaster_image_dumpdata() {
+                     import stat
+                     artifact_path = os.path.join(dirpath, fn)
+                     filestat = os.stat(artifact_path)
+-                    if stat.S_ISREG(filestat.st_mode):
++                    if not os.path.islink(artifact_path):
+                         artifact_info_data[artifact_path] = filestat.st_size
+             except OSError as e:
+                 bb.event.fire(bb.event.MetadataEvent("OSErrorException", e), d)
+-- 
+1.9.1
+
 
