@@ -1,40 +1,30 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B67C273689
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A7376013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 00:30:47 +0000 (UTC)
-Received: by pagj7 with SMTP id j7so45571474pag.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 17:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=HJaNNb0Gv8/bP42zOH0sahK85QBuuEJaT/7B/XoovWw=;
-	b=lt5SWiVgB2edsPiNsBg3fiJfzqIhFL7Un8h2ccMVbdMlvyDk4zWsFkCUidX1pguCrn
-	hkj9JoFSdXVSJlYTaS+fx8CNz0mNqrQ4Ex75p6PSelMPZVEW+Ev9m5dDgv/G6ZXNjOy2
-	dd+YJPcbyJ1OmdS1sw+/5oN5zCEw4n+FEddnuaytGkstj1zXnOzx0m1/HXwjRMuvYjCI
-	/ca54EJlmX0rqVXamSlqJv5cyCOctVngSBTSikW7Fmob60Cq2eZIxV+RLk+7MAn6z2Uu
-	nxIvBNfJwV10KCRpQC7+DeRqWk8B3SZWo/z0IkkrcM77kbKGx/PqvK0VT92PsSBgOLuC
-	tgEQ==
-X-Received: by 10.68.166.65 with SMTP id ze1mr21455544pbb.142.1427329848635;
-	Wed, 25 Mar 2015 17:30:48 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	kl10sm3602797pbd.15.2015.03.25.17.30.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Mar 2015 17:30:47 -0700 (PDT)
-Message-ID: <55135332.1050603@gmail.com>
-Date: Thu, 26 Mar 2015 11:30:42 +1100
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Thu, 26 Mar 2015 00:33:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2Q0X5xB013568
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Mar 2015 17:33:05 -0700 (PDT)
+Received: from tal.localnet (128.224.21.80) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 25 Mar 2015 17:33:05 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 25 Mar 2015 20:33:03 -0400
+Message-ID: <3055766.2ygai1BGpI@tal>
+Organization: Wind River 
+User-Agent: KMail/4.13.3 (Linux/3.13.0-45-generic; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CABcZANnWKxuF6jGU1Zn3XwDery4+4RJRi28x5gCpH0M+LMQD8A@mail.gmail.com>
+References: <1427300914-11208-1-git-send-email-mark.asselstine@windriver.com>
+	<2616204.si38TmSJD5@yow-masselst-d1>
+	<CABcZANnWKxuF6jGU1Zn3XwDery4+4RJRi28x5gCpH0M+LMQD8A@mail.gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, 
-	Armin Kuster <akuster808@gmail.com>
-References: <1426152011-20488-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1426152011-20488-1-git-send-email-net147@gmail.com>
-Subject: Re: [dizzy][PATCH v2] systemd: fix /var/log/journal ownership
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: add a vardeps for configure on libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,23 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 00:30:47 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Mar 2015 00:33:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 12/03/2015 8:20 PM, Jonathan Liu wrote:
-> The ownership needs to be explicitly set otherwise it inherits the user
-> and group id of the build user.
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->   meta/recipes-core/systemd/systemd_216.bb | 2 ++
->   1 file changed, 2 insertions(+)
-Ping.
+On March 25, 2015 13:35:46 Christopher Larson wrote:
+> On Wed, Mar 25, 2015 at 12:28 PM, Mark Asselstine <
+> 
+> mark.asselstine@windriver.com> wrote:
+> > My first attempt I had tried "libdir" and it doesn't seem to have the
+> > needed
+> > effect. I was hesitant to use other variables (such as those that libdir
+> > is
+> > derived from) as that would fork how -native and target builds would be
+> > handled. I had found other instances (meta/classes/package.bbclass) that
+> > seemed to use vardeps on expanded variables. At any rate I will circle
+> > back,
+> > your comment was not entirely unexpected, just the push that is needed for
+> > me
+> > to look more closely. I will follow up in a bit.
+> 
+> package.bbclass has variables containing / functions returning lists of
+> variable names. libdir isn't a list of variable names, it's a path.
 
-This is a backport from master:
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-core/systemd?id=0752c79282b1cc9699743e719518e6c341d50a3a
+Agreed. And this is why I was going back to look at it.
 
-Regards,
-Jonathan
+> 
+> > Second, if libdir is used in do_configure, then changing
+> > 
+> > > it will already cause do_configure to be re-run, as bitbake tracks
+> > 
+> > variable
+> > 
+> > > references. Only references which can't be tracked by bitbake need to be
+> > > listed explicitly.
+> > 
+> > The observed behavior definitely supports the view that this is a case
+> > where
+> > it can't be tracked. It is definitely a different usage than you would
+> > find
+> > normally.
+> > 
+> > do_configure () {
+> > ...
+> > 
+> >     perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix \
+> >     
+> >        --openssldir=${libdir}/ssl --libdir=`basename ${libdir}` $target
+> > 
+> > }
+> 
+> Nope, this is exactly what bitbake knows how to track, a standard variable
+> reference; ${libdir}. It knows that do_configure uses libdir already. It's
+> only when the variable name is determined programmatically at runtime in
+> python that bitbake isn't able to track the reference (e.g. d.getVar(foo +
+> "bar", True)).
+
+Using 'bitbake-dumpsig' I can confirm that 'libdir' is listed in the 
+do_configure 'Task dependencies' in the sstate. This explains why with or 
+without
+
+do_configure[vardeps] += "libdir"
+
+
+the outcome didn't change, the change was essentially a nop. The variable is 
+definitely at play during configure, as mentioned in my commit log it is used as 
+a hard coded abs path. For instance it is substituted in the package's 
+crypto/opensslconf.h file.
+
+When the sstate is reused in a different location configure needs to be rerun. 
+Similarly if libdir for the target is modified it needs to rerun configure.
+
+Any ideas why/how libdir is listed as a task dependency yet even with it 
+changing the task is being rerun?
+
+I will keep investigating.
+
+Mark
 
