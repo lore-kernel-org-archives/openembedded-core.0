@@ -1,22 +1,38 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF5073C0A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A32373C0A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 14:39:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Mar 2015 07:39:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,472,1422950400"; d="scan'208";a="546725233"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga003.jf.intel.com with ESMTP; 26 Mar 2015 07:39:31 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Mar 2015 14:39:25 +0000
-Message-Id: <1427380765-14254-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
+	Thu, 26 Mar 2015 14:40:58 +0000 (UTC)
+Received: by qgf60 with SMTP id 60so82999494qgf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Mar 2015 07:40:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Xy8483KX29SFu7s1QSI6yVwIYlYPmhnhz9SARZnbxMo=;
+	b=TpT3GF/tXP03Q1AJr3mDeGYkplVr8SB0UMpclYB0ZLWA0rtBual8Y+E4A7KzHtIu2p
+	WAFFbWAoSviya0QiglDWV6JpRCrYwJ7n5s1vsq85xTKK/q+EscD4ZmqYmw7XUl+MNgYl
+	AeEwIQFCVf8WeO5CvpGpX9lfZdSRElWWDb1TcZyczh5oad1/C1psScS7eU+VXEXwl0R4
+	oyE89MWrAGbLqHpiwI9wbAL8r5GJLWHlFvFULy/wEx3tym+xBrDZFbqq8aOwJyw6Gp/j
+	H+3fHeNi3kp7a+/b96+FFVdcP27A3rQA+NV1mEq3ng5xytoJy0ClPwD2LKeQHEWxduHC
+	0c9g==
+X-Gm-Message-State: ALoCoQn/ZrIV0Ygp+m6aPPKXOeNz70spH1V51elVFXjuW4IicCZ+EIwUPgJ3QKxruyqpbiWP2krK
+X-Received: by 10.55.23.84 with SMTP id i81mr29762241qkh.51.1427380859021;
+	Thu, 26 Mar 2015 07:40:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCHv2] lzop: Fix build using x32 ABI
+Received: by 10.140.102.203 with HTTP; Thu, 26 Mar 2015 07:40:38 -0700 (PDT)
+In-Reply-To: <551419B7.3080201@linux.intel.com>
+References: <1427322405-34441-1-git-send-email-anibal.limon@linux.intel.com>
+	<CAJTo0LbsqWcoddvK+xs=u0QQ7rDsn7=9eh5j+o2=KtP-v2MUDw@mail.gmail.com>
+	<551419B7.3080201@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Mar 2015 14:40:38 +0000
+Message-ID: <CAJTo0La6sJo56Zr3Fo1pDczg2UOqYWxXkTzZJz-cSZmvie1k_Q@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lzop: Fix build using x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,80 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 14:39:54 -0000
+X-List-Received-Date: Thu, 26 Mar 2015 14:41:00 -0000
+Content-Type: multipart/alternative; boundary=001a1146fe620fca340512320147
+
+--001a1146fe620fca340512320147
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-When tries to build lzop using x32 ABI fails trying to get
-FLAGS register that is 64-bit and destination variable is
-32-bit size_t.
+On 26 March 2015 at 14:37, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel=
+.com>
+wrote:
 
-[YOCTO #7424]
+> I followed the documentation [1], if no increment PR is needed i think we
+> need to clarity in the docs.
+>
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- .../lzop/lzop/x32_abi_miniacc_h.patch              | 36 ++++++++++++++++++++++
- meta/recipes-support/lzop/lzop_1.03.bb             |  3 +-
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
+Yes, the docs need updating.  Thanks for pointing out where you were told
+to do this!
 
-diff --git a/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
-new file mode 100644
-index 0000000..527589f
---- /dev/null
-+++ b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
-@@ -0,0 +1,36 @@
-+Fix get of FLAGS register in x32 ABI,
-+
-+x32 ABI requires to have 64-bit variable to store FLAGS register
-+instead of size_t that is 32-bit variable, this fix operand
-+type mismatch when try to pop previous pushf value.
-+
-+Upstream-status: Submitted
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+
-+Index: lzop-1.03/src/miniacc.h
-+===================================================================
-+--- lzop-1.03.orig/src/miniacc.h
-++++ lzop-1.03/src/miniacc.h
-+@@ -754,6 +754,9 @@
-+ #elif defined(__amd64__) || defined(__x86_64__) || defined(_M_AMD64)
-+ #  define ACC_ARCH_AMD64            1
-+ #  define ACC_INFO_ARCH             "amd64"
-++#  if defined(__ILP32__)
-++#    define ACC_ARCH_AMD64_X32      1
-++#  endif
-+ #elif defined(__thumb__) || (defined(_M_ARM) && defined(_M_THUMB))
-+ #  define ACC_ARCH_ARM              1
-+ #  define ACC_ARCH_ARM_THUMB        1
-+@@ -6787,7 +6790,11 @@ ACCLIB_PUBLIC_NOINLINE(void, acc_debug_n
-+ ACCLIB_PUBLIC_NOINLINE(int, acc_debug_align_check_query) (void)
-+ {
-+ #if (ACC_ARCH_AMD64 || ACC_ARCH_I386) && (ACC_ASM_SYNTAX_GNUC)
-++#  if defined(ACC_ARCH_AMD64_X32)
-++    unsigned long long r;
-++#  else
-+     size_t r;
-++#  endif
-+     __asm__ __volatile__("pushf\n pop %0\n" : "=a" (r) : : __ACC_ASM_CLOBBER);
-+     return (int)(r >> 18) & 1;
-+ #elif (ACC_ARCH_I386) && (ACC_ASM_SYNTAX_MSC)
-diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
-index abfc81c..1fcd81d 100644
---- a/meta/recipes-support/lzop/lzop_1.03.bb
-+++ b/meta/recipes-support/lzop/lzop_1.03.bb
-@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
-                     file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
- 
- SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
--           file://acinclude.m4"
-+           file://acinclude.m4 \
-+           file://x32_abi_miniacc_h.patch "
- SRC_URI[md5sum] = "006c5e27fb78cdd14a628fdfa5aa1905"
- SRC_URI[sha256sum] = "c1425b8c77d49f5a679d5a126c90ea6ad99585a55e335a613cae59e909dbb2c9"
- 
--- 
-1.8.4.5
+(AR taken to tell Scott)
 
+Ross
 
+--001a1146fe620fca340512320147
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 March 2015 at 14:37, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limon=
+@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv id=3D":ms" class=3D"a3s" style=3D"overflow:hidden">I followed the docume=
+ntation [1], if no increment PR is needed i think we need to clarity in the=
+ docs.<br></div></blockquote></div><br>Yes, the docs need updating.=C2=A0 T=
+hanks for pointing out where you were told to do this!</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">(AR taken to tell Scott)</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
+
+--001a1146fe620fca340512320147--
