@@ -1,48 +1,22 @@
-Return-Path: <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0077.outbound.protection.outlook.com [207.46.100.77])
-	by mail.openembedded.org (Postfix) with ESMTP id 13F5E6AC36
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 33D0A6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 15:39:51 +0000 (UTC)
-Received: from BY1PR0701MB1141.namprd07.prod.outlook.com (25.160.104.27) by
-	BY1PR0701MB1740.namprd07.prod.outlook.com (25.162.111.147) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.118.21; Thu, 26 Mar 2015 15:39:50 +0000
-Received: from Ubuntu64.caveonetworks.com (111.93.218.67) by
-	BY1PR0701MB1141.namprd07.prod.outlook.com (25.160.104.27) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.112.19; Thu, 26 Mar 2015 15:39:49 +0000
-From: "Krishnanjanappa, Jagadeesh"
-	<jagadeesh.krishnanjanappa@caviumnetworks.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Mar 2015 21:09:11 +0530
-Message-ID: <1427384351-17870-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
-X-Mailer: git-send-email 1.8.2.3
+	Thu, 26 Mar 2015 16:24:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 26 Mar 2015 09:23:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,473,1422950400"; d="scan'208";a="473061626"
+Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
+	([10.23.219.52])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Mar 2015 09:23:45 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Mar 2015 16:23:38 +0000
+Message-Id: <1427387018-6923-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
 MIME-Version: 1.0
-X-Originating-IP: [111.93.218.67]
-X-ClientProxiedBy: SINPR01CA0038.apcprd01.prod.exchangelabs.com
-	(10.141.109.38) To BY1PR0701MB1141.namprd07.prod.outlook.com
-	(25.160.104.27)
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none;
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BY1PR0701MB1141;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BY1PR0701MB1740; 
-X-Forefront-Antispam-Report: BMV:1; SFV:NSPM;
-	SFS:(10009020)(6009001)(46102003)(87976001)(50466002)(48376002)(33646002)(19580395003)(36756003)(86362001)(575784001)(19580405001)(69596002)(50986999)(62966003)(47776003)(66066001)(81156004)(50226001)(77156002)(42186005)(450100001)(229853001)(110136001)(92566002)(122386002)(40100003)(53416004)(2351001)(7099025);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BY1PR0701MB1141;
-	H:Ubuntu64.caveonetworks.com; FPR:; SPF:None; MLV:ovrnspm;
-	PTR:InfoNoRecords; LANG:en; 
-X-Microsoft-Antispam-PRVS: <BY1PR0701MB1141178BD19426A73AEE3E918E080@BY1PR0701MB1141.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5002010)(5005006); SRVR:BY1PR0701MB1141; BCL:0;
-	PCL:0; RULEID:; SRVR:BY1PR0701MB1141; 
-X-Forefront-PRVS: 0527DFA348
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2015 15:39:49.8319 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0701MB1141
-X-OriginatorOrg: caviumnetworks.com
-Subject: [PATCH v2] libart-lgpl: add art_config.h for armeb/aarch64be/aarch64be_32
+Subject: [PATCH] kexec-tools: Add support for build with x32 ABI in x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,79 +29,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 15:39:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Mar 2015 16:24:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: "Krishnanjanappa, Jagadeesh" <jagadeesh.krishnanjanappa@caviumnetworks.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The preprocessor macro values present in art_config.h
-differ for individual architectures, basically libart-lgpl recipe will
-pick up correct art_config.h file based on
+Add autoconf test for detect when build is x32 ABI this enables to
+test into purgatory Makefile to avoid use -mcmodel=large flag in CC.
 
-ART_CONFIG = "${HOST_ARCH}/art_config.h"
+Add ELFCLASS read and syscall number into kexec, see patch.
 
-and thereby having correct preprocessor macros definition
-of each architectures.
-
-Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h    | 10 ++++++++++
- meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h | 10 ++++++++++
- meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h        | 10 ++++++++++
- 3 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
- create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
- create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
+ .../kexec/kexec-tools/kexec-x32.patch              | 91 ++++++++++++++++++++++
+ meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb     |  3 +-
+ 2 files changed, 93 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
 
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
 new file mode 100644
-index 0000000..500ffc3
+index 0000000..6e6bfc0
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-@@ -0,0 +1,10 @@
-+/* Automatically generated by gen_art_config.c */
++++ b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+@@ -0,0 +1,91 @@
++x86_64: Add support to build kexec-tools with x32 ABI
 +
-+#define ART_SIZEOF_CHAR 1
-+#define ART_SIZEOF_SHORT 2
-+#define ART_SIZEOF_INT 4
-+#define ART_SIZEOF_LONG 8
++Summary of changes,
 +
-+typedef unsigned char art_u8;
-+typedef unsigned short art_u16;
-+typedef unsigned int art_u32;
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-new file mode 100644
-index 0000000..b0e74ad
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-@@ -0,0 +1,10 @@
-+/* Automatically generated by gen_art_config.c */
++configure.ac: Add test for detect x32 ABI.
++purgatory/arch/x86_64/Makefile: Not use mcmodel large when
++	x32 ABI is set.
++kexec/arch/x86_64/kexec-elf-rel-x86_64.c: When x32 ABI is set
++	use ELFCLASS32 instead of ELFCLASS64.
++kexec/kexec-syscall.h: Add correct syscall number for x32 ABI.
 +
-+#define ART_SIZEOF_CHAR 1
-+#define ART_SIZEOF_SHORT 2
-+#define ART_SIZEOF_INT 4
-+#define ART_SIZEOF_LONG 4
++Upstream-Status: Submitted
 +
-+typedef unsigned char art_u8;
-+typedef unsigned short art_u16;
-+typedef unsigned int art_u32;
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-new file mode 100644
-index 0000000..b0e74ad
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-@@ -0,0 +1,10 @@
-+/* Automatically generated by gen_art_config.c */
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 +
-+#define ART_SIZEOF_CHAR 1
-+#define ART_SIZEOF_SHORT 2
-+#define ART_SIZEOF_INT 4
-+#define ART_SIZEOF_LONG 4
++---
++ configure.ac                             | 9 +++++++++
++ kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 4 ++++
++ kexec/kexec-syscall.h                    | 4 ++++
++ purgatory/arch/x86_64/Makefile           | 4 +++-
++ 4 files changed, 20 insertions(+), 1 deletion(-)
 +
-+typedef unsigned char art_u8;
-+typedef unsigned short art_u16;
-+typedef unsigned int art_u32;
++diff --git a/configure.ac b/configure.ac
++index c410e90..1ecadd5 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -52,6 +52,15 @@ case $target_cpu in
++ 		;;
++ 	ia64|x86_64|alpha|m68k )
++ 		ARCH="$target_cpu"
+++
+++		dnl ---Test for x32 ABI in x86_64
+++		if test "x$ARCH" = "xx86_64" ; then
+++			AC_EGREP_CPP(x32_test,
+++			[#if defined(__x86_64__) && defined (__ILP32__)
+++				x32_test
+++			#endif
+++			], SUBARCH='x32', SUBARCH='64')
+++		fi
++ 		;;
++ 	* )
++ 		AC_MSG_ERROR([unsupported architecture $target_cpu])
++diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
++index c795037..06db7f0 100644
++--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
++@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_ehdr *ehdr)
++ 	if (ehdr->ei_data != ELFDATA2LSB) {
++ 		return 0;
++ 	}
+++#ifdef __ILP32__
+++	if (ehdr->ei_class != ELFCLASS32) {
+++#else
++ 	if (ehdr->ei_class != ELFCLASS64) {
+++#endif
++ 		return 0;
++ 	}
++ 	if (ehdr->e_machine != EM_X86_64) {
++diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
++index ce2e20b..cab5535 100644
++--- a/kexec/kexec-syscall.h
+++++ b/kexec/kexec-syscall.h
++@@ -31,8 +31,12 @@
++ #define __NR_kexec_load		268
++ #endif
++ #ifdef __x86_64__
+++#ifdef __ILP32__
+++#define __NR_kexec_load		528
+++#else
++ #define __NR_kexec_load		246
++ #endif
+++#endif
++ #ifdef __s390x__
++ #define __NR_kexec_load		277
++ #endif
++diff --git a/purgatory/arch/x86_64/Makefile b/purgatory/arch/x86_64/Makefile
++index 7300937..4af11e4 100644
++--- a/purgatory/arch/x86_64/Makefile
+++++ b/purgatory/arch/x86_64/Makefile
++@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/i386/console-x86.c
++ x86_64_PURGATORY_SRCS += purgatory/arch/i386/vga.c
++ x86_64_PURGATORY_SRCS += purgatory/arch/i386/pic.c
++ 
++-x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
+++ifeq ($(SUBARCH),64)
+++        x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
+++endif
++-- 
++1.8.4.5
++
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
+index c0c2727..36e4c15 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
+@@ -4,7 +4,8 @@ EXTRA_OECONF = " --with-zlib=yes"
+ 
+ SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch \
+             file://kexec-aarch64.patch \
+-           "
++            file://kexec-x32.patch \
++         "
+ 
+ SRC_URI[md5sum] = "4ecb7ab7ad9eb6ce413899bdb07a8426"
+ SRC_URI[sha256sum] = "c2c6d204fe0911ebd304c40100163237feca4c5a854a2cca382ee36916a573d8"
 -- 
-1.8.2.3
+1.8.4.5
 
 
