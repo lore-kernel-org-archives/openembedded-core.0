@@ -1,42 +1,51 @@
-Return-Path: <SRS0=dgMrF2=EI=mashlibs.com=yocto@eigbox.net>
-X-Greylist: delayed 1827 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 26 Mar 2015 06:51:49 UTC
-Received: from bosmailout05.eigbox.net (bosmailout05.eigbox.net [66.96.189.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 10E486013D
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 676DB6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 06:51:49 +0000 (UTC)
-Received: from bosmailscan06.eigbox.net ([10.20.15.6])
-	by bosmailout05.eigbox.net with esmtp (Exim) id 1Yb1AR-0002UF-U8
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Mar 2015 02:21:23 -0400
-Received: from [10.115.3.32] (helo=bosimpout12)
-	by bosmailscan06.eigbox.net with esmtp (Exim) id 1Yb1AR-0004Mf-OS
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Mar 2015 02:21:23 -0400
-Received: from bosauthsmtp15.yourhostingaccount.com ([10.20.18.15])
-	by bosimpout12 with 
-	id 86ML1q00H0KWaAJ016MPQJ; Thu, 26 Mar 2015 02:21:23 -0400
-X-Authority-Analysis: v=2.1 cv=KfdcsGoD c=1 sm=1 tr=0
-	a=6thTdk0GfRoQwv0zj4iWMg==:117 a=iGEazlki0I0E4vS82n+c7A==:17
-	a=pq4jwCggAAAA:8
-	a=QPcu4mC3AAAA:8 a=1dA1B7r8yJwA:10 a=CjxXgO3LAAAA:8 a=bI6D7KplAAAA:8
-	a=C_IRinGWAAAA:8 a=emO1SXQWCLwA:10 a=lrwbqTnF7UjaU9VzMPoA:9
-Received: from c-73-193-21-136.hsd1.wa.comcast.net ([73.193.21.136]:58160
-	helo=localhost.localdomain)
-	by bosauthsmtp15.eigbox.net with esmtpa (Exim)
-	id 1Yb1AO-0005Dd-9J; Thu, 26 Mar 2015 02:21:20 -0400
-From: Stephen Holstein <yocto@mashlibs.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Mar 2015 02:21:12 -0400
-Message-Id: <1427350872-13209-1-git-send-email-yocto@mashlibs.com>
-X-Mailer: git-send-email 1.9.1
-X-EN-UserInfo: 350fe572bdac3a64b9abeddc90fe9317:931c98230c6409dcc37fa7e93b490c27
-X-EN-AuthUser: yocto@mashlibs.com
-Sender: Stephen Holstein <yocto@mashlibs.com>
-X-EN-OrigIP: 73.193.21.136
-X-EN-OrigHost: c-73-193-21-136.hsd1.wa.comcast.net
-Cc: redengin <sholstei@yahoo.com>
-Subject: [PATCH] Signed-off-by: redengin <sholstei@yahoo.com>
+	Thu, 26 Mar 2015 08:29:26 +0000 (UTC)
+Received: by labe2 with SMTP id e2so39476765lab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Mar 2015 01:29:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=6aGw70OXUP3J01mnDbAW0D3T3KTJ0nt7MiOt+kLLXY4=;
+	b=PVVWXdsCQG1NN/otDcXoFS6vZpn6D+qlPgweirE5o0RIUKa/mGTMoqttCBFvGx8DU3
+	B+L9vh5DCEyDzhXxg71xYB2DZx5YD3mlIzhyYRUJ07U5ThwTee8srT0TV6s4hD14Ts/I
+	i8u6g+L+s7JA+GmLJicd5hYM+JhfhJ64/zO2Ykibgqhl98yAsVFV/EKh5YLF35Cobjsd
+	WCPVgkRA5Z6qvlCNaXwVBCj5Q3R5YJ9+yQ6DXiXMgYCAFvBPxdUpIUrwSIooP/hnL800
+	T7hLJgQI9lJg1uk0mdRnBS3ogiXzDSEafBC1tvhU1xiVql3NAyQgaaPZMz8qoft11Z4I
+	jTrA==
+X-Gm-Message-State: ALoCoQmv4mtNNsLH+68MlnCFVORl6tS6XyM17jFHaDcssFOCXiMpWNnnvcA66NDgJsU11NqnDZHP
+X-Received: by 10.152.43.229 with SMTP id z5mr12122201lal.48.1427358566454;
+	Thu, 26 Mar 2015 01:29:26 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id lf1sm1094799lab.42.2015.03.26.01.29.25
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 26 Mar 2015 01:29:25 -0700 (PDT)
+Date: Thu, 26 Mar 2015 09:29:23 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Message-ID: <20150326082923.GA7370@ad.chargestorm.se>
+Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <bruno.bottazzini@intel.com>
+	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
+	<1427320163-9262-4-git-send-email-bruno.bottazzini@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1427320163-9262-4-git-send-email-bruno.bottazzini@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +58,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 06:51:53 -0000
+X-List-Received-Date: Thu, 26 Mar 2015 08:29:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: redengin <sholstei@yahoo.com>
+* Bruno Bottazzini <bruno.bottazzini@intel.com> [150325 22:50]:
 
-fix for fortran to remove libquadmath dependency
----
- meta/recipes-devtools/gcc/gcc-4.9.inc | 1 +
- 1 file changed, 1 insertion(+)
+> if one wants to launch a simple deamon, most modules are not
+> required.
+> He will be able to save space and exclude unwanted packages
+> from the final image.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index c88a496..cec1862 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -99,6 +99,7 @@ EXTRA_OECONF_BASE = "\
-     --with-cloog=no \
-     --enable-checking=release \
-     --enable-cheaders=c_global \
-+    --disable-libquadmath-support \
- "
- 
- EXTRA_OECONF_INITIAL = "\
+I like this, though I've got a few questions that I just noticed.
+
+> -PACKAGECONFIG ??= "xz ldconfig \
+> +PACKAGECONFIG ??= " \
+> +                   gcrypt \
+> +                   kmod \
+> +                   ldconfig \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'xz', 'xz', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
+
+It might be worth noting that xz has gone from being explicitly enabled,
+to depend on a DISTRO_FEATURES.
+
+>  # Sign the journal for anti-tampering
+>  PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+>  # regardless of PACKAGECONFIG, libgcrypt is always required to expand
+>  # the AM_PATH_LIBGCRYPT autoconf macro
+> -DEPENDS += "libgcrypt"
+
+Just to double-check, as this been fixed upstream or patched locally?
+If you're removing that explicit DEPENDS, the comment above should also
+be removed.
+
+>  PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+> -PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+
+Why do you remove networkd as a PACKAGECONFIG?
+
+>  PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
+>  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+>  PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+> @@ -101,17 +123,36 @@ rootprefix ?= "${base_prefix}"
+>  rootlibdir ?= "${base_libdir}"
+>  rootlibexecdir = "${rootprefix}/lib"
+
+> -# The gtk+ tools should get built as a separate recipe e.g. systemd-tools
+>  EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+>                   --with-rootlibdir=${rootlibdir} \
+>                   --with-roothomedir=${ROOT_HOME} \
+> -                 --disable-coredump \
+> +                 --enable-coredump \
+> +                 --disable-introspection \
+> +                 --disable-kdbus \
+> +                 --disable-manpages \
+>                   --disable-introspection \
+>                   --disable-kdbus \
+>                   --enable-split-usr \
+>                   --without-python \
+>                   --with-sysvrcnd-path=${sysconfdir} \
+>                   --with-firmware-path=/lib/firmware \
+> +                 --enable-libcurl \
+> +                 --enable-ldconfig \
+> +                 --enable-backlight \
+> +                 --enable-binfmt \
+> +                 --enable-bootchart \
+> +                 --enable-firstboot \
+> +                 --enable-hostnamed \
+> +                 --enable-localed \
+> +                 --enable-logind \
+> +                 --enable-machined \
+> +                 --enable-networkd \
+
+Why is networkd always enabled?
+
+> +                 --enable-quotacheck \
+> +                 --enable-randomseed \
+> +                 --enable-resolved \
+
+Why are you enabling resolved here? We have a PACKAGECONFIG taking care
+of enabling/disabling this.
+
+> +                 --enable-rfkill \
+> +                 --enable-sysusers \
+> +                 --enable-vconsole \
+>                 "
+
+Regarding EXTA_OECONF in general, it seems that we're enabling lots of
+stuff that we have PACKAGECONFIG's for.
+
+There's also a number of other things here that probably should be
+PACKAGECONFIG's.
+
+>
+
+I'll try to take a closer look at the actual splitting if I can get some
+time for that.
+
+Cheers,
+Anders
+
 -- 
-1.9.1
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
