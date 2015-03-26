@@ -1,40 +1,43 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 122D26013D
+Return-Path: <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
+X-Greylist: delayed 5634 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 26 Mar 2015 12:14:03 UTC
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0080.outbound.protection.outlook.com [207.46.100.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 3789B6AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 11:56:22 +0000 (UTC)
-Received: by iedm5 with SMTP id m5so44224190ied.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 04:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:content-type;
-	bh=JcgjPUIVO8LA1V9Zh8/83Dzh0D7rW5ru5YbnUhAp9ow=;
-	b=Yyjm+6gqMy99DR7Gj72xJMKyPBKbkEyV/cEys8Ow/Wq6U5O/DAhGovsHbeYFmYarWc
-	//GmFnTeRbrG1zGT5RcvYMfujxFANd6d/OrdnbMZTLNEJlLKtljbdAQ2RFV8x/Yp58LS
-	7O3GI8ourPu6abyfX7iMYl5/QOpwhDjrO1XrKW30Snh3WqBYvJ5MKUt1TEXbKcqy8uhx
-	8bU8cYbwwbn+L2yTTkvFJI4aS+bMOnFdWV6ibGlpQP77NOiD57TucFrC2LH1+SylHTOk
-	zUpo5EEXcldF0Fx/LH6a4ujJlAWxerlPem2E1hhqRW3b787j3KJyl8pyZNIQvNeeaaio
-	9p0w==
+	Thu, 26 Mar 2015 12:14:03 +0000 (UTC)
+Received: from Ubuntu64.caveonetworks.com (111.93.218.67) by
+	DM2PR0701MB1150.namprd07.prod.outlook.com (25.160.246.16) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.118.21; Thu, 26 Mar 2015 10:40:08 +0000
+From: Jagadeesh K <jkrishnanjanappa@caviumnetworks.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Mar 2015 16:09:43 +0530
+Message-ID: <1427366383-10800-1-git-send-email-jkrishnanjanappa@caviumnetworks.com>
+X-Mailer: git-send-email 1.8.2.3
 MIME-Version: 1.0
-X-Received: by 10.107.134.219 with SMTP id q88mr20053727ioi.27.1427370983777; 
-	Thu, 26 Mar 2015 04:56:23 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.107.133.21 with HTTP; Thu, 26 Mar 2015 04:56:23 -0700 (PDT)
-In-Reply-To: <20150326082923.GA7370@ad.chargestorm.se>
-References: <bruno.bottazzini@intel.com>
-	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
-	<1427320163-9262-4-git-send-email-bruno.bottazzini@intel.com>
-	<20150326082923.GA7370@ad.chargestorm.se>
-Date: Thu, 26 Mar 2015 08:56:23 -0300
-X-Google-Sender-Auth: 9sl2koSCha4qqyvXK77oEhEQWGo
-Message-ID: <CAP9ODKr7QnmGCFfh+HnB1d_TE0CDCkqSgG75if11E_Z+CMq5sA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: split modules into packages
+X-Originating-IP: [111.93.218.67]
+X-ClientProxiedBy: HKXPR03CA0053.apcprd03.prod.outlook.com (10.141.129.43) To
+	DM2PR0701MB1150.namprd07.prod.outlook.com (25.160.246.16)
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none;
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0701MB1150;
+X-Forefront-Antispam-Report: BMV:1; SFV:NSPM;
+	SFS:(10009020)(6009001)(50226001)(92566002)(110136001)(87976001)(48376002)(33646002)(46102003)(50466002)(66066001)(47776003)(50986999)(36756003)(575784001)(53416004)(42186005)(40100003)(122386002)(229853001)(450100001)(19580405001)(62966003)(19580395003)(2351001)(77156002)(7099025);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR0701MB1150;
+	H:Ubuntu64.caveonetworks.com; FPR:; SPF:None; MLV:ovrnspm;
+	PTR:InfoNoRecords; LANG:; 
+X-Microsoft-Antispam-PRVS: <DM2PR0701MB11501B825F012E19B49B4F808E080@DM2PR0701MB1150.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5002010)(5005006); SRVR:DM2PR0701MB1150; BCL:0;
+	PCL:0; RULEID:; SRVR:DM2PR0701MB1150; 
+X-Forefront-PRVS: 0527DFA348
+X-OriginatorOrg: caviumnetworks.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2015 10:40:08.1543 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0701MB1150
+Subject: [PATCH] libart-lgpl: add art_config.h for armeb/aarch64be/aarch64be_32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,50 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 11:56:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Mar 2015 12:14:04 -0000
+Content-Type: text/plain
 
-On Thu, Mar 26, 2015 at 5:29 AM, Anders Darander <anders@chargestorm.se> wrote:
-> * Bruno Bottazzini <bruno.bottazzini@intel.com> [150325 22:50]:
->
->> if one wants to launch a simple deamon, most modules are not
->> required.
->> He will be able to save space and exclude unwanted packages
->> from the final image.
->
-> I like this, though I've got a few questions that I just noticed.
->
->> -PACKAGECONFIG ??= "xz ldconfig \
->> +PACKAGECONFIG ??= " \
->> +                   gcrypt \
->> +                   kmod \
->> +                   ldconfig \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'xz', 'xz', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
->
-> It might be worth noting that xz has gone from being explicitly enabled,
-> to depend on a DISTRO_FEATURES.
+Signed-off-by: Jagadeesh K <jkrishnanjanappa@caviumnetworks.com>
+---
+ meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h    | 10 ++++++++++
+ meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h | 10 ++++++++++
+ meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h        | 10 ++++++++++
+ 3 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
+ create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
+ create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
 
-Agreed and we shouldn't explode the number of possible dsitro
-features. I'd also prefer if xz were kept enable by default so we
-don't make a behavior change under the hood.
-
-...
->>  PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
->> -PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
->
-> Why do you remove networkd as a PACKAGECONFIG?
-
-If there is a real reason for this, it must be recorded in commit log as well.
-
+diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
+new file mode 100644
+index 0000000..500ffc3
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
+@@ -0,0 +1,10 @@
++/* Automatically generated by gen_art_config.c */
++
++#define ART_SIZEOF_CHAR 1
++#define ART_SIZEOF_SHORT 2
++#define ART_SIZEOF_INT 4
++#define ART_SIZEOF_LONG 8
++
++typedef unsigned char art_u8;
++typedef unsigned short art_u16;
++typedef unsigned int art_u32;
+diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
+new file mode 100644
+index 0000000..b0e74ad
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
+@@ -0,0 +1,10 @@
++/* Automatically generated by gen_art_config.c */
++
++#define ART_SIZEOF_CHAR 1
++#define ART_SIZEOF_SHORT 2
++#define ART_SIZEOF_INT 4
++#define ART_SIZEOF_LONG 4
++
++typedef unsigned char art_u8;
++typedef unsigned short art_u16;
++typedef unsigned int art_u32;
+diff --git a/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
+new file mode 100644
+index 0000000..b0e74ad
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
+@@ -0,0 +1,10 @@
++/* Automatically generated by gen_art_config.c */
++
++#define ART_SIZEOF_CHAR 1
++#define ART_SIZEOF_SHORT 2
++#define ART_SIZEOF_INT 4
++#define ART_SIZEOF_LONG 4
++
++typedef unsigned char art_u8;
++typedef unsigned short art_u16;
++typedef unsigned int art_u32;
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.2.3
+
 
