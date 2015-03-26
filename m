@@ -1,22 +1,40 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C7DB56013D
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A18A7723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Mar 2015 22:26:52 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Mar 2015 15:26:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,467,1422950400"; d="scan'208";a="670643685"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga001.jf.intel.com with ESMTP; 25 Mar 2015 15:26:54 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Mar 2015 22:26:45 +0000
-Message-Id: <1427322405-34441-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
+	Thu, 26 Mar 2015 00:28:16 +0000 (UTC)
+Received: by pdnc3 with SMTP id c3so44938463pdn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 17:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=qUoN/oo5SSVeXVOd3/5LuReF59rARwQEq3itHWFi9Po=;
+	b=H+K4biCFZrP46l5z4YLTit4GzU1fjhZBepWtrTegsMAXYzS3tDf85OiF1CN9YgtwkI
+	SgowJBbb7g4ExoV1gelDerngU6A3oEd3Aqba3a0uYpSGiEkdKLzkRb30igfWtN7XCpLz
+	/BwSzalLjgSWr3gTot4Xi9jTvffle6FKVSHS75giELudIKJvGmtFFPsRLqIrYg2kZ+ai
+	+KsTMIB0tKmc6equyRmclnbvsttiNHFEhYsuqds/ZlkahAWCQAVkYAHI3/3rSaNV9qdh
+	5ypymOjqTCXrgDBST+dM0oMuGxoyXgU6k5UEWdu25TkWXCE59us8wBK8k2tYRQr2u7Nc
+	LrOA==
+X-Received: by 10.66.66.230 with SMTP id i6mr21631281pat.108.1427329697405;
+	Wed, 25 Mar 2015 17:28:17 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id g10sm3629809pdm.29.2015.03.25.17.28.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Mar 2015 17:28:16 -0700 (PDT)
+Message-ID: <5513529A.8020909@gmail.com>
+Date: Thu, 26 Mar 2015 11:28:10 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Subject: [PATCH] lzop: Fix build using x32 ABI
+To: openembedded-core@lists.openembedded.org, 
+	Armin Kuster <akuster808@gmail.com>
+References: <1426505388-32713-1-git-send-email-net147@gmail.com>
+In-Reply-To: <1426505388-32713-1-git-send-email-net147@gmail.com>
+Subject: Re: [dizzy][PATCH] liburcu: revert ARM GCC blacklist commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,87 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Mar 2015 22:26:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Mar 2015 00:28:17 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When tries to build lzop using x32 ABI fails trying to get
-FLAGS register that is 64-bit and destination variable is
-32-bit size_t.
+On 16/03/2015 10:29 PM, Jonathan Liu wrote:
+> This fixes the following error when building liburcu:
+> "Your gcc version produces clobbered frame accesses"
+>
+> OE-Core is using a patched GCC 4.8.2 which is able to compile liburcu
+> properly.
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>   ...evert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch | 47 ++++++++++++++++++++++
+>   meta/recipes-support/liburcu/liburcu_0.8.4.bb      |  1 +
+>   2 files changed, 48 insertions(+)
+>   create mode 100644 meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch
+Ping.
 
-[YOCTO #7424]
+This is a backport from master:
+http://git.openembedded.org/openembedded-core/commit/meta/recipes-support/liburcu?id=83bb2c2b1f68abfc4d882b2aec3b5468372b1436
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- .../lzop/lzop/x32_abi_miniacc_h.patch              | 36 ++++++++++++++++++++++
- meta/recipes-support/lzop/lzop_1.03.bb             |  4 ++-
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
-
-diff --git a/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
-new file mode 100644
-index 0000000..527589f
---- /dev/null
-+++ b/meta/recipes-support/lzop/lzop/x32_abi_miniacc_h.patch
-@@ -0,0 +1,36 @@
-+Fix get of FLAGS register in x32 ABI,
-+
-+x32 ABI requires to have 64-bit variable to store FLAGS register
-+instead of size_t that is 32-bit variable, this fix operand
-+type mismatch when try to pop previous pushf value.
-+
-+Upstream-status: Submitted
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+
-+Index: lzop-1.03/src/miniacc.h
-+===================================================================
-+--- lzop-1.03.orig/src/miniacc.h
-++++ lzop-1.03/src/miniacc.h
-+@@ -754,6 +754,9 @@
-+ #elif defined(__amd64__) || defined(__x86_64__) || defined(_M_AMD64)
-+ #  define ACC_ARCH_AMD64            1
-+ #  define ACC_INFO_ARCH             "amd64"
-++#  if defined(__ILP32__)
-++#    define ACC_ARCH_AMD64_X32      1
-++#  endif
-+ #elif defined(__thumb__) || (defined(_M_ARM) && defined(_M_THUMB))
-+ #  define ACC_ARCH_ARM              1
-+ #  define ACC_ARCH_ARM_THUMB        1
-+@@ -6787,7 +6790,11 @@ ACCLIB_PUBLIC_NOINLINE(void, acc_debug_n
-+ ACCLIB_PUBLIC_NOINLINE(int, acc_debug_align_check_query) (void)
-+ {
-+ #if (ACC_ARCH_AMD64 || ACC_ARCH_I386) && (ACC_ASM_SYNTAX_GNUC)
-++#  if defined(ACC_ARCH_AMD64_X32)
-++    unsigned long long r;
-++#  else
-+     size_t r;
-++#  endif
-+     __asm__ __volatile__("pushf\n pop %0\n" : "=a" (r) : : __ACC_ASM_CLOBBER);
-+     return (int)(r >> 18) & 1;
-+ #elif (ACC_ARCH_I386) && (ACC_ASM_SYNTAX_MSC)
-diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
-index abfc81c..85a4e52 100644
---- a/meta/recipes-support/lzop/lzop_1.03.bb
-+++ b/meta/recipes-support/lzop/lzop_1.03.bb
-@@ -6,13 +6,15 @@ compression ratio. The lzop compression utility was designed with the goals \n\
- of reliability, speed, portability and with reasonable drop-in compatibility \n\
- to gzip."
- DEPENDS += "lzo"
-+PR = "r1"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
-                     file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
- 
- SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
--           file://acinclude.m4"
-+           file://acinclude.m4 \
-+           file://x32_abi_miniacc_h.patch "
- SRC_URI[md5sum] = "006c5e27fb78cdd14a628fdfa5aa1905"
- SRC_URI[sha256sum] = "c1425b8c77d49f5a679d5a126c90ea6ad99585a55e335a613cae59e909dbb2c9"
- 
--- 
-1.8.4.5
-
+Regards,
+Jonathan
 
