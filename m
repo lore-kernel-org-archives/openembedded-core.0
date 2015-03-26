@@ -1,36 +1,36 @@
-Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 539D86AC36
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C3866013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 12:32:43 +0000 (UTC)
-Received: by obcxo2 with SMTP id xo2so44203522obc.0
+	Thu, 26 Mar 2015 12:46:04 +0000 (UTC)
+Received: by qgf60 with SMTP id 60so77603301qgf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 05:32:45 -0700 (PDT)
+	Thu, 26 Mar 2015 05:46:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=9GPge8hCTKeX0WwrqFLbAVH+l3nW7ivDIcbZJlOmhCo=;
-	b=kr5tPH5NbaxFoUNhAnnuOzYwl6VyEDNHsHHA7FjqBTeqUTB21tx/bdzoNtGnMA5Jaw
-	4qmkKUG6+NFCTVxI3kAICofBc7/6tqSX1qfzeP1/zK1t1QCqaEbNcc39zGxGtSL0AUrX
-	wElokh+FxdaN6g9I1fsGJhD7+HFhCG8dDmuq5RpSF0ZfkU/RSZSEcj6F+8t9G/+ihu33
-	uIgTZcWtK9tT0E1eIyMTPQ9S4lTxxE19yt/i8Q8y8QRxuv1HR8FXQUppdnoTpLA37+Ye
-	gWwl3crjGQHo0BVwKInlmea4/+QRwAKrZLwXRD0hU8fx1ITze6k70TdaC4NabrcS0fvb
-	+zAQ==
-X-Gm-Message-State: ALoCoQletjJxwtVGGIZ0ZhHy8mOsTPjhBbLqGO2eV5tAFFAaIdL+cwxohYfhqBSQQE5NArFqCt1Z
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7lgwIXmWOF2+MQFttIwkRHLVfO7sCtAledUHhFa41g8=;
+	b=bs3kHd2ucoIi7VOzR53hoBLCbnPMtZoSLzOgMw6FPaJryw1IwdsRxnAPDZC3tSU7ak
+	Ucbrbt+zJZABmGUUteHTeg80wjk6E+upTRblNH5jTblLQISUmYRaTuBzKjGkBEeLIV3N
+	5pVKrACqDYLYYM4oS8tT0F4vDcWwnQWyG+3m50Y40GifjJbp70NgyYL/DkCDCGbb45/u
+	0eagfQlREULu8Haeqz9p4ILWUxmc6sa9wWEcjIfup7CmO3s44RBarDzh9eg7h78t62/k
+	UgDHmustyyVJG5Ne8X2H+4rQvZNBYuqJ/FZdDxST4RIvuwnSIv4erolRdyrrjiETSZvM
+	3k8Q==
+X-Gm-Message-State: ALoCoQl3ZWtVcwWLIInmIgaItD0n0y7yoTwWpxWgcY8WljeekPo39xE5SVFH4bVwwHfbnf3mpmlb
+X-Received: by 10.55.31.32 with SMTP id f32mr28979613qkf.41.1427373965298;
+	Thu, 26 Mar 2015 05:46:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.202.183.213 with SMTP id h204mr11116545oif.27.1427373165002; 
-	Thu, 26 Mar 2015 05:32:45 -0700 (PDT)
-Received: by 10.60.98.242 with HTTP; Thu, 26 Mar 2015 05:32:44 -0700 (PDT)
-In-Reply-To: <1427366383-10800-1-git-send-email-jkrishnanjanappa@caviumnetworks.com>
-References: <1427366383-10800-1-git-send-email-jkrishnanjanappa@caviumnetworks.com>
-Date: Thu, 26 Mar 2015 18:02:44 +0530
-Message-ID: <CAFoFrHZxSDX3obxSa7OVeCD7DAqn-_W3egS2+p009Okf4Z=DZg@mail.gmail.com>
-From: Naresh Bhat <naresh.bhat@linaro.org>
-To: Jagadeesh K <jkrishnanjanappa@caviumnetworks.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libart-lgpl: add art_config.h for armeb/aarch64be/aarch64be_32
+Received: by 10.140.102.203 with HTTP; Thu, 26 Mar 2015 05:45:45 -0700 (PDT)
+In-Reply-To: <1427322405-34441-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1427322405-34441-1-git-send-email-anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Mar 2015 12:45:45 +0000
+Message-ID: <CAJTo0LbsqWcoddvK+xs=u0QQ7rDsn7=9eh5j+o2=KtP-v2MUDw@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lzop: Fix build using x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,82 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 12:32:45 -0000
+X-List-Received-Date: Thu, 26 Mar 2015 12:46:06 -0000
+Content-Type: multipart/alternative; boundary=001a1147b0dc29e55f0512306618
+
+--001a1147b0dc29e55f0512306618
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jagadeesh,
+On 25 March 2015 at 22:26, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel=
+.com>
+wrote:
 
-
-On 26 March 2015 at 16:09, Jagadeesh K
-<jkrishnanjanappa@caviumnetworks.com> wrote:
-
-<DESCRIPTION>
-Detail description what does the patch will do ???
-
-> Signed-off-by: Jagadeesh K <jkrishnanjanappa@caviumnetworks.com>
-> ---
->  meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h    | 10 ++++++++++
->  meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h | 10 ++++++++++
->  meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h        | 10 ++++++++++
->  3 files changed, 30 insertions(+)
->  create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
->  create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
->  create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
+> +PR =3D "r1"
 >
-> diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-> new file mode 100644
-> index 0000000..500ffc3
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 8
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-> new file mode 100644
-> index 0000000..b0e74ad
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 4
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> diff --git a/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-> new file mode 100644
-> index 0000000..b0e74ad
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 4
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> --
-> 1.8.2.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+No need to add a PR.
+
+Ross
+
+--001a1147b0dc29e55f0512306618
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 March 2015 at 22:26, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limon=
+@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv id=3D":ye" class=3D"a3s" style=3D"overflow:hidden">+PR =3D &quot;r1&quot=
+;<br></div></blockquote></div><br></div><div class=3D"gmail_extra">No need =
+to add a PR.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
+
+--001a1147b0dc29e55f0512306618--
