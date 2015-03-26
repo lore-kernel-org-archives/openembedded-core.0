@@ -1,29 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BC1D73C55
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 45A096AC33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Mar 2015 02:09:58 +0000 (UTC)
+	Thu, 26 Mar 2015 06:42:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t2Q29wSJ014122
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Mar 2015 19:09:58 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 25 Mar 2015 19:09:57 -0700
-Message-ID: <55136A7E.70002@windriver.com>
-Date: Thu, 26 Mar 2015 10:10:06 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t2Q6gZ6X003899
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Mar 2015 23:42:35 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 25 Mar 2015 23:42:34 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Mar 2015 23:42:33 -0700
+Message-ID: <cover.1427352132.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1427263291.git.Qi.Chen@windriver.com>
-	<4493f45f7db4274425f6eee908543f82b63dd6e5.1427263291.git.Qi.Chen@windriver.com>
-	<551254FE.7070709@gmail.com>
-In-Reply-To: <551254FE.7070709@gmail.com>
-X-Originating-IP: [128.224.162.236]
-Subject: Re: [PATCH 1/1] systemd: fix SULOGIN path
+Subject: [PATCH 0/1] patch: fix CVE-2015-1196
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Mar 2015 02:10:01 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Mar 2015 06:42:36 -0000
+Content-Type: text/plain
 
-On 03/25/2015 02:26 PM, Jonathan Liu wrote:
-> On 25/03/2015 5:03 PM, Chen Qi wrote:
->> Fix SULOGIN path so that rescue.service doesn't use `sulogin' from 
->> the sysroot
->> part of the build on host, which would lead to errors like below when 
->> booting
->> into rescue mode.
->>
->>      /bin/sh: 
->> /buildarea2/chenqi/poky/build-systemd/tmp/sysroots/x86_64-linux/sbin/sulogin: 
->> not found
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-core/systemd/systemd_219.bb | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_219.bb 
->> b/meta/recipes-core/systemd/systemd_219.bb
->> index f2d3c13..843e30b 100644
->> --- a/meta/recipes-core/systemd/systemd_219.bb
->> +++ b/meta/recipes-core/systemd/systemd_219.bb
->> @@ -123,6 +123,7 @@ do_configure_prepend() {
->>       export AR="${HOST_PREFIX}gcc-ar"
->>       export RANLIB="${HOST_PREFIX}gcc-ranlib"
->>       export KMOD="${base_bindir}/kmod"
->> +    export SULOGIN="${base_sbindir}/sulogin"
->>       if [ -d ${S}/units.pre_sed ] ; then
->>           cp -r ${S}/units.pre_sed ${S}/units
->>       else
-> Wasn't this already fixed by:
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/systemd/systemd_219.bb?id=8e19349b696d4a3e8576ba64e935cf3a43bc7940 
-> ?
->
-> Regards,
-> Jonathan
->
->
+The following changes since commit 2d923d6dfe9431dbc005f8ba39838eb4519c471c:
 
-Yes, you are right.
-I didn't notice it.
-Please ignore this patch.
-I've updated my repo to the latest one.
+  python-pygobject: Disable parallel make install in native case (2015-03-25 12:38:44 +0000)
 
-Thanks,
-Chen Qi
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/patch
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/patch
+
+Robert Yang (1):
+  patch: fix CVE-2015-1196
+
+ meta/recipes-devtools/patch/patch.inc              |    5 +-
+ .../patch/patch/patch-CVE-2015-1196.patch          |  200 ++++++++++++++++++++
+ 2 files changed, 204 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/patch/patch/patch-CVE-2015-1196.patch
+
+-- 
+1.7.9.5
+
 
