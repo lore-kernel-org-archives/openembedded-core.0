@@ -1,36 +1,33 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C46B6013D
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 73728723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 15:46:11 +0000 (UTC)
-Received: by lahp7 with SMTP id p7so54612806lah.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 08:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=taVeX/G9unjVLl6gXzwN71RdsCAmtK1NfQg3rQre8hc=;
-	b=kxNOiQxzhAtfCDLIpH25Pb20lylbASmAvdSXSurLO39NveS3UNUgELw1Xr1rfVHJU8
-	NGsJXPqhf7QCq7FTMrVrj8zn0RecClS6nc3a+v9TcuEAiFKTILRT+F3Gv8ikoZCeqndk
-	feM4lFSDMgEfIUzdQP+VX+mL5NXzIIbgWLMdXiVcxU5aSdhhU5A8M30zp9OSrf2X0V9B
-	620vG3jIWICNq2wBwn2IBKK9zRPDDuFhk5QQSZfMdwN1MsCjwXVpnsq43pJwaQvOtwP1
-	MjFMkYifxE0Tb7myvzfGRtUHjeBRP6pNs+oGwaxoYOlC4imeVvuWzjacdRSdCpKllS0B
-	KGRA==
-MIME-Version: 1.0
-X-Received: by 10.152.203.134 with SMTP id kq6mr18342738lac.110.1427471171843; 
-	Fri, 27 Mar 2015 08:46:11 -0700 (PDT)
-Received: by 10.112.170.70 with HTTP; Fri, 27 Mar 2015 08:46:11 -0700 (PDT)
-In-Reply-To: <1427469661-14521-2-git-send-email-ross.burton@intel.com>
-References: <1427469661-14521-1-git-send-email-ross.burton@intel.com>
-	<1427469661-14521-2-git-send-email-ross.burton@intel.com>
-Date: Fri, 27 Mar 2015 11:46:11 -0400
-Message-ID: <CADkTA4M24NLmz-jTsThsVbUKwF0m9Gt+C5uRGL7fxBXhiL+P3A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 27 Mar 2015 17:09:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 27 Mar 2015 10:09:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,479,1422950400"; d="scan'208";a="705184555"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.143])
+	([10.218.99.143])
+	by orsmga002.jf.intel.com with ESMTP; 27 Mar 2015 10:09:28 -0700
+Message-ID: <1427476146.2868.3.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Anders Darander <anders@chargestorm.se>
+Date: Fri, 27 Mar 2015 14:09:06 -0300
+In-Reply-To: <20150327145747.GE21905@ad.chargestorm.se>
+References: <bruno.bottazzini@intel.com>
+	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
+	<1427320163-9262-4-git-send-email-bruno.bottazzini@intel.com>
+	<20150326082923.GA7370@ad.chargestorm.se>
+	<CAP9ODKr7QnmGCFfh+HnB1d_TE0CDCkqSgG75if11E_Z+CMq5sA@mail.gmail.com>
+	<1427377220.2918.8.camel@bottazzini-ThinkPad-T430>
+	<20150327145747.GE21905@ad.chargestorm.se>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel-yocto: merge duplicate kernel_configme task definitions
+Subject: Re: [PATCH 3/4] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +40,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 15:46:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Mar 2015 17:09:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 27, 2015 at 11:21 AM, Ross Burton <ross.burton@intel.com> wrote:
-> The kernel_configme task was added twice (once in the .bbclass, one in a .inc)
-> with different ordering constraints.
->
-> Change this to be just one definition in the bbclass with the stronger ordering
-> constraints.
+On Sex, 2015-03-27 at 15:57 +0100, Anders Darander wrote:
+> * Bottazzini, Bruno <bruno.bottazzini@intel.com> [150326 14:40]:
+> 
+> > On Qui, 2015-03-26 at 08:56 -0300, Otavio Salvador wrote:
+> > > On Thu, Mar 26, 2015 at 5:29 AM, Anders Darander <anders@chargestorm.se> wrote:
+> > > > * Bruno Bottazzini <bruno.bottazzini@intel.com> [150325 22:50]:
+> 
+> > > >> if one wants to launch a simple deamon, most modules are not
+> > > >> required.
+> > > >> He will be able to save space and exclude unwanted packages
+> > > >> from the final image.
+> 
+> > > > I like this, though I've got a few questions that I just noticed.
+> 
+> > > >> -PACKAGECONFIG ??= "xz ldconfig \
+> > > >> +PACKAGECONFIG ??= " \
+> > > >> +                   gcrypt \
+> > > >> +                   kmod \
+> > > >> +                   ldconfig \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'xz', 'xz', '', d)} \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
+> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+> > > >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+> > > >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
+> 
+> > > > It might be worth noting that xz has gone from being explicitly enabled,
+> > > > to depend on a DISTRO_FEATURES.
+> 
+> > > Agreed and we shouldn't explode the number of possible dsitro
+> > > features. I'd also prefer if xz were kept enable by default so we
+> > > don't make a behavior change under the hood.
+> 
+> > > ...
+> > > >>  PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+> > > >> -PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+> 
+> > > > Why do you remove networkd as a PACKAGECONFIG?
+> 
+> > > If there is a real reason for this, it must be recorded in commit log as well.
+> 
+> > Guys, if you continue this patch you will see that networkd will always
+> > be enabled. Systemd will always configure/make it however, the package
+> > will not be installed if the user wants to.
+> 
+> > With PACKAGECONFIG, we may not get everything "for free" as some data
+> > files will be installed regardless as well as some components from
+> > systemd cannot be disabled by their build system but we can run without
+> > them, for instance we can run without journald.
+> 
+> The advantage of also keeping the PACKAGECONFIG for e.g. networkd (and
+> as much other things as possible) is that we're also reducing the build
+> time and size. Sure, it might not be by much, but all small bits are
+> valuable.
+> 
 
-Agreed. Organically grown .. and not ideal in the existing layout :)
+You are right! Maybe we should mix them ? 
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+e.g. if PACKAGECONFIG networkd is disabled then the package
+systemd-services-networkd will not be included.
 
+What do you think?
 
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/kernel-yocto.bbclass         |    2 +-
->  meta/recipes-kernel/linux/linux-yocto.inc |    2 --
->  2 files changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index a1fbb51..650ae5a 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -289,7 +289,7 @@ do_kernel_configme() {
->         echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
->  }
->
-> -addtask kernel_configme after do_patch
-> +addtask kernel_configme before do_configure after do_patch
->
->  python do_kernel_configcheck() {
->      import re, string, sys
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 5b69a49..3b41a61 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -32,8 +32,6 @@ KCONF_BSP_AUDIT_LEVEL ?= "0"
->
->  LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
->
-> -addtask kernel_configme before do_configure after do_patch
-> -
->  # Pick up shared functions
->  inherit kernel
->  inherit kernel-yocto
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > The problem is understanding that although systemd is a single
+> > repository it contains multiple services and daemons in it that can run
+> > even without the core PID1, udev or the many helpers used to configure
+> > the system such as resolved, 
+> > timedated, localed... 
+> 
+> Yes, and as systemd have configure options for quite a lot of those
+> things, we should make use of those options, as long as possible.
+> 
+> > All of these components are runtime independent, we can install or
+> > remove them and they should not create problems.
+> 
+> 
+> That's right, but still, if we even can avoid to build them, it's
+> better...
+> 
+> Cheers,
+> Anders
+> 
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
