@@ -1,37 +1,26 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B704E734E3
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 48246734E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 17:43:25 +0000 (UTC)
-Received: by igcau2 with SMTP id au2so35841634igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 10:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=zVb1WmyjeDCkauO3RSWWz4lGPv94scOzdzi57fD02ms=;
-	b=bStJNijw1zxDHZbkqn8JeLG1JjroflvQWpoShkMnEzB5l1YgcwVt5HoM91LUyAYA2a
-	6dHbYEjKxwsKbQ4AFEIk7Hy+aZZejaCTr7gm4MsOY6BDqANJwJG1Hv+bMBBVIhgEbI/N
-	o6CUHR4oqbEZ6ZUeaWciZTv8sHTUsUqK+GIO7eZ6EZZv9jpiT3I3BTRVIboqFLYQNbPo
-	hM6XJ3yfTPxxKa+oWX/KSHkPBe92icwPViyP6qggjuQYqgJwMOvTt8JFWBsmgjNMCZIG
-	ZNttOw6Ztm7ZhSqPIHKZxeeKyyTMe17ci/lLAODoUeWMwFmqr/jnn1F27ZEON5O6CZ0v
-	BuTg==
-MIME-Version: 1.0
-X-Received: by 10.107.136.144 with SMTP id s16mr3507097ioi.62.1427478206481;
-	Fri, 27 Mar 2015 10:43:26 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.107.23.6 with HTTP; Fri, 27 Mar 2015 10:43:26 -0700 (PDT)
-In-Reply-To: <87d23uibxw.fsf@email.parenteses.org>
-References: <87d23uibxw.fsf@email.parenteses.org>
-Date: Fri, 27 Mar 2015 14:43:26 -0300
-X-Google-Sender-Auth: wKyWW6RdcSywoiDA8z8Zs_Ao8SM
-Message-ID: <CAP9ODKpVcVXi08U=+CsR1hPkfCr4nw3v89R21xQzHCkY9xqkfw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mario Domenech Goulart <mario@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 27 Mar 2015 20:37:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 27 Mar 2015 13:37:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,480,1422950400"; d="scan'208";a="671666921"
+Received: from dvhart-mac02.jf.intel.com (HELO [10.24.5.109]) ([10.24.5.109])
+	by orsmga001.jf.intel.com with ESMTP; 27 Mar 2015 13:37:19 -0700
+User-Agent: Microsoft-MacOutlook/14.4.8.150116
+Date: Fri, 27 Mar 2015 13:37:17 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Juro Bystricky <juro.bystricky@intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Ownership issue in package contents
+Message-ID: <D13B0D59.C4118%dvhart@linux.intel.com>
+Thread-Topic: [PATCH] oe-git-proxy: Redirect error messages to STDERR
+References: <1427476655-5162-1-git-send-email-juro.bystricky@intel.com>
+In-Reply-To: <1427476655-5162-1-git-send-email-juro.bystricky@intel.com>
+Mime-version: 1.0
+Cc: richard.purdie@intel.com
+Subject: Re: [PATCH] oe-git-proxy: Redirect error messages to STDERR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 17:43:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Mar 2015 20:37:21 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-Hello Mario,
+On 3/27/15, 10:17 AM, "Juro Bystricky" <juro.bystricky@intel.com> wrote:
 
-On Fri, Mar 27, 2015 at 2:31 PM, Mario Domenech Goulart
-<mario@ossystems.com.br> wrote:
-...
-> I also generated and checked the rpm package and observed the
-> same issue.
-...
+>oe-git-proxy script needs socat. If socat is not found,
+>an error message is issued on STDOUT. This leads to a misleading
+>git message:
+>
+>fatal: protocol error: bad line length character: ERRO
+>
+>instead of the intended message:
+>
+>ERROR: socat binary not in PATH
+>
+>Redirecting the error message to STDERR fixes this issue.
+>
+>Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 
-I tested the foo recipe on master (OE-Core:2d923d6) and I see the same behavior.
+Thanks Juro, good fix.
+
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Darren Hart
+Intel Open Source Technology Center
+
+
+
 
