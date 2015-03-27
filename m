@@ -1,37 +1,36 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 4155D6013D;
-	Fri, 27 Mar 2015 21:21:34 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t2RLLYm9032476; Fri, 27 Mar 2015 16:21:34 -0500
-Received: from us-aus-mail3.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015032716213465-523064 ;
-	Fri, 27 Mar 2015 16:21:34 -0500 
-In-Reply-To: <55119BD5.8060002@topic.nl>
-References: <55119BD5.8060002@topic.nl>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-MIME-Version: 1.0
-X-KeepSent: A7360BB3:3C7D486A-86257E15:0053507A;
-	type=4; flags=0; name=$KeepSent
-X-Mailer: Lotus Notes Release 8.5.3FP3 Septem 15, 2011
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Message-ID: <OFA7360BB3.3C7D486A-ON86257E15.0053507A-86257E15.007554A7@ni.com>
-Date: Fri, 27 Mar 2015 16:21:34 -0500
-X-MIMETrack: Serialize by Router on US-AUS-MAIL3/AUS/M/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/27/2015 04:21:34 PM,
-	Serialize complete at 03/27/2015 04:21:34 PM,
-	Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/27/2015 04:21:34 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/27/2015 04:21:34 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-03-27_06:, , signatures=0
-Cc: openembedded-core-bounces@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Not selecting <old version of package> as installing it would break existing dependencies
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D2172734E3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Mar 2015 22:15:06 +0000 (UTC)
+Received: by qcto4 with SMTP id o4so28826039qct.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Mar 2015 15:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=GjDf5p4dV2FAlpVM5un8jJtFtF1JkimWWnTM/dA4CEU=;
+	b=fzaNXjBY8p4F/3Euwen3JByrgGQwicICNpU6CKxZ8tcDNo5cWRxxDu2/DbEtPFT4l/
+	cUJg2Zx9M5aSv3EgyOchnugumVczO9kYPHGm+nbKgIvhxrKicfQniaA44OoeHsJW7Ka/
+	UOLvRTvlbD5ClepSqly+V7hRITosxfcXydttMUOyumEqCpIQyHR3QcEOQ/uG2tUSvM8E
+	NQGjxcXRihE1NzvX9Q731oTJirUj7ksrm2PQTlpdk3rDe8vHUt7y5T3Z7s9TTzMhDiGy
+	2f1v18yATivPKyuPJ61PBGXJLPgkDLhA8k2gWC3beKylIBIyDelBt2/T7QYUUkdwWMbK
+	gZ1A==
+X-Received: by 10.55.31.143 with SMTP id n15mr44259765qkh.70.1427494507501;
+	Fri, 27 Mar 2015 15:15:07 -0700 (PDT)
+Received: from centrium.lab.ossystems.com.br ([177.100.224.72])
+	by mx.google.com with ESMTPSA id z78sm2394662qkg.44.2015.03.27.15.15.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 27 Mar 2015 15:15:06 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Mar 2015 19:14:24 -0300
+Message-Id: <1427494464-22167-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] wpa-supplicant: Make SystemD D-Bus config conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,71 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 21:21:35 -0000
-Content-Type: text/plain; charset="US-ASCII"
+X-List-Received-Date: Fri, 27 Mar 2015 22:15:07 -0000
 
-openembedded-core-bounces@lists.openembedded.org wrote on 03/24/2015 
-12:16:05 PM:
+The SystemD D-Bus configuration should only to be installed when
+SystemD support is enabled.
 
-> From: Mike Looijmans <mike.looijmans@topic.nl>
-> To: openembedded-core@lists.openembedded.org, 
-> Date: 03/24/2015 12:16 PM
-> Subject: [OE-core] Not selecting <old version of package> as 
-> installing it would break existing dependencies
-> Sent by: openembedded-core-bounces@lists.openembedded.org
-> 
-> After upgrading a library to a newer version, for example, something 
-> called libdvbsi++ from 0.3.6 to 0.3.7, running opkg upgrade outputs the 
-> following cryptic error message:
-> 
-> Not selecting libdvbsi++1 0.3.6 as installing it would break existing 
-> dependencies.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-When opkg runs, it creates a list of all the available packages on the 
-configured repos + all the installed packages. During an upgrade, it goes 
-through the process of finding the best upgrade match for each installed 
-package, searching on the master list. The process goes through a series 
-of checks for each candidate, like making sure the archs are compatible, 
-and making sure installing a candidate won't break existing installed 
-packages. In your case, opkg determines there are 2 candidates, 
-libdvbsi++0.3.6 and libdvbsi++0.3.7. While evaluating libdvbsi++0.3.6, the 
-pkg_breaks_reverse_dep check fails, triggering the message shown above 
-(and removing the candidate).
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+index 6f0de3c..f95e91c 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+@@ -86,12 +86,13 @@ do_install () {
+ 	cd ${D}${sysconfdir}/network/ && \
+ 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
  
-> Adding "-V2" to opkg upgrade expands that with the following message:
-> 
-> opkg_prepare_upgrade_pkg: Package libdvbsi++1 (0.3.7-r2.0) installed in 
-> root is up to date.
-> 
-> So apparently it knows about the later version, so why complain about 
-> the old one?
-
-The function that returns the best candidate match correctly returns 
-libdvbsi++1 0.3.7. It then compares it against what's already installed. 
-The DEBUG message above shows that the best candidate found is already 
-installed on the system.
-
+-	install -d ${D}/${sysconfdir}/dbus-1/system.d
+-	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+ 	install -d ${D}/${datadir}/dbus-1/system-services
+ 	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
  
-> There is only one package that (r)depends on that lib (enigma2). Nothing 
-
-> else needs it.
-> 
-> This often happens with other packages as well. Is this a bug in opkg, 
-> or is it trying to tell us we're doing something wrong?
-
-It is not a bug, the message is harmless as it is only pointing to the 
-reason why one of the possible upgrade candidates was discarded. 
-
-Hope this helps!
-
-Alejandro del Castillo
- 
-> -- 
-> Mike Looijmans
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		install -d ${D}/${sysconfdir}/dbus-1/system.d
++		install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
++
+ 		install -d ${D}/${systemd_unitdir}/system
+ 		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
+ 	fi
+-- 
+2.1.4
 
 
