@@ -1,39 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 648A36013D
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CDE2723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 15:24:09 +0000 (UTC)
-Received: by wgbgs4 with SMTP id gs4so11917851wgb.0
+	Fri, 27 Mar 2015 15:45:34 +0000 (UTC)
+Received: by lbdc10 with SMTP id c10so12438260lbd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 08:24:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=rCZc6MJnDo9bY0q31PveOYOX+cK580dZUIAAU4Q9N5s=;
-	b=BNyKEc8DOeSoSNOtQraTiUHtxtNlGEhi5ajI9s+niyyWvzSuFlVAk9FapRB4AlKKSB
-	tB+Qv54cYr7aGY8MqVvjAoU95MIaT5IIIXvuzVdZTJB0cWIN9MnLQMwOgC/0Hex4QbOQ
-	hSTJL95X59YGz1EHTSVQGojwwj/vnhDsZLAPpYfI1iBzgmouEDKSef8ALG/4QH13OcbB
-	5EHuwTZqPQmluXn8zcKRjop7jY2qIX9DbgWDyg1jkyyy5FK5yfk8pCEO6atrEbIp+/b2
-	BxQ5qpzQuTO7T2UNa/5Hk9PV1aNSSxZ4GTvF1zXvJ4NqZ/rypVT2Mqf5XUdCRXc69Gm5
-	6PGA==
-X-Gm-Message-State: ALoCoQnivWXHar+Fa8PWKk14Y2DwSYJuyFFaRN7SEwXvwGzY1CjkDTMNYUkDlb31CrIKjZOEVCjb
-X-Received: by 10.194.6.228 with SMTP id e4mr38238293wja.63.1427469850686;
-	Fri, 27 Mar 2015 08:24:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id g2sm7682715wib.1.2015.03.27.08.24.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Mar 2015 08:24:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Mar 2015 15:21:01 +0000
-Message-Id: <1427469661-14521-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
+	Fri, 27 Mar 2015 08:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=C28uSOK7oHypBNDmZRxgNM/zRaU2IJfncO+xyOkaDVA=;
+	b=SS1OMatVs2+3/4X6fkmTBxyg4hfjj5n56iENz9gV49XoQUOhDwqAwbz7kKX02KI01T
+	LjDpoEAmHhtWkPBU1qd3UocgaoLwKyWwgDUY25jU2l99quMpTE5l+pngJgMSr0w6l/zu
+	PEdQi0oo7gLwhmcsT5ccykZLyRxrdyVC90LGH0je/BPeJdKpSmNf64b+GPcJvHy47FqG
+	dh2rmBx3pnxCBtMrIARk66237pkUkzC0wMUo1WGyd/RlwTFurfeuwjcGnviLq+uYPUIy
+	XRQt3SUqoiA5pOhaJGpQRNcqRyUJN7o0zPWbwwf5LF2SpvZHwg2IjIMQmt2gHn+odv/r
+	Tc1g==
+MIME-Version: 1.0
+X-Received: by 10.152.8.161 with SMTP id s1mr9635863laa.41.1427471133799; Fri,
+	27 Mar 2015 08:45:33 -0700 (PDT)
+Received: by 10.112.170.70 with HTTP; Fri, 27 Mar 2015 08:45:33 -0700 (PDT)
 In-Reply-To: <1427469661-14521-1-git-send-email-ross.burton@intel.com>
 References: <1427469661-14521-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] kernel-yocto: merge duplicate kernel_configme task definitions
+Date: Fri, 27 Mar 2015 11:45:33 -0400
+Message-ID: <CADkTA4MVz=on8Cb0eqYbr1Zeukjd-92NUVnyocjZc_10aTJS=w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] linux-yocto: add kern-tools-native to kernel_metadata depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,47 +42,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 15:24:14 -0000
+X-List-Received-Date: Fri, 27 Mar 2015 15:45:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The kernel_configme task was added twice (once in the .bbclass, one in a .inc)
-with different ordering constraints.
+On Fri, Mar 27, 2015 at 11:21 AM, Ross Burton <ross.burton@intel.com> wrote:
+> The autobuilder failed like this:
+>
+>   temp/run.do_kernel_metadata.25242: line 165: createme: command not found
+>
+> createme is provided by kern-tools-native.  do_patch has a dependency on
+> kern-tools-native, but do_kernel_metadata runs before do_patch.  So move the
+> dependency from do_patch to do_kernel_metadata, moving the statement from the
+> .inc to the class so it's alongside the task definition.
 
-Change this to be just one definition in the bbclass with the stronger ordering
-constraints.
+Agreed. I've meant to do this cleanup myself a few times .. and then
+get sidetracked.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/kernel-yocto.bbclass         |    2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |    2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+If the depends had been beside the task definition in the .inc, I
+would have realized
+that I needed to tweak it at the same time .. so this is much better.
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index a1fbb51..650ae5a 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -289,7 +289,7 @@ do_kernel_configme() {
- 	echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
- }
- 
--addtask kernel_configme after do_patch
-+addtask kernel_configme before do_configure after do_patch
- 
- python do_kernel_configcheck() {
-     import re, string, sys
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 5b69a49..3b41a61 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -32,8 +32,6 @@ KCONF_BSP_AUDIT_LEVEL ?= "0"
- 
- LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
- 
--addtask kernel_configme before do_configure after do_patch
--
- # Pick up shared functions
- inherit kernel
- inherit kernel-yocto
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+>
+> [ YOCTO #7531 ]
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/kernel-yocto.bbclass         |    1 +
+>  meta/recipes-kernel/linux/linux-yocto.inc |    2 --
+>  2 files changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 14551a2..a1fbb51 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -261,6 +261,7 @@ do_kernel_checkout[dirs] = "${S}"
+>
+>  addtask kernel_checkout before do_patch after do_unpack
+>  addtask kernel_metadata after do_validate_branches before do_patch
+> +do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
+>
+>  do_kernel_configme[dirs] += "${S} ${B}"
+>  do_kernel_configme() {
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index c62f8ca..5b69a49 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -32,8 +32,6 @@ KCONF_BSP_AUDIT_LEVEL ?= "0"
+>
+>  LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+>
+> -do_patch[depends] = "kern-tools-native:do_populate_sysroot"
+> -
+>  addtask kernel_configme before do_configure after do_patch
+>
+>  # Pick up shared functions
+> --
+> 1.7.10.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.7.10.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
