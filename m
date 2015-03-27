@@ -1,35 +1,37 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 161EA73BFF
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A87734E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 17:14:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 27 Mar 2015 10:14:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,479,1422950400"; d="scan'208";a="686656447"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.143])
-	([10.218.99.143])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Mar 2015 10:14:03 -0700
-Message-ID: <1427476419.2868.5.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 27 Mar 2015 14:13:39 -0300
-In-Reply-To: <CAP9ODKp5iZEjD2RXsLzD_s92gcqke_mGS7jxF0XG4YRUXww_cw@mail.gmail.com>
-References: <bruno.bottazzini@intel.com>
-	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
-	<1427320163-9262-4-git-send-email-bruno.bottazzini@intel.com>
-	<20150326082923.GA7370@ad.chargestorm.se>
-	<CAP9ODKr7QnmGCFfh+HnB1d_TE0CDCkqSgG75if11E_Z+CMq5sA@mail.gmail.com>
-	<1427377220.2918.8.camel@bottazzini-ThinkPad-T430>
-	<20150327145747.GE21905@ad.chargestorm.se>
-	<1427476146.2868.3.camel@bottazzini-ThinkPad-T430>
-	<CAP9ODKp5iZEjD2RXsLzD_s92gcqke_mGS7jxF0XG4YRUXww_cw@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: Anders Darander <anders@chargestorm.se>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: split modules into packages
+	Fri, 27 Mar 2015 17:31:58 +0000 (UTC)
+Received: by qcay5 with SMTP id y5so22529898qca.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Mar 2015 10:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:user-agent:mime-version
+	:content-type; bh=E5UDtatAV213jqZOzrt1TPEcfwPwFsfkCgJRXYAtjHU=;
+	b=jZfzwvIJ7U8ccU2IPmVkSnNoYe6cHSWLhKgc5qEnIpJ3rCJjIAnTyAhwyIHc+7ppo0
+	lS/zz+eBZxrJUfUGwEKDtRIkv5uWq+zPeulcpUmK2hG/++Et8skTA9K8yO6G+wy+dquc
+	uuMBO/zE8pU3UXEp4DJdlmWshXtL0Tdc53rwRVFDJpVEdwdgVaxx2FJBU0uA236uhoQu
+	ZrIR9MKmKvEDc6bkYk4zNxIWgaUmuT74btevk+GhYjfetOG9EhD2iOQSW0F8MSKCIShE
+	OFzaBS6Qbsg4QNO0aDHfSiFI5WY+e9gng2//6H3OaRye2fpMAqpJWxXbKOLHdsLeY2IQ
+	xu1w==
+X-Received: by 10.140.232.15 with SMTP id d15mr26775062qhc.52.1427477519759;
+	Fri, 27 Mar 2015 10:31:59 -0700 (PDT)
+Received: from email.parenteses.org.gmail.com (email.parenteses.org.
+	[198.199.72.94])
+	by mx.google.com with ESMTPSA id 75sm1877224qhw.22.2015.03.27.10.31.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Mar 2015 10:31:59 -0700 (PDT)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Mar 2015 17:31:55 +0000
+Message-ID: <87d23uibxw.fsf@email.parenteses.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+MIME-Version: 1.0
+Subject: Ownership issue in package contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,84 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 17:14:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Mar 2015 17:31:59 -0000
+Content-Type: text/plain
 
-On Sex, 2015-03-27 at 14:11 -0300, Otavio Salvador wrote:
-> On Fri, Mar 27, 2015 at 2:09 PM, Bottazzini, Bruno
-> <bruno.bottazzini@intel.com> wrote:
-> > On Sex, 2015-03-27 at 15:57 +0100, Anders Darander wrote:
-> >> * Bottazzini, Bruno <bruno.bottazzini@intel.com> [150326 14:40]:
-> >>
-> >> > On Qui, 2015-03-26 at 08:56 -0300, Otavio Salvador wrote:
-> >> > > On Thu, Mar 26, 2015 at 5:29 AM, Anders Darander <anders@chargestorm.se> wrote:
-> >> > > > * Bruno Bottazzini <bruno.bottazzini@intel.com> [150325 22:50]:
-> >>
-> >> > > >> if one wants to launch a simple deamon, most modules are not
-> >> > > >> required.
-> >> > > >> He will be able to save space and exclude unwanted packages
-> >> > > >> from the final image.
-> >>
-> >> > > > I like this, though I've got a few questions that I just noticed.
-> >>
-> >> > > >> -PACKAGECONFIG ??= "xz ldconfig \
-> >> > > >> +PACKAGECONFIG ??= " \
-> >> > > >> +                   gcrypt \
-> >> > > >> +                   kmod \
-> >> > > >> +                   ldconfig \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'xz', 'xz', '', d)} \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
-> >> > > >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-> >> > > >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-> >> > > >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
-> >>
-> >> > > > It might be worth noting that xz has gone from being explicitly enabled,
-> >> > > > to depend on a DISTRO_FEATURES.
-> >>
-> >> > > Agreed and we shouldn't explode the number of possible dsitro
-> >> > > features. I'd also prefer if xz were kept enable by default so we
-> >> > > don't make a behavior change under the hood.
-> >>
-> >> > > ...
-> >> > > >>  PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
-> >> > > >> -PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
-> >>
-> >> > > > Why do you remove networkd as a PACKAGECONFIG?
-> >>
-> >> > > If there is a real reason for this, it must be recorded in commit log as well.
-> >>
-> >> > Guys, if you continue this patch you will see that networkd will always
-> >> > be enabled. Systemd will always configure/make it however, the package
-> >> > will not be installed if the user wants to.
-> >>
-> >> > With PACKAGECONFIG, we may not get everything "for free" as some data
-> >> > files will be installed regardless as well as some components from
-> >> > systemd cannot be disabled by their build system but we can run without
-> >> > them, for instance we can run without journald.
-> >>
-> >> The advantage of also keeping the PACKAGECONFIG for e.g. networkd (and
-> >> as much other things as possible) is that we're also reducing the build
-> >> time and size. Sure, it might not be by much, but all small bits are
-> >> valuable.
-> >>
-> >
-> > You are right! Maybe we should mix them ?
-> >
-> > e.g. if PACKAGECONFIG networkd is disabled then the package
-> > systemd-services-networkd will not be included.
-> >
-> > What do you think?
-> 
-> You can add the files conditionally so these empty packages won't be generated.
+Hi,
 
-Indeed, do you know how to do this condition or have you got any
-example?
+I'm observing an issue with directory ownership in package
+contents.  Not sure if I'm overlooking something really basic or
+if I hit a bug.
 
-> 
+Here's a minimal recipe to illustrate the problem:
+
+$ cat foo.bb
+LICENSE = "CLOSED"
+
+inherit useradd
+
+USERADD_PACKAGES =  "${PN}"
+USERADD_PARAM_${PN} = "foo"
+
+do_install() {
+    install -d -m 755 ${D}${libdir}/foo
+        touch ${D}${libdir}/foo/bar
+            chown -R foo:foo ${D}${libdir}/foo
+            }
+
+Here's the package content:
+
+$ dpkg -c foo_1.0-r0.0_cortexa9hf-vfp-neon.ipk
+drwxrwxrwx root/root         0 2015-03-27 13:37 ./
+drwxr-xr-x root/root         0 2015-03-27 13:37 ./usr/
+drwxr-xr-x root/root         0 2015-03-27 13:37 ./usr/lib/
+drwxr-xr-x root/root         0 2015-03-27 13:37 ./usr/lib/foo/
+-rw-r--r-- foo/foo           0 2015-03-27 13:37 ./usr/lib/foo/bar
 
 
+Note that, although I run "chown -R foo:foo ${D}${libdir}/foo" in
+the recipe, ./usr/lib/foo/ in the package is owned by root.
+However, its content has the right ownership.
+
+I also generated and checked the rpm package and observed the
+same issue.
+
+Best wishes.
+Mario
+-- 
+http://www.ossystems.com.br
 
