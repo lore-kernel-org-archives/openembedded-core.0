@@ -1,31 +1,39 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D175723B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E39376013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 03:31:58 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml431-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
-	with ESMTP id CJA39368; Fri, 27 Mar 2015 11:31:51 +0800 (CST)
-Received: from [127.0.0.1] (10.111.55.101) by szxeml431-hub.china.huawei.com
-	(10.82.67.208) with Microsoft SMTP Server id 14.3.158.1;
-	Fri, 27 Mar 2015 11:31:39 +0800
-Message-ID: <5514CF16.2020804@huawei.com>
-Date: Fri, 27 Mar 2015 11:31:34 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+	Fri, 27 Mar 2015 09:56:42 +0000 (UTC)
+Received: by qgh3 with SMTP id 3so112941987qgh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Mar 2015 02:56:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jvukaGbmxyslKU0Y9Cxbl+6OP6NN8GEq/LMUgi7DhVQ=;
+	b=hH9j9EGwkoLf1qVug1R3e4hazCYK27KJVrfdada+HqG19wwQOpOG276Uy4oFFRQgOz
+	lrYxPzJ0zIGPTw+bRb/z56GMQaB1x7EZgG4uGTAbH5U+cSD6s22AX0iiOtPv9FN+Caay
+	NGhwMGxTuKvg3uaPjx9IKP+rbX2q/z841lsr3s/Jq5ralXJsSukvcTsGi3HRgAf6rI/P
+	c8eT5U36v+0XdcGFuAamaoRny29O+QxfsLlsCzLdq6tC2ncv332Cwa5ipa+mefXxL84c
+	T4OiuIYSosbAMGnm3W0HJpDYX3BAjjbxRi98Mh5pfYCNpV0N0uBT6wl6dc89xEgIWdrF
+	MDjQ==
+X-Gm-Message-State: ALoCoQl1LFxU3ePvhenwVUH6QQa05gmr4fbU3cp6jvOFA53sj+DdD8r37dUz7fDfBaRQfw9S3haF
+X-Received: by 10.55.23.208 with SMTP id 77mr37818540qkx.21.1427450203357;
+	Fri, 27 Mar 2015 02:56:43 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.102.203 with HTTP; Fri, 27 Mar 2015 02:56:23 -0700 (PDT)
+In-Reply-To: <5514CF16.2020804@huawei.com>
 References: <1427361482-5775-1-git-send-email-zhengjunling@huawei.com>
 	<1427363666.14020.62.camel@linuxfoundation.org>
 	<5513EE0B.5070802@huawei.com>
-	<5513F450.1010701@communistcode.co.uk>
-	<5514025A.4080004@huawei.com>
+	<5513F450.1010701@communistcode.co.uk> <5514025A.4080004@huawei.com>
 	<CAJTo0LYk7tA=5Vos6BC4j8cC5V=9TK4BZ9H0j0RQeajQuo=D0A@mail.gmail.com>
-In-Reply-To: <CAJTo0LYk7tA=5Vos6BC4j8cC5V=9TK4BZ9H0j0RQeajQuo=D0A@mail.gmail.com>
-X-Originating-IP: [10.111.55.101]
-X-CFilter-Loop: Reflected
+	<5514CF16.2020804@huawei.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 27 Mar 2015 09:56:23 +0000
+Message-ID: <CAJTo0Latp9ifgWHDAJGb=m4tuj3ChahC4sxEOwy+pNjE0RkYSA@mail.gmail.com>
+To: Junling Zheng <zhengjunling@huawei.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>,
 	"peifeiyue@huawei.com" <peifeiyue@huawei.com>
 Subject: Re: [PATCH] file: remove the original magic.h
@@ -41,63 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 03:32:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Mar 2015 09:56:43 -0000
+Content-Type: multipart/alternative; boundary=001a11479e2e4e5ab005124226b2
 
-On 2015/3/26 21:08, Burton, Ross wrote:
-> 
-> On 26 March 2015 at 12:58, Junling Zheng <zhengjunling@huawei.com <mailto:zhengjunling@huawei.com>> wrote:
-> 
->     This problem is that sometimes the magic.h wouldn't be generated again by magic.h.in <http://magic.h.in> if there
->     is already an original magic.h, and we may get an unexpected header file.
-> 
-> 
-> libmagic_la_SOURCES = magic.c apprentice.c softmagic.c ascmagic.c \
->         encoding.c compress.c is_tar.c readelf.c print.c fsmagic.c \
->         funcs.c file.h readelf.h tar.h apptype.c \
->         file_opts.h elfclass.h mygetopt.h cdf.c cdf_time.c readcdf.c cdf.h
-> 
-> The problem is that the makefile doesn't actually say that the magic binaries depend on magic.h, so make is perfectly reasonably to build the binaries and then re-generate the makefile.
-> 
-> The correct fix here is to add magic.h to libmagic_la_SOURCES.
-> 
-> Ross
+--001a11479e2e4e5ab005124226b2
+Content-Type: text/plain; charset=UTF-8
+
+On 27 March 2015 at 03:31, Junling Zheng <zhengjunling@huawei.com> wrote:
+
+> So I think the true reason is that if the magic.h exists already,
+> sometimes Makefile will not generate it again.
 >
-Hi, Ross
 
-I don't think the dependency is the true reason, and I have tested it.
+In that case it's likely entirely down to timestamps.   How are you
+modifying magic.h.in?
 
-I add the magic.h to libmagic_la_SOURCES, and then make several times.
+Ross
 
-However, it's disappointing that sometimes the magic.h does still not generated again by the different magic.h.in.
+--001a11479e2e4e5ab005124226b2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I think the dependency of magic.h for magic binaries has been already declared in Makefile:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 March 2015 at 03:31, Junling Zheng <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:zhengjunling@huawei.com" target=3D"_blank">zhengjunling@huawei.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":50u" clas=
+s=3D"a3s" style=3D"overflow:hidden">So I think the true reason is that if t=
+he magic.h exists already, sometimes Makefile will not generate it again.</=
+div></blockquote><div><br></div><div>In that case it&#39;s likely entirely =
+down to timestamps. =C2=A0 How are you modifying <a href=3D"http://magic.h.=
+in">magic.h.in</a>?<br></div><div><br></div><div>Ross</div></div></div></di=
+v>
 
-BUILT_SOURCES = magic.h
-all: $(BUILT_SOURCES)
-        $(MAKE) $(AM_MAKEFLAGS) all-am
-
-The following is the comparison of the incorrect and the correct log of compiling:
-
-z00238152@Patch-Test:~>0$ diff -ru log.do_compile.incorrect log.do_compile.correct
---- log.do_compile.incorrect	2015-03-27 11:05:23.000000000 +0800
-+++ log.do_compile.correct	2015-03-27 11:09:27.000000000 +0800
-@@ -5,6 +5,7 @@
- make[1]: Entering directory `/home/z00238152/halogen/build-fluorine-arma9el-qemu-HULK/tmp-eglibc/work/armv7a-euler-linux-gnueabi/file/5.14-r0/file-5.14'
- Making all in src
- make[2]: Entering directory `/home/z00238152/halogen/build-fluorine-arma9el-qemu-HULK/tmp-eglibc/work/armv7a-euler-linux-gnueabi/file/5.14-r0/file-5.14/src'
-+sed -e "s/X.YY/$(echo 5.14 | tr -d .)/" < ../src/magic.h.in > magic.h
- make  all-am
- make[3]: Entering directory `/home/z00238152/halogen/build-fluorine-arma9el-qemu-HULK/tmp-eglibc/work/armv7a-euler-linux-gnueabi/file/5.14-r0/file-5.14/src'
-
-And the Makefile in src directory is the same:
-
-z00238152@Patch-Test:~>0$ diff -ru Makefile.incorrect Makefile.correct
-z00238152@Patch-Test:~>0$
-
-And I set the PARALLEL_MAKE ?= "-j 1", the problem also doesn't be fixed.
-
-So I think the true reason is that if the magic.h exists already, sometimes Makefile will not generate it again.
-
-
+--001a11479e2e4e5ab005124226b2--
