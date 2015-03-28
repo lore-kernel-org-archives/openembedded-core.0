@@ -1,36 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id D2172734E3
+Return-Path: <zhengjunling@huawei.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [58.251.152.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F2EE723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 22:15:06 +0000 (UTC)
-Received: by qcto4 with SMTP id o4so28826039qct.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Mar 2015 15:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=GjDf5p4dV2FAlpVM5un8jJtFtF1JkimWWnTM/dA4CEU=;
-	b=fzaNXjBY8p4F/3Euwen3JByrgGQwicICNpU6CKxZ8tcDNo5cWRxxDu2/DbEtPFT4l/
-	cUJg2Zx9M5aSv3EgyOchnugumVczO9kYPHGm+nbKgIvhxrKicfQniaA44OoeHsJW7Ka/
-	UOLvRTvlbD5ClepSqly+V7hRITosxfcXydttMUOyumEqCpIQyHR3QcEOQ/uG2tUSvM8E
-	NQGjxcXRihE1NzvX9Q731oTJirUj7ksrm2PQTlpdk3rDe8vHUt7y5T3Z7s9TTzMhDiGy
-	2f1v18yATivPKyuPJ61PBGXJLPgkDLhA8k2gWC3beKylIBIyDelBt2/T7QYUUkdwWMbK
-	gZ1A==
-X-Received: by 10.55.31.143 with SMTP id n15mr44259765qkh.70.1427494507501;
-	Fri, 27 Mar 2015 15:15:07 -0700 (PDT)
-Received: from centrium.lab.ossystems.com.br ([177.100.224.72])
-	by mx.google.com with ESMTPSA id z78sm2394662qkg.44.2015.03.27.15.15.05
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Mar 2015 15:15:06 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Mar 2015 19:14:24 -0300
-Message-Id: <1427494464-22167-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] wpa-supplicant: Make SystemD D-Bus config conditional
+	Sat, 28 Mar 2015 02:38:15 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml434-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg01-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id CLK17368; Sat, 28 Mar 2015 10:38:13 +0800 (CST)
+Received: from [127.0.0.1] (10.111.55.101) by szxeml434-hub.china.huawei.com
+	(10.82.67.225) with Microsoft SMTP Server id 14.3.158.1;
+	Sat, 28 Mar 2015 10:36:37 +0800
+Message-ID: <551613A2.10506@huawei.com>
+Date: Sat, 28 Mar 2015 10:36:18 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1427361482-5775-1-git-send-email-zhengjunling@huawei.com>
+	<1427363666.14020.62.camel@linuxfoundation.org>
+	<5513EE0B.5070802@huawei.com>
+	<5513F450.1010701@communistcode.co.uk>
+	<5514025A.4080004@huawei.com>
+	<CAJTo0LYk7tA=5Vos6BC4j8cC5V=9TK4BZ9H0j0RQeajQuo=D0A@mail.gmail.com>
+	<5514CF16.2020804@huawei.com>
+	<CAJTo0Latp9ifgWHDAJGb=m4tuj3ChahC4sxEOwy+pNjE0RkYSA@mail.gmail.com>
+In-Reply-To: <CAJTo0Latp9ifgWHDAJGb=m4tuj3ChahC4sxEOwy+pNjE0RkYSA@mail.gmail.com>
+X-Originating-IP: [10.111.55.101]
+X-CFilter-Loop: Reflected
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	"peifeiyue@huawei.com" <peifeiyue@huawei.com>
+Subject: Re: [PATCH] file: remove the original magic.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +43,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Mar 2015 22:15:07 -0000
+X-List-Received-Date: Sat, 28 Mar 2015 02:38:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The SystemD D-Bus configuration should only to be installed when
-SystemD support is enabled.
+On 2015/3/27 17:56, Burton, Ross wrote:
+> 
+> On 27 March 2015 at 03:31, Junling Zheng <zhengjunling@huawei.com <mailto:zhengjunling@huawei.com>> wrote:
+> 
+>     So I think the true reason is that if the magic.h exists already, sometimes Makefile will not generate it again.
+> 
+> 
+> In that case it's likely entirely down to timestamps.   How are you modifying magic.h.in <http://magic.h.in>?
+> 
+> Ross
+>
+Hi, Ross
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I backport some commits from upstream to fix CVE-2014-9620, and some of them involve the modifying of magic.h.in:
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-index 6f0de3c..f95e91c 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-@@ -86,12 +86,13 @@ do_install () {
- 	cd ${D}${sysconfdir}/network/ && \
- 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
- 
--	install -d ${D}/${sysconfdir}/dbus-1/system.d
--	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
- 	install -d ${D}/${datadir}/dbus-1/system-services
- 	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
- 
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -d ${D}/${sysconfdir}/dbus-1/system.d
-+		install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+90018fe22ff8b74a22fcd142225b0a00f3f12677
+6ce24f35cd4a43c4bdd249e8e0c4952c1f8eac67
+0056ec32255de1de973574b0300161a1568767d6
+09e41625c999a2e5b51e1092f0ef2432a99b5c33
+ce90e05774dd77d86cfc8dfa6da57b32816841c4
+
+And the final difference between magic.h and magic.h.in is:
+
+z00238152@Patch-Test:file-5.14>0$ diff -u src/magic.h src/magic.h
+magic.h     magic.h.in
+z00238152@Patch-Test:file-5.14>0$ diff -u src/magic.h src/magic.h.in
+--- src/magic.h	2015-03-28 02:01:46.000000000 +0000
++++ src/magic.h.in	2015-03-28 02:01:47.000000000 +0000
+@@ -74,7 +74,7 @@
+ #define	MAGIC_NO_CHECK_FORTRAN	0x000000 /* Don't check ascii/fortran */
+ #define	MAGIC_NO_CHECK_TROFF	0x000000 /* Don't check ascii/troff */
+
+-#define MAGIC_VERSION		514	/* This implementation */
++#define MAGIC_VERSION		X.YY	/* This implementation */
+
+
+ #ifdef __cplusplus
+@@ -100,7 +100,12 @@
+ int magic_list(magic_t, const char *);
+ int magic_errno(magic_t);
+
+-#define MAGIC_PARAM_MAX_RECURSION	0
++#define MAGIC_PARAM_INDIR_MAX		0
++#define MAGIC_PARAM_NAME_MAX		1
++#define MAGIC_PARAM_ELF_PHNUM_MAX	2
++#define MAGIC_PARAM_ELF_SHNUM_MAX	3
++#define MAGIC_PARAM_ELF_NOTES_MAX	4
 +
- 		install -d ${D}/${systemd_unitdir}/system
- 		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
- 	fi
--- 
-2.1.4
+ int magic_setparam(magic_t, int, const void *);
+ int magic_getparam(magic_t, int, void *);
+
+
+So, if Makefile doesn't generate a new magic.h, there will be some "symbol undeclared" errors during compiling.
+
+By the way, the upstream code has only magic.h.in, and no magic.h, which only exists in release version tarballs.
+
+And I think the original magic.h is redundant.
+
+Cheers,
+
+Junling
 
 
