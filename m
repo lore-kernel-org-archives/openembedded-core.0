@@ -1,37 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C22797391D
+Return-Path: <peteasa@gmail.com>
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D5C9C6E614
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Mar 2015 01:27:02 +0000 (UTC)
-Received: by wiaa2 with SMTP id a2so79040324wia.0
+	Sun, 29 Mar 2015 18:35:42 +0000 (UTC)
+Received: by wgra20 with SMTP id a20so148151107wgr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Mar 2015 18:27:02 -0700 (PDT)
+	Sun, 29 Mar 2015 11:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qVxclQs+r03IVmYzZKJi4M3YBTtypNIeNH7fqnwdtPU=;
-	b=zxL9ViRyEnVrkg5jXKFgtMshZKeloYveoZYk9SNv3mlaZUqRpg3bGA4re0XYYob3Kv
-	QS15lUSXf+ik/HyNRMcuvmjHgry67IjGVp4qQxpJNbV10G3DFiVZhGoEQvuzP8g6pWoy
-	i2MMjiMLGcnR5NHJLyWHc8T2MMvhqw23GkZVFZS5tnXmM3VfrgTljDkx4CjhxwCOa3kk
-	y/gNfxgDexGH/st5iMDDSIwlrkA9tBlkv6ZzWPII+86n2X+NRjvfWmcV7DhXyuLedYPi
-	ORfbMCxnPTQ7rh+PgNQRb4ppmvGO2t1fzuE6iK17uR9uqjJa8JZ8ZpZICbDpu3Pa7RyV
-	IUEg==
-X-Received: by 10.180.102.130 with SMTP id fo2mr9672173wib.30.1427592422836;
-	Sat, 28 Mar 2015 18:27:02 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	h=from:to:cc:subject:date:message-id;
+	bh=CeJN+8qTcd+zuDpx1oPqiZdWveDeJV7MHY8nNrRNGq8=;
+	b=L0shs7cE6pPulSU5gIyAJ0I9OtMqHSmJVIDQoAWSfTvwNn1DAWBS7518pMvXl50oWl
+	iyvu3eE5idu++8iB0FnXHE9FEQCHjMRH0Df1TD8t6fI0Zra+o4fUYc/I9kjjJ4L5ac2p
+	Um7lUfPn2CmQr/8twHoMqONwtteM7lKZgzlDVAWputh4Vss4KR6shTMHRQRO/kLf7+50
+	/FwkqmFANeXRJe93fS49/6zzdSDLNAWUhq8wFjRT7pNBUFDb6mgpH1DkY03XHLkQB3Iy
+	cq1rmhya6qiYplI2l9icUmitW0cFaCvTfFt05XLlE5CiF7jwlUomav68E5k8KggULy+f
+	Bleg==
+X-Received: by 10.194.82.226 with SMTP id l2mr56915408wjy.11.1427654143172;
+	Sun, 29 Mar 2015 11:35:43 -0700 (PDT)
+Received: from HomeMegaUbuntu.pascom
+	(cpc18-heme10-2-0-cust113.9-1.cable.virginm.net. [81.96.152.114])
 	by mx.google.com with ESMTPSA id
-	lx10sm9267506wjb.17.2015.03.28.18.27.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 28 Mar 2015 18:27:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	ax10sm12262261wjc.26.2015.03.29.11.35.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 29 Mar 2015 11:35:42 -0700 (PDT)
+From: Peter Saunderson <peteasa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Mar 2015 03:27:20 +0200
-Message-Id: <1427592440-2658-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.4
-In-Reply-To: <20150329002843.GE2343@jama>
-References: <20150329002843.GE2343@jama>
-Subject: [PATCH] fontcache: allow to pass different fontconfig cache dir
+Date: Sun, 29 Mar 2015 19:35:14 +0100
+Message-Id: <1427654114-7753-1-git-send-email-peteasa@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Cc: Peter Saunderson <peteasa@gmail.com>
+Subject: [meta-oe][PATCH] Added Epiphany machine definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Mar 2015 01:27:04 -0000
+X-List-Received-Date: Sun, 29 Mar 2015 18:35:44 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Adding machine definitions for the epiphany (http://www.adapteva.com/) chip.
+using https://github.com/adapteva/epiphany-binutils-gdb.
+For binutils implementation that defines TARGET_ARCH MACHINE "epiphany": 4643 See https://github.com/adapteva/epiphany-binutils-gdb/blob/epiphany-binutils-2.24/bfd/elf32-epiphany.c
+For example layer that uses these defines see https://github.com/peteasa/meta-epiphany.git
+
+Signed-off-by: Peter Saunderson <peteasa@gmail.com>
 ---
- meta/classes/fontcache.bbclass                | 4 ++--
- scripts/postinst-intercepts/update_font_cache | 4 +---
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ meta/classes/insane.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index dfbdfa1..d122387 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -8,11 +8,11 @@ inherit qemu
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index c6dea22..9cdb382 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -52,6 +52,9 @@ def package_qa_get_machine_dict():
+             "darwin9" : { 
+                         "arm" :       (40,     0,    0,          True,          32),
+                       },
++            "e-os" :  {
++                        "epiphany":   ( 4643,  0,    0,          True,          32),
++                      },
+             "linux" : { 
+                         "aarch64" :   (183,    0,    0,          True,          64),
+                         "aarch64_be" :(183,    0,    0,          False,         64),
+@@ -445,6 +448,10 @@ def package_qa_check_arch(path,name,d, elf, messages):
+     provides = d.getVar('PROVIDES', True)
+     bpn = d.getVar('BPN', True)
  
- FONT_PACKAGES ??= "${PN}"
- FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
--
-+FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
- fontcache_common() {
- if [ "x$D" != "x" ] ; then
- 	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
--		libdir=${libdir} base_libdir=${base_libdir} localstatedir=${localstatedir}
-+		libdir=${libdir} base_libdir=${base_libdir} fontconfigcachedir=${FONTCONFIG_CACHE_DIR}
- else
- 	fc-cache
- fi
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 3907f25..c8c6018 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -2,6 +2,4 @@
- 
- PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
- 					$D${bindir}/fc-cache --sysroot=$D
--chown -R root:root $D${localstatedir}/cache/fontconfig
--
--
-+chown -R root:root $D${fontconfigcachedir}
++    # FIXME: epiphany cross compile confuses this check
++    if (target_os == 'e-os'):
++        return
++
+     # FIXME: Cross package confuse this check, so just skip them
+     for s in ['cross', 'nativesdk', 'cross-canadian']:
+         if bb.data.inherits_class(s, d):
 -- 
-2.3.4
+2.1.0
 
 
