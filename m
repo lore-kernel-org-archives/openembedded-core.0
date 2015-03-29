@@ -1,35 +1,35 @@
 Return-Path: <peteasa@gmail.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D5C9C6E614
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 701546E614
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Mar 2015 18:35:42 +0000 (UTC)
-Received: by wgra20 with SMTP id a20so148151107wgr.3
+	Sun, 29 Mar 2015 19:17:52 +0000 (UTC)
+Received: by wibg7 with SMTP id g7so74659535wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Mar 2015 11:35:43 -0700 (PDT)
+	Sun, 29 Mar 2015 12:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=CeJN+8qTcd+zuDpx1oPqiZdWveDeJV7MHY8nNrRNGq8=;
-	b=L0shs7cE6pPulSU5gIyAJ0I9OtMqHSmJVIDQoAWSfTvwNn1DAWBS7518pMvXl50oWl
-	iyvu3eE5idu++8iB0FnXHE9FEQCHjMRH0Df1TD8t6fI0Zra+o4fUYc/I9kjjJ4L5ac2p
-	Um7lUfPn2CmQr/8twHoMqONwtteM7lKZgzlDVAWputh4Vss4KR6shTMHRQRO/kLf7+50
-	/FwkqmFANeXRJe93fS49/6zzdSDLNAWUhq8wFjRT7pNBUFDb6mgpH1DkY03XHLkQB3Iy
-	cq1rmhya6qiYplI2l9icUmitW0cFaCvTfFt05XLlE5CiF7jwlUomav68E5k8KggULy+f
-	Bleg==
-X-Received: by 10.194.82.226 with SMTP id l2mr56915408wjy.11.1427654143172;
-	Sun, 29 Mar 2015 11:35:43 -0700 (PDT)
+	bh=Z+On2p8TdaC2aZEQK6cVLt19MjeEqPPH5mSrptJLgXw=;
+	b=jiKhGTsVFyQCbXWdFwwkEGj9DsJ/ANp6vbZRSNbagPhbyqDZdBRn7WXSV0sNugTg2+
+	uysRc2oQgfr0TZFDFa0YcwLc48itnBbdsXK/V7obwdf44OBzPq4A8uIlxOSxLCAJJdUC
+	DsHG1ztGIlcGEfu2Lrlyo1OASlt++tyVK3QrDzRmsMkn2/jnyi8l01HsDFYNhw3+woD1
+	1wEXwy4wGw1NZ2zdGZWGTUNTzps3/Xfc8IV8nyyryU18Jn0CfB6/z3kP9ErCqw3U/1EZ
+	TXhcbK9o1xJIhLk+Yc8P/KcDre5xVhol82fHCin3ZJ1SZkHgPXa02R9iFSUcU6UiHljw
+	Odhw==
+X-Received: by 10.180.77.40 with SMTP id p8mr15220631wiw.1.1427656673609;
+	Sun, 29 Mar 2015 12:17:53 -0700 (PDT)
 Received: from HomeMegaUbuntu.pascom
 	(cpc18-heme10-2-0-cust113.9-1.cable.virginm.net. [81.96.152.114])
-	by mx.google.com with ESMTPSA id
-	ax10sm12262261wjc.26.2015.03.29.11.35.41
+	by mx.google.com with ESMTPSA id w3sm13019352wiz.5.2015.03.29.12.17.51
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Mar 2015 11:35:42 -0700 (PDT)
+	Sun, 29 Mar 2015 12:17:52 -0700 (PDT)
 From: Peter Saunderson <peteasa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Mar 2015 19:35:14 +0100
-Message-Id: <1427654114-7753-1-git-send-email-peteasa@gmail.com>
+Date: Sun, 29 Mar 2015 20:17:40 +0100
+Message-Id: <1427656660-8637-1-git-send-email-peteasa@gmail.com>
 X-Mailer: git-send-email 2.1.0
 Cc: Peter Saunderson <peteasa@gmail.com>
-Subject: [meta-oe][PATCH] Added Epiphany machine definitions
+Subject: [meta-oe][PATCH v2] insane.bbclass: Added Epiphany machine definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,14 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Mar 2015 18:35:44 -0000
+X-List-Received-Date: Sun, 29 Mar 2015 19:17:54 -0000
 
 Adding machine definitions for the epiphany (http://www.adapteva.com/) chip.
 using https://github.com/adapteva/epiphany-binutils-gdb.
 For binutils implementation that defines TARGET_ARCH MACHINE "epiphany": 4643 See https://github.com/adapteva/epiphany-binutils-gdb/blob/epiphany-binutils-2.24/bfd/elf32-epiphany.c
 For example layer that uses these defines see https://github.com/peteasa/meta-epiphany.git
 
-Signed-off-by: Peter Saunderson <peteasa@gmail.com>
+Epiphany cross compile is confused by package_qa_check_arch so this check is also skipped.
 ---
  meta/classes/insane.bbclass | 7 +++++++
  1 file changed, 7 insertions(+)
