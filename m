@@ -1,39 +1,31 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B4ABE6AC36;
-	Mon, 30 Mar 2015 19:16:49 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t2UJGn5P013442; Mon, 30 Mar 2015 14:16:49 -0500
-Received: from us-aus-mail3.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015033014164942-589076 ;
-	Mon, 30 Mar 2015 14:16:49 -0500 
-In-Reply-To: <5516A6CB.5070803@topic.nl>
-References: <55119BD5.8060002@topic.nl>
-	<OFA7360BB3.3C7D486A-ON86257E15.0053507A-86257E15.007554A7@ni.com>
-	<5516A6CB.5070803@topic.nl>
-To: Mike Looijmans <mike.looijmans@topic.nl>
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5987F724DC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Mar 2015 19:22:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2UJMYPF004574
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 30 Mar 2015 12:22:35 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 30 Mar 2015 12:22:34 -0700
+Message-ID: <5519A279.2090709@windriver.com>
+Date: Mon, 30 Mar 2015 14:22:33 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-X-KeepSent: D91DFF9D:4B92AA05-86257E18:0068D8D4;
-	type=4; flags=0; name=$KeepSent
-X-Mailer: Lotus Notes Release 8.5.3FP3 Septem 15, 2011
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Message-ID: <OFD91DFF9D.4B92AA05-ON86257E18.0068D8D4-86257E18.0069E329@ni.com>
-Date: Mon, 30 Mar 2015 14:16:49 -0500
-X-MIMETrack: Serialize by Router on US-AUS-MAIL3/AUS/M/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/30/2015 02:16:49 PM,
-	Serialize complete at 03/30/2015 02:16:49 PM,
-	Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/30/2015 02:16:49 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/30/2015 02:16:49 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-03-30_04:, , signatures=0
-Cc: openembedded-core-bounces@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Not selecting <old version of package> as installing it would break existing dependencies
+To: <ed.bartosh@linux.intel.com>
+References: <1427704212-1179-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1427705624.14020.244.camel@linuxfoundation.org>
+	<5519685C.6000703@windriver.com>
+	<20150330190043.GA15265@linux.intel.com>
+In-Reply-To: <20150330190043.GA15265@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rootfs.py: Remove rpm database from staging area
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,130 +38,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 19:16:52 -0000
-Content-Type: text/plain; charset="US-ASCII"
+X-List-Received-Date: Mon, 30 Mar 2015 19:22:37 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Sounds like you hit an already reported bug:
-
-        https://code.google.com/p/opkg/issues/detail?id=142
-
-It is currently targeted for the 0.3 release, but I am not sure if Paul is 
-going to be able to get to it on the 0.3 timeframe. Could you add details 
-to the bug report (how to reproduce steps would be great)? If Paul doesn't 
-get to it on the 0.3 timeframe, I'll take care of it on the next release.
-
-cheers,
-
--Alejandro
-
-
-
-
-From:   Mike Looijmans <mike.looijmans@topic.nl>
-To:     Alejandro del Castillo <alejandro.delcastillo@ni.com>, 
-Cc:     openembedded-core@lists.openembedded.org, 
-openembedded-core-bounces@lists.openembedded.org
-Date:   03/28/2015 08:04 AM
-Subject:        Re: [OE-core] Not selecting <old version of package> as 
-installing it would break existing dependencies
-
-
-
-On 27-03-15 22:21, Alejandro del Castillo wrote:
-> openembedded-core-bounces@lists.openembedded.org wrote on 03/24/2015
-> 12:16:05 PM:
->
->> From: Mike Looijmans <mike.looijmans@topic.nl>
->> To: openembedded-core@lists.openembedded.org,
->> Date: 03/24/2015 12:16 PM
->> Subject: [OE-core] Not selecting <old version of package> as
->> installing it would break existing dependencies
->> Sent by: openembedded-core-bounces@lists.openembedded.org
+On 3/30/15 2:00 PM, Ed Bartosh wrote:
+> On Mon, Mar 30, 2015 at 10:14:36AM -0500, Mark Hatle wrote:
+>> On 3/30/15 3:53 AM, Richard Purdie wrote:
+>>> On Mon, 2015-03-30 at 11:30 +0300, Ed Bartosh wrote:
+>>>> Rpm database in staging area is used only by createrepo.
+>>>> createrepo fails with the error
+>>>> "rpmdb: BDB0060 PANIC: fatal region error detected"
+>>>> if rpm database is broken from the previous run of createrepo.
+>>>>
+>>>> Removing the databae before running createrepo can hopefully
+>>>> prevent this failure to happen.
+>>>>
+>>>> [YOCTO #6571]
+>>>>
+>>>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>>>> ---
+>>>>  meta/lib/oe/rootfs.py | 3 +++
+>>>>  1 file changed, 3 insertions(+)
+>>>>
+>>>> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+>>>> index 4e4e6eb..9f7dc65 100644
+>>>> --- a/meta/lib/oe/rootfs.py
+>>>> +++ b/meta/lib/oe/rootfs.py
+>>>> @@ -306,6 +306,9 @@ class RpmRootfs(Rootfs):
+>>>>              bb.utils.remove(self.image_rootfs, True)
+>>>>          else:
+>>>>              self.pm.recovery_packaging_data()
+>>>> +        dbpath = os.path.join(self.d.getVar('STAGING_DIR_NATIVE', True),
+>>>> +                              'var/lib/rpm/*')
+>>>> +        bb.utils.remove(dbpath, recurse=True)
+>>>>          bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
+>>>>  
+>>>>          self.pm.crea
+>>>
+>>> This patch helps me see the problem a lot. I'd never realised there was
+>>> an rpm database in the native sysroot that was getting corrupted, I'd
+>>> always assumed it was the target rootfs one.
+>>>
+>>> I'm a little worried about what happens if you have multiple images
+>>> generating at the same time as this change as above may delete something
+>>> being worked on by another process.
+>>>
+>>> I'm wondering why is it getting into the sysroot at all? Rather than
+>>> delete it here, could we either not generate it at all, or place it
+>>> somewhere in WORKDIR (so that other tasks can't see it or race against
+>>> it)?
 >>
->> After upgrading a library to a newer version, for example, something
->> called libdvbsi++ from 0.3.6 to 0.3.7, running opkg upgrade outputs the
->> following cryptic error message:
+>> I did some quick looking.  It appears (at least on first glance) that the call to:
 >>
->> Not selecting libdvbsi++1 0.3.6 as installing it would break existing
->> dependencies.
->
-> When opkg runs, it creates a list of all the available packages on the
-> configured repos + all the installed packages. During an upgrade, it 
-goes
-> through the process of finding the best upgrade match for each installed
-> package, searching on the master list. The process goes through a series
-> of checks for each candidate, like making sure the archs are compatible,
-> and making sure installing a candidate won't break existing installed
-> packages. In your case, opkg determines there are 2 candidates,
-> libdvbsi++0.3.6 and libdvbsi++0.3.7. While evaluating libdvbsi++0.3.6, 
-the
-> pkg_breaks_reverse_dep check fails, triggering the message shown above
-> (and removing the candidate).
->
->> Adding "-V2" to opkg upgrade expands that with the following message:
+>> rpm.TransactionSet()
 >>
->> opkg_prepare_upgrade_pkg: Package libdvbsi++1 (0.3.7-r2.0) installed in
->> root is up to date.
+>> is what is opening the DB.  It appears to me that we can change the call
+>> slightly, and it should do what is being requested:
 >>
->> So apparently it knows about the later version, so why complain about
->> the old one?
->
-> The function that returns the best candidate match correctly returns
-> libdvbsi++1 0.3.7. It then compares it against what's already installed.
-> The DEBUG message above shows that the best candidate found is already
-> installed on the system.
->
->
->> There is only one package that (r)depends on that lib (enigma2). 
-Nothing
->
->> else needs it.
+>>     { "TransactionSet", (PyCFunction) rpmts_Create, METH_VARARGS|METH_KEYWORDS,
+>> "rpm.TransactionSet([rootDir, [db]]) -> ts\n\
+>> - Create a transaction set.\n" },
 >>
->> This often happens with other packages as well. Is this a bug in opkg,
->> or is it trying to tell us we're doing something wrong?
->
-> It is not a bug, the message is harmless as it is only pointing to the
-> reason why one of the possible upgrade candidates was discarded.
+>> So transaction set takes two arguments, the rootDir of the thing we're working
+>> against, and a DB path.  It -should- be as simply as setting a rootDir to the
+>> WORKDIR.  If that doesn't work, then both arguments will be needed.
+>>
+>> I'd suggest just adding a "--root" option to genpkgmetadata.py in the
+>> createrepo, and maybe a "--dbpath" option as well (second argument).  Then only
+>> call the function with their values IF they were defined. I.e.
+>>
+>> if root:
+>>   if dbpath:
+>>     self.ts = rpm.TransactionSet(root, dbpath)
+>>   else:
+>>     self.ts = rpm.TransactionSet(root)
+>> else:
+>>   self.ts = rpm.TransactionSet()
+>>
+>> (If there is a better way to do that in python, fine.. but passing in "None" or
+>> "" won't result in the desired behavior.. since RPM is actually parsing
+>> arguments and appears like it will use the values if passed in, whatever they are.)
+>>
+> 
+> I was going to do something like this:
+> 
+> if dbpath:
+>     rpm.addMacro("_dbpath", dbpath)
+> 
+> self.ts = rpm.TransactionSet()
+> 
+> Brief test showed that this approach works just fine.
 
-But why does this message keep coming back, even months after the 
-upgrade that installed 0.3.7?
-The 0.3.6 version is no longer installed, it is no longer in the feeds, 
-but opkg still keeps whining about it. A bit of searching in the 
-filesystem of the box reveals that it is only named in a file named 
-"/var/lib/opkg/status", which contains the following lines:
+Yes, that can work as well..  but the transactionSet actually has arguments for
+root and dbpath built in.  It's a good idea to select the WORKDIR as the 'root',
+and the dbpath as somewhere "in the WORKDIR".
 
-Package: libdvbsi++1
-Version: 0.3.7-r2.0
-Depends: libgcc1 (>= 4.9.1), libstdc++6 (>= 4.9.1), libc6 (>= 2.20)
-Provides: libdvbsi++
-Status: unknown ok installed
-Architecture: mips32el
-Installed-Time: 1427216569
-Auto-Installed: yes
+(This will prevent rpm for intentionally writing anything into the execution
+sysroot, and restrict it to the WORKDIR.)
 
-Package: libdvbsi++1
-Version: 0.3.6-r1.2
-Depends: libgcc1 (>= 4.9.1), libstdc++6 (>= 4.9.1), libc6 (>= 2.20)
-Provides: libdvbsi++
-Status: install ok not-installed
-Architecture: mips32el
-Installed-Time: 1423323784
-Auto-Installed: yes
+--Mark
 
-
-As you can see, 0.3.6 is mentioned here as "not-installed", but opkg 
-keeps reporting about it. Removing the entry from the file works around 
-the problem, but I would have expected opkg to remove the entry after 
-upgrading it. Why didn't opkg remove the obsolete entry?
-
-
-> Hope this helps!
-
-It helps to know that the message is harmless.
-
-
--- 
-Mike Looijmans
-
+> Regards,
+> Ed
+> 
 
 
