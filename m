@@ -1,31 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 36EE56013D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C1D5F6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 09:20:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2U9KJ2H026997; Mon, 30 Mar 2015 10:20:19 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DutFqgQWrWri; Mon, 30 Mar 2015 10:20:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2U9K75J026986
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 30 Mar 2015 10:20:18 +0100
-Message-ID: <1427707207.14020.249.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ed.bartosh@linux.intel.com
-Date: Mon, 30 Mar 2015 10:20:07 +0100
-In-Reply-To: <20150330091715.GA2050@linux.intel.com>
-References: <1427706018-1695-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1427706673.14020.246.camel@linuxfoundation.org>
-	<20150330091715.GA2050@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package_manager: Run createrepo sequentially
+	Mon, 30 Mar 2015 10:10:05 +0000 (UTC)
+Received: by qcfy6 with SMTP id y6so46486192qcf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Mar 2015 03:10:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=BuTKNIzSLgOFNxddZDf/g9ftG+PAkPRW5GoR1A22egk=;
+	b=cdjC/Cyp6VVd9TV9QG5NmvPSvAQ2BBwLwcYQ3Kp4bKRYVCX75ifZ7caytwkIrbFNhs
+	97j4ClvfVGMtNESHQriUyw6DX3hiLPf4Y24p1ogaxoCHAJGmgmTzxMFYK2regF8e3/lF
+	rH0kswuKw1qXvZnE1ae1tMxgHjHYKnnavgtgwqgc1icQLmN9O50/oKHntElcJRl5GwIh
+	UsEIVUALO7k6bz4feZ78v6i3ZyaoBtwlh4G4FX8N97whlwQqJSlk6nLTs8xcb2G6JTkm
+	Jpk9rrEvRy5x19Mmj1iABnr/If98Yyun86+Zh3DyHeYUqSKyfNx1jULqIaZ3u9cyNJ0G
+	8FPQ==
+X-Gm-Message-State: ALoCoQm5mpjBQiQD+TKqU0LohcLbx5xVRHoeMMszAz2P7O1RMq4JJUzXL6MGRgPzRT4dqpNh8f+N
+X-Received: by 10.55.53.21 with SMTP id c21mr16407727qka.40.1427710207190;
+	Mon, 30 Mar 2015 03:10:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Mon, 30 Mar 2015 03:09:47 -0700 (PDT)
+In-Reply-To: <20150329002843.GE2343@jama>
+References: <20150316174236.48B8050234@opal.openembedded.org>
+	<20150321021120.GF4738@jama>
+	<1426930147.29168.104.camel@linuxfoundation.org>
+	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
+	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
+	<20150325161208.GK3904@jama> <20150329002843.GE2343@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 30 Mar 2015 11:09:47 +0100
+Message-ID: <CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,85 +50,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 09:20:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Mar 2015 10:10:07 -0000
+Content-Type: multipart/alternative; boundary=001a11490994be03a905127eaf9b
 
-On Mon, 2015-03-30 at 12:17 +0300, Ed Bartosh wrote:
-> On Mon, Mar 30, 2015 at 10:11:13AM +0100, Richard Purdie wrote:
-> > On Mon, 2015-03-30 at 12:00 +0300, Ed Bartosh wrote:
-> > > Running multiple createrepo in parallel can cause raice conditions
-> > > when creating/accessing rpm database. Createrepo fails with the
-> > > error "package_manager: rpmdb: BDB0060 PANIC: fatal region error detected"
-> > > in such cases.
-> > > 
-> > > Running createrepo sequentially should fix the race as rpm database
-> > > will not be accessed by multiple createrepo at the same time.
-> > > 
-> > > [YOCTO #6571]
-> > > 
-> > > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > > ---
-> > >  meta/lib/oe/package_manager.py | 11 ++++-------
-> > >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> > > index c9a8084..c956116 100644
-> > > --- a/meta/lib/oe/package_manager.py
-> > > +++ b/meta/lib/oe/package_manager.py
-> > > @@ -108,25 +108,22 @@ class RpmIndexer(Indexer):
-> > >          archs = archs.union(set(sdk_pkg_archs))
-> > >  
-> > >          rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
-> > > -        index_cmds = []
-> > >          rpm_dirs_found = False
-> > >          for arch in archs:
-> > >              arch_dir = os.path.join(self.deploy_dir, arch)
-> > >              if not os.path.isdir(arch_dir):
-> > >                  continue
-> > >  
-> > > -            index_cmds.append("%s --update -q %s" % (rpm_createrepo, arch_dir))
-> > > -
-> > >              rpm_dirs_found = True
-> > >  
-> > > +            result = create_index("%s --update -q %s" % (rpm_createrepo, arch_dir))
-> > > +            if result:
-> > > +                bb.fatal(result)
-> > > +
-> > >          if not rpm_dirs_found:
-> > >              bb.note("There are no packages in %s" % self.deploy_dir)
-> > >              return
-> > >  
-> > > -        result = oe.utils.multiprocess_exec(index_cmds, create_index)
-> > > -        if result:
-> > > -            bb.fatal('%s' % ('\n'.join(result)))
-> > > -
-> > >  
-> > >  class OpkgIndexer(Indexer):
-> > >      def write_index(self):
-> > 
-> > Running these in parallel gives us a significant speed improvement.
-> > Could we instead point them at separate directories for the RPM database
-> > (within WORKDIR to address the previous issue too)?
-> > 
-> I didn't see any noticeable performance gain at least for minimal image. I measured the time of
-> bitbake build before and after this change. It was practically the same.
+--001a11490994be03a905127eaf9b
+Content-Type: text/plain; charset=UTF-8
 
-For minimal, no, you wouldn't. For something like meta-toolchain-sdk
-there are multiple large package feeds and it should show more of a
-change.
+On 29 March 2015 at 00:28, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-The best benchmark for this is:
+> WEBOS_FONTCONFIG_CACHE = "${datadir}/fontconfig/cache"
+>
 
-"time bitbake package-index"
+I'm sure there's a good reason why fontconfig caches are going in datadir
+but I'm not sure I want to know it :)
 
-having cleaned out the indexes from the package feeds by hand (having
-built a large feed such as sdk images).
+Ross
 
-Cheers,
+--001a11490994be03a905127eaf9b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 March 2015 at 00:28, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":50w" class=
+=3D"a3s" style=3D"overflow:hidden">WEBOS_FONTCONFIG_CACHE =3D &quot;${datad=
+ir}/fontconfig/cache&quot;<br></div></blockquote></div><br>I&#39;m sure the=
+re&#39;s a good reason why fontconfig caches are going in datadir but I&#39=
+;m not sure I want to know it :)</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">Ross</div></div>
 
-
-
-
+--001a11490994be03a905127eaf9b--
