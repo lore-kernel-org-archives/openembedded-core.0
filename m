@@ -1,35 +1,24 @@
-Return-Path: <peteasa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 701546E614
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 202DD73CA4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Mar 2015 19:17:52 +0000 (UTC)
-Received: by wibg7 with SMTP id g7so74659535wib.1
+	Mon, 30 Mar 2015 00:56:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2U0uiLN022518
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Mar 2015 12:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z+On2p8TdaC2aZEQK6cVLt19MjeEqPPH5mSrptJLgXw=;
-	b=jiKhGTsVFyQCbXWdFwwkEGj9DsJ/ANp6vbZRSNbagPhbyqDZdBRn7WXSV0sNugTg2+
-	uysRc2oQgfr0TZFDFa0YcwLc48itnBbdsXK/V7obwdf44OBzPq4A8uIlxOSxLCAJJdUC
-	DsHG1ztGIlcGEfu2Lrlyo1OASlt++tyVK3QrDzRmsMkn2/jnyi8l01HsDFYNhw3+woD1
-	1wEXwy4wGw1NZ2zdGZWGTUNTzps3/Xfc8IV8nyyryU18Jn0CfB6/z3kP9ErCqw3U/1EZ
-	TXhcbK9o1xJIhLk+Yc8P/KcDre5xVhol82fHCin3ZJ1SZkHgPXa02R9iFSUcU6UiHljw
-	Odhw==
-X-Received: by 10.180.77.40 with SMTP id p8mr15220631wiw.1.1427656673609;
-	Sun, 29 Mar 2015 12:17:53 -0700 (PDT)
-Received: from HomeMegaUbuntu.pascom
-	(cpc18-heme10-2-0-cust113.9-1.cable.virginm.net. [81.96.152.114])
-	by mx.google.com with ESMTPSA id w3sm13019352wiz.5.2015.03.29.12.17.51
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Mar 2015 12:17:52 -0700 (PDT)
-From: Peter Saunderson <peteasa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Mar 2015 20:17:40 +0100
-Message-Id: <1427656660-8637-1-git-send-email-peteasa@gmail.com>
+	Sun, 29 Mar 2015 17:56:44 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.139) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Sun, 29 Mar 2015 17:56:43 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Mar 2015 08:56:42 +0800
+Message-ID: <1427677002-12772-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 2.1.0
-Cc: Peter Saunderson <peteasa@gmail.com>
-Subject: [meta-oe][PATCH v2] insane.bbclass: Added Epiphany machine definitions
+MIME-Version: 1.0
+Subject: [PATCH] libxml-simple-perl/libconvert-asn1-perl: using PERLHOSTLIB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,43 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Mar 2015 19:17:54 -0000
+X-List-Received-Date: Mon, 30 Mar 2015 00:56:45 -0000
+Content-Type: text/plain
 
-Adding machine definitions for the epiphany (http://www.adapteva.com/) chip.
-using https://github.com/adapteva/epiphany-binutils-gdb.
-For binutils implementation that defines TARGET_ARCH MACHINE "epiphany": 4643 See https://github.com/adapteva/epiphany-binutils-gdb/blob/epiphany-binutils-2.24/bfd/elf32-epiphany.c
-For example layer that uses these defines see https://github.com/peteasa/meta-epiphany.git
+From: Roy Li <rongqing.li@windriver.com>
 
-Epiphany cross compile is confused by package_qa_check_arch so this check is also skipped.
+Using PERLHOSTLIB as possible, which is same as
+${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/classes/insane.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb   | 2 +-
+ meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c6dea22..9cdb382 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -52,6 +52,9 @@ def package_qa_get_machine_dict():
-             "darwin9" : { 
-                         "arm" :       (40,     0,    0,          True,          32),
-                       },
-+            "e-os" :  {
-+                        "epiphany":   ( 4643,  0,    0,          True,          32),
-+                      },
-             "linux" : { 
-                         "aarch64" :   (183,    0,    0,          True,          64),
-                         "aarch64_be" :(183,    0,    0,          False,         64),
-@@ -445,6 +448,10 @@ def package_qa_check_arch(path,name,d, elf, messages):
-     provides = d.getVar('PROVIDES', True)
-     bpn = d.getVar('BPN', True)
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
+index b72afc0..4721b4b 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "5cff13d0802792da1eb45895ce1be461903d98ec97c9c953bc8406af72
  
-+    # FIXME: epiphany cross compile confuses this check
-+    if (target_os == 'e-os'):
-+        return
-+
-     # FIXME: Cross package confuse this check, so just skip them
-     for s in ['cross', 'nativesdk', 'cross-canadian']:
-         if bb.data.inherits_class(s, d):
+ S = "${WORKDIR}/XML-Simple-${PV}"
+ 
+-EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}"
++EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+ inherit cpan
+ 
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+index ebe0422..170e7ec 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+@@ -12,6 +12,6 @@ S = "${WORKDIR}/Convert-ASN1-${PV}"
+ 
+ inherit cpan
+ 
+-EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}"
++EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.1.0
 
