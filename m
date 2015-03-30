@@ -1,40 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D177773C0D
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2409373C0D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 13:40:07 +0000 (UTC)
-Received: by igbud6 with SMTP id ud6so74803250igb.1
+	Mon, 30 Mar 2015 13:52:19 +0000 (UTC)
+Received: by ignm3 with SMTP id m3so73337050ign.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 06:40:08 -0700 (PDT)
+	Mon, 30 Mar 2015 06:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=pql/02punehr9cBztUoGZDtwqvTrsjZjJfb1KsSwMmw=;
-	b=m2PeRBEsmnkHXiEoQtC4aGC38zYgqLsFPVwj0ATfyKQMF5MadhcuIzgierp8I45Ywm
-	CZsYzQV2YVtKEfH/RR2JND6bMrsLGmtRvM1NfwXKTqYvvIwLzcsSVNZt43nZudqJWGM1
-	QkUMdVcG+LfdRmCxNh8tIUG8J7gykdFtgLlVraq7rE4eCWgDP65VmJiRdsCJns5LWS2q
-	FER4pT0XguC6SBdu09ApqG67aNo+DPpaQH4pJJ4JD4b0XGalPl4Qfiqp3bqanbiMV2b0
-	eiwkqzNJVp0oQUTLej7GvDP54SaRYexBEiazQMRXMg1Ix290MBPrdEEBYU9j0gCUG9ui
-	OkmA==
+	bh=2Kuj42/RdVvgowD776wNONqK6Nkb2VZkgIyKneQbqEg=;
+	b=JSwud8Vluo7qYi+hO1QRnRgxlpUK/ob0rV9X+kQvkaMKe6tLP+DnfRUy/mNGOo3bUJ
+	w9gom6j7ihoagGi/jUIKorQ2E+x4NR4foUmMLcegknDT3Ve2cdqVa/JvxX8ygnfl2KrT
+	AkLT4qKBpO1itiBAiGXhYQHg2rA/UrwMXEP1Zg91oglmNjWlT2HJKhVXP5DMC2yrUlIB
+	DZAlLsVPoL9t2wrasECkgsXc+VIUmvL8pLRcZk7V+7mgFFkGBn477mWd7bEprYzAGQNR
+	u/AwN3XP86EUWiNs+fEkiO/yCx9r5HSuQNE9K8W5bD9R29qI5zsbA0EEn9EGIVqtj3ZP
+	vg+g==
 MIME-Version: 1.0
-X-Received: by 10.42.67.19 with SMTP id r19mr36231888ici.30.1427722808225;
-	Mon, 30 Mar 2015 06:40:08 -0700 (PDT)
+X-Received: by 10.107.34.210 with SMTP id i201mr49153597ioi.1.1427723540794;
+	Mon, 30 Mar 2015 06:52:20 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.107.23.6 with HTTP; Mon, 30 Mar 2015 06:40:08 -0700 (PDT)
-In-Reply-To: <1427720735.17257.0.camel@bottazzini-ThinkPad-T430>
-References: <bruno.bottazzini@intel.com>
-	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
-	<1427320163-9262-5-git-send-email-bruno.bottazzini@intel.com>
-	<1427720735.17257.0.camel@bottazzini-ThinkPad-T430>
-Date: Mon, 30 Mar 2015 10:40:08 -0300
-X-Google-Sender-Auth: m6amJ5GOpU38BRp2fYbTgbgdYag
-Message-ID: <CAP9ODKry4rL-yQkSJf_ar7GQUTJAZ+UbgWRXNFTtAWLE8K_qkQ@mail.gmail.com>
+Received: by 10.107.23.6 with HTTP; Mon, 30 Mar 2015 06:52:20 -0700 (PDT)
+In-Reply-To: <1427532627.14020.217.camel@linuxfoundation.org>
+References: <1427532627.14020.217.camel@linuxfoundation.org>
+Date: Mon, 30 Mar 2015 10:52:20 -0300
+X-Google-Sender-Auth: MyKdNUVsXPpIOSdyHHh2OOMmZbI
+Message-ID: <CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] systemd: v219 with stable fixes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,16 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 13:40:07 -0000
+X-List-Received-Date: Mon, 30 Mar 2015 13:52:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 30, 2015 at 10:05 AM, Bottazzini, Bruno
-<bruno.bottazzini@intel.com> wrote:
-> Hello,
+On Sat, Mar 28, 2015 at 5:50 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> See the patch header for details. Hardlink count duing do_package_write_deb
+> can change causing dpkg-deb failures. We don't care about this error
+> case so avoid it by checking the tar exit code.
 >
-> What about this patch ?
+> [YOCTO #7529]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-What is this change in util-linux? Why this is necessary?
+Please don't ask someone to see the patch header for information. This
+should be in the commit log and not necessarily read the diff to find
+this information.
+
+Please send a v2 adding this information in the commit log.
 
 -- 
 Otavio Salvador                             O.S. Systems
