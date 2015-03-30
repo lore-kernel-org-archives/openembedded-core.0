@@ -1,35 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 20751736B6
+	by mail.openembedded.org (Postfix) with ESMTP id 01975736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 20:25:09 +0000 (UTC)
+	Mon, 30 Mar 2015 20:28:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2UKP9cD031069; Mon, 30 Mar 2015 21:25:09 +0100
+	t2UKS4wj031302; Mon, 30 Mar 2015 21:28:04 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZWS4Qn-h6Jqt; Mon, 30 Mar 2015 21:25:09 +0100 (BST)
+	with LMTP id HZ_Xao8Et4NN; Mon, 30 Mar 2015 21:28:04 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2UKOvjr031054
+	t2UKRm3g031298
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 30 Mar 2015 21:25:08 +0100
-Message-ID: <1427747097.14020.323.camel@linuxfoundation.org>
+	Mon, 30 Mar 2015 21:28:00 +0100
+Message-ID: <1427747268.14020.326.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Mon, 30 Mar 2015 21:24:57 +0100
-In-Reply-To: <551990D2.10904@opendreambox.org>
-References: <1427532627.14020.217.camel@linuxfoundation.org>
-	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>
-	<1427727523.14020.306.camel@linuxfoundation.org>
-	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>
-	<1427731374.14020.307.camel@linuxfoundation.org>
-	<CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
-	<551990D2.10904@opendreambox.org>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Mon, 30 Mar 2015 21:27:48 +0100
+In-Reply-To: <BN3PR0501MB1090B5CDC1B3FF89CCC4D286BBF50@BN3PR0501MB1090.namprd05.prod.outlook.com>
+References: <BN3PR0501MB1090B5CDC1B3FF89CCC4D286BBF50@BN3PR0501MB1090.namprd05.prod.outlook.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Verification on how TARGET_CFLAGS is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 20:25:11 -0000
+X-List-Received-Date: Mon, 30 Mar 2015 20:28:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-03-30 at 20:07 +0200, Andreas Oberritter wrote:
-> On 30.03.2015 18:21, Otavio Salvador wrote:
-> > On Mon, Mar 30, 2015 at 1:02 PM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >> On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
-> >>> +When running do_package_write_deb, we have trees of symlinked files
+On Mon, 2015-03-30 at 13:09 +0000, Bryan Evenson wrote:
+> I am about to upgrade to the dizzy branch.  I have a built a bootable
+> image on my test build machine, and now I'm going to be applying
+> changes to the system I use for building production images.  I'm
+> planning on deleting my tmp directory to force a re-build of
+> everything.  Since I'm rebuilding everything anyway, I'm taking a
+> deeper look at the CFLAGS related settings and I'm getting a little
+> lost in the logic.  I'd like to verify these settings before I start
+> rebuilding everything.
 > 
-> Richard, did you intend to write "hardlinked" here?
+> If I'm following the default logic correctly in bitbake.conf, by
+> default TARGET_CFLAGS will be set to "-O2 -pipe -g
+> -feliminate-unused-debug-types".  I want the default TARGET_CFLAGS for
+> my production image to be "-O2 -pipe".  What's the suggested variable
+> to change, and where, to get this final value?  Do I set TARGET_CFLAGS
+> directly, or do I set SELECTED_OPTIMIZATIONS or even
+> FULL_OPTIMIZATIONS?  Do I set it in local.conf or should I be setting
+> it somewhere else?
 
-I did, yes. I'll correct that, thanks.
+If I remember rightly, you need the -g option there to generate the -dbg
+packages correctly. The target system binaries won't change since we
+separate out the debug data into separate files as part of the packaging
+process.
 
-> It's my impression that if Richard had omitted the first sentence of his
-> commit message, the message would still have been descriptive enough,
-> and nobody would ever have complained.
-
-That is the impression I got too. Its odd that a comment intended to
-help the user find more information should generate this discussion,
-particularly as the details in the patch header are more implementation
-oriented and make sense when you're looking at the dpkg code (which you
-can in the patch).
-
-So I may simply remove the comment that is causing contention.
+You therefore can gain some build performance from turning that off but
+your runtime won't alter much (other than the debuglink ID which is a
+few bytes).
 
 Cheers,
 
 Richard
-
-
-
-
 
 
