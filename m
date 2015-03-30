@@ -1,36 +1,35 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D92B76013D
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 500656013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 18:07:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 06D413151D67
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 20:07:17 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Jjw6nL9_clqM
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 20:07:15 +0200 (CEST)
-Received: from [172.22.22.61] (55d4741c.access.ecotel.net [85.212.116.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 2ECE93151D61
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 20:07:15 +0200 (CEST)
-Message-ID: <551990D2.10904@opendreambox.org>
-Date: Mon, 30 Mar 2015 20:07:14 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 30 Mar 2015 18:11:14 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t2UIBDMP011796; Mon, 30 Mar 2015 13:11:14 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015033013111402-590934 ;
+	Mon, 30 Mar 2015 13:11:14 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
+References: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
+	<CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
+User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.2
+	(x86_64-unknown-linux-gnu)
+Date: Mon, 30 Mar 2015 13:11:13 -0500
+Message-ID: <87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1427532627.14020.217.camel@linuxfoundation.org>	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>	<1427727523.14020.306.camel@linuxfoundation.org>	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>	<1427731374.14020.307.camel@linuxfoundation.org>
-	<CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
-In-Reply-To: <CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
-Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 03/30/2015 01:11:14 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 03/30/2015 01:11:14 PM,
+	Serialize complete at 03/30/2015 01:11:14 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-03-30_04:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal: Disable shopt errexit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 18:07:18 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Mar 2015 18:11:18 -0000
+Content-Type: text/plain
 
-On 30.03.2015 18:21, Otavio Salvador wrote:
-> On Mon, Mar 30, 2015 at 1:02 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
->>> +When running do_package_write_deb, we have trees of symlinked files
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-Richard, did you intend to write "hardlinked" here?
-
->>> +such as the dbg source files in ${PN}-dbg. If something makes another
->>> +copy of one of those files (or deletes one), the number of links a file
->>> +has changes and tar can notice this, e.g.:
->>> +
->>> +| DEBUG: Executing python function do_package_deb
->>> +| dpkg-deb: building package `sed-ptest' in
->>> `/media/build1/poky/build/tmp/work/i586-poky-linux/sed/4.2.2-r0/deploy-debs/i586/sed-ptest_4.2.2-r0.3_i386.deb'.
->>> +| tar: ./usr/lib/sed/ptest/testsuite/tst-regex2: file changed as we read it
->>> +| dpkg-deb: error: subprocess tar -cf returned error exit status 1
->>> +
->>> +Tar returns an error of 1 when files 'change' and other errors codes
->>> +in other error cases. We tweak dpkg-deb here so that it ignores an exit
->>> +code of 1 from tar. The files don't really change (and we have locking in
->>> +place to avoid that kind of issue).
->>>
->>> This is exactly what I would expect for the long commit log. Sorry but
->>> I strongly disagrese with you as the commit log in the patch does
->>> connect with the short log so I still believe the commit log could be
->>> improved.
+> On 18 December 2014 at 01:02, Richard Tollerton <rich.tollerton@ni.com>
+> wrote:
+>
+>> `sh -e` causes any errors encountered during shell execution to abort
+>> the shell. For terminal sessions like devshell, this causes errors
+>> encountered while executing do_terminal to instantaneously kill the
+>> session. This is explicitly not what we want for interactive/debugging
+>> situations like with terminal, so just remove the '-e' from the sh
+>> invocation.
 >>
->> Well, I strong disagree with that, I don't believe it makes sense to cut
->> and paste the same information into both places, sorry.
-> 
-> I disagree someone should go into a patch header to understand it.
-> 
+>
+> This doesn't happen for me - starting a devshell and running "false"
+> doesn't cause the terminal to exit.  I wonder what the difference between
+> your environment and mine is.
 
-It's my impression that if Richard had omitted the first sentence of his
-commit message, the message would still have been descriptive enough,
-and nobody would ever have complained.
+Running `false` interactively doesn't test this behavior because `sh -e`
+explicitly excludes interactive shells from consideration [1] [2].
+You'll need to inject a `false` into run.do_terminal in order to
+reproduce this.
 
-Regards,
-Andreas
+[1] http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#set
+[2] http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_01
+
+> Ross
 
