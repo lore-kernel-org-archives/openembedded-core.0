@@ -1,31 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5987F724DC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 19:22:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2UJMYPF004574
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 30 Mar 2015 12:22:35 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 30 Mar 2015 12:22:34 -0700
-Message-ID: <5519A279.2090709@windriver.com>
-Date: Mon, 30 Mar 2015 14:22:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C36DB6AC36;
+	Mon, 30 Mar 2015 20:06:55 +0000 (UTC)
+Received: by wibgn9 with SMTP id gn9so517624wib.1;
+	Mon, 30 Mar 2015 13:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=pQ9Hl29OApiJ1UI3ibDKACLWG/cNwDAKlQv2C+2anqg=;
+	b=qPctWibcm1FbZEiv+4VXVqxjxRkX0Fzt9rGdyze7jxSYe0diT7cPwhM9pe4T54xEQh
+	BAjcL1wsuApfB0+oraVOTxoA2pQ8Dx3WJ09YfJl64nbwgj/dyvcg+D9LEH3MUWl3SwkT
+	78w4laNuPirzmp2hd4n/W0qxJ5jJ1nuuRn/mL/30/fAymvdhNED6wZ9XzhjGNX0PEBsd
+	qWIMA3SrGYzJf89MfKOlC+t8/az61T7M+rFfD5C7uEhiKYQiN9MhhF1gqdOvQVYE9uc1
+	aILBmmjbeeudbO+KzbHFRAXdu2mLO7VniP/nSMzh/JKrsZ0VSraS2p2xCoQcRMk6EI8v
+	dICQ==
+X-Received: by 10.194.88.131 with SMTP id bg3mr68480005wjb.119.1427746016604; 
+	Mon, 30 Mar 2015 13:06:56 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	pa4sm17190967wjb.11.2015.03.30.13.06.54
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Mar 2015 13:06:55 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 30 Mar 2015 22:07:18 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20150330200718.GF14928@jama>
+References: <1426930147.29168.104.camel@linuxfoundation.org>
+	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
+	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
+	<20150325161208.GK3904@jama> <20150329002843.GE2343@jama>
+	<CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
+	<1A4BBFA3-A5F0-4145-A64D-326C186C51C4@gmail.com>
+	<20150330184627.GD14928@jama>
+	<FADF8578-9B17-41E3-A0FB-C7A132FE83A7@gmail.com>
 MIME-Version: 1.0
-To: <ed.bartosh@linux.intel.com>
-References: <1427704212-1179-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1427705624.14020.244.camel@linuxfoundation.org>
-	<5519685C.6000703@windriver.com>
-	<20150330190043.GA15265@linux.intel.com>
-In-Reply-To: <20150330190043.GA15265@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rootfs.py: Remove rpm database from staging area
+In-Reply-To: <FADF8578-9B17-41E3-A0FB-C7A132FE83A7@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,109 +54,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 19:22:37 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Mar 2015 20:06:57 -0000
+X-Groupsio-MsgNum: 63851
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tmoQ0UElFV5VgXgH"
+Content-Disposition: inline
 
-On 3/30/15 2:00 PM, Ed Bartosh wrote:
-> On Mon, Mar 30, 2015 at 10:14:36AM -0500, Mark Hatle wrote:
->> On 3/30/15 3:53 AM, Richard Purdie wrote:
->>> On Mon, 2015-03-30 at 11:30 +0300, Ed Bartosh wrote:
->>>> Rpm database in staging area is used only by createrepo.
->>>> createrepo fails with the error
->>>> "rpmdb: BDB0060 PANIC: fatal region error detected"
->>>> if rpm database is broken from the previous run of createrepo.
->>>>
->>>> Removing the databae before running createrepo can hopefully
->>>> prevent this failure to happen.
->>>>
->>>> [YOCTO #6571]
->>>>
->>>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>> ---
->>>>  meta/lib/oe/rootfs.py | 3 +++
->>>>  1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
->>>> index 4e4e6eb..9f7dc65 100644
->>>> --- a/meta/lib/oe/rootfs.py
->>>> +++ b/meta/lib/oe/rootfs.py
->>>> @@ -306,6 +306,9 @@ class RpmRootfs(Rootfs):
->>>>              bb.utils.remove(self.image_rootfs, True)
->>>>          else:
->>>>              self.pm.recovery_packaging_data()
->>>> +        dbpath = os.path.join(self.d.getVar('STAGING_DIR_NATIVE', True),
->>>> +                              'var/lib/rpm/*')
->>>> +        bb.utils.remove(dbpath, recurse=True)
->>>>          bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
->>>>  
->>>>          self.pm.crea
->>>
->>> This patch helps me see the problem a lot. I'd never realised there was
->>> an rpm database in the native sysroot that was getting corrupted, I'd
->>> always assumed it was the target rootfs one.
->>>
->>> I'm a little worried about what happens if you have multiple images
->>> generating at the same time as this change as above may delete something
->>> being worked on by another process.
->>>
->>> I'm wondering why is it getting into the sysroot at all? Rather than
->>> delete it here, could we either not generate it at all, or place it
->>> somewhere in WORKDIR (so that other tasks can't see it or race against
->>> it)?
->>
->> I did some quick looking.  It appears (at least on first glance) that the call to:
->>
->> rpm.TransactionSet()
->>
->> is what is opening the DB.  It appears to me that we can change the call
->> slightly, and it should do what is being requested:
->>
->>     { "TransactionSet", (PyCFunction) rpmts_Create, METH_VARARGS|METH_KEYWORDS,
->> "rpm.TransactionSet([rootDir, [db]]) -> ts\n\
->> - Create a transaction set.\n" },
->>
->> So transaction set takes two arguments, the rootDir of the thing we're working
->> against, and a DB path.  It -should- be as simply as setting a rootDir to the
->> WORKDIR.  If that doesn't work, then both arguments will be needed.
->>
->> I'd suggest just adding a "--root" option to genpkgmetadata.py in the
->> createrepo, and maybe a "--dbpath" option as well (second argument).  Then only
->> call the function with their values IF they were defined. I.e.
->>
->> if root:
->>   if dbpath:
->>     self.ts = rpm.TransactionSet(root, dbpath)
->>   else:
->>     self.ts = rpm.TransactionSet(root)
->> else:
->>   self.ts = rpm.TransactionSet()
->>
->> (If there is a better way to do that in python, fine.. but passing in "None" or
->> "" won't result in the desired behavior.. since RPM is actually parsing
->> arguments and appears like it will use the values if passed in, whatever they are.)
->>
-> 
-> I was going to do something like this:
-> 
-> if dbpath:
->     rpm.addMacro("_dbpath", dbpath)
-> 
-> self.ts = rpm.TransactionSet()
-> 
-> Brief test showed that this approach works just fine.
+--tmoQ0UElFV5VgXgH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, that can work as well..  but the transactionSet actually has arguments for
-root and dbpath built in.  It's a good idea to select the WORKDIR as the 'root',
-and the dbpath as somewhere "in the WORKDIR".
+On Mon, Mar 30, 2015 at 11:49:21AM -0700, Khem Raj wrote:
+>=20
+> > On Mar 30, 2015, at 11:46 AM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> >=20
+> > On Mon, Mar 30, 2015 at 09:41:30AM -0700, Khem Raj wrote:
+> >>=20
+> >>> On Mar 30, 2015, at 3:09 AM, Burton, Ross <ross.burton@intel.com> wro=
+te:
+> >>>=20
+> >>>=20
+> >>> On 29 March 2015 at 00:28, Martin Jansa <martin.jansa@gmail.com <mail=
+to:martin.jansa@gmail.com>> wrote:
+> >>> WEBOS_FONTCONFIG_CACHE =3D "${datadir}/fontconfig/cache"
+> >>>=20
+> >>> I'm sure there's a good reason why fontconfig caches are going in dat=
+adir but I'm not sure I want to know it :)
+> >>>=20
+> >>=20
+> >> aren=E2=80=99t they variable data files ? where else should it go othe=
+rwise=20
+> >=20
+> > I've replied to Ross off-list because I'm not sure how much details I
+> > should share, but basically we have read-only rootfs which has all the
+> > font packages installed, so cache from do_rootfs should remain valid
+> > forever. And we delete everything in /var during reset to factory
+> > settings (that's why we had to move everything which we want to persist
+> > during factory resets like this cache).
+> >=20
+> > We also have additional fontconfig patch which ignores timestamp
+> > modifications in font directories, so that the cache is considered valid
+> > even after some manual modification in rootfs (e.g. in devel images
+> > which can be switched to read-write mode).
+>=20
+> may be copy-binds could be deployed ?
 
-(This will prevent rpm for intentionally writing anything into the execution
-sysroot, and restrict it to the WORKDIR.)
+We have that but IIRC copy-binds are mounted after or at the same time
+the UI is starting in our upstart scripts (to show UI as soon as possible)
+and we don't want to wait for copy-binds to be finished before loading font=
+config cache.
 
---Mark
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Regards,
-> Ed
-> 
+--tmoQ0UElFV5VgXgH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlUZrPYACgkQN1Ujt2V2gBzaVACggiLQuPIwcIpFhUVqDu/XRY6D
+CNkAoLeavaf86EvrfuFiEm4ZCqRc40bv
+=xf5Q
+-----END PGP SIGNATURE-----
+
+--tmoQ0UElFV5VgXgH--
