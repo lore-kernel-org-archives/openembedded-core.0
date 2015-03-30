@@ -1,30 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DFE173C0D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6715D73C0D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 15:14:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t2UFEb0t029367
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 30 Mar 2015 08:14:37 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 30 Mar 2015 08:14:37 -0700
-Message-ID: <5519685C.6000703@windriver.com>
-Date: Mon, 30 Mar 2015 10:14:36 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Ed Bartosh
-	<ed.bartosh@linux.intel.com>
-References: <1427704212-1179-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1427705624.14020.244.camel@linuxfoundation.org>
-In-Reply-To: <1427705624.14020.244.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rootfs.py: Remove rpm database from staging area
+	Mon, 30 Mar 2015 16:03:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2UG37gW016933; Mon, 30 Mar 2015 17:03:07 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id T8On5HMvBK9w; Mon, 30 Mar 2015 17:03:07 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2UG2srr016915
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 30 Mar 2015 17:03:05 +0100
+Message-ID: <1427731374.14020.307.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 30 Mar 2015 17:02:54 +0100
+In-Reply-To: <CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>
+References: <1427532627.14020.217.camel@linuxfoundation.org>
+	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>
+	<1427727523.14020.306.camel@linuxfoundation.org>
+	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,91 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 15:14:43 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Mon, 30 Mar 2015 16:03:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 3/30/15 3:53 AM, Richard Purdie wrote:
-> On Mon, 2015-03-30 at 11:30 +0300, Ed Bartosh wrote:
->> Rpm database in staging area is used only by createrepo.
->> createrepo fails with the error
->> "rpmdb: BDB0060 PANIC: fatal region error detected"
->> if rpm database is broken from the previous run of createrepo.
->>
->> Removing the databae before running createrepo can hopefully
->> prevent this failure to happen.
->>
->> [YOCTO #6571]
->>
->> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->> ---
->>  meta/lib/oe/rootfs.py | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
->> index 4e4e6eb..9f7dc65 100644
->> --- a/meta/lib/oe/rootfs.py
->> +++ b/meta/lib/oe/rootfs.py
->> @@ -306,6 +306,9 @@ class RpmRootfs(Rootfs):
->>              bb.utils.remove(self.image_rootfs, True)
->>          else:
->>              self.pm.recovery_packaging_data()
->> +        dbpath = os.path.join(self.d.getVar('STAGING_DIR_NATIVE', True),
->> +                              'var/lib/rpm/*')
->> +        bb.utils.remove(dbpath, recurse=True)
->>          bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
->>  
->>          self.pm.crea
+On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
+> +When running do_package_write_deb, we have trees of symlinked files
+> +such as the dbg source files in ${PN}-dbg. If something makes another
+> +copy of one of those files (or deletes one), the number of links a file
+> +has changes and tar can notice this, e.g.:
+> +
+> +| DEBUG: Executing python function do_package_deb
+> +| dpkg-deb: building package `sed-ptest' in
+> `/media/build1/poky/build/tmp/work/i586-poky-linux/sed/4.2.2-r0/deploy-debs/i586/sed-ptest_4.2.2-r0.3_i386.deb'.
+> +| tar: ./usr/lib/sed/ptest/testsuite/tst-regex2: file changed as we read it
+> +| dpkg-deb: error: subprocess tar -cf returned error exit status 1
+> +
+> +Tar returns an error of 1 when files 'change' and other errors codes
+> +in other error cases. We tweak dpkg-deb here so that it ignores an exit
+> +code of 1 from tar. The files don't really change (and we have locking in
+> +place to avoid that kind of issue).
 > 
-> This patch helps me see the problem a lot. I'd never realised there was
-> an rpm database in the native sysroot that was getting corrupted, I'd
-> always assumed it was the target rootfs one.
-> 
-> I'm a little worried about what happens if you have multiple images
-> generating at the same time as this change as above may delete something
-> being worked on by another process.
-> 
-> I'm wondering why is it getting into the sysroot at all? Rather than
-> delete it here, could we either not generate it at all, or place it
-> somewhere in WORKDIR (so that other tasks can't see it or race against
-> it)?
+> This is exactly what I would expect for the long commit log. Sorry but
+> I strongly disagrese with you as the commit log in the patch does
+> connect with the short log so I still believe the commit log could be
+> improved.
 
-I did some quick looking.  It appears (at least on first glance) that the call to:
+Well, I strong disagree with that, I don't believe it makes sense to cut
+and paste the same information into both places, sorry.
 
-rpm.TransactionSet()
+Cheers,
 
-is what is opening the DB.  It appears to me that we can change the call
-slightly, and it should do what is being requested:
+Richard
 
-    { "TransactionSet", (PyCFunction) rpmts_Create, METH_VARARGS|METH_KEYWORDS,
-"rpm.TransactionSet([rootDir, [db]]) -> ts\n\
-- Create a transaction set.\n" },
-
-So transaction set takes two arguments, the rootDir of the thing we're working
-against, and a DB path.  It -should- be as simply as setting a rootDir to the
-WORKDIR.  If that doesn't work, then both arguments will be needed.
-
-I'd suggest just adding a "--root" option to genpkgmetadata.py in the
-createrepo, and maybe a "--dbpath" option as well (second argument).  Then only
-call the function with their values IF they were defined. I.e.
-
-if root:
-  if dbpath:
-    self.ts = rpm.TransactionSet(root, dbpath)
-  else:
-    self.ts = rpm.TransactionSet(root)
-else:
-  self.ts = rpm.TransactionSet()
-
-(If there is a better way to do that in python, fine.. but passing in "None" or
-"" won't result in the desired behavior.. since RPM is actually parsing
-arguments and appears like it will use the values if passed in, whatever they are.)
-
---Mark
-
-> Cheers,
-> 
-> Richard
-> 
 
 
