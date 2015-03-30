@@ -1,29 +1,41 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 090B4736B6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B3BD76013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 17:13:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2UHDCcO008945
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 30 Mar 2015 17:27:36 +0000 (UTC)
+Received: by wgdm6 with SMTP id m6so183160779wgd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 10:13:12 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 30 Mar 2015 10:13:11 -0700
-Message-ID: <55198427.4030507@windriver.com>
-Date: Mon, 30 Mar 2015 12:13:11 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 30 Mar 2015 10:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=lx2gXwvlzwRc8+Z/2Cxsi4ygopggJglJDFujzaugpBA=;
+	b=GbRuONAf+EZzstfqvp86l4nh/cbFlogLy/YcL0TKZXGal3G7H1PXBxPqM04Yt2i7hN
+	f+0+6uN/kalZkylemQy+43clEu7tV5l966Z2G/tZIfPKQyrylpVBeOIusM69lJQ+fc1/
+	k128umK8w9hcCz8esmQgXFWkBCZCj6MEvoTsYrCKqYTI49qdWkNq4UnsTip0P9ZEzf7l
+	P/jbKqHRMPTEKX+CRSND9aKBfLYgzcSATIT1/1TydUqcIfjbBlJ5qqfIb++2npiFvVZW
+	t7i+dtsZKWUMozkZj0FjEQpmv7OeUTMZBiDSdPQQ/nzCeatc7297no/KB288qWIpDF50
+	ghtg==
+X-Received: by 10.180.228.36 with SMTP id sf4mr23541196wic.19.1427736457499;
+	Mon, 30 Mar 2015 10:27:37 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	uo6sm16627553wjc.49.2015.03.30.10.27.35
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Mar 2015 10:27:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 30 Mar 2015 19:27:59 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20150330172759.GC14928@jama>
+References: <20150329002843.GE2343@jama>
+	<1427592440-2658-1-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0LapenBOp41wqa=rBaekDOO3urO5EvoHoiG68eNiC+p12Q@mail.gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1427532627.14020.217.camel@linuxfoundation.org>	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>	<1427727523.14020.306.camel@linuxfoundation.org>	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>	<1427731374.14020.307.camel@linuxfoundation.org>	<CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
-	<55197BCC.40100@windriver.com>
-In-Reply-To: <55197BCC.40100@windriver.com>
-Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
+In-Reply-To: <CAJTo0LapenBOp41wqa=rBaekDOO3urO5EvoHoiG68eNiC+p12Q@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] fontcache: allow to pass different fontconfig cache dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 17:13:12 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Mar 2015 17:27:39 -0000
+X-Groupsio-MsgNum: 63839
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bAmEntskrkuBymla"
+Content-Disposition: inline
 
-On 3/30/15 11:37 AM, Mark Hatle wrote:
-> On 3/30/15 11:21 AM, Otavio Salvador wrote:
->> On Mon, Mar 30, 2015 at 1:02 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
->>>> +When running do_package_write_deb, we have trees of symlinked files
->>>> +such as the dbg source files in ${PN}-dbg. If something makes another
->>>> +copy of one of those files (or deletes one), the number of links a file
->>>> +has changes and tar can notice this, e.g.:
->>>> +
->>>> +| DEBUG: Executing python function do_package_deb
->>>> +| dpkg-deb: building package `sed-ptest' in
->>>> `/media/build1/poky/build/tmp/work/i586-poky-linux/sed/4.2.2-r0/deploy-debs/i586/sed-ptest_4.2.2-r0.3_i386.deb'.
->>>> +| tar: ./usr/lib/sed/ptest/testsuite/tst-regex2: file changed as we read it
->>>> +| dpkg-deb: error: subprocess tar -cf returned error exit status 1
->>>> +
->>>> +Tar returns an error of 1 when files 'change' and other errors codes
->>>> +in other error cases. We tweak dpkg-deb here so that it ignores an exit
->>>> +code of 1 from tar. The files don't really change (and we have locking in
->>>> +place to avoid that kind of issue).
->>>>
->>>> This is exactly what I would expect for the long commit log. Sorry but
->>>> I strongly disagrese with you as the commit log in the patch does
->>>> connect with the short log so I still believe the commit log could be
->>>> improved.
->>>
->>> Well, I strong disagree with that, I don't believe it makes sense to cut
->>> and paste the same information into both places, sorry.
->>
->> I disagree someone should go into a patch header to understand it.
->>
-> 
-> I agree with Otavio here.  When generating both short and long changelogs, I
-> always use the commit messages.  I don't inspect the contents of the changes to
-> understand what happened.  Having to inspect means that I can't automate the
-> process using the git commands.
+--bAmEntskrkuBymla
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Someone pointed out I might not have been as clear as I intended here.  I was
-not saying I thought the commit and patch log need to match.  What I meant was
-that I don't like seeing "See the patch header for details." in the commit
-message, because it causes me problems with git generated changelogs.  (I have
-developers/customers who then come back to me asking why I didn't include the
-contents of the patch header in my generated changelogs.)
+On Mon, Mar 30, 2015 at 11:47:39AM +0100, Burton, Ross wrote:
+> On 29 March 2015 at 02:27, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > +FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
+> >
+>=20
+> So how is fontconfig told to read fonts from this location?
 
-As for the content, the easiest is likely to duplicate the patch header into the
-commit message... but of course that isn't required.
+I think it's the same
+--with-cache-dir
+parameter which says where to generate the cache and then read it in
+runtime.
 
---Mark
+I didn't change it in fontconfig recipe, because the default is already
+matching with FONTCONFIG_CACHE_DIR, do you want me to pass
+--with-cache-dir parameter? I agree that it could be less surprising for
+people who want to change it, but on the other hand if upstream moves
+default cache location in some newer fontconfig version, then the person
+updating the recipe should check FONTCONFIG_CACHE_DIR value as well.
 
-> --Mark
-> 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--bAmEntskrkuBymla
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlUZh58ACgkQN1Ujt2V2gBw6agCfXZZV8OIjSEunJWMrWSaxDAAj
+SAEAoK+MEgHD1qr+6p27ocR3L9f+fV7Z
+=HQO1
+-----END PGP SIGNATURE-----
+
+--bAmEntskrkuBymla--
