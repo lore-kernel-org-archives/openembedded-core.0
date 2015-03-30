@@ -1,47 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C36DB6AC36;
-	Mon, 30 Mar 2015 20:06:55 +0000 (UTC)
-Received: by wibgn9 with SMTP id gn9so517624wib.1;
-	Mon, 30 Mar 2015 13:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=pQ9Hl29OApiJ1UI3ibDKACLWG/cNwDAKlQv2C+2anqg=;
-	b=qPctWibcm1FbZEiv+4VXVqxjxRkX0Fzt9rGdyze7jxSYe0diT7cPwhM9pe4T54xEQh
-	BAjcL1wsuApfB0+oraVOTxoA2pQ8Dx3WJ09YfJl64nbwgj/dyvcg+D9LEH3MUWl3SwkT
-	78w4laNuPirzmp2hd4n/W0qxJ5jJ1nuuRn/mL/30/fAymvdhNED6wZ9XzhjGNX0PEBsd
-	qWIMA3SrGYzJf89MfKOlC+t8/az61T7M+rFfD5C7uEhiKYQiN9MhhF1gqdOvQVYE9uc1
-	aILBmmjbeeudbO+KzbHFRAXdu2mLO7VniP/nSMzh/JKrsZ0VSraS2p2xCoQcRMk6EI8v
-	dICQ==
-X-Received: by 10.194.88.131 with SMTP id bg3mr68480005wjb.119.1427746016604; 
-	Mon, 30 Mar 2015 13:06:56 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	pa4sm17190967wjb.11.2015.03.30.13.06.54
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Mar 2015 13:06:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 30 Mar 2015 22:07:18 +0200
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20150330200718.GF14928@jama>
-References: <1426930147.29168.104.camel@linuxfoundation.org>
-	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
-	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
-	<20150325161208.GK3904@jama> <20150329002843.GE2343@jama>
-	<CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
-	<1A4BBFA3-A5F0-4145-A64D-326C186C51C4@gmail.com>
-	<20150330184627.GD14928@jama>
-	<FADF8578-9B17-41E3-A0FB-C7A132FE83A7@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <FADF8578-9B17-41E3-A0FB-C7A132FE83A7@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 20751736B6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Mar 2015 20:25:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2UKP9cD031069; Mon, 30 Mar 2015 21:25:09 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ZWS4Qn-h6Jqt; Mon, 30 Mar 2015 21:25:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2UKOvjr031054
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 30 Mar 2015 21:25:08 +0100
+Message-ID: <1427747097.14020.323.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Mon, 30 Mar 2015 21:24:57 +0100
+In-Reply-To: <551990D2.10904@opendreambox.org>
+References: <1427532627.14020.217.camel@linuxfoundation.org>
+	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>
+	<1427727523.14020.306.camel@linuxfoundation.org>
+	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>
+	<1427731374.14020.307.camel@linuxfoundation.org>
+	<CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
+	<551990D2.10904@opendreambox.org>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,71 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 20:06:57 -0000
-X-Groupsio-MsgNum: 63851
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tmoQ0UElFV5VgXgH"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Mar 2015 20:25:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---tmoQ0UElFV5VgXgH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2015-03-30 at 20:07 +0200, Andreas Oberritter wrote:
+> On 30.03.2015 18:21, Otavio Salvador wrote:
+> > On Mon, Mar 30, 2015 at 1:02 PM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >> On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
+> >>> +When running do_package_write_deb, we have trees of symlinked files
+> 
+> Richard, did you intend to write "hardlinked" here?
 
-On Mon, Mar 30, 2015 at 11:49:21AM -0700, Khem Raj wrote:
->=20
-> > On Mar 30, 2015, at 11:46 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> >=20
-> > On Mon, Mar 30, 2015 at 09:41:30AM -0700, Khem Raj wrote:
-> >>=20
-> >>> On Mar 30, 2015, at 3:09 AM, Burton, Ross <ross.burton@intel.com> wro=
-te:
-> >>>=20
-> >>>=20
-> >>> On 29 March 2015 at 00:28, Martin Jansa <martin.jansa@gmail.com <mail=
-to:martin.jansa@gmail.com>> wrote:
-> >>> WEBOS_FONTCONFIG_CACHE =3D "${datadir}/fontconfig/cache"
-> >>>=20
-> >>> I'm sure there's a good reason why fontconfig caches are going in dat=
-adir but I'm not sure I want to know it :)
-> >>>=20
-> >>=20
-> >> aren=E2=80=99t they variable data files ? where else should it go othe=
-rwise=20
-> >=20
-> > I've replied to Ross off-list because I'm not sure how much details I
-> > should share, but basically we have read-only rootfs which has all the
-> > font packages installed, so cache from do_rootfs should remain valid
-> > forever. And we delete everything in /var during reset to factory
-> > settings (that's why we had to move everything which we want to persist
-> > during factory resets like this cache).
-> >=20
-> > We also have additional fontconfig patch which ignores timestamp
-> > modifications in font directories, so that the cache is considered valid
-> > even after some manual modification in rootfs (e.g. in devel images
-> > which can be switched to read-write mode).
->=20
-> may be copy-binds could be deployed ?
+I did, yes. I'll correct that, thanks.
 
-We have that but IIRC copy-binds are mounted after or at the same time
-the UI is starting in our upstart scripts (to show UI as soon as possible)
-and we don't want to wait for copy-binds to be finished before loading font=
-config cache.
+> It's my impression that if Richard had omitted the first sentence of his
+> commit message, the message would still have been descriptive enough,
+> and nobody would ever have complained.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+That is the impression I got too. Its odd that a comment intended to
+help the user find more information should generate this discussion,
+particularly as the details in the patch header are more implementation
+oriented and make sense when you're looking at the dpkg code (which you
+can in the patch).
 
---tmoQ0UElFV5VgXgH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+So I may simply remove the comment that is causing contention.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Cheers,
 
-iEYEARECAAYFAlUZrPYACgkQN1Ujt2V2gBzaVACggiLQuPIwcIpFhUVqDu/XRY6D
-CNkAoLeavaf86EvrfuFiEm4ZCqRc40bv
-=xf5Q
------END PGP SIGNATURE-----
+Richard
 
---tmoQ0UElFV5VgXgH--
+
+
+
+
+
