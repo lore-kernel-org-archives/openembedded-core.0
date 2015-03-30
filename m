@@ -1,47 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA48736C1;
-	Mon, 30 Mar 2015 16:47:06 +0000 (UTC)
-Received: by patj18 with SMTP id j18so16180281pat.2;
-	Mon, 30 Mar 2015 09:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=mPr7xB3T3yfQ26IL+4l5SPMjW+z9cdyH7yrnojwwu+Y=;
-	b=hGpiFt7HV1rcWMmUZFvy1roBzE4LEjyGN02ZSicz71GuZCcRpx99PnxQCDjMvp/5Yj
-	/5vfiL69dN9CnSDU6Rh+9jdj2J69cznXhtBY8a/dTRe2dFaoIj/zwPdxKQJwaMz+1muS
-	F1iQj2sMcVqCEJWt0FCIidorVrluglkxbF5Pv3CD3SF4KRKHpzvg7sadCPp9GOqqz1kc
-	GQyIkBkawfiKpJhqdcpZ2zRgM2Dl7BloEULQ7YAUJhNXLn1dpIPx0T09BhvxapSZ4NXy
-	TyR5fRGEYbJKSdVxVhXwk8ao+DT6VfGKHKHOYRkhga10Fhyxpsrjm+vYmwSfhp61kxb1
-	zczg==
-X-Received: by 10.66.184.106 with SMTP id et10mr61655035pac.138.1427734028431; 
-	Mon, 30 Mar 2015 09:47:08 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:44fe:a294:7c9f:1f53?
-	([2601:9:3580:84c:44fe:a294:7c9f:1f53])
-	by mx.google.com with ESMTPSA id ol5sm7687687pdb.23.2015.03.30.09.47.07
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 30 Mar 2015 09:47:07 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LY_v=R0Xv-QcYyEvm-fBun2JZG+xL80R_yMcBU-B2ASqg@mail.gmail.com>
-Date: Mon, 30 Mar 2015 09:47:06 -0700
-Message-Id: <F26ACF0A-7BEC-49C0-8DAA-32B92BD2A172@gmail.com>
-References: <20150316174236.48B8050234@opal.openembedded.org>
-	<20150321021120.GF4738@jama>
-	<1426930147.29168.104.camel@linuxfoundation.org>
-	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
-	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
-	<20150325161208.GK3904@jama> <20150329002843.GE2343@jama>
-	<CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
-	<1A4BBFA3-A5F0-4145-A64D-326C186C51C4@gmail.com>
-	<CAJTo0LY_v=R0Xv-QcYyEvm-fBun2JZG+xL80R_yMcBU-B2ASqg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 090B4736B6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Mar 2015 17:13:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2UHDCcO008945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Mar 2015 10:13:12 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 30 Mar 2015 10:13:11 -0700
+Message-ID: <55198427.4030507@windriver.com>
+Date: Mon, 30 Mar 2015 12:13:11 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1427532627.14020.217.camel@linuxfoundation.org>	<CAP9ODKoPyP-Ynsg4KeL9wCNf+f04xWQJR=FUVt3o0QWjPKNbcg@mail.gmail.com>	<1427727523.14020.306.camel@linuxfoundation.org>	<CAP9ODKqyu8HrwqoUyaNFKStjdJekpgXpc2A7EBLSqV0JTaVbHw@mail.gmail.com>	<1427731374.14020.307.camel@linuxfoundation.org>	<CAP9ODKrPtAMqpsWE2t65tiWhLNhZ52bKSJxWG0qN-ae1ZTHNYA@mail.gmail.com>
+	<55197BCC.40100@windriver.com>
+In-Reply-To: <55197BCC.40100@windriver.com>
+Subject: Re: [PATCH] dpkg-native: Avoid 'file changed' errors from tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 16:47:09 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_EEDCFD50-5F1B-4E0D-A8FD-27B3315EA935"
+X-List-Received-Date: Mon, 30 Mar 2015 17:13:12 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---Apple-Mail=_EEDCFD50-5F1B-4E0D-A8FD-27B3315EA935
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+On 3/30/15 11:37 AM, Mark Hatle wrote:
+> On 3/30/15 11:21 AM, Otavio Salvador wrote:
+>> On Mon, Mar 30, 2015 at 1:02 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> On Mon, 2015-03-30 at 12:02 -0300, Otavio Salvador wrote:
+>>>> +When running do_package_write_deb, we have trees of symlinked files
+>>>> +such as the dbg source files in ${PN}-dbg. If something makes another
+>>>> +copy of one of those files (or deletes one), the number of links a file
+>>>> +has changes and tar can notice this, e.g.:
+>>>> +
+>>>> +| DEBUG: Executing python function do_package_deb
+>>>> +| dpkg-deb: building package `sed-ptest' in
+>>>> `/media/build1/poky/build/tmp/work/i586-poky-linux/sed/4.2.2-r0/deploy-debs/i586/sed-ptest_4.2.2-r0.3_i386.deb'.
+>>>> +| tar: ./usr/lib/sed/ptest/testsuite/tst-regex2: file changed as we read it
+>>>> +| dpkg-deb: error: subprocess tar -cf returned error exit status 1
+>>>> +
+>>>> +Tar returns an error of 1 when files 'change' and other errors codes
+>>>> +in other error cases. We tweak dpkg-deb here so that it ignores an exit
+>>>> +code of 1 from tar. The files don't really change (and we have locking in
+>>>> +place to avoid that kind of issue).
+>>>>
+>>>> This is exactly what I would expect for the long commit log. Sorry but
+>>>> I strongly disagrese with you as the commit log in the patch does
+>>>> connect with the short log so I still believe the commit log could be
+>>>> improved.
+>>>
+>>> Well, I strong disagree with that, I don't believe it makes sense to cut
+>>> and paste the same information into both places, sorry.
+>>
+>> I disagree someone should go into a patch header to understand it.
+>>
+> 
+> I agree with Otavio here.  When generating both short and long changelogs, I
+> always use the commit messages.  I don't inspect the contents of the changes to
+> understand what happened.  Having to inspect means that I can't automate the
+> process using the git commands.
+
+Someone pointed out I might not have been as clear as I intended here.  I was
+not saying I thought the commit and patch log need to match.  What I meant was
+that I don't like seeing "See the patch header for details." in the commit
+message, because it causes me problems with git generated changelogs.  (I have
+developers/customers who then come back to me asking why I didn't include the
+contents of the patch header in my generated changelogs.)
+
+As for the content, the easiest is likely to duplicate the patch header into the
+commit message... but of course that isn't required.
+
+--Mark
+
+> --Mark
+> 
 
 
-> On Mar 30, 2015, at 9:43 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 30 March 2015 at 17:41, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> aren=E2=80=99t they variable data files ? where else should it go =
-otherwise=20
->=20
-> They're directory-wide caches, and caches tend to go into /var/cache.
->=20
-
-yes /var/cache is what I was expecting too
-
-> Ross=20
-
-
---Apple-Mail=_EEDCFD50-5F1B-4E0D-A8FD-27B3315EA935
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Mar 30, 2015, at 9:43 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 30 March 2015 at 17:41, Khem Raj <span =
-dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"">aren=E2=80=
-=99t they variable data files ? where else should it go =
-otherwise&nbsp;</div></blockquote><div class=3D""><br =
-class=3D""></div><div class=3D"">They're directory-wide caches, and =
-caches tend to go into /var/cache.</div><div class=3D""><br =
-class=3D""></div></div></div></div></div></blockquote><div><br =
-class=3D""></div><div>yes /var/cache is what I was expecting =
-too</div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D""><div dir=3D"ltr" class=3D""><div class=3D"gmail_extra"><div =
-class=3D"gmail_quote"><div class=3D"">Ross&nbsp;</div></div></div></div>
-</div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_EEDCFD50-5F1B-4E0D-A8FD-27B3315EA935--
