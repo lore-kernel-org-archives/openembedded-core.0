@@ -1,37 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CF0CB73C0D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 16:41:11 +0000 (UTC)
-Received: by patj18 with SMTP id j18so16041006pat.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Mar 2015 09:41:12 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 08D7773C0D;
+	Mon, 30 Mar 2015 16:41:30 +0000 (UTC)
+Received: by pdnc3 with SMTP id c3so181003178pdn.0;
+	Mon, 30 Mar 2015 09:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=kehzpVgXxjNxsfI4g3fu+scSw86MvmjXcM9Kl3qacCo=;
-	b=CaEyzZS2f2VtLPTjMlg/8vA6PYHMi309MvOtLV2py73TvgEC2qv0pOZ+jeAy4gCzzk
-	tyiOMI/0TQN7nXt5aJi0TypuLtnzO+j2sCN175JejwBJNwIdW7lnDb4x7lJZ63159lA3
-	X1BumMkd446ESPL7y+y3I+ZiKwDIuVqUlaHLfdlXv4/e4UglA78R2C2G37ctbY8kwmmb
-	lbhUbEjN7x8t2ZSxvxEUnYkyTQ8GcaZr9fnUuSOUiYQvGefoYJawsx+t/ihWvNs1pMxy
-	6b4cdDe5K+epfY4g+/VwoFZaqo2lljU5qvcVK/tuEyBkrV5uCpKCtXSDFs4Zdn35LD+7
-	d3vw==
-X-Received: by 10.70.64.138 with SMTP id o10mr12480489pds.104.1427733672142;
-	Mon, 30 Mar 2015 09:41:12 -0700 (PDT)
-Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id b9sm5199393pas.40.2015.03.30.09.41.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 30 Mar 2015 09:41:11 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Mar 2015 09:41:05 -0700
-Message-Id: <cover.1427729801.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 00/17] meta-core Dizzy next
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=gSqwliY73OO0JcxZCUBzX0rth4bJkERhQ5owzib69uQ=;
+	b=xZpbHkrTpiWZ5SgKy4lfSJTgZp979bQQrdbbvZ8hezp5QhMCjHmjJIUs7nRFdgJkTY
+	iIreIjIV4xe4OC1HlM/kAdPoRGOlfMKCSXTXqhLQuVckn1VH2aYGKcn1W/HZYpwddmsf
+	5fKGvrk6zQ6495jVeKYdWSaDMudg+ei58OqeX7gT3qRq+ELZikfpVHcGx/ASC1XojTsS
+	pChPDOSU/3/FiyQDZy/jb+g06REf7byRhf6cxGfawPtsexMZngMx2MAp/Wkbj14aJ3aY
+	x9IGl+fyLTOqx9TRir6FGitCKYFj4++2r55PizPUBzgtONTtBaA/IId1pWRmLQd6WKUv
+	nnew==
+X-Received: by 10.68.180.195 with SMTP id dq3mr11021446pbc.39.1427733692255;
+	Mon, 30 Mar 2015 09:41:32 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:44fe:a294:7c9f:1f53?
+	([2601:9:3580:84c:44fe:a294:7c9f:1f53])
+	by mx.google.com with ESMTPSA id qc6sm2728717pdb.88.2015.03.30.09.41.31
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 30 Mar 2015 09:41:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
+Date: Mon, 30 Mar 2015 09:41:30 -0700
+Message-Id: <1A4BBFA3-A5F0-4145-A64D-326C186C51C4@gmail.com>
+References: <20150316174236.48B8050234@opal.openembedded.org>
+	<20150321021120.GF4738@jama>
+	<1426930147.29168.104.camel@linuxfoundation.org>
+	<20150321145504.GG4738@jama> <20150323222113.GD3904@jama>
+	<CAJTo0LbTfKqs_se99op6w1eA0A4_QAM5VX9VVDYJYh6+1pnyzQ@mail.gmail.com>
+	<20150325161208.GK3904@jama> <20150329002843.GE2343@jama>
+	<CAJTo0LZqbqThJ04OTmbrEhUQx1VaXT-9LGS-S6bosyKBmgGvFg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2070.6)
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Jonathan Liu : fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,87 +52,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Mar 2015 16:41:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Mar 2015 16:41:33 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_B0CD0FC2-9196-46A2-AE3A-AC1D16659A1D"
 
-please consider these changes for Dizzy next
-
-The following changes since commit ec75238f6cc2d2d8d40e0268f6d2acc070cbe9a4:
-
-  Revert "file: Update CVE patch to ensure file gets built correctly" (2015-03-28 10:56:50 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
-  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
-
-Aníbal Limón (1):
-  files/toolchain-shar-template.sh: fix replace target_sdk_dir twice in
-    environment setup file
-
-Bian Naimeng (1):
-  gcc-4.9: fix bug of 0056-top-level-reorder_gcc-bug-61144.patch
-
-Bruce Ashfield (3):
-  linux-yocto/3.10: update to v3.10.65
-  linux-yocto/3.14: update to 3.14.29
-  linux-yocto/3.17: update to v3.17.8
-
-Chen Qi (1):
-  package_manager.py: fix rootfs failure with multilib enabled
-
-Enrico Scholz (1):
-  serf: fix 'ccache' builds
-
-Martin Jansa (2):
-  xorg-driver: add x11 to required DISTRO_FEATURES
-  piglit: add x11 to required DISTRO_FEATURES
-
-Patrick Ohly (2):
-  binconfig-disabled: try harder to prevent usage of config scripts
-  binconfig-disabled: install config scripts in sysroot
-
-Richard Purdie (1):
-  gcc-target: Don't install target gcc libdir files
-
-Robert Yang (2):
-  dpkg: add perl to RDEPENDS
-  which 2.18: fix SRC_URI
-
-Ross Burton (2):
-  bitbake: tests/data: add test for incorrect remove behaviour
-  bitbake: data_smart: split expanded removal values when handling
-    _remove
-
-Saul Wold (1):
-  linux-yocto-tiny_3.17: Update to actually use 3.17 git repo
-
- bitbake/lib/bb/data_smart.py                       |  3 +-
- bitbake/lib/bb/tests/data.py                       |  7 ++++
- meta/classes/binconfig-disabled.bbclass            | 13 +++++++
- meta/files/toolchain-shar-template.sh              |  1 +
- meta/lib/oe/package_manager.py                     |  5 ++-
- meta/recipes-devtools/dpkg/dpkg.inc                |  2 +-
- .../0056-top-level-reorder_gcc-bug-61144.patch     | 42 ++++++++++------------
- meta/recipes-devtools/gcc/gcc-target.inc           |  9 +++++
- meta/recipes-extended/which/which_2.18.bb          |  2 +-
- meta/recipes-graphics/piglit/piglit_git.bb         |  4 ++-
- .../xorg-driver/xorg-driver-common.inc             |  4 ++-
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  8 ++---
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++-----
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++-----
- meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++-----
- meta/recipes-support/serf/serf/env.patch           | 28 +++++++++++++++
- meta/recipes-support/serf/serf_1.3.7.bb            |  8 ++---
- 21 files changed, 139 insertions(+), 79 deletions(-)
- create mode 100644 meta/recipes-support/serf/serf/env.patch
-
--- 
-1.9.1
+--Apple-Mail=_B0CD0FC2-9196-46A2-AE3A-AC1D16659A1D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Mar 30, 2015, at 3:09 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 29 March 2015 at 00:28, Martin Jansa <martin.jansa@gmail.com =
+<mailto:martin.jansa@gmail.com>> wrote:
+> WEBOS_FONTCONFIG_CACHE =3D "${datadir}/fontconfig/cache"
+>=20
+> I'm sure there's a good reason why fontconfig caches are going in =
+datadir but I'm not sure I want to know it :)
+>=20
+
+aren=E2=80=99t they variable data files ? where else should it go =
+otherwise=20
+
+> Ross
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_B0CD0FC2-9196-46A2-AE3A-AC1D16659A1D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Mar 30, 2015, at 3:09 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 29 March 2015 at 00:28, Martin Jansa <span =
+dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:martin.jansa@gmail.com" =
+target=3D"_blank" class=3D"">martin.jansa@gmail.com</a>&gt;</span> =
+wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":50w" =
+class=3D"a3s" style=3D"overflow:hidden">WEBOS_FONTCONFIG_CACHE =3D =
+"${datadir}/fontconfig/cache"<br class=3D""></div></blockquote></div><br =
+class=3D"">I'm sure there's a good reason why fontconfig caches are =
+going in datadir but I'm not sure I want to know it :)</div><div =
+class=3D"gmail_extra"><br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>aren=E2=80=99t they variable data files ? where =
+else should it go otherwise&nbsp;</div><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra">Ross</div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_B0CD0FC2-9196-46A2-AE3A-AC1D16659A1D--
