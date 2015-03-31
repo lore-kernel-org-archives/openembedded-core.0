@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 61AB9724B9
+	by mail.openembedded.org (Postfix) with ESMTP id 4ABED724B9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 15:22:20 +0000 (UTC)
+	Tue, 31 Mar 2015 15:23:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VFMK6F024566 for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 16:22:20 +0100
+	t2VFNU5Y024651 for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Mar 2015 16:23:30 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UhxJZRpi6vdi
+	with LMTP id eYcn-SNhWhEI
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 16:22:20 +0100 (BST)
+	Tue, 31 Mar 2015 16:23:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VFM94E024563
+	t2VFNEDQ024630
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 16:22:20 +0100
-Message-ID: <1427815329.14020.358.camel@linuxfoundation.org>
+	Tue, 31 Mar 2015 16:23:25 +0100
+Message-ID: <1427815394.14020.359.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Mar 2015 16:22:09 +0100
+Date: Tue, 31 Mar 2015 16:23:14 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] siteinfo: Add x86_64-elf support
+Subject: insane: Add baremetal mappings to the QA arch test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,26 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 15:22:22 -0000
+X-List-Received-Date: Tue, 31 Mar 2015 15:23:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Teach siteinfo about x86_64-elf so that baremetal toolchains parse/build.
+Add mappings for i586-elf, x86_64-elf and arm-eabi to binary lookup
+table which allows for a variety of baremetal toolchain generation.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 2c1f9d0..5fd99bf 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -95,6 +95,7 @@ def siteinfo_data(d):
-         "x86_64-linux": "bit-64",
-         "x86_64-linux-musl": "x86_64-linux bit-64",
-         "x86_64-linux-uclibc": "bit-64",
-+        "x86_64-elf": "bit-64",
-         "x86_64-linux-gnu": "bit-64 x86_64-linux",
-         "x86_64-linux-gnux32": "bit-32 ix86-common x32-linux",
-         "x86_64-mingw32": "bit-64",
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 061ce5b..d0c6fea 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -53,6 +53,13 @@ def package_qa_get_machine_dict():
+             "darwin9" : { 
+                         "arm" :       (40,     0,    0,          True,          32),
+                       },
++            "eabi" : { 
++                        "arm" :       (40,     0,    0,          True,          32),
++                      },
++            "elf" : { 
++                        "i586" :      (3,      0,    0,          True,          32),
++                        "x86_64":     (62,     0,    0,          True,          64),
++                      },
+             "linux" : { 
+                         "aarch64" :   (183,    0,    0,          True,          64),
+                         "aarch64_be" :(183,    0,    0,          False,         64),
 
 
 
