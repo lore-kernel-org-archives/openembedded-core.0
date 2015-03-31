@@ -1,37 +1,30 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C43573C71
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F1DFF73C71
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 21:32:54 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t2VLWsAP008092; Tue, 31 Mar 2015 16:32:54 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015033116325440-646889 ;
-	Tue, 31 Mar 2015 16:32:54 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
-References: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
-	<CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
-	<87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
-	<CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
-User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.2
-	(x86_64-unknown-linux-gnu)
-Date: Tue, 31 Mar 2015 16:32:54 -0500
-Message-ID: <874mp0ettl.fsf@weregild.amer.corp.natinst.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/31/2015 04:32:54 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 03/31/2015 04:32:54 PM,
-	Serialize complete at 03/31/2015 04:32:54 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-03-31_06:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal: Disable shopt errexit
+	Tue, 31 Mar 2015 21:34:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2VLY52O013970 for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Mar 2015 22:34:05 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gcbP-Ctii6mG
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Mar 2015 22:34:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2VLXrDR013925
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Mar 2015 22:34:04 +0100
+Message-ID: <1427837633.14020.365.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Mar 2015 22:33:53 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] image_types: Add missing ext4 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 21:32:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 31 Mar 2015 21:34:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-"Burton, Ross" <ross.burton@intel.com> writes:
+This is particularly problematic since qemu images switched to ext4 by 
+default and now cannot work properly with UIs like hob.
 
-> On 30 March 2015 at 19:11, Richard Tollerton <rich.tollerton@ni.com> wrote:
->
->> Running `false` interactively doesn't test this behavior because `sh -e`
->> explicitly excludes interactive shells from consideration [1] [2].
->> You'll need to inject a `false` into run.do_terminal in order to
->> reproduce this.
->>
->
-> I'm clearly not understanding how this behaviour is a problem then.  What
-> broke?
+This patch adds in ext4 to the appropriate IMAGE* variables fixing this.
 
-What broke is devshell. If there's a bug in run.do_terminal that would
-cause a nonzero exit code during non-interactive execution -- e.g.,
-http://cgit.openembedded.org/bitbake/commit/?id=18cd0ce6a55c9065c3f1bf223b47d817b5efcd8f
--- then instead of a warning appearing in the devshell, the entire
-terminal quits a few milliseconds after it loads.
+[YOCTO #7426]
 
-In other words, this issue escalates other bugs that ought to be
-warnings into functionality-killers. This patch de-escalates them
-back to warnings.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> Ross
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 98a08bf..72c7337 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -146,6 +146,7 @@ IMAGE_TYPES = " \
+     cramfs \
+     ext2 ext2.gz ext2.bz2 ext2.lzma \
+     ext3 ext3.gz \
++    ext4 ext4.gz \
+     btrfs \
+     iso \
+     hddimg \
+@@ -171,7 +172,7 @@ COMPRESS_DEPENDS_xz = "xz-native"
+ COMPRESS_DEPENDS_lz4 = "lz4-native"
+ COMPRESS_DEPENDS_sum = "mtd-utils-native"
+ 
+-RUNNABLE_IMAGE_TYPES ?= "ext2 ext3"
++RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+ 
+ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
+
+
 
