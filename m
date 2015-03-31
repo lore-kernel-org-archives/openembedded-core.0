@@ -1,41 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1418473C63
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EE3E73C86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 13:06:20 +0000 (UTC)
-Received: by qcgx3 with SMTP id x3so12476325qcg.3
+	Tue, 31 Mar 2015 13:50:26 +0000 (UTC)
+Received: by qcay5 with SMTP id y5so13688196qca.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 06:06:21 -0700 (PDT)
+	Tue, 31 Mar 2015 06:50:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=rUCXIdlmB7/boUu5KBfr96/manatuBrdQe6WJKMIo6g=;
-	b=mB03EQadcrXCQsrc7pNVl+D3tQc6KYhqVB/c3N0MaOojdW9VH1IJPzTFNQiYnv4wUS
-	zCKFrswuCwkz7loh4ID1k+Vqx5yn0oz1IonSbbDrMyvH1Z4HtcMaqHmUEMElYpsuC/+9
-	2PAfH0MdVicEv9ehuHMLfxyPE/hnxiWK+RhgXbXQzqZorK+vw7Qhq9wVZoEk1O5eybXt
-	suQFyuwikkNMlq2jZHuHcGNGezrRB+xeYYWOoLVLSB1WMs2I5V4x+dxMZHuUDmmJ8UDG
-	WTEBa6GZBIAO8yY7kn1FJQPC1rNXcJ279mmASWwiUZuzV7SeX3/Yz6e6ef9e6OFUMuCz
-	EIsw==
-X-Gm-Message-State: ALoCoQnyP8NiLcV/b8TnZu9Nk2wl7qC+cNL2MIhczCappqXoi3EsaIIMjkGBa2KKvD8i/RcvNuTd
-X-Received: by 10.140.85.137 with SMTP id n9mr45873730qgd.40.1427807181217;
-	Tue, 31 Mar 2015 06:06:21 -0700 (PDT)
+	bh=QiH4YyZJsHDmLjSB7My5gbamSyX7M7LUf5PONMwk9Q8=;
+	b=VrVF/8jJFlDnar4fmWpNS41WwI65MmoXGWJvzbePSDlzkZ5Y17LLI7bpoKNJ4CdX/Q
+	9/uZMxphV4w0ENSZ5i0wHj4Y8zpGE61WLvxPCSwGR1LxdChg0sS5GI8d8ggjPkXFSwsI
+	VYbCalQNfggSyx/jiPWTUVh+Jz9FNAZs3zJ8uknU3HfU5ZXHjSXv26WbudmgUzYtFJC3
+	zZJoow7eZ/dLBH0mKI2gA+KV2wShlX3sgV38uR4otr+NbvT7BCmNZiEvUzNrgVJqleoA
+	XixSURsvKwHhFmJKkVEGisTkWuoYEP5Q4JOXcfE6gg7t00Vr4Rjlc4Ap0pw6YqU4R+nQ
+	09yw==
+X-Gm-Message-State: ALoCoQkdGvaHrl6GxjtUTYLs0p3qToThEscX2Iu2vXDpa+60mv7XNkzpIJNWCfsa6fL7IDZc3VLm
+X-Received: by 10.229.96.194 with SMTP id i2mr49674111qcn.1.1427809827749;
+	Tue, 31 Mar 2015 06:50:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 06:06:01 -0700 (PDT)
-In-Reply-To: <BN3PR0501MB109038A56A57CC04DE09E55CBBF40@BN3PR0501MB1090.namprd05.prod.outlook.com>
-References: <BN3PR0501MB1090B5CDC1B3FF89CCC4D286BBF50@BN3PR0501MB1090.namprd05.prod.outlook.com>
-	<1427747268.14020.326.camel@linuxfoundation.org>
-	<5519B425.1040906@windriver.com>
-	<1427751808.14020.327.camel@linuxfoundation.org>
-	<BN3PR0501MB109038A56A57CC04DE09E55CBBF40@BN3PR0501MB1090.namprd05.prod.outlook.com>
+Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 06:50:06 -0700 (PDT)
+In-Reply-To: <87d23uibxw.fsf@email.parenteses.org>
+References: <87d23uibxw.fsf@email.parenteses.org>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 31 Mar 2015 14:06:01 +0100
-Message-ID: <CAJTo0LZNKPFw1-+9OE+UPGv+0AKGAAdrYo2v4=DU_DD1F-Mzug@mail.gmail.com>
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Verification on how TARGET_CFLAGS is set
+Date: Tue, 31 Mar 2015 14:50:06 +0100
+Message-ID: <CAJTo0LYQXRL85iAGW82nATWdZXiCfhCFqQKKd0tC8DBBZvkJew@mail.gmail.com>
+To: Mario Domenech Goulart <mario@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Ownership issue in package contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,47 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 13:06:23 -0000
-Content-Type: multipart/alternative; boundary=001a11c12894d83a4e0512954313
+X-List-Received-Date: Tue, 31 Mar 2015 13:50:27 -0000
+Content-Type: multipart/alternative; boundary=001a1133b6b4971bf1051295e1c5
 
---001a11c12894d83a4e0512954313
+--001a1133b6b4971bf1051295e1c5
 Content-Type: text/plain; charset=UTF-8
 
-On 31 March 2015 at 13:28, Bryan Evenson <bevenson@melinkcorp.com> wrote:
+On 27 March 2015 at 17:31, Mario Domenech Goulart <mario@ossystems.com.br>
+wrote:
 
-> Is that all that it is?  I was under the impression that adding -g adds
-> the debug symbols to the executable, not just the hooks to include the
-> debug symbols.  If the -g flag really does just add a few bytes to each
-> executable, then I won't worry about it.
+> Note that, although I run "chown -R foo:foo ${D}${libdir}/foo" in
+> the recipe, ./usr/lib/foo/ in the package is owned by root.
+> However, its content has the right ownership.
 >
 
-At build time it adds the full debug symbols to the executable, but at
-packaging time we split out the debugging information to separate files and
-then separate packages.  So the difference between a binary produced
-without -g and with -g but with debug info split is just the identifiers so
-that GDB can find the debug symbols.
+Looks like a bug in pseudo to me, can you file a bug for that?
 
 Ross
 
---001a11c12894d83a4e0512954313
+--001a1133b6b4971bf1051295e1c5
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 31 March 2015 at 13:28, Bryan Evenson <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:bevenson@melinkcorp.com" target=3D"_blank">bevenson@melinkcorp.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1lb" clas=
-s=3D"a3s" style=3D"overflow:hidden">Is that all that it is?=C2=A0 I was und=
-er the impression that adding -g adds the debug symbols to the executable, =
-not just the hooks to include the debug symbols.=C2=A0 If the -g flag reall=
-y does just add a few bytes to each executable, then I won&#39;t worry abou=
-t it.<br></div></blockquote></div><br>At build time it adds the full debug =
-symbols to the executable, but at packaging time we split out the debugging=
- information to separate files and then separate packages.=C2=A0 So the dif=
-ference between a binary produced without -g and with -g but with debug inf=
-o split is just the identifiers so that GDB can find the debug symbols.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
+On 27 March 2015 at 17:31, Mario Domenech Goulart <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:mario@ossystems.com.br" target=3D"_blank">mario@ossystems.co=
+m.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2a=
+l" class=3D"a3s" style=3D"overflow:hidden">Note that, although I run &quot;=
+chown -R foo:foo ${D}${libdir}/foo&quot; in<br>
+the recipe, ./usr/lib/foo/ in the package is owned by root.<br>
+However, its content has the right ownership.</div></blockquote></div><br>L=
+ooks like a bug in pseudo to me, can you file a bug for that?</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c12894d83a4e0512954313--
+--001a1133b6b4971bf1051295e1c5--
