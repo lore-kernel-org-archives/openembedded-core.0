@@ -1,29 +1,42 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CC61724B9
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 1545F7391D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 16:09:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2VG9lF9011736
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 31 Mar 2015 17:20:38 +0000 (UTC)
+Received: by qgh3 with SMTP id 3so20611749qgh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 09:09:47 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 31 Mar 2015 09:09:47 -0700
-Message-ID: <551AC6CA.7030500@windriver.com>
-Date: Tue, 31 Mar 2015 11:09:46 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Tue, 31 Mar 2015 10:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:in-reply-to:references:user-agent:date
+	:message-id:mime-version:content-type;
+	bh=/tlRzYNglvnnt4s8XdzMAxhJwxuJYMqsb3Q0LQnpZqE=;
+	b=uQN83YP+WpS/D28BS2Zw5yWJ5qSjdP1TSc9RSXsnI+O5ZAuFjkZlEiNV+lupbZbAHR
+	ISPWkON0x0JGVb8JGRSjdZoH97EWupa7MyIMYkYZuRGhPuPGvxc2bVQJ4bv7Js6klzXD
+	9MecHycuMlMxAzSF0zvgNXHIcUEhkIBpko3jPXh37mEvV+k0RAJ6u38jZKywdiCMfG6F
+	2MZQgSxme05P+S351V5f7w2/8Fgsgy5+cmSkwLeSo72A1kFEHAGpX+EVaCqyponeCcdH
+	UPGSaCdpBSwcGDEFRN1YYsOklcRBPluqhJqUkL4sWTGUbF6ulULXZVJtCkRTLDfYOoob
+	bmLw==
+X-Received: by 10.140.150.88 with SMTP id 85mr25905066qhw.46.1427822439925;
+	Tue, 31 Mar 2015 10:20:39 -0700 (PDT)
+Received: from email.parenteses.org.gmail.com (email.parenteses.org.
+	[198.199.72.94]) by mx.google.com with ESMTPSA id
+	b105sm10322764qge.20.2015.03.31.10.20.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 31 Mar 2015 10:20:39 -0700 (PDT)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LYQXRL85iAGW82nATWdZXiCfhCFqQKKd0tC8DBBZvkJew@mail.gmail.com>
+	(Ross Burton's message of "Tue, 31 Mar 2015 14:50:06 +0100")
+References: <87d23uibxw.fsf@email.parenteses.org>
+	<CAJTo0LYQXRL85iAGW82nATWdZXiCfhCFqQKKd0tC8DBBZvkJew@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+Date: Tue, 31 Mar 2015 17:20:36 +0000
+Message-ID: <87wq1xgk2j.fsf@email.parenteses.org>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1427759396-24932-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
-In-Reply-To: <1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: Re: [PATCH] package_manager: call createrepo with --dbpath pointing inside WORKDIR
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Ownership issue in package contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 16:09:47 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Mar 2015 17:20:42 -0000
+Content-Type: text/plain
 
-On 3/30/15 7:16 PM, Ed Bartosh wrote:
-> Rpm database in staging area is used only by createrepo.
-> createrepo fails with the error
-> "rpmdb: BDB0060 PANIC: fatal region error detected"
-> if rpm database is broken during previous run of createrepo.
-> 
-> Made createrepo to create rpm db in $WORKDIR/rpmdb/ from scratch
-> for every build. This should potentially fix the failure.
-> 
-> [YOCTO #6571]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/lib/oe/package_manager.py | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 743c7cb..2461acd 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -110,12 +110,16 @@ class RpmIndexer(Indexer):
->          rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
->          index_cmds = []
->          rpm_dirs_found = False
-> +        dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb')
-> +        if os.path.exists(dbpath):
-> +            bb.utils.remove(dbpath, True)
->          for arch in archs:
->              arch_dir = os.path.join(self.deploy_dir, arch)
->              if not os.path.isdir(arch_dir):
->                  continue
->  
-> -            index_cmds.append("%s --update -q %s" % (rpm_createrepo, arch_dir))
-> +            index_cmds.append("%s --dbpath %s --update -q %s" % \
-> +                             (rpm_createrepo, dbpath, arch_dir))
+Hi Ross,
 
-I'd suggest that the dbpath be made arch specific.... this would eliminate any
-serialization that may occur with even simple DB locks.
+On Tue, 31 Mar 2015 14:50:06 +0100 "Burton, Ross" <ross.burton@intel.com> wrote:
 
---dbpath %s/%s ....
+> On 27 March 2015 at 17:31, Mario Domenech Goulart <mario@ossystems.com.br> wrote:
+>
+>     Note that, although I run "chown -R foo:foo ${D}${libdir}/foo" in
+>     the recipe, ./usr/lib/foo/ in the package is owned by root.
+>     However, its content has the right ownership.
+>
+> Looks like a bug in pseudo to me, can you file a bug for that?
 
---Mark
+Sure.  Filed #7554.
 
->  
->              rpm_dirs_found = True
->  
-> 
-
+Best wishes.
+Mario
+-- 
+http://www.ossystems.com.br
 
