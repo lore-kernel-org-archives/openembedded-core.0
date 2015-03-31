@@ -1,38 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id DE6B773C86
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 194826013D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 21:14:26 +0000 (UTC)
-Received: by qgep97 with SMTP id p97so26718957qge.1
+	Tue, 31 Mar 2015 21:22:00 +0000 (UTC)
+Received: by qcay5 with SMTP id y5so25549301qca.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 14:14:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LIBeiLRgJt/57BygqbTI4BoFBOzdZ4q3+MkDTchE880=;
-	b=gH0J4/cyiBTLrW1Y7PYMd9ywkUKNdHR5mCcObPe1VSM8IvWccuqmvrM4ZfZb0nodpX
-	HIumIqAndGs4e1PLVxH8sM2+BYU5ezG47c58QLKSQt1N6z0EYejYTC97IwcbMRiM94xk
-	Z1p0EPLvnzn/eTToOQ1M0yFxYwmSPTEuKGThlJKnvaGeVAUQwJ4joMufMBqoF55C6cD0
-	1PoaoSuLsQqCfV4KW+cjqYfxs63R673vLHfyVAWtGyL3Z4kHSCSar49NWcdhAY4F5PZG
-	2j5tk8lnSnOAelKR9XtWBYkLkDGVcE2Mt5LzzwjdYTTCzoXAdN0/FigJQXRPUZVBnrqA
-	OCJA==
-X-Gm-Message-State: ALoCoQmZmhopgJjYqW5tCf35gun/4QYLuD2NPPIyHrjb0qc9pwK8819oyqQGV6wNomiQqv+VFcNp
-X-Received: by 10.55.31.10 with SMTP id f10mr83499278qkf.58.1427836467616;
-	Tue, 31 Mar 2015 14:14:27 -0700 (PDT)
+	Tue, 31 Mar 2015 14:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+	:user-agent:mime-version:content-type;
+	bh=KWtmIkNQ9MWDtzUH63TWaoAUIa8RrMzb2A4GAeVcIyE=;
+	b=Yw3/fSYUD4pFaWqFjyjhWZkD9pZ8OPTkuN4tdDUKMmuWqhFmGOOL5RlpvvGygM8x2M
+	r08EB9duLTYUYPpw3anIT8BTKMiijZwjt86VUyzU2OJftMsv8FieoyTOudr2UGrbRa40
+	03qtpAzdcAp0hp4jvWp7z1n0r1/xQul1nw2of4yGmK0RVc6Dg0aV23kx6D7oXlOib37r
+	7aSxSqDhWxskK30NJlsZ8Qqlfszw9xld+ZYEd8H0hBJS+WpiaNIwa+NT4IwSgTufNVcG
+	jwrjSUYleKOYd5mhZqKqdl+dglfDbNuSZ4/6hFM8TWAtESsJ8ThEOeS5ut1k1nngugSk
+	GwQg==
+X-Received: by 10.140.43.199 with SMTP id e65mr49916800qga.34.1427836921526;
+	Tue, 31 Mar 2015 14:22:01 -0700 (PDT)
+Received: from email.parenteses.org.gmail.com (email.parenteses.org.
+	[198.199.72.94]) by mx.google.com with ESMTPSA id
+	p18sm10712365qkh.10.2015.03.31.14.22.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 31 Mar 2015 14:22:00 -0700 (PDT)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <87d23uibxw.fsf@email.parenteses.org>
+	<CAJTo0LYQXRL85iAGW82nATWdZXiCfhCFqQKKd0tC8DBBZvkJew@mail.gmail.com>
+	<87wq1xgk2j.fsf@email.parenteses.org> <551AE604.6090804@windriver.com>
+	<87oan8hpp6.fsf@email.parenteses.org> <551B08E6.8040906@windriver.com>
+	<87k2xwhoei.fsf@email.parenteses.org> <551B0D16.8000608@windriver.com>
+Date: Tue, 31 Mar 2015 21:21:58 +0000
+In-Reply-To: <551B0D16.8000608@windriver.com> (Mark Hatle's message of "Tue,
+	31 Mar 2015 16:09:42 -0500")
+Message-ID: <87d23ohngp.fsf@email.parenteses.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 14:14:07 -0700 (PDT)
-In-Reply-To: <87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
-References: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
-	<CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
-	<87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 31 Mar 2015 22:14:07 +0100
-Message-ID: <CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
-To: Richard Tollerton <rich.tollerton@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal: Disable shopt errexit
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Ownership issue in package contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +52,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 21:14:29 -0000
-Content-Type: multipart/alternative; boundary=001a1147ebda7332c005129c151c
+X-List-Received-Date: Tue, 31 Mar 2015 21:22:03 -0000
+Content-Type: text/plain
 
---001a1147ebda7332c005129c151c
-Content-Type: text/plain; charset=UTF-8
+On Tue, 31 Mar 2015 16:09:42 -0500 Mark Hatle <mark.hatle@windriver.com> wrote:
 
-On 30 March 2015 at 19:11, Richard Tollerton <rich.tollerton@ni.com> wrote:
-
-> Running `false` interactively doesn't test this behavior because `sh -e`
-> explicitly excludes interactive shells from consideration [1] [2].
-> You'll need to inject a `false` into run.do_terminal in order to
-> reproduce this.
+> On 3/31/15 4:01 PM, Mario Domenech Goulart wrote:
+>> On Tue, 31 Mar 2015 15:51:50 -0500 Mark Hatle <mark.hatle@windriver.com> wrote:
+>> 
+>>> On 3/31/15 3:33 PM, Mario Domenech Goulart wrote:
+>>>>
+>>>> On Tue, 31 Mar 2015 13:23:00 -0500 Mark Hatle <mark.hatle@windriver.com> wrote:
+>>>>
+>>>>> On 3/31/15 12:20 PM, Mario Domenech Goulart wrote:
+>>>>>>
+>>>>>> On Tue, 31 Mar 2015 14:50:06 +0100 "Burton, Ross" <ross.burton@intel.com> wrote:
+>>>>>>
+>>>>>>> On 27 March 2015 at 17:31, Mario Domenech Goulart <mario@ossystems.com.br> wrote:
+>>>>>>>
+>>>>>>>     Note that, although I run "chown -R foo:foo ${D}${libdir}/foo" in
+>>>>>>>     the recipe, ./usr/lib/foo/ in the package is owned by root.
+>>>>>>>     However, its content has the right ownership.
+>>>>>>>
+>>>>>>> Looks like a bug in pseudo to me, can you file a bug for that?
+>>>>>>
+>>>>>> Sure.  Filed #7554.
+>>>>>
+>>>>> I'd suggest you look at meta/classes/package.bbclass "fixup_perms" function.
+>>>>>
+>>>>> The ${D}${libdir} (and above) are "corrected" to be 'root:root' by this
+>>>>> function.  I don't know why 'foo' would be, but if it's a standard defined
+>>>>> variable -- or if 'directory walking' is enabled it could end up doing this as well.
+>>>>>
+>>>>> The control file for this is in meta/files/fs-perms.txt (unless otherwise
+>>>>> defined by a distribution or other configuration file.)
+>>>>
+>>>> Thanks a lot.  You seem to have guided me exactly to what causes the
+>>>> issue.
+>>>>
+>>>>>
+>>>>> Format of the file is:
+>>>>>
+>>>>> # The format of this file
+>>>>> #
+>>>>> #<path> <mode>  <uid>   <gid>   <walk>  <fmode> <fuid>  <fgid>
+>>>> ...
+>>>>>
+>>>>> The default is:
+>>>> ...
+>>>>> libexecdir	0755 root root false - - -
+>>>> ...
+>>>>
+>>>> This variable seems to be the cause of problems:
+>>>>
+>>>> $ bitbake -e foo | grep libexecdir=
+>>>> export libexecdir="/usr/lib/foo"
+>>>>
+>>>> As far as I understand, package.bbclass may use a user-configured
+>>>> permissions table (via FILESYSTEM_PERMS_TABLES), but I'm not sure if
+>>>> this is the right "fix" for the case in question.  I'd have to hardcode
+>>>> the owner of /usr/lib/foo to be "foo", but foo may not be available when
+>>>> packaging other recipes.
+>>>
+>>> Ok, good this answers the question as to "why" it's happening.  You can easily
+>>> fix this by adding a configuration specific fs-perms.txt file (can name it
+>>> anything) that overrides that setting and add it to the FILESYSTEM_PERMS_TABLES.
+>>>  You can do this globally in a layer, a distribution or even just a recipe.
+>>>
+>>> In your recipe you can likely do something like:
+>>>
+>>> FILESYSTEM_PERMS_TABLES ?= "files/fs-perms.txt"
+>>> FILESYSTEM_PERMS_TABLES += "${THISDIR}/files/recipe-perms.txt"
+>>>
+>>> (Do the ?= first in case it's already set by someone else, then add your recipe
+>>> specific perms later)
+>>>
+>>> Contents of the "${THISDIR}/files/recipe-perms.txt":
+>>>
+>>> ${libexecdir} 0755 myuid mygid true - myuid mygid
+>>>
+>>> Then you can even skip the chown -R, as the system will do it for you.
+>> 
+>> I actually had tried that, but I got errors -- probably because the
+>> ownership will be set for each package that installs ${libexecdir}, and
+>> which is processed before the recipe that actually creates the
+>> user/group specified for ${libexecdir} in the file pointed by
+>> FILESYSTEM_PERMS_TABLES.
 >
+> This is a bug then.  The owner/group correction is supposed to be made AFTER the
+> user/groups have been added to the system (sysroot) via the adduser.  THAT is a
+> bug that IMHO should be fixed sooner, rather then later.
+>
+> It might be as simple as the install sysroot (${D}) configuration with pseudo
+> isn't pointing to the right /etc/passwd and /etc/group.  I believe it should be
+> pointing to the one in the regular sysroot repository.
 
-I'm clearly not understanding how this behaviour is a problem then.  What
-broke?
+I should also have mentioned that initially I set
+FILESYSTEM_PERMS_TABLES globally.
 
-Ross
+Now I set it in the foo recipe, but still get errors:
 
---001a1147ebda7332c005129c151c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+----------------------------8<---------------------------------
+ERROR: Error executing a python function in .../foo.bb:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 March 2015 at 19:11, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1dv" cla=
-ss=3D"a3s" style=3D"overflow:hidden">Running `false` interactively doesn&#3=
-9;t test this behavior because `sh -e`<br>
-explicitly excludes interactive shells from consideration [1] [2].<br>
-You&#39;ll need to inject a `false` into run.do_terminal in order to<br>
-reproduce this.</div></blockquote></div><br>I&#39;m clearly not understandi=
-ng how this behaviour is a problem then.=C2=A0 What broke?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'fixup_perms', lineno: 231, function: <module>
+     0227:                    each_file = os.path.join(root, f)
+     0228:                    fix_perms(each_file, fs_perms_table[dir].fmode, fs_perms_table[dir].fuid, fs_perms_table[dir].fgid, dir)
+     0229:
+     0230:
+ *** 0231:fixup_perms(d)
+     0232:
+File: 'fixup_perms', lineno: 173, function: fixup_perms
+     0169:                if len(lsplit) != 8 and not (len(lsplit) == 3 and lsplit[1].lower() == "link"):
+     0170:                    msg = "Fixup perms: %s invalid line: %s" % (conf, line)
+     0171:                    package_qa_handle_error("perm-line", msg, d)
+     0172:                    continue
+ *** 0173:                entry = fs_perms_entry(d.expand(line))
+     0174:                if entry and entry.path:
+     0175:                    fs_perms_table[entry.path] = entry
+     0176:            f.close()
+     0177:
+File: 'fixup_perms', lineno: 32, function: __init__
+  File "fixup_perms", line 32, in __init__
 
---001a1147ebda7332c005129c151c--
+File: 'fixup_perms', lineno: 43, function: _setdir
+  File "fixup_perms", line 43, in _setdir
+
+File: 'fixup_perms', lineno: 67, function: _procuid
+  File "fixup_perms", line 67, in _procuid
+
+Exception: KeyError: 'getpwnam(): name not found: foo'
+---------------------------->8---------------------------------
+
+I still have the chown line in do_install, and that seems to "work"
+(i.e., it doesn't cause errors).  The error above seems be caused by
+something in do_package (fix_perms, specifically) that is not using the
+proper authentication database.
+
+Best wishes.
+Mario
+-- 
+http://www.ossystems.com.br
+
