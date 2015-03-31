@@ -1,25 +1,25 @@
 Return-Path: <elizabeth.flanagan@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 50FDC73CC1
+	by mail.openembedded.org (Postfix) with ESMTP id 1468A73CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 20:12:11 +0000 (UTC)
+	Tue, 31 Mar 2015 20:12:12 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Mar 2015 13:12:13 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 31 Mar 2015 13:12:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,503,1422950400"; d="scan'208";a="688479885"
+X-IronPort-AV: E=Sophos;i="5.11,503,1422950400"; d="scan'208";a="688479890"
 Received: from hsolver-mobl.ger.corp.intel.com (HELO fuath.ger.corp.intel.com)
 	([10.252.22.169])
 	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2015 13:12:12 -0700
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Mar 2015 21:11:05 +0100
-Message-Id: <a802fb6d10856ea6ed84e6da0da596f5f1d0fd1d.1427832505.git.elizabeth.flanagan@intel.com>
+Date: Tue, 31 Mar 2015 21:11:06 +0100
+Message-Id: <1ec089080f95b9042d782b5e5ecc6628877acd02.1427832505.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1427832505.git.elizabeth.flanagan@intel.com>
 References: <cover.1427832505.git.elizabeth.flanagan@intel.com>
 In-Reply-To: <cover.1427832505.git.elizabeth.flanagan@intel.com>
 References: <cover.1427832505.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 2/3] distrodata.bbclass/distro_check.py: Support -dummy mapping of PN
+Subject: [PATCH 3/3] distrodata.bbclass/distro_check.py: Support buildtools PN mapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 20:12:11 -0000
+X-List-Received-Date: Tue, 31 Mar 2015 20:12:12 -0000
 
-Strip out -dummy in order to map to the base PN of dummy packages
+We need to be able to map buildtools- to the original PN.
 
 Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
 ---
  meta/classes/distrodata.bbclass | 12 ++++++++++++
- meta/lib/oe/distro_check.py     |  7 ++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ meta/lib/oe/distro_check.py     |  3 +++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 10e59d3..6562c86 100644
+index 6562c86..f540170 100644
 --- a/meta/classes/distrodata.bbclass
 +++ b/meta/classes/distrodata.bbclass
-@@ -47,6 +47,10 @@ python do_distrodata_np() {
+@@ -43,6 +43,10 @@ python do_distrodata_np() {
+             pnstripped = pnstripped.replace("nativesdk-", "")
+             bb.note("NativeSDK Split: %s" % pnstripped)
+ 
++        if pnstripped.find("buildtools-") != -1:
++            pnstripped = pnstripped.split("buildtools-")[1]
++            bb.note("buildtools Split: %s" % pnstripped)
++
+         if pnstripped.find("-initial") != -1:
              pnstripped = pnstripped.split("-initial")[0]
              bb.note("initial Split: %s" % pnstripped)
+@@ -119,6 +123,10 @@ python do_distrodata() {
+             pnstripped = pnstripped.replace("nativesdk-", "")
+             bb.note("NativeSDK Split: %s" % pnstripped)
  
-+        if pnstripped.find("-dummy") != -1:
-+            pnstripped = pnstripped.split("-dummy")
-+            bb.note("dummy Split: %s" % pnstripped)
++        if pnstripped.find("buildtools-") != -1:
++            pnstripped = pnstripped.split("buildtools-")[1]
++            bb.note("buildtools Split: %s" % pnstripped)
 +
-         localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
-         bb.data.update_data(localdata)
+         if pnstripped.find("-cross") != -1:
+             pnstripped = pnstripped.split("-cross")[0]
+             bb.note("cross Split: %s" % pnstripped)
+@@ -289,6 +297,10 @@ python do_checkpkg() {
+             pnstripped = pnstripped.replace("nativesdk-", "")
+             bb.note("NativeSDK Split: %s" % pnstripped)
  
-@@ -127,6 +131,10 @@ python do_distrodata() {
-             pnstripped = pnstripped.split("-initial")[0]
-             bb.note("initial Split: %s" % pnstripped)
- 
-+        if pnstripped.find("-dummy") != -1:
-+            pnstripped = pnstripped.split("-dummy")[0]
-+            bb.note("dummy Split: %s" % pnstripped)
++        if pnstripped.find("buildtools-") != -1:
++            pnstripped = pnstripped.split("buildtools-")[1]
++            bb.note("buildtools Split: %s" % pnstripped)
 +
-         localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
-         bb.data.update_data(localdata)
- 
-@@ -293,6 +301,10 @@ python do_checkpkg() {
-             pnstripped = pnstripped.split("-initial")[0]
-             bb.note("initial Split: %s" % pnstripped)
- 
-+        if pnstripped.find("-dummy") != -1:
-+            pnstripped = pnstripped.split("-dummy")[0]
-+            bb.note("dummy Split: %s" % pnstripped)
-+
-         localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
-         bb.data.update_data(localdata)
- 
+         if pnstripped.find("-cross") != -1:
+             pnstripped = pnstripped.split("-cross")[0]
+             bb.note("cross Split: %s" % pnstripped)
 diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index f754991..d13783b 100644
+index d13783b..88474d0 100644
 --- a/meta/lib/oe/distro_check.py
 +++ b/meta/lib/oe/distro_check.py
-@@ -279,7 +279,9 @@ def compare_in_distro_packages_list(distro_check_dir, d):
-     recipe_name = d.getVar('PN', True)
-     bb.note("Checking: %s" % pn)
-     pnstripped = pn
--    trim_dict = dict({"-native":"-native", "-cross":"-cross", "-crosssdk":"-crosssdk" ,"-initial":"-initial"})
-+    trim_dict = dict({"-native":"-native", "-cross":"-cross", \
-+                      "-crosssdk":"-crosssdk" ,"-initial":"-initial", \
-+                      "-dummy":"-dummy"})
+@@ -289,6 +289,9 @@ def compare_in_distro_packages_list(distro_check_dir, d):
+     if pnstripped.startswith("nativesdk-"):
+         pnstripped = pnstripped.split("nativesdk-")[1]
  
-     if pnstripped.find("-native") != -1:
-         pnstripped = pnstripped.split("-native")[0]
-@@ -296,6 +298,9 @@ def compare_in_distro_packages_list(distro_check_dir, d):
-     if pnstripped.find("-initial") != -1:
-         pnstripped = pnstripped.split("-initial")[0]
- 
-+    if pnstripped.find("-dummy") != -1:
-+        pnstripped = pnstripped.split("-dummy")[0]
++    if pnstripped.find("buildtools-") != -1:
++        pnstripped = pnstripped.split("buildtools-")[1]
 +
-     localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
+     if pnstripped.find("-cross") != -1:
+         pnstripped = pnstripped.split("-cross")[0]
  
-     bb.data.update_data(localdata)
 -- 
 1.9.1
 
