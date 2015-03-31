@@ -1,37 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A226573CFB
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C43573C71
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 21:26:20 +0000 (UTC)
-Received: by qcgx3 with SMTP id x3so25724566qcg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 14:26:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Grv0iv8kAEThdiEy+PFbTuuIIyDd6L8pmLc1X2fc7kk=;
-	b=BRhKL6tyzn5e0lDuh1ChsN1hAktKUCg+PhJhbt+NXVXjX3BtTGxvrmRAXN25HYMVQ9
-	mVx3Aus1O88DzFdJRiU2i1YdcqxXXweTQHE1aMM1+nKJJgbNXmcc2QNzEGdSORtipvpa
-	rXjlkDxx8RMKOae8GLnTqPBG77mk2DwMljpoJfskL8tvKHHcHc5Sd7d8IaywfYTV2pgB
-	C3R32E4/h4ycNcpVGzdHP54dA6EaIF+idc2bS518qGA0h2jeFC6W0MJMQmcvsm+oUjmh
-	SevVUmKcoTsL3yfqOLHMpFnBYoo2khwJgzpjK+iNowmIGy3HfU0W1L6LJAttRGyQ6ask
-	+XJw==
-X-Gm-Message-State: ALoCoQmQ++nFGmvCsdILvmZUPb+LtEmjzGrtWSaWcWqJ82waJPO4FPmloVquDhw5Euo0JGdyz+EG
-X-Received: by 10.55.31.10 with SMTP id f10mr83591087qkf.58.1427837182112;
-	Tue, 31 Mar 2015 14:26:22 -0700 (PDT)
+	Tue, 31 Mar 2015 21:32:54 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t2VLWsAP008092; Tue, 31 Mar 2015 16:32:54 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015033116325440-646889 ;
+	Tue, 31 Mar 2015 16:32:54 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
+References: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
+	<CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
+	<87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
+	<CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
+User-Agent: Notmuch/0.19 (http://notmuchmail.org) Emacs/24.4.2
+	(x86_64-unknown-linux-gnu)
+Date: Tue, 31 Mar 2015 16:32:54 -0500
+Message-ID: <874mp0ettl.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 14:26:01 -0700 (PDT)
-In-Reply-To: <551ABE39.5050503@gmail.com>
-References: <551ABE39.5050503@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 31 Mar 2015 22:26:01 +0100
-Message-ID: <CAJTo0LbL4oNgV3iynum07uGjo0m5DGJMfsjmSq_GEhAgyze++A@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: package update staging
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 03/31/2015 04:32:54 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 03/31/2015 04:32:54 PM,
+	Serialize complete at 03/31/2015 04:32:54 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-03-31_06:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal: Disable shopt errexit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 21:26:22 -0000
-Content-Type: multipart/alternative; boundary=001a1147ebda0980eb05129c40c0
+X-List-Received-Date: Tue, 31 Mar 2015 21:32:57 -0000
+Content-Type: text/plain
 
---001a1147ebda0980eb05129c40c0
-Content-Type: text/plain; charset=UTF-8
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-On 31 March 2015 at 16:33, akuster808 <akuster808@gmail.com> wrote:
-
-> now that fido is nearing, what is the best method for staging package
-> updates meant for oe-core?
+> On 30 March 2015 at 19:11, Richard Tollerton <rich.tollerton@ni.com> wrote:
 >
+>> Running `false` interactively doesn't test this behavior because `sh -e`
+>> explicitly excludes interactive shells from consideration [1] [2].
+>> You'll need to inject a `false` into run.do_terminal in order to
+>> reproduce this.
+>>
+>
+> I'm clearly not understanding how this behaviour is a problem then.  What
+> broke?
 
-Send patches now if you wish, both me and Richard have started collating
-patches that are good for master.
+What broke is devshell. If there's a bug in run.do_terminal that would
+cause a nonzero exit code during non-interactive execution -- e.g.,
+http://cgit.openembedded.org/bitbake/commit/?id=18cd0ce6a55c9065c3f1bf223b47d817b5efcd8f
+-- then instead of a warning appearing in the devshell, the entire
+terminal quits a few milliseconds after it loads.
 
-Ross
+In other words, this issue escalates other bugs that ought to be
+warnings into functionality-killers. This patch de-escalates them
+back to warnings.
 
---001a1147ebda0980eb05129c40c0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 31 March 2015 at 16:33, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1dw" class=3D"a3s"=
- style=3D"overflow:hidden">now that fido is nearing, what is the best metho=
-d for staging package updates meant for oe-core?<br></div></blockquote></di=
-v><br>Send patches now if you wish, both me and Richard have started collat=
-ing patches that are good for master.</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1147ebda0980eb05129c40c0--
