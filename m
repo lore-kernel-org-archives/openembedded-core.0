@@ -1,29 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A3D4473C86
+Return-Path: <akuster808@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E04C073C27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 18:23:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t2VIN1mt015119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 31 Mar 2015 19:44:06 +0000 (UTC)
+Received: by ierf6 with SMTP id f6so25185583ier.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 11:23:01 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 31 Mar 2015 11:23:01 -0700
-Message-ID: <551AE604.6090804@windriver.com>
-Date: Tue, 31 Mar 2015 13:23:00 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <87d23uibxw.fsf@email.parenteses.org>	<CAJTo0LYQXRL85iAGW82nATWdZXiCfhCFqQKKd0tC8DBBZvkJew@mail.gmail.com>
-	<87wq1xgk2j.fsf@email.parenteses.org>
-In-Reply-To: <87wq1xgk2j.fsf@email.parenteses.org>
-Subject: Re: Ownership issue in package contents
+	Tue, 31 Mar 2015 12:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=LB14ztcoMqHd7EKADiCPR67dbuxREtw7HVnKIQKxrEM=;
+	b=dnGUCrncN8ulCDgh5SiQ9H2oV6JGWeTZmZlguowrB1wQHlQPrGO4PmWvS5rM4LezmL
+	LoPsymaUmUygEbtIK3IUcAkVWXPw25XkW8d8L5IMmloD3OBruTkJrC8Ns0UVF4lbPv9R
+	SNJ9aV3jvCTV758el+DITj6lGG209YbEvpKeKuKgELdBFUj+WN4LBWwWYTwk/ufJ8n+X
+	bnZKsYcJRaVUZMqKUtEkw2F4xA3mYbxgwt0Z+TWyAMq0ZzIdPMtShqbVQXFhAU66kmXI
+	XurCLk1hGzYoSxfa/zHt3+hLtOc5ZXOciNPF4nqZksg9D2KlUOEdJr7h25NeP/F7DPVa
+	W+mw==
+X-Received: by 10.50.49.43 with SMTP id r11mr7044273ign.18.1427831047523;
+	Tue, 31 Mar 2015 12:44:07 -0700 (PDT)
+Received: from Pahoa2.mvista.com (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
+	by mx.google.com with ESMTPSA id y6sm10683088igw.21.2015.03.31.12.44.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 31 Mar 2015 12:44:06 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Mar 2015 12:43:55 -0700
+Message-Id: <1427831035-20334-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [master-next][PATCH] pinentry: update to 9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,98 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 18:23:06 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 31 Mar 2015 19:44:10 -0000
 
-On 3/31/15 12:20 PM, Mario Domenech Goulart wrote:
-> Hi Ross,
-> 
-> On Tue, 31 Mar 2015 14:50:06 +0100 "Burton, Ross" <ross.burton@intel.com> wrote:
-> 
->> On 27 March 2015 at 17:31, Mario Domenech Goulart <mario@ossystems.com.br> wrote:
->>
->>     Note that, although I run "chown -R foo:foo ${D}${libdir}/foo" in
->>     the recipe, ./usr/lib/foo/ in the package is owned by root.
->>     However, its content has the right ownership.
->>
->> Looks like a bug in pseudo to me, can you file a bug for that?
-> 
-> Sure.  Filed #7554.
+Fix build problems on AIX.
+Update to automake 1.14.
 
-I'd suggest you look at meta/classes/package.bbclass "fixup_perms" function.
+remove "PR"
 
-The ${D}${libdir} (and above) are "corrected" to be 'root:root' by this
-function.  I don't know why 'foo' would be, but if it's a standard defined
-variable -- or if 'directory walking' is enabled it could end up doing this as well.
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../pinentry/{pinentry_0.9.0.bb => pinentry_0.9.1.bb}               | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry_0.9.0.bb => pinentry_0.9.1.bb} (86%)
 
-The control file for this is in meta/files/fs-perms.txt (unless otherwise
-defined by a distribution or other configuration file.)
-
-Format of the file is:
-
-# The format of this file
-#
-#<path> <mode>  <uid>   <gid>   <walk>  <fmode> <fuid>  <fgid>
-#
-# or
-#
-#<path> link <target>
-#
-# <path>: directory path
-# <mode>: mode for directory
-# <uid>:  uid for directory
-# <gid>:  gid for directory
-# <walk>: recursively walk the directory?  true or false
-# <fmode>: if walking, new mode for files
-# <fuid>:  if walking, new uid for files
-# <fgid>:  if walking, new gid for files
-# <target>: turn the directory into a symlink point to target
-
-The default is:
-
-base_prefix	0755 root root false - - -
-prefix		0755 root root false - - -
-exec_prefix	0755 root root false - - -
-base_bindir	0755 root root false - - -
-base_sbindir	0755 root root false - - -
-base_libdir	0755 root root false - - -
-datadir		0755 root root false - - -
-sysconfdir	0755 root root false - - -
-servicedir	0755 root root false - - -
-sharedstatedir	0755 root root false - - -
-localstatedir	0755 root root false - - -
-infodir		0755 root root false - - -
-mandir		0755 root root false - - -
-docdir		0755 root root false - - -
-bindir		0755 root root false - - -
-sbindir		0755 root root false - - -
-libexecdir	0755 root root false - - -
-libdir		0755 root root false - - -
-includedir	0755 root root false - - -
-oldincludedir	0755 root root false - - -
-
-The easiest way to debug all of this is to edit meta/classes/package.bbclass,
-find the following lines:
-
-    # Debug -- list out in-memory table
-    #for dir in fs_perms_table:
-    #    bb.note("Fixup Perms: %s: %s" % (dir, str(fs_perms_table[dir])))
-
-remove the '#' from the 'for' and following lines, then inspect the table from
-the build logs.
-
-Similarly, you can trace the actual fixups, by searching for def fix_perms(path,
-mode, uid, gid, dir):, and removing the comment from the two bb.note entries.
-
-This should give you an idea if this code is replacing your value with it's own.
-
-(I give this a VERY low probability that it's a bug in pseudo.)
-
---Mark
-
-> Best wishes.
-> Mario
-> 
+diff --git a/meta/recipes-support/pinentry/pinentry_0.9.0.bb b/meta/recipes-support/pinentry/pinentry_0.9.1.bb
+similarity index 86%
+rename from meta/recipes-support/pinentry/pinentry_0.9.0.bb
+rename to meta/recipes-support/pinentry/pinentry_0.9.1.bb
+index 10b329b..08588dd 100644
+--- a/meta/recipes-support/pinentry/pinentry_0.9.0.bb
++++ b/meta/recipes-support/pinentry/pinentry_0.9.1.bb
+@@ -8,14 +8,12 @@ HOMEPAGE = "http://www.gnupg.org/related_software/pinentry/index.en.html"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
+ 
+-PR = "r1"
+-
+ inherit autotools
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "40a05856cb3accf6679987b7899b0f5a"
+-SRC_URI[sha256sum] = "90045a07ab8e1a8e1ecf5d19b51691f195525e579fa5d71d7e92c120b05490ab"
++SRC_URI[md5sum] = "d224d031130aedb44b05164cb04ed88b"
++SRC_URI[sha256sum] = "9cd08e856b395df3adc7124170b53f77c6d5c8bf88e899e818648ec70d3e9695"
+ 
+ EXTRA_OECONF = "--disable-rpath \
+ 		        --disable-dependency-tracking \
+-- 
+1.9.1
 
 
