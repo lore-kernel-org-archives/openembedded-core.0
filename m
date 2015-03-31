@@ -1,30 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F1DFF73C71
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F73373CD5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 21:34:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VLY52O013970 for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 22:34:05 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gcbP-Ctii6mG
+	Tue, 31 Mar 2015 21:34:54 +0000 (UTC)
+Received: by qcay5 with SMTP id y5so25819386qca.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 22:34:05 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VLXrDR013925
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 22:34:04 +0100
-Message-ID: <1427837633.14020.365.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Mar 2015 22:33:53 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] image_types: Add missing ext4 support
+	Tue, 31 Mar 2015 14:34:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ptKCV0UKNLrfIrEwywO/Yecppq3NhYh0hf7rrvRaq8s=;
+	b=VwwgbAFnrel/skOgWkm+gsL7BN8+4kjl32ox/naINgJIefI12o272o+1pXSjjB1pUH
+	4WVjJV+c7rhPyEbPa3CGvggePRHMYJa3+WTbpljLjRWZlAbyXT6t2jmjnyy/qE5g6+Xt
+	LJMTEJr4ArauCmS5SLJ95H8ODzpcynFifx89wjFTRqJ4QQP/p3vIdtK60rgAaKRfy2Fd
+	LlZXVuER1l4mHMe4QHkhTlfDUh/WRSSLFDqQ/xsSriJPME5/I9Yca9mVmhm3uX5nnBxv
+	pvN3LjgzsTRJX4QBUwYkeDUcGN3hmgR/01AeVJwXG+RbVYsolsjEElRHgxFsz9RrXI5r
+	CD4w==
+X-Gm-Message-State: ALoCoQnmzos9Iob14bCRRzW9fl/XoXzTjgQUCtowzbmXYBYNgzzbPRflfY7QTZqvGIwiIXRaZ+/Q
+X-Received: by 10.140.195.7 with SMTP id q7mr39753952qha.35.1427837696148;
+	Tue, 31 Mar 2015 14:34:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 14:34:35 -0700 (PDT)
+In-Reply-To: <874mp0ettl.fsf@weregild.amer.corp.natinst.com>
+References: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
+	<CAJTo0LYWAET6K0zr8ALGByjryEe8zV_kmTkkdVjXV-aTwxajFA@mail.gmail.com>
+	<87ego6e4ou.fsf@weregild.amer.corp.natinst.com>
+	<CAJTo0LZ6hgVt0gsgNfd_rvtn_gn2syUPugx+f00eVPN2x0-uzw@mail.gmail.com>
+	<874mp0ettl.fsf@weregild.amer.corp.natinst.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 31 Mar 2015 22:34:35 +0100
+Message-ID: <CAJTo0LYKmKp6MhjitdVeLHzo-HV+cxYYkaMqeqaVOS+Fpzt-wQ@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal: Disable shopt errexit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 21:34:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Mar 2015 21:34:55 -0000
+Content-Type: multipart/alternative; boundary=001a11433288ad1c6b05129c5e27
 
-This is particularly problematic since qemu images switched to ext4 by 
-default and now cannot work properly with UIs like hob.
+--001a11433288ad1c6b05129c5e27
+Content-Type: text/plain; charset=UTF-8
 
-This patch adds in ext4 to the appropriate IMAGE* variables fixing this.
+On 31 March 2015 at 22:32, Richard Tollerton <rich.tollerton@ni.com> wrote:
 
-[YOCTO #7426]
+> What broke is devshell. If there's a bug in run.do_terminal that would
+> cause a nonzero exit code during non-interactive execution -- e.g.,
+>
+> http://cgit.openembedded.org/bitbake/commit/?id=18cd0ce6a55c9065c3f1bf223b47d817b5efcd8f
+> -- then instead of a warning appearing in the devshell, the entire
+> terminal quits a few milliseconds after it loads.
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Right, understand.  Thanks.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 98a08bf..72c7337 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -146,6 +146,7 @@ IMAGE_TYPES = " \
-     cramfs \
-     ext2 ext2.gz ext2.bz2 ext2.lzma \
-     ext3 ext3.gz \
-+    ext4 ext4.gz \
-     btrfs \
-     iso \
-     hddimg \
-@@ -171,7 +172,7 @@ COMPRESS_DEPENDS_xz = "xz-native"
- COMPRESS_DEPENDS_lz4 = "lz4-native"
- COMPRESS_DEPENDS_sum = "mtd-utils-native"
- 
--RUNNABLE_IMAGE_TYPES ?= "ext2 ext3"
-+RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
- 
- DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
+Ross
 
+--001a11433288ad1c6b05129c5e27
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 March 2015 at 22:32, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":197" cla=
+ss=3D"a3s" style=3D"overflow:hidden">What broke is devshell. If there&#39;s=
+ a bug in run.do_terminal that would<br>
+cause a nonzero exit code during non-interactive execution -- e.g.,<br>
+<a href=3D"http://cgit.openembedded.org/bitbake/commit/?id=3D18cd0ce6a55c90=
+65c3f1bf223b47d817b5efcd8f" target=3D"_blank">http://cgit.openembedded.org/=
+bitbake/commit/?id=3D18cd0ce6a55c9065c3f1bf223b47d817b5efcd8f</a><br>
+-- then instead of a warning appearing in the devshell, the entire<br>
+terminal quits a few milliseconds after it loads.</div></blockquote></div><=
+br>Right, understand.=C2=A0 Thanks.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
+--001a11433288ad1c6b05129c5e27--
