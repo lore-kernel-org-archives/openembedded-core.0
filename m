@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 27AB9724DC
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BC0D736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 12:06:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VC6NW9011621; Tue, 31 Mar 2015 13:06:23 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ITQQpe3VkksL; Tue, 31 Mar 2015 13:06:23 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t2VC6AS7011598
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 31 Mar 2015 13:06:22 +0100
-Message-ID: <1427803570.14020.356.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Tue, 31 Mar 2015 13:06:10 +0100
-In-Reply-To: <1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1427759396-24932-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package_manager: call createrepo with --dbpath pointing inside WORKDIR
+	Tue, 31 Mar 2015 12:23:55 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.11,500,1422918000"; d="scan'208";a="72188372"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 31 Mar 2015 14:23:39 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	(TLS) id 14.3.210.2; Tue, 31 Mar 2015 14:23:38 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.3.210.2; Tue, 31 Mar 2015 14:23:38 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Mar 2015 14:23:29 +0200
+Message-ID: <1427804609-18320-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
+MIME-Version: 1.0
+Subject: [PATCH] util-linux: add lastb.1 and nologin.8 to update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 12:06:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Mar 2015 12:23:57 -0000
+Content-Type: text/plain
 
-On Tue, 2015-03-31 at 03:16 +0300, Ed Bartosh wrote:
-> Rpm database in staging area is used only by createrepo.
-> createrepo fails with the error
-> "rpmdb: BDB0060 PANIC: fatal region error detected"
-> if rpm database is broken during previous run of createrepo.
-> 
-> Made createrepo to create rpm db in $WORKDIR/rpmdb/ from scratch
-> for every build. This should potentially fix the failure.
-> 
-> [YOCTO #6571]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/lib/oe/package_manager.py | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 743c7cb..2461acd 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -110,12 +110,16 @@ class RpmIndexer(Indexer):
->          rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
->          index_cmds = []
->          rpm_dirs_found = False
-> +        dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb')
-> +        if os.path.exists(dbpath):
-> +            bb.utils.remove(dbpath, True)
->          for arch in archs:
->              arch_dir = os.path.join(self.deploy_dir, arch)
->              if not os.path.isdir(arch_dir):
->                  continue
->  
-> -            index_cmds.append("%s --update -q %s" % (rpm_createrepo, arch_dir))
-> +            index_cmds.append("%s --dbpath %s --update -q %s" % \
-> +                             (rpm_createrepo, dbpath, arch_dir))
->  
->              rpm_dirs_found = True
+/usr/share/man/man1/lastb.1
+is also provided by sysvinit recipe.
 
-Do we need to add arch to dbpath here to avoid races between the
-separate createrepo processes?
+/usr/share/man/man8/nologin.8
+is also provided by shadow recipe.
 
-Cheers,
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Richard
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 10b14b3..2d17fa2 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -186,11 +186,13 @@ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ 
+-ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
++ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1"
+ 
+ ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
++ALTERNATIVE_LINK_NAME[lastb.1] = "${mandir}/man1/lastb.1"
+ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
+ ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
++ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+ ALTERNATIVE_LINK_NAME[reset.1] = "${mandir}/man1/reset.1"
+ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+-- 
+1.9.1
 
 
