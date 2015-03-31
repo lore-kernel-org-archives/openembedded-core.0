@@ -1,25 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E65D5736B6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 16A1B736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 00:16:50 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Mar 2015 17:16:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,497,1422950400"; d="scan'208";a="706443369"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 30 Mar 2015 17:16:52 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id E35B66A408D;
-	Mon, 30 Mar 2015 17:16:30 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Mar 2015 03:16:41 +0300
-Message-Id: <1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1427759396-24932-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1427759396-24932-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH] package_manager: call createrepo with --dbpath pointing inside WORKDIR
+	Tue, 31 Mar 2015 01:42:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t2V1gJlK027151
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 30 Mar 2015 18:42:19 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 30 Mar 2015 18:42:19 -0700
+Message-ID: <5519FB7A.40903@windriver.com>
+Date: Tue, 31 Mar 2015 09:42:18 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1427352132.git.liezhi.yang@windriver.com>	
+	<86e4a87a659cffcf2383c89cdcec9ee4e2b84faa.1427352132.git.liezhi.yang@windriver.com>
+	<1427710463.14020.272.camel@linuxfoundation.org>
+In-Reply-To: <1427710463.14020.272.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] patch: fix CVE-2015-1196
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 00:16:51 -0000
+X-List-Received-Date: Tue, 31 Mar 2015 01:42:20 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rpm database in staging area is used only by createrepo.
-createrepo fails with the error
-"rpmdb: BDB0060 PANIC: fatal region error detected"
-if rpm database is broken during previous run of createrepo.
 
-Made createrepo to create rpm db in $WORKDIR/rpmdb/ from scratch
-for every build. This should potentially fix the failure.
 
-[YOCTO #6571]
+On 03/30/2015 06:14 PM, Richard Purdie wrote:
+> On Wed, 2015-03-25 at 23:42 -0700, Robert Yang wrote:
+>> A directory traversal flaw was reported in patch:
+>>
+>> References:
+>> http://www.openwall.com/lists/oss-security/2015/01/18/6
+>> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=775227
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1182154
+>>
+>> [YOCTO #7182]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/recipes-devtools/patch/patch.inc              |    5 +-
+>
+> This patch shouldn't change the .inc but the versioned .bb file instead,
+> otherwise non-gplv3 builds fail.
+>
+> In the interests of expedience, I tweaked the patch to apply to the
+> versioned .bb file instead and queued it.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Thank you very much.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 743c7cb..2461acd 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -110,12 +110,16 @@ class RpmIndexer(Indexer):
-         rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
-         index_cmds = []
-         rpm_dirs_found = False
-+        dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb')
-+        if os.path.exists(dbpath):
-+            bb.utils.remove(dbpath, True)
-         for arch in archs:
-             arch_dir = os.path.join(self.deploy_dir, arch)
-             if not os.path.isdir(arch_dir):
-                 continue
- 
--            index_cmds.append("%s --update -q %s" % (rpm_createrepo, arch_dir))
-+            index_cmds.append("%s --dbpath %s --update -q %s" % \
-+                             (rpm_createrepo, dbpath, arch_dir))
- 
-             rpm_dirs_found = True
- 
--- 
-2.1.4
+// Robert
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
 
