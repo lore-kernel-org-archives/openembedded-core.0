@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 99FAC736B6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 27AB9724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 10:53:59 +0000 (UTC)
-Received: by qgf60 with SMTP id 60so10343922qgf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 03:54:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=imsxN+w98GOKN/02X+eBF+TdpsrpyL02bkjEuGloXMM=;
-	b=jlId75XbgVlh1hr06MDRLglCKmm4Gq0dhflRXweCQpKuS/J3XSeMsSkUYoZwrNvjzL
-	uiPI/rs7a6U5LonQok8Nfn4cy+HbDzkFBMAaGnjbxngIPDt4SfLtQsH7gBOBYQWmIB2L
-	uKhVKoIYfYaVAiLYYq2A8dHWW21aRP6ZtwwTg4NfM49fN3IQTVpD9E8lKkJCmomrhEQq
-	dGolRPRF64QrD3xI6++oNE1xhkzVeLmobTJv6T2Zs4mDxJfu7Cev7nilNwKi9yNQY3ll
-	banIg2Ce0ti6YlfUOYiSbhlBmQzbPwBGKp1uRzLZquzIUf5A65t1hSbDLlPEiGyjm1Ry
-	yOhg==
-X-Gm-Message-State: ALoCoQkzqx1sqodWiBr+mmtjUdMNF3eWexi+0IuI174dGIGx4DD6LaxugZrH16DQCRW4Cn3byRTa
-X-Received: by 10.140.217.198 with SMTP id n189mr24390705qhb.29.1427799240163; 
-	Tue, 31 Mar 2015 03:54:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Tue, 31 Mar 2015 03:53:40 -0700 (PDT)
-In-Reply-To: <1427798860065.8452@caviumnetworks.com>
-References: <1427384351-17870-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
-	<1427798860065.8452@caviumnetworks.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 31 Mar 2015 11:53:40 +0100
-Message-ID: <CAJTo0LZfw3VvLgP2AdsakRnNsRFU5D25Js57T3rJ9hHCYyfP+A@mail.gmail.com>
-To: "Krishnanjanappa, Jagadeesh" <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libart-lgpl: add art_config.h for armeb/aarch64be/aarch64be_32
+	Tue, 31 Mar 2015 12:06:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2VC6NW9011621; Tue, 31 Mar 2015 13:06:23 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ITQQpe3VkksL; Tue, 31 Mar 2015 13:06:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t2VC6AS7011598
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 31 Mar 2015 13:06:22 +0100
+Message-ID: <1427803570.14020.356.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Tue, 31 Mar 2015 13:06:10 +0100
+In-Reply-To: <1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1427759396-24932-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1427761001-25332-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_manager: call createrepo with --dbpath pointing inside WORKDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,237 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 10:54:00 -0000
-Content-Type: multipart/alternative; boundary=001a11379880855a210512936a6c
+X-List-Received-Date: Tue, 31 Mar 2015 12:06:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11379880855a210512936a6c
-Content-Type: text/plain; charset=UTF-8
-
-This is queued in master-next and will be in fido.
-
-Ross
-
-On 31 March 2015 at 11:47, Krishnanjanappa, Jagadeesh <
-Jagadeesh.Krishnanjanappa@caviumnetworks.com> wrote:
-
-> ping
->
-> Regards,
-> Jagadeesh
-> ________________________________________
-> From: Krishnanjanappa, Jagadeesh
-> Sent: Thursday, March 26, 2015 9:09 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Krishnanjanappa, Jagadeesh
-> Subject: [OE-core][PATCH v2] libart-lgpl: add art_config.h for
-> armeb/aarch64be/aarch64be_32
->
-> From: "Krishnanjanappa, Jagadeesh" <
-> jagadeesh.krishnanjanappa@caviumnetworks.com>
->
-> The preprocessor macro values present in art_config.h
-> differ for individual architectures, basically libart-lgpl recipe will
-> pick up correct art_config.h file based on
->
-> ART_CONFIG = "${HOST_ARCH}/art_config.h"
->
-> and thereby having correct preprocessor macros definition
-> of each architectures.
->
-> Signed-off-by: Krishnanjanappa, Jagadeesh <
-> jagadeesh.krishnanjanappa@caviumnetworks.com>
+On Tue, 2015-03-31 at 03:16 +0300, Ed Bartosh wrote:
+> Rpm database in staging area is used only by createrepo.
+> createrepo fails with the error
+> "rpmdb: BDB0060 PANIC: fatal region error detected"
+> if rpm database is broken during previous run of createrepo.
+> 
+> Made createrepo to create rpm db in $WORKDIR/rpmdb/ from scratch
+> for every build. This should potentially fix the failure.
+> 
+> [YOCTO #6571]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 > ---
->  meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h    | 10
-> ++++++++++
->  meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h | 10
-> ++++++++++
->  meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h        | 10
-> ++++++++++
->  3 files changed, 30 insertions(+)
->  create mode 100644
-> meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
->  create mode 100644
-> meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
->  create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
->
-> diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-> b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-> new file mode 100644
-> index 0000000..500ffc3
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 8
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> diff --git
-> a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-> b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-> new file mode 100644
-> index 0000000..b0e74ad
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 4
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> diff --git a/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-> b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-> new file mode 100644
-> index 0000000..b0e74ad
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h
-> @@ -0,0 +1,10 @@
-> +/* Automatically generated by gen_art_config.c */
-> +
-> +#define ART_SIZEOF_CHAR 1
-> +#define ART_SIZEOF_SHORT 2
-> +#define ART_SIZEOF_INT 4
-> +#define ART_SIZEOF_LONG 4
-> +
-> +typedef unsigned char art_u8;
-> +typedef unsigned short art_u16;
-> +typedef unsigned int art_u32;
-> --
-> 1.8.2.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>  meta/lib/oe/package_manager.py | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 743c7cb..2461acd 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -110,12 +110,16 @@ class RpmIndexer(Indexer):
+>          rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
+>          index_cmds = []
+>          rpm_dirs_found = False
+> +        dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb')
+> +        if os.path.exists(dbpath):
+> +            bb.utils.remove(dbpath, True)
+>          for arch in archs:
+>              arch_dir = os.path.join(self.deploy_dir, arch)
+>              if not os.path.isdir(arch_dir):
+>                  continue
+>  
+> -            index_cmds.append("%s --update -q %s" % (rpm_createrepo, arch_dir))
+> +            index_cmds.append("%s --dbpath %s --update -q %s" % \
+> +                             (rpm_createrepo, dbpath, arch_dir))
+>  
+>              rpm_dirs_found = True
 
---001a11379880855a210512936a6c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Do we need to add arch to dbpath here to avoid races between the
+separate createrepo processes?
 
-<div dir=3D"ltr">This is queued in master-next and will be in fido.<div><br=
-></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gm=
-ail_quote">On 31 March 2015 at 11:47, Krishnanjanappa, Jagadeesh <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:Jagadeesh.Krishnanjanappa@caviumnetworks.com=
-" target=3D"_blank">Jagadeesh.Krishnanjanappa@caviumnetworks.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">ping<br>
-<br>
-Regards,<br>
-Jagadeesh<br>
-________________________________________<br>
-From: Krishnanjanappa, Jagadeesh<br>
-Sent: Thursday, March 26, 2015 9:09 PM<br>
-To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openembedde=
-d-core@lists.openembedded.org</a><br>
-Cc: Krishnanjanappa, Jagadeesh<br>
-Subject: [OE-core][PATCH v2] libart-lgpl: add art_config.h for armeb/aarch6=
-4be/aarch64be_32<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-From: &quot;Krishnanjanappa, Jagadeesh&quot; &lt;<a href=3D"mailto:jagadees=
-h.krishnanjanappa@caviumnetworks.com">jagadeesh.krishnanjanappa@caviumnetwo=
-rks.com</a>&gt;<br>
-<br>
-The preprocessor macro values present in art_config.h<br>
-differ for individual architectures, basically libart-lgpl recipe will<br>
-pick up correct art_config.h file based on<br>
-<br>
-ART_CONFIG =3D &quot;${HOST_ARCH}/art_config.h&quot;<br>
-<br>
-and thereby having correct preprocessor macros definition<br>
-of each architectures.<br>
-<br>
-Signed-off-by: Krishnanjanappa, Jagadeesh &lt;<a href=3D"mailto:jagadeesh.k=
-rishnanjanappa@caviumnetworks.com">jagadeesh.krishnanjanappa@caviumnetworks=
-.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h=C2=A0 =C2=
-=A0 | 10 ++++++++++<br>
-=C2=A0meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h | 10 +=
-+++++++++<br>
-=C2=A0meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 10 ++++++++++<br>
-=C2=A03 files changed, 30 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art=
-_config.h<br>
-=C2=A0create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/=
-art_config.h<br>
-=C2=A0create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/armeb/art_con=
-fig.h<br>
-<br>
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h b/=
-meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h<br>
-new file mode 100644<br>
-index 0000000..500ffc3<br>
---- /dev/null<br>
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be/art_config.h<br>
-@@ -0,0 +1,10 @@<br>
-+/* Automatically generated by gen_art_config.c */<br>
-+<br>
-+#define ART_SIZEOF_CHAR 1<br>
-+#define ART_SIZEOF_SHORT 2<br>
-+#define ART_SIZEOF_INT 4<br>
-+#define ART_SIZEOF_LONG 8<br>
-+<br>
-+typedef unsigned char art_u8;<br>
-+typedef unsigned short art_u16;<br>
-+typedef unsigned int art_u32;<br>
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h=
- b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h<br>
-new file mode 100644<br>
-index 0000000..b0e74ad<br>
---- /dev/null<br>
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/aarch64be_32/art_config.h<br>
-@@ -0,0 +1,10 @@<br>
-+/* Automatically generated by gen_art_config.c */<br>
-+<br>
-+#define ART_SIZEOF_CHAR 1<br>
-+#define ART_SIZEOF_SHORT 2<br>
-+#define ART_SIZEOF_INT 4<br>
-+#define ART_SIZEOF_LONG 4<br>
-+<br>
-+typedef unsigned char art_u8;<br>
-+typedef unsigned short art_u16;<br>
-+typedef unsigned int art_u32;<br>
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h b/meta=
-/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h<br>
-new file mode 100644<br>
-index 0000000..b0e74ad<br>
---- /dev/null<br>
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/armeb/art_config.h<br>
-@@ -0,0 +1,10 @@<br>
-+/* Automatically generated by gen_art_config.c */<br>
-+<br>
-+#define ART_SIZEOF_CHAR 1<br>
-+#define ART_SIZEOF_SHORT 2<br>
-+#define ART_SIZEOF_INT 4<br>
-+#define ART_SIZEOF_LONG 4<br>
-+<br>
-+typedef unsigned char art_u8;<br>
-+typedef unsigned short art_u16;<br>
-+typedef unsigned int art_u32;<br>
---<br>
-1.8.2.3<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</div></div></blockquote></div><br></div>
+Cheers,
 
---001a11379880855a210512936a6c--
+Richard
+
+
+
