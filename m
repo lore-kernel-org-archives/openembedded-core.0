@@ -1,53 +1,25 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B3FBB60034
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 14ED8736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 11:21:47 +0000 (UTC)
-Received: by lbdc10 with SMTP id c10so33465825lbd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Apr 2015 04:21:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=dS6xsi8GXuQtTFzTW4xEBCmPtsJZHpEiLZbkpGP3y9E=;
-	b=iP6lGBGP9wNggHjQ3gF5ti0chULdbWPaSOK0qam1J5ddDubtgl7RQvsT+2oIkyJnDQ
-	3Rj1W96IznBuudk4ph/OMvdVSjT6O+s8PPi9lCsDXy217whF2bVYbh/IqRPwWgyl3bOO
-	G9Gkb0DHbaQtU7ZaOWqLDW8IQyicIHpbqBGUkzylSEBaeIR+snBTM49G3if1bPBRmzIq
-	GCBhc8BScqWf6pOD5GBqv46WE9Q7Z9IZwTxmxHSYiqfxpQa62sF+bm1ej+n/YlukObIb
-	PqpgZp8Y5tJGA3Pe/2IDh2Unv37WqZDrSIRmqowIqQBqtrivM6vcRvbMscgF5mA62pr+
-	TS8g==
-X-Gm-Message-State: ALoCoQk0YGZUzmHr/3dEhBZUYU+psRTXjF4rXd3MnL+2/yhLy8fERu9ZaJ9BmqFGBILn20F09YBb
-X-Received: by 10.112.167.36 with SMTP id zl4mr8505862lbb.22.1427887307659;
-	Wed, 01 Apr 2015 04:21:47 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id mm7sm347486lbb.30.2015.04.01.04.21.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Apr 2015 04:21:47 -0700 (PDT)
-Date: Wed, 1 Apr 2015 13:21:45 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Message-ID: <20150401112145.GF18315@ad.chargestorm.se>
-Mail-Followup-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <bruno.bottazzini@intel.com>
-	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
-	<1427320163-9262-5-git-send-email-bruno.bottazzini@intel.com>
-	<CAHiDW_F8MKf1yWW3y=QOxX02Jjgs1HdZn1PDgL9bFLuMJh+jfA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHiDW_F8MKf1yWW3y=QOxX02Jjgs1HdZn1PDgL9bFLuMJh+jfA@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] systemd: v219 with stable fixes
+	Wed,  1 Apr 2015 12:07:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2015 05:07:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,503,1422950400"; d="scan'208";a="673735512"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 01 Apr 2015 05:07:01 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 6ACFD6A408D;
+	Wed,  1 Apr 2015 05:06:39 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Apr 2015 15:06:52 +0300
+Message-Id: <1427890012-10595-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CAJTo0LYLsPht9UmqOZgHcFwMFftfFi6rRkFyFztHyGChGdwubA@mail.gmail.com>
+References: <CAJTo0LYLsPht9UmqOZgHcFwMFftfFi6rRkFyFztHyGChGdwubA@mail.gmail.com>
+Subject: [PATCH] createrepo: Implement --dbpath command line option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 11:21:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Apr 2015 12:07:03 -0000
 
-* Jussi Kukkonen <jussi.kukkonen@intel.com> [150401 12:17]:
+--dbpath option can be used in cases where users don't want
+createrepo to use system rpm db to avoid possible collisiouns
+with other programs.
 
-> On 25 March 2015 at 23:49, Bruno Bottazzini <bruno.bottazzini@intel.com> wrote:
-> > Adding patches that fix bugs for 219 version.
-> > This will get the same consistency of the stable systemd 219 version.
+For bitbake builds it would be possible to specify different
+databases even for every createrepo run. Considering that rootfs
+builds can run multiple createrepo in parallel, it can help to avoid
+race conditions caused by accessing or creating the same rpm database
+by multiple createrepo instances at the same time.
 
-> > More details:
-> > http://cgit.freedesktop.org/systemd/systemd-stable/log/?h=v219-stable
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ .../createrepo/createrepo/createrepo-dbpath.patch  | 51 ++++++++++++++++++++++
+ .../createrepo/createrepo_0.4.11.bb                |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
 
-> Is the idea of these patches to reproduce 219-stable in oe-core? If
-> yes, wouldn't it be easier to use systemd-stable repo and just update
-> the SRCREV instead of error prone patching? Or maybe I'm missing
-> something here...
-
-I was just wondering the same thing myself...
-
-Sure, it might be slightly more obvious which fixes are applied; on the
-other hand, unless we plan to only add a subset of the stable fixes in
-219-stable, there's no real reason to avoid 219-stable in my opinion.
-
-Cheers,
-Anders
-
+diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch b/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
+new file mode 100644
+index 0000000..2b113bf
+--- /dev/null
++++ b/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
+@@ -0,0 +1,51 @@
++--- createrepo-0.4.11.orig/genpkgmetadata.py	2015-03-30 22:18:19.904000000 +0300
+++++ createrepo-0.4.11.orig/genpkgmetadata.py	2015-03-30 22:28:49.208000000 +0300
++@@ -65,6 +65,7 @@
++      -p, --pretty = output xml files in pretty format.
++      --update = update existing metadata (if present)
++      -d, --database = generate the sqlite databases.
+++     --dbpath <dir> = specify path to rpm db directory.
++     """)
++ 
++     sys.exit(retval)
++@@ -72,10 +73,13 @@
++ class MetaDataGenerator:
++     def __init__(self, cmds):
++         self.cmds = cmds
++-        self.ts = rpm.TransactionSet()
++         self.pkgcount = 0
++         self.files = []
++ 
+++        if self.cmds['dbpath']:
+++            rpm.addMacro("_dbpath", self.cmds['dbpath'])
+++        self.ts = rpm.TransactionSet()
+++
++     def _os_path_walk(self, top, func, arg):
++         """Directory tree walk with callback function.
++          copy of os.path.walk, fixes the link/stating problem
++@@ -435,6 +439,7 @@
++     cmds['dir-pattern-match'] = ['.*bin\/.*', '^\/etc\/.*']
++     cmds['skip-symlinks'] = False
++     cmds['pkglist'] = []
+++    cmds['dbpath'] = None
++ 
++     try:
++         gopts, argsleft = getopt.getopt(args, 'phqVvndg:s:x:u:c:o:CSi:', ['help', 'exclude=',
++@@ -442,7 +447,7 @@
++                                                                   'baseurl=', 'groupfile=', 'checksum=',
++                                                                   'version', 'pretty', 'split', 'outputdir=',
++                                                                   'noepoch', 'checkts', 'database', 'update',
++-                                                                  'skip-symlinks', 'pkglist='])
+++                                                                  'skip-symlinks', 'pkglist=', 'dbpath='])
++     except getopt.error, e:
++         errorprint(_('Options Error: %s.') % e)
++         usage()
++@@ -516,6 +521,8 @@
++                 cmds['skip-symlinks'] = True
++             elif arg in ['-i', '--pkglist']:
++                 cmds['pkglist'] = a
+++            elif arg == '--dbpath':
+++                cmds['dbpath'] = os.path.realpath(a)
++                                 
++     except ValueError, e:
++         errorprint(_('Options Error: %s') % e)
+diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+index 49b45fc..adc193e 100644
+--- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
++++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+@@ -14,6 +14,7 @@ SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
+           file://python-scripts-should-use-interpreter-from-env.patch \
+ 	  file://createrepo-rpm549.patch \
+ 	  file://recommends.patch \
++	  file://createrepo-dbpath.patch \
+ 	  file://rpm-createsolvedb.py \
+          "
+ 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+2.1.4
+
 
