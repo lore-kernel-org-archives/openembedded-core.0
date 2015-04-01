@@ -1,35 +1,44 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 60E50736B6
+Return-Path: <matt@madison.systems>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 832AF724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 12:12:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2015 05:12:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,503,1422950400"; d="scan'208";a="701492180"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2015 05:12:24 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 9DEB66A408D
+	Wed,  1 Apr 2015 12:32:18 +0000 (UTC)
+Received: by patj18 with SMTP id j18so51062477pat.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 05:12:02 -0700 (PDT)
-Date: Wed, 1 Apr 2015 15:12:18 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150401121218.GA11145@linux.intel.com>
-References: <CAJTo0LYLsPht9UmqOZgHcFwMFftfFi6rRkFyFztHyGChGdwubA@mail.gmail.com>
-	<1427890012-10595-1-git-send-email-ed.bartosh@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1427890012-10595-1-git-send-email-ed.bartosh@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] createrepo: Implement --dbpath command line option
+	Wed, 01 Apr 2015 05:32:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:content-type
+	:mime-version:content-transfer-encoding;
+	bh=/OkJcuTBPtGAO/6c76lGIVuWscudu2FY9rrzLxPf3tE=;
+	b=cAm4Pan17ou92LIDoEHUgGwwlvoE+GPVJd4XkUcZmZ/QLF8CQfJgm/altp+cIrMrNa
+	gBQ59E0xMmhiaJfChL3LsSdosEny5+PJQsUTBicyqqGPrbIFly90YXBqEvJx1v6SH12d
+	w3Wj7QuQE5RXOTlorBXoRWvuosFg6VcGIt+Ahjz16R+g9VyxeJIPuWATVPafpn1MnM3U
+	gLGK5rfNMA8IKH8PdJYB+K7/ePiqbWXa1FvmqCKfsrbmPP6luoxLWUqbCGb/XKaESe6m
+	m2VdJTcUb3V0RxNsxpDzmuyxORmVoDc6WejCBYl8TTpafvBCiqMtvPZTuTMRzn0gLbbN
+	Vo0g==
+X-Gm-Message-State: ALoCoQlZl6SkVyGErfcI3jY9Y3QW2xgg9esWzPxF9w1cgtFa2vkeqaecTK65ZYgcBi1IuMmVBPot
+X-Received: by 10.70.7.193 with SMTP id l1mr35617380pda.106.1427891539796;
+	Wed, 01 Apr 2015 05:32:19 -0700 (PDT)
+Received: from [172.16.1.18]
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93])
+	by mx.google.com with ESMTPSA id l2sm2036222pbq.30.2015.04.01.05.32.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 Apr 2015 05:32:19 -0700 (PDT)
+Message-ID: <1427891538.4690.5.camel@workhorse.madison.systems>
+From: Matt Madison <matt@madison.systems>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 01 Apr 2015 05:32:18 -0700
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: busybox issue in latest dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -39,102 +48,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 12:12:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Apr 2015 12:32:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 01, 2015 at 03:06:52PM +0300, Ed Bartosh wrote:
-> --dbpath option can be used in cases where users don't want
-> createrepo to use system rpm db to avoid possible collisiouns
-> with other programs.
-> 
-> For bitbake builds it would be possible to specify different
-> databases even for every createrepo run. Considering that rootfs
-> builds can run multiple createrepo in parallel, it can help to avoid
-> race conditions caused by accessing or creating the same rpm database
-> by multiple createrepo instances at the same time.
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  .../createrepo/createrepo/createrepo-dbpath.patch  | 51 ++++++++++++++++++++++
->  .../createrepo/createrepo_0.4.11.bb                |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
-> 
-> diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch b/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
-> new file mode 100644
-> index 0000000..2b113bf
-> --- /dev/null
-> +++ b/meta/recipes-support/createrepo/createrepo/createrepo-dbpath.patch
-> @@ -0,0 +1,51 @@
-> +--- createrepo-0.4.11.orig/genpkgmetadata.py	2015-03-30 22:18:19.904000000 +0300
-> ++++ createrepo-0.4.11.orig/genpkgmetadata.py	2015-03-30 22:28:49.208000000 +0300
-> +@@ -65,6 +65,7 @@
-> +      -p, --pretty = output xml files in pretty format.
-> +      --update = update existing metadata (if present)
-> +      -d, --database = generate the sqlite databases.
-> ++     --dbpath <dir> = specify path to rpm db directory.
-> +     """)
-> + 
-> +     sys.exit(retval)
-> +@@ -72,10 +73,13 @@
-> + class MetaDataGenerator:
-> +     def __init__(self, cmds):
-> +         self.cmds = cmds
-> +-        self.ts = rpm.TransactionSet()
-> +         self.pkgcount = 0
-> +         self.files = []
-> + 
-> ++        if self.cmds['dbpath']:
-> ++            rpm.addMacro("_dbpath", self.cmds['dbpath'])
-> ++        self.ts = rpm.TransactionSet()
-> ++
-> +     def _os_path_walk(self, top, func, arg):
-> +         """Directory tree walk with callback function.
-> +          copy of os.path.walk, fixes the link/stating problem
-> +@@ -435,6 +439,7 @@
-> +     cmds['dir-pattern-match'] = ['.*bin\/.*', '^\/etc\/.*']
-> +     cmds['skip-symlinks'] = False
-> +     cmds['pkglist'] = []
-> ++    cmds['dbpath'] = None
-> + 
-> +     try:
-> +         gopts, argsleft = getopt.getopt(args, 'phqVvndg:s:x:u:c:o:CSi:', ['help', 'exclude=',
-> +@@ -442,7 +447,7 @@
-> +                                                                   'baseurl=', 'groupfile=', 'checksum=',
-> +                                                                   'version', 'pretty', 'split', 'outputdir=',
-> +                                                                   'noepoch', 'checkts', 'database', 'update',
-> +-                                                                  'skip-symlinks', 'pkglist='])
-> ++                                                                  'skip-symlinks', 'pkglist=', 'dbpath='])
-> +     except getopt.error, e:
-> +         errorprint(_('Options Error: %s.') % e)
-> +         usage()
-> +@@ -516,6 +521,8 @@
-> +                 cmds['skip-symlinks'] = True
-> +             elif arg in ['-i', '--pkglist']:
-> +                 cmds['pkglist'] = a
-> ++            elif arg == '--dbpath':
-> ++                cmds['dbpath'] = os.path.realpath(a)
-> +                                 
-> +     except ValueError, e:
-> +         errorprint(_('Options Error: %s') % e)
-> diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> index 49b45fc..adc193e 100644
-> --- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> +++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> @@ -14,6 +14,7 @@ SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
->            file://python-scripts-should-use-interpreter-from-env.patch \
->  	  file://createrepo-rpm549.patch \
->  	  file://recommends.patch \
-> +	  file://createrepo-dbpath.patch \
->  	  file://rpm-createsolvedb.py \
->           "
->  
+I updated to the latest on dizzy and ran into an issue with busybox's
+modutils commands failing, complaining about "no gzip/bzip2/xz magic".
+I've tracked it down to this patch committed (cd20b3c) on the 21st:
 
-Please, don't apply this patch. I've just sent updated one. Sorry for the confusion.
+busybox: libarchive: open_zipped() does not need to check extensions
+Backport from busybox 1_22_stable branch:
 
+I found a thread about this issue on the busybox mailing list archive,
+and applied the patch in this message
 
--- 
-Regards,
-Ed
+http://lists.busybox.net/pipermail/busybox/2014-January/080389.html
+
+which appears to have fixed the issue.  I can submit the patch, if this
+isn't already being worked on.
+
+Thanks,
+-Matt
+
 
