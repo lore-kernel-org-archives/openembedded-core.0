@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B54B60034
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 539C1724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 07:53:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t317r4Jw020739
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  1 Apr 2015 09:07:10 +0000 (UTC)
+Received: by qgep97 with SMTP id p97so36948078qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Apr 2015 00:53:04 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 1 Apr 2015 00:53:04 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Apr 2015 00:53:02 -0700
-Message-ID: <711934cddbc4f8c699487c16e33715cd9a6d5a57.1427874748.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1427874748.git.liezhi.yang@windriver.com>
-References: <cover.1427874748.git.liezhi.yang@windriver.com>
+	Wed, 01 Apr 2015 02:07:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=GaYjTxWu5punFNzgJ/guLpEYoRF5VTFXqrU0hoypU0M=;
+	b=fwKiN9aIy0HHSGkxqtmCTpAQXS6IsNz2SXJYLENOzD9WyFLhgp+XmUmWz3w5B/ux4d
+	d+bblkzUeh8vmkkayx6dqRYkw7aDg5dMzuOaEPlOcVhR/wuACm+A9VNQtWmU7XnnsIr8
+	OcTzfkMay7z0Jms0j10uibtl8m2MAz/LBlLVNS27m17ZR7+NZmUrCqu9t1X8fw8CHz3F
+	sUD3n7X7j9jfM54Tk7cFhmSPtioOQ2QTyqvF8FMoOLFFoY00I5zSRXJp5+5QRIPgmHNe
+	vmTLsFCchiMf3imAjGVBmmINxlf6tgY5DA0kgfRF15+ieAAQiAEWMiw+j+/9LyCK6zge
+	7iOQ==
+X-Gm-Message-State: ALoCoQnvClLKpPls6tVltXYCfTp62bA2B7buzTZaSSlIH9RvIBL5mDZIqHkFgF+ukpsgd29liaEf
+X-Received: by 10.140.27.211 with SMTP id 77mr51915413qgx.64.1427879231572;
+	Wed, 01 Apr 2015 02:07:11 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] glibc: fix a tpo
+Received: by 10.140.102.203 with HTTP; Wed, 1 Apr 2015 02:06:51 -0700 (PDT)
+In-Reply-To: <AB2B8D4E-10BB-47FF-891E-2104C8C889C2@gmail.com>
+References: <AB2B8D4E-10BB-47FF-891E-2104C8C889C2@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 Apr 2015 10:06:51 +0100
+Message-ID: <CAJTo0LZG1k1jQty-J9WS9g0r=pod+hOfCVXBzNS_R7yCsZG43Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Are we open for intrusive changes on master now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 07:53:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Apr 2015 09:07:12 -0000
+Content-Type: multipart/alternative; boundary=001a11c156ea617ea60512a60ac2
 
-Fixed a typo:
-name-target-directory -> make-target-directory
+--001a11c156ea617ea60512a60ac2
+Content-Type: text/plain; charset=UTF-8
 
-There is no name-target-directory, it should be make-target-directory,
-this fixed the error:
-/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
-Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
+On 1 April 2015 at 04:31, Khem Raj <raj.khem@gmail.com> wrote:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../glibc/glibc/elf-Makefile-fix-a-typo.patch      |   36 ++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.21.bb              |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+> Since these are quite intrusive patches, I would like to have them in
+> early for next release cycle
+>
 
-diff --git a/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
-new file mode 100644
-index 0000000..ec48006
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
-@@ -0,0 +1,36 @@
-+From 6207fb45553ee98f2f326883b7c21b76c8267343 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 31 Mar 2015 02:31:25 -0700
-+Subject: [PATCH] elf/Makefile: fix a typo
-+
-+Fixed a typo:
-+name-target-directory -> make-target-directory
-+
-+There is no name-target-directory, it should be make-target-directory,
-+this fixed the error:
-+/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
-+Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ elf/Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/elf/Makefile b/elf/Makefile
-+index e5b142c..62fe245 100644
-+--- a/elf/Makefile
-++++ b/elf/Makefile
-+@@ -358,7 +358,7 @@ $(objpfx)interp.os: $(elf-objpfx)runtime-linker.h
-+ 
-+ $(elf-objpfx)runtime-linker.h: $(elf-objpfx)runtime-linker.st; @:
-+ $(elf-objpfx)runtime-linker.st: $(common-objpfx)config.make
-+-	$(name-target-directory)
-++	$(make-target-directory)
-+ 	echo '#define RUNTIME_LINKER "$(rtlddir)/$(rtld-installed-name)"' \
-+ 		> ${@:st=T}
-+ 	$(move-if-change) ${@:st=T} ${@:st=h}
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 91feff5..fcef4ff 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -25,6 +25,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
-            file://0001-Add-unused-attribute.patch \
-            file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
-            file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
-+           file://elf-Makefile-fix-a-typo.patch \
-            ${EGLIBCPATCHES} \
-           "
- EGLIBCPATCHES = "\
--- 
-1.7.9.5
+The AB is finishing what we'd hope to be the final Fido build, so feel free
+to send them now as master will be accepting again shortly.
 
+Ross
 
+--001a11c156ea617ea60512a60ac2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 April 2015 at 04:31, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":30u" class=3D"a3s" style=
+=3D"overflow:hidden">Since these are quite intrusive patches, I would like =
+to have them in early for next release cycle</div></blockquote><div><br></d=
+iv><div>The AB is finishing what we&#39;d hope to be the final Fido build, =
+so feel free to send them now as master will be accepting again shortly.</d=
+iv><div><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a11c156ea617ea60512a60ac2--
