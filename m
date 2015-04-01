@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B6FB73CDC
+	by mail.openembedded.org (Postfix) with ESMTP id 5B54B60034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 07:53:02 +0000 (UTC)
+	Wed,  1 Apr 2015 07:53:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t317r3hi020736
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t317r4Jw020739
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Apr 2015 00:53:03 -0700 (PDT)
+	Wed, 1 Apr 2015 00:53:04 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 1 Apr 2015 00:53:03 -0700
+	Wed, 1 Apr 2015 00:53:04 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Apr 2015 00:53:00 -0700
-Message-ID: <ef4bd808c72bfaa4a7615db04cd27fdb98ab38bf.1427874748.git.liezhi.yang@windriver.com>
+Date: Wed, 1 Apr 2015 00:53:02 -0700
+Message-ID: <711934cddbc4f8c699487c16e33715cd9a6d5a57.1427874748.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1427874748.git.liezhi.yang@windriver.com>
 References: <cover.1427874748.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] piglit: add PACKAGECONFIG for freeglut
+Subject: [PATCH 3/3] glibc: fix a tpo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +36,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 01 Apr 2015 07:53:05 -0000
 Content-Type: text/plain
 
+Fixed a typo:
+name-target-directory -> make-target-directory
+
+There is no name-target-directory, it should be make-target-directory,
+this fixed the error:
+/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
+Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
+
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb |    3 +++
- 1 file changed, 3 insertions(+)
+ .../glibc/glibc/elf-Makefile-fix-a-typo.patch      |   36 ++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb              |    1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 68ac7e7..e33e4a7 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -21,6 +21,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
- # contents out of $S and $B.
- B="${S}"
- 
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
+diff --git a/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+new file mode 100644
+index 0000000..ec48006
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+@@ -0,0 +1,36 @@
++From 6207fb45553ee98f2f326883b7c21b76c8267343 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 31 Mar 2015 02:31:25 -0700
++Subject: [PATCH] elf/Makefile: fix a typo
 +
- # CMake sets the rpath at build time with the source tree, and will reset it at
- # install time. As we don't install this doesn't happen, so force the rpath to
- # what we need.
++Fixed a typo:
++name-target-directory -> make-target-directory
++
++There is no name-target-directory, it should be make-target-directory,
++this fixed the error:
++/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
++Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ elf/Makefile |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/elf/Makefile b/elf/Makefile
++index e5b142c..62fe245 100644
++--- a/elf/Makefile
+++++ b/elf/Makefile
++@@ -358,7 +358,7 @@ $(objpfx)interp.os: $(elf-objpfx)runtime-linker.h
++ 
++ $(elf-objpfx)runtime-linker.h: $(elf-objpfx)runtime-linker.st; @:
++ $(elf-objpfx)runtime-linker.st: $(common-objpfx)config.make
++-	$(name-target-directory)
+++	$(make-target-directory)
++ 	echo '#define RUNTIME_LINKER "$(rtlddir)/$(rtld-installed-name)"' \
++ 		> ${@:st=T}
++ 	$(move-if-change) ${@:st=T} ${@:st=h}
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 91feff5..fcef4ff 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -25,6 +25,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
+            file://0001-Add-unused-attribute.patch \
+            file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
+            file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
++           file://elf-Makefile-fix-a-typo.patch \
+            ${EGLIBCPATCHES} \
+           "
+ EGLIBCPATCHES = "\
 -- 
 1.7.9.5
 
