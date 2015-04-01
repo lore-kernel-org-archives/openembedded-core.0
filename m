@@ -1,38 +1,37 @@
-Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A1E546013D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B0B9860034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 22:52:14 +0000 (UTC)
-Received: by yhch68 with SMTP id h68so7849863yhc.1
+	Wed,  1 Apr 2015 03:31:58 +0000 (UTC)
+Received: by pdbni2 with SMTP id ni2so41042945pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Mar 2015 15:52:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=ovTbDxAbkNTNu07ah8zSv3J/DgK0kOPdn+don5SKk+M=;
-	b=b+KQc8EOrYS7Yy7ql9hxkEu4NbEwCMQP5uhytj+x84PCCT4Xs4O/TSYaLbdr5E6ROt
-	OsP9ERN/RyFVHMnPRUOal5Hvlm3iY1jsAA4kh1F5GvCeGLrU119j6IT2uDbADv8vxkbn
-	9IMS5NXcW1fURWjQMwaPeKimebsgqQGnLvCB5wB23kUef3o+UMbo7KGZpFB+AfCpmb+U
-	tXLz/GB7mzgoc0Os3h71GE8lXURsWc+cYUDLf8iCrObrBo9a1ZHDjv3fRgSVoDRjoasP
-	QU/XD3z4pwfT8KV0Osk8N4KZvT/L8QPM2mJdRAxab8RdIFTcj378iS3VvYIFfbIucX59
-	tRIg==
-X-Gm-Message-State: ALoCoQnuko8cpiLDeB0uIfidL8vPOnIJBdDA+xmZWGEH5+wZeRQNlRd5f2j0Kps6rN4GCs1GVgaz
-MIME-Version: 1.0
-X-Received: by 10.52.30.34 with SMTP id p2mr40580219vdh.89.1427842336181; Tue,
-	31 Mar 2015 15:52:16 -0700 (PDT)
-Received: by 10.52.124.37 with HTTP; Tue, 31 Mar 2015 15:52:16 -0700 (PDT)
-In-Reply-To: <CAJTo0LZChMApmPzMEA-J+u8izy06O7fMJrU+3JaAN+ZbnSCv4w@mail.gmail.com>
-References: <cover.1427832505.git.elizabeth.flanagan@intel.com>
-	<1ec089080f95b9042d782b5e5ecc6628877acd02.1427832505.git.elizabeth.flanagan@intel.com>
-	<CAJTo0LZChMApmPzMEA-J+u8izy06O7fMJrU+3JaAN+ZbnSCv4w@mail.gmail.com>
-Date: Tue, 31 Mar 2015 23:52:16 +0100
-Message-ID: <CAPhnLPBr1SJYGVmeW0VYg-Jv2hVnyWDjAQOg8L3K3dz-a6gL2A@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] distrodata.bbclass/distro_check.py: Support buildtools PN mapping
+	Tue, 31 Mar 2015 20:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:message-id:date
+	:to:mime-version;
+	bh=O7djgbjtEBrHvzLehsg1eFAz7mWoH/ppYTi/HflWeh8=;
+	b=HjFV4P0ssVltyAEtC4FJvEmWjrxvAmkk3Bl136qahY6X8rELeyN/sPOUZXEFPX4KU0
+	MQS4/tEw0IskdzOTq/CEtVUWF4/Rh4KeMG4IUpDSOCL7OV/EpGDBXYS/SmwNISY0czU2
+	O5RevpTW4oA248RDLpoT2dAjEvYqldXknu5ljS+gmJNIT6SM3yo2Kww7kznuyehEj+P9
+	fNlZ9aNgQmexLD0fkAb5SK7I7fyMUUb1EjCXrcfXM5m2AuBvQ5TfmftuO8ZuYVRio3UX
+	JjPpCPQ9f9WkywwrpOrEDa++arRNiMpHQ4dC3EcFz1FKioln5TzwPWDtnpkG+xICi4gt
+	/yyg==
+X-Received: by 10.66.231.204 with SMTP id ti12mr73432081pac.135.1427859120023; 
+	Tue, 31 Mar 2015 20:32:00 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:19fb:8697:69c9:14f6?
+	([2601:9:3580:84c:19fb:8697:69c9:14f6])
+	by mx.google.com with ESMTPSA id n5sm401052pdn.63.2015.03.31.20.31.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 31 Mar 2015 20:31:59 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Message-Id: <AB2B8D4E-10BB-47FF-891E-2104C8C889C2@gmail.com>
+Date: Tue, 31 Mar 2015 20:31:58 -0700
+To: OE-core <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+X-Mailer: Apple Mail (2.2070.6)
+Subject: Are we open for intrusive changes on master now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Mar 2015 22:52:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Apr 2015 03:32:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 31 March 2015 at 23:31, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 31 March 2015 at 21:11, Beth Flanagan <elizabeth.flanagan@intel.com>
-> wrote:
->>
->> We need to be able to map buildtools- to the original PN.
->
->
-> What packages are prefixed buildtools-?  I can only see a buildtools-tarball
-> and nativesdk-buildtools-perl-dummy, neither of which can be considered to
-> have a "real PN" of tarball or perl really.
->
-> Ross
+Hi
 
-Agreed. Looking at the two recipes that use this, I think it's
-probably safe to just exclude packages that have buildtools- prefixes.
+I have few patches pending on
 
--b
-
->
-> ---------------------------------------------------------------------
-> Intel Corporation (UK) Limited
-> Registered No. 1134945 (England)
-> Registered Office: Pipers Way, Swindon SN3 1RJ
-> VAT No: 860 2173 47
->
-> This e-mail and any attachments may contain confidential material for
-> the sole use of the intended recipient(s). Any review or distribution
-> by others is strictly prohibited. If you are not the intended
-> recipient, please contact the sender and delete all copies.
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/master=
 
 
+except two commits 1. glibc and 2. gcc-5.0 upgrade
 
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+all are potential candidates I would like to propose ( as of now )
+
+Since these are quite intrusive patches, I would like to have them in =
+early for next release cycle
+
+-Khem
+
 
