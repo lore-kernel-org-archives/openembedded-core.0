@@ -1,30 +1,38 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [119.145.14.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 36A94724DC
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CFA360034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 10:03:38 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml428-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg03-dlp.huawei.com (MOS 4.4.3-GA FastPath queued)
-	with ESMTP id BDX11211; Wed, 01 Apr 2015 18:03:38 +0800 (CST)
-Received: from Patch-Test.huawei (10.107.197.245) by
-	szxeml428-hub.china.huawei.com (10.82.67.183) with Microsoft SMTP
-	Server id 14.3.158.1; Wed, 1 Apr 2015 18:03:27 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Apr 2015 10:00:25 +0000
-Message-ID: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
-X-Mailer: git-send-email 1.8.3.4
+	Wed,  1 Apr 2015 10:17:03 +0000 (UTC)
+Received: by obbgh1 with SMTP id gh1so68586234obb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Apr 2015 03:17:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=SroEqVfC7H/5KVp4jSUnVMGmygUPp76B3pZHWnV57I4=;
+	b=RHkwiIleWcP4gxRF+pBK02GTDd4emnuQgLMZMEn9A0/gSZaflMzKLh48r90RViWfAG
+	cQMJAYtsxjJKSftV9q6mYgvi1j5fWgCUijDx9UXmEI3qaotuW0H9Yl4rObbNTPLVnndw
+	zVWgO/Q/KnFw5MhuRkaN0lLrLTLYGb8H4z2DXAtNvKNuvg+JBpsRVCm3GNTAmNffOXw7
+	//EiSExeRuyPlCiJLZAopQ3WAMbrE7+c9InAAI6cc7jwZd5WDa2ipt6YRpHE5To5tNd9
+	ySkZGcfPeJ/iaZtWVPFV13/ZDHcGzMdnNn2Cr1Y84t7hW9jZAt27UmzxTXVwOKexu45A
+	6bZA==
+X-Gm-Message-State: ALoCoQk3EnXZ5Uirbdi6TdIm+2CS/xAcYpkqjJrt3Enu00R8MpP7Vxc4LVJb5xAlkorH1KTyOrFE
+X-Received: by 10.60.46.66 with SMTP id t2mr38637789oem.60.1427883424025; Wed,
+	01 Apr 2015 03:17:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.107.197.245]
-X-CFilter-Loop: Reflected
-X-Mirapoint-Virus-RAPID-Raw: score=unknown(0),
-	refid=str=0001.0A020201.551BC27A.03BA, ss=1, re=0.001, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0, ip=0.0.0.0,
-	so=2013-05-26 15:14:31, dmn=2013-03-21 17:37:32
-X-Mirapoint-Loop-Id: 1c9ef20d52c56304773d64cff24680df
-Cc: peifeiyue@huawei.com
-Subject: [PATCH] uclibc: fix undefinition of '_dl_strchr' in libdl.a
+Received: by 10.202.92.139 with HTTP; Wed, 1 Apr 2015 03:16:33 -0700 (PDT)
+In-Reply-To: <1427320163-9262-5-git-send-email-bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
+	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
+	<1427320163-9262-5-git-send-email-bruno.bottazzini@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 1 Apr 2015 13:16:33 +0300
+Message-ID: <CAHiDW_F8MKf1yWW3y=QOxX02Jjgs1HdZn1PDgL9bFLuMJh+jfA@mail.gmail.com>
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] systemd: v219 with stable fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,85 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 10:03:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Apr 2015 10:17:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The orign_path.patch introduced '_dl_strchr' into ldso/ldso/dl-elf.c, and
-caused the following undefined referencing compiling error:
+Hi,
 
-  | .../libdl.a(libdl.os): In function `search_for_named_library':
-  | .../dl-elf.c:156: undefined reference to `_dl_strchr'
-  | collect2: error: ld returned 1 exit status
+On 25 March 2015 at 23:49, Bruno Bottazzini <bruno.bottazzini@intel.com> wrote:
+> Adding patches that fix bugs for 219 version.
+> This will get the same consistency of the stable systemd 219 version.
+>
+> More details:
+> http://cgit.freedesktop.org/systemd/systemd-stable/log/?h=v219-stable
 
-I found this problem when compiling gdb in static mode using uclibc.
+Is the idea of these patches to reproduce 219-stable in oe-core? If
+yes, wouldn't it be easier to use systemd-stable repo and just update
+the SRCREV instead of error prone patching? Or maybe I'm missing
+something here...
 
-Add the definition of '_dl_strchr' to fix it. The '_dl_strstr' is added
-as well.
-
-Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
----
- meta/recipes-core/uclibc/uclibc-git.inc            |  1 +
- ...-define-_dl_strchr-and-_dl_strstr-if-not-.patch | 39 ++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-dl-string.h-define-_dl_strchr-and-_dl_strstr-if-not-.patch
-
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index a2b2353..68240dc 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -25,5 +25,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
- 	file://0002-wire-setns-syscall.patch \
- 	file://0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch \
- 	file://0001-timex-Sync-with-glibc.patch \
-+	file://0001-dl-string.h-define-_dl_strchr-and-_dl_strstr-if-not-.patch \
- 	"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-dl-string.h-define-_dl_strchr-and-_dl_strstr-if-not-.patch b/meta/recipes-core/uclibc/uclibc-git/0001-dl-string.h-define-_dl_strchr-and-_dl_strstr-if-not-.patch
-new file mode 100644
-index 0000000..e94fbba
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-dl-string.h-define-_dl_strchr-and-_dl_strstr-if-not-.patch
-@@ -0,0 +1,39 @@
-+From eb1806f581a134599c1ef26975f514e35663f8c2 Mon Sep 17 00:00:00 2001
-+From: Junling Zheng <zhengjunling@huawei.com>
-+Date: Tue, 31 Mar 2015 12:00:58 +0000
-+Subject: [PATCH] dl-string.h: define _dl_strchr and _dl_strstr if not
-+ IS_IN_rtld
-+
-+We should define _dl_strchr and _dl_strstr when not defining IS_IN_rtld.
-+Otherwise, if someone use _dl_strchr or _dl_strstr in the ldso/ldso/dl-
-+elf.c, libdl.a will lack the declaration of '_dl_strchr' or '_dl_strstr',
-+and there will be an compiling error like the following:
-+
-+  dl-elf.c:156: undefined reference to `_dl_strchr'
-+
-+So, add the definition of _dl_strchr and _dl_strstr.
-+
-+Upstream-Status: Submitted [http://lists.uclibc.org/pipermail/uclibc/2015-March/048888.html]
-+
-+Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
-+---
-+ ldso/include/dl-string.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/ldso/include/dl-string.h b/ldso/include/dl-string.h
-+index aacad10..14ae617 100644
-+--- a/ldso/include/dl-string.h
-++++ b/ldso/include/dl-string.h
-+@@ -204,7 +204,9 @@ static __always_inline char * _dl_get_last_path_component(char *path)
-+ # define _dl_strcat strcat
-+ # define _dl_strcpy strcpy
-+ # define _dl_strcmp strcmp
-++# define _dl_strchr strchr
-+ # define _dl_strrchr strrchr
-++# define _dl_strstr strstr
-+ # define _dl_memcpy memcpy
-+ # define _dl_memcmp memcmp
-+ # define _dl_memset memset
-+-- 
-+1.8.3.4
-+
--- 
-1.8.3.4
-
+ - Jussi
 
