@@ -1,41 +1,24 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id EE97C6AC56
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB94D6AC56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Apr 2015 14:35:26 +0000 (UTC)
-Received: by wibgn9 with SMTP id gn9so107933990wib.1
+	Thu,  2 Apr 2015 18:41:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t32IftE0014668
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Apr 2015 07:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to:cc
-	:message-id; bh=rZjChPHO82BTuNROhr8HZhkTnpDWbGmg6I6dY8AsT6k=;
-	b=W8WO7Qt3gIPOBi15q/TQNAO3VDYDCekhwkoVROPzh4tSKZteUH//Ow4iJRdvQMQrT0
-	V2mv8xUO0ypeXzCnSR5oYf66RoB3U3mSs4hOevVW4qtnz4PM2+eOTjG2lRmbhzIfvYQV
-	l6eHv/WYg3oe/TY3VYB1d1QCHv6V6had6cJ980RYPgONNIl3xxicKLrfXxTLKk0mTBrF
-	AvDkdC628m4xd+3zaJXS1wrYJhptfZqQPCkQSiJXVwYNa2BMJ0AyKur1dp2ybxp6wo0D
-	eGo873swYIgdMH8Guhq9uIBKzApjAQgzGDh9p72nR4BObw+ylmn812s7naK1agBAYtb0
-	jpWg==
-X-Received: by 10.180.102.228 with SMTP id fr4mr3917335wib.4.1427985327513;
-	Thu, 02 Apr 2015 07:35:27 -0700 (PDT)
-Received: from [10.41.0.24] (089144212024.atnat0021.highway.a1.net.
-	[89.144.212.24])
-	by mx.google.com with ESMTPSA id ga8sm7991624wib.11.2015.04.02.07.35.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Apr 2015 07:35:26 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <551D0FCB.5080603@huawei.com>
-References: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
-	<34C00CB4-D932-4317-A2B6-E6C7346464A0@gmail.com>
-	<551D0FCB.5080603@huawei.com>
+	Thu, 2 Apr 2015 11:41:55 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 2 Apr 2015 11:41:55 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Apr 2015 11:41:54 -0700
+Message-ID: <1428000114-2897-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Thu, 02 Apr 2015 16:35:21 +0200
-To: Junling Zheng <zhengjunling@huawei.com>
-Message-ID: <0D1A6BA1-78E2-4AA5-9DD0-6553A974B447@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] uclibc: fix undefinition of '_dl_strchr' in libdl.a
+Subject: [PATCH 1/1] nss: generate debug info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,48 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Apr 2015 14:35:27 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Thu, 02 Apr 2015 18:41:54 -0000
+Content-Type: text/plain
 
-On April 2, 2015 11:45:47 AM GMT+02:00, Junling Zheng <zhengjunling@huawei.com> wrote:
->On 2015/4/2 14:42, Bernhard Reutner-Fischer wrote:
->> On April 1, 2015 12:00:25 PM GMT+02:00, Junling Zheng
-><zhengjunling@huawei.com> wrote:
->>> The orign_path.patch introduced '_dl_strchr' into
->ldso/ldso/dl-elf.c,
->> 
->> Please fix the origin patch directly.
->> Thanks,
->> 
->Hi, Bernhard
->
->The orign_path.patch is backported from:
->
->http://lists.busybox.net/pipermail/uclibc/2011-March/045003.html
->
->It's an individual. Should I still fix this patch directly?
+Because the build of nss seems to ignore CFLAGS, we never
+have put source code in the -dbg package.  We do not address
+the CFLAGS issue, but we do add -g to the definition of CC
+so that we will generate debug info.
 
-Yes.
->
->BTW, should uclibc upstream need this patch to avoid the above problem
->too?
+We also let package.bbclass populate the -dbg package instead
+of forcing the contents locally.
 
-There currently is no in-tree user of these, so no.
-$ORIGIN support is on my todo list..
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-support/nss/nss.inc |   13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
->
->I had submitted a patch to the uclibc upstream, and expected your
->review:)
-
-See above :)
-
-Cheers,
->
->Thanks,
->
->Junling
-
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index 4be3557..4082930 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -74,8 +74,12 @@ do_compile() {
+         export USE_64=1
+     fi
+ 
+-    make -C ./nss CCC="${CXX}" \
+-        OS_TEST=${OS_TEST} \
++    # We can modify CC in the environment, but if we set it via an
++    # argument to make, nsinstall, a host program, will also build with it!
++    #
++    export CC="${CC} -g"
++    make -C ./nss CCC="${CXX} -g" \
++        OS_TEST=${OS_TEST}
+ }
+ 
+ 
+@@ -204,9 +208,6 @@ FILES_${PN}-dev = "\
+     ${libdir}/pkgconfig/* \
+     ${includedir}/* \
+     "
+-FILES_${PN}-dbg = "\
+-    ${bindir}/.debug/* \
+-    ${libdir}/.debug/* \
+-    "
++# FILES_${PN}-dbg is populated automatically
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.9.5
 
 
