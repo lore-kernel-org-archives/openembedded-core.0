@@ -1,38 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C28AD73CBF
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E7E2724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Apr 2015 11:10:44 +0000 (UTC)
-Received: by qgh3 with SMTP id 3so66167551qgh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Apr 2015 04:10:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=hFIH5LqA4W8tpEXq6YTq4lik+hSCeV62keraDK/jog0=;
-	b=MFu9oMrDCS1ZH1XxY8mxU8k3jtkyutUdECDsD2KGCb4WVd+biDABzrHgfviiAX6i68
-	uHPfYQYhCxU5IszYMFt1pfXTfsXXk60zpZSSsF4+T6inYu3EOblNhqMTe/ZYAK+XHxl0
-	nBPOG811JL7X62KzRyTT3NMSA9syELhna2/GyTPzm40vgjEi4CcTSDoXCWbXgU0uXpcp
-	7rgGB+oDB3bDh+daKw5cl0I/LNlRTiX09MBVP/fye1i/M6DAw9RsP+9GrjEasA339087
-	K2HDl/gRwYjIEDGSklFxMfVW+ZDwQjSIEQB6AT3VflItIaWqw8ct+RTslsG0MUTO6Jpb
-	quxw==
-X-Gm-Message-State: ALoCoQkynxdlzBUxawPI85VBz4pBRetS6djccPJn59IDgwaYDMoL0hjWiVIMwQ6n2xhqG6GqM0fI
-X-Received: by 10.140.42.130 with SMTP id c2mr7474299qga.94.1427973045454;
-	Thu, 02 Apr 2015 04:10:45 -0700 (PDT)
+	Thu,  2 Apr 2015 13:18:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t32DIWeR009530
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 2 Apr 2015 06:18:33 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 2 Apr 2015 06:18:32 -0700
+Message-ID: <551D41A7.1050409@windriver.com>
+Date: Thu, 2 Apr 2015 08:18:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Received: by 10.140.102.203 with HTTP; Thu, 2 Apr 2015 04:10:25 -0700 (PDT)
-In-Reply-To: <551CB686.5090405@windriver.com>
-References: <cover.1427874748.git.liezhi.yang@windriver.com>
-	<ef4bd808c72bfaa4a7615db04cd27fdb98ab38bf.1427874748.git.liezhi.yang@windriver.com>
-	<20150401175921.GK14928@jama> <551CB686.5090405@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Apr 2015 12:10:25 +0100
-Message-ID: <CAJTo0LYwySSjO=uE9qoh7Otk9dtMvoBEOeFBv6=D_AqeNyiqAA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] piglit: add PACKAGECONFIG for freeglut
+To: Cliff Brake <cbrake@bec-systems.com>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>
+References: <CAOd_LFx8=tqK64c=Xyq3Yqk+LX2aGeZfpGOmpgpk-hvkb_2Cww@mail.gmail.com>
+In-Reply-To: <CAOd_LFx8=tqK64c=Xyq3Yqk+LX2aGeZfpGOmpgpk-hvkb_2Cww@mail.gmail.com>
+Subject: Re: failure in gcc-crosssdk-initial was populate_sdk error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Apr 2015 11:10:45 -0000
-Content-Type: multipart/alternative; boundary=001a113aa7d21f9f910512bbe24f
+X-List-Received-Date: Thu, 02 Apr 2015 13:18:44 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---001a113aa7d21f9f910512bbe24f
-Content-Type: text/plain; charset=UTF-8
+On 4/1/15 5:17 PM, Cliff Brake wrote:
+> Hi,
+> 
+> I'm getting the following when running populate_sdk with a dizzy build.
+> 
+> Angstrom distro
+> workstation OS is debian wheezy
+> gcc (Debian 4.7.2-5) 4.7.2
+> 
+> Any thoughts what I'm doing wrong?
+> 
+> Thanks,
+> Cliff
+> 
+> NOTE: Preparing runqueue
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: Function failed: do_configure (log file is located at
+> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863)
+> ERROR: Logfile of failure stored in:
+> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+> 'bit-64', 'x86_64-linux', 'common']
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing python function gcc_multilib_setup
+> | DEBUG: Python function gcc_multilib_setup finished
+> | DEBUG: Executing shell function do_configure
+> | cat: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work-shared/gcc-4.9.1-r0/gcc-4.9.1/gcc/defaults.h:
+> No such file or directory
+> | WARNING: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/run.do_configure.23863:1
+> exit 1 from
+> |   grep -v "\#endif.*GCC_DEFAULTS_H" >
+> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/gcc-4.9.1/build.x86_64-linux.x86_64-angstromsdk-linux/gcc/defaults.h.new
+> | ERROR: Function failed: do_configure (log file is located at
 
-On 2 April 2015 at 04:24, Robert Yang <liezhi.yang@windriver.com> wrote:
+The above lines are the actual failure.  The failure was in configuring the
+recipe 'gcc-cross-initial-x86_64'.
 
-> I'm afraid not since it depends on virtual/libx11.
->
+I do not know the caue of the failure, but the issue is obvious enough, it was
+trying to load the 'defaults.h' file and modify a few settings in it.
 
-So what's gained by disabling freeglut? Shouldn't we be enabling it if
-possible?
+The code in question is in 'meta/recipes-devtools/gcc/gcc-configure-common.inc':
 
-Ross
+do_configure_prepend () {
+        # teach gcc to find correct target includedir when checking libc ssp support
+        mkdir -p ${B}/gcc
+        echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
+        cat ${S}/gcc/defaults.h | grep -v "\#endif.*GCC_DEFAULTS_H" >
+${B}/gcc/defaults.h.new
+        cat >>${B}/gcc/defaults.h.new <<_EOF
+...
 
---001a113aa7d21f9f910512bbe24f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In the extracted source code for gcc, should have a been a 'gcc/defaults.h'.
+Since the failure was that that file was not found, it appears to me that
+something failured in the extraction of the source code.  You'll likely have to
+instrument your build, or run through various pieces bits and figure out what
+went wrong.  (The code in question has been around since 2011 and as far as I
+can tell with quick inspect has not changed in a while.)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 April 2015 at 04:24, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21c" cla=
-ss=3D"a3s" style=3D"overflow:hidden">I&#39;m afraid not since it depends on=
- virtual/libx11.</div></blockquote><div><br></div><div>So what&#39;s gained=
- by disabling freeglut? Shouldn&#39;t we be enabling it if possible?</div><=
-div><br></div><div>Ross</div></div></div></div>
+--Mark
 
---001a113aa7d21f9f910512bbe24f--
+> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863)
+> ERROR: Task 2167
+> (/scratch/fmc-accuload/oe-build-bbb/sources/openembedded-core/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.9.bb,
+> do_configure) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 1406 tasks of which 1218 didn't need to
+> be rerun and 1 failed.
+> NOTE: Writing buildhistory
+> Waiting for 0 running tasks to finish:
+> 
+> Summary: 1 task failed:
+>   /scratch/fmc-accuload/oe-build-bbb/sources/openembedded-core/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.9.bb,
+> do_configure
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+> 
+
+
