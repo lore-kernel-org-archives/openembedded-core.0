@@ -1,39 +1,24 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BBB565C9C
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 491466AC56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Apr 2015 06:42:31 +0000 (UTC)
-Received: by wgoe14 with SMTP id e14so75044001wgo.0
+	Thu,  2 Apr 2015 08:10:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t328AVIf004704
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Apr 2015 23:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to:cc
-	:message-id; bh=xxTcFe3ffwHFbeVRZLpZEd1R1kjml6mY6YRo8V0C3gI=;
-	b=ltB4c5gVUcK2xvDnMl76QCHF14EchS4g3VgPatBSpAQk6xaBgAfdUWkk2oFmRZFS4O
-	aCR0GTgNyKlLUdqHZKfAFyeG+fQAzRE3fSqgrpJRrYODTarN08LBB4kcYi3GL4csDRcY
-	yLTue5KhkS2f7Eoqmt5UnhojxNt0KG1niLbgfpzmmv3Wn63RB8l09CJRoEmqm6SYScRs
-	VKPij5FMJSuQUFuLZm3UCT9zTlqpMooaHpozt/bITRtYNd1xg67nsERpm36TrCuKr18M
-	LdoQwIsrjCTkTx78WM33dW80MTwC/tLwKBfUTZZY+Ww6SwuEIGEuwfEyZF+QhbMiJEDK
-	0bTA==
-X-Received: by 10.194.8.99 with SMTP id q3mr92729722wja.88.1427956952558;
-	Wed, 01 Apr 2015 23:42:32 -0700 (PDT)
-Received: from [10.41.0.24] (089144212024.atnat0021.highway.a1.net.
-	[89.144.212.24]) by mx.google.com with ESMTPSA id
-	hd10sm28593697wib.7.2015.04.01.23.42.31
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Apr 2015 23:42:31 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
-References: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
+	Thu, 2 Apr 2015 01:10:31 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 2 Apr 2015 01:10:30 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Apr 2015 16:10:31 +0800
+Message-ID: <cover.1427962176.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Thu, 02 Apr 2015 08:42:25 +0200
-To: Junling Zheng <zhengjunling@huawei.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <34C00CB4-D932-4317-A2B6-E6C7346464A0@gmail.com>
-Cc: peifeiyue@huawei.com
-Subject: Re: [PATCH] uclibc: fix undefinition of '_dl_strchr' in	libdl.a
+Subject: [PATCH 0/1] bitbake-layers: change the behaviour of show-cross-depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,15 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Apr 2015 06:42:33 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Thu, 02 Apr 2015 08:10:32 -0000
+Content-Type: text/plain
 
-On April 1, 2015 12:00:25 PM GMT+02:00, Junling Zheng <zhengjunling@huawei.com> wrote:
->The orign_path.patch introduced '_dl_strchr' into ldso/ldso/dl-elf.c,
+The following changes since commit 9e4adec98db325112ca7a8b9dd95722d4d0ab642:
 
-Please fix the origin patch directly.
-Thanks,
+  distro_alias.inc: update/sort alias information. (2015-03-31 22:54:54 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/bitbake-layers-show-cross-depends
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bitbake-layers-show-cross-depends
+
+Chen Qi (1):
+  bitbake-layers: change the behaviour of show-cross-depends
+
+ bitbake/bin/bitbake-layers | 60 ++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 50 insertions(+), 10 deletions(-)
+
+-- 
+1.9.1
 
 
