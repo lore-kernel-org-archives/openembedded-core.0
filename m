@@ -1,33 +1,29 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 0935C724B9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C38E2724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Apr 2015 22:17:36 +0000 (UTC)
-Received: by lagg8 with SMTP id g8so47467136lag.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Apr 2015 15:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:content-type;
-	bh=MdfnC633ZbdrmydQ47GtmQ1+j3dFpJPO2YMUWgcUAZo=;
-	b=DMNuHQ0MyFPQMqkBsPc5pUQqtuppds2fT4lQUQP4yKeHOwwrQDooDWR25KztkgvXoK
-	CzCtHCvMxNhCH7BlkQSzAP2pr/eQRr1MSVPa/SVIr/1LLAJT0RcGeJ1RgJFoQzrfspky
-	NmlhrUTuT9Ls+ivxJxRnBW2eZA07Rsv/ZF1rFHW7z01KcnGksoMjGkLy2FzjrvuqeZhU
-	b2zGtbEGMYDwF2o1rVKys2ya5MihBQtzWo+DughUIye14mU1j03jpzcDdQSqylolGx/2
-	AIXhuLqgJsXVSPSRVvfrzE+5q0znI44f7MMQp5c3ZmnPVhKjcIdfT9pBL721nXRXNOlu
-	r09w==
+	Thu,  2 Apr 2015 03:12:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t323CTrf003090
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 1 Apr 2015 20:12:29 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 1 Apr 2015 20:12:28 -0700
+Message-ID: <551CB39B.1000500@windriver.com>
+Date: Thu, 2 Apr 2015 11:12:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-X-Received: by 10.112.137.164 with SMTP id qj4mr37561109lbb.17.1427926656799; 
-	Wed, 01 Apr 2015 15:17:36 -0700 (PDT)
-Sender: cliff.brake@gmail.com
-Received: by 10.114.58.134 with HTTP; Wed, 1 Apr 2015 15:17:36 -0700 (PDT)
-Date: Wed, 1 Apr 2015 18:17:36 -0400
-X-Google-Sender-Auth: yV8mxgZ1yXyRWrd38ofQRwXFTx4
-Message-ID: <CAOd_LFx8=tqK64c=Xyq3Yqk+LX2aGeZfpGOmpgpk-hvkb_2Cww@mail.gmail.com>
-From: Cliff Brake <cbrake@bec-systems.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: populate_sdk error
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1427874748.git.liezhi.yang@windriver.com>
+	<711934cddbc4f8c699487c16e33715cd9a6d5a57.1427874748.git.liezhi.yang@windriver.com>
+	<20150401175949.GL14928@jama>
+In-Reply-To: <20150401175949.GL14928@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] glibc: fix a tpo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +36,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 22:17:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Apr 2015 03:12:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-I'm getting the following when running populate_sdk with a dizzy build.
 
-Angstrom distro
-workstation OS is debian wheezy
-gcc (Debian 4.7.2-5) 4.7.2
+On 04/02/2015 01:59 AM, Martin Jansa wrote:
+> On Wed, Apr 01, 2015 at 12:53:02AM -0700, Robert Yang wrote:
+>> Fixed a typo:
+>> name-target-directory -> make-target-directory
+>
+> You have another typo in commit message.
 
-Any thoughts what I'm doing wrong?
+Sorry, I checked again, which typo, please ?
 
-Thanks,
-Cliff
+// Robert
 
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-ERROR: Function failed: do_configure (log file is located at
-/scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863)
-ERROR: Logfile of failure stored in:
-/scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
-'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_copy_aclocals
-| DEBUG: Python function autotools_copy_aclocals finished
-| DEBUG: Executing python function gcc_multilib_setup
-| DEBUG: Python function gcc_multilib_setup finished
-| DEBUG: Executing shell function do_configure
-| cat: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work-shared/gcc-4.9.1-r0/gcc-4.9.1/gcc/defaults.h:
-No such file or directory
-| WARNING: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/run.do_configure.23863:1
-exit 1 from
-|   grep -v "\#endif.*GCC_DEFAULTS_H" >
-/scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/gcc-4.9.1/build.x86_64-linux.x86_64-angstromsdk-linux/gcc/defaults.h.new
-| ERROR: Function failed: do_configure (log file is located at
-/scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863)
-ERROR: Task 2167
-(/scratch/fmc-accuload/oe-build-bbb/sources/openembedded-core/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.9.bb,
-do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 1406 tasks of which 1218 didn't need to
-be rerun and 1 failed.
-NOTE: Writing buildhistory
-Waiting for 0 running tasks to finish:
-
-Summary: 1 task failed:
-  /scratch/fmc-accuload/oe-build-bbb/sources/openembedded-core/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.9.bb,
-do_configure
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>> There is no name-target-directory, it should be make-target-directory,
+>> this fixed the error:
+>> /bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
+>> Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../glibc/glibc/elf-Makefile-fix-a-typo.patch      |   36 ++++++++++++++++++++
+>>   meta/recipes-core/glibc/glibc_2.21.bb              |    1 +
+>>   2 files changed, 37 insertions(+)
+>>   create mode 100644 meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+>> new file mode 100644
+>> index 0000000..ec48006
+>> --- /dev/null
+>> +++ b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
+>> @@ -0,0 +1,36 @@
+>> +From 6207fb45553ee98f2f326883b7c21b76c8267343 Mon Sep 17 00:00:00 2001
+>> +From: Robert Yang <liezhi.yang@windriver.com>
+>> +Date: Tue, 31 Mar 2015 02:31:25 -0700
+>> +Subject: [PATCH] elf/Makefile: fix a typo
+>> +
+>> +Fixed a typo:
+>> +name-target-directory -> make-target-directory
+>> +
+>> +There is no name-target-directory, it should be make-target-directory,
+>> +this fixed the error:
+>> +/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
+>> +Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' failed
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +---
+>> + elf/Makefile |    2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/elf/Makefile b/elf/Makefile
+>> +index e5b142c..62fe245 100644
+>> +--- a/elf/Makefile
+>> ++++ b/elf/Makefile
+>> +@@ -358,7 +358,7 @@ $(objpfx)interp.os: $(elf-objpfx)runtime-linker.h
+>> +
+>> + $(elf-objpfx)runtime-linker.h: $(elf-objpfx)runtime-linker.st; @:
+>> + $(elf-objpfx)runtime-linker.st: $(common-objpfx)config.make
+>> +-	$(name-target-directory)
+>> ++	$(make-target-directory)
+>> + 	echo '#define RUNTIME_LINKER "$(rtlddir)/$(rtld-installed-name)"' \
+>> + 		> ${@:st=T}
+>> + 	$(move-if-change) ${@:st=T} ${@:st=h}
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+>> index 91feff5..fcef4ff 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.21.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
+>> @@ -25,6 +25,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
+>>              file://0001-Add-unused-attribute.patch \
+>>              file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
+>>              file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
+>> +           file://elf-Makefile-fix-a-typo.patch \
+>>              ${EGLIBCPATCHES} \
+>>             "
+>>   EGLIBCPATCHES = "\
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
