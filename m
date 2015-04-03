@@ -1,36 +1,39 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga03-in.huawei.com (unknown [119.145.14.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 60BD3736BA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A259F73CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Apr 2015 02:56:06 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml433-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg03-dlp.huawei.com (MOS 4.4.3-GA FastPath queued)
-	with ESMTP id BDZ05974; Fri, 03 Apr 2015 10:56:00 +0800 (CST)
-Received: from [127.0.0.1] (10.111.55.101) by szxeml433-hub.china.huawei.com
-	(10.82.67.210) with Microsoft SMTP Server id 14.3.158.1; Fri, 3 Apr 2015
-	10:55:58 +0800
-Message-ID: <551E010D.8010309@huawei.com>
-Date: Fri, 3 Apr 2015 10:55:09 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
-MIME-Version: 1.0
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-References: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
-	<34C00CB4-D932-4317-A2B6-E6C7346464A0@gmail.com>
-	<551D0FCB.5080603@huawei.com>
-	<0D1A6BA1-78E2-4AA5-9DD0-6553A974B447@gmail.com>
-In-Reply-To: <0D1A6BA1-78E2-4AA5-9DD0-6553A974B447@gmail.com>
-X-Originating-IP: [10.111.55.101]
-X-CFilter-Loop: Reflected
-X-Mirapoint-Virus-RAPID-Raw: score=unknown(0),
-	refid=str=0001.0A020204.551E0141.003B, ss=1, re=0.001, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0, ip=0.0.0.0,
-	so=2013-05-26 15:14:31, dmn=2013-03-21 17:37:32
-X-Mirapoint-Loop-Id: 7a2ad17c04612007b64485a41d5e0a85
+	Fri,  3 Apr 2015 02:58:11 +0000 (UTC)
+Received: by pactp5 with SMTP id tp5so102578787pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Apr 2015 19:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=qqXop3e85ZEKP9zCKkLd2A1AWFB73PQw5ywdr7kboj8=;
+	b=mafM6xzxF4Q5wEqamGWY9qwzn5CV2CxY5o83wYDOducf6BIJskT0vRF9lvRvq0nszn
+	B+26Y5wkov7Z8+MB4vf+FZEdMv3jJ2PmEWhDKlpHYLWQbBI4sdXLlV8BDFvefal8RpvV
+	ys7KArkpLxl3jyFNV5t1XOAtZCr1jAcNPcnzhHHVQZ57R+pi5ys4nvYSXHd0S/O7B8Pt
+	f4m8xDvQLK7YsfxKFQExVfDjLPzhcMDyPo8Dtc/KtetzK7AH01gr8CJldb1zXQ6Fib2t
+	kw5uzmMYrbCuSexTHlKO3VCnKJnYnG8mfBTe64a5GUY59RWoq+gMA9aIhkV0yTYJRKnQ
+	odtg==
+X-Received: by 10.70.40.164 with SMTP id y4mr637635pdk.25.1428029892530;
+	Thu, 02 Apr 2015 19:58:12 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:28e4:4276:9c7a:df6b?
+	([2601:9:3580:84c:28e4:4276:9c7a:df6b])
+	by mx.google.com with ESMTPSA id sb4sm6542447pbb.5.2015.04.02.19.58.10
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 02 Apr 2015 19:58:11 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1428000427-31985-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
+Date: Thu, 2 Apr 2015 19:58:11 -0700
+Message-Id: <8A26CDB0-D56F-4FBD-8F92-4EF3D4B664F1@gmail.com>
+References: <1428000427-31985-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
+To: "Krishnanjanappa, Jagadeesh" <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
+X-Mailer: Apple Mail (2.2070.6)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] uclibc: fix undefinition of '_dl_strchr' in libdl.a
+Subject: Re: [PATCH] valgrind: Add INSANE_SKIP of arch for valgrind and valgrind-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +46,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Apr 2015 02:56:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Apr 2015 02:58:14 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-OK, I'll submit a patch v2 to both oe-core and uclibc upstream.
 
-Cheers,
+> On Apr 2, 2015, at 11:47 AM, Krishnanjanappa, Jagadeesh =
+<Jagadeesh.Krishnanjanappa@caviumnetworks.com> wrote:
+>=20
+> From: "Krishnanjanappa, Jagadeesh" =
+<jagadeesh.krishnanjanappa@caviumnetworks.com>
+>=20
+> If a complier supports generating 32-bit and 64-bit binaries, then
+> while building valgrind we have two sets of binaries (32-bit and =
+64-bit)
+> being generated.
+>=20
+> Example: With compiler supporting generation of both 32-bit and 64-bit
+> binaries, and building valgrind in 64-bit mode, we come across =
+following
+> QA Issue (listing only few of them),
+>=20
+> (snip)
+> ERROR: QA Issue: Architecture did not match (62 to 3) on =
+${WORKDIR}/valgrind/3.10.1-r0/packages-split/valgrind-dbg/usr/lib64/valgri=
+nd/.debug/vgpreload_exp-sgcheck-x86-linux.so
+> ERROR: QA Issue: Architecture did not match (62 to 3) on =
+${WORKDIR}/valgrind/3.10.1-r0/packages-split/valgrind-dbg/usr/lib64/valgri=
+nd/.debug/getoff-x86-linux
+> ERROR: QA Issue: Architecture did not match (62 to 3) on =
+${WORKDIR}/valgrind/3.10.1-r0/packages-split/valgrind-dbg/usr/lib64/valgri=
+nd/.debug/vgpreload_core-x86-linux.so
+> ERROR: QA Issue: Architecture did not match (62 to 3) on =
+${WORKDIR}/valgrind/3.10.1-r0/packages-split/valgrind-dbg/usr/lib64/valgri=
+nd/.debug/vgpreload_memcheck-x86-linux.so
+> -- CUT --
+>=20
+> However, we can build only 64-bit or 32-bit binaries in valgrind using
+> "--enable-only64bit" and "--enable-only32bit" configure options =
+respectively.
+> And the required configure option can be selected based on =
+SITEINFO_BITS, but
+> feel that if a compiler supports generation of both type of binaries =
+and it
+> may be useful for users to have/execute both type of binaries on =
+multilib
+> environment. So choosing to pack both types of binaries and skip =
+errors if the
+> architecture type are different using INSANE_SKIP.
+>=20
 
-Junling
+what is the point of packaging files for which there won=E2=80=99t be =
+any runtime environment. You are just better of removing them.
+IMO unless you have multilib environment working
+this patch is just relaxing the QA
 
-On 2015/4/2 22:35, Bernhard Reutner-Fischer wrote:
-> On April 2, 2015 11:45:47 AM GMT+02:00, Junling Zheng <zhengjunling@huawei.com> wrote:
->> On 2015/4/2 14:42, Bernhard Reutner-Fischer wrote:
->>> On April 1, 2015 12:00:25 PM GMT+02:00, Junling Zheng
->> <zhengjunling@huawei.com> wrote:
->>>> The orign_path.patch introduced '_dl_strchr' into
->> ldso/ldso/dl-elf.c,
->>>
->>> Please fix the origin patch directly.
->>> Thanks,
->>>
->> Hi, Bernhard
->>
->> The orign_path.patch is backported from:
->>
->> http://lists.busybox.net/pipermail/uclibc/2011-March/045003.html
->>
->> It's an individual. Should I still fix this patch directly?
-> 
-> Yes.
->>
->> BTW, should uclibc upstream need this patch to avoid the above problem
->> too?
-> 
-> There currently is no in-tree user of these, so no.
-> $ORIGIN support is on my todo list..
-> 
->>
->> I had submitted a patch to the uclibc upstream, and expected your
->> review:)
-> 
-> See above :)
-> 
-> Cheers,
->>
->> Thanks,
->>
->> Junling
-> 
-> 
-> 
-> 
-
+> Signed-off-by: Krishnanjanappa, Jagadeesh =
+<jagadeesh.krishnanjanappa@caviumnetworks.com>
+> ---
+> meta/recipes-devtools/valgrind/valgrind_3.10.1.bb | 9 +++++++++
+> 1 file changed, 9 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb =
+b/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> index bf80b16..eaa64c4 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> @@ -32,6 +32,8 @@ SRC_URI[sha256sum] =3D =
+"fa253dc26ddb661b6269df58144eff607ea3f76a9bcfe574b0c7726e1d
+> COMPATIBLE_HOST =3D '(i.86|x86_64|mips|powerpc|powerpc64).*-linux'
+> COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
+>=20
+> +PR =3D "r1"
+> +
+> inherit autotools ptest
+>=20
+> EXTRA_OECONF =3D "--enable-tls --without-mpicc"
+> @@ -52,6 +54,13 @@ RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
+>=20
+> RDEPENDS_${PN}-ptest +=3D " sed perl glibc-utils =
+perl-module-file-glob"
+>=20
+> +# skip checking of the Executable and Linkable Format (ELF) type, bit
+> +# size, and endianness of any binaries. If a compiler supports
+> +# generating 32-bit, 64-bit binaries, then we have two sets of=20
+> +# binaries i.e 32-bit and 64-bit.
+> +INSANE_SKIP_${PN} +=3D "arch"
+> +INSANE_SKIP_${PN}-dbg +=3D "arch"
+> +
+> do_compile_ptest() {
+>     oe_runmake check
+> }
+> --=20
+> 1.8.2.3
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
