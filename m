@@ -1,19 +1,34 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F2F6773CE9
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C01B73CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Apr 2015 19:01:03 +0000 (UTC)
-Message-ID: <551EE36E.2050906@communistcode.co.uk>
-Date: Fri, 03 Apr 2015 20:01:02 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
+	Fri,  3 Apr 2015 22:03:22 +0000 (UTC)
+Received: by wiun10 with SMTP id n10so5463834wiu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Apr 2015 15:03:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=lryO6A1N7XR1bF/R7InPdf3Q+lPU8PVvN3+BpQWqlUI=;
+	b=RAgFFDV9iYArmEsqo/B469GuXmDINub1jM4eA5MK2Csh9OtF/3wLzJxZXSAvPQdxKN
+	97z41gIEFcgdIsqYuZxzbOkxLK2WJI2dbiOYEyfbGPQ/5nsD1Z0zriD3NMBq15vvJ3ev
+	bW5K29uEbLkGGAwP5rmBW8Xak8NVuh0P1CdcuQcyMTQUDLqA2DGMi6xJWa1sNcvn470x
+	Y1UD+No8ocChb9U5a1HXBM8XcPCQmcBpVLDmDzrd8r0MEcAEZxy6klRw7URyl48ubD0a
+	xQGoj11KoP+VPdTULq5f9uW4iGJ4LJrxPYe+cj8O8uErgZqBm95szfhyGNPnoL+tqPJ7
+	mZAg==
+X-Received: by 10.194.208.229 with SMTP id mh5mr8784660wjc.108.1428098603836; 
+	Fri, 03 Apr 2015 15:03:23 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id q6sm4367886wix.3.2015.04.03.15.03.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 03 Apr 2015 15:03:22 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<1c70c6838a3982473669bd6001a6b1496144aaa6.1428070227.git.cristian.iorga@intel.com>
-In-Reply-To: <1c70c6838a3982473669bd6001a6b1496144aaa6.1428070227.git.cristian.iorga@intel.com>
-Subject: Re: [PATCH 1/5] bluez5: upgrade to 5.29
+Date: Fri,  3 Apr 2015 15:03:05 -0700
+Message-Id: <1428098585-1574-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [PATCH] oe.sstatesig: align swspec handling with sstate.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,39 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Apr 2015 19:01:05 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Apr 2015 22:03:25 -0000
 
-On 03/04/2015 15:13, Cristian Iorga wrote:
-> - Large release with over a month and 475 commits since 5.28;
-> - Internal GATT library received lots of updates;
-> - Fix for AVCTP key repeat timeout;
-> - Added support for the Multi Profile Specification (MPS).
->
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   meta/recipes-connectivity/bluez5/{bluez5_5.28.bb => bluez5_5.29.bb} | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-connectivity/bluez5/{bluez5_5.28.bb => bluez5_5.29.bb} (88%)
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.28.bb b/meta/recipes-connectivity/bluez5/bluez5_5.29.bb
-> similarity index 88%
-> rename from meta/recipes-connectivity/bluez5/bluez5_5.28.bb
-> rename to meta/recipes-connectivity/bluez5/bluez5_5.29.bb
-> index e816998..0fe8e7f 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.28.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.29.bb
-> @@ -1,6 +1,6 @@
->   require bluez5.inc
-> -SRC_URI[md5sum] = "bc20a8285530758c68f6a60e4ca62a15"
-> -SRC_URI[sha256sum] = "85bab48f4b47a158739028682c1e09cf30099c8ea9dfe63360055f8e06fc18a9"
-> +SRC_URI[md5sum] = "aa9dc91689695a486c78c131cd68673e"
-> +SRC_URI[sha256sum] = "df216a6d5ec6133355e5d4ed6b5e7a188a940940d337374e166758513246f0e4"
->
->   # noinst programs in Makefile.tools that are conditional on READLINE
->   # support
->
+The logic tries to remove the -native suffix from pn to handle this (though it
+doesn't succeed, as it doesn't assign the new pn to the variable), but we need
+to do more for the swspec tasks than just not set the extrapath, we also need
+to change from SSTATE_PKGSPEC to SSTATE_SWSPEC. Alter to correct the spec for
+these cases, and also add preconfigure to align with the current logic in
+sstate.bbclass, which includes that task as well in the list of tasks to
+adjust to use swspec.
 
-5.30 is available now I think
+[YOCTO #7563]
+
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ meta/lib/oe/sstatesig.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 62e75c2..9d6d7c4 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -206,9 +206,6 @@ def find_siginfo(pn, taskname, taskhashlist, d):
+         if key.startswith('virtual:native:'):
+             pn = pn + '-native'
+ 
+-    if taskname in ['do_fetch', 'do_unpack', 'do_patch', 'do_populate_lic']:
+-        pn.replace("-native", "")
+-
+     filedates = {}
+ 
+     # First search in stamps dir
+@@ -249,7 +246,10 @@ def find_siginfo(pn, taskname, taskhashlist, d):
+             localdata.setVar('PV', '*')
+             localdata.setVar('PR', '*')
+             localdata.setVar('BB_TASKHASH', hashval)
+-            if pn.endswith('-native') or "-cross-" in pn or "-crosssdk-" in pn:
++            swspec = localdata.getVar('SSTATE_SWSPEC', True)
++            if taskname in ['do_fetch', 'do_unpack', 'do_patch', 'do_populate_lic', 'do_preconfigure'] and swspec:
++                localdata.setVar('SSTATE_PKGSPEC', '${SSTATE_SWSPEC}')
++            elif pn.endswith('-native') or "-cross-" in pn or "-crosssdk-" in pn:
+                 localdata.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
+             sstatename = taskname[3:]
+             filespec = '%s_%s.*.siginfo' % (localdata.getVar('SSTATE_PKG', True), sstatename)
+-- 
+2.2.1
+
 
