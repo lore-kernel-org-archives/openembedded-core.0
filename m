@@ -1,24 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B2673D1B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2047673CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Apr 2015 14:13:34 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 03 Apr 2015 07:13:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,517,1422950400"; d="scan'208";a="702887954"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2015 07:13:27 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Apr 2015 17:13:14 +0300
-Message-Id: <90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1428070227.git.cristian.iorga@intel.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1428070227.git.cristian.iorga@intel.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-Subject: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+	Fri,  3 Apr 2015 14:34:24 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so26302556pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Apr 2015 07:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=MpBSF69FRpQZRdBecMw//j+3ypsQAwkzZmo4YcRmqmk=;
+	b=xzQRMOfSpczHkANzQ3RLcoS8vki951bZjkS6UJ6WZ9dL+/7E6+ER5TknU+jgvJHxyB
+	E6hUQoVIZBZUQbY2ezeIXdaY2qUYMXb/GMo6PMJr38m51HFvGVBSp/uSGGT8IfutCfDw
+	mQQb9e07FQwGkIt3PZtwEXhAQWZKizVeZNsj0vVkBK/C6i0VBuXxip0P/Ats2GSSXGiq
+	L2ekazF4yWhRV71IIt9Xd6tN467XFoekKRY/M0aYJ7Ih9bkE/vrTqini/PXWW+cu3pL2
+	a11v3ZXVFz/L7HLCFQX+yzj09S+T8sIidWcdXj19EF3cO0B9r0qZvK6oJRLVXVgA76X4
+	5neA==
+X-Received: by 10.66.118.136 with SMTP id km8mr4701901pab.43.1428071665940;
+	Fri, 03 Apr 2015 07:34:25 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:c58:5feb:7967:5a21?
+	([2601:c:a700:3ba7:c58:5feb:7967:5a21])
+	by mx.google.com with ESMTPSA id
+	rt12sm7257413pab.34.2015.04.03.07.34.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Apr 2015 07:34:24 -0700 (PDT)
+Message-ID: <551EA4E6.4090304@gmail.com>
+Date: Fri, 03 Apr 2015 07:34:14 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: combo-layer issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Apr 2015 14:13:35 -0000
+X-List-Received-Date: Fri, 03 Apr 2015 14:34:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For a distro that contains bluetooth feature, set bluez5
-as the default Bluetooth stack, while still allowing the
-use of bluez4 as an alternative Bluetooth stack.
+Morning all,
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/classes/bluetooth.bbclass | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+I am trying to replicate how Poky is created using combo-layer.  I have 
+referenced  https://wiki.yoctoproject.org/wiki/Combo-layer
 
-diff --git a/meta/classes/bluetooth.bbclass b/meta/classes/bluetooth.bbclass
-index f88b4ae..3816e7d 100644
---- a/meta/classes/bluetooth.bbclass
-+++ b/meta/classes/bluetooth.bbclass
-@@ -1,14 +1,20 @@
- # Avoid code duplication in bluetooth-dependent recipes.
- 
--# Define a variable that expands to the recipe (package) providing core
--# bluetooth support on the platform:
-+# Define a variable that expands to the recipe (package) providing
-+# core bluetooth support on the platform:
- # "" if bluetooth is not in DISTRO_FEATURES
--# else "bluez5" if bluez5 is in DISTRO_FEATURES
--# else "bluez4"
-+# else "bluez4" if bluez4 is in DISTRO_FEATURES
-+# else "bluez5"
- 
- # Use this with:
- #  inherit bluetooth
- #  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
- #  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
-+# if the obsolete, but still supported bluez4 BT stack is used
-+# or
-+#  inherit bluetooth
-+#  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
-+#  PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5"
-+# if the default bluez5 BT stack is used
- 
--BLUEZ ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5', 'bluez4', d), '', d)}"
-+BLUEZ ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.contains('DISTRO_FEATURES', 'bluez4', 'bluez4', 'bluez5', d), '', d)}"
--- 
-2.1.0
+The issue seems to be related when I define "branch". Not defining it 
+works fine (ie, master default). I suspect I am doing something 
+incorrectly or a compatibility issue with my local git version 1.9.1.
+
+can someone poke to go in the right direction.
+
+kind regards,
+Armin
+
+
+combo-layer.conf:
+
+[bitbake]
+src_uri = git://git.openembedded.org/bitbake
+local_repo_dir = /tmp/src/test/bitbake
+dest_dir = bitbake
+branch = 1.26
+last_revision =
+
+[oe-core]
+src_uri = git://git.openembedded.org/openembedded-core
+local_repo_dir = /tmp/src/test/oecore
+dest_dir = .
+branch = fido
+last_revision =
+
+
+
+Error message:
+
+[07:22:26] fatal: ambiguous argument 'fido': unknown revision or path 
+not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+fido
+
+Traceback (most recent call last):
+   File "./scripts/combo-layer", line 869, in <module>
+     ret = main()
+   File "./scripts/combo-layer", line 865, in main
+     actions.get(args[1], action_error)(confdata, args[1:])
+   File "./scripts/combo-layer", line 220, in action_init
+     rev = runcmd('git rev-parse %s' % initialrev, ldir).strip()
+   File "./scripts/combo-layer", line 179, in runcmd
+     raise e
+CalledProcessError: Command 'git rev-parse fido' returned non-zero exit 
+status 128
 
 
