@@ -1,40 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E78B56AC56
+Return-Path: <zhengjunling@huawei.com>
+Received: from szxga03-in.huawei.com (unknown [119.145.14.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 60BD3736BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Apr 2015 22:15:49 +0000 (UTC)
-Received: by paboj16 with SMTP id oj16so15791141pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Apr 2015 15:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=CJgyCCTsgBu8i3lXWF5ogBUcy+udgDRptBZJ+iMEMTU=;
-	b=LcjBiv2w+qT+omr/jnVKlXiXqeokHFihiDcD2p8r2uTxM687ORWqBT0SEc4nOjC1Lt
-	hvwOLTGtV0VRLCk+hXRovirnL+idbbZhWxJrAo6TK9ocLgxOSQKwHHBjyQbWIG6Ygbi1
-	n7RTFF0H8TrIYPxdUBmyfYfdfB01wo4Uu4/TW0VHTwwygeKEc86fu4rs/OEtiqPLOTOf
-	ccGrSi9RPFlCHYgEZLQFv+6bZD0dv2Kic8DsqVdCTWMFu7Mgh0tGpvV75W/6Y2OjmrQd
-	ZZQ3k/fujFruoor5njvZREvjoHnWj5ggOqh6fqAlMz/KhkdSTaT5NWwwe/o8twlxuEz3
-	2kSQ==
-X-Received: by 10.70.35.193 with SMTP id k1mr91041318pdj.46.1428012950771;
-	Thu, 02 Apr 2015 15:15:50 -0700 (PDT)
-Received: from ?IPv6:2601:9:500:ece:fc0f:299c:df20:874a?
-	([2601:9:500:ece:fc0f:299c:df20:874a])
-	by mx.google.com with ESMTPSA id fg2sm6180079pbc.45.2015.04.02.15.15.49
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 02 Apr 2015 15:15:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <711934cddbc4f8c699487c16e33715cd9a6d5a57.1427874748.git.liezhi.yang@windriver.com>
-Date: Thu, 2 Apr 2015 15:15:49 -0700
-Message-Id: <787EF217-A307-4291-A825-2678CF8D9691@gmail.com>
-References: <cover.1427874748.git.liezhi.yang@windriver.com>
-	<711934cddbc4f8c699487c16e33715cd9a6d5a57.1427874748.git.liezhi.yang@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.2070.6)
+	Fri,  3 Apr 2015 02:56:06 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml433-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg03-dlp.huawei.com (MOS 4.4.3-GA FastPath queued)
+	with ESMTP id BDZ05974; Fri, 03 Apr 2015 10:56:00 +0800 (CST)
+Received: from [127.0.0.1] (10.111.55.101) by szxeml433-hub.china.huawei.com
+	(10.82.67.210) with Microsoft SMTP Server id 14.3.158.1; Fri, 3 Apr 2015
+	10:55:58 +0800
+Message-ID: <551E010D.8010309@huawei.com>
+Date: Fri, 3 Apr 2015 10:55:09 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+References: <1427882425-19536-1-git-send-email-zhengjunling@huawei.com>
+	<34C00CB4-D932-4317-A2B6-E6C7346464A0@gmail.com>
+	<551D0FCB.5080603@huawei.com>
+	<0D1A6BA1-78E2-4AA5-9DD0-6553A974B447@gmail.com>
+In-Reply-To: <0D1A6BA1-78E2-4AA5-9DD0-6553A974B447@gmail.com>
+X-Originating-IP: [10.111.55.101]
+X-CFilter-Loop: Reflected
+X-Mirapoint-Virus-RAPID-Raw: score=unknown(0),
+	refid=str=0001.0A020204.551E0141.003B, ss=1, re=0.001, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0, ip=0.0.0.0,
+	so=2013-05-26 15:14:31, dmn=2013-03-21 17:37:32
+X-Mirapoint-Loop-Id: 7a2ad17c04612007b64485a41d5e0a85
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] glibc: fix a tpo
+Subject: Re: [PATCH] uclibc: fix undefinition of '_dl_strchr' in libdl.a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,113 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Apr 2015 22:15:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Apr 2015 02:56:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+OK, I'll submit a patch v2 to both oe-core and uclibc upstream.
 
-> On Apr 1, 2015, at 12:53 AM, Robert Yang <liezhi.yang@windriver.com> =
-wrote:
->=20
-> Fixed a typo:
-> name-target-directory -> make-target-directory
->=20
-> There is no name-target-directory, it should be make-target-directory,
-> this fixed the error:
-> /bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
-> Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' =
-failed
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
-> .../glibc/glibc/elf-Makefile-fix-a-typo.patch      |   36 =
-++++++++++++++++++++
-> meta/recipes-core/glibc/glibc_2.21.bb              |    1 +
-> 2 files changed, 37 insertions(+)
-> create mode 100644 =
-meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
->=20
-> diff --git =
-a/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch =
-b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
-> new file mode 100644
-> index 0000000..ec48006
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/elf-Makefile-fix-a-typo.patch
-> @@ -0,0 +1,36 @@
-> +=46rom 6207fb45553ee98f2f326883b7c21b76c8267343 Mon Sep 17 00:00:00 =
-2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Tue, 31 Mar 2015 02:31:25 -0700
-> +Subject: [PATCH] elf/Makefile: fix a typo
-> +
-> +Fixed a typo:
-> +name-target-directory -> make-target-directory
-> +
-> +There is no name-target-directory, it should be =
-make-target-directory,
-> +this fixed the error:
-> +/bin/bash: /path/to/elf/runtime-linker.T: No such file or directory
-> +Makefile:361: recipe for target '/path/to/elf/runtime-linker.st' =
-failed
-> +
-> +Upstream-Status: Pending
+Cheers,
 
+Junling
 
-This is already fixed upstream so please mark it appropriately.
+On 2015/4/2 22:35, Bernhard Reutner-Fischer wrote:
+> On April 2, 2015 11:45:47 AM GMT+02:00, Junling Zheng <zhengjunling@huawei.com> wrote:
+>> On 2015/4/2 14:42, Bernhard Reutner-Fischer wrote:
+>>> On April 1, 2015 12:00:25 PM GMT+02:00, Junling Zheng
+>> <zhengjunling@huawei.com> wrote:
+>>>> The orign_path.patch introduced '_dl_strchr' into
+>> ldso/ldso/dl-elf.c,
+>>>
+>>> Please fix the origin patch directly.
+>>> Thanks,
+>>>
+>> Hi, Bernhard
+>>
+>> The orign_path.patch is backported from:
+>>
+>> http://lists.busybox.net/pipermail/uclibc/2011-March/045003.html
+>>
+>> It's an individual. Should I still fix this patch directly?
+> 
+> Yes.
+>>
+>> BTW, should uclibc upstream need this patch to avoid the above problem
+>> too?
+> 
+> There currently is no in-tree user of these, so no.
+> $ORIGIN support is on my todo list..
+> 
+>>
+>> I had submitted a patch to the uclibc upstream, and expected your
+>> review:)
+> 
+> See above :)
+> 
+> Cheers,
+>>
+>> Thanks,
+>>
+>> Junling
+> 
+> 
+> 
+> 
 
-commit e8b6be0016f131c2ac72bf3213eabdb59800e63b
-Author: Andreas Schwab <schwab@suse.de>
-Date:   Mon Mar 2 15:47:56 2015 +0100
-
-    Fix parallel build error
-
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + elf/Makefile |    2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/elf/Makefile b/elf/Makefile
-> +index e5b142c..62fe245 100644
-> +--- a/elf/Makefile
-> ++++ b/elf/Makefile
-> +@@ -358,7 +358,7 @@ $(objpfx)interp.os: $(elf-objpfx)runtime-linker.h
-> +=20
-> + $(elf-objpfx)runtime-linker.h: $(elf-objpfx)runtime-linker.st; @:
-> + $(elf-objpfx)runtime-linker.st: $(common-objpfx)config.make
-> +-	$(name-target-directory)
-> ++	$(make-target-directory)
-> + 	echo '#define RUNTIME_LINKER =
-"$(rtlddir)/$(rtld-installed-name)"' \
-> + 		> ${@:st=3DT}
-> + 	$(move-if-change) ${@:st=3DT} ${@:st=3Dh}
-> +--=20
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb =
-b/meta/recipes-core/glibc/glibc_2.21.bb
-> index 91feff5..fcef4ff 100644
-> --- a/meta/recipes-core/glibc/glibc_2.21.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
-> @@ -25,6 +25,7 @@ SRC_URI =3D =
-"git://sourceware.org/git/glibc.git;branch=3D${BRANCH} \
->            file://0001-Add-unused-attribute.patch \
->            =
-file://0001-When-disabling-SSE-also-make-sure-that-fpmath-is-not.patch \
->            =
-file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
-> +           file://elf-Makefile-fix-a-typo.patch \
->            ${EGLIBCPATCHES} \
->           "
-> EGLIBCPATCHES =3D "\
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
