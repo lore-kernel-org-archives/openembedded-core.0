@@ -1,23 +1,37 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B972E724DC
+Return-Path: <matt@madison.systems>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B9CD65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Apr 2015 17:20:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Apr 2015 10:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,523,1422950400"; d="scan'208";a="703427570"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2015 10:20:46 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 1E9846A408F;
-	Sat,  4 Apr 2015 10:20:21 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Sat,  4 Apr 2015 18:05:20 +0000 (UTC)
+Received: by pdea3 with SMTP id a3so105600962pde.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 04 Apr 2015 11:05:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yTP40d32X6lFESxjCs4lPB51jbGBNQ9s6fsc7Ymqusk=;
+	b=eNaJqklO3ZKCERiOu2LtDGCLLRHNCkTtfGXPJtsssFGOvcuooL9aiWXyVASTbiVT2R
+	73YhJSfLhtKeVP5CAs5ZDRo/VZF759dBgDicFnzrxOcWCBMW6IbHIzEeBDlbZLeDAVpM
+	qadRWG7S4XL+QzflBXY+A7Gu1JYNZ35A+lypgJv6dSBVPzFym+6EodIfOXJqeBOrQxkr
+	Eeltzqs/RSssMQyoN9ntUGK6Ar6dwuLLpRu/0LRjpUodQ17Hrm28VCSrr5UfapTcAtLb
+	YlK8x41l6rIYq9Wf+hsRml9YyN6QWwKM0xKOXYZjsKgXM8uir/6VxNG/bK3qZ+fE6qh7
+	CE8Q==
+X-Gm-Message-State: ALoCoQkc6gUqDETiGWJK8TQT6QUOUey3TccNi9HlF9VhJf5l8/hM7BV4cpDdL6KI6lxdrjq47WSa
+X-Received: by 10.68.252.3 with SMTP id zo3mr13830247pbc.18.1428170722202;
+	Sat, 04 Apr 2015 11:05:22 -0700 (PDT)
+Received: from workhorse.athrat.org
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93]) by mx.google.com with ESMTPSA id
+	fu14sm11706710pad.44.2015.04.04.11.05.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 04 Apr 2015 11:05:21 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Apr 2015 20:20:28 +0300
-Message-Id: <1428168028-6476-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: extended list of paths in find_binary_path
+Date: Sat,  4 Apr 2015 11:04:58 -0700
+Message-Id: <1428170698-25415-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] shadow: split files needed for PAM use into separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Apr 2015 17:20:45 -0000
+X-List-Received-Date: Sat, 04 Apr 2015 18:05:21 -0000
 
-wic requires tools that are not always possible to find in $PATH.
-This causes wic to fail with confusing errors like this:
- External command 'parted' not found, exiting.
-   (Please install 'parted' on your host system)
+The rootfs creator automatically removes shadow for read-only
+root filesystems, which breaks use of PAM plugins for login and
+other process identity management utilities.  Package those programs
+and config files separately, so they don't get removed.
 
-Adding ~/bin/, /usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin,
-/sbin and /bin to the list of paths makes find_binary_path to
-produce more reliable results.
-
-[YOCTO #7122]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- scripts/lib/wic/utils/fs_related.py | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/recipes-extended/shadow/shadow.inc | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
-index ea9f85c..832a44a 100644
---- a/scripts/lib/wic/utils/fs_related.py
-+++ b/scripts/lib/wic/utils/fs_related.py
-@@ -32,13 +32,16 @@ from wic.utils.errors import *
- from wic.utils.oe.misc import *
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index bb3a927..b338432 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -149,15 +149,30 @@ do_install_append() {
+ 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
+ }
  
- def find_binary_path(binary):
-+    paths = []
-     if os.environ.has_key("PATH"):
-         paths = os.environ["PATH"].split(":")
--    else:
--        paths = []
--        if os.environ.has_key("HOME"):
--            paths += [os.environ["HOME"] + "/bin"]
--        paths += ["/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"]
-+    if os.environ.has_key("HOME"):
-+        path = os.path.join(os.environ["HOME"], "bin")
-+        if path not in paths:
-+            paths.append(path)
-+    for path in ["/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"]:
-+        if path not in paths:
-+            paths.append(path)
++PACKAGES =+ "${PN}-base"
++FILES_${PN}-base = "\
++    ${base_bindir}/login.shadow \
++    ${base_bindir}/su.shadow \
++    ${bindir}/sg \
++    ${bindir}/newgrp.shadow \
++    ${bindir}/groups.shadow \
++    ${sysconfdir}/pam.d/login \
++    ${sysconfdir}/pam.d/su \
++    ${sysconfdir}/login.defs \
++"
++RDEPENDS_${PN} += "${PN}-base"
++
+ inherit update-alternatives
  
-     for path in paths:
-         bin_path = "%s/%s" % (path, binary)
+ ALTERNATIVE_PRIORITY = "200"
+ 
+-ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su"
++ALTERNATIVE_${PN} = "passwd chfn chsh chpasswd vipw vigr"
+ ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
+-ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
+ ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
+ ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
++
++ALTERNATIVE_${PN}-base = "newgrp groups login su"
++ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
+ ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+ 
+ ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3"
 -- 
-2.1.4
+1.9.1
 
 
