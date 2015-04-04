@@ -1,34 +1,35 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C01B73CB9
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C36460138
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Apr 2015 22:03:22 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so5463834wiu.1
+	Sat,  4 Apr 2015 01:11:27 +0000 (UTC)
+Received: by igbqf9 with SMTP id qf9so104362095igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Apr 2015 15:03:23 -0700 (PDT)
+	Fri, 03 Apr 2015 18:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=lryO6A1N7XR1bF/R7InPdf3Q+lPU8PVvN3+BpQWqlUI=;
-	b=RAgFFDV9iYArmEsqo/B469GuXmDINub1jM4eA5MK2Csh9OtF/3wLzJxZXSAvPQdxKN
-	97z41gIEFcgdIsqYuZxzbOkxLK2WJI2dbiOYEyfbGPQ/5nsD1Z0zriD3NMBq15vvJ3ev
-	bW5K29uEbLkGGAwP5rmBW8Xak8NVuh0P1CdcuQcyMTQUDLqA2DGMi6xJWa1sNcvn470x
-	Y1UD+No8ocChb9U5a1HXBM8XcPCQmcBpVLDmDzrd8r0MEcAEZxy6klRw7URyl48ubD0a
-	xQGoj11KoP+VPdTULq5f9uW4iGJ4LJrxPYe+cj8O8uErgZqBm95szfhyGNPnoL+tqPJ7
-	mZAg==
-X-Received: by 10.194.208.229 with SMTP id mh5mr8784660wjc.108.1428098603836; 
-	Fri, 03 Apr 2015 15:03:23 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id q6sm4367886wix.3.2015.04.03.15.03.21
-	for <openembedded-core@lists.openembedded.org>
+	h=from:to:cc:subject:date:message-id;
+	bh=iX5iSllTUR5seS5dDIutC9V42KqF4V+AgJCwu9LgkMw=;
+	b=suLPZ1SfexZQJWdySmYrBMtImfP8EFwXM+6bkJISzk9KmBZ+Zej7mIxfzDjZ5IYfxg
+	eRV2YQ12wuGT9AP/Lja0e5K4rynAzNInqts7dD5iqaxKtzk/ORGd1ya/ilxJhzRUUnYs
+	tgxj3R/GBDEebUvRGe1kyikkHhv+H3qKRfzU4QHWIY/gf2mopaqXTZvaR/E9DbmzpK4o
+	U4nru2SFwbNJbKeW4q5nym1ZJLoSL6MKjWK9Lv4+eUZnHyMWym8i38RZBVB+BVgi6vhX
+	XS/fKJ85JSVd/pN8OEKUMgzFEXKUCrKEY0JgjKzfGRad4ljb8gGCmVKjJCsU/up6OnvB
+	2Vbg==
+X-Received: by 10.50.129.9 with SMTP id ns9mr8299725igb.24.1428109888068;
+	Fri, 03 Apr 2015 18:11:28 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id
+	b137sm6636948ioe.36.2015.04.03.18.11.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 03 Apr 2015 15:03:22 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
+	Fri, 03 Apr 2015 18:11:27 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Apr 2015 15:03:05 -0700
-Message-Id: <1428098585-1574-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-Subject: [PATCH] oe.sstatesig: align swspec handling with sstate.bbclass
+Date: Fri,  3 Apr 2015 18:11:13 -0700
+Message-Id: <1428109874-2871-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] libevent: control openssl support via PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,50 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Apr 2015 22:03:25 -0000
+X-List-Received-Date: Sat, 04 Apr 2015 01:11:31 -0000
 
-The logic tries to remove the -native suffix from pn to handle this (though it
-doesn't succeed, as it doesn't assign the new pn to the variable), but we need
-to do more for the swspec tasks than just not set the extrapath, we also need
-to change from SSTATE_PKGSPEC to SSTATE_SWSPEC. Alter to correct the spec for
-these cases, and also add preconfigure to align with the current logic in
-sstate.bbclass, which includes that task as well in the list of tasks to
-adjust to use swspec.
-
-[YOCTO #7563]
-
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-support/libevent/libevent_2.0.21.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 62e75c2..9d6d7c4 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -206,9 +206,6 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-         if key.startswith('virtual:native:'):
-             pn = pn + '-native'
+diff --git a/meta/recipes-support/libevent/libevent_2.0.21.bb b/meta/recipes-support/libevent/libevent_2.0.21.bb
+index 1230e92..e198f09 100644
+--- a/meta/recipes-support/libevent/libevent_2.0.21.bb
++++ b/meta/recipes-support/libevent/libevent_2.0.21.bb
+@@ -18,7 +18,8 @@ SRC_URI[sha256sum] = "22a530a8a5ba1cb9c080cba033206b17dacd21437762155c6d30ee6469
  
--    if taskname in ['do_fetch', 'do_unpack', 'do_patch', 'do_populate_lic']:
--        pn.replace("-native", "")
--
-     filedates = {}
+ S = "${WORKDIR}/${BPN}-${PV}-stable"
  
-     # First search in stamps dir
-@@ -249,7 +246,10 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-             localdata.setVar('PV', '*')
-             localdata.setVar('PR', '*')
-             localdata.setVar('BB_TASKHASH', hashval)
--            if pn.endswith('-native') or "-cross-" in pn or "-crosssdk-" in pn:
-+            swspec = localdata.getVar('SSTATE_SWSPEC', True)
-+            if taskname in ['do_fetch', 'do_unpack', 'do_patch', 'do_populate_lic', 'do_preconfigure'] and swspec:
-+                localdata.setVar('SSTATE_PKGSPEC', '${SSTATE_SWSPEC}')
-+            elif pn.endswith('-native') or "-cross-" in pn or "-crosssdk-" in pn:
-                 localdata.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-             sstatename = taskname[3:]
-             filespec = '%s_%s.*.siginfo' % (localdata.getVar('SSTATE_PKG', True), sstatename)
+-EXTRA_OECONF = "--disable-openssl"
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ 
+ inherit autotools
+ 
 -- 
-2.2.1
+1.9.1
 
 
