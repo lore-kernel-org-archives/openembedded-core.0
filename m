@@ -1,35 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 32DB96013D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E0C773CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Apr 2015 16:07:09 +0000 (UTC)
-Received: by ierf6 with SMTP id f6so107616103ier.2
+	Sat,  4 Apr 2015 16:28:31 +0000 (UTC)
+Received: by pdea3 with SMTP id a3so103689396pde.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Apr 2015 09:07:10 -0700 (PDT)
+	Sat, 04 Apr 2015 09:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=CXh03kfn947Osn/9EdxbGBHTcMH/nMIOOVkIw2vC/Ks=;
-	b=vaVn51DQhAR60yfdVxkMr6n9QrKY/Jiw5ykxhJ2ShlIl6H/VDoDcOYCFctJlX3epiT
-	VPHXsRr7Sg0Q/bECMbmjENz6DKFB4GhFs2hmWIHa2sJu2P0oiKx/I6nSbgOHUSnZej7x
-	KWky4F2hFzJh/sJ6GG1iKAxbl9tPO9dGETOBB/pm6nqzPPjWSYzcBNYXYwKiQ2iMRsdx
-	OheCHS2c8QniWjPgEkILvVSrdw206lgw4RUGJducnIseT+j93hTSDTauhvKifgvfSSSp
-	hgDWnSYZVmain0rdPipCEk9UMbS127G8aNv+YNBJCPx325yJtFz+7uv8qPJtczgUH1NN
-	A36Q==
-X-Received: by 10.50.29.52 with SMTP id g20mr13374482igh.27.1428163629630;
-	Sat, 04 Apr 2015 09:07:09 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=kH2FHlvNRj+KGUe4O8WBiD3d6Mfg0N5UkxU1s2q039g=;
+	b=WvpTSM0GF0ZzGcJLhlg18+869KOqFpHFRJ81Y6F9vU3xDL0nsNvpp85g4iJsMK+m1U
+	AdxtyzZFNG6ngYT6nhBL0vzM66F0+qRj4TNuxgovVHxLSGlqHZtFMidBRbu8D3MEuRiV
+	dEgOnlFWocPbWUkoLf/sXcrUMNdQmgdMvzQEPHFYF04lAW3CP8c/uIQTsXcUplCbuRCP
+	rJSy7ULbsTc83uaqcvuTSGmMv/ZBxwljdQytS4xcaPHjsrvBENUcrbiiU+4nGIivtDq+
+	jYxBPAf07aIKkkVkhcNSGfkDWuKFzRdRv6eBwuJ4SH8w/m4+C2Z6SsVJwsUSbBU6Yv++
+	xSIA==
+X-Received: by 10.68.248.39 with SMTP id yj7mr13402520pbc.58.1428164912523;
+	Sat, 04 Apr 2015 09:28:32 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:cd24:26ef:d5b9:efbb?
+	([2601:c:a700:3ba7:cd24:26ef:d5b9:efbb])
+	by mx.google.com with ESMTPSA id fl4sm11508557pab.8.2015.04.04.09.28.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 04 Apr 2015 09:28:31 -0700 (PDT)
+Message-ID: <5520112C.5000800@gmail.com>
+Date: Sat, 04 Apr 2015 09:28:28 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Sat, 4 Apr 2015 09:06:39 -0700 (PDT)
-In-Reply-To: <1428158165.4354.25.camel@workhorse.madison.systems>
-References: <1428158165.4354.25.camel@workhorse.madison.systems>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 4 Apr 2015 09:06:39 -0700
-Message-ID: <CAMKF1soS=iFeHu1Frzt+j2hs-fLBRZYYNZV2o=U1+rLty7ovfA@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Removing shadow breaks PAM logins
+To: Matt Madison <matt@madison.systems>, 
+	openembedded-core@lists.openembedded.org
+References: <1428156804-10854-1-git-send-email-matt@madison.systems>
+In-Reply-To: <1428156804-10854-1-git-send-email-matt@madison.systems>
+Subject: Re: [dizzy][PATCH] Revert "busybox: libarchive: open_zipped() does not need to check extensions"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,15 +47,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Apr 2015 16:07:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 04 Apr 2015 16:28:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 4, 2015 at 7:36 AM, Matt Madison <matt@madison.systems> wrote:
-> I worked around the issue by repackaging shadow so the programs and
-> config files that aren't related to changing the passwd and group files
-> ended up in a separate package that remained in the rootfs.  That seemed
-> to be the cleanest way to deal with the problem, and it did the trick
-> for me.  If there's interest, I can submit a patch.
+thanks.
 
-yes please
+Will pull this in.
+
+On 04/04/2015 07:13 AM, Matt Madison wrote:
+> his fixes "zcat FILE_WITHOUT_GZ_EXT" case, among others
 
