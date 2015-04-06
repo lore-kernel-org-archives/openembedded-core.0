@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 369FF73C3F
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A4A3B73D1E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Apr 2015 17:37:13 +0000 (UTC)
-Received: by iebmp1 with SMTP id mp1so26705162ieb.0
+	Mon,  6 Apr 2015 17:37:15 +0000 (UTC)
+Received: by igblo3 with SMTP id lo3so25069058igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Apr 2015 10:37:15 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=k9O+N7TikP6I+CM5yBVRABnk80jqAo04cvz3S53TXpA=;
-	b=XKN8DrCp/1nDcAIpcf+Hbhzt40jEWUXi0Azl/HIVz106zVJ1dOjcMDPbX8bFG63kBg
-	GI9IMZVimpjttGHke3bPclEve08hMxw3UFuDVujLVyGHaqPLdcQlEH1WBwcH8TOW94lS
-	oTbuv8Vx6kA4gKY6wwH0/WU0WWhf4FpeqSYyhZ4DgMYqiMkmQlDjAopXrmasxy/u6+97
-	6icoYVXkQxTDOwGTexPRsqnibapajFmGzBTW6Zb+cO87gfrtyEJNrIlRUWDjjZiwgnmE
-	R7wvKqQZ/aLJsAzl79xCXNAtC5DR0jiZCYQ4fQxJwke7oj7TTk7m3RFi0EQPSgHQpLxD
-	vaQA==
-X-Received: by 10.50.78.130 with SMTP id b2mr9589293igx.42.1428341834968;
-	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
+	bh=wMX6zBmApsk5feHHvzhwxV8AMNdLth+jMX1xl4UjZi8=;
+	b=KsdcDnKCyjpbVIFi/faPFqT5kkzV5rtP9sSAzfwIYZIuOVtUjJFs948/QHXRyF4zhc
+	JHNlRTzALEeOT/VvmUt0SZPCteCwBNwR0xUHhIEr7wM3pBb2leebqA9G0C6eKxFl9k1y
+	aY0Bae+Czsp+o5ArfPxjjD+e/+asYmemmwWhPS9CZFPAUzakJ1EJpnCnfE9IIdfwtVaw
+	96YaoKYUFHhwqcXMqlQkon4/tJyRDkcMonsrugs7D52ZmeOcp3NuQQsHxOpREGp5rXII
+	Pl6vivUI4NFWzMKwr+icDvWhXIN8E+MmiyPh7hEHQsVmvHp/1mdoq81iKz3lv9jj5KsU
+	+Yaw==
+X-Received: by 10.107.170.77 with SMTP id t74mr15826997ioe.85.1428341836581;
+	Mon, 06 Apr 2015 10:37:16 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.14
+	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.16
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Apr 2015 17:36:48 +0000
-Message-Id: <79f72df6132ea66a77b1b037507ad85c06575303.1428341478.git.raj.khem@gmail.com>
+Date: Mon,  6 Apr 2015 17:36:51 +0000
+Message-Id: <4b0a974703148c9553a74a8f5c1dc8f30df562f2.1428341478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428341477.git.raj.khem@gmail.com>
 References: <cover.1428341477.git.raj.khem@gmail.com>
-Subject: [PATCH 20/24] ofono: Disable backtrace for non-glibc libraries
+Subject: [PATCH 23/24] libxml2: Contain glibc-extentions under __GLIBC__
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Apr 2015 17:37:15 -0000
+X-List-Received-Date: Mon, 06 Apr 2015 17:37:16 -0000
 
-It uses glibc backtrace() API which is not implemented
-everywhere e.g. musl
+Makes it more portable
 
-Change-Id: I96380b994c27968542dba6dae220adfecaeda556
+Change-Id: I7bbc4cc0ebc26d54248b8433dab94db207615445
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...cktrace-Disable-for-non-glibc-C-libraries.patch | 40 ++++++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.16.bb      |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
+ ...ine-pthread-definitions-for-glibc-complia.patch | 32 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.2.bb          |  4 ++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-threads-Define-pthread-definitions-for-glibc-complia.patch
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch b/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
+diff --git a/meta/recipes-core/libxml/libxml2/0001-threads-Define-pthread-definitions-for-glibc-complia.patch b/meta/recipes-core/libxml/libxml2/0001-threads-Define-pthread-definitions-for-glibc-complia.patch
 new file mode 100644
-index 0000000..306b6da
+index 0000000..c653a81
 --- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
-@@ -0,0 +1,40 @@
-+From 2d729af0897d7d72b83d111876febf9e0eec1a68 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/libxml/libxml2/0001-threads-Define-pthread-definitions-for-glibc-complia.patch
+@@ -0,0 +1,32 @@
++From 6750cc564a17c812555cca587660240ccffaaed3 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 3 Apr 2015 20:50:56 -0700
-+Subject: [PATCH] backtrace: Disable for non-glibc C libraries
++Date: Sat, 4 Apr 2015 08:50:40 -0700
++Subject: [PATCH] threads: Define pthread* definitions for glibc compliant libs
++
++This code is assuming glibc but not explicitly saying it
++so lets make it so. Fixes following on musl
++
++threads.c:80:27: error: macro "pthread_equal" requires 2 arguments, but
++only 1 given
++|  extern int pthread_equal ()
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
 +Upstream-Status: Pending
-+
 +---
-+ src/log.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ threads.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/log.c b/src/log.c
-+index febc874..9db4ae7 100644
-+--- a/src/log.c
-++++ b/src/log.c
-+@@ -30,7 +30,9 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <syslog.h>
-++#ifdef __GLIBC__
-+ #include <execinfo.h>
-++#endif
-+ #include <dlfcn.h>
++Index: libxml2-2.9.2/threads.c
++===================================================================
++--- libxml2-2.9.2.orig/threads.c
+++++ libxml2-2.9.2/threads.c
++@@ -47,7 +47,7 @@
++ #ifdef HAVE_PTHREAD_H
 + 
-+ #include "ofono.h"
-+@@ -219,8 +221,9 @@ static void signal_handler(int signo)
-+ {
-+ 	ofono_error("Aborting (signal %d) [%s]", signo, program_exec);
-+ 
-++#ifdef __GLIBC__
-+ 	print_backtrace(2);
-+-
-++#endif
-+ 	exit(EXIT_FAILURE);
-+ }
-+ 
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.16.bb b/meta/recipes-connectivity/ofono/ofono_1.16.bb
-index 712fc5c..fbf13e5 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.16.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.16.bb
-@@ -4,6 +4,7 @@ SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-   file://ofono \
-   file://Revert-test-Convert-to-Python-3.patch \
-+  file://0001-backtrace-Disable-for-non-glibc-C-libraries.patch \
- "
- SRC_URI[md5sum] = "c31b5b55a1d68354bff771d3edf02829"
- SRC_URI[sha256sum] = "403b98dadece8bc804c0bd16b96d3db5a3bb0f84af64b3d67924da2d1a754b07"
++ static int libxml_is_threaded = -1;
++-#ifdef __GNUC__
+++#if defined(__GNUC__) && defined(__GLIBC__)
++ #ifdef linux
++ #if (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || (__GNUC__ > 3)
++ extern int pthread_once (pthread_once_t *__once_control,
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.2.bb b/meta/recipes-core/libxml/libxml2_2.9.2.bb
+index 1affff1..79a395c 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.2.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.2.bb
+@@ -1,7 +1,9 @@
+ require libxml2.inc
+ 
+ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
+-            file://72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch"
++            file://72a46a519ce7326d9a00f0b6a7f2a8e958cd1675.patch \
++	    file://0001-threads-Define-pthread-definitions-for-glibc-complia.patch \
++	   "
+ 
+ SRC_URI[libtar.md5sum] = "9e6a9aca9d155737868b3dc5fd82f788"
+ SRC_URI[libtar.sha256sum] = "5178c30b151d044aefb1b08bf54c3003a0ac55c59c866763997529d60770d5bc"
 -- 
 2.1.4
 
