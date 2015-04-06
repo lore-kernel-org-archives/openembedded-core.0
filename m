@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 73AF272A51
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E7C73D18
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Apr 2015 17:37:13 +0000 (UTC)
-Received: by iebrs15 with SMTP id rs15so26646859ieb.3
+Received: by ierf6 with SMTP id f6so26628091ier.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=gwcwyJscsgwdJPuoxX8MJCgpl9uGgW8qlLh101c6hhE=;
-	b=c4tOjqH5rzl8FyMOeRui5jWiw4li7kFSScFuGnBilglkxiiyrxz09l3Dy5W1F9IUqv
-	Fad3vtW+NishFnU22xZb2f4UUVGoFzLCk1IWnCzovI8P8nQVEHbUJVi5mggwSgSgoSbl
-	LLXUvNDZw7N87if60kTwQmDsr6ogQddM6/nr/VCGPiQ4kxTnouw8PNLzdUJR6klY+ncI
-	M77gvIN4965EPwVye037madivSwve6aZOnK36zAnHoVIxScOTFK9nQCMolJwN4MtONQs
-	NO648I+lSBTUb6LAj3kVOkS9T+E++x5+rso3N0/EvQJA/TIsqylEji/FjCigLPLNmRYJ
-	hFvQ==
-X-Received: by 10.107.162.74 with SMTP id l71mr24167322ioe.77.1428341834518;
-	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
+	bh=Rf47JK4J2fvRTW/uEmdlEAAoD+pWRR0ut64y6op7o48=;
+	b=Qi+0KMK+6BpEKtM2Qrfx7XVin7RKs7STsPwuWU29/XvXlzgu/xndOcawFq31X/eg/g
+	5zICPEefDlYz68g3vuagubwTRfr21dR1cs1HUPOfyKMSsYxwdoCpn4ivbZj8sn9/l9sa
+	0cBgO2QSy06nDxmcs3s6pZKz7T5rAX5F7fsZErtRh8VvV9/RsKDBOr8N25uwqJtw5pUE
+	U/iwNjccftQfdDWtV5bTwpDX50zWhjiE8K6EIkL/6qrKYf3+i2Ed+dK0kO+2L4LuNh8f
+	VWPSrZ5KD4x6h9e1ZcI4UAaRqefT9s1dJ9oycYXMtGxt4E4H9W4YfJL3/SCiJTEroGqD
+	SFKQ==
+X-Received: by 10.107.153.129 with SMTP id b123mr22963982ioe.63.1428341835481; 
+	Mon, 06 Apr 2015 10:37:15 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
 	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.14
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:15 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Apr 2015 17:36:47 +0000
-Message-Id: <63f8e4b9b0d5600e617ce0d57abc764d31282be7.1428341478.git.raj.khem@gmail.com>
+Date: Mon,  6 Apr 2015 17:36:49 +0000
+Message-Id: <9f19d60d012adbc06ee09c0545439fd112bf6053.1428341478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428341477.git.raj.khem@gmail.com>
 References: <cover.1428341477.git.raj.khem@gmail.com>
-Subject: [PATCH 19/24] at-spi2-core: Add nls.m4 from gettext
+Subject: [PATCH 21/24] pixman,libpciaccess: Fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,95 +46,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Apr 2015 17:37:13 -0000
+X-List-Received-Date: Mon, 06 Apr 2015 17:37:14 -0000
 
-This is needed for building it with musl, since
-we disable NLS, I think it will fails in same
-way with glibc if NLS was disabled there too
+The fixes are not specific to musl, however they came
+to surface due to musl, these are generic problems which
+should be fixed in components
 
-Change-Id: I95c6858adfb33361cab466999e0bacb47c1e1fde
+Change-Id: If9aa95968d9dec9c16e3e5819955befcaa38937c
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-nls.m4-Take-it-from-gettext-0.15.patch    | 54 ++++++++++++++++++++++
- meta/recipes-support/atk/at-spi2-core_2.14.1.bb    |  4 +-
- 2 files changed, 57 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
+ .../xorg-lib/libpciaccess/limits.patch             | 17 +++++++++++++
+ .../xorg-lib/libpciaccess_0.13.3.bb                |  2 ++
+ .../xorg-lib/pixman/asm_include.patch              | 29 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb    |  1 +
+ 4 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
 
-diff --git a/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch b/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch b/meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch
 new file mode 100644
-index 0000000..69a51d5
+index 0000000..498020e
 --- /dev/null
-+++ b/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
-@@ -0,0 +1,54 @@
-+From c320799c941d42a9b7e351805359694ea3b36d2d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 5 Apr 2015 09:08:38 -0700
-+Subject: [PATCH] nls.m4: Take it from gettext-0.15
-+
-+It otherwise expects gettext to provide it. Lets go independent
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch
+@@ -0,0 +1,17 @@
++Add missing include file to get definition of PATH_MAX
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
 +Upstream-Status: Pending
-+---
-+ m4/nls.m4 | 30 ++++++++++++++++++++++++++++++
-+ 1 file changed, 30 insertions(+)
-+ create mode 100644 m4/nls.m4
 +
-+diff --git a/m4/nls.m4 b/m4/nls.m4
-+new file mode 100644
-+index 0000000..2c8fe69
-+--- /dev/null
-++++ b/m4/nls.m4
-+@@ -0,0 +1,30 @@
-++dnl Copyright (C) 1995-2003, 2005-2006 Free Software Foundation, Inc.
-++dnl This file is free software; the Free Software Foundation
-++dnl gives unlimited permission to copy and/or distribute it,
-++dnl with or without modifications, as long as this notice is preserved.
-++dnl
-++dnl This file can can be used in projects which are not available under
-++dnl the GNU General Public License or the GNU Library General Public
-++dnl License but which still want to provide support for the GNU gettext
-++dnl functionality.
-++dnl Please note that the actual code of the GNU gettext library is covered
-++dnl by the GNU Library General Public License, and the rest of the GNU
-++dnl gettext package package is covered by the GNU General Public License.
-++dnl They are not in the public domain.
-++
-++dnl Authors:
-++dnl Ulrich Drepper drepper@cygnus.com, 1995-2000.
-++dnl Bruno Haible haible@clisp.cons.org, 2000-2003.
-++
-++AC_PREREQ(2.50)
-++
-++AC_DEFUN([AM_NLS],
-++[
-++AC_MSG_CHECKING([whether NLS is requested])
-++dnl Default is enabled NLS
-++AC_ARG_ENABLE(nls,
-++[ --disable-nls do not use Native Language Support],
-++USE_NLS=$enableval, USE_NLS=yes)
-++AC_MSG_RESULT($USE_NLS)
-++AC_SUBST(USE_NLS)
-++])
-+-- 
-+2.1.4
++Index: libpciaccess-0.13.3/src/linux_sysfs.c
++===================================================================
++--- libpciaccess-0.13.3.orig/src/linux_sysfs.c
+++++ libpciaccess-0.13.3/src/linux_sysfs.c
++@@ -44,6 +44,7 @@
++ #include <sys/mman.h>
++ #include <dirent.h>
++ #include <errno.h>
+++#include <limits.h>
++ 
++ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__)
++ #include <sys/io.h>
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.3.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.3.bb
+index bbba24e..4a832e8 100644
+--- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.3.bb
+@@ -5,6 +5,8 @@ PCI bus and devices in a platform-independent way."
+ 
+ require xorg-lib-common.inc
+ 
++SRC_URI += "file://limits.patch"
 +
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.14.1.bb b/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
-index 1a1ce6c..a4d2b3a 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
-@@ -4,7 +4,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
  
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch b/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
+new file mode 100644
+index 0000000..b52a570
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
+@@ -0,0 +1,29 @@
++Fixes errors like
++
++Assembler messages:
++Fatal error: can't create .libs/pixman-mips-dspr2-asm.o: No such file or directory
++
++it works with glibc because it uses gcc fixed-headers but thats not right.
++
++We move the include under C block
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: pixman-0.32.6/pixman/pixman-private.h
++===================================================================
++--- pixman-0.32.6.orig/pixman/pixman-private.h
+++++ pixman-0.32.6/pixman/pixman-private.h
++@@ -1,4 +1,3 @@
++-#include <float.h>
++ 
++ #ifndef PIXMAN_PRIVATE_H
++ #define PIXMAN_PRIVATE_H
++@@ -17,6 +16,8 @@
++ 
++ #ifndef __ASSEMBLER__
++ 
+++#include <float.h>
+++
++ #ifndef PACKAGE
++ #  error config.h must be included before pixman-private.h
++ #endif
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+index 467ba50..eae59b6 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+@@ -30,6 +30,7 @@ EXTRA_OECONF_class-native = "--disable-gtk"
+ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+             file://mips-export-revert.patch \
++	    file://asm_include.patch \
+ "
  
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-+           file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
-+          "
- 
- SRC_URI[md5sum] = "a37993cc50d90465c9aeed95e2ac439a"
- SRC_URI[sha256sum] = "eef9660b14fdf0fb1f30d1be7c72d591fa7cbb87b00ca3a444425712f46ce657"
+ SRC_URI[md5sum] = "8a9e8f14743a39cf303803f369c1f344"
 -- 
 2.1.4
 
