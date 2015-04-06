@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
 	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6385C73C60
+	by mail.openembedded.org (Postfix) with ESMTP id ADF7A73C60
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Apr 2015 17:37:12 +0000 (UTC)
-Received: by igbqf9 with SMTP id qf9so25034846igb.1
+Received: by igblo3 with SMTP id lo3so25068150igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Apr 2015 10:37:13 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=LawMF6K9FhLxICAFwj4Qrkfa0FyW7usabkqn1uEP+Ug=;
-	b=YAwNXD22P3WEYjV7Fuv5c4Yy5kFo2YNit1zkxvZL+h2FAYMappgt952/DEhgu77kGh
-	LUv5pfNYYjGkc+NMziOif/ZmSIRV7ANu3S2QQKFryWPqZKCaGUDQDXcAckOqlua7BZpN
-	uy+ePK53dE3/vG+3eI3AVs9TxpiqiaDCC5cQe3ETgo2d/pkL9mFy3W88N6ipkQKAhmYM
-	HDDnSj+GCPmspjilfmMho94on647EcAY/XoAtN4gfPAwfgcSoBklrBPjFlG4VeG3sExY
-	lMc6mC+BTgL4sO0MkHiC02rMEqlMZvHrsCEuQ2C6DtBTK3L9CFrc9Gf8oNWYb5VsDYZi
-	eR+w==
-X-Received: by 10.50.25.225 with SMTP id f1mr24741821igg.29.1428341833406;
-	Mon, 06 Apr 2015 10:37:13 -0700 (PDT)
+	bh=m2K+A/O3wurJEwrC3GUo/wFB94+gWmGwraI7LT8Lqc8=;
+	b=L16Pm0/HigxJxvMBMuYHS+l35rCXbgIgb9xXIkRgyCjHgWT8UIFv9VWdWTw7YOHJUC
+	VqiiofRWCe43QJ47ZV8pISuWUWRefD85KGt59xeiaDRjPuhMmmGt638tUrqYydkWVNVw
+	8dOJOn6bAR6AqPtRmyxsdBkMqo6fw0r5+ZH/5WONBcXsgquOUx9/k0fyx0+OyGAaaem0
+	CEqyUhS5XV0Igz7rPQjW+GhyRPzt8r44bB0UP8rV8RSam0oJjElAlvb99J+KjaujifQQ
+	3DDTlJXridrvDiT81GxbwiBLqcQhZYgcg5fJc2ulR7QWuTg7JFh1Vd8E6d8ruPSX7DvW
+	XeEw==
+X-Received: by 10.50.41.66 with SMTP id d2mr39553071igl.38.1428341834010;
+	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.12
+	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Apr 2015 10:37:12 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:13 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Apr 2015 17:36:45 +0000
-Message-Id: <7b171e5aeaaa42f0a2e5a6b14598789ac117a815.1428341478.git.raj.khem@gmail.com>
+Date: Mon,  6 Apr 2015 17:36:46 +0000
+Message-Id: <704d682f8aa5c1468491aae7a6355e181a1b99dc.1428341478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428341477.git.raj.khem@gmail.com>
 References: <cover.1428341477.git.raj.khem@gmail.com>
-Subject: [PATCH 17/24] bluez4: Fix encrypt symbol namespace collision
+Subject: [PATCH 18/24] mesa: Fix building with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,151 +48,129 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Apr 2015 17:37:12 -0000
 
-| Makefile:3352: recipe for target 'test/l2test.o' failed
-| make[1]: *** [test/l2test.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| test/rctest.c:82:12: error: 'encrypt' redeclared as different kind of
-symbol
-|  static int encrypt = 0;
-|             ^
-| In file included from test/rctest.c:33:0:
+backport needed patches
+add a patch to use _NP macros only on glibc
+based linux and not on all linux
 
-Change-Id: Iaf2f644ef3cef6f96c6e4bc421c9e78a0e23e674
+Change-Id: Ib43bec9d222856f8e7acb9f0143b406517f049c8
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 +++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   1 +
- 2 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
+ ...D_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch | 29 ++++++++++++
+ ...002-mesa-simplify-detection-of-fpclassify.patch | 53 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_10.4.4.bb          |  5 +-
+ 3 files changed, 86 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
+diff --git a/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch b/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
 new file mode 100644
-index 0000000..1bc390f
+index 0000000..52443d8
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
-@@ -0,0 +1,110 @@
-+Avoid namepspace collision with encrypt function from libc
++++ b/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
+@@ -0,0 +1,29 @@
++From 46cdd464efbada13478f5e39a50aef85599ff91b Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 4 Apr 2015 15:50:53 -0700
++Subject: [PATCH 1/2] PTHREAD_MUTEX_RECURSIVE_NP is specific to glibc
 +
-+Upstream-Status: Pending
++use glibc guard around it
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: bluez-4.101/test/l2test.c
-+===================================================================
-+--- bluez-4.101.orig/test/l2test.c
-++++ bluez-4.101/test/l2test.c
-+@@ -107,7 +107,7 @@ static char *filename = NULL;
-+ static int rfcmode = 0;
-+ static int master = 0;
-+ static int auth = 0;
-+-static int encrypt = 0;
-++static int encryption_request = 0;
-+ static int secure = 0;
-+ static int socktype = SOCK_SEQPACKET;
-+ static int linger = 0;
-+@@ -340,7 +340,7 @@ static int do_connect(char *svr)
-+ 		opt |= L2CAP_LM_MASTER;
-+ 	if (auth)
-+ 		opt |= L2CAP_LM_AUTH;
-+-	if (encrypt)
-++	if (encryption_request)
-+ 		opt |= L2CAP_LM_ENCRYPT;
-+ 	if (secure)
-+ 		opt |= L2CAP_LM_SECURE;
-+@@ -475,7 +475,7 @@ static void do_listen(void (*handler)(in
-+ 		opt |= L2CAP_LM_MASTER;
-+ 	if (auth)
-+ 		opt |= L2CAP_LM_AUTH;
-+-	if (encrypt)
-++	if (encryption_request)
-+ 		opt |= L2CAP_LM_ENCRYPT;
-+ 	if (secure)
-+ 		opt |= L2CAP_LM_SECURE;
-+@@ -1407,7 +1407,7 @@ int main(int argc, char *argv[])
-+ 			break;
++Upstream-Status: Pending
++---
++ include/c11/threads_posix.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/include/c11/threads_posix.h b/include/c11/threads_posix.h
++index f9c165d..c641de4 100644
++--- a/include/c11/threads_posix.h
+++++ b/include/c11/threads_posix.h
++@@ -178,7 +178,7 @@ mtx_init(mtx_t *mtx, int type)
++         return thrd_error;
++     pthread_mutexattr_init(&attr);
++     if ((type & mtx_recursive) != 0) {
++-#if defined(__linux__) || defined(__linux)
+++#if defined __GLIBC__ && (defined(__linux__) || defined(__linux))
++         pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
++ #else
++         pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch b/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
+new file mode 100644
+index 0000000..dd7a188
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
+@@ -0,0 +1,53 @@
++From c09606093c6b8e47d7cb6745eff192184eaaae07 Mon Sep 17 00:00:00 2001
++From: Felix Janda <felix.janda@posteo.de>
++Date: Fri, 23 Jan 2015 17:57:15 +0100
++Subject: [PATCH 2/2] mesa: simplify detection of fpclassify
++
++Fixes compilation with musl libc.
++
++Reviewed-by: Ian Romanick <ian.d.romanick@intel.com>
++Upstream-Status: Backport
++---
++ src/mesa/main/querymatrix.c | 18 +++++++-----------
++ 1 file changed, 7 insertions(+), 11 deletions(-)
++
++diff --git a/src/mesa/main/querymatrix.c b/src/mesa/main/querymatrix.c
++index eb36c76..ef85175 100644
++--- a/src/mesa/main/querymatrix.c
+++++ b/src/mesa/main/querymatrix.c
++@@ -37,8 +37,12 @@
++ #define INT_TO_FIXED(x) ((GLfixed) ((x) << 16))
++ #define FLOAT_TO_FIXED(x) ((GLfixed) ((x) * 65536.0))
 + 
-+ 		case 'E':
-+-			encrypt = 1;
-++			encryption_request = 1;
-+ 			break;
++-#if defined(_MSC_VER)
++-#if _MSC_VER < 1800  /* Not required on VS2013 and above. */
+++#if defined(fpclassify)
+++/* ISO C99 says that fpclassify is a macro.  Assume that any implementation
+++ * of fpclassify, whether it's in a C99 compiler or not, will be a macro.
+++ */
+++#elif defined(_MSC_VER)
+++/* Not required on VS2013 and above. */
++ /* Oddly, the fpclassify() function doesn't exist in such a form
++  * on MSVC.  This is an implementation using slightly different
++  * lower-level Windows functions.
++@@ -71,16 +75,8 @@ fpclassify(double x)
++             return FP_NAN;
++     }
++ }
++-#endif  /* _MSC_VER < 1800 */
++-
++-#elif defined(__APPLE__) || defined(__CYGWIN__) || defined(__FreeBSD__) || \
++-     defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFly__) || \
++-     (defined(__sun) && defined(__C99FEATURES__)) || defined(__MINGW32__) || \
++-     (defined(__sun) && defined(__GNUC__)) || defined(ANDROID) || defined(__HAIKU__)
++-
++-/* fpclassify is available. */
 + 
-+ 		case 'S':
-+Index: bluez-4.101/test/rctest.c
-+===================================================================
-+--- bluez-4.101.orig/test/rctest.c
-++++ bluez-4.101/test/rctest.c
-+@@ -79,7 +79,7 @@ static char *filename = NULL;
++-#elif !defined(_XOPEN_SOURCE) || _XOPEN_SOURCE < 600
+++#else
 + 
-+ static int master = 0;
-+ static int auth = 0;
-+-static int encrypt = 0;
-++static int encryption_request = 0;
-+ static int secure = 0;
-+ static int socktype = SOCK_STREAM;
-+ static int linger = 0;
-+@@ -200,7 +200,7 @@ static int do_connect(const char *svr)
-+ 		opt |= RFCOMM_LM_MASTER;
-+ 	if (auth)
-+ 		opt |= RFCOMM_LM_AUTH;
-+-	if (encrypt)
-++	if (encryption_request)
-+ 		opt |= RFCOMM_LM_ENCRYPT;
-+ 	if (secure)
-+ 		opt |= RFCOMM_LM_SECURE;
-+@@ -291,7 +291,7 @@ static void do_listen(void (*handler)(in
-+ 		opt |= RFCOMM_LM_MASTER;
-+ 	if (auth)
-+ 		opt |= RFCOMM_LM_AUTH;
-+-	if (encrypt)
-++	if (encryption_request)
-+ 		opt |= RFCOMM_LM_ENCRYPT;
-+ 	if (secure)
-+ 		opt |= RFCOMM_LM_SECURE;
-+@@ -701,7 +701,7 @@ int main(int argc, char *argv[])
-+ 			break;
-+ 
-+ 		case 'E':
-+-			encrypt = 1;
-++			encryption_request = 1;
-+ 			break;
-+ 
-+ 		case 'S':
-+Index: bluez-4.101/src/textfile.h
-+===================================================================
-+--- bluez-4.101.orig/src/textfile.h
-++++ bluez-4.101/src/textfile.h
-+@@ -24,6 +24,8 @@
-+ #ifndef __TEXTFILE_H
-+ #define __TEXTFILE_H
-+ 
-++#include <sys/types.h>
-++
-+ int create_dirs(const char *filename, const mode_t mode);
-+ int create_file(const char *filename, const mode_t mode);
-+ int create_name(char *buf, size_t size, const char *path,
-+Index: bluez-4.101/test/attest.c
-+===================================================================
-+--- bluez-4.101.orig/test/attest.c
-++++ bluez-4.101/test/attest.c
-+@@ -34,6 +34,7 @@
-+ #include <termios.h>
-+ #include <sys/ioctl.h>
-+ #include <sys/socket.h>
-++#include <sys/select.h>
-+ 
-+ #include <bluetooth/bluetooth.h>
-+ #include <bluetooth/rfcomm.h>
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index 28a94ed..f900c7c 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://bluetooth.conf \
-             file://network-fix-network-Connect-method-parameters.patch \
-             file://install-test-script.patch \
-             file://use-legacy-pygobject-instead-ofgobject-introspection.patch \
-+            file://fix_encrypt_collision.patch \
- "
++ enum {FP_NAN, FP_INFINITE, FP_ZERO, FP_SUBNORMAL, FP_NORMAL}
++ fpclassify(double x)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+index 8140411..8472408 100644
+--- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+@@ -1,6 +1,9 @@
+ require ${BPN}.inc
  
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+-SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
++SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
++           file://0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch \
++	   file://0002-mesa-simplify-detection-of-fpclassify.patch \
++          "
+ 
+ SRC_URI[md5sum] = "62faf98ac79c5587f8e917e187419e6c"
+ SRC_URI[sha256sum] = "f18a967e9c4d80e054b2fdff8c130ce6e6d1f8eecfc42c9f354f8628d8b4df1c"
 -- 
 2.1.4
 
