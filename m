@@ -1,44 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 836C4605D2
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 448D672D74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Apr 2015 13:18:15 +0000 (UTC)
-Received: by igbqf9 with SMTP id qf9so18994841igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Apr 2015 06:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=LAravxIVvySiHwRlKxTUmkw0/hlr7lzy4t3hqpjTvrM=;
-	b=iRpVg6AlSpww0OD8nBZX+dVz9eZv4Q0xnM2QzWmVTldkVuDyf7aMpSzC76Ma/wdi7r
-	XJZz1+9xrHkqknYBfCDYMwRtu3fJhSFm+9sAutOey4vK7GGerjHl3DnnvTdWB3767EzP
-	9TZ33yYwF0Ar3zVMlTRRaAa/llU7Bha00CGT2ky4hqPBwzG0RDPtrI8pZKKE6JwZ4o3R
-	SQzv+YV2MwWL7aGVmMYDj9PNXAgWobp5Y6gDJ9ixhoPetuwvEZr3+Q1zt32+qUaAi1iP
-	DsDixHjgXnzM/FAKJZC61eLh64pX5uxKqjSNGzibNsdU1sfajzQ32eNNivnrf83u8zye
-	uZBQ==
+	Mon,  6 Apr 2015 14:15:55 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 06 Apr 2015 07:15:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,531,1422950400"; d="scan'208";a="704066796"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Apr 2015 07:15:45 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id F17516A408F;
+	Mon,  6 Apr 2015 07:15:22 -0700 (PDT)
+Date: Mon, 6 Apr 2015 17:15:39 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20150406141539.GA14205@linux.intel.com>
+References: <1428168028-6476-1-git-send-email-ed.bartosh@linux.intel.com>
+	<552189F9.6040405@balister.org>
+	<CAP9ODKqWBNRuJ6D1UCTgspN+wtMAhkE31qdoZjEsxGFQUZSrzQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.107.34.210 with SMTP id i201mr22640324ioi.1.1428326296326;
-	Mon, 06 Apr 2015 06:18:16 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.107.23.6 with HTTP; Mon, 6 Apr 2015 06:18:16 -0700 (PDT)
-In-Reply-To: <552282D7.6040108@pabigot.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
-	<552282D7.6040108@pabigot.com>
-Date: Mon, 6 Apr 2015 10:18:16 -0300
-X-Google-Sender-Auth: wpJf55k5zturBVuEMSXMzM9dXSA
-Message-ID: <CAP9ODKobzYLZS9K55S5rSw=Z=LHOaDOTt5mkzTx3SjomMvXnXg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Peter A. Bigot" <pab@pabigot.com>
+In-Reply-To: <CAP9ODKqWBNRuJ6D1UCTgspN+wtMAhkE31qdoZjEsxGFQUZSrzQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+Subject: Re: [wic][PATCH] wic: extended list of paths in find_binary_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -48,46 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Apr 2015 13:18:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 Apr 2015 14:15:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Apr 6, 2015 at 9:57 AM, Peter A. Bigot <pab@pabigot.com> wrote:
-> On 04/06/2015 02:31 AM, Iorga, Cristian wrote:
->
-> I thought of 1.9 as the preparatory stage for complete removal of bluez4,=
- so
-> that in 2.0 it would be very easy to remove the support for bluez4.
-> Continuing to have bluez5 added to DISTRO_FEATURES create the impression
-> that BlueZ5 is still a second class citizen compared to BlueZ4, and it is
-> not my intention to sustain this opinion via code.
->
-> I hereby standup for my solution. At the moment, we are 1to1. =E2=80=9CWe=
- think=E2=80=9D =E2=80=93
-> Who are the others persons, Ross?
->
-> /Cristian
->
->
-> While I fully support moving to bluez5 and use it in all my images, I do
-> think it's a bit abrupt to make it the default in the first stable releas=
-e
-> that provides a usable bluez5.  On the other hand, Yocto's late to the
-> bluez5 party and it's going to be harder to support bluez4 now.
->
-> Six of one; sign me up as weak support for delaying the move to default
-> bluez5 until 1.10.
->
-> Just an opinion.
+On Mon, Apr 06, 2015 at 09:00:50AM -0300, Otavio Salvador wrote:
+> On Sun, Apr 5, 2015 at 4:16 PM, Philip Balister <philip@balister.org> wrote:
+> > On 04/04/2015 10:20 AM, Ed Bartosh wrote:
+> >> wic requires tools that are not always possible to find in $PATH.
+> >> This causes wic to fail with confusing errors like this:
+> >>  External command 'parted' not found, exiting.
+> >>    (Please install 'parted' on your host system)
+> >>
+> >> Adding ~/bin/, /usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin,
+> >> /sbin and /bin to the list of paths makes find_binary_path to
+> >> produce more reliable results.
+> >
+> > I'm with Otavio. Given wic is intimately dependent on internal build
+> > artifacts, it should use utilities from the sysroot and not depend on
+> > tools from the path. Let's make wic 100% before creating a tool to build
+> > images from packages.
+> 
+> If we want to have it as a 'standalone' tool we will need to somehow
+> package the tool set for it to use, otherwise we have a maintenance
+> nightmare (does patch X has been applied to Parted?).
+> 
+Can you elaborate a bit on how tool set can be packaged?
 
-I prefer bluez5 default in 1.9 and removal in 2.0 (or 1.10). We
-shouldn't be support legacy without a very strong reason and if any
-member shows up to officially support bluez4 for longer we may drop
-its removal but bluez5 default should be done as soon as possible so
-we iron out regressions.
+Back to the original topic. wic never used native parted as it's not useable(there is no executable in systoor).
+Anybody knows the reason?
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Documentation also suggests to install parted on the host: http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#wic-requirements
+
+--
+Regards,
+Ed
 
