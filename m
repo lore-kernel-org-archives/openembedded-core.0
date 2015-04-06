@@ -1,36 +1,38 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C63E6ABF7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E43660097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Apr 2015 07:31:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Apr 2015 00:31:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,530,1422950400"; 
-	d="scan'208,217";a="703936325"
-Received: from irsmsx107.ger.corp.intel.com ([163.33.3.99])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Apr 2015 00:31:18 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.2]) by
-	IRSMSX107.ger.corp.intel.com ([169.254.10.137]) with mapi id
-	14.03.0224.002; Mon, 6 Apr 2015 08:31:17 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 5/5] bluetooth.bbclass: set bluez5 as the
-	default BT stack
-Thread-Index: AQHQb+lAzXM3Q39V6Ei+R9OGX9SXGp0/llfA
-Date: Mon, 6 Apr 2015 07:31:17 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Mon,  6 Apr 2015 12:00:49 +0000 (UTC)
+Received: by iedfl3 with SMTP id fl3so21882981ied.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Apr 2015 05:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=qRUCh4cJ4KnJLARmossot8DRuVZlgAyCcUv+FQaG0nY=;
+	b=Ni/UCfjNwXTHgWyA9uovaMdOLQk8Ao4qZwEj3oTpGqJ1VTJxKqebGmLBlk/RrMM3AY
+	mTeyISTEAUNi2WfXF2Fq4Vd7sdg9nB72JY4IKs71f2JFPl781sIN+n3v3KK+hR8eu1fw
+	tJ1EhXmPHsBcwRVv2b0QrDKgoln0Ksri60gB1D9Q9D0G6niuZxDRWs4XV+tA5Q+r8wPX
+	9F+UGyruEVOZ1FaPoIQi6AtmugXcdip00BxUaz61pjwPKYKNocX0dqLD+w/qvmN1qZ3q
+	iDKxSYugtqIFq0BlU9v88Xc1Ruw9usVsIuHRq00QtvN0Zm2JldMIih7RIGEgbI3Nj/3g
+	2M3w==
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+X-Received: by 10.50.43.130 with SMTP id w2mr22634138igl.30.1428321650635;
+	Mon, 06 Apr 2015 05:00:50 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.107.23.6 with HTTP; Mon, 6 Apr 2015 05:00:50 -0700 (PDT)
+In-Reply-To: <552189F9.6040405@balister.org>
+References: <1428168028-6476-1-git-send-email-ed.bartosh@linux.intel.com>
+	<552189F9.6040405@balister.org>
+Date: Mon, 6 Apr 2015 09:00:50 -0300
+X-Google-Sender-Auth: JXaKQ5NXpEFLktugh67j-3ih_TE
+Message-ID: <CAP9ODKqWBNRuJ6D1UCTgspN+wtMAhkE31qdoZjEsxGFQUZSrzQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Philip Balister <philip@balister.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [wic][PATCH] wic: extended list of paths in find_binary_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,125 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Apr 2015 07:31:20 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB2F4944D2irsmsx105gercor_"
+X-List-Received-Date: Mon, 06 Apr 2015 12:00:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_969F26A8BAB325438E7EB80D3C3134FB2F4944D2irsmsx105gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Sun, Apr 5, 2015 at 4:16 PM, Philip Balister <philip@balister.org> wrote:
+> On 04/04/2015 10:20 AM, Ed Bartosh wrote:
+>> wic requires tools that are not always possible to find in $PATH.
+>> This causes wic to fail with confusing errors like this:
+>>  External command 'parted' not found, exiting.
+>>    (Please install 'parted' on your host system)
+>>
+>> Adding ~/bin/, /usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin,
+>> /sbin and /bin to the list of paths makes find_binary_path to
+>> produce more reliable results.
+>
+> I'm with Otavio. Given wic is intimately dependent on internal build
+> artifacts, it should use utilities from the sysroot and not depend on
+> tools from the path. Let's make wic 100% before creating a tool to build
+> images from packages.
 
-SSB0aG91Z2h0IG9mIDEuOSBhcyB0aGUgcHJlcGFyYXRvcnkgc3RhZ2UgZm9yIGNvbXBsZXRlIHJl
-bW92YWwgb2YgYmx1ZXo0LCBzbyB0aGF0IGluIDIuMCBpdCB3b3VsZCBiZSB2ZXJ5IGVhc3kgdG8g
-cmVtb3ZlIHRoZSBzdXBwb3J0IGZvciBibHVlejQuIENvbnRpbnVpbmcgdG8gaGF2ZSBibHVlejUg
-YWRkZWQgdG8gRElTVFJPX0ZFQVRVUkVTIGNyZWF0ZSB0aGUgaW1wcmVzc2lvbiB0aGF0IEJsdWVa
-NSBpcyBzdGlsbCBhIHNlY29uZCBjbGFzcyBjaXRpemVuIGNvbXBhcmVkIHRvIEJsdWVaNCwgYW5k
-IGl0IGlzIG5vdCBteSBpbnRlbnRpb24gdG8gc3VzdGFpbiB0aGlzIG9waW5pb24gdmlhIGNvZGUu
-DQpJIGhlcmVieSBzdGFuZHVwIGZvciBteSBzb2x1dGlvbi4gQXQgdGhlIG1vbWVudCwgd2UgYXJl
-IDF0bzEuIOKAnFdlIHRoaW5r4oCdIOKAkyBXaG8gYXJlIHRoZSBvdGhlcnMgcGVyc29ucywgUm9z
-cz8NCi9DcmlzdGlhbg0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBp
-bnRlbC5jb21dDQpTZW50OiBNb25kYXksIEFwcmlsIDYsIDIwMTUgMTI6NDEgQU0NClRvOiBJb3Jn
-YSwgQ3Jpc3RpYW4NCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCA1
-LzVdIGJsdWV0b290aC5iYmNsYXNzOiBzZXQgYmx1ZXo1IGFzIHRoZSBkZWZhdWx0IEJUIHN0YWNr
-DQoNCg0KT24gMyBBcHJpbCAyMDE1IGF0IDE1OjEzLCBDcmlzdGlhbiBJb3JnYSA8Y3Jpc3RpYW4u
-aW9yZ2FAaW50ZWwuY29tPG1haWx0bzpjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20+PiB3cm90ZToN
-Ci0jIERlZmluZSBhIHZhcmlhYmxlIHRoYXQgZXhwYW5kcyB0byB0aGUgcmVjaXBlIChwYWNrYWdl
-KSBwcm92aWRpbmcgY29yZQ0KLSMgYmx1ZXRvb3RoIHN1cHBvcnQgb24gdGhlIHBsYXRmb3JtOg0K
-KyMgRGVmaW5lIGEgdmFyaWFibGUgdGhhdCBleHBhbmRzIHRvIHRoZSByZWNpcGUgKHBhY2thZ2Up
-IHByb3ZpZGluZw0KKyMgY29yZSBibHVldG9vdGggc3VwcG9ydCBvbiB0aGUgcGxhdGZvcm06DQog
-IyAiIiBpZiBibHVldG9vdGggaXMgbm90IGluIERJU1RST19GRUFUVVJFUw0KLSMgZWxzZSAiYmx1
-ZXo1IiBpZiBibHVlejUgaXMgaW4gRElTVFJPX0ZFQVRVUkVTDQotIyBlbHNlICJibHVlejQiDQor
-IyBlbHNlICJibHVlejQiIGlmIGJsdWV6NCBpcyBpbiBESVNUUk9fRkVBVFVSRVMNCisjIGVsc2Ug
-ImJsdWV6NSINCg0KVGhhdCB3YXNuJ3QgdGhlIGJlaGF2aW91ciB0aGF0IDEuOCBzZXRzLiAgV2Ug
-dGhpbmsgd2Ugc2hvdWxkIGNvbnRpbnVlIHRvIHJlc3BlY3QgdGhlIGJsdWV6NSBESVNUUk9fRkVB
-VFVSRSBhbmQgYWRkIGl0IHRvIERJU1RST19GRUFUVVJFU19CQUNLRklMTC4NCg0KUm9zcw0K
+If we want to have it as a 'standalone' tool we will need to somehow
+package the tool set for it to use, otherwise we have a maintenance
+nightmare (does patch X has been applied to Parted?).
 
---_000_969F26A8BAB325438E7EB80D3C3134FB2F4944D2irsmsx105gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkkgdGhvdWdodCBvZiAxLjkgYXMgdGhlIHBy
-ZXBhcmF0b3J5IHN0YWdlIGZvciBjb21wbGV0ZSByZW1vdmFsIG9mIGJsdWV6NCwgc28gdGhhdCBp
-biAyLjAgaXQgd291bGQgYmUgdmVyeSBlYXN5IHRvIHJlbW92ZSB0aGUgc3VwcG9ydCBmb3IgYmx1
-ZXo0LiBDb250aW51aW5nIHRvDQogaGF2ZSBibHVlejUgYWRkZWQgdG8gRElTVFJPX0ZFQVRVUkVT
-IGNyZWF0ZSB0aGUgaW1wcmVzc2lvbiB0aGF0IEJsdWVaNSBpcyBzdGlsbCBhIHNlY29uZCBjbGFz
-cyBjaXRpemVuIGNvbXBhcmVkIHRvIEJsdWVaNCwgYW5kIGl0IGlzIG5vdCBteSBpbnRlbnRpb24g
-dG8gc3VzdGFpbiB0aGlzIG9waW5pb24gdmlhIGNvZGUuPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkkgaGVy
-ZWJ5IHN0YW5kdXAgZm9yIG15IHNvbHV0aW9uLiBBdCB0aGUgbW9tZW50LCB3ZSBhcmUgMXRvMS4g
-4oCcV2UgdGhpbmvigJ0g4oCTIFdobyBhcmUgdGhlIG90aGVycyBwZXJzb25zLCBSb3NzPzxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
-b2xvcjojMUY0OTdEIj4vQ3Jpc3RpYW48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48YSBuYW1lPSJfTWFpbEVuZENvbXBvc2UiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
-cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L2E+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJv
-bTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3Mu
-YnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBNb25kYXksIEFwcmlsIDYsIDIw
-MTUgMTI6NDEgQU08YnI+DQo8Yj5Ubzo8L2I+IElvcmdhLCBDcmlzdGlhbjxicj4NCjxiPkNjOjwv
-Yj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCA1LzVd
-IGJsdWV0b290aC5iYmNsYXNzOiBzZXQgYmx1ZXo1IGFzIHRoZSBkZWZhdWx0IEJUIHN0YWNrPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1s
-ZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPk9u
-IDMgQXByaWwgMjAxNSBhdCAxNToxMywgQ3Jpc3RpYW4gSW9yZ2EgJmx0OzxhIGhyZWY9Im1haWx0
-bzpjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5jcmlzdGlhbi5pb3Jn
-YUBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0
-eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6
-MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8
-ZGl2IGlkPSI6OTgiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41
-aW4iPi0jIERlZmluZSBhIHZhcmlhYmxlIHRoYXQgZXhwYW5kcyB0byB0aGUgcmVjaXBlIChwYWNr
-YWdlKSBwcm92aWRpbmcgY29yZTxicj4NCi0jIGJsdWV0b290aCBzdXBwb3J0IG9uIHRoZSBwbGF0
-Zm9ybTo8YnI+DQomIzQzOyMgRGVmaW5lIGEgdmFyaWFibGUgdGhhdCBleHBhbmRzIHRvIHRoZSBy
-ZWNpcGUgKHBhY2thZ2UpIHByb3ZpZGluZzxicj4NCiYjNDM7IyBjb3JlIGJsdWV0b290aCBzdXBw
-b3J0IG9uIHRoZSBwbGF0Zm9ybTo8YnI+DQombmJzcDsjICZxdW90OyZxdW90OyBpZiBibHVldG9v
-dGggaXMgbm90IGluIERJU1RST19GRUFUVVJFUzxicj4NCi0jIGVsc2UgJnF1b3Q7Ymx1ZXo1JnF1
-b3Q7IGlmIGJsdWV6NSBpcyBpbiBESVNUUk9fRkVBVFVSRVM8YnI+DQotIyBlbHNlICZxdW90O2Js
-dWV6NCZxdW90Ozxicj4NCiYjNDM7IyBlbHNlICZxdW90O2JsdWV6NCZxdW90OyBpZiBibHVlejQg
-aXMgaW4gRElTVFJPX0ZFQVRVUkVTPGJyPg0KJiM0MzsjIGVsc2UgJnF1b3Q7Ymx1ZXo1JnF1b3Q7
-PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxicj4NClRoYXQgd2Fzbid0IHRo
-ZSBiZWhhdmlvdXIgdGhhdCAxLjggc2V0cy4mbmJzcDsgV2UgdGhpbmsgd2Ugc2hvdWxkIGNvbnRp
-bnVlIHRvIHJlc3BlY3QgdGhlIGJsdWV6NSBESVNUUk9fRkVBVFVSRSBhbmQgYWRkIGl0IHRvIERJ
-U1RST19GRUFUVVJFU19CQUNLRklMTC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
-aW4tbGVmdDouNWluIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
-DQo8L2JvZHk+DQo8L2h0bWw+DQo=
-
---_000_969F26A8BAB325438E7EB80D3C3134FB2F4944D2irsmsx105gercor_--
