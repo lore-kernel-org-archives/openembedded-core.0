@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id ADF7A73C60
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 73AF272A51
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Apr 2015 17:37:12 +0000 (UTC)
-Received: by igblo3 with SMTP id lo3so25068150igb.0
+	Mon,  6 Apr 2015 17:37:13 +0000 (UTC)
+Received: by iebrs15 with SMTP id rs15so26646859ieb.3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=m2K+A/O3wurJEwrC3GUo/wFB94+gWmGwraI7LT8Lqc8=;
-	b=L16Pm0/HigxJxvMBMuYHS+l35rCXbgIgb9xXIkRgyCjHgWT8UIFv9VWdWTw7YOHJUC
-	VqiiofRWCe43QJ47ZV8pISuWUWRefD85KGt59xeiaDRjPuhMmmGt638tUrqYydkWVNVw
-	8dOJOn6bAR6AqPtRmyxsdBkMqo6fw0r5+ZH/5WONBcXsgquOUx9/k0fyx0+OyGAaaem0
-	CEqyUhS5XV0Igz7rPQjW+GhyRPzt8r44bB0UP8rV8RSam0oJjElAlvb99J+KjaujifQQ
-	3DDTlJXridrvDiT81GxbwiBLqcQhZYgcg5fJc2ulR7QWuTg7JFh1Vd8E6d8ruPSX7DvW
-	XeEw==
-X-Received: by 10.50.41.66 with SMTP id d2mr39553071igl.38.1428341834010;
+	bh=gwcwyJscsgwdJPuoxX8MJCgpl9uGgW8qlLh101c6hhE=;
+	b=c4tOjqH5rzl8FyMOeRui5jWiw4li7kFSScFuGnBilglkxiiyrxz09l3Dy5W1F9IUqv
+	Fad3vtW+NishFnU22xZb2f4UUVGoFzLCk1IWnCzovI8P8nQVEHbUJVi5mggwSgSgoSbl
+	LLXUvNDZw7N87if60kTwQmDsr6ogQddM6/nr/VCGPiQ4kxTnouw8PNLzdUJR6klY+ncI
+	M77gvIN4965EPwVye037madivSwve6aZOnK36zAnHoVIxScOTFK9nQCMolJwN4MtONQs
+	NO648I+lSBTUb6LAj3kVOkS9T+E++x5+rso3N0/EvQJA/TIsqylEji/FjCigLPLNmRYJ
+	hFvQ==
+X-Received: by 10.107.162.74 with SMTP id l71mr24167322ioe.77.1428341834518;
 	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.13
+	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.14
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Apr 2015 10:37:13 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:14 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Apr 2015 17:36:46 +0000
-Message-Id: <704d682f8aa5c1468491aae7a6355e181a1b99dc.1428341478.git.raj.khem@gmail.com>
+Date: Mon,  6 Apr 2015 17:36:47 +0000
+Message-Id: <63f8e4b9b0d5600e617ce0d57abc764d31282be7.1428341478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428341477.git.raj.khem@gmail.com>
 References: <cover.1428341477.git.raj.khem@gmail.com>
-Subject: [PATCH 18/24] mesa: Fix building with musl
+Subject: [PATCH 19/24] at-spi2-core: Add nls.m4 from gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,131 +46,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Apr 2015 17:37:12 -0000
+X-List-Received-Date: Mon, 06 Apr 2015 17:37:13 -0000
 
-backport needed patches
-add a patch to use _NP macros only on glibc
-based linux and not on all linux
+This is needed for building it with musl, since
+we disable NLS, I think it will fails in same
+way with glibc if NLS was disabled there too
 
-Change-Id: Ib43bec9d222856f8e7acb9f0143b406517f049c8
+Change-Id: I95c6858adfb33361cab466999e0bacb47c1e1fde
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...D_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch | 29 ++++++++++++
- ...002-mesa-simplify-detection-of-fpclassify.patch | 53 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_10.4.4.bb          |  5 +-
- 3 files changed, 86 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
- create mode 100644 meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
+ .../0001-nls.m4-Take-it-from-gettext-0.15.patch    | 54 ++++++++++++++++++++++
+ meta/recipes-support/atk/at-spi2-core_2.14.1.bb    |  4 +-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch b/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
+diff --git a/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch b/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
 new file mode 100644
-index 0000000..52443d8
+index 0000000..69a51d5
 --- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa/0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch
-@@ -0,0 +1,29 @@
-+From 46cdd464efbada13478f5e39a50aef85599ff91b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
+@@ -0,0 +1,54 @@
++From c320799c941d42a9b7e351805359694ea3b36d2d Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 4 Apr 2015 15:50:53 -0700
-+Subject: [PATCH 1/2] PTHREAD_MUTEX_RECURSIVE_NP is specific to glibc
++Date: Sun, 5 Apr 2015 09:08:38 -0700
++Subject: [PATCH] nls.m4: Take it from gettext-0.15
 +
-+use glibc guard around it
++It otherwise expects gettext to provide it. Lets go independent
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
 +Upstream-Status: Pending
 +---
-+ include/c11/threads_posix.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ m4/nls.m4 | 30 ++++++++++++++++++++++++++++++
++ 1 file changed, 30 insertions(+)
++ create mode 100644 m4/nls.m4
 +
-+diff --git a/include/c11/threads_posix.h b/include/c11/threads_posix.h
-+index f9c165d..c641de4 100644
-+--- a/include/c11/threads_posix.h
-++++ b/include/c11/threads_posix.h
-+@@ -178,7 +178,7 @@ mtx_init(mtx_t *mtx, int type)
-+         return thrd_error;
-+     pthread_mutexattr_init(&attr);
-+     if ((type & mtx_recursive) != 0) {
-+-#if defined(__linux__) || defined(__linux)
-++#if defined __GLIBC__ && (defined(__linux__) || defined(__linux))
-+         pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
-+ #else
-+         pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
++diff --git a/m4/nls.m4 b/m4/nls.m4
++new file mode 100644
++index 0000000..2c8fe69
++--- /dev/null
+++++ b/m4/nls.m4
++@@ -0,0 +1,30 @@
+++dnl Copyright (C) 1995-2003, 2005-2006 Free Software Foundation, Inc.
+++dnl This file is free software; the Free Software Foundation
+++dnl gives unlimited permission to copy and/or distribute it,
+++dnl with or without modifications, as long as this notice is preserved.
+++dnl
+++dnl This file can can be used in projects which are not available under
+++dnl the GNU General Public License or the GNU Library General Public
+++dnl License but which still want to provide support for the GNU gettext
+++dnl functionality.
+++dnl Please note that the actual code of the GNU gettext library is covered
+++dnl by the GNU Library General Public License, and the rest of the GNU
+++dnl gettext package package is covered by the GNU General Public License.
+++dnl They are not in the public domain.
+++
+++dnl Authors:
+++dnl Ulrich Drepper drepper@cygnus.com, 1995-2000.
+++dnl Bruno Haible haible@clisp.cons.org, 2000-2003.
+++
+++AC_PREREQ(2.50)
+++
+++AC_DEFUN([AM_NLS],
+++[
+++AC_MSG_CHECKING([whether NLS is requested])
+++dnl Default is enabled NLS
+++AC_ARG_ENABLE(nls,
+++[ --disable-nls do not use Native Language Support],
+++USE_NLS=$enableval, USE_NLS=yes)
+++AC_MSG_RESULT($USE_NLS)
+++AC_SUBST(USE_NLS)
+++])
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch b/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
-new file mode 100644
-index 0000000..dd7a188
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa/0002-mesa-simplify-detection-of-fpclassify.patch
-@@ -0,0 +1,53 @@
-+From c09606093c6b8e47d7cb6745eff192184eaaae07 Mon Sep 17 00:00:00 2001
-+From: Felix Janda <felix.janda@posteo.de>
-+Date: Fri, 23 Jan 2015 17:57:15 +0100
-+Subject: [PATCH 2/2] mesa: simplify detection of fpclassify
-+
-+Fixes compilation with musl libc.
-+
-+Reviewed-by: Ian Romanick <ian.d.romanick@intel.com>
-+Upstream-Status: Backport
-+---
-+ src/mesa/main/querymatrix.c | 18 +++++++-----------
-+ 1 file changed, 7 insertions(+), 11 deletions(-)
-+
-+diff --git a/src/mesa/main/querymatrix.c b/src/mesa/main/querymatrix.c
-+index eb36c76..ef85175 100644
-+--- a/src/mesa/main/querymatrix.c
-++++ b/src/mesa/main/querymatrix.c
-+@@ -37,8 +37,12 @@
-+ #define INT_TO_FIXED(x) ((GLfixed) ((x) << 16))
-+ #define FLOAT_TO_FIXED(x) ((GLfixed) ((x) * 65536.0))
-+ 
-+-#if defined(_MSC_VER)
-+-#if _MSC_VER < 1800  /* Not required on VS2013 and above. */
-++#if defined(fpclassify)
-++/* ISO C99 says that fpclassify is a macro.  Assume that any implementation
-++ * of fpclassify, whether it's in a C99 compiler or not, will be a macro.
-++ */
-++#elif defined(_MSC_VER)
-++/* Not required on VS2013 and above. */
-+ /* Oddly, the fpclassify() function doesn't exist in such a form
-+  * on MSVC.  This is an implementation using slightly different
-+  * lower-level Windows functions.
-+@@ -71,16 +75,8 @@ fpclassify(double x)
-+             return FP_NAN;
-+     }
-+ }
-+-#endif  /* _MSC_VER < 1800 */
-+-
-+-#elif defined(__APPLE__) || defined(__CYGWIN__) || defined(__FreeBSD__) || \
-+-     defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFly__) || \
-+-     (defined(__sun) && defined(__C99FEATURES__)) || defined(__MINGW32__) || \
-+-     (defined(__sun) && defined(__GNUC__)) || defined(ANDROID) || defined(__HAIKU__)
-+-
-+-/* fpclassify is available. */
-+ 
-+-#elif !defined(_XOPEN_SOURCE) || _XOPEN_SOURCE < 600
-++#else
-+ 
-+ enum {FP_NAN, FP_INFINITE, FP_ZERO, FP_SUBNORMAL, FP_NORMAL}
-+ fpclassify(double x)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-index 8140411..8472408 100644
---- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-@@ -1,6 +1,9 @@
- require ${BPN}.inc
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.14.1.bb b/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
+index 1a1ce6c..a4d2b3a 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.14.1.bb
+@@ -4,7 +4,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
  
--SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
-+SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-+           file://0001-PTHREAD_MUTEX_RECURSIVE_NP-is-specific-to-glibc.patch \
-+	   file://0002-mesa-simplify-detection-of-fpclassify.patch \
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+-SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
++SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
++           file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
 +          "
  
- SRC_URI[md5sum] = "62faf98ac79c5587f8e917e187419e6c"
- SRC_URI[sha256sum] = "f18a967e9c4d80e054b2fdff8c130ce6e6d1f8eecfc42c9f354f8628d8b4df1c"
+ SRC_URI[md5sum] = "a37993cc50d90465c9aeed95e2ac439a"
+ SRC_URI[sha256sum] = "eef9660b14fdf0fb1f30d1be7c72d591fa7cbb87b00ca3a444425712f46ce657"
 -- 
 2.1.4
 
