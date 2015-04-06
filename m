@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F29E73D39
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 963C673D3D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Apr 2015 17:37:09 +0000 (UTC)
-Received: by ignm3 with SMTP id m3so23416954ign.0
+Received: by igblo3 with SMTP id lo3so25067225igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Apr 2015 10:37:09 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=BM9RVB0oxSUjPdG9RMkZH5jnVH73Aqpy59ZvoaW5VqE=;
-	b=sRUFFuYeCJyvlDXeSphGxvt7OiOk8RIOxtQx7ma16ybtIshxJfhyzSssMRrOGoTHtI
-	9FJxe6IzMuGe6f7/0kMwD5PQGLVuWrgrJ+rcozfrTsiIdf9H9BcJ8oYDPAv2UKhJWER2
-	bxlwKPVSZaqCIKDfvYU95nUAWQJsKZlHRd76TNa9r1u8CmE4zmwnjM5RPpLLza51YKIk
-	LUFh1PlWZHJPuY2rZkXewy6k0CALqEjY987gGWpVWf/NKQMYUl+z/6nFehfDFoTfNCnM
-	O+oKux3dTvluXtNLkMwfnRXWzLLQ6WiGuR8B0Y1yxbwOw6fs9ck4G2/FnlXwHNsi7cfg
-	AotA==
-X-Received: by 10.50.64.244 with SMTP id r20mr16156132igs.48.1428341829431;
-	Mon, 06 Apr 2015 10:37:09 -0700 (PDT)
+	bh=GekBQPw1tM5edjD0fgtFnS9QiJ3No/xxIptsvyiawwY=;
+	b=LCTLyZvHZPOwVY/5Av6RwEHNt667ifSZ7t0cukuUs9eWh+hLZ1C6FSQ6eWFlc4uip6
+	ZXpbgBrlfyBhogk2zyFVv3NYmRIP1iwtYtprQ8f90kl3CchtBNv+m09cZR6+AMhttcTa
+	pL90hZBMC3E9IMiVYvRq2h0iq3RcLz9c0lV3xurU00FR6pGzRXYKzT1+yUfiC3zZkp0J
+	s1+2J7cdV6k3EMvScayzPy1KUQfhW9eZO3IS0Eo+2q+YH3WHQqt4Z4idXDTwARA//rKI
+	cAfKE9w8haJIZeEMBe/AKy5zAjO3q8qnq9AsywocJrrH9eXlNXuimCdortWK+N0MsMwM
+	OYTg==
+X-Received: by 10.50.142.38 with SMTP id rt6mr25186319igb.39.1428341831059;
+	Mon, 06 Apr 2015 10:37:11 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.08
+	by mx.google.com with ESMTPSA id 7sm3063135iol.43.2015.04.06.10.37.10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Apr 2015 10:37:08 -0700 (PDT)
+	Mon, 06 Apr 2015 10:37:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Apr 2015 17:36:38 +0000
-Message-Id: <fe0b629b44f28a11a1ac2ca5edb65fec4b28d4c3.1428341478.git.raj.khem@gmail.com>
+Date: Mon,  6 Apr 2015 17:36:41 +0000
+Message-Id: <4fa1c5d1e93c915d0866eafda93f0d88359daa08.1428341478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428341477.git.raj.khem@gmail.com>
 References: <cover.1428341477.git.raj.khem@gmail.com>
-Subject: [PATCH 10/24] quota: Upgrade quota_4.01.bb -> quota_4.02.bb
+Subject: [PATCH 13/24] libdaemon: Explicitly include unisttd.h instead of sys/unistd.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +48,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Apr 2015 17:37:10 -0000
 
-Change-Id: Idea094dfe4b49eef58b90296c4cd2b3e239eeabb
+Fixes build errors on musl
+
+Change-Id: Ia00bdc9c0578c8d5e1249c9d433079d795e83cb2
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/quota/{quota_4.01.bb => quota_4.02.bb} | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/quota/{quota_4.01.bb => quota_4.02.bb} (86%)
+ .../libdaemon/libdaemon/fix-includes.patch           | 20 ++++++++++++++++++++
+ meta/recipes-support/libdaemon/libdaemon_0.14.bb     |  4 +++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libdaemon/libdaemon/fix-includes.patch
 
-diff --git a/meta/recipes-extended/quota/quota_4.01.bb b/meta/recipes-extended/quota/quota_4.02.bb
-similarity index 86%
-rename from meta/recipes-extended/quota/quota_4.01.bb
-rename to meta/recipes-extended/quota/quota_4.02.bb
-index 82f7899..020ed35 100644
---- a/meta/recipes-extended/quota/quota_4.01.bb
-+++ b/meta/recipes-extended/quota/quota_4.02.bb
-@@ -6,13 +6,10 @@ LICENSE = "BSD & GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://quota.c;beginline=1;endline=33;md5=331c7d77744bfe0ad24027f0651028ec \
-                     file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
-                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
--PR = "r1"
--
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz \
-            file://config-tcpwrappers.patch"
--
--SRC_URI[md5sum] = "5c2c31e321d2e1322ce12d69ae5c66d6"
--SRC_URI[sha256sum] = "a36300bbc126b79b745bf937245092808b4585aa3309ef3335d4ab9d873cd206"
-+SRC_URI[md5sum] = "a8a5df262261e659716ccad2a5d6df0d"
-+SRC_URI[sha256sum] = "f4c2f48abf94bbdc396df33d276f2e9d19af58c232cb85eef9c174a747c33795"
+diff --git a/meta/recipes-support/libdaemon/libdaemon/fix-includes.patch b/meta/recipes-support/libdaemon/libdaemon/fix-includes.patch
+new file mode 100644
+index 0000000..1027ae8
+--- /dev/null
++++ b/meta/recipes-support/libdaemon/libdaemon/fix-includes.patch
+@@ -0,0 +1,20 @@
++musl complains
++fatal error: sys/unistd.h: No such file or directory
++and rightly so
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++--- libdaemon-0.14.orig/examples/testd.c
+++++ libdaemon-0.14/examples/testd.c
++@@ -21,9 +21,9 @@
++ #include <signal.h>
++ #include <errno.h>
++ #include <string.h>
+++#include <unistd.h>
++ #include <sys/types.h>
++ #include <sys/time.h>
++-#include <sys/unistd.h>
++ #include <sys/select.h>
++ 
++ #include <libdaemon/dfork.h>
+diff --git a/meta/recipes-support/libdaemon/libdaemon_0.14.bb b/meta/recipes-support/libdaemon/libdaemon_0.14.bb
+index e928781..070ee18 100644
+--- a/meta/recipes-support/libdaemon/libdaemon_0.14.bb
++++ b/meta/recipes-support/libdaemon/libdaemon_0.14.bb
+@@ -6,7 +6,9 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://libdaemon/daemon.h;beginline=9;endline=21;md5=bd9fbe57cd96d1a5848a8ba12d9a6bf4"
  
- S = "${WORKDIR}/quota-tools"
+-SRC_URI = "http://0pointer.de/lennart/projects/libdaemon/libdaemon-${PV}.tar.gz"
++SRC_URI = "http://0pointer.de/lennart/projects/libdaemon/libdaemon-${PV}.tar.gz \
++           file://fix-includes.patch \
++          "
  
+ SRC_URI[md5sum] = "509dc27107c21bcd9fbf2f95f5669563"
+ SRC_URI[sha256sum] = "fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"
 -- 
 2.1.4
 
