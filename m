@@ -1,23 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E555605F1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F7A605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 09:03:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Apr 2015 02:03:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,536,1422950400"; d="scan'208";a="709789828"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 07 Apr 2015 02:03:14 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 3705D6A408F;
-	Tue,  7 Apr 2015 02:02:50 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Apr 2015 12:03:06 +0300
-Message-Id: <1428397386-17205-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: make error message more informative
+	Tue,  7 Apr 2015 09:32:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t379Wq9T025916; Tue, 7 Apr 2015 10:32:52 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9NyUzQJR65vo; Tue,  7 Apr 2015 10:32:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t379WaIm025904
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Apr 2015 10:32:48 +0100
+Message-ID: <1428399156.14020.453.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 07 Apr 2015 10:32:36 +0100
+In-Reply-To: <89112aaf74a5e6b6e87fd335efab08fb4b89cd26.1428341478.git.raj.khem@gmail.com>
+References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
+	<89112aaf74a5e6b6e87fd335efab08fb4b89cd26.1428341478.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 03/24] binutils: upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 09:03:14 -0000
+X-List-Received-Date: Tue, 07 Apr 2015 09:32:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Included name of the missing program into the error message produced
-by exec_native_cmd when program is not found.
+I ran an older patchset containing this against the autobuilder. We have
+two problems which I think are 2.25 related:
 
-Removed mentioning of the host programs as this API is not running
-them anymore.
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=56f680b60ab5fd396f2a65431376683ca6707127
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/utils/oe/misc.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+libunwind is failing on x86, likely due to:
 
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index 5facbe0..7769f3f 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -92,9 +92,9 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch = 3):
-     rc, out = __exec_cmd(native_cmd_and_args, True, catch)
- 
-     if rc == 127: # shell command-not-found
--        msger.error("A native (host) program required to build the image "
-+        msger.error("A native program %s required to build the image "
-                     "was not found (see details above). Please make sure "
--                    "it's installed and try again.")
-+                    "it's installed and try again." % args[0])
- 
-     return (rc, out)
- 
--- 
-2.1.4
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65248
+
+which is only planned to be fixed in gcc5. Not sure how we can fix this
+one other than perhaps forcing the use of gold in this case (which seems
+wrong).
+
+We also have a uboot issue on mpc8315e-rdb which there are fixes around
+for, we just need someone to find them and patch it. Both failures are
+in the above error reporting link.
+
+Cheers,
+
+Richard
 
 
