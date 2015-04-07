@@ -1,34 +1,26 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 26CCD73D1B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 24E1E60089
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 12:46:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 07 Apr 2015 05:46:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="691410015"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.25.100])
-	([10.252.25.100])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2015 05:46:07 -0700
-Message-ID: <1428410766.12283.34.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 07 Apr 2015 15:46:06 +0300
-In-Reply-To: <20150407124458.GA22953@jama>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
-	<1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F496D80@irsmsx105.ger.corp.intel.com>
-	<1428410191.12283.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<20150407124458.GA22953@jama>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+	Tue,  7 Apr 2015 12:58:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t37CwFKc025753
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Apr 2015 05:58:15 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 7 Apr 2015 05:58:15 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 7 Apr 2015 05:58:14 -0700
+Message-ID: <1e79cad917620e082dd3a29a55afda42f77e313b.1428410929.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1428410929.git.liezhi.yang@windriver.com>
+References: <cover.1428410929.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [RFC PATCH 1/2] xz: remove xz-dev from PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 12:46:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Apr 2015 12:58:15 -0000
+Content-Type: text/plain
 
-On Tue, 2015-04-07 at 14:44 +0200, Martin Jansa wrote:
-> On Tue, Apr 07, 2015 at 03:36:31PM +0300, Tanu Kaskinen wrote:
-> > This would be more appropriate for recipes that only support bluez4:
-> > 
-> > #  inherit bluetooth
-> > #  PACKAGECONFIG ??= "${@bb.utils.contains('BLUEZ', 'bluez4', 'bluez4, '', d}"
-> > #  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
-> 
-> The last example isn't correct, because you still need to respect
-> 'bluetooth' in 'DISTRO_FEATURES' before enabling whatever is in BLUEZ
-> variable.
+There should be only one dev package which is liblzma-dev, so remove
+xz-dev.
 
-BLUEZ is empty if 'bluetooth' is not in DISTRO_FEATURES, so my example
-should work fine.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-extended/xz/xz_5.2.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/xz/xz_5.2.0.bb b/meta/recipes-extended/xz/xz_5.2.0.bb
+index 3439ec9..8c3eb13 100644
+--- a/meta/recipes-extended/xz/xz_5.2.0.bb
++++ b/meta/recipes-extended/xz/xz_5.2.0.bb
+@@ -8,7 +8,6 @@ SECTION = "base"
+ # appears to be used for DOS builds. So we're left with GPLv2+ and PD.
+ LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & PD"
+ LICENSE_${PN} = "GPLv2+"
+-LICENSE_${PN}-dev = "GPLv2+"
+ LICENSE_${PN}-staticdev = "GPLv2+"
+ LICENSE_${PN}-doc = "GPLv2+"
+ LICENSE_${PN}-dbg = "GPLv2+"
+@@ -31,6 +30,7 @@ SRC_URI[sha256sum] = "231ef369982240bb20ed7cffa52bb12a4a297ce6871f480ab85e8a7ba9
+ inherit autotools gettext
+ 
+ PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
++PACKAGES_remove = "xz-dev xz-staticdev"
+ 
+ FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
+ FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
 -- 
-Tanu
+1.7.9.5
 
 
