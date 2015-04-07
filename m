@@ -1,23 +1,31 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D0C460089
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 11:51:54 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Apr 2015 04:51:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="477656303"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Apr 2015 04:51:56 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 399E06A408D;
-	Tue,  7 Apr 2015 04:51:33 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Apr 2015 14:51:51 +0300
-Message-Id: <1428407511-21981-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: code cleanup: unused imports
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2289360089;
+	Tue,  7 Apr 2015 12:30:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37CU5JX006588; Tue, 7 Apr 2015 13:30:05 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xqsH2-eUEt6j; Tue,  7 Apr 2015 13:30:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37CTmj4006570
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Apr 2015 13:30:00 +0100
+Message-ID: <1428409788.14020.461.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Date: Tue, 07 Apr 2015 13:29:48 +0100
+In-Reply-To: <552396CA.7060806@dresearch-fe.de>
+References: <551143C5.90207@dresearch-fe.de>
+	<1427195564.14020.31.camel@linuxfoundation.org>
+	<552396CA.7060806@dresearch-fe.de>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: fetch race problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,231 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 11:51:55 -0000
+X-List-Received-Date: Tue, 07 Apr 2015 12:30:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixed pylint warning 'Unused import'
+On Tue, 2015-04-07 at 10:35 +0200, Steffen Sledz wrote:
+> Am 24.03.2015 um 12:12 schrieb Richard Purdie:
+> >>> Is this a problem in oe-core too (or oe-classic only)?
+> >>
+> >> Any ideas how to avoid such errors?
+> > 
+> > In theory bitbake has locks on files in DL_DIR, even for git
+> > repositories so it should only touch the repo with one fetch process at
+> > a time even if multiple recipes reference the same thing.
+> > 
+> > There were some big fetcher reworks in more recent versions of bitbake.
+> > For OE-Classic, I'm guessing you're using an older version. You could
+> > try transplanting the modern fetcher core onto your older bitbake I
+> > guess.
+> 
+> I do not feel competent enough to try this.
+> 
+> Is it possible (in oe-classic) to mark two or more recipes (or single stages) to run exclusive?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/conf.py                                | 3 +--
- scripts/lib/wic/creator.py                             | 2 +-
- scripts/lib/wic/imager/baseimager.py                   | 2 +-
- scripts/lib/wic/imager/direct.py                       | 1 -
- scripts/lib/wic/kickstart/custom_commands/partition.py | 1 -
- scripts/lib/wic/pluginbase.py                          | 2 --
- scripts/lib/wic/plugins/imager/direct_plugin.py        | 5 -----
- scripts/lib/wic/plugins/source/bootimg-efi.py          | 2 --
- scripts/lib/wic/plugins/source/bootimg-pcbios.py       | 3 ---
- scripts/lib/wic/plugins/source/fsimage.py              | 1 -
- scripts/lib/wic/plugins/source/rawcopy.py              | 1 -
- scripts/lib/wic/plugins/source/rootfs.py               | 3 ---
- scripts/lib/wic/utils/fs_related.py                    | 6 ------
- scripts/lib/wic/utils/misc.py                          | 1 -
- scripts/lib/wic/utils/partitionedfs.py                 | 2 --
- 15 files changed, 3 insertions(+), 32 deletions(-)
+do_fetch[depends] += "xxx:do_fetch"
 
-diff --git a/scripts/lib/wic/conf.py b/scripts/lib/wic/conf.py
-index be34355..ff6e2ca 100644
---- a/scripts/lib/wic/conf.py
-+++ b/scripts/lib/wic/conf.py
-@@ -15,8 +15,7 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
--import os, sys, re
--import ConfigParser
-+import os
- 
- from wic import msger
- from wic import kickstart
-diff --git a/scripts/lib/wic/creator.py b/scripts/lib/wic/creator.py
-index 2219377..760848f 100644
---- a/scripts/lib/wic/creator.py
-+++ b/scripts/lib/wic/creator.py
-@@ -15,7 +15,7 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
--import os, sys, re
-+import os, sys
- from optparse import SUPPRESS_HELP
- 
- from wic import msger
-diff --git a/scripts/lib/wic/imager/baseimager.py b/scripts/lib/wic/imager/baseimager.py
-index e830527..2075358 100644
---- a/scripts/lib/wic/imager/baseimager.py
-+++ b/scripts/lib/wic/imager/baseimager.py
-@@ -17,7 +17,7 @@
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
- from __future__ import with_statement
--import os, sys
-+import os
- import tempfile
- import shutil
- 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index c3d0563..c7e1c6c 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -25,7 +25,6 @@
- #
- 
- import os
--import stat
- import shutil
- 
- from wic import kickstart, msger
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index f3d553b..ff90601 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -24,7 +24,6 @@
- # Tom Zanussi <tom.zanussi (at] linux.intel.com>
- #
- 
--import shutil
- import os
- import tempfile
- 
-diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
-index e3de9ba..72bcad2 100644
---- a/scripts/lib/wic/pluginbase.py
-+++ b/scripts/lib/wic/pluginbase.py
-@@ -15,8 +15,6 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
--import os
--import shutil
- from wic import msger
- from wic.utils import errors
- 
-diff --git a/scripts/lib/wic/plugins/imager/direct_plugin.py b/scripts/lib/wic/plugins/imager/direct_plugin.py
-index 5601c3f..17888e9 100644
---- a/scripts/lib/wic/plugins/imager/direct_plugin.py
-+++ b/scripts/lib/wic/plugins/imager/direct_plugin.py
-@@ -24,11 +24,6 @@
- # Tom Zanussi <tom.zanussi (at] linux.intel.com>
- #
- 
--import os
--import shutil
--import re
--import tempfile
--
- from wic import msger
- from wic.utils import misc, fs_related, errors, runner, cmdln
- from wic.conf import configmgr
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index ee57881..d6c11ed 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -26,8 +26,6 @@
- 
- import os
- import shutil
--import re
--import tempfile
- 
- from wic import kickstart, msger
- from wic.utils import misc, fs_related, errors, runner, cmdln
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index c4786a6..abb32eb 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -25,9 +25,6 @@
- #
- 
- import os
--import shutil
--import re
--import tempfile
- 
- from wic import kickstart, msger
- from wic.utils import misc, fs_related, errors, runner, cmdln
-diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
-index 0967883..4a090ba 100644
---- a/scripts/lib/wic/plugins/source/fsimage.py
-+++ b/scripts/lib/wic/plugins/source/fsimage.py
-@@ -16,7 +16,6 @@
- #
- 
- import os
--import re
- 
- from wic import msger
- from wic.pluginbase import SourcePlugin
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index cf6236a..6bdd9b2 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -16,7 +16,6 @@
- #
- 
- import os
--import re
- 
- from wic import msger
- from wic.pluginbase import SourcePlugin
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index a432a18..6f5d9bb 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -26,9 +26,6 @@
- #
- 
- import os
--import shutil
--import re
--import tempfile
- 
- from wic import kickstart, msger
- from wic.utils import misc, fs_related, errors, runner, cmdln
-diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
-index 033acc9..224b43e 100644
---- a/scripts/lib/wic/utils/fs_related.py
-+++ b/scripts/lib/wic/utils/fs_related.py
-@@ -18,13 +18,7 @@
- 
- from __future__ import with_statement
- import os
--import sys
- import errno
--import stat
--import random
--import string
--import time
--import uuid
- 
- from wic import msger
- from wic.utils import runner
-diff --git a/scripts/lib/wic/utils/misc.py b/scripts/lib/wic/utils/misc.py
-index 6e56316..5d6337c 100644
---- a/scripts/lib/wic/utils/misc.py
-+++ b/scripts/lib/wic/utils/misc.py
-@@ -16,7 +16,6 @@
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
- import os
--import sys
- import time
- 
- def build_name(kscfg, release=None, prefix = None, suffix = None):
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 1c10cb5..c848bea 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -18,8 +18,6 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
--import os
--
- from wic import msger
- from wic.utils import runner
- from wic.utils.errors import ImageError
--- 
-2.1.4
+in one recipe would make it run after the fetch of the other recipe
+(xxx) ...
+
+I will say that oe-classic is dead at this point, its not something I'd
+recommend people to be working with.
+
+Cheers,
+
+Richard
+
+
 
 
