@@ -1,26 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E939B73D23
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 734B2737EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 11:24:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t37BOYOY026739
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Apr 2015 04:24:34 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Apr 2015 04:24:34 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Apr 2015 04:24:30 -0700
-Message-ID: <41846402c06843f9a70c1ed99b68e167f3c88e91.1428405830.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1428405830.git.liezhi.yang@windriver.com>
-References: <cover.1428405830.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 09/10] man-pages: 3.76 -> 3.82
+	Tue,  7 Apr 2015 11:29:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 Apr 2015 04:29:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="709844659"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 07 Apr 2015 04:29:30 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id A21AD6A408D;
+	Tue,  7 Apr 2015 04:29:06 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Apr 2015 14:29:25 +0300
+Message-Id: <1428406165-20618-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: code cleanup: bad indentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 11:24:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Apr 2015 11:29:29 -0000
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Fixed pylint warning 'Bad indentation'
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- .../{man-pages_3.76.bb => man-pages_3.82.bb}       |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_3.76.bb => man-pages_3.82.bb} (86%)
+ scripts/wic | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_3.76.bb b/meta/recipes-extended/man-pages/man-pages_3.82.bb
-similarity index 86%
-rename from meta/recipes-extended/man-pages/man-pages_3.76.bb
-rename to meta/recipes-extended/man-pages/man-pages_3.82.bb
-index ed8a15f..7c1a7dc 100644
---- a/meta/recipes-extended/man-pages/man-pages_3.76.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_3.82.bb
-@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+diff --git a/scripts/wic b/scripts/wic
+index feff302..524156d 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -69,8 +69,8 @@ def callback_rootfs_dir(option, opt, value, parser):
+     if '=' in value:
+         (key, rootfs_dir) = value.split('=')
+     else:
+-       key = 'ROOTFS_DIR'
+-       rootfs_dir = value
++        key = 'ROOTFS_DIR'
++        rootfs_dir = value
  
--SRC_URI[md5sum] = "d00cf09677caefc3e827737afc565583"
--SRC_URI[sha256sum] = "eff558c13b61a46136994514b3ec00a74dcf00414d3bde4f0edca80a36d36359"
-+SRC_URI[md5sum] = "ce4bffb9982d197bf35b59d0a12453ca"
-+SRC_URI[sha256sum] = "9c22781f485d00e6b258dcaaf1efd220fee9f8d4ce59cd881b062be06be5efe8"
+     parser.values.rootfs_dir[key] = rootfs_dir
  
- RDEPENDS_${PN} = "man"
+@@ -207,8 +207,8 @@ def wic_create_subcommand(args, usage_str):
+ 
+     krootfs_dir = options.rootfs_dir
+     if krootfs_dir is None:
+-         krootfs_dir = {}
+-         krootfs_dir['ROOTFS_DIR'] = rootfs_dir
++        krootfs_dir = {}
++        krootfs_dir['ROOTFS_DIR'] = rootfs_dir
+ 
+     rootfs_dir = rootfs_dir_to_args(krootfs_dir)
  
 -- 
-1.7.9.5
+2.1.4
 
 
