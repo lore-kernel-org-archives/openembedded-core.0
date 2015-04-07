@@ -1,27 +1,35 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C02A573D1E
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C928260089
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 11:41:21 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Apr 2015 04:41:18 -0700
+	Tue,  7 Apr 2015 11:51:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Apr 2015 04:51:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="709849939"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.25.100])
-	([10.252.25.100])
-	by orsmga002.jf.intel.com with ESMTP; 07 Apr 2015 04:41:16 -0700
-Message-ID: <1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Date: Tue, 07 Apr 2015 14:41:15 +0300
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="477656096"
+Received: from irsmsx106.ger.corp.intel.com ([163.33.3.31])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Apr 2015 04:51:03 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.2]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.140]) with mapi id
+	14.03.0224.002; Tue, 7 Apr 2015 12:51:03 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 5/5] bluetooth.bbclass: set bluez5 as the
+	default BT stack
+Thread-Index: AQHQcR1n76/Zfw7rAUWS/GVXmj4WXZ1BZ9Mg///0sICAABJnsA==
+Date: Tue, 7 Apr 2015 11:51:02 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F496D80@irsmsx105.ger.corp.intel.com>
 References: <cover.1428070227.git.cristian.iorga@intel.com>
 	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
 	<1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
 	<969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
+	<1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
+In-Reply-To: <1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
@@ -37,18 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 11:41:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Apr 2015 11:51:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2015-04-07 at 11:23 +0000, Iorga, Cristian wrote:
-> The aforementioned packageconfigs are just examples/guidelines, we
-> added code for diverse recipes on a case by case scenario.
-
-My point was that the examples/guidelines are misleading, and should be
-fixed.
-
--- 
-Tanu
-
+VGhlIG9ubHkgd2F5IHRoaXMgY291bGQgYmUgZml4ZWQgaXMgdG8gcmVtb3ZlIHRoZSBhZm9yZW1l
+bnRpb25lZCBndWlkZWxpbmVzLi4NCkxpa2UgSSBzYWlkLCB0aGVyZSBhcmUgcGxlbnR5IG9mIGV4
+YW1wbGVzIGluIHRoZSBjb2RlLg0KVGhvc2UgcGFja2FnZWNvbmZpZ3Mgd2hlcmUgZWxhYm9yYXRl
+ZCBiYXNlZCBvbjoNCjEuIGlmIGEgcGFja2FnZSBoYXMgc3VwcG9ydCBmb3IgYm90aCBCbHVlWiB2
+ZXJzaW9uczsNCjIuIElmIG5vdCwgdXN1YWxseSBvbmx5IEJsdWVaIDQgaXMgc3VwcG9ydGVkOw0K
+DQpDYXJlIHRvIGVsYWJvcmF0ZSBob3cgSSBjYW4gZml4IHRoZW0gb3RoZXJ3aXNlPyBJIGFtIG9w
+ZW4gdG8gc3VnZ2VzdGlvbnMuDQpUaGFua3MsDQpDcmlzdGlhbg0KDQotLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KRnJvbTogVGFudSBLYXNraW5lbiBbbWFpbHRvOnRhbnUua2Fza2luZW5AbGlu
+dXguaW50ZWwuY29tXSANClNlbnQ6IFR1ZXNkYXksIEFwcmlsIDcsIDIwMTUgMjo0MSBQTQ0KVG86
+IElvcmdhLCBDcmlzdGlhbg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDUvNV0gYmx1ZXRvb3RoLmJiY2xh
+c3M6IHNldCBibHVlejUgYXMgdGhlIGRlZmF1bHQgQlQgc3RhY2sNCg0KT24gVHVlLCAyMDE1LTA0
+LTA3IGF0IDExOjIzICswMDAwLCBJb3JnYSwgQ3Jpc3RpYW4gd3JvdGU6DQo+IFRoZSBhZm9yZW1l
+bnRpb25lZCBwYWNrYWdlY29uZmlncyBhcmUganVzdCBleGFtcGxlcy9ndWlkZWxpbmVzLCB3ZSAN
+Cj4gYWRkZWQgY29kZSBmb3IgZGl2ZXJzZSByZWNpcGVzIG9uIGEgY2FzZSBieSBjYXNlIHNjZW5h
+cmlvLg0KDQpNeSBwb2ludCB3YXMgdGhhdCB0aGUgZXhhbXBsZXMvZ3VpZGVsaW5lcyBhcmUgbWlz
+bGVhZGluZywgYW5kIHNob3VsZCBiZSBmaXhlZC4NCg0KLS0NClRhbnUNCg0K
 
