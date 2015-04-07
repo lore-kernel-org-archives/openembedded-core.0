@@ -1,36 +1,42 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A927C6ABF7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id F05BA73D1C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 11:23:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 07 Apr 2015 04:23:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,537,1422950400"; d="scan'208";a="477647472"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Apr 2015 04:23:06 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.2]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.129]) with mapi id
-	14.03.0224.002; Tue, 7 Apr 2015 12:23:05 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 5/5] bluetooth.bbclass: set bluez5 as the
-	default BT stack
-Thread-Index: AQHQcR1n76/Zfw7rAUWS/GVXmj4WXZ1BZ9Mg
-Date: Tue, 7 Apr 2015 11:23:05 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
-In-Reply-To: <1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Tue,  7 Apr 2015 11:23:13 +0000 (UTC)
+Received: by iggg4 with SMTP id g4so8704757igg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Apr 2015 04:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=IJAIv96jyblkX0tnEKHf7vOV9xuwZu+lMVOp+DZ4lVU=;
+	b=MwS3baY5f2FcWY4e7T3a8q6/7YF1sL+w6ud9rA60l+3K1RmnXan+uTYEzBHWfd7fsP
+	/Gh8DXzIc+EPUSftlAWDu9rPMoaAk1lc7jxtY8DbG5duyApmsr9cYqcn/f536jQHww5r
+	d3L5L3UdhziRskOyx3dI1Ute1HBgFNRAp3HyXz263+9JLNj9Oj0FEtQl58aDgMR4dS8k
+	T8hu9/Iw0E5uXeBqXa+KSNstx8t9oIT0Fo7U/s3jL6U3N5z+5HY4kUU05kLd9yVmz+C5
+	kJVZRw2StPjv0vooV10L1VEaZ824+frM6nq3S/sA/uLESc15wIpiTdsboa9tiAescfQW
+	4caQ==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.107.134.206 with SMTP id q75mr28526698ioi.27.1428405794633; 
+	Tue, 07 Apr 2015 04:23:14 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.107.23.6 with HTTP; Tue, 7 Apr 2015 04:23:14 -0700 (PDT)
+In-Reply-To: <20150407105222.GA19725@linux.intel.com>
+References: <1428168028-6476-1-git-send-email-ed.bartosh@linux.intel.com>
+	<552189F9.6040405@balister.org>
+	<CAP9ODKqWBNRuJ6D1UCTgspN+wtMAhkE31qdoZjEsxGFQUZSrzQ@mail.gmail.com>
+	<20150406141539.GA14205@linux.intel.com>
+	<CAP9ODKqL_fwFw_zD4jBBNqjYg=kgeQC5scV+0paMhkO9XOmf0A@mail.gmail.com>
+	<20150407105222.GA19725@linux.intel.com>
+Date: Tue, 7 Apr 2015 08:23:14 -0300
+X-Google-Sender-Auth: GW4cbGV_ZJDf23HXdSqWBZIjudA
+Message-ID: <CAP9ODKrs1b0cMPpdmVLsYmC_CQ8YFRcnc0OG7DCrLoKWXDhZxA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+Subject: Re: [wic][PATCH] wic: extended list of paths in find_binary_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 11:23:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 07 Apr 2015 11:23:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-VGhlIGFmb3JlbWVudGlvbmVkIHBhY2thZ2Vjb25maWdzIGFyZSBqdXN0IGV4YW1wbGVzL2d1aWRl
-bGluZXMsIHdlIGFkZGVkIGNvZGUgZm9yIGRpdmVyc2UgcmVjaXBlcyBvbiBhIGNhc2UgYnkgY2Fz
-ZSBzY2VuYXJpby4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFRhbnUgS2Fz
-a2luZW4gW21haWx0bzp0YW51Lmthc2tpbmVuQGxpbnV4LmludGVsLmNvbV0gDQpTZW50OiBUdWVz
-ZGF5LCBBcHJpbCA3LCAyMDE1IDE6MjcgUE0NClRvOiBJb3JnYSwgQ3Jpc3RpYW4NCkNjOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtQQVRDSCA1LzVdIGJsdWV0b290aC5iYmNsYXNzOiBzZXQgYmx1ZXo1IGFzIHRoZSBkZWZh
-dWx0IEJUIHN0YWNrDQoNCk9uIEZyaSwgMjAxNS0wNC0wMyBhdCAxNzoxMyArMDMwMCwgQ3Jpc3Rp
-YW4gSW9yZ2Egd3JvdGU6DQo+ICAjIFVzZSB0aGlzIHdpdGg6DQo+ICAjICBpbmhlcml0IGJsdWV0
-b290aA0KPiAgIyAgUEFDS0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNU
-Uk9fRkVBVFVSRVMnLCANCj4gJ2JsdWV0b290aCcsICcke0JMVUVafScsICcnLCBkKX0gICMgIFBB
-Q0tBR0VDT05GSUdbYmx1ZXo0XSA9ICItLWVuYWJsZS1ibHVlejQsLS1kaXNhYmxlLWJsdWV6NCxi
-bHVlejQiDQo+ICsjIGlmIHRoZSBvYnNvbGV0ZSwgYnV0IHN0aWxsIHN1cHBvcnRlZCBibHVlejQg
-QlQgc3RhY2sgaXMgdXNlZCAjIG9yICMgIA0KPiAraW5oZXJpdCBibHVldG9vdGggIyAgUEFDS0FH
-RUNPTkZJRyA/Pz0gDQo+ICsiJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycs
-ICdibHVldG9vdGgnLCAnJHtCTFVFWn0nLCAnJywgDQo+ICtkKX0gIyAgUEFDS0FHRUNPTkZJR1ti
-bHVlejVdID0gIi0tZW5hYmxlLWJsdWV6NSwtLWRpc2FibGUtYmx1ZXo1LGJsdWV6NSINCj4gKyMg
-aWYgdGhlIGRlZmF1bHQgYmx1ZXo1IEJUIHN0YWNrIGlzIHVzZWQNCg0KSSBkb24ndCB0aGluayB0
-aGlzIGRvY3VtZW50YXRpb24gaXMgY29ycmVjdC4gSXQgbWFrZXMgaXQgc291bmQgbGlrZSBhIHJl
-Y2lwZSBzaG91bGQgb25seSBoYXZlDQoNCiAgICBQQUNLQUdFQ09ORklHW2JsdWV6NF0gPSAiLS1l
-bmFibGUtYmx1ZXo0LC0tZGlzYWJsZS1ibHVlejQsYmx1ZXo0Ig0KDQpvcg0KDQogICAgUEFDS0FH
-RUNPTkZJR1tibHVlejVdID0gIi0tZW5hYmxlLWJsdWV6NSwtLWRpc2FibGUtYmx1ZXo1LGJsdWV6
-NSINCg0KLCB3aGlsZSBpbiByZWFsaXR5IHRoZSByZWNpcGUgc2hvdWxkIGhhdmUgYm90aCBsaW5l
-cy4NCg0KU28sIEkgdGhpbmsgdGhlIGRvY3VtZW50YXRpb24gc2hvdWxkIGJlIHdyaXR0ZW4gbGlr
-ZSB0aGlzOg0KDQojIFVzZSB0aGlzIHdpdGg6DQojICBpbmhlcml0IGJsdWV0b290aA0KIyAgUEFD
-S0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAn
-Ymx1ZXRvb3RoJywgJyR7QkxVRVp9JywgJycsIGQpfSAjICBQQUNLQUdFQ09ORklHW2JsdWV6NF0g
-PSAiLS1lbmFibGUtYmx1ZXo0LC0tZGlzYWJsZS1ibHVlejQsYmx1ZXo0Ig0KIyAgUEFDS0FHRUNP
-TkZJR1tibHVlejVdID0gIi0tZW5hYmxlLWJsdWV6NSwtLWRpc2FibGUtYmx1ZXo1LGJsdWV6NSIN
-Cg0KLS0NClRhbnUNCg0K
+On Tue, Apr 7, 2015 at 7:52 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> On Mon, Apr 06, 2015 at 11:28:24AM -0300, Otavio Salvador wrote:
+>> >>
+>> >> If we want to have it as a 'standalone' tool we will need to somehow
+>> >> package the tool set for it to use, otherwise we have a maintenance
+>> >> nightmare (does patch X has been applied to Parted?).
+>> >>
+>> > Can you elaborate a bit on how tool set can be packaged?
+>>
+>> We could do a tarball like the buildtools toolchain.
+>
+> I was thinking about providing wic and its dependencies as repository with rpm/deb packages.
+> Providing them as a tarball doesn't differ much from what we already have from my point of view.
+
+There are several solutions for this very same problem. Each one has
+advantages or disadvantages.
+
+To be honest, I think we ought to focus in making wic more easy to use
+and robust right now. Later we can think about how to enable side use
+cases (Buildroot might be one).
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
