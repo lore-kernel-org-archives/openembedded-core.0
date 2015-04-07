@@ -1,36 +1,30 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 225C4737EE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2852B73C89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 20:16:29 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 07 Apr 2015 13:16:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,539,1422950400"; d="scan'208";a="552343944"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.25.100])
-	([10.252.25.100])
-	by orsmga003.jf.intel.com with ESMTP; 07 Apr 2015 13:16:27 -0700
-Message-ID: <1428437785.12283.40.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 07 Apr 2015 23:16:25 +0300
-In-Reply-To: <20150407130201.GB22953@jama>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
-	<1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F496D80@irsmsx105.ger.corp.intel.com>
-	<1428410191.12283.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<20150407124458.GA22953@jama>
-	<1428410766.12283.34.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<20150407130201.GB22953@jama>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+	Tue,  7 Apr 2015 21:39:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37Ldb4T007499; Tue, 7 Apr 2015 22:39:37 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PVX0EcxCe-XA; Tue,  7 Apr 2015 22:39:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37LdP2v007483
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Apr 2015 22:39:37 +0100
+Message-ID: <1428442765.14020.482.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 07 Apr 2015 22:39:25 +0100
+In-Reply-To: <7c8475e9f21581916595d0ef7d587ce3ec1614a9.1428405830.git.liezhi.yang@windriver.com>
+References: <cover.1428405830.git.liezhi.yang@windriver.com>
+	<7c8475e9f21581916595d0ef7d587ce3ec1614a9.1428405830.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/10] glib-2.0: 2.42.1 -> 2.44.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 20:16:31 -0000
+X-List-Received-Date: Tue, 07 Apr 2015 21:39:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-04-07 at 15:02 +0200, Martin Jansa wrote:
-> On Tue, Apr 07, 2015 at 03:46:06PM +0300, Tanu Kaskinen wrote:
-> > On Tue, 2015-04-07 at 14:44 +0200, Martin Jansa wrote:
-> > > On Tue, Apr 07, 2015 at 03:36:31PM +0300, Tanu Kaskinen wrote:
-> > > > This would be more appropriate for recipes that only support bluez4:
-> > > > 
-> > > > #  inherit bluetooth
-> > > > #  PACKAGECONFIG ??= "${@bb.utils.contains('BLUEZ', 'bluez4', 'bluez4, '', d}"
-> > > > #  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
-> > > 
-> > > The last example isn't correct, because you still need to respect
-> > > 'bluetooth' in 'DISTRO_FEATURES' before enabling whatever is in BLUEZ
-> > > variable.
-> > 
-> > BLUEZ is empty if 'bluetooth' is not in DISTRO_FEATURES, so my example
-> > should work fine.
+On Tue, 2015-04-07 at 04:24 -0700, Robert Yang wrote:
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../{glib-2.0_2.42.1.bb => glib-2.0_2.44.0.bb}     |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-core/glib-2.0/{glib-2.0_2.42.1.bb => glib-2.0_2.44.0.bb} (83%)
 > 
-> The default value is, but that doesn't ensure that user has different
-> value set in local.conf and suddenly his bluetooth-less distro
-> configuration is trying to enable bluez* support in some component.
-> 
-> So for consistency sake you should respect bluetooth in DISTRO_FEATURES
-> (like in the previous example).
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+> similarity index 83%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+> index 69b3ef8..100799e 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+> @@ -18,5 +18,5 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>  
+>  SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+>  
+> -SRC_URI[md5sum] = "89c4119e50e767d3532158605ee9121a"
+> -SRC_URI[sha256sum] = "8f3f0865280e45b8ce840e176ef83bcfd511148918cc8d39df2ee89b67dcf89a"
+> +SRC_URI[md5sum] = "74cf7b4ea200b76e42a4c22c8daf0f93"
+> +SRC_URI[sha256sum] = "f2d362b106a08fa801770d41829a06fcfe287a00421018869eebf5efc796f5b9"
 
-I don't see any use case where it would make sense to set BLUEZ outside
-bluetooth.bbclass. Do you? For simplicity reasons, my preference would
-be to treat the BLUEZ variable as read-only outside bluetooth.bbclass
-(and document it as such).
+This blew up badly on the autobuilder:
 
-You're definitely right about being consistent, though - if we can
-assume BLUEZ to be empty when 'bluetooth' is not in DISTRO_FEATURES,
-then there's no point in checking DISTRO_FEATURES in the first example
-either.
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=c8da6d7390ad626c03d5b9b431a97adeaeb60a89
 
--- 
-Tanu
+Cheers,
+
+Richard
 
 
