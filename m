@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 620FC73D15
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0D773D1D
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 Apr 2015 11:24:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t37BOXQM025061
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t37BOYgY026736
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Apr 2015 04:24:33 -0700 (PDT)
+	Tue, 7 Apr 2015 04:24:34 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Tue, 7 Apr 2015 04:24:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Apr 2015 04:24:27 -0700
-Message-ID: <b1d1f8a5b950d1e9cec429e31e6c4d6c82ab58ae.1428405830.git.liezhi.yang@windriver.com>
+Date: Tue, 7 Apr 2015 04:24:28 -0700
+Message-ID: <89e3ad47df7079fc969bf29035723190fb060a46.1428405830.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1428405830.git.liezhi.yang@windriver.com>
 References: <cover.1428405830.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/10] socat: 1.7.2.4 -> 1.7.3.0
+Subject: [PATCH 07/10] dhcp: 4.3.1 -> 4.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,130 +33,350 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 11:24:32 -0000
+X-List-Received-Date: Tue, 07 Apr 2015 11:24:33 -0000
 Content-Type: text/plain
 
-Removed fix-cross-compiling-failed.patch and
-socat-1.7.2.4-linux-3.17.patch since upstream has fixed them.
-
-Updated README's LIC_FILES_CHKSUM, there is a word changed (GPL ->
-GPLv2, it should be GPLv2 as COPYING shows), its license is already
-"GPL-2.0+-with-OpenSSL-exception", so we just update the md5 is OK.
+Removed dhcp-xen-checksum.patch since already merged.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../socat/socat/fix-cross-compiling-failed.patch   |   36 --------------------
- .../socat/socat/socat-1.7.2.4-linux-3.17.patch     |   29 ----------------
- .../socat/{socat_1.7.2.4.bb => socat_1.7.3.0.bb}   |    8 ++---
- 3 files changed, 3 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
- delete mode 100644 meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
- rename meta/recipes-connectivity/socat/{socat_1.7.2.4.bb => socat_1.7.3.0.bb} (78%)
+ .../dhcp/dhcp/dhcp-xen-checksum.patch              |  307 --------------------
+ .../dhcp/{dhcp_4.3.1.bb => dhcp_4.3.2.bb}          |    5 +-
+ 2 files changed, 2 insertions(+), 310 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
+ rename meta/recipes-connectivity/dhcp/{dhcp_4.3.1.bb => dhcp_4.3.2.bb} (64%)
 
-diff --git a/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch b/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch b/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
 deleted file mode 100644
-index b9d3ca3..0000000
---- a/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+index 62c279d..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/dhcp-xen-checksum.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--Fix build during cross-compilation as it fails to detect that our prefixed
--compiler is gcc, and falls back to executing code to determine type sizes:
+@@ -1,307 +0,0 @@
+-dhcp-client: Ignore partial checksums
 -
--| configure: using code run method to find basic types
--| checking for equivalent simple type of size_t...
--| configure: error: in `/data/poky-master/tmp/work/core2-32-poky-linux/socat/1.7.2.4-r0/build':
--| configure: error: cannot run test program while cross compiling
+-dhclient will fail to get an IP address if run inside a guest when traffic is
+-flowing over a virtual network interface.  The user will see the error
+-message:
 -
--This is caused by configure.in assuming that $CC can be literally compared with
--"gcc" to determine if the compiler is GCC.  Our gcc is host-prefixed so this
--test fails, however autoconf provides $GCC for this purpose (which was used up
--to 1.7.2.3).
+-  5 bad udp checksums in 5 packets
+-  No DHCPOFFERS received.
+-  Unable to obtain a lease on first try.  Exiting.
+-  Failed to bring up eth0.
 -
--Upstream-Status: Submitted (via email)
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+-This is because Linux only uses partial checksums for packets that go over
+-virtual network interfaces and dhclient does not like this.
 -
-----
-- configure.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+-  See linux kernel commit 78ea85f17b15390e30d8b47488ec7b6cf0790663
+-  ("net: skbuff: improve comment on checksumming")
 -
--diff --git a/configure.in b/configure.in
----- a/configure.in
--+++ b/configure.in
--@@ -41,7 +41,7 @@ AC_CHECK_PROG(AR, ar, ar, gar)
-- # fail
-- AC_LANG_COMPILER_REQUIRE()
+-An application can detect this behaviour by checking for the
+-TP_STATUS_CSUMNOTREADY flag in the tp_status field.
+-
+-  See linux kernel commit 8dc4194474159660d7f37c495e3fc3f10d0db8cc
+-  ("Add optional checksum computation for recvmsg")
+-
+-An extra parameter is added to decode_udp_ip_header() in dhclient to indicate
+-whether or not dhclient should ignore partial checksums.  This is used
+-when the TP_STATUS_CSUMNOTREADY bit is set by the guest kernel.
+-
+-This fix has been included in Fedora and Ubuntu, however it has not yet been
+-accepted by ISC upstream.  Likely because it is specific to behaviour in Linux
+-and other UNIX variants do not seem to be affected.
+-
+-The patch was imported from the dhcp source RPM in Fedora 21
+-  (http://pkgs.fedoraproject.org/cgit/dhcp.git/tree/dhcp-xen-checksum.patch?h=f21)
+-
+-Originally contributed to fedora-cvs-commit by David Cantrell on Jan 30 2007
+-  (https://www.redhat.com/archives/fedora-cvs-commits/2007-January/msg01442.html)
+-
+-Submitted to dhcp-bugs@isc.org - [ISC-Bugs #22806] - by Michael S. Tsirkin
+-  (http://comments.gmane.org/gmane.comp.emulators.kvm.devel/65236)
+-  (https://lists.isc.org/pipermail/dhcp-hackers/2010-April/001835.html)
+-
+-Upstream-Status: Submitted [dhcp-bugs@isc.org]
+-Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
+---
+- common/bpf.c     |    2 -
+- common/dlpi.c    |    2 -
+- common/lpf.c     |   83 +++++++++++++++++++++++++++++++++++++++++--------------
+- common/nit.c     |    2 -
+- common/packet.c  |    4 +-
+- common/upf.c     |    2 -
+- includes/dhcpd.h |    2 -
+- 7 files changed, 70 insertions(+), 27 deletions(-)
+-
+-diff --git a/common/bpf.c b/common/bpf.c
+---- a/common/bpf.c
+-+++ b/common/bpf.c
+-@@ -481,7 +481,7 @@ ssize_t receive_packet (interface, buf,
+- 		/* Decode the IP and UDP headers... */
+- 		offset = decode_udp_ip_header(interface, interface->rbuf,
+- 					       interface->rbuf_offset,
+--  					       from, hdr.bh_caplen, &paylen);
+-+  					       from, hdr.bh_caplen, &paylen, 0);
 - 
---if test "$CC" = "gcc"; then
--+if test "$GCC" = yes; then
--    CFLAGS="$CFLAGS -D_GNU_SOURCE -Wall -Wno-parentheses"
--    ERRONWARN="-Werror -O0"
-- elif test "$CC" = "clang"; then
+- 		/* If the IP or UDP checksum was bad, skip the packet... */
+- 		if (offset < 0) {
+-diff --git a/common/dlpi.c b/common/dlpi.c
+---- a/common/dlpi.c
+-+++ b/common/dlpi.c
+-@@ -691,7 +691,7 @@ ssize_t receive_packet (interface, buf,
+- 	length -= offset;
+- #endif
+- 	offset = decode_udp_ip_header (interface, dbuf, bufix,
+--				       from, length, &paylen);
+-+				       from, length, &paylen, 0);
+- 
+- 	/*
+- 	 * If the IP or UDP checksum was bad, skip the packet...
+-diff --git a/common/lpf.c b/common/lpf.c
+---- a/common/lpf.c
+-+++ b/common/lpf.c
+-@@ -29,14 +29,15 @@
+- 
+- #include "dhcpd.h"
+- #if defined (USE_LPF_SEND) || defined (USE_LPF_RECEIVE)
+-+#include <sys/socket.h>
+- #include <sys/uio.h>
+- #include <errno.h>
+- 
+- #include <asm/types.h>
+- #include <linux/filter.h>
+- #include <linux/if_ether.h>
+-+#include <linux/if_packet.h>
+- #include <netinet/in_systm.h>
+--#include <net/if_packet.h>
+- #include "includes/netinet/ip.h"
+- #include "includes/netinet/udp.h"
+- #include "includes/netinet/if_ether.h"
+-@@ -51,6 +52,19 @@
+- /* Reinitializes the specified interface after an address change.   This
+-    is not required for packet-filter APIs. */
+- 
+-+#ifndef PACKET_AUXDATA
+-+#define PACKET_AUXDATA 8
+-+
+-+struct tpacket_auxdata
+-+{
+-+	__u32		tp_status;
+-+	__u32		tp_len;
+-+	__u32		tp_snaplen;
+-+	__u16		tp_mac;
+-+	__u16		tp_net;
+-+};
+-+#endif
+-+
+- #ifdef USE_LPF_SEND
+- void if_reinitialize_send (info)
+- 	struct interface_info *info;
+-@@ -73,10 +87,14 @@ int if_register_lpf (info)
+- 	struct interface_info *info;
+- {
+- 	int sock;
+--	struct sockaddr sa;
+-+	union {
+-+		struct sockaddr_ll ll;
+-+		struct sockaddr common;
+-+	} sa;
+-+	struct ifreq ifr;
+- 
+- 	/* Make an LPF socket. */
+--	if ((sock = socket(PF_PACKET, SOCK_PACKET,
+-+	if ((sock = socket(PF_PACKET, SOCK_RAW,
+- 			   htons((short)ETH_P_ALL))) < 0) {
+- 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
+- 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
+-@@ -91,11 +109,17 @@ int if_register_lpf (info)
+- 		log_fatal ("Open a socket for LPF: %m");
+- 	}
+- 
+-+	memset (&ifr, 0, sizeof ifr);
+-+	strncpy (ifr.ifr_name, (const char *)info -> ifp, sizeof ifr.ifr_name);
+-+	ifr.ifr_name[IFNAMSIZ-1] = '\0';
+-+	if (ioctl (sock, SIOCGIFINDEX, &ifr))
+-+		log_fatal ("Failed to get interface index: %m");
+-+
+- 	/* Bind to the interface name */
+- 	memset (&sa, 0, sizeof sa);
+--	sa.sa_family = AF_PACKET;
+--	strncpy (sa.sa_data, (const char *)info -> ifp, sizeof sa.sa_data);
+--	if (bind (sock, &sa, sizeof sa)) {
+-+	sa.ll.sll_family = AF_PACKET;
+-+	sa.ll.sll_ifindex = ifr.ifr_ifindex;
+-+	if (bind (sock, &sa.common, sizeof sa)) {
+- 		if (errno == ENOPROTOOPT || errno == EPROTONOSUPPORT ||
+- 		    errno == ESOCKTNOSUPPORT || errno == EPFNOSUPPORT ||
+- 		    errno == EAFNOSUPPORT || errno == EINVAL) {
+-@@ -177,9 +201,18 @@ static void lpf_gen_filter_setup (struct
+- void if_register_receive (info)
+- 	struct interface_info *info;
+- {
+-+	int val;
+-+
+- 	/* Open a LPF device and hang it on this interface... */
+- 	info -> rfdesc = if_register_lpf (info);
+- 
+-+	val = 1;
+-+	if (setsockopt (info -> rfdesc, SOL_PACKET, PACKET_AUXDATA, &val,
+-+			sizeof val) < 0) {
+-+		if (errno != ENOPROTOOPT)
+-+			log_fatal ("Failed to set auxiliary packet data: %m");
+-+	}
+-+
+- #if defined (HAVE_TR_SUPPORT)
+- 	if (info -> hw_address.hbuf [0] == HTYPE_IEEE802)
+- 		lpf_tr_filter_setup (info);
+-@@ -301,7 +334,6 @@ ssize_t send_packet (interface, packet,
+- 	double hh [16];
+- 	double ih [1536 / sizeof (double)];
+- 	unsigned char *buf = (unsigned char *)ih;
+--	struct sockaddr_pkt sa;
+- 	int result;
+- 	int fudge;
+- 
+-@@ -322,17 +354,7 @@ ssize_t send_packet (interface, packet,
+- 				(unsigned char *)raw, len);
+- 	memcpy (buf + ibufp, raw, len);
+- 
+--	/* For some reason, SOCK_PACKET sockets can't be connected,
+--	   so we have to do a sentdo every time. */
+--	memset (&sa, 0, sizeof sa);
+--	sa.spkt_family = AF_PACKET;
+--	strncpy ((char *)sa.spkt_device,
+--		 (const char *)interface -> ifp, sizeof sa.spkt_device);
+--	sa.spkt_protocol = htons(ETH_P_IP);
+--
+--	result = sendto (interface -> wfdesc,
+--			 buf + fudge, ibufp + len - fudge, 0, 
+--			 (const struct sockaddr *)&sa, sizeof sa);
+-+	result = write (interface -> wfdesc, buf + fudge, ibufp + len - fudge);
+- 	if (result < 0)
+- 		log_error ("send_packet: %m");
+- 	return result;
+-@@ -349,14 +371,35 @@ ssize_t receive_packet (interface, buf,
+- {
+- 	int length = 0;
+- 	int offset = 0;
+-+	int nocsum = 0;
+- 	unsigned char ibuf [1536];
+- 	unsigned bufix = 0;
+- 	unsigned paylen;
+-+	unsigned char cmsgbuf[CMSG_LEN(sizeof(struct tpacket_auxdata))];
+-+	struct iovec iov = {
+-+		.iov_base = ibuf,
+-+		.iov_len = sizeof ibuf,
+-+	};
+-+	struct msghdr msg = {
+-+		.msg_iov = &iov,
+-+		.msg_iovlen = 1,
+-+		.msg_control = cmsgbuf,
+-+		.msg_controllen = sizeof(cmsgbuf),
+-+	};
+-+	struct cmsghdr *cmsg;
+- 
+--	length = read (interface -> rfdesc, ibuf, sizeof ibuf);
+-+	length = recvmsg (interface -> rfdesc, &msg, 0);
+- 	if (length <= 0)
+- 		return length;
+- 
+-+	for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg)) {
+-+		if (cmsg->cmsg_level == SOL_PACKET &&
+-+		    cmsg->cmsg_type == PACKET_AUXDATA) {
+-+			struct tpacket_auxdata *aux = (void *)CMSG_DATA(cmsg);
+-+			nocsum = aux->tp_status & TP_STATUS_CSUMNOTREADY;
+-+		}
+-+	}
+-+
+- 	bufix = 0;
+- 	/* Decode the physical header... */
+- 	offset = decode_hw_header (interface, ibuf, bufix, hfrom);
+-@@ -373,7 +416,7 @@ ssize_t receive_packet (interface, buf,
+- 
+- 	/* Decode the IP and UDP headers... */
+- 	offset = decode_udp_ip_header (interface, ibuf, bufix, from,
+--				       (unsigned)length, &paylen);
+-+				       (unsigned)length, &paylen, nocsum);
+- 
+- 	/* If the IP or UDP checksum was bad, skip the packet... */
+- 	if (offset < 0)
+-diff --git a/common/nit.c b/common/nit.c
+---- a/common/nit.c
+-+++ b/common/nit.c
+-@@ -363,7 +363,7 @@ ssize_t receive_packet (interface, buf,
+- 
+- 	/* Decode the IP and UDP headers... */
+- 	offset = decode_udp_ip_header (interface, ibuf, bufix,
+--				       from, length, &paylen);
+-+				       from, length, &paylen, 0);
+- 
+- 	/* If the IP or UDP checksum was bad, skip the packet... */
+- 	if (offset < 0)
+-diff --git a/common/packet.c b/common/packet.c
+---- a/common/packet.c
+-+++ b/common/packet.c
+-@@ -226,7 +226,7 @@ ssize_t
+- decode_udp_ip_header(struct interface_info *interface,
+- 		     unsigned char *buf, unsigned bufix,
+- 		     struct sockaddr_in *from, unsigned buflen,
+--		     unsigned *rbuflen)
+-+		     unsigned *rbuflen, int nocsum)
+- {
+-   unsigned char *data;
+-   struct ip ip;
+-@@ -337,7 +337,7 @@ decode_udp_ip_header(struct interface_in
+- 					   8, IPPROTO_UDP + ulen))));
+- 
+-   udp_packets_seen++;
+--  if (usum && usum != sum) {
+-+  if (!nocsum && usum && usum != sum) {
+- 	  udp_packets_bad_checksum++;
+- 	  if (udp_packets_seen > 4 &&
+- 	      (udp_packets_seen / udp_packets_bad_checksum) < 2) {
+-diff --git a/common/upf.c b/common/upf.c
+---- a/common/upf.c
+-+++ b/common/upf.c
+-@@ -314,7 +314,7 @@ ssize_t receive_packet (interface, buf,
+- 
+- 	/* Decode the IP and UDP headers... */
+- 	offset = decode_udp_ip_header (interface, ibuf, bufix,
+--				       from, length, &paylen);
+-+				       from, length, &paylen, 0);
+- 
+- 	/* If the IP or UDP checksum was bad, skip the packet... */
+- 	if (offset < 0)
+-diff --git a/includes/dhcpd.h b/includes/dhcpd.h
+---- a/includes/dhcpd.h
+-+++ b/includes/dhcpd.h
+-@@ -2857,7 +2857,7 @@ ssize_t decode_hw_header (struct interfa
+- 			  unsigned, struct hardware *);
+- ssize_t decode_udp_ip_header (struct interface_info *, unsigned char *,
+- 			      unsigned, struct sockaddr_in *,
+--			      unsigned, unsigned *);
+-+			      unsigned, unsigned *, int);
+- 
+- /* ethernet.c */
+- void assemble_ethernet_header (struct interface_info *, unsigned char *,
 --- 
 -1.8.1.2
 -
-diff --git a/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch b/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
-deleted file mode 100644
-index 9152df5..0000000
---- a/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--socat: fix compile erorr against 3.17+ kernel headers
--
--With the linux 3.17 kernel socat's configure detects the wrong include for errqueue.h
--which results in a compilation error.
--
--By backporting the gentoo patch from:
--
--  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch
--
--Fixes the build issue
--
--Upstream-status: backport
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
----- a/configure.in
--+++ b/configure.in
--@@ -80,7 +80,10 @@
-- AC_CHECK_HEADERS(termios.h linux/if_tun.h)
-- AC_CHECK_HEADERS(net/if_dl.h)
-- AC_CHECK_HEADERS(linux/types.h)
---AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [#include <linux/types.h>])
--+AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [AC_INCLUDES_DEFAULT
--+	#if HAVE_LINUX_TYPES_H
--+	#include <linux/types.h>
--+	#endif])
-- AC_CHECK_HEADERS(sys/utsname.h sys/select.h sys/file.h)
-- AC_CHECK_HEADERS(util.h bsd/libutil.h libutil.h sys/stropts.h regex.h)
-- AC_CHECK_HEADERS(linux/fs.h linux/ext2_fs.h)
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
-similarity index 78%
-rename from meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-rename to meta/recipes-connectivity/socat/socat_1.7.3.0.bb
-index 9e43e16..8923f41 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
-@@ -9,16 +9,14 @@ DEPENDS = "openssl readline"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+similarity index 64%
+rename from meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
+rename to meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+index d4414cc..b4a05fc 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+@@ -6,8 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
+-            file://dhcp-xen-checksum.patch \
+            "
  
- LICENSE = "GPL-2.0+-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://README;beginline=257;endline=287;md5=79246f11a1db0b6ccec54d1fb711c01e"
-+                    file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
- 
- 
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
--           file://fix-cross-compiling-failed.patch \
--           file://socat-1.7.2.4-linux-3.17.patch \
- "
- 
--SRC_URI[md5sum] = "69b8155dd442a6f24e28ef5407d868eb"
--SRC_URI[sha256sum] = "4b7739901c6fad1e460f3e5b1868fb4c2a1427febbba7a510cd2e42fd4941e09"
-+SRC_URI[md5sum] = "b607edb65bc6c57f4a43f06247504274"
-+SRC_URI[sha256sum] = "0767e850c0329b9fdf711c6cd468565cbbb28786ba1a8a1cbd5531d4016b3e04"
- 
- inherit autotools
- 
+-SRC_URI[md5sum] = "b3a42ece3c7f2cd2e74a3e12ca881d20"
+-SRC_URI[sha256sum] = "266cbca8a7a6bb8f9ccc5765da0d2b04099329314a54a4fc1022d510ad3e9af0"
++SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
++SRC_URI[sha256sum] = "6246c9b358759f6cdcc45104caaf76e732a211dbbbbf64a21f499c8db1298165"
 -- 
 1.7.9.5
 
