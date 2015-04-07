@@ -1,41 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C0773C63
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 225C4737EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 19:41:31 +0000 (UTC)
-Received: by paboj16 with SMTP id oj16so89030315pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Apr 2015 12:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=vc/9ric4bzazBifV87PslTx63Up+EdZob2MPFiTkt8E=;
-	b=TXP4RWn5gU9FHBpDeCb+au9/eqxDu80R/RZrpMACdjWJ9XZpyvsguJBNDkxHPpfGup
-	bqQUx0947TVQSwqw04bRIxj2YYKCJyAoRR+uHdmt2tAgUrfOnkqCfp11jrhCL5vGenkQ
-	OXskz2dwJGALeWbHJ9cGPCbBRa0WoxEUcTFLXUPyEWyzyg4CEAhteAb0xPiliu8J5gtD
-	xdLaO5xZXCcuwLHbUNjymyEf2Qa0VRu4IYLWMH5IOkyvf6PMfycQxq+EJGXVzPOO0H6U
-	fp6R6zPNNXGG+FKayVyMLqBi1CXoljW0dfuzw1bZx8bCYFqEnm2Cu6RnrGnLh9c8LxAF
-	WHpA==
-X-Received: by 10.70.90.162 with SMTP id bx2mr30490891pdb.60.1428435693452;
-	Tue, 07 Apr 2015 12:41:33 -0700 (PDT)
-Received: from ?IPv6:2601:9:500:ece:6173:5e9d:a616:6d78?
-	([2601:9:500:ece:6173:5e9d:a616:6d78])
-	by mx.google.com with ESMTPSA id jh2sm8782468pbb.25.2015.04.07.12.41.31
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 07 Apr 2015 12:41:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1428399156.14020.453.camel@linuxfoundation.org>
-Date: Tue, 7 Apr 2015 12:41:30 -0700
-Message-Id: <0C795E74-218B-4B1C-AC1C-70E675D0B598@gmail.com>
-References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
-	<89112aaf74a5e6b6e87fd335efab08fb4b89cd26.1428341478.git.raj.khem@gmail.com>
-	<1428399156.14020.453.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2070.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 03/24] binutils: upgrade to 2.25
+	Tue,  7 Apr 2015 20:16:29 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 07 Apr 2015 13:16:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,539,1422950400"; d="scan'208";a="552343944"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.25.100])
+	([10.252.25.100])
+	by orsmga003.jf.intel.com with ESMTP; 07 Apr 2015 13:16:27 -0700
+Message-ID: <1428437785.12283.40.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 07 Apr 2015 23:16:25 +0300
+In-Reply-To: <20150407130201.GB22953@jama>
+References: <cover.1428070227.git.cristian.iorga@intel.com>
+	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
+	<1428402422.12283.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F496CEA@irsmsx105.ger.corp.intel.com>
+	<1428406875.12283.8.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F496D80@irsmsx105.ger.corp.intel.com>
+	<1428410191.12283.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<20150407124458.GA22953@jama>
+	<1428410766.12283.34.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<20150407130201.GB22953@jama>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,53 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 19:41:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Apr 2015 20:16:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2015-04-07 at 15:02 +0200, Martin Jansa wrote:
+> On Tue, Apr 07, 2015 at 03:46:06PM +0300, Tanu Kaskinen wrote:
+> > On Tue, 2015-04-07 at 14:44 +0200, Martin Jansa wrote:
+> > > On Tue, Apr 07, 2015 at 03:36:31PM +0300, Tanu Kaskinen wrote:
+> > > > This would be more appropriate for recipes that only support bluez4:
+> > > > 
+> > > > #  inherit bluetooth
+> > > > #  PACKAGECONFIG ??= "${@bb.utils.contains('BLUEZ', 'bluez4', 'bluez4, '', d}"
+> > > > #  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
+> > > 
+> > > The last example isn't correct, because you still need to respect
+> > > 'bluetooth' in 'DISTRO_FEATURES' before enabling whatever is in BLUEZ
+> > > variable.
+> > 
+> > BLUEZ is empty if 'bluetooth' is not in DISTRO_FEATURES, so my example
+> > should work fine.
+> 
+> The default value is, but that doesn't ensure that user has different
+> value set in local.conf and suddenly his bluetooth-less distro
+> configuration is trying to enable bluez* support in some component.
+> 
+> So for consistency sake you should respect bluetooth in DISTRO_FEATURES
+> (like in the previous example).
 
-> On Apr 7, 2015, at 2:32 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> I ran an older patchset containing this against the autobuilder. We =
-have
-> two problems which I think are 2.25 related:
->=20
-> =
-http://errors.yoctoproject.org/Errors/Search/?items=3D10&query=3D56f680b60=
-ab5fd396f2a65431376683ca6707127
->=20
-> libunwind is failing on x86, likely due to:
->=20
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D65248
->=20
-> which is only planned to be fixed in gcc5. Not sure how we can fix =
-this
-> one other than perhaps forcing the use of gold in this case (which =
-seems
-> wrong).
+I don't see any use case where it would make sense to set BLUEZ outside
+bluetooth.bbclass. Do you? For simplicity reasons, my preference would
+be to treat the BLUEZ variable as read-only outside bluetooth.bbclass
+(and document it as such).
 
-your fix to use gold in interim is ok. I am baking gcc5 recipes on my =
-contrib branch already and its looking ok.
-once gcc5 is released I will propose it for master ( may be end of May)
+You're definitely right about being consistent, though - if we can
+assume BLUEZ to be empty when 'bluetooth' is not in DISTRO_FEATURES,
+then there's no point in checking DISTRO_FEATURES in the first example
+either.
 
->=20
-> We also have a uboot issue on mpc8315e-rdb which there are fixes =
-around
-> for, we just need someone to find them and patch it. Both failures are
-> in the above error reporting link.
-
-
-This will be fixed by applying
-=
-https://lists.yoctoproject.org/pipermail/meta-freescale/2015-February/0128=
-27.html
-
-
->=20
-> Cheers,
->=20
-> Richard
->=20
+-- 
+Tanu
 
 
