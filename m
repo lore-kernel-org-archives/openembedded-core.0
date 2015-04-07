@@ -1,33 +1,30 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3600 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Apr 2015 21:54:27 UTC
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 14367605F1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 60899605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 21:54:27 +0000 (UTC)
-Received: from gandalf.denix.org ([108.28.31.169]) by vms173017.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NMG007M9FE2LXQ0@vms173017.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 07 Apr 2015 15:54:13 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WpCc6mbq c=1 sm=1 tr=0	a=fMO+sUsoiA3cqMJ/JkSOnA==:117
-	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=-9mUelKeXuEA:10 a=e9J7MTPGsLIA:10
-	a=sozttTNsAAAA:8	a=mQmndGCHv75K8PZ1HR4A:9
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id B646F20238;	Tue,
-	7 Apr 2015 16:54:02 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 07 Apr 2015 16:53:55 -0400
-Message-id: <1428440035-6307-2-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.2.0
-In-reply-to: <1428440035-6307-1-git-send-email-denis@denix.org>
-References: <1428440035-6307-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] security_flags.inc: disable PIE for bash due to issues in mkbuiltins
+	Tue,  7 Apr 2015 21:56:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37LuQTj008047; Tue, 7 Apr 2015 22:56:26 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ai0E9dypaswG; Tue,  7 Apr 2015 22:56:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t37LuAcd008041
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Apr 2015 22:56:21 +0100
+Message-ID: <1428443770.14020.483.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 07 Apr 2015 22:56:10 +0100
+In-Reply-To: <F8FD5455-119C-4814-8871-320AF0E7B72F@gmail.com>
+References: <1428418272.14020.467.camel@linuxfoundation.org>
+	<F8FD5455-119C-4814-8871-320AF0E7B72F@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] binutils: Allow gold to build even when not the default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,34 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 21:54:28 -0000
+X-List-Received-Date: Tue, 07 Apr 2015 21:56:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Tue, 2015-04-07 at 12:33 -0700, Khem Raj wrote:
+> > On Apr 7, 2015, at 7:51 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > It can be useful to have gold available for testing even when its not the
+> > default, therefore build gold by default in all configurations.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > 
+> > diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> > index afb582a..3c65efc 100644
+> > --- a/meta/recipes-devtools/binutils/binutils.inc
+> > +++ b/meta/recipes-devtools/binutils/binutils.inc
+> > @@ -73,7 +73,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+> > 
+> > LDGOLD_class-native = ""
+> > LDGOLD_class-crosssdk = ""
+> > -LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '', d)}"
+> > +LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default', d)}”
+> > 
+> 
+> may be enable-gold could be done unconditionally ? and then —enable-gold|ld=default controlled with ld-is-gold ?
+> ld-is-gold anyway meant that default linker is gold, it did not mean
+> to just build gold, so we are not changing semantics
 
-As bash builds a native tool called mkbuiltins, it fails with PIE flags:
+The above effectively does mean we're always building gold, it just
+controls whether ld is gold or not as before?
 
-ld: mkbuiltins.o: relocation R_X86_64_32 against `.rodata.str1.8' can not be used when making a shared object; recompile with -fPIC
+Cheers,
 
-Affects at least version 3.2 of bash.
+Richard
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/conf/distro/include/security_flags.inc | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 21e1a53..3401c4b 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -16,6 +16,7 @@ SECURITY_CFLAGS_pn-lttng-tools_arm = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-elfutils_arm = "${SECURITY_NO_PIE_CFLAGS}"
- 
- SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-bash = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-blktrace = "${SECURITY_NO_PIE_CFLAGS}"
- # Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
--- 
-2.2.0
 
 
