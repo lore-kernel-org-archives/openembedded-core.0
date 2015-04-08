@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AFCB673D44
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BB76773CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 10:24:08 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t38AOAtN021393
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Apr 2015 03:24:10 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Apr 2015 03:24:09 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Apr 2015 18:24:14 +0800
-Message-ID: <86e3402cca49327b5e9e7c9367198a675974112f.1428488582.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1428488582.git.Qi.Chen@windriver.com>
-References: <cover.1428488582.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 6/6] xz: upgrade to 5.2.1
+	Wed,  8 Apr 2015 11:08:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 08 Apr 2015 04:08:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,544,1422950400"; d="scan'208";a="676989647"
+Received: from heimdall.fi.intel.com ([10.237.72.157])
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2015 04:08:56 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Apr 2015 14:08:29 +0300
+Message-Id: <1428491309-1482-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gtk+: Upgrade to 2.24.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +27,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 10:24:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Apr 2015 11:08:57 -0000
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
+ meta/recipes-gnome/gtk+/gtk+_2.24.25.bb | 33 ---------------------------------
+ meta/recipes-gnome/gtk+/gtk+_2.24.27.bb | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+_2.24.25.bb
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.0.bb b/meta/recipes-extended/xz/xz_5.2.1.bb
-similarity index 92%
-rename from meta/recipes-extended/xz/xz_5.2.0.bb
-rename to meta/recipes-extended/xz/xz_5.2.1.bb
-index 3439ec9..a197f91 100644
---- a/meta/recipes-extended/xz/xz_5.2.0.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.1.bb
-@@ -25,8 +25,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
- 
- SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[md5sum] = "be585bdf8672e4406632eda3d819e284"
--SRC_URI[sha256sum] = "231ef369982240bb20ed7cffa52bb12a4a297ce6871f480ab85e8a7ba98bf3d6"
-+SRC_URI[md5sum] = "3e44c766c3fb4f19e348e646fcd5778a"
-+SRC_URI[sha256sum] = "b918b6648076e74f8d7ae19db5ee663df800049e187259faf5eb997a7b974681"
- 
- inherit autotools gettext
- 
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.25.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.25.bb
+deleted file mode 100644
+index ada7956..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.25.bb
++++ /dev/null
+@@ -1,33 +0,0 @@
+-require gtk+.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+-                    file://gtk/gtk.h;endline=27;md5=c59e0b4490dd135a5726ebf851f9b17f \
+-                    file://gdk/gdk.h;endline=27;md5=07db285ec208fb3e0bf7d861b0614202 \
+-                    file://tests/testgtk.c;endline=27;md5=262db5db5f776f9863e56df31423e24c"
+-SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+-           file://xsettings.patch \
+-           file://hardcoded_libtool.patch \
+-           file://toggle-font.diff;striplevel=0 \
+-           file://doc-fixes.patch \
+-	  "
+-
+-SRC_URI[md5sum] = "612350704dd3aacb95355a4981930c6f"
+-SRC_URI[sha256sum] = "38af1020cb8ff3d10dda2c8807f11e92af9d2fa4045de61c62eedb7fbc7ea5b3"
+-
+-EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+-
+-LIBV = "2.10.0"
+-
+-PACKAGES_DYNAMIC += "^gtk-immodule-.* ^gtk-printbackend-.*"
+-
+-python populate_packages_prepend () {
+-    gtk_libdir = d.expand('${libdir}/gtk-2.0/${LIBV}')
+-    immodules_root = os.path.join(gtk_libdir, 'immodules')
+-    printmodules_root = os.path.join(gtk_libdir, 'printbackends');
+-
+-    d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk-immodule-%s', 'GTK input module for %s')))
+-    do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk-printbackend-%s', 'GTK printbackend module for %s')
+-
+-    if (d.getVar('DEBIAN_NAMES', True)):
+-        d.setVar('PKG_${PN}', '${MLPREFIX}libgtk-2.0')
+-}
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
+new file mode 100644
+index 0000000..b2693d5
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
+@@ -0,0 +1,33 @@
++require gtk+.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
++                    file://gtk/gtk.h;endline=27;md5=c59e0b4490dd135a5726ebf851f9b17f \
++                    file://gdk/gdk.h;endline=27;md5=07db285ec208fb3e0bf7d861b0614202 \
++                    file://tests/testgtk.c;endline=27;md5=262db5db5f776f9863e56df31423e24c"
++SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
++           file://xsettings.patch \
++           file://hardcoded_libtool.patch \
++           file://toggle-font.diff;striplevel=0 \
++           file://doc-fixes.patch \
++	  "
++
++SRC_URI[md5sum] = "b1e890e15602c5bcb40d85b13fe046fd"
++SRC_URI[sha256sum] = "20cb10cae43999732a9af2e9aac4d1adebf2a9c2e1ba147050976abca5cd24f4"
++
++EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
++
++LIBV = "2.10.0"
++
++PACKAGES_DYNAMIC += "^gtk-immodule-.* ^gtk-printbackend-.*"
++
++python populate_packages_prepend () {
++    gtk_libdir = d.expand('${libdir}/gtk-2.0/${LIBV}')
++    immodules_root = os.path.join(gtk_libdir, 'immodules')
++    printmodules_root = os.path.join(gtk_libdir, 'printbackends');
++
++    d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk-immodule-%s', 'GTK input module for %s')))
++    do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk-printbackend-%s', 'GTK printbackend module for %s')
++
++    if (d.getVar('DEBIAN_NAMES', True)):
++        d.setVar('PKG_${PN}', '${MLPREFIX}libgtk-2.0')
++}
 -- 
-1.9.1
+2.1.4
 
 
