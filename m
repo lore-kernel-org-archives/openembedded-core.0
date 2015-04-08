@@ -1,29 +1,44 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 06FBF60017
+Return-Path: <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0093.outbound.protection.outlook.com [207.46.100.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E0436ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 13:32:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t38DWeqd029404
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Apr 2015 06:32:40 -0700 (PDT)
-Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 8 Apr 2015 06:32:39 -0700
-Message-ID: <55252DF7.6020302@windriver.com>
-Date: Wed, 8 Apr 2015 09:32:39 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Wed,  8 Apr 2015 13:33:35 +0000 (UTC)
+Received: from Ubuntu64.caveonetworks.com (111.93.218.67) by
+	CY1PR0701MB1148.namprd07.prod.outlook.com (25.160.146.13) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.130.23; Wed, 8 Apr 2015 13:33:34 +0000
+From: "Krishnanjanappa, Jagadeesh"
+	<jagadeesh.krishnanjanappa@caviumnetworks.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Apr 2015 19:03:24 +0530
+Message-ID: <1428500004-9535-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
+X-Mailer: git-send-email 1.8.2.3
 MIME-Version: 1.0
-To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1428488582.git.Qi.Chen@windriver.com>
-	<ed4cad55a71d818c5a126e07f7b86151473eeb93.1428488582.git.Qi.Chen@windriver.com>
-In-Reply-To: <ed4cad55a71d818c5a126e07f7b86151473eeb93.1428488582.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.56.84]
-Subject: Re: [PATCH 4/6] sudo: upgrade to 1.8.13
+X-Originating-IP: [111.93.218.67]
+X-ClientProxiedBy: BY2PR12CA0017.namprd12.prod.outlook.com (25.160.121.27) To
+	CY1PR0701MB1148.namprd07.prod.outlook.com (25.160.146.13)
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Jagadeesh.Krishnanjanappa@caviumnetworks.com; 
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:CY1PR0701MB1148;
+X-Forefront-Antispam-Report: BMV:1; SFV:NSPM;
+	SFS:(10009020)(6009001)(377424004)(2351001)(229853001)(62966003)(42186005)(110136001)(40100003)(106356001)(66066001)(450100001)(47776003)(53416004)(77156002)(48376002)(46102003)(92566002)(87976001)(86362001)(50986999)(122386002)(36756003)(19580405001)(50466002)(19580395003)(33646002)(50226001)(7099025);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR0701MB1148;
+	H:Ubuntu64.caveonetworks.com; FPR:; SPF:None; MLV:ovrnspm;
+	PTR:InfoNoRecords; LANG:en; 
+X-Microsoft-Antispam-PRVS: <CY1PR0701MB1148F6B3F5DAB4EB551A35668EFC0@CY1PR0701MB1148.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5002010)(5005006); SRVR:CY1PR0701MB1148; BCL:0;
+	PCL:0; RULEID:; SRVR:CY1PR0701MB1148; 
+X-Forefront-PRVS: 0540846A1D
+Received-SPF: None (protection.outlook.com: caviumnetworks.com does not
+	designate permitted sender hosts)
+X-OriginatorOrg: caviumnetworks.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2015 13:33:34.5001 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0701MB1148
+Subject: [PATCH] dpkg: add triplet entry to fix build error for armeb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +51,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 13:32:41 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Apr 2015 13:33:37 -0000
+Content-Type: text/plain
 
-On 2015-04-08 06:24 AM, Chen Qi wrote:
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-extended/sudo/sudo.inc                          | 12 +++---------
->   .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}                |  4 ++--
->   2 files changed, 5 insertions(+), 11 deletions(-)
->   rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
->
-> diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-> index 6e9aec8..2d411f3 100644
-> --- a/meta/recipes-extended/sudo/sudo.inc
-> +++ b/meta/recipes-extended/sudo/sudo.inc
-> @@ -4,12 +4,12 @@ HOMEPAGE = "http://www.sudo.ws"
->   BUGTRACKER = "http://www.sudo.ws/bugs/"
->   SECTION = "admin"
->   LICENSE = "ISC & BSD & Zlib"
-> -LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=69e337d679950e304953813158595256 \
-> -                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=e2dbb155fc49beea947515300bab99e0 \
-> +LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
-> +                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
->                       file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
->                       file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
->                       file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-> -                    file://lib/util/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea \
-> +                    file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
->                       file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
->                       file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
->
-> @@ -22,12 +22,6 @@ CONFFILES_${PN} = "${sysconfdir}/sudoers"
->
->   EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
->
-> -do_configure_prepend () {
-> -	if [ ! -e ${S}/acinclude.m4 ]; then
-> -		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
-> -	fi
-> -}
+From: "Krishnanjanappa, Jagadeesh" <jagadeesh.krishnanjanappa@caviumnetworks.com>
 
-Is this really safe to drop?
-If so please explain why in the long log.
+1. Cross-compling dpkg application for armeb fails with below error
+   during configure task,
 
-../Randy
-> -
->   # mksigname/mksiglist are used on build host to generate source files
->   do_compile_prepend () {
->   	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C lib/util mksigname mksiglist
-> diff --git a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb b/meta/recipes-extended/sudo/sudo_1.8.13.bb
-> similarity index 87%
-> rename from meta/recipes-extended/sudo/sudo_1.8.11p2.bb
-> rename to meta/recipes-extended/sudo/sudo_1.8.13.bb
-> index c5e2545..4494170 100644
-> --- a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb
-> +++ b/meta/recipes-extended/sudo/sudo_1.8.13.bb
-> @@ -6,8 +6,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
->
->   PAM_SRC_URI = "file://sudo.pam"
->
-> -SRC_URI[md5sum] = "84012b4871b6c775c957cd310d5bad87"
-> -SRC_URI[sha256sum] = "8133849418fa18cf6b6bb6893d1855ff7afe21db8923234a00bf045c90fba1ad"
-> +SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
-> +SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
->
->   DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->   RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
->
+    (snip)
+    configure:23141: checking dpkg cpu type
+    configure:23148: result: armeb
+    configure:23150: WARNING: armeb not found in cputable
+    configure:23162: checking dpkg operating system type
+    configure:23169: result: linux-gnueabi
+    configure:23171: WARNING: linux-gnueabi not found in ostable
+    configure:23183: checking dpkg architecture name
+    configure:23189: error: cannot determine host dpkg architecture
+    -- CUT --
 
+    Add the required combination of "gnueabi-linux-armeb" entry in
+    triplet list.
 
+2. Added INC_PR to PR to have an updated value, when INC_PR is defined
+   in dpkg.inc file
+
+Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
+---
+ .../dpkg/dpkg/add_armeb_triplet_entry.patch        | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.17.21.bb         |  4 +++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
+
+diff --git a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
+new file mode 100644
+index 0000000..af275de
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
+@@ -0,0 +1,38 @@
++Author: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
++Date:   Wed Apr 8 18:08:14 2015 +0530
++
++[PATCH] add armeb triplet entry into triplettable.
++
++Cross-compling dpkg application for armeb fails with below error
++during configure task,
++
++(snip)
++ configure:23141: checking dpkg cpu type
++ configure:23148: result: armeb
++ configure:23150: WARNING: armeb not found in cputable
++ configure:23162: checking dpkg operating system type
++ configure:23169: result: linux-gnueabi
++ configure:23171: WARNING: linux-gnueabi not found in ostable
++ configure:23183: checking dpkg architecture name
++ configure:23189: error: cannot determine host dpkg architecture
++-- CUT --
++
++the required combination of "gnueabi-linux-armeb" was not found in
++the triplettable file thereby returning dpkg_arch as
++empty in configure script.
++
++Upstream-Status: Pending
++
++Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
++
++diff -Naurp dpkg-1.17.21_org/triplettable dpkg-1.17.21/triplettable
++--- dpkg-1.17.21_org/triplettable	2015-04-08 17:08:52.370759171 +0530
+++++ dpkg-1.17.21/triplettable	2015-04-08 17:09:12.406752081 +0530
++@@ -9,6 +9,7 @@ musleabihf-linux-arm	musl-linux-armhf
++ musl-linux-<cpu>	musl-linux-<cpu>
++ gnueabihf-linux-arm	armhf
++ gnueabi-linux-arm	armel
+++gnueabi-linux-armeb	armeb
++ gnuabin32-linux-mips64el	mipsn32el
++ gnuabin32-linux-mips64	mipsn32
++ gnuabi64-linux-mips64el	mips64el
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
+index 15c0277..06c690b 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
+@@ -1,6 +1,9 @@
+ require dpkg.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
++INC_PR ?= "r0"
++PR = "${INC_PR}.1"
++
+ SRC_URI += "file://noman.patch \
+             file://check_snprintf.patch \
+             file://check_version.patch \
+@@ -12,6 +15,7 @@ SRC_URI += "file://noman.patch \
+             file://dpkg-configure.service \
+             file://glibc2.5-sync_file_range.patch \
+             file://no-vla-warning.patch \
++            file://add_armeb_triplet_entry.patch \
+            "
+ 
+ SRC_URI[md5sum] = "765a96fd0180196613bbfa3c4aef0775"
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200 Ottawa, Ontario, 
-Canada K2K 2W5
+1.8.2.3
+
 
