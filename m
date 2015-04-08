@@ -1,30 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E52737EE
+	by mail.openembedded.org (Postfix) with ESMTP id 5F80E73D28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 09:41:09 +0000 (UTC)
+	Wed,  8 Apr 2015 09:56:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t389f9aD030642; Wed, 8 Apr 2015 10:41:09 +0100
+	t389sg5Z031726; Wed, 8 Apr 2015 10:56:11 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id l-AJwDuSyQKf; Wed,  8 Apr 2015 10:41:09 +0100 (BST)
+	with LMTP id a1vPix5GgHsC; Wed,  8 Apr 2015 10:56:11 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t389erR7030625
+	t389tuB6031755
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 8 Apr 2015 10:41:05 +0100
-Message-ID: <1428486053.14020.497.camel@linuxfoundation.org>
+	Wed, 8 Apr 2015 10:56:08 +0100
+Message-ID: <1428486956.14020.498.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Wed, 08 Apr 2015 10:40:53 +0100
-In-Reply-To: <90edd11cb3c867c6c677d97be6a22b9504132879.1428405830.git.liezhi.yang@windriver.com>
-References: <cover.1428405830.git.liezhi.yang@windriver.com>
-	<90edd11cb3c867c6c677d97be6a22b9504132879.1428405830.git.liezhi.yang@windriver.com>
+To: Tim Orling <ticotimo@gmail.com>
+Date: Wed, 08 Apr 2015 10:55:56 +0100
+In-Reply-To: <1428470156-19678-1-git-send-email-TicoTimo@gmail.com>
+References: <1428470156-19678-1-git-send-email-TicoTimo@gmail.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 08/10] groff: 1.22.2 -> 1.22.3
+Subject: Re: [PATCH] python-2.7-manifest.inc: add fractions.* to ${PN}-numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,26 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 09:41:14 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 09:56:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-04-07 at 04:24 -0700, Robert Yang wrote:
-> * Updated groff-1.22.2-correct-man.local-install-path.patch
-> * Add perl to RDEPENDS_groff since /usr/bin/perf is a perl script now.
+On Tue, 2015-04-07 at 22:15 -0700, Tim Orling wrote:
+> python-cryptography requires fractions module which is currently unpackaged.
+> 
+> Signed-off-by: Tim Orling <TicoTimo@gmail.com>
+> ---
+>  meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+> index 12f775e..2fb748e 100644
+> --- a/meta/recipes-devtools/python/python-2.7-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+> @@ -175,7 +175,7 @@ FILES_${PN}-netserver="${libdir}/python2.7/cgi.* ${libdir}/python2.7/*HTTPServer
+>  
+>  SUMMARY_${PN}-numbers="Python number APIs"
+>  RDEPENDS_${PN}-numbers="${PN}-core ${PN}-lang ${PN}-re"
+> -FILES_${PN}-numbers="${libdir}/python2.7/decimal.* ${libdir}/python2.7/numbers.* "
+> +FILES_${PN}-numbers="${libdir}/python2.7/decimal.* ${libdir}/python2.7/numbers.* ${libdir}/python2.7/fractions.*"
+>  
+>  SUMMARY_${PN}-pickle="Python serialisation/persistence support"
+>  RDEPENDS_${PN}-pickle="${PN}-core ${PN}-codecs ${PN}-io ${PN}-re"
 
-perf -> perl
+To quote the top of the file:
 
-and this caused failures on some build machines due to /bin/perl rather
-than /usr/bin/perl:
-
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=54290cf402fcf85d2b596316666b62045bf534f2
-
-We'll need to ensure the header on the file is correct as we do in some
-other recipes.
+# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
+# Generator: '../../../scripts/contrib/python/generate-manifest-2.7.py' Version 20110222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
 
 Cheers,
 
 Richard
+
 
 
