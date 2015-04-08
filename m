@@ -1,39 +1,38 @@
 Return-Path: <joaohf@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ABB460089
+Received: from mail-vn0-f48.google.com (mail-vn0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA9E60097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 22:18:42 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so98860153qkg.1
+	Wed,  8 Apr 2015 22:19:56 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so17751645vnb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Apr 2015 15:18:44 -0700 (PDT)
+	Wed, 08 Apr 2015 15:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=lCIGQYxOfT0xp/ERpqK4aqN+fEq7qGC8QeRf/yOY7Cw=;
-	b=Fq1MBWUGa4H3w8M+P/p0QnmR/eP++cdfAQMnt5oMUY6eWTkW4gUdgwdqXIwJusIi9N
-	y8UQUB77sjvPWCxUb28A8nUQ6a4+sc5wgodZ1FnrwoJiQjbAXUrMOidvu/JH1CSl5XAF
-	l4pUPpe4oqLJBK1weeqbIOVE1qJO/ZxSH0MUKsZuOa/JIk5qEstECw44f1omW+Cc3Jld
-	Zip1V3L4bEs8iYHN09N1NKDP2e8CCfhKTuFtXogRudX/hXQK826biDoYG45WvhQOXocD
-	57UhmQLx79IrRtb4cjff8P2ByojdKE9OBhw2qT3hwpRq+gQqW8SgD+z0DNZPFmqzIVSG
-	5uRQ==
-X-Received: by 10.55.55.85 with SMTP id e82mr54222292qka.2.1428531524029;
-	Wed, 08 Apr 2015 15:18:44 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=3SCrfyXjUkpUAhLyoXnZXwh8DE49M51JA4zyR3w4RNk=;
+	b=m1NjXlVYZIu3QBpg/sEp4f+fR88Je9tncYKhuH6tdqmw/LfaksybOskh9FewznSGEA
+	cINkEdYN1XVa7P2YAONEeV1nFs6dFMdbv7H7NUe/J0Iw6CPCJdr8EfyRNcQv/cXEP4NQ
+	yzhZC1pHw4UYnFKUqzllkBYgxup4v/IBjkfZxSGxUfWIOucXiPv3qS4zuOoafPosUlrc
+	Ye0uqPfkYcULTjf41vholtCOophv6c/mOezoPgvQS/lSPMecUBcy/lbU4U5ZRbeVqUsN
+	1htymvdIyvybHFXP0941zL+hao3vNRnflZny7kkvdoHV5ycf+ksMunAn5fiyD2rcattT
+	RuCA==
+X-Received: by 10.140.20.99 with SMTP id 90mr31522624qgi.87.1428531597782;
+	Wed, 08 Apr 2015 15:19:57 -0700 (PDT)
 Received: from [192.168.0.16] ([201.53.207.14])
-	by mx.google.com with ESMTPSA id r198sm4625408qha.2.2015.04.08.15.18.42
+	by mx.google.com with ESMTPSA id h3sm8368598qkh.34.2015.04.08.15.19.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Apr 2015 15:18:43 -0700 (PDT)
-Message-ID: <5525A940.5040600@gmail.com>
-Date: Wed, 08 Apr 2015 19:18:40 -0300
-From: =?windows-1252?Q?Jo=E3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
+	Wed, 08 Apr 2015 15:19:56 -0700 (PDT)
+Message-ID: <5525A98B.80500@gmail.com>
+Date: Wed, 08 Apr 2015 19:19:55 -0300
+From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1428400661-19372-1-git-send-email-ed.bartosh@linux.intel.com>
-In-Reply-To: <1428400661-19372-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: Re: [wic][PATCH] wic: Implement --build-rootfs command line option
+Subject: [RFC] Report build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,150 +45,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 22:18:43 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 08 Apr 2015 22:19:57 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi Ed,
+Hi,
 
-I liked.
+I would like to share an implementation that I've used with
+great success to solve the following situation:
 
-Two points:
+We have a farm server that Jenkins CI has the control. All the
+nights a bunch of devel, snapshot and stable builds are fired.
+Each machine receives a job that the aim is to build image, SDK,
+packages and wic images. After that, all the artifacts are collected
+and send to a consolidation server which my users could download.
 
-- How about if user sets INHERIT = "rm_work"? I mean the image recipe 
-will be rm, right? I always put my images in RM_WORK_EXCLUDE so wic can 
-use it.
+I believed that many YP users has the very similar settings. So I wanted
+to create a solution which is integrated with YP.
 
-- What will be the behavior if: wic create test-image-4Gb -e test-image 
---rootfs rootfs1=test-image --rootfs rootfs2=bringup-image -f. A 
-believed that only 'test-image' will be build. Right?
+This solution involves three things:
 
-Thanks.
+* new class to collect the artifacts
+* script to send the collected artifacts
+* web interface to summaries the results
 
-On 07/04/2015 06:57, Ed Bartosh wrote:
-> -f/--build-rootfs option makes wic to run bitbake <image> to
-> produce rootfs. This option requires image name to be specified
-> with -e/--image-name.
->
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->   scripts/lib/image/help.py | 10 ++++++----
->   scripts/wic               | 25 ++++++++++++++++++++++---
->   2 files changed, 28 insertions(+), 7 deletions(-)
->
-> diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-> index e1eb265..e365a07 100644
-> --- a/scripts/lib/image/help.py
-> +++ b/scripts/lib/image/help.py
-> @@ -111,7 +111,7 @@ wic_create_usage = """
->               [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
->               [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
->               [-r, --rootfs-dir] [-b, --bootimg-dir]
-> -            [-k, --kernel-dir] [-n, --native-sysroot]
-> +            [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
->   
->    This command creates an OpenEmbedded image based on the 'OE kickstart
->    commands' found in the <wks file>.
-> @@ -132,7 +132,7 @@ SYNOPSIS
->           [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
->           [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
->           [-r, --rootfs-dir] [-b, --bootimg-dir]
-> -        [-k, --kernel-dir] [-n, --native-sysroot]
-> +        [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
->   
->   DESCRIPTION
->       This command creates an OpenEmbedded image based on the 'OE
-> @@ -167,6 +167,8 @@ DESCRIPTION
->       The -n option is used to specify the path to the native sysroot
->       containing the tools to use to build the image.
->   
-> +    The -f option is used to build rootfs by running "bitbake <image>"
-> +
->       The -s option is used to skip the build check.  The build check is
->       a simple sanity check used to determine whether the user has
->       sourced the build environment so that the -e option can operate
-> @@ -528,8 +530,8 @@ DESCRIPTION
->          usage: wic create <wks file or image name> [-o <DIRNAME> | ...]
->               [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
->               [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-> -            [-r, --rootfs-dir] [-b, --bootimg-dir]
-> -            [-k, --kernel-dir] [-n, --native-sysroot]
-> +            [-r, --rootfs-dir] [-b, --bootimg-dir] [-k, --kernel-dir]
-> +            [-n, --native-sysroot] [-f, --build-rootfs]
->   
->          This command creates an OpenEmbedded image based on the 'OE
->          kickstart commands' found in the <wks file>.
-> diff --git a/scripts/wic b/scripts/wic
-> index e7df60f..feff302 100755
-> --- a/scripts/wic
-> +++ b/scripts/wic
-> @@ -40,11 +40,15 @@ import logging
->   # External modules
->   scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
->   lib_path = scripts_path + '/lib'
-> -sys.path = sys.path + [lib_path]
-> +bitbake_path = os.path.join(scripts_path, '../bitbake/lib')
-> +sys.path = sys.path + [lib_path, bitbake_path]
->   
->   from image.help import *
->   from image.engine import *
->   
-> +from bb import cookerdata
-> +from bb.main import bitbake_main, BitBakeConfigParameters
-> +
->   def rootfs_dir_to_args(krootfs_dir):
->       """
->       Get a rootfs_dir dict and serialize to string
-> @@ -94,6 +98,7 @@ def wic_create_subcommand(args, usage_str):
->                         action = "store", help = "path to the native sysroot containing the tools to use to build the image")
->       parser.add_option("-p", "--skip-build-check", dest = "build_check",
->                         action = "store_false", default = True, help = "skip the build check")
-> +    parser.add_option("-f", "--build-rootfs", action="store_true", help = "build rootfs")
->       parser.add_option("-D", "--debug", dest = "debug", action = "store_true",
->                         default = False, help = "output debug information")
->   
-> @@ -123,8 +128,6 @@ def wic_create_subcommand(args, usage_str):
->           else:
->               print "Done.\n"
->   
-> -    print "Creating image(s)...\n"
-> -
->       bitbake_env_lines = find_bitbake_env_lines(options.image_name)
->       if not bitbake_env_lines:
->           print "Couldn't get bitbake environment, exiting."
-> @@ -134,9 +137,24 @@ def wic_create_subcommand(args, usage_str):
->       bootimg_dir = ""
->   
->       if options.image_name:
-> +        if options.build_rootfs:
-> +            argv = ["bitbake", options.image_name]
-> +            if options.debug:
-> +                argv.append("--debug")
-> +
-> +            print "Building rootfs...\n"
-> +            if bitbake_main(BitBakeConfigParameters(argv),
-> +                            cookerdata.CookerConfiguration()):
-> +                sys.exit(1)
-> +
->           (rootfs_dir, kernel_dir, bootimg_dir, native_sysroot) \
->               = find_artifacts(options.image_name)
->   
-> +    else:
-> +        if options.build_rootfs:
-> +            print "Image name is not specified, exiting. (Use -e/--image-name to specify it)\n"
-> +            sys.exit(1)
-> +
->       wks_file = args[0]
->   
->       if not wks_file.endswith(".wks"):
-> @@ -194,6 +212,7 @@ def wic_create_subcommand(args, usage_str):
->   
->       rootfs_dir = rootfs_dir_to_args(krootfs_dir)
->   
-> +    print "Creating image(s)...\n"
->       wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
->                  native_sysroot, scripts_path, image_output_dir,
->                  options.debug, options.properties_file)
+So I implemented a class called report-build. Once properly setup, it
+will collect the artifacts writing in a json file. The meaning of
+artifact is: images, packages, sdks, manifest, deploy kernel and bootloader.
+After that, all artifact is collected using another script called 
+send-build-report. This scripts has
+the responsibility to control and send the artifacts (until now using rsync)
+to consolidation server.
+
+The consolidation server is a machine running an instance of 
+build-report-web that
+receives the json payload, creates all the database entry and filesystem 
+places where
+the artifacts will be placed.
+
+On Jenkins I've created Freestyle jobs that  is setup scripts to build 
+the artifacts and
+configures the variables that build-report class use:
+
+BUILD_REPORT_DISTRO ?= "${DISTRO}"
+BUILD_REPORT_DISTRO_VERSION ?= "${DISTRO_VERSION}"
+
+BUILD_REPORT_JOB_RETENTION ?= "1"
+BUILD_REPORT_JOB_ID ?= "job-${DATE}"
+BUILD_REPORT_DIR ?= "${LOG_DIR}/build-report"
+BUILD_REPORT_SERVER ?= "http://127.0.0.1:8000/Builds"
+BUILD_REPORT_USER ?= ""
+BUILD_REPORT_EMAIL ?= ""
+BUILD_REPORT_TYPE ?= "snapshot"
+BUILD_REPORT_DEPLOY_DIR = "${DEPLOY_DIR}"
+
+When the Jenkins runs the job, it only executes the script and 
+report-build is in charge to
+sends the generated artifacts.
+
+So, the users goes to build-report-web tool and inspects and downloads 
+the results.
+
+Here is the very basic web interface:
+
+A home page showing all builds: http://imgur.com/LTqRewq
+
+A detail page to get files (image, sdk, packages): http://imgur.com/gNOtoLO
+
+There are some drawbacks like: the solution uses rsync over ssh to send 
+files and
+the user must setup ssh keys between build machines and consolidation 
+server. But
+this is done only once, to setup the initial environment.
+
+This work was based on ideas from:
+- report-error
+- Error reporting tool
+
+Currently this implementation works using daisy and master. On my 
+production environment
+I need to use daisy but I am doing the same using master on my free time.
+
+
+Implementation links:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=joaohf/master-build-report-tool
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=joaohf/build-report-web
+
+Thanks
+
 
 
