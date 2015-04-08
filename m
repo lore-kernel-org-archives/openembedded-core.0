@@ -1,31 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 34DED736BA
+	by mail.openembedded.org (Postfix) with ESMTP id F1079736BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 02:14:55 +0000 (UTC)
+	Wed,  8 Apr 2015 02:23:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t382EtP6017221
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t382NXqb017950
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Apr 2015 19:14:56 -0700 (PDT)
+	Tue, 7 Apr 2015 19:23:33 -0700 (PDT)
 Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Apr 2015 19:14:55 -0700
-Message-ID: <55248F1E.1080102@windriver.com>
-Date: Wed, 8 Apr 2015 10:14:54 +0800
+	Tue, 7 Apr 2015 19:23:33 -0700
+Message-ID: <55249123.6090008@windriver.com>
+Date: Wed, 8 Apr 2015 10:23:31 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1428410929.git.liezhi.yang@windriver.com>
-	<1849e3c3ca006bb7e3cb406aa5d040eeec226d80.1428410929.git.liezhi.yang@windriver.com>
-	<27D7EBDF-FA94-4B14-B185-69C3BD080239@gmail.com>
-	<55248AAD.7010503@windriver.com>
-	<3E317BE0-D87B-4C04-AC8D-57472F829079@gmail.com>
-In-Reply-To: <3E317BE0-D87B-4C04-AC8D-57472F829079@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1428405830.git.liezhi.yang@windriver.com>	
+	<7c8475e9f21581916595d0ef7d587ce3ec1614a9.1428405830.git.liezhi.yang@windriver.com>
+	<1428442765.14020.482.camel@linuxfoundation.org>
+In-Reply-To: <1428442765.14020.482.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 2/2] bzip2: remove bzip2-dev from PACKAGES
+Subject: Re: [PATCH 10/10] glib-2.0: 2.42.1 -> 2.44.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 02:14:57 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 02:23:35 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 04/08/2015 10:10 AM, Khem Raj wrote:
+On 04/08/2015 05:39 AM, Richard Purdie wrote:
+> On Tue, 2015-04-07 at 04:24 -0700, Robert Yang wrote:
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../{glib-2.0_2.42.1.bb => glib-2.0_2.44.0.bb}     |    4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>   rename meta/recipes-core/glib-2.0/{glib-2.0_2.42.1.bb => glib-2.0_2.44.0.bb} (83%)
+>>
+>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+>> similarity index 83%
+>> rename from meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb
+>> rename to meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+>> index 69b3ef8..100799e 100644
+>> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.42.1.bb
+>> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
+>> @@ -18,5 +18,5 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>>
+>>   SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+>>
+>> -SRC_URI[md5sum] = "89c4119e50e767d3532158605ee9121a"
+>> -SRC_URI[sha256sum] = "8f3f0865280e45b8ce840e176ef83bcfd511148918cc8d39df2ee89b67dcf89a"
+>> +SRC_URI[md5sum] = "74cf7b4ea200b76e42a4c22c8daf0f93"
+>> +SRC_URI[sha256sum] = "f2d362b106a08fa801770d41829a06fcfe287a00421018869eebf5efc796f5b9"
 >
->> On Apr 7, 2015, at 6:55 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->>
->>
->> On 04/08/2015 09:34 AM, Khem Raj wrote:
->>>
->>>> On Apr 7, 2015, at 5:58 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>>
->>>> There should be only one dev package which is libbz2-dev, so remove
->>>> bzip2-dev.
->>>>
->>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>> ---
->>>> meta/recipes-extended/bzip2/bzip2_1.0.6.bb |    3 ++-
->>>> 1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
->>>> index ed12277..d1d1c8d 100644
->>>> --- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
->>>> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
->>>> @@ -17,6 +17,7 @@ SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
->>>> SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
->>>>
->>>> PACKAGES =+ "libbz2 libbz2-dev libbz2-staticdev"
->>>> +PACKAGES_remove = "bzip2-dev bzip2-staticdev”
->>>
->>> why remove ${PN}-dev ? others should be removed IMO
->>
->>
->> I think that it had added libbz2-dev was because debian/ubuntu uses
->> libbz2-dev, the similar to xz.
+> This blew up badly on the autobuilder:
 >
-> we have rpm and opkg hats as well.
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=c8da6d7390ad626c03d5b9b431a97adeaeb60a89
 
-OK, I will remove libbz2-dev as you and RP preferred.
+Sorry, the failures are on CentOS 6.6, please ignore this upgrade atm, I will
+find a CentOS 6.x to fix the problem.
 
-// Robert
-
+>
+> Cheers,
+>
+> Richard
 >
 >
 >
