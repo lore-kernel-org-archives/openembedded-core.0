@@ -1,26 +1,22 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FC06736B6
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7943F724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 18:09:59 +0000 (UTC)
+	Wed,  8 Apr 2015 18:09:58 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2015 11:10:01 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 08 Apr 2015 11:09:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,545,1422950400"; d="scan'208";a="710768997"
+X-IronPort-AV: E=Sophos;i="5.11,545,1422950400"; d="scan'208";a="710768992"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
-	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2015 11:10:02 -0700
+	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2015 11:10:01 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Apr 2015 10:04:45 +0000
-Message-Id: <1e1ad5c399062ca8f3b327ac15f5c10baf6e5d1f.1428487200.git.anibal.limon@linux.intel.com>
+Date: Wed,  8 Apr 2015 10:04:43 +0000
+Message-Id: <cover.1428487200.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1428487200.git.anibal.limon@linux.intel.com>
-References: <cover.1428487200.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1428487200.git.anibal.limon@linux.intel.com>
-References: <cover.1428487200.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] nss: Fix build in x32 ABI
+Subject: [PATCH 0/2] x32 ABI fixes kexec-tools and nss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +33,34 @@ X-List-Received-Date: Wed, 08 Apr 2015 18:10:03 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When try to build nss with x32 ABI enabled fails because
-it need to be specified USE_X32 env var.
+The next changes contains,
 
-[YOCTO #7420]
+	kexec-tools v2 patch that fixes problems related to configure.ac when
+	try to compile enabling zlib.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-support/nss/nss.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+	nss v1 patch that enables x32 build.
 
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 4082930..665e4e6 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -72,6 +72,8 @@ do_compile() {
- 
-     if [ "${SITEINFO_BITS}" = "64" ]; then
-         export USE_64=1
-+    elif [ "${TARGET_ARCH}" = "x86_64" -a "${SITEINFO_BITS}" = "32" ]; then
-+        export USE_X32=1
-     fi
- 
-     # We can modify CC in the environment, but if we set it via an
-@@ -115,6 +117,8 @@ do_install() {
-     fi
-     if [ "${SITEINFO_BITS}" = "64" ]; then
-         export USE_64=1
-+    elif [ "${TARGET_ARCH}" = "x86_64" -a "${SITEINFO_BITS}" = "32" ]; then
-+        export USE_X32=1
-     fi
- 
-     make -C ./nss \
+The following changes since commit a146e8ccfcc9d7f957de60c8634b38bb3431ca04:
+
+  bitbake: runqueue: pass finalized metadata to scenequeue callbacks (2015-04-08 10:53:32 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/x32_abi_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/x32_abi_fixes
+
+Aníbal Limón (1):
+  nss: Fix build in x32 ABI
+
+Mariano Lopez (1):
+  kexec-tools: Add support for build with x32 ABI in x86_64
+
+ .../kexec/kexec-tools/kexec-x32.patch              | 113 +++++++++++++++++++++
+ meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb     |   3 +-
+ meta/recipes-support/nss/nss.inc                   |   4 +
+ 3 files changed, 119 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+
 -- 
 1.8.4.5
 
