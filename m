@@ -1,41 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E01B173C89
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA1E605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Apr 2015 22:02:36 +0000 (UTC)
-Received: by pddn5 with SMTP id n5so92506864pdd.2
+	Wed,  8 Apr 2015 01:34:37 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so40403925pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Apr 2015 15:02:37 -0700 (PDT)
+	Tue, 07 Apr 2015 18:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=nQOhEkQdiYBAWW3PrphT4/MQUoNDkZx91BTPGnlPP1E=;
-	b=l+PwQA9zzbhG+jmIUrivvakWDdF/1VjcDGnbvO1jCzT4cXA+oPedDB78GLNr29Xx7O
-	3uxabD2x8aFOFNUqc+jsSjcRg5jKy5nUZp7F6tsoB2csWakXP0w/A20xyY3CXRfDKV95
-	/JMpx2Lz2mh67mFfSxiQ1IwpcO/myP+cfxl4p6gRlKNaqcyVZ/DRUMQrKQYaE02uQzv4
-	O4GwRjWQR5/7xkz/0ikyLzxrlMjMnxflGB/PKMVO6yzWfm6KAb9LmyBFIUuVzM46gt3s
-	dE1G/fhfdmoGhWlfG1hyKMj9s9b4O89P94ieOGoyRsoPdgaJ4atYCJ29O0WSYIdoOdjL
-	QlvQ==
-X-Received: by 10.70.44.76 with SMTP id c12mr40840540pdm.49.1428444157658;
-	Tue, 07 Apr 2015 15:02:37 -0700 (PDT)
-Received: from ?IPv6:2601:9:500:ece:6173:5e9d:a616:6d78?
-	([2601:9:500:ece:6173:5e9d:a616:6d78])
-	by mx.google.com with ESMTPSA id pb2sm9109758pdb.33.2015.04.07.15.02.36
+	bh=/womKixCIzAVt0DqERV88MCl/M7t8dZ8ln9yMbBRpG0=;
+	b=dR/3yiJXI7AiLttTTqwpZE7jAqlPUqte6pFcW7e9zldFl6lL732BNO3fn3bMh4o7Ar
+	Quioo+MxeqYrUs62YBWK22jLLJbP5tk9HIxq8Dwf4yExZjlmgZu4jzmAihUTOILE84px
+	i9/qdO+ONm5ZAuXwA1PBi2EAMXuoR1SXYBd9BtxRE4lY8k17wrpv/FQ2+tRauz+6KOU/
+	FLC4hpRZuTGQ8rOU2G7HlGeLdzyKGUyhVL/ZyHG8rgVy1kN+lpW7eIqTnrE0X5RDK8tF
+	nkeKjHlNH0O2WEDvH4msdITFHL7iWOOSuyS6H6rgkBmOsKfqydN7kvfqZCCMhq12PlvB
+	RRvA==
+X-Received: by 10.70.35.130 with SMTP id h2mr41967134pdj.28.1428456878918;
+	Tue, 07 Apr 2015 18:34:38 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:4c5a:4d1d:52d6:ba3f?
+	([2601:9:3580:84c:4c5a:4d1d:52d6:ba3f])
+	by mx.google.com with ESMTPSA id pv4sm9168949pbb.17.2015.04.07.18.34.37
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 07 Apr 2015 15:02:36 -0700 (PDT)
+	Tue, 07 Apr 2015 18:34:37 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1428443770.14020.483.camel@linuxfoundation.org>
-Date: Tue, 7 Apr 2015 15:02:35 -0700
-Message-Id: <9784A816-8575-4934-8ED6-EB4D2105D367@gmail.com>
-References: <1428418272.14020.467.camel@linuxfoundation.org>
-	<F8FD5455-119C-4814-8871-320AF0E7B72F@gmail.com>
-	<1428443770.14020.483.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1849e3c3ca006bb7e3cb406aa5d040eeec226d80.1428410929.git.liezhi.yang@windriver.com>
+Date: Tue, 7 Apr 2015 18:34:36 -0700
+Message-Id: <27D7EBDF-FA94-4B14-B185-69C3BD080239@gmail.com>
+References: <cover.1428410929.git.liezhi.yang@windriver.com>
+	<1849e3c3ca006bb7e3cb406aa5d040eeec226d80.1428410929.git.liezhi.yang@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 X-Mailer: Apple Mail (2.2070.6)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: Allow gold to build even when not the default
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 2/2] bzip2: remove bzip2-dev from PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,56 +47,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Apr 2015 22:02:37 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 01:34:38 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Apr 7, 2015, at 2:56 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
+> On Apr 7, 2015, at 5:58 AM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
 >=20
-> On Tue, 2015-04-07 at 12:33 -0700, Khem Raj wrote:
->>> On Apr 7, 2015, at 7:51 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->>>=20
->>> It can be useful to have gold available for testing even when its =
-not the
->>> default, therefore build gold by default in all configurations.
->>>=20
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>=20
->>> diff --git a/meta/recipes-devtools/binutils/binutils.inc =
-b/meta/recipes-devtools/binutils/binutils.inc
->>> index afb582a..3c65efc 100644
->>> --- a/meta/recipes-devtools/binutils/binutils.inc
->>> +++ b/meta/recipes-devtools/binutils/binutils.inc
->>> @@ -73,7 +73,7 @@ EXTRA_OECONF =3D =
-"--program-prefix=3D${TARGET_PREFIX} \
->>>=20
->>> LDGOLD_class-native =3D ""
->>> LDGOLD_class-crosssdk =3D ""
->>> -LDGOLD ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', =
-'--enable-gold=3Ddefault --enable-threads', '', d)}"
->>> +LDGOLD ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', =
-'--enable-gold=3Ddefault --enable-threads', '--enable-gold =
---enable-ld=3Ddefault', d)}=E2=80=9D
->>>=20
->>=20
->> may be enable-gold could be done unconditionally ? and then =
-=E2=80=94enable-gold|ld=3Ddefault controlled with ld-is-gold ?
->> ld-is-gold anyway meant that default linker is gold, it did not mean
->> to just build gold, so we are not changing semantics
+> There should be only one dev package which is libbz2-dev, so remove
+> bzip2-dev.
 >=20
-> The above effectively does mean we're always building gold, it just
-> controls whether ld is gold or not as before?
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+> meta/recipes-extended/bzip2/bzip2_1.0.6.bb |    3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
+> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb =
+b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+> index ed12277..d1d1c8d 100644
+> --- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+> @@ -17,6 +17,7 @@ SRC_URI[md5sum] =3D =
+"00b516f4704d4a7cb50a1d97e6e8e15b"
+> SRC_URI[sha256sum] =3D =
+"a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
+>=20
+> PACKAGES =3D+ "libbz2 libbz2-dev libbz2-staticdev"
+> +PACKAGES_remove =3D "bzip2-dev bzip2-staticdev=E2=80=9D
 
-yes but only for cross toolchain. I was suggesting was to incorporate =
-=E2=80=94enable-gold generally for all binutils variants
-while keeping ld.bfd as default.=20
+why remove ${PN}-dev ? others should be removed IMO
 
-> Cheers,
 >=20
-> Richard
+> CFLAGS_append =3D " -fPIC -fpic -Winline -fno-strength-reduce =
+-D_FILE_OFFSET_BITS=3D64"
+>=20
+> @@ -35,7 +36,7 @@ do_install_ptest () {
+>=20
+> FILES_libbz2 =3D "${libdir}/lib*${SOLIBS}"
+>=20
+> -FILES_libbz2-dev =3D "${includedir} ${libdir}/lib*${SOLIBSDEV}"
+> +FILES_libbz2-dev =3D "${includedir} ${libdir}/lib*${SOLIBSDEV} =
+${libdir}/lib*.la"
+> SECTION_libbz2-dev =3D "devel"
+> RDEPENDS_libbz2-dev =3D "libbz2 (=3D ${EXTENDPKGV})"
+>=20
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
