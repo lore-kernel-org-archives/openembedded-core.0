@@ -1,37 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 92B3173D2A
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 06FBF60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 12:40:45 +0000 (UTC)
-Received: by wizk4 with SMTP id k4so53346313wiz.1
+	Wed,  8 Apr 2015 13:32:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t38DWeqd029404
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Apr 2015 05:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cICLlGAZ8awDdKkcoVuunMVz4sBI+0aEOE85BFRrJSY=;
-	b=UQUe1eXQvnrLw0kBtAWQodGtnYSOoGoJ8Z6GpEIHG6B3QzNEee3w0us7KSjp5332cb
-	aBw/i++bAQsMaZRUnvH1IJCZoMmyp+HsDAcDYwGRRaBxghYfkmXVfT23FUDTiO2/VrA7
-	LAHsTbtQl65YvthggnOXyVF5Z6bvsnNatxncAZlmfXwOUK34VpDbkX2qaHd95+WidEXC
-	ITbv3QkVYkEBCjbGwTmLeNL9RnOMWC2MLPi6pjemYuVYshj5SyCNsQJYD2Oxlr7BqgpH
-	f0YFtOH53O9RnikjD4jGODC/Y03zWw+UsUgKmwIIqdXCUSUQbCEgSPyu0r6yjyUI0qj1
-	VZsA==
-X-Received: by 10.181.25.225 with SMTP id it1mr13968067wid.8.1428496845962;
-	Wed, 08 Apr 2015 05:40:45 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	lx10sm15465407wjb.17.2015.04.08.05.40.44
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Apr 2015 05:40:45 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Apr 2015 14:40:45 +0200
-Message-Id: <1428496845-32389-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1428496845-32389-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1428496845-32389-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] pango: fix postinst
+	Wed, 8 Apr 2015 06:32:40 -0700 (PDT)
+Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 8 Apr 2015 06:32:39 -0700
+Message-ID: <55252DF7.6020302@windriver.com>
+Date: Wed, 8 Apr 2015 09:32:39 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1428488582.git.Qi.Chen@windriver.com>
+	<ed4cad55a71d818c5a126e07f7b86151473eeb93.1428488582.git.Qi.Chen@windriver.com>
+In-Reply-To: <ed4cad55a71d818c5a126e07f7b86151473eeb93.1428488582.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.56.84]
+Subject: Re: [PATCH 4/6] sudo: upgrade to 1.8.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +36,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 12:40:46 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 13:32:41 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* merge postinst_prologue with the append in the do_split_packages call
-  Now we can call correct pango-querymodules binary and respect D
-  variable, otherwise we're trying to regenerate it on host which fails:
-  pango-module-basic-fc.postinst: line 17: /usr/bin/pango-querymodules:
-  No such file or directory
+On 2015-04-08 06:24 AM, Chen Qi wrote:
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-extended/sudo/sudo.inc                          | 12 +++---------
+>   .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}                |  4 ++--
+>   2 files changed, 5 insertions(+), 11 deletions(-)
+>   rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
+>
+> diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+> index 6e9aec8..2d411f3 100644
+> --- a/meta/recipes-extended/sudo/sudo.inc
+> +++ b/meta/recipes-extended/sudo/sudo.inc
+> @@ -4,12 +4,12 @@ HOMEPAGE = "http://www.sudo.ws"
+>   BUGTRACKER = "http://www.sudo.ws/bugs/"
+>   SECTION = "admin"
+>   LICENSE = "ISC & BSD & Zlib"
+> -LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=69e337d679950e304953813158595256 \
+> -                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=e2dbb155fc49beea947515300bab99e0 \
+> +LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
+> +                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
+>                       file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+>                       file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+>                       file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
+> -                    file://lib/util/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea \
+> +                    file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
+>                       file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+>                       file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
+>
+> @@ -22,12 +22,6 @@ CONFFILES_${PN} = "${sysconfdir}/sudoers"
+>
+>   EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
+>
+> -do_configure_prepend () {
+> -	if [ ! -e ${S}/acinclude.m4 ]; then
+> -		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
+> -	fi
+> -}
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/pango/pango.inc | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Is this really safe to drop?
+If so please explain why in the long log.
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index b59d33d..df0fdf6 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -46,12 +46,12 @@ EXTRA_OECONF = "--disable-introspection \
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.8.0"
- 
--postinst_prologue() {
-+pango_postinst() {
- if ! [ -e $D${sysconfdir}/pango ] ; then
- 	mkdir -p $D${sysconfdir}/pango
- fi
- 
--if [ "x$D" != "x" ]; then
-+if [ -n "$D" ]; then
- 	${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
- 		$D${libdir}/pango/${LIBV}/modules/*.so \
- 		> $D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
-@@ -61,6 +61,8 @@ if [ "x$D" != "x" ]; then
- 	sed -i -e "s:$D::" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
- 
- 	exit 0
-+else
-+	${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules
- fi
- }
- 
-@@ -79,11 +81,11 @@ do_install_append () {
- 
- 
- python populate_packages_prepend () {
--    prologue = d.getVar("postinst_prologue", True)
-+    pango_postinst = d.getVar("pango_postinst", True)
- 
-     modules_root = d.expand('${libdir}/pango/${LIBV}/modules')
- 
--    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + '${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules')
-+    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', pango_postinst)
- }
- 
- FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
+../Randy
+> -
+>   # mksigname/mksiglist are used on build host to generate source files
+>   do_compile_prepend () {
+>   	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C lib/util mksigname mksiglist
+> diff --git a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+> similarity index 87%
+> rename from meta/recipes-extended/sudo/sudo_1.8.11p2.bb
+> rename to meta/recipes-extended/sudo/sudo_1.8.13.bb
+> index c5e2545..4494170 100644
+> --- a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb
+> +++ b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+> @@ -6,8 +6,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+>
+>   PAM_SRC_URI = "file://sudo.pam"
+>
+> -SRC_URI[md5sum] = "84012b4871b6c775c957cd310d5bad87"
+> -SRC_URI[sha256sum] = "8133849418fa18cf6b6bb6893d1855ff7afe21db8923234a00bf045c90fba1ad"
+> +SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
+> +SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
+>
+>   DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>   RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+>
+
+
 -- 
-2.3.5
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200 Ottawa, Ontario, 
+Canada K2K 2W5
 
