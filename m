@@ -1,36 +1,39 @@
-Return-Path: <naresh.bhat@linaro.org>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 4269D73CC5
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 65B3A60097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 07:15:49 +0000 (UTC)
-Received: by obbeb7 with SMTP id eb7so50603805obb.3
+	Wed,  8 Apr 2015 07:42:38 +0000 (UTC)
+Received: by obbgh1 with SMTP id gh1so119627739obb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Apr 2015 00:15:51 -0700 (PDT)
+	Wed, 08 Apr 2015 00:42:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=abAvm6Rusz9ANTMruxQUP+jpkBvhhD3MADuQro3gxfw=;
-	b=bSofX1tiSHS9WgpHTM7h60pjLMus+FNO7dgYbxQooVzkuNUF2wb8vi2G2rmftMS6F6
-	qFLPNVnZxoo8FvFPX5MoT3Z7/3P3SyI5JUELQe4alv+V4acr+p/1JtuOCTAQeIlnAvKI
-	9GkWBO7xZVsZdXwxwp+uQArouGniiIK2Cl0v0ZcocRjUW0tJ2QspnhF+NYhBwtdJkLw2
-	Np757JIK/xuBZvrLtKfjrbU7zxXDqgHcE+rGouCaZ4WSFQ6j3F50agpF9KhI6gQs4Zff
-	1T1knN7EXCs9ZDrv8e5Wra4STWoIHW+Cmi0ynLh9Oujin7nInvlbpzQ/YqsWSAvWW9FD
-	BQUw==
-X-Gm-Message-State: ALoCoQmpr70hlYWBg5U1OtdClMEDXBfNvt3j9Iu4KmL55KRWdpBCoj810Zctt+rVMnkzaOt8mwVY
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CIY3iUbTG2DvTPMUWQ9tbxyrEjoMeE5IZYf2FYx2jSM=;
+	b=k4XzzU2E6nge3/UAjSdgyK936Wi/s7C8PYgpjplClKf9on5vvW5IVswUR+XZR1jn73
+	sq7gP4DaB/1dvac7IXZj+nXiEKABvWnnJTfBauVF22h3sFuBGMN+y8o17Joab+8qd6qS
+	cLorgFHZC9L+TZ8XBUGKMgCYs6TxtjMvRAnhAyhnr/2dQrb4pdBnG/pjoCnyOHJ/K5Ns
+	9xzcgAq86dEJYJar92AHtRER68eedp5fF6l6glaen5hRJJDEIf5dx6Jt8PGGGIhNzUd1
+	B6DwIGZwLAcnuoMghdwbO1k+Q6vNi1tY17Lh+5wj3nlN3nYHZDZ79Zi1jJOWKZ8Z3/DJ
+	D2ag==
+X-Gm-Message-State: ALoCoQk9GBQTjQZ3hgWWw8t1mO/AWfyiQ+nClU2F4ar0AS2TBRhueRHhXoWdK5inbCo23WFg1+Il
+X-Received: by 10.182.74.166 with SMTP id u6mr30151071obv.68.1428478959790;
+	Wed, 08 Apr 2015 00:42:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.52.19 with SMTP id p19mr78044oeo.37.1428477351124; Wed,
-	08 Apr 2015 00:15:51 -0700 (PDT)
-Received: by 10.60.98.242 with HTTP; Wed, 8 Apr 2015 00:15:51 -0700 (PDT)
-In-Reply-To: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
-References: <1426678029-19516-1-git-send-email-naresh.bhat@linaro.org>
-Date: Wed, 8 Apr 2015 12:45:51 +0530
-Message-ID: <CAFoFrHZLi0mdvxj8Go1eEviFzfaDmvBOOkUng5YC67f0QzAn7A@mail.gmail.com>
-From: Naresh Bhat <naresh.bhat@linaro.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Cc: Matt Fleming <matt.fleming@intel.com>
-Subject: Re: [OE-core v2 PATCH 0/5] aarch64 changes for meta layer
+Received: by 10.202.92.139 with HTTP; Wed, 8 Apr 2015 00:42:08 -0700 (PDT)
+In-Reply-To: <55249123.6090008@windriver.com>
+References: <cover.1428405830.git.liezhi.yang@windriver.com>
+	<7c8475e9f21581916595d0ef7d587ce3ec1614a9.1428405830.git.liezhi.yang@windriver.com>
+	<1428442765.14020.482.camel@linuxfoundation.org>
+	<55249123.6090008@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 8 Apr 2015 10:42:08 +0300
+Message-ID: <CAHiDW_FjO_0BP9+AoQDbS=Y268oUs1TXBhNh2_Vti_yhdMap-A@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/10] glib-2.0: 2.42.1 -> 2.44.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 07:15:55 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 07:42:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 March 2015 at 16:57, Naresh Bhat <naresh.bhat@linaro.org> wrote:
-> I am adding the support of aarch64 to LUV OS Distribution project.
-> The luv-yocto project is based on poky distribution.
+On 8 April 2015 at 05:23, Robert Yang <liezhi.yang@windriver.com> wrote:
+> On 04/08/2015 05:39 AM, Richard Purdie wrote:
+>> This blew up badly on the autobuilder:
+>>
+>> http://errors.yoctoproject.org/Errors/Search/?items=10&query=c8da6d7390ad626c03d5b9b431a97adeaeb60a89
 >
-> https://01.org/linux-uefi-validation
->
-> While adding support I find that these are the few meta layer changes,
-> which I have been asked to upstream. If we merge these changes into
-> openembedded-core it will be more helpful to maintain the minimum set
-> patches at dependency projects like luv-yocto.
->
-> Changes since V0:[RFC series]
-> - grub: grub-efi: bootimg: Include all the chages suggested by Bernhard Reutner-Fischer
-> - grub: Add grub recipe changes suggested by Burton Ross
->
-> Changes since V1:
-> - grub: More documentation on grub recipe and remove CACHED_CONFIGUREVARS as suggested by Richard Purdie
-> - bootimg: Add NOISO as suggested by Bernhard Reutner-Fischer
-> - syslinux: Impliment as suggested by Richard Purdie
->
-> -Naresh
->
-> Naresh Bhat (5):
->   bootimg: Add support to install Image
->   syslinux: Remove bootimg dependency on aarch64
->   bootimg: Skip iso image build on aarch64
->   grub-efi: Add to support to install grubaa64 efi
->   grub: Update grub git recipe
-Ping,
-Are you going to pick up any patches (out of above 5) in 1.9 release ?
->
->  meta/classes/bootimg.bbclass      |   12 ++++++++--
->  meta/classes/grub-efi.bbclass     |   17 +++++++++-----
->  meta/classes/syslinux.bbclass     |    5 +++-
->  meta/recipes-bsp/grub/grub_git.bb |   47 +++++++++++++++++++++++++++++++------
->  4 files changed, 65 insertions(+), 16 deletions(-)
->
-> --
-> 1.7.9.5
->
+> Sorry, the failures are on CentOS 6.6, please ignore this upgrade atm, I
+> will
+> find a CentOS 6.x to fix the problem.
+
+That's typedef redefinition (C11 feature and supported by gcc for
+quite a while). Why does CentOS specifically choke on that?
+
+Anyway, upstream has decided to roll this back: apparently some gcc
+versions that are still in use do not support the feature.
+GLib commit 4a292721bc should help.
+
+Jussi
 
