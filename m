@@ -1,26 +1,44 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7853260089
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 957A860089
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 18:09:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 08 Apr 2015 11:10:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,545,1422950400"; d="scan'208";a="710768996"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2015 11:10:02 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Apr 2015 10:04:44 +0000
-Message-Id: <781aa0f2b865b5bb3c3eff7bce50385118ea8701.1428487200.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1428487200.git.anibal.limon@linux.intel.com>
-References: <cover.1428487200.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1428487200.git.anibal.limon@linux.intel.com>
-References: <cover.1428487200.git.anibal.limon@linux.intel.com>
+	Wed,  8 Apr 2015 19:15:38 +0000 (UTC)
+Received: by igblo3 with SMTP id lo3so47136082igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Apr 2015 12:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=urQiett0oRop4Lrd/uaCPlXAU9zW7bjnXGB76rqmF+8=;
+	b=RYxUrhxWp9KCnSLUOfYfooaRZ0442sVAH2EAUc4xtI3RzkDEdkEUZmfNlTlVTo8NRu
+	5FiUmEvC1Wt8f+b60AYL87G1H4MeRStCCTDorVfRA36V0fBGqkeV7kIf0jMekz0gB0EV
+	Fr55J1t3nK6qvHjzZMSkN//euiND0pRd7InwK8zE1I5h6rO3uFWXMHHr+X/oAvjhlLkl
+	E0YqJ/EH6wRwHlwZlAy+QlMfHCTRzqLAZPxg2I/Ss+vfNaef5rTiVPspDRIluGRSaWpQ
+	6MAOpI6VvLbquHjVCyILUp287v8n/NAtrnX2Vy07OnLJSCCkg6cvFsp/VneT20RIf9z4
+	fhOA==
+X-Received: by 10.107.155.131 with SMTP id d125mr41291788ioe.17.1428520540132; 
+	Wed, 08 Apr 2015 12:15:40 -0700 (PDT)
+Received: from [192.168.34.210] (static-66-11-92-234.ptr.terago.net.
+	[66.11.92.234])
+	by mx.google.com with ESMTPSA id v14sm5181622igd.12.2015.04.08.12.15.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Apr 2015 12:15:39 -0700 (PDT)
+Message-ID: <55257E5A.2030604@gmail.com>
+Date: Wed, 08 Apr 2015 15:15:38 -0400
+From: trevor <twoerner@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Subject: [PATCHv2 1/2] kexec-tools: Add support for build with x32 ABI in x86_64
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	Cliff Brake <cbrake@bec-systems.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	angstrom-distro-devel <Angstrom-distro-devel@linuxtogo.org>
+References: <CAOd_LFx8=tqK64c=Xyq3Yqk+LX2aGeZfpGOmpgpk-hvkb_2Cww@mail.gmail.com>
+	<551D41A7.1050409@windriver.com>
+In-Reply-To: <551D41A7.1050409@windriver.com>
+Subject: Re: failure in gcc-crosssdk-initial was populate_sdk error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,161 +51,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 18:10:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Apr 2015 19:15:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On 15-04-02 09:18 AM, Mark Hatle wrote:
+> On 4/1/15 5:17 PM, Cliff Brake wrote:
+>> Hi,
+>>
+>> I'm getting the following when running populate_sdk with a dizzy build.
+>>
+>> Angstrom distro
+>> workstation OS is debian wheezy
+>> gcc (Debian 4.7.2-5) 4.7.2
+>>
+>> Any thoughts what I'm doing wrong?
+>>
+>> Thanks,
+>> Cliff
+>>
+>> NOTE: Preparing runqueue
+>> NOTE: Executing SetScene Tasks
+>> NOTE: Executing RunQueue Tasks
+>> ERROR: Function failed: do_configure (log file is located at
+>> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863)
+>> ERROR: Logfile of failure stored in:
+>> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/log.do_configure.23863
+>> Log data follows:
+>> | DEBUG: Executing python function sysroot_cleansstate
+>> | DEBUG: Python function sysroot_cleansstate finished
+>> | DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+>> 'bit-64', 'x86_64-linux', 'common']
+>> | DEBUG: Executing shell function autotools_preconfigure
+>> | DEBUG: Shell function autotools_preconfigure finished
+>> | DEBUG: Executing python function autotools_copy_aclocals
+>> | DEBUG: Python function autotools_copy_aclocals finished
+>> | DEBUG: Executing python function gcc_multilib_setup
+>> | DEBUG: Python function gcc_multilib_setup finished
+>> | DEBUG: Executing shell function do_configure
+>> | cat: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work-shared/gcc-4.9.1-r0/gcc-4.9.1/gcc/defaults.h:
+>> No such file or directory
+>> | WARNING: /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/temp/run.do_configure.23863:1
+>> exit 1 from
+>> |   grep -v "\#endif.*GCC_DEFAULTS_H" >
+>> /scratch/fmc-accuload/oe-build-bbb/build/tmp-angstrom_v2014_12-glibc/work/x86_64-angstromsdk-linux/gcc-crosssdk-initial-x86_64/4.9.1-r0/gcc-4.9.1/build.x86_64-linux.x86_64-angstromsdk-linux/gcc/defaults.h.new
+>> | ERROR: Function failed: do_configure (log file is located at
+> The above lines are the actual failure.  The failure was in configuring the
+> recipe 'gcc-cross-initial-x86_64'.
+>
+> I do not know the caue of the failure, but the issue is obvious enough, it was
+> trying to load the 'defaults.h' file and modify a few settings in it.
+>
+> The code in question is in 'meta/recipes-devtools/gcc/gcc-configure-common.inc':
+>
 
-Add autoconf test for detect when build is x32 ABI this enables to
-test into purgatory Makefile to avoid use -mcmodel=large flag in CC.
+I noted the exact same problem/error over on the Angstrom mailing list, 
+I'll know next time to check here too :-)
 
-Add ELFCLASS read and syscall number into kexec, see patch.
-
-[YOCTO #7419]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- .../kexec/kexec-tools/kexec-x32.patch              | 113 +++++++++++++++++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb     |   3 +-
- 2 files changed, 115 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
-
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
-new file mode 100644
-index 0000000..0bd3264
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
-@@ -0,0 +1,113 @@
-+x86_64: Add support to build kexec-tools with x32 ABI
-+
-+Summary of changes,
-+
-+configure.ac: Add test for detect x32 ABI.
-+purgatory/arch/x86_64/Makefile: Not use mcmodel large when
-+	x32 ABI is set.
-+kexec/arch/x86_64/kexec-elf-rel-x86_64.c: When x32 ABI is set
-+	use ELFCLASS32 instead of ELFCLASS64.
-+kexec/kexec-syscall.h: Add correct syscall number for x32 ABI.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-+
-+---
-+ configure.ac                             | 9 +++++++++
-+ kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 4 ++++
-+ kexec/kexec-syscall.h                    | 4 ++++
-+ purgatory/arch/x86_64/Makefile           | 4 +++-
-+ 4 files changed, 20 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index c410e90..1ecadd5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -52,6 +52,15 @@ case $target_cpu in
-+ 		;;
-+ 	ia64|x86_64|alpha|m68k )
-+ 		ARCH="$target_cpu"
-++
-++		dnl ---Test for x32 ABI in x86_64
-++		if test "x$ARCH" = "xx86_64" ; then
-++			AC_EGREP_CPP(x32_test,
-++			[#if defined(__x86_64__) && defined (__ILP32__)
-++				x32_test
-++			#endif
-++			], SUBARCH='x32', SUBARCH='64')
-++		fi
-+ 		;;
-+ 	* )
-+ 		AC_MSG_ERROR([unsupported architecture $target_cpu])
-+diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+index c795037..06db7f0 100644
-+--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_ehdr *ehdr)
-+ 	if (ehdr->ei_data != ELFDATA2LSB) {
-+ 		return 0;
-+ 	}
-++#ifdef __ILP32__
-++	if (ehdr->ei_class != ELFCLASS32) {
-++#else
-+ 	if (ehdr->ei_class != ELFCLASS64) {
-++#endif
-+ 		return 0;
-+ 	}
-+ 	if (ehdr->e_machine != EM_X86_64) {
-+diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
-+index ce2e20b..cab5535 100644
-+--- a/kexec/kexec-syscall.h
-++++ b/kexec/kexec-syscall.h
-+@@ -31,8 +31,12 @@
-+ #define __NR_kexec_load		268
-+ #endif
-+ #ifdef __x86_64__
-++#ifdef __ILP32__
-++#define __NR_kexec_load		528
-++#else
-+ #define __NR_kexec_load		246
-+ #endif
-++#endif
-+ #ifdef __s390x__
-+ #define __NR_kexec_load		277
-+ #endif
-+diff --git a/purgatory/arch/x86_64/Makefile b/purgatory/arch/x86_64/Makefile
-+index 7300937..4af11e4 100644
-+--- a/purgatory/arch/x86_64/Makefile
-++++ b/purgatory/arch/x86_64/Makefile
-+@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/i386/console-x86.c
-+ x86_64_PURGATORY_SRCS += purgatory/arch/i386/vga.c
-+ x86_64_PURGATORY_SRCS += purgatory/arch/i386/pic.c
-+ 
-+-x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
-++ifeq ($(SUBARCH),64)
-++        x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
-++endif
-+-- 
-+1.8.4.5
-+
-+diff --git a/configure.ac b/configure.ac
-+index 1ecadd5..e0b5f78 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -8,6 +8,7 @@ AC_INIT(kexec-tools, 2.0.10.git)
-+ AC_CONFIG_AUX_DIR(./config)
-+ AC_CONFIG_HEADERS([include/config.h])
-+ AC_LANG(C)
-++AC_PROG_CC
-+ 
-+ AC_DEFINE_UNQUOTED(PACKAGE_DATE, "`date '+%d %B %Y'`",
-+ 		[Define to the release date of this package])
-+@@ -106,9 +107,6 @@ AC_ARG_WITH([booke],
-+ 
-+ dnl ---Programs
-+ dnl To specify a different compiler, just 'export CC=/path/to/compiler'
-+-
-+-AC_PROG_CC
-+-
-+ if test "${build}" != "${host}" ; then
-+ 	AC_CHECK_PROGS(BUILD_CC, [${build_alias}-gcc ${build}-gcc gcc])
-+ else
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-index c0c2727..36e4c15 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-@@ -4,7 +4,8 @@ EXTRA_OECONF = " --with-zlib=yes"
- 
- SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch \
-             file://kexec-aarch64.patch \
--           "
-+            file://kexec-x32.patch \
-+         "
- 
- SRC_URI[md5sum] = "4ecb7ab7ad9eb6ce413899bdb07a8426"
- SRC_URI[sha256sum] = "c2c6d204fe0911ebd304c40100163237feca4c5a854a2cca382ee36916a573d8"
--- 
-1.8.4.5
-
+What I noticed is that I don't see the problem when my DISTRO is "poky" 
+or "nodistro", it also doesn't seem to be affected by using the Linaro 
+toolchain or not. I believe it is "angstrom-next" and 
+"angstrom-v2013.12" related.
 
