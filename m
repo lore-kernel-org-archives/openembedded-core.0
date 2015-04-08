@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DAFA73D36
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AFCB673D44
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 10:24:07 +0000 (UTC)
+	Wed,  8 Apr 2015 10:24:08 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t38AO9qi008646
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t38AOAtN021393
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Apr 2015 03:24:09 -0700 (PDT)
+	Wed, 8 Apr 2015 03:24:10 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Apr 2015 03:24:08 -0700
+	14.3.224.2; Wed, 8 Apr 2015 03:24:09 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Apr 2015 18:24:13 +0800
-Message-ID: <4426424a3ef58286f00a94386d76eb4ff6847b1c.1428488582.git.Qi.Chen@windriver.com>
+Date: Wed, 8 Apr 2015 18:24:14 +0800
+Message-ID: <86e3402cca49327b5e9e7c9367198a675974112f.1428488582.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1428488582.git.Qi.Chen@windriver.com>
 References: <cover.1428488582.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] sysstat: upgrade to 11.1.3
+Subject: [PATCH 6/6] xz: upgrade to 5.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 10:24:07 -0000
+X-List-Received-Date: Wed, 08 Apr 2015 10:24:08 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} | 4 ++--
+ meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} (40%)
+ rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.0.2.bb b/meta/recipes-extended/sysstat/sysstat_11.1.3.bb
-similarity index 40%
-rename from meta/recipes-extended/sysstat/sysstat_11.0.2.bb
-rename to meta/recipes-extended/sysstat/sysstat_11.1.3.bb
-index ce83f4f..061f3db 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.0.2.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.1.3.bb
-@@ -2,5 +2,5 @@ require sysstat.inc
+diff --git a/meta/recipes-extended/xz/xz_5.2.0.bb b/meta/recipes-extended/xz/xz_5.2.1.bb
+similarity index 92%
+rename from meta/recipes-extended/xz/xz_5.2.0.bb
+rename to meta/recipes-extended/xz/xz_5.2.1.bb
+index 3439ec9..a197f91 100644
+--- a/meta/recipes-extended/xz/xz_5.2.0.bb
++++ b/meta/recipes-extended/xz/xz_5.2.1.bb
+@@ -25,8 +25,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+-SRC_URI[md5sum] = "be585bdf8672e4406632eda3d819e284"
+-SRC_URI[sha256sum] = "231ef369982240bb20ed7cffa52bb12a4a297ce6871f480ab85e8a7ba98bf3d6"
++SRC_URI[md5sum] = "3e44c766c3fb4f19e348e646fcd5778a"
++SRC_URI[sha256sum] = "b918b6648076e74f8d7ae19db5ee663df800049e187259faf5eb997a7b974681"
  
--SRC_URI[md5sum] = "27d4ca66869dce132ace3194dd7d7539"
--SRC_URI[sha256sum] = "acd87fdfbe7c796480f14fc26119d8f785d26827d74a0f5bced6c492a91f1b96"
-+SRC_URI[md5sum] = "27385bcb6c1e585de8ba7cb25ac67aef"
-+SRC_URI[sha256sum] = "ddbd07dfac47bcf0a6c2ae503bd80ad84dbed80c939d3dd333eb8453c38c337b"
+ inherit autotools gettext
+ 
 -- 
 1.9.1
 
