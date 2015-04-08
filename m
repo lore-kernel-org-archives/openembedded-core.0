@@ -1,29 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 984CF737EE
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EA6B73D2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 10:13:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t38ADae4000650; Wed, 8 Apr 2015 11:13:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cSIJnzlfjLRN; Wed,  8 Apr 2015 11:13:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t38ADe0E000667
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 8 Apr 2015 11:13:52 +0100
-Message-ID: <1428488020.19008.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Wed, 08 Apr 2015 11:13:40 +0100
-In-Reply-To: <1427387018-6923-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1427387018-6923-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kexec-tools: Add support for build with x32 ABI in x86_64
+	Wed,  8 Apr 2015 10:24:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t38AO3dU021354
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Apr 2015 03:24:03 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 8 Apr 2015 03:24:03 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Apr 2015 18:24:08 +0800
+Message-ID: <cover.1428488582.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/6] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 10:13:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Apr 2015 10:24:04 -0000
+Content-Type: text/plain
 
-On Thu, 2015-03-26 at 16:23 +0000, Aníbal Limón wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> 
-> Add autoconf test for detect when build is x32 ABI this enables to
-> test into purgatory Makefile to avoid use -mcmodel=large flag in CC.
-> 
-> Add ELFCLASS read and syscall number into kexec, see patch.
-> 
-> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+The following changes since commit ca228b117abe3dc40c996a006c9cbea91c17ccea:
 
-I think this patch triggered the exec-tools failures on:
+  gcc-4.8: Upgrade 4.8.2 -> 4.8.4 (2015-04-08 10:45:28 +0100)
 
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=9d913272ccf821fbf6f8a5f176005135d48ae33a
+are available in the git repository at:
 
-although I have to admit I don't understand how. Removing the patch
-allowed clean builds.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/package-upgrade-20150408
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/package-upgrade-20150408
 
-Cheers,
+Chen Qi (6):
+  curl: upgrade to 7.41.0
+  busybox: upgrade to 1.23.2
+  kmod: upgrade to 20
+  sudo: upgrade to 1.8.13
+  sysstat: upgrade to 11.1.3
+  xz: upgrade to 5.2.1
 
-Richard
+ .../{busybox_1.23.1.bb => busybox_1.23.2.bb}       |  4 +--
+ meta/recipes-core/busybox/busybox_git.bb           |  4 +--
+ meta/recipes-extended/sudo/sudo.inc                | 12 +++------
+ .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}      |  4 +--
+ .../{sysstat_11.0.2.bb => sysstat_11.1.3.bb}       |  4 +--
+ .../xz/{xz_5.2.0.bb => xz_5.2.1.bb}                |  4 +--
+ meta/recipes-kernel/kmod/kmod.inc                  |  5 ++--
+ ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
+ ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
+ .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
+ .../curl/{curl_7.40.0.bb => curl_7.41.0.bb}        |  4 +--
+ 11 files changed, 72 insertions(+), 43 deletions(-)
+ rename meta/recipes-core/busybox/{busybox_1.23.1.bb => busybox_1.23.2.bb} (90%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} (40%)
+ rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+ rename meta/recipes-support/curl/{curl_7.40.0.bb => curl_7.41.0.bb} (93%)
+
+-- 
+1.9.1
 
 
