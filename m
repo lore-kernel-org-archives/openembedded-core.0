@@ -1,40 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2350D606BF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 50885606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 11:35:30 +0000 (UTC)
-Received: by wgso17 with SMTP id o17so5088868wgs.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Apr 2015 04:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=8gUsm0u1B750+HwbmpBpt0RB3cgkaXod+8W1Mv0l69U=;
-	b=eDA6pXN0fRaF82DuzEyG5LdkFanPp253tF3NLrIHMfp4oMG1vljiShcm59AWPloTzY
-	+Urlv07hf6jhlwhVkIJpTU8AdFsXUe9jIJIJHCPtgKi+7CwZBgVy5DRxT9b4XPQp7G5U
-	VJ+Z4yAcFN/tBzbic5VvZs/Dq8shu6Sb5Io6ykr0JyKXTqpx6mE9UAeUldhMnpMfGZVN
-	xPdyMwUQqXt6Mg9+vF1jv8n8Sx9guaxVGyM1iLNtb1UtGCVT2zDOGtSCAy4TnjrAY9XH
-	hNi5HhO8VMvKsKsbozZPaOP35v6nCmWtijkBT/k3937NTK3bpHD/dvhFvhLVwUFzD+5b
-	e+Eg==
-X-Received: by 10.180.208.46 with SMTP id mb14mr5432697wic.31.1428579331879;
-	Thu, 09 Apr 2015 04:35:31 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id it5sm19789106wid.3.2015.04.09.04.35.30
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Apr 2015 04:35:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 9 Apr 2015 13:35:39 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150409113539.GA2340@jama>
-References: <20150330172759.GC14928@jama>
-	<1428405673-29955-1-git-send-email-Martin.Jansa@gmail.com>
-	<1428574350.6976.6.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1428574350.6976.6.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] fontcache: allow to pass different fontconfig cache dir
+	Thu,  9 Apr 2015 11:37:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Apr 2015 04:37:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,549,1422950400"; d="scan'208";a="478842220"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Apr 2015 04:37:06 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 10FEA340001;
+	Thu,  9 Apr 2015 04:36:42 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Apr 2015 14:36:49 +0300
+Message-Id: <1428579409-8227-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic:code cleanup: No space allowed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,109 +30,367 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 11:35:31 -0000
-X-Groupsio-MsgNum: 64171
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Apr 2015 11:37:06 -0000
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixed pylint warning
+  'No space allowed around keyword argument assignment'
 
-On Thu, Apr 09, 2015 at 11:12:30AM +0100, Richard Purdie wrote:
-> On Tue, 2015-04-07 at 13:21 +0200, Martin Jansa wrote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> > v2: added --with-cache-dir to fontconfig EXTRA_OECONF in case that was
-> >     what Ross wanted
-> >=20
-> >  meta/classes/fontcache.bbclass                        | 4 ++--
-> >  meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb | 4 +++-
-> >  scripts/postinst-intercepts/update_font_cache         | 4 +---
-> >  3 files changed, 6 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bb=
-class
-> > index dfbdfa1..d122387 100644
-> > --- a/meta/classes/fontcache.bbclass
-> > +++ b/meta/classes/fontcache.bbclass
-> > @@ -8,11 +8,11 @@ inherit qemu
-> > =20
-> >  FONT_PACKAGES ??=3D "${PN}"
-> >  FONT_EXTRA_RDEPENDS ?=3D "fontconfig-utils"
-> > -
-> > +FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
-]> >  fontcache_common() {
-> >  if [ "x$D" !=3D "x" ] ; then
-> >  	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=
-=3D${MLPREFIX} bindir=3D${bindir} \
-> > -		libdir=3D${libdir} base_libdir=3D${base_libdir} localstatedir=3D${lo=
-calstatedir}
-> > +		libdir=3D${libdir} base_libdir=3D${base_libdir} fontconfigcachedir=
-=3D${FONTCONFIG_CACHE_DIR}
-> >  else
-> >  	fc-cache
-> >  fi
-> > diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb b/me=
-ta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
-> > index 797b321..7c5b4b4 100644
-> > --- a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
-> > +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
-> > @@ -37,6 +37,8 @@ DEBIAN_NOAUTONAME_fontconfig-utils =3D "1"
-> > =20
-> >  inherit autotools pkgconfig
-> > =20
-> > -EXTRA_OECONF =3D " --disable-docs --with-default-fonts=3D${datadir}/fo=
-nts"
-> > +FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
-> > +
-> > +EXTRA_OECONF =3D " --disable-docs --with-default-fonts=3D${datadir}/fo=
-nts --with-cache-dir=3D${FONTCONFIG_CACHE_DIR}"
-> > =20
-> >  BBCLASSEXTEND =3D "native"
-> > diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/po=
-stinst-intercepts/update_font_cache
-> > index 3907f25..c8c6018 100644
-> > --- a/scripts/postinst-intercepts/update_font_cache
-> > +++ b/scripts/postinst-intercepts/update_font_cache
-> > @@ -2,6 +2,4 @@
-> > =20
-> >  PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:=
-$D/${base_libdir}\
-> >  					$D${bindir}/fc-cache --sysroot=3D$D
-> > -chown -R root:root $D${localstatedir}/cache/fontconfig
-> > -
-> > -
-> > +chown -R root:root $D${fontconfigcachedir}
->=20
-> This looks better but what sets fontconfigcachedir ?
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/imager/baseimager.py   |  8 ++---
+ scripts/lib/wic/imager/direct.py       | 10 +++---
+ scripts/lib/wic/kickstart/__init__.py  | 14 ++++----
+ scripts/lib/wic/msger.py               | 10 +++---
+ scripts/lib/wic/utils/fs_related.py    |  2 +-
+ scripts/lib/wic/utils/misc.py          |  2 +-
+ scripts/lib/wic/utils/oe/misc.py       |  8 ++---
+ scripts/lib/wic/utils/partitionedfs.py |  8 ++---
+ scripts/wic                            | 58 +++++++++++++++++-----------------
+ 9 files changed, 60 insertions(+), 60 deletions(-)
 
-It's passed in intercept call in fontcache.bbclass like other variables
-used here.
+diff --git a/scripts/lib/wic/imager/baseimager.py b/scripts/lib/wic/imager/baseimager.py
+index 2075358..0afbc2c 100644
+--- a/scripts/lib/wic/imager/baseimager.py
++++ b/scripts/lib/wic/imager/baseimager.py
+@@ -42,7 +42,7 @@ class BaseImageCreator(object):
+     def __del__(self):
+         self.cleanup()
+ 
+-    def __init__(self, createopts = None):
++    def __init__(self, createopts=None):
+         """Initialize an ImageCreator instance.
+ 
+         ks -- a pykickstart.KickstartParser instance; this instance will be
+@@ -131,8 +131,8 @@ class BaseImageCreator(object):
+             self.workdir = os.path.join(self.tmpdir, "build")
+             if not os.path.exists(self.workdir):
+                 os.makedirs(self.workdir)
+-            self.__builddir = tempfile.mkdtemp(dir = self.workdir,
+-                                               prefix = "imgcreate-")
++            self.__builddir = tempfile.mkdtemp(dir=self.workdir,
++                                               prefix="imgcreate-")
+         except OSError, (err, msg):
+             raise CreatorError("Failed create build directory in %s: %s" %
+                                (self.tmpdir, msg))
+@@ -178,7 +178,7 @@ class BaseImageCreator(object):
+ 
+         self._cleanup()
+ 
+-        shutil.rmtree(self.__builddir, ignore_errors = True)
++        shutil.rmtree(self.__builddir, ignore_errors=True)
+         self.__builddir = None
+ 
+         self.__clean_tmpdir()
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index c7e1c6c..0e687bd 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -269,11 +269,11 @@ class DirectImageCreator(BaseImageCreator):
+                                        p.source_file,
+                                        p.fstype,
+                                        p.label,
+-                                       fsopts = p.fsopts,
+-                                       boot = p.active,
+-                                       align = p.align,
+-                                       no_table = p.no_table,
+-                                       part_type = p.part_type)
++                                       fsopts=p.fsopts,
++                                       boot=p.active,
++                                       align=p.align,
++                                       no_table=p.no_table,
++                                       part_type=p.part_type)
+ 
+         self._restore_fstab(fstab)
+ 
+diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
+index 1095921..111723b 100644
+--- a/scripts/lib/wic/kickstart/__init__.py
++++ b/scripts/lib/wic/kickstart/__init__.py
+@@ -68,7 +68,7 @@ def read_kickstart(path):
+ 
+     return ks
+ 
+-def get_image_size(ks, default = None):
++def get_image_size(ks, default=None):
+     __size = 0
+     for p in ks.handler.partition.partitions:
+         if p.mountpoint == "/" and p.size:
+@@ -78,40 +78,40 @@ def get_image_size(ks, default = None):
+     else:
+         return default
+ 
+-def get_image_fstype(ks, default = None):
++def get_image_fstype(ks, default=None):
+     for p in ks.handler.partition.partitions:
+         if p.mountpoint == "/" and p.fstype:
+             return p.fstype
+     return default
+ 
+-def get_image_fsopts(ks, default = None):
++def get_image_fsopts(ks, default=None):
+     for p in ks.handler.partition.partitions:
+         if p.mountpoint == "/" and p.fsopts:
+             return p.fsopts
+     return default
+ 
+-def get_timeout(ks, default = None):
++def get_timeout(ks, default=None):
+     if not hasattr(ks.handler.bootloader, "timeout"):
+         return default
+     if ks.handler.bootloader.timeout is None:
+         return default
+     return int(ks.handler.bootloader.timeout)
+ 
+-def get_kernel_args(ks, default = "ro rd.live.image"):
++def get_kernel_args(ks, default="ro rd.live.image"):
+     if not hasattr(ks.handler.bootloader, "appendLine"):
+         return default
+     if ks.handler.bootloader.appendLine is None:
+         return default
+     return "%s %s" %(default, ks.handler.bootloader.appendLine)
+ 
+-def get_menu_args(ks, default = ""):
++def get_menu_args(ks, default=""):
+     if not hasattr(ks.handler.bootloader, "menus"):
+         return default
+     if ks.handler.bootloader.menus in (None, ""):
+         return default
+     return "%s" % ks.handler.bootloader.menus
+ 
+-def get_default_kernel(ks, default = None):
++def get_default_kernel(ks, default=None):
+     if not hasattr(ks.handler.bootloader, "default"):
+         return default
+     if not ks.handler.bootloader.default:
+diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
+index 9f557e7..35b705b 100644
+--- a/scripts/lib/wic/msger.py
++++ b/scripts/lib/wic/msger.py
+@@ -60,7 +60,7 @@ CATCHERR_BUFFILE_FD = -1
+ CATCHERR_BUFFILE_PATH = None
+ CATCHERR_SAVED_2 = -1
+ 
+-def _general_print(head, color, msg = None, stream = None, level = 'normal'):
++def _general_print(head, color, msg=None, stream=None, level='normal'):
+     global LOG_CONTENT
+     if not stream:
+         stream = sys.stdout
+@@ -130,7 +130,7 @@ def _color_print(head, color, msg, stream, level):
+ 
+     stream.flush()
+ 
+-def _color_perror(head, color, msg, level = 'normal'):
++def _color_perror(head, color, msg, level='normal'):
+     if CATCHERR_BUFFILE_FD > 0:
+         _general_print(head, color, msg, sys.stdout, level)
+     else:
+@@ -190,7 +190,7 @@ def info(msg):
+ 
+ def verbose(msg):
+     head, msg = _split_msg('Verbose', msg)
+-    _general_print(head, INFO_COLOR, msg, level = 'verbose')
++    _general_print(head, INFO_COLOR, msg, level='verbose')
+ 
+ def warning(msg):
+     head, msg = _split_msg('Warning', msg)
+@@ -198,7 +198,7 @@ def warning(msg):
+ 
+ def debug(msg):
+     head, msg = _split_msg('Debug', msg)
+-    _color_perror(head, ERR_COLOR, msg, level = 'debug')
++    _color_perror(head, ERR_COLOR, msg, level='debug')
+ 
+ def error(msg):
+     head, msg = _split_msg('Error', msg)
+@@ -299,7 +299,7 @@ def disable_logstderr():
+     global CATCHERR_BUFFILE_PATH
+     global CATCHERR_SAVED_2
+ 
+-    raw(msg = None) # flush message buffer and print it.
++    raw(msg=None) # flush message buffer and print it.
+     os.dup2(CATCHERR_SAVED_2, 2)
+     os.close(CATCHERR_SAVED_2)
+     os.close(CATCHERR_BUFFILE_FD)
+diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
+index 224b43e..fb9054d 100644
+--- a/scripts/lib/wic/utils/fs_related.py
++++ b/scripts/lib/wic/utils/fs_related.py
+@@ -39,7 +39,7 @@ class Disk:
+     """
+     Generic base object for a disk.
+     """
+-    def __init__(self, size, device = None):
++    def __init__(self, size, device=None):
+         self._device = device
+         self._size = size
+ 
+diff --git a/scripts/lib/wic/utils/misc.py b/scripts/lib/wic/utils/misc.py
+index 5d6337c..9d75069 100644
+--- a/scripts/lib/wic/utils/misc.py
++++ b/scripts/lib/wic/utils/misc.py
+@@ -18,7 +18,7 @@
+ import os
+ import time
+ 
+-def build_name(kscfg, release=None, prefix = None, suffix = None):
++def build_name(kscfg, release=None, prefix=None, suffix=None):
+     """Construct and return an image name string.
+ 
+     This is a utility function to help create sensible name and fslabel
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 7769f3f..119f072 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -28,7 +28,7 @@
+ from wic import msger
+ from wic.utils import runner
+ 
+-def __exec_cmd(cmd_and_args, as_shell = False, catch = 3):
++def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
+     """
+     Execute command, catching stderr, stdout
+ 
+@@ -49,7 +49,7 @@ def __exec_cmd(cmd_and_args, as_shell = False, catch = 3):
+     return (rc, out)
+ 
+ 
+-def exec_cmd(cmd_and_args, as_shell = False, catch = 3):
++def exec_cmd(cmd_and_args, as_shell=False, catch=3):
+     """
+     Execute command, catching stderr, stdout
+ 
+@@ -63,7 +63,7 @@ def exec_cmd(cmd_and_args, as_shell = False, catch = 3):
+     return out
+ 
+ 
+-def exec_cmd_quiet(cmd_and_args, as_shell = False):
++def exec_cmd_quiet(cmd_and_args, as_shell=False):
+     """
+     Execute command, catching nothing in the output
+ 
+@@ -72,7 +72,7 @@ def exec_cmd_quiet(cmd_and_args, as_shell = False):
+     return exec_cmd(cmd_and_args, as_shell, 0)
+ 
+ 
+-def exec_native_cmd(cmd_and_args, native_sysroot, catch = 3):
++def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+     """
+     Execute native command, catching stderr, stdout
+ 
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index c848bea..4ea1be3 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -86,9 +86,9 @@ class Image:
+         self.partitions.append(part)
+         self.__add_disk(part['disk_name'])
+ 
+-    def add_partition(self, size, disk_name, mountpoint, source_file = None, fstype = None,
+-                      label=None, fsopts = None, boot = False, align = None, no_table=False,
+-                      part_type = None):
++    def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
++                      label=None, fsopts=None, boot=False, align=None, no_table=False,
++                      part_type=None):
+         """ Add the next partition. Prtitions have to be added in the
+         first-to-last order. """
+ 
+@@ -116,7 +116,7 @@ class Image:
+ 
+             self.__add_partition(part)
+ 
+-    def layout_partitions(self, ptable_format = "msdos"):
++    def layout_partitions(self, ptable_format="msdos"):
+         """ Layout the partitions, meaning calculate the position of every
+         partition on the disk. The 'ptable_format' parameter defines the
+         partition table format and may be "msdos". """
+diff --git a/scripts/wic b/scripts/wic
+index 524156d..dcf1a55 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -79,28 +79,28 @@ def wic_create_subcommand(args, usage_str):
+     Command-line handling for image creation.  The real work is done
+     by image.engine.wic_create()
+     """
+-    parser = optparse.OptionParser(usage = usage_str)
+-
+-    parser.add_option("-o", "--outdir", dest = "outdir",
+-                      action = "store", help = "name of directory to create image in")
+-    parser.add_option("-i", "--infile", dest = "properties_file",
+-                      action = "store", help = "name of file containing the values for image properties as a JSON file")
+-    parser.add_option("-e", "--image-name", dest = "image_name",
+-                      action = "store", help = "name of the image to use the artifacts from e.g. core-image-sato")
+-    parser.add_option("-r", "--rootfs-dir", dest = "rootfs_dir",
+-                      action = "callback", callback = callback_rootfs_dir, type = "string",
+-                      help = "path to the /rootfs dir to use as the .wks rootfs source")
+-    parser.add_option("-b", "--bootimg-dir", dest = "bootimg_dir",
+-                      action = "store", help = "path to the dir containing the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the .wks bootimg source")
+-    parser.add_option("-k", "--kernel-dir", dest = "kernel_dir",
+-                      action = "store", help = "path to the dir containing the kernel to use in the .wks bootimg")
+-    parser.add_option("-n", "--native-sysroot", dest = "native_sysroot",
+-                      action = "store", help = "path to the native sysroot containing the tools to use to build the image")
+-    parser.add_option("-p", "--skip-build-check", dest = "build_check",
+-                      action = "store_false", default = True, help = "skip the build check")
+-    parser.add_option("-f", "--build-rootfs", action="store_true", help = "build rootfs")
+-    parser.add_option("-D", "--debug", dest = "debug", action = "store_true",
+-                      default = False, help = "output debug information")
++    parser = optparse.OptionParser(usage=usage_str)
++
++    parser.add_option("-o", "--outdir", dest="outdir",
++                      action="store", help="name of directory to create image in")
++    parser.add_option("-i", "--infile", dest="properties_file",
++                      action="store", help="name of file containing the values for image properties as a JSON file")
++    parser.add_option("-e", "--image-name", dest="image_name",
++                      action="store", help="name of the image to use the artifacts from e.g. core-image-sato")
++    parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir",
++                      action="callback", callback=callback_rootfs_dir, type="string",
++                      help="path to the /rootfs dir to use as the .wks rootfs source")
++    parser.add_option("-b", "--bootimg-dir", dest="bootimg_dir",
++                      action="store", help="path to the dir containing the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the .wks bootimg source")
++    parser.add_option("-k", "--kernel-dir", dest="kernel_dir",
++                      action="store", help="path to the dir containing the kernel to use in the .wks bootimg")
++    parser.add_option("-n", "--native-sysroot", dest="native_sysroot",
++                      action="store", help="path to the native sysroot containing the tools to use to build the image")
++    parser.add_option("-p", "--skip-build-check", dest="build_check",
++                      action="store_false", default=True, help="skip the build check")
++    parser.add_option("-f", "--build-rootfs", action="store_true", help="build rootfs")
++    parser.add_option("-D", "--debug", dest="debug", action="store_true",
++                      default=False, help="output debug information")
+ 
+     (options, args) = parser.parse_args(args)
+ 
+@@ -223,11 +223,11 @@ def wic_list_subcommand(args, usage_str):
+     Command-line handling for listing available image properties and
+     values.  The real work is done by image.engine.wic_list()
+     """
+-    parser = optparse.OptionParser(usage = usage_str)
++    parser = optparse.OptionParser(usage=usage_str)
+ 
+-    parser.add_option("-o", "--outfile", action = "store",
+-                      dest = "properties_file",
+-                      help = "dump the possible values for image properties to a JSON file")
++    parser.add_option("-o", "--outfile", action="store",
++                      dest="properties_file",
++                      help="dump the possible values for image properties to a JSON file")
+ 
+     (options, args) = parser.parse_args(args)
+ 
+@@ -276,12 +276,12 @@ subcommands = {
+ 
+ 
+ def start_logging(loglevel):
+-    logging.basicConfig(filname = 'wic.log', filemode = 'w', level=loglevel)
++    logging.basicConfig(filname='wic.log', filemode='w', level=loglevel)
+ 
+ 
+ def main():
+-    parser = optparse.OptionParser(version = "wic version %s" % __version__,
+-                                   usage = wic_usage)
++    parser = optparse.OptionParser(version="wic version %s" % __version__,
++                                   usage=wic_usage)
+ 
+     parser.disable_interspersed_args()
+ 
+-- 
+2.1.4
 
-People who want to change the value should do so from global scope, so
-that the same value is used in fontconfig_2.11.1.bb and
-fontcache.bbclass.
 
-Once this is merged in master, I would like to see it in dizzy (and
-fido) branches together with other fontconfig related fixes.
-
-Thanks
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlUmZAsACgkQN1Ujt2V2gBzszACgnMoXMLUurkGkFWBrnCwyYBmN
-LZEAn3HYJeOBI2N2QuuGsqQ2xoRRQ+CP
-=IIi5
------END PGP SIGNATURE-----
-
---EeQfGwPcQSOJBaQU--
