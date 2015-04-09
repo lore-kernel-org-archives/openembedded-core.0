@@ -1,38 +1,31 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-vn0-f48.google.com (mail-vn0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA9E60097
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1222860043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Apr 2015 22:19:56 +0000 (UTC)
-Received: by vnbf190 with SMTP id f190so17751645vnb.1
+	Thu,  9 Apr 2015 01:58:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t391wxs1001495
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Apr 2015 15:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=3SCrfyXjUkpUAhLyoXnZXwh8DE49M51JA4zyR3w4RNk=;
-	b=m1NjXlVYZIu3QBpg/sEp4f+fR88Je9tncYKhuH6tdqmw/LfaksybOskh9FewznSGEA
-	cINkEdYN1XVa7P2YAONEeV1nFs6dFMdbv7H7NUe/J0Iw6CPCJdr8EfyRNcQv/cXEP4NQ
-	yzhZC1pHw4UYnFKUqzllkBYgxup4v/IBjkfZxSGxUfWIOucXiPv3qS4zuOoafPosUlrc
-	Ye0uqPfkYcULTjf41vholtCOophv6c/mOezoPgvQS/lSPMecUBcy/lbU4U5ZRbeVqUsN
-	1htymvdIyvybHFXP0941zL+hao3vNRnflZny7kkvdoHV5ycf+ksMunAn5fiyD2rcattT
-	RuCA==
-X-Received: by 10.140.20.99 with SMTP id 90mr31522624qgi.87.1428531597782;
-	Wed, 08 Apr 2015 15:19:57 -0700 (PDT)
-Received: from [192.168.0.16] ([201.53.207.14])
-	by mx.google.com with ESMTPSA id h3sm8368598qkh.34.2015.04.08.15.19.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Apr 2015 15:19:56 -0700 (PDT)
-Message-ID: <5525A98B.80500@gmail.com>
-Date: Wed, 08 Apr 2015 19:19:55 -0300
-From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
-	<joaohf@gmail.com>
+	Wed, 8 Apr 2015 18:59:00 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 8 Apr 2015 18:58:59 -0700
+Message-ID: <5525DCEE.5070902@windriver.com>
+Date: Thu, 9 Apr 2015 09:59:10 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC] Report build
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1428488582.git.Qi.Chen@windriver.com>
+	<ed4cad55a71d818c5a126e07f7b86151473eeb93.1428488582.git.Qi.Chen@windriver.com>
+	<55252DF7.6020302@windriver.com>
+In-Reply-To: <55252DF7.6020302@windriver.com>
+X-Originating-IP: [128.224.162.236]
+Subject: Re: [PATCH 4/6] sudo: upgrade to 1.8.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,95 +38,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Apr 2015 22:19:57 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 09 Apr 2015 01:59:00 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 04/08/2015 09:32 PM, Randy MacLeod wrote:
+> On 2015-04-08 06:24 AM, Chen Qi wrote:
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/recipes-extended/sudo/sudo.inc                          | 12 
+>> +++---------
+>>   .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}                |  4 ++--
+>>   2 files changed, 5 insertions(+), 11 deletions(-)
+>>   rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => 
+>> sudo_1.8.13.bb} (87%)
+>>
+>> diff --git a/meta/recipes-extended/sudo/sudo.inc 
+>> b/meta/recipes-extended/sudo/sudo.inc
+>> index 6e9aec8..2d411f3 100644
+>> --- a/meta/recipes-extended/sudo/sudo.inc
+>> +++ b/meta/recipes-extended/sudo/sudo.inc
+>> @@ -4,12 +4,12 @@ HOMEPAGE = "http://www.sudo.ws"
+>>   BUGTRACKER = "http://www.sudo.ws/bugs/"
+>>   SECTION = "admin"
+>>   LICENSE = "ISC & BSD & Zlib"
+>> -LIC_FILES_CHKSUM = 
+>> "file://doc/LICENSE;md5=69e337d679950e304953813158595256 \
+>> - 
+>> file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=e2dbb155fc49beea947515300bab99e0 
+>> \
+>> +LIC_FILES_CHKSUM = 
+>> "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
+>> + 
+>> file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 
+>> \
+>> file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd 
+>> \
+>> file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 
+>> \
+>> file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 
+>> \
+>> - 
+>> file://lib/util/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea 
+>> \
+>> + 
+>> file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 
+>> \
+>> file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 
+>> \
+>> file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
+>>
+>> @@ -22,12 +22,6 @@ CONFFILES_${PN} = "${sysconfdir}/sudoers"
+>>
+>>   EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
+>>
+>> -do_configure_prepend () {
+>> -    if [ ! -e ${S}/acinclude.m4 ]; then
+>> -        cat ${S}/aclocal.m4 > ${S}/acinclude.m4
+>> -    fi
+>> -}
+>
+> Is this really safe to drop?
+> If so please explain why in the long log.
+>
+> ../Randy
 
-Hi,
+I've updated the patch in the repo:
+git://git.openembedded.org/openembedded-core-contrib 
+ChenQi/package-upgrade-20150408
 
-I would like to share an implementation that I've used with
-great success to solve the following situation:
+commit 3160a583f7bafb06062840bb0a920416c0e31eec
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Wed Apr 8 14:39:14 2015 +0800
 
-We have a farm server that Jenkins CI has the control. All the
-nights a bunch of devel, snapshot and stable builds are fired.
-Each machine receives a job that the aim is to build image, SDK,
-packages and wic images. After that, all the artifacts are collected
-and send to a consolidation server which my users could download.
+     sudo: upgrade to 1.8.13
 
-I believed that many YP users has the very similar settings. So I wanted
-to create a solution which is integrated with YP.
+     The do_configure_prepend is deleted because it doesn't seem to have any
+     positive effect and it causes the following error.
 
-This solution involves three things:
+     | aclocal: error: acinclude.m4:133: file 'm4/ax_sys_weak_alias.m4' 
+does not exist
+     | autoreconf: aclocal failed with exit status: 1
+     | ERROR: autoreconf execution failed.
 
-* new class to collect the artifacts
-* script to send the collected artifacts
-* web interface to summaries the results
-
-So I implemented a class called report-build. Once properly setup, it
-will collect the artifacts writing in a json file. The meaning of
-artifact is: images, packages, sdks, manifest, deploy kernel and bootloader.
-After that, all artifact is collected using another script called 
-send-build-report. This scripts has
-the responsibility to control and send the artifacts (until now using rsync)
-to consolidation server.
-
-The consolidation server is a machine running an instance of 
-build-report-web that
-receives the json payload, creates all the database entry and filesystem 
-places where
-the artifacts will be placed.
-
-On Jenkins I've created Freestyle jobs that  is setup scripts to build 
-the artifacts and
-configures the variables that build-report class use:
-
-BUILD_REPORT_DISTRO ?= "${DISTRO}"
-BUILD_REPORT_DISTRO_VERSION ?= "${DISTRO_VERSION}"
-
-BUILD_REPORT_JOB_RETENTION ?= "1"
-BUILD_REPORT_JOB_ID ?= "job-${DATE}"
-BUILD_REPORT_DIR ?= "${LOG_DIR}/build-report"
-BUILD_REPORT_SERVER ?= "http://127.0.0.1:8000/Builds"
-BUILD_REPORT_USER ?= ""
-BUILD_REPORT_EMAIL ?= ""
-BUILD_REPORT_TYPE ?= "snapshot"
-BUILD_REPORT_DEPLOY_DIR = "${DEPLOY_DIR}"
-
-When the Jenkins runs the job, it only executes the script and 
-report-build is in charge to
-sends the generated artifacts.
-
-So, the users goes to build-report-web tool and inspects and downloads 
-the results.
-
-Here is the very basic web interface:
-
-A home page showing all builds: http://imgur.com/LTqRewq
-
-A detail page to get files (image, sdk, packages): http://imgur.com/gNOtoLO
-
-There are some drawbacks like: the solution uses rsync over ssh to send 
-files and
-the user must setup ssh keys between build machines and consolidation 
-server. But
-this is done only once, to setup the initial environment.
-
-This work was based on ideas from:
-- report-error
-- Error reporting tool
-
-Currently this implementation works using daisy and master. On my 
-production environment
-I need to use daisy but I am doing the same using master on my free time.
+     Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
 
-Implementation links:
+Best Regards,
+Chen Qi
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=joaohf/master-build-report-tool
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=joaohf/build-report-web
-
-Thanks
-
+>> -
+>>   # mksigname/mksiglist are used on build host to generate source files
+>>   do_compile_prepend () {
+>>       oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" 
+>> CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include 
+>> -I${S} -I${B}"  -C lib/util mksigname mksiglist
+>> diff --git a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb 
+>> b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+>> similarity index 87%
+>> rename from meta/recipes-extended/sudo/sudo_1.8.11p2.bb
+>> rename to meta/recipes-extended/sudo/sudo_1.8.13.bb
+>> index c5e2545..4494170 100644
+>> --- a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb
+>> +++ b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+>> @@ -6,8 +6,8 @@ SRC_URI = 
+>> "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+>>
+>>   PAM_SRC_URI = "file://sudo.pam"
+>>
+>> -SRC_URI[md5sum] = "84012b4871b6c775c957cd310d5bad87"
+>> -SRC_URI[sha256sum] = 
+>> "8133849418fa18cf6b6bb6893d1855ff7afe21db8923234a00bf045c90fba1ad"
+>> +SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
+>> +SRC_URI[sha256sum] = 
+>> "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
+>>
+>>   DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 
+>> 'libpam', '', d)}"
+>>   RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 
+>> 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+>>
+>
+>
 
 
