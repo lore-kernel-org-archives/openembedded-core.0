@@ -1,26 +1,35 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EADA606BF
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C295A65C98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 18:41:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 09 Apr 2015 11:41:27 -0700
+	Thu,  9 Apr 2015 19:12:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 09 Apr 2015 12:12:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,551,1422950400"; d="scan'208";a="706414976"
+X-IronPort-AV: E=Sophos;i="5.11,551,1422950400"; d="scan'208";a="677900573"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2015 11:41:27 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 52DB86A408D;
-	Thu,  9 Apr 2015 11:41:04 -0700 (PDT)
+	by orsmga001.jf.intel.com with ESMTP; 09 Apr 2015 12:12:43 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 3A6F86A408D;
+	Thu,  9 Apr 2015 12:12:18 -0700 (PDT)
+Date: Thu, 9 Apr 2015 22:12:35 +0300
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Apr 2015 21:41:20 +0300
-Message-Id: <1428604880-18852-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: Add argv argument to main
+To: =?iso-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Message-ID: <20150409191235.GA19415@linux.intel.com>
+References: <1428400661-19372-1-git-send-email-ed.bartosh@linux.intel.com>
+	<5525A940.5040600@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <5525A940.5040600@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH] wic: Implement --build-rootfs command line option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -30,48 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 18:41:27 -0000
+X-List-Received-Date: Thu, 09 Apr 2015 19:12:50 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Make it possible to call wic as an API from tests passing
-command line parameters as arguments to main.
+On Wed, Apr 08, 2015 at 07:18:40PM -0300, João Henrique Ferreira de Freitas wrote:
+> 
+> Hi Ed,
+> 
+> I liked.
+> 
+> Two points:
+> 
+> - How about if user sets INHERIT = "rm_work"? I mean the image
+> recipe will be rm, right? I always put my images in RM_WORK_EXCLUDE
+> so wic can use it.
+>
+rm_work removes artifacts required by wic. Wic will complain that rootfs
+can't be found. There is a bug about i https://bugzilla.yoctoproject.org/show_bug.cgi?id=7042
+I closed it as not a bug as wic uses build artifacts by design.
 
-This is yet another enabler for wic unit testing.
+> - What will be the behavior if: wic create test-image-4Gb -e
+> test-image --rootfs rootfs1=test-image --rootfs
+> rootfs2=bringup-image -f. A believed that only 'test-image' will be
+> build. Right?
+>
+I don't fully understand command line options in your example, but generally you're right.
+wic will take image name from -e option and run "bitbake test-image" in this case.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/wic | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/wic b/scripts/wic
-index fd4a678..5bedd90 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -279,13 +279,13 @@ def start_logging(loglevel):
-     logging.basicConfig(filname='wic.log', filemode='w', level=loglevel)
- 
- 
--def main():
-+def main(argv):
-     parser = optparse.OptionParser(version="wic version %s" % __version__,
-                                    usage=wic_usage)
- 
-     parser.disable_interspersed_args()
- 
--    (options, args) = parser.parse_args()
-+    (options, args) = parser.parse_args(argv)
- 
-     if len(args):
-         if args[0] == "help":
-@@ -298,7 +298,7 @@ def main():
- 
- if __name__ == "__main__":
-     try:
--        ret = main()
-+        ret = main(sys.argv[1:])
-     except Exception:
-         ret = 1
-         import traceback
--- 
-2.1.4
-
+Regards,
+Ed
 
