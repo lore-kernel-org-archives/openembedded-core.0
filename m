@@ -1,40 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id ED453606BF
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FECD606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 06:55:19 +0000 (UTC)
-Received: by pdea3 with SMTP id a3so142850259pde.3
+	Thu,  9 Apr 2015 06:59:48 +0000 (UTC)
+Received: by paboj16 with SMTP id oj16so140605927pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Apr 2015 23:55:20 -0700 (PDT)
+	Wed, 08 Apr 2015 23:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=H9/4GRgbBpBCjBXRIJt2Bs8WaVuP4mnLz282JEEN730=;
-	b=zUEBM+pUbkz63DzMDDliBBkrvZi8tbGJ6Nvs1MLGsV6ksHREVKeQobahikp3XW1JJ9
-	NmK1VghLJNPYlIXx6us6wyRmTDLv3/w31W62TuXlNNv0c53Rk2hln+BJ/5h4UzUbjLA8
-	+20l/EVtwgVopCYGRE33xNWGBHSbTvLvvGwOmZiJzU+niB8lgYGwAQdAyXVeLTyM/EMD
-	o8PyXp2NLCtaqxgf44e2lmsNjLREThGs8vXndyl9UNLnh5gHtGiOtbubUfbUnc/brGKS
-	8dchFhcZ7GjYOMdBM9jup41oI5141F5roZ+gly8Ih6PwmTpXBQTqFCa7UGhr8xRbx6Xe
-	RZ8Q==
-X-Received: by 10.70.0.11 with SMTP id 11mr53214534pda.32.1428562520239;
-	Wed, 08 Apr 2015 23:55:20 -0700 (PDT)
+	bh=aPaGeP3UmYrpCvwiNRqkGM2qHZ0wLc+n8GVCwqFbfcc=;
+	b=k4B8pYRFVbjKolQmdEWcwPMIRcpz244PU3WjTNEsGywtUB0dUUZo9Hueit32+8O3g6
+	0cyS4SjQgKe6EZwPzuhmk66omopF/RGVOxr0/USevfAlt1Fh8IposcJ2LWjPZYS09UZt
+	IJGdBIyRP1PD0mW8M0g1poyKVQus+V0mIbPSIqTZ+jUzRO0LYZ/6T1W8eqKZazJe3uD/
+	sICVlNCUPZQnouJ4drxnRpH15RmkrHxxkL0WM8Y/azrwawyIDkK65OknNNHFRUofTZHb
+	rLz/Xhg2tuGVK2gF4+Yy92BkEPqAsGp7muB+KREO4Ov1p8nAoGEEcNJ8UgoSSddlebqW
+	vG7g==
+X-Received: by 10.69.31.171 with SMTP id kn11mr51929933pbd.159.1428562789887; 
+	Wed, 08 Apr 2015 23:59:49 -0700 (PDT)
 Received: from ?IPv6:2601:9:3580:84c:68c8:2a57:ea69:48da?
 	([2601:9:3580:84c:68c8:2a57:ea69:48da])
 	by mx.google.com with ESMTPSA id
-	gy3sm13126583pbb.42.2015.04.08.23.55.19
+	ve3sm13148797pbc.22.2015.04.08.23.59.48
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 08 Apr 2015 23:55:19 -0700 (PDT)
+	Wed, 08 Apr 2015 23:59:49 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <a2991e0a-7cdc-49b4-8247-0caa77d26a8a@BN1BFFO11FD030.protection.gbl>
-Date: Wed, 8 Apr 2015 23:55:19 -0700
-Message-Id: <D2F1084E-BA28-413B-9723-83418C19E10B@gmail.com>
-References: <a2991e0a-7cdc-49b4-8247-0caa77d26a8a@BN1BFFO11FD030.protection.gbl>
-To: Nathan Rossi <nathan.rossi@xilinx.com>
+In-Reply-To: <1428487193.14020.499.camel@linuxfoundation.org>
+Date: Wed, 8 Apr 2015 23:59:47 -0700
+Message-Id: <B7834FBD-E06E-4342-ABF3-AE5E176EEBEE@gmail.com>
+References: <1428440035-6307-1-git-send-email-denis@denix.org>
+	<1428440035-6307-2-git-send-email-denis@denix.org>
+	<1428487193.14020.499.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.2070.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python: Change python 2.7.9 to use libffi from the system
+Cc: openembedded-core@lists.openembedded.org, Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 2/2] security_flags.inc: disable PIE for bash due to issues in mkbuiltins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,84 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 06:55:22 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 09 Apr 2015 06:59:49 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Apr 7, 2015, at 10:47 PM, Nathan Rossi <nathan.rossi@xilinx.com> =
-wrote:
+> On Apr 8, 2015, at 2:59 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
-> Changes in python 2.7.9 from 2.7.3 cause issues when building the in
-> tree libffi for ctypes. These issues primarily affect less common
-> platforms (e.g. MicroBlaze) that are supported by libffi but the =
-python
-> overrides for the in tree libffi are not able to detect correctly.
+> On Tue, 2015-04-07 at 16:53 -0400, Denys Dmytriyenko wrote:
+>> From: Denys Dmytriyenko <denys@ti.com>
+>>=20
+>> As bash builds a native tool called mkbuiltins, it fails with PIE =
+flags:
+>>=20
+>> ld: mkbuiltins.o: relocation R_X86_64_32 against `.rodata.str1.8' can =
+not be used when making a shared object; recompile with -fPIC
+>>=20
+>> Affects at least version 3.2 of bash.
 >=20
-> This patch changes the python 2.7.9 recipe to match how the python 3
-> recipe handles libffi by configuring the build to use the system
-> libffi. This brings consistency between the libffi used for different
-> python versions as well as with the system.
->=20
-> Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
-> ---
-> The main reason for this change is that python 2.7.9 builds are broken =
-for
-> MicroBlaze, when build the ctypes modules it fails to detect the =
-'MICROBLAZE'
-> platform, despite it being available in the libffi source tree as well =
-as
-> working correctly with python 2.7.3.
->=20
-> |   File "build/temp.linux2-microblazeel-2.7/libffi/fficonfig.py", =
-line 33, in <module>
-> |     ffi_sources +=3D ffi_platforms['MICROBLAZE']
-> | KeyError: 'MICROBLAZE'
-> | Makefile:490: recipe for target 'sharedmods' failed
-> | make: *** [sharedmods] Error 1
->=20
-> It seems that this fficonfig.py file was added for python 2.7.9 and =
-does not
-> contain the equivalent entries for all of libffi's supported =
-platforms.
->=20
+> I am a little worried about this one. Which architecture were you
+> building for and is this just 3.x of bash or 4.x as well? I'd like to
+> understand why we haven't seen this before=E2=80=A6
 
-this is ok
+If its a tool used during building bash, then you need to adjust =
+CFLAGS_FOR_BUILD
+and make sure that bash=E2=80=99s build system is not mixing things up. =
+I am not sure
+if we need to disable PIE completely, there should be a better fix for =
+this.
 
-
-
-> Regards,
-> Nathan
-> ---
-> meta/recipes-devtools/python/python_2.7.9.bb |    4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-devtools/python/python_2.7.9.bb =
-b/meta/recipes-devtools/python/python_2.7.9.bb
-> index 0031b8f..7918550 100644
-> --- a/meta/recipes-devtools/python/python_2.7.9.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.9.bb
-> @@ -1,5 +1,5 @@
-> require python.inc
-> -DEPENDS =3D "python-native bzip2 db gdbm openssl readline sqlite3 =
-zlib"
-> +DEPENDS =3D "python-native libffi bzip2 db gdbm openssl readline =
-sqlite3 zlib"
-> PR =3D "${INC_PR}"
+> Cheers,
 >=20
-> DISTRO_SRC_URI ?=3D "file://sitecustomize.py"
-> @@ -32,6 +32,8 @@ S =3D "${WORKDIR}/Python-${PV}"
+> Richard
 >=20
-> inherit autotools multilib_header python-dir pythonnative
+>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>> ---
+>> meta/conf/distro/include/security_flags.inc | 1 +
+>> 1 file changed, 1 insertion(+)
+>>=20
+>> diff --git a/meta/conf/distro/include/security_flags.inc =
+b/meta/conf/distro/include/security_flags.inc
+>> index 21e1a53..3401c4b 100644
+>> --- a/meta/conf/distro/include/security_flags.inc
+>> +++ b/meta/conf/distro/include/security_flags.inc
+>> @@ -16,6 +16,7 @@ SECURITY_CFLAGS_pn-lttng-tools_arm =3D =
+"${SECURITY_NO_PIE_CFLAGS}"
+>> SECURITY_CFLAGS_pn-elfutils_arm =3D "${SECURITY_NO_PIE_CFLAGS}"
+>>=20
+>> SECURITY_CFLAGS_pn-aspell =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> +SECURITY_CFLAGS_pn-bash =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> SECURITY_CFLAGS_pn-beecrypt =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> SECURITY_CFLAGS_pn-blktrace =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> # Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
+>> --=20
+>> 2.2.0
+>>=20
 >=20
-> +CONFIGUREOPTS +=3D " --with-system-ffi "
-> +
-> # The 3 lines below are copied from the libffi recipe, ctypes ships =
-its own copy of the libffi sources
-> #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=3Dsoftp :(
-> TARGET_CC_ARCH_append_armv6 =3D " -D__SOFTFP__"
-> --=20
-> 1.7.10.4
 >=20
 > --=20
 > _______________________________________________
