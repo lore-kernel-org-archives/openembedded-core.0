@@ -1,26 +1,21 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id BA58765C98
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BB0173C48
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 19:58:58 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1YgIbL-0007UK-SJ from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Apr 2015 12:59:00 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Thu, 9 Apr 2015 20:58:58 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Apr 2015 22:58:55 +0300
-Message-ID: <1428609535-15027-4-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] lsb: provide lsb-core-ARCH
+	Thu,  9 Apr 2015 20:41:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Apr 2015 13:41:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,552,1422950400"; d="scan'208";a="479061446"
+Received: from carloses-mobl.amr.corp.intel.com (HELO
+	aehernan-DevStation.lar.corp.intel.com) ([10.252.254.35])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Apr 2015 13:41:34 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Apr 2015 15:41:35 -0500
+Message-Id: <cover.1428611618.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] python3: Upgrade from 3.3.3 to 3.4.2 rebase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 19:59:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Apr 2015 20:41:40 -0000
 
-Some lsb packages depend on correct lsb-core-ARCH package being
-installed (or rather provided) on the target file system. Provide this
-package name by main lsb package.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
----
- meta/recipes-extended/lsb/lsb_4.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Rebased the previous submitted patch to upgrade Python from 3.3.3 to 3.4.2
 
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index 1ae1e26..c3a79c0 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -4,6 +4,10 @@ HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
- LICENSE = "GPLv2+"
- PR = "r2"
- 
-+LSB_CORE = "lsb-core-${TARGET_ARCH}"
-+LSB_CORE_i586 = "lsb-core-ia32"
-+RPROVIDES_${PN} += "${LSB_CORE}"
-+
- # lsb_release needs getopt
- RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt}"
- 
+
+
+The following changes since commit 7fb6a6e907e5803597b2e12ba7047c46e57dba26:
+
+  upstream_tracking.inc: Add no-update reason for gdk-pixbuf (2015-04-09 10:01:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib hsalejandro/py3upRebasedApril
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/py3upRebasedApril
+
+Alejandro Hernandez (1):
+  python3: Upgrade from 3.3.3 to 3.4.2
+
+ ...on-3.3-manifest.inc => python-3.4-manifest.inc} | 126 +++++++--------
+ ...on3-native_3.3.3.bb => python3-native_3.4.2.bb} |  17 +-
+ .../python/python3/04-default-is-optimized.patch   |  39 ++---
+ ...2-distutils-prefix-is-inside-staging-area.patch |  29 ++--
+ .../python3/avoid-ncursesw-include-path.patch      |  30 ++--
+ .../python/python3/python-3.3-multilib.patch       | 180 +++++++++++----------
+ .../python/{python3_3.3.3.bb => python3_3.4.2.bb}  |  21 ++-
+ ...te-manifest-3.3.py => generate-manifest-3.4.py} |   8 +-
+ 8 files changed, 222 insertions(+), 228 deletions(-)
+ rename meta/recipes-devtools/python/{python-3.3-manifest.inc => python-3.4-manifest.inc} (50%)
+ rename meta/recipes-devtools/python/{python3-native_3.3.3.bb => python3-native_3.4.2.bb} (80%)
+ rename meta/recipes-devtools/python/{python3_3.3.3.bb => python3_3.4.2.bb} (93%)
+ rename scripts/contrib/python/{generate-manifest-3.3.py => generate-manifest-3.4.py} (98%)
+
 -- 
-2.1.4
+1.9.1
 
 
