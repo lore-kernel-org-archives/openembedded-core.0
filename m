@@ -1,36 +1,23 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 067D3606BF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FB46606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 12:23:37 +0000 (UTC)
-Received: by obbeb7 with SMTP id eb7so102181659obb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Apr 2015 05:23:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0xc5O5rzLN6+Iy/kNgl7+4fs4+Ys4Emi4FgLy307Qw0=;
-	b=M5ZUywp1XrpDXefsYd0DRtFioZX+j+Kj/+72hNc7Zx3fNCZSnC0QdzCieGa7Ockda8
-	PtwPPADp+ZJ0r9y6ZB/xgnHHxuq4r81Mmkoj8YbbrlO+RsVmfr9v2r7OIsbqoTxbg4xv
-	6Ryrg9Wqt51K3Ujj59UwnQtFyEBzPrcCIjExc+T44c3JMP+peukbYcARaT7l94xUutPz
-	iORL+yt8TTLlvJSX6hZatTDlHxO8A5XxGb/l3swvd2WuLmSfMKdmDZoADbPECSN2WKoD
-	DXLrrXVXGq1nMWDG7gpn6Py36hOZCH0do01TnQtLkg9a5+U50zCBVk/JNiDzYRn4iP89
-	/w0w==
-X-Gm-Message-State: ALoCoQlaDaAP+2AJOKnKYYU6HCI/2enMH2n5l80K+nKTWWYKMbLM5WmimB945jYNvOu7JUn2ounf
-X-Received: by 10.60.46.66 with SMTP id t2mr37708452oem.60.1428582218353; Thu,
-	09 Apr 2015 05:23:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.92.139 with HTTP; Thu, 9 Apr 2015 05:23:08 -0700 (PDT)
-In-Reply-To: <6cb3f4e0e51908d8c57b74330f0fa6bcbf2cbb03.1428577515.git.jussi.kukkonen@intel.com>
-References: <cover.1428577515.git.jussi.kukkonen@intel.com>
-	<6cb3f4e0e51908d8c57b74330f0fa6bcbf2cbb03.1428577515.git.jussi.kukkonen@intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 9 Apr 2015 15:23:08 +0300
-Message-ID: <CAHiDW_GB6HEXJvAVgmSjKPyUTT9uhDOzjTEJ9yP2dGJbNAyYKw@mail.gmail.com>
+	Thu,  9 Apr 2015 12:54:43 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Apr 2015 05:54:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,549,1422950400"; d="scan'208";a="478873949"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Apr 2015 05:54:44 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 40EC0340001;
+	Thu,  9 Apr 2015 05:54:21 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] libepoxy: Add as GTK+ 3.16 requirement
+Date: Thu,  9 Apr 2015 15:54:35 +0300
+Message-Id: <1428584075-9823-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: Use __file__ instead of sys.argv[0]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 12:23:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Apr 2015 12:54:44 -0000
 
-On 9 April 2015 at 15:16, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-> Libepoxy is a OpenGL function pointer management library required by
-> GTK 3.16.
->
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  meta/recipes-graphics/libepoxy/libepoxy_1.2.bb | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
->
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
-> new file mode 100644
-> index 0000000..4357331
-> --- /dev/null
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
-> @@ -0,0 +1,16 @@
-> +SUMMARY = "OpenGL function pointer management library"
-> +HOMEPAGE = "https://github.com/anholt/libepoxy/"
-> +SECTION = "libs"
-> +
-> +LICENSE = "MIT"
+Using __file__ makes the code work independently of the way
+it's loaded. In some cases wic can be imported by another
+program without executing it. sys.argv[0] would not contain
+path to the wic in such a cases.
 
-Something I forgot from the cover letter: epoxy is covered by two
-different licenses (see
-https://github.com/anholt/libepoxy/blob/master/COPYING) and while both
-look exactly like MIT to me (the Khronos one just replaces "Software"
-with "Materials"), I thought it's appropriate to mention... Do I need
-to add another license variant or do something else?
+This is an enabler for unit testing with nose framework.
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/wic | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
-> +
-> +
-> +SRC_URI = "git://github.com/anholt/libepoxy.git"
-> +SRCREV="7422de5b4be7b19d789136b3bb5f932de42db27c"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig
-> +
-> +DEPENDS = "util-macros"
-> --
-> 2.1.4
->
+diff --git a/scripts/wic b/scripts/wic
+index dcf1a55..fd4a678 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -38,7 +38,7 @@ import optparse
+ import logging
+ 
+ # External modules
+-scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
++scripts_path = os.path.abspath(os.path.dirname(__file__))
+ lib_path = scripts_path + '/lib'
+ bitbake_path = os.path.join(scripts_path, '../bitbake/lib')
+ sys.path = sys.path + [lib_path, bitbake_path]
+-- 
+2.1.4
+
 
