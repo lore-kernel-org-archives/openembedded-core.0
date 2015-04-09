@@ -1,23 +1,41 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C0C7606BF
+Return-Path: <joaohf@gmail.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D7BB7606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 21:55:55 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Apr 2015 14:55:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,552,1422950400"; d="scan'208";a="553809158"
-Received: from carloses-mobl.amr.corp.intel.com (HELO
-	aehernan-DevStation.lar.corp.intel.com) ([10.252.254.35])
-	by orsmga003.jf.intel.com with ESMTP; 09 Apr 2015 14:55:55 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Apr 2015 16:55:58 -0500
-Message-Id: <952f6c899d02d946e1c934b03e7aec192e627569.1428616369.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1428616369.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1428616369.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH v3 1/1] insane.bbclass: Enhance file-rdeps QA check
+	Thu,  9 Apr 2015 22:24:17 +0000 (UTC)
+Received: by qkhg7 with SMTP id g7so1959313qkh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Apr 2015 15:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=jZswuFpmGnjgEmWsn3Soxl3HmazGh6qhp5RQg2DK+3w=;
+	b=Qvl218aiofDRWvu5SE38RLs+5Dqk0rvXkzd6ZBkJE6vsTkFlfUj30yVcfy//cH8r9M
+	BWGjSPrhObgnaqpnVTU9KMNqqyYRMx8M0uM6evOk+1Zf1S+dUxF0Zgi62vp4V/2Ib+gI
+	lG6AAH5ab4vBfVi796M5a2nCLJPFAAGEESC5wrHRHOsv8B220ekWwIh64WnNS9t7SCW4
+	9h5UuMFY6oxBMHmekKoRHSwe7i2pA8z8yivVEBowVAIyB/iBVGXbTSW04zB1B7NtcL9W
+	1qj05dpnZbzoQ56jH+BYfX6NdUeLOLEy2Ax39C8XFgXffdtLom6h1+Vllesu1ONggyDp
+	5RSw==
+X-Received: by 10.140.149.150 with SMTP id 144mr39819459qhv.16.1428618258420; 
+	Thu, 09 Apr 2015 15:24:18 -0700 (PDT)
+Received: from [192.168.0.16] ([201.53.207.14])
+	by mx.google.com with ESMTPSA id g21sm77282qhc.35.2015.04.09.15.24.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Apr 2015 15:24:17 -0700 (PDT)
+Message-ID: <5526FC10.4080806@gmail.com>
+Date: Thu, 09 Apr 2015 19:24:16 -0300
+From: =?windows-1252?Q?Jo=E3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: ed.bartosh@linux.intel.com
+References: <1428400661-19372-1-git-send-email-ed.bartosh@linux.intel.com>
+	<5525A940.5040600@gmail.com>
+	<20150409191235.GA19415@linux.intel.com>
+In-Reply-To: <20150409191235.GA19415@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH] wic: Implement --build-rootfs command line option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,101 +48,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 21:55:56 -0000
+X-List-Received-Date: Thu, 09 Apr 2015 22:24:18 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Adds symlink-to-sysroot check to QA_WARN to detect symlinks that
-point to locations under TMPDIR, which are most likely broken.
+Hi
 
-Changes filerdepends from set() to dict(), hence methods for adding
-or deleting items had to change too. Now it keeps track of key:value
-relationship, flags the QA issue; warning the user about which
-file/package causes the problem, making it easier to debug.
+On 09/04/2015 16:12, Ed Bartosh wrote:
+> On Wed, Apr 08, 2015 at 07:18:40PM -0300, João Henrique Ferreira de Freitas wrote:
+>> Hi Ed,
+>>
+>> I liked.
+>>
+>> Two points:
+>>
+>> - How about if user sets INHERIT = "rm_work"? I mean the image
+>> recipe will be rm, right? I always put my images in RM_WORK_EXCLUDE
+>> so wic can use it.
+>>
+> rm_work removes artifacts required by wic. Wic will complain that rootfs
+> can't be found. There is a bug about i https://bugzilla.yoctoproject.org/show_bug.cgi?id=7042
+> I closed it as not a bug as wic uses build artifacts by design.
 
-[YOCTO #7126]
+I agree.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/classes/insane.bbclass | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+>> - What will be the behavior if: wic create test-image-4Gb -e
+>> test-image --rootfs rootfs1=test-image --rootfs
+>> rootfs2=bringup-image -f. A believed that only 'test-image' will be
+>> build. Right?
+>>
+> I don't fully understand command line options in your example, but generally you're right.
+> wic will take image name from -e option and run "bitbake test-image" in this case.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ab7ca3b..3592575 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -30,7 +30,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
-             pn-overrides infodir build-deps file-rdeps \
--            unknown-configure-option \
-+            unknown-configure-option symlink-to-sysroot \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -612,7 +612,6 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
-             if target.startswith(tmpdir):
-                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
-                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
--
- def package_qa_check_license(workdir, d):
-     """
-     Check for changes in the license files 
-@@ -811,13 +810,14 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-             if bb.data.inherits_class('nativesdk', d):
-                 ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
-             # For Saving the FILERDEPENDS
--            filerdepends = set()
-+            filerdepends = {}
-             rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-             for key in rdep_data:
-                 if key.startswith("FILERDEPENDS_"):
-                     for subkey in rdep_data[key].split():
--                        filerdepends.add(subkey)
--            filerdepends -= ignored_file_rdeps
-+                        if subkey not in ignored_file_rdeps:
-+                            # We already know it starts with FILERDEPENDS_
-+                            filerdepends[subkey] = key[13:]
- 
-             if filerdepends:
-                 next = rdepends
-@@ -849,31 +849,27 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                 # case there is a RDEPENDS_pkg = "python" in the recipe.
-                 for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
-                     if py in done:
--                        filerdepends.discard("/usr/bin/python")
-+                        filerdepends.pop("/usr/bin/python",None)
-                         done.remove(py)
-                 for rdep in done:
-                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
--                    rdep_rprovides = set()
-                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-                     for key in rdep_data:
-                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
-                             for subkey in rdep_data[key].split():
--                                rdep_rprovides.add(subkey)
-+                                filerdepends.pop(subkey,None)
-                         # Add the files list to the rprovides
-                         if key == "FILES_INFO":
-                             # Use eval() to make it as a dict
-                             for subkey in eval(rdep_data[key]):
--                                rdep_rprovides.add(subkey)
--                    filerdepends -= rdep_rprovides
-+                                filerdepends.pop(subkey,None)
-                     if not filerdepends:
-                         # Break if all the file rdepends are met
-                         break
--                    else:
--                        # Clear it for the next loop
--                        rdep_rprovides.clear()
-             if filerdepends:
--                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
--                            (pkg, ', '.join(str(e) for e in filerdepends))
-+                for key in filerdepends:
-+                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
-+                            (filerdepends[key],pkg, key)
-                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
- 
-     return sane
--- 
-1.9.1
+This thread explain the above command line options: 
+http://lists.openembedded.org/pipermail/openembedded-core/2014-March/091185.html
 
+Usually I run this sequence:
+
+bitbake test-image
+bitbate bringup-image
+
+wic create test-image-4Gb -e test-image --rootfs rootfs1=test-image --rootfs rootfs2=bringup-image
+
+So wic will create a directdisk with two images where each one will be 
+place on specific partition.
+
+I  guess if '-f' is used, wic could call bitbake to 'test-image' and 
+'bringup-image'.
+
+Thanks.
 
