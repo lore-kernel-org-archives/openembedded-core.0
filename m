@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BD79606BF
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id D87F5606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 11:46:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t39BkJio005406; Thu, 9 Apr 2015 12:46:19 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VxlF0H_nBHKI; Thu,  9 Apr 2015 12:46:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t39Bk2Dt005391
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 9 Apr 2015 12:46:13 +0100
-Message-ID: <1428579962.6976.8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Thu, 09 Apr 2015 12:46:02 +0100
-In-Reply-To: <f59ab3d057c5535b83735ed997f9bcc39fa0b661.1428488582.git.Qi.Chen@windriver.com>
-References: <cover.1428488582.git.Qi.Chen@windriver.com>
-	<f59ab3d057c5535b83735ed997f9bcc39fa0b661.1428488582.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] kmod: upgrade to 20
+	Thu,  9 Apr 2015 12:12:53 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id BB738F811E2; Thu,  9 Apr 2015 06:12:54 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 5F480F811D7;
+	Thu,  9 Apr 2015 06:12:54 -0600 (MDT)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Apr 2015 06:13:09 -0600
+Message-Id: <1428581589-5734-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] gst-player: Fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 11:46:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Apr 2015 12:12:56 -0000
 
-On Wed, 2015-04-08 at 18:24 +0800, Chen Qi wrote:
-> The following patches are rebased.
-> -- Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-> -- avoid_parallel_tests.patch
-> 
-> The following patch is added to solve a parallel build bug.
-> -- 0001-Makefile.am-fix-parallel-build-problem.patch
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-kernel/kmod/kmod.inc                  |  5 ++--
->  ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
->  ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
->  .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
->  4 files changed, 57 insertions(+), 22 deletions(-)
->  create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+The subtitle (shown in desktop icon) should say
+  Basic media player
+    -not-
+  Basic media plaer
 
-Doesn't seem to build:
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/250/steps/BuildImages_1/logs/stdio
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
+index 9eb6ada..9fd207b 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
++++ b/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
+@@ -1,6 +1,6 @@
+ [Desktop Entry]
+ Name=Media Player
+-Comment=Basic media plaer
++Comment=Basic media player
+ Icon=audio-player
+ TryExec=gtk-play
+ Exec=gtk-play
+-- 
+1.9.1
 
 
