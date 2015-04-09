@@ -1,26 +1,26 @@
 Return-Path: <Dmitry_Eremin@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 934E065C98
+	by mail.openembedded.org (Postfix) with ESMTP id 9484D6E268
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  9 Apr 2015 19:58:57 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
 	helo=SVR-IES-FEM-02.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1YgIbK-0007UK-Nk from Dmitry_Eremin@mentor.com 
+	id 1YgIbL-0007UK-9v from Dmitry_Eremin@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Apr 2015 12:58:58 -0700
+	Thu, 09 Apr 2015 12:58:59 -0700
 Received: from fangorn.rup.mentorg.com (137.202.0.76) by
 	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Thu, 9 Apr 2015 20:58:57 +0100
+	Server (TLS) id 14.3.224.2; Thu, 9 Apr 2015 20:58:58 +0100
 From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Apr 2015 22:58:53 +0300
-Message-ID: <1428609535-15027-2-git-send-email-dmitry_eremin@mentor.com>
+Date: Thu, 9 Apr 2015 22:58:54 +0300
+Message-ID: <1428609535-15027-3-git-send-email-dmitry_eremin@mentor.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
 References: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] bitbake.conf: add sed-native to ASSUME_PROVIDED
+Subject: [PATCH 3/4] security_flags.inc: add more exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 19:59:00 -0000
+X-List-Received-Date: Thu, 09 Apr 2015 19:59:01 -0000
 Content-Type: text/plain
 
-There is no reason to build sed for the host, however now:
-ERROR: Nothing RPROVIDES 'sed-native' (but virtual:native:/OE/sources/openembedded-core/meta/recipes-extended/groff/groff_1.22.2.bb RDEPENDS on or otherwise requires it)
+Add few more exceptions from other layers as noted during custom image
+builds.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/distro/include/security_flags.inc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f3586da..2b3c110 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -171,6 +171,7 @@ ASSUME_PROVIDED = "\
-     virtual/libintl-native \
-     texinfo-native \
-     bash-native \
-+    sed-native \
-     "
- # gzip-native should be listed above?
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 21e1a53..f977c8e 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -58,8 +58,10 @@ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libvirt = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-lvm2 = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -69,14 +71,18 @@ SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-imaging = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-rrdtool = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-webkit-gtk = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
  
+-# These 2 have text relco errors with the pie options enabled
++# These have text relco errors with the pie options enabled
+ SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-lxc = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-mozjs = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-openldap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+ TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
 -- 
 2.1.4
 
