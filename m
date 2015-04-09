@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E0F606BF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5346873CEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 05:49:16 +0000 (UTC)
+	Thu,  9 Apr 2015 05:49:17 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t395nHdn016429
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t395nIU4017526
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Apr 2015 22:49:17 -0700 (PDT)
+	Wed, 8 Apr 2015 22:49:18 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Apr 2015 22:49:17 -0700
+	14.3.224.2; Wed, 8 Apr 2015 22:49:18 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Apr 2015 13:49:28 +0800
-Message-ID: <83af41eda698917a427db049762c2220983b0a5f.1428558305.git.Qi.Chen@windriver.com>
+Date: Thu, 9 Apr 2015 13:49:29 +0800
+Message-ID: <0be883f21ba69887c02ce4e5b63506272efe7b23.1428558305.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1428558305.git.Qi.Chen@windriver.com>
 References: <cover.1428558305.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/2] util-linux: split out util-linux-sulogin
+Subject: [PATCH V2 2/2] shadow: add 'util-linux-sulogin' to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,71 +36,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 09 Apr 2015 05:49:17 -0000
 Content-Type: text/plain
 
+If shadow is installed, sulogin from busybox cannot work correctly because
+it still assumes that /etc/shadow is not there. This leads to the problem
+when booting into rescue mode in an image with shadow installed but not
+sulogin from util-linux.
+
+To fix this problem, we add 'util-linux-sulogin' to RDEPENDS of shadow.
+This runtime dependency is specific to OE, because we have to ensure
+that sulogin can work correctly and sulogin from busybox cannot because
+FEATURE_SHADOWPASSWORDS is not enabled by default. And we cannot enable
+it by default for busybox, because that would lead to utilities in busybox
+to assume the existence of /etc/shadow which is not always true in OE.
+
 [YOCTO #6698]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/recipes-extended/shadow/shadow.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 2d17fa2..80065e3 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -32,7 +32,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
--             util-linux-findfs util-linux-getopt"
-+             util-linux-findfs util-linux-getopt util-linux-sulogin"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index bb3a927..a05ead3 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -83,7 +83,8 @@ PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
+ PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
  
- PACKAGES_DYNAMIC = "^util-linux-lib.*"
-@@ -96,6 +96,8 @@ FILES_util-linux-mkfs = "${sbindir}/mkfs"
- FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
- FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
+ RDEPENDS_${PN} = "shadow-securetty \
+-                  base-passwd"
++                  base-passwd \
++                  util-linux-sulogin"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
  
-+FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
-+
- # Util-linux' blkid replaces the e2fsprogs one
- FILES_util-linux-blkid = "${base_sbindir}/blkid*"
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
-@@ -104,7 +106,7 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
- # reset calls 'tput'
- RDEPENDS_util-linux-reset += "ncurses"
- 
--RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup"
-+RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
- RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
- 
- RRECOMMENDS_${PN}_class-native = ""
-@@ -173,7 +175,7 @@ ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
- ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
--ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin"
-+ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
- 
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
- ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
-@@ -184,7 +186,6 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
- ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
--ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
- 
- ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1"
- 
-@@ -241,6 +242,9 @@ ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
- ALTERNATIVE_util-linux-getopt = "getopt"
- ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
- 
-+ALTERNATIVE_util-linux-sulogin = "sulogin"
-+ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- python do_package_prepend () {
 -- 
 1.9.1
 
