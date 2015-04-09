@@ -1,40 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C9F3D72D74
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D0BA724DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 09:10:03 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so89750044wiu.1
+	Thu,  9 Apr 2015 09:24:22 +0000 (UTC)
+Received: by iedfl3 with SMTP id fl3so108072922ied.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Apr 2015 02:10:04 -0700 (PDT)
+	Thu, 09 Apr 2015 02:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=/w+ZwBqSQJmCDs0Z1tRbC6wkd8sw6uG96tcm6Ii87bA=;
-	b=dM5953ZOA+JxOTfTYv83ann6laYNqHJVN7lvOImxvrSE5yKtY0X/V98uaLJ531TW8Y
-	rV844+0wcdFOSqLxtPDx85jXPiFep0MW5mecMSSQu5QH45uuyiVPfiBZIL0Jxm3YBY7Z
-	tdcg6+h7MnCXytgtUslbdYYIbh80f/lv6Y/A5Vxtyk4ksRYOYVF7WrgC4nbIJDASnY9B
-	Dxj9MfeTdnFbPOeNi+Jav1p5zw36tVdVDdhVBi2xVEOkBRtsJVMk9Tl3CQuU3r/DhavM
-	aqRQJGsHObUK/2gbgFWkTaKWZvacT0onKgwWnyTgaEZ+QITjPqV92LEBgMlXLLQBeKut
-	LQKQ==
-X-Gm-Message-State: ALoCoQmJfddLhmoWkIf2jblQ7EmgZ+peAkO1QLytvZ6CkgqsgTTxqvqzAJnnG1kzIJkEf/dq7vM7
-X-Received: by 10.194.222.197 with SMTP id qo5mr57558537wjc.142.1428570604478; 
-	Thu, 09 Apr 2015 02:10:04 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
-	by mx.google.com with ESMTPSA id
-	fy2sm19239413wic.15.2015.04.09.02.10.03
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 09 Apr 2015 02:10:03 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ML1z8OFvzGsCUmVO8gLIaGzpv6DR5XPcDHeveQ1H6jM=;
+	b=M8kQKFnwgJUmQ38V7sWyMvUR75egpDAgP5WxmSdNs+7mz66wzqAjUEtxXm17t4CawP
+	CUFVrPUnS1XFfZjM4hzlYxxqOlhC88704CBnvO5eEQ9Bj0Ccp7fMZjBKDWfNzgrIGpiG
+	EX7oE5DAYig0GPPZawboHw/qZ3raE0VB7z3LJUOQXKYG0EvZMWOueKyIUZZ9XopvFb8C
+	wI6B9VTwRb9X3EjXiYjsuxzCO/epJGJng3gPIfV5P3FkTG7AT9k4/z2pxZJhVvYpSQTf
+	YTsgUd6J6q7Rm9kIMF0i3CTgJpsUiPp1dmaQZ8Hhp7314mAMyd0cHSVImGQ00ON2i8B2
+	Qbsw==
+X-Gm-Message-State: ALoCoQnxFdvMcSWJf4wQMOMFZdxaxFovxlpVzXtIaZbzSUdLV0rZW3Xz94R4MdlQJCiTiD0mztsK
+X-Received: by 10.50.43.197 with SMTP id y5mr18447628igl.14.1428571463581;
+	Thu, 09 Apr 2015 02:24:23 -0700 (PDT)
+Received: from syncev.vlan14.01.org (p5DE8CDA6.dip0.t-ipconnect.de.
+	[93.232.205.166])
+	by mx.google.com with ESMTPSA id ka2sm8619716igb.2.2015.04.09.02.24.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Apr 2015 02:24:22 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Apr 2015 11:09:53 +0200
-Message-Id: <1428570593-10940-3-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <1428570593-10940-1-git-send-email-koen@dominion.thruhere.net>
-References: <1428570593-10940-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 3/3] gst-ffmpeg: fix internal-libav builds with inherit autotools-brokensep
+Date: Thu,  9 Apr 2015 02:24:14 -0700
+Message-Id: <cover.1428571193.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH 0/3] testimage improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 09:10:06 -0000
+X-List-Received-Date: Thu, 09 Apr 2015 09:24:25 -0000
 
-Building the internal copy of ffmpeg is broken when using S!=B, so
-inherit autotools-brokensep
+I recently started using testimage.bbclass with an image using systemd and
+found some issues:
+- inconsistent output
+- systemd tests failing due to missing avahi in image
+- tests not run in desired order when using TEST_SUITES="auto"
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 6333186e9764b2c269a2b3869956860fa8fde2b1:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index e1a13c4..b5c838f 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
- HOMEPAGE = "http://www.gstreamer.net/"
- DEPENDS = "gstreamer gst-plugins-base zlib bzip2 yasm-native libpostproc"
- 
--inherit autotools pkgconfig
-+inherit autotools-brokensep pkgconfig
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://lower-rank.diff \
+  binutils: Fix packaging now gold is always built (2015-04-08 23:10:57 +0100)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core master
+  https://github.com/pohly/openembedded-core/tree/master
+
+Patrick Ohly (3):
+  oeqa/oetest.py: use bb logging
+  oeqa/runtime/systemd.py: skip instead of failing without avahi
+  testimage: sort modules based on dependencies
+
+ meta/classes/testimage.bbclass    |  6 +++-
+ meta/lib/oeqa/oetest.py           | 61 +++++++++++++++++++++++++++++++++++----
+ meta/lib/oeqa/runtime/systemd.py  |  7 +++++
+ meta/lib/oeqa/utils/decorators.py |  1 +
+ 4 files changed, 69 insertions(+), 6 deletions(-)
+
 -- 
-1.9.0
+1.8.4.5
 
 
