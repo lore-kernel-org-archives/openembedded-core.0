@@ -1,25 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2574A606BF
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DEE873CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 07:10:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t397B0Gf001661
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Apr 2015 00:11:00 -0700 (PDT)
-Received: from localhost (128.224.163.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Thu, 9 Apr 2015 00:10:59 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Apr 2015 15:10:57 +0800
-Message-ID: <1428563457-15238-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [128.224.163.137]
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] lib/oeqa/selftest/bblayers: improve test for add-layer and remove-layer
+	Thu,  9 Apr 2015 08:01:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 09 Apr 2015 01:02:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,548,1422950400"; d="scan'208";a="711124354"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 09 Apr 2015 01:02:01 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id A9493340001;
+	Thu,  9 Apr 2015 01:01:36 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Apr 2015 11:01:46 +0300
+Message-Id: <1428566511-31895-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 1/6] oeqa/runtime/ldd: Added new decorators for existing automated tests.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 07:11:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Apr 2015 08:01:59 -0000
 
-Use absolute path instead of relative path for meta-skeleton.
-Otherwise the case would fail if the builddir outside the poky source
-tree.
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta/lib/oeqa/selftest/bblayers.py |    9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/runtime/ldd.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
-index 5b046d0..3a18029 100644
---- a/meta/lib/oeqa/selftest/bblayers.py
-+++ b/meta/lib/oeqa/selftest/bblayers.py
-@@ -6,7 +6,7 @@ import shutil
+diff --git a/meta/lib/oeqa/runtime/ldd.py b/meta/lib/oeqa/runtime/ldd.py
+index bce56c4..47b3885 100644
+--- a/meta/lib/oeqa/runtime/ldd.py
++++ b/meta/lib/oeqa/runtime/ldd.py
+@@ -8,6 +8,7 @@ def setUpModule():
  
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.base import oeSelfTest
--from oeqa.utils.commands import runCmd
-+from oeqa.utils.commands import runCmd, get_bb_var
- from oeqa.utils.decorators import testcase
+ class LddTest(oeRuntimeTest):
  
- class BitbakeLayers(oeSelfTest):
-@@ -44,15 +44,16 @@ class BitbakeLayers(oeSelfTest):
-         self.assertTrue(find_in_contents)
- 
-     def test_bitbakelayers_add_remove(self):
-+        test_layer = os.path.join(get_bb_var('COREBASE'), 'meta-skeleton')
-         result = runCmd('bitbake-layers show-layers')
-         self.assertNotIn('meta-skeleton', result.output, 'This test cannot run with meta-skeleton in bblayers.conf')
--        result = runCmd('bitbake-layers add-layer ../meta-skeleton')
-+        result = runCmd('bitbake-layers add-layer %s' % test_layer)
-         result = runCmd('bitbake-layers show-layers')
-         self.assertIn('meta-skeleton', result.output)
--        result = runCmd('bitbake-layers remove-layer ../meta-skeleton')
-+        result = runCmd('bitbake-layers remove-layer %s' % test_layer)
-         result = runCmd('bitbake-layers show-layers')
-         self.assertNotIn('meta-skeleton', result.output)
--        result = runCmd('bitbake-layers add-layer ../meta-skeleton')
-+        result = runCmd('bitbake-layers add-layer %s' % test_layer)
-         result = runCmd('bitbake-layers show-layers')
-         self.assertIn('meta-skeleton', result.output)
-         result = runCmd('bitbake-layers remove-layer */meta-skeleton')
++    @testcase(962)
+     @skipUnlessPassed('test_ssh')
+     def test_ldd_exists(self):
+         (status, output) = self.target.run('which ldd')
 -- 
-1.7.9.5
+2.1.0
 
 
