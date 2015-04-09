@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9726D606BF
+	by mail.openembedded.org (Postfix) with ESMTP id 0CFDF606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 12:16:45 +0000 (UTC)
+	Thu,  9 Apr 2015 12:16:46 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 09 Apr 2015 05:16:46 -0700
+	by orsmga102.jf.intel.com with ESMTP; 09 Apr 2015 05:16:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,549,1422950400"; d="scan'208";a="706187166"
+X-IronPort-AV: E=Sophos;i="5.11,549,1422950400"; d="scan'208";a="706187178"
 Received: from heimdall.fi.intel.com ([10.237.72.168])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2015 05:16:46 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2015 05:16:47 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Apr 2015 15:16:21 +0300
-Message-Id: <d3d9f4037e97ba885958f3d527ab8bea2f2261dd.1428577515.git.jussi.kukkonen@intel.com>
+Date: Thu,  9 Apr 2015 15:16:22 +0300
+Message-Id: <485fdf3973998af90c36e6f70ece2255c98067ea.1428577515.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <d3d9f4037e97ba885958f3d527ab8bea2f2261dd.1428577515.git.jussi.kukkonen@intel.com>
+References: <d3d9f4037e97ba885958f3d527ab8bea2f2261dd.1428577515.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1428577515.git.jussi.kukkonen@intel.com>
 References: <cover.1428577515.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/7] glib-networking: Upgrade to 2.44.0
+Subject: [PATCH 2/7] cairo: Upgrade to 1.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 12:16:45 -0000
+X-List-Received-Date: Thu, 09 Apr 2015 12:16:46 -0000
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta-yocto/conf/distro/include/upstream_tracking.inc                  | 1 -
- .../{glib-networking_2.38.0.bb => glib-networking_2.44.0.bb}          | 4 ++--
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-core/glib-networking/{glib-networking_2.38.0.bb => glib-networking_2.44.0.bb} (88%)
+ meta/recipes-graphics/cairo/{cairo_1.12.18.bb => cairo_1.14.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.12.18.bb => cairo_1.14.2.bb} (92%)
 
-diff --git a/meta-yocto/conf/distro/include/upstream_tracking.inc b/meta-yocto/conf/distro/include/upstream_tracking.inc
-index b36ad36..8b95ebb 100644
---- a/meta-yocto/conf/distro/include/upstream_tracking.inc
-+++ b/meta-yocto/conf/distro/include/upstream_tracking.inc
-@@ -57,7 +57,6 @@ RECIPE_NO_UPDATE_REASON_pn-createrepo = "Versions after 0.9.* use YUM, so we hol
- RECIPE_NO_UPDATE_REASON_pn-db= "API compatibility issue"
- RECIPE_NO_UPDATE_REASON_pn-dbus = "D-BUS 1.9.x is the development version, not stable."
- RECIPE_NO_UPDATE_REASON_pn-gawk = "Version 4.1.0 requires Automake 1.13, but have 1.12.6"
--RECIPE_NO_UPDATE_REASON_pn-glib-networking = "Pending Glib-2.0 Update"
- RECIPE_NO_UPDATE_REASON_pn-gnome-desktop = "waiting for the sato gtk3 port"
- RECIPE_NO_UPDATE_REASON_pn-gnome-icon-theme = "waiting for the sato gtk3 port"
- RECIPE_NO_UPDATE_REASON_pn-gnome-keyring = "waiting for the sato gtk3 port"
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.38.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
-similarity index 88%
-rename from meta/recipes-core/glib-networking/glib-networking_2.38.0.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
-index b9ba2d6..848bf53 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.38.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
-@@ -11,8 +11,8 @@ DEPENDS = "glib-2.0 intltool-native"
+diff --git a/meta/recipes-graphics/cairo/cairo_1.12.18.bb b/meta/recipes-graphics/cairo/cairo_1.14.2.bb
+similarity index 92%
+rename from meta/recipes-graphics/cairo/cairo_1.12.18.bb
+rename to meta/recipes-graphics/cairo/cairo_1.14.2.bb
+index fd0bd8c..3272eb3 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.12.18.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.14.2.bb
+@@ -4,8 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
  
- GNOME_COMPRESS_TYPE = "xz"
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
  
--SRC_URI[archive.md5sum] = "a22907deed3d956860d83aa3233e86ff"
--SRC_URI[archive.sha256sum] = "a43eacbf721b475cf6ba0cd2eab02a332014f71a4c41d0b44bd7bbf8ed1f840d"
-+SRC_URI[archive.md5sum] = "6989b20cf3b26dd5ae272e04a9acb0b3"
-+SRC_URI[archive.sha256sum] = "8f8a340d3ba99bfdef38b653da929652ea6640e27969d29f7ac51fbbe11a4346"
+-SRC_URI[md5sum] = "8e4ff32b82c3b39387eb6f5c59ef848e"
+-SRC_URI[sha256sum] = "dc59f0b7ac945ce4e138a03c227a29260915a8b05a4226c1f6f1be586ba7f5b6"
++SRC_URI[md5sum] = "e1cdfaf1c6c995c4d4c54e07215b0118"
++SRC_URI[sha256sum] = "c919d999ddb1bbbecd4bbe65299ca2abd2079c7e13d224577895afa7005ecceb"
  
- PACKAGECONFIG ??= "ca-certificates gnutls"
+ PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
  
 -- 
 2.1.4
