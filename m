@@ -1,37 +1,26 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-vn0-f52.google.com (mail-vn0-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 981E672D74
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 88C22729F1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Apr 2015 23:55:40 +0000 (UTC)
-Received: by vnbg190 with SMTP id g190so814389vnb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Apr 2015 16:55:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4GWDDWR0MTWDIpnSv4tNiJRyVbjPYKuj5sDHVD3BRCs=;
-	b=e5yThexptAD1hHH6YhkV6o8kF7y4rnVECy9tutPnBIR/zKdVnOtK0HGQ2k0g+F6rHl
-	9ZbYuZ7q8BIELAk+Z7Ckvq6hZtA4CGDP6n1ELeGe6Wxw7ewdSezFe54uIeCuXRvLdsfR
-	LFlsphcCUEhKxAtl13EIluiU0EEDcGSMB38Xy0K2NsYLrIrJ5guz//REYvKSC/+Z8Egw
-	UUiq9R/ce7gga1o/wFIy9WGrx3PhExMIzP1xRR37DPdnKmuJPCV7X2GJmgIDShunG0nV
-	HpXb//0yDMaqLS0r1Ix/vYUDoqgPGnwtEXadzNH1mNU/3/M9T3JZulUX5ruS+VjxgGTN
-	yVgg==
-X-Received: by 10.170.197.130 with SMTP id o124mr9171477yke.77.1428623742185; 
-	Thu, 09 Apr 2015 16:55:42 -0700 (PDT)
-Received: from localhost.localdomain.localdomain
-	(75-128-22-150.dhcp.snlo.ca.charter.com. [75.128.22.150])
-	by mx.google.com with ESMTPSA id n22sm296681yho.1.2015.04.09.16.55.41
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Apr 2015 16:55:41 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Apr 2015 16:55:23 -0700
-Message-Id: <1428623723-5794-2-git-send-email-TicoTimo@gmail.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1428623723-5794-1-git-send-email-TicoTimo@gmail.com>
-References: <1428623723-5794-1-git-send-email-TicoTimo@gmail.com>
-Subject: [PATCH 2/2] generate-manifest-3.3.py: Add fractions to ${PN}-numbers
+	Fri, 10 Apr 2015 00:00:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Apr 2015 17:00:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,553,1422950400"; d="scan'208";a="678018342"
+Received: from bitbang.jf.intel.com ([10.7.201.37])
+	by orsmga001.jf.intel.com with ESMTP; 09 Apr 2015 17:00:43 -0700
+Message-ID: <552712AB.60502@linux.intel.com>
+Date: Thu, 09 Apr 2015 17:00:43 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: Lucian Musat <george.l.musat@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1428566892-30526-1-git-send-email-george.l.musat@intel.com>
+	<1428566892-30526-2-git-send-email-george.l.musat@intel.com>
+In-Reply-To: <1428566892-30526-2-git-send-email-george.l.musat@intel.com>
+Subject: Re: [PATCH 2/3] oeqa/utils: Add runner for poky-tiny qemu.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +33,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 23:55:41 -0000
+X-List-Received-Date: Fri, 10 Apr 2015 00:00:44 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-python-cryptography requires fractions module which is currently unpackaged.
+On 04/09/2015 01:08 AM, Lucian Musat wrote:
+> The connection and commands are done via serial.
+>
+> Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+> ---
+>   meta/lib/oeqa/utils/qemutinyrunner.py | 170 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 170 insertions(+)
+>   create mode 100644 meta/lib/oeqa/utils/qemutinyrunner.py
+>
+> diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+> new file mode 100644
+> index 0000000..4f95101
+> --- /dev/null
+> +++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+> @@ -0,0 +1,170 @@
+> +# Copyright (C) 2015 Intel Corporation
+> +#
+> +# Released under the MIT license (see COPYING.MIT)
+> +
+> +# This module provides a class for starting qemu images of poky tiny.
+> +# It's used by testimage.bbclass.
+> +
+> +import subprocess
+> +import os
+> +import time
+> +import signal
+> +import re
+> +import socket
+> +import select
+> +import bb
+> +from qemurunner import QemuRunner
+> +
+> +class QemuTinyRunner(QemuRunner):
+> +
+> +    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime):
+> +
+> +        # Popen object for runqemu
+> +        self.runqemu = None
+> +        # pid of the qemu process that runqemu will start
+> +        self.qemupid = None
+> +        # target ip - from the command line
+> +        self.ip = None
+> +        # host ip - where qemu is running
+> +        self.server_ip = None
+> +
+> +        self.machine = machine
+> +        self.rootfs = rootfs
+> +        self.display = display
+> +        self.tmpdir = tmpdir
+> +        self.deploy_dir_image = deploy_dir_image
+> +        self.logfile = logfile
+> +        self.boottime = boottime
+> +
+> +        self.runqemutime = 60
+> +        self.socketfile = "console.sock"
+> +        self.server_socket = None
+> +        self.kernel = kernel
+> +
+> +
+> +    def create_socket(self):
+> +        tries = 3
+> +        while tries > 0:
+> +            try:
+> +                self.server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+> +                self.server_socket.connect(self.socketfile)
+> +                bb.note("Created listening socket for qemu serial console.")
+> +                tries = 0
+> +            except socket.error, msg:
+> +                self.server_socket.close()
+> +                bb.fatal("Failed to create listening socket.")
+> +                tries -= 1
+> +
+> +    def log(self, msg):
+> +        if self.logfile:
+> +            with open(self.logfile, "a") as f:
+> +                f.write("%s" % msg)
+> +
+> +    def start(self, qemuparams = None):
+> +
+> +        if self.display:
+> +            os.environ["DISPLAY"] = self.display
+> +        else:
+> +            bb.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
+> +            return False
+> +        if not os.path.exists(self.rootfs):
+> +            bb.error("Invalid rootfs %s" % self.rootfs)
+> +            return False
+> +        if not os.path.exists(self.tmpdir):
+> +            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
+> +            return False
+> +        else:
+> +            os.environ["OE_TMPDIR"] = self.tmpdir
+> +        if not os.path.exists(self.deploy_dir_image):
+> +            bb.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
+> +            return False
+> +        else:
+> +            os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+> +
+> +        # Set this flag so that Qemu doesn't do any grabs as SDL grabs interact
+> +        # badly with screensavers.
+> +        os.environ["QEMU_DONT_GRAB"] = "1"
+> +        self.qemuparams = '--append "root=/dev/ram0 console=ttyS0" -nographic -serial unix:%s,server,nowait' % self.socketfile
+> +
+> +        launch_cmd = 'qemu-system-i386 -kernel %s -initrd %s %s' % (self.kernel, self.rootfs, self.qemuparams)
+> +        self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
+> +
+> +        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
+> +        bb.note("waiting at most %s seconds for qemu pid" % self.runqemutime)
+> +        endtime = time.time() + self.runqemutime
+> +        while not self.is_alive() and time.time() < endtime:
+> +            time.sleep(1)
+> +
+> +        if self.is_alive():
+> +            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
+> +            self.create_socket()
+> +        else:
+> +            bb.note("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
+> +            output = self.runqemu.stdout
+> +            self.stop()
+> +            bb.note("Output from runqemu:\n%s" % output.read())
+> +            return False
+> +
+> +        return self.is_alive()
+> +
+> +    def run_serial(self, command):
+> +        self.server_socket.sendall(command+'\n')
+> +        data = ''
+> +        status = 0
+> +        stopread = False
+> +        endtime = time.time()+5
+> +        while time.time()<endtime and not stopread:
+> +                sread, _, _ = select.select([self.server_socket],[],[],5)
+> +                for sock in sread:
+> +                        answer = sock.recv(1024)
+> +                        if answer:
+> +                                data += answer
+> +                        else:
+> +                                sock.close()
+> +                                stopread = True
+> +        if not data:
+> +            status = 1
+> +        return (status, str(data))
+> +
+> +    def find_child(self,parent_pid):
+> +        #
+> +        # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
+> +        #
+> +        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
+> +        processes = ps.split('\n')
+> +        nfields = len(processes[0].split()) - 1
+> +        pids = {}
+> +        commands = {}
+> +        for row in processes[1:]:
+> +            data = row.split(None, nfields)
+> +            if len(data) != 3:
+> +                continue
+> +            if data[1] not in pids:
+> +                pids[data[1]] = []
+> +
+> +            pids[data[1]].append(data[0])
+> +            commands[data[0]] = data[2]
+> +
+> +        if parent_pid not in pids:
+> +            return []
+> +
+> +        parents = []
+> +        newparents = pids[parent_pid]
+> +        while newparents:
+> +            next = []
+> +            for p in newparents:
+> +                if p in pids:
+> +                    for n in pids[p]:
+> +                        if n not in parents and n not in next:
+> +                            next.append(n)
+> +                if p not in parents:
+> +                    parents.append(p)
+> +                    newparents = next
+> +        #print "Children matching %s:" % str(parents)
+> +        for p in parents:
+> +            # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
+> +            # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
+> +            basecmd = commands[p].split()[0]
+> +            basecmd = os.path.basename(basecmd)
+> +            if "qemu-system" in basecmd and "-serial unix" in commands[p]:
+> +                return [int(p),commands[p]]
+> \ No newline at end of file
+>
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- meta/recipes-devtools/python/python-3.3-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.3.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-3.3-manifest.inc b/meta/recipes-devtools/python/python-3.3-manifest.inc
-index 61119c6..a200561 100644
---- a/meta/recipes-devtools/python/python-3.3-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.3-manifest.inc
-@@ -155,7 +155,7 @@ FILES_${PN}-netserver="${libdir}/python3.3/cgi.* ${libdir}/python3.3/*HTTPServer
- 
- SUMMARY_${PN}-numbers="Python number APIs"
- RDEPENDS_${PN}-numbers="${PN}-core ${PN}-lang ${PN}-re"
--FILES_${PN}-numbers="${libdir}/python3.3/decimal.* ${libdir}/python3.3/numbers.* "
-+FILES_${PN}-numbers="${libdir}/python3.3/decimal.* ${libdir}/python3.3/fractions.* ${libdir}/python3.3/numbers.* "
- 
- SUMMARY_${PN}-pickle="Python serialisation/persistence support"
- RDEPENDS_${PN}-pickle="${PN}-core ${PN}-codecs ${PN}-io ${PN}-re"
-diff --git a/scripts/contrib/python/generate-manifest-3.3.py b/scripts/contrib/python/generate-manifest-3.3.py
-index 48cc84d..df5ebfa 100755
---- a/scripts/contrib/python/generate-manifest-3.3.py
-+++ b/scripts/contrib/python/generate-manifest-3.3.py
-@@ -309,7 +309,7 @@ if __name__ == "__main__":
-     "cgi.* *HTTPServer.* SocketServer.*" )
- 
-     m.addPackage( "${PN}-numbers", "Python number APIs", "${PN}-core ${PN}-lang ${PN}-re",
--    "decimal.* numbers.*" )
-+    "decimal.* fractions.* numbers.*" )
- 
-     m.addPackage( "${PN}-pickle", "Python serialisation/persistence support", "${PN}-core ${PN}-codecs ${PN}-io ${PN}-re",
-     "pickle.* shelve.* lib-dynload/cPickle.*.so pickletools.*" )
--- 
-2.1.0
+Lucian, since this is derived from the base class QemuRunner, could we not add 
+some more parameters to the base class so that we can have more code reuse by 
+calling the base class functions? Most of the lines are copied straight from 
+QemuRunner. And log() was copied verbatim.
 
 
