@@ -1,30 +1,41 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 12598605F1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A33A605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 03:16:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A3GttH000662
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Apr 2015 20:16:56 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Thu, 9 Apr 2015 20:16:55 -0700
-Message-ID: <552740A4.2090804@windriver.com>
-Date: Fri, 10 Apr 2015 11:16:52 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
+	Fri, 10 Apr 2015 05:18:06 +0000 (UTC)
+Received: by pacyx8 with SMTP id yx8so10714566pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Apr 2015 22:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=wmIJ/slOdDm8UI+6siU0CiwNr4ASHkmc9uIEf8fBD0I=;
+	b=ZYUXvde6aOYr5LbUij+6Su+UyKZXpxUB0Tz751qq3t011KvdqRg1Bl/rz8hzlYdcbi
+	EsNixvRTN1j41llfVlWbWweqmzoEDJ2IbkyTpJZtY0+CnxY+lX+8H6ZDQtD/e3WwlXAv
+	iIh+h6y2Ftoy+qejh3GhWYzaZQMPjvMYJzJGBET6k2zpJD7cI82hjKC+M0S7a/C5i/QS
+	3lVPK+dp/VjCcVZQ6E/+gUKQ1t4m1dt3A6TmGWtPzz86DLPKeGV+eEo57YrzV6MrDpNa
+	nNQUq5EjxT8WKFxNcgCa0XulriUMhQHJHLgzec4mvKKmB/iJ+O8CJUQmq4lrRFpXF1Xf
+	IyFA==
+X-Received: by 10.68.135.4 with SMTP id po4mr22642330pbb.12.1428643087989;
+	Thu, 09 Apr 2015 22:18:07 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:4cec:29d1:bda8:6611?
+	([2601:9:3580:84c:4cec:29d1:bda8:6611])
+	by mx.google.com with ESMTPSA id f1sm772343pds.62.2015.04.09.22.18.06
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 Apr 2015 22:18:06 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1428574981.6976.7.camel@linuxfoundation.org>
+Date: Thu, 9 Apr 2015 22:18:05 -0700
+Message-Id: <6452ADE7-BA02-4AA5-8B77-677E86788DDD@gmail.com>
+References: <ff271af7055b2ee3ee93b5ae53dce06876585381.1428341478.git.raj.khem@gmail.com>
+	<fe627d2aeef3ed39caa98f73942c0f23ff2bf825.1428341478.git.raj.khem@gmail.com>
+	<1428574981.6976.7.camel@linuxfoundation.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1428488582.git.Qi.Chen@windriver.com>	
-	<f59ab3d057c5535b83735ed997f9bcc39fa0b661.1428488582.git.Qi.Chen@windriver.com>
-	<1428579962.6976.8.camel@linuxfoundation.org>
-In-Reply-To: <1428579962.6976.8.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.236]
+X-Mailer: Apple Mail (2.2098)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] kmod: upgrade to 20
+Subject: Re: [PATCH 02/24] mtd-utils: update to latest and fix static inlining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 03:16:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Apr 2015 05:18:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 04/09/2015 07:46 PM, Richard Purdie wrote:
-> On Wed, 2015-04-08 at 18:24 +0800, Chen Qi wrote:
->> The following patches are rebased.
->> -- Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
->> -- avoid_parallel_tests.patch
->>
->> The following patch is added to solve a parallel build bug.
->> -- 0001-Makefile.am-fix-parallel-build-problem.patch
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-kernel/kmod/kmod.inc                  |  5 ++--
->>   ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
->>   ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
->>   .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
->>   4 files changed, 57 insertions(+), 22 deletions(-)
->>   create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
-> Doesn't seem to build:
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/250/steps/BuildImages_1/logs/stdio
->
-> Cheers,
->
-> Richard
->
->
->
 
-Thanks for pointing it out.
+> On Apr 9, 2015, at 3:23 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+>> use static storage class instead of extern for inline functions
+>> and remove duplicate definitions as a result
+>=20
+> This says what this does but not why. Upstream-Status is also missing.
+>=20
 
-I'm looking into this problem.
-New version of kmod is modified to use modules from module-playground 
-instead of copying prebuilt modules to the repository. And those modules 
-are built against host /lib/modules/xxx directory. I think that's the 
-root cause.
-I'm trying to figure out a solution.
+Fair enough, I have added some documentation in patch header and updated =
+the patch on contrib branch here
 
-Best Regards,
-Chen Qi
+=
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/mas=
+ter&id=3D815e7fc68563013749b5be4da6c137e7d3677308=
 
