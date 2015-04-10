@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E3E336ABF7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5648373CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 08:31:31 +0000 (UTC)
+	Fri, 10 Apr 2015 08:31:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A8VXQt002500
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3A8VXpC016199
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Apr 2015 01:31:33 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	Fri, 10 Apr 2015 01:31:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Apr 2015 01:31:28 -0700
-Message-ID: <8e8271911615b4e69d526f79015de55b6a832603.1428654657.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Apr 2015 01:31:29 -0700
+Message-ID: <9c09efd348229a8dd1ac6ad2388beed38c504802.1428654657.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1428654657.git.liezhi.yang@windriver.com>
 References: <cover.1428654657.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] wget: 1.16.2 -> 1.16.3
+Subject: [PATCH 3/3] git: 2.3.1 -> 2.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +38,31 @@ Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../wget/{wget_1.16.2.bb => wget_1.16.3.bb}        |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/wget/{wget_1.16.2.bb => wget_1.16.3.bb} (45%)
+ .../git/{git_2.3.1.bb => git_2.3.5.bb}             |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.3.1.bb => git_2.3.5.bb} (41%)
 
-diff --git a/meta/recipes-extended/wget/wget_1.16.2.bb b/meta/recipes-extended/wget/wget_1.16.3.bb
-similarity index 45%
-rename from meta/recipes-extended/wget/wget_1.16.2.bb
-rename to meta/recipes-extended/wget/wget_1.16.3.bb
-index 8a0161d..87755b2 100644
---- a/meta/recipes-extended/wget/wget_1.16.2.bb
-+++ b/meta/recipes-extended/wget/wget_1.16.3.bb
-@@ -2,7 +2,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://fix_makefile.patch \
-           "
+diff --git a/meta/recipes-devtools/git/git_2.3.1.bb b/meta/recipes-devtools/git/git_2.3.5.bb
+similarity index 41%
+rename from meta/recipes-devtools/git/git_2.3.1.bb
+rename to meta/recipes-devtools/git/git_2.3.5.bb
+index ebece81..f7e6af1 100644
+--- a/meta/recipes-devtools/git/git_2.3.1.bb
++++ b/meta/recipes-devtools/git/git_2.3.5.bb
+@@ -1,9 +1,9 @@
+ require git.inc
  
--SRC_URI[md5sum] = "d33b130ff23155e360d0a5172575bf56"
--SRC_URI[sha256sum] = "311a28f211117a338501009bfaba5bfeb9cd71564a7b9ad5775b8f5f4369f972"
-+SRC_URI[md5sum] = "f61d9011b99f824106a5d5a05dd0f63d"
-+SRC_URI[sha256sum] = "9f1c6d09d7148c1c2d9fd0ea655dcf4dcc407deb2db32d4126251ca0245cb670"
+-SRC_URI[tarball.md5sum] = "a6673b9c297ff16cd573c4ff0bba34af"
+-SRC_URI[tarball.sha256sum] = "a447b8912ab6e9efd05bdd2e4bbb1e7f55498b0d2b92e03319c06efea7b6e46f"
+-SRC_URI[manpages.md5sum] = "aed07476a8323fa0be964a310f4be402"
+-SRC_URI[manpages.sha256sum] = "89b4c81306fe77ea745292586efba42507bacced079e3ca015e85fbe244d13b8"
++SRC_URI[tarball.md5sum] = "8101cd7497ee64d1ed07d12541826a30"
++SRC_URI[tarball.sha256sum] = "ab88b66b71bcf1918d57f2cb9d4f4763a63d6628c8c69ab331ba77263da1f096"
++SRC_URI[manpages.md5sum] = "209ed840bb155bc6fc129675ee7bb0a2"
++SRC_URI[manpages.sha256sum] = "56a1661df8c405b1ca54ee61c6e2327af517a0e14b686abc16480f02fec69819"
  
- require wget.inc
+ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
 -- 
 1.7.9.5
 
