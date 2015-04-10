@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 893B373D2F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D15DB73D31
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Apr 2015 09:30:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9U93n028424
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9UA0T002965
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 02:30:09 -0700 (PDT)
+	Fri, 10 Apr 2015 02:30:10 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Fri, 10 Apr 2015 02:30:09 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Apr 2015 02:29:57 -0700
-Message-ID: <99fdf3e92dac8f4b39eadb6bf6f7dd2d1ec4e9e8.1428656126.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Apr 2015 02:29:58 -0700
+Message-ID: <b835d586570a449c4fd0b5c23f8b5ec6e8566159.1428656126.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1428656126.git.liezhi.yang@windriver.com>
 References: <cover.1428656126.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/15] apmd: remove libapm-dev and libapm-staticdev from PACKAGES
+Subject: [PATCH 06/15] augeas: remove extra dev and dbg from PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 09:30:08 -0000
+X-List-Received-Date: Fri, 10 Apr 2015 09:30:09 -0000
 Content-Type: text/plain
 
 There should be only one dev and dbg package.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-bsp/apmd/apmd_3.2.2-14.bb |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-extended/augeas/augeas.inc |    5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
-index ab7de65..65dd01b 100644
---- a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
-+++ b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
-@@ -74,9 +74,7 @@ do_install() {
- 		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/apmd.service
- }
+diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-extended/augeas/augeas.inc
+index ac25326..004c998 100644
+--- a/meta/recipes-extended/augeas/augeas.inc
++++ b/meta/recipes-extended/augeas/augeas.inc
+@@ -14,13 +14,10 @@ DEPENDS = "readline libxml2"
  
--PACKAGES =+ "libapm libapm-dev libapm-staticdev apm"
-+PACKAGES =+ "libapm apm"
+ inherit autotools pkgconfig
  
- FILES_libapm = "${libdir}/libapm${SOLIBS}"
--FILES_libapm-dev = "${libdir}/libapm${SOLIBSDEV} ${includedir} ${libdir}/libapm.la"
--FILES_libapm-staticdev = "${libdir}/libapm.a"
- FILES_apm = "${bindir}/apm*"
+-PACKAGES =+ "${PN}-lenses lib${BPN} lib${BPN}-dev lib${BPN}-staticdev lib${BPN}-dbg"
++PACKAGES =+ "${PN}-lenses lib${BPN}"
+ 
+ FILES_${PN}-lenses = "${datadir}/augeas/lenses"
+ FILES_lib${BPN} = "${libdir}/lib*${SOLIBS}"
+-FILES_lib${BPN}-dev = "${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la ${includedir} ${libdir}/pkgconfig"
+-FILES_lib${BPN}-staticdev = "${libdir}/*.a"
+-FILES_lib${BPN}-dbg = "${libdir}/.debug"
+ 
+ RDEPENDS_lib${BPN} += "${PN}-lenses"
+ RRECOMMENDS_lib${BPN} += "${PN}"
 -- 
 1.7.9.5
 
