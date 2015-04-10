@@ -1,24 +1,35 @@
-Return-Path: <bevenson@melinkcorp.com>
-X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 10 Apr 2015 16:52:05 UTC
-Received: from cdptpa-oedge-vip.email.rr.com
-	(cdptpa-outbound-snat.email.rr.com [107.14.166.225])
-	by mail.openembedded.org (Postfix) with ESMTP id 324F96E277
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C17D36E277
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 16:52:05 +0000 (UTC)
-Received: from [98.100.91.242] ([98.100.91.242:39894]
-	helo=evenson-fedora-vm.melinkcorp.local)
-	by cdptpa-oedge02 (envelope-from <bevenson@melinkcorp.com>)
-	(ecelerity 3.5.0.35861 r(Momo-dev:tip)) with ESMTP
-	id 69/21-19845-A0EF7255; Fri, 10 Apr 2015 16:44:59 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
+	Fri, 10 Apr 2015 17:45:32 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so29363926pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Apr 2015 10:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=YHplpQctPWZvC4az0Tjtc5aB2B5F2t0SPh8QRmVXvXE=;
+	b=Est7OJPR83Qk5bbKnH7UMdt9PLp7nv3ynPyrvy9wK+X19xELjIag6t0JUacYBgSqPs
+	vH2oiYUvpq+X46DsiG9wJoY8BfkULS3jO+BlqC9rS4JGaPBPkGMQgZvXST4NTA2R/VYG
+	FL9f+sKWBtPZHPRqyDvPiTZEFI4ISKiu7jDqkmVG7MkRnTdBfBRlsF+oeet3hoa/W5vs
+	FrY5a1toDwmBpM/bsYRFjXFEzkQjTBiNX2G0n8H4bx76PP25KT6jrgQDSSZ1PfwdZtHL
+	XxShlOh0fC+ov6HMzETdvY9/627EzDmF0BvNYdck5hZ0QoxVW/QBhaY6ZZnOiFjQHuXw
+	3p6g==
+X-Received: by 10.66.129.174 with SMTP id nx14mr4623899pab.12.1428687932755;
+	Fri, 10 Apr 2015 10:45:32 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id yy2sm2894820pbb.6.2015.04.10.10.45.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 10 Apr 2015 10:45:31 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Apr 2015 12:44:28 -0400
-Message-Id: <1428684268-55681-1-git-send-email-bevenson@melinkcorp.com>
-X-Mailer: git-send-email 2.1.0
-X-RR-Connecting-IP: 107.14.168.130:25
-X-Cloudmark-Score: 0
-Subject: [dizzy][PATCH] base-files: Check for /run and /var/lock softlinks on upgrade
+Date: Fri, 10 Apr 2015 10:45:20 -0700
+Message-Id: <1428687920-21172-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH] crypto: use bigint in x86-64 perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,105 +42,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 16:52:06 -0000
+X-List-Received-Date: Fri, 10 Apr 2015 17:45:36 -0000
 
-Commit ea647cd9eebdc3e3121b84074519c4bb305adac9 moved the locations
-of /run and /var/lock to match the FHS 3 draft specifications.
-However, the install doesn't remove the existing directories.
-As a result, upgrading a system may result in /run as a softlink
-to /var/run and /var/run as a softlink to /run, creating a circular
-link.
+From: Armin Kuster <akuster@mvista.com>
 
-During pre and post-install, check for the existence of the old
-softlinks, move the old file contents to a temporary location, remove
-the softlinks, and restore the directory contents after installation.
+on some hosts openssl fails to build with this error:
 
-Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
+ghash-x86_64.s: Assembler messages:
+ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
+
+backported fix from community.
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 55 +++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ .../openssl/crypto_use_bigint_in_x86-64_perl.patch | 35 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 07f5c54..71cea08 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -66,6 +66,41 @@ hostname = "openembedded"
+diff --git a/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch b/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
+new file mode 100644
+index 0000000..c397af2
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
+@@ -0,0 +1,35 @@
++Upsteram Status: Backport
++
++When building on x32 systems where the default type is 32bit, make sure
++we can transparently represent 64bit integers.  Otherwise we end up with
++build errors like:
++/usr/bin/perl asm/ghash-x86_64.pl elf > ghash-x86_64.s
++Integer overflow in hexadecimal number at asm/../../perlasm/x86_64-xlate.pl line 201, <> line 890.
++...
++ghash-x86_64.s: Assembler messages:
++ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
++
++We don't enable this globally as there are some cases where we'd get
++32bit values interpreted as unsigned when we need them as signed.
++
++Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
++URL: https://bugs.gentoo.org/542618
++
++Signed-off-By: Armin Kuster <akuster@mvista.com>
++
++Index: openssl-1.0.2a/crypto/perlasm/x86_64-xlate.pl
++===================================================================
++--- openssl-1.0.2a.orig/crypto/perlasm/x86_64-xlate.pl
+++++ openssl-1.0.2a/crypto/perlasm/x86_64-xlate.pl
++@@ -194,7 +194,10 @@ my %globals;
++     }
++     sub out {
++     	my $self = shift;
++-
+++	# When building on x32 ABIs, the expanded hex value might be too
+++	# big to fit into 32bits. Enable transparent 64bit support here
+++	# so we can safely print it out.
+++	use bigint;
++ 	if ($gas) {
++ 	    # Solaris /usr/ccs/bin/as can't handle multiplications
++ 	    # in $self->{value}
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+index 74d6938..9a218be 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+@@ -36,6 +36,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
++            file://crypto_use_bigint_in_x86-64_perl.patch \
+            "
  
- BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
- 
-+# In previous versions of base-files, /run was a softlink to /var/run and the
-+# directory was located in /var/volatlie/run.  Also, /var/lock was a softlink
-+# to /var/volatile/lock which is where the real directory was located.  Now,
-+# /run and /run/lock are the real directories.  If we are upgrading, we may
-+# need to remove the symbolic links first before we create the directories.
-+# Otherwise the directory creation will fail and we will have circular symbolic
-+# links.
-+# 
-+# If we do need to remove the symbolic links first, we also need to preserve
-+# all the contents of the directory so running programs can find the files that
-+# are in use in these directories.  Move the contents to a temporary directory
-+# during pre-install to protect the contents
-+pkg_preinst_${PN} () {
-+    #!/bin/sh -e
-+    if [ x"$D" = "x" ]; then
-+        if [ -e "/var/volatile/lock" ]; then
-+            # Move the contents of /var/volatile/lock to a temporary directory
-+            mkdir -p /run_lock_tmp
-+            mv /var/volatile/lock/* /run_lock_tmp/
-+
-+            # Remove the current directory
-+            rm -rf /var/volatile/lock
-+        fi
-+
-+        if [ -h "/run" ]; then
-+            # Move the contents of /run to a temporary directory
-+            mkdir -p /run_tmp
-+            mv /run/* /run_tmp/
-+
-+            # Remove the current directory
-+            rm -rf /run
-+        fi
-+    fi     
-+}
-+
- do_install () {
- 	for d in ${dirs755}; do
- 		install -m 0755 -d ${D}$d
-@@ -79,6 +114,7 @@ do_install () {
- 	for d in ${volatiles}; do
- 		ln -sf volatile/$d ${D}${localstatedir}/$d
- 	done
-+
- 	ln -snf ../run ${D}${localstatedir}/run
- 	ln -snf ../run/lock ${D}${localstatedir}/lock
- 
-@@ -144,6 +180,25 @@ do_install_append_linuxstdbase() {
-         done
- }
- 
-+# If we are on the actual hardware, check if we had to move /run and /run/lock.
-+# If so, copy the temporary directory contents to their new locations.
-+pkg_postinst_${PN} () {
-+    #!/bin/sh -e
-+    if [ x"$D" = "x" ]; then
-+        if [ -e "/run_tmp" ]; then
-+            mv /run_tmp/* /run/
-+            rmdir /run_tmp
-+        fi
-+
-+        if [ -e "/run_lock_tmp/" ]; then
-+            mv /run_lock_tmp/* /run/lock
-+            rmdir /run_lock_tmp
-+        fi
-+    else
-+        exit 1
-+    fi     
-+}
-+
- PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
- FILES_${PN} = "/"
- FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
+ SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
 -- 
-2.1.0
+2.3.5
 
 
