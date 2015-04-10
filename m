@@ -1,44 +1,24 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A8E8D6ABF7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B1B256ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 08:28:14 +0000 (UTC)
-Received: by wizk4 with SMTP id k4so119824667wiz.1
+	Fri, 10 Apr 2015 08:31:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A8VWKU002497
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 01:28:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=AWT+oli05f7UnIGs6JESlStP1WGxS69cQTLNs/N6W0U=;
-	b=M9PEXemHLoQKQvj/TXLEhL8vaJwXYA6rW/t1ltcziSyXk+4sYSkQB5A/sULjc9422x
-	n0f7voQEhZc7w/EQJ1sToxGkJXmyD3olaKbq1UIYp0e9H3KRam5nc2JeOwB4vAd910mu
-	An+iX1GU5pSNsLSI4zIm68lTchw4m7JhQpzWkcTjsXrQMBcAXq7Ba5Buc/fUaKIaF/VS
-	rFisy7UinFRxpeIsCPLx9HYR8lPsTHvMj9UJOMFae4FLlVivrXxD6ZW8/Vf7M65vOF9Y
-	Yo6jbX//IAYk7bZmsNDNpruO9UanwCZKNRGb3dhNxsdpA8egca1ANBIDm9zVFaq/ILGM
-	AI4A==
-X-Gm-Message-State: ALoCoQlIgkPhZlZyBZBMtdTn5OrDELEWRPKh7JLtSEdzaQPUzd80Yv0diYaGiPxbVOdMncAsIhrx
-X-Received: by 10.194.156.202 with SMTP id wg10mr932222wjb.70.1428654495197;
-	Fri, 10 Apr 2015 01:28:15 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::a99a:eead:4d56:f5c1?
-	([2001:610:612:0:a99a:eead:4d56:f5c1])
-	by mx.google.com with ESMTPSA id ju2sm2325550wid.12.2015.04.10.01.28.13
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 10 Apr 2015 01:28:14 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <6cb3f4e0e51908d8c57b74330f0fa6bcbf2cbb03.1428577515.git.jussi.kukkonen@intel.com>
-Date: Fri, 10 Apr 2015 10:28:12 +0200
-Message-Id: <D71B7CC5-A19B-44C6-B20C-63D2BEFFA751@dominion.thruhere.net>
-References: <d3d9f4037e97ba885958f3d527ab8bea2f2261dd.1428577515.git.jussi.kukkonen@intel.com>
-	<cover.1428577515.git.jussi.kukkonen@intel.com>
-	<6cb3f4e0e51908d8c57b74330f0fa6bcbf2cbb03.1428577515.git.jussi.kukkonen@intel.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] libepoxy: Add as GTK+ 3.16 requirement
+	Fri, 10 Apr 2015 01:31:32 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 10 Apr 2015 01:31:31 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Apr 2015 01:31:26 -0700
+Message-ID: <cover.1428654657.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/3] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,24 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 08:28:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Apr 2015 08:31:31 -0000
+Content-Type: text/plain
 
+The following changes since commit 75ae0b7cf3863eb2857a2b6a7073beea626f751d:
 
-> Op 9 apr. 2015, om 14:16 heeft Jussi Kukkonen =
-<jussi.kukkonen@intel.com> het volgende geschreven:
->=20
-> Libepoxy is a OpenGL function pointer management library required by
-> GTK 3.16.
+  wic: Implement --build-rootfs command line option (2015-04-08 23:11:08 +0100)
 
-Slightly related to libepoxy: what is your opinion on a patch like this: =
-https://github.com/Angstrom-distribution/meta-angstrom/commit/b6b079e79044=
-1b3d926e9dff931b4be59b79b987 ?
-I needed it for xf86-video-ati, but it does good things for most GL =
-drivers, the exception being xf86-video-intel.
+are available in the git repository at:
 
-regards,
+  git://git.openembedded.org/openembedded-core-contrib rbt/PU
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
 
-Koen=
+Robert Yang (3):
+  groff: 1.22.2 -> 1.22.3
+  wget: 1.16.2 -> 1.16.3
+  git: 2.3.1 -> 2.3.5
+
+ .../git/{git_2.3.1.bb => git_2.3.5.bb}             |    8 ++---
+ ...off-1.22.2-correct-man.local-install-path.patch |   36 +++++++++++---------
+ .../groff/{groff_1.22.2.bb => groff_1.22.3.bb}     |    9 ++---
+ .../wget/{wget_1.16.2.bb => wget_1.16.3.bb}        |    4 +--
+ 4 files changed, 30 insertions(+), 27 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.3.1.bb => git_2.3.5.bb} (41%)
+ rename meta/recipes-extended/groff/{groff-1.22.2 => groff-1.22.3}/groff-1.22.2-correct-man.local-install-path.patch (40%)
+ rename meta/recipes-extended/groff/{groff_1.22.2.bb => groff_1.22.3.bb} (89%)
+ rename meta/recipes-extended/wget/{wget_1.16.2.bb => wget_1.16.3.bb} (45%)
+
+-- 
+1.7.9.5
+
 
