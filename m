@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F2B236ABF7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 893B373D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 09:30:07 +0000 (UTC)
+	Fri, 10 Apr 2015 09:30:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9U9A6002962
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9U93n028424
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Apr 2015 02:30:09 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Fri, 10 Apr 2015 02:30:09 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Apr 2015 02:29:56 -0700
-Message-ID: <01d8849d5b3421ecaed8bd5d9ccb5e8cbdc926b8.1428656126.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Apr 2015 02:29:57 -0700
+Message-ID: <99fdf3e92dac8f4b39eadb6bf6f7dd2d1ec4e9e8.1428656126.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1428656126.git.liezhi.yang@windriver.com>
 References: <cover.1428656126.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/15] aspell: remove libpspell-dev from PACKAGES
+Subject: [PATCH 05/15] apmd: remove libapm-dev and libapm-staticdev from PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +40,24 @@ There should be only one dev and dbg package.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/aspell/aspell_0.60.6.1.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/apmd/apmd_3.2.2-14.bb |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/aspell/aspell_0.60.6.1.bb b/meta/recipes-support/aspell/aspell_0.60.6.1.bb
-index a4f0e14..f546721 100644
---- a/meta/recipes-support/aspell/aspell_0.60.6.1.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.6.1.bb
-@@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "f52583a83a63633701c5f71db3dc40aab87b7f76b29723aeb27941eff4
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
+diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
+index ab7de65..65dd01b 100644
+--- a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
++++ b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
+@@ -74,9 +74,7 @@ do_install() {
+ 		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/apmd.service
+ }
  
--PACKAGES += "libaspell libpspell libpspell-dev aspell-utils"
-+PACKAGES += "libaspell libpspell aspell-utils"
+-PACKAGES =+ "libapm libapm-dev libapm-staticdev apm"
++PACKAGES =+ "libapm apm"
  
- RDEPENDS_${PN}-utils += "perl"
- 
-@@ -22,7 +22,7 @@ FILES_libaspell = "${libdir}/libaspell.so.* ${libdir}/aspell*"
- FILES_aspell-utils = "${bindir}/word-list-compress ${bindir}/aspell-import ${bindir}/run-with-aspell ${bindir}/pre*"
- FILES_${PN} = "${bindir}/aspell"
- FILES_libpspell = "${libdir}/libpspell.so.*"
--FILES_libpspell-dev = "${libdir}/libpspell* ${bindir}/pspell-config ${includedir}/pspell"
-+FILES_${PN}-dev += "${bindir}/pspell-config"
- 
- ARM_INSTRUCTION_SET = "arm"
- inherit autotools-brokensep gettext texinfo
+ FILES_libapm = "${libdir}/libapm${SOLIBS}"
+-FILES_libapm-dev = "${libdir}/libapm${SOLIBSDEV} ${includedir} ${libdir}/libapm.la"
+-FILES_libapm-staticdev = "${libdir}/libapm.a"
+ FILES_apm = "${bindir}/apm*"
 -- 
 1.7.9.5
 
