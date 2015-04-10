@@ -1,26 +1,39 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 88C22729F1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 88A1E729F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 00:00:42 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Apr 2015 17:00:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,553,1422950400"; d="scan'208";a="678018342"
-Received: from bitbang.jf.intel.com ([10.7.201.37])
-	by orsmga001.jf.intel.com with ESMTP; 09 Apr 2015 17:00:43 -0700
-Message-ID: <552712AB.60502@linux.intel.com>
-Date: Thu, 09 Apr 2015 17:00:43 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: Lucian Musat <george.l.musat@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1428566892-30526-1-git-send-email-george.l.musat@intel.com>
-	<1428566892-30526-2-git-send-email-george.l.musat@intel.com>
-In-Reply-To: <1428566892-30526-2-git-send-email-george.l.musat@intel.com>
-Subject: Re: [PATCH 2/3] oeqa/utils: Add runner for poky-tiny qemu.
+	Fri, 10 Apr 2015 00:22:23 +0000 (UTC)
+Received: by pacyx8 with SMTP id yx8so4013182pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Apr 2015 17:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=vqa4Fj8bbuxvQOwpZtBNsPp2rqxBimraUONAzBmfcVA=;
+	b=QotPWGOEdcaG4J6nylgKjeMXD6W5CHTFdpZez5rc5Q9oXjFa12wQSqo8LtI1uRZDh+
+	82nsC962rAQUDMfV8+Y5T1XRCYdhw2/Xyav8nC6MU3+eywSBQiWUCvwX0agT86XobKBh
+	po9iAM/76/ol7bh6UpHK0SX1wq3B0AOhqXHXaB7iVH4szY8RxQIu2h+KrWZnG4+oMUmn
+	GUCNDz52KhcA7pCVZFNyGZsU8D3Fnv0HweZf2myemo350TKMs2x5FSrLzxul4CMrMwIN
+	v7CxVEMBJiAVposhPJVt5/Ky1D/a/6TiV3ytpIrOT9oozZdsWdKijrWe7SKIZaWHpW2d
+	xVpA==
+X-Received: by 10.68.248.98 with SMTP id yl2mr58891237pbc.41.1428625345185;
+	Thu, 09 Apr 2015 17:22:25 -0700 (PDT)
+Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
+	[76.103.142.85])
+	by mx.google.com with ESMTPSA id u5sm196110pdu.57.2015.04.09.17.22.23
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 Apr 2015 17:22:23 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1428563457-15238-1-git-send-email-yi.zhao@windriver.com>
+Date: Thu, 9 Apr 2015 17:22:22 -0700
+Message-Id: <DEF0B711-0C4D-4AFB-8057-E981A06E7DAC@gmail.com>
+References: <1428563457-15238-1-git-send-email-yi.zhao@windriver.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lib/oeqa/selftest/bblayers: improve test for add-layer and remove-layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,201 +46,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 00:00:44 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Apr 2015 00:22:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 04/09/2015 01:08 AM, Lucian Musat wrote:
-> The connection and commands are done via serial.
->
-> Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+
+> On Apr 9, 2015, at 12:10 AM, Yi Zhao <yi.zhao@windriver.com> wrote:
+>=20
+> Use absolute path instead of relative path for meta-skeleton.
+> Otherwise the case would fail if the builddir outside the poky source
+> tree.
+
+may be you should say =E2=80=98OE-Core=E2=80=99 sources instead here.
+
+>=20
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
->   meta/lib/oeqa/utils/qemutinyrunner.py | 170 ++++++++++++++++++++++++++++++++++
->   1 file changed, 170 insertions(+)
->   create mode 100644 meta/lib/oeqa/utils/qemutinyrunner.py
->
-> diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-> new file mode 100644
-> index 0000000..4f95101
-> --- /dev/null
-> +++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-> @@ -0,0 +1,170 @@
-> +# Copyright (C) 2015 Intel Corporation
-> +#
-> +# Released under the MIT license (see COPYING.MIT)
-> +
-> +# This module provides a class for starting qemu images of poky tiny.
-> +# It's used by testimage.bbclass.
-> +
-> +import subprocess
-> +import os
-> +import time
-> +import signal
-> +import re
-> +import socket
-> +import select
-> +import bb
-> +from qemurunner import QemuRunner
-> +
-> +class QemuTinyRunner(QemuRunner):
-> +
-> +    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime):
-> +
-> +        # Popen object for runqemu
-> +        self.runqemu = None
-> +        # pid of the qemu process that runqemu will start
-> +        self.qemupid = None
-> +        # target ip - from the command line
-> +        self.ip = None
-> +        # host ip - where qemu is running
-> +        self.server_ip = None
-> +
-> +        self.machine = machine
-> +        self.rootfs = rootfs
-> +        self.display = display
-> +        self.tmpdir = tmpdir
-> +        self.deploy_dir_image = deploy_dir_image
-> +        self.logfile = logfile
-> +        self.boottime = boottime
-> +
-> +        self.runqemutime = 60
-> +        self.socketfile = "console.sock"
-> +        self.server_socket = None
-> +        self.kernel = kernel
-> +
-> +
-> +    def create_socket(self):
-> +        tries = 3
-> +        while tries > 0:
-> +            try:
-> +                self.server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-> +                self.server_socket.connect(self.socketfile)
-> +                bb.note("Created listening socket for qemu serial console.")
-> +                tries = 0
-> +            except socket.error, msg:
-> +                self.server_socket.close()
-> +                bb.fatal("Failed to create listening socket.")
-> +                tries -= 1
-> +
-> +    def log(self, msg):
-> +        if self.logfile:
-> +            with open(self.logfile, "a") as f:
-> +                f.write("%s" % msg)
-> +
-> +    def start(self, qemuparams = None):
-> +
-> +        if self.display:
-> +            os.environ["DISPLAY"] = self.display
-> +        else:
-> +            bb.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
-> +            return False
-> +        if not os.path.exists(self.rootfs):
-> +            bb.error("Invalid rootfs %s" % self.rootfs)
-> +            return False
-> +        if not os.path.exists(self.tmpdir):
-> +            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
-> +            return False
-> +        else:
-> +            os.environ["OE_TMPDIR"] = self.tmpdir
-> +        if not os.path.exists(self.deploy_dir_image):
-> +            bb.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
-> +            return False
-> +        else:
-> +            os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
-> +
-> +        # Set this flag so that Qemu doesn't do any grabs as SDL grabs interact
-> +        # badly with screensavers.
-> +        os.environ["QEMU_DONT_GRAB"] = "1"
-> +        self.qemuparams = '--append "root=/dev/ram0 console=ttyS0" -nographic -serial unix:%s,server,nowait' % self.socketfile
-> +
-> +        launch_cmd = 'qemu-system-i386 -kernel %s -initrd %s %s' % (self.kernel, self.rootfs, self.qemuparams)
-> +        self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
-> +
-> +        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
-> +        bb.note("waiting at most %s seconds for qemu pid" % self.runqemutime)
-> +        endtime = time.time() + self.runqemutime
-> +        while not self.is_alive() and time.time() < endtime:
-> +            time.sleep(1)
-> +
-> +        if self.is_alive():
-> +            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
-> +            self.create_socket()
-> +        else:
-> +            bb.note("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
-> +            output = self.runqemu.stdout
-> +            self.stop()
-> +            bb.note("Output from runqemu:\n%s" % output.read())
-> +            return False
-> +
-> +        return self.is_alive()
-> +
-> +    def run_serial(self, command):
-> +        self.server_socket.sendall(command+'\n')
-> +        data = ''
-> +        status = 0
-> +        stopread = False
-> +        endtime = time.time()+5
-> +        while time.time()<endtime and not stopread:
-> +                sread, _, _ = select.select([self.server_socket],[],[],5)
-> +                for sock in sread:
-> +                        answer = sock.recv(1024)
-> +                        if answer:
-> +                                data += answer
-> +                        else:
-> +                                sock.close()
-> +                                stopread = True
-> +        if not data:
-> +            status = 1
-> +        return (status, str(data))
-> +
-> +    def find_child(self,parent_pid):
-> +        #
-> +        # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
-> +        #
-> +        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
-> +        processes = ps.split('\n')
-> +        nfields = len(processes[0].split()) - 1
-> +        pids = {}
-> +        commands = {}
-> +        for row in processes[1:]:
-> +            data = row.split(None, nfields)
-> +            if len(data) != 3:
-> +                continue
-> +            if data[1] not in pids:
-> +                pids[data[1]] = []
-> +
-> +            pids[data[1]].append(data[0])
-> +            commands[data[0]] = data[2]
-> +
-> +        if parent_pid not in pids:
-> +            return []
-> +
-> +        parents = []
-> +        newparents = pids[parent_pid]
-> +        while newparents:
-> +            next = []
-> +            for p in newparents:
-> +                if p in pids:
-> +                    for n in pids[p]:
-> +                        if n not in parents and n not in next:
-> +                            next.append(n)
-> +                if p not in parents:
-> +                    parents.append(p)
-> +                    newparents = next
-> +        #print "Children matching %s:" % str(parents)
-> +        for p in parents:
-> +            # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
-> +            # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
-> +            basecmd = commands[p].split()[0]
-> +            basecmd = os.path.basename(basecmd)
-> +            if "qemu-system" in basecmd and "-serial unix" in commands[p]:
-> +                return [int(p),commands[p]]
-> \ No newline at end of file
->
-
-Lucian, since this is derived from the base class QemuRunner, could we not add 
-some more parameters to the base class so that we can have more code reuse by 
-calling the base class functions? Most of the lines are copied straight from 
-QemuRunner. And log() was copied verbatim.
+> meta/lib/oeqa/selftest/bblayers.py |    9 +++++----
+> 1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/bblayers.py =
+b/meta/lib/oeqa/selftest/bblayers.py
+> index 5b046d0..3a18029 100644
+> --- a/meta/lib/oeqa/selftest/bblayers.py
+> +++ b/meta/lib/oeqa/selftest/bblayers.py
+> @@ -6,7 +6,7 @@ import shutil
+>=20
+> import oeqa.utils.ftools as ftools
+> from oeqa.selftest.base import oeSelfTest
+> -from oeqa.utils.commands import runCmd
+> +from oeqa.utils.commands import runCmd, get_bb_var
+> from oeqa.utils.decorators import testcase
+>=20
+> class BitbakeLayers(oeSelfTest):
+> @@ -44,15 +44,16 @@ class BitbakeLayers(oeSelfTest):
+>         self.assertTrue(find_in_contents)
+>=20
+>     def test_bitbakelayers_add_remove(self):
+> +        test_layer =3D os.path.join(get_bb_var('COREBASE'), =
+'meta-skeleton')
+>         result =3D runCmd('bitbake-layers show-layers')
+>         self.assertNotIn('meta-skeleton', result.output, 'This test =
+cannot run with meta-skeleton in bblayers.conf')
+> -        result =3D runCmd('bitbake-layers add-layer =
+../meta-skeleton')
+> +        result =3D runCmd('bitbake-layers add-layer %s' % test_layer)
+>         result =3D runCmd('bitbake-layers show-layers')
+>         self.assertIn('meta-skeleton', result.output)
+> -        result =3D runCmd('bitbake-layers remove-layer =
+../meta-skeleton')
+> +        result =3D runCmd('bitbake-layers remove-layer %s' % =
+test_layer)
+>         result =3D runCmd('bitbake-layers show-layers')
+>         self.assertNotIn('meta-skeleton', result.output)
+> -        result =3D runCmd('bitbake-layers add-layer =
+../meta-skeleton')
+> +        result =3D runCmd('bitbake-layers add-layer %s' % test_layer)
+>         result =3D runCmd('bitbake-layers show-layers')
+>         self.assertIn('meta-skeleton', result.output)
+>         result =3D runCmd('bitbake-layers remove-layer =
+*/meta-skeleton')
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
