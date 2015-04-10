@@ -1,29 +1,24 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B291B6E277
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C475B6ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 09:26:19 +0000 (UTC)
+	Fri, 10 Apr 2015 09:30:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9QJBe027743
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 10 Apr 2015 02:26:19 -0700 (PDT)
-Received: from [128.224.163.137] (128.224.163.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Fri, 10 Apr 2015 02:26:19 -0700
-Message-ID: <55279738.8040102@windriver.com>
-Date: Fri, 10 Apr 2015 17:26:16 +0800
-From: Yi Zhao <yi.zhao@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3A9U7GK002956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Apr 2015 02:30:07 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 10 Apr 2015 02:30:07 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Apr 2015 02:29:52 -0700
+Message-ID: <cover.1428656126.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1428563457-15238-1-git-send-email-yi.zhao@windriver.com>
-	<DEF0B711-0C4D-4AFB-8057-E981A06E7DAC@gmail.com>
-In-Reply-To: <DEF0B711-0C4D-4AFB-8057-E981A06E7DAC@gmail.com>
-X-Originating-IP: [128.224.163.137]
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/oeqa/selftest/bblayers: improve test for add-layer and remove-layer
+Subject: [PATCH 00/15] meta: unique dev and dbg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 09:26:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 Apr 2015 09:30:07 -0000
+Content-Type: text/plain
 
+Remove extra dev and dbg packages, keep PN-dev and PN-dbg.
 
+// Robert
 
-在 2015年04月10日 08:22, Khem Raj 写道:
->> On Apr 9, 2015, at 12:10 AM, Yi Zhao <yi.zhao@windriver.com> wrote:
->>
->> Use absolute path instead of relative path for meta-skeleton.
->> Otherwise the case would fail if the builddir outside the poky source
->> tree.
-> may be you should say ‘OE-Core’ sources instead here.
+The following changes since commit 75ae0b7cf3863eb2857a2b6a7073beea626f751d:
 
-Thanks,  Khem. Strictly speaking it should be OE-Core.
+  wic: Implement --build-rootfs command line option (2015-04-08 23:11:08 +0100)
 
-Yi
+are available in the git repository at:
 
->
->> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
->> ---
->> meta/lib/oeqa/selftest/bblayers.py |    9 +++++----
->> 1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
->> index 5b046d0..3a18029 100644
->> --- a/meta/lib/oeqa/selftest/bblayers.py
->> +++ b/meta/lib/oeqa/selftest/bblayers.py
->> @@ -6,7 +6,7 @@ import shutil
->>
->> import oeqa.utils.ftools as ftools
->> from oeqa.selftest.base import oeSelfTest
->> -from oeqa.utils.commands import runCmd
->> +from oeqa.utils.commands import runCmd, get_bb_var
->> from oeqa.utils.decorators import testcase
->>
->> class BitbakeLayers(oeSelfTest):
->> @@ -44,15 +44,16 @@ class BitbakeLayers(oeSelfTest):
->>          self.assertTrue(find_in_contents)
->>
->>      def test_bitbakelayers_add_remove(self):
->> +        test_layer = os.path.join(get_bb_var('COREBASE'), 'meta-skeleton')
->>          result = runCmd('bitbake-layers show-layers')
->>          self.assertNotIn('meta-skeleton', result.output, 'This test cannot run with meta-skeleton in bblayers.conf')
->> -        result = runCmd('bitbake-layers add-layer ../meta-skeleton')
->> +        result = runCmd('bitbake-layers add-layer %s' % test_layer)
->>          result = runCmd('bitbake-layers show-layers')
->>          self.assertIn('meta-skeleton', result.output)
->> -        result = runCmd('bitbake-layers remove-layer ../meta-skeleton')
->> +        result = runCmd('bitbake-layers remove-layer %s' % test_layer)
->>          result = runCmd('bitbake-layers show-layers')
->>          self.assertNotIn('meta-skeleton', result.output)
->> -        result = runCmd('bitbake-layers add-layer ../meta-skeleton')
->> +        result = runCmd('bitbake-layers add-layer %s' % test_layer)
->>          result = runCmd('bitbake-layers show-layers')
->>          self.assertIn('meta-skeleton', result.output)
->>          result = runCmd('bitbake-layers remove-layer */meta-skeleton')
->> -- 
->> 1.7.9.5
->>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+  git://git.pokylinux.org/poky-contrib rbt/dev
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/dev
+
+Robert Yang (15):
+  xz: remove liblzma-dev and liblzma-dbg from PACKAGES
+  bzip2: remove libbz2-dev libbz2-staticdev from from PACKAGES
+  acl/attr: remove extra dev and staticdev from PACKAGES
+  aspell: remove libpspell-dev from PACKAGES
+  apmd: remove libapm-dev and libapm-staticdev from PACKAGES
+  augeas: remove extra dev and dbg from PACKAGES
+  cogl: remove extra dev from PACKAGES
+  curl: remove extra dev and staticdev from PACKAGES
+  elfutils: remove libdw-dev libasm-dev libelf-dev from PACKAGES
+  libtool: remove libltdl-dev libltdl-dbg libltdl-staticdev from
+    PACKAGES
+  libxmu: remove libxmuu-dev from PACKAGES
+  opkg: remove libopkg-dev and libopkg-staticdev from PACKAGES
+  pciutils: remove libpci-dev and libpci-dbg from PACKAGES
+  sysfsutils: remove libsysfs-dev and libsysfs-staticdev from PACKAGES
+  tiff: remove extra dev and dbg from PACKAGES
+
+ meta/recipes-bsp/apmd/apmd_3.2.2-14.bb           |    4 +---
+ meta/recipes-bsp/pciutils/pciutils_3.3.0.bb      |    5 +----
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb |    2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb |    5 +----
+ meta/recipes-devtools/elfutils/elfutils_0.161.bb |    5 +----
+ meta/recipes-devtools/libtool/libtool-2.4.6.inc  |    9 +-------
+ meta/recipes-devtools/opkg/opkg_0.2.4.bb         |    4 +---
+ meta/recipes-extended/augeas/augeas.inc          |    5 +----
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb       |   10 +--------
+ meta/recipes-extended/xz/xz_5.2.0.bb             |    8 +-------
+ meta/recipes-graphics/cogl/cogl-1.0.inc          |   24 ++--------------------
+ meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb   |    3 +--
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb    |    6 +-----
+ meta/recipes-support/aspell/aspell_0.60.6.1.bb   |    4 ++--
+ meta/recipes-support/attr/ea-acl.inc             |   13 +-----------
+ meta/recipes-support/curl/curl_7.40.0.bb         |   11 +---------
+ 16 files changed, 18 insertions(+), 100 deletions(-)
+
+-- 
+1.7.9.5
 
 
