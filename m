@@ -1,33 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id F06DC73D0B
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D6FC66ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 10:18:24 +0000 (UTC)
-Received: by wgin8 with SMTP id n8so13101575wgi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 03:18:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZkFEiDEk0vQ+cN7fo7nRPNFEot64binwhn5/IZpsCiM=;
-	b=n9jhTkfqGZNNeRdRUP8w4TzCxgsKLStUlafepLLMa7Y7CUSLk6QMZYh1bDFP/DJXDN
-	QENPXW+9henCDTOTyCuIqulc1VF0vtqdxuK3MSyz9537SB1viq3hvo+Ew5+C3McOGYOX
-	8awdAjFk2ItiSrZI5qDcw2WO9zANz+T6oDBK84YHRQMj2Cn3+4lS4NJ3vMPLcm6EQODN
-	SsKUtQNMxyVRRJEjyZIXK4etwhqmIzGV4nTMY2a7dxk17i0e6pJOkI6lGN9DPnzMK8VM
-	2B4gIUIjLbCMG4HJeCF6zDvX2M1QZl8aoYroC/7wr+ANyx41rJgz0ZCJFMJ5tOL4piR2
-	rRWg==
-X-Received: by 10.194.123.67 with SMTP id ly3mr1644612wjb.105.1428661105249;
-	Fri, 10 Apr 2015 03:18:25 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id l10sm2255183wje.15.2015.04.10.03.18.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Apr 2015 03:18:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Fri, 10 Apr 2015 10:22:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Apr 2015 03:22:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,556,1422950400"; d="scan'208";a="706783994"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2015 03:22:53 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 73DAB6A408D;
+	Fri, 10 Apr 2015 03:22:29 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Apr 2015 12:18:28 +0200
-Message-Id: <1428661108-7670-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH] elfutils: fix build with -Os
+Date: Fri, 10 Apr 2015 13:22:35 +0300
+Message-Id: <1428661355-25192-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: setup infrastructure for nosetests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +30,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 10:18:25 -0000
+X-List-Received-Date: Fri, 10 Apr 2015 10:22:55 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+cd scripts && nosetests runs 3 simple tests and
+produces nice test coverage report for wic codebase.
+
+This infra can be used to test other scripts and modules.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- ...m-Silence-Werror-maybe-uninitialized-fals.patch | 35 ++++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.161.bb   |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
+ scripts/setup.cfg                 |  6 ++++++
+ scripts/tests/01_wic_test_help.py | 40 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 scripts/setup.cfg
+ create mode 100644 scripts/tests/01_wic_test_help.py
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
+diff --git a/scripts/setup.cfg b/scripts/setup.cfg
 new file mode 100644
-index 0000000..3754c1c
+index 0000000..48a0bb2
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
-@@ -0,0 +1,35 @@
-+From 668accf322fd7185e273bfd50b84320e71d9de5a Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Fri, 10 Apr 2015 00:29:18 +0200
-+Subject: [PATCH] elf_getarsym: Silence -Werror=maybe-uninitialized false
-+ positive
++++ b/scripts/setup.cfg
+@@ -0,0 +1,6 @@
++[nosetests]
++verbosity=2
++exe=1
++with-coverage=1
++cover-erase=1
++cover-package=wic,image
+diff --git a/scripts/tests/01_wic_test_help.py b/scripts/tests/01_wic_test_help.py
+new file mode 100644
+index 0000000..a64cf2f
+--- /dev/null
++++ b/scripts/tests/01_wic_test_help.py
+@@ -0,0 +1,40 @@
++#!/usr/bin/env python
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# Copyright (c) 2015, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++# AUTHORS
++# Ed Bartosh <ed.bartosh@linux.intel.com>
 +
-+Upstream-Status: Pending
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ libelf/elf_getarsym.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++import imp
++import unittest
 +
-+diff --git a/libelf/elf_getarsym.c b/libelf/elf_getarsym.c
-+index d0bb28a..08954d2 100644
-+--- a/libelf/elf_getarsym.c
-++++ b/libelf/elf_getarsym.c
-+@@ -165,8 +165,13 @@ elf_getarsym (elf, ptr)
-+       int w = index64_p ? 8 : 4;
-+ 
-+       /* We have an archive.  The first word in there is the number of
-+-	 entries in the table.  */
-+-      uint64_t n;
-++	 entries in the table.
-++	 Set to SIZE_MAX just to silence -Werror=maybe-uninitialized
-++	 elf_getarsym.c:290:9: error: 'n' may be used uninitialized in this function
-++	 The read_number_entries function doesn't initialize n only when returning
-++	 -1 which in turn ensures to jump over usage of this uninitialized variable.
-++	 */
-++      uint64_t n = SIZE_MAX;
-+       size_t off = elf->start_offset + SARMAG + sizeof (struct ar_hdr);
-+       if (read_number_entries (&n, elf, &off, index64_p) < 0)
-+ 	{
-+-- 
-+2.3.5
++class TestWicHelp(unittest.TestCase):
++    """Test help output of wic (sub)commands"""
 +
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.161.bb b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-index a3c1f36..d8c27f5 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-@@ -15,6 +15,7 @@ SRC_URI += "\
-         file://dso-link-change.patch \
-         file://Fix_elf_cvt_gunhash.patch \
-         file://fixheadercheck.patch \
-+        file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
- "
- 
- # pick the patch from debian
++    def setUp(self):
++        self.main = imp.load_source("wic", "wic").main
++
++    def testhelp(self):
++        self.assertRaises(SystemExit, self.main, ['--help'])
++
++    def testcreatehelp(self):
++        self.assertRaises(SystemExit, self.main, ['create', '--help'])
++
++    def testlisthelp(self):
++        self.assertRaises(SystemExit, self.main, ['list', '--help'])
 -- 
-2.3.5
+2.1.4
 
 
