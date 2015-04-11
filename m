@@ -1,40 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B09073D41
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A8D406E2C3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 01:21:09 +0000 (UTC)
-Received: by pdea3 with SMTP id a3so39367459pde.3
+	Sat, 11 Apr 2015 03:27:25 +0000 (UTC)
+Received: by iejt8 with SMTP id t8so31403605iej.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 18:21:10 -0700 (PDT)
+	Fri, 10 Apr 2015 20:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=9skz1fg4jb3fzZS08QLAlfGJU1JV7ag+wWL2HufePbs=;
-	b=sH0Qn/elSp6FWrQN2ciVD+U3petIUxU21TsBVneQo/qChjqIjc3nx2sgZOCRa/fisI
-	1j7hXJfF+T6K/N3iWS1RPDPiMCH7HJlaplIZt65LWm3Y3WW/p6gU7s3GjUV9FtntXmVo
-	V/a2F5ikJWorYrn3/iBPmIoUVSw8rlqQ9XxuaqgXeIVKrDNFUCS14ouUrHV++Kk9w72S
-	/upYcz6xTX0lkMudKLGaFIujdHOViYfHRIi1LhGVzWU2QIIO6uDn4kQGyhhTn+0QLe9+
-	LHWRTLHTA2n6JZz51wz3XZkgG3qdpqPW/JMbjP8ldXVitgiShgxYGZ9wNGJ10WY3JJ62
-	tWSA==
-X-Received: by 10.70.135.168 with SMTP id pt8mr7258704pdb.8.1428715270911;
-	Fri, 10 Apr 2015 18:21:10 -0700 (PDT)
-Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
-	[24.130.225.169])
-	by mx.google.com with ESMTPSA id nb10sm259984pdb.76.2015.04.10.18.21.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 10 Apr 2015 18:21:10 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Apr 2015 18:20:48 -0700
-Message-Id: <c8117308ef5d12d8bdeb088d2bea4dff4bb686ff.1428714999.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
-References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1428714999.git.raj.khem@gmail.com>
-References: <cover.1428714999.git.raj.khem@gmail.com>
-Cc: Khem Raj <khem_raj@cable.comcast.com>
-Subject: [PATCH 17/17] e2fsprogs: Delete identical binaries and create symlinks instead
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=jpJA/hB/XKPW80baH/syOJPFStD/BJl5eOxHzrFOe+k=;
+	b=Q66R9hI7MGQMTCfw26saRe/MEawugIR89hN+EJFYYw/lruAlKCKtkZZ3mnvaVW35Cq
+	vrbNXMuUH95X+KmAfULFI0Jm2LtBtooxP9FWeaTU3dQ7batpnamO0ZhXvH87NlzppWUY
+	AkFjLGNKqr7po4CtD45ATwLiqpTwSNXmCXRlajv8JS8dWfTdGolHP6sgdYRSAPAe5XhO
+	I3Jiqw05HD1bduoA7oKsh7P0YHPc/n5CsJZkSkcwxed8B0KjLyM3ZLkIN7g84zGsLvkK
+	ohUeDCdTFqfpGRpkZ6X8Ekha8FJNIrt3imKlHE188OV+82wC+ugo6QHSgxOsLLWhY8eq
+	a8Mg==
+MIME-Version: 1.0
+X-Received: by 10.42.111.68 with SMTP id t4mr7409805icp.36.1428722846968; Fri,
+	10 Apr 2015 20:27:26 -0700 (PDT)
+Received: by 10.107.158.20 with HTTP; Fri, 10 Apr 2015 20:27:26 -0700 (PDT)
+In-Reply-To: <1428715039-4209-1-git-send-email-arun@gumstix.com>
+References: <1428715039-4209-1-git-send-email-arun@gumstix.com>
+Date: Fri, 10 Apr 2015 23:27:26 -0400
+Message-ID: <CADkTA4PROF_Ho-az9isuCb+Q29cptOLOfQ14cC38CE-R7ZoQ2g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Arun Bharadwaj <arun@gumstix.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Do not always checkout master branch in the kernel repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,58 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Apr 2015 01:21:09 -0000
+X-List-Received-Date: Sat, 11 Apr 2015 03:27:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Here is what build history tells now
+On Fri, Apr 10, 2015 at 9:17 PM, Arun Bharadwaj <arun@gumstix.com> wrote:
+> It seems like we are checking if a particular branch exists and
+> then we still go ahead and set the machine_branch as master.
+> This doesn't seem correct to me as it would work only for
+> repositories which contain a branch called "master" but would
+> fail in other cases.
 
-e2fsprogs-tune2fs:
+In kernel checkout, we are simply creating the tree from a bare clone, or
+a reference clone. So in fact, we do want to want to check out a consistent
+branch to bring the working files into existence.
 
--PKGSIZE = 144336
-+PKGSIZE = 72175
+Anyone building a repository without master is already using a fairly
+broken workflow .. so I'm not particularly concerned about that case.
 
-e2fsprogs-e2fsck:
+I have an whole set of pending changes to linux-yocto, so I'll grab this
+and throw it on my queue.
 
--PKGSIZE = 1345500
-+PKGSIZE = 269124
+Cheers,
 
-e2fsprogs-mke2fs:
+Bruce
 
--PKGSIZE = 551316
-+PKGSIZE = 111036
+> ---
+>  meta/classes/kernel-yocto.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index f42a5c2..410a6e8 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -211,7 +211,7 @@ do_kernel_checkout() {
+>         # Create a working tree copy of the kernel by checking out a branch
+>         machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+>         git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+> -       if [ $? -eq 0 ]; then
+> +       if [ $? -ne 0 ]; then
+>                 machine_branch="master"
+>         fi
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Change-Id: I0902484ad506d892292c4bea6789467179b5ea8d
-Signed-off-by: Khem Raj <khem_raj@cable.comcast.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 66065bc..e6ff5f9 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -43,6 +43,9 @@ do_install () {
- 	rm -f ${D}${base_sbindir}/blkid
- 	rm -f ${D}${base_sbindir}/fsck
- 	rm -f ${D}${base_sbindir}/findfs
-+	rm -f ${D}${base_sbindir}/mkfs.ext*
-+	rm -f ${D}${base_sbindir}/fsck.ext*
-+	rm -f ${D}${base_sbindir}/e2label
- 
- 	# e2initrd_helper and the pkgconfig files belong in libdir
- 	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-@@ -50,6 +53,11 @@ do_install () {
- 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
- 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
- 	fi
-+	for ext in ext2 ext3 ext4 ext4dev; do
-+		ln -sf mke2fs ${D}${base_sbindir}/mkfs.${ext}
-+		ln -sf e2fsck ${D}${base_sbindir}/fsck.${ext}
-+	done
-+	ln -sf tune2fs ${D}${base_sbindir}/e2label
- 
- 	oe_multilib_header ext2fs/ext2_types.h
- 	install -d ${D}${base_bindir}
+
 -- 
-2.1.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
