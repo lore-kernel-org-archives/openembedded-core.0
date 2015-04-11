@@ -1,35 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C17D36E277
+Return-Path: <arun@gumstix.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D04F6E2C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 17:45:32 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so29363926pdb.1
+	Sat, 11 Apr 2015 01:17:21 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so37674781pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 10:45:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=YHplpQctPWZvC4az0Tjtc5aB2B5F2t0SPh8QRmVXvXE=;
-	b=Est7OJPR83Qk5bbKnH7UMdt9PLp7nv3ynPyrvy9wK+X19xELjIag6t0JUacYBgSqPs
-	vH2oiYUvpq+X46DsiG9wJoY8BfkULS3jO+BlqC9rS4JGaPBPkGMQgZvXST4NTA2R/VYG
-	FL9f+sKWBtPZHPRqyDvPiTZEFI4ISKiu7jDqkmVG7MkRnTdBfBRlsF+oeet3hoa/W5vs
-	FrY5a1toDwmBpM/bsYRFjXFEzkQjTBiNX2G0n8H4bx76PP25KT6jrgQDSSZ1PfwdZtHL
-	XxShlOh0fC+ov6HMzETdvY9/627EzDmF0BvNYdck5hZ0QoxVW/QBhaY6ZZnOiFjQHuXw
-	3p6g==
-X-Received: by 10.66.129.174 with SMTP id nx14mr4623899pab.12.1428687932755;
-	Fri, 10 Apr 2015 10:45:32 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id yy2sm2894820pbb.6.2015.04.10.10.45.30
+	Fri, 10 Apr 2015 18:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gumstix.com; s=google;
+	h=from:to:subject:date:message-id;
+	bh=OWtxrcielAXpPg0POmtpDas9OW7a6yOzLNYEfoPvLOs=;
+	b=FIBlOmZ9VZlCHNL/9ZyP85opSxUixehPG9fJLOV6sr+2Q8L4IuFAy5kcXaOC/x7Uy2
+	GVXupIHYANxybtzxhaBuzA/uZQtGGAjmtHutKTI10IUMit8fxRoKQ8Nd6YvkTdhimgxD
+	eKdDTyM1vym1ETwJVSN78nVr3XfLAfqOtL5/A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=OWtxrcielAXpPg0POmtpDas9OW7a6yOzLNYEfoPvLOs=;
+	b=UCOn0uRKhhhUf3YxkjX/qBJ6bp0IHTR1+xWO2J3LBQsGtGub2uHh1aQhdeBuL4kXY5
+	ZDNG4ZerHMU+K1HOlNthXdV8OEQ8rju3mA168a6S7XKSa2iR9Y7A0ghX/ydYwriXTd6e
+	OBFwi3STnWAd/0NFczhK6qqGXXXjm/HME9ZpIHzG2ojZ0TW4dcz6z9Qt9zsGwsDhMSyF
+	3Wo5Bhkc19AVFEeIGfBGW3iK8PTPMev41Ydr+Xghr6qpMkcBsxSTSUow4Hs/WaSDqM18
+	lUS4kJ/vMhLfAOEaei4FljFX5iY0Lr+S0Vqj7aGCi8pejiFVXBKeY4z5GPtQ0LF6pSIT
+	bz8g==
+X-Gm-Message-State: ALoCoQmUIYyYUOlqUPKSRtJhYwI0Cga4pjHoF3RYuqESYPz1hSkDB3Y+huEx6xhxsZjQQpjNkVnU
+X-Received: by 10.68.102.228 with SMTP id fr4mr7024295pbb.87.1428715042974;
+	Fri, 10 Apr 2015 18:17:22 -0700 (PDT)
+Received: from localhost.localdomain (s206-116-3-180.bc.hsia.telus.net.
+	[206.116.3.180])
+	by mx.google.com with ESMTPSA id p5sm276065pdi.2.2015.04.10.18.17.22
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 10 Apr 2015 10:45:31 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	Fri, 10 Apr 2015 18:17:22 -0700 (PDT)
+From: Arun Bharadwaj <arun@gumstix.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Apr 2015 10:45:20 -0700
-Message-Id: <1428687920-21172-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH] crypto: use bigint in x86-64 perl
+Date: Fri, 10 Apr 2015 18:17:19 -0700
+Message-Id: <1428715039-4209-1-git-send-email-arun@gumstix.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] Do not always checkout master branch in the kernel repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,78 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 17:45:36 -0000
+X-List-Received-Date: Sat, 11 Apr 2015 01:17:23 -0000
 
-From: Armin Kuster <akuster@mvista.com>
-
-on some hosts openssl fails to build with this error:
-
-ghash-x86_64.s: Assembler messages:
-ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
-
-backported fix from community.
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+It seems like we are checking if a particular branch exists and
+then we still go ahead and set the machine_branch as master.
+This doesn't seem correct to me as it would work only for
+repositories which contain a branch called "master" but would
+fail in other cases.
 ---
- .../openssl/crypto_use_bigint_in_x86-64_perl.patch | 35 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch b/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
-new file mode 100644
-index 0000000..c397af2
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/crypto_use_bigint_in_x86-64_perl.patch
-@@ -0,0 +1,35 @@
-+Upsteram Status: Backport
-+
-+When building on x32 systems where the default type is 32bit, make sure
-+we can transparently represent 64bit integers.  Otherwise we end up with
-+build errors like:
-+/usr/bin/perl asm/ghash-x86_64.pl elf > ghash-x86_64.s
-+Integer overflow in hexadecimal number at asm/../../perlasm/x86_64-xlate.pl line 201, <> line 890.
-+...
-+ghash-x86_64.s: Assembler messages:
-+ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
-+
-+We don't enable this globally as there are some cases where we'd get
-+32bit values interpreted as unsigned when we need them as signed.
-+
-+Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
-+URL: https://bugs.gentoo.org/542618
-+
-+Signed-off-By: Armin Kuster <akuster@mvista.com>
-+
-+Index: openssl-1.0.2a/crypto/perlasm/x86_64-xlate.pl
-+===================================================================
-+--- openssl-1.0.2a.orig/crypto/perlasm/x86_64-xlate.pl
-++++ openssl-1.0.2a/crypto/perlasm/x86_64-xlate.pl
-+@@ -194,7 +194,10 @@ my %globals;
-+     }
-+     sub out {
-+     	my $self = shift;
-+-
-++	# When building on x32 ABIs, the expanded hex value might be too
-++	# big to fit into 32bits. Enable transparent 64bit support here
-++	# so we can safely print it out.
-++	use bigint;
-+ 	if ($gas) {
-+ 	    # Solaris /usr/ccs/bin/as can't handle multiplications
-+ 	    # in $self->{value}
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-index 74d6938..9a218be 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-@@ -36,6 +36,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://Makefiles-ptest.patch \
-             file://ptest-deps.patch \
-             file://run-ptest \
-+            file://crypto_use_bigint_in_x86-64_perl.patch \
-            "
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index f42a5c2..410a6e8 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -211,7 +211,7 @@ do_kernel_checkout() {
+ 	# Create a working tree copy of the kernel by checking out a branch
+ 	machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+ 	git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+-	if [ $? -eq 0 ]; then
++	if [ $? -ne 0 ]; then
+ 		machine_branch="master"
+ 	fi
  
- SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
 -- 
-2.3.5
+1.9.1
 
 
