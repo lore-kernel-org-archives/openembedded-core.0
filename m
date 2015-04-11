@@ -1,31 +1,41 @@
-Return-Path: <vm.rod25@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id EB316605F1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id C4E5C605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 15:45:48 +0000 (UTC)
-Received: by iedfl3 with SMTP id fl3so43064111ied.1
+	Sat, 11 Apr 2015 16:15:11 +0000 (UTC)
+Received: by igblo3 with SMTP id lo3so18846007igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 08:45:49 -0700 (PDT)
+	Sat, 11 Apr 2015 09:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=SkfoKMHgQ7t4j9hcRTrdtvGnMMhNxtPZXgYtvpFIvz0=;
-	b=sCxxxVyO33+4f7zRoYek6jpt18+0TgmrYejbc07+AzO/0byI1ihH700TMHzxymlM63
-	nHG6/S69keDtDeo2zYLBCKKsiRaTF/rkrGP6iiY6P+08bAZVw9ycFS0EiIJZhcEeqA+R
-	ubH25nFi3fyih47TV5yktf2iU+Qdm728cZ+0JeMxr5xarpn+O4egMBzgQIfLzjW0e4kc
-	08eGEWyHImz1EjEBZXNxJROLlKHjyu/oIaYTVBrLkiqGbzLdwdb4CNS83H9odvKWFn7Q
-	iXp3HMQJwz8egoVwdbLdx5rZlJSvvVQ2jDkJZ95WvIBPvxBsIXUi4g0Ss+wf8fSB2wm6
-	104w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=BLSrIOqUqnE3XBUO4taien+wAG8SzHHj6t+oM9nJXxs=;
+	b=Wm2AjSfCCWyWYFvvowM+P6PvHFsSwS46uizuJRrmF0aNMD5ADgFt5ogvvWma+VLHYi
+	A9JbyY8CyyDwXfNqo0FbqAavitHMw0IFqlIU5b28KpAKoduRyYK3j148ndJ3NINjcOr2
+	RIwPJQ9Le8wuscewZ8Vtx5ltoQsh3vaM8GBfe1iw61WCwIcI7uFD73Puwf57khGmkoqm
+	iznfUIqLjiKr4qvY/w1/FqesrZnK6g6jhLblmTCj2GDNLqe5QrS0NbkuC8G3aA5h+ozM
+	gidKvg7HnpVuRktnwriFlkUwHcb7EtayUs7VvurkK190qe8lRQIVPiGpD5Lh6zprFis2
+	fb9Q==
+X-Received: by 10.50.111.233 with SMTP id il9mr5734199igb.13.1428768912469;
+	Sat, 11 Apr 2015 09:15:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.50.111.10 with SMTP id ie10mr5455539igb.15.1428767149635;
-	Sat, 11 Apr 2015 08:45:49 -0700 (PDT)
-Received: by 10.50.141.228 with HTTP; Sat, 11 Apr 2015 08:45:49 -0700 (PDT)
-Date: Sat, 11 Apr 2015 10:45:49 -0500
-Message-ID: <CAK5mtex2DWeHiDc3mHtQDnUcVSrHyUcjb-ON0KdKRFgV5CEcVQ@mail.gmail.com>
-From: Victor Rodriguez <vm.rod25@gmail.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembedded-core@lists.openembedded.org
-Subject: How to export variable in bitbake build for MPICH
+Received: by 10.50.117.7 with HTTP; Sat, 11 Apr 2015 09:14:42 -0700 (PDT)
+In-Reply-To: <CA+chaQdK9RAWt_Gcv0QSRL913bDkFN1y22pAe8dVNu-V9jhWbA@mail.gmail.com>
+References: <cover.1428714999.git.raj.khem@gmail.com>
+	<9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
+	<c8117308ef5d12d8bdeb088d2bea4dff4bb686ff.1428714999.git.raj.khem@gmail.com>
+	<CA+chaQe1WeSN3pCy3=jzb8x3PZmJ_LdDMtkkzxCrVE9ibZJnOQ@mail.gmail.com>
+	<CAMKF1sqtJ2H0KAOHkz=qYczFOb2_AUX3eb5EQWSiR2HsZPXCxg@mail.gmail.com>
+	<CA+chaQdK9RAWt_Gcv0QSRL913bDkFN1y22pAe8dVNu-V9jhWbA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 11 Apr 2015 09:14:42 -0700
+Message-ID: <CAMKF1sq57xpsqnBE+VPWjTSCEbf8c5n7tpsPSkDmQnHYqiD2mw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Khem Raj <khem_raj@cable.comcast.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 17/17] e2fsprogs: Delete identical binaries and create symlinks instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,68 +48,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Apr 2015 15:45:49 -0000
-Content-Type: multipart/alternative; boundary=089e0149c0546bbf51051374c680
-
---089e0149c0546bbf51051374c680
+X-List-Received-Date: Sat, 11 Apr 2015 16:15:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-HI MPICH build is facing a problem due to the fact that the configure has a
-variable call BASH_SHELL the which set the bash shell of the developer
-computer. However if the developer has /usr/bin/bash  the configure set
-this for the rest of compilation ( you can check this in config.log). Due
-to the fact that Yocto just has /bin/bash the build of any image that
-includes mpich fails.
+On Sat, Apr 11, 2015 at 8:28 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> does it cover e2label as well
+>
+> yes it does
+>
 
-ERROR: Unable to install packages. Command
-'/home/vrodri3/poky/build/tmp/sysroots/x86_64-linux/usr/bin/smart --quiet
---data-dir=/home/vrodri3/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/smart
-install -y mpich@i586 gcc@i586 run-postinsts@all
-packagegroup-core-boot@qemux86 bash@i586' returned 1:
-error: Can't install mpich-3.1.1-r0@i586: no package provides /usr/bin/bash
+OK thx
 
+> On Sat, Apr 11, 2015 at 5:01 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>>
+>> On Saturday, April 11, 2015, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>>
+>>> There is configure option for this, see my pending e2fsprogs patch from
+>>> Friday.
+>>>
+>> Saw it now. Looks good  does it cover e2label as well
+>>>
+>>>
+>>> On Sat, Apr 11, 2015 at 3:20 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>
+>>>> Here is what build history tells now
+>>>>
+>>>> e2fsprogs-tune2fs:
+>>>>
+>>>> -PKGSIZE = 144336
+>>>> +PKGSIZE = 72175
+>>>>
+>>>> e2fsprogs-e2fsck:
+>>>>
+>>>> -PKGSIZE = 1345500
+>>>> +PKGSIZE = 269124
+>>>>
+>>>> e2fsprogs-mke2fs:
+>>>>
+>>>> -PKGSIZE = 551316
+>>>> +PKGSIZE = 111036
+>>>>
+>>>> Change-Id: I0902484ad506d892292c4bea6789467179b5ea8d
+>>>> Signed-off-by: Khem Raj <khem_raj@cable.comcast.com>
+>>>> ---
+>>>>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 8 ++++++++
+>>>>  1 file changed, 8 insertions(+)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>>>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>>>> index 66065bc..e6ff5f9 100644
+>>>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>>>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>>>> @@ -43,6 +43,9 @@ do_install () {
+>>>>         rm -f ${D}${base_sbindir}/blkid
+>>>>         rm -f ${D}${base_sbindir}/fsck
+>>>>         rm -f ${D}${base_sbindir}/findfs
+>>>> +       rm -f ${D}${base_sbindir}/mkfs.ext*
+>>>> +       rm -f ${D}${base_sbindir}/fsck.ext*
+>>>> +       rm -f ${D}${base_sbindir}/e2label
+>>>>
+>>>>         # e2initrd_helper and the pkgconfig files belong in libdir
+>>>>         if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+>>>> @@ -50,6 +53,11 @@ do_install () {
+>>>>                 mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+>>>>                 mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+>>>>         fi
+>>>> +       for ext in ext2 ext3 ext4 ext4dev; do
+>>>> +               ln -sf mke2fs ${D}${base_sbindir}/mkfs.${ext}
+>>>> +               ln -sf e2fsck ${D}${base_sbindir}/fsck.${ext}
+>>>> +       done
+>>>> +       ln -sf tune2fs ${D}${base_sbindir}/e2label
+>>>>
+>>>>         oe_multilib_header ext2fs/ext2_types.h
+>>>>         install -d ${D}${base_bindir}
+>>>> --
+>>>> 2.1.4
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+>
+>
 
-I tested on the mpich src and the problem is fixed with a simple :
-
-export BASH_SHELL=/bin/bash
-
-( configure does not have an option for this )
-
-I have 2 points :
-
-1) When I do the same export and then bitbake os-core-image-minimal the
-build still fails , Why is that happening?
-
-2) What is the best way to fix this ? How can I set the environment
-variable on the recipe ? Should I patch the Configure ?
-
-Thanks a lot and regards
-
-Victor Rodriguez
-
---089e0149c0546bbf51051374c680
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div>HI MPICH build is facing a problem due to the fa=
-ct that the configure has a variable call BASH_SHELL the which set the bash=
- shell of the developer computer. However if the developer has /usr/bin/bas=
-h=C2=A0 the configure set this for the rest of compilation ( you can check =
-this in config.log). Due to the fact that Yocto just has /bin/bash the buil=
-d of any image that includes mpich fails. <br><br>ERROR: Unable to install =
-packages. Command &#39;/home/vrodri3/poky/build/tmp/sysroots/x86_64-linux/u=
-sr/bin/smart --quiet --data-dir=3D/home/vrodri3/poky/build/tmp/work/qemux86=
--poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/smart install -y mpich=
-@i586 gcc@i586 run-postinsts@all packagegroup-core-boot@qemux86 bash@i586&#=
-39; returned 1:<br>error: Can&#39;t install mpich-3.1.1-r0@i586: no package=
- provides /usr/bin/bash<br><br><br></div>I tested on the mpich src and the =
-problem is fixed with a simple : <br><br>export BASH_SHELL=3D/bin/bash<br><=
-br></div><div>( configure does not have an option for this ) <br></div><div=
-><br></div><div>I have 2 points : <br><br></div><div>1) When I do the same =
-export and then bitbake os-core-image-minimal the build still fails , Why i=
-s that happening?<br><br></div><div>2) What is the best way to fix this ? H=
-ow can I set the environment variable on the recipe ? Should I patch the Co=
-nfigure ?=C2=A0 <br><br></div><div>Thanks a lot and regards<br><br></div><d=
-iv>Victor Rodriguez<br><br></div></div>
-
---089e0149c0546bbf51051374c680--
