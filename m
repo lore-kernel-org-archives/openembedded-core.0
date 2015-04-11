@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FFFD73D32
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BFDF873D2D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 01:21:02 +0000 (UTC)
-Received: by pacyx8 with SMTP id yx8so37829774pac.1
+	Sat, 11 Apr 2015 01:21:04 +0000 (UTC)
+Received: by pacyx8 with SMTP id yx8so37830140pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Apr 2015 18:21:04 -0700 (PDT)
+	Fri, 10 Apr 2015 18:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Qh9iQa5FrN6QHJ51nqwCIBv3FHO5vhKJEgq+Kdoib/8=;
-	b=vRWDvPQvNVWD81zeyJAghMvNB1vxFpQJuVIiZKy1YCnzZW73Pouu/k0mVbDSuJCxqs
-	4P+gbfJl2GKIXeZ6PfHGITJWwFpXWz2IDmf5tkhyjez2Lb9jTJ7GXXh8Sr29XnQlsKLg
-	294rU1eGf2E36IXJTftN8mxBcPxptfYwJ7xGHjaS6leugQ2gf2pMhFr+qc4Mo24x1/wh
-	IM7vql6kWC7t0LkSuil/q09DxXw14hzs01i4ApUo3DcWb7M4hwAuCdeIg3B69yUTeuYF
-	R8uGOzvD3cVZ3pfmhwpQW3HBYbZt+UGtAHVzy62Rf1NX+x5FyoKePFhpCv30KwSoGcop
-	jcrg==
-X-Received: by 10.68.225.162 with SMTP id rl2mr6985607pbc.117.1428715264561;
-	Fri, 10 Apr 2015 18:21:04 -0700 (PDT)
+	bh=tZGnT/ViYTHnWCzhgNmilUHY2R0reLVJJ97CXHKpA+I=;
+	b=cqmlaHCzL14HOgDtDXsCl45+XOYEkQiHGnLaLWStqZhjyCvTQ0gGOP4G8xGrH6Z96Q
+	k4BmLVAHyjTrRVQjPGfcHz86jVHXhgi1zNXswvYFjtlrtjE7ItXNXzNNel7HqCf13AxH
+	DDVTJal3HlcxR7+TLCOG+/lBBKfNrsxsLt5Z7gZAR9Tgbdh8+5B9nr1M1misxnpoqHcT
+	mHwoTrAtem4SHXNv5IBDIniHPSGEcV5Qxf2X9jZ/GietejA99jr4vF4QYCWh67lJFeLS
+	TZutLxqnwiEBi7jMkKLV4kvg0dX/kuZQjC3n/XWZ+8HJFylyK1ogy+ttAlFKqaAPZOrx
+	UAfw==
+X-Received: by 10.70.92.34 with SMTP id cj2mr7291527pdb.116.1428715265797;
+	Fri, 10 Apr 2015 18:21:05 -0700 (PDT)
 Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
 	[24.130.225.169])
-	by mx.google.com with ESMTPSA id nb10sm259984pdb.76.2015.04.10.18.21.03
+	by mx.google.com with ESMTPSA id nb10sm259984pdb.76.2015.04.10.18.21.04
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 10 Apr 2015 18:21:03 -0700 (PDT)
+	Fri, 10 Apr 2015 18:21:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Apr 2015 18:20:42 -0700
-Message-Id: <f51fc6d88ad6766561e415faa63d986e1ce00e93.1428714999.git.raj.khem@gmail.com>
+Date: Fri, 10 Apr 2015 18:20:43 -0700
+Message-Id: <f2c5a1972e7c6fa37af88e7e8b773401d222b146.1428714999.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
 References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1428714999.git.raj.khem@gmail.com>
 References: <cover.1428714999.git.raj.khem@gmail.com>
-Subject: [PATCH 11/17] xserver-xorg: Use __GLIBC__ instread of __linux__ to denote glibc dependent code
+Subject: [PATCH 12/17] pulseaudio: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +46,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Apr 2015 01:21:03 -0000
+X-List-Received-Date: Sat, 11 Apr 2015 01:21:05 -0000
 
-Change-Id: Ia899520181feb1c601a76e04a176f4387a331c00
+It reimplements some of standard C library functions but then it assumed
+glibc so we need to break that assumption into conditional defines
+
+Change-Id: I92109c2e4c48ab4c3565f64e68d9cbb165823b45
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...e-__GLIBC__-guard-for-glibc-specific-code.patch | 31 ++++++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.16.3.bb            |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
+ .../0001-padsp-Make-it-compile-on-musl.patch       | 70 ++++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-padsp-Make-it-compile-on-musl.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-padsp-Make-it-compile-on-musl.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-padsp-Make-it-compile-on-musl.patch
 new file mode 100644
-index 0000000..21e4ed4
+index 0000000..8555995
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
-@@ -0,0 +1,31 @@
-+From f242740f6488a25e6ca84968b0e2319a9a3975b4 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-padsp-Make-it-compile-on-musl.patch
+@@ -0,0 +1,70 @@
++From f6ab3c3aa7a1841c8add04828029356d2a8c88e7 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 6 Apr 2015 20:52:50 -0700
-+Subject: [PATCH] use __GLIBC__ guard for glibc specific code
++Date: Mon, 6 Apr 2015 21:56:31 -0700
++Subject: [PATCH] padsp: Make it compile on musl
 +
-+Using __linux__ is a tad bit wrong assumption since
-+linux != glibc
++break assumptions on glibc and there is no stat64 on non
++glibc C libraries
++
++See pulseaudio bug
++
++https://bugs.freedesktop.org/show_bug.cgi?id=85319
 +
 +Upstream-Status: Pending
-+
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ hw/xfree86/os-support/xf86_OSlib.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/utils/padsp.c | 15 +++++++++------
++ 1 file changed, 9 insertions(+), 6 deletions(-)
 +
-+diff --git a/hw/xfree86/os-support/xf86_OSlib.h b/hw/xfree86/os-support/xf86_OSlib.h
-+index eb0a338..c366ffc 100644
-+--- a/hw/xfree86/os-support/xf86_OSlib.h
-++++ b/hw/xfree86/os-support/xf86_OSlib.h
-+@@ -178,7 +178,7 @@
-+ #include <sys/types.h>
-+ #include <assert.h>
++diff --git a/src/utils/padsp.c b/src/utils/padsp.c
++index e61373c..684721a 100644
++--- a/src/utils/padsp.c
+++++ b/src/utils/padsp.c
++@@ -2368,7 +2368,7 @@ fail:
++     return ret;
++ }
 + 
-+-#ifdef __linux__
++-#ifdef sun
+++#ifndef __GLIBC__
++ int ioctl(int fd, int request, ...) {
++ #else
++ int ioctl(int fd, unsigned long request, ...) {
++@@ -2508,10 +2508,13 @@ int stat(const char *pathname, struct stat *buf) {
++ 
++     return 0;
++ }
++-
++ #ifdef HAVE_OPEN64
++-
+++#undef stat64
 ++#ifdef __GLIBC__
-+ #include <termio.h>
-+ #else                           /* __GLIBC__ */
-+ #include <termios.h>
++ int stat64(const char *pathname, struct stat64 *buf) {
+++#else
+++int stat64(const char *pathname, struct stat *buf) {
+++#endif
++     struct stat oldbuf;
++     int ret;
++ 
++@@ -2544,7 +2547,7 @@ int stat64(const char *pathname, struct stat64 *buf) {
++ 
++     return 0;
++ }
++-
+++#undef open64
++ int open64(const char *filename, int flags, ...) {
++     va_list args;
++     mode_t mode = 0;
++@@ -2670,8 +2673,8 @@ FILE* fopen(const char *filename, const char *mode) {
++ }
++ 
++ #ifdef HAVE_OPEN64
++-
++-FILE *fopen64(const char *filename, const char *mode) {
+++#undef fopen64
+++FILE *fopen64(const char *__restrict filename, const char *__restrict mode) {
++ 
++     debug(DEBUG_LEVEL_VERBOSE, __FILE__": fopen64(%s)\n", filename?filename:"NULL");
++ 
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-index cfbc491..7eeadd1 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.3.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://fix_open_max_preprocessor_error.patch \
-             file://xtrans.patch \
-             file://0001-xkb-Don-t-swap-XkbSetGeometry-data-in-the-input-buff.patch \
-             file://0001-xkb-Check-strings-length-against-request-size.patch \
-+            file://0001-use-__GLIBC__-guard-for-glibc-specific-code.patch \
-            "
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+index 91027bf..fb33c7c 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+@@ -1,6 +1,7 @@
+ require pulseaudio.inc
  
- SRC_URI[md5sum] = "afd93977235584a9caa7528a737c1b52"
+ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
++           file://0001-padsp-Make-it-compile-on-musl.patch \
+            file://volatiles.04_pulse \
+ "
+ SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
 -- 
 2.1.4
 
