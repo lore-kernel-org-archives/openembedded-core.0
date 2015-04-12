@@ -1,40 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BA906AC1E
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 600FD6ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 06:59:35 +0000 (UTC)
-Received: by pabtp1 with SMTP id tp1so67720440pab.2
+	Sun, 12 Apr 2015 08:33:28 +0000 (UTC)
+Received: by wiun10 with SMTP id n10so37031802wiu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 23:59:37 -0700 (PDT)
+	Sun, 12 Apr 2015 01:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=UtjV4MSQRQfbBg4+nhdnxf5tp/YdeDiA5BZagsSS4mU=;
-	b=Mubu506Li4spv3RJX6rrbB4Iam6sFdIT81QHodXJ4CAXs1CxcyQ9lJ2SZxrxz/xiSI
-	7x4XAxSOHSCAViOiRbR3npVLeyRwoQvqli6s93FGYyXTHIrWdmLRZ+gNUMmCMUA9yFx6
-	h+2TR/oMOmWyAjWilFr6m3y3fn9LBOIbUjyOKD3yqj017pUtLnShpfexYQ1S1QxXS7S+
-	Pe2aGrLiX0PiOFtdV3hmLr1BoZGgwquMeTQ1ux0vr+5nY7N8DIgD1OROsyds9a3glLtT
-	984dFd8AtCgOd03d3nV+21/NkFCA3WnJXsU57E5cLAsU9G8Q+oKZa88zWyOrwVMkEKKB
-	5ebA==
-X-Received: by 10.68.134.165 with SMTP id pl5mr16316497pbb.134.1428821977074; 
-	Sat, 11 Apr 2015 23:59:37 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by mx.google.com with ESMTPSA id
-	qp13sm3651523pdb.31.2015.04.11.23.59.36
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 11 Apr 2015 23:59:36 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5527E5CE.7050706@windriver.com>
-Date: Sat, 11 Apr 2015 23:59:34 -0700
-Message-Id: <EC511907-3C99-40CE-83C8-B21F209864EB@gmail.com>
-References: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
-	<5527E5CE.7050706@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] e2fsprogs: Package populate-extfs.sh and enable symlink install
+	h=user-agent:in-reply-to:references:mime-version
+	:content-transfer-encoding:content-type:subject:from:date:to
+	:message-id; bh=7Bu2lrClhox7jplFFCLjgvEDvTjVNHzPG0ueJFtkzDY=;
+	b=m5am51A82iPNIv2TApxR6vVTsaSboHSXhJZyQpwMz5GQ3EgNZLJ10CwRjSHqz5UVY2
+	K9c28UGmsEcyAwRMGPZ7zyoFPUg0l6/aZhJ0yxttcCLdE3yWXze7n+MCfA0EOxshWTAT
+	B/vPKKVN8+8dHOiHrL8PreXHv9HRzQahvXx70yw258YwboDXSZA5NB2DmFCLIfB9w8FW
+	VW46u+hbnidHsUnjY1sR+OUt7uZ62j7D4M+isTV29iYlx7j7Ytsulp9SP+nQe59IFY9f
+	AE7hx8NgcwZ84ZQ7ZWTbR86uZJr3rbIOmTcbs3rMnFt4eF7mHjEbr1Cr3vqDi3DfxXAQ
+	0dXw==
+X-Received: by 10.180.82.135 with SMTP id i7mr11732319wiy.85.1428827609780;
+	Sun, 12 Apr 2015 01:33:29 -0700 (PDT)
+Received: from [10.49.48.182] (089144208182.atnat0017.highway.a1.net.
+	[89.144.208.182]) by mx.google.com with ESMTPSA id
+	ax10sm6039351wjc.26.2015.04.12.01.33.28
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 12 Apr 2015 01:33:28 -0700 (PDT)
+User-Agent: K-9 Mail for Android
+In-Reply-To: <2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
+References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com><cover.1428714999.git.raj.khem@gmail.com>
+	<2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
+MIME-Version: 1.0
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Date: Sun, 12 Apr 2015 10:30:37 +0200
+To: Khem Raj <raj.khem@gmail.com>,openembedded-core@lists.openembedded.org
+Message-ID: <A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
+Subject: Re: [PATCH 13/17] sudo: Disable hardening for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 06:59:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 12 Apr 2015 08:33:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=UTF-8
 
+On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
+>musl does not yet enable ssp
 
-> On Apr 10, 2015, at 8:01 AM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->=20
-> I'm a bit confused by this.  Why is symlink saving space over =
-hardlink?
->=20
-> The hardlinked items should retain their hard link status through the =
-packaging
-> and into the image.  If not, it sounds like there is a bug in the =
-packaging
-> mechanism you are using (opkg, deb, rpm?) and/or the image generation.
->=20
-> And just because 'ls' shows the sizes, the fact they are hard linked =
-means
-> they're not taking up duplicate space.
->=20
-> I know there is a lot more then just e2fsprogs that does a hard link =
-vs symlinks
-> for various command, which is why I'm trying to understand where we =
-might have a
-> problem.
->=20
+What happened to distro feature ssp, BTW?
 
-This patch improves the recipe and problems with packaging hard links is =
-orthogonal to it.
-this patch should go in regardless
+Thanks,
 
 
