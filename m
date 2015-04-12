@@ -1,34 +1,38 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 325C46ABF7
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 124E06AC28
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 09:15:39 +0000 (UTC)
-Received: by igblo3 with SMTP id lo3so25989404igb.1
+	Sun, 12 Apr 2015 09:26:56 +0000 (UTC)
+Received: by igbpi8 with SMTP id pi8so10242849igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 02:15:40 -0700 (PDT)
+	Sun, 12 Apr 2015 02:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=oP2hSeZKV0Fga7Tm1PQUpUFuLQCi93X5c09NBpDHXD0=;
-	b=qQNzz2ZRVvADnCzgho6seofTa2bom3NG0XErUtiMMZfGutrGXy+3OA5+efDigZphda
-	MgFSzGUjRu1A/DGnMvbEgHz6KJWCZD2GSw60cmlIgpf2RxaDL+RUq8Scsy6vWXoNgL/D
-	wpa6DCAO9QxeQ4WAW1ZmUmoLNOIWMjb/Hz0zRU1C1xMjveQoKPw7ePgMZyoOWl4eO7h2
-	kckezdDWez41SwUZFt6kqxoaDBJoypu/yk77TryfCGy6Mie9Lwkfv8w5qSy7AEfOBnnr
-	zzRtN1P8JVWMI048IVmo/fiJTW7Hp9jR9R4uWpZj3knT3J6n+a/T4uKA09CTNIQqSYd4
-	XHIw==
-X-Received: by 10.50.93.69 with SMTP id cs5mr9360489igb.4.1428830140673; Sun,
-	12 Apr 2015 02:15:40 -0700 (PDT)
+	bh=cG4TE4STEq5bTZtdr5Ncgjm6uJTvLbq7it6QcMzRhCo=;
+	b=r0EjE512zHNA19G/bdYcuAk4vlopW0skv3vv3eRZ0JbvGegCQM/7USN7odZv4GND/J
+	d8cY47RrZSzTJR5qYtuefPS71DrVeTJTalQhburJlZ/YSTPIRm5jneoHItM5ploqi3gO
+	Cl4Brmqtl6Gm4MoXVSkfpIWJx/sB8bj1CL+wcFt74+fYDZGr597w4DMcrG1SVsN+oTWm
+	s8ftSXGv1faxm4NNUEbjq+62iZOxcw4fKVEUh8BLGsSFXIWBeSM/pvpmNqhnSN+S5tKU
+	f/fh3+zhcWo52ZroTXaB30erxLkDA7k8ap/oU/YGmnIaledCjnfky8pbNFh5R9l719k0
+	PuhQ==
+X-Received: by 10.107.160.212 with SMTP id j203mr13935931ioe.43.1428830817995; 
+	Sun, 12 Apr 2015 02:26:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 02:15:10 -0700 (PDT)
-In-Reply-To: <1428828331.6976.14.camel@linuxfoundation.org>
-References: <1428828331.6976.14.camel@linuxfoundation.org>
+Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 02:26:26 -0700 (PDT)
+In-Reply-To: <A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
+References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
+	<cover.1428714999.git.raj.khem@gmail.com>
+	<2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
+	<A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Apr 2015 02:15:10 -0700
-Message-ID: <CAMKF1sqQTEkuzi_ek+OU84XAaJmQrboXkode0LNpa=_szOvLxQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Performance regression (binutils and gold)
+Date: Sun, 12 Apr 2015 02:26:26 -0700
+Message-ID: <CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/17] sudo: Disable hardening for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,19 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 09:15:40 -0000
+X-List-Received-Date: Sun, 12 Apr 2015 09:26:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Apr 12, 2015 at 1:45 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> The question is therefore, do we have a better way to fix things? Is
-> this performance drop acceptable?
+On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer
+<rep.dot.nop@gmail.com> wrote:
+> On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
+>>musl does not yet enable ssp
+>
+> What happened to distro feature ssp, BTW?
+>
 
-binutils being part of toolchains is hardly rebuilt so often in
-practice. it will be reused from sstate so I am less worried, what
-will worry me more
-is if ld and gold itself have regressed in linking speed.
+It was never used outside uclibc recipes.
 
-We can make it so that we only enable gold for cross build but it will
-make it more complex to remember whats enabled where
+> Thanks,
+>
 
