@@ -1,41 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B290772D74
+Return-Path: <peteasa@gmail.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B7A372D74
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 15:43:53 +0000 (UTC)
-Received: by iget9 with SMTP id t9so41692301ige.1
+	Sun, 12 Apr 2015 17:28:39 +0000 (UTC)
+Received: by wgin8 with SMTP id n8so59733025wgi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 08:43:54 -0700 (PDT)
+	Sun, 12 Apr 2015 10:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TrX3QhTZfy9xshOCF/Imxrj2WkRGUdzJZtT39ue8jA8=;
-	b=Wfn3k5TnjvCwu183L7qnjhyt1unIxhx7HuEj4MKr2F7jmpKN77KO7FT5gsLXQdhWFU
-	eBhZbOh95RuBkEUAdB2NJECgF2KP3iDzcpKvuEqlU74Buo5mf1aDRAoWcAi2pK4zPC0Q
-	hkUkb25+4Y65qXL4Df7fg+DfvMas8YDPYDwAnvJvSTWL3V0nG1C4Cs8/IDr0AP6h+iiU
-	gguXoalCdDzaaLFEl9eusYQBLqpR/r4KLFd2rHNhfftZwhsKo6IXkJq+2xbZGXmwJRDy
-	XLaIF0RPXOi8T6KNkmfua3qpL40/09P4eldOiUu0z3FRM859b6uwikBISrs0PIaYivRy
-	WM0g==
-MIME-Version: 1.0
-X-Received: by 10.42.164.7 with SMTP id e7mr14152937icy.70.1428853434075; Sun,
-	12 Apr 2015 08:43:54 -0700 (PDT)
-Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 08:43:53 -0700 (PDT)
-Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 08:43:53 -0700 (PDT)
-In-Reply-To: <7B4AA248-B0B9-459E-A35D-AA604C9B5AF9@gmail.com>
-References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
-	<cover.1428714999.git.raj.khem@gmail.com>
-	<2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
-	<A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
-	<CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
-	<7B4AA248-B0B9-459E-A35D-AA604C9B5AF9@gmail.com>
-Date: Sun, 12 Apr 2015 08:43:53 -0700
-Message-ID: <CAMKF1sqRvPsxxJha4tZO0B1bCJduDBxVtvwTVW-nZ3SyJPHf3A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/17] sudo: Disable hardening for musl
+	h=from:to:cc:subject:date:message-id;
+	bh=2ZiSt5uc7ghz3l3tz9F+Z/wdRP793+WebVE+jnlR2dY=;
+	b=kz6yXIh9/NQogR2iMffUcpQLnXPOvCJuYNjHRDjq0b7YZbBp+uhJwkPbwUjCOh/ml/
+	WPNbq35uVAfKHUGP8SzObKiSbxTHP7E15P5I4suxBtXd+5C4/UPTiPaiXsUtzLP5NWKE
+	F4y+7EAttR2PNTwR8RPKK6r4t8PTQ84KZ25tgnO89nKR+NQVQEJJK+U9CI0VjzFt9zbI
+	WZR90zwIvH96UHLkhzigeZiV7zRulcqtTyyBNdM9+A98Cbm3b0XpEOh/d14YEPmEXmCd
+	WN3Jwa0gccnHM5LUEhh1eUNQjZejaCPlo6SB0yiQBZt28daZb0irtaOuiCtYjNlzHXZ9
+	R0mg==
+X-Received: by 10.180.14.135 with SMTP id p7mr14475560wic.8.1428859720517;
+	Sun, 12 Apr 2015 10:28:40 -0700 (PDT)
+Received: from HomeMegaUbuntu.pascom
+	(cpc18-heme10-2-0-cust113.9-1.cable.virginm.net. [81.96.152.114])
+	by mx.google.com with ESMTPSA id e2sm7801846wij.5.2015.04.12.10.28.38
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 12 Apr 2015 10:28:39 -0700 (PDT)
+From: Peter Saunderson <peteasa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Apr 2015 18:27:38 +0100
+Message-Id: <1428859658-6004-1-git-send-email-peteasa@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Cc: Peter Saunderson <peteasa@gmail.com>
+Subject: [PATCH v3] insane.bbclass: Added Epiphany machine definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,62 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 15:43:57 -0000
-Content-Type: multipart/alternative; boundary=90e6ba6e84605fd234051388dd7e
+X-List-Received-Date: Sun, 12 Apr 2015 17:28:40 -0000
 
---90e6ba6e84605fd234051388dd7e
-Content-Type: text/plain; charset=UTF-8
+Adding machine definitions for the epiphany (http://www.adapteva.com/) chip using https://github.com/adapteva/epiphany-binutils-gdb.
+For binutils implementation that defines TARGET_ARCH MACHINE "epiphany": 4643 See https://github.com/adapteva/epiphany-binutils-gdb/blob/epiphany-binutils-2.24/bfd/elf32-epiphany.c
+For example layer that uses these defines see https://github.com/peteasa/meta-epiphany.git
 
-On Apr 12, 2015 3:56 AM, "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
-wrote:
->
-> On April 12, 2015 11:26:26 AM GMT+02:00, Khem Raj <raj.khem@gmail.com>
-wrote:
-> >On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer
-> ><rep.dot.nop@gmail.com> wrote:
-> >> On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com>
-> >wrote:
-> >>>musl does not yet enable ssp
-> >>
-> >> What happened to distro feature ssp, BTW?
-> >>
-> >
-> >It was never used outside uclibc recipes.
->
-> Oh indeed, apparently I never submitted it :(
->
-> Would you accept such a distro feature?
-> I don't want ssp per default in micro, for example.
+Signed-off-by: Peter Saunderson <peteasa@gmail.com>
+---
+ meta/classes/insane.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-Sure yes
->
->
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3592575..56ee37d 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -59,6 +59,7 @@ def package_qa_get_machine_dict():
+             "elf" : {
+                         "i586" :      (3,      0,    0,          True,          32),
+                         "x86_64":     (62,     0,    0,          True,          64),
++                        "epiphany":   (4643,   0,    0,          True,          32),
+                       },
+             "linux" : { 
+                         "aarch64" :   (183,    0,    0,          True,          64),
+-- 
+2.1.0
 
---90e6ba6e84605fd234051388dd7e
-Content-Type: text/html; charset=UTF-8
 
-<p dir="ltr"><br>
-On Apr 12, 2015 3:56 AM, &quot;Bernhard Reutner-Fischer&quot; &lt;<a href="mailto:rep.dot.nop@gmail.com">rep.dot.nop@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On April 12, 2015 11:26:26 AM GMT+02:00, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer<br>
-&gt; &gt;&lt;<a href="mailto:rep.dot.nop@gmail.com">rep.dot.nop@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;&gt; On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt;wrote:<br>
-&gt; &gt;&gt;&gt;musl does not yet enable ssp<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; What happened to distro feature ssp, BTW?<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;<br>
-&gt; &gt;It was never used outside uclibc recipes.<br>
-&gt;<br>
-&gt; Oh indeed, apparently I never submitted it :(<br>
-&gt;<br>
-&gt; Would you accept such a distro feature?<br>
-&gt; I don&#39;t want ssp per default in micro, for example.</p>
-<p dir="ltr">Sure yes<br>
-&gt;<br>
-&gt;<br>
-</p>
-
---90e6ba6e84605fd234051388dd7e--
