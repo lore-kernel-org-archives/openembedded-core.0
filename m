@@ -1,44 +1,39 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4456ABF7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 178757390D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 10:56:20 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so38737334wiu.1
+	Sun, 12 Apr 2015 12:49:09 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so25245955wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 03:56:21 -0700 (PDT)
+	Sun, 12 Apr 2015 05:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type:subject:from:date:to:cc
-	:message-id; bh=qGEQ6hzlkzBDngsbh864eZypC7hxCfgOX7lH2lRoFGo=;
-	b=cou8LDlXQl9NDl7vDCGm3mVhaaGYd5w6yV5eSfGy7MBmb+A7U74DPXKEbbqP6vaO18
-	tWa9Gjc4jTpN36kjQC3R5d1DQcmvCYiSNSNbuy8vQwj60sK9rTsUdfsbxW0duipwiESs
-	ek+K7UdpkzpJzcfewHJSuQZSRznJGwaKK/qGk90Goheh9JBoCvBy5Y9PcVYKHc2l7eGh
-	girb5sZ7FvRKeHBhXhhyKsR8Zhz0BockrAt5p3hSezqvEKb6e+uAePA2fwBNBmP//aMm
-	u1avjQG/cvAMGf6VAxVVSwN+whWtG8bvjoY+eop64ZWbi+jBvOdjYXHECBKSALSZZ++x
-	RHjQ==
-X-Received: by 10.180.104.4 with SMTP id ga4mr12554371wib.86.1428836181626;
-	Sun, 12 Apr 2015 03:56:21 -0700 (PDT)
-Received: from [10.46.31.20] (089144233020.atnat0042.highway.a1.net.
-	[89.144.233.20])
-	by mx.google.com with ESMTPSA id l1sm7742034wiy.20.2015.04.12.03.56.20
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=z0B2JhpPTUDXqk56dDIxFLNS3GLMHDLzdKUWz0HBmGg=;
+	b=Ca5oHppLJ2A1ixtFbhpsvVolJuCqRrtTskz+X29z4LJvJm0X2GF02HhoLK53XhMhlr
+	RMhZzhK+xixBWdOLGPl4Be+CBLy+Z+6ImNnJ6jSeC/jvvY2X9NQ5DEZWPiR2+VFbCcli
+	6x5mWKOK9H3mUieu2MQqbNL6yRlLxsCkLXX2jopgkrVNl6K2hpAAVdcpXzNAEZcY677e
+	u7BpLU0rG4OJnEW5HD3B6cRBVK0cZQpAFUA+O82sn9PkxPvXlJZIT58sfTVVHZlnPIrx
+	2/fRtAJzaxuslOkFR8H1kadPRKr+WstwTjwCdswRqKesb3ExPhQD8ckrmDXJl0a65lhv
+	p+/w==
+X-Received: by 10.194.192.167 with SMTP id hh7mr19131846wjc.151.1428842950067; 
+	Sun, 12 Apr 2015 05:49:10 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id xy2sm6907918wjc.14.2015.04.12.05.49.08
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 12 Apr 2015 03:56:20 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
-References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
-	<cover.1428714999.git.raj.khem@gmail.com>
-	<2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
-	<A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
-	<CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
+	Sun, 12 Apr 2015 05:49:09 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sun, 12 Apr 2015 14:49:12 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150412124912.GA2328@jama>
+References: <1428828331.6976.14.camel@linuxfoundation.org>
 MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Sun, 12 Apr 2015 12:56:07 +0200
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <7B4AA248-B0B9-459E-A35D-AA604C9B5AF9@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/17] sudo: Disable hardening for musl
+In-Reply-To: <1428828331.6976.14.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Performance regression (binutils and gold)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,27 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 10:56:25 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Sun, 12 Apr 2015 12:49:10 -0000
+X-Groupsio-MsgNum: 64279
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
+Content-Disposition: inline
 
-On April 12, 2015 11:26:26 AM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
->On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer
-><rep.dot.nop@gmail.com> wrote:
->> On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com>
->wrote:
->>>musl does not yet enable ssp
->>
->> What happened to distro feature ssp, BTW?
->>
->
->It was never used outside uclibc recipes.
+--fdj2RfSjLxBAspz7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oh indeed, apparently I never submitted it :(
+On Sun, Apr 12, 2015 at 09:45:31AM +0100, Richard Purdie wrote:
+> To allow us to upgrade to the latest binutils we ended up enabling
+> building of gold. Unfortunately this is clearly visible on our
+> performance benchmarks, it leads to a 3-4 minute speed loss in overall
+> build time :(.
+>=20
+> Locally, benchmarks for building binutils-cross show:
+>=20
+> Just ld:
+>=20
+> 95.87user 48.36system 1:05.66elapsed 219%CPU (0avgtext+0avgdata
+> 162480maxresident)k
+> 0inputs+1030184outputs (0major+7753895minor)pagefaults 0swaps
+>=20
+> with gold:
+>=20
+> 366.22user 67.25system 1:14.29elapsed 583%CPU (0avgtext+0avgdata
+> 435488maxresident)k
+> 248inputs+1205792outputs (1major+12572236minor)pagefaults 0swaps
+> richard@dax:/media/build1/poky/build2$=20
+>=20
+> So whilst it only takes 10 seconds longer overall for me on what is a
+> pretty powerful machine, you can see a huge increase in user time and
+> CPU usage. I believe that on our slower quad core performance benchmark
+> machine, this equates to a few minutes.
+>=20
+> The question is therefore, do we have a better way to fix things? Is
+> this performance drop acceptable?
 
-Would you accept such a distro feature?
-I don't want ssp per default in micro, for example.
+It's acceptable for me, I think most people with slower machines (with
+less ram) are already using ls-is-gold, so it won't make any difference
+for them.
 
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--fdj2RfSjLxBAspz7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlUqacgACgkQN1Ujt2V2gByuGwCeN5r1+YJY/ECZaOBfLjlQ2mR4
+VlUAoIbKbxVy7JjHCB5L2BHTb6gEn09q
+=K9yP
+-----END PGP SIGNATURE-----
+
+--fdj2RfSjLxBAspz7--
