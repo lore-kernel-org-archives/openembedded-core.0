@@ -1,35 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 124E06AC28
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BF4456ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 09:26:56 +0000 (UTC)
-Received: by igbpi8 with SMTP id pi8so10242849igb.0
+	Sun, 12 Apr 2015 10:56:20 +0000 (UTC)
+Received: by wiun10 with SMTP id n10so38737334wiu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 02:26:58 -0700 (PDT)
+	Sun, 12 Apr 2015 03:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=cG4TE4STEq5bTZtdr5Ncgjm6uJTvLbq7it6QcMzRhCo=;
-	b=r0EjE512zHNA19G/bdYcuAk4vlopW0skv3vv3eRZ0JbvGegCQM/7USN7odZv4GND/J
-	d8cY47RrZSzTJR5qYtuefPS71DrVeTJTalQhburJlZ/YSTPIRm5jneoHItM5ploqi3gO
-	Cl4Brmqtl6Gm4MoXVSkfpIWJx/sB8bj1CL+wcFt74+fYDZGr597w4DMcrG1SVsN+oTWm
-	s8ftSXGv1faxm4NNUEbjq+62iZOxcw4fKVEUh8BLGsSFXIWBeSM/pvpmNqhnSN+S5tKU
-	f/fh3+zhcWo52ZroTXaB30erxLkDA7k8ap/oU/YGmnIaledCjnfky8pbNFh5R9l719k0
-	PuhQ==
-X-Received: by 10.107.160.212 with SMTP id j203mr13935931ioe.43.1428830817995; 
-	Sun, 12 Apr 2015 02:26:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 02:26:26 -0700 (PDT)
-In-Reply-To: <A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
+	h=user-agent:in-reply-to:references:mime-version
+	:content-transfer-encoding:content-type:subject:from:date:to:cc
+	:message-id; bh=qGEQ6hzlkzBDngsbh864eZypC7hxCfgOX7lH2lRoFGo=;
+	b=cou8LDlXQl9NDl7vDCGm3mVhaaGYd5w6yV5eSfGy7MBmb+A7U74DPXKEbbqP6vaO18
+	tWa9Gjc4jTpN36kjQC3R5d1DQcmvCYiSNSNbuy8vQwj60sK9rTsUdfsbxW0duipwiESs
+	ek+K7UdpkzpJzcfewHJSuQZSRznJGwaKK/qGk90Goheh9JBoCvBy5Y9PcVYKHc2l7eGh
+	girb5sZ7FvRKeHBhXhhyKsR8Zhz0BockrAt5p3hSezqvEKb6e+uAePA2fwBNBmP//aMm
+	u1avjQG/cvAMGf6VAxVVSwN+whWtG8bvjoY+eop64ZWbi+jBvOdjYXHECBKSALSZZ++x
+	RHjQ==
+X-Received: by 10.180.104.4 with SMTP id ga4mr12554371wib.86.1428836181626;
+	Sun, 12 Apr 2015 03:56:21 -0700 (PDT)
+Received: from [10.46.31.20] (089144233020.atnat0042.highway.a1.net.
+	[89.144.233.20])
+	by mx.google.com with ESMTPSA id l1sm7742034wiy.20.2015.04.12.03.56.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 12 Apr 2015 03:56:20 -0700 (PDT)
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
 References: <9f232e6f50da95ec02e84c6c25a321250e439d79.1428714999.git.raj.khem@gmail.com>
 	<cover.1428714999.git.raj.khem@gmail.com>
 	<2f1431e35ccf21d9ea3f956bf14ced26980f8f3c.1428714999.git.raj.khem@gmail.com>
 	<A43175A7-E10C-4E5D-9E9B-E91744725F7E@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Apr 2015 02:26:26 -0700
-Message-ID: <CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+	<CAMKF1sp=ecR62FWaR7swXXMats+EHUoV1XaZXe9nfi7df0wmig@mail.gmail.com>
+MIME-Version: 1.0
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Date: Sun, 12 Apr 2015 12:56:07 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <7B4AA248-B0B9-459E-A35D-AA604C9B5AF9@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 13/17] sudo: Disable hardening for musl
@@ -45,19 +51,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 09:26:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 12 Apr 2015 10:56:25 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=UTF-8
 
-On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer
-<rep.dot.nop@gmail.com> wrote:
-> On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
->>musl does not yet enable ssp
+On April 12, 2015 11:26:26 AM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
+>On Sun, Apr 12, 2015 at 1:30 AM, Bernhard Reutner-Fischer
+><rep.dot.nop@gmail.com> wrote:
+>> On April 11, 2015 3:20:44 AM GMT+02:00, Khem Raj <raj.khem@gmail.com>
+>wrote:
+>>>musl does not yet enable ssp
+>>
+>> What happened to distro feature ssp, BTW?
+>>
 >
-> What happened to distro feature ssp, BTW?
->
+>It was never used outside uclibc recipes.
 
-It was never used outside uclibc recipes.
+Oh indeed, apparently I never submitted it :(
 
-> Thanks,
->
+Would you accept such a distro feature?
+I don't want ssp per default in micro, for example.
+
+
 
