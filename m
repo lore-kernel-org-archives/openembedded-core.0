@@ -1,26 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 344DF6ABF7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 325C46ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 08:45:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3C8jirg024720; Sun, 12 Apr 2015 09:45:44 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QeY95j38Qf-m; Sun, 12 Apr 2015 09:45:44 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3C8jVet024704
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 12 Apr 2015 09:45:43 +0100
-Message-ID: <1428828331.6976.14.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Apr 2015 09:45:31 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: Performance regression (binutils and gold)
+	Sun, 12 Apr 2015 09:15:39 +0000 (UTC)
+Received: by igblo3 with SMTP id lo3so25989404igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Apr 2015 02:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=oP2hSeZKV0Fga7Tm1PQUpUFuLQCi93X5c09NBpDHXD0=;
+	b=qQNzz2ZRVvADnCzgho6seofTa2bom3NG0XErUtiMMZfGutrGXy+3OA5+efDigZphda
+	MgFSzGUjRu1A/DGnMvbEgHz6KJWCZD2GSw60cmlIgpf2RxaDL+RUq8Scsy6vWXoNgL/D
+	wpa6DCAO9QxeQ4WAW1ZmUmoLNOIWMjb/Hz0zRU1C1xMjveQoKPw7ePgMZyoOWl4eO7h2
+	kckezdDWez41SwUZFt6kqxoaDBJoypu/yk77TryfCGy6Mie9Lwkfv8w5qSy7AEfOBnnr
+	zzRtN1P8JVWMI048IVmo/fiJTW7Hp9jR9R4uWpZj3knT3J6n+a/T4uKA09CTNIQqSYd4
+	XHIw==
+X-Received: by 10.50.93.69 with SMTP id cs5mr9360489igb.4.1428830140673; Sun,
+	12 Apr 2015 02:15:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.117.7 with HTTP; Sun, 12 Apr 2015 02:15:10 -0700 (PDT)
+In-Reply-To: <1428828331.6976.14.camel@linuxfoundation.org>
+References: <1428828331.6976.14.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 12 Apr 2015 02:15:10 -0700
+Message-ID: <CAMKF1sqQTEkuzi_ek+OU84XAaJmQrboXkode0LNpa=_szOvLxQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Performance regression (binutils and gold)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +41,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 08:45:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 12 Apr 2015 09:15:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-To allow us to upgrade to the latest binutils we ended up enabling
-building of gold. Unfortunately this is clearly visible on our
-performance benchmarks, it leads to a 3-4 minute speed loss in overall
-build time :(.
+On Sun, Apr 12, 2015 at 1:45 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> The question is therefore, do we have a better way to fix things? Is
+> this performance drop acceptable?
 
-Locally, benchmarks for building binutils-cross show:
+binutils being part of toolchains is hardly rebuilt so often in
+practice. it will be reused from sstate so I am less worried, what
+will worry me more
+is if ld and gold itself have regressed in linking speed.
 
-Just ld:
-
-95.87user 48.36system 1:05.66elapsed 219%CPU (0avgtext+0avgdata
-162480maxresident)k
-0inputs+1030184outputs (0major+7753895minor)pagefaults 0swaps
-
-with gold:
-
-366.22user 67.25system 1:14.29elapsed 583%CPU (0avgtext+0avgdata
-435488maxresident)k
-248inputs+1205792outputs (1major+12572236minor)pagefaults 0swaps
-richard@dax:/media/build1/poky/build2$ 
-
-So whilst it only takes 10 seconds longer overall for me on what is a
-pretty powerful machine, you can see a huge increase in user time and
-CPU usage. I believe that on our slower quad core performance benchmark
-machine, this equates to a few minutes.
-
-The question is therefore, do we have a better way to fix things? Is
-this performance drop acceptable?
-
-Cheers,
-
-Richard
-
-
+We can make it so that we only enable gold for cross build but it will
+make it more complex to remember whats enabled where
 
