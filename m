@@ -1,30 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8554760017
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7177D6AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Apr 2015 22:27:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3BMRgJA015032; Sat, 11 Apr 2015 23:27:42 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jh9cIyt0lAiC; Sat, 11 Apr 2015 23:27:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3BMROCn015029
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 11 Apr 2015 23:27:36 +0100
-Message-ID: <1428791244.6976.9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Date: Sat, 11 Apr 2015 23:27:24 +0100
-In-Reply-To: <1428609535-15027-4-git-send-email-dmitry_eremin@mentor.com>
-References: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
-	<1428609535-15027-4-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	Sun, 12 Apr 2015 06:57:51 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so67695281pab.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Apr 2015 23:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=m+MfJeYocK2oPWYu6aK9E1xXn92gpww/zlOsdp1aK5s=;
+	b=BYyijFrPD2d+9xNHMGALAXMbdW2lCzE/hWUdXZiR43kEV9yJaJJBpvUxolw/fNnTXr
+	2S/ugprvYkbNFLLhEAmLGzOCYaHj7ZS7l0OqZrkfXT0bd/wvEOD2vsPNT8PVpKFhk0S1
+	MOAbtctbiGa/nUwc4KBAQiqGvApx0hfASNpJpKUJXY/iwvLZlvgzYw/ATnpI5XS9c1lx
+	5/gVD3RvnQI8wLDn2cNvMlOOw5FDBsZ1dQLPhLF/vQLsrROL4SSuw7/vYtor2lgm41pG
+	KXrtfHnrjYIKmcbrvy4hCJJBjwGEOvIltvaSmQLS2CZ/XPzs0iIbjmRjZ53igECpvY+4
+	jJWA==
+X-Received: by 10.68.139.103 with SMTP id qx7mr16157952pbb.133.1428821872229; 
+	Sat, 11 Apr 2015 23:57:52 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:192b:ba53:6c37:7889?
+	([2601:9:3580:84c:192b:ba53:6c37:7889])
+	by mx.google.com with ESMTPSA id x10sm3683284pas.5.2015.04.11.23.57.51
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 11 Apr 2015 23:57:51 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
+Date: Sat, 11 Apr 2015 23:57:50 -0700
+Message-Id: <1EBE1238-F773-4755-9A9D-19CD1D473AD5@gmail.com>
+References: <1428665669-16128-1-git-send-email-Martin.Jansa@gmail.com>
+	<1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.2098)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] lsb: provide lsb-core-ARCH
+Subject: Re: [dylan][PATCH 2/2] binutils: backport patch to fix build with gcc-4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +47,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Apr 2015 22:27:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 12 Apr 2015 06:57:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2015-04-09 at 22:58 +0300, Dmitry Eremin-Solenikov wrote:
-> Some lsb packages depend on correct lsb-core-ARCH package being
-> installed (or rather provided) on the target file system. Provide this
-> package name by main lsb package.
-> 
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+
+> On Apr 10, 2015, at 4:34 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>=20
+> * backported from 2.23.2, fixes:
+> =
+work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:40=
+9:24:
+>  error: 'dummy.fr_type' may be used uninitialized in this function =
+[-Werror=3Dmaybe-uninitialized]
+>   gas_assert (prev_frag->fr_type !=3D 0);
+>                        ^
+> =
+work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:39=
+2:9: note: 'dummy' was declared here
+>   fragS dummy, *prev_frag =3D &dummy;
+>         ^
+>=20
+
+This is ok
+
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/recipes-extended/lsb/lsb_4.1.bb | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-> index 1ae1e26..c3a79c0 100644
-> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
-> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-> @@ -4,6 +4,10 @@ HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
->  LICENSE = "GPLv2+"
->  PR = "r2"
->  
-> +LSB_CORE = "lsb-core-${TARGET_ARCH}"
-> +LSB_CORE_i586 = "lsb-core-ia32"
-
-A _x86 here is probably a better option?
-
-Cheers,
-
-Richard
-
-> +RPROVIDES_${PN} += "${LSB_CORE}"
+> meta/recipes-devtools/binutils/binutils-2.23.1.inc |  1 +
+> ...in_frchains_together_1-Reorder-assertion-.patch | 30 =
+++++++++++++++++++++++
+> 2 files changed, 31 insertions(+)
+> create mode 100644 =
+meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains_togeth=
+er_1-Reorder-assertion-.patch
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1.inc =
+b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+> index 7b3366a..6a6811b 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+> @@ -31,6 +31,7 @@ SRC_URI =3D "\
+>      file://binutils-fix-over-array-bounds-issue.patch \
+>      file://replace_macros_with_static_inline.patch \
+>      =
+file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch \
+> +     =
+file://0001-write.c-chain_frchains_together_1-Reorder-assertion-.patch \
+>      "
+>=20
+> BACKPORT =3D "\
+> diff --git =
+a/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains_toge=
+ther_1-Reorder-assertion-.patch =
+b/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains_toge=
+ther_1-Reorder-assertion-.patch
+> new file mode 100644
+> index 0000000..ffe6852
+> --- /dev/null
+> +++ =
+b/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains_toge=
+ther_1-Reorder-assertion-.patch
+> @@ -0,0 +1,30 @@
+> +=46rom c50d883cb61ff9917464cb695a0fd83fdb0f9c20 Mon Sep 17 00:00:00 =
+2001
+> +From: Alan Modra <amodra@bigpond.net.au>
+> +Date: Mon, 21 Jan 2013 13:48:31 +0000
+> +Subject: [PATCH] write.c (chain_frchains_together_1): Reorder =
+assertion to
+> + avoid uninit warning.
 > +
->  # lsb_release needs getopt
->  RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt}"
->  
-> -- 
-> 2.1.4
-> 
-
+> +Upstream-Status: Backport from 2.23.2
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +---
+> + gas/write.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gas/write.c b/gas/write.c
+> +index a467147..56ebb6c 100644
+> +--- a/gas/write.c
+> ++++ b/gas/write.c
+> +@@ -406,8 +406,8 @@ chain_frchains_together_1 (segT section, struct =
+frchain *frchp)
+> + 	  prev_fix =3D frchp->fix_tail;
+> + 	}
+> +     }
+> +-  gas_assert (prev_frag->fr_type !=3D 0);
+> +-  gas_assert (prev_frag !=3D &dummy);
+> ++  gas_assert (prev_frag !=3D &dummy
+> ++	      && prev_frag->fr_type !=3D 0);
+> +   prev_frag->fr_next =3D 0;
+> +   return prev_frag;
+> + }
+> +--=20
+> +2.3.5
+> +
+> --=20
+> 2.3.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
