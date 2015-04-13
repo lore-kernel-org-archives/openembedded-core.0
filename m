@@ -1,34 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C1E73D3B;
-	Mon, 13 Apr 2015 13:43:57 +0000 (UTC)
-Received: by wgyo15 with SMTP id o15so81378936wgy.2;
-	Mon, 13 Apr 2015 06:43:58 -0700 (PDT)
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF8A73D3D;
+	Mon, 13 Apr 2015 13:50:13 +0000 (UTC)
+Received: by widjs5 with SMTP id js5so65074943wid.1;
+	Mon, 13 Apr 2015 06:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:subject:message-id:mime-version:content-type
 	:content-disposition:user-agent;
-	bh=+bi0t+PwhZyy6s5VjAYG9c4T3twwT/ZzGd5KGtwSJiM=;
-	b=x3F//ZLrs77EdUD/PJFnDofhnCzXUYF0OkNBzwKg/HZkWr2k2aqABazYlxB9yPQOrp
-	IuIujthdOa0EY8UIfBkNtjvpuIsjV2CKnUrN72oqDDqL1XNl+pXCpoHF66ajY/qpetL1
-	Yi+9V5SQyGUMvux4UiZSD8oooSuzdp/tSgQ5NrOWBK2kqFRZKLWRW2wlpMXfod5jmbOy
-	pUVBlEsreIev0ofnQMR/Xa+e8bfEZJQx4Z8JspYq9mR1kS3PIWkL0+K5L/8YQo8AoeL9
-	l82Odzn4NV/rJR9BYq2yvfVnhikE9HJ8/yY06IC1hRYTagGZLdgyuFB+oEthZWBR9/TK
-	Oszg==
-X-Received: by 10.180.92.161 with SMTP id cn1mr21378554wib.91.1428932637349;
-	Mon, 13 Apr 2015 06:43:57 -0700 (PDT)
+	bh=JatI7Jh9KGJLd0b3VuEjeWDZZJeR4nXWIZmNQszB2hI=;
+	b=JCr0Odsnr0MzwllFnExAiuMg5LkwqJLorNZy6uJru8rhDhF1+UN4rqhdTA/zwQ/Ed2
+	uF2fdFmpbdIvQ7msaOxaG6g4N0H8PVdYc11nI9k6U5inUBAIlBuXWNnjfJLY4PjrrAzu
+	d0NWgBzIqJI8B2YvF6OiiWJfBWSK0GquOAt34z9wCF7iFjTD4Z/Vgl9sw+SbXcas04o1
+	v3WCiRevIc/bzZEAv1RTXnzPcTbf6cNVngEfRsoRdKx9ycRWppRxJ4PWAwZtsiIwleNv
+	wzzGWzV/CoVK7vzN7SHi1/kvT/xKmcaaqFkr1OXOlrrKQ6HoAmB1cVuAYputU2Sudn7T
+	/uaw==
+X-Received: by 10.194.223.5 with SMTP id qq5mr28834242wjc.152.1428933014620;
+	Mon, 13 Apr 2015 06:50:14 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id w5sm11583332wiz.11.2015.04.13.06.43.56
+	by mx.google.com with ESMTPSA id
+	cj9sm11591930wjc.42.2015.04.13.06.50.13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Apr 2015 06:43:56 -0700 (PDT)
+	Mon, 13 Apr 2015 06:50:13 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 13 Apr 2015 15:44:00 +0200
+Date: Mon, 13 Apr 2015 15:50:17 +0200
 To: openembedded-core@lists.openembedded.org,
 	openembedded-devel@lists.openembedded.org
-Message-ID: <20150413134400.GF2330@jama>
+Message-ID: <20150413135017.GH2330@jama>
 MIME-Version: 1.0
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2015-04-12
+Subject: State of bitbake world, Failed tasks 2015-03-23, Last for Yocto 1.8 Fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,68 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 13:43:59 -0000
-X-Groupsio-MsgNum: 64302
+X-List-Received-Date: Mon, 13 Apr 2015 13:50:15 -0000
+X-Groupsio-MsgNum: 64303
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uTRFFR9qmiCqR05s"
+	protocol="application/pgp-signature"; boundary="wayzTnRSUXKNfBqd"
 Content-Disposition: inline
 
---uTRFFR9qmiCqR05s
+--wayzTnRSUXKNfBqd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 http://www.openembedded.org/wiki/Bitbake_World_Status
 
-== Failed tasks 2015-04-12 ==
+== Failed tasks 2015-03-23 ==
 
-INFO: jenkins-job.sh-1.2.0 Complete log available at http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.20150413_120812.log
+INFO: jenkins-job.sh-1.2.0 Complete log available at http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.20150325_041310.log
 
-=== common (4) ===
-    * /meta-openembedded/meta-filesystems/recipes-utils/xorriso/xorriso_1.3.8.bb, do_configure
-    * /meta-openembedded/meta-oe/recipes-extended/dialog/dialog-static_1.1-20120706.bb, do_compile
-    * /meta-qt5/recipes-qt/qt5/qtwebkit_5.4.1.bb, do_compile
+=== common (1) ===
     * /meta-webos-ports/meta-luneui/recipes-luneui/luna-next/luna-next.bb, do_compile
 
-=== common-x86 (1) ===
-    * /meta-browser/recipes-browser/chromium/chromium_40.0.2214.91.bb, do_compile
+=== common-x86 (0) ===
 
-=== qemuarm (2) ===
-    * /meta-openembedded/meta-oe/recipes-devtools/nodejs/nodejs_0.12.2.bb, do_compile
-    * /meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.6.5.bb, do_compile
+=== qemuarm (1) ===
+    * /meta-openembedded/meta-oe/recipes-devtools/nodejs/nodejs_0.12.0.bb, do_compile
 
 === qemux86 (1) ===
-    * /meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb, do_compile
+    * /openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.5.bb, do_compile
 
-=== qemux86_64 (1) ===
-    * /meta-browser/recipes-browser/chromium/cef3_280796.bb, do_configure
+=== qemux86_64 (0) ===
 
-=== Number of failed tasks (18) ===
+=== Number of failed tasks (5) ===
 {| class=wikitable
 |-
-|| qemuarm 	|| 6	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150410_200250.log// || http://errors.yoctoproject.org:80/Errors/Build/5292/
+|| qemuarm 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150322_061616.log// || http://errors.yoctoproject.org:80/Errors/Build/5099/
 |-
-|| qemux86 	|| 6	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150411_103819.log// || http://errors.yoctoproject.org:80/Errors/Build/5293/
+|| qemux86 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150322_112603.log// || http://errors.yoctoproject.org:80/Errors/Build/5101/
 |-
-|| qemux86_64 	|| 6	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150412_024005.log// || http://errors.yoctoproject.org:80/Errors/Build/5295/
+|| qemux86_64 	|| 1	 || http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20150323_032753.log// || http://errors.yoctoproject.org:80/Errors/Build/5102/
 |}
 
 === PNBLACKLISTs (60) ===
 
-=== QA issues (134) ===
+=== QA issues (139) ===
 {| class=wikitable
 !| Count		||Issue
 |-
-||0	||libdir
+||1	||libdir
 |-
-||0	||version-going-backwards
+||25	||build-deps
 |-
-||22	||build-deps
+||26	||version-going-backwards
 |-
 ||3	||already-stripped
 |-
-||46	||file-rdeps
+||37	||textrel
 |-
-||63	||textrel
+||47	||file-rdeps
 |}
 
 
@@ -180,14 +176,13 @@ qwt-6.0.1: File '/usr/lib/libqwtmathml.so.6.0.1' from qwt was already stripped, 
 qwt-6.0.1: File '/usr/lib/qt4/plugins/designer/libqwt_designer_plugin.so' from qwt was already stripped, this will prevent future debugging! [already-stripped]
 
 
-count: 0	issue: libdir
+count: 1	issue: libdir
+chromium-dbg: found library in wrong location: /usr/bin/chrome/.debug/libffmpegsumo.so [libdir]
 
 
-count: 63	issue: textrel
-cef3-280796: ELF binary '/tmp/work/i586-oe-linux/cef3/280796-r0/packages-split/cef3/usr/lib/libffmpegsumo.so.0.0.1' has relocations in .text [textrel]
-gstreamer1.0-libav-1.4.5: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/gstreamer1.0-libav/1.4.5-r0/packages-split/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has relocations in .text [textrel]
+count: 37	issue: textrel
+chromium-38.0.2125.101: ELF binary '/tmp/work/i586-oe-linux/chromium/38.0.2125.101-r0/packages-split/chromium/usr/bin/chrome/libffmpegsumo.so' has relocations in .text [textrel]
 gstreamer1.0-libav-1.4.5: ELF binary '/tmp/work/i586-oe-linux/gstreamer1.0-libav/1.4.5-r0/packages-split/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has relocations in .text [textrel]
-libav-9.16: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/libav/9.16-r0/packages-split/libavcodec/usr/lib/libavcodec.so.54.35.0' has relocations in .text [textrel]
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavcodec/usr/lib/libavcodec.so.54.35.0' has relocations in .text [textrel]
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavdevice/usr/lib/libavdevice.so.53.2.0' has relocations in .text [textrel]
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavfilter/usr/lib/libavfilter.so.3.3.0' has relocations in .text [textrel]
@@ -195,32 +190,8 @@ libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/lib
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavresample/usr/lib/libavresample.so.1.0.1' has relocations in .text [textrel]
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavutil/usr/lib/libavutil.so.52.3.0' has relocations in .text [textrel]
 libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libswscale/usr/lib/libswscale.so.2.1.1' has relocations in .text [textrel]
-libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/libpostproc/52.3.0+gitAUTOINC+811db3b957-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' has relocations in .text [textrel]
 libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/tmp/work/i586-oe-linux/libpostproc/52.3.0+gitAUTOINC+811db3b957-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' has relocations in .text [textrel]
 mpg123-1.21.0: ELF binary '/tmp/work/i586-oe-linux/mpg123/1.21.0-r0/packages-split/mpg123/usr/lib/libmpg123.so.0.40.3' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-audio/usr/lib/python3.3/lib-dynload/ossaudiodev.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-codecs/usr/lib/python3.3/lib-dynload/_codecs_tw.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-core/usr/lib/python3.3/lib-dynload/binascii.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-crypt/usr/lib/python3.3/lib-dynload/_sha256.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-ctypes/usr/lib/python3.3/lib-dynload/_ctypes_test.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-curses/usr/lib/python3.3/lib-dynload/_curses.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-elementtree/usr/lib/python3.3/lib-dynload/_elementtree.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-fcntl/usr/lib/python3.3/lib-dynload/fcntl.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-gdbm/usr/lib/python3.3/lib-dynload/_gdbm.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-io/usr/lib/python3.3/lib-dynload/_socket.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-json/usr/lib/python3.3/lib-dynload/_json.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-lang/usr/lib/python3.3/lib-dynload/_bisect.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-math/usr/lib/python3.3/lib-dynload/cmath.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-misc/usr/lib/python3.3/lib-dynload/_posixsubprocess.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-mmap/usr/lib/python3.3/lib-dynload/mmap.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-multiprocessing/usr/lib/python3.3/lib-dynload/_multiprocessing.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-profile/usr/lib/python3.3/lib-dynload/_lsprof.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-readline/usr/lib/python3.3/lib-dynload/readline.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-resource/usr/lib/python3.3/lib-dynload/resource.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-syslog/usr/lib/python3.3/lib-dynload/syslog.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-textutils/usr/lib/python3.3/lib-dynload/_csv.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-unixadmin/usr/lib/python3.3/lib-dynload/grp.cpython-33m.so' has relocations in .text [textrel]
-python3-3.3.3: ELF binary '/tmp/work/armv5e-oe-linux-gnueabi/python3/3.3.3-r1.0/packages-split/python3-xml/usr/lib/python3.3/lib-dynload/pyexpat.cpython-33m.so' has relocations in .text [textrel]
 python3-3.3.3: ELF binary '/tmp/work/i586-oe-linux/python3/3.3.3-r1.0/packages-split/python3-audio/usr/lib/python3.3/lib-dynload/ossaudiodev.cpython-33m.so' has relocations in .text [textrel]
 python3-3.3.3: ELF binary '/tmp/work/i586-oe-linux/python3/3.3.3-r1.0/packages-split/python3-codecs/usr/lib/python3.3/lib-dynload/_codecs_cn.cpython-33m.so' has relocations in .text [textrel]
 python3-3.3.3: ELF binary '/tmp/work/i586-oe-linux/python3/3.3.3-r1.0/packages-split/python3-core/usr/lib/python3.3/lib-dynload/binascii.cpython-33m.so' has relocations in .text [textrel]
@@ -249,7 +220,7 @@ webkit-efl-1.11.0: ELF binary '/tmp/work/i586-oe-linux/webkit-efl/1_1.11.0-r0/pa
 webkit-gtk-1.8.3: ELF binary '/tmp/work/i586-oe-linux/webkit-gtk/1.8.3-r1/packages-split/libjavascriptcore/usr/lib/libjavascriptcoregtk-1.0.so.0.13.4' has relocations in .text [textrel]
 
 
-count: 22	issue: build-deps
+count: 25	issue: build-deps
 exquisite-0.0.1+svnr82070: exquisite rdepends on initscripts-functions, but it isn't a build dependency? [build-deps]
 fio-2.2.6: fio rdepends on numactl, but it isn't a build dependency? [build-deps]
 fio-2.2.6: fio rdepends on zlib, but it isn't a build dependency? [build-deps]
@@ -264,9 +235,24 @@ lirc-0.9.2: lirc rdepends on libx11, but it isn't a build dependency? [build-dep
 lirc-0.9.2: lirc-plugins rdepends on libjack, but it isn't a build dependency? [build-deps]
 lirc-0.9.2: lirc-plugins rdepends on libusb-compat, but it isn't a build dependency? [build-deps]
 lirc-0.9.2: lirc-plugins rdepends on portaudio-v19, but it isn't a build dependency? [build-deps]
+mpd-0.19.1: mpd rdepends on libsmbclient, but it isn't a build dependency? [build-deps]
 netkit-rwho-0.17: netkit-rwho-client rdepends on initscripts-functions, but it isn't a build dependency? [build-deps]
 pkcs11-helper-1.11: pkcs11-helper rdepends on nspr, but it isn't a build dependency? [build-deps]
-pkcs11-helper-1.1so()(64bit), but no providers in its RDEPENDS [file-rdeps]
+pkcs11-helper-1.11: pkcs11-helper rdepends on nss, but it isn't a build dependency? [build-deps]
+qt5-creator-3.3.1: qt5-creator rdepends on qt-creator, but it isn't a build dependency? [build-deps]
+sox-14.4.0: sox rdepends on libflac, but it isn't a build dependency? [build-deps]
+squid-3.4.7: squid rdepends on libpam, but it isn't a build dependency? [build-deps]
+sysklogd-1.5.1: sysklogd rdepends on initscripts-functions, but it isn't a build dependency? [build-deps]
+vlc-2.1.4: vlc rdepends on libsamplerate0, but it isn't a build dependency? [build-deps]
+watchdog-5.14: watchdog rdepends on initscripts-functions, but it isn't a build dependency? [build-deps]
+ypbind-mt-1.38: ypbind-mt rdepends on libsystemd, but it isn't a build dependency? [build-deps]
+
+
+count: 47	issue: file-rdeps
+apache2-2.4.10: apache2-dev requires /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
+chkconfig-1.3.58: chkconfig requires libnewt.so()(64bit), but no providers in its RDEPENDS [file-rdeps]
+chkconfig-1.3.58: chkconfig requires libnewt.so, but no providers in its RDEPENDS [file-rdeps]
+dvb-apps-1.1.1: dvb-apps requires libucsi.so()(64bit), libdvbapi.so()(64bit), libdvbcfg.so()(64bit), libdvben50221.so()(64bit), libdvbsec.so()(64bit), but no providers in its RDEPENDS [file-rdeps]
 dvb-apps-1.1.1: dvb-apps requires libucsi.so, libdvben50221.so, libdvbsec.so, libdvbcfg.so, libdvbapi.so, but no providers in its RDEPENDS [file-rdeps]
 dvb-apps-1.1.1: dvb-femon requires libdvbapi.so()(64bit), but no providers in its RDEPENDS [file-rdeps]
 dvb-apps-1.1.1: dvb-femon requires libdvbapi.so, but no providers in its RDEPENDS [file-rdeps]
@@ -279,6 +265,7 @@ dvb-apps-1.1.1: dvbnet requires libdvbapi.so, but no providers in its RDEPENDS [
 dvb-apps-1.1.1: dvbtraffic requires libdvbapi.so()(64bit), but no providers in its RDEPENDS [file-rdeps]
 dvb-apps-1.1.1: dvbtraffic requires libdvbapi.so, but no providers in its RDEPENDS [file-rdeps]
 fakeroot-1.18.4: fakeroot requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
+fbida-2.09+gitAUTOINC+6aa5563cb3: fbida requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
 foxtrotgps-1.1.1: foxtrotgps requires /usr/bin/python, /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
 gammu-1.32.0: gammu requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
 gammu-1.32.0: gammu-dev requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
@@ -300,25 +287,44 @@ lmsensors-config-1.0: lmsensors-config-cgi requires /usr/bin/rrdcgi, but no prov
 numptyphysics-0.2+svnr109: numptyphysics requires /bin/bash, /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
 opensaf-4.5.0: opensaf requires /bin/bash, /usr/bin/python, but no providers in its RDEPENDS [file-rdeps]
 packagekit-0.5.6: packagekit requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
-pcsc-lite-1.8.6: pcsc-lite requires /usr/bin/python, but no providers in its RDEPEN.1, but no providers in its RDEPENDS [file-rdeps]
-ubx-utils-0.0.0+gitrAUTOINC+b63c0932dd: ubx-utils requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
-unionfs-fuse-0.26: unionfs-fuse requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
-usbpath-0.0+svnr3172: usbpath requires /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
-wvstreams-4.6.1: wvstreams requires /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
+pcsc-lite-1.8.6: pcsc-lite requires /usr/bin/python, but no providers in its RDEPENDS [file-rdeps]
+pm-qa-0.4.14: pm-qa requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
+qt-creator-2.8.1: qt-creator requires /usr/bin/perl, but no providers in its RDEPENDS [file-rdeps]
+tracker-0.14.2: tracker-nautilus-extension requires libnautilus-extension.so.1()(64bit), but no providers in its RDEPENDS [file-rdeps]
+tracker-0.14.2: tracker-nautilus-extension requires libnautilus-extension.so.1, but no providers in its RDEPENDS [file-rdeps]
+ubx-utils-0.0.0+gitrAUTOINC+b63c0932dd: ubx-utils requires /bin/bash, but no providers in its RDEPENDS [filrsion for package geoip went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-database went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-database went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-dbg went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-dbg went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-dev went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-dev went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-doc went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-doc went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-locale went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-locale went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-staticdev went backwards which would break package feeds from (0:1.6.0-r0.11 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-1.6.0: Package version for package geoip-staticdev went backwards which would break package feeds from (0:1.6.0-r0.5 to 0:1.6.0-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl went backwards which would break package feeds from (0:1.45-r0.11 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl went backwards which would break package feeds from (0:1.45-r0.5 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-dbg went backwards which would break package feeds from (0:1.45-r0.11 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-dbg went backwards which would break package feeds from (0:1.45-r0.5 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-dev went backwards which would break package feeds from (0:1.45-r0.11 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-dev went backwards which would break package feeds from (0:1.45-r0.5 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-doc went backwards which would break package feeds from (0:1.45-r0.11 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-doc went backwards which would break package feeds from (0:1.45-r0.5 to 0:1.45-r0.0) [version-going-backwards]
+geoip-perl-1.45: Package version for package geoip-perl-locale went backwards which would break package feeds from (0:1.45-r0.11 to 0:1.45-r0.0) [version-going-backw
 
-
-count: 0	issue: version-going-backwards
-
---uTRFFR9qmiCqR05s
+--wayzTnRSUXKNfBqd
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlUryCAACgkQN1Ujt2V2gBxfswCaAmiHFTFO7/X/D2QnhafSx5Ix
-Cq0AniPz/NR7+47krvZDt6RYLBmiFGbk
-=OpHc
+iEYEARECAAYFAlUryZkACgkQN1Ujt2V2gBw7FACgpIWD3dZMMTKqbw+y15dgyNzJ
+p0YAoIWzgjg/3cVk/dT/WFrn/57Rp1wx
+=23qV
 -----END PGP SIGNATURE-----
 
---uTRFFR9qmiCqR05s--
+--wayzTnRSUXKNfBqd--
