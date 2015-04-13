@@ -1,38 +1,40 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vn0-f54.google.com (mail-vn0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B67D373D3A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 47A1D73D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 16:07:36 +0000 (UTC)
-Received: by vnbg190 with SMTP id g190so21162573vnb.8
+	Mon, 13 Apr 2015 16:28:24 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so80034409wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 09:07:37 -0700 (PDT)
+	Mon, 13 Apr 2015 09:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=u5MBS4va54fbZaMlqlqTn4mJGVg3+LLdXE7S5lAzJxo=;
-	b=s8tIFB3TrsBQKA7OIhyxUoEsn5dUBqmiiOrEE6AJGQIcYHDkUssWZhxKnPHblQLSy1
-	Tbgk6qaECVbRfg2LRkTFJfXDGTzkW9Hbdmrsk9ns8a7vXqvUphNsvDMtsXVSJRLOwpkG
-	l4Dr8BvMjQOJa1lHHjcl2DuLbVU3P2uM7mJSk4yADKfp3uB9CxlgenK98XKeWh+vdNWO
-	ExczTHSB78Qy4CxTs6Of8Rl2sule3GCiiUHsomCVwSGMigpHtju/nlJ7rjP1cvcCOnUT
-	zvjlOrUG9wPy78uzjSYjEP2d7DNyurg6zeesv4pf8VwGq8yepCaDZw++BfgE7JeiN5Yb
-	YWfw==
-X-Received: by 10.140.49.11 with SMTP id p11mr18636974qga.60.1428941257305;
-	Mon, 13 Apr 2015 09:07:37 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=VudfUPN9Zm9a9gRL4g4BhTwLIuuut1VafIUoJeFUPIA=;
+	b=i/kwqzKOVYMEy9K0YnbiwpNk9l+Hy0SgAIrVMn9OQC9e8ODqDQLP0bog9GrHislu0X
+	8hOzzf5YdbZSD82ukGHEB0f/fXTv+YQdTKAIi0EoFbVS2peW7od9ZlgnRpjTH8a3r9Vu
+	NCHjVBFFjwZwg57C30bXnQZMwtE2L4PEeKGISRe89rXVt2Ou8yBGaYcdp192x+WtkWj1
+	Y7qabFcCCtfkmqUsvdqQMBfLgfanlfxZ9FiBXZA8eBBmnwdSG30b7R/UeYs3NKxhqXmr
+	I03z9cGH3qW3jW9sJiY1R9BQnXtjUhztYyXNTS5O5c/uo0OqvPoZNqmEL9yCZEAxPeAP
+	rMiA==
+X-Received: by 10.180.76.137 with SMTP id k9mr22606943wiw.4.1428942505117;
+	Mon, 13 Apr 2015 09:28:25 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id fo7sm12193725wic.1.2015.04.13.09.28.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Apr 2015 09:28:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 13 Apr 2015 18:28:28 +0200
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20150413162828.GJ2330@jama>
+References: <cover.1428939870.git.paul.eggleton@linux.intel.com>
+	<abe2d51f35b85dcbbd43c61d9309bfd7e38d3244.1428939870.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.34 with HTTP; Mon, 13 Apr 2015 09:07:17 -0700 (PDT)
-In-Reply-To: <e03e02a4abdec92544b1f32e759ce378c80bf2c5.1428939671.git.patrick.ohly@intel.com>
-References: <cover.1428939671.git.patrick.ohly@intel.com>
-	<e03e02a4abdec92544b1f32e759ce378c80bf2c5.1428939671.git.patrick.ohly@intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 13 Apr 2015 09:07:17 -0700
-X-Google-Sender-Auth: Mn_IYqVVLSCBxYwYlYCSBSJQ9r8
-Message-ID: <CABcZAN=54ffzEd5u7926uqXde8ecamQuQv2h34S+DRdF4KPNdw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] rootfsdebugfiles.bbclass: quick-and-dirty installation of additional files
+In-Reply-To: <abe2d51f35b85dcbbd43c61d9309bfd7e38d3244.1428939870.git.paul.eggleton@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] classes/package: clarify installed-vs-shipped message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,77 +47,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 16:07:38 -0000
-Content-Type: multipart/alternative; boundary=001a1135250e0bf46d05139d50d4
+X-List-Received-Date: Mon, 13 Apr 2015 16:28:26 -0000
+X-Groupsio-MsgNum: 64317
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="1ou9v+QBCNysIXaH"
+Content-Disposition: inline
 
---001a1135250e0bf46d05139d50d4
-Content-Type: text/plain; charset=UTF-8
-
-On Mon, Apr 13, 2015 at 8:44 AM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
-
-> The main motivation for this class was the observation that
-> a) a core-image can hang under qemu when the kernel does not
->    have enough entropy to generate the ssh host key
-> b) ssh complains about changing ssh host key files when
->    rebooting the same machine with different images
->
-> For debugging it is okay to reuse an ssh host key generated on the device
-> before. There may be also similar use cases, so the class is generic
-> enough to
-> also copy more than one file or directory, with dropbear_rsa_host_key
-> given as
-> example.
->
-> The documentation and naming of the class makes it clear that it
-> should not be used for production images.
->
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
->
-
-Freescale's merge-files recipe may be worth looking at as an alternative to
-this.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1135250e0bf46d05139d50d4
-Content-Type: text/html; charset=UTF-8
+--1ou9v+QBCNysIXaH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Apr 13, 2015 at 8:44 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":30c" c=
-lass=3D"a3s" style=3D"overflow:hidden">The main motivation for this <span c=
-lass=3D"il">class</span> was the observation that<br>
-a) a core-image can hang under qemu when the kernel does not<br>
-=C2=A0 =C2=A0have enough entropy to generate the ssh host key<br>
-b) ssh complains about changing ssh host key files when<br>
-=C2=A0 =C2=A0rebooting the same machine with different images<br>
-<br>
-For debugging it is okay to reuse an ssh host key generated on the device<b=
-r>
-before. There may be also similar use cases, so the <span class=3D"il">clas=
-s</span> is generic enough to<br>
-also copy more than one file or directory, with dropbear_rsa_host_key given=
- as<br>
-example.<br>
-<br>
-The documentation and naming of the <span class=3D"il">class</span> makes i=
-t clear that it<br>
-should not be used for production images.<br>
-<br>
-Signed-off-by: Patrick Ohly &lt;<a href=3D"mailto:patrick.ohly@intel.com">p=
-atrick.ohly@intel.com</a>&gt;</div></blockquote></div><br>Freescale&#39;s m=
-erge-files recipe may be worth looking at as an alternative to this.<br>-- =
-<br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth=
- dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tsl=
-ib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+On Mon, Apr 13, 2015 at 04:44:52PM +0100, Paul Eggleton wrote:
+> Based on the number of times I've had to explain it over the years it
+> seems that a lot of new users don't immediately realise what is meant
+> by "shipped" here (nor should we expect them to) so let's at least
+> mention packaging and briefly tell the user what they need to do. (I was
+> going to go into more detail in the message, but there is really more
+> detail than can be covered succinctly here.)
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/classes/package.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 5558d0d..9790e9d 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1132,12 +1132,13 @@ python populate_packages () {
+>                  unshipped.append(path)
+> =20
+>      if unshipped !=3D []:
+> -        msg =3D pn + ": Files/directories were installed but not shipped"
+> +        msg =3D pn + ": Files/directories were installed but not shipped=
+ in any package:"
+>          if "installed-vs-shipped" in (d.getVar('INSANE_SKIP_' + pn, True=
+) or "").split():
+>              bb.note("Package %s skipping QA tests: installed-vs-shipped"=
+ % pn)
+>          else:
+>              for f in unshipped:
+>                  msg =3D msg + "\n  " + f
+> +            msg =3D msg + "\nPlease either set FILES such that these ite=
+ms are packaged, or alternatively delete them within do_install"
 
---001a1135250e0bf46d05139d50d4--
+We should also mention the possibility to fix Makefile.am,
+CMakeLists.txt, ... not to install them in first place.
+
+>              package_qa_handle_error("installed-vs-shipped", msg, d)
+>  }
+>  populate_packages[dirs] =3D "${D}"
+> --=20
+> 2.1.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--1ou9v+QBCNysIXaH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlUr7qwACgkQN1Ujt2V2gBzSUwCfYut/k9aVE7Pd8Cu16se86OR3
+T+8An0Go5aStzneoXCZcwuhQ10QuE0h0
+=d0YK
+-----END PGP SIGNATURE-----
+
+--1ou9v+QBCNysIXaH--
