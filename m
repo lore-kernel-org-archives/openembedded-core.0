@@ -1,24 +1,35 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B076AC24
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E928665CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 02:17:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D2HJBi001193
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 13 Apr 2015 06:08:44 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so69423581wgs.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 19:17:19 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Sun, 12 Apr 2015 19:17:18 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Apr 2015 10:17:19 +0800
-Message-ID: <cover.1428891074.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 0/2] linux-firmware: fix the mess of licenses
+	Sun, 12 Apr 2015 23:08:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5NlI3TnEijWAFPeWfvfC3nXbYqVAdzaAO1Gyebaiemc=;
+	b=m9YDK+IpXNRSQLMwnjnZdmAFnF774IMwbSLp20fUQh0zOaWbDFTYRMeZ4vFRQ1/tP9
+	dcNkmU34UBAl9FzBdyoSFkSN4+RfhfGCZQ03bCo9VB8Z6zsFpZTFlYDH4SzWmhIETVHs
+	l3mXj/9PC2QwQ0DngWT91Jso/RYegahtqDdjuRL18X6xrx+xqd645IarNJ43mkwex3cW
+	5Fm/LAhkL74iJCnYrzicqJKPQaOqcuK6ruTEoW/9xT/O4FCM56M6ISciGVNWy/E9uae5
+	Xa26JEjDwV08ba2qYXvZ+Fc1f6jXyY8NqdAZUiljHd/TsKYuLdXC+NJB2ZIk/sUdQTbe
+	dGEQ==
+X-Gm-Message-State: ALoCoQnxMaQY6VXJFVlyGz+EW25+IErnyvJUWfp/Hv97S+Ei+xzi7XOuPyMVE4ShwFyQbzf72Xbz
+X-Received: by 10.180.81.104 with SMTP id z8mr5426147wix.5.1428905325202;
+	Sun, 12 Apr 2015 23:08:45 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id l10sm9899910wje.15.2015.04.12.23.08.43
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 12 Apr 2015 23:08:44 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Apr 2015 08:08:40 +0200
+Message-Id: <1428905320-15709-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] libgpg-error 1.18: simplify tupple handling and add armv8b support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,112 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 02:17:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Apr 2015 06:08:48 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Add a default option to the case statement and remove the duplicates. Also add support for armv8b architectures.
 
-linux-firmware includes many firmwares and each firmware has their own license,
-previously the LICENSE is set to "Proprietary" and some firmware is split out
-to separate package such as linux-firmware-radeon and LICENSE_linux-firmware-radeon
-is set to "Firmware-radeon", but there is no license file in the common-licenses,
-so we got a lot warnings like:
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-support/libgpg-error/libgpg-error_1.18.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-WARNING: The license listed Firmware-radeon was not in the licenses collected for linux-firmware
-
-These include adding the missing license files and re-orgnize the codes to fix the warnings and
-avoid the mess.
-
---
-The following changes since commit 7fb6a6e907e5803597b2e12ba7047c46e57dba26:
-
-  upstream_tracking.inc: Add no-update reason for gdk-pixbuf (2015-04-09 10:01:48 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib jhuang0/y_firmware_license_1
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/y_firmware_license_1
-
-Jackie Huang (2):
-  common-licenses: Add common license files for linux-firmware
-  linux-firmware: fix the mess of licenses
-
- meta/files/common-licenses/Firmware-Abilis         |  22 +
- meta/files/common-licenses/Firmware-Marvell        |  18 +
- meta/files/common-licenses/Firmware-OLPC           |  33 ++
- meta/files/common-licenses/Firmware-agere          |  77 ++++
- meta/files/common-licenses/Firmware-amd-ucode      |  64 +++
- .../common-licenses/Firmware-atheros_firmware      |  38 ++
- .../common-licenses/Firmware-broadcom_bcm43xx      |  65 +++
- meta/files/common-licenses/Firmware-ca0132         |  47 +++
- .../common-licenses/Firmware-chelsio_firmware      |  27 ++
- meta/files/common-licenses/Firmware-cw1200         |  35 ++
- meta/files/common-licenses/Firmware-dib0700        |  22 +
- meta/files/common-licenses/Firmware-ene_firmware   |  14 +
- meta/files/common-licenses/Firmware-fw_sst_0f28    |  40 ++
- meta/files/common-licenses/Firmware-go7007         | 457 +++++++++++++++++++++
- meta/files/common-licenses/Firmware-i2400m         |  43 ++
- meta/files/common-licenses/Firmware-ibt_firmware   |  39 ++
- meta/files/common-licenses/Firmware-it913x         |  17 +
- .../common-licenses/Firmware-iwlwifi_firmware      |  39 ++
- meta/files/common-licenses/Firmware-mwl8335        |  52 +++
- .../common-licenses/Firmware-myri10ge_firmware     |  28 ++
- meta/files/common-licenses/Firmware-phanfw         |  32 ++
- .../common-licenses/Firmware-qat_dh895xcc_firmware |  39 ++
- meta/files/common-licenses/Firmware-qla2xxx        |  31 ++
- meta/files/common-licenses/Firmware-r8a779x_usb3   |  26 ++
- meta/files/common-licenses/Firmware-radeon         |  51 +++
- .../files/common-licenses/Firmware-ralink-firmware |  39 ++
- .../Firmware-ralink_a_mediatek_company_firmware    |  39 ++
- .../common-licenses/Firmware-rtlwifi_firmware      |  39 ++
- .../common-licenses/Firmware-tda7706-firmware      |  48 +++
- .../files/common-licenses/Firmware-ti-connectivity |  46 +++
- .../common-licenses/Firmware-ueagle-atm4-firmware  |  39 ++
- meta/files/common-licenses/Firmware-via_vt6656     |  25 ++
- meta/files/common-licenses/Firmware-wl1251         |  59 +++
- meta/files/common-licenses/Firmware-xc4000         |  23 ++
- meta/files/common-licenses/Firmware-xc5000         |  23 ++
- meta/files/common-licenses/Firmware-xc5000c        |  23 ++
- .../linux-firmware/linux-firmware_git.bb           | 308 ++++++++++----
- 37 files changed, 1978 insertions(+), 89 deletions(-)
- create mode 100644 meta/files/common-licenses/Firmware-Abilis
- create mode 100644 meta/files/common-licenses/Firmware-Marvell
- create mode 100644 meta/files/common-licenses/Firmware-OLPC
- create mode 100644 meta/files/common-licenses/Firmware-agere
- create mode 100644 meta/files/common-licenses/Firmware-amd-ucode
- create mode 100644 meta/files/common-licenses/Firmware-atheros_firmware
- create mode 100644 meta/files/common-licenses/Firmware-broadcom_bcm43xx
- create mode 100644 meta/files/common-licenses/Firmware-ca0132
- create mode 100644 meta/files/common-licenses/Firmware-chelsio_firmware
- create mode 100644 meta/files/common-licenses/Firmware-cw1200
- create mode 100644 meta/files/common-licenses/Firmware-dib0700
- create mode 100644 meta/files/common-licenses/Firmware-ene_firmware
- create mode 100644 meta/files/common-licenses/Firmware-fw_sst_0f28
- create mode 100644 meta/files/common-licenses/Firmware-go7007
- create mode 100644 meta/files/common-licenses/Firmware-i2400m
- create mode 100644 meta/files/common-licenses/Firmware-ibt_firmware
- create mode 100644 meta/files/common-licenses/Firmware-it913x
- create mode 100644 meta/files/common-licenses/Firmware-iwlwifi_firmware
- create mode 100644 meta/files/common-licenses/Firmware-mwl8335
- create mode 100644 meta/files/common-licenses/Firmware-myri10ge_firmware
- create mode 100644 meta/files/common-licenses/Firmware-phanfw
- create mode 100644 meta/files/common-licenses/Firmware-qat_dh895xcc_firmware
- create mode 100644 meta/files/common-licenses/Firmware-qla2xxx
- create mode 100644 meta/files/common-licenses/Firmware-r8a779x_usb3
- create mode 100644 meta/files/common-licenses/Firmware-radeon
- create mode 100644 meta/files/common-licenses/Firmware-ralink-firmware
- create mode 100644 meta/files/common-licenses/Firmware-ralink_a_mediatek_company_firmware
- create mode 100644 meta/files/common-licenses/Firmware-rtlwifi_firmware
- create mode 100644 meta/files/common-licenses/Firmware-tda7706-firmware
- create mode 100644 meta/files/common-licenses/Firmware-ti-connectivity
- create mode 100644 meta/files/common-licenses/Firmware-ueagle-atm4-firmware
- create mode 100644 meta/files/common-licenses/Firmware-via_vt6656
- create mode 100644 meta/files/common-licenses/Firmware-wl1251
- create mode 100644 meta/files/common-licenses/Firmware-xc4000
- create mode 100644 meta/files/common-licenses/Firmware-xc5000
- create mode 100644 meta/files/common-licenses/Firmware-xc5000c
-
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
+index 268066b..c9a47a3 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
+@@ -27,18 +27,14 @@ do_compile_prepend() {
+ 	fi
+ 
+ 	case ${TARGET_ARCH} in
+-	  aarch64)    TUPLE=aarch64-unknown-linux-gnu ;;
++	  aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
+ 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  i586|i686)  TUPLE=i486-pc-linux-gnu ;;
+-	  mipsel)     TUPLE=mipsel-unknown-linux-gnu ;;
+ 	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
+ 	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
+-	  mips)       TUPLE=mips-unknown-linux-gnu ;;
+-	  powerpc64)  TUPLE=powerpc64-unknown-linux-gnu ;;
+-	  powerpc)    TUPLE=powerpc-unknown-linux-gnu ;;
+-	  sh4)	      TUPLE=sh4-unknown-linux-gnu ;;
+ 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
++	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;; 
+ 	esac
+ 
+ 	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
 -- 
-1.9.1
+1.9.3
 
 
