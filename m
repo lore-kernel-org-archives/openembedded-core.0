@@ -1,26 +1,28 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EE626AC28
+	by mail.openembedded.org (Postfix) with ESMTP id 513BE6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 01:48:29 +0000 (UTC)
+	Mon, 13 Apr 2015 01:53:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mUDT029330
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1rFgU029604
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 18:48:30 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Sun, 12 Apr 2015 18:48:33 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Apr 2015 09:48:24 +0800
-Message-ID: <2f846271a73be9331895c44e60213d17132bb49f.1428889561.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1428889561.git.Qi.Chen@windriver.com>
-References: <cover.1428889561.git.Qi.Chen@windriver.com>
+	Sun, 12 Apr 2015 18:53:15 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Sun, 12 Apr 2015 18:53:18 -0700
+Message-ID: <552B218C.7020208@windriver.com>
+Date: Mon, 13 Apr 2015 09:53:16 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH V2 6/6] xz: upgrade to 5.2.1
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1428889561.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1428889561.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.236]
+Subject: Re: [PATCH V2 0/6] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 01:48:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Apr 2015 01:53:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
+Please ignore this one.
+I just noticed five of the patches have been merged.
+I'll send out the patch for kmod.
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.0.bb b/meta/recipes-extended/xz/xz_5.2.1.bb
-similarity index 92%
-rename from meta/recipes-extended/xz/xz_5.2.0.bb
-rename to meta/recipes-extended/xz/xz_5.2.1.bb
-index 3439ec9..a197f91 100644
---- a/meta/recipes-extended/xz/xz_5.2.0.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.1.bb
-@@ -25,8 +25,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
- 
- SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[md5sum] = "be585bdf8672e4406632eda3d819e284"
--SRC_URI[sha256sum] = "231ef369982240bb20ed7cffa52bb12a4a297ce6871f480ab85e8a7ba98bf3d6"
-+SRC_URI[md5sum] = "3e44c766c3fb4f19e348e646fcd5778a"
-+SRC_URI[sha256sum] = "b918b6648076e74f8d7ae19db5ee663df800049e187259faf5eb997a7b974681"
- 
- inherit autotools gettext
- 
--- 
-1.9.1
+Regards,
+Chen Qi
+
+On 04/13/2015 09:48 AM, Chen Qi wrote:
+> Changes in V2:
+> Remove the ptest part of kmod.
+>
+> The following changes since commit 6333186e9764b2c269a2b3869956860fa8fde2b1:
+>
+>    binutils: Fix packaging now gold is always built (2015-04-08 23:10:57 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib ChenQi/package-upgrades-20140413
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/package-upgrades-20140413
+>
+> Chen Qi (6):
+>    curl: upgrade to 7.41.0
+>    busybox: upgrade to 1.23.2
+>    kmod: upgrade to 20
+>    sudo: upgrade to 1.8.13
+>    sysstat: upgrade to 11.1.3
+>    xz: upgrade to 5.2.1
+>
+>   .../{busybox_1.23.1.bb => busybox_1.23.2.bb}       |  4 +--
+>   meta/recipes-core/busybox/busybox_git.bb           |  4 +--
+>   meta/recipes-extended/sudo/sudo.inc                | 12 +++------
+>   .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}      |  4 +--
+>   .../{sysstat_11.0.2.bb => sysstat_11.1.3.bb}       |  4 +--
+>   .../xz/{xz_5.2.0.bb => xz_5.2.1.bb}                |  4 +--
+>   meta/recipes-kernel/kmod/kmod.inc                  |  8 +++---
+>   ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
+>   ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
+>   .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
+>   meta/recipes-kernel/kmod/kmod_git.bb               | 15 -----------
+>   .../curl/{curl_7.40.0.bb => curl_7.41.0.bb}        |  4 +--
+>   12 files changed, 72 insertions(+), 61 deletions(-)
+>   rename meta/recipes-core/busybox/{busybox_1.23.1.bb => busybox_1.23.2.bb} (90%)
+>   rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
+>   rename meta/recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} (40%)
+>   rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
+>   create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+>   rename meta/recipes-support/curl/{curl_7.40.0.bb => curl_7.41.0.bb} (93%)
+>
 
 
