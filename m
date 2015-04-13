@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 615FD6AC23
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A1C6AC23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 01:48:25 +0000 (UTC)
+	Mon, 13 Apr 2015 01:48:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mRmV023677
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mSOc029327
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 18:48:27 -0700 (PDT)
+	Sun, 12 Apr 2015 18:48:28 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Sun, 12 Apr 2015 18:48:30 -0700
+	14.3.224.2; Sun, 12 Apr 2015 18:48:31 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Apr 2015 09:48:21 +0800
-Message-ID: <dbd8e9c76e7a544c881efe7ca32da76bb703d0ce.1428889561.git.Qi.Chen@windriver.com>
+Date: Mon, 13 Apr 2015 09:48:22 +0800
+Message-ID: <b3f5a03698e6582f4630a6f8519a7e44818ee723.1428889561.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1428889561.git.Qi.Chen@windriver.com>
 References: <cover.1428889561.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/6] kmod: upgrade to 20
+Subject: [PATCH V2 4/6] sudo: upgrade to 1.8.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,203 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 01:48:26 -0000
+X-List-Received-Date: Mon, 13 Apr 2015 01:48:27 -0000
 Content-Type: text/plain
-
-The following patches are rebased.
--- Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
--- avoid_parallel_tests.patch
-
-The ptest part of kmod is removed because new version of kmod port all tests to
-use modules from module-playground instead of copying prebuilt modules to the
-repository. So, we cannot use ptest as before. Remove it so that kmod can build
-successfully.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-kernel/kmod/kmod.inc                  |  8 +++---
- ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
- ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
- .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
- meta/recipes-kernel/kmod/kmod_git.bb               | 15 -----------
- 5 files changed, 57 insertions(+), 40 deletions(-)
- create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+ meta/recipes-extended/sudo/sudo.inc                          | 12 +++---------
+ .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}                |  4 ++--
+ 2 files changed, 5 insertions(+), 11 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-index 899881e..53574b6 100644
---- a/meta/recipes-kernel/kmod/kmod.inc
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -14,16 +14,14 @@ DEPENDS += "pkgconfig-native"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
--inherit autotools gtk-doc ptest
-+inherit autotools gtk-doc
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 6e9aec8..2d411f3 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,12 +4,12 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=69e337d679950e304953813158595256 \
+-                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=e2dbb155fc49beea947515300bab99e0 \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
++                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
+-                    file://lib/util/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea \
++                    file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
+                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+                     file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
  
--SRCREV = "fd56638aed3fe147015bfa10ed4a5f7491303cb4"
-+SRCREV = "d9c71758595cad72c8278179eabf17017615f704"
- # Lookout for PV bump too when SRCREV is changed
--PV = "19+git${SRCPV}"
-+PV = "20+git${SRCPV}"
+@@ -22,12 +22,6 @@ CONFFILES_${PN} = "${sysconfdir}/sudoers"
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
-            file://depmod-search.conf \
--           file://run-ptest \
--           file://ptest.patch \
-            file://avoid_parallel_tests.patch \
-            file://fix-O_CLOEXEC.patch \
-           "
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch b/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
-new file mode 100644
-index 0000000..49b0209
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Pending
-+
-+Subject: Makefile.am: fix parallel build problem
-+
-+Fix parallel build problem to avoid errors like below.
-+
-+    install: cannot stat 'testsuite/module-playground/mod-fake-cciss.ko': No such file or directory
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 9457655..d5b02eb 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -237,7 +237,7 @@ rootfs: build-module-playground
-+ 
-+ .PHONY: rootfs build-playground
-+ 
-+-$(ROOTFS): $(ROOTFS_PRISTINE)
-++$(ROOTFS): $(ROOTFS_PRISTINE) build-module-playground
-+ 	$(CREATE_ROOTFS)
-+ 
-+ TESTSUITE_OVERRIDE_LIBS = \
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-index 7c0a275..b722183 100644
---- a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-+++ b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-@@ -1,7 +1,4 @@
--From 4b68940b1ed46c54a5a0bdf6bb9d4599bc64e6f4 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Wed, 24 Dec 2014 10:12:40 +0800
--Subject: [PATCH] Change to calling bswap_* instead of htobe* and be*toh
-+Subject: Change to calling bswap_* instead of htobe* and be*toh
+ EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
  
- We can't use htobe* and be*toh functions because they are not
- available on older versions of glibc, For example, shipped on Centos 5.5.
-@@ -17,10 +14,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
- diff --git a/libkmod/libkmod-signature.c b/libkmod/libkmod-signature.c
--index 2b976a5..ffe58c2 100644
-+index 6fc06fc..912185a 100644
- --- a/libkmod/libkmod-signature.c
- +++ b/libkmod/libkmod-signature.c
--@@ -19,6 +19,7 @@
-+@@ -18,6 +18,7 @@
-   */
-  
-  #include <endian.h>
-@@ -28,15 +25,15 @@ index 2b976a5..ffe58c2 100644
-  #include <inttypes.h>
-  #include <stdio.h>
-  #include <stdlib.h>
--@@ -124,7 +125,7 @@ bool kmod_module_signature_info(const struct kmod_file *file, struct kmod_signat
-+@@ -127,7 +128,7 @@ bool kmod_module_signature_info(const struct kmod_file *file, struct kmod_signat
-  			modsig->hash >= PKEY_HASH__LAST ||
-  			modsig->id_type >= PKEY_ID_TYPE__LAST)
-  		return false;
- -	sig_len = be32toh(get_unaligned(&modsig->sig_len));
- +	sig_len = bswap_32(get_unaligned(&modsig->sig_len));
-- 	if (size < (off_t)(modsig->signer_len + modsig->key_id_len + sig_len))
-+ 	if (sig_len == 0 ||
-+ 	    size < (int64_t)(modsig->signer_len + modsig->key_id_len + sig_len))
-  		return false;
-- 
- -- 
- 1.9.1
- 
-diff --git a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-index 4c37d44..feafcb9 100644
---- a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-+++ b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-@@ -7,15 +7,23 @@ serial-tests is now required
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Inappropriate (disable feature incompatible with ptest) 
- 
--diff -ruN a/configure.ac b/configure.ac
----- a/configure.ac	2013-09-02 15:05:18.662366800 +0200
--+++ b/configure.ac	2013-11-28 09:26:49.557066764 +0200
--@@ -8,7 +8,7 @@
-- AC_CONFIG_SRCDIR([libkmod/libkmod.c])
-- AC_CONFIG_AUX_DIR([build-aux])
-- AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules
---	tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
--+	tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
-- AC_PROG_CC_STDC
-- AC_USE_SYSTEM_EXTENSIONS
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index eb0f9d1..a539968 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -14,7 +14,7 @@ AC_USE_SYSTEM_EXTENSIONS
-  AC_SYS_LARGEFILE
-+ AC_PREFIX_DEFAULT([/usr])
-+ AM_MAINTAINER_MODE([enable])
-+-AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
-++AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
-+ AM_SILENT_RULES([yes])
-+ LT_INIT([disable-static pic-only])
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index 08dd815..ba4d85e 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -33,27 +33,12 @@ do_install_append () {
- 
-         # install depmod.d file for search/ dir
-         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
--
--        if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
--                find testsuite -name *.ko -exec tar rf testmodule.tar {} \;
--                find testsuite -name *.ko -exec rm -f {} \;
--        fi
- }
- 
- do_compile_prepend() {
-             sed -i 's/ac_pwd=/#ac_pwd=/' config.status ; sed -i "/#ac_pwd=/a\ac_pwd='.'" config.status
- }
- 
--do_compile_ptest () {
--        oe_runmake buildtest-TESTS rootfs
+-do_configure_prepend () {
+-	if [ ! -e ${S}/acinclude.m4 ]; then
+-		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
+-	fi
 -}
 -
--do_install_ptest () {
--        install testmodule.tar ${D}${PTEST_PATH}
--}
--
--INSANE_SKIP_${PN}-ptest = "arch"
--
- inherit update-alternatives
+ # mksigname/mksiglist are used on build host to generate source files
+ do_compile_prepend () {
+ 	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C lib/util mksigname mksiglist
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+similarity index 87%
+rename from meta/recipes-extended/sudo/sudo_1.8.11p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.13.bb
+index c5e2545..4494170 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.13.bb
+@@ -6,8 +6,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
  
- ALTERNATIVE_PRIORITY = "60"
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "84012b4871b6c775c957cd310d5bad87"
+-SRC_URI[sha256sum] = "8133849418fa18cf6b6bb6893d1855ff7afe21db8923234a00bf045c90fba1ad"
++SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
++SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
+ 
+ DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 1.9.1
 
