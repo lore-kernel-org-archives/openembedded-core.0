@@ -1,35 +1,24 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E928665CF5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D43172A49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 06:08:44 +0000 (UTC)
-Received: by wgso17 with SMTP id o17so69423581wgs.1
+	Mon, 13 Apr 2015 09:05:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D95HGf013568
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 23:08:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5NlI3TnEijWAFPeWfvfC3nXbYqVAdzaAO1Gyebaiemc=;
-	b=m9YDK+IpXNRSQLMwnjnZdmAFnF774IMwbSLp20fUQh0zOaWbDFTYRMeZ4vFRQ1/tP9
-	dcNkmU34UBAl9FzBdyoSFkSN4+RfhfGCZQ03bCo9VB8Z6zsFpZTFlYDH4SzWmhIETVHs
-	l3mXj/9PC2QwQ0DngWT91Jso/RYegahtqDdjuRL18X6xrx+xqd645IarNJ43mkwex3cW
-	5Fm/LAhkL74iJCnYrzicqJKPQaOqcuK6ruTEoW/9xT/O4FCM56M6ISciGVNWy/E9uae5
-	Xa26JEjDwV08ba2qYXvZ+Fc1f6jXyY8NqdAZUiljHd/TsKYuLdXC+NJB2ZIk/sUdQTbe
-	dGEQ==
-X-Gm-Message-State: ALoCoQnxMaQY6VXJFVlyGz+EW25+IErnyvJUWfp/Hv97S+Ei+xzi7XOuPyMVE4ShwFyQbzf72Xbz
-X-Received: by 10.180.81.104 with SMTP id z8mr5426147wix.5.1428905325202;
-	Sun, 12 Apr 2015 23:08:45 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id l10sm9899910wje.15.2015.04.12.23.08.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 12 Apr 2015 23:08:44 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Apr 2015 08:08:40 +0200
-Message-Id: <1428905320-15709-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] libgpg-error 1.18: simplify tupple handling and add armv8b support
+	Mon, 13 Apr 2015 02:05:17 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 13 Apr 2015 02:05:20 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Apr 2015 02:05:16 -0700
+Message-ID: <cover.1428915889.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] syslinux: add syslinux-nomtools to PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 06:08:48 -0000
+X-List-Received-Date: Mon, 13 Apr 2015 09:05:17 -0000
+Content-Type: text/plain
 
-Add a default option to the case statement and remove the duplicates. Also add support for armv8b architectures.
+The following changes since commit a7d8eaef04c9dd6ede8d4efd8c4b776efbe3c767:
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-support/libgpg-error/libgpg-error_1.18.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+  shadow: split files needed for PAM use into separate package (2015-04-09 19:48:04 +0100)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-index 268066b..c9a47a3 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-@@ -27,18 +27,14 @@ do_compile_prepend() {
- 	fi
- 
- 	case ${TARGET_ARCH} in
--	  aarch64)    TUPLE=aarch64-unknown-linux-gnu ;;
-+	  aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
- 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
- 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
- 	  i586|i686)  TUPLE=i486-pc-linux-gnu ;;
--	  mipsel)     TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
--	  mips)       TUPLE=mips-unknown-linux-gnu ;;
--	  powerpc64)  TUPLE=powerpc64-unknown-linux-gnu ;;
--	  powerpc)    TUPLE=powerpc-unknown-linux-gnu ;;
--	  sh4)	      TUPLE=sh4-unknown-linux-gnu ;;
- 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-+	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;; 
- 	esac
- 
- 	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/syslinux
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/syslinux
+
+Robert Yang (1):
+  syslinux: add syslinux-nomtools to PACKAGES
+
+ meta/recipes-devtools/syslinux/syslinux_6.03.bb |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
 -- 
-1.9.3
+1.7.9.5
 
 
