@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A1C6AC23
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 423906AC23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 01:48:27 +0000 (UTC)
+	Mon, 13 Apr 2015 01:48:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mSOc029327
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mTXa023680
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 18:48:28 -0700 (PDT)
+	Sun, 12 Apr 2015 18:48:29 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Sun, 12 Apr 2015 18:48:31 -0700
+	14.3.224.2; Sun, 12 Apr 2015 18:48:32 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Apr 2015 09:48:22 +0800
-Message-ID: <b3f5a03698e6582f4630a6f8519a7e44818ee723.1428889561.git.Qi.Chen@windriver.com>
+Date: Mon, 13 Apr 2015 09:48:23 +0800
+Message-ID: <a3c16610064e5a780de5b0f1cb834f5704526564.1428889561.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1428889561.git.Qi.Chen@windriver.com>
 References: <cover.1428889561.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 4/6] sudo: upgrade to 1.8.13
+Subject: [PATCH V2 5/6] sysstat: upgrade to 11.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 01:48:27 -0000
+X-List-Received-Date: Mon, 13 Apr 2015 01:48:28 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                          | 12 +++---------
- .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}                |  4 ++--
- 2 files changed, 5 insertions(+), 11 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
+ .../recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} (40%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 6e9aec8..2d411f3 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,12 +4,12 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=69e337d679950e304953813158595256 \
--                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=e2dbb155fc49beea947515300bab99e0 \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
-+                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
--                    file://lib/util/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea \
-+                    file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
-                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-                     file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
+diff --git a/meta/recipes-extended/sysstat/sysstat_11.0.2.bb b/meta/recipes-extended/sysstat/sysstat_11.1.3.bb
+similarity index 40%
+rename from meta/recipes-extended/sysstat/sysstat_11.0.2.bb
+rename to meta/recipes-extended/sysstat/sysstat_11.1.3.bb
+index ce83f4f..061f3db 100644
+--- a/meta/recipes-extended/sysstat/sysstat_11.0.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_11.1.3.bb
+@@ -2,5 +2,5 @@ require sysstat.inc
  
-@@ -22,12 +22,6 @@ CONFFILES_${PN} = "${sysconfdir}/sudoers"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
- EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
- 
--do_configure_prepend () {
--	if [ ! -e ${S}/acinclude.m4 ]; then
--		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
--	fi
--}
--
- # mksigname/mksiglist are used on build host to generate source files
- do_compile_prepend () {
- 	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C lib/util mksigname mksiglist
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb b/meta/recipes-extended/sudo/sudo_1.8.13.bb
-similarity index 87%
-rename from meta/recipes-extended/sudo/sudo_1.8.11p2.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.13.bb
-index c5e2545..4494170 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.11p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.13.bb
-@@ -6,8 +6,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "84012b4871b6c775c957cd310d5bad87"
--SRC_URI[sha256sum] = "8133849418fa18cf6b6bb6893d1855ff7afe21db8923234a00bf045c90fba1ad"
-+SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
-+SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-SRC_URI[md5sum] = "27d4ca66869dce132ace3194dd7d7539"
+-SRC_URI[sha256sum] = "acd87fdfbe7c796480f14fc26119d8f785d26827d74a0f5bced6c492a91f1b96"
++SRC_URI[md5sum] = "27385bcb6c1e585de8ba7cb25ac67aef"
++SRC_URI[sha256sum] = "ddbd07dfac47bcf0a6c2ae503bd80ad84dbed80c939d3dd333eb8453c38c337b"
 -- 
 1.9.1
 
