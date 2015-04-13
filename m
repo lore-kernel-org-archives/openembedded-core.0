@@ -1,35 +1,24 @@
-Return-Path: <peteasa@gmail.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 712A7729F1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 05B5F605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 17:32:06 +0000 (UTC)
-Received: by wgin8 with SMTP id n8so59777664wgi.0
+	Mon, 13 Apr 2015 01:48:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3D1mNmX029315
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Apr 2015 10:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=lTFfJCtqweUI6HqHT85n9VaEb3TK85lWQ+/BriFOEpo=;
-	b=iZ3OZsOPApOQTJ/dcMHdbXo2TFsuufxcxes7ZjKMgKTVwzburazpqFacP49ZhCbwoW
-	XnynKrLOxdplqKWciy+wAbP9lFVHi6VkxIXnGpyuAD9k4PGdR/c3CFPlZ1AME0XhGb2V
-	Q5bgawfnmyIPOK2rZxCSpNtaXnMJ5E764ZoV6w7F/5TqdZ+XqsRipmaKu105sa4L9Bqu
-	elZmsDOS9dcxh1mvsv+E8H1GsEIqfZnDhGypVgB+R/zYuog1EAwOV7pd5ow/+3pdbx18
-	2+EhME6vZ85lhHzRQRVky8TIir3OCgJk5cs9HBJMgMFydRIP4Vft0IyIJN6LQiZkftV0
-	EKww==
-X-Received: by 10.194.77.230 with SMTP id v6mr20911329wjw.25.1428859927510;
-	Sun, 12 Apr 2015 10:32:07 -0700 (PDT)
-Received: from HomeMegaUbuntu.pascom
-	(cpc18-heme10-2-0-cust113.9-1.cable.virginm.net. [81.96.152.114])
-	by mx.google.com with ESMTPSA id
-	mv11sm9057319wic.23.2015.04.12.10.32.05
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 12 Apr 2015 10:32:06 -0700 (PDT)
-From: Peter Saunderson <peteasa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Apr 2015 18:31:42 +0100
-Message-Id: <1428859903-6200-1-git-send-email-peteasa@gmail.com>
-X-Mailer: git-send-email 2.1.0
-Cc: Peter Saunderson <peteasa@gmail.com>
-Subject: [PATCH] siteinfo.bbclass: Added Epiphany archinfo
+	Sun, 12 Apr 2015 18:48:23 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Sun, 12 Apr 2015 18:48:25 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Apr 2015 09:48:18 +0800
+Message-ID: <cover.1428889561.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH V2 0/6] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,28 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Apr 2015 17:32:09 -0000
+X-List-Received-Date: Mon, 13 Apr 2015 01:48:23 -0000
+Content-Type: text/plain
 
-Adding machine definitions for the epiphany (http://www.adapteva.com/) chip.
+Changes in V2:
+Remove the ptest part of kmod.
 
-Signed-off-by: Peter Saunderson <peteasa@gmail.com>
----
- meta/classes/siteinfo.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 6333186e9764b2c269a2b3869956860fa8fde2b1:
 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 5fd99bf..b694a17 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -24,6 +24,7 @@ def siteinfo_data(d):
-         "armeb": "endian-big bit-32 arm-common arm-32",
-         "avr32": "endian-big bit-32 avr32-common",
-         "bfin": "endian-little bit-32 bfin-common",
-+        "epiphany": "endian-little bit-32",
-         "i386": "endian-little bit-32 ix86-common",
-         "i486": "endian-little bit-32 ix86-common",
-         "i586": "endian-little bit-32 ix86-common",
+  binutils: Fix packaging now gold is always built (2015-04-08 23:10:57 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/package-upgrades-20140413
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/package-upgrades-20140413
+
+Chen Qi (6):
+  curl: upgrade to 7.41.0
+  busybox: upgrade to 1.23.2
+  kmod: upgrade to 20
+  sudo: upgrade to 1.8.13
+  sysstat: upgrade to 11.1.3
+  xz: upgrade to 5.2.1
+
+ .../{busybox_1.23.1.bb => busybox_1.23.2.bb}       |  4 +--
+ meta/recipes-core/busybox/busybox_git.bb           |  4 +--
+ meta/recipes-extended/sudo/sudo.inc                | 12 +++------
+ .../sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb}      |  4 +--
+ .../{sysstat_11.0.2.bb => sysstat_11.1.3.bb}       |  4 +--
+ .../xz/{xz_5.2.0.bb => xz_5.2.1.bb}                |  4 +--
+ meta/recipes-kernel/kmod/kmod.inc                  |  8 +++---
+ ...01-Makefile.am-fix-parallel-build-problem.patch | 29 +++++++++++++++++++++
+ ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 15 +++++------
+ .../kmod/kmod/avoid_parallel_tests.patch           | 30 ++++++++++++++--------
+ meta/recipes-kernel/kmod/kmod_git.bb               | 15 -----------
+ .../curl/{curl_7.40.0.bb => curl_7.41.0.bb}        |  4 +--
+ 12 files changed, 72 insertions(+), 61 deletions(-)
+ rename meta/recipes-core/busybox/{busybox_1.23.1.bb => busybox_1.23.2.bb} (90%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.11p2.bb => sudo_1.8.13.bb} (87%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.0.2.bb => sysstat_11.1.3.bb} (40%)
+ rename meta/recipes-extended/xz/{xz_5.2.0.bb => xz_5.2.1.bb} (92%)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+ rename meta/recipes-support/curl/{curl_7.40.0.bb => curl_7.41.0.bb} (93%)
+
 -- 
-2.1.0
+1.9.1
 
 
