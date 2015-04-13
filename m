@@ -1,29 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C27D73D3C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1459473D38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 16:34:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3DGYUNH016432; Mon, 13 Apr 2015 17:34:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3pRC6Rv-bvCJ; Mon, 13 Apr 2015 17:34:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3DGYG43016425
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 13 Apr 2015 17:34:27 +0100
-Message-ID: <1428942856.6976.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Date: Mon, 13 Apr 2015 17:34:16 +0100
-In-Reply-To: <1428939002-21170-1-git-send-email-joshua.lock@collabora.co.uk>
-References: <1428939002-21170-1-git-send-email-joshua.lock@collabora.co.uk>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	Mon, 13 Apr 2015 16:46:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 13 Apr 2015 09:46:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,571,1422950400"; d="scan'208";a="708224947"
+Received: from padice-mobl5.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.3.91])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2015 09:46:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 13 Apr 2015 17:46:03 +0100
+Message-ID: <2445584.6Z3eITqUyt@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <20150413162828.GJ2330@jama>
+References: <cover.1428939870.git.paul.eggleton@linux.intel.com>
+	<abe2d51f35b85dcbbd43c61d9309bfd7e38d3244.1428939870.git.paul.eggleton@linux.intel.com>
+	<20150413162828.GJ2330@jama>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oe-init-build-env: fix for build dirs that have spaces in their path
+Subject: Re: [PATCH 1/2] classes/package: clarify installed-vs-shipped message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 16:34:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Apr 2015 16:46:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2015-04-13 at 16:30 +0100, Joshua Lock wrote:
-> Enclose expansions of BUILDDIR in quotes in order to correctly handle paths
-> which include spaces.
-> 
-> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+On Monday 13 April 2015 18:28:28 Martin Jansa wrote:
+> On Mon, Apr 13, 2015 at 04:44:52PM +0100, Paul Eggleton wrote:
+> > Based on the number of times I've had to explain it over the years it
+> > seems that a lot of new users don't immediately realise what is meant
+> > by "shipped" here (nor should we expect them to) so let's at least
+> > mention packaging and briefly tell the user what they need to do. (I was
+> > going to go into more detail in the message, but there is really more
+> > detail than can be covered succinctly here.)
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > ---
+> > 
+> >  meta/classes/package.bbclass | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> > index 5558d0d..9790e9d 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -1132,12 +1132,13 @@ python populate_packages () {
+> > 
+> >                  unshipped.append(path)
+> >      
+> >      if unshipped != []:
+> > -        msg = pn + ": Files/directories were installed but not shipped"
+> > +        msg = pn + ": Files/directories were installed but not shipped in
+> > any package:"> 
+> >          if "installed-vs-shipped" in (d.getVar('INSANE_SKIP_' + pn, True) 
+or "").split():
+> >              bb.note("Package %s skipping QA tests: installed-vs-shipped"
+> >              % pn)
+> >          
+> >          else:
+> >              for f in unshipped:
+> >                  msg = msg + "\n  " + f
+> > 
+> > +            msg = msg + "\nPlease either set FILES such that these items
+> > are packaged, or alternatively delete them within do_install"
+> We should also mention the possibility to fix Makefile.am,
+> CMakeLists.txt, ... not to install them in first place.
 
-Autotools cannot handle things with spaces so whilst this will fix the
-environment setup part, I think you'll see sanity check warnings in
-short order?
-
-I did once start fixing this until I found it meant fixing auto* at
-which point I gave up.
+This is the sort of thing I was alluding to in the commit message, I'd rather 
+not get into too many specifics, or the message is going to end up very long 
+indeed covering all of the things you need to pay attention to. That kind of 
+thing is much better covered in the documentation.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
