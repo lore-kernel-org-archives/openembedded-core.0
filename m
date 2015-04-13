@@ -1,36 +1,36 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 4237473D68
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 939E573D9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 22:08:05 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so975106wiu.1
+	Mon, 13 Apr 2015 22:12:30 +0000 (UTC)
+Received: by qkx62 with SMTP id 62so202454748qkx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 15:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=TTSbxRNCCDi+Rk6bG/45aS7yO5jrzD3oVd+HlQmpWnI=;
-	b=QH+mYQUlP0Z97y7+bMgdTsIyhquc2PUj5oHCS+rKLxgrNXuvVyI4u2TKvEnNkWYd78
-	bSeU73dJje1Jt03JeilteEkj7VLKKMlHABHKtbe/SLDxfJG15+R9GX2Q78XfrESUONAP
-	rs18GtCBNBtvrrAzQNKrcEE6bisuGNHJkAjVr26sq4dNwPz8p44aw/KETHOEOZaWDbkL
-	iCEjD9RdNIrlH3+heV8/fFQmFY9qSfjuljGOcOkFY+qakYgO92m8fla6Ch/Si8+DGFGE
-	89XzqBuA5LQKRzCAuSleEgSBXzxOv37mg+bq54nkJOI9keHjZ7H7LbzEMENrdZmwYnUm
-	JXqg==
-X-Received: by 10.180.202.228 with SMTP id kl4mr25194186wic.66.1428962886501; 
-	Mon, 13 Apr 2015 15:08:06 -0700 (PDT)
-Received: from X220.home (AToulouse-651-1-103-181.w109-222.abo.wanadoo.fr.
-	[109.222.70.181])
-	by mx.google.com with ESMTPSA id l3sm95759wik.16.2015.04.13.15.08.05
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Apr 2015 15:08:05 -0700 (PDT)
-Sender: Thomas PERROT <vomegaz@gmail.com>
-From: Thomas Perrot <thomas.perrot@tupi.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 00:08:03 +0200
-Message-Id: <1428962883-26803-1-git-send-email-thomas.perrot@tupi.fr>
-X-Mailer: git-send-email 1.7.10.4
-Cc: tprrt <tprrt@tupi.fr>
-Subject: [meta-oe][PATCH] zap_empty_root_password doesn't work with toybox, /etc/passwd isn't never edit if /etc/shadow exist.
+	Mon, 13 Apr 2015 15:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=F8OaXUcs57fsu1eQJyiJ96eztRZxGgj2MTWqHtbfmFU=;
+	b=e8sMOC7bMAK22bxlHDtXGe2ExBJ6BS+DyeBqnGxiq5bG3rfL9HaNHZ3JIZe+SmJFnE
+	xFX+tVwAlXGx50T2+YTx4dRmkc2KZd2lial811R34oEPf8MR580rltWAPyRlFooZFSEu
+	KnSQdOtmsoGJSxatuNnpzs6+ExDOnMJMA92JF2IhNpNbmVxsyBryATQ4Tuq7+e3Fadcj
+	Ocu7NXHkv5dCz2/Ff/NrI95Pmb3E73trWM2yvamEfY6tx1+Wd4mdKUGYWedUpnAtvekY
+	I+CBREzuvk3ILOcJAYmupi8BoCAVBfPADCaivqt1cmpwxnMF3UovGZUoX7x62WZ9Bgbq
+	xB2A==
+X-Gm-Message-State: ALoCoQl/lZgPnkCCSxv9h4jY8ly/EYrE8uHpcW3hyCC5R13of3fqEUnqv4MicMXVZp/ENI5EHu3R
+X-Received: by 10.140.39.164 with SMTP id v33mr20533812qgv.80.1428963151413;
+	Mon, 13 Apr 2015 15:12:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Mon, 13 Apr 2015 15:12:11 -0700 (PDT)
+In-Reply-To: <1428962883-26803-1-git-send-email-thomas.perrot@tupi.fr>
+References: <1428962883-26803-1-git-send-email-thomas.perrot@tupi.fr>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Apr 2015 23:12:11 +0100
+Message-ID: <CAJTo0Lbb5STVkmLomVrypmukoivRkhLhvX+hPcjfdv3LTx9uAw@mail.gmail.com>
+To: Thomas Perrot <thomas.perrot@tupi.fr>
+Cc: tprrt <tprrt@tupi.fr>, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] zap_empty_root_password doesn't work with toybox, /etc/passwd isn't never edit if /etc/shadow exist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 22:08:10 -0000
+X-List-Received-Date: Mon, 13 Apr 2015 22:12:32 -0000
+Content-Type: multipart/alternative; boundary=001a11c14eae09a90c0513a269c3
 
-From: tprrt <tprrt@tupi.fr>
+--001a11c14eae09a90c0513a269c3
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: tprrt <tprrt@tupi.fr>
----
- meta/classes/image.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 13 April 2015 at 23:08, Thomas Perrot <thomas.perrot@tupi.fr> wrote:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 03cbbf7..541daef 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -328,7 +328,8 @@ MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
- zap_empty_root_password () {
- 	if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
- 		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
--	elif [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
-+        fi
-+	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
- 		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
- 	fi
- } 
--- 
-1.7.10.4
+> -       elif [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
+> +        fi
+> +       if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
+>
 
+So this is a logic bug and has nothing to do with toybox?
 
+Ross
+
+--001a11c14eae09a90c0513a269c3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+3 April 2015 at 23:08, Thomas Perrot <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:thomas.perrot@tupi.fr" target=3D"_blank">thomas.perrot@tupi.fr</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">-=C2=A0 =C2=A0 =C2=A0 =C2=A0e=
+lif [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then<br><=
+/blockquote><div><br></div><div>So this is a logic bug and has nothing to d=
+o with toybox?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a11c14eae09a90c0513a269c3--
