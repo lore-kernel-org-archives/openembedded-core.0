@@ -1,30 +1,36 @@
-Return-Path: <janne.karhunen@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BD40573D36
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 15:44:20 +0000 (UTC)
-Received: by paboj16 with SMTP id oj16so106073770pab.0
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 08:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=vb5XUnEZig7yelXio53Wlr64E2JOn/82R67+OzpqKrc=;
-	b=dFPSPmxtYgR28otfcoJtvFpDtmoTMRh02l/YVQn38WeivTn40NytUzlqA6RVJPR/1k
-	V/PXHA1v6eYge2xO09kZgdnUf4vlm2TarFSvx92+UDrWrKzaswVLkuOOkHOdYRSBHX4b
-	eB6gslyg3+Ob8OLudZqOqJATfgm5ealoTBihVDImL/i9HCewT2Z1qEhTvRPOC0NemUtX
-	IOQxNpCyuFbj7lCC9T9Ouq4yMumeDLjF/O/Ync9nXnKPxhXbaAEn+hKOyBZnAGwMVG+H
-	MpAQYbXCbuLIgKWaS6TLGfI6Evlc+mACsiAk7gDYQDjz2bMo1LX5ToJh0HMvIgEA+/Bp
-	H73w==
-MIME-Version: 1.0
-X-Received: by 10.68.254.226 with SMTP id al2mr27932459pbd.44.1428939862298;
-	Mon, 13 Apr 2015 08:44:22 -0700 (PDT)
-Received: by 10.70.132.162 with HTTP; Mon, 13 Apr 2015 08:44:22 -0700 (PDT)
-Date: Mon, 13 Apr 2015 08:44:22 -0700
-Message-ID: <CAE=NcrY2Y3dmF5qmfS1=QXcE0k1OOX8GdWMo7PDZ+W348ZSxaA@mail.gmail.com>
-From: Janne Karhunen <janne.karhunen@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: compiling the host tools natively for the host Linux?
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B4E873D44
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Apr 2015 15:44:36 +0000 (UTC)
+Received: by iebrs15 with SMTP id rs15so68090058ieb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Apr 2015 08:44:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ig38998dh++GWOd4VlCxlgOSW/7XAf1ArtoiPkLbGks=;
+	b=hxC2FBYaRZH7l0FWY8t94H9ElpKNZD4mGAkgNHQbHWfZoS6A9A1A13ylBfxx3F/oJs
+	CtZrR8oLR4rmOTNsyU/F97QVjq/HpKVeXlnWFnoWEFEGEtuRzwyCKEvH3Ap6AqTY8L6p
+	Gm6oevH/O/vUYX3XcLqrhzLgQxl7Xeg9XGdxlsA1mfughIs0jiuCMZLtsmmJm0Miuhns
+	LeJK6zMhDHPA2tqLWu3/s+Cw8//hcP9ys3iuvyvlRdJgUTfCsI31pvF4ymO7yorwH3+O
+	kyGjlvT7Ooe3cpNbjBsYwZOd5bTWFdlylFqYdlCNXBfi4NM5+XE2KLCd0rWQkf3ur0lQ
+	j4NQ==
+X-Gm-Message-State: ALoCoQmFH90LARU7QqOB+RkDW0hzvuMcYfIn098lkW/Iv1rU+3zn/1DpEvJrR6gVhBpuiCTDPx8o
+X-Received: by 10.50.64.244 with SMTP id r20mr17690026igs.48.1428939877366;
+	Mon, 13 Apr 2015 08:44:37 -0700 (PDT)
+Received: from syncev.vlan14.01.org (p5DE8EF5F.dip0.t-ipconnect.de.
+	[93.232.239.95]) by mx.google.com with ESMTPSA id
+	g187sm5132324ioe.30.2015.04.13.08.44.34
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Apr 2015 08:44:36 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Apr 2015 08:44:29 -0700
+Message-Id: <cover.1428939671.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH 0/1] ssh host key
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,19 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Apr 2015 15:44:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Apr 2015 15:44:37 -0000
 
-Hi,
+I had problems under qemu with getting the ssh host key generated (not enough
+entropy). That problem still persists, but perhaps is less severe on real
+hardware and for me. Having the same ssh host key for the qemu test machine
+was good enough for me and potentially also others, so here's an utility
+class which helps achieving that.
 
-Is there a way to compile the host tools (primarily interested in the
-compiler) for the host Linux rather than for the own distro? I'm
-comping the toolchains & sysroots as RPMs and the relocation of the
-toolchain from $RPM_BUILD_ROOT is a bit painful due to the own distro
-being used to run them. I'm doing that in RPM %post with patchelf &
-chrpath, but it is getting hairy.
+The following changes since commit a7d8eaef04c9dd6ede8d4efd8c4b776efbe3c767:
 
+  shadow: split files needed for PAM use into separate package (2015-04-09 19:48:04 +0100)
 
---
-Janne
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core master
+  https://github.com/pohly/openembedded-core/tree/master
+
+Patrick Ohly (1):
+  rootfsdebugfiles.bbclass: quick-and-dirty installation of additional
+    files
+
+ meta/classes/rootfsdebugfiles.bbclass | 36 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/classes/rootfsdebugfiles.bbclass
+
+-- 
+1.8.4.5
+
 
