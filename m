@@ -1,48 +1,58 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BF2C6ABF7
+Return-Path: <bevenson@melinkcorp.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0141.outbound.protection.outlook.com [157.56.110.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC6173501
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 15:39:08 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so23292213qkg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 08:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=A8YsCAFD3fu3S86rRlroXcJ8x+IoVt9B3p0JaEZY+x0=;
-	b=tfKQkJHL5D3Nf47Xo60vrQ1omfkV0ymhUjL6oXfH3L3dvLrAiH/Az1aPPVPLKeHVEJ
-	yWn4Itnzmk8Ha5QpBDgNHvt1Ynn2RMXUTucFsHjBhhasI1PjfyoWIgEB6o3u3dMXPLAy
-	FEQ43OK/cleyb5VazqNvuHfVZPTqGNCpsqZSwxWyZgkXAA8t7jXxk8sFBJb97Lkt1J5r
-	+WWa1acvI4tdE1IG1bHbtimRkDKl9CNPCpafq1DMoT8AjS/IF1CKvICQZ92toofXjoEh
-	Y88Ev8+qmgllakTIUHlOgFth/EggQizT7KBALEdv8gpBSefi/gJ2RFHIDuYNYxS0FwEx
-	WRjw==
-X-Received: by 10.55.53.8 with SMTP id c8mr31851353qka.63.1429025925025; Tue,
-	14 Apr 2015 08:38:45 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.34 with HTTP; Tue, 14 Apr 2015 08:38:24 -0700 (PDT)
-In-Reply-To: <CAJTo0LbnN-HPjeuG-_80DmB89APM7DUpNibvA7L-X8wo8SNrSw@mail.gmail.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
-	<552282D7.6040108@pabigot.com>
-	<CAP9ODKobzYLZS9K55S5rSw=Z=LHOaDOTt5mkzTx3SjomMvXnXg@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F49465B@irsmsx105.ger.corp.intel.com>
-	<5522F8D7.3050007@pabigot.com>
-	<CABcZANmh-o58Z5iHW++S30_JP6r3q-8+3-g5hegiwV1_2_OP1Q@mail.gmail.com>
-	<552319BE.3020308@pabigot.com>
-	<CAJTo0LbnN-HPjeuG-_80DmB89APM7DUpNibvA7L-X8wo8SNrSw@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 14 Apr 2015 08:38:24 -0700
-X-Google-Sender-Auth: LWd9Cl6f4d3Sf-73VdQSm3p906M
-Message-ID: <CABcZAN=05BhabBn_oS2JVp2NbDKJGje=8VE7qWv1WNgZ3k8VEQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+	Tue, 14 Apr 2015 15:46:50 +0000 (UTC)
+Received: from BN3PR0501MB1089.namprd05.prod.outlook.com (25.160.113.11) by
+	BN3PR0501MB1315.namprd05.prod.outlook.com (25.160.183.16) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.136.25; Tue, 14 Apr 2015 15:46:50 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (25.160.113.12) by
+	BN3PR0501MB1089.namprd05.prod.outlook.com (25.160.113.11) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.136.25; Tue, 14 Apr 2015 15:46:48 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) by
+	BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) with
+	mapi id 15.01.0136.014; Tue, 14 Apr 2015 15:46:48 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+Thread-Topic: [oe-core][dizzy][PATCH] base-files: Check for /run and /var/lock
+	softlinks on upgrade
+Thread-Index: AQHQc62wvLM5wei+eUuM1Pr7RRODYZ1Mp2ag
+Date: Tue, 14 Apr 2015 15:46:48 +0000
+Message-ID: <BN3PR0501MB1090C5485C34B9B9C6BB1253BBE60@BN3PR0501MB1090.namprd05.prod.outlook.com>
+References: <1428684268-55681-1-git-send-email-bevenson@melinkcorp.com>
+In-Reply-To: <1428684268-55681-1-git-send-email-bevenson@melinkcorp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-vipre-scanned: 00D6D3780099A600D6D4C5
+authentication-results: melinkcorp.com; dkim=none (message not signed)
+	header.d=none;
+x-originating-ip: [98.100.91.242]
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1089;
+	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1315; 
+x-forefront-antispam-report: BMV:1; SFV:NSPM;
+	SFS:(10019020)(6009001)(164054003)(377454003)(13464003)(2900100001)(62966003)(107886001)(86362001)(46102003)(66066001)(2656002)(2950100001)(450100001)(102836002)(76576001)(2501003)(19580405001)(77156002)(19580395003)(54356999)(76176999)(33656002)(50986999)(106116001)(122556002)(40100003)(74316001)(99286002)(4001410100001)(87936001)(92566002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1089;
+	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+x-microsoft-antispam-prvs: <BN3PR0501MB1089B60010B9B05570BC6D0ABBE60@BN3PR0501MB1089.namprd05.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5002010)(5005006); SRVR:BN3PR0501MB1089; BCL:0;
+	PCL:0; RULEID:; SRVR:BN3PR0501MB1089; 
+x-forefront-prvs: 054642504A
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2015 15:46:48.0192 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1089
+X-OriginatorOrg: melinkcorp.com
+Subject: Re: [dizzy][PATCH] base-files: Check for /run and /var/lock softlinks on upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,138 +65,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 15:39:09 -0000
-Content-Type: multipart/alternative; boundary=001a114900caa2d6110513b106eb
-
---001a114900caa2d6110513b106eb
-Content-Type: text/plain; charset=UTF-8
-
-On Tue, Apr 14, 2015 at 6:28 AM, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 7 April 2015 at 00:41, Peter A. Bigot <pab@pabigot.com> wrote:
->
->> Thank you.  So, if I understand correctly, the effect of adding bluez5 to
->> DISTRO_FEATURES_BACKFILL while keeping the current logic:
->>
->> # bluetooth support on the platform:
->> # "" if bluetooth is not in DISTRO_FEATURES
->> # else "bluez5" if bluez5 is in DISTRO_FEATURES
->> # else "bluez4"
->>
->> is that bluez5 becomes the default and is in DISTRO_FEATURES
->> automatically, and it stays the default even if bluez4 is also in
->> DISTRO_FEATURES unless somebody adds bluez5 to
->> DISTRO_FEATURES_BACKFILL_CONSIDERED at which point bluez4 takes precedence.
->>
->> If that understanding is correct, and reviewing
->> http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ref-features-backfill,
->> it's not clear to me that it's the right approach.  We're not backfilling
->> "bluetooth", which remains optional and continues to control whether either
->> "bluez4" or "bluez5" is relevant.  We're changing the default provider of
->> bluetooth services, something that I think can reasonably be changed
->> between releases, and something that 1.8 already controls (via explicit
->> specification of bluez4 or bluez5 in DISTRO_FEATURES).
->>
->
-> My reasoning for backfilling bluez5 is that bluetooth.bbclass has a
-> defined behaviour in 1.8:
->
-> if bluetooth in DF:
->   if bluez5 in DF:
->    return "bluez5"
->   else:
->     return "bluez4"
-> else:
->   return ""
->
-> There's no mention of a bluez4 DISTRO_FEATURE, just a "bluetooth" value to
-> enable/disable Bluetooth in general, and the toggle between BlueZ 4 and 5
-> is the presence of a "bluez5" DISTRO_FEATURE.
->
-> We don't need to change the algorithm or create new DISTRO_FEATURE
-> entries, as we have all the logic and items needed: by backfilling bluez5
-> into DISTRO_FEATURES we get the default switched, and distributions can
-> flip back to bluez4 when upgrading to 1.9 by adding in meta-connectivity
-> and wiping out bluez5 from DISTRO_FEATURES.
->
-> Or am I alone in thinking this is the best approach going forward?
->
-
-For what it's worth, I'd agree with that. There's no need to change the
-logic.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a114900caa2d6110513b106eb
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 14 Apr 2015 15:46:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Apr 14, 2015 at 6:28 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_=
-extra"><span class=3D""><div class=3D"gmail_quote">On 7 April 2015 at 00:41=
-, Peter A. Bigot <span dir=3D"ltr">&lt;<a href=3D"mailto:pab@pabigot.com" t=
-arget=3D"_blank">pab@pabigot.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div bgcolor=3D"#FFFFFF" text=3D"#000000">Thank you.=C2=A0 So=
-, if I understand correctly, the effect of adding
-    bluez5 to DISTRO_FEATURES_BACKFILL while keeping the current logic:<spa=
-n><br>
-    <br>
-    # bluetooth support on the platform:<br>
-    # &quot;&quot; if bluetooth is not in DISTRO_FEATURES<br></span><span>
-    # else &quot;bluez5&quot; if bluez5 is in DISTRO_FEATURES<br></span>
-    # else &quot;bluez4&quot;<br>
-    <br>
-    is that bluez5 becomes the default and is in DISTRO_FEATURES
-    automatically, and it stays the default even if bluez4 is also in
-    DISTRO_FEATURES unless somebody adds bluez5 to
-    DISTRO_FEATURES_BACKFILL_CONSIDERED at which point bluez4 takes
-    precedence.<br>
-    <br>
-    If that understanding is correct, and reviewing
-    <a href=3D"http://www.yoctoproject.org/docs/latest/ref-manual/ref-manua=
-l.html#ref-features-backfill" target=3D"_blank">http://www.yoctoproject.org=
-/docs/latest/ref-manual/ref-manual.html#ref-features-backfill</a>,
-    it&#39;s not clear to me that it&#39;s the right approach.=C2=A0 We&#39=
-;re not
-    backfilling &quot;bluetooth&quot;, which remains optional and continues=
- to
-    control whether either &quot;bluez4&quot; or &quot;bluez5&quot; is rele=
-vant.=C2=A0 We&#39;re
-    changing the default provider of bluetooth services, something that
-    I think can reasonably be changed between releases, and something
-    that 1.8 already controls (via explicit specification of bluez4 or
-    bluez5 in DISTRO_FEATURES).</div></blockquote></div><br></span>My reaso=
-ning for backfilling bluez5 is that bluetooth.<span class=3D"il">bbclass</s=
-pan> has a defined behaviour in 1.8:</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">if bluetooth in DF:</div><div class=3D"gmail=
-_extra">=C2=A0 if bluez5 in DF:</div><div class=3D"gmail_extra">=C2=A0 =C2=
-=A0return &quot;bluez5&quot;</div><div class=3D"gmail_extra">=C2=A0 else:</=
-div><div class=3D"gmail_extra">=C2=A0 =C2=A0 return &quot;bluez4&quot;</div=
-><div class=3D"gmail_extra">else:</div><div class=3D"gmail_extra">=C2=A0 re=
-turn &quot;&quot;</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">There&#39;s no mention of a bluez4 DISTRO_FEATURE, just a &quot=
-;bluetooth&quot; value to enable/disable Bluetooth in general, and the togg=
-le between BlueZ 4 and 5 is the presence of a &quot;bluez5&quot; DISTRO_FEA=
-TURE.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-We don&#39;t need to change the algorithm or create new DISTRO_FEATURE entr=
-ies, as we have all the logic and items needed: by backfilling bluez5 into =
-DISTRO_FEATURES we get the default switched, and distributions can flip bac=
-k to bluez4 when upgrading to 1.9 by adding in meta-connectivity and wiping=
- out bluez5 from DISTRO_FEATURES.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Or am I alone in thinking this is the best appr=
-oach going forward?</div></blockquote></div><br>For what it&#39;s worth, I&=
-#39;d agree with that. There&#39;s no need to change the logic.<br>-- <br><=
-div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot =
-com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br=
->Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+All,
 
---001a114900caa2d6110513b106eb--
+> -----Original Message-----
+> From: Bryan Evenson [mailto:bevenson@melinkcorp.com]
+> Sent: Friday, April 10, 2015 12:44 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Bryan Evenson
+> Subject: [oe-core][dizzy][PATCH] base-files: Check for /run and /var/lock
+> softlinks on upgrade
+>=20
+> Commit ea647cd9eebdc3e3121b84074519c4bb305adac9 moved the locations
+> of /run and /var/lock to match the FHS 3 draft specifications.
+> However, the install doesn't remove the existing directories.
+> As a result, upgrading a system may result in /run as a softlink
+> to /var/run and /var/run as a softlink to /run, creating a circular
+> link.
+>=20
+> During pre and post-install, check for the existence of the old
+> softlinks, move the old file contents to a temporary location, remove
+> the softlinks, and restore the directory contents after installation.
+>=20
+
+I went about this wrong, as I forgot that items may be mounted under /run. =
+ I'm working on a different solution in which the preinst step removes the =
+/run and /var/lock softlinks if they exist.  However, I still have odd issu=
+es.  The first reboot works fine, but then on the next reboot there is a li=
+nk inside /run for "run -> /var/run" and inside /var there is a link for "r=
+un -> /var/volatile/run".  This doesn't match up with the files listed in t=
+he base-files recipe.  I can't figure out where these links are coming from=
+.  Has anyone else had issues upgrading base-files?
+
+Thanks,
+Bryan
+
+> Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
+> ---
+>  meta/recipes-core/base-files/base-files_3.0.14.bb | 55
+> +++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> index 07f5c54..71cea08 100644
+> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> @@ -66,6 +66,41 @@ hostname =3D "openembedded"
+>=20
+>  BASEFILESISSUEINSTALL ?=3D "do_install_basefilesissue"
+>=20
+> +# In previous versions of base-files, /run was a softlink to /var/run an=
+d the
+> +# directory was located in /var/volatlie/run.  Also, /var/lock was a sof=
+tlink
+> +# to /var/volatile/lock which is where the real directory was located.  =
+Now,
+> +# /run and /run/lock are the real directories.  If we are upgrading, we =
+may
+> +# need to remove the symbolic links first before we create the directori=
+es.
+> +# Otherwise the directory creation will fail and we will have circular s=
+ymbolic
+> +# links.
+> +#
+> +# If we do need to remove the symbolic links first, we also need to pres=
+erve
+> +# all the contents of the directory so running programs can find the fil=
+es that
+> +# are in use in these directories.  Move the contents to a temporary
+> directory
+> +# during pre-install to protect the contents
+> +pkg_preinst_${PN} () {
+> +    #!/bin/sh -e
+> +    if [ x"$D" =3D "x" ]; then
+> +        if [ -e "/var/volatile/lock" ]; then
+> +            # Move the contents of /var/volatile/lock to a temporary dir=
+ectory
+> +            mkdir -p /run_lock_tmp
+> +            mv /var/volatile/lock/* /run_lock_tmp/
+> +
+> +            # Remove the current directory
+> +            rm -rf /var/volatile/lock
+> +        fi
+> +
+> +        if [ -h "/run" ]; then
+> +            # Move the contents of /run to a temporary directory
+> +            mkdir -p /run_tmp
+> +            mv /run/* /run_tmp/
+> +
+> +            # Remove the current directory
+> +            rm -rf /run
+> +        fi
+> +    fi
+> +}
+> +
+>  do_install () {
+>  	for d in ${dirs755}; do
+>  		install -m 0755 -d ${D}$d
+> @@ -79,6 +114,7 @@ do_install () {
+>  	for d in ${volatiles}; do
+>  		ln -sf volatile/$d ${D}${localstatedir}/$d
+>  	done
+> +
+>  	ln -snf ../run ${D}${localstatedir}/run
+>  	ln -snf ../run/lock ${D}${localstatedir}/lock
+>=20
+> @@ -144,6 +180,25 @@ do_install_append_linuxstdbase() {
+>          done
+>  }
+>=20
+> +# If we are on the actual hardware, check if we had to move /run and
+> /run/lock.
+> +# If so, copy the temporary directory contents to their new locations.
+> +pkg_postinst_${PN} () {
+> +    #!/bin/sh -e
+> +    if [ x"$D" =3D "x" ]; then
+> +        if [ -e "/run_tmp" ]; then
+> +            mv /run_tmp/* /run/
+> +            rmdir /run_tmp
+> +        fi
+> +
+> +        if [ -e "/run_lock_tmp/" ]; then
+> +            mv /run_lock_tmp/* /run/lock
+> +            rmdir /run_lock_tmp
+> +        fi
+> +    else
+> +        exit 1
+> +    fi
+> +}
+> +
+>  PACKAGES =3D "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
+>  FILES_${PN} =3D "/"
+>  FILES_${PN}-doc =3D "${docdir} ${datadir}/common-licenses"
+> --
+> 2.1.0
+
+
