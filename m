@@ -1,28 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CE947390D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 05:45:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3E5j5AW026745
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Apr 2015 22:45:05 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 13 Apr 2015 22:45:05 -0700
-Message-ID: <552CA960.2080804@windriver.com>
-Date: Tue, 14 Apr 2015 13:45:04 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4933673505
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 14 Apr 2015 06:21:04 +0000 (UTC)
+Received: by laat2 with SMTP id t2so126803laa.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 13 Apr 2015 23:21:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=CLBzHbxLxyZJz7uC1dkiZUAkdL6dZkLnyI6XJL7xENw=;
+	b=Z8IuTLgbg+rt+WKVADvKueG/R1k4sfDSYJy5cN7c4GKk1KQLTFmccOcThbHCASZIdQ
+	n9X/liNxqm14jHyfmkEXYQw/U+6rEnnB1OkoyF5O775yTpqYAoKkm+48w/hsoljCHD7Y
+	75bXTkWm5OTuLB99RsJMWRaPEnaKO8Zn0LsamXlcT+FPLF74SG8oBmizU9mP5YqIN7lb
+	MEnfN5MOOXFfu4d17b43FxOnlIN9KBuYQBD5VjEs8cUo4wdlx/Cczd/ox0Ipl3jXUtrV
+	5qv8q4dUEf9tAEVYgNynYi6czlJ2IJr6aKdEKiUSxy9TmQv3AmBaAAKeTwl8Di0U/8le
+	oQEg==
+X-Gm-Message-State: ALoCoQni+gYIBPRCLE79raZ0DPHY1x6qLrxRHtK6XjcETQQPug//fdYz1sj+eJmFRTCBC4XKQjfI
+X-Received: by 10.112.199.195 with SMTP id jm3mr1602858lbc.38.1428992464108;
+	Mon, 13 Apr 2015 23:21:04 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id sv2sm1387lbb.22.2015.04.13.23.21.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Apr 2015 23:21:03 -0700 (PDT)
+Date: Tue, 14 Apr 2015 08:21:01 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Janne Karhunen <janne.karhunen@gmail.com>
+Message-ID: <20150414062101.GA11904@ad.chargestorm.se>
+Mail-Followup-To: Janne Karhunen <janne.karhunen@gmail.com>,
+	Openembedded-core@lists.openembedded.org
+References: <CAE=NcrY2Y3dmF5qmfS1=QXcE0k1OOX8GdWMo7PDZ+W348ZSxaA@mail.gmail.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <552CA285.9070909@windriver.com>
-In-Reply-To: <552CA285.9070909@windriver.com>
-Subject: Re: failed to build libunwind when qemuarm64
+In-Reply-To: <CAE=NcrY2Y3dmF5qmfS1=QXcE0k1OOX8GdWMo7PDZ+W348ZSxaA@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: compiling the host tools natively for the host Linux?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,113 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 05:45:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Apr 2015 06:21:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+* Janne Karhunen <janne.karhunen@gmail.com> [150413 17:44]:
+> Is there a way to compile the host tools (primarily interested in the
+> compiler) for the host Linux rather than for the own distro? 
 
-Refer to RP's fix will fix the problem:
+Could you explain what you're trying to achieve a little bit more?
 
-commit 6cd8c8d7466cdf29e7a94ebd4978b129da4455fa
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Tue Apr 7 15:53:04 2015 +0100
+Which computer do you call host Linux and which one is "own distro"?
 
-     libunwind: Build with gold to avoid build failures
+Is the build-machine the host? Is the target "own distro"? If so, you
+need to look at generateing an SDK. (Prefebly, `bitbake <image-name> -c
+populate_sdk`).
 
+> I'm comping the toolchains & sysroots as RPMs and the relocation of
+> the toolchain from $RPM_BUILD_ROOT is a bit painful due to the own
+> distro being used to run them. I'm doing that in RPM %post with
+> patchelf & chrpath, but it is getting hairy.
 
-I will send a patch for it.
+I'm not really following what you're trying to achieve...
 
-// Robert
+Cheers,
+Anders
 
-On 04/14/2015 01:15 PM, Robert Yang wrote:
->
-> Does anyone meet this or have any suggestion, please ?
->
-> $ bitbake libunwind
-> [snip]
-> | ../aarch64-poky-linux-libtool  --tag=CC   --mode=link aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64  -O2 -pipe -g
-> -feliminate-unused-debug-types  -fexc
-> eptions -Wall -Wsign-compare  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -o
-> test-coredump-unwind test-coredump-unwind.o ../src/libunwind-coredump.la
-> ../src/libunwind-aarch64.la
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-co
-> mpare -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o test-ptrace-misc
-> test-ptrace-misc.o ident.o
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-co
-> mpare -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/Lperf-trace
-> Lperf-trace.o  ../src/.libs/libunwind.so -lc -lgcc_s
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-co
-> mpare -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/Lperf-simple
-> Lperf-simple.o  ../src/.libs/libunwind.so -lc -lgcc_s
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> copy reloc against protected `_ULaarch64_local_addr_space' is invalid
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> failed to set dynamic section sizes: Bad value
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> copy reloc against protected `_ULaarch64_local_addr_space' is invalid
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> failed to set dynamic section sizes: Bad value
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-co
-> mpare -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/Gperf-trace
-> Gperf-trace.o  ../src/.libs/libunwind-aarch64.so
-> /buildarea/lyang1/test_uni/tmp/work/aarch64-poky-linux/libunwind/1.1-r0/build/src/.libs/libunwind.so
-> ../src/.libs/libunwind.so -lc -lgcc_s
-> | collect2: error: ld returned 1 exit status
-> | make[1]: *** [Lperf-trace] Error 1
-> | make[1]: *** Waiting for unfinished jobs....
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-compare -Wl,-O1
-> -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/Gperf-simple Gperf-simple.o
-> ../src/.libs/libunwind-aarch64.so
-> /buildarea/lyang1/test_uni/tmp/work/aarch64-poky-linux/libunwind/1.1-r0/build/src/.libs/libunwind.so
-> ../src/.libs/libunwind.so -lc -lgcc_s
-> | collect2: error: ld returned 1 exit status
-> | make[1]: *** [Lperf-simple] Error 1
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> copy reloc against protected `_Uaarch64_local_addr_space' is invalid
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> failed to set dynamic section sizes: Bad value
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> copy reloc against protected `_Uaarch64_local_addr_space' is invalid
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> failed to set dynamic section sizes: Bad value
-> | collect2: error: ld returned 1 exit status
-> | make[1]: *** [Gperf-trace] Error 1
-> | collect2: error: ld returned 1 exit status
-> | make[1]: *** [Gperf-simple] Error 1
-> | aarch64-poky-linux-libtool: link: aarch64-poky-linux-gcc
-> --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemuarm64 -O2 -pipe -g
-> -feliminate-unused-debug-types -fexceptions -Wall -Wsign-compare -Wl,-O1
-> -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/test-coredump-unwind
-> test-coredump-unwind.o  ../src/.libs/libunwind-coredump.so
-> ../src/.libs/libunwind-aarch64.so
-> /buildarea/lyang1/test_uni/tmp/work/aarch64-poky-linux/libunwind/1.1-r0/build/src/.libs/libunwind.so
-> -lgcc_s -lc
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> copy reloc against protected `_UCD_accessors' is invalid
-> |
-> /buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/4.9.2/ld:
-> failed to set dynamic section sizes: Bad value
-> | collect2: error: ld returned 1 exit status
-> [snip]
->
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
