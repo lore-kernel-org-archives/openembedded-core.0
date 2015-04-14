@@ -1,20 +1,22 @@
 Return-Path: <brendan.le.foll@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9675773912
+	by mail.openembedded.org (Postfix) with ESMTP id 4DEED73D35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 18:54:58 +0000 (UTC)
+	Tue, 14 Apr 2015 18:55:02 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Apr 2015 11:55:00 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 14 Apr 2015 11:55:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="695212944"
+X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="695212978"
 Received: from unknown (HELO jupiter.iwi.intel.com) ([172.28.33.58])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2015 11:54:59 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2015 11:55:03 -0700
 From: brendan.le.foll@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 19:53:47 +0100
-Message-Id: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
+Date: Tue, 14 Apr 2015 19:53:48 +0100
+Message-Id: <1429037628-5803-2-git-send-email-brendan.le.foll@intel.com>
 X-Mailer: git-send-email 2.3.5
-Subject: [PATCH][dizzy] This patch fixes x32 builds broken since openssl update
+In-Reply-To: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
+References: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
+Subject: [PATCH][dizzy] openssl: Fix x32 openssl patch which was not building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,18 +29,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 18:55:00 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 18:55:02 -0000
 
 From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-I made a mistake rebasing the patch, this is a fix
+x32 builds where broken due to patch rebase not having been done correctly for
+this patch
 
-Brendan Le Foll (1):
-  openssl: Fix x32 openssl patch which was not building
-
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+---
  .../openssl/openssl/openssl_fix_for_x32.patch      | 30 ++++++++++++++++++++++
  1 file changed, 30 insertions(+)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch
+index 0d3902f..ab1434a 100644
+--- a/meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch
++++ b/meta/recipes-connectivity/openssl/openssl/openssl_fix_for_x32.patch
+@@ -52,6 +52,36 @@ Index: openssl-1.0.1e/crypto/bn/bn.h
+  /*
+   * assuming long is 64bit - this is the DEC Alpha unsigned long long is only
+   * 64 bits :-(, don't define BN_LLONG for the DEC Alpha
++Index: openssl-1.0.1e/crypto/bn/asm/x86_64-gcc.c
++===================================================================
++--- openssl-1.0.1m/crypto/bn/asm/x86_64-gcc.c	2015-03-19 13:37:10.000000000 +0000
+++++ openssl-1.0.1m-modif/crypto/bn/asm/x86_64-gcc.c	2015-04-14 17:09:11.876533194 +0100
++@@ -211,9 +211,9 @@
++
++     asm volatile ("       subq    %2,%2           \n"
++                   ".p2align 4                     \n"
++-                  "1:     movq    (%4,%2,8),%0    \n"
++-                  "       adcq    (%5,%2,8),%0    \n"
++-                  "       movq    %0,(%3,%2,8)    \n"
+++                  "1:     movq    (%q4,%2,8),%0   \n"
+++                  "       adcq    (%q5,%2,8),%0   \n"
+++                  "       movq    %0,(%q3,%2,8)   \n"
++                   "       leaq    1(%2),%2        \n"
++                   "       loop    1b              \n"
++                   "       sbbq    %0,%0           \n":"=&a" (ret), "+c"(n),
++@@ -235,9 +235,9 @@
++
++     asm volatile ("       subq    %2,%2           \n"
++                   ".p2align 4                     \n"
++-                  "1:     movq    (%4,%2,8),%0    \n"
++-                  "       sbbq    (%5,%2,8),%0    \n"
++-                  "       movq    %0,(%3,%2,8)    \n"
+++                  "1:     movq    (%q4,%2,8),%0   \n"
+++                  "       sbbq    (%q5,%2,8),%0   \n"
+++                  "       movq    %0,(%q3,%2,8)   \n"
++                   "       leaq    1(%2),%2        \n"
++                   "       loop    1b              \n"
++                   "       sbbq    %0,%0           \n":"=&a" (ret), "+c"(n)
+ Index: openssl-1.0.1e/crypto/bn/bn_exp.c
+ ===================================================================
+ --- openssl-1.0.1e.orig/crypto/bn/bn_exp.c
 -- 
 2.3.5
 
