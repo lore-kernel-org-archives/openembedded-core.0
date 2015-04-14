@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BC1873D0B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D8D056E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 09:04:45 +0000 (UTC)
+	Tue, 14 Apr 2015 09:07:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3E94kSu009977
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3E97FeG009770
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 02:04:46 -0700 (PDT)
+	Tue, 14 Apr 2015 02:07:15 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 14 Apr 2015 02:04:51 -0700
+	Tue, 14 Apr 2015 02:07:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Apr 2015 02:04:42 -0700
-Message-ID: <573acd090aac2bb7c0c17009fe82cb781ea736e2.1429002178.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Apr 2015 02:07:08 -0700
+Message-ID: <cover.1429002381.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1429002178.git.liezhi.yang@windriver.com>
-References: <cover.1429002178.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] curl: remove extra dev and staticdev from PACKAGES
+Subject: [PATCH 0/6] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 09:04:46 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 09:07:14 -0000
 Content-Type: text/plain
 
-There should be only one dev and dbg package.
+The following changes since commit 8d207e55031c0b93387e728f4312b8cb34ad5b12:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-support/curl/curl_7.41.0.bb |   11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+  libgpg-error 1.18: simplify tupple handling and add armv8b support (2015-04-13 22:32:06 +0100)
 
-diff --git a/meta/recipes-support/curl/curl_7.41.0.bb b/meta/recipes-support/curl/curl_7.41.0.bb
-index c3c3c0b..49ce716 100644
---- a/meta/recipes-support/curl/curl_7.41.0.bb
-+++ b/meta/recipes-support/curl/curl_7.41.0.bb
-@@ -42,18 +42,9 @@ do_install_append() {
- 	oe_multilib_header curl/curlbuild.h
- }
- 
--PACKAGES =+ "lib${BPN} lib${BPN}-dev lib${BPN}-staticdev lib${BPN}-doc"
-+PACKAGES =+ "lib${BPN}"
- 
- FILES_lib${BPN} = "${libdir}/lib*.so.*"
- RRECOMMENDS_lib${BPN} += "ca-certificates"
--FILES_lib${BPN}-dev = "${includedir} \
--                      ${libdir}/lib*.so \
--                      ${libdir}/lib*.la \
--                      ${libdir}/pkgconfig \
--                      ${datadir}/aclocal \
--                      ${bindir}/*-config"
--FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
--FILES_lib${BPN}-doc = "${mandir}/man3 \
--                      ${mandir}/man1/curl-config.1"
- 
- BBCLASSEXTEND = "native nativesdk"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+
+Chong Lu (2):
+  gstreamer: change priv_gst_parse_yylex arguments
+  webkit-gtk: ANGLE doesn't build with bison 3
+
+Robert Yang (4):
+  gnu-efi: 3.0.1 -> 3.0.2
+  tcl: 8.6.3 -> 8.6.4
+  python-git: 0.3.6 -> 1.0.0
+  bison: 2.7.1 -> 3.0.4
+
+ .../gnu-efi/{gnu-efi_3.0.1.bb => gnu-efi_3.0.2.bb} |    4 +--
+ .../bison/bison/dont-depend-on-help2man.patch      |   32 -------------------
+ .../bison/bison/fix_cross_manpage_building.patch   |   19 -----------
+ .../bison/{bison_2.7.1.bb => bison_3.0.4.bb}       |   20 ++++++------
+ .../{python-git_0.3.6.bb => python-git_1.0.0.bb}   |    4 +--
+ .../tcltk/{tcl_8.6.3.bb => tcl_8.6.4.bb}           |   16 +++++-----
+ ...mer-change-priv_gst_parse_yylex-arguments.patch |   33 ++++++++++++++++++++
+ .../gstreamer/gstreamer_0.10.36.bb                 |    1 +
+ ...bkit-gtk-ANGLE-doesn-t-build-with-bison-3.patch |   26 +++++++++++++++
+ meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb       |    1 +
+ 10 files changed, 82 insertions(+), 74 deletions(-)
+ rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.1.bb => gnu-efi_3.0.2.bb} (93%)
+ delete mode 100644 meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
+ delete mode 100644 meta/recipes-devtools/bison/bison/fix_cross_manpage_building.patch
+ rename meta/recipes-devtools/bison/{bison_2.7.1.bb => bison_3.0.4.bb} (70%)
+ rename meta/recipes-devtools/python/{python-git_0.3.6.bb => python-git_1.0.0.bb} (85%)
+ rename meta/recipes-devtools/tcltk/{tcl_8.6.3.bb => tcl_8.6.4.bb} (81%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
+ create mode 100644 meta/recipes-sato/webkit/files/webkit-gtk-ANGLE-doesn-t-build-with-bison-3.patch
+
 -- 
 1.7.9.5
 
