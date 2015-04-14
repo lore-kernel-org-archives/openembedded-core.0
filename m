@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 169AB73D3B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2345073D41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 09:07:15 +0000 (UTC)
+	Tue, 14 Apr 2015 09:07:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3E97GnD010250
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3E97Fgv009773
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 02:07:16 -0700 (PDT)
+	Tue, 14 Apr 2015 02:07:15 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 14 Apr 2015 02:07:21 -0700
+	Tue, 14 Apr 2015 02:07:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Apr 2015 02:07:13 -0700
-Message-ID: <37f3a2b97d82fd1cdeda6f0f6a18700f6899f6e7.1429002381.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Apr 2015 02:07:10 -0700
+Message-ID: <ada822b89f21988fd1073716b5add19c45211cbb.1429002381.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1429002381.git.liezhi.yang@windriver.com>
 References: <cover.1429002381.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] gstreamer: change priv_gst_parse_yylex arguments
+Subject: [PATCH 2/6] tcl: 8.6.3 -> 8.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,74 +36,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 14 Apr 2015 09:07:15 -0000
 Content-Type: text/plain
 
-From: Chong Lu <Chong.Lu@windriver.com>
+The LIC_FILES_CHKSUM has been changed since 2 extra spaces in the end
+were moved.
 
-Change priv_gst_parse_yylex to fit new bison version, else we will
-get following error:
-
-| grammar.tab.c: In function 'priv_gst_parse_yyparse':
-| grammar.tab.c:67:25: error: too few arguments to function 'priv_gst_parse_yylex'
-|  #define yylex           priv_gst_parse_yylex
-|                          ^
-
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...mer-change-priv_gst_parse_yylex-arguments.patch |   33 ++++++++++++++++++++
- .../gstreamer/gstreamer_0.10.36.bb                 |    1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
+ .../tcltk/{tcl_8.6.3.bb => tcl_8.6.4.bb}           |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/tcltk/{tcl_8.6.3.bb => tcl_8.6.4.bb} (81%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
-new file mode 100644
-index 0000000..bf93cb2
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
-@@ -0,0 +1,33 @@
-+gstreamer: change priv_gst_parse_yylex arguments
-+
-+Change priv_gst_parse_yylex to fit new bison version, else we will
-+get following error:
-+
-+| grammar.tab.c: In function 'priv_gst_parse_yyparse':
-+| grammar.tab.c:67:25: error: too few arguments to function 'priv_gst_parse_yylex'
-+|  #define yylex           priv_gst_parse_yylex
-+|                          ^
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ gst/parse/grammar.y | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gst/parse/grammar.y b/gst/parse/grammar.y
-+index 24fc87b..24fe906 100644
-+--- a/gst/parse/grammar.y
-++++ b/gst/parse/grammar.y
-+@@ -36,7 +36,7 @@
-+ 
-+ typedef void* yyscan_t;
-+ 
-+-int priv_gst_parse_yylex (void * yylval_param , yyscan_t yyscanner);
-++int priv_gst_parse_yylex (yyscan_t yyscanner);
-+ int priv_gst_parse_yylex_init (yyscan_t scanner);
-+ int priv_gst_parse_yylex_destroy (yyscan_t scanner);
-+ struct yy_buffer_state * priv_gst_parse_yy_scan_string (char* , yyscan_t);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
-index f08908a..5b30603 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz
-            file://check_fix.patch \
-            file://gst-inspect-check-error.patch \
-            file://0001-baseparse-Fix-self-comparison-always-evaluates-to-tr.patch \
-+           file://gstreamer-change-priv_gst_parse_yylex-arguments.patch \
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.3.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+similarity index 81%
+rename from meta/recipes-devtools/tcltk/tcl_8.6.3.bb
+rename to meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+index 73c0d25..8e92b3e 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.3.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+@@ -4,12 +4,12 @@ SECTION = "devel/tcltk"
+ 
+ # http://www.tcl.tk/software/tcltk/license.html
+ LICENSE = "tcl & BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://../license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
+-    file://../compat/license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
+-    file://../library/license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
+-    file://../macosx/license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
+-    file://../tests/license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
+-    file://../win/license.terms;md5=3c6f62c07835353e36f0db550ccfb65a \
++LIC_FILES_CHKSUM = "file://../license.terms;md5=058f6229798281bbcac4239c788cfa38 \
++    file://../compat/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
++    file://../library/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
++    file://../macosx/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
++    file://../tests/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
++    file://../win/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
  "
  
- SRC_URI[md5sum] = "a0cf7d6877f694a1a2ad2b4d1ecb890b"
+ DEPENDS = "tcl-native zlib"
+@@ -24,8 +24,8 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://alter-includedir.patch \
+            file://run-ptest \
+ "
+-SRC_URI[md5sum] = "db382feca91754b7f93da16dc4cdad1f"
+-SRC_URI[sha256sum] = "6ce0778de0d50daaa9c345d7c1fd1288fb658f674028812e7eeee992e3051005"
++SRC_URI[md5sum] = "d7cbb91f1ded1919370a30edd1534304"
++SRC_URI[sha256sum] = "9e6ed94c981c1d0c5f5fefb8112d06c6bf4d050a7327e95e71d417c416519c8d"
+ 
+ SRC_URI_class-native = "${BASE_SRC_URI}"
+ 
 -- 
 1.7.9.5
 
