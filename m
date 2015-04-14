@@ -1,36 +1,38 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 161886E268
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 37DCD6ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 14:03:15 +0000 (UTC)
-Received: by pabtp1 with SMTP id tp1so12917355pab.2
+	Tue, 14 Apr 2015 14:07:09 +0000 (UTC)
+Received: by qku63 with SMTP id 63so20674794qku.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 07:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=K3gNqWnSz71M9JKVtVw/pygMrJjNC3+Seo7UArfpRvE=;
-	b=ARg7+gszF+IS8UvE5ohUpRFCKWVA3IXXSu+HV511N8YN58yGhHS5RChNcN9y/ff55e
-	KNnrU3OfPXpYiTBwL56Tn2rEH0uOlCqI+2sfuJbjjQy1981TsIPmXrcyoZE8q4A9k+wK
-	77/Wdqt/B6fze3wTR/Zdg43b8HpPnyQ1v238Eduz+Dpkg/NMyar7f9DNjSYeGH4+33XA
-	TBYJxvF8hXI/wpnulgK0iWpW5XBWWGRnQiqpR8lG9S2UiPOLBC3zLXjcAR0VTwHipbUK
-	HTubvnqlLKsVDdRQowlPvEmR7CH3SBlaossmMohkOWPqt/NcxgNcmjl2HGfvKy8Nsiip
-	5dkg==
+	Tue, 14 Apr 2015 07:07:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vaeyDz3IU3/N/JTeTwOWmAirzjlGfaQ9BYhOZvijPUM=;
+	b=LPTe76Cjw44y9dtPSLGFmKvJMVbIoNIfEY2Gj2uQJLPYuwmjjcTiiQymeZg15OzUx9
+	B4WraunVztkGITtmz4B0+X/HxKJurKkv8foEfxq2X17subgg/WiLh6rst/l0D9756vFY
+	y0A6pVUCXaKmHkUyPKd0cFEEIB54YRhFy6SM6pvqgWrO4Wf2CuCmEwN9aIeZpmLugzR1
+	lLt452061GowNfDQ1DPbysQX8qcBPR/xh5QoUQAvB94u1rx920p2Ox0yDY/hCtOc3fmk
+	3/Y+DaWUnEvmnpjlwTBiIqFEiUwMnn7nHfond0skJoHCw1+dsVlGjgxp6jv33EGiycBZ
+	E+dw==
+X-Gm-Message-State: ALoCoQm862vq6iYUNIwCKGzgoLWx0f2kcXu61299YtjEPSlsUpDj0uCHHvqdDIQDACZ5i2tP4VXB
+X-Received: by 10.55.23.16 with SMTP id i16mr41346581qkh.14.1429020410723;
+	Tue, 14 Apr 2015 07:06:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.68.172.3 with SMTP id ay3mr36849606pbc.94.1429020197040;
-	Tue, 14 Apr 2015 07:03:17 -0700 (PDT)
-Received: by 10.70.54.3 with HTTP; Tue, 14 Apr 2015 07:03:16 -0700 (PDT)
-In-Reply-To: <CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 14 Apr 2015 07:06:30 -0700 (PDT)
+In-Reply-To: <CALbNGRTj61Gh-D=+JcAvTc55RJnMboCBU2kLAi_KE=qmCCwNgg@mail.gmail.com>
 References: <cover.1429002519.git.liezhi.yang@windriver.com>
 	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
 	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
 	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
-Date: Tue, 14 Apr 2015 16:03:16 +0200
-Message-ID: <CALbNGRTj61Gh-D=+JcAvTc55RJnMboCBU2kLAi_KE=qmCCwNgg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CALbNGRTj61Gh-D=+JcAvTc55RJnMboCBU2kLAi_KE=qmCCwNgg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Apr 2015 15:06:30 +0100
+Message-ID: <CAJTo0Lan=W35rvFOKO50=suGPNrpJr6uQuQpy8XdW1XhFCoU4Q@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
@@ -46,36 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 14:03:16 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 14:07:10 -0000
+Content-Type: multipart/alternative; boundary=001a1146f4baf565a90513afbdd9
+
+--001a1146f4baf565a90513afbdd9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2015 at 3:52 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 14 April 2015 at 14:50, Andreas M=C3=BCller <schnitzeltony@googlemail.=
-com>
-> wrote:
->>
->> from the error I would DEPEND on virtual/egl
->
->
-> Agreed.  And there's no dependency on virtual/libx11 which the readme you
-> quote suggests there should be.  Presumably that dependency - if it's
-> actually required - can be made conditional on the x11 DISTRO_FEATURE?
->
-> Ross
->
-1. To look for dependencies configure.ac is first place - Readme is
-often a place without love
-2. In meta-qt5-extra I have libepoxy in for a while - kwin needs it
-[1]. Problem with Xorg-Macros: These are build for x11 in distro
-features only but there are BSPs around (e.g meta-fsl-arm) supporting
-either x11 or wayland - not both together. So for a wayland only
-distro epoxy would not build.
+On 14 April 2015 at 15:03, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
+m>
+wrote:
 
-[1] https://github.com/schnitzeltony/meta-qt5-extra/tree/master/recipes-sup=
-port/libepoxy
+> 2. In meta-qt5-extra I have libepoxy in for a while - kwin needs it
+> [1]. Problem with Xorg-Macros: These are build for x11 in distro
+> features only but there are BSPs around (e.g meta-fsl-arm) supporting
+> either x11 or wayland - not both together. So for a wayland only
+> distro epoxy would not build.
+>
 
-Andreas
+util-macros doesn't require X11 to build.
 
+Ross
+
+--001a1146f4baf565a90513afbdd9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 April 2015 at 15:03, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":40v" class=3D"a3s" style=3D"overflow:hidden">2. In meta-qt5-extra I =
+have libepoxy in for a while - kwin needs it<br>
+[1]. Problem with Xorg-Macros: These are build for x11 in distro<br>
+features only but there are BSPs around (e.g meta-fsl-arm) supporting<br>
+either x11 or wayland - not both together. So for a wayland only<br>
+distro epoxy would not build.</div></blockquote></div><br>util-macros doesn=
+&#39;t require X11 to build.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
+
+--001a1146f4baf565a90513afbdd9--
