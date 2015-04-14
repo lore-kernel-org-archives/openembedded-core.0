@@ -1,23 +1,22 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 70E986E268
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D9AF6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 16:57:41 +0000 (UTC)
+	Tue, 14 Apr 2015 17:25:26 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Apr 2015 09:57:43 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 14 Apr 2015 10:25:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,576,1422950400"; d="scan'208";a="713553794"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 14 Apr 2015 09:57:43 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id B3FE16A408D;
-	Tue, 14 Apr 2015 09:57:18 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,576,1422950400"; d="scan'208";a="713570597"
+Received: from tkkaskin-mobl3.ger.corp.intel.com ([10.252.22.135])
+	by orsmga002.jf.intel.com with ESMTP; 14 Apr 2015 10:25:26 -0700
+Message-ID: <552D4D85.9010104@linux.intel.com>
+Date: Tue, 14 Apr 2015 20:25:25 +0300
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 19:56:07 +0300
-Message-Id: <1429030567-20338-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] kernel.bbclass: Fix race condition
+Subject: Should disabling features in glibc also disable the corresponding headers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 16:57:43 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 17:25:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Race condition between do_compile_kernelmodules and do_shared_workdir
-tasks occurs when do_compilemodules changes files in include/generated/*
-while do_shared_workdir tries to copy them to shared working directory.
+Hello,
 
-Functionality of do_shared_workdir has been moved to separate function
-mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
-left in the code as it may be used in many recipes.
+oe-core's version of glibc allows configuring out some libc features. 
+Currently, if a feature is disabled in glibc, glibc still installs the 
+header for that feature. This means that applications using glibc can't 
+rely on checking just the header presence in their configure scripts, 
+they also need to check whether the function implementation is present. 
+Is there some good reason why glibc works that way, or should glibc be 
+fixed so that disabling a feature disables the header too?
 
-[YOCTO #7321]
+At least alsa-lib requires patching[1] for this reason, and I wouldn't 
+be surprised if there were many other similar cases in other packages.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+[1] 
+http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 125ed88..aad430a 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -231,6 +231,8 @@ kernel_do_install() {
- 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
- 	install -d ${D}${sysconfdir}/modules-load.d
- 	install -d ${D}${sysconfdir}/modprobe.d
-+
-+	mk_shared_workdir
- }
- do_install[prefuncs] += "package_get_auto_pr"
- 
-@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
- 
- PACKAGEFUNCS += "emit_depmod_pkgdata"
- 
--do_shared_workdir () {
-+mk_shared_workdir () {
- 	cd ${B}
- 
- 	kerneldir=${STAGING_KERNEL_BUILDDIR}
-@@ -289,6 +291,14 @@ do_shared_workdir () {
- 	fi
- }
- 
-+# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
-+# and called from kernel_do_compile.
-+# It caused race condition with do_compile_kernelmodules when it runs
-+# in parallel with do_compile_kernelmodules
-+do_shared_workdir () {
-+	:
-+}
-+
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
- sysroot_stage_all () {
- 	:
 -- 
-2.1.4
-
+Tanu
 
