@@ -1,33 +1,35 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 433BB6ABF7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vn0-f51.google.com (mail-vn0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EB416E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 13:50:08 +0000 (UTC)
-Received: by paboj16 with SMTP id oj16so12613307pab.0
+	Tue, 14 Apr 2015 13:52:46 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so3791357vnb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 06:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=L+N4ufNkf2h4N5wvERKCIiu5P+LOS2ShzoNQL6jAv+E=;
-	b=njHdXUv/r6/pU4ncIzEakr+DHhrnvibSfRR83wjetJtXn4YjAPFbL27U4T8vdWbh8b
-	gzEDQnfX1p7m8bwIan71gPPTCrNxxcT4w7uUaHo8xV+WJB7I33P7jcjE4tZxDk5kDqE+
-	2hE563KM0GTTCsxAQFrjwdFWlSAA9kM7m9BavjakPun6vp7tC7V9WBzwDdbgRxNxawR0
-	VD1yYAAzRSuliOmVBKjzQQunE8JH7ChW/EEm3AuGN4NZMULym9v2HSqsgaaRQ4UmwE/J
-	Ax2K7XUoZRkzcBtEEv2B/G8K8k4T1j2DhTjkg6LP/qasj98TKubwYVSVKeBKJegwl1rX
-	5JSQ==
+	Tue, 14 Apr 2015 06:52:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=59pntdio2qPq5VzX/TFRiXMrsf0UQaZLSN5QFK6+D4A=;
+	b=GeClRhctN0CkrNMVLxy2hQkF5RpjIfJOL6Msn4YNx8zz/Od1nY5oYtK9SpbfrDWE/p
+	xYWha50ZyAWwgDkwEs1g5ckJ1vHLTt+rchV15ZMyqJT7US3GLKds0fvtI6UejCmTEK8k
+	pIr5QAOuEeVi1a8+KGMRDtiCSePNEguHLxfbghf5bWVo3hSKVJe124Z2L4Jv5V7WWfYt
+	IlyC6b0Sb813vtv3QaEJDfp/qONAXfXlsIfDHsDyHxK5sVZOJuDtOi7XFXBRCH+3oqXF
+	zjmERrsFMZUxut9dhofa0H7ofe5MWN9ZRk8ux6zIvp4WaRDLqAW0IadE3XfdE7Ru3T5j
+	q1MQ==
+X-Gm-Message-State: ALoCoQkYzzeKOgpw61XIJrY6uAUzSoEsEZvBTmMjlbTEwto9ZQflCJVUxoXm+1eXQxw6hW5fNkZx
+X-Received: by 10.140.88.80 with SMTP id s74mr24195877qgd.59.1429019567870;
+	Tue, 14 Apr 2015 06:52:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.70.41.38 with SMTP id c6mr36717792pdl.69.1429019410245; Tue,
-	14 Apr 2015 06:50:10 -0700 (PDT)
-Received: by 10.70.54.3 with HTTP; Tue, 14 Apr 2015 06:50:10 -0700 (PDT)
-In-Reply-To: <9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
+Received: by 10.140.102.231 with HTTP; Tue, 14 Apr 2015 06:52:27 -0700 (PDT)
+In-Reply-To: <CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
 References: <cover.1429002519.git.liezhi.yang@windriver.com>
 	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
-Date: Tue, 14 Apr 2015 15:50:10 +0200
-Message-ID: <CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Apr 2015 14:52:27 +0100
+Message-ID: <CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -44,40 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 13:50:09 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 13:52:49 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4b85e7e0513af8b9d
+
+--001a11c114c4b85e7e0513af8b9d
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2015 at 11:09 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Fixed do_configure error:
-> configure: error: libX11 headers (libx11-dev) required to build with GLX support
-> and do_compile error:
-> ../include/epoxy/egl_generated.h:10:29: fatal error: EGL/eglplatform.h: No such file or directory
->  #include "EGL/eglplatform.h"
->
-> The dependencies form its README.md:
-> * automake
-> * libegl1-mesa-dev
-> * xutils-dev
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-graphics/libepoxy/libepoxy_1.2.bb |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
-> index 4357331..50b9d2c 100644
-> --- a/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.2.bb
-> @@ -13,4 +13,4 @@ S = "${WORKDIR}/git"
->
->  inherit autotools pkgconfig
->
-> -DEPENDS = "util-macros"
-> +DEPENDS = "util-macros virtual/mesa"
-> --
-> 1.7.9.5
->
-from the error I would DEPEND on virtual/egl
+On 14 April 2015 at 14:50, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
+m>
+wrote:
 
-Andreas
+> from the error I would DEPEND on virtual/egl
+>
 
+Agreed.  And there's no dependency on virtual/libx11 which the readme you
+quote suggests there should be.  Presumably that dependency - if it's
+actually required - can be made conditional on the x11 DISTRO_FEATURE?
+
+Ross
+
+--001a11c114c4b85e7e0513af8b9d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 April 2015 at 14:50, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":445" class=3D"a3s" style=3D"overflow:hidden">from the error I would =
+DEPEND on virtual/egl</div></blockquote><div><br></div><div>Agreed.=C2=A0 A=
+nd there&#39;s no dependency on virtual/libx11 which the readme you quote s=
+uggests there should be.=C2=A0 Presumably that dependency - if it&#39;s act=
+ually required - can be made conditional on the x11 DISTRO_FEATURE?</div><d=
+iv><br></div><div>Ross</div></div></div></div>
+
+--001a11c114c4b85e7e0513af8b9d--
