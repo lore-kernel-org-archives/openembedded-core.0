@@ -1,22 +1,20 @@
 Return-Path: <brendan.le.foll@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DEED73D35
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D140773912
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 18:55:02 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Apr 2015 11:55:03 -0700
+	Tue, 14 Apr 2015 18:55:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2015 11:55:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="695212978"
+X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="680042633"
 Received: from unknown (HELO jupiter.iwi.intel.com) ([172.28.33.58])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2015 11:55:03 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Apr 2015 11:55:42 -0700
 From: brendan.le.foll@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 19:53:48 +0100
-Message-Id: <1429037628-5803-2-git-send-email-brendan.le.foll@intel.com>
+Date: Tue, 14 Apr 2015 19:54:32 +0100
+Message-Id: <1429037672-6239-1-git-send-email-brendan.le.foll@intel.com>
 X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
-References: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
-Subject: [PATCH][dizzy] openssl: Fix x32 openssl patch which was not building
+Subject: [PATCH][daisy] openssl: Fix x32 openssl patch which was not building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 18:55:02 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 18:55:41 -0000
 
 From: Brendan Le Foll <brendan.le.foll@intel.com>
 
