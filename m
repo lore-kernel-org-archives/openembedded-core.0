@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF7C06E268
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 169AB73D3B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 09:07:14 +0000 (UTC)
+	Tue, 14 Apr 2015 09:07:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3E97GaM009776
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3E97GnD010250
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Apr 2015 02:07:16 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Tue, 14 Apr 2015 02:07:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Apr 2015 02:07:12 -0700
-Message-ID: <f1903cbec360c18ffab190ece1f2b1c8e25641e8.1429002381.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Apr 2015 02:07:13 -0700
+Message-ID: <37f3a2b97d82fd1cdeda6f0f6a18700f6899f6e7.1429002381.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1429002381.git.liezhi.yang@windriver.com>
 References: <cover.1429002381.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] bison: 2.7.1 -> 3.0.4
+Subject: [PATCH 5/6] gstreamer: change priv_gst_parse_yylex arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,133 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 09:07:14 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 09:07:15 -0000
 Content-Type: text/plain
 
-* Based on Chong Lu's previous upgrade to 3.0.2
-* Remove unneeded patches:
-  dont-depend-on-help2man.patch and
-  fix_cross_manpage_building.patch
+From: Chong Lu <Chong.Lu@windriver.com>
+
+Change priv_gst_parse_yylex to fit new bison version, else we will
+get following error:
+
+| grammar.tab.c: In function 'priv_gst_parse_yyparse':
+| grammar.tab.c:67:25: error: too few arguments to function 'priv_gst_parse_yylex'
+|  #define yylex           priv_gst_parse_yylex
+|                          ^
 
 Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../bison/bison/dont-depend-on-help2man.patch      |   32 --------------------
- .../bison/bison/fix_cross_manpage_building.patch   |   19 ------------
- .../bison/{bison_2.7.1.bb => bison_3.0.4.bb}       |   20 ++++++------
- 3 files changed, 9 insertions(+), 62 deletions(-)
- delete mode 100644 meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
- delete mode 100644 meta/recipes-devtools/bison/bison/fix_cross_manpage_building.patch
- rename meta/recipes-devtools/bison/{bison_2.7.1.bb => bison_3.0.4.bb} (70%)
+ ...mer-change-priv_gst_parse_yylex-arguments.patch |   33 ++++++++++++++++++++
+ .../gstreamer/gstreamer_0.10.36.bb                 |    1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch b/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
-deleted file mode 100644
-index 21b44bf..0000000
---- a/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Inappropriate
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd bison-2.7/doc/Makefile.am bison-2.7/doc/Makefile.am
----- bison-2.7/doc/Makefile.am	2012-12-09 17:51:03.000000000 +0200
--+++ bison-2.7/doc/Makefile.am	2013-01-02 06:49:50.804894071 +0200
--@@ -52,15 +52,11 @@
-- ## Man Pages.  ##
-- ## ----------- ##
--
---dist_man_MANS = $(srcdir)/bison.1
---
---EXTRA_DIST += $(dist_man_MANS:.1=.x) common.x
---MAINTAINERCLEANFILES += $(dist_man_MANS)
--+EXTRA_DIST += bison.x common.x
--
-- # Depend on configure to get version number changes.
-- common_dep = $(top_srcdir)/configure $(srcdir)/common.x
-- srcsrcdir = $(top_srcdir)/bin
---$(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
--
-- # Differences to ignore when comparing the man page (the date).
-- remove_time_stamp = \
--@@ -94,8 +90,6 @@
--	fi
--	$(AM_V_at)rm -f $@*.t
--
---nodist_man_MANS = yacc.1
---
-- ## ------------------------------ ##
-- ## Graphviz examples generation.  ##
-- ## ------------------------------ ##
-diff --git a/meta/recipes-devtools/bison/bison/fix_cross_manpage_building.patch b/meta/recipes-devtools/bison/bison/fix_cross_manpage_building.patch
-deleted file mode 100644
-index 8b68379..0000000
---- a/meta/recipes-devtools/bison/bison/fix_cross_manpage_building.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--help2man is looking at the generated binary for help output. This does not work for cross compilations. So taking out the local PREPATH (../src) directory from path so that help2 man can find the native version of the bison in the native sysroot directory.
--
--Date: 2010/06/28
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--
--diff --git a/doc/Makefile.am b/doc/Makefile.am
--index c7f2755..af9453a 100644
----- a/doc/Makefile.am
--+++ b/doc/Makefile.am
--@@ -80,7 +80,6 @@ PREPATH = $(top_builddir)/src
-- 	  echo cd $$dir '&&' $(MAKE) $(AM_MAKEFLAGS) $$program &&	\
-- 	  (cd $$dir && $(MAKE) $(AM_MAKEFLAGS) $$program) || exit;	\
-- 	done
---	$(AM_V_at)PATH="$(PREPATH)$(PATH_SEPARATOR)$$PATH";		     \
-- 	export PATH;							     \
-- 	$(HELP2MAN)							     \
-- 	    --include=$*.x						     \
-diff --git a/meta/recipes-devtools/bison/bison_2.7.1.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
-similarity index 70%
-rename from meta/recipes-devtools/bison/bison_2.7.1.bb
-rename to meta/recipes-devtools/bison/bison_3.0.4.bb
-index 4a3ad15..0156201 100644
---- a/meta/recipes-devtools/bison/bison_2.7.1.bb
-+++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
-@@ -9,28 +9,26 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SECTION = "devel"
- DEPENDS = "bison-native flex-native"
- 
--BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
--	        file://m4.patch \
--                file://dont-depend-on-help2man.patch \
--	       "
-+SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-+           file://m4.patch \
-+"
- 
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
- 
--SRC_URI = "${BASE_SRC_URI} \
--           file://fix_cross_manpage_building.patch \
--          "
--
--SRC_URI[md5sum] = "7be02eb973eccf388f1ae750fc09eed0"
--SRC_URI[sha256sum] = "b409adcbf245baadb68d2f66accf6fdca5e282cafec1b865f4b5e963ba8ea7fb"
-+SRC_URI[md5sum] = "c342201de104cc9ce0a21e0ad10d4021"
-+SRC_URI[sha256sum] = "a72428c7917bdf9fa93cb8181c971b6e22834125848cf1d03ce10b1bb0716fe1"
- 
- LDFLAGS_prepend_libc-uclibc = " -lrt "
- DEPENDS_class-native = "gettext-minimal-native"
--SRC_URI_class-native = "${BASE_SRC_URI}"
- 
- inherit autotools gettext texinfo
- acpaths = "-I ${S}/m4"
- 
-+do_compile_prepend() {
-+	for i in mfcalc calc++ rpcalc; do mkdir -p ${B}/examples/$i; done
-+}
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
+new file mode 100644
+index 0000000..bf93cb2
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstreamer-change-priv_gst_parse_yylex-arguments.patch
+@@ -0,0 +1,33 @@
++gstreamer: change priv_gst_parse_yylex arguments
 +
- do_install_append_class-native() {
- 	create_wrapper ${D}/${bindir}/bison \
- 		BISON_PKGDATADIR=${STAGING_DATADIR_NATIVE}/bison
++Change priv_gst_parse_yylex to fit new bison version, else we will
++get following error:
++
++| grammar.tab.c: In function 'priv_gst_parse_yyparse':
++| grammar.tab.c:67:25: error: too few arguments to function 'priv_gst_parse_yylex'
++|  #define yylex           priv_gst_parse_yylex
++|                          ^
++
++Upstream-Status: Pending
++
++Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
++---
++ gst/parse/grammar.y | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst/parse/grammar.y b/gst/parse/grammar.y
++index 24fc87b..24fe906 100644
++--- a/gst/parse/grammar.y
+++++ b/gst/parse/grammar.y
++@@ -36,7 +36,7 @@
++ 
++ typedef void* yyscan_t;
++ 
++-int priv_gst_parse_yylex (void * yylval_param , yyscan_t yyscanner);
+++int priv_gst_parse_yylex (yyscan_t yyscanner);
++ int priv_gst_parse_yylex_init (yyscan_t scanner);
++ int priv_gst_parse_yylex_destroy (yyscan_t scanner);
++ struct yy_buffer_state * priv_gst_parse_yy_scan_string (char* , yyscan_t);
++-- 
++1.9.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+index f08908a..5b30603 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz
+            file://check_fix.patch \
+            file://gst-inspect-check-error.patch \
+            file://0001-baseparse-Fix-self-comparison-always-evaluates-to-tr.patch \
++           file://gstreamer-change-priv_gst_parse_yylex-arguments.patch \
+ "
+ 
+ SRC_URI[md5sum] = "a0cf7d6877f694a1a2ad2b4d1ecb890b"
 -- 
 1.7.9.5
 
