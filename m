@@ -1,27 +1,22 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E9E3E6ABF7
+Return-Path: <amy.fong@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D95273CC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 19:18:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2015 12:18:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="695224547"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.22.135])
-	([10.252.22.135])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2015 12:18:35 -0700
-Message-ID: <1429039113.7001.6.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Apr 2015 22:18:33 +0300
-In-Reply-To: <17C7BB5A-DD92-44F5-A463-F36F9A45522E@gmail.com>
-References: <552D4D85.9010104@linux.intel.com>
-	<17C7BB5A-DD92-44F5-A463-F36F9A45522E@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Should disabling features in glibc also disable the corresponding headers?
+	Tue, 14 Apr 2015 19:21:09 +0000 (UTC)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3EJLASw015753
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Tue, 14 Apr 2015 12:21:10 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.84)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1Yi6OA-0005tQ-0X; Tue, 14 Apr 2015 15:20:50 -0400
+Date: Tue, 14 Apr 2015 15:20:50 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: openembedded-core@lists.openembedded.org, amy.fong@windriver.com
+Message-ID: <20150414192049.GA22629@windriver.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [meta-java] [PATCH] icedtea7-native fails on hosts without /usr/include/X11/extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +29,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 19:18:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Apr 2015 19:21:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2015-04-14 at 13:40 -0400, Khem Raj wrote:
-> > On Apr 14, 2015, at 1:25 PM, Tanu Kaskinen <tanu.kaskinen@linux.intel.com> wrote:
-> > 
-> > Hello,
-> > 
-> > oe-core's version of glibc allows configuring out some libc
-> features. Currently, if a feature is disabled in glibc, glibc still
-> installs the header for that feature. This means that applications
-> using glibc can't rely on checking just the header presence in their
-> configure scripts, they also need to check whether the function
-> implementation is present. Is there some good reason why glibc works
-> that way, or should glibc be fixed so that disabling a feature
-> disables the header too?
-> > 
-> > At least alsa-lib requires patching[1] for this reason, and I
-> wouldn't be surprised if there were many other similar cases in other
-> packages.
-> > 
-> > [1] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-multimedia/alsa/alsa-lib/Check-if-wordexp-function-is-supported.patch
-> > 
-> 
-> checking for functions is the right thing. And it would fail to link
-> if you passed configure check.
+From 4789a5dc622cc8537df28596a4beb66db4ba4774 Mon Sep 17 00:00:00 2001
+From: Amy Fong <amy.fong@windriver.com>
+Date: Tue, 14 Apr 2015 13:10:22 -0400
+Subject: [PATCH] icedtea7-native compile failure undefined reference to `main'
 
-Thanks for the quick reply. Could you elaborate why checking for
-functions is the right thing? If that's the right thing, then I should
-send that alsa-lib patch to upstream, and I want to be able to explain
-why the patch is not a workaround for oe-core's glibc brokenness.
+On hosts without /usr/include/X11/extensions, icedtea7-native compile
+results in a build failure while trying to create an object file:
 
++/data/home/.../git/csu/../sysdeps/x86_64/start.S:118: undefined reference to `main'
+[2015-03-31 15:22:53.115930161+00:00] | collect2: error: ld returned 1 exit status
+
+The compile line shows: (-c gets eaten)
+... -I -c -o
+
+The makefile tries to do the following which results in a faulty build
+line if /usr/include/X11/extensions doesn't exist:
+
+   CPPFLAGS += -I$(firstword $(wildcard $(OPENWIN_HOME)/include/X11/extensions) \
+                         $(wildcard /usr/include/X11/extensions))
+
+This looks like a missed line from the following patch which removes the need for X11/extensions:
+  icedtea-ecj-disable-compilation.patch
+
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
+---
+ recipes-core/icedtea/icedtea7-native.inc           |  2 ++
+ .../openjdk-7-03b147/headless_x11_cleanup.patch    | 35 ++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 recipes-core/icedtea/openjdk-7-03b147/headless_x11_cleanup.patch
+
+diff --git a/recipes-core/icedtea/icedtea7-native.inc b/recipes-core/icedtea/icedtea7-native.inc
+index 81e9b66..f555d70 100644
+--- a/recipes-core/icedtea/icedtea7-native.inc
++++ b/recipes-core/icedtea/icedtea7-native.inc
+@@ -30,6 +30,7 @@ SRC_URI = " \
+ 
+ SRC_URI += "file://icedtea-unzip.patch"
+ SRC_URI += "file://icedtea-unzip-phase2.patch;apply=no"
++SRC_URI += "file://headless_x11_cleanup.patch;apply=no"
+ 
+ S = "${WORKDIR}/${ICEDTEA}"
+ B = "${S}/build"
+@@ -149,6 +150,7 @@ do_configure_append() {
+ 	oe_runmake patch-boot
+ 
+ 	cd ${S} && cat ${WORKDIR}/icedtea-unzip-phase2.patch | patch -p1
++	cd ${S} && cat ${WORKDIR}/headless_x11_cleanup.patch | patch -p1
+ }
+ 
+ EXTRA_OEMAKE = ' \
+diff --git a/recipes-core/icedtea/openjdk-7-03b147/headless_x11_cleanup.patch b/recipes-core/icedtea/openjdk-7-03b147/headless_x11_cleanup.patch
+new file mode 100644
+index 0000000..5b3e650
+--- /dev/null
++++ b/recipes-core/icedtea/openjdk-7-03b147/headless_x11_cleanup.patch
+@@ -0,0 +1,35 @@
++---
++ build/openjdk-boot/jdk/make/sun/awt/mawt.gmk |    6 ------
++ build/openjdk/jdk/make/sun/awt/mawt.gmk      |    6 ------
++ 2 files changed, 12 deletions(-)
++
++--- a/build/openjdk-boot/jdk/make/sun/awt/mawt.gmk
+++++ b/build/openjdk-boot/jdk/make/sun/awt/mawt.gmk
++@@ -258,12 +258,6 @@
++         -I$(PLATFORM_SRC)/native/$(PKGDIR) \
++         $(EVENT_MODEL)
++ 
++-ifeq ($(PLATFORM), linux)
++-  # Checking for the X11/extensions headers at the additional location
++-  CPPFLAGS += -I$(firstword $(wildcard $(OPENWIN_HOME)/include/X11/extensions) \
++-                        $(wildcard /usr/include/X11/extensions))
++-endif
++-
++ ifeq ($(PLATFORM), solaris)
++   CPPFLAGS += -I$(OPENWIN_HOME)/include/X11/extensions
++ endif
++--- a/build/openjdk/jdk/make/sun/awt/mawt.gmk
+++++ b/build/openjdk/jdk/make/sun/awt/mawt.gmk
++@@ -258,12 +258,6 @@
++         -I$(PLATFORM_SRC)/native/$(PKGDIR) \
++         $(EVENT_MODEL)
++ 
++-ifeq ($(PLATFORM), linux)
++-  # Checking for the X11/extensions headers at the additional location
++-  CPPFLAGS += -I$(firstword $(wildcard $(OPENWIN_HOME)/include/X11/extensions) \
++-                        $(wildcard /usr/include/X11/extensions))
++-endif
++-
++ ifeq ($(PLATFORM), solaris)
++   CPPFLAGS += -I$(OPENWIN_HOME)/include/X11/extensions
++ endif
 -- 
-Tanu
+2.1.4
 
 
