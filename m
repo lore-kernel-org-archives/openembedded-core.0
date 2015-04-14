@@ -1,47 +1,48 @@
-Return-Path: <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0061.outbound.protection.outlook.com [157.56.111.61])
-	by mail.openembedded.org (Postfix) with ESMTP id 388BB6E268
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vn0-f54.google.com (mail-vn0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B1B6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 09:53:51 +0000 (UTC)
-Received: from BN3PR0701MB1137.namprd07.prod.outlook.com (25.160.114.150) by
-	BN3PR0701MB1298.namprd07.prod.outlook.com (25.160.118.148) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.130.23; Tue, 14 Apr 2015 09:39:06 +0000
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none;
-Received: from Ubuntu64.mydomain.com (111.93.218.67) by
-	BN3PR0701MB1137.namprd07.prod.outlook.com (25.160.114.150) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.136.25; Tue, 14 Apr 2015 09:39:04 +0000
-From: "Krishnanjanappa, Jagadeesh"
-	<jagadeesh.krishnanjanappa@caviumnetworks.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Apr 2015 15:08:48 +0530
-Message-ID: <1429004328-31212-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
-X-Mailer: git-send-email 1.8.2.3
+	Tue, 14 Apr 2015 13:28:51 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so3546307vnb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Apr 2015 06:28:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Cu9SHn7Qnh8B/FLxv7N6pPZFGeM5RGK/iLleWEd+v+E=;
+	b=XNDYT+P2QtfmsIqREo50cZG5coVR0NxlfjQe2jW06/UkaJUM7jUqqD3zUqZGwqVi0q
+	m73fy+uDgv9nlPXF5KA/Qhk1W93tvROnk/8XxI7Vyvhk9PU79OjmB+mNcZ18i57aJqcC
+	9Jyc2IywwJdAagPLNsdo2LenGHeZsVpa6EYVrHggLngAPMTyzVIjShGzINkLh1NZ31Re
+	dCSz1c5OLDA9Yx5PScgVpuVyB0CB82E0Du6sfJiEp7WxVBlpNpVqRaDIVsk/yCvXIIV/
+	QAQX3xfJn2hChWreC/8fRh4DEbBxHBZXm/Op8yXv4s0i0c4DSvbStVVAEABYb4byr28c
+	d2Bw==
+X-Gm-Message-State: ALoCoQktxbcomJnPDlSsJdh79WsWsSWViCdmiFY6yivF1IP70qKQqY0emTeSwbjBf8mOznwS93+Q
+X-Received: by 10.140.88.80 with SMTP id s74mr24055007qgd.59.1429018132227;
+	Tue, 14 Apr 2015 06:28:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [111.93.218.67]
-X-ClientProxiedBy: BY2PR03CA039.namprd03.prod.outlook.com (10.141.249.12) To
-	BN3PR0701MB1137.namprd07.prod.outlook.com (25.160.114.150)
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0701MB1137;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0701MB1298; 
-X-Forefront-Antispam-Report: BMV:1; SFV:NSPM;
-	SFS:(10009020)(6009001)(92566002)(77156002)(62966003)(42186005)(86362001)(33646002)(36756003)(50226001)(450100001)(48376002)(50466002)(122386002)(50986999)(40100003)(69596002)(53416004)(46102003)(47776003)(66066001)(19580395003)(19580405001)(229853001)(110136001)(87976001)(2351001)(7099027)(4001430100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN3PR0701MB1137;
-	H:Ubuntu64.mydomain.com; FPR:; SPF:None; MLV:ovrnspm;
-	PTR:InfoNoRecords; LANG:en; 
-X-Microsoft-Antispam-PRVS: <BN3PR0701MB113710742B8288B72521587A8EE60@BN3PR0701MB1137.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5002010)(5005006); SRVR:BN3PR0701MB1137; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0701MB1137; 
-X-Forefront-PRVS: 054642504A
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2015 09:39:04.5142 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0701MB1137
-X-OriginatorOrg: caviumnetworks.com
-Subject: [PATCH] ghostscript: add objarch.h for armeb
+Received: by 10.140.102.231 with HTTP; Tue, 14 Apr 2015 06:28:31 -0700 (PDT)
+In-Reply-To: <552319BE.3020308@pabigot.com>
+References: <cover.1428070227.git.cristian.iorga@intel.com>
+	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
+	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
+	<552282D7.6040108@pabigot.com>
+	<CAP9ODKobzYLZS9K55S5rSw=Z=LHOaDOTt5mkzTx3SjomMvXnXg@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F49465B@irsmsx105.ger.corp.intel.com>
+	<5522F8D7.3050007@pabigot.com>
+	<CABcZANmh-o58Z5iHW++S30_JP6r3q-8+3-g5hegiwV1_2_OP1Q@mail.gmail.com>
+	<552319BE.3020308@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Apr 2015 14:28:31 +0100
+Message-ID: <CAJTo0LbnN-HPjeuG-_80DmB89APM7DUpNibvA7L-X8wo8SNrSw@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,70 +55,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 09:53:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Apr 2015 13:28:55 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4265a730513af3671
 
-From: "Krishnanjanappa, Jagadeesh" <jagadeesh.krishnanjanappa@caviumnetworks.com>
+--001a11c114c4265a730513af3671
+Content-Type: text/plain; charset=UTF-8
 
-ghostscript application fails to fetch objarch.h file while building for armeb.
-The fetch failure is due to absence of this file in the default set of
-directories that the OpenEmbedded build system searches (i.e FILESPATH)
-for patches and files. This patch adds the required objarch.h file for
-armeb in one of the default locations where OpenEmbedded build system searches.
+On 7 April 2015 at 00:41, Peter A. Bigot <pab@pabigot.com> wrote:
 
-Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
----
- .../ghostscript/ghostscript/armeb/objarch.h        | 40 ++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
+> Thank you.  So, if I understand correctly, the effect of adding bluez5 to
+> DISTRO_FEATURES_BACKFILL while keeping the current logic:
+>
+> # bluetooth support on the platform:
+> # "" if bluetooth is not in DISTRO_FEATURES
+> # else "bluez5" if bluez5 is in DISTRO_FEATURES
+> # else "bluez4"
+>
+> is that bluez5 becomes the default and is in DISTRO_FEATURES
+> automatically, and it stays the default even if bluez4 is also in
+> DISTRO_FEATURES unless somebody adds bluez5 to
+> DISTRO_FEATURES_BACKFILL_CONSIDERED at which point bluez4 takes precedence.
+>
+> If that understanding is correct, and reviewing
+> http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ref-features-backfill,
+> it's not clear to me that it's the right approach.  We're not backfilling
+> "bluetooth", which remains optional and continues to control whether either
+> "bluez4" or "bluez5" is relevant.  We're changing the default provider of
+> bluetooth services, something that I think can reasonably be changed
+> between releases, and something that 1.8 already controls (via explicit
+> specification of bluez4 or bluez5 in DISTRO_FEATURES).
+>
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
-new file mode 100644
-index 0000000..359097f
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
-@@ -0,0 +1,40 @@
-+/* Parameters derived from machine and compiler architecture. */
-+/* This file is generated mechanically by genarch.c. */
-+
-+	 /* ---------------- Scalar alignments ---------------- */
-+
-+#define ARCH_ALIGN_SHORT_MOD 2
-+#define ARCH_ALIGN_INT_MOD 4
-+#define ARCH_ALIGN_LONG_MOD 4
-+#define ARCH_ALIGN_PTR_MOD 4
-+#define ARCH_ALIGN_FLOAT_MOD 4
-+#define ARCH_ALIGN_DOUBLE_MOD 8
-+
-+	 /* ---------------- Scalar sizes ---------------- */
-+
-+#define ARCH_LOG2_SIZEOF_CHAR 0
-+#define ARCH_LOG2_SIZEOF_SHORT 1
-+#define ARCH_LOG2_SIZEOF_INT 2
-+#define ARCH_LOG2_SIZEOF_LONG 2
-+#define ARCH_LOG2_SIZEOF_LONG_LONG 3
-+#define ARCH_SIZEOF_GX_COLOR_INDEX 8
-+#define ARCH_SIZEOF_PTR 4
-+#define ARCH_SIZEOF_FLOAT 4
-+#define ARCH_SIZEOF_DOUBLE 8
-+#define ARCH_FLOAT_MANTISSA_BITS 24
-+#define ARCH_DOUBLE_MANTISSA_BITS 53
-+
-+	 /* ---------------- Unsigned max values ---------------- */
-+
-+#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
-+#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
-+#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
-+#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
-+
-+	 /* ---------------- Miscellaneous ---------------- */
-+
-+#define ARCH_IS_BIG_ENDIAN 1
-+#define ARCH_PTRS_ARE_SIGNED 0
-+#define ARCH_FLOATS_ARE_IEEE 1
-+#define ARCH_ARITH_RSHIFT 2
-+#define ARCH_DIV_NEG_POS_TRUNCATES 1
--- 
-1.8.2.3
+My reasoning for backfilling bluez5 is that bluetooth.bbclass has a defined
+behaviour in 1.8:
 
+if bluetooth in DF:
+  if bluez5 in DF:
+   return "bluez5"
+  else:
+    return "bluez4"
+else:
+  return ""
 
+There's no mention of a bluez4 DISTRO_FEATURE, just a "bluetooth" value to
+enable/disable Bluetooth in general, and the toggle between BlueZ 4 and 5
+is the presence of a "bluez5" DISTRO_FEATURE.
+
+We don't need to change the algorithm or create new DISTRO_FEATURE entries,
+as we have all the logic and items needed: by backfilling bluez5 into
+DISTRO_FEATURES we get the default switched, and distributions can flip
+back to bluez4 when upgrading to 1.9 by adding in meta-connectivity and
+wiping out bluez5 from DISTRO_FEATURES.
+
+Or am I alone in thinking this is the best approach going forward?
+
+Ross
+
+--001a11c114c4265a730513af3671
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 April 2015 at 00:41, Peter A. Bigot <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:pab@pabigot.com" target=3D"_blank">pab@pabigot.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" text=3D"#000=
+000">Thank you.=C2=A0 So, if I understand correctly, the effect of adding
+    bluez5 to DISTRO_FEATURES_BACKFILL while keeping the current logic:<spa=
+n class=3D""><br>
+    <br>
+    # bluetooth support on the platform:<br>
+    # &quot;&quot; if bluetooth is not in DISTRO_FEATURES<br></span><span c=
+lass=3D"">
+    # else &quot;bluez5&quot; if bluez5 is in DISTRO_FEATURES<br></span>
+    # else &quot;bluez4&quot;<br>
+    <br>
+    is that bluez5 becomes the default and is in DISTRO_FEATURES
+    automatically, and it stays the default even if bluez4 is also in
+    DISTRO_FEATURES unless somebody adds bluez5 to
+    DISTRO_FEATURES_BACKFILL_CONSIDERED at which point bluez4 takes
+    precedence.<br>
+    <br>
+    If that understanding is correct, and reviewing
+    <a href=3D"http://www.yoctoproject.org/docs/latest/ref-manual/ref-manua=
+l.html#ref-features-backfill" target=3D"_blank">http://www.yoctoproject.org=
+/docs/latest/ref-manual/ref-manual.html#ref-features-backfill</a>,
+    it&#39;s not clear to me that it&#39;s the right approach.=C2=A0 We&#39=
+;re not
+    backfilling &quot;bluetooth&quot;, which remains optional and continues=
+ to
+    control whether either &quot;bluez4&quot; or &quot;bluez5&quot; is rele=
+vant.=C2=A0 We&#39;re
+    changing the default provider of bluetooth services, something that
+    I think can reasonably be changed between releases, and something
+    that 1.8 already controls (via explicit specification of bluez4 or
+    bluez5 in DISTRO_FEATURES).</div></blockquote></div><br>My reasoning fo=
+r backfilling bluez5 is that bluetooth.bbclass has a defined behaviour in 1=
+.8:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">if=
+ bluetooth in DF:</div><div class=3D"gmail_extra">=C2=A0 if bluez5 in DF:</=
+div><div class=3D"gmail_extra">=C2=A0 =C2=A0return &quot;bluez5&quot;</div>=
+<div class=3D"gmail_extra">=C2=A0 else:</div><div class=3D"gmail_extra">=C2=
+=A0 =C2=A0 return &quot;bluez4&quot;</div><div class=3D"gmail_extra">else:<=
+/div><div class=3D"gmail_extra">=C2=A0 return &quot;&quot;</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">There&#39;s no mentio=
+n of a bluez4 DISTRO_FEATURE, just a &quot;bluetooth&quot; value to enable/=
+disable Bluetooth in general, and the toggle between BlueZ 4 and 5 is the p=
+resence of a &quot;bluez5&quot; DISTRO_FEATURE.</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">We don&#39;t need to change the a=
+lgorithm or create new DISTRO_FEATURE entries, as we have all the logic and=
+ items needed: by backfilling bluez5 into DISTRO_FEATURES we get the defaul=
+t switched, and distributions can flip back to bluez4 when upgrading to 1.9=
+ by adding in meta-connectivity and wiping out bluez5 from DISTRO_FEATURES.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Or am=
+ I alone in thinking this is the best approach going forward?</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c114c4265a730513af3671--
