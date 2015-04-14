@@ -1,20 +1,20 @@
-Return-Path: <reinette.chatre@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CD2CA6ABF7
+Return-Path: <brendan.le.foll@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9675773912
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 18:45:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2015 11:45:36 -0700
+	Tue, 14 Apr 2015 18:54:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 14 Apr 2015 11:55:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="680038856"
-Received: from rchatre-builder.jf.intel.com ([10.23.232.93])
-	by orsmga001.jf.intel.com with ESMTP; 14 Apr 2015 11:45:36 -0700
-From: Reinette Chatre <reinette.chatre@intel.com>
+X-IronPort-AV: E=Sophos;i="5.11,577,1422950400"; d="scan'208";a="695212944"
+Received: from unknown (HELO jupiter.iwi.intel.com) ([172.28.33.58])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2015 11:54:59 -0700
+From: brendan.le.foll@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 11:46:39 -0700
-Message-Id: <0b3eeeaba86f26bf57522d3ad2091198e70dfd48.1429036574.git.reinette.chatre@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] init-install-efi.sh: fix gummiboot entry installation
+Date: Tue, 14 Apr 2015 19:53:47 +0100
+Message-Id: <1429037628-5803-1-git-send-email-brendan.le.foll@intel.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH][dizzy] This patch fixes x32 builds broken since openssl update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,46 +27,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Apr 2015 18:45:36 -0000
+X-List-Received-Date: Tue, 14 Apr 2015 18:55:00 -0000
 
-After selecting the "install" gummiboot option of a Live image we are
-seeing boot failure resulting from the gummiboot entries not being
-installed correctly. This seems to be a problem in this init-install-efi.sh
-script where it incorrectly installs the gummiboot entries into the root
-filesystem, not the boot partition. We fix it by installing the entries in
-the boot partition.
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
----
-Hi,
+I made a mistake rebasing the patch, this is a fix
 
-Is it perhaps possible to backport this into dizzy release?
+Brendan Le Foll (1):
+  openssl: Fix x32 openssl patch which was not building
 
-Thank you very much
+ .../openssl/openssl/openssl_fix_for_x32.patch      | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 89d0750..329586d 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -199,11 +199,11 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
- fi
- 
- if [ -d /run/media/$1/loader ]; then
--    GUMMIBOOT_CFGS="/tgt_root/loader/entries/*.conf"
-+    GUMMIBOOT_CFGS="/boot/loader/entries/*.conf"
-     # copy config files for gummiboot
--    cp -dr /run/media/$1/loader /tgt_root
-+    cp -dr /run/media/$1/loader /boot
-     # delete the install entry
--    rm -f /tgt_root/loader/entries/install.conf
-+    rm -f /boot/loader/entries/install.conf
-     # delete the initrd lines
-     sed -i "/initrd /d" $GUMMIBOOT_CFGS
-     # delete any LABEL= strings
 -- 
-2.1.0
+2.3.5
 
 
