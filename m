@@ -1,34 +1,33 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 67CC873CEB
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A05673501
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 02:54:04 +0000 (UTC)
-Received: by igbqf9 with SMTP id qf9so31051199igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Apr 2015 19:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=bDs6drV9XHW7uodxaXCiE7JAoCmDNICZYz2jwB4AltE=;
-	b=CE7jlmptjGDGkEdZgUD3wnktppfyt3S/akf/xCaJ79SHVa+9A7YdziwA/Xmx0RZU/A
-	h3Arg/9vUcT7OfbkGG7pzrIhNaJd67s8ecEZWwaqnevfHgPdt0IKy3Pph7d41LXBhvw+
-	QBh+xLSpSS9mNbOUhum6FYOOLaXs14J9BYQB/2sIOHb2ycjpyuxGLK7SUx5tc7mh1W9s
-	EWEoPTRXjwyYJpM84/EYI7Ob7ZAsyxdXbSqqPTBBghqhtUOHGUdNLSMqYSGr7Y80wzAb
-	5VI77MtjTR2bHom3EtCyoxK6h6roVyF9Ni2Tl4MLMfK0Cca/3OppebnDf8Qapn1fzMnh
-	SOPg==
-X-Received: by 10.107.31.206 with SMTP id f197mr33491693iof.19.1429066445859; 
-	Tue, 14 Apr 2015 19:54:05 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id r1sm2297629igp.20.2015.04.14.19.54.04
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Apr 2015 19:54:05 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Apr 2015 19:53:53 -0700
-Message-Id: <1429066433-14601-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox: remove CVE-2014-9645 patch (already upstream in 1.23.x)
+	Wed, 15 Apr 2015 07:46:29 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1YiI1m-0002bB-1I from Noor_Ahsan@mentor.com ;
+	Wed, 15 Apr 2015 00:46:30 -0700
+Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.154]) by
+	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
+	14.03.0224.002; Wed, 15 Apr 2015 08:46:29 +0100
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] psplash and systemd
+Thread-Index: AQHQds4Kjc5A9eCrNUGJ00obUE8fEZ1Nsovg
+Date: Wed, 15 Apr 2015 07:46:28 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994E7F506BE@EU-MBX-01.mgc.mentorg.com>
+References: <365E1805BC95084CBE82381A0B869994E7F50379@EU-MBX-01.mgc.mentorg.com>
+	<BEA2FCAB-E8F6-4172-9622-16BB339AEC91@gmail.com>
+In-Reply-To: <BEA2FCAB-E8F6-4172-9622-16BB339AEC91@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: psplash and systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +40,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 02:54:07 -0000
+X-List-Received-Date: Wed, 15 Apr 2015 07:46:35 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_365E1805BC95084CBE82381A0B869994E7F506BEEUMBX01mgcmento_"
 
-The CVE-2014-9645 fix was merged in Busybox prior to the 1.23.0
-release [1]. The fix was then reworked in Busybox 1.23.1, in such
-a way that the original change was no longer required [2].
+--_000_365E1805BC95084CBE82381A0B869994E7F506BEEUMBX01mgcmento_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Although oe-core's CVE-2014-9645 patch still applies cleanly to
-Busybox 1.23.1 and 1.23.2, applying it partially reverts the second
-version of the upstream fix.
+VGhhbmtzIGZvciB0aGUgdXBkYXRlIEtoZW0uIFdlIHdpbGwgbGlrZSB0byBzZWUgdGhvc2UgcGF0
+Y2hlcyBjb3ogb3VyIGZpbmRpbmdzIHNob3dlZCB0aGF0IFBseW1vdXRoIGlzIG5vdCBnZW5lcmlj
+IGxpa2UgcHNwbGFzaCBidXQgbWF5YmUgd2UgYXJlIHdyb25nLg0KDQpOb29yDQoNCkZyb206IEto
+ZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXQ0KU2VudDogVHVlc2RheSwgQXByaWwg
+MTQsIDIwMTUgOToxMyBQTQ0KVG86IEFoc2FuLCBOb29yDQpDYzogb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBwc3BsYXNoIGFu
+ZCBzeXN0ZW1kDQoNCg0KT24gQXByIDE0LCAyMDE1LCBhdCAxMjowNCBQTSwgQWhzYW4sIE5vb3Ig
+PE5vb3JfQWhzYW5AbWVudG9yLmNvbTxtYWlsdG86Tm9vcl9BaHNhbkBtZW50b3IuY29tPj4gd3Jv
+dGU6DQoNCkhlbGxvLA0KDQpJIG5vdGljZWQgdGhhdCBzcGxhc2ggZG9lcyBub3QgaGF2ZSBzeXN0
+ZW0gc3VwcG9ydCBhbmQgaXQgaXMgc3RpbGwgYmVpbmcgdXNlZCBpbiBvdXIgaW1hZ2UgY2xhc3Mu
+IEkgd2FubmEgYXNrIGFueSBwbGFuIHRvIGFkZCBzeXN0ZW0gc3VwcG9ydCBvciBtb3ZlIHRvIG90
+aGVyIHNwbGFzaCBzY3JlZW4gcGFja2FnZT8NCg0KDQpMb2NhbGx5LCBJIGhhdmUgcGF0Y2hlcyBm
+b3IgcGx5bW91dGgsIHdoaWNoIHdvcmtzIHdlbGwgaW50ZWdyYXRlZCB3aXRoIHN5c3RlbWQuIEkg
+cGxhbiB0byBwb3N0IHRoZW0gdGhpcyAxLjkgY3ljbGUuDQoNCg0KTm9vcg0KDQpOb29yIEFoc2Fu
+IHwgRW5naW5lZXJpbmcgTWFuYWdlciBNZW50b3IgRW1iZWRkZWQgTGludXgNCk1lbnRvciBFbWJl
+ZGRlZDxodHRwOi8vd3d3Lm1lbnRvci5jb20vZW1iZWRkZWQ+4oSiIHw1LTYtNy04dGggZmxvb3Jz
+IDEwNSAgQjIgR3VsYmVyZyBJSUksIEFsaSBUb3dlcg0KTU0gQWxhbSBSb2FkLCBMYWhvcmUNClAg
+KzkyIDQyIDM2MDk5MTk2IHwgTSArOTIgMzA3IDQ0NDg0NDQNCk51Y2xldXM8aHR0cDovL3d3dy5t
+ZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL251Y2xldXMvPsKuIHwgTGludXg8aHR0cDovL3d3
+dy5tZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL2xpbnV4Lz7CriB8IEFuZHJvaWQ8aHR0cDov
+L3d3dy5tZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL2FuZHJvaWQvPuKEoiB8IFNlcnZpY2Vz
+PGh0dHA6Ly93d3cubWVudG9yLmNvbS9lbWJlZGRlZC1zb2Z0d2FyZS9zZXJ2aWNlcy8+IHwgVUk8
+aHR0cDovL3d3dy5tZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL2luZmxleGlvbi8+IHwgTXVs
+dGktT1M8aHR0cDovL3d3dy5tZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL211bHRpY29yZS1t
+dWx0aS1vcz4NCg0KQW5kcm9pZCBpcyBhIHRyYWRlbWFyayBvZiBHb29nbGUgSW5jLiBVc2Ugb2Yg
+dGhpcyB0cmFkZW1hcmsgaXMgc3ViamVjdCB0byBHb29nbGUgUGVybWlzc2lvbnMuDQpMaW51eCBp
+cyB0aGUgcmVnaXN0ZXJlZCB0cmFkZW1hcmsgb2YgTGludXMgVG9ydmFsZHMgaW4gdGhlIFUuUy4g
+YW5kIG90aGVyIGNvdW50cmllcy4NCg0KLS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
 
-  [1] http://git.busybox.net/busybox/commit/modutils/modprobe.c?h=1_23_stable&id=4e314faa0aecb66717418e9a47a4451aec59262b
-  [2] http://git.busybox.net/busybox/commit/modutils/modprobe.c?h=1_23_stable&id=1ecfe811fe2f70380170ef7d820e8150054e88ca
+--_000_365E1805BC95084CBE82381A0B869994E7F506BEEUMBX01mgcmento_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ..._busybox_reject_module_names_with_slashes.patch | 41 ----------------------
- meta/recipes-core/busybox/busybox_1.23.2.bb        |  1 -
- 2 files changed, 42 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+SGVsdmV0aWNhOw0KCXBhbm9zZS0xOjIgMTEgNiA0IDIgMiAyIDIgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6SGVsdmV0aWNhOw0KCXBhbm9zZS0xOjIgMTEgNiA0IDIgMiAyIDIgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5v
+c2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5N
+c29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1h
+cmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJU
+aW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXtt
+c28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5k
+ZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5
+bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
+bmU7fQ0Kc3Bhbi5hcHBsZS1jb252ZXJ0ZWQtc3BhY2UNCgl7bXNvLXN0eWxlLW5hbWU6YXBwbGUt
+Y29udmVydGVkLXNwYWNlO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBl
+cnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29s
+b3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25s
+eTsNCglmb250LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWlu
+IDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0
+aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5
+XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4N
+CjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlv
+dXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286
+c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1V
+UyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEi
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9y
+OiMxRjQ5N0QiPlRoYW5rcyBmb3IgdGhlIHVwZGF0ZSBLaGVtLiBXZSB3aWxsIGxpa2UgdG8gc2Vl
+IHRob3NlIHBhdGNoZXMgY296IG91ciBmaW5kaW5ncyBzaG93ZWQgdGhhdCBQbHltb3V0aCBpcyBu
+b3QgZ2VuZXJpYyBsaWtlIHBzcGxhc2ggYnV0IG1heWJlIHdlIGFyZSB3cm9uZy48bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
+Pk5vb3I8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
+dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
+I0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
+O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBLaGVtIFJhaiBbbWFpbHRvOnJhai5raGVtQGdtYWls
+LmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBBcHJpbCAxNCwgMjAxNSA5OjEzIFBN
+PGJyPg0KPGI+VG86PC9iPiBBaHNhbiwgTm9vcjxicj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09F
+LWNvcmVdIHBzcGxhc2ggYW5kIHN5c3RlbWQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8YmxvY2txdW90
+ZSBzdHlsZT0ibWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBBcHIgMTQsIDIwMTUsIGF0IDEyOjA0IFBNLCBBaHNhbiwg
+Tm9vciAmbHQ7PGEgaHJlZj0ibWFpbHRvOk5vb3JfQWhzYW5AbWVudG9yLmNvbSI+Tm9vcl9BaHNh
+bkBtZW50b3IuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkhlbGxvLDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+Jm5ic3A7PG86cD48L286cD48L3NwYW4+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
+JnF1b3Q7Ij5JIG5vdGljZWQgdGhhdCBzcGxhc2ggZG9lcyBub3QgaGF2ZSBzeXN0ZW0gc3VwcG9y
+dCBhbmQgaXQgaXMgc3RpbGwgYmVpbmcgdXNlZCBpbiBvdXIgaW1hZ2UgY2xhc3MuIEkgd2FubmEg
+YXNrIGFueSBwbGFuIHRvIGFkZCBzeXN0ZW0gc3VwcG9ydCBvciBtb3ZlIHRvIG90aGVyIHNwbGFz
+aCBzY3JlZW4NCiBwYWNrYWdlPzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+Jm5ic3A7
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkxvY2FsbHksIEkgaGF2ZSBwYXRjaGVzIGZvciBw
+bHltb3V0aCwgd2hpY2ggd29ya3Mgd2VsbCBpbnRlZ3JhdGVkIHdpdGggc3lzdGVtZC4gSSBwbGFu
+IHRvIHBvc3QgdGhlbSB0aGlzIDEuOSBjeWNsZS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyPg0KPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+Tm9v
+cjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+Jm5ic3A7PG86cD48L286cD48L3NwYW4+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
+YW5zLXNlcmlmJnF1b3Q7Ij5Ob29yIEFoc2FuPC9zcGFuPjwvYj48c3BhbiBjbGFzcz0iYXBwbGUt
+Y29udmVydGVkLXNwYWNlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiZuYnNwOzwvc3Bh
+bj48L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiM1OTU5NTkiPnwNCiBF
+bmdpbmVlcmluZyBNYW5hZ2VyIE1lbnRvciBFbWJlZGRlZCBMaW51eDwvc3Bhbj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90
+O3NhbnMtc2VyaWYmcXVvdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+PGEgaHJl
+Zj0iaHR0cDovL3d3dy5tZW50b3IuY29tL2VtYmVkZGVkIj5NZW50b3IgRW1iZWRkZWQ8L2E+4oSi
+PHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+Jm5ic3A7PC9zcGFuPjxzcGFuIHN0
+eWxlPSJjb2xvcjojNTk1OTU5Ij58NS02LTctODxzdXA+dGg8L3N1cD48c3BhbiBjbGFzcz0iYXBw
+bGUtY29udmVydGVkLXNwYWNlIj4mbmJzcDs8L3NwYW4+Zmxvb3JzDQogMTA1Jm5ic3A7IEIyIEd1
+bGJlcmcgSUlJLCBBbGkgVG93ZXI8L3NwYW4+PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90OyI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiM1OTU5NTkiPk1NIEFs
+YW0gUm9hZCwgTGFob3JlPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+PG86cD48
+L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiM1OTU5NTkiPlAgJiM0Mzs5MiA0MiAzNjA5
+OTE5NiB8IE0gJiM0Mzs5MiAzMDcgNDQ0ODQ0NDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDsiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
+O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+PGEgaHJlZj0iaHR0cDovL3d3
+dy5tZW50b3IuY29tL2VtYmVkZGVkLXNvZnR3YXJlL251Y2xldXMvIj5OdWNsZXVzPC9hPsKuPHNw
+YW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+PHNwYW4gc3R5bGU9ImNvbG9yOiM3Njky
+M0MiPiZuYnNwOzwvc3Bhbj48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiM3NjkyM0MiPnw8c3Bh
+biBjbGFzcz0iYXBwbGUtY29udmVydGVkLXNwYWNlIj4mbmJzcDs8L3NwYW4+PC9zcGFuPjxhIGhy
+ZWY9Imh0dHA6Ly93d3cubWVudG9yLmNvbS9lbWJlZGRlZC1zb2Z0d2FyZS9saW51eC8iPkxpbnV4
+PC9hPsKuPHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+PHNwYW4gc3R5bGU9ImNv
+bG9yOiM3NjkyM0MiPiZuYnNwOzwvc3Bhbj48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiM3Njky
+M0MiPnw8c3BhbiBjbGFzcz0iYXBwbGUtY29udmVydGVkLXNwYWNlIj4mbmJzcDs8L3NwYW4+PC9z
+cGFuPjxhIGhyZWY9Imh0dHA6Ly93d3cubWVudG9yLmNvbS9lbWJlZGRlZC1zb2Z0d2FyZS9hbmRy
+b2lkLyI+QW5kcm9pZDwvYT7ihKI8c3BhbiBjbGFzcz0iYXBwbGUtY29udmVydGVkLXNwYWNlIj48
+c3BhbiBzdHlsZT0iY29sb3I6Izc2OTIzQyI+Jm5ic3A7PC9zcGFuPjwvc3Bhbj48c3BhbiBzdHls
+ZT0iY29sb3I6Izc2OTIzQyI+fDxzcGFuIGNsYXNzPSJhcHBsZS1jb252ZXJ0ZWQtc3BhY2UiPiZu
+YnNwOzwvc3Bhbj48L3NwYW4+PGEgaHJlZj0iaHR0cDovL3d3dy5tZW50b3IuY29tL2VtYmVkZGVk
+LXNvZnR3YXJlL3NlcnZpY2VzLyI+U2VydmljZXM8L2E+PHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZl
+cnRlZC1zcGFjZSI+Jm5ic3A7PC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjojNzY5MjNDIj58PHNw
+YW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+Jm5ic3A7PC9zcGFuPjwvc3Bhbj48YSBo
+cmVmPSJodHRwOi8vd3d3Lm1lbnRvci5jb20vZW1iZWRkZWQtc29mdHdhcmUvaW5mbGV4aW9uLyI+
+VUk8L2E+PHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+Jm5ic3A7PC9zcGFuPjxz
+cGFuIHN0eWxlPSJjb2xvcjojNzY5MjNDIj58PHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1z
+cGFjZSI+Jm5ic3A7PC9zcGFuPjwvc3Bhbj48YSBocmVmPSJodHRwOi8vd3d3Lm1lbnRvci5jb20v
+ZW1iZWRkZWQtc29mdHdhcmUvbXVsdGljb3JlLW11bHRpLW9zIj5NdWx0aS1PUzwvYT48L3NwYW4+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjcu
+MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
+Oztjb2xvcjojMUY0OTdEIj4mbmJzcDs8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
+Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjcuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojN0Y3RjdGIj5BbmRyb2lkIGlz
+IGEgdHJhZGVtYXJrIG9mIEdvb2dsZSBJbmMuIFVzZSBvZiB0aGlzIHRyYWRlbWFyayBpcyBzdWJq
+ZWN0IHRvIEdvb2dsZSBQZXJtaXNzaW9ucy48L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
+b3Q7Ij48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjcuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojN0Y3RjdGIj5MaW51eCBp
+cyB0aGUgcmVnaXN0ZXJlZCB0cmFkZW1hcmsgb2YgTGludXMgVG9ydmFsZHMgaW4gdGhlIFUuUy4g
+YW5kIG90aGVyIGNvdW50cmllcy48L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij48
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiZuYnNwOzxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7SGVsdmV0aWNhJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDsiPi0tPHNwYW4gY2xhc3M9ImFwcGxlLWNvbnZlcnRlZC1zcGFjZSI+Jm5ic3A7PC9zcGFu
+Pjxicj4NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJy
+Pg0KT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KPC9zcGFuPjxhIGhyZWY9Im1h
+aWx0bzpPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtIZWx2ZXRpY2EmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjpwdXJwbGUiPk9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc8L3NwYW4+PC9hPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuNXB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0hlbHZldGljYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
+Ij48YnI+DQo8L3NwYW4+PGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7SGVsdmV0aWNhJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDs7Y29sb3I6cHVycGxlIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlPC9zcGFuPjwvYT48bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch b/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
-deleted file mode 100644
-index 4e76067..0000000
---- a/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-status: Backport
--http://git.busybox.net/busybox/commit/?id=4e314faa0aecb66717418e9a47a4451aec59262b
--
--CVE-2014-9645 fix.
--
--[YOCTO #7257]
--
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
--From 4e314faa0aecb66717418e9a47a4451aec59262b Mon Sep 17 00:00:00 2001
--From: Denys Vlasenko <vda.linux@googlemail.com>
--Date: Thu, 20 Nov 2014 17:24:33 +0000
--Subject: modprobe,rmmod: reject module names with slashes
--
--function                                             old     new   delta
--add_probe                                             86     113     +27
--
--Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-----
--Index: busybox-1.22.1/modutils/modprobe.c
--===================================================================
----- busybox-1.22.1.orig/modutils/modprobe.c
--+++ busybox-1.22.1/modutils/modprobe.c
--@@ -238,6 +238,17 @@ static void add_probe(const char *name)
-- {
-- 	struct module_entry *m;
-- 
--+	/*
--+	 * get_or_add_modentry() strips path from name and works
--+	 * on remaining basename.
--+	 * This would make "rmmod dir/name" and "modprobe dir/name"
--+	 * to work like "rmmod name" and "modprobe name",
--+	 * which is wrong, and can be abused via implicit modprobing:
--+	 * "ifconfig /usbserial up" tries to modprobe netdev-/usbserial.
--+	 */
--+	if (strchr(name, '/'))
--+		bb_error_msg_and_die("malformed module name '%s'", name);
--+
-- 	m = get_or_add_modentry(name);
-- 	if (!(option_mask32 & (OPT_REMOVE | OPT_SHOW_DEPS))
-- 	 && (m->flags & MODULE_FLAG_LOADED)
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 0af292d..b1b9032 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -30,7 +30,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://login-utilities.cfg \
-            file://recognize_connmand.patch \
-            file://busybox-cross-menuconfig.patch \
--           file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
- "
- 
- SRC_URI[tarball.md5sum] = "7925683d7dd105aabe9b6b618d48cc73"
--- 
-1.9.1
-
-
+--_000_365E1805BC95084CBE82381A0B869994E7F506BEEUMBX01mgcmento_--
