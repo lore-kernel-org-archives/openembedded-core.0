@@ -1,33 +1,31 @@
-Return-Path: <janne.karhunen@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1430F6AC24
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 17:38:41 +0000 (UTC)
-Received: by pabsx10 with SMTP id sx10so58168882pab.3
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=KgKfJpxMkG1180TaMtu/Z6W1BB588H85y6Bg96WuzJU=;
-	b=lNZ7fOcTB6Q4KI8CjpF7aiCEbhXAvFECZ/gH86yZleAtoukw3UCoKF9IGzYgmhdOza
-	xM6AESFJpVSe104BsZtuMogNQGf/3KbjC7G44JStFqzU0ACC572bQNxackgPhfysS0OS
-	Cv/5sI09+i/Oclk9fxiYBJiXFL14Qd2/Kv/IOEWnHSSaRzaHKftHI2J6pVGBcbJ1QVPx
-	Oe18Ws+eXZDK+p7tJE8xK7LDKs+6eVzAhizFaUQsGlLHzr6lyyRwUTTMTTbVvzVeuyFL
-	JRFQgZHrA7rjcBKegVaBqtICHt533QQFnOq52USNXtBdK5054wmNJBHrvH/a6eYzlq0d
-	NDFQ==
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA39605D2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 17:54:59 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Apr 2015 10:55:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,582,1422950400"; d="scan'208";a="709617022"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Apr 2015 10:54:58 -0700
+Received: from orsmsx157.amr.corp.intel.com (10.22.240.23) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 15 Apr 2015 10:54:52 -0700
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX157.amr.corp.intel.com (10.22.240.23) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 15 Apr 2015 10:54:52 -0700
+Received: from localhost.localdomain (10.218.98.35) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 15 Apr 2015 10:54:51 -0700
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Apr 2015 14:54:38 -0300
+Message-ID: <1429120478-31804-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 2.3.5
 MIME-Version: 1.0
-X-Received: by 10.66.167.106 with SMTP id zn10mr48550314pab.126.1429119523130; 
-	Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
-Received: by 10.70.132.162 with HTTP; Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
-In-Reply-To: <20150414062101.GA11904@ad.chargestorm.se>
-References: <CAE=NcrY2Y3dmF5qmfS1=QXcE0k1OOX8GdWMo7PDZ+W348ZSxaA@mail.gmail.com>
-	<20150414062101.GA11904@ad.chargestorm.se>
-Date: Wed, 15 Apr 2015 10:38:43 -0700
-Message-ID: <CAE=NcrZW+gZDDLA_bn+AUb81PTkSwmKNbZ3+4zfBtBA9DeAfPA@mail.gmail.com>
-From: Janne Karhunen <janne.karhunen@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: Re: compiling the host tools natively for the host Linux?
+X-Originating-IP: [10.218.98.35]
+Subject: [PATCH] systemd 219 -> system 219-stable The upstream systemd git repo only contains the main systemd branch that progresses at a quick pace, continuously bringing both bugfixes and new features.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,42 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 17:38:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Apr 2015 17:55:02 -0000
+Content-Type: text/plain
 
-On Mon, Apr 13, 2015 at 11:21 PM, Anders Darander <anders@chargestorm.se> wrote:
+Distributions usually prefer basing their releases on stabilized versions
+that receive the bugfixes but not the features.
+---
+ meta/recipes-core/systemd/systemd_219.bb | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
->> Is there a way to compile the host tools (primarily interested in the
->> compiler) for the host Linux rather than for the own distro?
->
-> Could you explain what you're trying to achieve a little bit more?
->
-> Which computer do you call host Linux and which one is "own distro"?
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index 43c4f95..d1303f7 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -25,11 +25,11 @@ SECTION = "base/shell"
+ 
+ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
+ 
+-SRCREV = "a88abde72169ddc2df77df3fa5bed30725022253"
++SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
+ 
+-PV = "219+git${SRCPV}"
++PV = "219-stable+git${SRCPV}"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master \
++SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stable;protocol=git \
+            file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
+            file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0004-configure-Check-for-additional-features-that-uclibc-.patch \
+@@ -38,12 +38,8 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master \
+            file://0007-util-Use-mkostemp-only-if-libc-supports-it.patch \
+            file://0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch \
+            file://0009-sysv-generator-add-support-for-executing-scripts-und.patch \
+-           file://0010-Make-root-s-home-directory-configurable.patch \
+            file://0011-systemd-user-avoid-using-system-auth.patch \
+-           file://0001-tmpfiles-avoid-creating-duplicate-acl-entries.patch \
+-           file://0002-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch \
+            file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch \
+-           file://0013-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch \
+            file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+            file://0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch \
+            file://tmpfiles-pam.patch \
+-- 
+2.3.5
 
-Host is the thing build runs on, 'own distro' is the minimal runtime
-generated to run the sdk toolset, including the compiler. I really
-don't need the latter, for me host runtime would be all I need.
-
-I'm generating bitbake toolchains and images in OBS cluster, they
-compile as nice set of RPMs people can install into their environments
-via host distro native means. They can also be kept up to date like
-that without anyone having to reinstall SDK and/or core images, it
-just magically happens.
-
-Now within OBS, bitbake build & sdk install happens within rpm build
-root directory. Problem is that relocating the built SDK in
-$RPM_BUILD_DIR/$RPM_BUILD_ROOT to its final resting place during
-package install (say, to /opt) does not work straight due to the
-clever trickery being done with the linker (.interp section) and the
-tool/lib RPATHs pointing to the sysroot under $RPM_BUILD_ROOT where
-the SDK was installed. I solved this by manually relocating the entire
-SDK toolset in RPM '%post' to the new location specified during
-package install (rpm --prefix=). This is all fine, but hairy. Would be
-far better just to drop the 'own runtime' needed to run the tools and
-just compile the toolset for the host.. tools would work straight
-without any relocation.
-
-
---
-Janne
 
