@@ -1,37 +1,29 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id BF74D6AC24
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 15:26:44 +0000 (UTC)
-Received: by obbfy7 with SMTP id fy7so23903339obb.2
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 08:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mfR9MTokT/fIcsJDiP5YoRhQqZ4X0q4XV9+eLcjNQ88=;
-	b=BuQRjtIY+rXUvgKdxCzwadkoosYrExt/vz48iNz8EQtgWGVdmJZ2l0MmfleWoZ7oFB
-	ht8c2oZPWlhDL3YPOYQfzZjv8sjHyHx7Qup6oGsSakQJpZBPNnWFpyMxP2hcN/UvmtRK
-	6c7CS+q4NMMETJVSqD3mHkm3Li3YDXWvYWg3AQTH17CFGsujVaGFEq+UrZXBFFRUob71
-	eRBHP45aC7DVRAmOKC2UHq7F9PpTMn6KJFUkYcBxku+9jaDX6VcAHw91zLK3E/ALo0Dd
-	N0ROUPbwPN/BLtCj5yFLrnKZm4qO8Lhgb2za4cKJ7cfr5dzxRWWU5AgzAq4mL7atauti
-	9ijQ==
-MIME-Version: 1.0
-X-Received: by 10.42.111.68 with SMTP id t4mr31692309icp.36.1429111565152;
-	Wed, 15 Apr 2015 08:26:05 -0700 (PDT)
-Received: by 10.107.158.20 with HTTP; Wed, 15 Apr 2015 08:26:05 -0700 (PDT)
-In-Reply-To: <552E824C.5080603@mail.bg>
-References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
-	<552E63F1.9090406@windriver.com> <552E824C.5080603@mail.bg>
-Date: Wed, 15 Apr 2015 11:26:05 -0400
-Message-ID: <CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Nikolay Dimitrov <picmaster@mail.bg>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Move device tree generation from include file to bbclass
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 77A8573505
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 15:37:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2015 08:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,582,1422950400"; d="scan'208";a="695710958"
+Received: from bottazzini-thinkpad-t430 (HELO [10.218.98.35]) ([10.218.98.35])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Apr 2015 08:37:43 -0700
+Message-ID: <1429112256.4407.8.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Apr 2015 12:37:36 -0300
+In-Reply-To: <CAJTo0LbHCBbBWoponKB=HEqGGDTY4bb_XtW011--yBO5LXEmjQ@mail.gmail.com>
+References: <bruno.bottazzini@intel.com>
+	<1427320163-9262-1-git-send-email-bruno.bottazzini@intel.com>
+	<1427320163-9262-5-git-send-email-bruno.bottazzini@intel.com>
+	<CAHiDW_F8MKf1yWW3y=QOxX02Jjgs1HdZn1PDgL9bFLuMJh+jfA@mail.gmail.com>
+	<1427892736.17257.8.camel@bottazzini-ThinkPad-T430>
+	<CAJTo0LbHCBbBWoponKB=HEqGGDTY4bb_XtW011--yBO5LXEmjQ@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] systemd: v219 with stable fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,105 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 15:26:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Apr 2015 15:37:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 15, 2015 at 11:22 AM, Nikolay Dimitrov <picmaster@mail.bg> wrote:
-> Hi Bruce,
->
->
-> On 04/15/2015 04:13 PM, Bruce Ashfield wrote:
->>
->> On 2015-04-15 08:33 AM, Bach, Pascal wrote:
->>>
->>> Hi
->>>
->>
->> Adding oe-core, since that's the right place to have a discussion
->> like this.
->>
->>> As ARM now also moved to device tree it look like in future we will
->>>  have more kernels that are using device tree then ones that are
->>> not.
->>
->>
->> True, but it has been like this for quite some time now :)
->>
->>> As far as I understand currently the generation of device trees is
->>>  controlled via KERNEL_DEVICETREE and is handled in via an include
->>> file recipes-kernel/linux/linux-dtb.inc.
->>>
->>> I was thinking about moving this include into a class so it becomes
->>>  easier to use. Before I dive into implementing something I would
->>> like some feedback from the community.
->>
->>
->> The big trick with changing anything like this is compatibility with
->> existing recipes. Whatever we do, existing recipes and layers
->> shouldn't be broken .. or if they are broken, there should be a
->> compelling technical reason to do so.
->>
->>>
->>> I have the following variant in mind.
->>>
->>> Add the device tree generation to the current kernel.bbclass (or
->>> let kernel.bblcass inherit from a kernel-dtb.bbclass). This way all
->>> kernels would automatically be DT enabled. The class would check if
->>> KERNEL_DEVICETREE is set and generate device trees based on this
->>> information. For boards that don't have KERNEL_DEVICETREE set the
->>> class would do nothing and the behavior is like before. The
->>> advantage I see with this approach is that the only thing a user
->>> needs to do is to set KERNEL_DEVICETREE in the board and make sure
->>> the device trees are available in the kernel they like to build.
->>
->>
->> That's pretty much the experience that most users have now, since
->> there's nearly always a kernel recipe created, that recipe includes
->> linux-dtb.inc, and sets KERNEL_DEVICETREE.
->
->
-> As far as I understood, Pascal's idea is to remove the need for user
-> recipes to include linux-dtb.inc, and provide this functionality via
-> inheritance.
+Hello Ross,
 
-That is obvious. My questions are around "why". There's no big
-technical advantage, and if you remove that existing file, you break
-existing recipes. Which means you need to leave a stub in place.
+No problem, I will change the patch to use it the stable branch which I
+think it will be better.
 
-So without a technical advantage, it's churn for the sake of
-churn.
+I will send this asap...
 
-Bruce
+Thanks a lot for the reply! 
 
->
->> Everything else happens to build and package the device tree.
->>
->> Was there something specifically that was causing issues with the
->> current way of building them ?
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>> I appreciate your feedback?
->>>
->>> Regards Pascal
->>>
->>
->
-> Regards,
-> Nikolay
->
-> --
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
+Best Regards,
+
+On Qua, 2015-04-15 at 16:01 +0100, Burton, Ross wrote:
+> Hi,
+> 
+> On 1 April 2015 at 13:52, Bottazzini, Bruno
+> <bruno.bottazzini@intel.com> wrote:
+>         The previous patch was done in the way you said but, Khem Raj
+>         suggested
+>         that we should use it as patches.
+>         
+>         Copying and Pasting what he said:
+>         "Thats good, although we have to be open on stable branch to
+>         do SRCREV
+>          updates which we hardly do. We only backport fixed via master
+>          so I see this as pointless from that angle."
+>         
+> 
+> At the time - when master was frozen - that was true.  But
+> unfortunately this didn't get applied in time for Fido, as a
+> non-trivial patch that doesn't fix existing bugs there's a large
+> barrier to pass.  Now that master is open the systemd recipe can in
+> fact track the stable git branch instead, and insert the git hash into
+> the PV so it's obvious that it's taken from git.
+> 
+> 
+> Assuming that patch gets merged and doesn't cause problems, then it
+> would be up to the Fido maintainer (that's Joshua Lock) to decide
+> whether to merge a backport, which could well end up being this patch.
+> 
+> 
+> Sorry about this, the final stage of the release was quite busy and
+> this slipped straight through my fingers.
+> 
+> 
+> Ross
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
