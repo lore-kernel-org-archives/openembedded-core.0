@@ -1,49 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vn0-f51.google.com (mail-vn0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EFC265C9C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 15:05:50 +0000 (UTC)
-Received: by vnbf190 with SMTP id f190so16179734vnb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 08:05:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Q3p5g2PZWFLyFlnCFuBpoXnyjlItyRx9oecDtUUPehQ=;
-	b=P+TOem/bqcwmzrY7rQgGFowZdovxnlvZaxaS8P3IfQvo3cj+25y3gh6WY1wLeqdePh
-	xSIANHqL9lprgFnZL/pp49NdVsXG+oiz3hkcoToCFAIJwBhczlT5hEmkKHJtuo/CcRKH
-	ttpLza3gPnHOvArOrvrGiH3U3rDq5DRCwRF0SzrOqlPWegFHn8dwMQOAq/BtO1/M/tpb
-	DxmlQYCfIcZ6bj4JJ7seLbSrxvqiBoVZhN9/rJmFjkYiEQORLypCRLczgAMDrR5sB7kp
-	dApBMRJJA0mwbvO1rGMfrBpeRkLvg+ANOMYVWNPA67WhH0KuUtoTSyRkVVq8Sb8kLnHF
-	L2NA==
-X-Gm-Message-State: ALoCoQnZaH8qA+Qr7sqQqoJkit7hbSdkSJ9UrNNusqFwW3g10xo3vDNKnKvM6VYLWq5x+5HE78bc
-X-Received: by 10.140.88.80 with SMTP id s74mr31285396qgd.59.1429110351646;
-	Wed, 15 Apr 2015 08:05:51 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BF74D6AC24
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 15:26:44 +0000 (UTC)
+Received: by obbfy7 with SMTP id fy7so23903339obb.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 08:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=mfR9MTokT/fIcsJDiP5YoRhQqZ4X0q4XV9+eLcjNQ88=;
+	b=BuQRjtIY+rXUvgKdxCzwadkoosYrExt/vz48iNz8EQtgWGVdmJZ2l0MmfleWoZ7oFB
+	ht8c2oZPWlhDL3YPOYQfzZjv8sjHyHx7Qup6oGsSakQJpZBPNnWFpyMxP2hcN/UvmtRK
+	6c7CS+q4NMMETJVSqD3mHkm3Li3YDXWvYWg3AQTH17CFGsujVaGFEq+UrZXBFFRUob71
+	eRBHP45aC7DVRAmOKC2UHq7F9PpTMn6KJFUkYcBxku+9jaDX6VcAHw91zLK3E/ALo0Dd
+	N0ROUPbwPN/BLtCj5yFLrnKZm4qO8Lhgb2za4cKJ7cfr5dzxRWWU5AgzAq4mL7atauti
+	9ijQ==
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 15 Apr 2015 08:05:31 -0700 (PDT)
-In-Reply-To: <CABcZAN=05BhabBn_oS2JVp2NbDKJGje=8VE7qWv1WNgZ3k8VEQ@mail.gmail.com>
-References: <cover.1428070227.git.cristian.iorga@intel.com>
-	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
-	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
-	<552282D7.6040108@pabigot.com>
-	<CAP9ODKobzYLZS9K55S5rSw=Z=LHOaDOTt5mkzTx3SjomMvXnXg@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB2F49465B@irsmsx105.ger.corp.intel.com>
-	<5522F8D7.3050007@pabigot.com>
-	<CABcZANmh-o58Z5iHW++S30_JP6r3q-8+3-g5hegiwV1_2_OP1Q@mail.gmail.com>
-	<552319BE.3020308@pabigot.com>
-	<CAJTo0LbnN-HPjeuG-_80DmB89APM7DUpNibvA7L-X8wo8SNrSw@mail.gmail.com>
-	<CABcZAN=05BhabBn_oS2JVp2NbDKJGje=8VE7qWv1WNgZ3k8VEQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Apr 2015 16:05:31 +0100
-Message-ID: <CAJTo0LbxeLBkd5pbhptRFJSyv=V1N3Wr4mcX4qiFkv40qf=KnA@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
+X-Received: by 10.42.111.68 with SMTP id t4mr31692309icp.36.1429111565152;
+	Wed, 15 Apr 2015 08:26:05 -0700 (PDT)
+Received: by 10.107.158.20 with HTTP; Wed, 15 Apr 2015 08:26:05 -0700 (PDT)
+In-Reply-To: <552E824C.5080603@mail.bg>
+References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
+	<552E63F1.9090406@windriver.com> <552E824C.5080603@mail.bg>
+Date: Wed, 15 Apr 2015 11:26:05 -0400
+Message-ID: <CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Nikolay Dimitrov <picmaster@mail.bg>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Move device tree generation from include file to bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +44,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 15:05:52 -0000
-Content-Type: multipart/alternative; boundary=001a11c114c4daece60513c4aeb5
-
---001a11c114c4daece60513c4aeb5
+X-List-Received-Date: Wed, 15 Apr 2015 15:26:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 14 April 2015 at 16:38, Christopher Larson <clarson@kergoth.com> wrote:
-
-> For what it's worth, I'd agree with that. There's no need to change the
-> logic.
+On Wed, Apr 15, 2015 at 11:22 AM, Nikolay Dimitrov <picmaster@mail.bg> wrote:
+> Hi Bruce,
 >
+>
+> On 04/15/2015 04:13 PM, Bruce Ashfield wrote:
+>>
+>> On 2015-04-15 08:33 AM, Bach, Pascal wrote:
+>>>
+>>> Hi
+>>>
+>>
+>> Adding oe-core, since that's the right place to have a discussion
+>> like this.
+>>
+>>> As ARM now also moved to device tree it look like in future we will
+>>>  have more kernels that are using device tree then ones that are
+>>> not.
+>>
+>>
+>> True, but it has been like this for quite some time now :)
+>>
+>>> As far as I understand currently the generation of device trees is
+>>>  controlled via KERNEL_DEVICETREE and is handled in via an include
+>>> file recipes-kernel/linux/linux-dtb.inc.
+>>>
+>>> I was thinking about moving this include into a class so it becomes
+>>>  easier to use. Before I dive into implementing something I would
+>>> like some feedback from the community.
+>>
+>>
+>> The big trick with changing anything like this is compatibility with
+>> existing recipes. Whatever we do, existing recipes and layers
+>> shouldn't be broken .. or if they are broken, there should be a
+>> compelling technical reason to do so.
+>>
+>>>
+>>> I have the following variant in mind.
+>>>
+>>> Add the device tree generation to the current kernel.bbclass (or
+>>> let kernel.bblcass inherit from a kernel-dtb.bbclass). This way all
+>>> kernels would automatically be DT enabled. The class would check if
+>>> KERNEL_DEVICETREE is set and generate device trees based on this
+>>> information. For boards that don't have KERNEL_DEVICETREE set the
+>>> class would do nothing and the behavior is like before. The
+>>> advantage I see with this approach is that the only thing a user
+>>> needs to do is to set KERNEL_DEVICETREE in the board and make sure
+>>> the device trees are available in the kernel they like to build.
+>>
+>>
+>> That's pretty much the experience that most users have now, since
+>> there's nearly always a kernel recipe created, that recipe includes
+>> linux-dtb.inc, and sets KERNEL_DEVICETREE.
+>
+>
+> As far as I understood, Pascal's idea is to remove the need for user
+> recipes to include linux-dtb.inc, and provide this functionality via
+> inheritance.
 
-Where do you stand on backfilling verses just setting
-DEFAULT_DISTRO_FEATURES?
+That is obvious. My questions are around "why". There's no big
+technical advantage, and if you remove that existing file, you break
+existing recipes. Which means you need to leave a stub in place.
 
-Ross
+So without a technical advantage, it's churn for the sake of
+churn.
 
---001a11c114c4daece60513c4aeb5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Bruce
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 April 2015 at 16:38, Christopher Larson <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extr=
-a">For what it&#39;s worth, I&#39;d agree with that. There&#39;s no need to=
- change the logic.</div></blockquote><div><br></div><div>Where do you stand=
- on backfilling verses just setting DEFAULT_DISTRO_FEATURES?</div><div><br>=
-Ross</div></div></div></div>
+>
+>> Everything else happens to build and package the device tree.
+>>
+>> Was there something specifically that was causing issues with the
+>> current way of building them ?
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>>
+>>> I appreciate your feedback?
+>>>
+>>> Regards Pascal
+>>>
+>>
+>
+> Regards,
+> Nikolay
+>
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
---001a11c114c4daece60513c4aeb5--
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
