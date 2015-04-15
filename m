@@ -1,28 +1,39 @@
-Return-Path: <yocto_user@gmx.com>
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3811B605D2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 16:45:02 +0000 (UTC)
-Received: from [192.168.3.73] ([64.211.30.29]) by mail.gmx.com (mrgmx102) with
-	ESMTPSA (Nemesis) id 0LswqM-1ZNeIG3S6U-012UaV for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 18:45:03 +0200
-Message-ID: <552E958A.3080204@gmx.com>
-Date: Wed, 15 Apr 2015 12:44:58 -0400
-From: Yocto User <yocto_user@gmx.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA79605D2
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 16:49:59 +0000 (UTC)
+Received: by oign205 with SMTP id n205so30474126oig.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 09:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=2A0xn8ZC3nVhLwUSfBuxp/XG0LGIw5OShmNcNdXWK90=;
+	b=abyCE1zvahRf593Co3kOER30QeHdPSsApujPA9g8OEvdnZ6yeGClm7TqQCfggFvtwk
+	w4UaS/ro+vx04a9NMi93mcys3ok+4LgUkbHbg/59JF28k3zTlZMDpXZmvsoGtjwTQ3MO
+	akPogMcngmScbY8kaTb1doOlBEVvjW+aahYG8DVddeSYf9bu0zLqNOlxqGEiobuaP5Mn
+	t5Qz5taD7FrC+wtcdvh07EFEaA+QKr/4TJ68Pjo99+8crF1vV95t6+qqLLYt9oS59BGs
+	aA2Q0zoYuZIN1T+u6RCgySY39Q66M0FjBufVigO0pBtKKpIW3zk96GMnd34HJe3/DcFb
+	RBSg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <552E7098.9040304@gmx.com>	<1429109475.6976.124.camel@linuxfoundation.org>
-	<552E7D8C.9070704@mlbassoc.com>
-In-Reply-To: <552E7D8C.9070704@mlbassoc.com>
-X-Provags-ID: V03:K0:ysypgQb8jqzjVCSWiUgizxNCkLF/InVcREJDduPnoarUd8wSJNB
-	9k9v4Pq8D2GjXFmZez3GDZYvy6XzNNmGbbvggzoDw4SwMFtMS7MMfbqQ3EIjUFh824g/NAm
-	mNB8Bi1dHzq/aOpI7MA2aDoUmGEhAMpyK5M12amyLx82iIDgojYVdNm2bylemIWoDTzgdMs
-	1mqG3BFSzt+C+Dwfvtosg==
-X-UI-Out-Filterresults: notjunk:1;
-Subject: Re: [PATCH] expect: install header files in usual location
+X-Received: by 10.202.229.139 with SMTP id c133mr16296245oih.99.1429116598725; 
+	Wed, 15 Apr 2015 09:49:58 -0700 (PDT)
+Received: by 10.202.9.193 with HTTP; Wed, 15 Apr 2015 09:49:58 -0700 (PDT)
+In-Reply-To: <552E8DD9.6090202@mail.bg>
+References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
+	<552E63F1.9090406@windriver.com> <552E824C.5080603@mail.bg>
+	<CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
+	<552E8DD9.6090202@mail.bg>
+Date: Wed, 15 Apr 2015 12:49:58 -0400
+Message-ID: <CADkTA4MfMCqnPTJrNQGPz+ivJOYiN1ajzttzBVNBVqMVkdnPAg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Nikolay Dimitrov <picmaster@mail.bg>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Move device tree generation from include file to bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,162 +46,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 16:45:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Apr 2015 16:49:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 04/15/2015 11:02 AM, Gary Thomas wrote:
-> On 2015-04-15 08:51, Richard Purdie wrote:
->> On Wed, 2015-04-15 at 10:07 -0400, Yocto User wrote:
->>> This patch resolves [Bug 7552] where the headers for the expect library
->>> were installed into the wrong location.
->>
->> Few minor comments/tweaks needed:
->>
->> The correct form for bug numbers is:
->>
->> [YOCTO #7552]
->>
->>>
+On Wed, Apr 15, 2015 at 12:12 PM, Nikolay Dimitrov <picmaster@mail.bg> wrote:
+> Hi Bruce,
 >
-> Also, needs a Signed-off-by line (with a real name)
 >
->>> ---
->>>    meta/recipes-devtools/expect/expect_5.45.bb |   12 ++++--------
->>>    1 file changed, 4 insertions(+), 8 deletions(-)
+> On 04/15/2015 06:26 PM, Bruce Ashfield wrote:
+>>
+>> On Wed, Apr 15, 2015 at 11:22 AM, Nikolay Dimitrov
+>> <picmaster@mail.bg> wrote:
 >>>
->>> diff --git a/meta/recipes-devtools/expect/expect_5.45.bb
->>> b/meta/recipes-devtools/expect/expect_5.45.bb
->>> index 264f007..4129ab1 100644
->>> --- a/meta/recipes-devtools/expect/expect_5.45.bb
->>> +++ b/meta/recipes-devtools/expect/expect_5.45.bb
->>> @@ -18,7 +18,7 @@ RDEPENDS_${PN} = "tcl"
+>>> Hi Bruce,
 >>>
->>>    inherit autotools
 >>>
->>> -PR = "r1"
->>> +PR = "r2"
->>
->> No need to bump PR now.
->>
->>>    SRC_URI = 
->>> "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
->>>               file://0001-configure.in.patch \
->>> @@ -40,8 +40,7 @@ do_install_append() {
->>>            sed -e 's|$dir|${libdir}|' -i
->>> ${D}${libdir}/expect${PV}/pkgIndex.tcl
->>>    }
+>>> On 04/15/2015 04:13 PM, Bruce Ashfield wrote:
+>>>>
+>>>>
+>>>> On 2015-04-15 08:33 AM, Bach, Pascal wrote:
+>>>>>
+>>>>>
+>>>>> Hi
+>>>>>
+>>>>
+>>>> Adding oe-core, since that's the right place to have a discussion
+>>>> like this.
+>>>>
+>>>>> As ARM now also moved to device tree it look like in future we
+>>>>> will have more kernels that are using device tree then ones
+>>>>> that are not.
+>>>>
+>>>>
+>>>>
+>>>> True, but it has been like this for quite some time now :)
+>>>>
+>>>>> As far as I understand currently the generation of device
+>>>>> trees is controlled via KERNEL_DEVICETREE and is handled in via
+>>>>> an include file recipes-kernel/linux/linux-dtb.inc.
+>>>>>
+>>>>> I was thinking about moving this include into a class so it
+>>>>> becomes easier to use. Before I dive into implementing
+>>>>> something I would like some feedback from the community.
+>>>>
+>>>>
+>>>>
+>>>> The big trick with changing anything like this is compatibility
+>>>> with existing recipes. Whatever we do, existing recipes and
+>>>> layers shouldn't be broken .. or if they are broken, there
+>>>> should be a compelling technical reason to do so.
+>>>>
+>>>>>
+>>>>> I have the following variant in mind.
+>>>>>
+>>>>> Add the device tree generation to the current kernel.bbclass
+>>>>> (or let kernel.bblcass inherit from a kernel-dtb.bbclass).
+>>>>> This way all kernels would automatically be DT enabled. The
+>>>>> class would check if KERNEL_DEVICETREE is set and generate
+>>>>> device trees based on this information. For boards that don't
+>>>>> have KERNEL_DEVICETREE set the class would do nothing and the
+>>>>> behavior is like before. The advantage I see with this
+>>>>> approach is that the only thing a user needs to do is to set
+>>>>> KERNEL_DEVICETREE in the board and make sure the device trees
+>>>>> are available in the kernel they like to build.
+>>>>
+>>>>
+>>>>
+>>>> That's pretty much the experience that most users have now, since
+>>>> there's nearly always a kernel recipe created, that recipe
+>>>> includes linux-dtb.inc, and sets KERNEL_DEVICETREE.
 >>>
->>> -EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
->>> -                 --with-tcl=${STAGING_LIBDIR} \
->>> +EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
->>>                     --with-tclinclude=${STAGING_INCDIR}/tcl8.6 \
->>>                     --enable-shared \
->>>                     --enable-threads \
->>> @@ -52,12 +51,9 @@ EXTRA_OEMAKE_install = " 'SCRIPTS=' "
->>>    FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
->>>                        ${libdir}/.debug \
->>>                       "
->>> +
->>>    FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
->>> -                   ${STAGING_INCDIR}/expect.h \
->>> -                   ${STAGING_INCDIR}/expect_tcl.h \
->>> -                   ${STAGING_INCDIR}/expect_comm.h \
->>> -                   ${STAGING_INCDIR}/tcldbg.h \
->>> -                   ${includedir}/*.h \
->>> +                   ${includedir} \
->>>                      "
+>>>
+>>>
+>>> As far as I understood, Pascal's idea is to remove the need for
+>>> user recipes to include linux-dtb.inc, and provide this
+>>> functionality via inheritance.
 >>
->> Isn't this included in FILES_${PN}-dev by default?
 >>
->> Cheers,
+>> That is obvious. My questions are around "why". There's no big
+>> technical advantage, and if you remove that existing file, you break
+>>  existing recipes. Which means you need to leave a stub in place.
 >>
->> Richard
->>
+>> So without a technical advantage, it's churn for the sake of churn.
 >
+>
+> Well, removing redundancy and simplifying users' recipes could be
+> considered an advantage. Also, as the contents of linux-dtb.inc are
+> going to be moved to bbclass, the file can be left empty, later
+> maintainers remove the extra line from all users' recipes in following
+> commits. I don't see breaking as an option.
 
-Thank you for the feedback.  When I started addressing your comments, I 
-realized expect wasn't being packaged quite right. There are various 
-script files from the example directory that aren't strictly part of the 
-base package.  I used the debian distribution for reference and found 
-that they place the extra scripts into the -dev package.  This new 
-version simplifies the recipe and fixes these packaging issues.
+And we could argue that having more inherits in the base is a bad
+thing for users that have no interest in device trees.
 
-This patch resolves [YOCTO #7552] where the headers for the expect 
-library were installed into the wrong location.
+One person's advantage is another's churn. I was looking for technical
+advantages or a plan for future features that might leverage this.
+
+Cheers,
+
+Bruce
+
+>
+>> Bruce
+>>
+>>>
+>>>> Everything else happens to build and package the device tree.
+>>>>
+>>>> Was there something specifically that was causing issues with the
+>>>> current way of building them ?
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Bruce
+>>>>
+>>>>>
+>>>>> I appreciate your feedback?
+>>>>>
+>>>>> Regards Pascal
+>
+>
+> Kind regards,
+> Nikolay
 
 
-Signed-off-by: Mitchell White <mitchell.white@thalesdsi.com>
----
-  meta/recipes-devtools/expect/expect_5.45.bb |   36 
-+++++++++++----------------
-  1 file changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb 
-b/meta/recipes-devtools/expect/expect_5.45.bb
-index 264f007..87babd4 100644
---- a/meta/recipes-devtools/expect/expect_5.45.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -26,40 +26,32 @@ SRC_URI = 
-"${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-             file://01-example-shebang.patch \
-file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-            "
-+
-  SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
-  SRC_URI[sha256sum] = 
-"b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
-
-  S = "${WORKDIR}/${BPN}${PV}"
-
-  do_install_append() {
--    install -d ${D}${libdir}
--        install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so 
-${D}${libdir}/
--        install -m 0755 ${S}/fixline1 ${D}${libdir}/expect${PV}/
--        install -m 0755 ${S}/example/* ${D}${libdir}/expect${PV}/
--        rm ${D}${libdir}/expect${PV}/libexpect*.so
--        sed -e 's|$dir|${libdir}|' -i 
-${D}${libdir}/expect${PV}/pkgIndex.tcl
-+    sed -e 's|$dir|${libdir}|' -i ${D}${libdir}/expect${PV}/pkgIndex.tcl
-  }
-
--EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
--                 --with-tcl=${STAGING_LIBDIR} \
-+EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
-                   --with-tclinclude=${STAGING_INCDIR}/tcl8.6 \
-                   --enable-shared \
-                   --enable-threads \
-                   --disable-rpath \
-                  "
--EXTRA_OEMAKE_install = " 'SCRIPTS=' "
-
--FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
--                    ${libdir}/.debug \
--                   "
--FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
--                   ${STAGING_INCDIR}/expect.h \
--                   ${STAGING_INCDIR}/expect_tcl.h \
--                   ${STAGING_INCDIR}/expect_comm.h \
--                   ${STAGING_INCDIR}/tcldbg.h \
--                   ${includedir}/*.h \
--                  "
-+FILES_${PN}-dbg += "\
-+    ${libdir}/expect${PV}/.debug \
-+    "
-+
-+FILES_${PN}-dev += "\
-+    ${bindir} \
-+    "
-
--FILES_${PN} += "${libdir}/libexpect${PV}.so \
--                ${libdir}/expect${PV}/* \
--               "
-+FILES_${PN} = "\
-+    ${bindir}/expect \
-+    ${libdir}/expect${PV} \
-+    "
 -- 
-1.7.9.5
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
