@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 35EE06ABF7
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 04CB76ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 20:38:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3FKcwjM011482; Wed, 15 Apr 2015 21:38:58 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GBudK3twH3fk; Wed, 15 Apr 2015 21:38:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3FKcgUf011465
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 15 Apr 2015 21:38:54 +0100
-Message-ID: <1429130322.6976.154.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Wed, 15 Apr 2015 21:38:42 +0100
-In-Reply-To: <39bde4872c0287e3617e2e8af5768903e1d33cfc.1429002519.git.liezhi.yang@windriver.com>
-References: <cover.1429002519.git.liezhi.yang@windriver.com>
-	<39bde4872c0287e3617e2e8af5768903e1d33cfc.1429002519.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] libxml2: fix python path and add libxml2-python
+	Wed, 15 Apr 2015 20:45:53 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Apr 2015 13:45:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,583,1422950400"; d="scan'208";a="680733720"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2015 13:45:55 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 2FBAC6A408F;
+	Wed, 15 Apr 2015 13:45:29 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Apr 2015 23:45:46 +0300
+Message-Id: <1429130746-14317-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: code cleanup: undefined variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 20:38:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Apr 2015 20:45:56 -0000
 
-On Tue, 2015-04-14 at 02:08 -0700, Robert Yang wrote:
-> We have libxml2-python for native and nativesdk, but don't have it for
-> target, and can't find the reason from the git log, libxml2-python is
-> widely used, after looked into it's configure.in, we can add it
-> by PACKAGECONFIG.
-> 
-> The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-> acted as work becase it's conigure can check automatically, python is in
-> ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-> ${PYTHON}.
-> 
-> Add python to PACKAGECONFIG, since createrepo rdepends on
-> libxml2-python, otherwise the target createrepo can't work.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Fixed forgoten imports Wic_PartData and ImageError.
+Removed unused and undefined variable syslinux_conf.
 
-Something here caused a load of failures:
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/kickstart/custom_commands/__init__.py | 1 +
+ scripts/lib/wic/plugins/source/bootimg-efi.py         | 3 +--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py      | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=90b8d406488b0a3c42b2a745526e5b1273d8a982
-
-e.g. specifically http://errors.yoctoproject.org/Errors/Details/9808/
-
-Cheers,
-
-Richard
+diff --git a/scripts/lib/wic/kickstart/custom_commands/__init__.py b/scripts/lib/wic/kickstart/custom_commands/__init__.py
+index f84c6d9..b4e613d 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/__init__.py
++++ b/scripts/lib/wic/kickstart/custom_commands/__init__.py
+@@ -1,6 +1,7 @@
+ from micpartition import Mic_Partition
+ from micpartition import Mic_PartData
+ from partition import Wic_Partition
++from partition import Wic_PartData
+ 
+ __all__ = (
+     "Mic_Partition",
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index d6c11ed..883378e 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -27,6 +27,7 @@
+ import os
+ import shutil
+ 
++from wic.utils.errors import ImageError
+ from wic import kickstart, msger
+ from wic.utils import misc, fs_related, errors, runner, cmdln
+ from wic.conf import configmgr
+@@ -72,8 +73,6 @@ class BootimgEFIPlugin(SourcePlugin):
+         grubefi_conf += "linux %s root=%s rootwait %s\n" \
+             % (kernel, rootstr, options)
+         grubefi_conf += "}\n"
+-        if splashline:
+-            syslinux_conf += "%s\n" % splashline
+ 
+         msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
+                         % cr_workdir)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index abb32eb..2280867 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -26,6 +26,7 @@
+ 
+ import os
+ 
++from wic.utils.errors import ImageError
+ from wic import kickstart, msger
+ from wic.utils import misc, fs_related, errors, runner, cmdln
+ from wic.conf import configmgr
+-- 
+2.1.4
 
 
