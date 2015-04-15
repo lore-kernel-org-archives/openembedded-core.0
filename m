@@ -1,35 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6726473D47
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7477A6ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 10:21:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3FALRYm023154
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Apr 2015 03:21:27 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 15 Apr 2015 03:21:33 -0700
-Message-ID: <552E3BA5.2080608@windriver.com>
-Date: Wed, 15 Apr 2015 18:21:25 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1429002519.git.liezhi.yang@windriver.com>
-	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
-	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
-	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
-	<552DC27E.3060804@windriver.com>
-	<CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
-	<552E2FBF.9030701@windriver.com>
-	<CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
-In-Reply-To: <CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
+	Wed, 15 Apr 2015 12:32:43 +0000 (UTC)
+Received: by wiax7 with SMTP id x7so110981286wia.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 05:32:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=uKDyQJNDBw+Chf3Hc+soyGhzV1HbKE1hFgRpiT2l4uk=;
+	b=eMI/fEH6dCpphwO1LdArc+KgPTdftnMGplsSEiAcxd+jKDQZeZqJ81SLnaGmFXPeuI
+	Posd41ALjYS4ToYP9bB9nnaOFDoFUjm/fwlQVQZTZiHGdVK7gqR6vyFh8c/1hcfGeyvn
+	sNJfqhumW+VtasrgTNPnaACLqSPuSHgcfci3CwQIYR4moqXxkiV2K6bjqYel6eDdAQq3
+	utpzpHLNC69W6LPCxAXr+9rVFyvJ4ibDITYcmCjoEDgV8EbxLPfl7fXllju2p4JHSbtl
+	8odzmJbX5jPJxQc8PB2LTEgN9x21Rk+cI566NH17ld58FnecamGRJK6ZJqOid8B0Gg1p
+	3kvg==
+X-Gm-Message-State: ALoCoQmyTdRUOg961t7+6wcUBI/7uuXkDzB/FpEeHWGE3xZCTcR06BJ0LZ67SjAXFb/4iOWsCHqe
+X-Received: by 10.194.81.1 with SMTP id v1mr47439360wjx.50.1429101164279;
+	Wed, 15 Apr 2015 05:32:44 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id hl8sm5803158wjb.38.2015.04.15.05.32.43
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Apr 2015 05:32:43 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Apr 2015 14:32:37 +0200
+Message-Id: <1429101157-12319-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] strace: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 10:21:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Apr 2015 12:32:48 -0000
 
+Upstream added aarch64 support but forgot to update 'make dist' leading to missing files in the tarball.
 
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ .../0001-Add-linux-aarch64-arch_regs.h.patch       | 25 ++++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.10.bb        |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
 
-On 04/15/2015 05:37 PM, Burton, Ross wrote:
->
-> On 15 April 2015 at 10:30, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     +DEPENDS = "util-macros virtual/egl virtual/libx11"
->
->
-> This means we can't build GTK+ without X11 (eg core-image-weston with x11
-> removed from DISTRO_FEATURES), as gtk+3 will depend on libepoxy which will
-> depend on libx11 which will refuse to build as x11 isn't in DISTRO_FEATURES.
->
-> libepoxy does conditional checks so the libx11 dependency can be condtional on
-> DISTRO_FEATURES.  That's no idea but better than nothing.
+diff --git a/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch b/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
+new file mode 100644
+index 0000000..f70766b
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
+@@ -0,0 +1,25 @@
++From f85854131c8265f2eb59c714dcea5c4b3dc09bed Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen.kooi@linaro.org>
++Date: Wed, 15 Apr 2015 14:29:37 +0200
++Subject: [PATCH] Add linux/aarch64/arch_regs.h
++
++It is missing from the tarball, but it is present in git for v4.10
++
++Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
++Upstream-status: Pending
++---
++ linux/aarch64/arch_regs.h | 2 ++
++ 1 file changed, 2 insertions(+)
++ create mode 100644 linux/aarch64/arch_regs.h
++
++diff --git a/linux/aarch64/arch_regs.h b/linux/aarch64/arch_regs.h
++new file mode 100644
++index 0000000..9a5e33e
++--- /dev/null
+++++ b/linux/aarch64/arch_regs.h
++@@ -0,0 +1,2 @@
+++extern uint64_t *const aarch64_sp_ptr;
+++extern uint32_t *const arm_sp_ptr;
++-- 
++1.9.3
++
+diff --git a/meta/recipes-devtools/strace/strace_4.10.bb b/meta/recipes-devtools/strace/strace_4.10.bb
+index 416c387..707cb76 100644
+--- a/meta/recipes-devtools/strace/strace_4.10.bb
++++ b/meta/recipes-devtools/strace/strace_4.10.bb
+@@ -5,6 +5,7 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=124500c21e856f0912df29295ba104c7"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
++           file://0001-Add-linux-aarch64-arch_regs.h.patch \
+            file://git-version-gen \
+            file://strace-add-configure-options.patch \
+            file://Makefile-ptest.patch \
+-- 
+1.9.3
 
-AFAIK, libx11 is a must for libepoxy when building on linux host.
-
-I have to go to badminton now, talk to you later.
-
-// Robert
-
->
-> Ross
 
