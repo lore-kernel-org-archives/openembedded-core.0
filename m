@@ -1,42 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AB776AC1E
+Return-Path: <Jagadeesh.Krishnanjanappa@caviumnetworks.com>
+X-Greylist: delayed 82839 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 15 Apr 2015 08:39:45 UTC
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0053.outbound.protection.outlook.com [65.55.169.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A29073D1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 08:36:39 +0000 (UTC)
-Received: by qkx62 with SMTP id 62so69131747qkx.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 01:36:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xLDH+DThXxGFLj4dz2rOANkICBQa+fG7V/XLumISvWY=;
-	b=MeEa6spruv6Mo13cV5973qM42BALCOrz1Tss/x+v05ADUbUz71LQ08ljViYbH/3kJW
-	0m6Lmf2Jso4lWFNIW61RNBBV65ffOqS9oTIe5/V2jNnNZAbc1cg4GKhBz7WBt8hoYlzT
-	A8CNia/Y0salS8Em0HnxdqL0wC5T5JYGVncAcbTemRCxzrK0SyGR8p548bztApATLzTu
-	xsJ2t4koOA1rjXNBMptelx3wXslJskfGxQXpjntOUIALAoHqKFm4rEejbIQPjlN2eT3L
-	JfbC4bzTlTgw8CP7Pso4GzxMecPa9tZ17a+bhHUtLTu7dUuXxyFJC76GrZud2t3ezLf0
-	1ySg==
-X-Gm-Message-State: ALoCoQl8tu33pZwV48VWq3mDMVrXN4QO/Fm66zDa0z7xF4zqubELTRV/eUZB+XJ9NaYSQ3oGV0Qb
-X-Received: by 10.140.39.164 with SMTP id v33mr29217560qgv.80.1429086997963;
-	Wed, 15 Apr 2015 01:36:37 -0700 (PDT)
+	Wed, 15 Apr 2015 08:39:45 +0000 (UTC)
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none;
+Received: from Ubuntu64.mydomain.com (111.93.218.67) by
+	BY1PR0701MB1141.namprd07.prod.outlook.com (25.160.104.27) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.136.25; Wed, 15 Apr 2015 08:23:59 +0000
+From: "Krishnanjanappa, Jagadeesh"
+	<jagadeesh.krishnanjanappa@caviumnetworks.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Apr 2015 13:53:48 +0530
+Message-ID: <1429086228-27288-1-git-send-email-jagadeesh.krishnanjanappa@caviumnetworks.com>
+X-Mailer: git-send-email 1.8.2.3
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 15 Apr 2015 01:36:17 -0700 (PDT)
-In-Reply-To: <CAHiDW_EWoEuXsQ3PLBpOpfj1h3bRrRD1PbMUchUbxk8qxiqgBw@mail.gmail.com>
-References: <cover.1429002519.git.liezhi.yang@windriver.com>
-	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
-	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
-	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
-	<552DC27E.3060804@windriver.com>
-	<CAHiDW_EWoEuXsQ3PLBpOpfj1h3bRrRD1PbMUchUbxk8qxiqgBw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Apr 2015 09:36:17 +0100
-Message-ID: <CAJTo0LZvz4cGkG+YNC3LEwd4txchqFucugPRnYrL1kNZQ0ynVQ@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
+X-Originating-IP: [111.93.218.67]
+X-ClientProxiedBy: DM2PR07CA0022.namprd07.prod.outlook.com (10.141.52.150) To
+	BY1PR0701MB1141.namprd07.prod.outlook.com (25.160.104.27)
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY1PR0701MB1141;
+X-Microsoft-Antispam-PRVS: <BY1PR0701MB1141734213D7D2E426E590C58EE50@BY1PR0701MB1141.namprd07.prod.outlook.com>
+X-Forefront-Antispam-Report: BMV:1; SFV:NSPM;
+	SFS:(10009020)(6009001)(377424004)(66066001)(47776003)(46102003)(40100003)(33646002)(19580395003)(450100001)(19580405001)(2351001)(229853001)(36756003)(87976001)(50466002)(48376002)(110136001)(86362001)(15975445007)(92566002)(50226001)(62966003)(42186005)(122386002)(53416004)(77156002)(50986999)(7099027)(4001430100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY1PR0701MB1141;
+	H:Ubuntu64.mydomain.com; FPR:; SPF:None; MLV:ovrnspm;
+	PTR:InfoNoRecords; LANG:en; 
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(5002010); SRVR:BY1PR0701MB1141; BCL:0;
+	PCL:0; RULEID:; SRVR:BY1PR0701MB1141; 
+X-Forefront-PRVS: 0547116B72
+X-OriginatorOrg: caviumnetworks.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2015 08:23:59.2603 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0701MB1141
+Subject: [PATCH] qt4-embedded: add checking for AArch64 ilp32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +51,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 08:36:41 -0000
-Content-Type: multipart/alternative; boundary=001a11c14eaeddfe260513bf3e25
+X-List-Received-Date: Wed, 15 Apr 2015 08:39:47 -0000
+Content-Type: text/plain
 
---001a11c14eaeddfe260513bf3e25
-Content-Type: text/plain; charset=UTF-8
+From: "Krishnanjanappa, Jagadeesh" <jagadeesh.krishnanjanappa@caviumnetworks.com>
 
-On 15 April 2015 at 09:28, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+1. Cross-compiling qt4-embedded and qt4-x11-free applications for AArch64 ilp32
+   (both big and little endian) fails with below error,
 
-> As a learning exercise, what would have been the correct (and least
-> destructive) way for me to test that I hadn't forgotten a dependency
-> like this? I assume the problem is that I already had the correct
-> headers and pkg-config files in the staging sysroot?
->
+(snip)
+In file included from ../3rdparty/javascriptcore/JavaScriptCore/runtime/Collector.h:31:0,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalData.h:32,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/interpreter/CallFrame.h:26,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/ClassInfo.h:26,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/JSObject.h:27,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/API/JSCallbackConstructor.h:30,
+                 from ../3rdparty/javascriptcore/JavaScriptCore/API/JSCallbackConstructor.cpp:27:
+../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h: In instantiation of 'TO QTWTF::bitwise_cast(FROM) [with TO = int; FROM = double]':
+../3rdparty/javascriptcore/JavaScriptCore/runtime/JSImmediate.h:52:49: required from here
+../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h:63:1: error: size of array is negative
+../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h: In instantiation of 'TO QTWTF::bitwise_cast(FROM) [with TO = double; FROM = int]':
+../3rdparty/javascriptcore/JavaScriptCore/runtime/JSImmediate.h:57:47: required from here
+../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h:63:1: error: size of array is negative
+make[1]: *** [obj/release/JSCallbackConstructor.o] Error 1
+-- CUT --
 
-Something else for the manual.
+    the error is because of JSVALUE64 is being defined while compiling
+    programs for AArch64 ilp32. This makes equal condition checking of
+    intptr_t and double datatypes as false, and results in -1 (negative)
+    as array size in bitwise_cast function.
+    The patch defines JSVALUE64, if the programs are being compiled for
+    AArch64 64bit NOT for ilp32.
 
-Once you have a recipe that works, the shortcut is to run "wipe-sysroot"
-which deletes all the sysroots (and the relevant stamps).  Then you can do
-bitbake foo -ccleansstate ; bitbake foo to do another build.  If that works
-and doesn't just fail outright, you can then use buildhistory-diff to
-verify that nothing changed.
+2. qt4_arch.inc is modified to set system architecture as aarch64 if the
+   TARGET_ARCH is other than aarch64. Without this modification, for
+   TARGET_ARCH equal to aarch64_32, aarch64be, aarch64be_32; the system
+   architecture is set as 'generic' and results in below error.
 
-Ross
+configure log:
+(snip)
+64-bit AMD 80x86 (x86_64)
+'-opensource' is unsupported, using 'generic'
+'x86_64' is supported
+System architecture: 'generic'
+Host architecture: 'x86_64'
+-- CUT --
 
---001a11c14eaeddfe260513bf3e25
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+build error:
+(snip)
+In file included from ../../include/QtCore/qatomic_generic.h:1:0,
+                 from ../../include/QtCore/../../src/corelib/arch/qatomic_arch.h:64,
+                 from ../../include/QtCore/qatomic_arch.h:1,
+                 from ../../include/QtCore/../../src/corelib/thread/qbasicatomic.h:227,
+                 from ../../include/QtCore/qbasicatomic.h:1,
+                 from ../../include/QtCore/../../src/corelib/thread/qatomic.h:46,
+                 from ../../include/QtCore/qatomic.h:1,
+                 from ../../include/QtCore/../../src/corelib/tools/qbytearray.h:45,
+                 from ../../include/QtCore/qbytearray.h:1,
+                 from ../../include/QtCore/../../src/corelib/tools/qstring.h:46,
+                 from ../../include/QtCore/qstring.h:1,
+                 from ../../include/QtCore/../../src/corelib/kernel/qobject.h:48,
+                 from ../../include/QtCore/qobject.h:1,
+                 from ../../include/QtCore/../../src/corelib/kernel/qcoreapplication.h:45,
+                 from ../../include/QtCore/qcoreapplication.h:1,
+                 from qdbusintegrator.cpp:42:
+../../include/QtCore/../../src/corelib/arch/qatomic_generic.h: In instantiation of 'bool QBasicAtomicPointer<T>::testAndSetOrdered(T*, T*) [with T = const QString]':
+qdbusintegrator.cpp:76:1:   required from here
+../../include/QtCore/../../src/corelib/arch/qatomic_generic.h:197:88: error: invalid conversion from 'const void*' to 'void*' [-fpermissive]
+../../include/QtCore/../../src/corelib/arch/qatomic_generic.h:108:20: error: initializing argument 2 of 'bool QBasicAtomicPointer_testAndSetOrdered(void* volatile*, void*, void*)' [-fpermissive]
+../../include/QtCore/../../src/corelib/arch/qatomic_generic.h:197:88: error: invalid conversion from 'const void*' to 'void*' [-fpermissive]
+../../include/QtCore/../../src/corelib/arch/qatomic_generic.h:108:20: error: initializing argument 3 of 'bool QBasicAtomicPointer_testAndSetOrdered(void* volatile*, void*, void*)' [-fpermissive]
+make[1]: *** [.obj/release-shared-emb-auto/qdbusintegrator.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+-- CUT --
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 April 2015 at 09:28, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":579" c=
-lass=3D"a3s" style=3D"overflow:hidden">As a learning exercise, what would h=
-ave been the correct (and least<br>
-destructive) way for me to test that I hadn&#39;t forgotten a dependency<br=
->
-like this? I assume the problem is that I already had the correct<br>
-headers and pkg-config files in the staging sysroot?</div></blockquote><div=
-><br></div><div>Something else for the manual.</div><div><br></div><div>Onc=
-e you have a recipe that works, the shortcut is to run &quot;wipe-sysroot&q=
-uot; which deletes all the sysroots (and the relevant stamps).=C2=A0 Then y=
-ou can do bitbake foo -ccleansstate ; bitbake foo to do another build.=C2=
-=A0 If that works and doesn&#39;t just fail outright, you can then use buil=
-dhistory-diff to verify that nothing changed.</div><div><br></div><div>Ross=
-</div></div></div></div>
+   So, select system architecture (via QT_ARCH) as aarch64 for
+   AArch64 and its other variants
 
---001a11c14eaeddfe260513bf3e25--
+Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
+---
+ meta/recipes-qt/qt4/qt4-4.8.6.inc                  |  1 +
+ .../qt4/qt4-4.8.6/add_check_for_aarch64_32.patch   | 55 ++++++++++++++++++++++
+ meta/recipes-qt/qt4/qt4_arch.inc                   |  2 +-
+ 3 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/add_check_for_aarch64_32.patch
+
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+index 19f52a7..0cb7f80 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+@@ -28,6 +28,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
+            file://0032-aarch64_add_header.patch \
+            file://0034-Fix-a-division-by-zero-when-processing-malformed-BMP.patch \
+            file://Fix-QWSLock-invalid-argument-logs.patch \
++           file://add_check_for_aarch64_32.patch \
+            file://g++.conf \
+            file://linux.conf \
+            "
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6/add_check_for_aarch64_32.patch b/meta/recipes-qt/qt4/qt4-4.8.6/add_check_for_aarch64_32.patch
+new file mode 100644
+index 0000000..ad5103d
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt4-4.8.6/add_check_for_aarch64_32.patch
+@@ -0,0 +1,55 @@
++Author: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
++Date:   Sun Apr 12 19:27:10 2015 +0530
++
++[PATCH] add checking for AArch64 ilp32
++
++Cross-compiling qt4-embedded and qt4-x11-free applications for AArch64 ilp32
++(both big and little endian) fails with below error,
++
++(snip)
++In file included from ../3rdparty/javascriptcore/JavaScriptCore/runtime/Collector.h:31:0,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalData.h:32,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/interpreter/CallFrame.h:26,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/ClassInfo.h:26,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/runtime/JSObject.h:27,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/API/JSCallbackConstructor.h:30,
++                 from ../3rdparty/javascriptcore/JavaScriptCore/API/JSCallbackConstructor.cpp:27:
++../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h: In instantiation of 'TO QTWTF::bitwise_cast(FROM) [w
++../3rdparty/javascriptcore/JavaScriptCore/runtime/JSImmediate.h:52:49: required from here
++../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h:63:1: error: size of array is negative
++../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h: In instantiation of 'TO QTWTF::bitwise_cast(FROM) [w
++../3rdparty/javascriptcore/JavaScriptCore/runtime/JSImmediate.h:57:47: required from here
++../3rdparty/javascriptcore/JavaScriptCore/wtf/StdLibExtras.h:63:1: error: size of array is negative
++make[1]: *** [obj/release/JSCallbackConstructor.o] Error 1
++-- CUT --
++
++the error is because of JSVALUE64 is being defined while compiling programs
++for AArch64 ilp32. This makes equal condition checking of intptr_t and double
++datatypes as false, and results in -1 (negative) as array size in bitwise_cast
++function.
++
++Upstream-Status: Pending
++
++Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
++
++--- a/src/3rdparty/javascriptcore/JavaScriptCore/wtf/Platform.h	2014-04-11 00:07:12.000000000 +0530
+++++ b/src/3rdparty/javascriptcore/JavaScriptCore/wtf/Platform.h	2015-04-10 22:19:51.066279426 +0530
++@@ -214,6 +214,9 @@
++ #define WTF_CPU_AARCH64 1
++ #if defined(__AARCH64EB__)
++ #define WTF_CPU_BIG_ENDIAN 1
+++#if !defined(__LP64__)
+++#define WTF_CPU_AARCH64_32 1
+++#endif
++ #endif
++ #endif
++ 
++@@ -903,7 +906,7 @@
++ #endif
++ 
++ #if !defined(WTF_USE_JSVALUE64) && !defined(WTF_USE_JSVALUE32) && !defined(WTF_USE_JSVALUE32_64)
++-#if (CPU(X86_64) && (OS(UNIX) || OS(WINDOWS) || OS(SOLARIS) || OS(HPUX))) || (CPU(IA64) && !CPU(IA64_32)) || CPU(ALPHA) || CPU(AIX64) || CPU(SPARC64) || CPU(MIPS64) || CPU(AARCH64)
+++#if (CPU(X86_64) && (OS(UNIX) || OS(WINDOWS) || OS(SOLARIS) || OS(HPUX))) || (CPU(IA64) && !CPU(IA64_32)) || CPU(ALPHA) || CPU(AIX64) || CPU(SPARC64) || CPU(MIPS64) || (CPU(AARCH64) && !CPU(AARCH64_32))
++ #define WTF_USE_JSVALUE64 1
++ #elif CPU(ARM) || CPU(PPC64)
++ #define WTF_USE_JSVALUE32 1
+diff --git a/meta/recipes-qt/qt4/qt4_arch.inc b/meta/recipes-qt/qt4/qt4_arch.inc
+index 07512db..e94c284 100644
+--- a/meta/recipes-qt/qt4/qt4_arch.inc
++++ b/meta/recipes-qt/qt4/qt4_arch.inc
+@@ -4,7 +4,7 @@ ARM_INSTRUCTION_SET = "arm"
+ 
+ set_arch() {
+    case ${TARGET_ARCH} in
+-       aarch64)  QT_ARCH=aarch64 ;;
++       aarch64*) QT_ARCH=aarch64 ;;
+        arm*)     QT_ARCH=arm ;;
+        i*86*)    QT_ARCH=i386 ;;
+        mips*)    QT_ARCH=mips ;;
+-- 
+1.8.2.3
+
+
