@@ -1,31 +1,33 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 36B7873D47
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9180273D2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 09:10:27 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1YiJL2-0004OE-Pa from Dmitry_Eremin@mentor.com ;
-	Wed, 15 Apr 2015 02:10:28 -0700
-Received: from [137.202.140.150] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Wed, 15 Apr 2015 10:10:27 +0100
-Message-ID: <552E2B02.8020105@mentor.com>
-Date: Wed, 15 Apr 2015 12:10:26 +0300
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.5.0
+	Wed, 15 Apr 2015 09:30:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3F9UfMk008677
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 Apr 2015 02:30:41 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 15 Apr 2015 02:30:41 -0700
+Message-ID: <552E2FBF.9030701@windriver.com>
+Date: Wed, 15 Apr 2015 17:30:39 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
-	<1428609535-15027-3-git-send-email-dmitry_eremin@mentor.com>
-	<4A2072A0-6C21-4FE5-98D6-C9EEB1FA3924@gmail.com>
-In-Reply-To: <4A2072A0-6C21-4FE5-98D6-C9EEB1FA3924@gmail.com>
-X-Originating-IP: [137.202.0.76]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] security_flags.inc: add more exceptions
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1429002519.git.liezhi.yang@windriver.com>
+	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
+	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
+	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
+	<552DC27E.3060804@windriver.com>
+	<CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 09:10:28 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 15 Apr 2015 09:30:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/10/2015 03:28 AM, Khem Raj wrote:
+
+
+On 04/15/2015 04:32 PM, Burton, Ross wrote:
 >
->> On Apr 9, 2015, at 12:58 PM, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com> wrote:
->>
->> Add few more exceptions from other layers as noted during custom image
->> builds.
->>
+> On 15 April 2015 at 02:44, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
 >
-> you can put it in respective layer.conf its seems a bit auxiliary to have it in OE-Core
+>     virtual/mesa or virtual/egl depends on virtual/libx11, so I didn't add
+>     virtual/libx11, I updated virtual/mesa -> virtual/egl in the repo.
+>
+>
+> That's not strictly true.  Mesa depends on libx11 if it's enabled, but EGL
+> doesn't.  This should be an explicit dependency, and we need to be able to
+> control X11 enabled/disabled as otherwise we've lost the ability to ship GTK+
+> without X11.
 
-Would it be better to fix the layer.conf or individual recipes?
+Thanks, updated in the repo:
+
+-DEPENDS = "util-macros"
++DEPENDS = "util-macros virtual/egl virtual/libx11"
+
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/6fixes
+
+// Robert
 
 >
->> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
->> ---
->> meta/conf/distro/include/security_flags.inc | 8 +++++++-
->> 1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
->> index 21e1a53..f977c8e 100644
->> --- a/meta/conf/distro/include/security_flags.inc
->> +++ b/meta/conf/distro/include/security_flags.inc
->> @@ -58,8 +58,10 @@ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
->> +SECURITY_CFLAGS_pn-libvirt = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
->> +SECURITY_CFLAGS_pn-lvm2 = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
->> SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
-
-[ skipped the rest]
-
-
--- 
-With best wishes
-Dmitry
+> Ross
 
