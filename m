@@ -1,36 +1,28 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7477A6ABF7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 12:32:43 +0000 (UTC)
-Received: by wiax7 with SMTP id x7so110981286wia.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 05:32:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uKDyQJNDBw+Chf3Hc+soyGhzV1HbKE1hFgRpiT2l4uk=;
-	b=eMI/fEH6dCpphwO1LdArc+KgPTdftnMGplsSEiAcxd+jKDQZeZqJ81SLnaGmFXPeuI
-	Posd41ALjYS4ToYP9bB9nnaOFDoFUjm/fwlQVQZTZiHGdVK7gqR6vyFh8c/1hcfGeyvn
-	sNJfqhumW+VtasrgTNPnaACLqSPuSHgcfci3CwQIYR4moqXxkiV2K6bjqYel6eDdAQq3
-	utpzpHLNC69W6LPCxAXr+9rVFyvJ4ibDITYcmCjoEDgV8EbxLPfl7fXllju2p4JHSbtl
-	8odzmJbX5jPJxQc8PB2LTEgN9x21Rk+cI566NH17ld58FnecamGRJK6ZJqOid8B0Gg1p
-	3kvg==
-X-Gm-Message-State: ALoCoQmyTdRUOg961t7+6wcUBI/7uuXkDzB/FpEeHWGE3xZCTcR06BJ0LZ67SjAXFb/4iOWsCHqe
-X-Received: by 10.194.81.1 with SMTP id v1mr47439360wjx.50.1429101164279;
-	Wed, 15 Apr 2015 05:32:44 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id hl8sm5803158wjb.38.2015.04.15.05.32.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Apr 2015 05:32:43 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Apr 2015 14:32:37 +0200
-Message-Id: <1429101157-12319-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] strace: fix build for aarch64
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7138C6AC24
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 13:13:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3FDDN8M027839
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 Apr 2015 06:13:23 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 15 Apr 2015 06:13:29 -0700
+Message-ID: <552E63F1.9090406@windriver.com>
+Date: Wed, 15 Apr 2015 09:13:21 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: "Bach, Pascal" <pascal.bach@siemens.com>, "yocto@yoctoproject.org"
+	<yocto@yoctoproject.org>, Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
+In-Reply-To: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
+Subject: Re: [yocto] Move device tree generation from include file to bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 12:32:48 -0000
+X-List-Received-Date: Wed, 15 Apr 2015 13:13:24 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Upstream added aarch64 support but forgot to update 'make dist' leading to missing files in the tarball.
+On 2015-04-15 08:33 AM, Bach, Pascal wrote:
+> Hi
+>
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- .../0001-Add-linux-aarch64-arch_regs.h.patch       | 25 ++++++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.10.bb        |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
+Adding oe-core, since that's the right place to have a discussion like
+this.
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch b/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
-new file mode 100644
-index 0000000..f70766b
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-Add-linux-aarch64-arch_regs.h.patch
-@@ -0,0 +1,25 @@
-+From f85854131c8265f2eb59c714dcea5c4b3dc09bed Mon Sep 17 00:00:00 2001
-+From: Koen Kooi <koen.kooi@linaro.org>
-+Date: Wed, 15 Apr 2015 14:29:37 +0200
-+Subject: [PATCH] Add linux/aarch64/arch_regs.h
-+
-+It is missing from the tarball, but it is present in git for v4.10
-+
-+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-+Upstream-status: Pending
-+---
-+ linux/aarch64/arch_regs.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+ create mode 100644 linux/aarch64/arch_regs.h
-+
-+diff --git a/linux/aarch64/arch_regs.h b/linux/aarch64/arch_regs.h
-+new file mode 100644
-+index 0000000..9a5e33e
-+--- /dev/null
-++++ b/linux/aarch64/arch_regs.h
-+@@ -0,0 +1,2 @@
-++extern uint64_t *const aarch64_sp_ptr;
-++extern uint32_t *const arm_sp_ptr;
-+-- 
-+1.9.3
-+
-diff --git a/meta/recipes-devtools/strace/strace_4.10.bb b/meta/recipes-devtools/strace/strace_4.10.bb
-index 416c387..707cb76 100644
---- a/meta/recipes-devtools/strace/strace_4.10.bb
-+++ b/meta/recipes-devtools/strace/strace_4.10.bb
-@@ -5,6 +5,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=124500c21e856f0912df29295ba104c7"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-+           file://0001-Add-linux-aarch64-arch_regs.h.patch \
-            file://git-version-gen \
-            file://strace-add-configure-options.patch \
-            file://Makefile-ptest.patch \
--- 
-1.9.3
+> As ARM now also moved to device tree it look like in future we will have more kernels that are using device tree then ones that are not.
+
+True, but it has been like this for quite some time now :)
+
+> As far as I understand currently the generation of device trees is controlled via KERNEL_DEVICETREE and is handled in via an include file recipes-kernel/linux/linux-dtb.inc.
+>
+> I was thinking about moving this include into a class so it becomes easier to use. Before I dive into implementing something I would like some feedback from the community.
+
+The big trick with changing anything like this is compatibility with
+existing recipes. Whatever we do, existing recipes and layers shouldn't
+be broken .. or if they are broken, there should be a compelling
+technical reason to do so.
+
+>
+> I have the following variant in mind.
+>
+> Add the device tree generation to the current kernel.bbclass (or let kernel.bblcass inherit from a kernel-dtb.bbclass).
+> This way all kernels would automatically be DT enabled.
+> The class would check if KERNEL_DEVICETREE is set and generate device trees based on this information. For boards that don't have KERNEL_DEVICETREE set the class would do nothing and the behavior is like before.
+> The advantage I see with this approach is that the only thing a user needs to do is to set KERNEL_DEVICETREE in the board and make sure the device trees are available in the kernel they like to build.
+
+That's pretty much the experience that most users have now, since
+there's nearly always a kernel recipe created, that recipe includes
+linux-dtb.inc, and sets KERNEL_DEVICETREE.
+
+Everything else happens to build and package the device tree.
+
+Was there something specifically that was causing issues with the
+current way of building them ?
+
+Cheers,
+
+Bruce
+
+>
+> I appreciate your feedback?
+>
+> Regards
+> Pascal
+>
 
 
