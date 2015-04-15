@@ -1,28 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7138C6AC24
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 13:13:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3FDDN8M027839
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Apr 2015 06:13:23 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 15 Apr 2015 06:13:29 -0700
-Message-ID: <552E63F1.9090406@windriver.com>
-Date: Wed, 15 Apr 2015 09:13:21 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: "Bach, Pascal" <pascal.bach@siemens.com>, "yocto@yoctoproject.org"
-	<yocto@yoctoproject.org>, Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
-In-Reply-To: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
-Subject: Re: [yocto] Move device tree generation from include file to bbclass
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D856AC24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 13:13:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3FDDZ5a024126 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 14:13:35 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MHUNld-JOGuy
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 14:13:35 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3FDDMce024108
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 14:13:34 +0100
+Message-ID: <1429103602.6976.114.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Apr 2015 14:13:22 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] toolchain-scripts: Allow the CONFIGSITE_CACHE variable to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 13:13:24 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 15 Apr 2015 13:13:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2015-04-15 08:33 AM, Bach, Pascal wrote:
-> Hi
->
+In multilib and baremetal configurations, this variable can cause a variety of
+problems due to the use of TCLIBC. At least allowing it to be overriden
+is a start and allows various configurations to avoid the issue.
 
-Adding oe-core, since that's the right place to have a discussion like
-this.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> As ARM now also moved to device tree it look like in future we will have more kernels that are using device tree then ones that are not.
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 0e849e4..8809ec2 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -98,7 +98,7 @@ EOF
+ #we get the cached site config in the runtime
+ TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
+ TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
+-TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
++TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "${TCLIBC} ncurses"
+ 
+ #This function create a site config file
+ toolchain_create_sdk_siteconfig () {
 
-True, but it has been like this for quite some time now :)
 
-> As far as I understand currently the generation of device trees is controlled via KERNEL_DEVICETREE and is handled in via an include file recipes-kernel/linux/linux-dtb.inc.
->
-> I was thinking about moving this include into a class so it becomes easier to use. Before I dive into implementing something I would like some feedback from the community.
-
-The big trick with changing anything like this is compatibility with
-existing recipes. Whatever we do, existing recipes and layers shouldn't
-be broken .. or if they are broken, there should be a compelling
-technical reason to do so.
-
->
-> I have the following variant in mind.
->
-> Add the device tree generation to the current kernel.bbclass (or let kernel.bblcass inherit from a kernel-dtb.bbclass).
-> This way all kernels would automatically be DT enabled.
-> The class would check if KERNEL_DEVICETREE is set and generate device trees based on this information. For boards that don't have KERNEL_DEVICETREE set the class would do nothing and the behavior is like before.
-> The advantage I see with this approach is that the only thing a user needs to do is to set KERNEL_DEVICETREE in the board and make sure the device trees are available in the kernel they like to build.
-
-That's pretty much the experience that most users have now, since
-there's nearly always a kernel recipe created, that recipe includes
-linux-dtb.inc, and sets KERNEL_DEVICETREE.
-
-Everything else happens to build and package the device tree.
-
-Was there something specifically that was causing issues with the
-current way of building them ?
-
-Cheers,
-
-Bruce
-
->
-> I appreciate your feedback?
->
-> Regards
-> Pascal
->
 
 
