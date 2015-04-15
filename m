@@ -1,40 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id EB654605D2
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 67A4065C9C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 19:13:59 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so92371433qkg.1
+	Wed, 15 Apr 2015 20:06:26 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so62297972pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 12:14:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LeDN4/HWHJ9mPpRo+VBmjIYY9VNPkzmCYeicQRuMaKU=;
-	b=P9wNI/yS71R+SAvRYM3rWLJupupPoQqStUP9AmGBw05ib2YhOVV2LCm7D3Dd5l5DJX
-	YSjfdzQYE77fxAjLhm9AwDwlOvE8D/q5fH4j9tmxYi/ZgBs73yiTL3dLZ2KMw+NyAetA
-	OSxOtP058G26Bf0Ald2pXLqWXKKjHCLoIJbYqSsj8pAHPp/C5iQxNd+H/cI2MUiJIWww
-	On4GXq5Pyd0jVgbl3IxNeNs5JZcXhAr1NRuHm/qpBiqdi0h6lMpB634y2S/BrFKaxIlO
-	v+T92DAYv1qDoCBK62epN1sH0xCpnIVfB4SU2hAr2R0xJgEK8SwxBlen3E605N5/Eq7m
-	PsdA==
-X-Gm-Message-State: ALoCoQmko3zl4mRl9aVgMV+KYqgw1yj6LcQWeh2BvCnqmMlQ8insVJFh0AtclRBVYzdumS3rwsZO
-X-Received: by 10.55.50.20 with SMTP id y20mr55017982qky.58.1429125222731;
-	Wed, 15 Apr 2015 12:13:42 -0700 (PDT)
+	Wed, 15 Apr 2015 13:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=tnI+9UQEAtT9tWiWrDFtUuxF5G9Bg1FpjvjC5/T23MA=;
+	b=DzBj7ea6NSfvhKOfsuY6ItnJ2NjL9NqqYCjoKJQ0N+U40ROYc9UA6iByGvM2pL7ezc
+	vHIW+VTwAociLoBuQIgv89jeK4Z9peOZuHxPbGR6s8zVvAw9rjasJ6Tk4RK8h4ShTX7j
+	xc8Px7or/1Vh96rGEO+IN/EmoP+3dzuu0BlCTcotCQzczXZcXPTR50qZnoPLAUQEDBCX
+	lacWbCep0B79sRJEUyFlBEBbV5BwSsKR5nVMxA4PtiEy1rOQI4KGxVDWD2AAJ5M5EMsG
+	qE0M7f24XNAkL/UrNVZMbRgudtH0ogbnxYEYSdTY6e2WLg0nYExlnKgTkpy+rJcm+neP
+	69Cg==
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 15 Apr 2015 12:13:22 -0700 (PDT)
-In-Reply-To: <552D2FDC.4090800@windriver.com>
-References: <20150413141345.GF17921@deadlock.dhs.org>
-	<CADkTA4N7CTFHgBrG5HO0XrtG6YP3YN5J5ibOx4ZnwG9bHS=0sA@mail.gmail.com>
-	<20150414094258.GF19841@deadlock.dhs.org>
-	<552D2FDC.4090800@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Apr 2015 20:13:22 +0100
-Message-ID: <CAJTo0LY6hzgudB4Hxeow0NLWrJA2j+P5suj7+h4z6QuYw2Yx4Q@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+X-Received: by 10.66.139.135 with SMTP id qy7mr48807268pab.144.1429128387989; 
+	Wed, 15 Apr 2015 13:06:27 -0700 (PDT)
+Received: by 10.70.54.3 with HTTP; Wed, 15 Apr 2015 13:06:27 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ5mBADZOmotHiiKc2SKrB3q+odn2ayEzXF814aEoBUCw@mail.gmail.com>
+References: <cover.1429002519.git.liezhi.yang@windriver.com>
+	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
+	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
+	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
+	<552DC27E.3060804@windriver.com>
+	<CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
+	<552E2FBF.9030701@windriver.com>
+	<CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
+	<CALbNGRQXPWs8TEYpveP7ugcXGuCU0pJfg_1fLZ+aTQc-ZNd7Ng@mail.gmail.com>
+	<CAJTo0LZ5mBADZOmotHiiKc2SKrB3q+odn2ayEzXF814aEoBUCw@mail.gmail.com>
+Date: Wed, 15 Apr 2015 22:06:27 +0200
+Message-ID: <CALbNGRQZvAPFdd+iJFOWvthT-3aOuD0SZi9+Lhp9DgQ6jOFt0g@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] allow installation of multiple kernels in the rootfs
+Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,61 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 19:14:00 -0000
-Content-Type: multipart/alternative; boundary=001a114713923daa060513c82568
-
---001a114713923daa060513c82568
+X-List-Received-Date: Wed, 15 Apr 2015 20:06:31 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 14 April 2015 at 16:18, Mark Hatle <mark.hatle@windriver.com> wrote:
-
-> Honestly, I'm not really sure what all of the options are here.  I know
-> that RPM
-> supports a mode (designed for kernels and modules) that allow you to
-> install
-> multiple versions of the same package at the same time.  I'm not sure if
-> this is
-> what you want... but the initial install can only be a single version.
->
-> Using RPM (or smart) basically you have to tell the system to 'install' vs
-> 'upgrade'.  And as long as there are no conflicting files, it will happily
-> do
-> more then one version of the same package.
->
-> (I doubt dpkg or deb support this, but I don't know.)
->
-
-dpkg doesn't, and as opkg is a clone of dpkg I doubt that does either (if
-it does, it's probably a bug).
-
-Ross
-
---001a114713923daa060513c82568
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 April 2015 at 16:18, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":523" class=
-=3D"a3s" style=3D"overflow:hidden">Honestly, I&#39;m not really sure what a=
-ll of the options are here.=C2=A0 I know that RPM<br>
-supports a mode (designed for kernels and modules) that allow you to instal=
-l<br>
-multiple versions of the same package at the same time.=C2=A0 I&#39;m not s=
-ure if this is<br>
-what you want... but the initial install can only be a single version.<br>
-<br>
-Using RPM (or smart) basically you have to tell the system to &#39;install&=
-#39; vs<br>
-&#39;upgrade&#39;.=C2=A0 And as long as there are no conflicting files, it =
-will happily do<br>
-more then one version of the same package.<br>
-<br>
-(I doubt dpkg or deb support this, but I don&#39;t know.)</div></blockquote=
-></div><br>dpkg doesn&#39;t, and as opkg is a clone of dpkg I doubt that do=
-es either (if it does, it&#39;s probably a bug).</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Wed, Apr 15, 2015 at 9:08 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+>
+> On 15 April 2015 at 18:27, Andreas M=C3=BCller <schnitzeltony@googlemail.=
+com>
+> wrote:
+>>
+>> Patch [1]: util-macros no more required in DEPENDS
+>
+>
+> What's the point of this?  util-macros adds functionality and doesn't dep=
+end
+> on X in any way, it's just some m4 macros.
+reduces DEPENDENCIES slightly - but is not mandatory. I have added it
+because there is only a mac specific option the macros are used for.
+>
+>>
+>> Patch [2]: allow build for x-less environments
+>
+>
+> I'm glad this demonstrates that simply disabling GLX works but FWIW I
+> wouldn't accept this into oe-core as it's not deterministic.
+I didn't do that for limited time and had no problem because I never
+change DISTRO features for one builddir. To fix configure.ac needs an
+additional configure option disabling xorg even if it was build.
+>
+>>
+>> I don't have time to prepare patches, but maybe somebody wants to take a
+>> look.
+>>
+>> Ahh before I forget: libepoxy should inherit pythonnative - all source
+>> file creation is done by pythonscripts.
+>
+>
+> Isn't pythonnative only required if the Python needs to use modules that
+> were previously built natively?  Bitbake is Python so if it's just "run t=
+his
+> bit of basic python code" then the host Python is sufficient.
+>
+Might be but as far as I can remember - this was added due to
+configure failures for builds from scratch - but it is long ago...
 
---001a114713923daa060513c82568--
+Andreas
+
