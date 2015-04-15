@@ -1,29 +1,49 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 038BC73D47
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vn0-f51.google.com (mail-vn0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EFC265C9C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 15:02:08 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 7F5F5F811E5; Wed, 15 Apr 2015 09:02:09 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 229A1F811E5;
-	Wed, 15 Apr 2015 09:02:09 -0600 (MDT)
-Message-ID: <552E7D8C.9070704@mlbassoc.com>
-Date: Wed, 15 Apr 2015 09:02:36 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Wed, 15 Apr 2015 15:05:50 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so16179734vnb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 08:05:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Q3p5g2PZWFLyFlnCFuBpoXnyjlItyRx9oecDtUUPehQ=;
+	b=P+TOem/bqcwmzrY7rQgGFowZdovxnlvZaxaS8P3IfQvo3cj+25y3gh6WY1wLeqdePh
+	xSIANHqL9lprgFnZL/pp49NdVsXG+oiz3hkcoToCFAIJwBhczlT5hEmkKHJtuo/CcRKH
+	ttpLza3gPnHOvArOrvrGiH3U3rDq5DRCwRF0SzrOqlPWegFHn8dwMQOAq/BtO1/M/tpb
+	DxmlQYCfIcZ6bj4JJ7seLbSrxvqiBoVZhN9/rJmFjkYiEQORLypCRLczgAMDrR5sB7kp
+	dApBMRJJA0mwbvO1rGMfrBpeRkLvg+ANOMYVWNPA67WhH0KuUtoTSyRkVVq8Sb8kLnHF
+	L2NA==
+X-Gm-Message-State: ALoCoQnZaH8qA+Qr7sqQqoJkit7hbSdkSJ9UrNNusqFwW3g10xo3vDNKnKvM6VYLWq5x+5HE78bc
+X-Received: by 10.140.88.80 with SMTP id s74mr31285396qgd.59.1429110351646;
+	Wed, 15 Apr 2015 08:05:51 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <552E7098.9040304@gmx.com>
-	<1429109475.6976.124.camel@linuxfoundation.org>
-In-Reply-To: <1429109475.6976.124.camel@linuxfoundation.org>
-Subject: Re: [PATCH] expect: install header files in usual location
+Received: by 10.140.102.231 with HTTP; Wed, 15 Apr 2015 08:05:31 -0700 (PDT)
+In-Reply-To: <CABcZAN=05BhabBn_oS2JVp2NbDKJGje=8VE7qWv1WNgZ3k8VEQ@mail.gmail.com>
+References: <cover.1428070227.git.cristian.iorga@intel.com>
+	<90c0094bfd5455dd40933ad4322e4c53adcd3147.1428070227.git.cristian.iorga@intel.com>
+	<CAJTo0LYL4Mf9L0Fnij2yRLhyJwn-sxdDV2uWUAx-FCRFBgTHmQ@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F4944D2@irsmsx105.ger.corp.intel.com>
+	<552282D7.6040108@pabigot.com>
+	<CAP9ODKobzYLZS9K55S5rSw=Z=LHOaDOTt5mkzTx3SjomMvXnXg@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F49465B@irsmsx105.ger.corp.intel.com>
+	<5522F8D7.3050007@pabigot.com>
+	<CABcZANmh-o58Z5iHW++S30_JP6r3q-8+3-g5hegiwV1_2_OP1Q@mail.gmail.com>
+	<552319BE.3020308@pabigot.com>
+	<CAJTo0LbnN-HPjeuG-_80DmB89APM7DUpNibvA7L-X8wo8SNrSw@mail.gmail.com>
+	<CABcZAN=05BhabBn_oS2JVp2NbDKJGje=8VE7qWv1WNgZ3k8VEQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Apr 2015 16:05:31 +0100
+Message-ID: <CAJTo0LbxeLBkd5pbhptRFJSyv=V1N3Wr4mcX4qiFkv40qf=KnA@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] bluetooth.bbclass: set bluez5 as the default BT stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 15:02:09 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Apr 2015 15:05:52 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4daece60513c4aeb5
 
-On 2015-04-15 08:51, Richard Purdie wrote:
-> On Wed, 2015-04-15 at 10:07 -0400, Yocto User wrote:
->> This patch resolves [Bug 7552] where the headers for the expect library
->> were installed into the wrong location.
->
-> Few minor comments/tweaks needed:
->
-> The correct form for bug numbers is:
->
-> [YOCTO #7552]
->
->>
+--001a11c114c4daece60513c4aeb5
+Content-Type: text/plain; charset=UTF-8
 
-Also, needs a Signed-off-by line (with a real name)
+On 14 April 2015 at 16:38, Christopher Larson <clarson@kergoth.com> wrote:
 
->> ---
->>    meta/recipes-devtools/expect/expect_5.45.bb |   12 ++++--------
->>    1 file changed, 4 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/expect/expect_5.45.bb
->> b/meta/recipes-devtools/expect/expect_5.45.bb
->> index 264f007..4129ab1 100644
->> --- a/meta/recipes-devtools/expect/expect_5.45.bb
->> +++ b/meta/recipes-devtools/expect/expect_5.45.bb
->> @@ -18,7 +18,7 @@ RDEPENDS_${PN} = "tcl"
->>
->>    inherit autotools
->>
->> -PR = "r1"
->> +PR = "r2"
->
-> No need to bump PR now.
->
->>    SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
->>               file://0001-configure.in.patch \
->> @@ -40,8 +40,7 @@ do_install_append() {
->>            sed -e 's|$dir|${libdir}|' -i
->> ${D}${libdir}/expect${PV}/pkgIndex.tcl
->>    }
->>
->> -EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
->> -                 --with-tcl=${STAGING_LIBDIR} \
->> +EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
->>                     --with-tclinclude=${STAGING_INCDIR}/tcl8.6 \
->>                     --enable-shared \
->>                     --enable-threads \
->> @@ -52,12 +51,9 @@ EXTRA_OEMAKE_install = " 'SCRIPTS=' "
->>    FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
->>                        ${libdir}/.debug \
->>                       "
->> +
->>    FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
->> -                   ${STAGING_INCDIR}/expect.h \
->> -                   ${STAGING_INCDIR}/expect_tcl.h \
->> -                   ${STAGING_INCDIR}/expect_comm.h \
->> -                   ${STAGING_INCDIR}/tcldbg.h \
->> -                   ${includedir}/*.h \
->> +                   ${includedir} \
->>                      "
->
-> Isn't this included in FILES_${PN}-dev by default?
->
-> Cheers,
->
-> Richard
+> For what it's worth, I'd agree with that. There's no need to change the
+> logic.
 >
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Where do you stand on backfilling verses just setting
+DEFAULT_DISTRO_FEATURES?
 
+Ross
+
+--001a11c114c4daece60513c4aeb5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 April 2015 at 16:38, Christopher Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extr=
+a">For what it&#39;s worth, I&#39;d agree with that. There&#39;s no need to=
+ change the logic.</div></blockquote><div><br></div><div>Where do you stand=
+ on backfilling verses just setting DEFAULT_DISTRO_FEATURES?</div><div><br>=
+Ross</div></div></div></div>
+
+--001a11c114c4daece60513c4aeb5--
