@@ -1,43 +1,33 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C17EB65C9C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 17:27:16 +0000 (UTC)
-Received: by pdbqd1 with SMTP id qd1so59650070pdb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+Return-Path: <janne.karhunen@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1430F6AC24
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 17:38:41 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so58168882pab.3
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=VbP9FYm1iQSjInf2LVky3be6TigNC9fEXgavvE2hvGE=;
-	b=ERkOvmAwiyZC8U+GL0qqoGaBRYZQMmjMKb4k2EzTS+kzeg1M+idX63c4nUEogEclbN
-	l/N2ssR94qzH5wJK8YRxRH20I2ppkNEsidwmhM1fBK2k2hAU3H4TaSXJFt9ual2tedOX
-	cuR00HKR+5ws+O+cobprwoethew3PZZLzJcWQPT/uF7bv8ZhLxadHYivjol4g0y798vf
-	Y52uLQj5RKgSte+s/ubS7Mme1pgfwi3swQIc86Mfwbp2HwvkK2BalYVHloW4+CT4PD+4
-	GAqKzWyBTxkQuyNYa141hkBhYIzUaS8IrX51CNYmekNIDVQD/BBqpuhCO9ic14cmGpVc
-	8c6w==
+	:content-type; bh=KgKfJpxMkG1180TaMtu/Z6W1BB588H85y6Bg96WuzJU=;
+	b=lNZ7fOcTB6Q4KI8CjpF7aiCEbhXAvFECZ/gH86yZleAtoukw3UCoKF9IGzYgmhdOza
+	xM6AESFJpVSe104BsZtuMogNQGf/3KbjC7G44JStFqzU0ACC572bQNxackgPhfysS0OS
+	Cv/5sI09+i/Oclk9fxiYBJiXFL14Qd2/Kv/IOEWnHSSaRzaHKftHI2J6pVGBcbJ1QVPx
+	Oe18Ws+eXZDK+p7tJE8xK7LDKs+6eVzAhizFaUQsGlLHzr6lyyRwUTTMTTbVvzVeuyFL
+	JRFQgZHrA7rjcBKegVaBqtICHt533QQFnOq52USNXtBdK5054wmNJBHrvH/a6eYzlq0d
+	NDFQ==
 MIME-Version: 1.0
-X-Received: by 10.68.247.168 with SMTP id yf8mr47317429pbc.168.1429118837860; 
-	Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
-Received: by 10.70.54.3 with HTTP; Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
-In-Reply-To: <CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
-References: <cover.1429002519.git.liezhi.yang@windriver.com>
-	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
-	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
-	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
-	<552DC27E.3060804@windriver.com>
-	<CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
-	<552E2FBF.9030701@windriver.com>
-	<CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
-Date: Wed, 15 Apr 2015 19:27:17 +0200
-Message-ID: <CALbNGRQXPWs8TEYpveP7ugcXGuCU0pJfg_1fLZ+aTQc-ZNd7Ng@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
+X-Received: by 10.66.167.106 with SMTP id zn10mr48550314pab.126.1429119523130; 
+	Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
+Received: by 10.70.132.162 with HTTP; Wed, 15 Apr 2015 10:38:43 -0700 (PDT)
+In-Reply-To: <20150414062101.GA11904@ad.chargestorm.se>
+References: <CAE=NcrY2Y3dmF5qmfS1=QXcE0k1OOX8GdWMo7PDZ+W348ZSxaA@mail.gmail.com>
+	<20150414062101.GA11904@ad.chargestorm.se>
+Date: Wed, 15 Apr 2015 10:38:43 -0700
+Message-ID: <CAE=NcrZW+gZDDLA_bn+AUb81PTkSwmKNbZ3+4zfBtBA9DeAfPA@mail.gmail.com>
+From: Janne Karhunen <janne.karhunen@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: Re: compiling the host tools natively for the host Linux?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,40 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 17:27:19 -0000
+X-List-Received-Date: Wed, 15 Apr 2015 17:38:44 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 15, 2015 at 11:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 15 April 2015 at 10:30, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> +DEPENDS = "util-macros virtual/egl virtual/libx11"
->
->
-> This means we can't build GTK+ without X11 (eg core-image-weston with x11
-> removed from DISTRO_FEATURES), as gtk+3 will depend on libepoxy which will
-> depend on libx11 which will refuse to build as x11 isn't in DISTRO_FEATURES.
->
-> libepoxy does conditional checks so the libx11 dependency can be condtional
-> on DISTRO_FEATURES.  That's no idea but better than nothing.
->
-> Ross
-After all these discussions I remmeber better what I went through
-building libepoxy in meta-qt5-extra.
-So my first suggestion is back - with the patches in meta-qt5-extra I
-have managed to build libepoxy in x-less environments and without
-depending on util-macros.
+On Mon, Apr 13, 2015 at 11:21 PM, Anders Darander <anders@chargestorm.se> wrote:
 
-Patch [1]: util-macros no more required in DEPENDS
-Patch [2]: allow build for x-less environments
+>> Is there a way to compile the host tools (primarily interested in the
+>> compiler) for the host Linux rather than for the own distro?
+>
+> Could you explain what you're trying to achieve a little bit more?
+>
+> Which computer do you call host Linux and which one is "own distro"?
 
-I don't have time to prepare patches, but maybe somebody wants to take a look.
+Host is the thing build runs on, 'own distro' is the minimal runtime
+generated to run the sdk toolset, including the compiler. I really
+don't need the latter, for me host runtime would be all I need.
 
-Ahh before I forget: libepoxy should inherit pythonnative - all source
-file creation is done by pythonscripts.
+I'm generating bitbake toolchains and images in OBS cluster, they
+compile as nice set of RPMs people can install into their environments
+via host distro native means. They can also be kept up to date like
+that without anyone having to reinstall SDK and/or core images, it
+just magically happens.
 
-Andreas
+Now within OBS, bitbake build & sdk install happens within rpm build
+root directory. Problem is that relocating the built SDK in
+$RPM_BUILD_DIR/$RPM_BUILD_ROOT to its final resting place during
+package install (say, to /opt) does not work straight due to the
+clever trickery being done with the linker (.interp section) and the
+tool/lib RPATHs pointing to the sysroot under $RPM_BUILD_ROOT where
+the SDK was installed. I solved this by manually relocating the entire
+SDK toolset in RPM '%post' to the new location specified during
+package install (rpm --prefix=). This is all fine, but hairy. Would be
+far better just to drop the 'own runtime' needed to run the tools and
+just compile the toolset for the host.. tools would work straight
+without any relocation.
 
-[1] https://github.com/schnitzeltony/meta-qt5-extra/blob/master/recipes-support/libepoxy/files/0001-configure.ac-don-t-rely-on-Xorg.macros.patch
-[2] https://github.com/schnitzeltony/meta-qt5-extra/blob/master/recipes-support/libepoxy/files/0002-take-configuration-into-consideration-when-selecting.patch
+
+--
+Janne
 
