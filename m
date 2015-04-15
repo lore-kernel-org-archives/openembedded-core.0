@@ -1,39 +1,43 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AA79605D2
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 16:49:59 +0000 (UTC)
-Received: by oign205 with SMTP id n205so30474126oig.2
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 09:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C17EB65C9C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 17:27:16 +0000 (UTC)
+Received: by pdbqd1 with SMTP id qd1so59650070pdb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=2A0xn8ZC3nVhLwUSfBuxp/XG0LGIw5OShmNcNdXWK90=;
-	b=abyCE1zvahRf593Co3kOER30QeHdPSsApujPA9g8OEvdnZ6yeGClm7TqQCfggFvtwk
-	w4UaS/ro+vx04a9NMi93mcys3ok+4LgUkbHbg/59JF28k3zTlZMDpXZmvsoGtjwTQ3MO
-	akPogMcngmScbY8kaTb1doOlBEVvjW+aahYG8DVddeSYf9bu0zLqNOlxqGEiobuaP5Mn
-	t5Qz5taD7FrC+wtcdvh07EFEaA+QKr/4TJ68Pjo99+8crF1vV95t6+qqLLYt9oS59BGs
-	aA2Q0zoYuZIN1T+u6RCgySY39Q66M0FjBufVigO0pBtKKpIW3zk96GMnd34HJe3/DcFb
-	RBSg==
+	bh=VbP9FYm1iQSjInf2LVky3be6TigNC9fEXgavvE2hvGE=;
+	b=ERkOvmAwiyZC8U+GL0qqoGaBRYZQMmjMKb4k2EzTS+kzeg1M+idX63c4nUEogEclbN
+	l/N2ssR94qzH5wJK8YRxRH20I2ppkNEsidwmhM1fBK2k2hAU3H4TaSXJFt9ual2tedOX
+	cuR00HKR+5ws+O+cobprwoethew3PZZLzJcWQPT/uF7bv8ZhLxadHYivjol4g0y798vf
+	Y52uLQj5RKgSte+s/ubS7Mme1pgfwi3swQIc86Mfwbp2HwvkK2BalYVHloW4+CT4PD+4
+	GAqKzWyBTxkQuyNYa141hkBhYIzUaS8IrX51CNYmekNIDVQD/BBqpuhCO9ic14cmGpVc
+	8c6w==
 MIME-Version: 1.0
-X-Received: by 10.202.229.139 with SMTP id c133mr16296245oih.99.1429116598725; 
-	Wed, 15 Apr 2015 09:49:58 -0700 (PDT)
-Received: by 10.202.9.193 with HTTP; Wed, 15 Apr 2015 09:49:58 -0700 (PDT)
-In-Reply-To: <552E8DD9.6090202@mail.bg>
-References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
-	<552E63F1.9090406@windriver.com> <552E824C.5080603@mail.bg>
-	<CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
-	<552E8DD9.6090202@mail.bg>
-Date: Wed, 15 Apr 2015 12:49:58 -0400
-Message-ID: <CADkTA4MfMCqnPTJrNQGPz+ivJOYiN1ajzttzBVNBVqMVkdnPAg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Nikolay Dimitrov <picmaster@mail.bg>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Move device tree generation from include file to bbclass
+X-Received: by 10.68.247.168 with SMTP id yf8mr47317429pbc.168.1429118837860; 
+	Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
+Received: by 10.70.54.3 with HTTP; Wed, 15 Apr 2015 10:27:17 -0700 (PDT)
+In-Reply-To: <CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
+References: <cover.1429002519.git.liezhi.yang@windriver.com>
+	<9862abd5653d0ccddc5e1a7e805c176877231a77.1429002519.git.liezhi.yang@windriver.com>
+	<CALbNGRQJNw3YvjDYVGd2kecM9nAMsamu9yRRfCSjgg+LvkdH=w@mail.gmail.com>
+	<CAJTo0LaU5AK6RyN+q6w5B49nqy-9Ox=+ioKtxcF7yh7U6+E-Qg@mail.gmail.com>
+	<552DC27E.3060804@windriver.com>
+	<CAJTo0LYB+2tqXJj5KbpCSvW8TyPHeoZo78f9UrK0S6Z9X9MfKA@mail.gmail.com>
+	<552E2FBF.9030701@windriver.com>
+	<CAJTo0LY=ZiJUSD+gTJqqvok8+RyskJKR0BjvJb0pjR97ZSfrcw@mail.gmail.com>
+Date: Wed, 15 Apr 2015 19:27:17 +0200
+Message-ID: <CALbNGRQXPWs8TEYpveP7ugcXGuCU0pJfg_1fLZ+aTQc-ZNd7Ng@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] libepoxy: DEPENDS on virtual/mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,131 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 16:49:59 -0000
+X-List-Received-Date: Wed, 15 Apr 2015 17:27:19 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 15, 2015 at 12:12 PM, Nikolay Dimitrov <picmaster@mail.bg> wrote:
-> Hi Bruce,
+On Wed, Apr 15, 2015 at 11:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
->
-> On 04/15/2015 06:26 PM, Bruce Ashfield wrote:
+> On 15 April 2015 at 10:30, Robert Yang <liezhi.yang@windriver.com> wrote:
 >>
->> On Wed, Apr 15, 2015 at 11:22 AM, Nikolay Dimitrov
->> <picmaster@mail.bg> wrote:
->>>
->>> Hi Bruce,
->>>
->>>
->>> On 04/15/2015 04:13 PM, Bruce Ashfield wrote:
->>>>
->>>>
->>>> On 2015-04-15 08:33 AM, Bach, Pascal wrote:
->>>>>
->>>>>
->>>>> Hi
->>>>>
->>>>
->>>> Adding oe-core, since that's the right place to have a discussion
->>>> like this.
->>>>
->>>>> As ARM now also moved to device tree it look like in future we
->>>>> will have more kernels that are using device tree then ones
->>>>> that are not.
->>>>
->>>>
->>>>
->>>> True, but it has been like this for quite some time now :)
->>>>
->>>>> As far as I understand currently the generation of device
->>>>> trees is controlled via KERNEL_DEVICETREE and is handled in via
->>>>> an include file recipes-kernel/linux/linux-dtb.inc.
->>>>>
->>>>> I was thinking about moving this include into a class so it
->>>>> becomes easier to use. Before I dive into implementing
->>>>> something I would like some feedback from the community.
->>>>
->>>>
->>>>
->>>> The big trick with changing anything like this is compatibility
->>>> with existing recipes. Whatever we do, existing recipes and
->>>> layers shouldn't be broken .. or if they are broken, there
->>>> should be a compelling technical reason to do so.
->>>>
->>>>>
->>>>> I have the following variant in mind.
->>>>>
->>>>> Add the device tree generation to the current kernel.bbclass
->>>>> (or let kernel.bblcass inherit from a kernel-dtb.bbclass).
->>>>> This way all kernels would automatically be DT enabled. The
->>>>> class would check if KERNEL_DEVICETREE is set and generate
->>>>> device trees based on this information. For boards that don't
->>>>> have KERNEL_DEVICETREE set the class would do nothing and the
->>>>> behavior is like before. The advantage I see with this
->>>>> approach is that the only thing a user needs to do is to set
->>>>> KERNEL_DEVICETREE in the board and make sure the device trees
->>>>> are available in the kernel they like to build.
->>>>
->>>>
->>>>
->>>> That's pretty much the experience that most users have now, since
->>>> there's nearly always a kernel recipe created, that recipe
->>>> includes linux-dtb.inc, and sets KERNEL_DEVICETREE.
->>>
->>>
->>>
->>> As far as I understood, Pascal's idea is to remove the need for
->>> user recipes to include linux-dtb.inc, and provide this
->>> functionality via inheritance.
->>
->>
->> That is obvious. My questions are around "why". There's no big
->> technical advantage, and if you remove that existing file, you break
->>  existing recipes. Which means you need to leave a stub in place.
->>
->> So without a technical advantage, it's churn for the sake of churn.
+>> +DEPENDS = "util-macros virtual/egl virtual/libx11"
 >
 >
-> Well, removing redundancy and simplifying users' recipes could be
-> considered an advantage. Also, as the contents of linux-dtb.inc are
-> going to be moved to bbclass, the file can be left empty, later
-> maintainers remove the extra line from all users' recipes in following
-> commits. I don't see breaking as an option.
-
-And we could argue that having more inherits in the base is a bad
-thing for users that have no interest in device trees.
-
-One person's advantage is another's churn. I was looking for technical
-advantages or a plan for future features that might leverage this.
-
-Cheers,
-
-Bruce
-
+> This means we can't build GTK+ without X11 (eg core-image-weston with x11
+> removed from DISTRO_FEATURES), as gtk+3 will depend on libepoxy which will
+> depend on libx11 which will refuse to build as x11 isn't in DISTRO_FEATURES.
 >
->> Bruce
->>
->>>
->>>> Everything else happens to build and package the device tree.
->>>>
->>>> Was there something specifically that was causing issues with the
->>>> current way of building them ?
->>>>
->>>> Cheers,
->>>>
->>>> Bruce
->>>>
->>>>>
->>>>> I appreciate your feedback?
->>>>>
->>>>> Regards Pascal
+> libepoxy does conditional checks so the libx11 dependency can be condtional
+> on DISTRO_FEATURES.  That's no idea but better than nothing.
 >
->
-> Kind regards,
-> Nikolay
+> Ross
+After all these discussions I remmeber better what I went through
+building libepoxy in meta-qt5-extra.
+So my first suggestion is back - with the patches in meta-qt5-extra I
+have managed to build libepoxy in x-less environments and without
+depending on util-macros.
 
+Patch [1]: util-macros no more required in DEPENDS
+Patch [2]: allow build for x-less environments
 
+I don't have time to prepare patches, but maybe somebody wants to take a look.
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Ahh before I forget: libepoxy should inherit pythonnative - all source
+file creation is done by pythonscripts.
+
+Andreas
+
+[1] https://github.com/schnitzeltony/meta-qt5-extra/blob/master/recipes-support/libepoxy/files/0001-configure.ac-don-t-rely-on-Xorg.macros.patch
+[2] https://github.com/schnitzeltony/meta-qt5-extra/blob/master/recipes-support/libepoxy/files/0002-take-configuration-into-consideration-when-selecting.patch
 
