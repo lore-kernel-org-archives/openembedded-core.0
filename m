@@ -1,58 +1,40 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0057.outbound.protection.outlook.com [157.56.111.57])
-	by mail.openembedded.org (Postfix) with ESMTP id 9468673D37
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C862605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 10:05:58 +0000 (UTC)
-Received: from BN1AFFO11FD012.protection.gbl (10.58.52.32) by
-	BN1AFFO11HUB035.protection.gbl (10.58.52.146) with Microsoft SMTP
-	Server (TLS) id 15.1.142.12; Thu, 16 Apr 2015 08:31:29 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BN1AFFO11FD012.mail.protection.outlook.com (10.58.52.72) with Microsoft
-	SMTP Server (TLS) id 15.1.148.11 via Frontend Transport;
-	Thu, 16 Apr 2015 08:31:29 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <nathan.rossi@xilinx.com>) id 1Yif8F-0003PI-3G
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Apr 2015 01:26:43 -0700
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Apr 2015 18:29:24 +1000
-X-Mailer: git-send-email 1.7.10.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21480.005
-X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <8d2dad71-10b1-4899-afbe-ecc68ec3ec58@BN1AFFO11FD012.protection.gbl>
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
-	BMV:1; SFV:NSPM;
-	SFS:(10009020)(6009001)(438002)(199003)(189002)(50986999)(87936001)(106466001)(47776003)(19580405001)(6806004)(19580395003)(46102003)(74316001)(50226001)(50466002)(70736001)(31696002)(48376002)(77156002)(62966003)(86362001)(92566002)(1496007)(104016003)(53416004)(110136001)(33646002)(450100001)(2351001)(229853001)(107986001)(4001430100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1AFFO11HUB035;
-	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; MLV:sfv; A:1; MX:1; LANG:en;
+	Thu, 16 Apr 2015 10:31:16 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so75858271wgs.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Apr 2015 03:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=VvZ9cD2ZvXW1efKvZ/PDLbpDsvwkLqX1S1LMJcpyr+I=;
+	b=jUg8HxoTnVeoKAmE0Qk5sS8VwdPVSUne0twvyxjrhN46iOhnEdww1VbntVjW/+kngu
+	wLfz/5+wsWDllW4YcEWSYlf7Ap+WXkQUr2AfRyTZ9ZBrYib30QA8cefeK+kVIsvBxBDt
+	o8iMAz8Fh6mb8xT6LZEdBGikIrOq/yxED8/Hnhxedg9xVkj9LyM5Bri0XUFa2seGldGv
+	w7AfNGynvCDA0TWEkZkKhV+5lEc5mNJ10yboCS1r+CbI2oO2TKrc6EJ9+nexJl0R6ABK
+	mF6x6kbEc8dtPJ6iyK/xSTTwxyl9NtnL72qcCgZpW1vZuJ0HOxShqVnNSuMFdURiLexK
+	sJpw==
+X-Received: by 10.180.188.193 with SMTP id gc1mr3849036wic.7.1429180277730;
+	Thu, 16 Apr 2015 03:31:17 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id hl8sm9778633wjb.38.2015.04.16.03.31.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Apr 2015 03:31:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 16 Apr 2015 12:31:33 +0200
+To: Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20150416103133.GA2341@jama>
+References: <cover.1429170493.git.Qi.Chen@windriver.com>
+	<c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN1AFFO11HUB035;
-X-Microsoft-Antispam-PRVS: <BN1AFFO11HUB0355AEFE5EB3827AF4F390EF1E40@BN1AFFO11HUB035.protection.gbl>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5002010)(5005006); SRVR:BN1AFFO11HUB035; BCL:0;
-	PCL:0; RULEID:; SRVR:BN1AFFO11HUB035; 
-X-Forefront-PRVS: 0548586081
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2015 08:31:29.0243 (UTC)
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1AFFO11HUB035
-Cc: Nathan Rossi <nathan.rossi@xilinx.com>
-Subject: [PATCH] oeqa/utils/decorators: Fix up frame selection
+In-Reply-To: <c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] layer_extra_sanity.bbclass: add new bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,41 +47,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 10:06:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Apr 2015 10:31:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Use threading to get the current threads ident to select the current
-executing frame to ensure that the scanned stack is the expected stack.
+On Thu, Apr 16, 2015 at 03:49:19PM +0800, Chen Qi wrote:
+> Add a new bbclass for extra sanity check for layers.
+>=20
+> These sanity checks include:
+> *) conf/machine and conf/distro don't appear in the same layer.
+>    The rational is that distro specific changes and BSP specific changes
+>    should be splitted into different layers for better maintenance.
+>    The meta layer is an exception.
+> *) A BSP layer is not included if MACHINE is not set to any of the conf f=
+ile
+>    it provides.
+>    The rational is that BSP layer, by design, is supposed to make changes
+>    specific for the BSPs it covers. Including a BSP layer which doesn't c=
+ontain
+>    a conf file matching the MACHINE setting might cause potential problem.
 
-This allows for the decorators to be used within a process that has
-multiple threads executing.
+This is exactly the opposite of what the manual says.
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
- meta/lib/oeqa/utils/decorators.py |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+BSP layer should be written in a way that it has no unwelcome
+side-effects for other MACHINES (by proper usage of MACHINE overrides).
 
-diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index 1e5a890..61a1a73 100644
---- a/meta/lib/oeqa/utils/decorators.py
-+++ b/meta/lib/oeqa/utils/decorators.py
-@@ -10,12 +10,14 @@ import os
- import logging
- import sys
- import unittest
-+import threading
- 
- #get the "result" object from one of the upper frames provided that one of these upper frames is a unittest.case frame
- class getResults(object):
-     def __init__(self):
-         #dynamically determine the unittest.case frame and use it to get the name of the test method
--        upperf = sys._current_frames().values()[0]
-+        ident = threading.current_thread().ident
-+        upperf = sys._current_frames()[ident]
-         while (upperf.f_globals['__name__'] != 'unittest.case'):
-             upperf = upperf.f_back
- 
--- 
-1.7.10.4
+> *) Configuration files under conf/machine don't set distro specific varia=
+bles
+>    such as DISTRO_FEATURES.
+>    The rational is that machine configuration files should not set things
+>    related to machine.
+>=20
+> [YOCTO #5427]
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/layer_extra_sanity.bbclass | 91 +++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 91 insertions(+)
+>  create mode 100644 meta/classes/layer_extra_sanity.bbclass
+>=20
+> diff --git a/meta/classes/layer_extra_sanity.bbclass b/meta/classes/layer=
+_extra_sanity.bbclass
+> new file mode 100644
+> index 0000000..17671c3
+> --- /dev/null
+> +++ b/meta/classes/layer_extra_sanity.bbclass
+> @@ -0,0 +1,91 @@
+> +# Check conf/distro and conf/machine don't appear in the same layer
+> +def check_machine_distro_dir(sanity_data):
+> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
+> +    for bblayer in bblayers:
+> +        bblayer =3D bblayer.rstrip('/')
+> +        # skip checking of the meta layer, it's special
+> +        if bblayer.endswith('meta'):
+> +            continue
+> +        if os.path.exists(bblayer + '/' + 'conf/machine') and os.path.ex=
+ists(bblayer + '/' + 'conf/distro'):
+> +            bb.warn("Layer %s is providing both distro configurations an=
+d machine configurations. It's recommended that a layer should provide at m=
+ost one of them." % bblayer)
+> +
+> +# Check that distro variables such as DISTRO_FEATURES are not being set =
+in machine conf files
+> +def check_distro_vars_machine(sanity_data):
+> +    import re
+> +
+> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
+> +    distro_regex =3D re.compile("^DISTRO_.*=3D.*")
+> +    distro_var_match =3D False
+> +
+> +    for bblayer in bblayers:
+> +        bblayer =3D bblayer.rstrip('/')
+> +        if bblayer.endswith('meta'):
+> +            continue
+> +        # Check .inc and .conf files under machine/conf don't set DISTRO=
+_xxx vars
+> +        for dirpath, dirnames, filenames in os.walk('%s/conf/machine' % =
+bblayer):
+> +            for f in filenames:
+> +                fpath =3D os.path.join(dirpath, f)
+> +                if fpath.endswith(".inc") or fpath.endswith(".conf"):
+> +                    with open(fpath) as fopen:
+> +                        for line in fopen:
+> +                            if distro_regex.match(line):
+> +                                distro_var_match =3D True
+> +                                break
+> +                if distro_var_match:
+> +                    break
+> +            if distro_var_match:
+> +                break
+> +        if distro_var_match:
+> +            bb.warn("Layer %s is setting distro specific variables in it=
+s machine conf files." % bblayer)
+> +        distro_var_match =3D False
+> +
+> +# Check that a disto/bsp layer is being included but MACHINE or DISTRO i=
+s not set to any conf
+> +# file that it provides.
+> +#
+> +# The rational here is that if a BSP layer is supposed to have recipes o=
+r bbappend files that
+> +# are only specific for the BSPs it provides. So if MACHINE is not set t=
+o any of the
+> +# conf/machine/*.conf file in that layer, very likely the user is accide=
+ntly including a BSP layer.
+> +# The same logic goes for distro layers.
+> +def check_unneedded_bsp_distro_layer(sanity_data):
+> +    machine =3D sanity_data.getVar('MACHINE', True)
+> +    distro =3D sanity_data.getVar('DISTRO', True)
+> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
+> +
+> +    for bblayer in bblayers:
+> +        bblayer =3D bblayer.rstrip('/')
+> +        if bblayer.endswith('meta'):
+> +            continue
+> +        is_bsp =3D os.path.exists(bblayer + '/' + 'conf/machine')
+> +        is_distro =3D os.path.exists(bblayer + '/' + 'conf/distro')
+> +        if is_bsp and not is_distro:
+> +            if not os.path.exists(bblayer + '/' + 'conf/machine/' + mach=
+ine + '.conf'):
+> +                bb.warn("BSP layer %s is included but MACHINE is not set=
+ to any conf file it provides." % bblayer)
+> +        elif not is_bsp and is_distro:
+> +           if not os.path.exists(bblayer + '/' + 'conf/distro/' + distro=
+ + '.conf'):
+> +                bb.warn("Distro layer %s is included but DISTRO is not s=
+et to any conf file it provides." % bblayer)
+> +
+> +# Create a copy of the datastore and finalise it to ensure appends and=
+=20
+> +# overrides are set - the datastore has yet to be finalised at ConfigPar=
+sed
+> +def copy_data(e):
+> +    sanity_data =3D bb.data.createCopy(e.data)
+> +    sanity_data.finalize()
+> +    return sanity_data
+> +
+> +def layer_extra_check_sanity(sanity_data):
+> +    check_machine_distro_dir(sanity_data)
+> +    check_unneedded_bsp_distro_layer(sanity_data)
+> +    check_distro_vars_machine(sanity_data)
+> +
+> +addhandler check_layer_extra_sanity_eventhandler
+> +check_layer_extra_sanity_eventhandler[eventmask] =3D "bb.event.SanityChe=
+ck"
+> +python check_layer_extra_sanity_eventhandler() {
+> +    if bb.event.getName(e) =3D=3D "SanityCheck":
+> +        sanity_data =3D copy_data(e)
+> +        if e.generateevents:
+> +            sanity_data.setVar("SANITY_USE_EVENTS", "1")
+> +        layer_extra_check_sanity(sanity_data)
+> +        e.data.setVar("BB_INVALIDCONF", False)
+> +        bb.event.fire(bb.event.SanityCheckPassed(), e.data)
+> +
+> +    return
+> +}
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
