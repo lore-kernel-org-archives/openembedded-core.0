@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B04173D55
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EE0773D48
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 02:00:35 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so73369271pdb.0
+	Thu, 16 Apr 2015 02:00:36 +0000 (UTC)
+Received: by paboj16 with SMTP id oj16so71447140pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 19:00:36 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=TLnE26p0dU3c/mjQKQbPu1+OM9i38cOG+Utb3kU662s=;
-	b=vBqwR7xWeCenut4gXeQO/wsX1aqeFrrze5t371ZggnFukcnGBSnAbsXYxoX3fAXJ/k
-	lZJ7OG6CJOZINWx4havYh02KLGhC3rd24fVU/sig0XF+xvqYmpIIGjuYXrkoVxKMnUhi
-	1vSrlRd8XBoiersb0spfRY6IdwELT4/oHIUd3SLBUqhnCsk0pq5RK8QabIgNgon6G1vU
-	rCxtKiQbprhgFuzzs088CleqdDbRacfKfyLi9kza0Yi7cpf2m/e0yv9mXiQKRaUq6+K8
-	ujoefWRGdig3oPJEGu7Dc+r05qfWRr5tbmSPnnNVX+F2TAkXAwhiQztTCNMo5XRbj8hX
-	7AJw==
-X-Received: by 10.70.29.4 with SMTP id f4mr41823566pdh.23.1429149636584;
-	Wed, 15 Apr 2015 19:00:36 -0700 (PDT)
+	bh=Yc0lqgVeFtzYsUGz+39NPRT75SvGJIeKzvtl8UDZbJA=;
+	b=dxNLEYb7K+o+//qtfBEgNubYD9Y1XktvJcbbwqeqazUSj3E9x5+HDQBUazMRAvxgiT
+	aXybdcK3Iqi5p0lpA47M5iTKJ6PBW7WxzeTkXJd416Ih3cSex6dfmDb7UdaXkdfyz6sg
+	jZWvBVDLmplhI6zoyXycAt6uG+EMPHy/8Njy+79pOkbYngy8e7/Acc4J79X3BkMek3go
+	5GZdt5QNy7QhMvtNtuRHEVvWNo95P/vGLZmzItctD461pdgARhwZzgcLdEzeFbyls5HP
+	a7UUyRN8f8Fb/1UpgiElu8bB/j2WtMT9IIRZ/xaTiRcxzCw7EGyCBmamHDxUADxiefyV
+	s/GQ==
+X-Received: by 10.70.138.70 with SMTP id qo6mr23004434pdb.163.1429149637558;
+	Wed, 15 Apr 2015 19:00:37 -0700 (PDT)
 Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
 	[24.130.225.169]) by mx.google.com with ESMTPSA id
-	nt15sm5371563pdb.14.2015.04.15.19.00.35
+	nt15sm5371563pdb.14.2015.04.15.19.00.36
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 15 Apr 2015 19:00:35 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Apr 2015 19:00:19 -0700
-Message-Id: <8ac8e1d307ce60290b9487375ba080b85f54d18c.1429149397.git.raj.khem@gmail.com>
+Date: Wed, 15 Apr 2015 19:00:20 -0700
+Message-Id: <b0467366b90baa1a758d141e42128e13eeb74ba5.1429149397.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 References: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429149397.git.raj.khem@gmail.com>
 References: <cover.1429149397.git.raj.khem@gmail.com>
-Subject: [PATCH 02/10] coreutils: Add code to consider musl when selecting charsets
+Subject: [PATCH 03/10] openssh: Upgrade 6.7 - > 6.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,71 +48,113 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Apr 2015 02:00:36 -0000
 
-The real issue is in gnulib where it should be fixed
-but gnulib gets imported in source into various components
-and that may take a while. So lets fix the componnets versions
-and as/if they land in new gnulib with a fix we can take
-it off.
+Its a major releaseof openssh, should be fully
+compatible with 6.7 additionally works with musl
 
-Change-Id: I63bbcb7bc4d92cb1ec74bb4f4f5109a377060253
+Change-Id: I903d31247b8a318b9be1c21f764ffe56b5971ca9
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...need_charset_alias-when-building-for-musl.patch | 33 ++++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_8.23.bb      |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.23/0001-Unset-need_charset_alias-when-building-for-musl.patch
+ .../openssh/add-test-support-for-busybox.patch     | 38 +++++++++++++---------
+ .../openssh/{openssh_6.7p1.bb => openssh_6.8p1.bb} |  4 +--
+ 2 files changed, 25 insertions(+), 17 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_6.7p1.bb => openssh_6.8p1.bb} (97%)
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.23/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-core/coreutils/coreutils-8.23/0001-Unset-need_charset_alias-when-building-for-musl.patch
-new file mode 100644
-index 0000000..abdfa2a
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.23/0001-Unset-need_charset_alias-when-building-for-musl.patch
-@@ -0,0 +1,33 @@
-+From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 13 Apr 2015 17:02:13 -0700
-+Subject: [PATCH] Unset need_charset_alias when building for musl
-+
-+localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
-+which actually shoudl be fixed in gnulib and then all downstream
-+projects will get it eventually. For now we apply the fix to
-+coreutils
-+
-+Upstream-Status: Not Required
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ lib/gnulib.mk | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/gnulib.mk b/lib/gnulib.mk
-+index e1d74db..c0e92dd 100644
-+--- a/lib/gnulib.mk
-++++ b/lib/gnulib.mk
-+@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-+ 	  case '$(host_os)' in \
-+ 	    darwin[56]*) \
-+ 	      need_charset_alias=true ;; \
-+-	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
-++	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-+ 	      need_charset_alias=false ;; \
-+ 	    *) \
-+ 	      need_charset_alias=true ;; \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/coreutils/coreutils_8.23.bb b/meta/recipes-core/coreutils/coreutils_8.23.bb
-index 63df75e..70c04a5 100644
---- a/meta/recipes-core/coreutils/coreutils_8.23.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.23.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
-            file://man-decouple-manpages-from-build.patch \
-            file://remove-usr-local-lib-from-m4.patch \
-            file://fix-selinux-flask.patch \
-+           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-           "
+diff --git a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
+index 07af667..adc25c6 100644
+--- a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
++++ b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
+@@ -6,10 +6,12 @@ Adjust test cases to work with busybox.
+ Signed-off-by: Maxin B. John <maxin.john@enea.com>
+ Upstream-Status: Pending
  
- SRC_URI[tarball.md5sum] = "abed135279f87ad6762ce57ff6d89c41"
+---- a/regress/cipher-speed.sh	2012-06-30 07:08:53.000000000 +0200
+-+++ b/regress/cipher-speed.sh	2013-02-15 11:30:20.670022055 +0100
+-@@ -26,7 +26,7 @@
+- 		echon "$c/$m:\t"
++Index: openssh-6.8p1/regress/cipher-speed.sh
++===================================================================
++--- openssh-6.8p1.orig/regress/cipher-speed.sh
+++++ openssh-6.8p1/regress/cipher-speed.sh
++@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=0; for
++ 		printf "%-60s" "$c/$m:"
+  		( ${SSH} -o 'compression no' \
+  			-F $OBJ/ssh_proxy -2 -m $m -c $c somehost \
+ -			exec sh -c \'"dd of=/dev/null obs=32k"\' \
+@@ -17,8 +19,8 @@ Upstream-Status: Pending
+  		< ${DATA} ) 2>&1 | getbytes
+  
+  		if [ $? -ne 0 ]; then
+-@@ -42,7 +42,7 @@
+- 		echon "$c:\t"
++@@ -42,7 +42,7 @@ for c in $ciphers; do
++ 		printf "%-60s" "$c:"
+  		( ${SSH} -o 'compression no' \
+  			-F $OBJ/ssh_proxy -1 -c $c somehost \
+ -			exec sh -c \'"dd of=/dev/null obs=32k"\' \
+@@ -26,9 +28,11 @@ Upstream-Status: Pending
+  		< ${DATA} ) 2>&1 | getbytes
+  		if [ $? -ne 0 ]; then
+  			fail "ssh -1 failed with cipher $c"
+---- a/regress/transfer.sh	2003-09-04 06:54:40.000000000 +0200
+-+++ b/regress/transfer.sh	2013-02-15 11:25:34.666411185 +0100
+-@@ -18,7 +18,7 @@
++Index: openssh-6.8p1/regress/transfer.sh
++===================================================================
++--- openssh-6.8p1.orig/regress/transfer.sh
+++++ openssh-6.8p1/regress/transfer.sh
++@@ -15,7 +15,7 @@ for p in ${SSH_PROTOCOLS}; do
+  	for s in 10 100 1k 32k 64k 128k 256k; do
+  		trace "proto $p dd-size ${s}"
+  		rm -f ${COPY}
+@@ -37,20 +41,24 @@ Upstream-Status: Pending
+  			${SSH} -q -$p -F $OBJ/ssh_proxy somehost "cat > ${COPY}"
+  		if [ $? -ne 0 ]; then
+  			fail "ssh cat $DATA failed"
+---- a/regress/yes-head.sh	2005-11-28 06:41:03.000000000 +0100
+-+++ b/regress/yes-head.sh	2013-02-15 11:55:11.413715068 +0100
++Index: openssh-6.8p1/regress/yes-head.sh
++===================================================================
++--- openssh-6.8p1.orig/regress/yes-head.sh
+++++ openssh-6.8p1/regress/yes-head.sh
+ @@ -4,7 +4,7 @@
+  tid="yes pipe head"
+  
+- for p in 1 2; do
++ for p in ${SSH_PROTOCOLS}; do
+ -	lines=`${SSH} -$p -F $OBJ/ssh_proxy thishost 'sh -c "while true;do echo yes;done | _POSIX2_VERSION=199209 head -2000"' | (sleep 3 ; wc -l)`
+ +	lines=`${SSH} -$p -F $OBJ/ssh_proxy thishost 'sh -c "while true;do echo yes;done | _POSIX2_VERSION=199209 head -n 2000"' | (sleep 3 ; wc -l)`
+  	if [ $? -ne 0 ]; then
+  		fail "yes|head test failed"
+  		lines = 0;
+---- a/regress/key-options.sh	2008-07-04 09:08:58.000000000 +0200
+-+++ b/regress/key-options.sh	2013-02-15 12:06:05.109486098 +0100
+-@@ -54,7 +54,7 @@
++Index: openssh-6.8p1/regress/key-options.sh
++===================================================================
++--- openssh-6.8p1.orig/regress/key-options.sh
+++++ openssh-6.8p1/regress/key-options.sh
++@@ -54,7 +54,7 @@ for p in ${SSH_PROTOCOLS}; do
+  	fi
+  
+  	sed 's/.*/from="'"$f"'" &/' $origkeys >$authkeys
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb b/meta/recipes-connectivity/openssh/openssh_6.8p1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_6.8p1.bb
+index a272629..8e07e00 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.8p1.bb
+@@ -25,8 +25,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-SRC_URI[md5sum] = "3246aa79317b1d23cae783a3bf8275d6"
+-SRC_URI[sha256sum] = "b2f8394eae858dabbdef7dac10b99aec00c95462753e80342e530bbb6f725507"
++SRC_URI[md5sum] = "08f72de6751acfbd0892b5f003922701"
++SRC_URI[sha256sum] = "3ff64ce73ee124480b5bf767b9830d7d3c03bbcb6abe716b78f0192c37ce160e"
+ 
+ inherit useradd update-rc.d update-alternatives systemd
+ 
 -- 
 2.1.4
 
