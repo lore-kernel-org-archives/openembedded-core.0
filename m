@@ -1,40 +1,57 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C862605D2
+Return-Path: <bevenson@melinkcorp.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0122.outbound.protection.outlook.com [207.46.100.122])
+	by mail.openembedded.org (Postfix) with ESMTP id 36AFD65CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 10:31:16 +0000 (UTC)
-Received: by wgso17 with SMTP id o17so75858271wgs.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 03:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=VvZ9cD2ZvXW1efKvZ/PDLbpDsvwkLqX1S1LMJcpyr+I=;
-	b=jUg8HxoTnVeoKAmE0Qk5sS8VwdPVSUne0twvyxjrhN46iOhnEdww1VbntVjW/+kngu
-	wLfz/5+wsWDllW4YcEWSYlf7Ap+WXkQUr2AfRyTZ9ZBrYib30QA8cefeK+kVIsvBxBDt
-	o8iMAz8Fh6mb8xT6LZEdBGikIrOq/yxED8/Hnhxedg9xVkj9LyM5Bri0XUFa2seGldGv
-	w7AfNGynvCDA0TWEkZkKhV+5lEc5mNJ10yboCS1r+CbI2oO2TKrc6EJ9+nexJl0R6ABK
-	mF6x6kbEc8dtPJ6iyK/xSTTwxyl9NtnL72qcCgZpW1vZuJ0HOxShqVnNSuMFdURiLexK
-	sJpw==
-X-Received: by 10.180.188.193 with SMTP id gc1mr3849036wic.7.1429180277730;
-	Thu, 16 Apr 2015 03:31:17 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id hl8sm9778633wjb.38.2015.04.16.03.31.16
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Apr 2015 03:31:16 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 16 Apr 2015 12:31:33 +0200
-To: Chen Qi <Qi.Chen@windriver.com>
-Message-ID: <20150416103133.GA2341@jama>
-References: <cover.1429170493.git.Qi.Chen@windriver.com>
-	<c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
+	Thu, 16 Apr 2015 13:53:15 +0000 (UTC)
+Received: from BN3PR0501MB1089.namprd05.prod.outlook.com (25.160.113.11) by
+	BN3PR0501MB1411.namprd05.prod.outlook.com (25.160.117.145) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.136.25; Thu, 16 Apr 2015 13:53:15 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (25.160.113.12) by
+	BN3PR0501MB1089.namprd05.prod.outlook.com (25.160.113.11) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.136.25; Thu, 16 Apr 2015 13:53:14 +0000
+Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) by
+	BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) with
+	mapi id 15.01.0136.026; Thu, 16 Apr 2015 13:53:14 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: sysvinit upgrade woes
+Thread-Index: AdB2xX/0SWNQQOrTTmqRDk7i+oHZ/QBheQog
+Date: Thu, 16 Apr 2015 13:53:14 +0000
+Message-ID: <BN3PR0501MB1090F9B31066CC3E7AB72B5EBBE40@BN3PR0501MB1090.namprd05.prod.outlook.com>
+References: <BN3PR0501MB10906F787AE8EB17CD7558C6BBE60@BN3PR0501MB1090.namprd05.prod.outlook.com>
+In-Reply-To: <BN3PR0501MB10906F787AE8EB17CD7558C6BBE60@BN3PR0501MB1090.namprd05.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-vipre-scanned: 007371890099E4007372D6
+authentication-results: melinkcorp.com; dkim=none (message not signed)
+	header.d=none;
+x-originating-ip: [98.100.91.242]
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1089;
+	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1411; 
+x-forefront-antispam-report: BMV:1; SFV:NSPM;
+	SFS:(10019020)(6009001)(377454003)(13464003)(51704005)(164054003)(54356999)(76176999)(50986999)(86362001)(19580395003)(66066001)(46102003)(107886001)(19580405001)(76576001)(77156002)(62966003)(450100001)(15975445007)(1720100001)(74316001)(40100003)(2501003)(2656002)(2950100001)(4001410100001)(2900100001)(87936001)(102836002)(99286002)(33656002)(92566002)(122556002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1089;
+	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+x-microsoft-antispam-prvs: <BN3PR0501MB10894DC1CEAD356F66F01588BBE40@BN3PR0501MB1089.namprd05.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5002010)(5005006); SRVR:BN3PR0501MB1089; BCL:0;
+	PCL:0; RULEID:; SRVR:BN3PR0501MB1089; 
+x-forefront-prvs: 0548586081
 MIME-Version: 1.0
-In-Reply-To: <c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] layer_extra_sanity.bbclass: add new bbclass
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2015 13:53:14.2741 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1089
+X-OriginatorOrg: melinkcorp.com
+Subject: Re: sysvinit upgrade woes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,172 +64,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 10:31:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Apr 2015 13:53:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2015 at 03:49:19PM +0800, Chen Qi wrote:
-> Add a new bbclass for extra sanity check for layers.
->=20
-> These sanity checks include:
-> *) conf/machine and conf/distro don't appear in the same layer.
->    The rational is that distro specific changes and BSP specific changes
->    should be splitted into different layers for better maintenance.
->    The meta layer is an exception.
-> *) A BSP layer is not included if MACHINE is not set to any of the conf f=
-ile
->    it provides.
->    The rational is that BSP layer, by design, is supposed to make changes
->    specific for the BSPs it covers. Including a BSP layer which doesn't c=
-ontain
->    a conf file matching the MACHINE setting might cause potential problem.
+All,
 
-This is exactly the opposite of what the manual says.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Bryan Evenson
+> Sent: Tuesday, April 14, 2015 11:26 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] sysvinit upgrade woes
+>=20
+> I am using opkg for package management and sysvinit for init.  I am testi=
+ng a
+> large jump on an upgrade and I have been having a few issues.  One issue =
+I
+> have traced to sysvinit's upgrade, but I'm unsure how to remedy the
+> solution.
+>=20
+> At some point during the upgrade process, opkg records what the new
+> version is of all the packages getting installed.  However, when I upgrad=
+e
+> sysvinit causes sysvinit to restart before opkg has recorded which packag=
+es
+> were just installed.  So opkg thinks that it didn't upgrade anything even
+> though all packages were upgraded.  I verified that if I call "opkg upgra=
+de" for
+> all packages that require upgrade except for sysvinit that opkg correctly
+> records which packages were upgraded.  However, the end user doesn't
+> have that kind of control, so upgrading in this manner is not an option.
+>=20
+> Has anyone else seen a similar issue?  Any ideas on how to hold off sysvi=
+nit
+> from restarting until after opkg has finished recording its information?
+>=20
 
-BSP layer should be written in a way that it has no unwelcome
-side-effects for other MACHINES (by proper usage of MACHINE overrides).
+I've found the problem but don't yet have a good solution.  At the end of t=
+he sysvinit-inittab pkg_postinst script is the line:
 
-> *) Configuration files under conf/machine don't set distro specific varia=
-bles
->    such as DISTRO_FEATURES.
->    The rational is that machine configuration files should not set things
->    related to machine.
->=20
-> [YOCTO #5427]
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/layer_extra_sanity.bbclass | 91 +++++++++++++++++++++++++++=
-++++++
->  1 file changed, 91 insertions(+)
->  create mode 100644 meta/classes/layer_extra_sanity.bbclass
->=20
-> diff --git a/meta/classes/layer_extra_sanity.bbclass b/meta/classes/layer=
-_extra_sanity.bbclass
-> new file mode 100644
-> index 0000000..17671c3
-> --- /dev/null
-> +++ b/meta/classes/layer_extra_sanity.bbclass
-> @@ -0,0 +1,91 @@
-> +# Check conf/distro and conf/machine don't appear in the same layer
-> +def check_machine_distro_dir(sanity_data):
-> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
-> +    for bblayer in bblayers:
-> +        bblayer =3D bblayer.rstrip('/')
-> +        # skip checking of the meta layer, it's special
-> +        if bblayer.endswith('meta'):
-> +            continue
-> +        if os.path.exists(bblayer + '/' + 'conf/machine') and os.path.ex=
-ists(bblayer + '/' + 'conf/distro'):
-> +            bb.warn("Layer %s is providing both distro configurations an=
-d machine configurations. It's recommended that a layer should provide at m=
-ost one of them." % bblayer)
-> +
-> +# Check that distro variables such as DISTRO_FEATURES are not being set =
-in machine conf files
-> +def check_distro_vars_machine(sanity_data):
-> +    import re
-> +
-> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
-> +    distro_regex =3D re.compile("^DISTRO_.*=3D.*")
-> +    distro_var_match =3D False
-> +
-> +    for bblayer in bblayers:
-> +        bblayer =3D bblayer.rstrip('/')
-> +        if bblayer.endswith('meta'):
-> +            continue
-> +        # Check .inc and .conf files under machine/conf don't set DISTRO=
-_xxx vars
-> +        for dirpath, dirnames, filenames in os.walk('%s/conf/machine' % =
-bblayer):
-> +            for f in filenames:
-> +                fpath =3D os.path.join(dirpath, f)
-> +                if fpath.endswith(".inc") or fpath.endswith(".conf"):
-> +                    with open(fpath) as fopen:
-> +                        for line in fopen:
-> +                            if distro_regex.match(line):
-> +                                distro_var_match =3D True
-> +                                break
-> +                if distro_var_match:
-> +                    break
-> +            if distro_var_match:
-> +                break
-> +        if distro_var_match:
-> +            bb.warn("Layer %s is setting distro specific variables in it=
-s machine conf files." % bblayer)
-> +        distro_var_match =3D False
-> +
-> +# Check that a disto/bsp layer is being included but MACHINE or DISTRO i=
-s not set to any conf
-> +# file that it provides.
-> +#
-> +# The rational here is that if a BSP layer is supposed to have recipes o=
-r bbappend files that
-> +# are only specific for the BSPs it provides. So if MACHINE is not set t=
-o any of the
-> +# conf/machine/*.conf file in that layer, very likely the user is accide=
-ntly including a BSP layer.
-> +# The same logic goes for distro layers.
-> +def check_unneedded_bsp_distro_layer(sanity_data):
-> +    machine =3D sanity_data.getVar('MACHINE', True)
-> +    distro =3D sanity_data.getVar('DISTRO', True)
-> +    bblayers =3D sanity_data.getVar('BBLAYERS', True).split()
-> +
-> +    for bblayer in bblayers:
-> +        bblayer =3D bblayer.rstrip('/')
-> +        if bblayer.endswith('meta'):
-> +            continue
-> +        is_bsp =3D os.path.exists(bblayer + '/' + 'conf/machine')
-> +        is_distro =3D os.path.exists(bblayer + '/' + 'conf/distro')
-> +        if is_bsp and not is_distro:
-> +            if not os.path.exists(bblayer + '/' + 'conf/machine/' + mach=
-ine + '.conf'):
-> +                bb.warn("BSP layer %s is included but MACHINE is not set=
- to any conf file it provides." % bblayer)
-> +        elif not is_bsp and is_distro:
-> +           if not os.path.exists(bblayer + '/' + 'conf/distro/' + distro=
- + '.conf'):
-> +                bb.warn("Distro layer %s is included but DISTRO is not s=
-et to any conf file it provides." % bblayer)
-> +
-> +# Create a copy of the datastore and finalise it to ensure appends and=
-=20
-> +# overrides are set - the datastore has yet to be finalised at ConfigPar=
-sed
-> +def copy_data(e):
-> +    sanity_data =3D bb.data.createCopy(e.data)
-> +    sanity_data.finalize()
-> +    return sanity_data
-> +
-> +def layer_extra_check_sanity(sanity_data):
-> +    check_machine_distro_dir(sanity_data)
-> +    check_unneedded_bsp_distro_layer(sanity_data)
-> +    check_distro_vars_machine(sanity_data)
-> +
-> +addhandler check_layer_extra_sanity_eventhandler
-> +check_layer_extra_sanity_eventhandler[eventmask] =3D "bb.event.SanityChe=
-ck"
-> +python check_layer_extra_sanity_eventhandler() {
-> +    if bb.event.getName(e) =3D=3D "SanityCheck":
-> +        sanity_data =3D copy_data(e)
-> +        if e.generateevents:
-> +            sanity_data.setVar("SANITY_USE_EVENTS", "1")
-> +        layer_extra_check_sanity(sanity_data)
-> +        e.data.setVar("BB_INVALIDCONF", False)
-> +        bb.event.fire(bb.event.SanityCheckPassed(), e.data)
-> +
-> +    return
-> +}
-> --=20
-> 1.9.1
->=20
-> --=20
+	kill -HUP 1
+
+This kills init before opkg has finished doing its job.  On my system, I've=
+ added a .bbappend with a pk_postinst script as follows for items that requ=
+ire a reboot after installation:
+
+    touch /var/run/reboot-required
+    echo "${PN}" >>/var/run/reboot-required.pkgs
+
+After my system performs firmware upgrade, it checks if /var/run/reboot-req=
+uired exists and then reboots the system.  So on my system, I changed the p=
+kg_postinst script for sysvinit-inittab to replace the "kill -HUP 1" with t=
+he reboot required notations.
+
+Is there some suitable solution that would be reasonable to change in the s=
+ysvinit-inittab recipe that would work for other people?
+
+Regards,
+Bryan
+
+> Thanks,
+> Bryan
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
