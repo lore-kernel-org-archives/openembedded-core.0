@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 94E9173D3A
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id AA1AF73D5A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 02:00:40 +0000 (UTC)
-Received: by pabtp1 with SMTP id tp1so71314589pab.2
+	Thu, 16 Apr 2015 02:00:42 +0000 (UTC)
+Received: by paboj16 with SMTP id oj16so71450002pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 19:00:41 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=E7poWkxIFeu6mcU9X79Vz/jbCzKj+DNaUdXXe9vmzng=;
-	b=WxmsKdwNmJ//SjPioijDdXWc+WbXknDNNOxxk1QZ/PaejLC2EAwrGpC5PnG/dSW1ds
-	4dGXwdtF0v00tOlJgngOmE4M9ZL60nTmiWlrRWCWmn87V7gBiGzEUeRmoISqf6F607Lh
-	7XjlVYdu54GSHzWB4jWxWEkGG8DK0UtCejXs002rBNHPq8drY+imhNPTnDL395RTDDye
-	RRtjuGzkHQ01d21GMTLWGkLby7frEtlNgt3h+7luq/n5V+boTE0l9LX+njz5qubK62Mm
-	Xy3gg/3cHsDNz8NUdEc8Bfyht2Cf411NKr3IMvvpRB1EtuN9V7VSJBVOXXTUV76lcXYD
-	nUsg==
-X-Received: by 10.68.88.196 with SMTP id bi4mr52355015pbb.130.1429149641795;
-	Wed, 15 Apr 2015 19:00:41 -0700 (PDT)
+	bh=E5lo1Y+C6HcUGxozD8tJlmJzDpdSbNdkt+eFA4MaQWQ=;
+	b=emD8PpgUstk88kL5q0pYT07qHJlE3VGj4+lZ8fDJaxiHhgtngUWvdWRsHzP3izDZSS
+	ugnvgs298OAEv23vsKcxml/GSr11hk9R2UuhU5ouofxHsJUO8Kk2UiNI4RNzI77uYEoZ
+	/kVlhgbNWLF10RecuqEDV8HAe2TcVLlFovfRxeLSkheBoL9jTuVg3RXDiWdBfYm5Bc7j
+	blUSXbGB8YfgCoQ8DDNZ90CpZhPME6j0i59UtoQ3EfgRhGn5jrjZedjvbgt88I/JmLuo
+	v4XNyHL8yZUCFO0QinkwZnRVK4yRedI1wrk4yA0AWkT6BOo8wUjhCOIKFdYFmfH7Nmdz
+	n47A==
+X-Received: by 10.68.221.102 with SMTP id qd6mr50996606pbc.119.1429149643694; 
+	Wed, 15 Apr 2015 19:00:43 -0700 (PDT)
 Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
 	[24.130.225.169]) by mx.google.com with ESMTPSA id
-	nt15sm5371563pdb.14.2015.04.15.19.00.40
+	nt15sm5371563pdb.14.2015.04.15.19.00.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 15 Apr 2015 19:00:41 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Apr 2015 19:00:24 -0700
-Message-Id: <28b73d3ec5da07971516b544689ffd9fee43ae06.1429149397.git.raj.khem@gmail.com>
+Date: Wed, 15 Apr 2015 19:00:26 -0700
+Message-Id: <cde033e3d03fd2dcacf356c89d563bb09a483785.1429149397.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 References: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429149397.git.raj.khem@gmail.com>
 References: <cover.1429149397.git.raj.khem@gmail.com>
-Subject: [PATCH 07/10] libnfsidmap: Include sys/types.h for u_int32_t
+Subject: [PATCH 09/10] mtd-utils: update to latest and fix static inlining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,73 +48,99 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Apr 2015 02:00:42 -0000
 
-Exposed using musl
+use static storage class instead of extern for inline functions
+and remove duplicate definitions as a result
 
-Change-Id: Ia155850b3dfe62cd7d10b207b94ff3cc1f0244fc
+Change-Id: I72e8c5f19dff656c18f719d1e9e2ca697c9a856f
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...clude-sys-types.h-for-getting-u_-typedefs.patch | 27 ++++++++++++++++++++++
- .../Set_nobody_user_group.patch                    |  0
- .../{files => libnfsidmap}/fix-ac-prereq.patch     |  0
- .../nfs-utils/libnfsidmap_0.25.bb                  |  1 +
- 4 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
- rename meta/recipes-connectivity/nfs-utils/{files => libnfsidmap}/Set_nobody_user_group.patch (100%)
- rename meta/recipes-connectivity/nfs-utils/{files => libnfsidmap}/fix-ac-prereq.patch (100%)
+ ...emove-duplicate-hashtable_iterator_value-.patch | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
 new file mode 100644
-index 0000000..4ac5290
+index 0000000..2d36158
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
-@@ -0,0 +1,27 @@
-+From a5e95a42e7bceddc9ecad06694c1a0588f4bafc8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
+@@ -0,0 +1,64 @@
++From b856ff35c20124ceae40bbc4d32584df47618c96 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 14 Apr 2015 07:22:47 -0700
-+Subject: [PATCH] include sys/types.h for getting u_* typedefs
++Date: Wed, 25 Feb 2015 09:28:26 +0000
++Subject: [PATCH] hashtable: Remove duplicate hashtable_iterator_value/hashtable_iterator_key
 +
-+Upstream-Status: Pending
++gcc5 is defaulting to gnu11 instead of gnu89 like previous versions
++as a result the semantics of 'extern inline' changes where in gnu89 for 'extern inline' no external
++visible function is generated,in c99 'external inline' generates externally visible function
++there is no equivalent in c99+ because redefinitions arent allowed
++but 'static inline' remains same for for c89 and c99+, thats why we change the semantics
++so we make the functions static inline, and achieve the same effect
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: pending
++
 +---
-+ cfg.h | 1 +
-+ 1 file changed, 1 insertion(+)
++ mkfs.ubifs/hashtable/hashtable_itr.c | 12 ------------
++ 1 file changed, 12 deletions(-)
 +
-+diff --git a/cfg.h b/cfg.h
-+index d4d4cab..fe49e8f 100644
-+--- a/cfg.h
-++++ b/cfg.h
-+@@ -33,6 +33,7 @@
-+ #ifndef _CONF_H_
-+ #define _CONF_H_
++Index: git/mkfs.ubifs/hashtable/hashtable_itr.h
++===================================================================
++--- git.orig/mkfs.ubifs/hashtable/hashtable_itr.h
+++++ git/mkfs.ubifs/hashtable/hashtable_itr.h
++@@ -28,7 +28,7 @@ hashtable_iterator(struct hashtable *h);
++ /* hashtable_iterator_key
++  * - return the value of the (key,value) pair at the current position */
 + 
-++#include <sys/types.h>
-+ #include "queue.h"
++-extern inline void *
+++static inline void *
++ hashtable_iterator_key(struct hashtable_itr *i)
++ {
++     return i->e->k;
++@@ -37,7 +37,7 @@ hashtable_iterator_key(struct hashtable_
++ /*****************************************************************************/
++ /* value - return the value of the (key,value) pair at the current position */
 + 
-+ struct conf_list_node {
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/files/Set_nobody_user_group.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch
-similarity index 100%
-rename from meta/recipes-connectivity/nfs-utils/files/Set_nobody_user_group.patch
-rename to meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch
-diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch
-similarity index 100%
-rename from meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch
-rename to meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch
-diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-index fcc9e87..5b578e9 100644
---- a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-+++ b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d9c6a2a0ca6017fda7cd905ed2739b37"
- SRC_URI = "http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/${BPN}-${PV}.tar.gz \
-            file://fix-ac-prereq.patch \
-            file://Set_nobody_user_group.patch \
-+           file://0001-include-sys-types.h-for-getting-u_-typedefs.patch \
-           "
++-extern inline void *
+++static inline void *
++ hashtable_iterator_value(struct hashtable_itr *i)
++ {
++     return i->e->v;
++Index: git/mkfs.ubifs/hashtable/hashtable_itr.c
++===================================================================
++--- git.orig/mkfs.ubifs/hashtable/hashtable_itr.c
+++++ git/mkfs.ubifs/hashtable/hashtable_itr.c
++@@ -35,18 +35,6 @@ hashtable_iterator(struct hashtable *h)
++ }
++ 
++ /*****************************************************************************/
++-/* key      - return the key of the (key,value) pair at the current position */
++-/* value    - return the value of the (key,value) pair at the current position */
++-
++-void *
++-hashtable_iterator_key(struct hashtable_itr *i)
++-{ return i->e->k; }
++-
++-void *
++-hashtable_iterator_value(struct hashtable_itr *i)
++-{ return i->e->v; }
++-
++-/*****************************************************************************/
++ /* advance - advance the iterator to the next element
++  *           returns zero if advanced to end of table */
++ 
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 12daffe..f991ea1 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -13,6 +13,7 @@ SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+            file://fix-armv7-neon-alignment.patch \
++           file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \
+ "
  
- SRC_URI[md5sum] = "2ac4893c92716add1a1447ae01df77ab"
+ S = "${WORKDIR}/git/"
 -- 
 2.1.4
 
