@@ -1,45 +1,29 @@
-Return-Path: <pascal.bach@siemens.com>
-X-Greylist: delayed 433 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 16 Apr 2015 07:49:14 UTC
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 54DEB73D45
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 07:49:13 +0000 (UTC)
-Received: from mail2.sbs.de (localhost [127.0.0.1])
-	by gecko.sbs.de (8.14.3/8.14.3) with ESMTP id t3G7fv4D029821;
-	Thu, 16 Apr 2015 09:41:57 +0200
-Received: from DEFTHW99ERMMSX.ww902.siemens.net
-	(defthw99ermmsx.ww902.siemens.net [139.22.70.142])
-	by mail2.sbs.de (8.14.3/8.14.3) with ESMTP id t3G7fs7v003838
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C7E57226D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Apr 2015 08:32:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3G8WmJP013200
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Apr 2015 09:41:54 +0200
-Received: from DEFTHW99ERTMSX.ww902.siemens.net (139.22.70.200) by
-	DEFTHW99ERMMSX.ww902.siemens.net (139.22.70.142) with Microsoft SMTP
-	Server (TLS) id 14.3.235.1; Thu, 16 Apr 2015 09:41:54 +0200
-Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.16]) by
-	DEFTHW99ERTMSX.ww902.siemens.net ([139.22.70.200]) with mapi id
-	14.03.0235.001; Thu, 16 Apr 2015 09:41:53 +0200
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Nikolay Dimitrov <picmaster@mail.bg>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-Thread-Topic: [yocto] Move device tree generation from include file to bbclass
-Thread-Index: AQHQd5cEbjf/yJkqmESlI0boWToIP51PQA3Q
-Date: Thu, 16 Apr 2015 07:41:52 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E616B7C40A@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
-	<552E63F1.9090406@windriver.com>	<552E824C.5080603@mail.bg>
-	<CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
-	<552E8DD9.6090202@mail.bg>
-In-Reply-To: <552E8DD9.6090202@mail.bg>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.52]
+	Thu, 16 Apr 2015 01:32:48 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 16 Apr 2015 01:32:56 -0700
+Message-ID: <552F73AE.4070403@windriver.com>
+Date: Thu, 16 Apr 2015 16:32:46 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, Patches and
-	discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Move device tree generation from include file to bbclass
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1429002519.git.liezhi.yang@windriver.com>	
+	<39bde4872c0287e3617e2e8af5768903e1d33cfc.1429002519.git.liezhi.yang@windriver.com>
+	<1429130322.6976.154.camel@linuxfoundation.org>
+In-Reply-To: <1429130322.6976.154.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] libxml2: fix python path and add libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,98 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 07:49:14 -0000
-Content-Language: de-DE
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 16 Apr 2015 08:32:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Bruce, Hi Nikolay
 
-> >>>>
-> >>>
-> >>> Adding oe-core, since that's the right place to have a discussion
-> >>> like this.
 
-Thanks I'm never sure where to ask what :)
-> >>>
-> >>>> As ARM now also moved to device tree it look like in future we
-> will
-> >>>> have more kernels that are using device tree then ones that are
-> >>>> not.
-> >>>
-> >>>
-> >>> True, but it has been like this for quite some time now :)
-> >>>
-> >>>> As far as I understand currently the generation of device trees is
-> >>>> controlled via KERNEL_DEVICETREE and is handled in via an include
-> >>>> file recipes-kernel/linux/linux-dtb.inc.
-> >>>>
-> >>>> I was thinking about moving this include into a class so it
-> becomes
-> >>>> easier to use. Before I dive into implementing something I would
-> >>>> like some feedback from the community.
-> >>>
-> >>>
-> >>> The big trick with changing anything like this is compatibility
-> with
-> >>> existing recipes. Whatever we do, existing recipes and layers
-> >>> shouldn't be broken .. or if they are broken, there should be a
-> >>> compelling technical reason to do so.
-> >>>
-> >>>>
-> >>>> I have the following variant in mind.
-> >>>>
-> >>>> Add the device tree generation to the current kernel.bbclass (or
-> >>>> let kernel.bblcass inherit from a kernel-dtb.bbclass).
-> >>>> This way all kernels would automatically be DT enabled. The class
-> >>>> would check if KERNEL_DEVICETREE is set and generate device trees
-> >>>> based on this information. For boards that don't have
-> >>>> KERNEL_DEVICETREE set the class would do nothing and the behavior
-> >>>> is like before. The advantage I see with this approach is that the
-> >>>> only thing a user needs to do is to set KERNEL_DEVICETREE in the
-> >>>> board and make sure the device trees are available in the kernel
-> >>>> they like to build.
-> >>>
-> >>>
-> >>> That's pretty much the experience that most users have now, since
-> >>> there's nearly always a kernel recipe created, that recipe includes
-> >>> linux-dtb.inc, and sets KERNEL_DEVICETREE.
-> >>
-> >>
-> >> As far as I understood, Pascal's idea is to remove the need for user
-> >> recipes to include linux-dtb.inc, and provide this functionality via
-> >> inheritance.
-> >
-> > That is obvious. My questions are around "why". There's no big
-> > technical advantage, and if you remove that existing file, you break
-> > existing recipes. Which means you need to leave a stub in place.
-> >
-> > So without a technical advantage, it's churn for the sake of churn.
->=20
-> Well, removing redundancy and simplifying users' recipes could be
-> considered an advantage. Also, as the contents of linux-dtb.inc are
-> going to be moved to bbclass, the file can be left empty, later
-> maintainers remove the extra line from all users' recipes in following
-> commits. I don't see breaking as an option.
+On 04/16/2015 04:38 AM, Richard Purdie wrote:
+> On Tue, 2015-04-14 at 02:08 -0700, Robert Yang wrote:
+>> We have libxml2-python for native and nativesdk, but don't have it for
+>> target, and can't find the reason from the git log, libxml2-python is
+>> widely used, after looked into it's configure.in, we can add it
+>> by PACKAGECONFIG.
+>>
+>> The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
+>> acted as work becase it's conigure can check automatically, python is in
+>> ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
+>> ${PYTHON}.
+>>
+>> Add python to PACKAGECONFIG, since createrepo rdepends on
+>> libxml2-python, otherwise the target createrepo can't work.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>
+> Something here caused a load of failures:
+>
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=90b8d406488b0a3c42b2a745526e5b1273d8a982
+>
+> e.g. specifically http://errors.yoctoproject.org/Errors/Details/9808/
 
-I completely agree that it is not worth to breaking existing recipes becaus=
-e of that.
-But I think the option with an empty linux-dtb.inc is acceptable.
+Sorry, I updated it in the repo:
 
-> >>> Everything else happens to build and package the device tree.
-> >>>
-> >>> Was there something specifically that was causing issues with the
-> >>> current way of building them ?
+   git://git.openembedded.org/openembedded-core-contrib rbt/6fixes
 
-There was no specific issue except that it feels like an unnecessary includ=
-es.
-And it seems a bit odd to me that most of the work of building the kernel i=
-s done in bbclasses,=20
-while just the dtb handling is done with an include. But of course it still=
- is more of a cosmetic=20
-change than a real technical necessity.
+It was because of this line:
+PACKAGECONFIG_linuxstdbase ??= ""
 
-Regards
-Pascal
+We need remove it to use:
+PACKAGECONFIG ??= "python"
 
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
