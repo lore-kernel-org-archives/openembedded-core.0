@@ -1,40 +1,23 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E25D073D45
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E6F5773D40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 17:32:16 +0000 (UTC)
-Received: by qcpm10 with SMTP id m10so10332246qcp.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 10:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=UYnUawiLOuXOjqKydLG+MF+A2Y7X5OGwDSwuQw7RaVA=;
-	b=Hhs8m+4+leLFEkpVgzyg4DF9C48cuDyRGpRV7veZSjhIFIGlQDoQZ7M9JfNTYdVPw8
-	19P3o9ax6aM+TBxWTuzjUq2Q8p0Schff1hZtK1ZBNCnns00Zrqg61mrCTFzjnsjyhMvA
-	8miv43p3nKiX+Apdcj+413mJd+px9gmyZp8yDok35I7pwiBM4FjZRvr9SkgZ9JWehoSp
-	4rqf6spUEgREJCHvHccJ3hrudYEqrl0LkNGxasB7zXNQmA8X4r3oKrbrBuVvp3sPnWXc
-	fpm3dVDHrwQpkrr3RSRw/Um7zYYY/9cu3OrpY8bKRpUI4RCf3n7M+c2FnJyTm5el4lJF
-	ugbQ==
-X-Received: by 10.55.21.224 with SMTP id 93mr66482379qkv.89.1429205537185;
-	Thu, 16 Apr 2015 10:32:17 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.34 with HTTP; Thu, 16 Apr 2015 10:31:57 -0700 (PDT)
-In-Reply-To: <54CADCE5.4050009@windriver.com>
-References: <cover.1419500687.git.Chong.Lu@windriver.com>
-	<d63d5ff53d6f64ac6d4a72c770283a21e0750112.1419500687.git.Chong.Lu@windriver.com>
-	<54CADCE5.4050009@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 16 Apr 2015 10:31:57 -0700
-X-Google-Sender-Auth: QFkl2flnOsr5_yg9U3xoP1wUC9o
-Message-ID: <CABcZANkX1BoFvFQ_AzvBtRCyvSyrWP9+-9eJkTz1a_2kBU1axQ@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] check-layers.py: some checks for distro and bsp layer
+	Thu, 16 Apr 2015 17:52:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Apr 2015 10:52:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,589,1422950400"; d="scan'208";a="681267254"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2015 10:52:39 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Apr 2015 09:45:29 +0000
+Message-Id: <1ca6d1e0276189ecb640f08ce5afee34a788c163.1429177203.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1429177203.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1429177203.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] python3-native: Fix pip install issue due to unclean build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,42 +30,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 17:32:17 -0000
-Content-Type: multipart/alternative; boundary=001a1147b1525ae4380513dad890
+X-List-Received-Date: Thu, 16 Apr 2015 17:52:39 -0000
 
---001a1147b1525ae4380513dad890
-Content-Type: text/plain; charset=UTF-8
+When installing python3-native sometimes pips default build
+directory (which is on the host and is user dependant) is left unclean,
+due to this, when python3-core is being installed it tries to use
+the same directory producing an error, this explicitly removes
+what the previous installation might have left behind, fixing the issue.
 
-On Thu, Jan 29, 2015 at 6:22 PM, Chong Lu <Chong.Lu@windriver.com> wrote:
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ .../python/python3-native_3.4.2.bb                 |  1 +
+ .../python3/pip_build_directory_unclean.patch      | 28 ++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
 
-> ping
-
-
-While I like the concept, re-implementing the file parsing is not ideal. It
-also traverses the filesystem rather than obeying the layer BBFILES. There
-are a number of issues with that.
+diff --git a/meta/recipes-devtools/python/python3-native_3.4.2.bb b/meta/recipes-devtools/python/python3-native_3.4.2.bb
+index d98a278..37399be 100644
+--- a/meta/recipes-devtools/python/python3-native_3.4.2.bb
++++ b/meta/recipes-devtools/python/python3-native_3.4.2.bb
+@@ -26,6 +26,7 @@ file://makerace.patch \
+ ${DISTRO_SRC_URI} \
+ file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
+ file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
++file://pip_build_directory_unclean.patch \
+ "
+ SRC_URI[md5sum] = "36fc7327c02c6f12fa24fc9ba78039e3"
+ SRC_URI[sha256sum] = "1c6d9682d145c056537e477bbfa060ce727f9edd38df1827e0f970dcf04b2def"
+diff --git a/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch b/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+new file mode 100644
+index 0000000..c0c4617
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+@@ -0,0 +1,28 @@
++Index: Python-3.4.2/Lib/ensurepip/__init__.py
++===================================================================
++--- Python-3.4.2.orig/Lib/ensurepip/__init__.py
+++++ Python-3.4.2/Lib/ensurepip/__init__.py
++@@ -3,6 +3,7 @@ import os.path
++ import pkgutil
++ import sys
++ import tempfile
+++import pwd
++ 
++ 
++ __all__ = ["version", "bootstrap"]
++@@ -36,6 +37,15 @@ def _run_pip(args, additional_paths=None
++     if additional_paths is not None:
++         sys.path = additional_paths + sys.path
++ 
+++    # Explicitly make sure pip build directory was left clean
+++    user = pwd.getpwuid(os.getuid())[0]
+++    if os.path.exists("/tmp/pip_build_" + user + "/pip-delete-this-directory.txt"):
+++        os.remove("/tmp/pip_build_" + user + "/pip-delete-this-directory.txt")
+++        try:
+++            os.rmdir("/tmp/pip_build_" + user + "/")
+++        except OSError:
+++            print("Error: Pip build directory (%s) was left unclean, make sure it is clean before continuing\n" % ("/tmp/pip_build_" + user + "/"))
+++
++     # Install the bundled software
++     import pip
++     pip.main(args)
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.8.4.5
 
---001a1147b1525ae4380513dad890
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jan 29, 2015 at 6:22 PM, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">ping</blockquote></div=
-><br>While I like the concept, re-implementing the file parsing is not idea=
-l. It also traverses the filesystem rather than obeying the layer BBFILES. =
-There are a number of issues with that.<br>-- <br><div class=3D"gmail_signa=
-ture">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake=
-, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Enginee=
-r, Mentor Graphics</div>
-</div></div>
-
---001a1147b1525ae4380513dad890--
