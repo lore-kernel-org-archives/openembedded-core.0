@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B420E73D3A
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E3DF73D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 02:00:38 +0000 (UTC)
-Received: by pabsx10 with SMTP id sx10so71226122pab.3
+	Thu, 16 Apr 2015 02:00:39 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so71226615pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 19:00:39 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=mz9kBP70YKLrrxlE8WHb2jHhhENXAz1rwyR8xETsD/E=;
-	b=ZXM2HJBDVF99SWf94mMH2hAYwoKzmi8DEHKipDb9SFGD73iaUR4X7PHiRT55jzTszt
-	gTmQ2FVK51Zx/gq3fEdmtTDa9SUb0V+IWbehIUutVJB/uobke3kRIc6ZjLID/9nj86c9
-	HiFc6NYz+KqNmTvbvpgs3GHlKXmiXDHo48mp++aCaGJcVlW8eovZjUJzWDLVvONhAXNJ
-	dEgTAhZpuAqPp3I2EoxP+CBGChkl5ARWX7/0g/l1SBZ+tWX5JBknuzbk0B1y6M5ujQVi
-	rwcY6xM9BP4f02xaadT0t0imI+lxcFGloiZp6zfE9qs7sz0rbog1z6tp/YkyqkOnRQVj
-	Yj3A==
-X-Received: by 10.68.114.194 with SMTP id ji2mr52318527pbb.132.1429149639829; 
-	Wed, 15 Apr 2015 19:00:39 -0700 (PDT)
+	bh=Nk805gTFdol9/LRhPUh3g6KJlGaVEbRoAHa5v3kndaU=;
+	b=AiNalPEbFzGL4VL34w32ksayq/NTWgz5oggma/2F7Z0au7AuLQKgfLtiMy0N402ae4
+	omBsyRkCq/QsXzLxhOyl0srrCUGmZFLaDZc5gRodFcEWCFPUVv6ABV/Fx0uoWpJMohUN
+	ALflDmolBCRsYDqM1St/Y1rZTskqNlBHd25KuYTZL36ptMS+kqySivw/FUrdGL5awTVF
+	UJxFO3gTZWo2t+d6Fp0ijiuUXP624yXOwQedqreytpqCXsMEhL0icMlII6Rm7TTbwaP5
+	kpHh4uv2VBKu/NMfcQgw7K+QBmRuJ5mWFUCsrGE5KJpKiFC97NOlHRBcl3AQtmfp7qUe
+	pxBg==
+X-Received: by 10.70.103.74 with SMTP id fu10mr51055822pdb.2.1429149640790;
+	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
 Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
 	[24.130.225.169]) by mx.google.com with ESMTPSA id
-	nt15sm5371563pdb.14.2015.04.15.19.00.38
+	nt15sm5371563pdb.14.2015.04.15.19.00.39
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 15 Apr 2015 19:00:39 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Apr 2015 19:00:22 -0700
-Message-Id: <ddca1087d411622d8b48c6b36139c2c6fe75f075.1429149397.git.raj.khem@gmail.com>
+Date: Wed, 15 Apr 2015 19:00:23 -0700
+Message-Id: <20976fc37662bea36f1f3298e782ce6f7efd8efa.1429149397.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 References: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429149397.git.raj.khem@gmail.com>
 References: <cover.1429149397.git.raj.khem@gmail.com>
-Subject: [PATCH 05/10] distcc:Include missing fcntl.h in zeroconf
+Subject: [PATCH 06/10] parted: Add patches to fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +46,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 02:00:40 -0000
+X-List-Received-Date: Thu, 16 Apr 2015 02:00:41 -0000
 
-This is exposed by musl
+Theese patches are actually generic but expose issues
+when compiling on musl
 
-Change-Id: I39ea3a66135d33ed0a9abbd94d3c0f39120e3586
+Change-Id: Ib5312af280d2c399334c5645fbea215737933ae5
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/distcc/distcc_3.1.bb         |  1 +
- .../files/0001-zeroconf-Include-fcntl.h.patch      | 29 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
+ .../0001-Include-fcntl.h-in-platform_defs.h.patch  | 29 +++++++++++++++++++
+ ...need_charset_alias-when-building-for-musl.patch | 33 ++++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb         |  2 ++
+ 3 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
+ create mode 100644 meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
-index ad0e94f..e4b9313 100644
---- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
-@@ -19,6 +19,7 @@ RRECOMMENDS_${PN} = "avahi-daemon"
- 
- SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
-            file://separatebuilddir.patch \
-+           file://0001-zeroconf-Include-fcntl.h.patch \
-            file://default \
-            file://distccmon-gnome.desktop \
-            file://distcc \
-diff --git a/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch b/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
+diff --git a/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch b/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
 new file mode 100644
-index 0000000..b17ec9c
+index 0000000..b0376ce
 --- /dev/null
-+++ b/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
++++ b/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
 @@ -0,0 +1,29 @@
-+From 8331fc4759d809512f404e7a27f817ad6d616450 Mon Sep 17 00:00:00 2001
++From d78dd087c4ec4715aab5fe115668e726046ecd76 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 13 Apr 2015 18:00:33 -0700
-+Subject: [PATCH] zeroconf: Include fcntl.h
++Date: Mon, 13 Apr 2015 18:16:05 -0700
++Subject: [PATCH] Include fcntl.h in /platform_defs.h
 +
-+We need it for getting deinitions for O_* e.g. O_CREAT
++exposed when compiling using musl
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/zeroconf.c | 1 +
++ libparted/fs/xfs/platform_defs.h | 1 +
 + 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/zeroconf.c b/src/zeroconf.c
-+index 414ddc4..31bd33f 100644
-+--- a/src/zeroconf.c
-++++ b/src/zeroconf.c
-+@@ -33,6 +33,7 @@
-+ #include <unistd.h>
++diff --git a/libparted/fs/xfs/platform_defs.h b/libparted/fs/xfs/platform_defs.h
++index 2b55752..32bd3d3 100644
++--- a/libparted/fs/xfs/platform_defs.h
+++++ b/libparted/fs/xfs/platform_defs.h
++@@ -42,6 +42,7 @@
 + #include <stdlib.h>
-+ #include <limits.h>
++ #include <string.h>
++ #include <unistd.h>
 ++#include <fcntl.h>
++ #include <sys/param.h>
++ #include <sys/types.h>
 + 
-+ #include <avahi-common/domain.h>
-+ #include <avahi-common/error.h>
 +-- 
 +2.1.4
 +
+diff --git a/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
+new file mode 100644
+index 0000000..abdfa2a
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
+@@ -0,0 +1,33 @@
++From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 13 Apr 2015 17:02:13 -0700
++Subject: [PATCH] Unset need_charset_alias when building for musl
++
++localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
++which actually shoudl be fixed in gnulib and then all downstream
++projects will get it eventually. For now we apply the fix to
++coreutils
++
++Upstream-Status: Not Required
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/gnulib.mk | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/gnulib.mk b/lib/gnulib.mk
++index e1d74db..c0e92dd 100644
++--- a/lib/gnulib.mk
+++++ b/lib/gnulib.mk
++@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
++ 	  case '$(host_os)' in \
++ 	    darwin[56]*) \
++ 	      need_charset_alias=true ;; \
++-	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
+++	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
++ 	      need_charset_alias=false ;; \
++ 	    *) \
++ 	      need_charset_alias=true ;; \
++-- 
++2.1.4
++
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index e225769..5d34749 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -11,6 +11,8 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://syscalls.patch \
+            file://fix-doc-mandir.patch \
+            file://fix-compile-failure-while-dis.patch \
++           file://0001-Include-fcntl.h-in-platform_defs.h.patch \
++           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://run-ptest \
+            file://Makefile \
+ "
 -- 
 2.1.4
 
