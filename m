@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E3DF73D3A
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B456E73D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 02:00:39 +0000 (UTC)
-Received: by pabsx10 with SMTP id sx10so71226615pab.3
+	Thu, 16 Apr 2015 02:00:37 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so73370405pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Nk805gTFdol9/LRhPUh3g6KJlGaVEbRoAHa5v3kndaU=;
-	b=AiNalPEbFzGL4VL34w32ksayq/NTWgz5oggma/2F7Z0au7AuLQKgfLtiMy0N402ae4
-	omBsyRkCq/QsXzLxhOyl0srrCUGmZFLaDZc5gRodFcEWCFPUVv6ABV/Fx0uoWpJMohUN
-	ALflDmolBCRsYDqM1St/Y1rZTskqNlBHd25KuYTZL36ptMS+kqySivw/FUrdGL5awTVF
-	UJxFO3gTZWo2t+d6Fp0ijiuUXP624yXOwQedqreytpqCXsMEhL0icMlII6Rm7TTbwaP5
-	kpHh4uv2VBKu/NMfcQgw7K+QBmRuJ5mWFUCsrGE5KJpKiFC97NOlHRBcl3AQtmfp7qUe
-	pxBg==
-X-Received: by 10.70.103.74 with SMTP id fu10mr51055822pdb.2.1429149640790;
-	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
+	bh=7H/c09x2ENWbCcsf9xLOnBrMyrHHkNiFRXZMGEtBsmY=;
+	b=m19CoKZih0lc0NfoDPjsPYpzUVrLxmFyrOBFsOBFwzoxceDHc1uh35Q4Vmsclf7nuf
+	7+KFgwQestIY2Z2ljdFrPSR8C5sOyIfP507tIqOSYo4BMHWTpVGvtmfFOlHiimV8yuJ2
+	9CvpAHd5vyiKNy6e1xtwG5nFH7oocqsCCld43uEgJU7ZBkGZFKbRYUs5lQbWexb73vip
+	/G0kCYBmyKi8FDFkQiqyWPk/A5W8CX6PyprrKpmbi13UoeO3CSQBYM1TU94x5KGBUjrC
+	4yA14qLxzkgO4y9LpTHD/uBS4F2eBnhOEdZYtYAACyPxdM+pPvvz9GuP9WLvA4TTf3HT
+	yqYw==
+X-Received: by 10.70.33.67 with SMTP id p3mr30092567pdi.126.1429149638875;
+	Wed, 15 Apr 2015 19:00:38 -0700 (PDT)
 Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
 	[24.130.225.169]) by mx.google.com with ESMTPSA id
-	nt15sm5371563pdb.14.2015.04.15.19.00.39
+	nt15sm5371563pdb.14.2015.04.15.19.00.37
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 15 Apr 2015 19:00:40 -0700 (PDT)
+	Wed, 15 Apr 2015 19:00:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Apr 2015 19:00:23 -0700
-Message-Id: <20976fc37662bea36f1f3298e782ce6f7efd8efa.1429149397.git.raj.khem@gmail.com>
+Date: Wed, 15 Apr 2015 19:00:21 -0700
+Message-Id: <352b36a36b94c54044799b470fae66c8c844680d.1429149397.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 References: <0302d234e93ab28cac466dd5eb96deb9dca3bf41.1429149397.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429149397.git.raj.khem@gmail.com>
 References: <cover.1429149397.git.raj.khem@gmail.com>
-Subject: [PATCH 06/10] parted: Add patches to fix build on musl
+Subject: [PATCH 04/10] dosfstools: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,106 +48,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Apr 2015 02:00:41 -0000
 
-Theese patches are actually generic but expose issues
-when compiling on musl
+We need to pass _GNU_SOURCE and include fcntl.h
 
-Change-Id: Ib5312af280d2c399334c5645fbea215737933ae5
+Change-Id: Ice0597ddac3b275400880d85793ece4b300bec9b
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-Include-fcntl.h-in-platform_defs.h.patch  | 29 +++++++++++++++++++
- ...need_charset_alias-when-building-for-musl.patch | 33 ++++++++++++++++++++++
- meta/recipes-extended/parted/parted_3.2.bb         |  2 ++
- 3 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
- create mode 100644 meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
+ ...ude-fcntl.h-for-getting-loff_t-definition.patch | 41 ++++++++++++++++++++++
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |  5 ++-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dosfstools/dosfstools/0001-Include-fcntl.h-for-getting-loff_t-definition.patch
 
-diff --git a/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch b/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools/0001-Include-fcntl.h-for-getting-loff_t-definition.patch b/meta/recipes-devtools/dosfstools/dosfstools/0001-Include-fcntl.h-for-getting-loff_t-definition.patch
 new file mode 100644
-index 0000000..b0376ce
+index 0000000..06f5b7a
 --- /dev/null
-+++ b/meta/recipes-extended/parted/files/0001-Include-fcntl.h-in-platform_defs.h.patch
-@@ -0,0 +1,29 @@
-+From d78dd087c4ec4715aab5fe115668e726046ecd76 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/dosfstools/dosfstools/0001-Include-fcntl.h-for-getting-loff_t-definition.patch
+@@ -0,0 +1,41 @@
++From b7c42c6a9829bea911b22201edd7df2a9bec1a14 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 13 Apr 2015 18:16:05 -0700
-+Subject: [PATCH] Include fcntl.h in /platform_defs.h
-+
-+exposed when compiling using musl
++Date: Mon, 13 Apr 2015 17:52:34 -0700
++Subject: [PATCH] Include fcntl.h for getting loff_t definition
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libparted/fs/xfs/platform_defs.h | 1 +
-+ 1 file changed, 1 insertion(+)
++ dosfsck/dosfsck.h | 2 ++
++ dosfsck/lfn.c     | 1 +
++ 2 files changed, 3 insertions(+)
 +
-+diff --git a/libparted/fs/xfs/platform_defs.h b/libparted/fs/xfs/platform_defs.h
-+index 2b55752..32bd3d3 100644
-+--- a/libparted/fs/xfs/platform_defs.h
-++++ b/libparted/fs/xfs/platform_defs.h
-+@@ -42,6 +42,7 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <unistd.h>
-++#include <fcntl.h>
-+ #include <sys/param.h>
-+ #include <sys/types.h>
++diff --git a/dosfsck/dosfsck.h b/dosfsck/dosfsck.h
++index d9314b1..2076d5f 100644
++--- a/dosfsck/dosfsck.h
+++++ b/dosfsck/dosfsck.h
++@@ -50,6 +50,8 @@
++ #define CT_LE_L(v) (v)
++ #endif /* __BIG_ENDIAN */
 + 
+++#include <fcntl.h>
+++
++ #define VFAT_LN_ATTR (ATTR_RO | ATTR_HIDDEN | ATTR_SYS | ATTR_VOLUME)
++ 
++ /* ++roman: Use own definition of boot sector structure -- the kernel headers'
++diff --git a/dosfsck/lfn.c b/dosfsck/lfn.c
++index 9b2cfc3..bb04fda 100644
++--- a/dosfsck/lfn.c
+++++ b/dosfsck/lfn.c
++@@ -7,6 +7,7 @@
++ #include <string.h>
++ #include <limits.h>
++ #include <time.h>
+++#include <fcntl.h>
++ 
++ #include "common.h"
++ #include "io.h"
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
-new file mode 100644
-index 0000000..abdfa2a
---- /dev/null
-+++ b/meta/recipes-extended/parted/files/0001-Unset-need_charset_alias-when-building-for-musl.patch
-@@ -0,0 +1,33 @@
-+From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 13 Apr 2015 17:02:13 -0700
-+Subject: [PATCH] Unset need_charset_alias when building for musl
-+
-+localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
-+which actually shoudl be fixed in gnulib and then all downstream
-+projects will get it eventually. For now we apply the fix to
-+coreutils
-+
-+Upstream-Status: Not Required
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ lib/gnulib.mk | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/gnulib.mk b/lib/gnulib.mk
-+index e1d74db..c0e92dd 100644
-+--- a/lib/gnulib.mk
-++++ b/lib/gnulib.mk
-+@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-+ 	  case '$(host_os)' in \
-+ 	    darwin[56]*) \
-+ 	      need_charset_alias=true ;; \
-+-	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
-++	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-+ 	      need_charset_alias=false ;; \
-+ 	    *) \
-+ 	      need_charset_alias=true ;; \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
-index e225769..5d34749 100644
---- a/meta/recipes-extended/parted/parted_3.2.bb
-+++ b/meta/recipes-extended/parted/parted_3.2.bb
-@@ -11,6 +11,8 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://syscalls.patch \
-            file://fix-doc-mandir.patch \
-            file://fix-compile-failure-while-dis.patch \
-+           file://0001-Include-fcntl.h-in-platform_defs.h.patch \
-+           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://run-ptest \
-            file://Makefile \
- "
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+index d1c24b8..beec488 100644
+--- a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
++++ b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+@@ -17,7 +17,9 @@ SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/${BPN}/${BP}.src.tar.gz/407d4
+            file://dosfstools-msdos_fs-types.patch \
+            file://include-linux-types.patch \
+            file://nofat32_autoselect.patch \
+-           file://fix_populated_dosfs_creation.patch "
++           file://fix_populated_dosfs_creation.patch \
++	   file://0001-Include-fcntl.h-for-getting-loff_t-definition.patch \
++	   "
+ 
+ SRC_URI[md5sum] = "407d405ade410f7597d364ab5dc8c9f6"
+ SRC_URI[sha256sum] = "0eac6d12388b3d9ed78684529c1b0d9346fa2abbe406c4d4a3eb5a023c98a484"
+@@ -26,6 +28,7 @@ SRC_URI[sha256sum] = "0eac6d12388b3d9ed78684529c1b0d9346fa2abbe406c4d4a3eb5a023c
+ # add this in here to for sure allow for big files.
+ #
+ CFLAGS_append = " -D_FILE_OFFSET_BITS=64"
++CFLAGS_append_libc-musl = " -D_GNU_SOURCE"
+ 
+ do_install () {
+ 	oe_runmake "PREFIX=${D}" "SBINDIR=${D}${base_sbindir}" \
 -- 
 2.1.4
 
