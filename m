@@ -1,26 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5346AC24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 07:49:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3G7nCpl003373
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 00:49:12 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.236) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 16 Apr 2015 00:49:20 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Apr 2015 15:49:19 +0800
-Message-ID: <c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1429170493.git.Qi.Chen@windriver.com>
-References: <cover.1429170493.git.Qi.Chen@windriver.com>
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 433 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 16 Apr 2015 07:49:14 UTC
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 54DEB73D45
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 16 Apr 2015 07:49:13 +0000 (UTC)
+Received: from mail2.sbs.de (localhost [127.0.0.1])
+	by gecko.sbs.de (8.14.3/8.14.3) with ESMTP id t3G7fv4D029821;
+	Thu, 16 Apr 2015 09:41:57 +0200
+Received: from DEFTHW99ERMMSX.ww902.siemens.net
+	(defthw99ermmsx.ww902.siemens.net [139.22.70.142])
+	by mail2.sbs.de (8.14.3/8.14.3) with ESMTP id t3G7fs7v003838
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Apr 2015 09:41:54 +0200
+Received: from DEFTHW99ERTMSX.ww902.siemens.net (139.22.70.200) by
+	DEFTHW99ERMMSX.ww902.siemens.net (139.22.70.142) with Microsoft SMTP
+	Server (TLS) id 14.3.235.1; Thu, 16 Apr 2015 09:41:54 +0200
+Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.16]) by
+	DEFTHW99ERTMSX.ww902.siemens.net ([139.22.70.200]) with mapi id
+	14.03.0235.001; Thu, 16 Apr 2015 09:41:53 +0200
+From: "Bach, Pascal" <pascal.bach@siemens.com>
+To: Nikolay Dimitrov <picmaster@mail.bg>, Bruce Ashfield
+	<bruce.ashfield@gmail.com>
+Thread-Topic: [yocto] Move device tree generation from include file to bbclass
+Thread-Index: AQHQd5cEbjf/yJkqmESlI0boWToIP51PQA3Q
+Date: Thu, 16 Apr 2015 07:41:52 +0000
+Message-ID: <355BE46A91031048906B695426A8D8E616B7C40A@DEFTHW99EH4MSX.ww902.siemens.net>
+References: <355BE46A91031048906B695426A8D8E616B7BE37@DEFTHW99EH4MSX.ww902.siemens.net>
+	<552E63F1.9090406@windriver.com>	<552E824C.5080603@mail.bg>
+	<CADkTA4Puh7QLQemCSrewmMqcnrUJFw4x6bEJsmKu=SRk6C07-A@mail.gmail.com>
+	<552E8DD9.6090202@mail.bg>
+In-Reply-To: <552E8DD9.6090202@mail.bg>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.52]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] layer_extra_sanity.bbclass: add new bbclass
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, Patches and
+	discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Move device tree generation from include file to bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,132 +52,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 07:49:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Apr 2015 07:49:14 -0000
+Content-Language: de-DE
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new bbclass for extra sanity check for layers.
+Hi Bruce, Hi Nikolay
 
-These sanity checks include:
-*) conf/machine and conf/distro don't appear in the same layer.
-   The rational is that distro specific changes and BSP specific changes
-   should be splitted into different layers for better maintenance.
-   The meta layer is an exception.
-*) A BSP layer is not included if MACHINE is not set to any of the conf file
-   it provides.
-   The rational is that BSP layer, by design, is supposed to make changes
-   specific for the BSPs it covers. Including a BSP layer which doesn't contain
-   a conf file matching the MACHINE setting might cause potential problem.
-*) Configuration files under conf/machine don't set distro specific variables
-   such as DISTRO_FEATURES.
-   The rational is that machine configuration files should not set things
-   related to machine.
+> >>>>
+> >>>
+> >>> Adding oe-core, since that's the right place to have a discussion
+> >>> like this.
 
-[YOCTO #5427]
+Thanks I'm never sure where to ask what :)
+> >>>
+> >>>> As ARM now also moved to device tree it look like in future we
+> will
+> >>>> have more kernels that are using device tree then ones that are
+> >>>> not.
+> >>>
+> >>>
+> >>> True, but it has been like this for quite some time now :)
+> >>>
+> >>>> As far as I understand currently the generation of device trees is
+> >>>> controlled via KERNEL_DEVICETREE and is handled in via an include
+> >>>> file recipes-kernel/linux/linux-dtb.inc.
+> >>>>
+> >>>> I was thinking about moving this include into a class so it
+> becomes
+> >>>> easier to use. Before I dive into implementing something I would
+> >>>> like some feedback from the community.
+> >>>
+> >>>
+> >>> The big trick with changing anything like this is compatibility
+> with
+> >>> existing recipes. Whatever we do, existing recipes and layers
+> >>> shouldn't be broken .. or if they are broken, there should be a
+> >>> compelling technical reason to do so.
+> >>>
+> >>>>
+> >>>> I have the following variant in mind.
+> >>>>
+> >>>> Add the device tree generation to the current kernel.bbclass (or
+> >>>> let kernel.bblcass inherit from a kernel-dtb.bbclass).
+> >>>> This way all kernels would automatically be DT enabled. The class
+> >>>> would check if KERNEL_DEVICETREE is set and generate device trees
+> >>>> based on this information. For boards that don't have
+> >>>> KERNEL_DEVICETREE set the class would do nothing and the behavior
+> >>>> is like before. The advantage I see with this approach is that the
+> >>>> only thing a user needs to do is to set KERNEL_DEVICETREE in the
+> >>>> board and make sure the device trees are available in the kernel
+> >>>> they like to build.
+> >>>
+> >>>
+> >>> That's pretty much the experience that most users have now, since
+> >>> there's nearly always a kernel recipe created, that recipe includes
+> >>> linux-dtb.inc, and sets KERNEL_DEVICETREE.
+> >>
+> >>
+> >> As far as I understood, Pascal's idea is to remove the need for user
+> >> recipes to include linux-dtb.inc, and provide this functionality via
+> >> inheritance.
+> >
+> > That is obvious. My questions are around "why". There's no big
+> > technical advantage, and if you remove that existing file, you break
+> > existing recipes. Which means you need to leave a stub in place.
+> >
+> > So without a technical advantage, it's churn for the sake of churn.
+>=20
+> Well, removing redundancy and simplifying users' recipes could be
+> considered an advantage. Also, as the contents of linux-dtb.inc are
+> going to be moved to bbclass, the file can be left empty, later
+> maintainers remove the extra line from all users' recipes in following
+> commits. I don't see breaking as an option.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/layer_extra_sanity.bbclass | 91 +++++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
- create mode 100644 meta/classes/layer_extra_sanity.bbclass
+I completely agree that it is not worth to breaking existing recipes becaus=
+e of that.
+But I think the option with an empty linux-dtb.inc is acceptable.
 
-diff --git a/meta/classes/layer_extra_sanity.bbclass b/meta/classes/layer_extra_sanity.bbclass
-new file mode 100644
-index 0000000..17671c3
---- /dev/null
-+++ b/meta/classes/layer_extra_sanity.bbclass
-@@ -0,0 +1,91 @@
-+# Check conf/distro and conf/machine don't appear in the same layer
-+def check_machine_distro_dir(sanity_data):
-+    bblayers = sanity_data.getVar('BBLAYERS', True).split()
-+    for bblayer in bblayers:
-+        bblayer = bblayer.rstrip('/')
-+        # skip checking of the meta layer, it's special
-+        if bblayer.endswith('meta'):
-+            continue
-+        if os.path.exists(bblayer + '/' + 'conf/machine') and os.path.exists(bblayer + '/' + 'conf/distro'):
-+            bb.warn("Layer %s is providing both distro configurations and machine configurations. It's recommended that a layer should provide at most one of them." % bblayer)
-+
-+# Check that distro variables such as DISTRO_FEATURES are not being set in machine conf files
-+def check_distro_vars_machine(sanity_data):
-+    import re
-+
-+    bblayers = sanity_data.getVar('BBLAYERS', True).split()
-+    distro_regex = re.compile("^DISTRO_.*=.*")
-+    distro_var_match = False
-+
-+    for bblayer in bblayers:
-+        bblayer = bblayer.rstrip('/')
-+        if bblayer.endswith('meta'):
-+            continue
-+        # Check .inc and .conf files under machine/conf don't set DISTRO_xxx vars
-+        for dirpath, dirnames, filenames in os.walk('%s/conf/machine' % bblayer):
-+            for f in filenames:
-+                fpath = os.path.join(dirpath, f)
-+                if fpath.endswith(".inc") or fpath.endswith(".conf"):
-+                    with open(fpath) as fopen:
-+                        for line in fopen:
-+                            if distro_regex.match(line):
-+                                distro_var_match = True
-+                                break
-+                if distro_var_match:
-+                    break
-+            if distro_var_match:
-+                break
-+        if distro_var_match:
-+            bb.warn("Layer %s is setting distro specific variables in its machine conf files." % bblayer)
-+        distro_var_match = False
-+
-+# Check that a disto/bsp layer is being included but MACHINE or DISTRO is not set to any conf
-+# file that it provides.
-+#
-+# The rational here is that if a BSP layer is supposed to have recipes or bbappend files that
-+# are only specific for the BSPs it provides. So if MACHINE is not set to any of the
-+# conf/machine/*.conf file in that layer, very likely the user is accidently including a BSP layer.
-+# The same logic goes for distro layers.
-+def check_unneedded_bsp_distro_layer(sanity_data):
-+    machine = sanity_data.getVar('MACHINE', True)
-+    distro = sanity_data.getVar('DISTRO', True)
-+    bblayers = sanity_data.getVar('BBLAYERS', True).split()
-+
-+    for bblayer in bblayers:
-+        bblayer = bblayer.rstrip('/')
-+        if bblayer.endswith('meta'):
-+            continue
-+        is_bsp = os.path.exists(bblayer + '/' + 'conf/machine')
-+        is_distro = os.path.exists(bblayer + '/' + 'conf/distro')
-+        if is_bsp and not is_distro:
-+            if not os.path.exists(bblayer + '/' + 'conf/machine/' + machine + '.conf'):
-+                bb.warn("BSP layer %s is included but MACHINE is not set to any conf file it provides." % bblayer)
-+        elif not is_bsp and is_distro:
-+           if not os.path.exists(bblayer + '/' + 'conf/distro/' + distro + '.conf'):
-+                bb.warn("Distro layer %s is included but DISTRO is not set to any conf file it provides." % bblayer)
-+
-+# Create a copy of the datastore and finalise it to ensure appends and 
-+# overrides are set - the datastore has yet to be finalised at ConfigParsed
-+def copy_data(e):
-+    sanity_data = bb.data.createCopy(e.data)
-+    sanity_data.finalize()
-+    return sanity_data
-+
-+def layer_extra_check_sanity(sanity_data):
-+    check_machine_distro_dir(sanity_data)
-+    check_unneedded_bsp_distro_layer(sanity_data)
-+    check_distro_vars_machine(sanity_data)
-+
-+addhandler check_layer_extra_sanity_eventhandler
-+check_layer_extra_sanity_eventhandler[eventmask] = "bb.event.SanityCheck"
-+python check_layer_extra_sanity_eventhandler() {
-+    if bb.event.getName(e) == "SanityCheck":
-+        sanity_data = copy_data(e)
-+        if e.generateevents:
-+            sanity_data.setVar("SANITY_USE_EVENTS", "1")
-+        layer_extra_check_sanity(sanity_data)
-+        e.data.setVar("BB_INVALIDCONF", False)
-+        bb.event.fire(bb.event.SanityCheckPassed(), e.data)
-+
-+    return
-+}
--- 
-1.9.1
+> >>> Everything else happens to build and package the device tree.
+> >>>
+> >>> Was there something specifically that was causing issues with the
+> >>> current way of building them ?
+
+There was no specific issue except that it feels like an unnecessary includ=
+es.
+And it seems a bit odd to me that most of the work of building the kernel i=
+s done in bbclasses,=20
+while just the dtb handling is done with an include. But of course it still=
+ is more of a cosmetic=20
+change than a real technical necessity.
+
+Regards
+Pascal
 
 
