@@ -1,38 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 741337391A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4791C605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 21:07:44 +0000 (UTC)
-Received: by igbhj9 with SMTP id hj9so18275359igb.1
+	Thu, 16 Apr 2015 21:26:58 +0000 (UTC)
+Received: by igbhj9 with SMTP id hj9so18670763igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 14:07:46 -0700 (PDT)
+	Thu, 16 Apr 2015 14:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=+q0MYDpmDWLodc97N9fe6/1FEIwWWMLJ4Q/4k1cvjDk=;
-	b=jSpuejbrbPln4sv9TCAi6XQjMfo+eKMQW1vPvvfurRcJZS7icRskm2Mh5pxuxaU43d
-	T1gxmNn/5TVEFn/TOwbZheTSRf/Bn9+j2huDY4pd88/ONB3Sx8nzs83a2pd0HvE5TRPR
-	KVCGhAuG28oSwVl7qowue/uwKc2XwmV3QcFN+R+YlvJZBVcUBkgVePJ1RTu6MfPgpWtw
-	ZTtvhcSjVdrEvljaKJWEXQvMPRDpLrrC2Lb0Zj/bVcgOcnJdgiZk9H6I+u6UQDULN6r8
-	x278HEPCLiWhCtZ8Pd63j71T+5pQ3U726wLgK1lEvqEIQ5VnYnp0lMujFk6eGb5hzaBl
-	rA8w==
-X-Received: by 10.107.129.22 with SMTP id c22mr45421302iod.81.1429218466052;
-	Thu, 16 Apr 2015 14:07:46 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=u4q1rSEi64zPXI0/WoTgOIq50hi7w5jH0v6Yk8lKk9A=;
+	b=iq7mcwwkShcaJUOLek6BPFC0g74d7iIz7LdEogvel1FL+gH7/MNFlq3clq37juREKD
+	vP1/p2Xcu9LZNbaCe0K1yPRG6c1LSX3JKEYeDfYpZB+6SzVTgHjXrNVzpyi/2HAFgWxM
+	6oLOWbY4Q4zmw/4o31dluJAz/gOJ/MySurNzGQgeeRKHiKpamDtxOvZ2jsg00y5k4MvA
+	x7sqRDprQBbXFh6ueM5IIvANNywrrKTZ5PjFFTK1E2FidTtkbsf3L756nvd+1yPtknl7
+	P7Smn6C7FOaf5ci5SD6V5Q7zDUYr6rKTLmJwcvyFadRfOtZXBWRfw2KZHmSZu24w3FhX
+	DLLg==
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Thu, 16 Apr 2015 14:07:15 -0700 (PDT)
-In-Reply-To: <552E2B02.8020105@mentor.com>
-References: <1428609535-15027-1-git-send-email-dmitry_eremin@mentor.com>
-	<1428609535-15027-3-git-send-email-dmitry_eremin@mentor.com>
-	<4A2072A0-6C21-4FE5-98D6-C9EEB1FA3924@gmail.com>
-	<552E2B02.8020105@mentor.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Apr 2015 17:07:15 -0400
-Message-ID: <CAMKF1spySBzNpT3jE6w0ta6_zsL5bXr5gfPzC3jReGkJuV-NrA@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+X-Received: by 10.50.66.37 with SMTP id c5mr260190igt.26.1429219619997; Thu,
+	16 Apr 2015 14:26:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.107.23.197 with HTTP; Thu, 16 Apr 2015 14:26:59 -0700 (PDT)
+In-Reply-To: <20150416103133.GA2341@jama>
+References: <cover.1429170493.git.Qi.Chen@windriver.com>
+	<c1c7339199e08085ed82ffed0d80356d5b177807.1429170493.git.Qi.Chen@windriver.com>
+	<20150416103133.GA2341@jama>
+Date: Thu, 16 Apr 2015 18:26:59 -0300
+X-Google-Sender-Auth: lZhFSK7JJNaMf1tIfVrBC3GnUu8
+Message-ID: <CAP9ODKo3uX+GQQKHWMRxvF26Gm9XW-V+rs54Hc8sQkJc3=dJ1w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] security_flags.inc: add more exceptions
+Subject: Re: [PATCH 1/1] layer_extra_sanity.bbclass: add new bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,12 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 21:07:47 -0000
+X-List-Received-Date: Thu, 16 Apr 2015 21:27:01 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 15, 2015 at 5:10 AM, Dmitry Eremin-Solenikov
-<dmitry_eremin@mentor.com> wrote:
-> Would it be better to fix the layer.conf or individual recipes?
+On Thu, Apr 16, 2015 at 7:31 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, Apr 16, 2015 at 03:49:19PM +0800, Chen Qi wrote:
+>> Add a new bbclass for extra sanity check for layers.
+>>
+>> These sanity checks include:
+>> *) conf/machine and conf/distro don't appear in the same layer.
+>>    The rational is that distro specific changes and BSP specific changes
+>>    should be splitted into different layers for better maintenance.
+>>    The meta layer is an exception.
+>> *) A BSP layer is not included if MACHINE is not set to any of the conf file
+>>    it provides.
+>>    The rational is that BSP layer, by design, is supposed to make changes
+>>    specific for the BSPs it covers. Including a BSP layer which doesn't contain
+>>    a conf file matching the MACHINE setting might cause potential problem.
+>
+> This is exactly the opposite of what the manual says.
+>
+> BSP layer should be written in a way that it has no unwelcome
+> side-effects for other MACHINES (by proper usage of MACHINE overrides).
 
-recipes even better.
+Besides what Martin said it is very common to have extra BSP layers
+for customer layers which are used for some machines. For example we
+have customers which mix Freescale and Marvel machines in same
+platform and all work very well.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
