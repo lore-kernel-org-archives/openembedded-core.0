@@ -1,24 +1,40 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7045673D6E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 13:52:26 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Yj6h1-0002Vx-KC from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Apr 2015 06:52:27 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-05.mgc.mentorg.com (137.202.0.112) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Fri, 17 Apr 2015 14:52:26 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Apr 2015 16:52:24 +0300
-Message-ID: <1429278744-4695-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id AA66D73D5A
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 15:29:17 +0000 (UTC)
+Received: by iedfl3 with SMTP id fl3so84413545ied.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 08:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=5GK8X1UbnyNy4HeVWHwIJTaV31Vmv3X63DdMNPgpXJA=;
+	b=WXhkRxQBF20qLZ241DrM2pkIfn1CgACo+7D/JtPl55CK2/dBtLE9ZEgB2hieRmBANb
+	jQ6qLUD43/xcBGH6bNNiWqTbDYvzCmLqglMf87LhNPsdw9XZN5i1vA1wgNcUVCPyM+MK
+	HB+/XQPrGPeKw7TQ+2Gpy/bIv4LV8phFulpB7pZC5tjs3xYu2/LcY4lOJskrJCUMBkVN
+	3e84jQJfIqfoWyyYBt+AoL9VwDZHCFH3ZYOUV4Cik1Mbdgy/MzH4Iz1xbW5OJCA0/BQr
+	VR3pKOypBLOGJ2Qv2hcUDWdyq8GWRiKVBrN/PvwMYaFxtT0mO1hjO0hfYKITeX1EnOiF
+	JFQw==
+X-Received: by 10.50.111.233 with SMTP id il9mr3698228igb.13.1429284558516;
+	Fri, 17 Apr 2015 08:29:18 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] mdadm: add ptest
+Received: by 10.50.117.7 with HTTP; Fri, 17 Apr 2015 08:28:48 -0700 (PDT)
+In-Reply-To: <1429254936.6976.191.camel@linuxfoundation.org>
+References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
+	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
+	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
+	<20150415100850.GA2338@jama>
+	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
+	<CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
+	<1429254936.6976.191.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 17 Apr 2015 08:28:48 -0700
+Message-ID: <CAMKF1sp-GdCWpiXG6y=sFf3U9U6PXG+JTy7fJ=ChRpRpem+v=A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
+Subject: Re: autom4te segfault in Dumper.so when configuring intltool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 13:52:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Apr 2015 15:29:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Enable ptest for mdadm, by reusing internal testsuite.
+On Fri, Apr 17, 2015 at 12:15 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> autoconf-native is near enough one of the primary pieces of the
+> dependency chain. Having it depend on perl-native is a very very bad
+> idea, if its possible at all. It might be "correct" in principle but in
+> practise its not workable.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
----
- meta/recipes-extended/mdadm/files/run-ptest | 10 ++++++++++
- meta/recipes-extended/mdadm/mdadm_3.3.2.bb  | 29 +++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/run-ptest
-
-diff --git a/meta/recipes-extended/mdadm/files/run-ptest b/meta/recipes-extended/mdadm/files/run-ptest
-new file mode 100644
-index 0000000..5b27609
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/run-ptest
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+./test &>./test.log
-+if [ $? -eq 0 ]
-+then
-+	echo "PASS: mdadm"
-+	rm test.log
-+else
-+	echo "FAIL: mdadm"
-+fi
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-index c6a5635..0742d73 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-@@ -12,6 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://mdadm-3.2.2_fix_for_x32.patch \
-            file://gcc-4.9.patch \
-            file://mdadm-3.3.2_x32_abi_time_t.patch \
-+           file://run-ptest \
- 	  "
- 
- SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
-@@ -45,3 +46,31 @@ do_install() {
- }
- 
- FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
-+
-+inherit ptest
-+
-+do_compile_ptest() {
-+	oe_runmake test
-+}
-+
-+do_install_ptest() {
-+	cp -a ${S}/tests ${D}${PTEST_PATH}/tests
-+	cp ${S}/test ${D}${PTEST_PATH}
-+	sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i ${D}${PTEST_PATH}/test
-+	ln -s /sbin/mdadm ${D}${PTEST_PATH}/mdadm
-+	for prg in test_stripe swap_super raid6check
-+	do
-+		install -D -m 755 $prg ${D}${PTEST_PATH}/
-+	done
-+}
-+RDEPENDS_${PN}-ptest += "bash"
-+RRECOMMENDS_${PN}-ptest += " \
-+    coreutils \
-+    util-linux \
-+    kernel-module-loop \
-+    kernel-module-linear \
-+    kernel-module-raid0 \
-+    kernel-module-raid1 \
-+    kernel-module-raid10 \
-+    kernel-module-raid456 \
-+"
--- 
-2.1.4
-
+in practice given sstate reuse, this impact of increased build time
+may be mitigated now a days. In my case rebuild of native-tools seldom
+happens
+its only an impact when you do a build w/o sstate.
 
