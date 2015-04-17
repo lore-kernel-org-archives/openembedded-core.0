@@ -1,24 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 440B7605D2
+Return-Path: <Dmitry_Eremin@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 7045673D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 13:19:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Apr 2015 06:19:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,594,1422950400"; d="scan'208";a="710836153"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2015 06:19:12 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id B21B86A4091;
-	Fri, 17 Apr 2015 06:18:46 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Apr 2015 16:19:01 +0300
-Message-Id: <1429276741-28039-1-git-send-email-ed.bartosh@linux.intel.com>
+	Fri, 17 Apr 2015 13:52:26 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Yj6h1-0002Vx-KC from Dmitry_Eremin@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Apr 2015 06:52:27 -0700
+Received: from fangorn.rup.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-05.mgc.mentorg.com (137.202.0.112) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Fri, 17 Apr 2015 14:52:26 +0100
+From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Apr 2015 16:52:24 +0300
+Message-ID: <1429278744-4695-1-git-send-email-dmitry_eremin@mentor.com>
 X-Mailer: git-send-email 2.1.4
-Cc: Ed Bartosh <eduard.bartosh@intel.com>
-Subject: [wic][PATCH] wic: try to find bitbake using find_executable API
+MIME-Version: 1.0
+Subject: [PATCH] mdadm: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 13:19:11 -0000
+X-List-Received-Date: Fri, 17 Apr 2015 13:52:29 -0000
+Content-Type: text/plain
 
-From: Ed Bartosh <eduard.bartosh@intel.com>
+Enable ptest for mdadm, by reusing internal testsuite.
 
-Current wic code was assuming that bitbake directory is on the
-same level as scripts, which is not the case for oe classic.
-
-Using find_executable bitbake location should be determined better
-as this API uss $PATH to search for executables.
-
-Fixes [YOCTO #7621]
-
-Signed-off-by: Ed Bartosh <eduard.bartosh@intel.com>
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 ---
- scripts/wic | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ meta/recipes-extended/mdadm/files/run-ptest | 10 ++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.3.2.bb  | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/run-ptest
 
-diff --git a/scripts/wic b/scripts/wic
-index 5bedd90..7d388c9 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -36,19 +36,25 @@ import os
- import sys
- import optparse
- import logging
-+from distutils import spawn
- 
- # External modules
- scripts_path = os.path.abspath(os.path.dirname(__file__))
- lib_path = scripts_path + '/lib'
--bitbake_path = os.path.join(scripts_path, '../bitbake/lib')
--sys.path = sys.path + [lib_path, bitbake_path]
-+sys.path.append(lib_path)
+diff --git a/meta/recipes-extended/mdadm/files/run-ptest b/meta/recipes-extended/mdadm/files/run-ptest
+new file mode 100644
+index 0000000..5b27609
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/run-ptest
+@@ -0,0 +1,10 @@
++#!/bin/sh
 +
-+bitbake_exe = spawn.find_executable('bitbake')
-+if bitbake_exe:
-+    bitbake_path = os.path.join(os.path.dirname(bitbake_exe), '../lib')
-+    sys.path.append(bitbake_path)
-+    from bb import cookerdata
-+    from bb.main import bitbake_main, BitBakeConfigParameters
-+else:
-+    bitbake_main = None
++./test &>./test.log
++if [ $? -eq 0 ]
++then
++	echo "PASS: mdadm"
++	rm test.log
++else
++	echo "FAIL: mdadm"
++fi
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+index c6a5635..0742d73 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://mdadm-3.2.2_fix_for_x32.patch \
+            file://gcc-4.9.patch \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
++           file://run-ptest \
+ 	  "
  
- from image.help import *
- from image.engine import *
+ SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
+@@ -45,3 +46,31 @@ do_install() {
+ }
  
--from bb import cookerdata
--from bb.main import bitbake_main, BitBakeConfigParameters
--
- def rootfs_dir_to_args(krootfs_dir):
-     """
-     Get a rootfs_dir dict and serialize to string
-@@ -109,6 +115,10 @@ def wic_create_subcommand(args, usage_str):
-         parser.print_help()
-         sys.exit(1)
- 
-+    if options.build_rootfs and not bitbake_main:
-+        logging.error("Can't build roofs as bitbake is not in the $PATH")
-+        sys.exit(1)
+ FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
 +
-     if not options.image_name and not (options.rootfs_dir and
-                                        options.bootimg_dir and
-                                        options.kernel_dir and
++inherit ptest
++
++do_compile_ptest() {
++	oe_runmake test
++}
++
++do_install_ptest() {
++	cp -a ${S}/tests ${D}${PTEST_PATH}/tests
++	cp ${S}/test ${D}${PTEST_PATH}
++	sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i ${D}${PTEST_PATH}/test
++	ln -s /sbin/mdadm ${D}${PTEST_PATH}/mdadm
++	for prg in test_stripe swap_super raid6check
++	do
++		install -D -m 755 $prg ${D}${PTEST_PATH}/
++	done
++}
++RDEPENDS_${PN}-ptest += "bash"
++RRECOMMENDS_${PN}-ptest += " \
++    coreutils \
++    util-linux \
++    kernel-module-loop \
++    kernel-module-linear \
++    kernel-module-raid0 \
++    kernel-module-raid1 \
++    kernel-module-raid10 \
++    kernel-module-raid456 \
++"
 -- 
 2.1.4
 
