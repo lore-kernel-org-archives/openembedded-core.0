@@ -1,26 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D4BFE73D81
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B1E4373D49
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 16:04:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Apr 2015 09:04:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,595,1422950400"; d="scan'208";a="715311479"
-Received: from pbrao1-mobl5.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.13.156])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2015 09:04:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Fri, 17 Apr 2015 17:04:29 +0100
-Message-ID: <1706261.ZY9MkiEMBf@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <1429202277-7215-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1429202277-7215-1-git-send-email-markus.lehtonen@linux.intel.com>
+	Fri, 17 Apr 2015 18:24:07 +0000 (UTC)
+Received: by oica37 with SMTP id a37so79695232oic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 11:24:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=MqH4i5et1PgTJtcYhAbf30DqImhyUVTtfhkxkXS4UcU=;
+	b=MH9Wqn8BH9W9Ifct91GVP+lM79kFOthZvSiBlp/7/ZZRTeOZPJlhEh87HwM898CqP3
+	Lx4AXm4m4u9Pe57E9sAZHHvSOQcrtIpQAM5wgRYNjLAgOafxWzMGWoBZSOpHUY05aFd3
+	uKERR8Zc/dFSSpCjR6RAiUn1h0BkqOBKCylsV6Zt0m4v8qJ2shGW9ia6bHfRDeumRhqi
+	KV0KjLzeXdGL+gNN4ogjXeYbdLQIPRhw4N6XNWDLopCvIVPjZe3wDLCYChgT7Fte5T0z
+	ZxRAACOnU1CdacE3IVd0VN8qborUpBJhMmr3q03CKY5m9UiAcWI4nL92KhjOJ4CCcMRx
+	SUAw==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] devtool: call parse_recipe with correct arguments
+X-Received: by 10.202.197.138 with SMTP id v132mr3877878oif.17.1429295048174; 
+	Fri, 17 Apr 2015 11:24:08 -0700 (PDT)
+Received: by 10.202.102.13 with HTTP; Fri, 17 Apr 2015 11:24:08 -0700 (PDT)
+In-Reply-To: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>
+References: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>
+Date: Fri, 17 Apr 2015 11:24:08 -0700
+Message-ID: <CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Junling Zheng <zhengjunling@huawei.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gmp: remove referencing paths from the build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 16:04:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 17 Apr 2015 18:24:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 16 April 2015 19:37:57 Markus Lehtonen wrote:
-> Give the correct data object ("config data" instead of "recipe data") as
-> an argument to oe.recipeutils.patch_recipe()
-> 
-> Fixes [YOCTO #7595]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+On Fri, Apr 17, 2015 at 1:50 AM, Junling Zheng <zhengjunling@huawei.com> wrote:
+> Currently ${D}${includedir}/gmp.h references the path of build host
+> incorrectly, remove it.
+>
+> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
 > ---
->  scripts/lib/devtool/standard.py | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/lib/devtool/standard.py
-> b/scripts/lib/devtool/standard.py index 54920b2..d5ded2f 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -482,7 +482,7 @@ def update_recipe(args, config, basepath, workspace):
->                  if remove_patches(srcuri, removepatches):
->                      patchfields['SRC_URI'] = ' '.join(srcuri)
-> 
-> -        oe.recipeutils.patch_recipe(rd, recipefile, patchfields)
-> +        oe.recipeutils.patch_recipe(tinfoil.config_data, recipefile,
-> patchfields)
-> 
->          if not 'git://' in orig_src_uri:
->              logger.info('You will need to update SRC_URI within the recipe
-> to point to a git repository where you have pushed your changes') @@ -564,7
-> +564,8 @@ def update_recipe(args, config, basepath, workspace):
-> updaterecipe = True
->              if updaterecipe:
->                  logger.info('Updating recipe %s' %
-> os.path.basename(recipefile)) -               
-> oe.recipeutils.patch_recipe(rd, recipefile, {'SRC_URI': ' '.join(srcuri)})
-> +                oe.recipeutils.patch_recipe(tinfoil.config_data,
-> +                        recipefile, {'SRC_URI': ' '.join(srcuri)})
->              elif not updatepatches:
->                  # Neither patches nor recipe were updated
->                  logger.info('No patches need updating')
+>  meta/recipes-support/gmp/gmp.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+> index 558ee06..a80b356 100644
+> --- a/meta/recipes-support/gmp/gmp.inc
+> +++ b/meta/recipes-support/gmp/gmp.inc
+> @@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
+>  PACKAGES =+ "libgmpxx"
+>  FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
+>
+> +do_install_append_class-target() {
+> +       sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
+> +}
 
-Ah yes, that would explain it!
+It's possible that STAGING_DIR_HOST could contain '+' characters, so
+'|' would be a safer sed separator to use here.
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> +
+>  SSTATE_SCAN_FILES += "gmp.h"
+> --
+> 1.9.1
+>
 
