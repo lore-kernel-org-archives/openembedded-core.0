@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AC4D605D2
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 07:15:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3H7FqrR028776; Fri, 17 Apr 2015 08:15:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id o-4mKHwtfZtM; Fri, 17 Apr 2015 08:15:52 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3H7FdYL028770
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 17 Apr 2015 08:15:50 +0100
-Message-ID: <1429254936.6976.191.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 17 Apr 2015 08:15:36 +0100
-In-Reply-To: <CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
-References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
-	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
-	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
-	<20150415100850.GA2338@jama>
-	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
-	<CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
-Subject: Re: autom4te segfault in Dumper.so when configuring intltool
+Return-Path: <zhengjunling@huawei.com>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D5EF73D24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 08:53:26 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml432-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id CJX64359; Fri, 17 Apr 2015 16:53:24 +0800 (CST)
+Received: from Patch-Test.huawei (10.107.197.245) by
+	szxeml432-hub.china.huawei.com (10.82.67.209) with Microsoft SMTP
+	Server id 14.3.158.1; Fri, 17 Apr 2015 16:53:21 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Apr 2015 08:50:08 +0000
+Message-ID: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>
+X-Mailer: git-send-email 1.8.3.4
+MIME-Version: 1.0
+X-Originating-IP: [10.107.197.245]
+X-CFilter-Loop: Reflected
+Subject: [PATCH] gmp: remove referencing paths from the build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 07:15:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Apr 2015 08:53:30 -0000
+Content-Type: text/plain
 
-On Thu, 2015-04-16 at 22:09 -0400, Khem Raj wrote:
-> On Wed, Apr 15, 2015 at 5:37 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> > Hiding OE sysroot perl when configuring intltool and using only host
-> > perl does also prevent the segfault.
-> >
-> > I'm not sure what the correct fix is though. Perhaps have the
-> > autoconf-native scripts run host perl via a wrapper which removes any
-> > reference to OE sysroot perl from the PATH?
-> 
-> Not sure why Richard suggested that but may be his intention was to
-> build automake-native early enough since perl takes a bit of time to
-> build and it would serialize the build but we dont know unless we
-> measure, may be there are enough native tools to build to keep
-> processors spinning while its building perl-native
-> in theory correct fix is to add dependency on perl native for autoconf
-> native and do the necessary surgeries (if required to use perl-native)
+Currently ${D}${includedir}/gmp.h references the path of build host
+incorrectly, remove it.
 
-autoconf-native is near enough one of the primary pieces of the
-dependency chain. Having it depend on perl-native is a very very bad
-idea, if its possible at all. It might be "correct" in principle but in
-practise its not workable.
+Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+---
+ meta/recipes-support/gmp/gmp.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+index 558ee06..a80b356 100644
+--- a/meta/recipes-support/gmp/gmp.inc
++++ b/meta/recipes-support/gmp/gmp.inc
+@@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
+ PACKAGES =+ "libgmpxx"
+ FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
+ 
++do_install_append_class-target() {
++	sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
++}
++
+ SSTATE_SCAN_FILES += "gmp.h"
+-- 
+1.9.1
 
 
