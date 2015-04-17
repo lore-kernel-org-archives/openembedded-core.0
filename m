@@ -1,27 +1,34 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BAF873D37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 06:15:49 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="90819530"
-Received: from localhost (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Apr 2015 14:12:00 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t3H6EdLi013257
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 14:14:39 +0800
-Received: from localhost.localdomain (10.167.226.48) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 17 Apr 2015 14:15:54 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Apr 2015 14:15:40 +0800
-Message-ID: <1429251340-44321-1-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.48]
-Subject: [PATCH] cairo_1.14.2: Modified the license of cairo-trace.
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC4D605D2
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 07:15:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3H7FqrR028776; Fri, 17 Apr 2015 08:15:52 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id o-4mKHwtfZtM; Fri, 17 Apr 2015 08:15:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3H7FdYL028770
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 17 Apr 2015 08:15:50 +0100
+Message-ID: <1429254936.6976.191.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 17 Apr 2015 08:15:36 +0100
+In-Reply-To: <CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
+References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
+	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
+	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
+	<20150415100850.GA2338@jama>
+	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
+	<CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
+Subject: Re: autom4te segfault in Dumper.so when configuring intltool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,57 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 06:15:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Apr 2015 07:15:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Because the license of cairo-trace is GPLv3(util/cairo-trace/COPYING).
-So pickup cairo-trace,and modified the license to GPLv3.
+On Thu, 2015-04-16 at 22:09 -0400, Khem Raj wrote:
+> On Wed, Apr 15, 2015 at 5:37 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> >
+> > Hiding OE sysroot perl when configuring intltool and using only host
+> > perl does also prevent the segfault.
+> >
+> > I'm not sure what the correct fix is though. Perhaps have the
+> > autoconf-native scripts run host perl via a wrapper which removes any
+> > reference to OE sysroot perl from the PATH?
+> 
+> Not sure why Richard suggested that but may be his intention was to
+> build automake-native early enough since perl takes a bit of time to
+> build and it would serialize the build but we dont know unless we
+> measure, may be there are enough native tools to build to keep
+> processors spinning while its building perl-native
+> in theory correct fix is to add dependency on perl native for autoconf
+> native and do the necessary surgeries (if required to use perl-native)
 
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
----
- meta/recipes-graphics/cairo/cairo.inc       |  6 +++++-
- meta/recipes-graphics/cairo/cairo_1.14.2.bb | 10 ++++------
- 2 files changed, 9 insertions(+), 7 deletions(-)
+autoconf-native is near enough one of the primary pieces of the
+dependency chain. Having it depend on perl-native is a very very bad
+idea, if its possible at all. It might be "correct" in principle but in
+practise its not workable.
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index cd37559..98add5a 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -9,7 +9,11 @@ Extension."
- HOMEPAGE = "http://cairographics.org"
- BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
--LICENSE = "MPL-1 & LGPLv2.1"
-+LICENSE = "MPL-1 & LGPLv2.1 & GPLv3+"
-+LICENSE_${PN} = "MPL-1 & LGPLv2.1"
-+LICENSE_${PN}-dev = "MPL-1 & LGPLv2.1"
-+LICENSE_${PN}-gobject = "MPL-1 & LGPLv2.1"
-+LICENSE_${PN}-perf-utils = "GPLv3+"
- X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
- DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
- 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.2.bb b/meta/recipes-graphics/cairo/cairo_1.14.2.bb
-index 3272eb3..3817dbf 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.2.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.2.bb
-@@ -29,12 +29,10 @@ to replay rendering."
- DESCRIPTION_cairo-perf-utils = "The Cairo library performance utilities"
- 
- FILES_${PN} = "${libdir}/libcairo.so.*"
--FILES_${PN}-dev += "${libdir}/cairo/*.la ${libdir}/cairo/*.so"
--#FILES_${PN}-dbg += "${libdir}/cairo/.debug"
--#FILES_${PN}-staticdev += "${libdir}/cairo/*.a"
--FILES_cairo-gobject = "${libdir}/libcairo-gobject.so.*"
--FILES_cairo-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
--FILES_cairo-perf-utils = "${bindir}/cairo-trace ${libdir}/cairo/libcairo-trace.so.*"
-+FILES_${PN}-dev += "${libdir}/cairo/*.so"
-+FILES_${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
-+FILES_${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
-+FILES_${PN}-perf-utils = "${bindir}/cairo-trace ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so.*"
- 
- do_install_append () {
- 	rm -rf ${D}${bindir}/cairo-sphinx
--- 
-1.8.4.2
+Cheers,
+
+Richard
+
+
 
 
