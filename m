@@ -1,38 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9670873D5E
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 02:09:45 +0000 (UTC)
-Received: by igbhj9 with SMTP id hj9so4293402igb.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 Apr 2015 19:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=lcznP1Iku+z8CqoTlKJGPoFeQ0+beaL3LbUoE4XMRzk=;
-	b=cCJ9Wah4dneck960esthpy5DqL9zspgftJICQ1G6wt2VXPj1udxYPI89QFM9dJFRQ6
-	Gv7RoNUZcqB8KjnyxjHSdpzLk7XyabppqG0tcx3eE5zF6fMBdpg6nJtyHzyZxFonoAEH
-	Vpts+9d14MxeLSNKsOJhTHwRUqYbtZSO5fC/AwT50jbfw/POGGvXyy3D8XFWlRwcjnI5
-	D68ozwvZe+uBvI98th8wh4SuiCeFdlOl7fhpZ0AsAv9+H8HvNQZkX1GHBGJL7uKagIj3
-	AOpmMu5qwLZfedmTRK7aDebVoSWqIAnuYHo0zZP/4FZhdgAF+nis0rAFnVd8k+/M1PUd
-	SMSw==
-X-Received: by 10.43.13.71 with SMTP id pl7mr1202736icb.31.1429236586511; Thu,
-	16 Apr 2015 19:09:46 -0700 (PDT)
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E8973D5A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 03:23:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="90812571"
+Received: from localhost (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Apr 2015 11:19:13 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t3H3Lori004892
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 11:21:50 +0800
+Received: from localhost.localdomain (10.167.226.48) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 17 Apr 2015 11:23:05 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Apr 2015 11:21:38 +0800
+Message-ID: <1429240898-42968-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Thu, 16 Apr 2015 19:09:16 -0700 (PDT)
-In-Reply-To: <CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
-References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
-	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
-	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
-	<20150415100850.GA2338@jama>
-	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Apr 2015 22:09:16 -0400
-Message-ID: <CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
-Subject: Re: autom4te segfault in Dumper.so when configuring intltool
+X-Originating-IP: [10.167.226.48]
+Subject: [PATCH] libgcrypt: modified the license of dumpsexp.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,23 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 02:09:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 17 Apr 2015 03:23:09 -0000
+Content-Type: text/plain
 
-On Wed, Apr 15, 2015 at 5:37 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> Hiding OE sysroot perl when configuring intltool and using only host
-> perl does also prevent the segfault.
->
-> I'm not sure what the correct fix is though. Perhaps have the
-> autoconf-native scripts run host perl via a wrapper which removes any
-> reference to OE sysroot perl from the PATH?
+Because dumpsexp.c is GPLv3. So pick up the dumpsexp and modified license to GPLv3.
 
-Not sure why Richard suggested that but may be his intention was to
-build automake-native early enough since perl takes a bit of time to
-build and it would serialize the build but we dont know unless we
-measure, may be there are enough native tools to build to keep
-processors spinning while its building perl-native
-in theory correct fix is to add dependency on perl native for autoconf
-native and do the necessary surgeries (if required to use perl-native)
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/recipes-support/libgcrypt/libgcrypt.inc | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index eea67aa..683be78 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -4,7 +4,11 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ SECTION = "libs"
+ 
+ # helper program gcryptrnd and getrandom are under GPL, rest LGPL
+-LICENSE = "GPLv2+ & LGPLv2.1+"
++LICENSE = "GPLv2+ & LGPLv2.1+ & GPLv3+"
++LICENSE_${PN} = "LGPLv2.1+"
++LICENSE_${PN}-dev = "GPLv2+ & LGPLv2.1+"
++LICENSE_dumpsexp-dev = "GPLv3+"
++
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff"
+ 
+@@ -35,7 +39,10 @@ do_install_append() {
+ 	install -m 0644 ${B}/src/libgcrypt.pc ${D}/${libdir}/pkgconfig/
+ }
+ 
+-FILES_${PN}-dev += "${bindir}/dumpsexp ${bindir}/hmac256"
++PACKAGES =+ "dumpsexp-dev"
++
++FILES_${PN}-dev += "${bindir}/hmac256"
++FILES_dumpsexp-dev += "${bindir}/dumpsexp"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
+-- 
+1.8.4.2
+
 
