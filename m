@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 59C4271EC3
+Return-Path: <reinette.chatre@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 97D4D605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 21:50:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3HLoFiK004005; Fri, 17 Apr 2015 22:50:15 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bnBT1sEmKOMT; Fri, 17 Apr 2015 22:50:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3HLo2nC004000
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 17 Apr 2015 22:50:14 +0100
-Message-ID: <1429307402.6976.207.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Fri, 17 Apr 2015 22:50:02 +0100
-In-Reply-To: <1ca6d1e0276189ecb640f08ce5afee34a788c163.1429177203.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1429177203.git.alejandro.hernandez@linux.intel.com>
-	<1ca6d1e0276189ecb640f08ce5afee34a788c163.1429177203.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] python3-native: Fix pip install issue due to unclean build directory
+	Fri, 17 Apr 2015 23:05:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Apr 2015 16:05:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,597,1422950400"; d="scan'208";a="715483787"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2015 16:05:20 -0700
+Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Fri, 17 Apr 2015 16:05:19 -0700
+Received: from orsmsx111.amr.corp.intel.com ([169.254.11.59]) by
+	ORSMSX156.amr.corp.intel.com ([10.22.240.22]) with mapi id
+	14.03.0224.002; Fri, 17 Apr 2015 16:05:18 -0700
+From: "Chatre, Reinette" <reinette.chatre@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Thread-Topic: dpkg:do_patch failure with today's updates to dizzy branch
+Thread-Index: AdB5Yvi8wjLxENehTcW5E+H0UJTHNg==
+Date: Fri, 17 Apr 2015 23:05:18 +0000
+Message-ID: <0D818C7A2259ED42912C1E04120FDE26710A76BB@ORSMSX111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: dpkg:do_patch failure with today's updates to dizzy branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 21:50:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Apr 2015 23:05:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2015-04-16 at 09:45 +0000, Alejandro Hernandez wrote:
-> When installing python3-native sometimes pips default build
-> directory (which is on the host and is user dependant) is left unclean,
-> due to this, when python3-core is being installed it tries to use
-> the same directory producing an error, this explicitly removes
-> what the previous installation might have left behind, fixing the issue.
-> 
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  .../python/python3-native_3.4.2.bb                 |  1 +
->  .../python3/pip_build_directory_unclean.patch      | 28 ++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+Hi,
 
-The problem here is that two builds of python3-native could be happening
-on the same system at the same time. In fact I'd bet that is why its
-breaking on the autobuilder. Can we not tell it to use something in
-WORKDIR as its temp directory instead?
+Today there was an update to the dizzy branch that includes the patch below=
+:
 
-Cheers,
+commit f77133783e5145858ac94b9bae1576852a7e838d
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Sat Mar 28 08:50:27 2015 +0000
 
-Richard
+    dpkg-native: Avoid 'file changed' errors from tar
+   =20
+    Hardlink count duing do_package_write_deb can change causing dpkg-deb
+    failures. We don't care about this error case so avoid it by checking
+    the tar exit code.
+   =20
+    [YOCTO #7529]
+   =20
+    (From OE-Core rev: 8ee36a5f2f9367550d28bf271afc53bca6ff3d5f)
+   =20
+    (From OE-Core rev: bcb124931af57dc2f9d8fe9cbbabd5f8ee58e414)
+   =20
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
+
+Unfortunately the patch introduced by this commit does not apply cleanly to=
+ the version of dpkg that can be found in dizzy release. It seems that the =
+patch was generated against dpkg version 1.17.21 while dizzy uses version 1=
+.17.4. The build fails with:
+
+NOTE: Applying patch 'tar-error-code.patch' (../meta/recipes-devtools/dpkg/=
+dpkg/tar-error-code.patch)
+ERROR: Command Error: exit status: 1  Output:
+Applying patch tar-error-code.patch
+patching file dpkg-deb/build.c
+Hunk #1 succeeded at 443 (offset 45 lines).
+Hunk #2 FAILED at 493.
+Hunk #3 FAILED at 581.
+2 out of 3 hunks FAILED -- rejects in file dpkg-deb/build.c
+Patch tar-error-code.patch does not apply (enforce with -f)
+
+Reinette
 
