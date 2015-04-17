@@ -1,40 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id AA66D73D5A
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 15:29:17 +0000 (UTC)
-Received: by iedfl3 with SMTP id fl3so84413545ied.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 08:29:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=5GK8X1UbnyNy4HeVWHwIJTaV31Vmv3X63DdMNPgpXJA=;
-	b=WXhkRxQBF20qLZ241DrM2pkIfn1CgACo+7D/JtPl55CK2/dBtLE9ZEgB2hieRmBANb
-	jQ6qLUD43/xcBGH6bNNiWqTbDYvzCmLqglMf87LhNPsdw9XZN5i1vA1wgNcUVCPyM+MK
-	HB+/XQPrGPeKw7TQ+2Gpy/bIv4LV8phFulpB7pZC5tjs3xYu2/LcY4lOJskrJCUMBkVN
-	3e84jQJfIqfoWyyYBt+AoL9VwDZHCFH3ZYOUV4Cik1Mbdgy/MzH4Iz1xbW5OJCA0/BQr
-	VR3pKOypBLOGJ2Qv2hcUDWdyq8GWRiKVBrN/PvwMYaFxtT0mO1hjO0hfYKITeX1EnOiF
-	JFQw==
-X-Received: by 10.50.111.233 with SMTP id il9mr3698228igb.13.1429284558516;
-	Fri, 17 Apr 2015 08:29:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.117.7 with HTTP; Fri, 17 Apr 2015 08:28:48 -0700 (PDT)
-In-Reply-To: <1429254936.6976.191.camel@linuxfoundation.org>
-References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
-	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
-	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
-	<20150415100850.GA2338@jama>
-	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
-	<CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
-	<1429254936.6976.191.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 17 Apr 2015 08:28:48 -0700
-Message-ID: <CAMKF1sp-GdCWpiXG6y=sFf3U9U6PXG+JTy7fJ=ChRpRpem+v=A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
-Subject: Re: autom4te segfault in Dumper.so when configuring intltool
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8561773D24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 15:43:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Apr 2015 08:43:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,595,1422950400"; d="scan'208";a="710920300"
+Received: from pbrao1-mobl5.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.13.156])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2015 08:43:25 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Apr 2015 16:43:06 +0100
+Message-Id: <cover.1429285210.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2 0/3] Packaging / warning fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,18 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 15:29:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 17 Apr 2015 15:43:24 -0000
 
-On Fri, Apr 17, 2015 at 12:15 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> autoconf-native is near enough one of the primary pieces of the
-> dependency chain. Having it depend on perl-native is a very very bad
-> idea, if its possible at all. It might be "correct" in principle but in
-> practise its not workable.
+A few fixes for things that have been bugging me lately. (I realise
+we've just changed the S warning recently, hopefully this is the last
+time...)
 
-in practice given sstate reuse, this impact of increased build time
-may be mitigated now a days. In my case rebuild of native-tools seldom
-happens
-its only an impact when you do a build w/o sstate.
+Changes since v1:
+* Adjust message for installed-vs-shipped to suggest not installing
+* Add S warning improvement patch
+
+The following changes since commit cfc43743b0e41cf168cad9cbd4e9d870b8f01f03:
+
+  toolchain-scripts: Allow the CONFIGSITE_CACHE variable to be overridden (2015-04-15 14:29:54 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/pkgfixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/pkgfixes
+
+Paul Eggleton (3):
+  classes/package: clarify installed-vs-shipped message
+  lib/oe/package_manager: avoid traceback with no packages
+  classes/base: clarify S not set correctly warning
+
+ meta/classes/base.bbclass      | 2 +-
+ meta/classes/package.bbclass   | 3 ++-
+ meta/lib/oe/package_manager.py | 2 ++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
+
+-- 
+2.1.0
+
 
