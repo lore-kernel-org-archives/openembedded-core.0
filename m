@@ -1,54 +1,24 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1101 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 17 Apr 2015 12:36:03 UTC
-Received: from mx12-out9.antispamcloud.com (mx12-out9.antispamcloud.com
-	[46.165.232.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CA23B73D0F
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 440B7605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Apr 2015 12:36:03 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1Yj5DF-0006X3-7c for openembedded-core@lists.openembedded.org;
-	Fri, 17 Apr 2015 14:17:41 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Fri, 17 Apr 2015 14:18:28 +0200
-Message-ID: <5530F9E0.6050906@topic.nl>
-Date: Fri, 17 Apr 2015 14:17:36 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrH5LkpYQd2b7PaCtqH3jknNqgStnET5dwGFsq
-	1Z20zbo8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
-	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJcFIkh7yuznlTeFPLSNUgKbJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Using CRDA in combination with MDEV
+	Fri, 17 Apr 2015 13:19:10 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Apr 2015 06:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,594,1422950400"; d="scan'208";a="710836153"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2015 06:19:12 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id B21B86A4091;
+	Fri, 17 Apr 2015 06:18:46 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Apr 2015 16:19:01 +0300
+Message-Id: <1429276741-28039-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Ed Bartosh <eduard.bartosh@intel.com>
+Subject: [wic][PATCH] wic: try to find bitbake using find_executable API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,55 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 12:36:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Apr 2015 13:19:11 -0000
 
-=EF=BB=BFHas anyone here ever got "crda" to work with mdev (instead of udev=
-)?
+From: Ed Bartosh <eduard.bartosh@intel.com>
 
+Current wic code was assuming that bitbake directory is on the
+same level as scripts, which is not the case for oe classic.
 
-I was getting this message again from the wireless card:
+Using find_executable bitbake location should be determined better
+as this API uss $PATH to search for executables.
 
-cfg80211: Calling CRDA to update world regulatory domain
+Fixes [YOCTO #7621]
 
-Now CRDA is the answer to that, and until now, I solved it by simply compil=
-ing=20
-a static rules database into my kernel. Which is apparently frowned upon, s=
-o I=20
-went looking for a more generally accepted solution.
+Signed-off-by: Ed Bartosh <eduard.bartosh@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/wic | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-I noticed there's a "crda" package in OE, but it RDEPENDS on udev for no ot=
-her=20
-reason than simply because it provides a rules file for that. And I want to=
-=20
-keep using mdev.
-
-I think it would be better to split this package, and have a "crda-udev"=20
-package that provides the rules file and the dependency on udev. Alternativ=
-e=20
-is to have a PACKAGECONFIG to enable udev support.
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-Please visit us at the Hannover Messe which will be held from 13.04.2015 ti=
-ll 17.04.2015, Hall 2, Stand C12, Holland High Tech House
-http://www.hannovermesse.de/exhibitor/topic-embedded-products/L929216?sourc=
-e=3Dakl
-
+diff --git a/scripts/wic b/scripts/wic
+index 5bedd90..7d388c9 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -36,19 +36,25 @@ import os
+ import sys
+ import optparse
+ import logging
++from distutils import spawn
+ 
+ # External modules
+ scripts_path = os.path.abspath(os.path.dirname(__file__))
+ lib_path = scripts_path + '/lib'
+-bitbake_path = os.path.join(scripts_path, '../bitbake/lib')
+-sys.path = sys.path + [lib_path, bitbake_path]
++sys.path.append(lib_path)
++
++bitbake_exe = spawn.find_executable('bitbake')
++if bitbake_exe:
++    bitbake_path = os.path.join(os.path.dirname(bitbake_exe), '../lib')
++    sys.path.append(bitbake_path)
++    from bb import cookerdata
++    from bb.main import bitbake_main, BitBakeConfigParameters
++else:
++    bitbake_main = None
+ 
+ from image.help import *
+ from image.engine import *
+ 
+-from bb import cookerdata
+-from bb.main import bitbake_main, BitBakeConfigParameters
+-
+ def rootfs_dir_to_args(krootfs_dir):
+     """
+     Get a rootfs_dir dict and serialize to string
+@@ -109,6 +115,10 @@ def wic_create_subcommand(args, usage_str):
+         parser.print_help()
+         sys.exit(1)
+ 
++    if options.build_rootfs and not bitbake_main:
++        logging.error("Can't build roofs as bitbake is not in the $PATH")
++        sys.exit(1)
++
+     if not options.image_name and not (options.rootfs_dir and
+                                        options.bootimg_dir and
+                                        options.kernel_dir and
+-- 
+2.1.4
 
 
