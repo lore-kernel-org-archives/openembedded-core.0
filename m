@@ -1,41 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 61BDB73D68
-	for <openembedded-core@openembedded.org>;
-	Fri, 17 Apr 2015 00:31:32 +0000 (UTC)
-Received: by wiax7 with SMTP id x7so22931895wia.0
-	for <openembedded-core@openembedded.org>;
-	Thu, 16 Apr 2015 17:31:33 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9670873D5E
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Apr 2015 02:09:45 +0000 (UTC)
+Received: by igbhj9 with SMTP id hj9so4293402igb.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 16 Apr 2015 19:09:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=ZRm8orstKKM1afcGwH+PuvxCq1tQgJrfbtnHnlGhUdU=;
-	b=ezRGyhLbmr/BOwANPw462a5p5inyQOzijTJ0NpXegOmtCGjVwG8Cg/jXpsbBp9l0XG
-	Rb81cvZgd/H0bkjGA/Ad3GJA0Ewqu7UKR9QkMZ5kbJhO2EeklKe4wLl9fFDhrvMagt/a
-	slP2SnHQcPM1XoAWfQpPd3aR4NP3GJD+N8U9ksC0/VwAlze0nui0qXANwGbjGd9afyvD
-	WFetI/eJ+7LoMefJVKovWjqET/RyRV9P/SIJlMDrupPnkek3yPdzZmTsbqTuWvCEEU94
-	t1kpXH4NvkI23eKtCczF4LGekYAmbtOQ1+KCGU4FECj143RmiN9KmcCgI+Qa9z6u8KCT
-	7w2g==
-X-Received: by 10.180.208.7 with SMTP id ma7mr9908946wic.0.1429230693555;
-	Thu, 16 Apr 2015 17:31:33 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id go4sm417070wib.1.2015.04.16.17.31.32
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Apr 2015 17:31:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 17 Apr 2015 02:31:50 +0200
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <20150417003150.GC2341@jama>
-References: <1428610909-12661-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<1428610909-12661-2-git-send-email-alejandro.hernandez@linux.intel.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=lcznP1Iku+z8CqoTlKJGPoFeQ0+beaL3LbUoE4XMRzk=;
+	b=cCJ9Wah4dneck960esthpy5DqL9zspgftJICQ1G6wt2VXPj1udxYPI89QFM9dJFRQ6
+	Gv7RoNUZcqB8KjnyxjHSdpzLk7XyabppqG0tcx3eE5zF6fMBdpg6nJtyHzyZxFonoAEH
+	Vpts+9d14MxeLSNKsOJhTHwRUqYbtZSO5fC/AwT50jbfw/POGGvXyy3D8XFWlRwcjnI5
+	D68ozwvZe+uBvI98th8wh4SuiCeFdlOl7fhpZ0AsAv9+H8HvNQZkX1GHBGJL7uKagIj3
+	AOpmMu5qwLZfedmTRK7aDebVoSWqIAnuYHo0zZP/4FZhdgAF+nis0rAFnVd8k+/M1PUd
+	SMSw==
+X-Received: by 10.43.13.71 with SMTP id pl7mr1202736icb.31.1429236586511; Thu,
+	16 Apr 2015 19:09:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1428610909-12661-2-git-send-email-alejandro.hernandez@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@openembedded.org, bitbake-devel@lists.openembedded.org
-Subject: Re: [bitbake-devel] [PATCH 1/1] [daisy][dizzy] data.py: fixes bad substitution when running devshell
+Received: by 10.50.117.7 with HTTP; Thu, 16 Apr 2015 19:09:16 -0700 (PDT)
+In-Reply-To: <CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
+References: <CAJ86T=Uw=yOfYCmEcx5Ro5of7jKksjxq6WSBOaxPOjMHFp8LoA@mail.gmail.com>
+	<CA+chaQfLz-OgjHwce6yoeCQXgMwKEJnuo3ZBThSS=yK7hAXc5Q@mail.gmail.com>
+	<CAJ86T=VMoW-hX-Y6xPy835Hfn4W3Wqbn_s+TCYWfHZ42Oc368w@mail.gmail.com>
+	<20150415100850.GA2338@jama>
+	<CAJ86T=UwLFJ5LOAg48Z2jM973JyWc68EiEER9tADc+7qQdnDWQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Apr 2015 22:09:16 -0400
+Message-ID: <CAMKF1soYC_BnMGv4Su5Z+6v1oFKpYCfRWvFxdnPXp9i04BAHHQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <Openembedded-core@lists.openembedded.org>
+Subject: Re: autom4te segfault in Dumper.so when configuring intltool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,70 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 00:31:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Apr 2015 02:09:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Apr 09, 2015 at 03:21:49PM -0500, Alejandro Hernandez wrote:
-> From: Richard Tollerton <rich.tollerton@ni.com>
->=20
-> Running bitbake inside make results in the exported environment variable
-> MAKEOVERRIDES=3D"${-*-command-variables-*-}", which the shell chokes on
-> when trying to expand it. But of course, it probably shouldn't have been
-> trying to expand it in the first place -- so just escape the dollar
-> sign.
->=20
-> (Bitbake rev: 18cd0ce6a55c9065c3f1bf223b47d817b5efcd8f)
+On Wed, Apr 15, 2015 at 5:37 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> Hiding OE sysroot perl when configuring intltool and using only host
+> perl does also prevent the segfault.
+>
+> I'm not sure what the correct fix is though. Perhaps have the
+> autoconf-native scripts run host perl via a wrapper which removes any
+> reference to OE sysroot perl from the PATH?
 
-This was already cherry-picked to 1.24 where it IIRC breaks powertop
-build with current oe-core/dizzy.
-
-Please backport:
-
-commit a3e9b391e1024d6d2e256b75c214d34e6693e332
-Author: Martin Jansa <martin.jansa@gmail.com>
-Date:   Thu Dec 18 15:54:14 2014 +0100
-
-    powertop: Fix build for !uclibc
-   =20
-    * EXTRA_LDFLAGS isn't defined for !uclibc and configure fails
-      when it reads it unexpanded, see config.log snippet:
-
-to unblock Dizzy builds and backport the same to Dylan before merging
-this to 2.22.
-
->=20
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
->=20
-> ---
->  bitbake/lib/bb/data.py | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/bitbake/lib/bb/data.py b/bitbake/lib/bb/data.py
-> index eb628c7..82eefef 100644
-> --- a/bitbake/lib/bb/data.py
-> +++ b/bitbake/lib/bb/data.py
-> @@ -238,6 +238,7 @@ def emit_var(var, o=3Dsys.__stdout__, d =3D init(), a=
-ll=3DFalse):
->      # to a shell, we need to escape the quotes in the var
->      alter =3D re.sub('"', '\\"', val)
->      alter =3D re.sub('\n', ' \\\n', alter)
-> +    alter =3D re.sub('\\$', '\\\\$', alter)
->      o.write('%s=3D"%s"\n' % (varExpanded, alter))
->      return 0
-> =20
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> bitbake-devel mailing list
-> bitbake-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/bitbake-devel
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Not sure why Richard suggested that but may be his intention was to
+build automake-native early enough since perl takes a bit of time to
+build and it would serialize the build but we dont know unless we
+measure, may be there are enough native tools to build to keep
+processors spinning while its building perl-native
+in theory correct fix is to add dependency on perl native for autoconf
+native and do the necessary surgeries (if required to use perl-native)
 
