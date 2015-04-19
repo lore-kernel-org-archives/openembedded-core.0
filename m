@@ -1,24 +1,32 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 0400871EC3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 17FB0727D9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Apr 2015 14:58:19 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1YjUCJ-0006ob-8G from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Apr 2015 07:58:19 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Sat, 18 Apr 2015 15:58:18 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 18 Apr 2015 17:58:17 +0300
-Message-ID: <1429369097-22171-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH] e2fsprogs: add ptest
+	Sun, 19 Apr 2015 07:49:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3J7nrTP016683; Sun, 19 Apr 2015 08:49:53 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id TkKhdCESAF0u; Sun, 19 Apr 2015 08:49:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3J7nfdf016680
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 19 Apr 2015 08:49:52 +0100
+Message-ID: <1429429781.6976.217.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Sun, 19 Apr 2015 08:49:41 +0100
+In-Reply-To: <5531A32F.2010302@linux.intel.com>
+References: <cover.1429177203.git.alejandro.hernandez@linux.intel.com>
+	<1ca6d1e0276189ecb640f08ce5afee34a788c163.1429177203.git.alejandro.hernandez@linux.intel.com>
+	<1429307402.6976.207.camel@linuxfoundation.org>
+	<5531A32F.2010302@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] python3-native: Fix pip install issue due to unclean build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,135 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Apr 2015 14:58:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 19 Apr 2015 07:49:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Enable ptest for e2fsprogs by reusing provided testsuite.
+On Fri, 2015-04-17 at 19:19 -0500, Alejandro Hernandez wrote:
+> On 17/04/15 16:50, Richard Purdie wrote:
+> > On Thu, 2015-04-16 at 09:45 +0000, Alejandro Hernandez wrote:
+> >> When installing python3-native sometimes pips default build
+> >> directory (which is on the host and is user dependant) is left unclean,
+> >> due to this, when python3-core is being installed it tries to use
+> >> the same directory producing an error, this explicitly removes
+> >> what the previous installation might have left behind, fixing the issue.
+> >>
+> >> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> >> ---
+> >>   .../python/python3-native_3.4.2.bb                 |  1 +
+> >>   .../python3/pip_build_directory_unclean.patch      | 28 ++++++++++++++++++++++
+> >>   2 files changed, 29 insertions(+)
+> >>   create mode 100644 meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+> > The problem here is that two builds of python3-native could be happening
+> > on the same system at the same time. In fact I'd bet that is why its
+> > breaking on the autobuilder. Can we not tell it to use something in
+> > WORKDIR as its temp directory instead?
+> >
+> > Cheers,
+> >
+> > Richard
+> Hmm, that's potentially what is happening, in fact, my first thought was 
+> to do that and use something within the WORKDIR, but I wasn't able to do 
+> that because they do something weird to install pip, they bootstrap the 
+> installation and they use python wheels, so the actual part of the code 
+> where one could specify a different build directory for pip is inside 
+> one of the wheels, making it complicated to modify.
+> The only other thing that occurs to me would be to just make it sleep or 
+> make it wait somehow (we could modify the queue?) until the directory is 
+> empty.
+> 
+> I still think this should work, I only saw cases where the build 
+> directory is left with one empty file, another reason why I decided to 
+> explicitly delete it instead of forcing it to delete everything inside 
+> the directory, disabling pip is not an option because it is required 
+> since python 3.4 as I stated on the upgrade patch, we could try this, 
+> and if it doesn't work I'll find another workaround, but let me know 
+> what you think.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
----
- .../e2fsprogs/e2fsprogs/ptest.patch                | 66 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 11 ++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 17 ++++++
- 3 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+I tried it on the autobuilder and it failed again. I think part of the
+problem is that this part of the process runs under pseudo so it thinks
+its root, yet can't clear root's pip directory in /tmp.
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-new file mode 100644
-index 0000000..b8a53e9
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-@@ -0,0 +1,66 @@
-+Index: e2fsprogs-1.42.9/tests/Makefile.in
-+===================================================================
-+--- e2fsprogs-1.42.9.orig/tests/Makefile.in
-++++ e2fsprogs-1.42.9/tests/Makefile.in
-+@@ -18,7 +18,7 @@ test_one: $(srcdir)/test_one.in Makefile
-+ 	@echo "#!/bin/sh" > test_one
-+ @HTREE_CMT@	@echo "HTREE=y" >> test_one
-+ @QUOTA_CMT@	@echo "QUOTA=y" >> test_one
-+-	@echo "SRCDIR=@srcdir@" >> test_one
-++	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_one
-+ 	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
-+ 	@cat $(srcdir)/test_one.in >> test_one
-+ 	@chmod +x test_one
-+@@ -26,7 +26,7 @@ test_one: $(srcdir)/test_one.in Makefile
-+ test_script: test_one test_script.in Makefile mke2fs.conf
-+ 	@echo "Creating test_script..."
-+ 	@echo "#!/bin/sh" > test_script
-+-	@echo "SRCDIR=@srcdir@" >> test_script
-++	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_script
-+ 	@cat $(srcdir)/test_script.in >> test_script
-+ 	@chmod +x test_script
-+ 
-+Index: e2fsprogs-1.42.9/tests/test_config
-+===================================================================
-+--- e2fsprogs-1.42.9.orig/tests/test_config
-++++ e2fsprogs-1.42.9/tests/test_config
-+@@ -3,23 +3,23 @@
-+ #
-+ 
-+ unset LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME PAGER
-+-FSCK="$USE_VALGRIND ../e2fsck/e2fsck"
-+-MKE2FS="$USE_VALGRIND ../misc/mke2fs"
-+-DUMPE2FS="$USE_VALGRIND ../misc/dumpe2fs"
-+-TUNE2FS="$USE_VALGRIND ../misc/tune2fs"
-+-CHATTR="$USE_VALGRIND../misc/chattr"
-+-LSATTR="$USE_VALGRIND ../misc/lsattr"
-+-E2IMAGE="$USE_VALGRIND ../misc/e2image"
-+-E2IMAGE_EXE="../misc/e2image"
-+-DEBUGFS="$USE_VALGRIND ../debugfs/debugfs"
-+-DEBUGFS_EXE="../debugfs/debugfs"
-+-TEST_BITS="../debugfs/debugfs"
-+-RESIZE2FS_EXE="../resize/resize2fs"
-++FSCK="$USE_VALGRIND e2fsck"
-++MKE2FS="$USE_VALGRIND mke2fs"
-++DUMPE2FS="$USE_VALGRIND dumpe2fs"
-++TUNE2FS="$USE_VALGRIND tune2fs"
-++CHATTR="$USE_VALGRIND chattr"
-++LSATTR="$USE_VALGRIND lsattr"
-++E2IMAGE="$USE_VALGRIND e2image"
-++E2IMAGE_EXE="/sbin/e2image"
-++DEBUGFS="$USE_VALGRIND debugfs"
-++DEBUGFS_EXE="/sbin/debugfs"
-++TEST_BITS="/sbin/debugfs"
-++RESIZE2FS_EXE="/sbin/resize2fs"
-+ RESIZE2FS="$USE_VALGRIND $RESIZE2FS_EXE"
-+-E2UNDO_EXE="../misc/e2undo"
-+-TEST_REL=../tests/progs/test_rel
-+-TEST_ICOUNT=../tests/progs/test_icount
-+-CRCSUM=../tests/progs/crcsum
-++E2UNDO_EXE="/sbin/e2undo"
-++TEST_REL=./progs/test_rel
-++TEST_ICOUNT=./progs/test_icount
-++CRCSUM=./progs/crcsum
-+ LD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss
-+ DYLD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss
-+ export LD_LIBRARY_PATH
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-new file mode 100644
-index 0000000..1ac2513
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+
-+cd ./test
-+./test_script &>../test.log
-+if [ $? -eq 0 ]
-+then
-+	echo "PASS: e2fsprogs"
-+	rm test.log
-+else
-+	echo "FAIL: e2fsprogs"
-+fi
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 66065bc..67a5ea7 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -87,3 +87,20 @@ ALTERNATIVE_${PN} = "chattr"
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_LINK_NAME[chattr] = "${base_bindir}/chattr"
- ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
-+
-+inherit ptest
-+SRC_URI += "file://run-ptest"
-+SRC_URI += "file://ptest.patch"
-+
-+RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps"
-+#RDEPENDS_${PN}-ptest += "expect"
-+
-+do_compile_ptest() {
-+	oe_runmake -C ${B}/tests
-+}
-+
-+do_install_ptest() {
-+	cp -a ${B}/tests ${D}${PTEST_PATH}/test
-+	cp -a ${S}/tests/* ${D}${PTEST_PATH}/test
-+	sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
-+}
--- 
-2.1.4
+I suspect we are going to have to tell pip to use WORKDIR somehow, even
+if we have to patch it to take some kind of prompt from the environment
+for example.
+
+Cheers,
+
+Richard
 
 
