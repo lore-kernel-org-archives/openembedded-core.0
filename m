@@ -1,29 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C9EA1727DA
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2945065CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Apr 2015 12:36:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3JCZxPj022258; Sun, 19 Apr 2015 13:35:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AQaXQY-jDj9K; Sun, 19 Apr 2015 13:35:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3JCZgrw022247
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 19 Apr 2015 13:35:54 +0100
-Message-ID: <1429446942.6976.218.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Sun, 19 Apr 2015 13:35:42 +0100
-In-Reply-To: <1429026839-19421-1-git-send-email-akuster808@gmail.com>
-References: <1429026839-19421-1-git-send-email-akuster808@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lz4: update package to 128 and SRC_URI
+	Sun, 19 Apr 2015 21:46:01 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so187611395pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Apr 2015 14:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=Vx12ME4rYKwoWszPhfdSEilA36onZrnvwVUbkLOTP50=;
+	b=G/C0EsUxNS/2JmS3N1LxhIcpUOVt3YS/tQYF2RRrKH2A9okHKFU0B83mJryD2AwnGu
+	i5BTJxySmGh6ABTZ679Lf+b3gN4xHWAJ5ALbKqbxae9i6U/dVr1l/T8wxrxYCL9bJZy8
+	dJERsbNgzh7Ex2bBJy4+4QltpmRvt39iTGdZKrTmds+8Yclj4VcNgpx7YXCFxPON4iWn
+	ywbQJw8abaE39HM+bxGXnLG1f66Bf5QFwK6/4nn6xKQKopjSom6vuT1AT4Xq/fCfTL8d
+	oGvoYV9XbWChNN9Gc95zuzb/8ZCqDrR5ZAyDP9GMlmi8Y3DcZI6sJi5B7GNGmRbJoA/5
+	mdhg==
+X-Received: by 10.70.125.162 with SMTP id mr2mr22522750pdb.21.1429479962076;
+	Sun, 19 Apr 2015 14:46:02 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	c15sm16020839pbu.81.2015.04.19.14.46.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 19 Apr 2015 14:46:00 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Apr 2015 14:45:56 -0700
+Message-Id: <1429479956-27143-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] lz4: fix QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Apr 2015 12:36:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Apr 2015 21:46:03 -0000
 
-On Tue, 2015-04-14 at 08:53 -0700, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
-> 
-> The main reason for the update is to use github
-> as the project moved away from googlecode.
-> 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/recipes-support/lz4/{lz4_svn.bb => lz4.bb} | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->  rename meta/recipes-support/lz4/{lz4_svn.bb => lz4.bb} (78%)
+WARNING: Could not copy license file
 
-Failed on the autobuilder:
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/lz4/lz4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=7b96cb9585c3ce735689146ed8f08b13ff8bc05e
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
+index ee5de0a..0b0c632 100644
+--- a/meta/recipes-support/lz4/lz4.bb
++++ b/meta/recipes-support/lz4/lz4.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Extremely Fast Compression algorithm"
+ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+ 
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
++LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+ 
+ SRCREV = "5780864c0ce08622238a267c46fb489d7066cad4"
+ 
+-- 
+2.3.5
 
 
