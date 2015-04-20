@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A4F365CAC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8D965CAC
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Apr 2015 08:09:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89NJ3029733
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89N58014552
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Apr 2015 01:09:23 -0700 (PDT)
@@ -14,11 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Mon, 20 Apr 2015 01:09:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Apr 2015 01:09:15 -0700
-Message-ID: <cover.1429517334.git.liezhi.yang@windriver.com>
+Date: Mon, 20 Apr 2015 01:09:16 -0700
+Message-ID: <1b6b7c3b5df8db3c18f0001f64a5f974a8993e8d.1429517334.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1429517334.git.liezhi.yang@windriver.com>
+References: <cover.1429517334.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] Package Upgrades
+Subject: [PATCH 1/8] cracklib: 2.9.2 -> 2.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +36,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 20 Apr 2015 08:09:22 -0000
 Content-Type: text/plain
 
-The following changes since commit 97d56a5b8e4f15eb32095f242eb2fd62fc5d85f2:
-
-  gmp: remove referencing paths from the build host (2015-04-19 13:34:06 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/PUs
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PUs
-
-Robert Yang (8):
-  cracklib: 2.9.2 -> 2.9.3
-  directfb: 1.7.6 -> 1.7.7
-  ccache: 3.1.9 -> 3.1.11
-  dbus-glib: 0.102 -> 0.104
-  cryptodev: 1.6 -> 1.7
-  liberror-perl: 0.17022 -> 0.17023
-  pax-utils: 0.9.2 -> 1.0.3
-  lz4: r127 -> r128
-
- meta/recipes-core/dbus/dbus-glib_0.102.bb          |    5 --
- meta/recipes-core/dbus/dbus-glib_0.104.bb          |    4 +
- .../ccache/{ccache_3.1.9.bb => ccache_3.1.11.bb}   |    4 +-
- .../{pax-utils_0.9.2.bb => pax-utils_1.0.3.bb}     |    4 +-
- ...or-perl_0.17022.bb => liberror-perl_0.17023.bb} |    5 +-
- .../{cracklib_2.9.2.bb => cracklib_2.9.3.bb}       |    6 +-
- meta/recipes-graphics/directfb/directfb_1.7.6.bb   |    8 --
- meta/recipes-graphics/directfb/directfb_1.7.7.bb   |    8 ++
- ...yptodev-linux_1.6.bb => cryptodev-linux_1.7.bb} |    4 +-
- ...todev-module_1.6.bb => cryptodev-module_1.7.bb} |    1 -
- ...yptodev-tests_1.6.bb => cryptodev-tests_1.7.bb} |    0
- .../{cryptodev_1.6.inc => cryptodev_1.7.inc}       |    4 +-
- ...pile-and-install-rules-for-cryptodev-test.patch |   23 +++---
- ...-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch |   86 --------------------
- .../recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} |   12 +--
- 15 files changed, 40 insertions(+), 134 deletions(-)
- delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.102.bb
- create mode 100644 meta/recipes-core/dbus/dbus-glib_0.104.bb
- rename meta/recipes-devtools/ccache/{ccache_3.1.9.bb => ccache_3.1.11.bb} (45%)
- rename meta/recipes-devtools/pax-utils/{pax-utils_0.9.2.bb => pax-utils_1.0.3.bb} (83%)
- rename meta/recipes-devtools/perl/{liberror-perl_0.17022.bb => liberror-perl_0.17023.bb} (83%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../{cracklib_2.9.2.bb => cracklib_2.9.3.bb}       |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
  rename meta/recipes-extended/cracklib/{cracklib_2.9.2.bb => cracklib_2.9.3.bb} (90%)
- delete mode 100644 meta/recipes-graphics/directfb/directfb_1.7.6.bb
- create mode 100644 meta/recipes-graphics/directfb/directfb_1.7.7.bb
- rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.6.bb => cryptodev-linux_1.7.bb} (92%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.6.bb => cryptodev-module_1.7.bb} (85%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.6.bb => cryptodev-tests_1.7.bb} (100%)
- rename meta/recipes-kernel/cryptodev/{cryptodev_1.6.inc => cryptodev_1.7.inc} (66%)
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
- rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (66%)
 
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb b/meta/recipes-extended/cracklib/cracklib_2.9.3.bb
+similarity index 90%
+rename from meta/recipes-extended/cracklib/cracklib_2.9.2.bb
+rename to meta/recipes-extended/cracklib/cracklib_2.9.3.bb
+index fceca54..51afc45 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.3.bb
+@@ -15,10 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
+ 
+-SRC_URI[md5sum] = "559072fdfc095cdb763c4de3471a889e"
+-SRC_URI[sha256sum] = "c1c899291d443e99d1aecfbc879e4ac9c0cbc265574f47b487842da11e9759f5"
+-
+-PR = "r1"
++SRC_URI[md5sum] = "1e18ed9a593719af71b6440f16f91182"
++SRC_URI[sha256sum] = "9c55afcdc01ae90aad0af0f9e4de0db9ba2fadf88cdf3a585a08a3530d25dba5"
+ 
+ inherit autotools gettext pythonnative python-dir
+ 
 -- 
 1.7.9.5
 
