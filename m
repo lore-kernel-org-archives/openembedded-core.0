@@ -1,29 +1,40 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [58.251.152.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 8425E71EC3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 68BFC6ABF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 01:30:37 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml434-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg01-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
-	with ESMTP id CMJ02153; Mon, 20 Apr 2015 09:30:36 +0800 (CST)
-Received: from [127.0.0.1] (10.111.55.101) by szxeml434-hub.china.huawei.com
-	(10.82.67.225) with Microsoft SMTP Server id 14.3.158.1;
-	Mon, 20 Apr 2015 09:30:32 +0800
-Message-ID: <553456B2.8090004@huawei.com>
-Date: Mon, 20 Apr 2015 09:30:26 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
-MIME-Version: 1.0
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>
-	<CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>
-In-Reply-To: <CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>
-X-Originating-IP: [10.111.55.101]
-X-CFilter-Loop: Reflected
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gmp: remove referencing paths from the build host
+	Mon, 20 Apr 2015 03:37:27 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so194256488pdb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=bAmC0KZqniisZ0dPQrPUiSy+PhxnW/TzH3BLBnDWNOU=;
+	b=EbOOSqe+eL82fX5qmwzMN3q1WAyWlTQ4qm14q3gQHACvrlne5eO4Vqgb7jHHvNOyqi
+	XbTSmhkSmjKpMjSVvqxPc9KIynBjaSUXtkV7Uejb0NnZZdWQofKoUsdEMImVTTwVpI7G
+	bxUc50rBzz2Qfgy7LhzuqUZltQYa/sbPak51a1ggzqtHKVwb2s2zkheToiswwXkYdpKB
+	5IDshvpBdFWr6L4dkOGlRlMZBtCKfQPxFpj4CIMxjKcIjlYjH/Lr8aK7rtRXgZmybau7
+	N5ht4BQ9rG99gAEZu7Y5ZZDHe4fbgi+DbpUdVkROAT+TVomDUu5nEe/eVpYMcoIgAxWj
+	4W8Q==
+X-Received: by 10.66.154.162 with SMTP id vp2mr24096590pab.73.1429501048849;
+	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:8591:8b1b:a4f1:71e4?
+	([2601:9:3580:84c:8591:8b1b:a4f1:71e4])
+	by mx.google.com with ESMTPSA id iw1sm16501187pbd.8.2015.04.19.20.37.27
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <552CA285.9070909@windriver.com>
+Date: Sun, 19 Apr 2015 20:37:27 -0700
+Message-Id: <E8C21342-58AA-4E1D-9790-7465AFAF6ECF@gmail.com>
+References: <552CA285.9070909@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: failed to build libunwind when qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 01:30:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On 2015/4/18 2:24, Andre McCurdy wrote:
-> On Fri, Apr 17, 2015 at 1:50 AM, Junling Zheng <zhengjunling@huawei.com> wrote:
->> Currently ${D}${includedir}/gmp.h references the path of build host
->> incorrectly, remove it.
->>
->> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
->> ---
->>  meta/recipes-support/gmp/gmp.inc | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
->> index 558ee06..a80b356 100644
->> --- a/meta/recipes-support/gmp/gmp.inc
->> +++ b/meta/recipes-support/gmp/gmp.inc
->> @@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
->>  PACKAGES =+ "libgmpxx"
->>  FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
->>
->> +do_install_append_class-target() {
->> +       sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
->> +}
-> 
-> It's possible that STAGING_DIR_HOST could contain '+' characters, so
-> '|' would be a safer sed separator to use here.
-> 
-
-Ok, thanks for your suggestion:)
-
->> +
->>  SSTATE_SCAN_FILES += "gmp.h"
->> --
->> 1.9.1
->>
-> 
-> 
+X-List-Received-Date: Mon, 20 Apr 2015 03:37:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+> On Apr 13, 2015, at 10:15 PM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
+>=20
+> | =
+/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
+oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: copy reloc against protected =
+`_Uaarch64_local_addr_space' is invalid
+> | =
+/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
+oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: failed to set dynamic section =
+sizes: Bad value
+> | =
+/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
+oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: copy reloc against protected =
+`_Uaarch64_local_addr_space' is invalid
+> | =
+/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
+oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: failed to set dynamic section =
+sizes: Bad value
+> | collect2: error: ld returned 1 exit status
+
+these copy relocations are probably not supported by ld on aarch64=
 
