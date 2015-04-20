@@ -1,41 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E9B65CAC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id AE3B06AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 10:41:47 +0000 (UTC)
-Received: by wgyo15 with SMTP id o15so174283947wgy.2
+	Mon, 20 Apr 2015 11:20:34 +0000 (UTC)
+Received: by qkgx75 with SMTP id x75so178753704qkg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 03:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=l6KiLttLW15WKXu9lBmPsO4do30oLgWtwqCGC7/H6Is=;
-	b=aP8yMTInZInEaGxWKDBIdEKc7zDmIk91SztpDaqxbkRGkWBKdXU/uqMrQGO5BIspjH
-	UBi7x2DLBXQDy1rxVEoK2Kwt72i6wLSNA4jjw2Mq1bwsw/2d3qUDtrsAWiP/j6ulTAgN
-	ui0dbdKdZ2/IjTlRHaYrNPOPOUOHPZi/C4GMmHZXpi+Gu/0u3q+P5zsxAGDoK8YDkZcd
-	3cK1plVDvFGuZZG57hwRa2m3kjf5WRmikucvjQ2iUiG2fDiWLoWtyAa6/yUqMVO0NcE7
-	qlYmyOgB/6MMS5ZeyHeHfBTxd34mILjuSoj4oFwMfYvv7A0khyImUZtK0NqAegeJIU/z
-	UA8g==
-X-Received: by 10.194.78.12 with SMTP id x12mr28549867wjw.112.1429526508299;
-	Mon, 20 Apr 2015 03:41:48 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	ew10sm14654653wic.22.2015.04.20.03.41.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Apr 2015 03:41:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 20 Apr 2015 12:41:52 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150420104152.GC3686@jama>
-References: <1428665669-16128-1-git-send-email-Martin.Jansa@gmail.com>
-	<1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
+	Mon, 20 Apr 2015 04:20:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4ycrGaEWA0djxWd/8DB6le+rKWRYZiknugmLZxIaJLQ=;
+	b=VldPbPMjan2OYlRMdv2CHPPcW9b44wmB5ZnSwcILZWw0rRQjomKIpnV5gTJnR54O0N
+	7/Khw6QyVt8sQB+1/njcq7GzdQSjH9uy5suSvcHaU6mqPm+z+VfgOn2ZLCJR12Ov1TPc
+	WvnV5t8wb1SuGrxUnLU8gjgFm8k5bdtpFrKwJ9J6wfPfErC0H+QSIs8Pr+o08iZMFXsH
+	0Gcp/KyBy8R4mOiFAGlYEJQjzKZ7vcank8uE9SVizBBFE9c4pAeXrzhkXWI/sDpPAKrC
+	0A7IPgYkfk8q85hRdi0EZuKLqmu3ZM1704eK7Vikq62MoUXFBAPebO8NzDmm7i3fANZT
+	FS9A==
+X-Gm-Message-State: ALoCoQmBJkYbWfk4FimR8DpFbsSqalFDTtjruiJAoMHqAnezZECw4nbiaqE4suo1Z7Cpb8OjkYcP
+X-Received: by 10.140.216.5 with SMTP id m5mr17217034qhb.52.1429528835556;
+	Mon, 20 Apr 2015 04:20:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [dylan][PATCH 2/2] binutils: backport patch to fix build with gcc-4.9
+Received: by 10.140.102.231 with HTTP; Mon, 20 Apr 2015 04:20:15 -0700 (PDT)
+In-Reply-To: <7e7a1d75a00f13cab25edc1dc794baad4f940ef8.1428714999.git.raj.khem@gmail.com>
+References: <cover.1428714999.git.raj.khem@gmail.com>
+	<7e7a1d75a00f13cab25edc1dc794baad4f940ef8.1428714999.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Apr 2015 12:20:15 +0100
+Message-ID: <CAJTo0LZ8AsB-pQ2Aa6HXi+-bYybOXO9=2u_6cy9rwC6XQy=UgA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 14/17] xserver-xf86-config: Preload graphics driver modules for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,98 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 10:41:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 Apr 2015 11:20:35 -0000
+Content-Type: multipart/alternative; boundary=001a11354e68709d020514261e68
+
+--001a11354e68709d020514261e68
+Content-Type: text/plain; charset=UTF-8
+
+Hi Khem,
+
+On 11 April 2015 at 02:20, Khem Raj <raj.khem@gmail.com> wrote:
+
+> musl does not support BIND_LAZY intentionally, which means
+> dlopen will always complain about missing symbols which is what
+> X does when loading graphics drivers, here we preload the needed
+> drivers for all emulator machines if libc is musl
+>
+
+musl also doesn't support dlclose() so if you're after reduced memory
+footprint using musl and X together isn't what you want, as X opens many
+drivers to auto-probe the hardware and then dlcloses() anything that isn't
+useful.  On musl() dlclose() is no-op so you've just wasted a pile of
+memory.
+
+> +do_install_append_libc-musl () {
+
+This override should also be machine-specific as the list of modules you'll
+need to open varies per machine.  ie you haven't included EXA or GLX, and
+some of the drivers you have included are probably not required for qemu
+images.
+
+Ross
+
+--001a11354e68709d020514261e68
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 10, 2015 at 01:34:29PM +0200, Martin Jansa wrote:
-> * backported from 2.23.2, fixes:
-> work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:4=
-09:24:
->   error: 'dummy.fr_type' may be used uninitialized in this function [-Wer=
-ror=3Dmaybe-uninitialized]
->    gas_assert (prev_frag->fr_type !=3D 0);
->                         ^
-> work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:3=
-92:9: note: 'dummy' was declared here
->    fragS dummy, *prev_frag =3D &dummy;
->          ^
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">O=
+n 11 April 2015 at 02:20, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:=
+solid;padding-left:1ex"><span class=3D"">musl</span> does not support BIND_=
+LAZY intentionally, which means<br>
+dlopen will always complain about missing symbols which is what<br>
+X does when loading graphics drivers, here we preload the needed<br>
+drivers for all emulator machines if libc is <span class=3D"">musl</span><b=
+r></blockquote></div><br>musl also doesn&#39;t support dlclose() so if you&=
+#39;re after reduced memory footprint using musl and X together isn&#39;t w=
+hat you want, as X opens many drivers to auto-probe the hardware and then d=
+lcloses() anything that isn&#39;t useful.=C2=A0 On musl() dlclose() is no-o=
+p so you&#39;ve just wasted a pile of memory.</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra"><span style=3D"font-size:12.8000001=
+907349px">&gt; +do_install_append_libc-</span><span class=3D"" style=3D"fon=
+t-size:12.8000001907349px;background-color:rgb(255,255,255)">musl</span><sp=
+an style=3D"font-size:12.8000001907349px">=C2=A0() {</span><br style=3D"fon=
+t-size:12.8000001907349px"></div><div class=3D"gmail_extra"><span style=3D"=
+font-size:12.8000001907349px"><br></span></div><div class=3D"gmail_extra"><=
+span style=3D"font-size:12.8000001907349px">This override should also be ma=
+chine-specific as the list of modules you&#39;ll need to open varies per ma=
+chine. =C2=A0ie you haven&#39;t included EXA or GLX, and some of the driver=
+s you have included are probably not required for qemu images.</span></div>=
+<div class=3D"gmail_extra"><span style=3D"font-size:12.8000001907349px"><br=
+></span></div><div class=3D"gmail_extra"><span style=3D"font-size:12.800000=
+1907349px">Ross</span></div></div>
 
-Ping
-
-1/2 patch was merged almost immediately, but it isn't any good without
-this 2/2.
-
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/binutils/binutils-2.23.1.inc |  1 +
->  ...in_frchains_together_1-Reorder-assertion-.patch | 30 ++++++++++++++++=
-++++++
->  2 files changed, 31 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0001-write.c-=
-chain_frchains_together_1-Reorder-assertion-.patch
->=20
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1.inc b/meta/re=
-cipes-devtools/binutils/binutils-2.23.1.inc
-> index 7b3366a..6a6811b 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.23.1.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
-> @@ -31,6 +31,7 @@ SRC_URI =3D "\
->       file://binutils-fix-over-array-bounds-issue.patch \
->       file://replace_macros_with_static_inline.patch \
->       file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.pa=
-tch \
-> +     file://0001-write.c-chain_frchains_together_1-Reorder-assertion-.pa=
-tch \
->       "
-> =20
->  BACKPORT =3D "\
-> diff --git a/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_f=
-rchains_together_1-Reorder-assertion-.patch b/meta/recipes-devtools/binutil=
-s/binutils/0001-write.c-chain_frchains_together_1-Reorder-assertion-.patch
-> new file mode 100644
-> index 0000000..ffe6852
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains=
-_together_1-Reorder-assertion-.patch
-> @@ -0,0 +1,30 @@
-> +From c50d883cb61ff9917464cb695a0fd83fdb0f9c20 Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@bigpond.net.au>
-> +Date: Mon, 21 Jan 2013 13:48:31 +0000
-> +Subject: [PATCH] write.c (chain_frchains_together_1): Reorder assertion =
-to
-> + avoid uninit warning.
-> +
-> +Upstream-Status: Backport from 2.23.2
-> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> +---
-> + gas/write.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/gas/write.c b/gas/write.c
-> +index a467147..56ebb6c 100644
-> +--- a/gas/write.c
-> ++++ b/gas/write.c
-> +@@ -406,8 +406,8 @@ chain_frchains_together_1 (segT section, struct frch=
-ain *frchp)
-> + 	  prev_fix =3D frchp->fix_tail;
-> + 	}
-> +     }
-> +-  gas_assert (prev_frag->fr_type !=3D 0);
-> +-  gas_assert (prev_frag !=3D &dummy);
-> ++  gas_assert (prev_frag !=3D &dummy
-> ++	      && prev_frag->fr_type !=3D 0);
-> +   prev_frag->fr_next =3D 0;
-> +   return prev_frag;
-> + }
-> +--=20
-> +2.3.5
-> +
-> --=20
-> 2.3.5
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
+--001a11354e68709d020514261e68--
