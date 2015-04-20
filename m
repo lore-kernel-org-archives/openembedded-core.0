@@ -1,40 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 68BFC6ABF7
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AFA365CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 03:37:27 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so194256488pdb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=bAmC0KZqniisZ0dPQrPUiSy+PhxnW/TzH3BLBnDWNOU=;
-	b=EbOOSqe+eL82fX5qmwzMN3q1WAyWlTQ4qm14q3gQHACvrlne5eO4Vqgb7jHHvNOyqi
-	XbTSmhkSmjKpMjSVvqxPc9KIynBjaSUXtkV7Uejb0NnZZdWQofKoUsdEMImVTTwVpI7G
-	bxUc50rBzz2Qfgy7LhzuqUZltQYa/sbPak51a1ggzqtHKVwb2s2zkheToiswwXkYdpKB
-	5IDshvpBdFWr6L4dkOGlRlMZBtCKfQPxFpj4CIMxjKcIjlYjH/Lr8aK7rtRXgZmybau7
-	N5ht4BQ9rG99gAEZu7Y5ZZDHe4fbgi+DbpUdVkROAT+TVomDUu5nEe/eVpYMcoIgAxWj
-	4W8Q==
-X-Received: by 10.66.154.162 with SMTP id vp2mr24096590pab.73.1429501048849;
-	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:8591:8b1b:a4f1:71e4?
-	([2601:9:3580:84c:8591:8b1b:a4f1:71e4])
-	by mx.google.com with ESMTPSA id iw1sm16501187pbd.8.2015.04.19.20.37.27
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 19 Apr 2015 20:37:28 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <552CA285.9070909@windriver.com>
-Date: Sun, 19 Apr 2015 20:37:27 -0700
-Message-Id: <E8C21342-58AA-4E1D-9790-7465AFAF6ECF@gmail.com>
-References: <552CA285.9070909@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: Patches and discussions about the oe-core layer
+	Mon, 20 Apr 2015 07:33:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K7XZmL025904
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Apr 2015 00:33:35 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.14]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0224.002;
+	Mon, 20 Apr 2015 00:33:34 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of licenses
+Thread-Index: AQHQeP3nJ5OnVGYOIEimzDzU/8FPX51VhMSg
+Date: Mon, 20 Apr 2015 07:33:34 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF0D2A540@ALA-MBA.corp.ad.wrs.com>
+References: <cover.1428891074.git.jackie.huang@windriver.com>
+	<3157820.pKsNW7iWxA@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <3157820.pKsNW7iWxA@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.132]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: failed to build libunwind when qemuarm64
+Subject: Re: [PATCH 0/2] linux-firmware: fix the mess of licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +40,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 03:37:30 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 20 Apr 2015 07:33:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Apr 13, 2015, at 10:15 PM, Robert Yang <liezhi.yang@windriver.com> =
-wrote:
->=20
-> | =
-/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
-oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: copy reloc against protected =
-`_Uaarch64_local_addr_space' is invalid
-> | =
-/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
-oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: failed to set dynamic section =
-sizes: Bad value
-> | =
-/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
-oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: copy reloc against protected =
-`_Uaarch64_local_addr_space' is invalid
-> | =
-/buildarea/lyang1/test_uni/tmp/sysroots/x86_64-linux/usr/libexec/aarch64-p=
-oky-linux/gcc/aarch64-poky-linux/4.9.2/ld: failed to set dynamic section =
-sizes: Bad value
-> | collect2: error: ld returned 1 exit status
 
-these copy relocations are probably not supported by ld on aarch64=
+> -----Original Message-----
+> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
+> Sent: Friday, April 17, 2015 7:02 PM
+> To: Huang, Jie (Jackie)
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of licens=
+es
+>=20
+> Hi Jackie,
+>=20
+> On Monday 13 April 2015 10:17:19 jackie.huang@windriver.com wrote:
+> > From: Jackie Huang <jackie.huang@windriver.com>
+> >
+> > linux-firmware includes many firmwares and each firmware has their own
+> > license, previously the LICENSE is set to "Proprietary" and some
+> > firmware is split out to separate package such as
+> > linux-firmware-radeon and LICENSE_linux-firmware-radeon is set to
+> > "Firmware-radeon", but there is no license file in the common-licenses,=
+ so we got a lot warnings
+> like:
+> >
+> > WARNING: The license listed Firmware-radeon was not in the licenses
+> > collected for linux-firmware
+> >
+> > These include adding the missing license files and re-orgnize the
+> > codes to fix the warnings and avoid the mess.
+>=20
+> So doing this cleanup is good, thanks; but I was wondering if we needed a=
+n alternative approach for
+> linux-firmware. Most of the licenses in it aren't in any way common, and =
+new ones will be added
+> from time to time, requiring us to not only update the recipe (probably u=
+navoidable) but also add
+> the licenses to the common license directory. Is there any way we could m=
+ake it so we at least only
+> have to update the recipe and dispense with the need to add a bunch of co=
+mmon license files that
+> are only applicable to linux-firmware?
+
+Maybe we can keep those linux-firmware licenses in the recipe directory ins=
+tead of COMMON_LICENSE_DIR
+and add LICENSE_PATH +=3D "${COREBASE}/meta/ recipes-kernel/linux-firmware/=
+files"?
+
+Thanks,
+Jackie
+
+>=20
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
