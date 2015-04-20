@@ -1,35 +1,43 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CA2F26AC24
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2599C65CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 08:30:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3K8U4uB014731
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Apr 2015 01:30:04 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.14]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0224.002;
-	Mon, 20 Apr 2015 01:30:02 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of licenses
-Thread-Index: AQHQeP3nJ5OnVGYOIEimzDzU/8FPX51VhMSggACEPoD//4z1IA==
-Date: Mon, 20 Apr 2015 08:30:02 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF0D2A6E4@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1428891074.git.jackie.huang@windriver.com>
-	<3157820.pKsNW7iWxA@peggleto-mobl.ger.corp.intel.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF0D2A540@ALA-MBA.corp.ad.wrs.com>
-	<4914681.yToB8SoFRP@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <4914681.yToB8SoFRP@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.132]
+	Mon, 20 Apr 2015 10:16:43 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so85436818wid.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 03:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=QK007SXpYxUZx0d1kKcQz/j3/FZGR4lW84KrynhIV1k=;
+	b=aBQ+vvHPrcpDdKltzrvcj2eemHiICt6TuGik7y/iHp6VJfdfEjOxMLZ7BHfZBfAesx
+	qrtqHvR28I73yDSg1HgIfClgioGUXcaMqxC4Y+kzjP0+owrLCKd+k/YSNSusbEY6U3S1
+	BYTTcj3I0ZUalJywKuEskGHuucryJiqsHEHA1dOt0FL6YBlf6IPEkN/zpE2Z1zLN+rWR
+	OxU39ieKgbfO+NSyodNUNKfmcaXlvMcN5RLVqp6Jx9K6H4HlGWhm9Qvo+DDJzcwBjGJK
+	Eavw1ORHdyXbgsktOM6l7Uo2fhRI151Bl4OiLU1Xqr2e0z0Fqeo1nmhPpXcyBowPMVPf
+	u6hg==
+X-Received: by 10.194.192.226 with SMTP id hj2mr30050426wjc.51.1429525003199; 
+	Mon, 20 Apr 2015 03:16:43 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id i6sm17127576wjf.29.2015.04.20.03.16.42
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Apr 2015 03:16:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 20 Apr 2015 12:16:46 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150420101646.GA3686@jama>
+References: <20150330172759.GC14928@jama>
+	<1428405673-29955-1-git-send-email-Martin.Jansa@gmail.com>
+	<1428574350.6976.6.camel@linuxfoundation.org>
+	<20150409113539.GA2340@jama>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] linux-firmware: fix the mess of licenses
+In-Reply-To: <20150409113539.GA2340@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] fontcache: allow to pass different fontconfig cache dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,77 +50,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 08:30:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 20 Apr 2015 10:16:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Monday, April 20, 2015 4:20 PM
-> To: Huang, Jie (Jackie)
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of licens=
-es
+On Thu, Apr 09, 2015 at 01:35:39PM +0200, Martin Jansa wrote:
+> On Thu, Apr 09, 2015 at 11:12:30AM +0100, Richard Purdie wrote:
+> > On Tue, 2015-04-07 at 13:21 +0200, Martin Jansa wrote:
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > ---
+> > > v2: added --with-cache-dir to fontconfig EXTRA_OECONF in case that was
+> > >     what Ross wanted
+> > >=20
+> > >  meta/classes/fontcache.bbclass                        | 4 ++--
+> > >  meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb | 4 +++-
+> > >  scripts/postinst-intercepts/update_font_cache         | 4 +---
+> > >  3 files changed, 6 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.=
+bbclass
+> > > index dfbdfa1..d122387 100644
+> > > --- a/meta/classes/fontcache.bbclass
+> > > +++ b/meta/classes/fontcache.bbclass
+> > > @@ -8,11 +8,11 @@ inherit qemu
+> > > =20
+> > >  FONT_PACKAGES ??=3D "${PN}"
+> > >  FONT_EXTRA_RDEPENDS ?=3D "fontconfig-utils"
+> > > -
+> > > +FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
+> ]> >  fontcache_common() {
+> > >  if [ "x$D" !=3D "x" ] ; then
+> > >  	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=
+=3D${MLPREFIX} bindir=3D${bindir} \
+> > > -		libdir=3D${libdir} base_libdir=3D${base_libdir} localstatedir=3D${=
+localstatedir}
+> > > +		libdir=3D${libdir} base_libdir=3D${base_libdir} fontconfigcachedir=
+=3D${FONTCONFIG_CACHE_DIR}
+> > >  else
+> > >  	fc-cache
+> > >  fi
+> > > diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb b/=
+meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
+> > > index 797b321..7c5b4b4 100644
+> > > --- a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
+> > > +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
+> > > @@ -37,6 +37,8 @@ DEBIAN_NOAUTONAME_fontconfig-utils =3D "1"
+> > > =20
+> > >  inherit autotools pkgconfig
+> > > =20
+> > > -EXTRA_OECONF =3D " --disable-docs --with-default-fonts=3D${datadir}/=
+fonts"
+> > > +FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
+> > > +
+> > > +EXTRA_OECONF =3D " --disable-docs --with-default-fonts=3D${datadir}/=
+fonts --with-cache-dir=3D${FONTCONFIG_CACHE_DIR}"
+> > > =20
+> > >  BBCLASSEXTEND =3D "native"
+> > > diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/=
+postinst-intercepts/update_font_cache
+> > > index 3907f25..c8c6018 100644
+> > > --- a/scripts/postinst-intercepts/update_font_cache
+> > > +++ b/scripts/postinst-intercepts/update_font_cache
+> > > @@ -2,6 +2,4 @@
+> > > =20
+> > >  PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir=
+}:$D/${base_libdir}\
+> > >  					$D${bindir}/fc-cache --sysroot=3D$D
+> > > -chown -R root:root $D${localstatedir}/cache/fontconfig
+> > > -
+> > > -
+> > > +chown -R root:root $D${fontconfigcachedir}
+> >=20
+> > This looks better but what sets fontconfigcachedir ?
 >=20
-> On Monday 20 April 2015 07:33:34 Huang, Jie wrote:
-> > > -----Original Message-----
-> > > From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> > > Sent: Friday, April 17, 2015 7:02 PM
-> > > To: Huang, Jie (Jackie)
-> > > Cc: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of
-> > > licenses
-> > >
-> > > Hi Jackie,
-> > >
-> > > On Monday 13 April 2015 10:17:19 jackie.huang@windriver.com wrote:
-> > > > From: Jackie Huang <jackie.huang@windriver.com>
-> > > >
-> > > > linux-firmware includes many firmwares and each firmware has their
-> > > > own license, previously the LICENSE is set to "Proprietary" and
-> > > > some firmware is split out to separate package such as
-> > > > linux-firmware-radeon and LICENSE_linux-firmware-radeon is set to
-> > > > "Firmware-radeon", but there is no license file in the
-> > > > common-licenses, so we got a lot warnings>
-> > > like:
-> > > > WARNING: The license listed Firmware-radeon was not in the
-> > > > licenses collected for linux-firmware
-> > > >
-> > > > These include adding the missing license files and re-orgnize the
-> > > > codes to fix the warnings and avoid the mess.
-> > >
-> > > So doing this cleanup is good, thanks; but I was wondering if we
-> > > needed an alternative approach for linux-firmware. Most of the
-> > > licenses in it aren't in any way common, and new ones will be added
-> > > from time to time, requiring us to not only update the recipe
-> > > (probably unavoidable) but also add the licenses to the common
-> > > license directory. Is there any way we could make it so we at least
-> > > only have to update the recipe and dispense with the need to add a
-> > > bunch of common license files that are only applicable to linux-firmw=
-are?
-> >
-> > Maybe we can keep those linux-firmware licenses in the recipe
-> > directory instead of COMMON_LICENSE_DIR and add LICENSE_PATH +=3D
-> > "${COREBASE}/meta/ recipes-kernel/linux-firmware/files"?
+> It's passed in intercept call in fontcache.bbclass like other variables
+> used here.
 >=20
-> Could we go one step further and copy the license files from the fetched =
-source rather than having to
-> add them to the recipe?
+> People who want to change the value should do so from global scope, so
+> that the same value is used in fontconfig_2.11.1.bb and
+> fontcache.bbclass.
+>=20
+> Once this is merged in master, I would like to see it in dizzy (and
+> fido) branches together with other fontconfig related fixes.
 
-Yes, it's better, I will take a look if we can make this work.
+The other fontconfig related fix:
+fontcache.bbclass: prepend to PACKAGEFUNCS instead of appending
+was merged to dizzy recently, so now dizzy is broken for us, because
+this one (and the one fixing permissions) are missing :/.
 
-Thanks,
-Jackie
+Do you expect more changes for this patch or was my explanation enough
+to get it accepted?
 
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
