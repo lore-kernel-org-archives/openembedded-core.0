@@ -1,24 +1,30 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from cdptpa-oedge-vip.email.rr.com
-	(cdptpa-outbound-snat.email.rr.com [107.14.166.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 9744672E49
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0383F72E49
 	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 15:07:48 +0000 (UTC)
-Received: from [98.100.91.242] ([98.100.91.242:49722]
-	helo=evenson-fedora-vm.melinkcorp.local)
-	by cdptpa-oedge03 (envelope-from <bevenson@melinkcorp.com>)
-	(ecelerity 3.5.0.35861 r(Momo-dev:tip)) with ESMTP
-	id A8/CF-29784-34615355; Mon, 20 Apr 2015 15:07:47 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Openembedded-core@lists.openembedded.org
-Date: Mon, 20 Apr 2015 11:07:38 -0400
-Message-Id: <1429542458-4291-3-git-send-email-bevenson@melinkcorp.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1429542458-4291-1-git-send-email-bevenson@melinkcorp.com>
+	Mon, 20 Apr 2015 15:12:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3KFBm1u011323; Mon, 20 Apr 2015 16:12:04 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Qssld53zQMC4; Mon, 20 Apr 2015 16:12:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3KFBqHw011329
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 20 Apr 2015 16:12:03 +0100
+Message-ID: <1429542712.26983.12.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Mon, 20 Apr 2015 16:11:52 +0100
+In-Reply-To: <1429542458-4291-3-git-send-email-bevenson@melinkcorp.com>
 References: <1429542458-4291-1-git-send-email-bevenson@melinkcorp.com>
-X-RR-Connecting-IP: 107.14.168.142:25
-X-Cloudmark-Score: 0
-Subject: [PATCH 2/2] util-linux: Add lastb to alternatives
+	<1429542458-4291-3-git-send-email-bevenson@melinkcorp.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] util-linux: Add lastb to alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 15:07:48 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 15:12:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-util-linux creates lastb as a symlink to last during the build.
-Just as other applications may provide last, other applications
-may provide lastb.
+On Mon, 2015-04-20 at 11:07 -0400, Bryan Evenson wrote:
+> util-linux creates lastb as a symlink to last during the build.
+> Just as other applications may provide last, other applications
+> may provide lastb.
+> 
+> Add alternatives designations for lastb to avoid installation
+> conflicts with other applications.
+> 
+> Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Add alternatives designations for lastb to avoid installation
-conflicts with other applications.
+Doesn't appear to apply against master?
 
-Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 2c299e8..78cff02 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -168,7 +168,7 @@ inherit update-alternatives
- ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
--ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
-+ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
- ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject getopt sulogin"
- 
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
--- 
-2.1.0
+Richard
 
 
