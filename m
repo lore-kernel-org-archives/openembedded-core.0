@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C8D965CAC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A08BD73D0F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Apr 2015 08:09:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89N58014552
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89Oj8029738
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 01:09:23 -0700 (PDT)
+	Mon, 20 Apr 2015 01:09:24 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Mon, 20 Apr 2015 01:09:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Apr 2015 01:09:16 -0700
-Message-ID: <1b6b7c3b5df8db3c18f0001f64a5f974a8993e8d.1429517334.git.liezhi.yang@windriver.com>
+Date: Mon, 20 Apr 2015 01:09:17 -0700
+Message-ID: <7cad7870362912d341c5b877b174843ca9643e8f.1429517334.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1429517334.git.liezhi.yang@windriver.com>
 References: <cover.1429517334.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/8] cracklib: 2.9.2 -> 2.9.3
+Subject: [PATCH 2/8] directfb: 1.7.6 -> 1.7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +38,40 @@ Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{cracklib_2.9.2.bb => cracklib_2.9.3.bb}       |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/cracklib/{cracklib_2.9.2.bb => cracklib_2.9.3.bb} (90%)
+ meta/recipes-graphics/directfb/directfb_1.7.6.bb |    8 --------
+ meta/recipes-graphics/directfb/directfb_1.7.7.bb |    8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-graphics/directfb/directfb_1.7.6.bb
+ create mode 100644 meta/recipes-graphics/directfb/directfb_1.7.7.bb
 
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb b/meta/recipes-extended/cracklib/cracklib_2.9.3.bb
-similarity index 90%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.2.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.9.3.bb
-index fceca54..51afc45 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.2.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.3.bb
-@@ -15,10 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
-            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
-            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
- 
--SRC_URI[md5sum] = "559072fdfc095cdb763c4de3471a889e"
--SRC_URI[sha256sum] = "c1c899291d443e99d1aecfbc879e4ac9c0cbc265574f47b487842da11e9759f5"
+diff --git a/meta/recipes-graphics/directfb/directfb_1.7.6.bb b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
+deleted file mode 100644
+index 1b49112..0000000
+--- a/meta/recipes-graphics/directfb/directfb_1.7.6.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require directfb.inc
 -
--PR = "r1"
-+SRC_URI[md5sum] = "1e18ed9a593719af71b6440f16f91182"
-+SRC_URI[sha256sum] = "9c55afcdc01ae90aad0af0f9e4de0db9ba2fadf88cdf3a585a08a3530d25dba5"
- 
- inherit autotools gettext pythonnative python-dir
- 
+-RV = "1.7-6"
+-
+-LEAD_SONAME = "libdirectfb-1.7.so.0"
+-
+-SRC_URI[md5sum] = "8a7bb06b3f58599b230b4cf314004512"
+-SRC_URI[sha256sum] = "44f32bacfb842ea234599532f8481fe41b5bd2310d2bd101508eb3a5df26c9e1"
+diff --git a/meta/recipes-graphics/directfb/directfb_1.7.7.bb b/meta/recipes-graphics/directfb/directfb_1.7.7.bb
+new file mode 100644
+index 0000000..c6c070e
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb_1.7.7.bb
+@@ -0,0 +1,8 @@
++require directfb.inc
++
++RV = "1.7-7"
++
++LEAD_SONAME = "libdirectfb-1.7.so.0"
++
++SRC_URI[md5sum] = "152cf1863b1a3a28aa1370e9053440bf"
++SRC_URI[sha256sum] = "b785c638dc31b8fe3a7c81be1475c89b2255ab3d67b777c747d3fbc52f8027a3"
 -- 
 1.7.9.5
 
