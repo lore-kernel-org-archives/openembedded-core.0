@@ -1,26 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E714073D60
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 182B46AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 08:09:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89QwR029757
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 01:09:26 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 20 Apr 2015 01:09:25 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Apr 2015 01:09:23 -0700
-Message-ID: <ab181fcdc20ba4071ba7533e4de2be43e2e75b24.1429517334.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1429517334.git.liezhi.yang@windriver.com>
-References: <cover.1429517334.git.liezhi.yang@windriver.com>
+	Mon, 20 Apr 2015 08:20:14 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 20 Apr 2015 01:20:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,608,1422950400"; d="scan'208";a="697840149"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.5.75])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Apr 2015 01:20:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Date: Mon, 20 Apr 2015 09:20:13 +0100
+Message-ID: <4914681.yToB8SoFRP@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAF0D2A540@ALA-MBA.corp.ad.wrs.com>
+References: <cover.1428891074.git.jackie.huang@windriver.com>
+	<3157820.pKsNW7iWxA@peggleto-mobl.ger.corp.intel.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF0D2A540@ALA-MBA.corp.ad.wrs.com>
 MIME-Version: 1.0
-Subject: [PATCH 8/8] lz4: r127 -> r128
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] linux-firmware: fix the mess of licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 08:09:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Apr 2015 08:20:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* Add HOMEPAGE
-* Use github as the SRC_URI since its HOMEPAGE says it is the source.
-* The upgraded version is r128.
+On Monday 20 April 2015 07:33:34 Huang, Jie wrote:
+> > -----Original Message-----
+> > From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
+> > Sent: Friday, April 17, 2015 7:02 PM
+> > To: Huang, Jie (Jackie)
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 0/2] linux-firmware: fix the mess of
+> > licenses
+> > 
+> > Hi Jackie,
+> > 
+> > On Monday 13 April 2015 10:17:19 jackie.huang@windriver.com wrote:
+> > > From: Jackie Huang <jackie.huang@windriver.com>
+> > > 
+> > > linux-firmware includes many firmwares and each firmware has their own
+> > > license, previously the LICENSE is set to "Proprietary" and some
+> > > firmware is split out to separate package such as
+> > > linux-firmware-radeon and LICENSE_linux-firmware-radeon is set to
+> > > "Firmware-radeon", but there is no license file in the common-licenses,
+> > > so we got a lot warnings> 
+> > like:
+> > > WARNING: The license listed Firmware-radeon was not in the licenses
+> > > collected for linux-firmware
+> > > 
+> > > These include adding the missing license files and re-orgnize the
+> > > codes to fix the warnings and avoid the mess.
+> > 
+> > So doing this cleanup is good, thanks; but I was wondering if we needed an
+> > alternative approach for linux-firmware. Most of the licenses in it
+> > aren't in any way common, and new ones will be added from time to time,
+> > requiring us to not only update the recipe (probably unavoidable) but
+> > also add the licenses to the common license directory. Is there any way
+> > we could make it so we at least only have to update the recipe and
+> > dispense with the need to add a bunch of common license files that are
+> > only applicable to linux-firmware?
+> 
+> Maybe we can keep those linux-firmware licenses in the recipe directory
+> instead of COMMON_LICENSE_DIR and add LICENSE_PATH += "${COREBASE}/meta/
+> recipes-kernel/linux-firmware/files"?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (66%)
+Could we go one step further and copy the license files from the fetched source 
+rather than having to add them to the recipe?
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_git.bb
-similarity index 66%
-rename from meta/recipes-support/lz4/lz4_svn.bb
-rename to meta/recipes-support/lz4/lz4_git.bb
-index 363e439..ab57677 100644
---- a/meta/recipes-support/lz4/lz4_svn.bb
-+++ b/meta/recipes-support/lz4/lz4_git.bb
-@@ -1,16 +1,16 @@
- SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
-+HOMEPAGE = "http://fastcompression.blogspot.com/p/lz4.html"
- 
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
-+LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
- 
--# Upstream names releases after SVN revs
--SRCREV = "127"
--PV = "r${SRCREV}"
-+SRCREV = "160661c7a4cbf805f4af74d2e3932a17a66e6ce7"
-+PV = "r128"
- 
--SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
-+SRC_URI = "git://github.com/Cyan4973/lz4.git"
- 
--S = "${WORKDIR}/trunk"
-+S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
- 
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
