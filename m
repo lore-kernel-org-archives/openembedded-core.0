@@ -1,35 +1,29 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2945065CF5
+Return-Path: <zhengjunling@huawei.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [58.251.152.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 8425E71EC3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Apr 2015 21:46:01 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so187611395pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Apr 2015 14:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=Vx12ME4rYKwoWszPhfdSEilA36onZrnvwVUbkLOTP50=;
-	b=G/C0EsUxNS/2JmS3N1LxhIcpUOVt3YS/tQYF2RRrKH2A9okHKFU0B83mJryD2AwnGu
-	i5BTJxySmGh6ABTZ679Lf+b3gN4xHWAJ5ALbKqbxae9i6U/dVr1l/T8wxrxYCL9bJZy8
-	dJERsbNgzh7Ex2bBJy4+4QltpmRvt39iTGdZKrTmds+8Yclj4VcNgpx7YXCFxPON4iWn
-	ywbQJw8abaE39HM+bxGXnLG1f66Bf5QFwK6/4nn6xKQKopjSom6vuT1AT4Xq/fCfTL8d
-	oGvoYV9XbWChNN9Gc95zuzb/8ZCqDrR5ZAyDP9GMlmi8Y3DcZI6sJi5B7GNGmRbJoA/5
-	mdhg==
-X-Received: by 10.70.125.162 with SMTP id mr2mr22522750pdb.21.1429479962076;
-	Sun, 19 Apr 2015 14:46:02 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	c15sm16020839pbu.81.2015.04.19.14.46.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 19 Apr 2015 14:46:00 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Apr 2015 14:45:56 -0700
-Message-Id: <1429479956-27143-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH] lz4: fix QA issue
+	Mon, 20 Apr 2015 01:30:37 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml434-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg01-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id CMJ02153; Mon, 20 Apr 2015 09:30:36 +0800 (CST)
+Received: from [127.0.0.1] (10.111.55.101) by szxeml434-hub.china.huawei.com
+	(10.82.67.225) with Microsoft SMTP Server id 14.3.158.1;
+	Mon, 20 Apr 2015 09:30:32 +0800
+Message-ID: <553456B2.8090004@huawei.com>
+Date: Mon, 20 Apr 2015 09:30:26 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>
+	<CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>
+In-Reply-To: <CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>
+X-Originating-IP: [10.111.55.101]
+X-CFilter-Loop: Reflected
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gmp: remove referencing paths from the build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Apr 2015 21:46:03 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 01:30:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-WARNING: Could not copy license file
+On 2015/4/18 2:24, Andre McCurdy wrote:
+> On Fri, Apr 17, 2015 at 1:50 AM, Junling Zheng <zhengjunling@huawei.com> wrote:
+>> Currently ${D}${includedir}/gmp.h references the path of build host
+>> incorrectly, remove it.
+>>
+>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+>> ---
+>>  meta/recipes-support/gmp/gmp.inc | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+>> index 558ee06..a80b356 100644
+>> --- a/meta/recipes-support/gmp/gmp.inc
+>> +++ b/meta/recipes-support/gmp/gmp.inc
+>> @@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
+>>  PACKAGES =+ "libgmpxx"
+>>  FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
+>>
+>> +do_install_append_class-target() {
+>> +       sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
+>> +}
+> 
+> It's possible that STAGING_DIR_HOST could contain '+' characters, so
+> '|' would be a safer sed separator to use here.
+> 
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/lz4/lz4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ok, thanks for your suggestion:)
 
-diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
-index ee5de0a..0b0c632 100644
---- a/meta/recipes-support/lz4/lz4.bb
-+++ b/meta/recipes-support/lz4/lz4.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
- 
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
-+LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
- 
- SRCREV = "5780864c0ce08622238a267c46fb489d7066cad4"
- 
--- 
-2.3.5
+>> +
+>>  SSTATE_SCAN_FILES += "gmp.h"
+>> --
+>> 1.9.1
+>>
+> 
+> 
+
 
 
