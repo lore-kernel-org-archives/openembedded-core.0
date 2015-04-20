@@ -1,34 +1,22 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 54F8272E49
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 14:51:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2015 07:51:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,609,1422950400"; d="scan'208";a="682804067"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga001.jf.intel.com with ESMTP; 20 Apr 2015 07:51:14 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.2]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.136]) with mapi id
-	14.03.0224.002; Mon, 20 Apr 2015 15:51:13 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 0/4] Switch to BlueZ 5.x as default
-	Bluetooth	stack
-Thread-Index: AQHQe3kj1B+Rj30EV0C291g6TyY8f51V+2vA
-Date: Mon, 20 Apr 2015 14:51:12 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F49D718@irsmsx105.ger.corp.intel.com>
-References: <cover.1429540534.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1429540534.git.cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/4] Switch to BlueZ 5.x as default Bluetooth	stack
+Return-Path: <bevenson@melinkcorp.com>
+Received: from cdptpa-oedge-vip.email.rr.com
+	(cdptpa-outbound-snat.email.rr.com [107.14.166.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 368F973D5E
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 14:53:50 +0000 (UTC)
+Received: from [98.100.91.242] ([98.100.91.242:49718]
+	helo=evenson-fedora-vm.melinkcorp.local)
+	by cdptpa-oedge02 (envelope-from <bevenson@melinkcorp.com>)
+	(ecelerity 3.5.0.35861 r(Momo-dev:tip)) with ESMTP
+	id 96/2E-18238-FF215355; Mon, 20 Apr 2015 14:53:51 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Openembedded-core@lists.openembedded.org
+Date: Mon, 20 Apr 2015 10:53:47 -0400
+Message-Id: <1429541627-3788-1-git-send-email-bevenson@melinkcorp.com>
+X-Mailer: git-send-email 2.1.0
+X-RR-Connecting-IP: 107.14.168.130:25
+X-Cloudmark-Score: 0
+Subject: [PATCH] udev: Add RCONFLICTS/RREPLACES for udev-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,98 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 14:51:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Apr 2015 14:53:51 -0000
 
-In version 2:
-1. Simplified and kept the original logic;
-2. bluez5 is now a distro backfill feature;
-3. bluez5 upgrade already merged, removed from v2 patchset;
-4. Improved commit message.
-Regards,
-/Cristian
+As of commit 9bb5c7472958aeea46225e835f44d45bea7f7351, the
+udev-utils package no longer exists with udev taking ownership
+of udevadm.  However, systems that had udev-utils installed have
+a conflict with udev.
 
+Add RCONFLICTS and RREPLACES variables for udev-utils so udev-utils
+will be removed from systems that are upgrading udev.  This change
+would be applicable for master back through dizzy when the problem
+was introduced.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
-Sent: Monday, April 20, 2015 5:47 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH v2 0/4] Switch to BlueZ 5.x as default Bluetooth =
-stack
+Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
+---
+ meta/recipes-core/udev/udev.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-BlueZ 5.x is now the default Bluetooth stack.
-BlueZ 4.x is moved to meta-oe connectivity collection layer and still suppo=
-rted in oe-core.
-
-The following changes since commit 167025e6d72c44cacfdc5d8b98e942066df09a4f=
-:
-
-  initscripts: Remove /etc/volatile.cache on upgrade (2015-04-20 15:03:07 +=
-0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3DCiorga/YB7479_=
-v3
-
-Cristian Iorga (4):
-  maintainers.inc: remove info related to bluez4
-  upstream_tracking.inc: bluez4 removed from oe-core
-  bluez: remove recipe
-  bitbake.conf: backfill bluez5 feature
-
- meta-yocto/conf/distro/include/maintainers.inc     |   3 -
- .../conf/distro/include/upstream_tracking.inc      |   1 -
- meta/conf/bitbake.conf                             |   2 +-
- .../obsolete_automake_macros.patch                 |  14 ---
- .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
- .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
- .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
- .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 -----------------=
-----
- .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
- ...ork-fix-network-Connect-method-parameters.patch |  30 ------
- .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
- .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
- ...pygobject-instead-ofgobject-introspection.patch |  27 -----
- meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
- .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
- 16 files changed, 1 insertion(+), 457 deletions(-)  delete mode 100644 met=
-a/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.pat=
-ch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.=
-conf
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-p=
-aths.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encryp=
-t_collision.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-te=
-st-script.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fi=
-x-network-Connect-method-parameters.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_a=
-utomake_macros.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.pa=
-tch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy=
--pygobject-instead-ofgobject-introspection.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
- delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.=
-101.bb
-
---
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 24463b1..a63fc8c 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -61,6 +61,11 @@ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit ${nonarch_base_libdir}/udev ${bindir}/udevadm"
+ RRECOMMENDS_${PN} += "udev-cache"
+ 
++# udev-utils has been removed as a package.  Note that udev conflicts with udev-utils so that
++# udev-utils is removed from systems on upgrade.
++RCONFLICTS_${PN} += "udev-utils"
++RREPLACES_${PN} += "udev-utils"
++
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
+ FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
+ FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
+-- 
 2.1.0
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
