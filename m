@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C49B65CAC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 33C0771EC3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Apr 2015 08:05:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3K85Y1q014522
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K85ZwM029226
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Apr 2015 01:05:35 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 20 Apr 2015 01:05:34 -0700
+	Mon, 20 Apr 2015 01:05:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Apr 2015 01:05:33 -0700
-Message-ID: <cover.1429517108.git.liezhi.yang@windriver.com>
+Date: Mon, 20 Apr 2015 01:05:34 -0700
+Message-ID: <2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1429517108.git.liezhi.yang@windriver.com>
+References: <cover.1429517108.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] libunwind: use gold for all archs
+Subject: [PATCH 1/1] libunwind: use gold for all archs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 20 Apr 2015 08:05:35 -0000
 Content-Type: text/plain
 
-The following changes since commit 97d56a5b8e4f15eb32095f242eb2fd62fc5d85f2:
+At least the following boards have build errors without using gold:
+qemux86, qemux86-64, qemuarm, qemuaarch64, qemuppc.
 
-  gmp: remove referencing paths from the build host (2015-04-19 13:34:06 +0100)
+The error is:
+ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
+ld: failed to set dynamic section sizes: Bad value
+ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
+ld: failed to set dynamic section sizes: Bad value
+| collect2: error: ld returned 1 exit status
 
-are available in the git repository at:
+So use gold for all archs to fix the problem.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/libunwind
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/libunwind
-
-Robert Yang (1):
-  libunwind: use gold for all archs
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-support/libunwind/libunwind.inc |    5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+index 56905c2..c4a7b5e 100644
+--- a/meta/recipes-support/libunwind/libunwind.inc
++++ b/meta/recipes-support/libunwind/libunwind.inc
+@@ -23,10 +23,7 @@ LIBATOMICS_armv5 = "-latomic_ops"
+ LIBATOMICS_armv4 = "-latomic_ops"
+ LIBATOMICS ?= ""
+ 
+-LDFLAGS_append_x86 = " -fuse-ld=gold"
+-LDFLAGS_append_x86-64 = " -fuse-ld=gold"
+-
+-LDFLAGS_append_aarch64 = " -fuse-ld=gold"
++LDFLAGS_append = " -fuse-ld=gold"
+ 
+ DEPENDS += "${DEPLIBATOMICS}"
+ DEPLIBATOMICS_armv5 = "libatomics-ops"
 -- 
 1.7.9.5
 
