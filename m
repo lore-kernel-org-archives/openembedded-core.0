@@ -1,27 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BA41773D87
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FCD86E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 16:48:02 +0000 (UTC)
+	Mon, 20 Apr 2015 16:59:23 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Apr 2015 09:47:41 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2015 09:59:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,610,1422950400"; d="scan'208";a="716384601"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.5.75])
-	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2015 09:47:39 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Apr 2015 17:47:09 +0100
-Message-Id: <12b0092cd90cc776c82a313eebda74e6a34d2e88.1429548323.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1429548323.git.paul.eggleton@linux.intel.com>
-References: <cover.1429548323.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1429548323.git.paul.eggleton@linux.intel.com>
-References: <cover.1429548323.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/5] toolchain-shar-extract.sh: mention how to set up the SDK environment
+X-IronPort-AV: E=Sophos;i="5.11,610,1422950400"; d="scan'208";a="716389580"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2015 09:59:24 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 42EF56A408D;
+	Mon, 20 Apr 2015 09:58:59 -0700 (PDT)
+Date: Mon, 20 Apr 2015 19:59:18 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Philip Balister <philip@balister.org>
+Message-ID: <20150420165918.GA14044@linux.intel.com>
+References: <55311968.50404@balister.org>
+ <5534F189.3010901@balister.org>
+MIME-Version: 1.0
+In-Reply-To: <5534F189.3010901@balister.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [wic][PATCH] wic: try to find bitbake using find_executable API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -31,30 +39,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 16:48:02 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 16:59:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Tell the user how to set up the SDK environment each time they want to
-use it.
+On Mon, Apr 20, 2015 at 08:31:05AM -0400, Philip Balister wrote:
+> I forgot to cc the list. Unfortunately, this led to the commit going in
+> with the reference to oe-classic.
+> 
+> Please people, get your terminology correct. The word soup in the wold
+> is insane.
+> 
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/files/toolchain-shar-extract.sh | 2 ++
- 1 file changed, 2 insertions(+)
+My bad. I've received your e-mail, but didn't have time to send the fix during weekend.
+Today I've noticed that my patch was already merged.
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 13b5951..8cb8783 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -151,6 +151,8 @@ if [ $savescripts = 0 ] ; then
- fi
- 
- echo "SDK has been successfully set up and is ready to be used."
-+echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
-+echo " \$ . $target_sdk_dir/environment-setup-@REAL_MULTIMACH_TARGET_SYS@"
- 
- exit 0
- 
--- 
-2.1.0
-
+--
+Regards,
+Ed
 
