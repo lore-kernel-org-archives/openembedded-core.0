@@ -1,38 +1,31 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B4E87390D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9094E738F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 22:01:24 +0000 (UTC)
-Received: by qkhg7 with SMTP id g7so199578977qkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 15:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=C+86D1MhIkIfZm83NpzQanEaToqhgki6BCC9F2NceC0=;
-	b=mxTEdqTKYuZitiwMsDEmau9TiS8cUDa7mlhPYdUJE4ogji4WSNhvBp8fKjTehXFtjD
-	RPdZYBU4azXr3eJWIGS6Xh27MJdbrUsKRpkwm4ZYRxeMFulq3671G59ZCLBULELYZQys
-	iF70OIxkx6WndBkF1Vt8Ug3qPJbONro0iWBIePvTe6xqsaFOYJ6u5WeBzw9F1u2VyKKE
-	YcfE0R65/cNd7eOgcML62MuCkcsFKzAPXa6XgCyEV51lsHHnyRMyOgR6FhFOFFWJicS+
-	ZVIsTQJ5w4396d8QkzmbdD8SBfvu9i1f1V518iEojOE2mPCmnZxlO2XQhZ7cUrVU7ln/
-	L5Wg==
-X-Received: by 10.55.31.7 with SMTP id f7mr32930578qkf.9.1429567285608; Mon,
-	20 Apr 2015 15:01:25 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.34 with HTTP; Mon, 20 Apr 2015 15:01:05 -0700 (PDT)
-In-Reply-To: <CABcZANm790dekEqEh5nyGoyo_L9K6Qj3Yugx=jCuVSkEqcW0pA@mail.gmail.com>
-References: <1416364933-214069-1-git-send-email-mark.hatle@windriver.com>
-	<CABcZANm790dekEqEh5nyGoyo_L9K6Qj3Yugx=jCuVSkEqcW0pA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 20 Apr 2015 15:01:05 -0700
-X-Google-Sender-Auth: PLVJqJDy6lP4gqQqXcZMNBo23f0
-Message-ID: <CABcZANkYegAavg-ia-21M-isawm4CuDva1J3g-GM8cQsQ-dLwg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image.bbclass: Add a method for creating a companion debug filesystem
+	Mon, 20 Apr 2015 22:11:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3KMBL4F032614; Mon, 20 Apr 2015 23:11:21 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id T-r5zrVuQCTZ; Mon, 20 Apr 2015 23:11:21 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3KMB5c0032609
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 20 Apr 2015 23:11:16 +0100
+Message-ID: <1429567865.26983.56.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Cristian Iorga <cristian.iorga@intel.com>, Michael Wood
+	<michael.g.wood@intel.com>, "Flanagan, Elizabeth"
+	<elizabeth.flanagan@intel.com>, Tracy Graydon <tracy.graydon@intel.com>
+Date: Mon, 20 Apr 2015 23:11:05 +0100
+In-Reply-To: <cover.1429543826.git.cristian.iorga@intel.com>
+References: <cover.1429543826.git.cristian.iorga@intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4 0/4] Switch to BlueZ 5.x as default Bluetooth stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,109 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 22:01:26 -0000
-Content-Type: multipart/alternative; boundary=001a1147bae23dc7b005142f12b8
+X-List-Received-Date: Mon, 20 Apr 2015 22:11:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1147bae23dc7b005142f12b8
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2015-04-20 at 18:31 +0300, Cristian Iorga wrote:
+> BlueZ 5.x is now the default Bluetooth stack.
+> BlueZ 4.x is moved to meta-oe connectivity collection
+> layer and still supported in poky/YP.
+> The following changes since commit 167025e6d72c44cacfdc5d8b98e942066df09a4f:
+> 
+>   initscripts: Remove /etc/volatile.cache on upgrade (2015-04-20 15:03:07 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v3
+> 
+> Cristian Iorga (4):
+>   maintainers.inc: remove info related to bluez4
+>   upstream_tracking.inc: bluez4 removed from oe-core
+>   bluez: remove recipe
+>   bitbake.conf: backfill bluez5 feature
 
-On Fri, Nov 21, 2014 at 11:26 AM, Christopher Larson <clarson@kergoth.com>
-wrote:
+There appears to be a problem with these patches (at a guess):
 
-> On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <mark.hatle@windriver.com>
-> wrote:
->
->> The companion debug filesystem contains only the package database and the
->> complementary *-dbg packages for the main filesystem component.  This is
->> useful in a production environment to produce a companion filesystem
->> capable
->> of remote system debugging, without requiring corresponding debug
->> symbols or
->> source code on the device.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>
->> If dbg pkgs have already been installed to the rootfs image,
->> the installation to companion debug filesystem will fail,
->> because both of image creation make use of the same pm
->> database.
->>
->> In this situation, try to copy installed dbg files from rootfs
->> image to companion debug filesystem.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>
->
-> This looks pretty good to me, nicely done.
->
-> Acked-by: Christopher Larson <chris_larson@mentor.com>
->
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/268
 
-Following up on this, are there any objections to getting this merged for
-after fido?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Michael/Beth/Tracy: Kind of sad the error report failed and there is a
+build *after* the error report too?!
 
---001a1147bae23dc7b005142f12b8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Nov 21, 2014 at 11:26 AM, Christopher Larson <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">=
-<div class=3D"gmail_quote">On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=3D"_bl=
-ank">mark.hatle@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><div style=3D"overflow:hidden">The <span class=3D"il">companion<=
-/span> <span class=3D"il">debug</span> <span class=3D"il">filesystem</span>=
- contains only the package database and the<br>
-complementary *-dbg packages <span class=3D"il">for</span> the main <span c=
-lass=3D"il">filesystem</span> component.=C2=A0 This is<br>
-useful in <span class=3D"il">a</span> production environment to produce <sp=
-an class=3D"il">a</span> <span class=3D"il">companion</span> <span class=3D=
-"il">filesystem</span> capable<br>
-of remote system debugging, without requiring corresponding <span class=3D"=
-il">debug</span> symbols or<br>
-source code on the device.<br>
-<br>
-Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com" t=
-arget=3D"_blank">mark.hatle@windriver.com</a>&gt;<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
- target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
-<br>
-If dbg pkgs have already been installed to the rootfs image,<br>
-the installation to <span class=3D"il">companion</span> <span class=3D"il">=
-debug</span> <span class=3D"il">filesystem</span> will fail,<br>
-because both of image creation make use of the same pm<br>
-database.<br>
-<br>
-In this situation, try to copy installed dbg files from rootfs<br>
-image to <span class=3D"il">companion</span> <span class=3D"il">debug</span=
-> <span class=3D"il">filesystem</span>.<br>
-<br>
-Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
-arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
- target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
-Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com" t=
-arget=3D"_blank">mark.hatle@windriver.com</a>&gt;</div></blockquote></div><=
-br></span>This looks pretty good to me, nicely done.<br><div><br></div><div=
->Acked-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-" target=3D"_blank">chris_larson@mentor.com</a>&gt;</div></blockquote></div=
-><br>Following up on this, are there any objections to getting this merged =
-for after fido?<br>-- <br><div class=3D"gmail_signature">Christopher Larson=
-<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaur=
-us<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+Richard
 
---001a1147bae23dc7b005142f12b8--
+
+
+
