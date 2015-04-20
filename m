@@ -1,29 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2510A73D40
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 70B1D735FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 14:34:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3KEYXvQ009436; Mon, 20 Apr 2015 15:34:33 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lB1XhXKvpT-z; Mon, 20 Apr 2015 15:34:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3KEYKNV009349
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 20 Apr 2015 15:34:32 +0100
-Message-ID: <1429540460.26983.11.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan =?ISO-8859-1?Q?M=FCller-Klieser?= <s.mueller-klieser@phytec.de>
-Date: Mon, 20 Apr 2015 15:34:20 +0100
-In-Reply-To: <1429525121-28802-1-git-send-email-s.mueller-klieser@phytec.de>
-References: <1429525121-28802-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][dizzy][PATCH] gcc-4.9: backport from gcc trunk r212178
+	Mon, 20 Apr 2015 14:47:56 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Apr 2015 07:47:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,609,1422950400"; d="scan'208";a="483183543"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Apr 2015 07:47:45 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Apr 2015 17:46:42 +0300
+Message-Id: <cover.1429540534.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2 0/4] Switch to BlueZ 5.x as default Bluetooth stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +27,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 14:34:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Apr 2015 14:47:59 -0000
 
-On Mon, 2015-04-20 at 12:18 +0200, Stefan Müller-Klieser wrote:
-> When compiling meta-toolchain-qt5 on cortexa8, the compiler throws an
-> internal compiler error:
-> 
-> ...
-> qttools-opensource-src-5.3.2/src/linguist/shared/po.cpp:
-> In function 'bool loadPO(Translator&, QIODevice&, ConversionData&)':
-> qttools-opensource-src-5.3.2/src/linguist/shared/po.cpp:717:1:
-> internal compiler error: in add_stores, at var-tracking.c:6000
-> ...
-> 
-> Tracking this down led to https://bugs.linaro.org/show_bug.cgi?id=534
-> It seems the bug is well know and fixed upstream. So backporting from
-> trunk seems to be the right solution. This fixes the compiler problem
-> on cortexa8 and does not seem to be very invasive. The original commit
-> can be found at:
-> 
-> git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-961f-82ee72b054a4
-> 
-> Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
->  ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ++++++++++++++++++++++
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+BlueZ 5.x is now the default Bluetooth stack.
+BlueZ 4.x is moved to meta-oe connectivity collection
+layer and still supported in oe-core.
 
-Does this need to be added to master before we can backport to dizzy?
+The following changes since commit 167025e6d72c44cacfdc5d8b98e942066df09a4f:
 
-Cheers,
+  initscripts: Remove /etc/volatile.cache on upgrade (2015-04-20 15:03:07 +0100)
 
-Richard
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v3
+
+Cristian Iorga (4):
+  maintainers.inc: remove info related to bluez4
+  upstream_tracking.inc: bluez4 removed from oe-core
+  bluez: remove recipe
+  bitbake.conf: backfill bluez5 feature
+
+ meta-yocto/conf/distro/include/maintainers.inc     |   3 -
+ .../conf/distro/include/upstream_tracking.inc      |   1 -
+ meta/conf/bitbake.conf                             |   2 +-
+ .../obsolete_automake_macros.patch                 |  14 ---
+ .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
+ .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
+ .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
+ .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 ---------------------
+ .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
+ ...ork-fix-network-Connect-method-parameters.patch |  30 ------
+ .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
+ .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
+ ...pygobject-instead-ofgobject-introspection.patch |  27 -----
+ meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
+ .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
+ 16 files changed, 1 insertion(+), 457 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+
+-- 
+2.1.0
 
 
