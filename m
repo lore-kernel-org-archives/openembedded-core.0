@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 33C0771EC3
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4F365CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 08:05:34 +0000 (UTC)
+	Mon, 20 Apr 2015 08:09:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K85ZwM029226
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89NJ3029733
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 01:05:35 -0700 (PDT)
+	Mon, 20 Apr 2015 01:09:23 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 20 Apr 2015 01:05:35 -0700
+	Mon, 20 Apr 2015 01:09:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Apr 2015 01:05:34 -0700
-Message-ID: <2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
+Date: Mon, 20 Apr 2015 01:09:15 -0700
+Message-ID: <cover.1429517334.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1429517108.git.liezhi.yang@windriver.com>
-References: <cover.1429517108.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libunwind: use gold for all archs
+Subject: [PATCH 0/8] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 08:05:35 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 08:09:22 -0000
 Content-Type: text/plain
 
-At least the following boards have build errors without using gold:
-qemux86, qemux86-64, qemuarm, qemuaarch64, qemuppc.
+The following changes since commit 97d56a5b8e4f15eb32095f242eb2fd62fc5d85f2:
 
-The error is:
-ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
-ld: failed to set dynamic section sizes: Bad value
-ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
-ld: failed to set dynamic section sizes: Bad value
-| collect2: error: ld returned 1 exit status
+  gmp: remove referencing paths from the build host (2015-04-19 13:34:06 +0100)
 
-So use gold for all archs to fix the problem.
+are available in the git repository at:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-support/libunwind/libunwind.inc |    5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib rbt/PUs
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PUs
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index 56905c2..c4a7b5e 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -23,10 +23,7 @@ LIBATOMICS_armv5 = "-latomic_ops"
- LIBATOMICS_armv4 = "-latomic_ops"
- LIBATOMICS ?= ""
- 
--LDFLAGS_append_x86 = " -fuse-ld=gold"
--LDFLAGS_append_x86-64 = " -fuse-ld=gold"
--
--LDFLAGS_append_aarch64 = " -fuse-ld=gold"
-+LDFLAGS_append = " -fuse-ld=gold"
- 
- DEPENDS += "${DEPLIBATOMICS}"
- DEPLIBATOMICS_armv5 = "libatomics-ops"
+Robert Yang (8):
+  cracklib: 2.9.2 -> 2.9.3
+  directfb: 1.7.6 -> 1.7.7
+  ccache: 3.1.9 -> 3.1.11
+  dbus-glib: 0.102 -> 0.104
+  cryptodev: 1.6 -> 1.7
+  liberror-perl: 0.17022 -> 0.17023
+  pax-utils: 0.9.2 -> 1.0.3
+  lz4: r127 -> r128
+
+ meta/recipes-core/dbus/dbus-glib_0.102.bb          |    5 --
+ meta/recipes-core/dbus/dbus-glib_0.104.bb          |    4 +
+ .../ccache/{ccache_3.1.9.bb => ccache_3.1.11.bb}   |    4 +-
+ .../{pax-utils_0.9.2.bb => pax-utils_1.0.3.bb}     |    4 +-
+ ...or-perl_0.17022.bb => liberror-perl_0.17023.bb} |    5 +-
+ .../{cracklib_2.9.2.bb => cracklib_2.9.3.bb}       |    6 +-
+ meta/recipes-graphics/directfb/directfb_1.7.6.bb   |    8 --
+ meta/recipes-graphics/directfb/directfb_1.7.7.bb   |    8 ++
+ ...yptodev-linux_1.6.bb => cryptodev-linux_1.7.bb} |    4 +-
+ ...todev-module_1.6.bb => cryptodev-module_1.7.bb} |    1 -
+ ...yptodev-tests_1.6.bb => cryptodev-tests_1.7.bb} |    0
+ .../{cryptodev_1.6.inc => cryptodev_1.7.inc}       |    4 +-
+ ...pile-and-install-rules-for-cryptodev-test.patch |   23 +++---
+ ...-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch |   86 --------------------
+ .../recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} |   12 +--
+ 15 files changed, 40 insertions(+), 134 deletions(-)
+ delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.102.bb
+ create mode 100644 meta/recipes-core/dbus/dbus-glib_0.104.bb
+ rename meta/recipes-devtools/ccache/{ccache_3.1.9.bb => ccache_3.1.11.bb} (45%)
+ rename meta/recipes-devtools/pax-utils/{pax-utils_0.9.2.bb => pax-utils_1.0.3.bb} (83%)
+ rename meta/recipes-devtools/perl/{liberror-perl_0.17022.bb => liberror-perl_0.17023.bb} (83%)
+ rename meta/recipes-extended/cracklib/{cracklib_2.9.2.bb => cracklib_2.9.3.bb} (90%)
+ delete mode 100644 meta/recipes-graphics/directfb/directfb_1.7.6.bb
+ create mode 100644 meta/recipes-graphics/directfb/directfb_1.7.7.bb
+ rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.6.bb => cryptodev-linux_1.7.bb} (92%)
+ rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.6.bb => cryptodev-module_1.7.bb} (85%)
+ rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.6.bb => cryptodev-tests_1.7.bb} (100%)
+ rename meta/recipes-kernel/cryptodev/{cryptodev_1.6.inc => cryptodev_1.7.inc} (66%)
+ delete mode 100644 meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
+ rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (66%)
+
 -- 
 1.7.9.5
 
