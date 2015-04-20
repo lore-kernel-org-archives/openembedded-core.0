@@ -1,40 +1,38 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 850E67390D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B4E87390D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 20:27:29 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so114133417wid.0
+	Mon, 20 Apr 2015 22:01:24 +0000 (UTC)
+Received: by qkhg7 with SMTP id g7so199578977qkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 13:27:30 -0700 (PDT)
+	Mon, 20 Apr 2015 15:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:content-type:mime-version:content-transfer-encoding;
-	bh=/690yQKtXKASizh+sN2a5wRu6zLQrxZXxm3+JDsuhtY=;
-	b=qNstW8wuhnDJiAHFYGM3bH4awlquzVsMZNu/znVzIUdKQedtKXg3zXAToJRfLPoTtT
-	WW/rDK/DGzj/JhYzD5PGFzUt8gPu38NI7b317AnF1LJmUvH2MmFBSQKAhGoHWOXXdvgc
-	BnBrzv6E1tV6TbK65yWra9QDiex2h874whRaJ6mmtNBg7nor2crsbEWWJ986umpcK1xr
-	UAypZ4oux+SP7DcfYYGDIs8nusdiekRau4wmX87HdwF7U/wnZoDusDEaXdsd9O9CtCgu
-	5Gv/a9RL+8zSzAn63saHv2bmhrRl2QxlYHVLCOta92dsJ3ND95Tulj6pkCyGKTk4d/D2
-	rPIQ==
-X-Received: by 10.194.88.131 with SMTP id bg3mr35173404wjb.119.1429561650134; 
-	Mon, 20 Apr 2015 13:27:30 -0700 (PDT)
-Received: from ubnadia.lan.ffah.ch (c-82-192-249-249.customer.ggaweb.ch.
-	[82.192.249.249])
-	by mx.google.com with ESMTPSA id l1sm16715611wiy.20.2015.04.20.13.27.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Apr 2015 13:27:29 -0700 (PDT)
-Message-ID: <1429561646.14219.78.camel@gmail.com>
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: ed.bartosh@linux.intel.com
-Date: Mon, 20 Apr 2015 22:27:26 +0200
-In-Reply-To: <20150420182134.GA15567@linux.intel.com>
-References: <1429541663-5695-1-git-send-email-adrian.freihofer@gmail.com>
-	<20150420182134.GA15567@linux.intel.com>
-X-Mailer: Evolution 3.12.11 (3.12.11-1.fc21) 
-Mime-Version: 1.0
-Cc: eduard.bartosh@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [master-next][PATCH] wic: Add plugin for single partition disk
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=C+86D1MhIkIfZm83NpzQanEaToqhgki6BCC9F2NceC0=;
+	b=mxTEdqTKYuZitiwMsDEmau9TiS8cUDa7mlhPYdUJE4ogji4WSNhvBp8fKjTehXFtjD
+	RPdZYBU4azXr3eJWIGS6Xh27MJdbrUsKRpkwm4ZYRxeMFulq3671G59ZCLBULELYZQys
+	iF70OIxkx6WndBkF1Vt8Ug3qPJbONro0iWBIePvTe6xqsaFOYJ6u5WeBzw9F1u2VyKKE
+	YcfE0R65/cNd7eOgcML62MuCkcsFKzAPXa6XgCyEV51lsHHnyRMyOgR6FhFOFFWJicS+
+	ZVIsTQJ5w4396d8QkzmbdD8SBfvu9i1f1V518iEojOE2mPCmnZxlO2XQhZ7cUrVU7ln/
+	L5Wg==
+X-Received: by 10.55.31.7 with SMTP id f7mr32930578qkf.9.1429567285608; Mon,
+	20 Apr 2015 15:01:25 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.140.108.34 with HTTP; Mon, 20 Apr 2015 15:01:05 -0700 (PDT)
+In-Reply-To: <CABcZANm790dekEqEh5nyGoyo_L9K6Qj3Yugx=jCuVSkEqcW0pA@mail.gmail.com>
+References: <1416364933-214069-1-git-send-email-mark.hatle@windriver.com>
+	<CABcZANm790dekEqEh5nyGoyo_L9K6Qj3Yugx=jCuVSkEqcW0pA@mail.gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 20 Apr 2015 15:01:05 -0700
+X-Google-Sender-Auth: PLVJqJDy6lP4gqQqXcZMNBo23f0
+Message-ID: <CABcZANkYegAavg-ia-21M-isawm4CuDva1J3g-GM8cQsQ-dLwg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image.bbclass: Add a method for creating a companion debug filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,368 +45,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 20:27:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Apr 2015 22:01:26 -0000
+Content-Type: multipart/alternative; boundary=001a1147bae23dc7b005142f12b8
 
-Hi Ed,
+--001a1147bae23dc7b005142f12b8
+Content-Type: text/plain; charset=UTF-8
 
-Thank you for the response. See my comments below.
+On Fri, Nov 21, 2014 at 11:26 AM, Christopher Larson <clarson@kergoth.com>
+wrote:
 
-On Mon, 2015-04-20 at 21:21 +0300, Ed Bartosh wrote:
-> Hi Adrian,
-> 
-> Thank you for the plugin! The implementation looks good to me.
-> See my comments below.
-> 
-> On Mon, Apr 20, 2015 at 04:54:23PM +0200, Adrian Freihofer wrote:
-> > The wic plugin creates a disk image containig one ext2/3/4 partition.
-> > No additional boot partition is required. Syslinux is installed into
-> > the image. The target device is a legacy BIOS PC.
-> > 
-> > Purpose of this plugin:
-> > Other avaliable plugins create a fat partition for /boot and an ext
-> > partition for rootfs. Current linux-yocto kernel packages are not
-> > compatible with this disk layout. The boot partition is not mounted
-> > by default, hence the kernel is installed into rootfs and not into
-> > boot partition. A kernel update ends up in a bricked device. The old
-> > kernel which is still in boot likely does not even boot with updated
-> > kernel modules from /. Even if the boot partition is mounted during
-> > the kernel update the update will fail. The kernel package installs
-> > a symbolic link which is not supported by the fat partition.
-> > Creating just one ext partition for boot and rootfs solves all issues
-> > related to package based kernel updates on the device.
-> > 
-> When do you think it would make sense to stop using far partition for /boot ?
-Maybe I've missed something. But as far as I can understand the current
-implementation of poky image classes and wic, there is now solution
-available which just works. If the user creates an image and later runs
-a package based kernel update (e.g. opkg update on the device) the
-device is "bricked". The kernel packages do not care about a separate
-fat partition for boot. Further on they install a symbolic link which is
-not possible on a fat boot partition! If I'm right, my plugin should be
-applied immediately. It just solves problems for users of PCs with BIOS.
-> 
-> 
-> > The plugin depends on syslinux-nomtools a user space installer for
-> > syslinux on ext filesystems.
-> > Thanks to Robert Yang who implemented syslinux-nomtools and supported
-> > the implementation of this plugin.
-> > 
-> 
-> It's not related to this patch may be, but still. Is syslinux-nomtools incompatible
-> with syslinux? Why not to have just one syslinux?
-Regarding the bits installed on the device, there is just one syslinux
-bootloader. The bootloader itself has been merged to support all kind of
-file systems.
-But there are different installers. The installers are just host tools.
-The syslinux team distinguishes between installers depending on
-different user space libraries and installers depending on kernel
-features. Installers depending on the kernel need a mounted file system
-(e.g. extlinux). They do not run without root permissions and are
-therefore out of scope to be used in poky. The installers which do not
-require root permissions depend on a user space implementation of the
-corresponding file system. To keep the dependencies per installer
-minimal the syslinux team decided to provide different installers for
-different file systems. So far there is only a user space installer for
-fat file systems available. This is may be the explanation for the dual
-partition layout in current poky. There was simply no user space
-solution available until now.
-Robert Yang from Windriver provided a patch set for a user space
-installer for ext file systems. It is called syslinux-nomtools (syslinux
-installer which does not depend on msdos file system libraries). The
-patches have been merged into poky a few days or weeks ago. One of the
-patches is still on master-next which was the reason to commit my plugin
-on this branch as well.
+> On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+>
+>> The companion debug filesystem contains only the package database and the
+>> complementary *-dbg packages for the main filesystem component.  This is
+>> useful in a production environment to produce a companion filesystem
+>> capable
+>> of remote system debugging, without requiring corresponding debug
+>> symbols or
+>> source code on the device.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>
+>> If dbg pkgs have already been installed to the rootfs image,
+>> the installation to companion debug filesystem will fail,
+>> because both of image creation make use of the same pm
+>> database.
+>>
+>> In this situation, try to copy installed dbg files from rootfs
+>> image to companion debug filesystem.
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>>
+>
+> This looks pretty good to me, nicely done.
+>
+> Acked-by: Christopher Larson <chris_larson@mentor.com>
+>
 
-There is one more thing I would like to mention. My plugin calls bitbake
-if the required host tools are missing (syslinux, parted). This makes it
-just work for the user in any case. Other plugins fail if a tool e.g.
-syslinux is not available or even worse, they just take the one
-installed on the host distro!
-But one can think about a better solution. The installation of missing
-host tools should be centralized in wic. Please have a look at the
-response to your patch "wic: Implement --build-rootfs command line
-option" I sent you today.
-However, I would suggest to go with the available patch and improve this
-later on.
-> 
-> > Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
-> > ---
-> >  scripts/lib/wic/kickstart/__init__.py              |  10 ++
-> >  .../lib/wic/plugins/source/rootfs_pcbios_ext.py    | 198 +++++++++++++++++++++
-> >  2 files changed, 208 insertions(+)
-> >  create mode 100644 scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-> > 
-> > diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
-> > index 111723b..eb9def9 100644
-> > --- a/scripts/lib/wic/kickstart/__init__.py
-> > +++ b/scripts/lib/wic/kickstart/__init__.py
-> > @@ -104,6 +104,16 @@ def get_kernel_args(ks, default="ro rd.live.image"):
-> >          return default
-> >      return "%s %s" %(default, ks.handler.bootloader.appendLine)
-> >  
-> > +def get_kernel_args_console_serial(kargs):
-> > +    consoles = []
-> > +    for param in kargs.split():
-> > +        param_match = re.match("console=(ttyS|ttyUSB)([0-9]+),?([0-9]*)([noe]?)([0-9]?)(r?)", param)
-> > +        if param_match:
-> > +            # console name without index, console index, baudrate, parity, number of bits, flow control
-> > +            consoles.append((param_match.group(1), param_match.group(2), param_match.group(3),
-> > +                             param_match.group(4), param_match.group(5), param_match.group(6)))
-> > +    return consoles
-> > +
-> >  def get_menu_args(ks, default=""):
-> >      if not hasattr(ks.handler.bootloader, "menus"):
-> >          return default
-> > diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-> > new file mode 100644
-> > index 0000000..a05ddcf
-> > --- /dev/null
-> > +++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-> > @@ -0,0 +1,198 @@
-> > +# ex:ts=4:sw=4:sts=4:et
-> > +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
-> > +#
-> > +# This program is free software; you can distribute it and/or modify
-> > +# it under the terms of the GNU General Public License version 2 as
-> > +# published by the Free Software Foundation.
-> > +#
-> > +# This program is distributed in the hope that it will be useful,
-> > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > +# GNU General Public License for mo details.
-> > +#
-> > +# You should have received a copy of the GNU General Public License along
-> > +# with this program; if not, write to the Free Software Foundation, Inc.,
-> > +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> > +#
-> > +# DESCRIPTION
-> > +# This plugin creates a disk image containing a bootable root partition with
-> > +# syslinux installed. The filesystem is ext2/3/4, no extra boot partition is
-> > +# required.
-> > +#
-> > +# Example kickstart file:
-> > +# part / --source rootfs-pcbios-ext --ondisk sda --fstype=ext4 --label rootfs --align 1024
-> > +# bootloader --source rootfs-pcbios-ext --timeout=0 --append="rootwait rootfstype=ext4"
-> > +#
-> > +# The first line generates a root file system including a syslinux.cfg file
-> > +# The "--source rootfs-pcbios-ext" in the second line triggers the ldlinux.sys
-> > +# installation into the image.
-> > +#
-> > +# AUTHOR
-> > +# Adrian Freihofer <adrian.freihofer (at] neratec.com>
-> > +#
-> > +
-> > +import os
-> > +from wic.utils.errors import ImageError
-> > +from wic import kickstart
-> > +from wic import msger
-> > +from wic.utils import runner
-> > +from wic.pluginbase import SourcePlugin
-> > +from wic.utils.oe import misc
-> > +
-> > +
-> > +class RootfsPlugin(SourcePlugin):
-> > +    name = 'rootfs-pcbios-ext'
-> > +
-> > +    @staticmethod
-> > +    def __get_rootfs_dir(rootfs_dir):
-> > +        if os.path.isdir(rootfs_dir):
-> > +            return rootfs_dir
-> > +
-> > +        bitbake_env_lines = misc.find_bitbake_env_lines(rootfs_dir)
-> > +        if not bitbake_env_lines:
-> > +            msg = "Couldn't get bitbake environment, exiting."
-> > +            msger.error(msg)
-> > +
-> > +        image_rootfs_dir = misc.find_artifact(bitbake_env_lines, "IMAGE_ROOTFS")
-> > +        if not os.path.isdir(image_rootfs_dir):
-> > +            msg = "No valid artifact IMAGE_ROOTFS from image named"
-> > +            msg += " %s has been found at %s, exiting.\n" % \
-> > +                (rootfs_dir, image_rootfs_dir)
-> > +            msger.error(msg)
-> > +
-> > +        return image_rootfs_dir
-> > +
-> > +    @classmethod
-> > +    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-> > +                               oe_builddir, bootimg_dir, kernel_dir,
-> > +                               native_sysroot):
-> > +        """
-> > +        Called before do_prepare_partition(), creates syslinux config
-> > +        """
-> > +        (rootdev, root_part_uuid) = cr._get_boot_config()
-> > +        options = cr.ks.handler.bootloader.appendLine
-> > +
-> > +        syslinux_conf = ""
-> > +        syslinux_conf += "PROMPT 0\n"
-> > +
-> > +        timeout = kickstart.get_timeout(cr.ks)
-> > +        if not timeout:
-> > +            timeout = 0
-> > +        syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
-> > +        syslinux_conf += "ALLOWOPTIONS 1\n"
-> > +
-> > +        # Derive bootloader serial console configuration from kernel parameters
-> > +        serial_args = kickstart.get_kernel_args_console_serial(options)
-> > +        try:
-> > +            if serial_args[0][1] == 'ttyS':
-> > +                syslinux_conf += "SERIAL " + serial_args[0][2]
-> > +                try:  # baudrate
-> > +                    syslinux_conf += serial_args[0][2]
-> > +                except IndexError:
-> > +                    pass
-> > +                try:  # parity
-> > +                    if serial_args[0][2] != 'n':
-> > +                        msger.warning("syslinux does not support parity for console")
-> > +                except IndexError:
-> > +                    pass
-> > +                try:  # number of bits
-> > +                    if serial_args[0][3] != '8':
-> > +                        msger.warning("syslinux supports 8 bit console configuration only")
-> > +                except IndexError:
-> > +                    pass
-> > +                try:  # flow control
-> > +                    if serial_args[0][4] != '':
-> > +                        msger.warning("syslinux console flowcontrol configuration is ignored")
-> > +                except IndexError:
-> > +                    pass
-> > +        except IndexError:
-> > +            pass
-> 
-> Validation of syslinux console parameters should not be done in plugin code I believe. Please move it to the wic code that other plugins could call it.
-> 
-> > +
-> > +        syslinux_conf += "\n"
-> > +        syslinux_conf += "DEFAULT linux\n"
-> > +        syslinux_conf += "LABEL linux\n"
-> > +        syslinux_conf += "  KERNEL /boot/bzImage\n"
-> > +
-> > +        if cr._ptable_format == 'msdos':
-> > +            rootstr = rootdev
-> > +        else:
-> > +            raise ImageError("Unsupported partition table format found")
-> > +
-> > +        syslinux_conf += "  APPEND label=boot root=%s %s\n" % (rootstr, options)
-> > +
-> > +        syslinux_cfg = os.path.join(cr.rootfs_dir['ROOTFS_DIR'], "boot", "syslinux.cfg")
-> > +        msger.debug("Writing syslinux config %s" % syslinux_cfg)
-> > +        cfg = open(syslinux_cfg, "w")
-> > +        cfg.write(syslinux_conf)
-> > +        cfg.close()
-> > +
-> > +    @classmethod
-> > +    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-> > +                             oe_builddir, bootimg_dir, kernel_dir,
-> > +                             krootfs_dir, native_sysroot):
-> > +        """
-> > +        Called to do the actual content population for a partition i.e. it
-> > +        'prepares' the partition to be incorporated into the image.
-> > +        """
-> > +        def is_exe(exepath):
-> > +            return os.path.isfile(exepath) and os.access(exepath, os.X_OK)
-> > +        
-> > +        # Make sure parted is available in native sysroot or fail
-> > +        native_parted = os.path.join(native_sysroot ,"usr/sbin/parted")
-> > +        if not is_exe(native_parted):
-> > +            msger.info("building parted-native...")
-> > +            misc.exec_cmd("bitbake parted-native")
-> > +        if not is_exe(native_parted):
-> > +            msger.error("Couldn't find parted (%s), exiting\n" % native_parted)
-> 
-> This is already checked in wic code as parted-native is in the list of requirements for wic: http://www.yoctoproject.org/docs/1.9/dev-manual/dev-manual.html#wic-requirements
-> 
-> > +        
-> > +        # Make sure syslinux-nomtools is available in native sysroot or fail
-> > +        native_syslinux_nomtools = os.path.join(native_sysroot ,"usr/bin/syslinux-nomtools")
-> > +        if not is_exe(native_syslinux_nomtools):
-> > +            msger.info("building syslinux-native...")
-> > +            misc.exec_cmd("bitbake syslinux-native")
-> > +        if not is_exe(native_syslinux_nomtools):
-> > +            msger.error("Couldn't find syslinux-nomtools (%s), exiting\n" % native_syslinux_nomtools)
-> > +
-> > +        if part.rootfs is None:
-> > +            if not 'ROOTFS_DIR' in krootfs_dir:
-> > +                msg = "Couldn't find --rootfs-dir, exiting"
-> > +                msger.error(msg)
-> > +            rootfs_dir = krootfs_dir['ROOTFS_DIR']
-> > +        else:
-> > +            if part.rootfs in krootfs_dir:
-> > +                rootfs_dir = krootfs_dir[part.rootfs]
-> > +            elif part.rootfs:
-> > +                rootfs_dir = part.rootfs
-> > +            else:
-> > +                msg = "Couldn't find --rootfs-dir=%s connection"
-> > +                msg += " or it is not a valid path, exiting"
-> > +                msger.error(msg % part.rootfs)
-> > +
-> > +        real_rootfs_dir = self.__get_rootfs_dir(rootfs_dir)
-> > +
-> > +        part.set_rootfs(real_rootfs_dir)
-> > +        part.prepare_rootfs(cr_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
-> > +
-> > +        # install syslinux into rootfs partition
-> > +        syslinux_cmd = "syslinux-nomtools -d /boot -i %s" % part.source_file
-> > +        misc.exec_native_cmd(syslinux_cmd, native_sysroot)
-> > +
-> > +    @classmethod
-> > +    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-> > +                        bootimg_dir, kernel_dir, native_sysroot):
-> > +        """
-> > +        Called after all partitions have been prepared and assembled into a
-> > +        disk image. In this case, we install the MBR.
-> > +        """
-> > +        mbrfile = os.path.join(native_sysroot, "usr/share/syslinux/mbr.bin")
-> > +        if not os.path.exists(mbrfile):
-> > +            msger.error("Couldn't find %s. If using the -e option, do you have the right MACHINE set in local.conf? If not, is the bootimg_dir path correct?" % mbrfile)
-> > +
-> > +        full_path = disk['disk'].device
-> > +        msger.debug("Installing MBR on disk %s as %s with size %s bytes" \
-> > +                    % (disk_name, full_path, disk['min_size']))
-> > +
-> > +        rc = runner.show(['dd', 'if=%s' % mbrfile, 'of=%s' % full_path, 'conv=notrunc'])
-> > +        if rc != 0:
-> > +            raise ImageError("Unable to set MBR to %s" % full_path)
-> > +
-> 
-> You may want to fix at least some of pylint warnings:
-> 
-> C:139, 0: Trailing whitespace (trailing-whitespace)
-> C:141, 0: No space allowed before comma
->         native_parted = os.path.join(native_sysroot ,"usr/sbin/parted")
->                                                     ^ (bad-whitespace)
-> C:141, 0: Exactly one space required after comma
->         native_parted = os.path.join(native_sysroot ,"usr/sbin/parted")
->                                                     ^ (bad-whitespace)
-> C:147, 0: Trailing whitespace (trailing-whitespace)
-> C:149, 0: No space allowed before comma
->         native_syslinux_nomtools = os.path.join(native_sysroot ,"usr/bin/syslinux-nomtools")
->                                                                ^ (bad-whitespace)
-> C:149, 0: Exactly one space required after comma
->         native_syslinux_nomtools = os.path.join(native_sysroot ,"usr/bin/syslinux-nomtools")
->                                                                ^ (bad-whitespace)
-> C:154, 0: Line too long (101/100) (line-too-long)
-> C:189, 0: Line too long (168/100) (line-too-long)
-> C: 66, 4: Class method do_configure_partition should have 'cls' as first argument (bad-classmethod-argument)
-> R: 66, 4: Too many arguments (9/5) (too-many-arguments)
-> R: 66, 4: Too many local variables (18/15) (too-many-locals)
-> W: 72,36: Access to a protected member _get_boot_config of a client class (protected-access)
-> W:116,11: Access to a protected member _ptable_format of a client class (protected-access)
-> W: 72,18: Unused variable 'root_part_uuid' (unused-variable)
-> C:130, 4: Class method do_prepare_partition should have 'cls' as first argument (bad-classmethod-argument)
-> R:130, 4: Too many arguments (10/5) (too-many-arguments)
-> R:130, 4: Too many local variables (17/15) (too-many-locals)
-> C:181, 4: Class method do_install_disk should have 'cls' as first argument (bad-classmethod-argument)
-> R:181, 4: Too many arguments (9/5) (too-many-arguments)
-> C:195, 8: Invalid variable name "rc" (invalid-name)
-> 
-> 
-> 
-> 
-> --
-> Regards,
-> Ed
+Following up on this, are there any objections to getting this merged for
+after fido?
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1147bae23dc7b005142f12b8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Nov 21, 2014 at 11:26 AM, Christopher Larson <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">=
+<div class=3D"gmail_quote">On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=3D"_bl=
+ank">mark.hatle@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div style=3D"overflow:hidden">The <span class=3D"il">companion<=
+/span> <span class=3D"il">debug</span> <span class=3D"il">filesystem</span>=
+ contains only the package database and the<br>
+complementary *-dbg packages <span class=3D"il">for</span> the main <span c=
+lass=3D"il">filesystem</span> component.=C2=A0 This is<br>
+useful in <span class=3D"il">a</span> production environment to produce <sp=
+an class=3D"il">a</span> <span class=3D"il">companion</span> <span class=3D=
+"il">filesystem</span> capable<br>
+of remote system debugging, without requiring corresponding <span class=3D"=
+il">debug</span> symbols or<br>
+source code on the device.<br>
+<br>
+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com" t=
+arget=3D"_blank">mark.hatle@windriver.com</a>&gt;<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+ target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
+<br>
+If dbg pkgs have already been installed to the rootfs image,<br>
+the installation to <span class=3D"il">companion</span> <span class=3D"il">=
+debug</span> <span class=3D"il">filesystem</span> will fail,<br>
+because both of image creation make use of the same pm<br>
+database.<br>
+<br>
+In this situation, try to copy installed dbg files from rootfs<br>
+image to <span class=3D"il">companion</span> <span class=3D"il">debug</span=
+> <span class=3D"il">filesystem</span>.<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
+arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+ target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com" t=
+arget=3D"_blank">mark.hatle@windriver.com</a>&gt;</div></blockquote></div><=
+br></span>This looks pretty good to me, nicely done.<br><div><br></div><div=
+>Acked-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+" target=3D"_blank">chris_larson@mentor.com</a>&gt;</div></blockquote></div=
+><br>Following up on this, are there any objections to getting this merged =
+for after fido?<br>-- <br><div class=3D"gmail_signature">Christopher Larson=
+<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaur=
+us<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
+--001a1147bae23dc7b005142f12b8--
