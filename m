@@ -1,40 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B4D06E268
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 43CAD6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 13:05:36 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so98299004wid.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 06:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=rT4gA5DZKBQEqEXqsc5zuJjisOCpWGulLDjEgjGZTSc=;
-	b=svDN2WO3K68uF/Guy4FAtOIjCV+ZYrhtU+4NxJRej72Zfsr0IcAgEAtoXEYapPXe20
-	IxP2gPf4IUmi8sa95EKoLABLhlJiWyqlbmRO+M7cino/SuewQ/MG16yruyF/nLaNZQPY
-	1EMzbEBtEn965eV/9iqBBFg4jkTqXE8AM7z7tdZaMVlWg8/sQnpZUL/MCwJv7Cl8qJV4
-	p6RFXTvWlwtIneqkvzKTX7iZfVOr9dre1MVXZu0P4LCNynjHOvBob7iPXAZDEf3+Czxt
-	ZpBTuoQsPNJo0l/KFTwFXYzZF2XXJtdQ6jQIft2WqtZoVQQfhCj6fge3YgTiFhsfs2uV
-	Db+w==
-X-Received: by 10.194.59.79 with SMTP id x15mr6426169wjq.81.1429535137524;
-	Mon, 20 Apr 2015 06:05:37 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id hu1sm15206983wib.6.2015.04.20.06.05.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Apr 2015 06:05:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 20 Apr 2015 15:05:41 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150420130541.GD3686@jama>
-References: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
+	Mon, 20 Apr 2015 13:18:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2015 06:18:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,609,1422950400"; d="scan'208";a="697949525"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.5.75])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Apr 2015 06:18:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Mon, 20 Apr 2015 14:18:04 +0100
+Message-ID: <2986665.4db1flKRAu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <BN3PR0501MB10904A52AD3FCD71C41C67B7BBE00@BN3PR0501MB1090.namprd05.prod.outlook.com>
+References: <BN3PR0501MB10904A52AD3FCD71C41C67B7BBE00@BN3PR0501MB1090.namprd05.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] e2fsprogs: Package populate-extfs.sh and enable symlink install
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Clarification on backport and bugfix patch submittal process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,83 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 13:05:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Apr 2015 13:18:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Apr 10, 2015 at 04:06:14PM +0200, Martin Jansa wrote:
-> * install populate-extfs.sh from contrib, be aware that in order
->   to use it you need to set DEBUGFS shell variable, otherwise it will
->   try to use debugfs from relative path which is almost always
->   incorrect:
->     CONTRIB_DIR=3D$(dirname $(readlink -f $0))
->     DEBUGFS=3D"$CONTRIB_DIR/../debugfs/debugfs"
->=20
-> * use symlinks to install e2fsck, mke2fs, without this option we have:
->   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
-/image/sbin/
->   ...
->   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 e2fsck
->   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
->   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
->   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
->   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4dev
->   ...
->   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mke2fs
->   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
->   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext3
->   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
->   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
->   ...
->=20
->   which would be OK, because they are hadlinks, but after runstrip in
->   do_package we get one stripped binary and 4 hardlinks to the original
->   one:
->=20
->   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
-/packages-split/e2fsprogs-e2fsck/sbin
->   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 e2fsck
->   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
->   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
->   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
->   101983136 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:43 fsck.ext4dev
->   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
-/packages-split/e2fsprogs-mke2fs/sbin/
->   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mke2fs
->   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
->   101988266 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:43 mkfs.ext3
->   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
->   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
->=20
->   That's super annoying for big files like this which are often include
->   in small recovery images. Using --enable-symlink-install option results
->   in one stripped binary and 4 symlinks:
->=20
->   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
-/packages-split/e2fsprogs-e2fsck/sbin/
->   102113806 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:50 e2fsck
->   102113813 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext2 -> e=
-2fsck
->   102113814 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext3 -> e=
-2fsck
->   102113812 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4 -> e=
-2fsck
->   102113815 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4dev -=
-> e2fsck
->   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
-/packages-split/e2fsprogs-mke2fs/sbin/
->   102113804 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:50 mke2fs
->   102113825 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext2 -> m=
-ke2fs
->   102113826 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext3 -> m=
-ke2fs
->   102113823 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4 -> m=
-ke2fs
->   102113824 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4dev -=
-> mke2fs
->=20
->   Saving cca 1,5MB.
+Hi Bryan,
 
-Ping, this is needed also in fido and dizzy branches.
+On Monday 20 April 2015 12:42:33 Bryan Evenson wrote:
+> Last week I had submitted two patches
+> (1f994e81717502fd9d3c2f69772ae8556e6de4cb and
+> 433ec67686d6991d2d5f43fd1af957968da1971c) related to problems I had been
+> having on the dizzy branch and was happy to see they were accepted. 
+> However, I only see the patches on the dizzy branch and I think these
+> changes are suitable for backport for all supported branches since the
+> problem was introduced (which I think was introduced in dora).  I think I
+> had included [dizzy] as a tag in the subject for the patches since that was
+> the branch I had been working with.
+
+Is the patch also applicable to fido/master? Because at the moment it seems 
+only to have been applied to dizzy.
+ 
+> I can see that there are cases in which a patch only applies to a particular
+> branch (e.g. package version changes in the next branch, patch no longer
+> applies) and there are cases in which the patch is applicable for master
+> all the way back to a particular branch.  What is the suggested way of
+> indicating the difference when submitting patches?
+
+In general the policies we use for maintaining the stable branch should be 
+documented here:
+
+  https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
+
+I would say if there is any specificity to the issue the patch fixes, 
+particularly if it only applies to one of the stable branches, it should 
+probably be noted in the commit message.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
