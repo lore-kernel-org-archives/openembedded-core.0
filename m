@@ -1,58 +1,20 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0119.outbound.protection.outlook.com [207.46.100.119])
-	by mail.openembedded.org (Postfix) with ESMTP id CEAE67390D
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 15:27:40 +0000 (UTC)
-Received: from BN3PR0501MB1089.namprd05.prod.outlook.com (0.160.113.11) by
-	BN3PR0501MB1266.namprd05.prod.outlook.com (0.160.183.145) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.136.25; Mon, 20 Apr 2015 15:27:40 +0000
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (0.160.113.12) by
-	BN3PR0501MB1089.namprd05.prod.outlook.com (0.160.113.11) with Microsoft
-	SMTP Server (TLS) id 15.1.136.25; Mon, 20 Apr 2015 15:27:39 +0000
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([0.160.113.12]) by
-	BN3PR0501MB1090.namprd05.prod.outlook.com ([0.160.113.12]) with mapi id
-	15.01.0136.026; Mon, 20 Apr 2015 15:27:39 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 2/2] util-linux: Add lastb to alternatives
-Thread-Index: AQHQe3xfDLMPV3SGbk+OPiXDBeYc5J1WBExw
-Date: Mon, 20 Apr 2015 15:27:39 +0000
-Message-ID: <BN3PR0501MB1090333A271A93E3F0875BCEBBE00@BN3PR0501MB1090.namprd05.prod.outlook.com>
-References: <1429542458-4291-1-git-send-email-bevenson@melinkcorp.com>
-	<1429542458-4291-3-git-send-email-bevenson@melinkcorp.com>
-	<1429542712.26983.12.camel@linuxfoundation.org>
-In-Reply-To: <1429542712.26983.12.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-vipre-scanned: 00C700BF009A6000C7020C
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
-	header.d=none;
-x-originating-ip: [98.100.91.242]
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1089;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1266; 
-x-forefront-antispam-report: BMV:1; SFV:NSPM;
-	SFS:(10019020)(6009001)(377424004)(51704005)(377454003)(24454002)(13464003)(50986999)(2950100001)(122556002)(40100003)(92566002)(19580395003)(46102003)(54356999)(76176999)(19580405001)(110136001)(86362001)(102836002)(99286002)(74316001)(2656002)(87936001)(106116001)(76576001)(2900100001)(66066001)(77156002)(33656002)(62966003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1089;
-	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-x-microsoft-antispam-prvs: <BN3PR0501MB10891EDC9441A92B251462F7BBE00@BN3PR0501MB1089.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5002010)(5005006); SRVR:BN3PR0501MB1089; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0501MB1089; 
-x-forefront-prvs: 05529C6FDB
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2015 15:27:39.7255 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1089
-X-OriginatorOrg: melinkcorp.com
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] util-linux: Add lastb to alternatives
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 224156E268
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 15:31:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 20 Apr 2015 08:31:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,609,1422950400"; d="scan'208";a="712247947"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2015 08:31:46 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Apr 2015 18:31:42 +0300
+Message-Id: <cover.1429543826.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v4 0/4] Switch to BlueZ 5.x as default Bluetooth stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,32 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 15:27:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 20 Apr 2015 15:31:49 -0000
 
-UmljaGFyZCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJk
-IFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNl
-bnQ6IE1vbmRheSwgQXByaWwgMjAsIDIwMTUgMTE6MTIgQU0NCj4gVG86IEJyeWFuIEV2ZW5zb24N
-Cj4gQ2M6IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVj
-dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSB1dGlsLWxpbnV4OiBBZGQgbGFzdGIgdG8gYWx0
-ZXJuYXRpdmVzDQo+IA0KPiBPbiBNb24sIDIwMTUtMDQtMjAgYXQgMTE6MDcgLTA0MDAsIEJyeWFu
-IEV2ZW5zb24gd3JvdGU6DQo+ID4gdXRpbC1saW51eCBjcmVhdGVzIGxhc3RiIGFzIGEgc3ltbGlu
-ayB0byBsYXN0IGR1cmluZyB0aGUgYnVpbGQuDQo+ID4gSnVzdCBhcyBvdGhlciBhcHBsaWNhdGlv
-bnMgbWF5IHByb3ZpZGUgbGFzdCwgb3RoZXIgYXBwbGljYXRpb25zIG1heQ0KPiA+IHByb3ZpZGUg
-bGFzdGIuDQo+ID4NCj4gPiBBZGQgYWx0ZXJuYXRpdmVzIGRlc2lnbmF0aW9ucyBmb3IgbGFzdGIg
-dG8gYXZvaWQgaW5zdGFsbGF0aW9uDQo+ID4gY29uZmxpY3RzIHdpdGggb3RoZXIgYXBwbGljYXRp
-b25zLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQnJ5YW4gRXZlbnNvbiA8YmV2ZW5zb25AbWVs
-aW5rY29ycC5jb20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgv
-dXRpbC1saW51eC5pbmMgfCAyICstDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQ0KPiANCj4gRG9lc24ndCBhcHBlYXIgdG8gYXBwbHkgYWdhaW5zdCBt
-YXN0ZXI/DQo+IA0KDQpTb3JyeSwgdGhlcmUgYSBmZXcgcmVjZW50IGNvbW1pdHMgdG8gdXRpbC1s
-aW51eCBvbiBtYXN0ZXIgdGhhdCBJIGhhZCBtaXNzZWQuDQoNCk9uZSBvZiB0aGUgY29tbWl0cyBp
-cyBkb2luZyBzb21ldGhpbmcgc2ltaWxhciBmb3IgbGFzdGIsIGJ1dCBvbmx5IGZvciB0aGUgbWFu
-IHBhZ2UgYW5kIG5vdCBmb3IgdGhlIGV4ZWN1dGFibGUuICBJJ2xsIGNoZWNrIHdpdGggdGhvc2Ug
-aW52b2x2ZWQgd2l0aCB0aGUgbGFzdCBmZXcgdXRpbC1saW51eCBjb21taXRzIHRvIHNlZSBpZiB0
-aGV5IGFscmVhZHkgaGF2ZSBhIGNvbW1pdCBpbiB0aGUgd29ya3MgdGhhdCBpbmNsdWRlcyB0aGUg
-c2FtZSBjaGFuZ2VzIGFzIG1pbmUuDQoNClJlZ2FyZHMsDQpCcnlhbg0KDQo+IENoZWVycywNCj4g
-DQo+IFJpY2hhcmQNCg0K
+BlueZ 5.x is now the default Bluetooth stack.
+BlueZ 4.x is moved to meta-oe connectivity collection
+layer and still supported in poky/YP.
+The following changes since commit 167025e6d72c44cacfdc5d8b98e942066df09a4f:
+
+  initscripts: Remove /etc/volatile.cache on upgrade (2015-04-20 15:03:07 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v3
+
+Cristian Iorga (4):
+  maintainers.inc: remove info related to bluez4
+  upstream_tracking.inc: bluez4 removed from oe-core
+  bluez: remove recipe
+  bitbake.conf: backfill bluez5 feature
+
+ meta-yocto/conf/distro/include/maintainers.inc     |   3 -
+ .../conf/distro/include/upstream_tracking.inc      |   1 -
+ meta/conf/bitbake.conf                             |   2 +-
+ .../obsolete_automake_macros.patch                 |  14 ---
+ .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
+ .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
+ .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
+ .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 ---------------------
+ .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
+ ...ork-fix-network-Connect-method-parameters.patch |  30 ------
+ .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
+ .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
+ ...pygobject-instead-ofgobject-introspection.patch |  27 -----
+ meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
+ .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
+ 16 files changed, 1 insertion(+), 457 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+
+-- 
+2.1.0
+
 
