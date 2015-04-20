@@ -1,37 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE176E268
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4D06E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 13:04:40 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so90691484wid.0
+	Mon, 20 Apr 2015 13:05:36 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so98299004wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 06:04:41 -0700 (PDT)
+	Mon, 20 Apr 2015 06:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=U4yjKQ6Mzko15IgKo+kbaj0LQafWjD5MK3Anrm1Ld14=;
-	b=Rgx7s+Ov9Y6enoQl2tm3se0F/oMKSBwGSwIcAXSF/zb7LtdqU6/EjnZGB2QtE+cPDQ
-	j0c3e19nHDHhtR2ZctyrRydHuTrixpDMFoBPxl1CTzFhQTcip3BLNFHGNB2tKi2QiouM
-	oAcBa0zhW/HzjgyQLdrrVvBiJT7hGcPgsgIvThnBntUqoBNOOgEzedUiRdOnvlh/idFe
-	5EEl+eOtyfyQdtLlMIJpRewvAziLz6FIViWZXa8VRsN4KWa+ZcDyAj29tqt47q1uTJOg
-	nDLxstqheUfP86q8mkv2TVPSbElasGEmUwtDNmAnrkwsW1a6ecdOCRHKV55RoW7SDwuq
-	QbHA==
-X-Received: by 10.180.218.201 with SMTP id pi9mr25446650wic.53.1429535081578; 
-	Mon, 20 Apr 2015 06:04:41 -0700 (PDT)
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=rT4gA5DZKBQEqEXqsc5zuJjisOCpWGulLDjEgjGZTSc=;
+	b=svDN2WO3K68uF/Guy4FAtOIjCV+ZYrhtU+4NxJRej72Zfsr0IcAgEAtoXEYapPXe20
+	IxP2gPf4IUmi8sa95EKoLABLhlJiWyqlbmRO+M7cino/SuewQ/MG16yruyF/nLaNZQPY
+	1EMzbEBtEn965eV/9iqBBFg4jkTqXE8AM7z7tdZaMVlWg8/sQnpZUL/MCwJv7Cl8qJV4
+	p6RFXTvWlwtIneqkvzKTX7iZfVOr9dre1MVXZu0P4LCNynjHOvBob7iPXAZDEf3+Czxt
+	ZpBTuoQsPNJo0l/KFTwFXYzZF2XXJtdQ6jQIft2WqtZoVQQfhCj6fge3YgTiFhsfs2uV
+	Db+w==
+X-Received: by 10.194.59.79 with SMTP id x15mr6426169wjq.81.1429535137524;
+	Mon, 20 Apr 2015 06:05:37 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	mc20sm15189519wic.15.2015.04.20.06.04.40
+	by mx.google.com with ESMTPSA id hu1sm15206983wib.6.2015.04.20.06.05.36
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Apr 2015 06:04:40 -0700 (PDT)
+	Mon, 20 Apr 2015 06:05:36 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 20 Apr 2015 15:05:41 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Apr 2015 15:04:44 +0200
-Message-Id: <1429535084-10996-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1429534566.26983.0.camel@linuxfoundation.org>
-References: <1429534566.26983.0.camel@linuxfoundation.org>
-Subject: [PATCHv2] image.bbclass: Allow to remove do_rootfs -> virtual/kernel:do_packagedata dependency
+Message-ID: <20150420130541.GD3686@jama>
+References: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH] e2fsprogs: Package populate-extfs.sh and enable symlink install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,140 +47,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 13:04:42 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 13:05:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* this is causing dependency loops in some cases
-  e.g. linux-hp-tenderloin depends on initramfs-android-image, but
-    commit 41f0f86ec0a3e0b6f6c9bb4ef71a4215c00bf66c
-    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-    Date:   Tue Jan 27 15:24:52 2015 +0000
-    Subject: image: Add missing depends on virtual/kernel for depmod data
-  adds also dependency between <image>.do_rootfs and virtual/kernel:do_packagedata
-  causing this dependency loop:
+On Fri, Apr 10, 2015 at 04:06:14PM +0200, Martin Jansa wrote:
+> * install populate-extfs.sh from contrib, be aware that in order
+>   to use it you need to set DEBUGFS shell variable, otherwise it will
+>   try to use debugfs from relative path which is almost always
+>   incorrect:
+>     CONTRIB_DIR=3D$(dirname $(readlink -f $0))
+>     DEBUGFS=3D"$CONTRIB_DIR/../debugfs/debugfs"
+>=20
+> * use symlinks to install e2fsck, mke2fs, without this option we have:
+>   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
+/image/sbin/
+>   ...
+>   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 e2fsck
+>   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
+>   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
+>   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
+>   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4dev
+>   ...
+>   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mke2fs
+>   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
+>   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext3
+>   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
+>   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
+>   ...
+>=20
+>   which would be OK, because they are hadlinks, but after runstrip in
+>   do_package we get one stripped binary and 4 hardlinks to the original
+>   one:
+>=20
+>   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
+/packages-split/e2fsprogs-e2fsck/sbin
+>   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 e2fsck
+>   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
+>   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
+>   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
+>   101983136 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:43 fsck.ext4dev
+>   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
+/packages-split/e2fsprogs-mke2fs/sbin/
+>   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mke2fs
+>   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
+>   101988266 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:43 mkfs.ext3
+>   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
+>   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
+>=20
+>   That's super annoying for big files like this which are often include
+>   in small recovery images. Using --enable-symlink-install option results
+>   in one stripped binary and 4 symlinks:
+>=20
+>   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
+/packages-split/e2fsprogs-e2fsck/sbin/
+>   102113806 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:50 e2fsck
+>   102113813 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext2 -> e=
+2fsck
+>   102113814 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext3 -> e=
+2fsck
+>   102113812 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4 -> e=
+2fsck
+>   102113815 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4dev -=
+> e2fsck
+>   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0=
+/packages-split/e2fsprogs-mke2fs/sbin/
+>   102113804 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:50 mke2fs
+>   102113825 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext2 -> m=
+ke2fs
+>   102113826 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext3 -> m=
+ke2fs
+>   102113823 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4 -> m=
+ke2fs
+>   102113824 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4dev -=
+> mke2fs
+>=20
+>   Saving cca 1,5MB.
 
-Dependency loop #1 found:
-  Task 78 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_install)
-    (dependent Tasks ['linux-hp-tenderloin, do_compile',
-                      'pseudo, do_populate_sysroot'])
-  Task 88 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_package)
-    (dependent Tasks ['rpm, do_populate_sysroot',
-                      'pseudo, do_populate_sysroot',
-                      'linux-hp-tenderloin, do_install',
-                      'initramfs-android-image.bb, do_packagedata',
-                      'glibc, do_packagedata',
-                      'file, do_populate_sysroot',
-                      'gcc-runtime, do_packagedata'])
-  Task 89 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_package_write_ipk)
-    (dependent Tasks ['linux-hp-tenderloin, do_package',
-                      'opkg-utils, do_populate_sysroot',
-                      'linux-hp-tenderloin, do_packagedata',
-                      'pseudo, do_populate_sysroot'])
-  Task 560 (meta-smartphone/meta-android/recipes-core/images/initramfs-android-image.bb, do_rootfs)
-    (dependent Tasks ['bash, do_package_write_ipk',
-                      'run-postinsts, do_package_write_ipk',
-                      'db, do_package_write_ipk',
-                      'update-rc.d, do_populate_sysroot',
-                      'android-tools-conf, do_package_write_ipk',
-		      'base-passwd, do_package_write_ipk',
-                      'initramfs-boot-android, do_package_write_ipk',
-		      'expat, do_package_write_ipk',
-                      'bzip2, do_packagedata',
-		      'glibc-initial, do_packagedata',
-                      'openssl, do_package_write_ipk',
-                      'bzip2, do_package_write_ipk',
-		      'busybox, do_packagedata',
-                      'zlib, do_packagedata',
-		      'qemuwrapper-cross, do_packagedata',
-                      'base-passwd, do_packagedata',
-		      'busybox, do_package_write_ipk',
-                      'zlib, do_package_write_ipk',
-		      'qemuwrapper-cross, do_package_write_ipk',
-		      'gcc-runtime, do_package_write_ipk',
-		      'gettext, do_packagedata',
-		      'initramfs-boot-android, do_packagedata',
-		      'gettext, do_package_write_ipk',
-		      'libgcc-initial, do_packagedata',
-                      'expat, do_packagedata',
-                      'gdbm, do_packagedata',
-		      'depmodwrapper-cross, do_package_write_ipk',
-                      'libgcc-initial, do_package_write_ipk',
-                      'glibc-initial, do_package_write_ipk',
-                      'linux-libc-headers, do_packagedata',
-                      'glibc, do_packagedata',
-                      'initramfs-android-image.bb, do_packagedata',
-                      'glibc, do_package_write_ipk',
-                      'sqlite3, do_packagedata',
-                      'initramfs-android-image.bb, do_package_write_ipk',
-                      'sqlite3, do_package_write_ipk',
-                      'android-tools-conf, do_packagedata',
-                      'ncurses, do_packagedata',
-                      'openssl, do_packagedata',
-                      'android-tools, do_packagedata',
-                      'ncurses, do_package_write_ipk',
-                      'cryptodev-linux, do_packagedata',
-                      'android-tools, do_package_write_ipk',
-                      'pseudo, do_populate_sysroot',
-                      'cryptodev-linux, do_package_write_ipk',
-                      'linux-libc-headers, do_package_write_ipk',
-                      'depmodwrapper-cross, do_packagedata',
-                      'linux-hp-tenderloin, do_packagedata',
-                      'readline, do_package_write_ipk',
-                      'opkg-utils, do_packagedata',
-                      'linux-hp-tenderloin, do_package_write_ipk',
-                      'python, do_packagedata',
-                      'gdbm, do_package_write_ipk',
-                      'opkg, do_populate_sysroot',
-                      'python, do_package_write_ipk',
-                      'libtool-cross, do_packagedata',
-                      'db, do_packagedata',
-                      'libgcc, do_packagedata',
-                      'libtool-cross, do_package_write_ipk',
-                      'update-rc.d, do_packagedata',
-                      'update-rc.d, do_package_write_ipk',
-                      'libgcc, do_package_write_ipk',
-                      'opkg-utils, do_populate_sysroot',
-                      'makedevs, do_populate_sysroot',
-                      'readline, do_packagedata',
-                      'base-files, do_packagedata',
-                      'gcc-runtime, do_packagedata',
-                      'opkg-utils, do_package_write_ipk',
-                      'base-files, do_package_write_ipk',
-                      'ldconfig-native, do_populate_sysroot',
-                      'bash, do_packagedata',
-                      'run-postinsts, do_packagedata'])
-  Task 82 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_compile)
-    (dependent Tasks ['initramfs-android-image.bb, do_rootfs',
-                      'linux-hp-tenderloin, do_configure'])
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/image.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 03cbbf7..dc9bd80 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -76,10 +76,17 @@ LDCONFIGDEPEND ?= "ldconfig-native:do_populate_sysroot"
- LDCONFIGDEPEND_libc-uclibc = ""
- LDCONFIGDEPEND_libc-musl = ""
- 
-+# This is needed to have depmod data in PKGDATA_DIR,
-+# but if you're building small initramfs image
-+# e.g. to include it in your kernel, you probably
-+# don't want this dependency, which is causing dependency loop
-+KERNELDEPMODDEPEND ?= "virtual/kernel:do_packagedata"
-+
- do_rootfs[depends] += " \
-     makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND} \
-     virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot \
--    virtual/kernel:do_packagedata"
-+    ${KERNELDEPMODDEPEND} \
-+"
- do_rootfs[recrdeptask] += "do_packagedata"
- 
- def command_variables(d):
--- 
-2.3.5
-
+Ping, this is needed also in fido and dizzy branches.
 
