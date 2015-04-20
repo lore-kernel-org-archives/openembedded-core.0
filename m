@@ -1,60 +1,34 @@
-Return-Path: <bevenson@melinkcorp.com>
-X-Greylist: delayed 891 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 20 Apr 2015 13:56:14 UTC
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0146.outbound.protection.outlook.com [157.56.111.146])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A5DD6AC24
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id EC73A6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 13:56:14 +0000 (UTC)
-Received: from BN3PR0501MB1089.namprd05.prod.outlook.com (0.160.113.11) by
-	BN3PR0501MB1458.namprd05.prod.outlook.com (0.160.117.155) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.136.25; Mon, 20 Apr 2015 13:41:21 +0000
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (0.160.113.12) by
-	BN3PR0501MB1089.namprd05.prod.outlook.com (0.160.113.11) with Microsoft
-	SMTP Server (TLS) id 15.1.136.25; Mon, 20 Apr 2015 13:41:21 +0000
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([0.160.113.12]) by
-	BN3PR0501MB1090.namprd05.prod.outlook.com ([0.160.113.12]) with mapi id
-	15.01.0136.026; Mon, 20 Apr 2015 13:41:21 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] Clarification on backport and bugfix patch submittal
-	process
-Thread-Index: AdB7YjSDt1uLmENcRoaM2g2r0Q7uhAACjpQAAAA35SA=
-Date: Mon, 20 Apr 2015 13:41:20 +0000
-Message-ID: <BN3PR0501MB10908E971F71B5725C73D9F7BBE00@BN3PR0501MB1090.namprd05.prod.outlook.com>
-References: <BN3PR0501MB10904A52AD3FCD71C41C67B7BBE00@BN3PR0501MB1090.namprd05.prod.outlook.com>
-	<2986665.4db1flKRAu@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <2986665.4db1flKRAu@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-vipre-scanned: 0065ABCA009A5C0065AD17
-authentication-results: linux.intel.com; dkim=none (message not signed)
-	header.d=none;
-x-originating-ip: [98.100.91.242]
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1089;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:BN3PR0501MB1458; 
-x-forefront-antispam-report: BMV:1; SFV:NSPM;
-	SFS:(10019020)(6009001)(13464003)(24454002)(51704005)(164054003)(377454003)(74316001)(2656002)(87936001)(86362001)(99286002)(102836002)(15975445007)(77156002)(66066001)(62966003)(33656002)(76576001)(2900100001)(2950100001)(122556002)(50986999)(54356999)(76176999)(19580405001)(46102003)(110136001)(92566002)(40100003)(19580395003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1089;
-	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-x-microsoft-antispam-prvs: <BN3PR0501MB1089390A6D1E9991774C03C5BBE00@BN3PR0501MB1089.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5002010)(5005006); SRVR:BN3PR0501MB1089; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0501MB1089; 
-x-forefront-prvs: 05529C6FDB
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2015 13:41:20.9775 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1089
-X-OriginatorOrg: melinkcorp.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Clarification on backport and bugfix patch submittal process
+	Mon, 20 Apr 2015 14:34:13 +0000 (UTC)
+Received: by wizk4 with SMTP id k4so101940155wiz.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 07:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ta5pr4OarlxiWF24+NaTlLjhXHkNE++x2ZpFCrxhkzc=;
+	b=xgtDo+2yXWUXkTqjYF2OB3XTj+xSwZGbxlghojiUtO0AR2QyNHV0riyahSb+ZVRKmh
+	68zSZNX0kG9DnJLda7ci5SkZFnNgciSdaUhFUIWTFgUxbXiup4/AealhaPT7ujcWaGLA
+	mjORhI09WLUbLksQBJEylysmzv6AvNRhCPXFeGyAG/fzaoQFvn+Na3EA8hjDY2WUUOVd
+	SwxC3qWUZDNLOpSri/J032PDx1mB6Lsc++J5bpxR4BaP+kY/6KzBvJ694HAR+C1pfCCg
+	OUNeLaLJk6Wp2M/ejPFHzJfKn1GkcMEC27MJgLn9Ys96AeU5t+PZzJHOFZt/nUpt0JBJ
+	2TKw==
+X-Received: by 10.180.88.99 with SMTP id bf3mr16047799wib.75.1429540454679;
+	Mon, 20 Apr 2015 07:34:14 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id it5sm15537568wid.3.2015.04.20.07.34.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Apr 2015 07:34:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Apr 2015 16:34:15 +0200
+Message-Id: <1429540455-12747-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [fido][PATCH] image.bbclass: Allow to remove do_rootfs -> virtual/kernel:do_packagedata dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,75 +41,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 13:56:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Apr 2015 14:34:14 -0000
 
-Paul,
+From: Martin Jansa <martin.jansa@gmail.com>
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Monday, April 20, 2015 9:18 AM
-> To: Bryan Evenson
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Clarification on backport and bugfix patch submitt=
-al
-> process
->=20
-> Hi Bryan,
->=20
-> On Monday 20 April 2015 12:42:33 Bryan Evenson wrote:
-> > Last week I had submitted two patches
-> > (1f994e81717502fd9d3c2f69772ae8556e6de4cb and
-> > 433ec67686d6991d2d5f43fd1af957968da1971c) related to problems I had
-> > been having on the dizzy branch and was happy to see they were
-> accepted.
-> > However, I only see the patches on the dizzy branch and I think these
-> > changes are suitable for backport for all supported branches since the
-> > problem was introduced (which I think was introduced in dora).  I
-> > think I had included [dizzy] as a tag in the subject for the patches
-> > since that was the branch I had been working with.
->=20
-> Is the patch also applicable to fido/master? Because at the moment it see=
-ms
-> only to have been applied to dizzy.
->=20
+* this is causing dependency loops in some cases
+  e.g. linux-hp-tenderloin depends on initramfs-android-image, but
+    commit 41f0f86ec0a3e0b6f6c9bb4ef71a4215c00bf66c
+    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Date:   Tue Jan 27 15:24:52 2015 +0000
+    Subject: image: Add missing depends on virtual/kernel for depmod data
+  adds also dependency between <image>.do_rootfs and virtual/kernel:do_packagedata
+  causing this dependency loop:
 
-Yes, in my opinion these two patches are suitable for dora up through maste=
-r.
+Dependency loop #1 found:
+  Task 78 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_install)
+    (dependent Tasks ['linux-hp-tenderloin, do_compile',
+                      'pseudo, do_populate_sysroot'])
+  Task 88 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_package)
+    (dependent Tasks ['rpm, do_populate_sysroot',
+                      'pseudo, do_populate_sysroot',
+                      'linux-hp-tenderloin, do_install',
+                      'initramfs-android-image.bb, do_packagedata',
+                      'glibc, do_packagedata',
+                      'file, do_populate_sysroot',
+                      'gcc-runtime, do_packagedata'])
+  Task 89 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_package_write_ipk)
+    (dependent Tasks ['linux-hp-tenderloin, do_package',
+                      'opkg-utils, do_populate_sysroot',
+                      'linux-hp-tenderloin, do_packagedata',
+                      'pseudo, do_populate_sysroot'])
+  Task 560 (meta-smartphone/meta-android/recipes-core/images/initramfs-android-image.bb, do_rootfs)
+    (dependent Tasks ['bash, do_package_write_ipk',
+                      'run-postinsts, do_package_write_ipk',
+                      'db, do_package_write_ipk',
+                      'update-rc.d, do_populate_sysroot',
+                      'android-tools-conf, do_package_write_ipk',
+		      'base-passwd, do_package_write_ipk',
+                      'initramfs-boot-android, do_package_write_ipk',
+		      'expat, do_package_write_ipk',
+                      'bzip2, do_packagedata',
+		      'glibc-initial, do_packagedata',
+                      'openssl, do_package_write_ipk',
+                      'bzip2, do_package_write_ipk',
+		      'busybox, do_packagedata',
+                      'zlib, do_packagedata',
+		      'qemuwrapper-cross, do_packagedata',
+                      'base-passwd, do_packagedata',
+		      'busybox, do_package_write_ipk',
+                      'zlib, do_package_write_ipk',
+		      'qemuwrapper-cross, do_package_write_ipk',
+		      'gcc-runtime, do_package_write_ipk',
+		      'gettext, do_packagedata',
+		      'initramfs-boot-android, do_packagedata',
+		      'gettext, do_package_write_ipk',
+		      'libgcc-initial, do_packagedata',
+                      'expat, do_packagedata',
+                      'gdbm, do_packagedata',
+		      'depmodwrapper-cross, do_package_write_ipk',
+                      'libgcc-initial, do_package_write_ipk',
+                      'glibc-initial, do_package_write_ipk',
+                      'linux-libc-headers, do_packagedata',
+                      'glibc, do_packagedata',
+                      'initramfs-android-image.bb, do_packagedata',
+                      'glibc, do_package_write_ipk',
+                      'sqlite3, do_packagedata',
+                      'initramfs-android-image.bb, do_package_write_ipk',
+                      'sqlite3, do_package_write_ipk',
+                      'android-tools-conf, do_packagedata',
+                      'ncurses, do_packagedata',
+                      'openssl, do_packagedata',
+                      'android-tools, do_packagedata',
+                      'ncurses, do_package_write_ipk',
+                      'cryptodev-linux, do_packagedata',
+                      'android-tools, do_package_write_ipk',
+                      'pseudo, do_populate_sysroot',
+                      'cryptodev-linux, do_package_write_ipk',
+                      'linux-libc-headers, do_package_write_ipk',
+                      'depmodwrapper-cross, do_packagedata',
+                      'linux-hp-tenderloin, do_packagedata',
+                      'readline, do_package_write_ipk',
+                      'opkg-utils, do_packagedata',
+                      'linux-hp-tenderloin, do_package_write_ipk',
+                      'python, do_packagedata',
+                      'gdbm, do_package_write_ipk',
+                      'opkg, do_populate_sysroot',
+                      'python, do_package_write_ipk',
+                      'libtool-cross, do_packagedata',
+                      'db, do_packagedata',
+                      'libgcc, do_packagedata',
+                      'libtool-cross, do_package_write_ipk',
+                      'update-rc.d, do_packagedata',
+                      'update-rc.d, do_package_write_ipk',
+                      'libgcc, do_package_write_ipk',
+                      'opkg-utils, do_populate_sysroot',
+                      'makedevs, do_populate_sysroot',
+                      'readline, do_packagedata',
+                      'base-files, do_packagedata',
+                      'gcc-runtime, do_packagedata',
+                      'opkg-utils, do_package_write_ipk',
+                      'base-files, do_package_write_ipk',
+                      'ldconfig-native, do_populate_sysroot',
+                      'bash, do_packagedata',
+                      'run-postinsts, do_packagedata'])
+  Task 82 (meta-smartphone/meta-hp/recipes-kernel/linux/linux-hp-tenderloin_git.bb, do_compile)
+    (dependent Tasks ['initramfs-android-image.bb, do_rootfs',
+                      'linux-hp-tenderloin, do_configure'])
 
-> > I can see that there are cases in which a patch only applies to a
-> > particular branch (e.g. package version changes in the next branch,
-> > patch no longer
-> > applies) and there are cases in which the patch is applicable for
-> > master all the way back to a particular branch.  What is the suggested
-> > way of indicating the difference when submitting patches?
->=20
-> In general the policies we use for maintaining the stable branch should b=
-e
-> documented here:
->=20
->   https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
->=20
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-That page helps a lot.  I've bookmarked it for future reference when submit=
-ting patches.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 03cbbf7..dc9bd80 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -76,10 +76,17 @@ LDCONFIGDEPEND ?= "ldconfig-native:do_populate_sysroot"
+ LDCONFIGDEPEND_libc-uclibc = ""
+ LDCONFIGDEPEND_libc-musl = ""
+ 
++# This is needed to have depmod data in PKGDATA_DIR,
++# but if you're building small initramfs image
++# e.g. to include it in your kernel, you probably
++# don't want this dependency, which is causing dependency loop
++KERNELDEPMODDEPEND ?= "virtual/kernel:do_packagedata"
++
+ do_rootfs[depends] += " \
+     makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND} \
+     virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot \
+-    virtual/kernel:do_packagedata"
++    ${KERNELDEPMODDEPEND} \
++"
+ do_rootfs[recrdeptask] += "do_packagedata"
+ 
+ def command_variables(d):
+-- 
+2.3.5
 
-Thanks,
-Bryan
-
-> I would say if there is any specificity to the issue the patch fixes, par=
-ticularly if
-> it only applies to one of the stable branches, it should probably be note=
-d in
-> the commit message.
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
 
