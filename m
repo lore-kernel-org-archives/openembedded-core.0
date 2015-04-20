@@ -1,29 +1,41 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-X-Greylist: delayed 356 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 20 Apr 2015 10:28:31 UTC
-Received: from root.phytec.de (mail.x-arc.co.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id E66B56AC24
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 11E9B65CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 10:28:31 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 5834AA0020F
+	Mon, 20 Apr 2015 10:41:47 +0000 (UTC)
+Received: by wgyo15 with SMTP id o15so174283947wgy.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 12:23:45 +0200 (CEST)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015042012223552-41084 ;
-	Mon, 20 Apr 2015 12:22:35 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+	Mon, 20 Apr 2015 03:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=l6KiLttLW15WKXu9lBmPsO4do30oLgWtwqCGC7/H6Is=;
+	b=aP8yMTInZInEaGxWKDBIdEKc7zDmIk91SztpDaqxbkRGkWBKdXU/uqMrQGO5BIspjH
+	UBi7x2DLBXQDy1rxVEoK2Kwt72i6wLSNA4jjw2Mq1bwsw/2d3qUDtrsAWiP/j6ulTAgN
+	ui0dbdKdZ2/IjTlRHaYrNPOPOUOHPZi/C4GMmHZXpi+Gu/0u3q+P5zsxAGDoK8YDkZcd
+	3cK1plVDvFGuZZG57hwRa2m3kjf5WRmikucvjQ2iUiG2fDiWLoWtyAa6/yUqMVO0NcE7
+	qlYmyOgB/6MMS5ZeyHeHfBTxd34mILjuSoj4oFwMfYvv7A0khyImUZtK0NqAegeJIU/z
+	UA8g==
+X-Received: by 10.194.78.12 with SMTP id x12mr28549867wjw.112.1429526508299;
+	Mon, 20 Apr 2015 03:41:48 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	ew10sm14654653wic.22.2015.04.20.03.41.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Apr 2015 03:41:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 20 Apr 2015 12:41:52 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Apr 2015 12:18:41 +0200
-Message-Id: <1429525121-28802-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
+Message-ID: <20150420104152.GC3686@jama>
+References: <1428665669-16128-1-git-send-email-Martin.Jansa@gmail.com>
+	<1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 20.04.2015 12:22:35,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 20.04.2015 12:22:35
-Subject: [meta-oe][dizzy][PATCH] gcc-4.9: backport from gcc trunk r212178
+In-Reply-To: <1428665669-16128-2-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [dylan][PATCH 2/2] binutils: backport patch to fix build with gcc-4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,103 +48,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 10:28:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Apr 2015 10:41:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-When compiling meta-toolchain-qt5 on cortexa8, the compiler throws an
-internal compiler error:
+On Fri, Apr 10, 2015 at 01:34:29PM +0200, Martin Jansa wrote:
+> * backported from 2.23.2, fixes:
+> work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:4=
+09:24:
+>   error: 'dummy.fr_type' may be used uninitialized in this function [-Wer=
+ror=3Dmaybe-uninitialized]
+>    gas_assert (prev_frag->fr_type !=3D 0);
+>                         ^
+> work/x86_64-linux/binutils-native/2.23.1-r3/binutils-2.23.1/gas/write.c:3=
+92:9: note: 'dummy' was declared here
+>    fragS dummy, *prev_frag =3D &dummy;
+>          ^
 
-...
-qttools-opensource-src-5.3.2/src/linguist/shared/po.cpp:
-In function 'bool loadPO(Translator&, QIODevice&, ConversionData&)':
-qttools-opensource-src-5.3.2/src/linguist/shared/po.cpp:717:1:
-internal compiler error: in add=5Fstores, at var-tracking.c:6000
-...
+Ping
 
-Tracking this down led to https://bugs.linaro.org/show=5Fbug.cgi?id=3D534
-It seems the bug is well know and fixed upstream. So backporting from
-trunk seems to be the right solution. This fixes the compiler problem
-on cortexa8 and does not seem to be very invasive. The original commit
-can be found at:
+1/2 patch was merged almost immediately, but it isn't any good without
+this 2/2.
 
-git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-9=
-61f-82ee72b054a4
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.23.1.inc |  1 +
+>  ...in_frchains_together_1-Reorder-assertion-.patch | 30 ++++++++++++++++=
+++++++
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0001-write.c-=
+chain_frchains_together_1-Reorder-assertion-.patch
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1.inc b/meta/re=
+cipes-devtools/binutils/binutils-2.23.1.inc
+> index 7b3366a..6a6811b 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+> @@ -31,6 +31,7 @@ SRC_URI =3D "\
+>       file://binutils-fix-over-array-bounds-issue.patch \
+>       file://replace_macros_with_static_inline.patch \
+>       file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.pa=
+tch \
+> +     file://0001-write.c-chain_frchains_together_1-Reorder-assertion-.pa=
+tch \
+>       "
+> =20
+>  BACKPORT =3D "\
+> diff --git a/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_f=
+rchains_together_1-Reorder-assertion-.patch b/meta/recipes-devtools/binutil=
+s/binutils/0001-write.c-chain_frchains_together_1-Reorder-assertion-.patch
+> new file mode 100644
+> index 0000000..ffe6852
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0001-write.c-chain_frchains=
+_together_1-Reorder-assertion-.patch
+> @@ -0,0 +1,30 @@
+> +From c50d883cb61ff9917464cb695a0fd83fdb0f9c20 Mon Sep 17 00:00:00 2001
+> +From: Alan Modra <amodra@bigpond.net.au>
+> +Date: Mon, 21 Jan 2013 13:48:31 +0000
+> +Subject: [PATCH] write.c (chain_frchains_together_1): Reorder assertion =
+to
+> + avoid uninit warning.
+> +
+> +Upstream-Status: Backport from 2.23.2
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +---
+> + gas/write.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gas/write.c b/gas/write.c
+> +index a467147..56ebb6c 100644
+> +--- a/gas/write.c
+> ++++ b/gas/write.c
+> +@@ -406,8 +406,8 @@ chain_frchains_together_1 (segT section, struct frch=
+ain *frchp)
+> + 	  prev_fix =3D frchp->fix_tail;
+> + 	}
+> +     }
+> +-  gas_assert (prev_frag->fr_type !=3D 0);
+> +-  gas_assert (prev_frag !=3D &dummy);
+> ++  gas_assert (prev_frag !=3D &dummy
+> ++	      && prev_frag->fr_type !=3D 0);
+> +   prev_frag->fr_next =3D 0;
+> +   return prev_frag;
+> + }
+> +--=20
+> +2.3.5
+> +
+> --=20
+> 2.3.5
+>=20
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ++++++++++++++++++=
-++++
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0060-gcc-var-tracking=
-.c-backport-from-gcc-trunk-r212178.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/=
-gcc/gcc-4.9.inc
-index c88a496..e9412e3 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -73,6 +73,7 @@ SRC=5FURI =3D "\
-     file://0056-top-level-reorder=5Fgcc-bug-61144.patch \
-     file://0058-gcc-r212171.patch \
-     file://0059-gcc-PR-rtl-optimization-63348.patch \
-+    file://0060-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
-     file://target-gcc-includedir.patch \
- "
- SRC=5FURI[md5sum] =3D "fddf71348546af523353bd43d34919c1"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0060-gcc-var-tracking.c-back=
-port-from-gcc-trunk-r212178.patch b/meta/recipes-devtools/gcc/gcc-4.9/0060-=
-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
-new file mode 100644
-index 0000000..c0ea62f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0060-gcc-var-tracking.c-backport-fr=
-om-gcc-trunk-r212178.patch
-@@ -0,0 +1,39 @@
-+From b30ffb8097749fdb55704aa7d8307ca1a58255d6 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Stefan=3D20M=3DC3=3DBCller-Klieser?=3D <s.mueller-kliese=
-r@phytec.de>
-+Date: Tue, 7 Apr 2015 16:15:11 +0200
-+Subject: [PATCH] gcc/var-tracking.c: backport from gcc trunk r212178
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+resolves a bug seen on cortexa8 building qt5 libraries.
-+
-+2014-06-30  Joseph Myers  <joseph@codesourcery.com>
-+
-+    * var-tracking.c (add=5Fstores): Return instead of asserting if old
-+    and new values for conditional store are the same.
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-=
-961f-82ee72b054a4
-+
-+Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
-+---
-+ gcc/var-tracking.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/gcc/var-tracking.c b/gcc/var-tracking.c
-+index 65d8285..7c38910 100644
-+--- a/gcc/var-tracking.c
-++++ b/gcc/var-tracking.c
-+@@ -5997,7 +5997,8 @@ add=5Fstores (rtx loc, const=5Frtx expr, void *cuip)
-+     {
-+       cselib=5Fval *oval =3D cselib=5Flookup (oloc, GET=5FMODE (oloc), 0,=
- VOIDmode);
-+=20
-+-      gcc=5Fassert (oval !=3D v);
-++      if (oval =3D=3D v)
-++        return;
-+       gcc=5Fassert (REG=5FP (oloc) || MEM=5FP (oloc));
-+=20
-+       if (oval && !cselib=5Fpreserved=5Fvalue=5Fp (oval))
-+--=20
-+1.9.1
-+
 --=20
-1.9.1
-
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
