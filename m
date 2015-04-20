@@ -1,22 +1,20 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from cdptpa-oedge-vip.email.rr.com
-	(cdptpa-outbound-snat.email.rr.com [107.14.166.228])
-	by mail.openembedded.org (Postfix) with ESMTP id A8DD0738F4
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 18:43:38 +0000 (UTC)
-Received: from [98.100.91.242] ([98.100.91.242:49781]
-	helo=evenson-fedora-vm.melinkcorp.local)
-	by cdptpa-oedge02 (envelope-from <bevenson@melinkcorp.com>)
-	(ecelerity 3.5.0.35861 r(Momo-dev:tip)) with ESMTP
-	id C9/73-18238-BD845355; Mon, 20 Apr 2015 18:43:39 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Openembedded-core@lists.openembedded.org
-Date: Mon, 20 Apr 2015 14:43:32 -0400
-Message-Id: <1429555412-18220-1-git-send-email-bevenson@melinkcorp.com>
-X-Mailer: git-send-email 2.1.0
-X-RR-Connecting-IP: 107.14.168.130:25
-X-Cloudmark-Score: 0
-Subject: [PATCHv2] util-linux: Add lastb to alternatives
+Return-Path: <dv@pseudoterminal.org>
+X-Greylist: delayed 590 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 20 Apr 2015 19:27:08 UTC
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 741217390D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 19:27:08 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 648B231BD6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 21:17:09 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Apr 2015 21:17:08 +0200
+Message-Id: <1429557428-20033-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] u-boot.inc: make sure all counter variables are properly unset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,37 +27,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 18:43:42 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 19:27:09 -0000
 
-util-linux creates lastb as a symlink to last during the build.
-Just as other applications may provide last, other applications
-may provide lastb.
+The script does "i == j" checks to retrieve the config <-> type pairs from
+the UBOOT_MACHINE and UBOOT_CONFIG lists. This check however requires both
+j and i to be initially unset. Ensure this by explicitely unsetting i.
 
-Add alternatives designations for lastb to avoid installation
-conflicts with other applications.
+This fixes broken u-boot SPL installations with SolidRun machines
+(the SPL wasn't being installed and deployed.)
 
-Signed-off-by: Bryan Evenson <bevenson@melinkcorp.com>
-
-Conflicts:
-	meta/recipes-core/util-linux/util-linux.inc
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 80065e3..60309a5 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -174,7 +174,7 @@ do_install_append_class-native () {
- ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
--ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
-+ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
- ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
- 
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 7053a56..88e239d 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -78,6 +78,7 @@ do_compile () {
+             done
+             unset  j
+         done
++        unset  i
+     else
+         oe_runmake ${UBOOT_MACHINE}
+         oe_runmake ${UBOOT_MAKE_TARGET}
+@@ -101,6 +102,7 @@ do_install () {
+             done
+             unset  j
+         done
++        unset  i
+     else
+         install -d ${D}/boot
+         install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+@@ -129,6 +131,7 @@ do_install () {
+                 done
+                 unset  j
+             done
++            unset  i
+         else
+             install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+             ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+@@ -162,6 +165,7 @@ do_deploy () {
+             done 
+             unset  j
+         done
++        unset  i
+     else
+         install -d ${DEPLOYDIR}
+         install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+@@ -193,6 +197,7 @@ do_deploy () {
+                  done
+                  unset  j
+              done
++             unset  i
+          else
+              install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+              rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
 -- 
-2.1.0
+1.9.1
 
 
