@@ -1,21 +1,21 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 82F7D735FA
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CFC360167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 14:50:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Apr 2015 07:50:46 -0700
+	Tue, 21 Apr 2015 14:52:20 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 21 Apr 2015 07:52:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="716925396"
+X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="483717956"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 21 Apr 2015 07:50:44 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2015 07:52:21 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2015 17:50:43 +0300
-Message-Id: <1429627843-28955-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Tue, 21 Apr 2015 17:52:19 +0300
+Message-Id: <1429627940-29049-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH] devtool: include bbappends in recipe parsing
+Subject: [PATCH 1/2] devtool: modify: use B=S if that is the default for the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,108 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 14:50:48 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 14:52:21 -0000
 
-In order to get correct metadata, SRCREV for example.
+Makes the build succeed for packages which do not support separate build
+directory, e.g. zlib. The same outcome could be achieved with the
+--same-dir option, but, it's generally hard to tell if a random package
+would need that option. The negative side effect of this patch is that
+dev srctree (of some packages that build fine without this modification)
+gets dirtied by build artefacts.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py      |  6 +++---
- scripts/lib/devtool/standard.py | 32 +++++++++++++++++++-------------
- 2 files changed, 22 insertions(+), 16 deletions(-)
+ scripts/lib/devtool/standard.py | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 159a103..09bd7fd 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -44,10 +44,10 @@ def get_unavailable_reasons(cooker, pn):
-     return taskdata.get_reasons(pn)
- 
- 
--def parse_recipe(fn, d):
-+def parse_recipe(fn, appends, d):
-     """Parse an individual recipe"""
-     import bb.cache
--    envdata = bb.cache.Cache.loadDataFull(fn, [], d)
-+    envdata = bb.cache.Cache.loadDataFull(fn, appends, d)
-     return envdata
- 
- 
-@@ -55,7 +55,7 @@ def get_var_files(fn, varlist, d):
-     """Find the file in which each of a list of variables is set.
-     Note: requires variable history to be enabled when parsing.
-     """
--    envdata = parse_recipe(fn, d)
-+    envdata = parse_recipe(fn, [], d)
-     varfiles = {}
-     for v in varlist:
-         history = envdata.varhistory.variable(v)
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index d5ded2f..96e3bdb 100644
+index 96e3bdb..1c1bce8 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -130,18 +130,26 @@ def _get_recipe_file(cooker, pn):
-             logger.error("Unable to find any recipe file matching %s" % pn)
-     return recipefile
- 
-+def _parse_recipe(tinfoil, pn, appends):
-+    """Parse recipe of a package"""
-+    import oe.recipeutils
-+    recipefile = _get_recipe_file(tinfoil.cooker, pn)
-+    if not recipefile:
-+        # Error already logged
-+        return None
-+    if appends:
-+        append_files = tinfoil.cooker.collection.get_file_appends(recipefile)
-+    return oe.recipeutils.parse_recipe(recipefile, append_files,
-+                                       tinfoil.config_data)
- 
- def extract(args, config, basepath, workspace):
-     import bb
--    import oe.recipeutils
- 
-     tinfoil = setup_tinfoil()
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
- 
-     srctree = os.path.abspath(args.srctree)
-     initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
-@@ -327,11 +335,10 @@ def modify(args, config, basepath, workspace):
- 
-     tinfoil = setup_tinfoil()
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
-+    recipefile = rd.getVar('FILE', True)
- 
-     if not _check_compatible_recipe(args.recipename, rd):
-         return -1
-@@ -418,11 +425,10 @@ def update_recipe(args, config, basepath, workspace):
-     from oe.patch import GitApplyTree
-     import oe.recipeutils
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
-+    recipefile = rd.getVar('FILE', True)
- 
-     orig_src_uri = rd.getVar('SRC_URI', False) or ''
-     if args.mode == 'auto':
+@@ -391,12 +391,19 @@ def modify(args, config, basepath, workspace):
+         f.write('inherit externalsrc\n')
+         f.write('# NOTE: We use pn- overrides here to avoid affecting multiple variants in the case where the recipe uses BBCLASSEXTEND\n')
+         f.write('EXTERNALSRC_pn-%s = "%s"\n' % (args.recipename, srctree))
+-        if args.same_dir or bb.data.inherits_class('autotools-brokensep', rd):
+-            if args.same_dir:
+-                logger.info('using source tree as build directory since --same-dir specified')
+-            else:
+-                logger.info('using source tree as build directory since original recipe inherits autotools-brokensep')
++
++        b_is_s = True
++        if args.same_dir:
++            logger.info('using source tree as build directory since --same-dir specified')
++        elif bb.data.inherits_class('autotools-brokensep', rd):
++            logger.info('using source tree as build directory since original recipe inherits autotools-brokensep')
++        elif rd.getVar('B', True) == s:
++            logger.info('using source tree as build directory since that is the default for this recipe')
++        else:
++            b_is_s = False
++        if b_is_s:
+             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (args.recipename, srctree))
++
+         if initial_rev:
+             f.write('\n# initial_rev: %s\n' % initial_rev)
+             for commit in commits:
 -- 
 2.1.4
 
