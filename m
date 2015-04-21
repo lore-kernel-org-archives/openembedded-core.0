@@ -1,29 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 692576ABF7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AC5E73D5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 06:00:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3L60315027232
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 23:00:04 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 20 Apr 2015 23:00:03 -0700
-Message-ID: <5535E767.8040501@windriver.com>
-Date: Tue, 21 Apr 2015 14:00:07 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1426832653.git.Qi.Chen@windriver.com>
-	<90fb0fe5d4a4139729dbaf7ba39191bf8c9608a8.1426832653.git.Qi.Chen@windriver.com>
-In-Reply-To: <90fb0fe5d4a4139729dbaf7ba39191bf8c9608a8.1426832653.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.236]
-Subject: Re: [PATCH 1/1] populate-volatile.sh: detect the change of configuration files
+	Tue, 21 Apr 2015 06:25:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3L6P4tG014001; Tue, 21 Apr 2015 07:25:04 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cvmXlcV7_zYn; Tue, 21 Apr 2015 07:25:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3L6Opj4013994
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 21 Apr 2015 07:25:02 +0100
+Message-ID: <1429597491.26983.66.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, "Bartosh, Eduard"
+	<eduard.bartosh@intel.com>
+Date: Tue, 21 Apr 2015 07:24:51 +0100
+In-Reply-To: <20150420130541.GD3686@jama>
+References: <1428674774-29364-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150420130541.GD3686@jama>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] e2fsprogs: Package populate-extfs.sh and enable symlink install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +38,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 06:00:03 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 21 Apr 2015 06:25:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-ping ...
+On Mon, 2015-04-20 at 15:05 +0200, Martin Jansa wrote:
+> On Fri, Apr 10, 2015 at 04:06:14PM +0200, Martin Jansa wrote:
+> > * install populate-extfs.sh from contrib, be aware that in order
+> >   to use it you need to set DEBUGFS shell variable, otherwise it will
+> >   try to use debugfs from relative path which is almost always
+> >   incorrect:
+> >     CONTRIB_DIR=$(dirname $(readlink -f $0))
+> >     DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
+> > 
+> > * use symlinks to install e2fsck, mke2fs, without this option we have:
+> >   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0/image/sbin/
+> >   ...
+> >   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 e2fsck
+> >   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
+> >   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
+> >   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
+> >   101982430 -rwxr-xr-x 5 bitbake bitbake 972K Apr 10 15:43 fsck.ext4dev
+> >   ...
+> >   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mke2fs
+> >   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
+> >   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext3
+> >   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
+> >   101982441 -rwxr-xr-x 5 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
+> >   ...
+> > 
+> >   which would be OK, because they are hadlinks, but after runstrip in
+> >   do_package we get one stripped binary and 4 hardlinks to the original
+> >   one:
+> > 
+> >   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-e2fsck/sbin
+> >   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 e2fsck
+> >   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext2
+> >   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext3
+> >   101982713 -rwxr-xr-x 8 bitbake bitbake 972K Apr 10 15:43 fsck.ext4
+> >   101983136 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:43 fsck.ext4dev
+> >   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-mke2fs/sbin/
+> >   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mke2fs
+> >   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext2
+> >   101988266 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:43 mkfs.ext3
+> >   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4
+> >   101982716 -rwxr-xr-x 8 bitbake bitbake 348K Apr 10 15:43 mkfs.ext4dev
+> > 
+> >   That's super annoying for big files like this which are often include
+> >   in small recovery images. Using --enable-symlink-install option results
+> >   in one stripped binary and 4 symlinks:
+> > 
+> >   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-e2fsck/sbin/
+> >   102113806 -rwxr-xr-x 2 bitbake bitbake 185K Apr 10 15:50 e2fsck
+> >   102113813 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext2 -> e2fsck
+> >   102113814 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext3 -> e2fsck
+> >   102113812 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4 -> e2fsck
+> >   102113815 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 fsck.ext4dev -> e2fsck
+> >   $ ls -lahi tmp-glibc/work/arm920tt-oe-linux-gnueabi/e2fsprogs/1.42.9-r0/packages-split/e2fsprogs-mke2fs/sbin/
+> >   102113804 -rwxr-xr-x 2 bitbake bitbake  72K Apr 10 15:50 mke2fs
+> >   102113825 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext2 -> mke2fs
+> >   102113826 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext3 -> mke2fs
+> >   102113823 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4 -> mke2fs
+> >   102113824 lrwxrwxrwx 1 bitbake bitbake    6 Apr 10 15:50 mkfs.ext4dev -> mke2fs
+> > 
+> >   Saving cca 1,5MB.
+> 
+> Ping, this is needed also in fido and dizzy branches.
 
-//Chen Qi
+I'm still hoping we can fix the packaging code so that we avoid this
+problem with hardlinked files which is why I'm holding off this
+slightly.
 
-On 03/20/2015 02:27 PM, Chen Qi wrote:
-> In case the configuration files are modified by user, the cached script,
-> /etc/volatile.cache should not be executed. Instead, the configuration
-> files should be parsed again and generate the new cache. Otherwise, the
-> user modifications take no effect which would obviously confuse users.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   .../initscripts/initscripts-1.0/populate-volatile.sh  | 19 ++++++++++++++++++-
->   1 file changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> index 904037e..eaf0f1c 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> @@ -204,9 +204,25 @@ do
->   done
->   exec 9>&-
->   
-> -if test -e ${ROOT_DIR}/etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate" -a "x$clearcache" = "x0"
-> +# Check whether configuration files have changed, if so, the cache needs to be removed
-> +# and generated again
-> +CACHE_MATCH="no"
-> +CACHE_DATA="${ROOT_DIR}/etc/.volatile.cache.data"
-> +CACHE_TMP="${ROOT_DIR}/etc/.volatile.cache.tmp"
-> +VOLATILE_CONFFILES="${ROOT_DIR}/etc/default/volatiles/*"
-> +if [ "$VOLATILE_ENABLE_CACHE" = "yes" ]; then
-> +	stat -c '%s %Y %n' $VOLATILE_CONFFILES | awk -F/ '{print $1 " " $NF;}' > $CACHE_TMP
-> +	if [ -e $CACHE_DATA ]; then
-> +		if cmp $CACHE_DATA $CACHE_TMP > /dev/null; then
-> +			CACHE_MATCH="yes"
-> +		fi
-> +	fi
-> +fi
-> +
-> +if test -e ${ROOT_DIR}/etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate" -a "x$clearcache" = "x0" -a "$CACHE_MATCH" = "yes"
->   then
->   	sh ${ROOT_DIR}/etc/volatile.cache
-> +	[ -e $CACHE_TMP ] && rm $CACHE_TMP
->   else
->   	rm -f ${ROOT_DIR}/etc/volatile.cache ${ROOT_DIR}/etc/volatile.cache.build
->   	for file in `ls -1 "${CFGDIR}" | sort`; do
-> @@ -214,6 +230,7 @@ else
->   	done
->   
->   	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
-> +	[ -e $CACHE_TMP ] && mv $CACHE_TMP $CACHE_DATA
->   fi
->   
->   if [ -z "${ROOT_DIR}" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
+Also, are you sure this problem applies in dizzy? The change the
+introduced this problem wasn't in dizzy as far as I remember but I could
+be wrong...
+
+Cheers,
+
+Richard
+
 
 
