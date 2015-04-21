@@ -1,36 +1,33 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 170916E268
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AAD006E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 10:53:03 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so134058455wid.0
+	Tue, 21 Apr 2015 10:53:38 +0000 (UTC)
+Received: by wgsk9 with SMTP id k9so208662423wgs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 03:53:04 -0700 (PDT)
+	Tue, 21 Apr 2015 03:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OKF2Yi9r57eRLlxvUlK3VC3Kx3L0do7NkACtGn5bKGE=;
-	b=hn7XWBGRcnxbrTZEEGYo5S16x0Eyj1x9+HcWBWq0cfntFQ5oslCs9uNxN1kR6mygka
-	FEuYk/HMTSMWFolcxr/QZnNK6E1h/HYoWMFS6L0wtC04YFVJbnh3+mP6dGZKSr/QsdHC
-	MehAMWDyK3dg6EteKWe/QD0SD3+kC9pN7UEP4pTx2f45NwcySzSaIGMIOn4vu44oQq9r
-	ozJfJ4n/WGkXfEx//hJZNg3wh5TzZz8XEFyPQZkkuO6J7ZJQQFhgzDNx1j38oeexfQiv
-	1r92RwrV1q+R0derviyhSeB89Ja+8vneQgx+fd2wG2q6OkfPi+legsg8IJZXYu/CIUch
-	Z26Q==
-X-Received: by 10.180.77.170 with SMTP id t10mr4592128wiw.5.1429613583997;
-	Tue, 21 Apr 2015 03:53:03 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=ZkFEiDEk0vQ+cN7fo7nRPNFEot64binwhn5/IZpsCiM=;
+	b=PZkZKVeHTAPJAgxQW11bdyVSQelD0v9xk3097EChLZcipA5BLA7nMB8O5lJuhOxj+L
+	C2hfxlxHYKBH+Ng+j0giaH29Wshz+7JU47YaA08SEl1KtjrXiOElcVJx8Jn8WLmFoTJ9
+	fDoZ+jxwsaXxthD50RjL54exrT/S9jdaOUgt6/PQPLlY24CURt1ZzwJPCRA4zffsuHlf
+	FIBb8wwwuSZ5nVjrx8OCzTScOuGgPVh6sCqnCw0Xk71rYnC8CbB4w3VfRxZTId5t1mGX
+	TjeNO2cYCEcyYc/5aAqO7sLEnuIlwQY+JWkgyw9x1tBShNcB1QWaFvgFkwqUZsabvQFM
+	LrIg==
+X-Received: by 10.180.73.198 with SMTP id n6mr34374899wiv.3.1429613619674;
+	Tue, 21 Apr 2015 03:53:39 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id e18sm2069605wjz.27.2015.04.21.03.53.02
+	by mx.google.com with ESMTPSA id bx3sm2076258wjc.21.2015.04.21.03.53.38
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Apr 2015 03:53:03 -0700 (PDT)
+	Tue, 21 Apr 2015 03:53:38 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2015 12:53:02 +0200
-Message-Id: <1429613583-15734-2-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue, 21 Apr 2015 12:53:37 +0200
+Message-Id: <1429613620-2989-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1429613583-15734-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1429613583-15734-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [dizzy][PATCH 2/3] postinst-intercepts/update_font_cache: fix ownership of fontconfig cache
+Subject: [fido][PATCH 1/4] elfutils: fix build with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +40,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 10:53:06 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 10:53:40 -0000
 
-From: Jonathan Liu <net147@gmail.com>
-
-The file ownership of the cache files in /var/cache/fontconfig needs to
-be set to root:root otherwise it inherits the user and group id of the
-build user.
-
-[YOCTO #7411]
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/fontcache.bbclass                | 2 +-
- scripts/postinst-intercepts/update_font_cache | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ ...m-Silence-Werror-maybe-uninitialized-fals.patch | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.161.bb   |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index dcd1f04..dfbdfa1 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -12,7 +12,7 @@ FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
- fontcache_common() {
- if [ "x$D" != "x" ] ; then
- 	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
--		libdir=${libdir} base_libdir=${base_libdir}
-+		libdir=${libdir} base_libdir=${base_libdir} localstatedir=${localstatedir}
- else
- 	fc-cache
- fi
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 78f3365..3907f25 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -2,5 +2,6 @@
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
+new file mode 100644
+index 0000000..3754c1c
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
+@@ -0,0 +1,35 @@
++From 668accf322fd7185e273bfd50b84320e71d9de5a Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Fri, 10 Apr 2015 00:29:18 +0200
++Subject: [PATCH] elf_getarsym: Silence -Werror=maybe-uninitialized false
++ positive
++
++Upstream-Status: Pending
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ libelf/elf_getarsym.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/libelf/elf_getarsym.c b/libelf/elf_getarsym.c
++index d0bb28a..08954d2 100644
++--- a/libelf/elf_getarsym.c
+++++ b/libelf/elf_getarsym.c
++@@ -165,8 +165,13 @@ elf_getarsym (elf, ptr)
++       int w = index64_p ? 8 : 4;
++ 
++       /* We have an archive.  The first word in there is the number of
++-	 entries in the table.  */
++-      uint64_t n;
+++	 entries in the table.
+++	 Set to SIZE_MAX just to silence -Werror=maybe-uninitialized
+++	 elf_getarsym.c:290:9: error: 'n' may be used uninitialized in this function
+++	 The read_number_entries function doesn't initialize n only when returning
+++	 -1 which in turn ensures to jump over usage of this uninitialized variable.
+++	 */
+++      uint64_t n = SIZE_MAX;
++       size_t off = elf->start_offset + SARMAG + sizeof (struct ar_hdr);
++       if (read_number_entries (&n, elf, &off, index64_p) < 0)
++ 	{
++-- 
++2.3.5
++
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.161.bb b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
+index a3c1f36..d8c27f5 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.161.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
+@@ -15,6 +15,7 @@ SRC_URI += "\
+         file://dso-link-change.patch \
+         file://Fix_elf_cvt_gunhash.patch \
+         file://fixheadercheck.patch \
++        file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
+ "
  
- PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
- 					$D${bindir}/fc-cache --sysroot=$D
-+chown -R root:root $D${localstatedir}/cache/fontconfig
- 
- 
+ # pick the patch from debian
 -- 
 2.3.5
 
