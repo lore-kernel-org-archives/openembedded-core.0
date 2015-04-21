@@ -1,31 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9094E738F4
+Return-Path: <zhengjunling@huawei.com>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 15BD6735FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Apr 2015 22:11:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3KMBL4F032614; Mon, 20 Apr 2015 23:11:21 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id T-r5zrVuQCTZ; Mon, 20 Apr 2015 23:11:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3KMB5c0032609
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 20 Apr 2015 23:11:16 +0100
-Message-ID: <1429567865.26983.56.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Cristian Iorga <cristian.iorga@intel.com>, Michael Wood
-	<michael.g.wood@intel.com>, "Flanagan, Elizabeth"
-	<elizabeth.flanagan@intel.com>, Tracy Graydon <tracy.graydon@intel.com>
-Date: Mon, 20 Apr 2015 23:11:05 +0100
-In-Reply-To: <cover.1429543826.git.cristian.iorga@intel.com>
-References: <cover.1429543826.git.cristian.iorga@intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4 0/4] Switch to BlueZ 5.x as default Bluetooth stack
+	Tue, 21 Apr 2015 01:06:49 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml427-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id CKB48852; Tue, 21 Apr 2015 09:06:50 +0800 (CST)
+Received: from [127.0.0.1] (10.111.55.101) by szxeml427-hub.china.huawei.com
+	(10.82.67.182) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 21 Apr 2015 09:06:27 +0800
+Message-ID: <5535A290.10502@huawei.com>
+Date: Tue, 21 Apr 2015 09:06:24 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>	
+	<CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>	
+	<553456B2.8090004@huawei.com>
+	<1429542910.26983.13.camel@linuxfoundation.org>
+In-Reply-To: <1429542910.26983.13.camel@linuxfoundation.org>
+X-Originating-IP: [10.111.55.101]
+X-CFilter-Loop: Reflected
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gmp: remove referencing paths from the build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 22:11:24 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 01:06:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-04-20 at 18:31 +0300, Cristian Iorga wrote:
-> BlueZ 5.x is now the default Bluetooth stack.
-> BlueZ 4.x is moved to meta-oe connectivity collection
-> layer and still supported in poky/YP.
-> The following changes since commit 167025e6d72c44cacfdc5d8b98e942066df09a4f:
+On 2015/4/20 23:15, Richard Purdie wrote:
+> On Mon, 2015-04-20 at 09:30 +0800, Junling Zheng wrote:
+>> On 2015/4/18 2:24, Andre McCurdy wrote:
+>>> On Fri, Apr 17, 2015 at 1:50 AM, Junling Zheng <zhengjunling@huawei.com> wrote:
+>>>> Currently ${D}${includedir}/gmp.h references the path of build host
+>>>> incorrectly, remove it.
+>>>>
+>>>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+>>>> ---
+>>>>  meta/recipes-support/gmp/gmp.inc | 4 ++++
+>>>>  1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+>>>> index 558ee06..a80b356 100644
+>>>> --- a/meta/recipes-support/gmp/gmp.inc
+>>>> +++ b/meta/recipes-support/gmp/gmp.inc
+>>>> @@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
+>>>>  PACKAGES =+ "libgmpxx"
+>>>>  FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
+>>>>
+>>>> +do_install_append_class-target() {
+>>>> +       sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
+>>>> +}
+>>>
+>>> It's possible that STAGING_DIR_HOST could contain '+' characters, so
+>>> '|' would be a safer sed separator to use here.
+>>>
+>>
+>> Ok, thanks for your suggestion:)
 > 
->   initscripts: Remove /etc/volatile.cache on upgrade (2015-04-20 15:03:07 +0100)
+> I fixed this one whilst merging it (faster than dropping and re-adding).
 > 
-> are available in the git repository at:
+> Cheers,
 > 
->   git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v3
+> Richard
 > 
-> Cristian Iorga (4):
->   maintainers.inc: remove info related to bluez4
->   upstream_tracking.inc: bluez4 removed from oe-core
->   bluez: remove recipe
->   bitbake.conf: backfill bluez5 feature
-
-There appears to be a problem with these patches (at a guess):
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/268
-
-Michael/Beth/Tracy: Kind of sad the error report failed and there is a
-build *after* the error report too?!
+> 
+> 
+Thanks:)
 
 Cheers,
 
-Richard
-
-
+Junling
 
 
