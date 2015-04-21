@@ -1,20 +1,53 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 52F72605D2
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx12-out9.antispamcloud.com (mx12-out9.antispamcloud.com
+	[46.165.232.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E8C90605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 13:49:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Apr 2015 06:49:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="683377949"
-Received: from heimdall.fi.intel.com ([10.237.72.110])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2015 06:49:01 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2015 16:48:42 +0300
-Message-Id: <cover.1429623703.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/4] Upgrade GNOME-related recipes
+	Tue, 21 Apr 2015 13:49:38 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1YkYYQ-0000Ol-GS for openembedded-core@lists.openembedded.org;
+	Tue, 21 Apr 2015 15:49:38 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 21 Apr 2015 15:50:22 +0200
+Message-ID: <5536556C.6030200@topic.nl>
+Date: Tue, 21 Apr 2015 15:49:32 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJr/kTVGjfNfk13kbhe2uYXqDoG24szRRI8ff3T
+	wOSkruE8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
+	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
+	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJcFIkh7yuznlTeFPLSNUgKbJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Subject: Using busybox as kmod (module-init-tools) replacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,35 +60,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 13:49:03 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 13:49:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit fc15878af46c09512fc3cb73480359fcbb22e627:
+=EF=BB=BFBusybox 1.23 can also provide the "modprobe" and related commands =
+like=20
+"lsmod". This makes it possible to remove "kmod" from an image and replace =
+it=20
+with busybox's smaller implementation. I tried that on some settop box imag=
+es=20
+and that works just fine, for example USB wifi drivers get properly loaded=
+=20
+into memory when plugged in.
 
-  init-install-efi.sh: fix gummiboot entry installation (2015-04-21 07:20:27 +0100)
+I ended up with some rather ugly constructs. Apparently it is=20
+"module-init-tools" that gets installed in one of the core packagegroups, s=
+o=20
+these things appear logical to do then:
 
-are available in the git repository at:
+PREFERRED_PROVIDER_module-init-tools =3D "busybox"
 
-  git://git.yoctoproject.org/poky-contrib jku/update-gnomeish
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/update-gnomeish
+These lines in the busybox recipe (to be made conditional, e.g. by parsing =
+the=20
+config):
 
-Jussi Kukkonen (4):
-  hicolor-icon-theme: Upgrade to 0.15
-  json-glib: Upgrade 1.0.2 -> 1.0.4
-  librsvg: Upgrade 0.40.6 -> 0.40.9
-  libsoup-2.4: Upgrade 2.46.0 -> 2.50.0
+PROVIDES +=3D "module-init-tools"
+RPROVIDES_${PN} +=3D "module-init-tools kmod"
 
- ...on-theme_0.14.bb => hicolor-icon-theme_0.15.bb} |  4 +--
- .../{json-glib_1.0.2.bb => json-glib_1.0.4.bb}     |  4 +--
- .../recipes-gnome/librsvg/librsvg/gtk-option.patch | 30 +++++++++++-----------
- .../{librsvg_2.40.6.bb => librsvg_2.40.9.bb}       |  4 +--
- ...libsoup-2.4_2.46.0.bb => libsoup-2.4_2.50.0.bb} |  5 ++--
- 5 files changed, 23 insertions(+), 24 deletions(-)
- rename meta/recipes-gnome/hicolor-icon-theme/{hicolor-icon-theme_0.14.bb => hicolor-icon-theme_0.15.bb} (74%)
- rename meta/recipes-gnome/json-glib/{json-glib_1.0.2.bb => json-glib_1.0.4.bb} (79%)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.6.bb => librsvg_2.40.9.bb} (91%)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.46.0.bb => libsoup-2.4_2.50.0.bb} (85%)
+The "kmod" is in there because some recipes just (R)DEPEND on "kmod", while=
+=20
+they actually only need a modprobe command.
 
--- 
-2.1.4
+Reading the kmod recipe, it appears that "module-init-tools" used to be=20
+something that actually existed but has been obsolete for quite a while. Ma=
+ybe=20
+it would be better to introduce a "virtual/kernel-module-manager" or so?
+
+Looks like some cleanup may be in order here - "udev" also has a hard=20
+dependency on "kmod", and building both kmod and busybox now leads to=20
+conflicts. So that would prohibit anyone using udev in combination with thi=
+s=20
+busybox configuration.
+
+Any comments, suggestions on this? (Or is replacing kmod a stupid idea to=20
+begin with)
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
