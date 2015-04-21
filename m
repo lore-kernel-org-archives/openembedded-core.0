@@ -1,31 +1,32 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 15BD6735FA
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 415576E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 01:06:49 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml427-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
-	with ESMTP id CKB48852; Tue, 21 Apr 2015 09:06:50 +0800 (CST)
-Received: from [127.0.0.1] (10.111.55.101) by szxeml427-hub.china.huawei.com
-	(10.82.67.182) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 21 Apr 2015 09:06:27 +0800
-Message-ID: <5535A290.10502@huawei.com>
-Date: Tue, 21 Apr 2015 09:06:24 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+	Tue, 21 Apr 2015 02:22:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3L2MtZd019923
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Apr 2015 19:22:55 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.14]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0224.002;
+	Mon, 20 Apr 2015 19:22:55 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] nss: improve the script signlibs.sh
+Thread-Index: AQHQZqIysUVx54W0/UiChfQJYfDfgJ1W5lwA
+Date: Tue, 21 Apr 2015 02:22:54 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF0D2B688@ALA-MBA.corp.ad.wrs.com>
+References: <1427249955-23047-1-git-send-email-jackie.huang@windriver.com>
+In-Reply-To: <1427249955-23047-1-git-send-email-jackie.huang@windriver.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.132]
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1429260608-3505-1-git-send-email-zhengjunling@huawei.com>	
-	<CAJ86T=VcRP1Fxc2+yb12K33TKqssuChAwHTAKjtAWyeMmqMrew@mail.gmail.com>	
-	<553456B2.8090004@huawei.com>
-	<1429542910.26983.13.camel@linuxfoundation.org>
-In-Reply-To: <1429542910.26983.13.camel@linuxfoundation.org>
-X-Originating-IP: [10.111.55.101]
-X-CFilter-Loop: Reflected
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gmp: remove referencing paths from the build host
+Subject: Re: [PATCH] nss: improve the script signlibs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 01:06:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Apr 2015 02:22:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 2015/4/20 23:15, Richard Purdie wrote:
-> On Mon, 2015-04-20 at 09:30 +0800, Junling Zheng wrote:
->> On 2015/4/18 2:24, Andre McCurdy wrote:
->>> On Fri, Apr 17, 2015 at 1:50 AM, Junling Zheng <zhengjunling@huawei.com> wrote:
->>>> Currently ${D}${includedir}/gmp.h references the path of build host
->>>> incorrectly, remove it.
->>>>
->>>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
->>>> ---
->>>>  meta/recipes-support/gmp/gmp.inc | 4 ++++
->>>>  1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
->>>> index 558ee06..a80b356 100644
->>>> --- a/meta/recipes-support/gmp/gmp.inc
->>>> +++ b/meta/recipes-support/gmp/gmp.inc
->>>> @@ -26,4 +26,8 @@ EXTRA_OECONF += " --enable-cxx=detect"
->>>>  PACKAGES =+ "libgmpxx"
->>>>  FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
->>>>
->>>> +do_install_append_class-target() {
->>>> +       sed -i "s+--sysroot=${STAGING_DIR_HOST}++g" ${D}${includedir}/gmp.h
->>>> +}
->>>
->>> It's possible that STAGING_DIR_HOST could contain '+' characters, so
->>> '|' would be a safer sed separator to use here.
->>>
->>
->> Ok, thanks for your suggestion:)
-> 
-> I fixed this one whilst merging it (faster than dropping and re-adding).
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-Thanks:)
+Ping, is this going to be merged?
 
-Cheers,
+Thanks,
+Jackie
 
-Junling
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-
+> bounces@lists.openembedded.org] On Behalf Of jackie.huang@windriver.com
+> Sent: Wednesday, March 25, 2015 10:19 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] nss: improve the script signlibs.sh
+>=20
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> The *.chk files are installed in ${libdir} by nss, which is already known=
+, no need to 'find' to get the file
+> list, and 'ls' is more faster than 'find'.
+>=20
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  meta/recipes-support/nss/nss/signlibs.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-support/nss/nss/signlibs.sh b/meta/recipes-supp=
+ort/nss/nss/signlibs.sh
+> index 1ec79f4..a74e499 100644
+> --- a/meta/recipes-support/nss/nss/signlibs.sh
+> +++ b/meta/recipes-support/nss/nss/signlibs.sh
+> @@ -9,7 +9,7 @@
+>  # calculated on the host where they really need to be done on the  # tar=
+get
+>=20
+> -CHK_FILES=3D`find /lib* /usr/lib* -name "*.chk"`
+> +CHK_FILES=3D`ls /lib*/*.chk /usr/lib*/*.chk 2>/dev/null`
+>  SIGN_BINARY=3D`which shlibsign`
+>  for I in $CHK_FILES
+>  do
+> --
+> 1.9.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
