@@ -1,22 +1,34 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id ABC7A71144
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8882D60167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 15:49:16 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Apr 2015 08:49:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="559504968"
-Received: from tkkaskin-mobl3.ger.corp.intel.com ([10.252.23.126])
-	by orsmga003.jf.intel.com with ESMTP; 21 Apr 2015 08:49:17 -0700
-Message-ID: <55367179.8090800@linux.intel.com>
-Date: Tue, 21 Apr 2015 18:49:13 +0300
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
+	Tue, 21 Apr 2015 16:30:37 +0000 (UTC)
+Received: by wiun10 with SMTP id n10so28021193wiu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Apr 2015 09:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=WtCLxP3tL0zzg7ryQzRttb4sTpPfjcgCJZTpsTkkoPQ=;
+	b=WozjkdFR9LP7gnQmkrleec+g+RwirVa/FyxPamvPnPHfk/vBKe4n9Z55csKdWynycx
+	YIhb7KiPU9ARE42aZVMvZ1tXHFZWKka5qITLAwkCTSgo/669nYB+R7qxcdxfQ/8SLcTJ
+	G+mKLmGyeKDY2pbMjT3DE1QBzu8Q5gIpjU0qtJVDoOJAxLGl3B/vRp3pbpRn6tzEQ5/B
+	Q+s7UEVIGXoHzBXSZOjZ2mtcH+y5JcEW17JiUiDdd87rfqdVVhNFDbSzXecmqlCRpdOi
+	U3E6IJ8I/bba3DAWcvDy3Pdi/WStAhsmuMNbRh1NBuU1MZ3YprkYTA5F/D8Jf1PXvcYQ
+	SF/A==
+X-Received: by 10.180.208.7 with SMTP id ma7mr37315360wic.0.1429633838270;
+	Tue, 21 Apr 2015 09:30:38 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id xy2sm3341739wjc.14.2015.04.21.09.30.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Apr 2015 09:30:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: PulseAudio in Sato
+Date: Tue, 21 Apr 2015 18:30:39 +0200
+Message-Id: <1429633839-17708-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] mesa: respect x11 in PACKAGECONFIG not DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,45 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 15:49:18 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Apr 2015 16:30:39 -0000
 
-Hi,
+* default value of PACKAGECONFIG is set from DISTRO_FEATURES,
+  but in the end we should respect what user sets in PACKAGECONFIG
 
-I started the work to enable PulseAudio in Sato images 
-(https://bugzilla.yoctoproject.org/show_bug.cgi?id=7517). The first 
-problem I faced is that PulseAudio isn't starting automatically. When 
-using PulseAudio in a graphical session, the normal way to start the 
-server is to rely on autospawning, which means that when the first 
-client tries to use PulseAudio, the server gets automatically started by 
-libpulse. That's not working in Sato, because the graphical session runs 
-as root in Sato, and autospawning is disabled when running as root. Why? 
-Well, at least one reason for the disabling is that if the user runs 
-some random stuff with sudo, starting another PulseAudio server in the 
-background for root will likely mess up the audio in the user's main 
-session when the two servers are trying to access the same hardware.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa_10.4.4.bb | 2 +-
+ meta/recipes-graphics/mesa/mesa_git.bb    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-My first thought was that Sato should work more like a normal system, 
-and not run the graphical session as root, but then I thought that there 
-probably are embedded systems with graphics where it makes sense to run 
-everything as root, so that's a valid use case to support. Therefore, it 
-would make sense to modify PulseAudio so that it would allow 
-autospawning for root. That should be configurable, however, and root 
-autospawning should be enabled only on these everything-running-as-root 
-systems.
-
-I'm planning to add a new option to /etc/pulse/client.conf: 
-"allow-autospawn-for-root". I'm not sure how to meet the goal of 
-disabling that option by default, and enabling it in Sato. I think it 
-could be done so that the default version of client.conf would be 
-packaged in the main pulseaudio recipe, and then there would be a 
-separate recipe, "pulseaudio-client-conf-sato", which would replace the 
-default pulseaudio-client-conf package. (Currently client.conf is in the 
-libpulse package, so it would have to be split off into its own package 
-first.) I don't know if this is the best way to do it, feedback would be 
-very welcome.
-
+diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+index 8472408..7b22bb0 100644
+--- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+@@ -14,6 +14,6 @@ S = "${WORKDIR}/Mesa-${PV}"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+     fi
+ }
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index cbe8911..a6d2880 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -13,6 +13,6 @@ S = "${WORKDIR}/git"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+     fi
+ }
 -- 
-Tanu
+2.3.5
+
 
