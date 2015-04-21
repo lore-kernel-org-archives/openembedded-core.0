@@ -1,21 +1,21 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6236360167
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 82F7D735FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 14:49:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Apr 2015 07:49:56 -0700
+	Tue, 21 Apr 2015 14:50:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Apr 2015 07:50:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="683407583"
+X-IronPort-AV: E=Sophos;i="5.11,616,1422950400"; d="scan'208";a="716925396"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2015 07:49:55 -0700
+	by orsmga002.jf.intel.com with ESMTP; 21 Apr 2015 07:50:44 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2015 17:49:54 +0300
-Message-Id: <1429627794-28895-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Tue, 21 Apr 2015 17:50:43 +0300
+Message-Id: <1429627843-28955-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH] devtool: extract: remove patches when S=WORKDIR
+Subject: [PATCH] devtool: include bbappends in recipe parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,54 +28,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 14:49:57 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 14:50:48 -0000
 
-All local files from the layer, including patches, are added to to
-srctree repository when S==WORKDIR. The patch files are useless as they
-are automatically applied on top of the srctree by devtool.
-
-This change causes devtool extract to remove these unnecessary (and
-possibly confusing) patch file(s). The patches will be removed in one
-single commit.
-
-[YOCTO #7602]
+In order to get correct metadata, SRCREV for example.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ meta/lib/oe/recipeutils.py      |  6 +++---
+ scripts/lib/devtool/standard.py | 32 +++++++++++++++++++-------------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
 
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 159a103..09bd7fd 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -44,10 +44,10 @@ def get_unavailable_reasons(cooker, pn):
+     return taskdata.get_reasons(pn)
+ 
+ 
+-def parse_recipe(fn, d):
++def parse_recipe(fn, appends, d):
+     """Parse an individual recipe"""
+     import bb.cache
+-    envdata = bb.cache.Cache.loadDataFull(fn, [], d)
++    envdata = bb.cache.Cache.loadDataFull(fn, appends, d)
+     return envdata
+ 
+ 
+@@ -55,7 +55,7 @@ def get_var_files(fn, varlist, d):
+     """Find the file in which each of a list of variables is set.
+     Note: requires variable history to be enabled when parsing.
+     """
+-    envdata = parse_recipe(fn, d)
++    envdata = parse_recipe(fn, [], d)
+     varfiles = {}
+     for v in varlist:
+         history = envdata.varhistory.variable(v)
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index a50a771..41bcf86 100644
+index d5ded2f..96e3bdb 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -248,6 +248,26 @@ def _extract_source(srctree, keep_temp, devbranch, d):
-             else:
-                 os.rmdir(patchdir)
+@@ -130,18 +130,26 @@ def _get_recipe_file(cooker, pn):
+             logger.error("Unable to find any recipe file matching %s" % pn)
+     return recipefile
  
-+        # Find local patches that were "unpacked" to srctree directory
-+        patches = []
-+        for uri in (crd.getVar('SRC_URI', True) or "").split():
-+            if uri.startswith('file://'):
-+                fname = os.path.basename(uri).split(';')[0]
-+                # Take patch "basename" without the possible compression
-+                # extension (.gz etc)
-+                match = re.match(r'^(.+\.patch)(\..+)?$', fname)
-+                if match:
-+                    patches.append(match.group(1))
-+        patches = [fname for fname in os.listdir(workdir) if fname in patches]
-+
-+        # Remove patches if S=WORKDIR so that the unneeded patch files are
-+        # not committed into srctree (as they're applied later on)
-+        if patches and srcsubdir == workdir:
-+            logger.info('Removing patch files...')
-+            for patch in patches:
-+                os.unlink(os.path.join(workdir, patch))
-+
-+        # Set-up srctree repo
-         if bb.data.inherits_class('kernel-yocto', d):
-             (stdout, _) = bb.process.run('git --git-dir="%s" rev-parse HEAD' % crd.expand('${WORKDIR}/git'), cwd=srcsubdir)
-             initial_rev = stdout.rstrip()
++def _parse_recipe(tinfoil, pn, appends):
++    """Parse recipe of a package"""
++    import oe.recipeutils
++    recipefile = _get_recipe_file(tinfoil.cooker, pn)
++    if not recipefile:
++        # Error already logged
++        return None
++    if appends:
++        append_files = tinfoil.cooker.collection.get_file_appends(recipefile)
++    return oe.recipeutils.parse_recipe(recipefile, append_files,
++                                       tinfoil.config_data)
+ 
+ def extract(args, config, basepath, workspace):
+     import bb
+-    import oe.recipeutils
+ 
+     tinfoil = setup_tinfoil()
+ 
+-    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
+-    if not recipefile:
+-        # Error already logged
++    rd = _parse_recipe(tinfoil, args.recipename, True)
++    if not rd:
+         return -1
+-    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
+ 
+     srctree = os.path.abspath(args.srctree)
+     initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
+@@ -327,11 +335,10 @@ def modify(args, config, basepath, workspace):
+ 
+     tinfoil = setup_tinfoil()
+ 
+-    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
+-    if not recipefile:
+-        # Error already logged
++    rd = _parse_recipe(tinfoil, args.recipename, True)
++    if not rd:
+         return -1
+-    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
++    recipefile = rd.getVar('FILE', True)
+ 
+     if not _check_compatible_recipe(args.recipename, rd):
+         return -1
+@@ -418,11 +425,10 @@ def update_recipe(args, config, basepath, workspace):
+     from oe.patch import GitApplyTree
+     import oe.recipeutils
+ 
+-    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
+-    if not recipefile:
+-        # Error already logged
++    rd = _parse_recipe(tinfoil, args.recipename, True)
++    if not rd:
+         return -1
+-    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
++    recipefile = rd.getVar('FILE', True)
+ 
+     orig_src_uri = rd.getVar('SRC_URI', False) or ''
+     if args.mode == 'auto':
 -- 
 2.1.4
 
