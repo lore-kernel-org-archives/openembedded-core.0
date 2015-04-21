@@ -1,34 +1,59 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 72BA260167
+Return-Path: <bevenson@melinkcorp.com>
+X-Greylist: delayed 915 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 21 Apr 2015 12:49:49 UTC
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0127.outbound.protection.outlook.com [65.55.169.127])
+	by mail.openembedded.org (Postfix) with ESMTP id A8FA8605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 12:39:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 21 Apr 2015 05:39:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,615,1422950400"; d="scan'208";a="698538918"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2015 05:39:55 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 5C6F36A408F;
-	Tue, 21 Apr 2015 05:39:29 -0700 (PDT)
-Date: Tue, 21 Apr 2015 15:39:48 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Message-ID: <20150421123948.GA27392@linux.intel.com>
-References: <1429546400.1918.13.camel@gmail.com>
+	Tue, 21 Apr 2015 12:49:49 +0000 (UTC)
+Received: from DM2PR0501MB1101.namprd05.prod.outlook.com (25.160.245.11) by
+	DM2PR0501MB1104.namprd05.prod.outlook.com (25.160.245.140) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.136.25; Tue, 21 Apr 2015 12:34:34 +0000
+Received: from DM2PR0501MB1101.namprd05.prod.outlook.com ([25.160.245.11]) by
+	DM2PR0501MB1101.namprd05.prod.outlook.com ([25.160.245.11]) with
+	mapi id 15.01.0136.014; Tue, 21 Apr 2015 12:34:34 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: ChenQi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] populate-volatile.sh: detect the change of
+	configuration files
+Thread-Index: AQHQe/h+wEvbwmw2r02g2dgw70uvQp1XZk6Q
+Date: Tue, 21 Apr 2015 12:34:34 +0000
+Message-ID: <DM2PR0501MB11011C5E2D275FE735F070B8BBEF0@DM2PR0501MB1101.namprd05.prod.outlook.com>
+References: <cover.1426832653.git.Qi.Chen@windriver.com>
+	<90fb0fe5d4a4139729dbaf7ba39191bf8c9608a8.1426832653.git.Qi.Chen@windriver.com>
+	<5535E767.8040501@windriver.com>
+In-Reply-To: <5535E767.8040501@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-vipre-scanned: 002CFF26009A7A002D0073
+authentication-results: windriver.com; dkim=none (message not signed)
+	header.d=none;
+x-originating-ip: [98.100.91.242]
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0501MB1104;
+x-microsoft-antispam-prvs: <DM2PR0501MB1104FE06BE3C0754CDE3225ABBEF0@DM2PR0501MB1104.namprd05.prod.outlook.com>
+x-forefront-antispam-report: BMV:1; SFV:NSPM;
+	SFS:(10019020)(6009001)(13464003)(24454002)(479174004)(377454003)(51704005)(87936001)(74316001)(2656002)(5001770100001)(2501003)(19580395003)(575784001)(19580405001)(86362001)(46102003)(54356999)(77156002)(76576001)(107886001)(33656002)(1720100001)(102836002)(40100003)(106116001)(66066001)(62966003)(99286002)(15975445007)(122556002)(76176999)(2900100001)(92566002)(2950100001)(50986999);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0501MB1104;
+	H:DM2PR0501MB1101.namprd05.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(5002010); SRVR:DM2PR0501MB1104; BCL:0;
+	PCL:0; RULEID:; SRVR:DM2PR0501MB1104; 
+x-forefront-prvs: 0553CBB77A
 MIME-Version: 1.0
-In-Reply-To: <1429546400.1918.13.camel@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [wic][PATCH] wic: Implement --build-rootfs command line option
+X-OriginatorOrg: melinkcorp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2015 12:34:34.1181 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0501MB1104
+Subject: Re: [PATCH 1/1] populate-volatile.sh: detect the change of configuration files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -38,86 +63,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 12:39:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 Apr 2015 12:49:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 20, 2015 at 06:13:20PM +0200, Adrian Freihofer wrote:
-> Let wic call bitbake seems to be a great idea.
-> 
-> One question is open to me. What's the recommended approach to resolve
-> the dependencies between the image, the bootloader and native tools
-> which are additionally required to create the final disk image?
-This is open to me too. I was kinda surprised when I saw that no images from 'wic list images' output can be built for not that obvious reasons:
-$ for image in `wic list images | cut -f3 -d' '` ; do wic create $image -e core-image-minimal; done
-Checking basic build environment...
-Done.
+Chen,
 
-Creating image(s)...
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of ChenQi
+> Sent: Tuesday, April 21, 2015 2:00 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] populate-volatile.sh: detect the chang=
+e
+> of configuration files
+>=20
+> ping ...
+>=20
+> //Chen Qi
+>=20
+> On 03/20/2015 02:27 PM, Chen Qi wrote:
+> > In case the configuration files are modified by user, the cached
+> > script, /etc/volatile.cache should not be executed. Instead, the
+> > configuration files should be parsed again and generate the new cache.
+> > Otherwise, the user modifications take no effect which would obviously
+> confuse users.
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >   .../initscripts/initscripts-1.0/populate-volatile.sh  | 19
+> ++++++++++++++++++-
+> >   1 file changed, 18 insertions(+), 1 deletion(-)
+> >
+> > diff --git
+> > a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> > b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> > index 904037e..eaf0f1c 100755
+> > ---
+> > a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.
+> > +++ sh
+> > @@ -204,9 +204,25 @@ do
+> >   done
+> >   exec 9>&-
+> >
+> > -if test -e ${ROOT_DIR}/etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE"
+> =3D "yes" -a "x$1" !=3D "xupdate" -a "x$clearcache" =3D "x0"
+> > +# Check whether configuration files have changed, if so, the cache
+> > +needs to be removed # and generated again CACHE_MATCH=3D"no"
+> > +CACHE_DATA=3D"${ROOT_DIR}/etc/.volatile.cache.data"
+> > +CACHE_TMP=3D"${ROOT_DIR}/etc/.volatile.cache.tmp"
+> > +VOLATILE_CONFFILES=3D"${ROOT_DIR}/etc/default/volatiles/*"
+> > +if [ "$VOLATILE_ENABLE_CACHE" =3D "yes" ]; then
+> > +	stat -c '%s %Y %n' $VOLATILE_CONFFILES | awk -F/ '{print $1 " " $NF;}=
+'
+> > $CACHE_TMP
+> > +	if [ -e $CACHE_DATA ]; then
+> > +		if cmp $CACHE_DATA $CACHE_TMP > /dev/null; then
+> > +			CACHE_MATCH=3D"yes"
+> > +		fi
+> > +	fi
+> > +fi
+> > +
+> > +if test -e ${ROOT_DIR}/etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE"
+> =3D "yes" -a "x$1" !=3D "xupdate" -a "x$clearcache" =3D "x0" -a "$CACHE_M=
+ATCH" =3D
+> "yes"
+> >   then
+> >   	sh ${ROOT_DIR}/etc/volatile.cache
+> > +	[ -e $CACHE_TMP ] && rm $CACHE_TMP
+> >   else
+> >   	rm -f ${ROOT_DIR}/etc/volatile.cache
+> ${ROOT_DIR}/etc/volatile.cache.build
+> >   	for file in `ls -1 "${CFGDIR}" | sort`; do @@ -214,6 +230,7 @@ else
+> >   	done
+> >
+> >   	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv
+> > ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
+> > +	[ -e $CACHE_TMP ] && mv $CACHE_TMP $CACHE_DATA
+> >   fi
+> >
+> >   if [ -z "${ROOT_DIR}" ] && [ -f /etc/ld.so.cache ] && [ ! -f
+> > /var/run/ld.so.cache ]
+>=20
 
-Error: Couldn't find HDDDIR, exiting
+I didn't see this patch when I was working through my issues.  I'll test th=
+is patch on my system with my change to pkg_postinst removed and verify I g=
+et the same end result.
 
-Checking basic build environment...
-Done.
-
-Creating image(s)...
-
-Error: No boot files defined, IMAGE_BOOT_FILES unset
-Checking basic build environment...
-Done.
-
-Creating image(s)...
-
-Error: Couldn't find HDDDIR, exiting
-
-Checking basic build environment...
-Done.
-
-Creating image(s)...
-
-Error: Please build syslinux first
-
-Only last message makes sense to me. The rest two don't give any hints on how to solve the problem.
-
-> Basically the right place to resolve this dependency is the kickstart
-> file. Bitbake should not even know that syslinux or any other bootloader
-> will be added to the final disk image. In other words
-> IMAGE_EXTRA_DEPENDS or similar are not the right place to add the
-> bootloader dependency anymore. But if bitbake does not provide e.g.
-> syslinux-native wic will fail to use it. This is kind of a chicken egg
-> problem...
-> A nice solution would be if wic would maintain a simple dependency list
-> For example: There is a kickstart file assembling a disk image including
-> my-mini-image and syslinux-native. To create the partition layout,
-> parted-native is required as well. Hence bitbake should be called like
-> this: "bitbake my-mini-image parted-native syslinux-native" before wic
-> starts assembling the disk image. my-mini-image is provided by the -e
-> parameter of wic. The latter two tools should be provided by the wic
-> plugins creating the partitions and the disk image. My proposal is to
-> extend the internal API of wic by a dependency list where plugins can
-> append required tools e.g. during start up of wic. This would enable the
-> disk plugin to request "parted-native" and the boot partition plugin to
-> request "syslinux-native" before bitbake is called.
-
-I like the proposal. Just want to point out to a couple of things.
-First, parted-native seems to be essential tool for wic, so wic core should check for it from my point of view.
-Second, it depends on the environment if wic is able to find bootloader or not. For example, baking bootloader is not always enough for wic to find it. I'm still puzzled by this fact, but it depends on the MACHINE and may be other parameters. For example, wic is not able to find bootloader if core-image-minimal is built for default machine qemux86(see errors above), but it works just fine for intel-corei7-64.
-
-So, I would propose to start from making wic to work for any build. This way we can understand requirements better.
-
-> Further on one more problem could be solved easily. If wic takes care
-> about the final disk assembly bitbake --fetch-only might not be
-> sufficient to download everything needed to create the whole firmware.
-> This makes it hard to create a complete premirror. If wic would support
-> the dependency list as mentioned above and provide a command line
-> parameter --fetch-only everything would be consistent. Instead of
-> calling "bitbake  my-mini-image  --fetch-only" the user just calls the
-> corresponding wic command with --fetch-only appended. This would result
-> in "bitbake my-mini-image parted-native syslinux-native --fetch-only".
-
-What's fetch-only option? I don't see it among bitbake options.
-
---
 Regards,
-Ed
+Bryan
+
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
