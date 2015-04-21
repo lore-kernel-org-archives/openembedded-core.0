@@ -1,34 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8882D60167
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CA2C65CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 16:30:37 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so28021193wiu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 09:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=WtCLxP3tL0zzg7ryQzRttb4sTpPfjcgCJZTpsTkkoPQ=;
-	b=WozjkdFR9LP7gnQmkrleec+g+RwirVa/FyxPamvPnPHfk/vBKe4n9Z55csKdWynycx
-	YIhb7KiPU9ARE42aZVMvZ1tXHFZWKka5qITLAwkCTSgo/669nYB+R7qxcdxfQ/8SLcTJ
-	G+mKLmGyeKDY2pbMjT3DE1QBzu8Q5gIpjU0qtJVDoOJAxLGl3B/vRp3pbpRn6tzEQ5/B
-	Q+s7UEVIGXoHzBXSZOjZ2mtcH+y5JcEW17JiUiDdd87rfqdVVhNFDbSzXecmqlCRpdOi
-	U3E6IJ8I/bba3DAWcvDy3Pdi/WStAhsmuMNbRh1NBuU1MZ3YprkYTA5F/D8Jf1PXvcYQ
-	SF/A==
-X-Received: by 10.180.208.7 with SMTP id ma7mr37315360wic.0.1429633838270;
-	Tue, 21 Apr 2015 09:30:38 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id xy2sm3341739wjc.14.2015.04.21.09.30.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Apr 2015 09:30:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Tue, 21 Apr 2015 16:38:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Apr 2015 09:38:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,617,1422950400"; d="scan'208";a="483764009"
+Received: from ppiorkow-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.9.218])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2015 09:38:43 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2015 18:30:39 +0200
-Message-Id: <1429633839-17708-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH] mesa: respect x11 in PACKAGECONFIG not DISTRO_FEATURES
+Date: Tue, 21 Apr 2015 17:38:41 +0100
+Message-ID: <4377812.5jFbXo8eAY@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <1429627940-29049-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1429627940-29049-1-git-send-email-markus.lehtonen@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] devtool: modify: use B=S if that is the default for the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,42 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 16:30:39 -0000
+X-List-Received-Date: Tue, 21 Apr 2015 16:38:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* default value of PACKAGECONFIG is set from DISTRO_FEATURES,
-  but in the end we should respect what user sets in PACKAGECONFIG
+On Tuesday 21 April 2015 17:52:19 Markus Lehtonen wrote:
+> Makes the build succeed for packages which do not support separate build
+> directory, e.g. zlib. The same outcome could be achieved with the
+> --same-dir option, but, it's generally hard to tell if a random package
+> would need that option. The negative side effect of this patch is that
+> dev srctree (of some packages that build fine without this modification)
+> gets dirtied by build artefacts.
+> 
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  scripts/lib/devtool/standard.py | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 96e3bdb..1c1bce8 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -391,12 +391,19 @@ def modify(args, config, basepath, workspace):
+>          f.write('inherit externalsrc\n')
+>          f.write('# NOTE: We use pn- overrides here to avoid affecting
+> multiple variants in the case where the recipe uses BBCLASSEXTEND\n')
+> f.write('EXTERNALSRC_pn-%s = "%s"\n' % (args.recipename, srctree)) -       
+> if args.same_dir or bb.data.inherits_class('autotools-brokensep', rd): -   
+>         if args.same_dir:
+> -                logger.info('using source tree as build directory since
+> --same-dir specified') -            else:
+> -                logger.info('using source tree as build directory since
+> original recipe inherits autotools-brokensep') +
+> +        b_is_s = True
+> +        if args.same_dir:
+> +            logger.info('using source tree as build directory since
+> --same-dir specified') +        elif
+> bb.data.inherits_class('autotools-brokensep', rd):
+> +            logger.info('using source tree as build directory since
+> original recipe inherits autotools-brokensep') +        elif rd.getVar('B',
+> True) == s:
+> +            logger.info('using source tree as build directory since that is
+> the default for this recipe') +        else:
+> +            b_is_s = False
+> +        if b_is_s:
+>              f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (args.recipename,
+> srctree)) +
+>          if initial_rev:
+>              f.write('\n# initial_rev: %s\n' % initial_rev)
+>              for commit in commits:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/mesa/mesa_10.4.4.bb | 2 +-
- meta/recipes-graphics/mesa/mesa_git.bb    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Both this and 2/2 look good to me.
 
-diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-index 8472408..7b22bb0 100644
---- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-@@ -14,6 +14,6 @@ S = "${WORKDIR}/Mesa-${PV}"
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-     fi
- }
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index cbe8911..a6d2880 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -13,6 +13,6 @@ S = "${WORKDIR}/git"
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-     fi
- }
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers,
+Paul
+
 -- 
-2.3.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
