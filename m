@@ -1,40 +1,24 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5922D605D2
+Return-Path: <Dmitry_Eremin@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 540A060167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 23:22:33 +0000 (UTC)
-Received: by yhw29 with SMTP id 29so985987yhw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 16:22:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=joPrT3utwoS5Dr5bmfAqjolr3d8ljwutyUuVI16LgTs=;
-	b=BlLJCQj+8VP0QtiEW0pYwKTMTyXWlBBgj5PT0PTZtYJIGOSAkwQrOHUIeKJ3e2FrOt
-	tM4VxNFyCFDhFrsvtFH6mcPv8IDq/ttIVm6TkJ0OCLzu8a9Q1UEiX9PpLF9Rjlf27Op8
-	Z8+C6ORT8Ihq0jqbahBDLRrASfcuwxQXNN3yE97GYn4HNUJYrfl3p031NUIm9eA9f9D6
-	n//vfLmZbtxTfFO1vcXfFqKQsVthKffjlInxwZ03aPwweqOXkPrDqquk2UnyAo8gs2tX
-	8Ns2lzWQxdXahr2O+sA39A2YOYX4yrL6MbSE7LpHweRc6pRMk/qI7epuhTNK4ejOcap8
-	GbWw==
-X-Received: by 10.170.118.13 with SMTP id k13mr21924543ykb.80.1429658553984;
-	Tue, 21 Apr 2015 16:22:33 -0700 (PDT)
-Received: from bill-the-cat (cpe-174-106-48-186.ec.res.rr.com.
-	[174.106.48.186])
-	by mx.google.com with ESMTPSA id 62sm2523940yhq.22.2015.04.21.16.22.33
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 21 Apr 2015 16:22:33 -0700 (PDT)
-Date: Tue, 21 Apr 2015 19:22:31 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <20150421232231.GP16702@bill-the-cat>
-References: <1429557428-20033-1-git-send-email-dv@pseudoterminal.org>
+	Wed, 22 Apr 2015 01:03:43 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Ykj4q-0004Xi-Gx from Dmitry_Eremin@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Apr 2015 18:03:44 -0700
+Received: from fangorn.rup.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Wed, 22 Apr 2015 02:03:43 +0100
+From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Apr 2015 04:03:42 +0300
+Message-ID: <1429664622-15133-1-git-send-email-dmitry_eremin@mentor.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <1429557428-20033-1-git-send-email-dv@pseudoterminal.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot.inc: make sure all counter variables are properly unset
+Subject: [PATCH] libevent: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,23 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Apr 2015 23:22:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 Apr 2015 01:03:44 -0000
+Content-Type: text/plain
 
-On Mon, Apr 20, 2015 at 09:17:08PM +0200, Carlos Rafael Giani wrote:
+Use provided regression testing as a ptest for libevent package.
 
-> The script does "i == j" checks to retrieve the config <-> type pairs from
-> the UBOOT_MACHINE and UBOOT_CONFIG lists. This check however requires both
-> j and i to be initially unset. Ensure this by explicitely unsetting i.
-> 
-> This fixes broken u-boot SPL installations with SolidRun machines
-> (the SPL wasn't being installed and deployed.)
-> 
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+---
+ meta/recipes-support/libevent/libevent/run-ptest | 18 ++++++++++++++++++
+ meta/recipes-support/libevent/libevent_2.0.22.bb | 17 ++++++++++++++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libevent/libevent/run-ptest
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
+diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
+new file mode 100644
+index 0000000..d521688
+--- /dev/null
++++ b/meta/recipes-support/libevent/libevent/run-ptest
+@@ -0,0 +1,18 @@
++#!/bin/sh
++
++fail=0
++for test in ./test/*
++do
++	$test
++	if [ $? -eq 0 ]
++	then
++		fail=1
++	fi
++done
++
++if [ $fail -eq 0 ]
++then
++	echo "PASS: libevent"
++else
++	echo "FAIL: libevent"
++fi
+diff --git a/meta/recipes-support/libevent/libevent_2.0.22.bb b/meta/recipes-support/libevent/libevent_2.0.22.bb
+index 3f9475e..2f49293 100644
+--- a/meta/recipes-support/libevent/libevent_2.0.22.bb
++++ b/meta/recipes-support/libevent/libevent_2.0.22.bb
+@@ -6,7 +6,10 @@ SECTION = "libs"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=45c5316ff684bcfe2f9f86d8b1279559"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/levent/${BP}-stable.tar.gz"
++SRC_URI = " \
++    ${SOURCEFORGE_MIRROR}/levent/${BP}-stable.tar.gz \
++    file://run-ptest \
++"
+ 
+ SRC_URI[md5sum] = "c4c56f986aa985677ca1db89630a2e11"
+ SRC_URI[sha256sum] = "71c2c49f0adadacfdbe6332a372c38cf9c8b7895bb73dabeaa53cdcc1d4e1fa3"
+@@ -20,3 +23,15 @@ inherit autotools
+ 
+ # Needed for Debian packaging
+ LEAD_SONAME = "libevent-2.0.so"
++
++inherit ptest
++
++DEPENDS = "zlib"
++
++do_install_ptest() {
++	install -d ${D}${PTEST_PATH}/test
++	for file in ${B}/test/.libs/regress ${B}/test/.libs/test*
++	do
++		install -m 0755 $file ${D}${PTEST_PATH}/test
++	done
++}
 -- 
-Tom
+2.1.4
+
 
