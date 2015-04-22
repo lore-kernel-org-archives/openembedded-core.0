@@ -1,39 +1,36 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FF3260167
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D418F60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 14:14:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2015 07:14:18 -0700
+	Wed, 22 Apr 2015 14:48:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 22 Apr 2015 07:48:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,623,1422950400"; d="scan'208";a="717483933"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2015 07:14:19 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id D22286A408D;
-	Wed, 22 Apr 2015 07:13:51 -0700 (PDT)
-Date: Wed, 22 Apr 2015 17:14:11 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Message-ID: <20150422141411.GA8275@linux.intel.com>
-References: <1429541663-5695-1-git-send-email-adrian.freihofer@gmail.com>
-	<20150420182134.GA15567@linux.intel.com>
-	<1429561646.14219.78.camel@gmail.com>
-	<20150421101048.GA26939@linux.intel.com>
-	<1429652884.1942.42.camel@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1429652884.1942.42.camel@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
+X-IronPort-AV: E=Sophos;i="5.11,623,1422950400"; d="scan'208";a="683990540"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2015 07:48:25 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.178]) by
+	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
+	14.03.0224.002; Wed, 22 Apr 2015 15:48:24 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master-next][PATCHv2] wic: Add plugin for single partition disk
+Thread-Topic: [OE-core] PulseAudio in Sato
+Thread-Index: AQHQfErFLFcQGVRdFk2llRjAq+Fs251ZHYSA
+Date: Wed, 22 Apr 2015 14:48:23 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F4B178B@irsmsx105.ger.corp.intel.com>
+References: <55367179.8090800@linux.intel.com>
+In-Reply-To: <55367179.8090800@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Subject: Re: PulseAudio in Sato
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -43,21 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 14:14:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 Apr 2015 14:48:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2015 at 11:48:04PM +0200, Adrian Freihofer wrote:
-> So far I did not recognize the MACHINE dependent behavior you mentioned
-> in your email. Thanks for the hint. May be wic has already a complexity
-> demanding for unit tests...
-> 
-Be my guest :) http://lists.openembedded.org/pipermail/openembedded-core/2015-April/103590.html
+I guess that pulseaudio-client-conf-sato could be added to packagegroup-cor=
+e-x11-sato or packagegroup-core-x11-sato-extended, so that the pulseaudio-c=
+lient-conf-sato will get selected only for sato images.
 
-> Thanks for your support! I hope the updated patch fulfills the
-> requirements.
-I'll go and review it right away.
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Tanu Kaskinen
+Sent: Tuesday, April 21, 2015 6:49 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] PulseAudio in Sato
 
-Regards,
-Ed
+Hi,
+
+I started the work to enable PulseAudio in Sato images (https://bugzilla.yo=
+ctoproject.org/show_bug.cgi?id=3D7517). The first problem I faced is that P=
+ulseAudio isn't starting automatically. When using PulseAudio in a graphica=
+l session, the normal way to start the server is to rely on autospawning, w=
+hich means that when the first client tries to use PulseAudio, the server g=
+ets automatically started by libpulse. That's not working in Sato, because =
+the graphical session runs as root in Sato, and autospawning is disabled wh=
+en running as root. Why?=20
+Well, at least one reason for the disabling is that if the user runs some r=
+andom stuff with sudo, starting another PulseAudio server in the background=
+ for root will likely mess up the audio in the user's main session when the=
+ two servers are trying to access the same hardware.
+
+My first thought was that Sato should work more like a normal system, and n=
+ot run the graphical session as root, but then I thought that there probabl=
+y are embedded systems with graphics where it makes sense to run everything=
+ as root, so that's a valid use case to support. Therefore, it would make s=
+ense to modify PulseAudio so that it would allow autospawning for root. Tha=
+t should be configurable, however, and root autospawning should be enabled =
+only on these everything-running-as-root systems.
+
+I'm planning to add a new option to /etc/pulse/client.conf:=20
+"allow-autospawn-for-root". I'm not sure how to meet the goal of disabling =
+that option by default, and enabling it in Sato. I think it could be done s=
+o that the default version of client.conf would be packaged in the main pul=
+seaudio recipe, and then there would be a separate recipe, "pulseaudio-clie=
+nt-conf-sato", which would replace the default pulseaudio-client-conf packa=
+ge. (Currently client.conf is in the libpulse package, so it would have to =
+be split off into its own package
+first.) I don't know if this is the best way to do it, feedback would be ve=
+ry welcome.
+
+--
+Tanu
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
