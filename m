@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8125B71E68
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9247571EC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 07:50:07 +0000 (UTC)
-Received: by igblo3 with SMTP id lo3so35183873igb.0
+	Wed, 22 Apr 2015 07:50:06 +0000 (UTC)
+Received: by iebrs15 with SMTP id rs15so31546157ieb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:50:08 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=CHvGl29Omu56HZr4kWzZ6Ounf5h3NUM2N/7dN5hwZuE=;
-	b=KPbyua+s2UL+2g/LYTCfBP3QNpx9PwUmSSf3iNoC845Hfhe6BedZvHM1yrf+VKYIS4
-	hVSM1eEMYQKznqVOy2DIUWRQPg2WX9SkJ2iU4l2Zpikd71RftUFy9FbzMw64rJTP5K/I
-	1LY+P/duNh22cGzCnIKgSPcBHTki/QMriz9FjQYD42AE6NrlZwRu0XHNJIL2IxNJYQFx
-	FFdpVBf7RZLmFEjAZbuJgpBBoxCm61aO72Z/NU+N7SsEUq9FyUzWcvDI/JFdP7F9PM20
-	ahvM0Urp/bDWgmBzdxP/vVOx3eU+uL8LKXsvqOv8b5u4NQSS19Pq5QXfzP6/jSKqEN/U
-	fqNg==
-X-Received: by 10.107.170.77 with SMTP id t74mr34685035ioe.85.1429689008055;
-	Wed, 22 Apr 2015 00:50:08 -0700 (PDT)
+	bh=5FXxRLguXFZsJFSbP85mGoP9m5PLb8LnatV+RJNzz68=;
+	b=fFb2o20gd7zhkVWauYY2w1wTDvYaCYsrGymscKxITkzEevNwNVNTFXQ4BdugDzE7yf
+	oQ0Z+eA9qFW2qzw1VdTnoIAWw95xnkmia0P6hNRW82FWF2+jZc0RNbksZO9tYv80RN0v
+	esZoM6v9XAHR616J+fV0t6w08DhurKota351Rb3P2gowRuUE8t2Sri4ShQ2fX9QPyZ8U
+	XMR7DhWwOlgEWmmCKssRGUR/2mV7rRXtLymdBFdc7OPMg8+/ejwf8CEYZ4At3reAcwK5
+	bcvcB7PJZe0eS1pvnvDRVZDsdrTj4SLhsiZPdFTqabq/B1dFqlSbwk60A6xbjR0qFoSH
+	E7Tw==
+X-Received: by 10.107.26.207 with SMTP id a198mr33942226ioa.5.1429689007618;
+	Wed, 22 Apr 2015 00:50:07 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
 	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.07
@@ -26,14 +26,14 @@ Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	Wed, 22 Apr 2015 00:50:07 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2015 07:49:55 +0000
-Message-Id: <aa1bcbe6c48eae4d7e3a669b17dc56768d9e5431.1429688786.git.raj.khem@gmail.com>
+Date: Wed, 22 Apr 2015 07:49:54 +0000
+Message-Id: <ecce3cdaab5986fd6db49b2ec0c1bbd672e0e02d.1429688786.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 References: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429688786.git.raj.khem@gmail.com>
 References: <cover.1429688786.git.raj.khem@gmail.com>
-Subject: [PATCH 06/10] mdadm: Fix inline semantics
+Subject: [PATCH 05/10] u-boot-mkimage: Backport fix from upstream to fix build with gcc-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,73 +48,125 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Apr 2015 07:50:07 -0000
 
-With gcc-5 defaulting to gnu11 C we need to follow
-c99 inline semantics
-
-Change-Id: I397520c36c81634556b3f3782aebc532e4a79aed
+Change-Id: I5322f1ff8653009b45ddee1a2d3a0d96584d3327
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/mdadm/files/inline.patch | 39 ++++++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.3.2.bb     |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/inline.patch
+ meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch | 91 +++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb |  4 +-
+ 2 files changed, 94 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/inline.patch b/meta/recipes-extended/mdadm/files/inline.patch
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
 new file mode 100644
-index 0000000..9009f06
+index 0000000..12db94c
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/inline.patch
-@@ -0,0 +1,39 @@
-+with gnu11 turning on a default with gcc-5 we have to abide by new inline semantics
-+using 'inline' and using is in same translation unit means an external definition has to exist
-+same like "external inline" in gnu89, we simply make the functions static inline since they
-+are just meant to be used in this file
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
+@@ -0,0 +1,91 @@
++Upstream-Status: Backport
 +
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++From 478b02f1a7043b673565075ea5016376f3293b23 Mon Sep 17 00:00:00 2001
++From: Hans de Goede <hdegoede@redhat.com>
++Date: Sat, 7 Feb 2015 22:52:40 +0100
++Subject: [PATCH] Add linux/compiler-gcc5.h to fix builds with gcc5
 +
-+Index: mdadm-3.3.2/bitmap.c
++Add linux/compiler-gcc5/h from the kernel sources at:
++
++commit 5631b8fba640a4ab2f8a954f63a603fa34eda96b
++Author: Steven Noonan <steven@uplinklabs.net>
++Date:   Sat Oct 25 15:09:42 2014 -0700
++
++    compiler/gcc4+: Remove inaccurate comment about 'asm goto' miscompiles
++
++Signed-off-by: Hans de Goede <hdegoede@redhat.com>
++---
++ include/linux/compiler-gcc5.h |   65 +++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 65 insertions(+)
++ create mode 100644 include/linux/compiler-gcc5.h
++
++Index: git/include/linux/compiler-gcc5.h
 +===================================================================
-+--- mdadm-3.3.2.orig/bitmap.c
-++++ mdadm-3.3.2/bitmap.c
-+@@ -20,7 +20,7 @@
-+ 
-+ #include "mdadm.h"
-+ 
-+-inline void sb_le_to_cpu(bitmap_super_t *sb)
-++static inline void sb_le_to_cpu(bitmap_super_t *sb)
-+ {
-+ 	sb->magic = __le32_to_cpu(sb->magic);
-+ 	sb->version = __le32_to_cpu(sb->version);
-+@@ -34,7 +34,7 @@ inline void sb_le_to_cpu(bitmap_super_t
-+ 	sb->write_behind = __le32_to_cpu(sb->write_behind);
-+ }
-+ 
-+-inline void sb_cpu_to_le(bitmap_super_t *sb)
-++static inline void sb_cpu_to_le(bitmap_super_t *sb)
-+ {
-+ 	sb_le_to_cpu(sb); /* these are really the same thing */
-+ }
-+@@ -74,7 +74,7 @@ typedef struct bitmap_info_s {
-+ } bitmap_info_t;
-+ 
-+ /* count the dirty bits in the first num_bits of byte */
-+-inline int count_dirty_bits_byte(char byte, int num_bits)
-++static inline int count_dirty_bits_byte(char byte, int num_bits)
-+ {
-+ 	int num = 0;
-+ 
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-index 0742d73..87e06f5 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-@@ -12,6 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://mdadm-3.2.2_fix_for_x32.patch \
-            file://gcc-4.9.patch \
-            file://mdadm-3.3.2_x32_abi_time_t.patch \
-+           file://inline.patch \
-            file://run-ptest \
- 	  "
++--- /dev/null
+++++ git/include/linux/compiler-gcc5.h
++@@ -0,0 +1,65 @@
+++#ifndef __LINUX_COMPILER_H
+++#error "Please don't include <linux/compiler-gcc5.h> directly, include <linux/compiler.h> instead."
+++#endif
+++
+++#define __used				__attribute__((__used__))
+++#define __must_check			__attribute__((warn_unused_result))
+++#define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
+++
+++/* Mark functions as cold. gcc will assume any path leading to a call
+++   to them will be unlikely.  This means a lot of manual unlikely()s
+++   are unnecessary now for any paths leading to the usual suspects
+++   like BUG(), printk(), panic() etc. [but let's keep them for now for
+++   older compilers]
+++
+++   Early snapshots of gcc 4.3 don't support this and we can't detect this
+++   in the preprocessor, but we can live with this because they're unreleased.
+++   Maketime probing would be overkill here.
+++
+++   gcc also has a __attribute__((__hot__)) to move hot functions into
+++   a special section, but I don't see any sense in this right now in
+++   the kernel context */
+++#define __cold			__attribute__((__cold__))
+++
+++#define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+++
+++#ifndef __CHECKER__
+++# define __compiletime_warning(message) __attribute__((warning(message)))
+++# define __compiletime_error(message) __attribute__((error(message)))
+++#endif /* __CHECKER__ */
+++
+++/*
+++ * Mark a position in code as unreachable.  This can be used to
+++ * suppress control flow warnings after asm blocks that transfer
+++ * control elsewhere.
+++ *
+++ * Early snapshots of gcc 4.5 don't support this and we can't detect
+++ * this in the preprocessor, but we can live with this because they're
+++ * unreleased.  Really, we need to have autoconf for the kernel.
+++ */
+++#define unreachable() __builtin_unreachable()
+++
+++/* Mark a function definition as prohibited from being cloned. */
+++#define __noclone	__attribute__((__noclone__))
+++
+++/*
+++ * Tell the optimizer that something else uses this function or variable.
+++ */
+++#define __visible __attribute__((externally_visible))
+++
+++/*
+++ * GCC 'asm goto' miscompiles certain code sequences:
+++ *
+++ *   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=58670
+++ *
+++ * Work it around via a compiler barrier quirk suggested by Jakub Jelinek.
+++ *
+++ * (asm goto is automatically volatile - the naming reflects this.)
+++ */
+++#define asm_volatile_goto(x...)	do { asm goto(x); asm (""); } while (0)
+++
+++#ifdef CONFIG_ARCH_USE_BUILTIN_BSWAP
+++#define __HAVE_BUILTIN_BSWAP32__
+++#define __HAVE_BUILTIN_BSWAP64__
+++#define __HAVE_BUILTIN_BSWAP16__
+++#endif /* CONFIG_ARCH_USE_BUILTIN_BSWAP */
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+index 076dff8..7735288 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+@@ -12,7 +12,9 @@ SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
+ 
+ PV = "v2015.01+git${SRCPV}"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
++           file://gcc5.patch \
++	   "
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.1.4
