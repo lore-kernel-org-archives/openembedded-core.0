@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
 	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B1073D7F
+	by mail.openembedded.org (Postfix) with ESMTP id A0E3473D89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 07:50:07 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so107048104igb.0
+	Wed, 22 Apr 2015 07:50:08 +0000 (UTC)
+Received: by igbyr2 with SMTP id yr2so107048332igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=3AwIRwKzQloVTw2ZRaevd8+cAm9kfDhywuudFya2tXw=;
-	b=CDpkxk1gI8LBalny2aTUQ6z8BV0M6cA6/1OoxCNdtX6puyIa4xOzCQtch6rrEsoG2O
-	FDXGMdZprCO/7tzrttBREjkSEDAfK7XlXZD+TOMEQAXgsS9fdSxv23AZJl4F8RzviD1G
-	IYix7NocHiRPvjGEswB+jv6UO5zhMJ4t1jM55Xw5H9J/jSNBI3wERSytC/wPWyhmY8k/
-	rTvgvd5xz7IW8jrcJoaO49Mpob31Ak40OI0/QJ/Oh1M9YoTC/slLtcL5wsTZVg9wobGs
-	J2GNz1ob6tgBryruNbYbWFY63p6NY9UqcSG1FLW8q/qSclYBuMM3Fr+56EGUyFBmE70s
-	0xPA==
-X-Received: by 10.107.41.72 with SMTP id p69mr33991971iop.58.1429689009024;
+	bh=fgR9AXP+UbTJHAGE3VwkBUskobeIdKFqGtF7g+TQ4sw=;
+	b=lZCIgwylCkGbH9T66YsC4LGl/qC9Y4lNmula94pDpwktEq/kX4x7mAE9Femr4Fs6Lo
+	nxDolIc9Z4NqTatDrRN0nIA51paVETA0MA7T9LMKFyGiwyOvrY2FNFvQsAYUsTES49gv
+	DWR6Ap1LGpg4l0kwykZnUtDGXQlT2sF7Bux5UeowYa9dgf6KzsLbvLCf0E2ALrcgFAEF
+	W0FRtRYci1U1zwrBWFkiRXLlOhDSHapzlaebJT6Xx9vSoP1Sdlkv6HkmLZCx9poRHnVJ
+	Prf/hr2AK90+vW4C/HNxRN++yg4hq7XHdET7FnmrdUrawMIQwDDUC8jKezvpiamhADgB
+	dkmg==
+X-Received: by 10.107.10.79 with SMTP id u76mr34058751ioi.79.1429689009991;
 	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.08
+	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.09
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Apr 2015 00:50:08 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2015 07:49:57 +0000
-Message-Id: <a46aa1fee8b43e19f2d104750f477df44a41fbb5.1429688786.git.raj.khem@gmail.com>
+Date: Wed, 22 Apr 2015 07:49:59 +0000
+Message-Id: <a19ff5adc2e1944a722b8dea05b6299622d742d4.1429688786.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 References: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429688786.git.raj.khem@gmail.com>
 References: <cover.1429688786.git.raj.khem@gmail.com>
-Subject: [PATCH 08/10] subversion: Add -P to CPPFLAGS
+Subject: [PATCH 10/10] gtk+: Correct function prototype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 07:50:08 -0000
+X-List-Received-Date: Wed, 22 Apr 2015 07:50:09 -0000
 
-see https://gcc.gnu.org/gcc-5/porting_to.html
+This is turned on by default in gcc-5 so far
+we have been getting by this issue but time to fix it
+has now come
 
-we need to stop the preprocessor from generating the #line directives
-or we run into issues like
-
-| checking for apr_int64_t Python/C API format string...
-| configure: error: failed to recognize APR_INT64_T_FMT on this platform
-| Configure failed. The contents of all config.log files follows to aid
-debugging
-| ERROR: oe_runconf failed
-
-Rightly subversion should be fixed but lets leave that to subversion
-folks
-
-Change-Id: I02a89798ff949f79967ab0a73adcddaa4218662d
+Change-Id: I012248731de0be7a9b7e232073746360fe6c83dd
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/subversion/subversion_1.8.11.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../gtk+/gtk+/strict-prototypes.patch              | 24 ++++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+_2.24.27.bb            |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.8.11.bb b/meta/recipes-devtools/subversion/subversion_1.8.11.bb
-index 8e4cd9d..d5295d8 100644
---- a/meta/recipes-devtools/subversion/subversion_1.8.11.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.8.11.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://subversion.tigris.org"
+diff --git a/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch b/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+new file mode 100644
+index 0000000..96e1f5f
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+@@ -0,0 +1,24 @@
++Fixes
++
++include/gtk-2.0/gtk/gtkitemfactory.h:47:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
++ typedef void (*GtkItemFactoryCallback)  ();
++
++gcc5 has -Wstrict-prototypes on by default for -Werror so this becomes a build failure for consumers
++of this header e.g. matchbox-panel-2
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Index: gtk+-2.24.27/gtk/gtkitemfactory.h
++===================================================================
++--- gtk+-2.24.27.orig/gtk/gtkitemfactory.h
+++++ gtk+-2.24.27/gtk/gtkitemfactory.h
++@@ -44,7 +44,7 @@ typedef void	(*GtkPrintFunc)		   (gpoint
++  * (Note that if we are included from a C++ program () will mean
++  * (void) so an explicit cast will be needed.)
++  */
++-typedef	void	(*GtkItemFactoryCallback)  ();
+++typedef	void	(*GtkItemFactoryCallback)  (void);
++ typedef	void	(*GtkItemFactoryCallback1) (gpointer		 callback_data,
++ 					    guint		 callback_action,
++ 					    GtkWidget		*widget);
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
+index b2693d5..4f664e4 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+            file://hardcoded_libtool.patch \
+            file://toggle-font.diff;striplevel=0 \
+            file://doc-fixes.patch \
++           file://strict-prototypes.patch \
+ 	  "
  
- BBCLASSEXTEND = "native"
- 
--inherit gettext
-+inherit gettext pythonnative
- 
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libtool2.patch \
-@@ -31,6 +31,7 @@ EXTRA_OECONF = " \
- inherit autotools
- 
- export LDFLAGS += " -L${STAGING_LIBDIR} "
-+CPPFLAGS += "-P"
- 
- acpaths = "-I build/ -I build/ac-macros/"
- 
+ SRC_URI[md5sum] = "b1e890e15602c5bcb40d85b13fe046fd"
 -- 
 2.1.4
 
