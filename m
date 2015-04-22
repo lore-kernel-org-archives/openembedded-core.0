@@ -1,31 +1,33 @@
 Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 258FF6E268
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1409B6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 17:01:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 22 Apr 2015 10:01:37 -0700
+	Wed, 22 Apr 2015 17:01:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2015 10:01:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,624,1422950400"; d="scan'208";a="713702111"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2015 10:01:36 -0700
+X-IronPort-AV: E=Sophos;i="5.11,624,1422950400"; d="scan'208";a="717573989"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2015 10:01:39 -0700
 Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:35 -0700
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:38 -0700
 Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
 	ORSMSX155.amr.corp.intel.com (10.22.240.21) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:35 -0700
+	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:37 -0700
 Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.98.147) by
 	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:34 -0700
+	(TLS) id 14.3.224.2; Wed, 22 Apr 2015 10:01:36 -0700
 From: Bruno Bottazzini <bruno.bottazzini@intel.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Apr 2015 14:01:09 -0300
-Message-ID: <1429722072-13369-1-git-send-email-bruno.bottazzini@intel.com>
+Date: Wed, 22 Apr 2015 14:01:10 -0300
+Message-ID: <1429722072-13369-2-git-send-email-bruno.bottazzini@intel.com>
 X-Mailer: git-send-email 2.3.5
+In-Reply-To: <1429722072-13369-1-git-send-email-bruno.bottazzini@intel.com>
+References: <1429722072-13369-1-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.218.98.147]
-Subject: [PATCH V2 0/3] systemd: split modules into packages
+Subject: [PATCH 1/3] systemd 219 -> system 219-stable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,23 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 17:01:55 -0000
+X-List-Received-Date: Wed, 22 Apr 2015 17:01:56 -0000
 Content-Type: text/plain
 
-Differences from V1:
-- Rebasing with master since patchset wasn't fully reviewed last time
+The upstream systemd git repo only contains the main systemd branch that
+progresses at a quick pace, continuously bringing both bugfixes and new features.
 
-Bruno Bottazzini (2):
-  systemd 219 -> system 219-stable
-  systemd: split modules into packages
+Distributions usually prefer basing their releases on stabilized versions
+that receive the bugfixes but not the features.
+---
+ meta/recipes-core/systemd/systemd_219.bb | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Gustavo Sverzut Barbieri (1):
-  dbus: split tools package.
-
- meta/recipes-core/dbus/dbus.inc          |    9 +-
- meta/recipes-core/systemd/systemd_219.bb | 1085 ++++++++++++++++++++++++++----
- 2 files changed, 954 insertions(+), 140 deletions(-)
-
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index 43c4f95..d1303f7 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -25,11 +25,11 @@ SECTION = "base/shell"
+ 
+ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
+ 
+-SRCREV = "a88abde72169ddc2df77df3fa5bed30725022253"
++SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
+ 
+-PV = "219+git${SRCPV}"
++PV = "219-stable+git${SRCPV}"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master \
++SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stable;protocol=git \
+            file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
+            file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0004-configure-Check-for-additional-features-that-uclibc-.patch \
+@@ -38,12 +38,8 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master \
+            file://0007-util-Use-mkostemp-only-if-libc-supports-it.patch \
+            file://0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch \
+            file://0009-sysv-generator-add-support-for-executing-scripts-und.patch \
+-           file://0010-Make-root-s-home-directory-configurable.patch \
+            file://0011-systemd-user-avoid-using-system-auth.patch \
+-           file://0001-tmpfiles-avoid-creating-duplicate-acl-entries.patch \
+-           file://0002-tmpfiles-quietly-ignore-ACLs-on-unsupported-filesyst.patch \
+            file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch \
+-           file://0013-journal-fix-Inappropriate-ioctl-for-device-on-ext4.patch \
+            file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+            file://0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch \
+            file://tmpfiles-pam.patch \
 -- 
 2.3.5
 
