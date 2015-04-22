@@ -1,36 +1,29 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 20F77605D2
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E15F0605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 01:35:10 +0000 (UTC)
-Received: by qgej70 with SMTP id j70so76995159qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Apr 2015 18:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=WZtbC9E8Be7hM8pie1RrWdBFrqQz7OOz4tgDTkG8Dek=;
-	b=OmcbD7nUe9uBph7opczhlrJWMXBQSZjfeS1mh3ohvzLzcEpAbDbodORdJqgfnmHr9h
-	KPOimjgLGQdOQqNxvnWoYazu+Fw8sc+CCQdocDCzTWTpbZ2Jtkt+fvRfErGYOHdTmVC0
-	WGrGQ3hAZFNucEPCHr7BlmjXX33ZJKIeBL3EuhrQXox39FAWZ/NcBbjhWIbR6bBCeCBh
-	OE+73sC8RSYXgURBFR30pO98PPoXKpbIutVHQapIR0NUgMjprOLslkDDrMOt/QgEtWQh
-	EDNwLYVMs5jqrdjGixzbd2HIRDaSewHWKvRw0AP4QgILzABEUgfyxcfc5b0YkyAFwcYm
-	pkhQ==
+	Wed, 22 Apr 2015 02:21:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3M2Lbme010211
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Apr 2015 19:21:37 -0700 (PDT)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 21 Apr 2015 19:21:37 -0700
+Message-ID: <553705AF.4010503@windriver.com>
+Date: Wed, 22 Apr 2015 10:21:35 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-X-Received: by 10.140.150.73 with SMTP id 70mr28066135qhw.10.1429666511875;
-	Tue, 21 Apr 2015 18:35:11 -0700 (PDT)
-Received: by 10.96.56.100 with HTTP; Tue, 21 Apr 2015 18:35:11 -0700 (PDT)
-In-Reply-To: <551353BF.2000803@gmail.com>
-References: <1426152047-20625-1-git-send-email-net147@gmail.com>
-	<551353BF.2000803@gmail.com>
-Date: Wed, 22 Apr 2015 11:35:11 +1000
-Message-ID: <CANwerB15P4zp4vdv2vdWXUK2KeryO=t=pOG9R-qPG6=ROOKQTQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, 
-	Saul Wold <sgw@linux.intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [daisy][PATCH v2] systemd: fix /var/log/journal ownership
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1429517108.git.liezhi.yang@windriver.com>
+	<2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
+	<21CFB078-5E3A-420E-8058-1901F23F5482@gmail.com>
+In-Reply-To: <21CFB078-5E3A-420E-8058-1901F23F5482@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libunwind: use gold for all archs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 01:35:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Apr 2015 02:21:38 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26 March 2015 at 11:33, Jonathan Liu <net147@gmail.com> wrote:
-> On 12/03/2015 8:20 PM, Jonathan Liu wrote:
+
+
+On 04/22/2015 09:32 AM, Khem Raj wrote:
+>
+>> On Apr 20, 2015, at 1:05 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
 >>
->> The ownership needs to be explicitly set otherwise it inherits the user
->> and group id of the build user.
+>> At least the following boards have build errors without using gold:
+>> qemux86, qemux86-64, qemuarm, qemuaarch64, qemuppc.
 >>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> The error is:
+>> ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
+>> ld: failed to set dynamic section sizes: Bad value
+>> ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
+>> ld: failed to set dynamic section sizes: Bad value
+>> | collect2: error: ld returned 1 exit status
+>>
+>> So use gold for all archs to fix the problem.
+>
+> Please test it with gold on mips, before we apply this patch
+
+Sorry, gold doesn't work for mips or mips64, I will send a patch for that.
+
+// Robert
+
+>
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 >> ---
->>   meta/recipes-core/systemd/systemd_211.bb | 2 ++
->>   1 file changed, 2 insertions(+)
+>> meta/recipes-support/libunwind/libunwind.inc |    5 +----
+>> 1 file changed, 1 insertion(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+>> index 56905c2..c4a7b5e 100644
+>> --- a/meta/recipes-support/libunwind/libunwind.inc
+>> +++ b/meta/recipes-support/libunwind/libunwind.inc
+>> @@ -23,10 +23,7 @@ LIBATOMICS_armv5 = "-latomic_ops"
+>> LIBATOMICS_armv4 = "-latomic_ops"
+>> LIBATOMICS ?= ""
+>>
+>> -LDFLAGS_append_x86 = " -fuse-ld=gold"
+>> -LDFLAGS_append_x86-64 = " -fuse-ld=gold"
+>> -
+>> -LDFLAGS_append_aarch64 = " -fuse-ld=gold"
+>> +LDFLAGS_append = " -fuse-ld=gold"
+>>
+>> DEPENDS += "${DEPLIBATOMICS}"
+>> DEPLIBATOMICS_armv5 = "libatomics-ops"
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> Ping.
-Ping.
-
 >
-> This is a backport from master:
-> http://git.openembedded.org/openembedded-core/commit/meta/recipes-core/systemd?id=0752c79282b1cc9699743e719518e6c341d50a3a
 >
-> Regards,
-> Jonathan
 
