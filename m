@@ -1,24 +1,40 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 540A060167
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DFEE96E268
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 01:03:43 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Ykj4q-0004Xi-Gx from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Apr 2015 18:03:44 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Wed, 22 Apr 2015 02:03:43 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Apr 2015 04:03:42 +0300
-Message-ID: <1429664622-15133-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH] libevent: add ptest
+	Wed, 22 Apr 2015 01:32:39 +0000 (UTC)
+Received: by pdbqd1 with SMTP id qd1so258921227pdb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Apr 2015 18:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=phLF0dKGl+c1eoqPOHeUk5mmNf/BVMUs9n3PoUa58Lw=;
+	b=lhxgq4BWKavjGd1QLr2jS482e0btg30dmi2jUiRHjSihRkGMqigyh7RJ0Pd6rRJ8h2
+	d5q9LB8nInYGqgHBLcK87hoTBDyqCypjGZqaMuIgQdEvkYfSV6Fk7/scN/r1yBUO/948
+	V8pyD+4/VAcmJTc9anKHqmb6bv/sZwlqhg/uO685gD3aYXnU34LYOaZ998FZ40wWG/aZ
+	SETqFD48/NqRRoQypry4YMTGvhCYB3BmChQo3iin60VzjJIrvX9HGRTnPB78dDKIxBnB
+	7tDN0p9ibs6M76hWjp670389CkKZ0ZKSsP0oar4rsbH05S7MT/lFdSWn2EaEpgJL/4zf
+	Dgew==
+X-Received: by 10.70.27.196 with SMTP id v4mr42156238pdg.122.1429666360420;
+	Tue, 21 Apr 2015 18:32:40 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:d437:6da1:248:2a1a?
+	([2601:9:3580:84c:d437:6da1:248:2a1a])
+	by mx.google.com with ESMTPSA id vh2sm3213657pbc.49.2015.04.21.18.32.39
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 21 Apr 2015 18:32:39 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
+Date: Tue, 21 Apr 2015 18:32:38 -0700
+Message-Id: <21CFB078-5E3A-420E-8058-1901F23F5482@gmail.com>
+References: <cover.1429517108.git.liezhi.yang@windriver.com>
+	<2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libunwind: use gold for all archs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 01:03:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Apr 2015 01:32:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Use provided regression testing as a ptest for libevent package.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
----
- meta/recipes-support/libevent/libevent/run-ptest | 18 ++++++++++++++++++
- meta/recipes-support/libevent/libevent_2.0.22.bb | 17 ++++++++++++++++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libevent/libevent/run-ptest
+> On Apr 20, 2015, at 1:05 AM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
+>=20
+> At least the following boards have build errors without using gold:
+> qemux86, qemux86-64, qemuarm, qemuaarch64, qemuppc.
+>=20
+> The error is:
+> ld: copy reloc against protected `_Uaarch64_local_addr_space' is =
+invalid
+> ld: failed to set dynamic section sizes: Bad value
+> ld: copy reloc against protected `_Uaarch64_local_addr_space' is =
+invalid
+> ld: failed to set dynamic section sizes: Bad value
+> | collect2: error: ld returned 1 exit status
+>=20
+> So use gold for all archs to fix the problem.
 
-diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
-new file mode 100644
-index 0000000..d521688
---- /dev/null
-+++ b/meta/recipes-support/libevent/libevent/run-ptest
-@@ -0,0 +1,18 @@
-+#!/bin/sh
-+
-+fail=0
-+for test in ./test/*
-+do
-+	$test
-+	if [ $? -eq 0 ]
-+	then
-+		fail=1
-+	fi
-+done
-+
-+if [ $fail -eq 0 ]
-+then
-+	echo "PASS: libevent"
-+else
-+	echo "FAIL: libevent"
-+fi
-diff --git a/meta/recipes-support/libevent/libevent_2.0.22.bb b/meta/recipes-support/libevent/libevent_2.0.22.bb
-index 3f9475e..2f49293 100644
---- a/meta/recipes-support/libevent/libevent_2.0.22.bb
-+++ b/meta/recipes-support/libevent/libevent_2.0.22.bb
-@@ -6,7 +6,10 @@ SECTION = "libs"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=45c5316ff684bcfe2f9f86d8b1279559"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/levent/${BP}-stable.tar.gz"
-+SRC_URI = " \
-+    ${SOURCEFORGE_MIRROR}/levent/${BP}-stable.tar.gz \
-+    file://run-ptest \
-+"
- 
- SRC_URI[md5sum] = "c4c56f986aa985677ca1db89630a2e11"
- SRC_URI[sha256sum] = "71c2c49f0adadacfdbe6332a372c38cf9c8b7895bb73dabeaa53cdcc1d4e1fa3"
-@@ -20,3 +23,15 @@ inherit autotools
- 
- # Needed for Debian packaging
- LEAD_SONAME = "libevent-2.0.so"
-+
-+inherit ptest
-+
-+DEPENDS = "zlib"
-+
-+do_install_ptest() {
-+	install -d ${D}${PTEST_PATH}/test
-+	for file in ${B}/test/.libs/regress ${B}/test/.libs/test*
-+	do
-+		install -m 0755 $file ${D}${PTEST_PATH}/test
-+	done
-+}
--- 
-2.1.4
+Please test it with gold on mips, before we apply this patch
+
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+> meta/recipes-support/libunwind/libunwind.inc |    5 +----
+> 1 file changed, 1 insertion(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/libunwind/libunwind.inc =
+b/meta/recipes-support/libunwind/libunwind.inc
+> index 56905c2..c4a7b5e 100644
+> --- a/meta/recipes-support/libunwind/libunwind.inc
+> +++ b/meta/recipes-support/libunwind/libunwind.inc
+> @@ -23,10 +23,7 @@ LIBATOMICS_armv5 =3D "-latomic_ops"
+> LIBATOMICS_armv4 =3D "-latomic_ops"
+> LIBATOMICS ?=3D ""
+>=20
+> -LDFLAGS_append_x86 =3D " -fuse-ld=3Dgold"
+> -LDFLAGS_append_x86-64 =3D " -fuse-ld=3Dgold"
+> -
+> -LDFLAGS_append_aarch64 =3D " -fuse-ld=3Dgold"
+> +LDFLAGS_append =3D " -fuse-ld=3Dgold"
+>=20
+> DEPENDS +=3D "${DEPLIBATOMICS}"
+> DEPLIBATOMICS_armv5 =3D "libatomics-ops"
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
