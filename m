@@ -1,39 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id AD06873D90
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DEB7A6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 07:50:08 +0000 (UTC)
-Received: by igbhj9 with SMTP id hj9so35666093igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=qKR2T9EeaInl8vGztH8DoPJnJfCaPyIUg+q7A3cyauI=;
-	b=XundxOzR6nB0APM5lCVrgQRsKFnIx1KnyRl1HnPYWN2xDxHBK2z3e7l0fGYD4nRdJb
-	BHDC8Pk02mvCInGaeuskclOHqrr56YQdOA1nMyKY2g+4z+vfFl6ENEv0MXfQs7kv+4RO
-	9aB2EgbAUE1pyAvCxUqZDbR+sOdUKlBg6sEfPztnqAIQxhGVlusAHz6PLkpw/VDSmUQP
-	MA2Zbl6dB01K3rK9kGTWBnyOwhUoRg1Dm8SwNlRX47LIsRitAeg3OIbcqhJFp9to4bCc
-	oZj2ACdjlOez3K2NIJK2fb2cQrrWmclqy4el3dBOeMomaQaoDAaD7HIYPPEkY5YSwN5W
-	lg2w==
-X-Received: by 10.107.16.140 with SMTP id 12mr33334854ioq.35.1429689009584;
-	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
-Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
-	[96.119.89.79])
-	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.09
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 22 Apr 2015 09:22:48 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2015 02:22:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,623,1422950400"; d="scan'208";a="699057422"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2015 02:22:46 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2015 07:49:58 +0000
-Message-Id: <d92f59b16667f31d6ee2793d52b75dc0c002606f.1429688786.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
-References: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1429688786.git.raj.khem@gmail.com>
-References: <cover.1429688786.git.raj.khem@gmail.com>
-Subject: [PATCH 09/10] gnome-icon-theme: Needs nls.m4
+Date: Wed, 22 Apr 2015 12:22:31 +0300
+Message-Id: <1429694551-29377-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oeqa/selftest/toaster: fix bad indent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 07:50:09 -0000
+X-List-Received-Date: Wed, 22 Apr 2015 09:22:49 -0000
 
-it really needs nls, so lets add proper dependencies
-and options
+oe-selftest --list-classes crashes because
+of a bad indent (see below). Fixed.
 
-Change-Id: Ib01f066e9dadf2784686cbe28578d2784dfcba88
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+systemd-build$ oe-selftest --list-classes
+2015-04-22 12:12:39,141 - selftest - INFO - Listing all available test modules:
+_sstatetests_noauto (hidden)
+ -- SStateBase
+ -- RebuildFromSState
+ --  -- test_sstate_rebuild
+ --  -- test_sstate_relocation
+_toaster (hidden)
+Traceback (most recent call last):
+  File "/mnt/Yo/yoctoproject/poky/scripts/oe-selftest", line 201, in <module>
+    ret = main()
+  File "/mnt/Yo/yoctoproject/poky/scripts/oe-selftest", line 157, in main
+    modlib = importlib.import_module(test)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/mnt/Yo/yoctoproject/poky/meta/lib/oeqa/selftest/_toaster.py", line 438
+    time.sleep(3)
+    ^
+IndentationError: unexpected indent
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb | 2 +-
+ meta/lib/oeqa/selftest/_toaster.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index ee018bd..fde2bc0 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -10,7 +10,7 @@ PR = "r5"
- 
- DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native libxml-simple-perl-native"
- 
--inherit autotools perlnative gtk-icon-cache pkgconfig
-+inherit autotools perlnative gtk-icon-cache pkgconfig gettext
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
-            file://iconpath-option.patch"
+diff --git a/meta/lib/oeqa/selftest/_toaster.py b/meta/lib/oeqa/selftest/_toaster.py
+index 2ed08d2..51ebda3 100644
+--- a/meta/lib/oeqa/selftest/_toaster.py
++++ b/meta/lib/oeqa/selftest/_toaster.py
+@@ -435,7 +435,7 @@ class Toaster_DB_Tests(ToasterSetup):
+             if k <= 5:
+                 files = zonefilelist[k]
+                 os.system("export TZ="+str(files)+"; python manage.py runserver > /dev/null 2>&1 &")
+-                    time.sleep(3)
++                time.sleep(3)
+                 pid = subprocess.check_output("ps aux | grep '[/u]sr/bin/python manage.py runserver' | awk '{print $2}'", shell = True)
+                 if pid:
+                     os.system("kill -9 "+str(pid))
 -- 
-2.1.4
+2.1.0
 
 
