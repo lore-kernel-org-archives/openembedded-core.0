@@ -1,26 +1,23 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id EC5F671E68
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D8F14605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 11:12:31 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Yksa1-0006H0-2c from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Apr 2015 04:12:33 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Wed, 22 Apr 2015 12:12:31 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Apr 2015 14:12:29 +0300
-Message-ID: <1429701149-28824-3-git-send-email-dmitry_eremin@mentor.com>
+	Wed, 22 Apr 2015 12:11:10 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2015 05:11:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,623,1422950400"; d="scan'208";a="713540072"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2015 05:11:11 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 752E76A408F;
+	Wed, 22 Apr 2015 05:10:45 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Apr 2015 15:11:03 +0300
+Message-Id: <1429704663-9104-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1429701149-28824-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1429701149-28824-1-git-send-email-dmitry_eremin@mentor.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] scripts/runqemu: add qemuarma9 support
+Subject: [PATCH] split_and_strip_files: regroup hardlinks to make build deterministic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,150 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 11:12:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Apr 2015 12:11:12 -0000
 
-Support new qemuarma9 machine type. It mostly reuses existing qemuarm
-setup, but the virtio-based network and disk devices.
+Reverted 7c0fd561bad0250a00cef63e3d787573112a59cf
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Created separate group of hardlinks for the files inside
+the same package. This should prevent stripped files to be
+populated outside of package directories.
+
+[YOCTO #7586]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/runqemu          |  9 ++++++---
- scripts/runqemu-internal | 35 +++++++++++++++++++++++++++++++----
- 2 files changed, 37 insertions(+), 7 deletions(-)
+ meta/classes/package.bbclass | 15 ++++++++++++++-
+ meta/lib/oe/package.py       |  3 +--
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 84ece4d..87834f9 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -108,7 +108,7 @@ process_filename() {
- while true; do
-     arg=${1}
-     case "$arg" in
--        "qemux86" | "qemux86-64" | "qemuarm" | "qemuarm64" | "qemumips" | "qemumipsel" | \
-+        "qemux86" | "qemux86-64" | "qemuarm" | "qemuarma9" | "qemuarm64" | "qemumips" | "qemumipsel" | \
-         "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
-             [ -z "$MACHINE" ] && MACHINE=$arg || \
-                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
-@@ -232,13 +232,13 @@ fi
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f1b966d..e54c366 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -812,7 +812,7 @@ python fixup_perms () {
+ }
  
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarma9\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
-         fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarma9\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
-@@ -304,6 +304,9 @@ QEMUX86_64_DEFAULT_FSTYPE=ext4
- QEMUARM_DEFAULT_KERNEL=zImage-qemuarm.bin
- QEMUARM_DEFAULT_FSTYPE=ext4
+ python split_and_strip_files () {
+-    import stat, errno
++    import stat, errno, subprocess
  
-+QEMUARMA9_DEFAULT_KERNEL=zImage-qemuarma9.bin
-+QEMUARMA9_DEFAULT_FSTYPE=ext4
+     dvar = d.getVar('PKGD', True)
+     pn = d.getVar('PN', True)
+@@ -877,6 +877,7 @@ python split_and_strip_files () {
+     symlinks = {}
+     hardlinks = {}
+     kernmods = []
++    inodes = {}
+     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir", True))
+     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
+     if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
+@@ -914,6 +915,18 @@ python split_and_strip_files () {
+                             #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
+                             symlinks[file] = target
+                         continue
 +
- QEMUARM64_DEFAULT_KERNEL=Image-qemuarm64.bin
- QEMUARM64_DEFAULT_FSTYPE=ext4
++                    if s.st_ino in inodes:
++                        os.unlink(file)
++                        os.link(inodes[s.st_ino], file)
++                    elif s.st_nlink > 1:
++                        inodes[s.st_ino] = file
++                        cmd = "cp -fa %s %s.tmp && mv -f %s.tmp %s" % (file, file, file, file)
++                        bb.debug(1, "split_and_strip_files: breaking hardlink: %s" % cmd)
++                        ret = subprocess.call(cmd, shell=True)
++                        if ret:
++                            bb.error("split_and_strip_files: '%s' command failed" % cmd)
++
+                     # It's a file (or hardlink), not a link
+                     # ...but is it ELF, and is it already stripped?
+                     elf_file = isELF(file)
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 8bc56c6..ea6feaa 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -30,8 +30,7 @@ def runstrip(arg):
+     elif elftype & 8 or elftype & 4:
+         extraflags = "--remove-section=.comment --remove-section=.note"
  
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 65dbf21..570c28e 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -50,6 +50,9 @@ else
-         "qemuarm")
-             mem_size=128
-             ;;
-+        "qemuarma9")
-+            mem_size=512
-+            ;;
-         "qemuarm64")
-             mem_size=512
-             ;;
-@@ -128,6 +131,11 @@ if [ "$SLIRP_ENABLED" = "yes" ]; then
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/sda"
-         ROOTFS_OPTIONS="-hda $ROOTFS"
-+    elif [ "$MACHINE" = "qemuarma9" ]; then
-+        QEMU_UI_OPTIONS="-nographic"
-+        QEMU_NETWORK_CMD=""
-+        DROOT="/dev/vda"
-+        ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS -device virtio-blk-device,drive=disk0"
-     else
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/hda"
-@@ -276,6 +284,11 @@ else
-             DROOT="/dev/sda"
-             ROOTFS_OPTIONS="-hda $ROOTFS"
-         fi
-+        if [ "$MACHINE" = "qemuarma9" ]; then
-+            QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
-+            DROOT="/dev/vda"
-+            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS -device virtio-blk-device,drive=disk0"
-+        fi
-         if [ "$MACHINE" = "qemuarm64" ]; then
-             QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
-             DROOT="/dev/vda"
-@@ -284,7 +297,7 @@ else
+-    # Use mv to break hardlinks
+-    stripcmd = "'%s' %s '%s' -o '%s.tmp' && chown --reference='%s' '%s.tmp' && mv '%s.tmp' '%s'" % (strip, extraflags, file, file, file, file, file, file)
++    stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
  
-         KERNCMDLINE="mem=$QEMU_MEMORY"
-         QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
--        if [ $MACHINE = 'qemuarm64' ]; then
-+        if [ $MACHINE = 'qemuarm64' -o $MACHINE = 'qemuarma9' ]; then
-             QEMU_UI_OPTIONS="-nographic"
-         fi
- 
-@@ -308,6 +321,7 @@ case "$MACHINE" in
-     "qemuppc") ;;
-     "qemuarmv6") ;;
-     "qemuarmv7") ;;
-+    "qemuarma9") ;;
-     "qemux86") ;;
-     "qemux86-64") ;;
-     "qemuzynq") ;;
-@@ -361,14 +375,23 @@ if [ "$FSTYPE" = "nfs" ]; then
-     NFSRUNNING="true"
- fi
- 
--if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
-+if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" -o "$MACHINE" = "qemuarma9" ]; then
-     QEMU=qemu-system-arm
--    MACHINE_SUBTYPE=versatilepb
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        MACHINE_SUBTYPE="vexpress-a9"
-+    else
-+        MACHINE_SUBTYPE="versatilepb"
-+    fi
-     export QEMU_AUDIO_DRV="none"
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        TTYCONSOLE=""
-+    else
-+        TTYCONSOLE="console=tty"
-+    fi
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
--        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-+        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 $TTYCONSOLE $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-@@ -386,6 +409,10 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     if [ "$MACHINE" = "qemuarmv7" ]; then
-         QEMUOPTIONS="$QEMUOPTIONS -cpu cortex-a8"
-     fi
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        DTB="`dirname $KERNEL`/`basename $KERNEL -$MACHINE.bin`-vexpress-v2p-ca9.dtb"
-+        QEMUOPTIONS="-dtb $DTB $QEMUOPTIONS -cpu cortex-a9"
-+    fi
- fi
- 
- if [ "$MACHINE" = "qemuarm64" ]; then
+     ret = subprocess.call(stripcmd, shell=True)
 -- 
 2.1.4
 
