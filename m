@@ -1,29 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E15F0605D2
+	by mail.openembedded.org (Postfix) with ESMTP id 02ADE73D38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 02:21:37 +0000 (UTC)
+	Wed, 22 Apr 2015 02:22:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3M2Lbme010211
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Apr 2015 19:21:37 -0700 (PDT)
-Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 21 Apr 2015 19:21:37 -0700
-Message-ID: <553705AF.4010503@windriver.com>
-Date: Wed, 22 Apr 2015 10:21:35 +0800
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3M2MIGY010214
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Apr 2015 19:22:18 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 21 Apr 2015 19:22:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Apr 2015 19:22:18 -0700
+Message-ID: <d43affadb4b82b309b05f78efaecb7cb056e3502.1429669271.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1429669271.git.liezhi.yang@windriver.com>
+References: <cover.1429669271.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1429517108.git.liezhi.yang@windriver.com>
-	<2014020bb14ab84e8d6d50a83c1de4e0d559dac9.1429517108.git.liezhi.yang@windriver.com>
-	<21CFB078-5E3A-420E-8058-1901F23F5482@gmail.com>
-In-Reply-To: <21CFB078-5E3A-420E-8058-1901F23F5482@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libunwind: use gold for all archs
+Subject: [PATCH 1/1] libunwind: don't use gold for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 02:21:38 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Apr 2015 02:22:19 -0000
+Content-Type: text/plain
 
+The gold doesn't work for mips or mips64:
+configure:3867: checking whether the C compiler works
+configure:3889: mips-poky-linux-gcc  -meb -mabi=32 -mhard-float -march=mips32r2 --sysroot=/buildarea/lyang1/test_uni/tmp/sysroots/qemumips  -O2 -pipe -g -feliminate-unused-debug-types   -Wl,-O1  -Wl,--as-needed  -fuse-ld=gold conftest.c  >&5
+collect2: fatal error: cannot find 'ld'
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-support/libunwind/libunwind.inc |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 04/22/2015 09:32 AM, Khem Raj wrote:
->
->> On Apr 20, 2015, at 1:05 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> At least the following boards have build errors without using gold:
->> qemux86, qemux86-64, qemuarm, qemuaarch64, qemuppc.
->>
->> The error is:
->> ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
->> ld: failed to set dynamic section sizes: Bad value
->> ld: copy reloc against protected `_Uaarch64_local_addr_space' is invalid
->> ld: failed to set dynamic section sizes: Bad value
->> | collect2: error: ld returned 1 exit status
->>
->> So use gold for all archs to fix the problem.
->
-> Please test it with gold on mips, before we apply this patch
+diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+index c4a7b5e..5edeae8 100644
+--- a/meta/recipes-support/libunwind/libunwind.inc
++++ b/meta/recipes-support/libunwind/libunwind.inc
+@@ -24,6 +24,10 @@ LIBATOMICS_armv4 = "-latomic_ops"
+ LIBATOMICS ?= ""
+ 
+ LDFLAGS_append = " -fuse-ld=gold"
++# gold doesn't work for mips
++LDFLAGS_mips_append = ""
++LDFLAGS_mips64_append = ""
++LDFLAGS_mips64n32_append = ""
+ 
+ DEPENDS += "${DEPLIBATOMICS}"
+ DEPLIBATOMICS_armv5 = "libatomics-ops"
+-- 
+1.7.9.5
 
-Sorry, gold doesn't work for mips or mips64, I will send a patch for that.
-
-// Robert
-
->
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->> meta/recipes-support/libunwind/libunwind.inc |    5 +----
->> 1 file changed, 1 insertion(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
->> index 56905c2..c4a7b5e 100644
->> --- a/meta/recipes-support/libunwind/libunwind.inc
->> +++ b/meta/recipes-support/libunwind/libunwind.inc
->> @@ -23,10 +23,7 @@ LIBATOMICS_armv5 = "-latomic_ops"
->> LIBATOMICS_armv4 = "-latomic_ops"
->> LIBATOMICS ?= ""
->>
->> -LDFLAGS_append_x86 = " -fuse-ld=gold"
->> -LDFLAGS_append_x86-64 = " -fuse-ld=gold"
->> -
->> -LDFLAGS_append_aarch64 = " -fuse-ld=gold"
->> +LDFLAGS_append = " -fuse-ld=gold"
->>
->> DEPENDS += "${DEPLIBATOMICS}"
->> DEPLIBATOMICS_armv5 = "libatomics-ops"
->> --
->> 1.7.9.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
 
