@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D834473D7B
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8125B71E68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 07:50:04 +0000 (UTC)
-Received: by igblo3 with SMTP id lo3so35183213igb.0
+	Wed, 22 Apr 2015 07:50:07 +0000 (UTC)
+Received: by igblo3 with SMTP id lo3so35183873igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:50:05 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=ssNpCrUQntdtALIMaovP+dgiFeuSY9AQ0nX9u5Laxlc=;
-	b=HAAesJImASEugxO7SIhiAgeM1wA1XrwwQLEhlG12fUW2loiPSK4C2uaUe9cFRYpN9D
-	sxVHUYNF2x8Ocp7p7FGHrGwwc5p7pFZmFJ0sK2RXdGdYWYYOpkedFKjOEH09GBjn9hQW
-	0NkK5gzFBZJ7bvcNeI6B1EC99uZ5abOiMxeHSC1V1cnAiht0bu6MReJGkNjC0mlEWIaI
-	tAcb3clIwkeC0lV8OpBB6rMWdL1x/UoC0RQ7pKgNfEmHTFelaNvtR1VfI3g0xDEjUDlX
-	KC8S5tiTMOJKspwUvLJ/dfgK6ODF/W+wIwRmvIX+AB8Shnt2X+D2VtspihmYFPNHgsbB
-	2K7g==
-X-Received: by 10.107.6.220 with SMTP id f89mr34245240ioi.78.1429689005626;
-	Wed, 22 Apr 2015 00:50:05 -0700 (PDT)
+	bh=CHvGl29Omu56HZr4kWzZ6Ounf5h3NUM2N/7dN5hwZuE=;
+	b=KPbyua+s2UL+2g/LYTCfBP3QNpx9PwUmSSf3iNoC845Hfhe6BedZvHM1yrf+VKYIS4
+	hVSM1eEMYQKznqVOy2DIUWRQPg2WX9SkJ2iU4l2Zpikd71RftUFy9FbzMw64rJTP5K/I
+	1LY+P/duNh22cGzCnIKgSPcBHTki/QMriz9FjQYD42AE6NrlZwRu0XHNJIL2IxNJYQFx
+	FFdpVBf7RZLmFEjAZbuJgpBBoxCm61aO72Z/NU+N7SsEUq9FyUzWcvDI/JFdP7F9PM20
+	ahvM0Urp/bDWgmBzdxP/vVOx3eU+uL8LKXsvqOv8b5u4NQSS19Pq5QXfzP6/jSKqEN/U
+	fqNg==
+X-Received: by 10.107.170.77 with SMTP id t74mr34685035ioe.85.1429689008055;
+	Wed, 22 Apr 2015 00:50:08 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.05
+	by mx.google.com with ESMTPSA id l1sm2686434ioe.32.2015.04.22.00.50.07
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Apr 2015 00:50:05 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:07 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2015 07:49:51 +0000
-Message-Id: <a22f5bb19cd09db3092e5694b66cbb188c23f21f.1429688786.git.raj.khem@gmail.com>
+Date: Wed, 22 Apr 2015 07:49:55 +0000
+Message-Id: <aa1bcbe6c48eae4d7e3a669b17dc56768d9e5431.1429688786.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 References: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429688786.git.raj.khem@gmail.com>
 References: <cover.1429688786.git.raj.khem@gmail.com>
-Subject: [PATCH 02/10] glibc, packagegroup-self-hosted, packagegroup-core-lsb: Consider non-glibc libcs
+Subject: [PATCH 06/10] mdadm: Fix inline semantics
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,90 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 07:50:06 -0000
+X-List-Received-Date: Wed, 22 Apr 2015 07:50:07 -0000
 
-Make skipping expression simpler to check for given libc
-Make sure glibc specific items are covered with right override
+With gcc-5 defaulting to gnu11 C we need to follow
+c99 inline semantics
 
-Change-Id: I8b4a0b7cbfe38ffdc9320f798038c79c7220552b
+Change-Id: I397520c36c81634556b3f3782aebc532e4a79aed
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc_2.21.bb                        | 8 +++-----
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb  | 7 ++++---
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 9 +++++++++
- 3 files changed, 16 insertions(+), 8 deletions(-)
+ meta/recipes-extended/mdadm/files/inline.patch | 39 ++++++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.3.2.bb     |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/inline.patch
 
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index fcef4ff..58a9601 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -68,11 +68,9 @@ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn
- # this helps in easing out parsing for non-glibc system libraries
- #
- python __anonymous () {
--    import re
--    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) or (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
--    if notglibc:
--        raise bb.parse.SkipPackage("incompatible with target %s" %
--                                   d.getVar('TARGET_OS', True))
-+    if d.getVar('TCLIBC', True) != "glibc":
-+        raise bb.parse.SkipPackage("incompatible with %s C library" %
-+                                   d.getVar('TCLIBC', True))
- }
- 
- EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 47589b6..531f729 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -62,7 +62,6 @@ RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
-     kernel-module-iptable-filter \
- 	"
- 
--# glibc-utils: for rpcgen
- RDEPENDS_packagegroup-self-hosted-sdk = "\
-     autoconf \
-     automake \
-@@ -73,7 +72,6 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     cpp \
-     cpp-symlinks \
-     distcc \
--    glibc-utils \
-     glibc-gconv-ibm850 \
-     file \
-     findutils \
-@@ -98,7 +96,10 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     quilt \
-     sed \
-     "
--
-+# glibc-utils: for rpcgen
-+RDEPENDS_packagegroup-self-hosted-sdk_append_libc-glibc = "\
-+    glibc-utils \
-+    "
- RDEPENDS_packagegroup-self-hosted-debug = " \
-     gdb \
-     gdbserver \
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index e0f32e0..a07a6ad 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -9,6 +9,15 @@ LICENSE = "MIT"
- 
- inherit packagegroup
- 
-+#
-+# We will skip parsing this packagegeoup for non-glibc systems
-+#
-+python __anonymous () {
-+    if d.getVar('TCLIBC', True) != "glibc":
-+        raise bb.parse.SkipPackage("incompatible with %s C library" %
-+                                   d.getVar('TCLIBC', True))
-+}
+diff --git a/meta/recipes-extended/mdadm/files/inline.patch b/meta/recipes-extended/mdadm/files/inline.patch
+new file mode 100644
+index 0000000..9009f06
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/inline.patch
+@@ -0,0 +1,39 @@
++with gnu11 turning on a default with gcc-5 we have to abide by new inline semantics
++using 'inline' and using is in same translation unit means an external definition has to exist
++same like "external inline" in gnu89, we simply make the functions static inline since they
++are just meant to be used in this file
 +
- PACKAGES = "\
-     packagegroup-core-lsb \
-     packagegroup-core-sys-extended \
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: mdadm-3.3.2/bitmap.c
++===================================================================
++--- mdadm-3.3.2.orig/bitmap.c
+++++ mdadm-3.3.2/bitmap.c
++@@ -20,7 +20,7 @@
++ 
++ #include "mdadm.h"
++ 
++-inline void sb_le_to_cpu(bitmap_super_t *sb)
+++static inline void sb_le_to_cpu(bitmap_super_t *sb)
++ {
++ 	sb->magic = __le32_to_cpu(sb->magic);
++ 	sb->version = __le32_to_cpu(sb->version);
++@@ -34,7 +34,7 @@ inline void sb_le_to_cpu(bitmap_super_t
++ 	sb->write_behind = __le32_to_cpu(sb->write_behind);
++ }
++ 
++-inline void sb_cpu_to_le(bitmap_super_t *sb)
+++static inline void sb_cpu_to_le(bitmap_super_t *sb)
++ {
++ 	sb_le_to_cpu(sb); /* these are really the same thing */
++ }
++@@ -74,7 +74,7 @@ typedef struct bitmap_info_s {
++ } bitmap_info_t;
++ 
++ /* count the dirty bits in the first num_bits of byte */
++-inline int count_dirty_bits_byte(char byte, int num_bits)
+++static inline int count_dirty_bits_byte(char byte, int num_bits)
++ {
++ 	int num = 0;
++ 
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+index 0742d73..87e06f5 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://mdadm-3.2.2_fix_for_x32.patch \
+            file://gcc-4.9.patch \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
++           file://inline.patch \
+            file://run-ptest \
+ 	  "
+ 
 -- 
 2.1.4
 
