@@ -1,23 +1,23 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A0E3473D89
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id AD06873D90
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Apr 2015 07:50:08 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so107048332igb.0
+Received: by igbhj9 with SMTP id hj9so35666093igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:50:10 -0700 (PDT)
+	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=fgR9AXP+UbTJHAGE3VwkBUskobeIdKFqGtF7g+TQ4sw=;
-	b=lZCIgwylCkGbH9T66YsC4LGl/qC9Y4lNmula94pDpwktEq/kX4x7mAE9Femr4Fs6Lo
-	nxDolIc9Z4NqTatDrRN0nIA51paVETA0MA7T9LMKFyGiwyOvrY2FNFvQsAYUsTES49gv
-	DWR6Ap1LGpg4l0kwykZnUtDGXQlT2sF7Bux5UeowYa9dgf6KzsLbvLCf0E2ALrcgFAEF
-	W0FRtRYci1U1zwrBWFkiRXLlOhDSHapzlaebJT6Xx9vSoP1Sdlkv6HkmLZCx9poRHnVJ
-	Prf/hr2AK90+vW4C/HNxRN++yg4hq7XHdET7FnmrdUrawMIQwDDUC8jKezvpiamhADgB
-	dkmg==
-X-Received: by 10.107.10.79 with SMTP id u76mr34058751ioi.79.1429689009991;
+	bh=qKR2T9EeaInl8vGztH8DoPJnJfCaPyIUg+q7A3cyauI=;
+	b=XundxOzR6nB0APM5lCVrgQRsKFnIx1KnyRl1HnPYWN2xDxHBK2z3e7l0fGYD4nRdJb
+	BHDC8Pk02mvCInGaeuskclOHqrr56YQdOA1nMyKY2g+4z+vfFl6ENEv0MXfQs7kv+4RO
+	9aB2EgbAUE1pyAvCxUqZDbR+sOdUKlBg6sEfPztnqAIQxhGVlusAHz6PLkpw/VDSmUQP
+	MA2Zbl6dB01K3rK9kGTWBnyOwhUoRg1Dm8SwNlRX47LIsRitAeg3OIbcqhJFp9to4bCc
+	oZj2ACdjlOez3K2NIJK2fb2cQrrWmclqy4el3dBOeMomaQaoDAaD7HIYPPEkY5YSwN5W
+	lg2w==
+X-Received: by 10.107.16.140 with SMTP id 12mr33334854ioq.35.1429689009584;
 	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
@@ -26,14 +26,14 @@ Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	Wed, 22 Apr 2015 00:50:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Apr 2015 07:49:59 +0000
-Message-Id: <a19ff5adc2e1944a722b8dea05b6299622d742d4.1429688786.git.raj.khem@gmail.com>
+Date: Wed, 22 Apr 2015 07:49:58 +0000
+Message-Id: <d92f59b16667f31d6ee2793d52b75dc0c002606f.1429688786.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 References: <42999018b09a752082a381b1c595f0bd7411e305.1429688786.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1429688786.git.raj.khem@gmail.com>
 References: <cover.1429688786.git.raj.khem@gmail.com>
-Subject: [PATCH 10/10] gtk+: Correct function prototype
+Subject: [PATCH 09/10] gnome-icon-theme: Needs nls.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,60 +48,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Apr 2015 07:50:09 -0000
 
-This is turned on by default in gcc-5 so far
-we have been getting by this issue but time to fix it
-has now come
+it really needs nls, so lets add proper dependencies
+and options
 
-Change-Id: I012248731de0be7a9b7e232073746360fe6c83dd
+Change-Id: Ib01f066e9dadf2784686cbe28578d2784dfcba88
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../gtk+/gtk+/strict-prototypes.patch              | 24 ++++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.27.bb            |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+ meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch b/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
-new file mode 100644
-index 0000000..96e1f5f
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
-@@ -0,0 +1,24 @@
-+Fixes
-+
-+include/gtk-2.0/gtk/gtkitemfactory.h:47:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
-+ typedef void (*GtkItemFactoryCallback)  ();
-+
-+gcc5 has -Wstrict-prototypes on by default for -Werror so this becomes a build failure for consumers
-+of this header e.g. matchbox-panel-2
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: gtk+-2.24.27/gtk/gtkitemfactory.h
-+===================================================================
-+--- gtk+-2.24.27.orig/gtk/gtkitemfactory.h
-++++ gtk+-2.24.27/gtk/gtkitemfactory.h
-+@@ -44,7 +44,7 @@ typedef void	(*GtkPrintFunc)		   (gpoint
-+  * (Note that if we are included from a C++ program () will mean
-+  * (void) so an explicit cast will be needed.)
-+  */
-+-typedef	void	(*GtkItemFactoryCallback)  ();
-++typedef	void	(*GtkItemFactoryCallback)  (void);
-+ typedef	void	(*GtkItemFactoryCallback1) (gpointer		 callback_data,
-+ 					    guint		 callback_action,
-+ 					    GtkWidget		*widget);
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
-index b2693d5..4f664e4 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
-            file://toggle-font.diff;striplevel=0 \
-            file://doc-fixes.patch \
-+           file://strict-prototypes.patch \
- 	  "
+diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+index ee018bd..fde2bc0 100644
+--- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+@@ -10,7 +10,7 @@ PR = "r5"
  
- SRC_URI[md5sum] = "b1e890e15602c5bcb40d85b13fe046fd"
+ DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native libxml-simple-perl-native"
+ 
+-inherit autotools perlnative gtk-icon-cache pkgconfig
++inherit autotools perlnative gtk-icon-cache pkgconfig gettext
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
+            file://iconpath-option.patch"
 -- 
 2.1.4
 
