@@ -1,43 +1,34 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 084086E268
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D08071E68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 07:48:03 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so47274121wid.0
+	Wed, 22 Apr 2015 07:49:52 +0000 (UTC)
+Received: by iejt8 with SMTP id t8so31520909iej.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Apr 2015 00:48:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=8J/IWvbYx+eqir0gud+Cd0Nx+M1e+XNhAK/Hn4DLiRs=;
-	b=H1bDemFsv9BrW2RLV6ksS32kk+6Pk8cccixlmBALLaFbf+/5iQZiVATaJovZlmTZD6
-	TDdSrwq+egnJXQFyK508uRVo9A2nwehOsZq3MVfJDjnineuDFGvdwMEqJOMRXqqsO8Mk
-	2mkkYr7EfDzhEXc9rFXRLZtccAt95o/OUKN1iMTLKXAJ75AIF5D1cMfB1+c9QKkHDLbb
-	1Vdrijp7wjlZTSabesJux3ccmH6vL/bEKhwYa1qROIDynH8ZDO2A4029McHELuqiYm4s
-	QWv47dOaA8+2TaztgHaX8h5q3S/K7i9K+Fr5mXhkMScIRpSV1F1MSSpGs6mpjq/sxaV+
-	7Tvg==
-X-Gm-Message-State: ALoCoQkRPVk/grw751C+VEJOsrjbaMVtlNu7+z9JW3jcsC35EdWrXQA7Xnh20Is/b4j+7sZwVWzg
-X-Received: by 10.194.60.135 with SMTP id h7mr47596303wjr.82.1429688884656;
-	Wed, 22 Apr 2015 00:48:04 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id
-	dx11sm6065037wjb.23.2015.04.22.00.48.02
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 Apr 2015 00:48:03 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-From: Koen Kooi <koen.kooi@linaro.org>
-In-Reply-To: <F274ED94-A38E-42DD-9226-3A3565A11ACD@linaro.org>
-Date: Wed, 22 Apr 2015 09:48:02 +0200
-Message-Id: <496DCECA-5016-449B-9510-CBC34817B00B@linaro.org>
-References: <1271ca6bd1854156a5b6efcf8a925e0c@BL2FFO11FD020.protection.gbl>
-	<F274ED94-A38E-42DD-9226-3A3565A11ACD@linaro.org>
-To: Nathan Rossi <nathan.rossi@xilinx.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "kernel-arch.bbclass: add arm64 support to U-Boot architecture map"
+	Wed, 22 Apr 2015 00:49:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=fhYUMxC2ZmIkXQpZIREiPta3pEG91l/WTmVKaxPWsgE=;
+	b=KK3bxrgv24phq98TpQSj/jvxIaitCK7F+oaO/ZuU0YpX7OU2gzTstgHegXo+Jkkv49
+	aLgR/iWX0QBtmtw6+eIhgf9jGTpG5ejFUmdvhvI+JVx3NfI/vbEHhhu/Y0KYmwzCph4h
+	9x6XhdXoL+85GzO/hwAOadtE//EsY/g+GHeRug+ZRISmdOG/NUYMZ0yl8Aw+VYjAztr2
+	TspOHBotHgTJzj2n/xJRUAxyeI3ZQzap5d28pSHc7SvfIHS/pLNQIgQVrEcVpUqzUvwo
+	1GVW9tYIHrCorLNZZXAvkaTBVawz+TTsqCD6VyPv5qUOt9EqyYgZI8f11RnYA3BXX/Tc
+	6F1w==
+X-Received: by 10.42.249.77 with SMTP id mj13mr8086960icb.80.1429688993869;
+	Wed, 22 Apr 2015 00:49:53 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79])
+	by mx.google.com with ESMTPSA id ys3sm2901031igb.4.2015.04.22.00.49.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Apr 2015 00:49:53 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Apr 2015 07:49:47 +0000
+Message-Id: <cover.1429688786.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/10] World build fixes with gcc-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,80 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 07:48:05 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Apr 2015 07:49:55 -0000
 
-> Op 22 apr. 2015, om 09:18 heeft Koen Kooi <koen.kooi@linaro.org> het =
-volgende geschreven:
->=20
->=20
->> Op 19 feb. 2015, om 04:34 heeft Nathan Rossi =
-<nathan.rossi@xilinx.com> het volgende geschreven:
->>=20
->> This reverts commit 0b891265716c414ade29d587fc1a3c4ea7beadbe.
->>=20
->> U-Boot does support AArch64, this however was only added to newer
->> versions of U-Boot and at the time of this original commit the U-Boot =
-in
->> OE-Core did not support the 'arm64' architecture. OE-Core now has a
->> newer version of U-Boot for the mkimage recipe and thus supports the
->> 'arm64' architecture.
->>=20
->> Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
->> ---
->> meta/classes/kernel-arch.bbclass | 1 -
->> 1 file changed, 1 deletion(-)
->>=20
->> diff --git a/meta/classes/kernel-arch.bbclass =
-b/meta/classes/kernel-arch.bbclass
->> index bbcfa15..6a6ad91 100644
->> --- a/meta/classes/kernel-arch.bbclass
->> +++ b/meta/classes/kernel-arch.bbclass
->> @@ -40,7 +40,6 @@ def map_uboot_arch(a, d):
->>=20
->>    if   re.match('p(pc|owerpc)(|64)', a): return 'ppc'
->>    elif re.match('i.86$', a): return 'x86'
->> -    elif re.match('arm64$', a): return 'arm'
->>    return a
->=20
-> I just debugged a boot failure to this revert. The machine in question =
-is using u-boot 2013.04 + vendor patches and can=E2=80=99t be replaced =
-at this time.  I get that OE doesn=E2=80=99t care about vendor trees =
-using obsolete versions, but this case is extra annoying because a few =
-lines later this bbclass does:
->=20
->     export UBOOT_ARCH =3D "${@map_uboot_arch(d.getVar('ARCH', True), =
-d)}"
->=20
-> instead of:
->=20
->     export UBOOT_ARCH ?=3D "${@map_uboot_arch(d.getVar('ARCH', True), =
-d)}"
->=20
-> So now I=E2=80=99m forced to overlay kernel-arch.bbclass with the =
-revert reverted and hope I don=E2=80=99t get any machines with a recent =
-u-boot. Having said all that, modern uboots should default to zImage for =
-arm32 and Image for aarch64 and have CONFIG_SUPPORT_RAW_INITRD enabled =
-so mkimage isn;t needed anymore.
->=20
-> So, opinions on weakly assigning UBOOT_ARCH?
+This patchset contains fixes needed for building world using
+gcc-5, gcc-5 recipes are still in contrib tree. First lets fix
+the recipes
 
-Nathan corrected my thinko:
+connman fix and packagegroup fix is needed for making sure that
+these packagegroups are marked glibc specific or independent using
+overrides, helps in paving way for doing world builds for non
+glibc based systems
 
-09:25 < nrossi> just curious around the UBOOT_ARCH, does overriding it =
-work? as in  UBOOT_ARCH_<machine> =3D "foo"
-09:26  * koen tries
-09:38 < nrossi> koen: i think changing it to a ?=3D for the future is =
-probably worth it. But i imagine getting that change backported would be =
-a pain
-09:40 < koen> UBOOT_ARCH_aarch64 =3D "arm" in local.conf also seems to =
-work
-09:41 < koen> I never realized that would take precedence over python =
-methods
-09:41 < nrossi> well its not the python method that is setting it
-09:42 < koen> ah, right
-09:42 < koen> it's set using a method, not by the method
 
-So I don=E2=80=99t need the class overlay anymore!=
+The following changes since commit 166f2587468ae71988c610858aad3f7ef67eccba:
+
+  bison: don't depend on help2man (2015-04-21 11:29:30 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/for-master
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/for-master
+
+Khem Raj (10):
+  connman: Fix builds to compile on musl
+  glibc, packagegroup-self-hosted, packagegroup-core-lsb: Consider
+    non-glibc libcs
+  insserv: Fix build with gcc5 and clang
+  xserver-xorg: Fix build with gcc-5
+  u-boot-mkimage: Backport fix from upstream to fix build with gcc-5
+  mdadm: Fix inline semantics
+  lttng-tools: Add extern qualifier to declarations in .h file
+  subversion: Add -P to CPPFLAGS
+  gnome-icon-theme: Needs nls.m4
+  gtk+: Correct function prototype
+
+ meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch  |  91 +++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb  |   4 +-
+ ...cktrace-API-only-when-compiling-for-glibc.patch |  41 ++
+ .../connman/connman/0002-musl-header-fixes.patch   | 235 +++++++++++
+ ...resolve-musl-does-not-implement-res_ninit.patch |  77 ++++
+ ...Fix-duplicate-definitions-issue-with-musl.patch |  43 ++
+ meta/recipes-connectivity/connman/connman_1.28.bb  |   4 +
+ meta/recipes-core/glibc/glibc_2.21.bb              |   8 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   7 +-
+ .../161_bts777914_fix_undeclared_identifier.patch  |  36 ++
+ meta/recipes-devtools/insserv/insserv_1.14.0.bb    |   1 +
+ .../subversion/subversion_1.8.11.bb                |   3 +-
+ meta/recipes-extended/mdadm/files/inline.patch     |  39 ++
+ meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |   1 +
+ .../packagegroups/packagegroup-core-lsb.bb         |   9 +
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |   2 +-
+ .../gtk+/gtk+/strict-prototypes.patch              |  24 ++
+ meta/recipes-gnome/gtk+/gtk+_2.24.27.bb            |   1 +
+ ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch |  50 +++
+ .../xorg-xserver/xserver-xorg_1.16.3.bb            |   1 +
+ .../lttng/lttng-tools/extern-decls.patch           | 442 +++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb     |   1 +
+ 22 files changed, 1109 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-Enable-backtrace-API-only-when-compiling-for-glibc.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0002-musl-header-fixes.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0003-resolve-musl-does-not-implement-res_ninit.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0004-tethering-Fix-duplicate-definitions-issue-with-musl.patch
+ create mode 100644 meta/recipes-devtools/insserv/files/161_bts777914_fix_undeclared_identifier.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/inline.patch
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/extern-decls.patch
+
+-- 
+2.1.4
+
 
