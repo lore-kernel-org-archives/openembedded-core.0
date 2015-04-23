@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB8773D0F
+	by mail.openembedded.org (Postfix) with ESMTP id 6656271144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 16:19:07 +0000 (UTC)
+	Thu, 23 Apr 2015 16:19:08 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:44 -0700
+	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753679"
+X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753682"
 Received: from kreynold-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.25.159])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:42 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:43 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Apr 2015 17:18:25 +0100
-Message-Id: <28d47e5fbeedd5710bebc7d7d24176ca2830fa29.1429805738.git.paul.eggleton@linux.intel.com>
+Date: Thu, 23 Apr 2015 17:18:26 +0100
+Message-Id: <7a8541c7b74968fde9386b2edd7e974e7309ad49.1429805738.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/8] devtool: modify: implement --no-same-dir
+Subject: [PATCH 3/8] oe-selftest: devtool: fix update-recipe test after bd1aa28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +36,46 @@ X-List-Received-Date: Thu, 23 Apr 2015 16:19:08 -0000
 
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 
-This option can be used to have a separate build directory, in order to
-keep the srctree directory clean for packages that do not need to be
-built in the source directory.
+Number of patches in mtd-utils changed in changeset bd1aa28.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/devtool.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index fbac34e..aa30a98 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -386,7 +386,10 @@ def modify(args, config, basepath, workspace):
-         f.write('EXTERNALSRC_pn-%s = "%s"\n' % (args.recipename, srctree))
- 
-         b_is_s = True
--        if args.same_dir:
-+        if args.no_same_dir:
-+            logger.info('using separate build directory since --no-same-dir specified')
-+            b_is_s = False
-+        elif args.same_dir:
-             logger.info('using source tree as build directory since --same-dir specified')
-         elif bb.data.inherits_class('autotools-brokensep', rd):
-             logger.info('using source tree as build directory since original recipe inherits autotools-brokensep')
-@@ -664,7 +667,9 @@ def register_commands(subparsers, context):
-     parser_modify.add_argument('srctree', help='Path to external source tree')
-     parser_modify.add_argument('--wildcard', '-w', action="store_true", help='Use wildcard for unversioned bbappend')
-     parser_modify.add_argument('--extract', '-x', action="store_true", help='Extract source as well')
--    parser_modify.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
-+    group = parser_modify.add_mutually_exclusive_group()
-+    group.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
-+    group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
-     parser_modify.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout (only when using -x)')
-     parser_modify.set_defaults(func=modify)
- 
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index dc1cf21..aa5bd76 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -397,19 +397,26 @@ class DevtoolTests(oeSelfTest):
+         result = runCmd('git status . --porcelain', cwd=os.path.dirname(recipefile))
+         self.assertNotEqual(result.output.strip(), "", '%s recipe should be modified' % testrecipe)
+         status = result.output.splitlines()
+-        self.assertEqual(len(status), 3, 'Less/more files modified than expected. Entire status:\n%s' % result.output)
++        self.assertEqual(len(status), 4, 'Less/more files modified than expected. Entire status:\n%s' % result.output)
+         for line in status:
+             if line.endswith('add-exclusion-to-mkfs-jffs2-git-2.patch'):
+                 self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
+             elif line.endswith('fix-armv7-neon-alignment.patch'):
+                 self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
++            elif line.endswith('-duplicate-hashtable_iterator_value-.patch'):
++                self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
+             elif re.search('%s_[^_]*.bb$' % testrecipe, line):
+                 self.assertEqual(line[:3], ' M ', 'Unexpected status in line: %s' % line)
+             else:
+                 raise AssertionError('Unexpected modified file in status: %s' % line)
+         result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
+         addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git"']
+-        removelines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git \\\\', 'file://add-exclusion-to-mkfs-jffs2-git-2.patch \\\\', 'file://fix-armv7-neon-alignment.patch \\\\', '"']
++        removelines = ['SRCREV = ".*"',
++                       'SRC_URI = "git://git.infradead.org/mtd-utils.git \\\\',
++                       'file://add-exclusion-to-mkfs-jffs2-git-2.patch \\\\',
++                       'file://fix-armv7-neon-alignment.patch \\\\',
++                       'file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \\\\',
++                       '"']
+         for line in result.output.splitlines():
+             if line.startswith('+++') or line.startswith('---'):
+                 continue
 -- 
 2.1.0
 
