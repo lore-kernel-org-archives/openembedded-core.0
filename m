@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BEBF171144
+	by mail.openembedded.org (Postfix) with ESMTP id A434F6AC24
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Apr 2015 16:19:07 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:43 -0700
+	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753675"
+X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753669"
 Received: from kreynold-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.25.159])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:41 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:40 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Apr 2015 17:18:24 +0100
-Message-Id: <6f579d7c42da07ee3ae75c5efeb876ec852bab46.1429805738.git.paul.eggleton@linux.intel.com>
+Date: Thu, 23 Apr 2015 17:18:23 +0100
+Message-Id: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/8] devtool: modify: use B=S if that is the default for the recipe
+Subject: [PATCH 0/8] devtool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +30,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Apr 2015 16:19:08 -0000
 
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+This series rolls up 5 patches previously posted by Markus (with very
+minor tweaks to a couple of the commit messages), and adds three new
+patches from me.
 
-Makes the build succeed for packages which do not support separate build
-directory, e.g. zlib. The same outcome could be achieved with the
---same-dir option, but, it's generally hard to tell if a random package
-would need that option. The negative side effect of this patch is that
-dev srctree (of some packages that build fine without this modification)
-gets dirtied by build artefacts.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/devtool/standard.py | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+The following changes since commit 166f2587468ae71988c610858aad3f7ef67eccba:
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index d5ded2f..fbac34e 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -384,12 +384,19 @@ def modify(args, config, basepath, workspace):
-         f.write('inherit externalsrc\n')
-         f.write('# NOTE: We use pn- overrides here to avoid affecting multiple variants in the case where the recipe uses BBCLASSEXTEND\n')
-         f.write('EXTERNALSRC_pn-%s = "%s"\n' % (args.recipename, srctree))
--        if args.same_dir or bb.data.inherits_class('autotools-brokensep', rd):
--            if args.same_dir:
--                logger.info('using source tree as build directory since --same-dir specified')
--            else:
--                logger.info('using source tree as build directory since original recipe inherits autotools-brokensep')
-+
-+        b_is_s = True
-+        if args.same_dir:
-+            logger.info('using source tree as build directory since --same-dir specified')
-+        elif bb.data.inherits_class('autotools-brokensep', rd):
-+            logger.info('using source tree as build directory since original recipe inherits autotools-brokensep')
-+        elif rd.getVar('B', True) == s:
-+            logger.info('using source tree as build directory since that is the default for this recipe')
-+        else:
-+            b_is_s = False
-+        if b_is_s:
-             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (args.recipename, srctree))
-+
-         if initial_rev:
-             f.write('\n# initial_rev: %s\n' % initial_rev)
-             for commit in commits:
+  bison: don't depend on help2man (2015-04-21 11:29:30 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes2
+
+Markus Lehtonen (5):
+  devtool: modify: use B=S if that is the default for the recipe
+  devtool: modify: implement --no-same-dir
+  oe-selftest: devtool: fix update-recipe test after bd1aa28
+  devtool: extract: remove patches when S=WORKDIR
+  devtool: include bbappends in recipe parsing
+
+Paul Eggleton (3):
+  devtool: handle . in recipe name
+  devtool: add: use correct bbappend file name with -V option
+  devtool: reset: avoid errors in case file no longer exists
+
+ meta/lib/oe/recipeutils.py        | 10 ++---
+ meta/lib/oeqa/selftest/devtool.py | 15 +++++--
+ scripts/devtool                   |  2 +-
+ scripts/lib/devtool/standard.py   | 90 ++++++++++++++++++++++++++++++---------
+ 4 files changed, 86 insertions(+), 31 deletions(-)
+
 -- 
 2.1.0
 
