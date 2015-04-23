@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E2326AC24
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C655C6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 13:25:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Apr 2015 06:25:11 -0700
+	Thu, 23 Apr 2015 14:39:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 07:38:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,631,1422950400"; d="scan'208";a="684522107"
-Received: from kreynold-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.25.159])
-	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2015 06:25:10 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Apr 2015 14:25:09 +0100
-Message-ID: <1828695.sPIXEUjWsd@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <CAJTo0LZd_CSOVW9j07d19fARwvkFuj3LgaizQO7Dr3xg_mpd-A@mail.gmail.com>
-References: <1429771148-1545-1-git-send-email-cristian.iorga@intel.com>
-	<2822728.eQSAVmuFvh@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZd_CSOVW9j07d19fARwvkFuj3LgaizQO7Dr3xg_mpd-A@mail.gmail.com>
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] testimage: regenerate rootfs before testing
+X-IronPort-AV: E=Sophos;i="5.11,631,1422950400"; d="scan'208";a="484703246"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 07:38:50 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Apr 2015 17:38:32 +0300
+Message-Id: <cover.1429799661.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v5 0/4] Switch to BlueZ 5.x as default Bluetooth stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Apr 2015 13:25:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 23 Apr 2015 14:39:11 -0000
 
-On Thursday 23 April 2015 16:02:45 Burton, Ross wrote:
-> On 23 April 2015 at 12:20, Paul Eggleton <paul.eggleton@linux.intel.com>
-> wrote:
-> > I can't remember for certain, but I suspect the lack of this dependency
-> > was intentional, so that you could e.g. copy in an image built elsewhere
-> > and run tests on it. Maybe we can take the decision we don't need that,
-> > but it should be a conscious decision.
-> 
-> My guess was that the missing dependency was from when rootfs always
-> regenerated an image, so if you were iterating the test suite it would
-> always rebuild the image.  This isn't the case now.
+BlueZ 5.x is now the default Bluetooth stack.
+BlueZ 4.x is moved to recipes-connectivity in meta-oe
+layer and still supported in poky/YP.
 
-I don't believe so since that change was made prior to testimage's existence 
-(although it was only a month or so before).
+The following changes since commit 781165b071babb888f46a4e1d15880df924c65f6:
 
-> Someone should speak with QA and see if they actually use the ability to
-> copy in images.  Cristian, I'm looking at you. :)
+  bison: don't depend on help2man (2015-04-21 13:59:21 +0100)
 
-I'm assuming our QA team aren't the only people that use testimage ;)
+are available in the git repository at:
 
-Cheers,
-Paul
+  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v3
+
+Cristian Iorga (4):
+  bluez4: add proper systemd support
+  bluez: remove bluez4 recipes
+  bitbake.conf: backfill bluez5 feature
+  bluez5: don't exclude from world builds
+
+ meta/conf/bitbake.conf                             |   2 +-
+ .../obsolete_automake_macros.patch                 |  14 ---
+ .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
+ .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
+ .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
+ .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 ---------------------
+ .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
+ ...ork-fix-network-Connect-method-parameters.patch |  30 ------
+ .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
+ .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
+ ...pygobject-instead-ofgobject-introspection.patch |  27 -----
+ meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
+ .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   2 -
+ 15 files changed, 1 insertion(+), 455 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
 
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
