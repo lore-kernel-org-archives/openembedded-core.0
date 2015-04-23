@@ -1,25 +1,37 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4293B6AC24
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B05F6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 09:38:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3N9cEm5014799
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Apr 2015 02:38:14 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 23 Apr 2015 02:38:13 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <paul.eggleton@linux.intel.com>
-Date: Thu, 23 Apr 2015 17:38:17 +0800
-Message-ID: <cd657d2be035654c8783adb5ce274bacfda1a455.1429781137.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1429781137.git.jackie.huang@windriver.com>
-References: <cover.1429781137.git.jackie.huang@windriver.com>
+	Thu, 23 Apr 2015 13:03:05 +0000 (UTC)
+Received: by qgeb100 with SMTP id b100so7484635qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Apr 2015 06:03:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OaI+21khDhn4amXKr6ySb6bQrIF5M1S7AleAnUs3SWw=;
+	b=FHvPL0gsfbxSU5yOmYXaseBTxPOtsZNI2zi9Wh4eqzLh+3qGQrWRPDArqlTFE+NzWZ
+	M+OZb1a2jVwXCES+8MQCj0dNI5gXGEu7ksHj9HEXhOX1Ud5AOCZ5S+tmM4HJacxIbNLU
+	+eFYcnY8gbvCdps1xNCFuXBq30RKx4u11n973BgtYuoub9Ce9ksBIiO5M9AQ9A4tfAq9
+	1s3uAt7f2Dm+l11j0IcIklFSOeYNEiYdVGOWA7DmThLMrqbprWmPPjocHEBLuiz7Tn28
+	wlu+xJyBbQ+ErtHiQRhGkEHk30OHxUALr7ZTrU/V4bZTjL9/VpJLVVhabGiSNRXra8gY
+	wWVA==
+X-Gm-Message-State: ALoCoQkT+FJGeQMOxVHVHQf4bu/qyezmyIZSxez3+KqoMMz/Kbey0SMM5CLW+uuNYYFxpaoU27rK
+X-Received: by 10.140.235.77 with SMTP id g74mr3083765qhc.64.1429794186211;
+	Thu, 23 Apr 2015 06:03:06 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] linux-firmware: add NO_GENERIC_LIC for all licenses
+Received: by 10.140.102.231 with HTTP; Thu, 23 Apr 2015 06:02:45 -0700 (PDT)
+In-Reply-To: <2822728.eQSAVmuFvh@peggleto-mobl.ger.corp.intel.com>
+References: <1429771148-1545-1-git-send-email-cristian.iorga@intel.com>
+	<2822728.eQSAVmuFvh@peggleto-mobl.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Apr 2015 16:02:45 +0300
+Message-ID: <CAJTo0LZd_CSOVW9j07d19fARwvkFuj3LgaizQO7Dr3xg_mpd-A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] testimage: regenerate rootfs before testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,71 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Apr 2015 09:38:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Apr 2015 13:03:08 -0000
+Content-Type: multipart/alternative; boundary=001a11354a009248a8051463e6a0
 
-From: Jackie Huang <jackie.huang@windriver.com>
+--001a11354a009248a8051463e6a0
+Content-Type: text/plain; charset=UTF-8
 
-An alternative approach with NO_GENERIC_LIC has been added
-in license.bbclass to allow copying non-generic license,
-add it for all firmware licenses.
+On 23 April 2015 at 12:20, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../linux-firmware/linux-firmware_git.bb           | 39 ++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+> I can't remember for certain, but I suspect the lack of this dependency was
+> intentional, so that you could e.g. copy in an image built elsewhere and
+> run
+> tests on it. Maybe we can take the decision we don't need that, but it
+> should
+> be a conscious decision.
+>
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 52c6825..2b2eab1 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -79,6 +79,45 @@ LIC_FILES_CHKSUM = "\
-     file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74 \
- "
- 
-+# These are not common licenses, set NO_GENERIC_LIC for them
-+# so that the license files will be copied from fetched source
-+NO_GENERIC_LIC[Firmware-Abilis] = "LICENCE.Abilis"
-+NO_GENERIC_LIC[Firmware-agere] = "LICENCE.agere"
-+NO_GENERIC_LIC[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
-+NO_GENERIC_LIC[Firmware-broadcom_bcm43xx] = "LICENCE.broadcom_bcm43xx"
-+NO_GENERIC_LIC[Firmware-ca0132] = "LICENCE.ca0132"
-+NO_GENERIC_LIC[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
-+NO_GENERIC_LIC[Firmware-cw1200] = "LICENCE.cw1200"
-+NO_GENERIC_LIC[Firmware-ene_firmware] = "LICENCE.ene_firmware"
-+NO_GENERIC_LIC[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
-+NO_GENERIC_LIC[Firmware-go7007] = "LICENCE.go7007"
-+NO_GENERIC_LIC[Firmware-i2400m] = "LICENCE.i2400m"
-+NO_GENERIC_LIC[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
-+NO_GENERIC_LIC[Firmware-it913x] = "LICENCE.it913x"
-+NO_GENERIC_LIC[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
-+NO_GENERIC_LIC[Firmware-Marvell] = "LICENCE.Marvell"
-+NO_GENERIC_LIC[Firmware-mwl8335] = "LICENCE.mwl8335"
-+NO_GENERIC_LIC[Firmware-myri10ge_firmware] = "LICENCE.myri10ge_firmware"
-+NO_GENERIC_LIC[Firmware-OLPC] = "LICENCE.OLPC"
-+NO_GENERIC_LIC[Firmware-phanfw] = "LICENCE.phanfw"
-+NO_GENERIC_LIC[Firmware-qat_dh895xcc_firmware] = "LICENCE.qat_dh895xcc_firmware"
-+NO_GENERIC_LIC[Firmware-qla2xxx] = "LICENCE.qla2xxx"
-+NO_GENERIC_LIC[Firmware-r8a779x_usb3] = "LICENCE.r8a779x_usb3"
-+NO_GENERIC_LIC[Firmware-ralink_a_mediatek_company_firmware] = "LICENCE.ralink_a_mediatek_company_firmware"
-+NO_GENERIC_LIC[Firmware-ralink-firmware] = "LICENCE.ralink-firmware.txt"
-+NO_GENERIC_LIC[Firmware-rtlwifi_firmware] = "LICENCE.rtlwifi_firmware.txt"
-+NO_GENERIC_LIC[Firmware-tda7706-firmware] = "LICENCE.tda7706-firmware.txt"
-+NO_GENERIC_LIC[Firmware-ti-connectivity] = "LICENCE.ti-connectivity"
-+NO_GENERIC_LIC[Firmware-ueagle-atm4-firmware] = "LICENCE.ueagle-atm4-firmware"
-+NO_GENERIC_LIC[Firmware-via_vt6656] = "LICENCE.via_vt6656"
-+NO_GENERIC_LIC[Firmware-wl1251] = "LICENCE.wl1251"
-+NO_GENERIC_LIC[Firmware-xc4000] = "LICENCE.xc4000"
-+NO_GENERIC_LIC[Firmware-xc5000] = "LICENCE.xc5000"
-+NO_GENERIC_LIC[Firmware-xc5000c] = "LICENCE.xc5000c"
-+NO_GENERIC_LIC[Firmware-amd-ucode] = "LICENSE.amd-ucode"
-+NO_GENERIC_LIC[Firmware-dib0700] = "LICENSE.dib0700"
-+NO_GENERIC_LIC[Firmware-radeon] = "LICENSE.radeon"
-+
- SRCREV = "0e5f63771d0df6d7859f7c4100a74d737c62ac88"
- PE = "1"
- PV = "0.0+git${SRCPV}"
--- 
-1.9.1
+My guess was that the missing dependency was from when rootfs always
+regenerated an image, so if you were iterating the test suite it would
+always rebuild the image.  This isn't the case now.
 
+Someone should speak with QA and see if they actually use the ability to
+copy in images.  Cristian, I'm looking at you. :)
 
+Ross
+
+--001a11354a009248a8051463e6a0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 April 2015 at 12:20, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.=
+intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":av" class=3D"a3s" style=3D"overflow:hidden">I can&#39;t remember for c=
+ertain, but I suspect the lack of this dependency was<br>
+intentional, so that you could e.g. copy in an image built elsewhere and ru=
+n<br>
+tests on it. Maybe we can take the decision we don&#39;t need that, but it =
+should<br>
+be a conscious decision.</div></blockquote></div><br>My guess was that the =
+missing dependency was from when rootfs always regenerated an image, so if =
+you were iterating the test suite it would always rebuild the image.=C2=A0 =
+This isn&#39;t the case now.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Someone should speak with QA and see if they actuall=
+y use the ability to copy in images.=C2=A0 Cristian, I&#39;m looking at you=
+. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a11354a009248a8051463e6a0--
