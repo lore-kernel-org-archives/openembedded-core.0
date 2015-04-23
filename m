@@ -1,24 +1,36 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C02573D0F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D493B6AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 14:39:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 07:38:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,631,1422950400"; d="scan'208";a="484703332"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 07:38:54 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Thu, 23 Apr 2015 14:46:15 +0000 (UTC)
+Received: by wgyo15 with SMTP id o15so20887470wgy.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Apr 2015 07:46:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=M6gnu+x9Io918Ttyn+cXXkmD+/XvdEeyQDf33qqeb2w=;
+	b=P/ueVPA51Jydf5Pv/4csY1RhgK9zSRg6ano0uDgSi0oui0yot+6e9hD4EtoLPRojU9
+	xk5G4RFQ0UorgU0xQIyly6aKDbAQzBXJKeOqtujXaqGqSXexHHbqjh4IPwivIpR4+phG
+	a2v462d+3bfeBCILfEWa10FbIMIXQvrIyRHPst45tBfANpNUAbIO+iIV24/T157bES94
+	lrcdHLSKVwod1MXxrv0IX50FmpTU+SO6CeNPcwvNiUaSbFjfO4DgCr7BLBNqszjxTO1p
+	Gq6vkfeVrL3Ed672s4/7hc/0ii8/CZd/5rPeoqI/Eh3VofKzs8kQ+IXw2K55eg/PSkge
+	qUZw==
+X-Gm-Message-State: ALoCoQk5hRmPvMU+SNKF6eadqUST0BvC/1q3qaLrxb/5vsboxzKVpkDU2Vsn2AEeZwH6ek1EsNUt
+X-Received: by 10.194.89.7 with SMTP id bk7mr5944732wjb.127.1429800376144;
+	Thu, 23 Apr 2015 07:46:16 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id e2sm12460907wjy.46.2015.04.23.07.46.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Apr 2015 07:46:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Apr 2015 17:38:36 +0300
-Message-Id: <1a55976003e57036ced5e47dd031575508dfc87b.1429799661.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1429799661.git.cristian.iorga@intel.com>
-References: <cover.1429799661.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1429799661.git.cristian.iorga@intel.com>
-References: <cover.1429799661.git.cristian.iorga@intel.com>
-Subject: [PATCH v5 4/4] bluez5: don't exclude from world builds
+Date: Thu, 23 Apr 2015 15:42:42 +0100
+Message-Id: <1429800162-18262-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ptest: add recommends to ptest-runner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Apr 2015 14:39:11 -0000
+X-List-Received-Date: Thu, 23 Apr 2015 14:46:18 -0000
 
-As BlueZ5 will be the default Bluetooth stack,
-don't exclude it from world builds.
+If you're installing ptest packages into an image there's a good chance
+you want to run the tests.  Assist with this by recommending
+ptest-runner in the -ptest packages.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/ptest.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 67aafbb..bf845a8 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -100,5 +100,3 @@ FILES_${PN}-dbg += "\
- RDEPENDS_${PN}-testtools += "python python-dbus python-pygobject"
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 4e6f075..101ab9d 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -12,6 +12,7 @@ PTEST_ENABLED_class-nativesdk = ""
+ PTEST_ENABLED_class-cross-canadian = ""
+ RDEPENDS_${PN}-ptest_class-native = ""
+ RDEPENDS_${PN}-ptest_class-nativesdk = ""
++RRECOMMENDS_${PN}-ptest += "ptest-runner"
  
- SYSTEMD_SERVICE_${PN} = "bluetooth.service"
--
--EXCLUDE_FROM_WORLD = "1"
+ PACKAGES =+ "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
+ 
 -- 
-2.1.0
+1.7.10.4
 
 
