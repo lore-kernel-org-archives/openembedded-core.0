@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6656271144
+	by mail.openembedded.org (Postfix) with ESMTP id 85E8773D7D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 16:19:08 +0000 (UTC)
+	Thu, 23 Apr 2015 16:19:09 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:45 -0700
+	by orsmga103.jf.intel.com with ESMTP; 23 Apr 2015 09:18:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753682"
+X-IronPort-AV: E=Sophos;i="5.11,632,1422950400"; d="scan'208";a="484753688"
 Received: from kreynold-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.25.159])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:43 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Apr 2015 09:18:44 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Apr 2015 17:18:26 +0100
-Message-Id: <7a8541c7b74968fde9386b2edd7e974e7309ad49.1429805738.git.paul.eggleton@linux.intel.com>
+Date: Thu, 23 Apr 2015 17:18:27 +0100
+Message-Id: <c1dd117694b4df1c77bac677d00dba392f3f7487.1429805738.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1429805738.git.paul.eggleton@linux.intel.com>
 References: <cover.1429805738.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/8] oe-selftest: devtool: fix update-recipe test after bd1aa28
+Subject: [PATCH 4/8] devtool: extract: remove patches when S=WORKDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Apr 2015 16:19:08 -0000
+X-List-Received-Date: Thu, 23 Apr 2015 16:19:09 -0000
 
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 
-Number of patches in mtd-utils changed in changeset bd1aa28.
+All local files from the layer, including patches, are added to to
+srctree repository when S==WORKDIR. The patch files are useless as they
+are automatically applied on top of the srctree by devtool.
+
+This change causes devtool extract to not commit these unnecessary (and
+possibly confusing) patch file(s) into srctree repository.
+
+[YOCTO #7602]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/devtool.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index dc1cf21..aa5bd76 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -397,19 +397,26 @@ class DevtoolTests(oeSelfTest):
-         result = runCmd('git status . --porcelain', cwd=os.path.dirname(recipefile))
-         self.assertNotEqual(result.output.strip(), "", '%s recipe should be modified' % testrecipe)
-         status = result.output.splitlines()
--        self.assertEqual(len(status), 3, 'Less/more files modified than expected. Entire status:\n%s' % result.output)
-+        self.assertEqual(len(status), 4, 'Less/more files modified than expected. Entire status:\n%s' % result.output)
-         for line in status:
-             if line.endswith('add-exclusion-to-mkfs-jffs2-git-2.patch'):
-                 self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
-             elif line.endswith('fix-armv7-neon-alignment.patch'):
-                 self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
-+            elif line.endswith('-duplicate-hashtable_iterator_value-.patch'):
-+                self.assertEqual(line[:3], ' D ', 'Unexpected status in line: %s' % line)
-             elif re.search('%s_[^_]*.bb$' % testrecipe, line):
-                 self.assertEqual(line[:3], ' M ', 'Unexpected status in line: %s' % line)
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index aa30a98..926ec6c 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -153,6 +153,7 @@ def extract(args, config, basepath, workspace):
+ 
+ def _extract_source(srctree, keep_temp, devbranch, d):
+     import bb.event
++    import oe.recipeutils
+ 
+     def eventfilter(name, handler, event, d):
+         if name == 'base_eventhandler':
+@@ -240,6 +241,13 @@ def _extract_source(srctree, keep_temp, devbranch, d):
              else:
-                 raise AssertionError('Unexpected modified file in status: %s' % line)
-         result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
-         addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git"']
--        removelines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git \\\\', 'file://add-exclusion-to-mkfs-jffs2-git-2.patch \\\\', 'file://fix-armv7-neon-alignment.patch \\\\', '"']
-+        removelines = ['SRCREV = ".*"',
-+                       'SRC_URI = "git://git.infradead.org/mtd-utils.git \\\\',
-+                       'file://add-exclusion-to-mkfs-jffs2-git-2.patch \\\\',
-+                       'file://fix-armv7-neon-alignment.patch \\\\',
-+                       'file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \\\\',
-+                       '"']
-         for line in result.output.splitlines():
-             if line.startswith('+++') or line.startswith('---'):
-                 continue
+                 os.rmdir(patchdir)
+ 
++        # Find local patches that were "unpacked" to srctree directory
++        recipe_patches = [os.path.basename(patch) for patch in
++                oe.recipeutils.get_recipe_patches(crd)]
++        patches = [fname for fname in os.listdir(workdir) if fname in
++                   recipe_patches]
++
++        # Set-up srctree repo
+         if bb.data.inherits_class('kernel-yocto', d):
+             (stdout, _) = bb.process.run('git --git-dir="%s" rev-parse HEAD' % crd.expand('${WORKDIR}/git'), cwd=srcsubdir)
+             initial_rev = stdout.rstrip()
+@@ -251,6 +259,10 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             if not os.path.exists(os.path.join(srcsubdir, '.git')):
+                 bb.process.run('git init', cwd=srcsubdir)
+                 bb.process.run('git add .', cwd=srcsubdir)
++                # Do not commit patches (would happend if S=WORKDIR)
++                if patches and srcsubdir == workdir:
++                    bb.process.run('git reset -- %s' % " ".join(patches),
++                                    cwd=srcsubdir)
+                 bb.process.run('git commit -q -m "Initial commit from upstream at version %s"' % crd.getVar('PV', True), cwd=srcsubdir)
+ 
+             (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srcsubdir)
+@@ -266,6 +278,14 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+ 
+         bb.process.run('git tag -f devtool-patched', cwd=srcsubdir)
+ 
++        # Remove patches if S=WORKDIR so that stale patch files are not present
++        # in the srtree
++        if patches and srcsubdir == workdir:
++            logger.info('Removing patch files...')
++            for patch in patches:
++                os.unlink(os.path.join(workdir, patch))
++
++
+         if os.path.exists(patchdir):
+             shutil.rmtree(patchdir)
+             if haspatches:
 -- 
 2.1.0
 
