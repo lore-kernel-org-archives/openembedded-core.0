@@ -1,26 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DC376AC24
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 736B26E268
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 09:20:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Apr 2015 02:20:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,629,1422950400"; d="scan'208";a="684429532"
-Received: from kreynold-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.25.159])
-	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2015 02:20:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Date: Thu, 23 Apr 2015 10:20:16 +0100
-Message-ID: <2822728.eQSAVmuFvh@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <1429771148-1545-1-git-send-email-cristian.iorga@intel.com>
-References: <1429771148-1545-1-git-send-email-cristian.iorga@intel.com>
+	Thu, 23 Apr 2015 09:38:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3N9cBB8014796
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Apr 2015 02:38:11 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 23 Apr 2015 02:38:11 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <paul.eggleton@linux.intel.com>
+Date: Thu, 23 Apr 2015 17:38:15 +0800
+Message-ID: <92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1429781137.git.jackie.huang@windriver.com>
+References: <cover.1429781137.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] testimage: regenerate rootfs before testing
+Subject: [PATCH 1/3] license.bbclass: allow copying license not in common licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Apr 2015 09:20:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 23 Apr 2015 09:38:13 -0000
+Content-Type: text/plain
 
-On Thursday 23 April 2015 09:39:08 Cristian Iorga wrote:
-> While starting a test with testimage, changes
-> of the image under test don't trigger a rebuild,
-> so fix that.
-> 
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->  meta/classes/testimage.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-> index dc163c7..ce7f5c1 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -53,7 +53,7 @@ TESTIMAGELOCK_qemuall = ""
->  python do_testimage() {
->      testimage_main(d)
->  }
-> -addtask testimage
-> +addtask testimage after do_rootfs
->  do_testimage[nostamp] = "1"
->  do_testimage[depends] += "${TESTIMAGEDEPENDS}"
->  do_testimage[lockfiles] += "${TESTIMAGELOCK}"
+From: Jackie Huang <jackie.huang@windriver.com>
 
-I can't remember for certain, but I suspect the lack of this dependency was 
-intentional, so that you could e.g. copy in an image built elsewhere and run 
-tests on it. Maybe we can take the decision we don't need that, but it should 
-be a conscious decision.
+Some package like linux-firmware has many licenses that aren't in any
+way common, and new ones will be added from time to time, in order to
+avoid adding bunch of such common license files that are only applicable
+to a specific package, NO_GENERIC_LIC is added to allow copying license
+not in common licenses, it should be used in the recipe as:
 
-On the other hand, testimage-auto.bbclass does set up this dependency, 
-although it also adds a dependency from do_build on do_testimage as well. 
-There is a bug open to integrate testimage-auto.bbclass with testimage.bbclass 
-as well (https://bugzilla.yoctoproject.org/show_bug.cgi?id=6155).
+NO_GENERIC_LIC[<license_name>] = "<license file in fetched source>"
 
-Cheers,
-Paul
+e.g.
+NO_GENERIC_LIC[Firmware-Abilis] = "LICENCE.Abilis.txt"
 
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/classes/license.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 73a0e97..990f704 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -222,7 +222,9 @@ def find_license_files(d):
+             pass
+         spdx_generic = None
+         license_source = None
+-        # If the generic does not exist we need to check to see if there is an SPDX mapping to it
++        # If the generic does not exist we need to check to see if there is an SPDX mapping to it,
++        # unless NO_GENERIC_LIC is set.
++
+         for lic_dir in license_source_dirs:
+             if not os.path.isfile(os.path.join(lic_dir, license_type)):
+                 if d.getVarFlag('SPDXLICENSEMAP', license_type) != None:
+@@ -241,6 +243,14 @@ def find_license_files(d):
+             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
+ 
+             lic_files_paths.append(("generic_" + license_type, os.path.join(license_source, spdx_generic)))
++
++        elif d.getVarFlag('NO_GENERIC_LIC', license_type):
++            # if NO_GENERIC_LIC is set, we copy the license files from the fetched source
++            # of the package rather than the license_source_dirs.
++            for (basename, path) in lic_files_paths:
++                if d.getVarFlag('NO_GENERIC_LIC', license_type) == basename:
++                    lic_files_paths.append(("generic_" + license_type, path))
++                    break
+         else:
+             # And here is where we warn people that their licenses are lousy
+             bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
