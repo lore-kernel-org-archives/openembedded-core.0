@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 809EA6E268
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B76006AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 09:15:20 +0000 (UTC)
+	Thu, 23 Apr 2015 09:15:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3N9FLQi026124
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3N9FLKr011862
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Apr 2015 02:15:21 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Thu, 23 Apr 2015 02:15:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Apr 2015 02:15:20 -0700
-Message-ID: <4c7b16912ab32ebe6c8b9080a91e317bca91f2e2.1429780485.git.liezhi.yang@windriver.com>
+Date: Thu, 23 Apr 2015 02:15:19 -0700
+Message-ID: <76f379df4b937b4f711bc736915093b9d8e391d7.1429780485.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1429780485.git.liezhi.yang@windriver.com>
 References: <cover.1429780485.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] kernel-devsrc: depends on virtual/kernel:do_install
+Subject: [PATCH 1/2] gnu-efi: fix parallel issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +36,79 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 23 Apr 2015 09:15:20 -0000
 Content-Type: text/plain
 
-The linux-yocto.inc may remove the meta dir:
-do_install_append(){
-	if [ -n "${KMETA}" ]; then
-		rm -rf ${STAGING_KERNEL_DIR}/${KMETA}
-	fi
-}
-
-Which may cause the error:
-[snip]
-find: `./meta/cfg/kernel-cache/bsp/altera-socfpga/0073-FogBugz-116676-Align-clk.c-with-kernel.org.patch': No such file or directory
-find: `./meta/cfg/kernel-cache/bsp/altera-socfpga/0047-FogBugz-90657-Fix-SD-MMC-driver-for-VT.patch': No such file or directory
-find: `./meta/cfg/kernel-cache/bsp/altera-socfpga/0006-spi-qspi-cadence-Add-spi-and-qspi-driver.patch': No such file or directory
-[snip]
-cpio: ./meta/scripts/kgit-config-cleaner: Cannot stat: No such file or directory
-cpio: ./meta/scripts/kgit-s2q: Cannot stat: No such file or directory
-cpio: ./meta/scripts/kgit-clean: Cannot stat: No such file or directory
-[snip]
+Fixed:
+Assembler messages:
+Fatal error: can't create runtime/rtlock.o: No such file or directory
+Assembler messages:
+Fatal error: can't create runtime/rtdata.o: No such file or directory
+Assembler messages:
+Fatal error: can't create runtime/vm.o: No such file or directory
+Assembler messages:
+Fatal error: can't create runtime/efirtlib.o: No such file or directory
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gnu-efi/lib-Makefile-fix-parallel-issue.patch  |   38 ++++++++++++++++++++
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb          |    1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/lib-Makefile-fix-parallel-issue.patch
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index dd65788..196c8c7 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -18,7 +18,7 @@ inherit module-base
- # ${B} not to change while we install, so virtual/kernel must finish do_compile.
- do_install[depends] += "virtual/kernel:do_shared_workdir"
- # Need the source, not just the output of populate_sysroot
--do_install[depends] += "virtual/kernel:do_compile"
-+do_install[depends] += "virtual/kernel:do_install"
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/lib-Makefile-fix-parallel-issue.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/lib-Makefile-fix-parallel-issue.patch
+new file mode 100644
+index 0000000..1b2ae1e
+--- /dev/null
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi/lib-Makefile-fix-parallel-issue.patch
+@@ -0,0 +1,38 @@
++From 0daa354a16aa3cade56ed423d0f8a04cf1c22f9d Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 23 Apr 2015 01:49:31 -0700
++Subject: [PATCH] lib/Makefile: fix parallel issue
++
++Fixed:
++Assembler messages:
++Fatal error: can't create runtime/rtlock.o: No such file or directory
++Assembler messages:
++Fatal error: can't create runtime/rtdata.o: No such file or directory
++Assembler messages:
++Fatal error: can't create runtime/vm.o: No such file or directory
++Assembler messages:
++Fatal error: can't create runtime/efirtlib.o: No such file or directory
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ lib/Makefile |    2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/Makefile b/lib/Makefile
++index dc4b94a..f64d1ed 100644
++--- a/lib/Makefile
+++++ b/lib/Makefile
++@@ -73,6 +73,8 @@ all: libsubdirs libefi.a
++ libsubdirs:
++ 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
++ 
+++$(OBJS): libsubdirs
+++
++ libefi.a: $(OBJS)
++ 	$(AR) rv $@ $(OBJS)
++ 
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
+index 2b4f3f3..27cc6c1 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
+@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=9;md5=2240d
  
- # There's nothing to do here, except install the source where we can package it
- do_fetch[noexec] = "1"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
+            file://parallel-make-archives.patch \
++           file://lib-Makefile-fix-parallel-issue.patch \
+           "
+ SRC_URI[md5sum] = "a9db2cabc01a2674715bd6aea2911f01"
+ SRC_URI[sha256sum] = "194b580ecdb1fad0e41914845ba064c279afb687855960b58693459e5537b4d7"
 -- 
 1.7.9.5
 
