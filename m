@@ -1,24 +1,24 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EF19605D2
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 27ABF6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 20:02:21 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Yljnr-0004xE-6V from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Apr 2015 13:02:23 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Fri, 24 Apr 2015 21:02:22 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Apr 2015 23:02:21 +0300
-Message-ID: <1429905741-24667-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
+	Fri, 24 Apr 2015 20:03:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3OK35Ip016864
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Apr 2015 13:03:06 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 24 Apr 2015 13:03:05 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <akuster808@gmail.com>
+Date: Fri, 24 Apr 2015 16:03:05 -0400
+Message-ID: <1429905785-17121-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-Subject: [PATCH] qt4-x11-free: make virtual/libgl dependecy conditional
+Cc: steve@staticfree.info, openembedded-core@lists.openembedded.org
+Subject: [dizzy][PATCH] kernel-yocto.bbclass: Bug Fix inside do_kernel_checkout()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Apr 2015 20:02:22 -0000
+X-List-Received-Date: Fri, 24 Apr 2015 20:03:07 -0000
 Content-Type: text/plain
 
-Make qt4-x11-free depend on virtual/libgl only if the DISTRO_FEATURES
-contain opengl. Otherwise there will be no package to fullfil this
-dependency.
+From: Theodor Gherzan <theodor@resin.io>
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+--047d7b3a7fac0eebee050cb47483
+Content-Type: text/plain; charset="UTF-8"
+
+ After we check the existence of 'machine_branch' with 'git show-ref'
+ the following if statement should change the 'machine_branch'
+ to the default (i.e. master) if the 'git show-ref' has returned an
+ exit code that is not 0, not the other way around.
+
+ Signed-off-by: Theodor Gherzan <theodor@resin.io>
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-qt/qt4/qt4-x11-free.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 3b1e0fe..835fc96 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -4,7 +4,8 @@ SUMMARY = "Cross-platform UI toolkit and application framework (X11 version)"
- DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is the X11 version."
- HOMEPAGE = "http://qt-project.org/"
- SECTION = "x11/libs"
--DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
-+DEPENDS += "virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
-+DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
- PROVIDES += "qt4-x11"
- QT4DEPENDS = ""
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index f42a5c2534ae..410a6e879fbe 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -211,7 +211,7 @@ do_kernel_checkout() {
+ 	# Create a working tree copy of the kernel by checking out a branch
+ 	machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+ 	git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+-	if [ $? -eq 0 ]; then
++	if [ $? -ne 0 ]; then
+ 		machine_branch="master"
+ 	fi
  
 -- 
-2.1.4
+2.1.0
 
 
