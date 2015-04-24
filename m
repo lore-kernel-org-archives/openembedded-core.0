@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8113F73D41
+	by mail.openembedded.org (Postfix) with ESMTP id 8273D73D5E
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Apr 2015 07:54:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3O7sMgn021389
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3O7sLg1021381
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 00:54:22 -0700 (PDT)
+	Fri, 24 Apr 2015 00:54:21 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Fri, 24 Apr 2015 00:54:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Apr 2015 00:54:13 -0700
-Message-ID: <4a9f0c955d4dc0220feebd128247c0a8e9529b1c.1429861978.git.liezhi.yang@windriver.com>
+Date: Fri, 24 Apr 2015 00:54:11 -0700
+Message-ID: <8f42b3da9d8221050a7076377fca4033ffcc2fe3.1429861978.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1429861978.git.liezhi.yang@windriver.com>
 References: <cover.1429861978.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/12] logrotate: remove logrotate-CVE-2011-1548.patch
+Subject: [PATCH 04/12] libxml2: remove libxml2-CVE-2014-3660.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +40,163 @@ It is a backport patch.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../logrotate/logrotate-CVE-2011-1548.patch        |   43 --------------------
- 1 file changed, 43 deletions(-)
- delete mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+ .../libxml/libxml2/libxml2-CVE-2014-3660.patch     |  147 --------------------
+ 1 file changed, 147 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch b/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 deleted file mode 100644
-index ed2750e..0000000
---- a/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+index b9621c9..0000000
+--- a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 +++ /dev/null
-@@ -1,43 +0,0 @@
--Upstream-Status: Backport
+@@ -1,147 +0,0 @@
+-From be2a7edaf289c5da74a4f9ed3a0b6c733e775230 Mon Sep 17 00:00:00 2001
+-From: Daniel Veillard <veillard@redhat.com>
+-Date: Thu, 16 Oct 2014 13:59:47 +0800
+-Subject: Fix for CVE-2014-3660
 -
--logrotate: fix for CVE-2011-1548
+-Issues related to the billion laugh entity expansion which happened to
+-escape the initial set of fixes
 -
--If a logfile is a symlink, it may be read when being compressed, being
--copied (copy, copytruncate) or mailed. Secure data (eg. password files)
--may be exposed.
+-Upstream-status: Backport
+-Reference: https://git.gnome.org/browse/libxml2/commit/?id=be2a7edaf289c5da74a4f9ed3a0b6c733e775230&context=3&ignorews=0&ss=0
 -
--Portback nofollow.patch from:
--http://logrotate.sourcearchive.com/downloads/3.8.1-5/logrotate_3.8.1-5.debian.tar.gz
+-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
 -
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--
-----
----- a/logrotate.c	2012-09-06 13:25:08.000000000 +0800
--+++ b/logrotate.c	2012-09-06 13:35:57.000000000 +0800
--@@ -390,7 +390,7 @@
--     compressedName = alloca(strlen(name) + strlen(log->compress_ext) + 2);
--     sprintf(compressedName, "%s%s", name, log->compress_ext);
-- 
---    if ((inFile = open(name, O_RDWR)) < 0) {
--+    if ((inFile = open(name, O_RDWR | O_NOFOLLOW)) < 0) {
-- 	message(MESS_ERROR, "unable to open %s for compression\n", name);
-- 	return 1;
+-diff --git a/parser.c b/parser.c
+-index f51e8d2..1d93967 100644
+---- a/parser.c
+-+++ b/parser.c
+-@@ -130,6 +130,29 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
+-         return (0);
+-     if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
+-         return (1);
+-+
+-+    /*
+-+     * This may look absurd but is needed to detect
+-+     * entities problems
+-+     */
+-+    if ((ent != NULL) && (ent->etype != XML_INTERNAL_PREDEFINED_ENTITY) &&
+-+	(ent->content != NULL) && (ent->checked == 0)) {
+-+	unsigned long oldnbent = ctxt->nbentities;
+-+	xmlChar *rep;
+-+
+-+	ent->checked = 1;
+-+
+-+	rep = xmlStringDecodeEntities(ctxt, ent->content,
+-+				  XML_SUBSTITUTE_REF, 0, 0, 0);
+-+
+-+	ent->checked = (ctxt->nbentities - oldnbent + 1) * 2;
+-+	if (rep != NULL) {
+-+	    if (xmlStrchr(rep, '<'))
+-+		ent->checked |= 1;
+-+	    xmlFree(rep);
+-+	    rep = NULL;
+-+	}
+-+    }
+-     if (replacement != 0) {
+- 	if (replacement < XML_MAX_TEXT_LENGTH)
+- 	    return(0);
+-@@ -189,9 +212,12 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
+-             return (0);
+-     } else {
+-         /*
+--         * strange we got no data for checking just return
+-+         * strange we got no data for checking
+-          */
+--        return (0);
+-+	if (((ctxt->lastError.code != XML_ERR_UNDECLARED_ENTITY) &&
+-+	     (ctxt->lastError.code != XML_WAR_UNDECLARED_ENTITY)) ||
+-+	    (ctxt->nbentities <= 10000))
+-+	    return (0);
 -     }
--@@ -470,7 +470,7 @@
--     char *mailArgv[] = { mailCommand, "-s", subject, address, NULL };
--     int rc = 0;
+-     xmlFatalErr(ctxt, XML_ERR_ENTITY_LOOP, NULL);
+-     return (1);
+-@@ -2589,6 +2615,7 @@ xmlParserHandlePEReference(xmlParserCtxtPtr ctxt) {
+- 				      name, NULL);
+- 		    ctxt->valid = 0;
+- 		}
+-+		xmlParserEntityCheck(ctxt, 0, NULL, 0);
+- 	    } else if (ctxt->input->free != deallocblankswrapper) {
+- 		    input = xmlNewBlanksWrapperInputStream(ctxt, entity);
+- 		    if (xmlPushInput(ctxt, input) < 0)
+-@@ -2759,6 +2786,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
+- 	    if ((ctxt->lastError.code == XML_ERR_ENTITY_LOOP) ||
+- 	        (ctxt->lastError.code == XML_ERR_INTERNAL_ERROR))
+- 	        goto int_error;
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	    if (ent != NULL)
+- 	        ctxt->nbentities += ent->checked / 2;
+- 	    if ((ent != NULL) &&
+-@@ -2810,6 +2838,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
+- 	    ent = xmlParseStringPEReference(ctxt, &str);
+- 	    if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
+- 	        goto int_error;
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	    if (ent != NULL)
+- 	        ctxt->nbentities += ent->checked / 2;
+- 	    if (ent != NULL) {
+-@@ -7312,6 +7341,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		   (ret != XML_WAR_UNDECLARED_ENTITY)) {
+- 	    xmlFatalErrMsgStr(ctxt, XML_ERR_UNDECLARED_ENTITY,
+- 		     "Entity '%s' failed to parse\n", ent->name);
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	} else if (list != NULL) {
+- 	    xmlFreeNodeList(list);
+- 	    list = NULL;
+-@@ -7418,7 +7448,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		/*
+- 		 * We are copying here, make sure there is no abuse
+- 		 */
+--		ctxt->sizeentcopy += ent->length;
+-+		ctxt->sizeentcopy += ent->length + 5;
+- 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
+- 		    return;
 - 
---    if ((mailInput = open(logFile, O_RDONLY)) < 0) {
--+    if ((mailInput = open(logFile, O_RDONLY | O_NOFOLLOW)) < 0) {
-- 	message(MESS_ERROR, "failed to open %s for mailing: %s\n", logFile,
-- 		strerror(errno));
-- 	return 1;
--@@ -561,7 +561,7 @@
--     message(MESS_DEBUG, "copying %s to %s\n", currLog, saveLog);
+-@@ -7466,7 +7496,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		/*
+- 		 * We are copying here, make sure there is no abuse
+- 		 */
+--		ctxt->sizeentcopy += ent->length;
+-+		ctxt->sizeentcopy += ent->length + 5;
+- 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
+- 		    return;
 - 
--     if (!debug) {
---	if ((fdcurr = open(currLog, (flags & LOG_FLAG_COPY) ? O_RDONLY : O_RDWR)) < 0) {
--+	if ((fdcurr = open(currLog, ((flags & LOG_FLAG_COPY) ? O_RDONLY : O_RDWR) | O_NOFOLLOW)) < 0) {
-- 	    message(MESS_ERROR, "error opening %s: %s\n", currLog,
-- 		    strerror(errno));
-- 	    return 1;
+-@@ -7652,6 +7682,7 @@ xmlParseEntityRef(xmlParserCtxtPtr ctxt) {
+- 		ctxt->sax->reference(ctxt->userData, name);
+- 	    }
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	ctxt->valid = 0;
+-     }
+- 
+-@@ -7845,6 +7876,7 @@ xmlParseStringEntityRef(xmlParserCtxtPtr ctxt, const xmlChar ** str) {
+- 			  "Entity '%s' not defined\n",
+- 			  name);
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	/* TODO ? check regressions ctxt->valid = 0; */
+-     }
+- 
+-@@ -8004,6 +8036,7 @@ xmlParsePEReference(xmlParserCtxtPtr ctxt)
+- 			  name, NULL);
+- 	    ctxt->valid = 0;
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, NULL, 0);
+-     } else {
+- 	/*
+- 	 * Internal checking in case the entity quest barfed
+-@@ -8243,6 +8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const xmlChar **str) {
+- 			  name, NULL);
+- 	    ctxt->valid = 0;
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, NULL, 0);
+-     } else {
+- 	/*
+- 	 * Internal checking in case the entity quest barfed
+--- 
+-cgit v0.10.1
+-
 -- 
 1.7.9.5
 
