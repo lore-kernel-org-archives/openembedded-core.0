@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 915EA73D8E
+	by mail.openembedded.org (Postfix) with ESMTP id CBE3B6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 07:54:18 +0000 (UTC)
+	Fri, 24 Apr 2015 08:14:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3O7sKwC008500
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 00:54:20 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 24 Apr 2015 00:54:19 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Apr 2015 00:54:08 -0700
-Message-ID: <73e2a1921607e8a0dd9815e104174bc5189d28a3.1429861978.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1429861978.git.liezhi.yang@windriver.com>
-References: <cover.1429861978.git.liezhi.yang@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3O8ETba008711
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Apr 2015 01:14:29 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 24 Apr 2015 01:14:28 -0700
+Message-ID: <5539FB6C.3010301@windriver.com>
+Date: Fri, 24 Apr 2015 16:14:36 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH 01/12] python3: remove sys_platform_is_now_always_linux2.patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1429858183.git.Qi.Chen@windriver.com>	
+	<2894e3f1ce4dc1dc2a6ab45859b0425e21184a7a.1429858183.git.Qi.Chen@windriver.com>
+	<1429860029.26983.127.camel@linuxfoundation.org>
+In-Reply-To: <1429860029.26983.127.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.236]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] populate_sdk_base: avoid executing empty function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Apr 2015 07:54:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Apr 2015 08:14:33 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It is aready in the source.
+On 04/24/2015 03:20 PM, Richard Purdie wrote:
+> On Fri, 2015-04-24 at 14:50 +0800, Chen Qi wrote:
+>> `bitbake uninative-tarball' raises the following warning.
+>>
+>>      WARNING: Function  doesn't exist
+>>
+>> This is because SDK_PACKAGING_FUNC is set to "" in its recipe.
+>> Anyway, we need to check this variable to avoid executing empty function.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/populate_sdk_base.bbclass | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>> index 5c07693..6e3e84f 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -94,7 +94,11 @@ fakeroot python do_populate_sdk() {
+>>   
+>>       bb.build.exec_func("tar_sdk", d)
+>>   
+>> -    bb.build.exec_func(d.getVar("SDK_PACKAGING_FUNC", True), d)
+>> +    sdk_packaging_func = d.getVar("SDK_PACKAGING_FUNC", True)
+>> +    if sdk_packaging_func:
+>> +        sdk_packaging_func = sdk_packaging_func.strip()
+>> +        if sdk_packaging_func != "":
+>> +            bb.build.exec_func(d.getVar("SDK_PACKAGING_FUNC", True), d)
+> This is slightly overcomplicated. You can just do something like:
+>
+> sdk_packaging_func = d.getVar("SDK_PACKAGING_FUNC", True) or ""
+> if sdk_packaging_func.strip():
+>      bb.build.exec_func(sdk_packaging_func, d)
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../sys_platform_is_now_always_linux2.patch        |   29 --------------------
- 1 file changed, 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
+Thanks a lot.
+I'll send out V2.
 
-diff --git a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
-deleted file mode 100644
-index 506210f..0000000
---- a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
--Bugtracker: http://bugs.python.org/issue12326
--
--[Removed "Misc/NEWS" hunk]
--
--Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
--
--# HG changeset patch
--# User Victor Stinner <victor.stinner@haypocalc.com>
--# Date 1313841758 -7200
--# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
--# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
--Issue #12326: sys.platform is now always 'linux2' on Linux
--
--Even if Python is compiled on Linux 3.
--
--Index: Python-3.3.0rc2/configure.ac
--===================================================================
----- Python-3.3.0rc2.orig/configure.ac	2012-09-09 02:11:14.000000000 -0700
--+++ Python-3.3.0rc2/configure.ac	2012-09-20 00:44:03.317124001 -0700
--@@ -366,7 +366,7 @@
--     MACHDEP="$ac_md_system$ac_md_release"
-- 
--     case $MACHDEP in
---	linux*) MACHDEP="linux";;
--+	linux*) MACHDEP="linux2";;
-- 	cygwin*) MACHDEP="cygwin";;
-- 	darwin*) MACHDEP="darwin";;
-- 	irix646) MACHDEP="irix6";;
--- 
-1.7.9.5
-
+Best Regards,
+Chen Qi
 
