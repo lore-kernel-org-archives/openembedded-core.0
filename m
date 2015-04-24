@@ -1,30 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E393E605D2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A60A7605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 09:09:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3O99hNb001656
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Apr 2015 02:09:43 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Fri, 24 Apr 2015 02:09:43 -0700
-Message-ID: <553A085F.60203@windriver.com>
-Date: Fri, 24 Apr 2015 17:09:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1429865892.git.Qi.Chen@windriver.com>
-	<d690fdd4b6924ba28eff25f4f9fb4dc5d2f5ca56.1429865892.git.Qi.Chen@windriver.com>
-	<9598845.8ZbdBo0yX6@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <9598845.8ZbdBo0yX6@peggleto-mobl.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.236]
+	Fri, 24 Apr 2015 10:17:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3OAH1mn004642; Fri, 24 Apr 2015 11:17:01 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HvnDzcyA3s6r; Fri, 24 Apr 2015 11:17:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3OAGkZH004571
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Apr 2015 11:16:59 +0100
+Message-ID: <1429870606.26983.130.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Li Zhou <li.zhou@windriver.com>
+Date: Fri, 24 Apr 2015 11:16:46 +0100
+In-Reply-To: <1429841959-9823-3-git-send-email-li.zhou@windriver.com>
+References: <1429841959-9823-1-git-send-email-li.zhou@windriver.com>
+	<1429841959-9823-3-git-send-email-li.zhou@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/2] uninative-tarball: delete the packagedata task
+Subject: Re: [PATCH 3/3] libxfont: Security Advisory - libxfont - CVE-2015-1804
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Apr 2015 09:09:43 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Fri, 24 Apr 2015 10:17:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/24/2015 05:03 PM, Paul Eggleton wrote:
-> On Friday 24 April 2015 16:59:34 Chen Qi wrote:
->> This task is meaningless for uninative-tarball as the package task
->> has been deleted. Besides, sometimes it would cause problems. To
->> reproduce, use the following command.
->>
->> bitbake uninative-tarball -c cleansstate && bitbake uninative-tarball &&
->> bitbake uninative-tarball -c clean && bitbake uninative-tarball
->>
->> The error is something like below.
->>
->> File: 'sstate.bbclass', lineno: 33, function: sstate_installpkg
->>       0029:        bb.build.exec_func(f, d)
->>       0030:
->>       0031:    for state in ss['dirs']:
->>       0032:        prepdir(state[1])
->>   *** 0033:        os.rename(sstateinst + state[0], state[1])
->>       0034:    sstate_install(ss, d)
->>       0035:
->>       0036:    for plain in ss['plaindirs']:
->>       0037:        workdir = d.getVar('WORKDIR', True)
->> Exception: OSError: [Errno 2] No such file or directory
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-core/meta/uninative-tarball.bb | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/meta/uninative-tarball.bb
->> b/meta/recipes-core/meta/uninative-tarball.bb index 62bdde8..41f7927 100644
->> --- a/meta/recipes-core/meta/uninative-tarball.bb
->> +++ b/meta/recipes-core/meta/uninative-tarball.bb
->> @@ -23,6 +23,7 @@ inherit populate_sdk
->>
->>   deltask install
->>   deltask package
->> +deltask packagedata
->>
->>   SDK_DEPENDS += "patchelf-native"
-> I forgot to note, this one is filed also - [YOCTO #7597]. Can you please add
-> this to the commit message on the branch?
->
-> Thanks,
-> Paul
->
+On Fri, 2015-04-24 at 10:19 +0800, Li Zhou wrote:
+> bdfReadCharacters: ensure metrics fit into xCharInfo struct
+> 
+> We use 32-bit ints to read from the bdf file, but then try to stick
+> into a 16-bit int in the xCharInfo struct, so make sure they won't
+> overflow that range.
+> 
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> ---
+>  ...acters-ensure-metrics-fit-into-xCharInfo-.patch |   76 ++++++++++++++++++++
+>  meta/recipes-graphics/xorg-lib/libxfont_1.5.0.bb   |    1 +
+>  2 files changed, 77 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/0001-bdfReadCharacters-ensure-metrics-fit-into-xCharInfo-.patch
 
-Thanks for pointing that out.
+No Upstream-Status in 2/3 or 3/3.
 
-I've updated the remote branch.
+Cheers,
 
-The bug number has been added to the commit message. See below.
-http://cgit.openembedded.org/openembedded-core-contrib/commit/?h=ChenQi/uninative-tarball-fixes&id=db6c1f96c80a967b314cd1d1a671044c249e7777
+Richard
 
-Best Regards,
-Chen Qi
 
