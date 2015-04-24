@@ -1,26 +1,34 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E9F73D7E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 315AD605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 16:13:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3OGDu2U014737
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Apr 2015 09:13:56 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Fri, 24 Apr 2015 09:13:55 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Apr 2015 12:13:53 -0400
-Message-ID: <5d547cf241f2c8bdc7438362729aaec27b0aa494.1429891826.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1429891826.git.bruce.ashfield@windriver.com>
-References: <cover.1429891826.git.bruce.ashfield@windriver.com>
+	Fri, 24 Apr 2015 17:03:58 +0000 (UTC)
+Received: by igbyr2 with SMTP id yr2so20086286igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Apr 2015 10:03:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Hs838Bz75iv/+8iHEbaX+/ZU5j4/IAkeSYzd9wo7w/g=;
+	b=EQ2mS/3CFLXk4grwT8XM3b2IO3j7z5kWbLQEKFbFEHqQfRILpcZTcgRtBj+0hjT9UZ
+	erd6cekCnZQPQi6wTzUI+FQ7Vn/7Ibqv2eNMdyieJ4gKepqAJOrZqbBKpUR6el9nifex
+	OF/Yf6IIOaL+2W7hJeq8DFdgb6LOBG7XDA+y4yrixBWV1J8fuyNtyhecrOIZOHeo+LX9
+	i+y7sNLyX+tmYI/mJ2hTvmWtPLqRlOomf2JDrywF+7gIUnmmNVAWFKmXzhpHBdRRkI4g
+	w0xEGweW9WESBER5W+msUeUJw/z0MhZ0QLg8f0416ZjG0Fpnx3oGQoPDA/6Hq80P76M5
+	0WrQ==
+X-Received: by 10.43.63.76 with SMTP id xd12mr10971060icb.11.1429895039785;
+	Fri, 24 Apr 2015 10:03:59 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] kern-tools: unify meta directory detection
+Received: by 10.50.230.178 with HTTP; Fri, 24 Apr 2015 10:03:29 -0700 (PDT)
+In-Reply-To: <cover.1429846255.git.raj.khem@gmail.com>
+References: <cover.1429846255.git.raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 24 Apr 2015 10:03:29 -0700
+Message-ID: <CAMKF1spgSZPEtmrsRNuPJY8g8FFMqjqdEmveTRuyNpQ4eUH=Rg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/14] Fix world build with gcc-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +41,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Apr 2015 16:13:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Apr 2015 17:04:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It is possible that recipe specific tasks, or build processes drop
-files into the kernel source directory. These files can cause problems
-with the meta data detection in the kern-tools.
+On Thu, Apr 23, 2015 at 8:35 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> I saw that my prior pull request has not yet been picked so I took opportunity to update it
+> with few more commits and remove the commits not needed for world builds out.
+> With these world builds on OE-Core are succeeding for all supported qemu machines
+> The gcc upgrade is not yet proposed since we are still in RC phase and as soon as
+> 5.1.0 is released I will propose it for OE-Core
 
-With this change, we have a single unified meta data detection routine,
-that logs the result in a new file ".metadir", which subsequent scripts
-can find, and use, thereby avoid repeating the same check many times.
+so it is release and I have updated the recipes here
 
-We also enhance the check to look for a sentinel file in a proper meta
-directory, to avoid false positives when an unexpected kernel process
-leaves an uncommitted directory in the kernel dir.
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=99c5806f9e4dc299136244c495eba7dffa8c84a2
 
-[YOCTO: #7441]
+world builds on glibc have 1 failure on libunwind/mips but thats a
+different problem. all others are green. I have only tried qemu
+machines
+so no mulilib etc. Once these patches are good with 4.9 and installed.
+I will propose it for core. For impatient ones please cherry pick that
+1 commit
+and try it out in your build configuration and let us know if there
+are problems.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index a1ec198fde7f..e83f195a5393 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
- 
- DEPENDS = "git-native"
- 
--SRCREV = "83e5493ea46067152609008ade131971eaebbb27"
-+SRCREV = "79bc82453c26d426d3d8fd05d5da37cf5fc4068c"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
--- 
-2.1.0
-
+>
+> Khem Raj (14):
+>   glibc, packagegroup-self-hosted, packagegroup-core-lsb: Consider
+>     non-glibc libcs
+>   insserv: Fix build with gcc5 and clang
+>   xserver-xorg: Fix build with gcc-5
+>   u-boot-mkimage: Backport fix from upstream to fix build with gcc-5
+>   mdadm: Fix inline semantics
+>   lttng-tools: Add extern qualifier to declarations in .h file
+>   subversion: Add -P to CPPFLAGS
+>   gnome-icon-theme: Needs nls.m4
+>   gtk+: Correct function prototype
+>   grub: Backport const qualifier fix for gcc-5
+>   gummiboot: upgrade 43 -> 48+git
+>   pkgconfig: Upgrade to latest git tip
+>   fontconfig: Upgrade to 2.11.93
+>   fontconfig: Fix pkgconfig file generation to not have absolute paths
+>
+>  ..._dhcp_vendor-Add-missing-const-qualifiers.patch |  33 ++
+>  meta/recipes-bsp/grub/grub2.inc                    |   1 +
+>  .../gummiboot/gummiboot/fix-objcopy.patch          |  28 +-
+>  meta/recipes-bsp/gummiboot/gummiboot_git.bb        |   4 +-
+>  meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch  |  91 ++++
+>  meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb  |   4 +-
+>  meta/recipes-core/glibc/glibc_2.21.bb              |   8 +-
+>  .../packagegroups/packagegroup-self-hosted.bb      |   7 +-
+>  .../161_bts777914_fix_undeclared_identifier.patch  |  36 ++
+>  meta/recipes-devtools/insserv/insserv_1.14.0.bb    |   1 +
+>  ...Strip-system-library-directories-reliably.patch |  30 --
+>  .../pkgconfig/pkgconfig-0.28/autofoo.patch         | 528 ---------------------
+>  .../pkgconfig-0.28/obsolete_automake_macros.patch  |  16 -
+>  meta/recipes-devtools/pkgconfig/pkgconfig.inc      |   6 +-
+>  .../pkgconfig/pkgconfig/autofoo.patch              | 528 ---------------------
+>  .../fix-glib-configure-libtool-usage.patch         |   0
+>  meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb  |  11 -
+>  meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  42 +-
+>  .../subversion/subversion_1.8.11.bb                |   3 +-
+>  meta/recipes-extended/mdadm/files/inline.patch     |  39 ++
+>  meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |   1 +
+>  .../packagegroups/packagegroup-core-lsb.bb         |   9 +
+>  .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |   2 +-
+>  .../gtk+/gtk+/strict-prototypes.patch              |  24 +
+>  meta/recipes-gnome/gtk+/gtk+_2.24.27.bb            |   1 +
+>  .../fontconfig/revert-static-pkgconfig.patch       |  20 +
+>  ...{fontconfig_2.11.1.bb => fontconfig_2.11.93.bb} |   7 +-
+>  ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch |  50 ++
+>  .../xorg-xserver/xserver-xorg_1.16.3.bb            |   1 +
+>  .../lttng/lttng-tools/extern-decls.patch           | 442 +++++++++++++++++
+>  meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb     |   1 +
+>  31 files changed, 794 insertions(+), 1180 deletions(-)
+>  create mode 100644 meta/recipes-bsp/grub/files/0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch
+>  create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
+>  create mode 100644 meta/recipes-devtools/insserv/files/161_bts777914_fix_undeclared_identifier.patch
+>  delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch
+>  delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/autofoo.patch
+>  delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/obsolete_automake_macros.patch
+>  delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/autofoo.patch
+>  rename meta/recipes-devtools/pkgconfig/{pkgconfig-0.28 => pkgconfig}/fix-glib-configure-libtool-usage.patch (100%)
+>  delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
+>  create mode 100644 meta/recipes-extended/mdadm/files/inline.patch
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+>  create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch
+>  rename meta/recipes-graphics/fontconfig/{fontconfig_2.11.1.bb => fontconfig_2.11.93.bb} (83%)
+>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+>  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/extern-decls.patch
+>
+> --
+> 2.1.4
+>
 
