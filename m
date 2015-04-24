@@ -1,24 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 79B196E268
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 009236E268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Apr 2015 02:40:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3O2eQpQ006760
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 24 Apr 2015 03:35:25 +0000 (UTC)
+Received: by pacwv17 with SMTP id wv17so14150959pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Apr 2015 19:40:27 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 23 Apr 2015 19:40:26 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Apr 2015 10:37:14 +0800
-Message-ID: <1429843034-18978-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] rsync: backport a patch to fix CVE-2014-9512
+	Thu, 23 Apr 2015 20:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=m1NEu94Ucs8hTaNe8VxeE1LGTysQkrDYS1KAQXSzF7U=;
+	b=q20OL38+Xkv1gO4fRWoIJj52OZaB9iNOrdLAf3jjyhULfeVKR1CQh/pr+L7RST6Og+
+	NUA57DhaHvJcrKNAX+VsvcveZvt4IsGI1dkWXSJCiD4yPS+bS1NAWjb+TayIqT6Xc/zJ
+	2OEThhrttLyWTVY63ouOfQTWd6zjifFwNQdrB1WEY+oHe/FWRnxYEpfPGUcKd+GPkpT0
+	erGWq2p6vLvYPwXdv/KE+Xk1bMRLqgjPc4XV6x1111ynwHNdjNUei+mXnoyB2PiSRxhN
+	NvFfnx3tYTQyEH90wPzdgM99rkKtz/eylGkr7UzBbo0HbBS5Z0VlmfygjP6tYFcKJ+ko
+	XP4Q==
+X-Received: by 10.70.135.106 with SMTP id pr10mr2224703pdb.156.1429846526380; 
+	Thu, 23 Apr 2015 20:35:26 -0700 (PDT)
+Received: from iMac.hsd1.ca.comcast.net (c-24-130-225-169.hsd1.ca.comcast.net.
+	[24.130.225.169])
+	by mx.google.com with ESMTPSA id i16sm9423184pbq.79.2015.04.23.20.35.25
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Apr 2015 20:35:25 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Apr 2015 20:35:04 -0700
+Message-Id: <cover.1429846255.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/14] Fix world build with gcc-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,180 +41,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Apr 2015 02:40:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Apr 2015 03:35:28 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+I saw that my prior pull request has not yet been picked so I took opportunity to update it
+with few more commits and remove the commits not needed for world builds out.
+With these world builds on OE-Core are succeeding for all supported qemu machines
+The gcc upgrade is not yet proposed since we are still in RC phase and as soon as
+5.1.0 is released I will propose it for OE-Core
 
-rsync 3.1.1 allows remote attackers to write to arbitrary files via a symlink
-attack on a file in the synchronization path.
+Khem Raj (14):
+  glibc, packagegroup-self-hosted, packagegroup-core-lsb: Consider
+    non-glibc libcs
+  insserv: Fix build with gcc5 and clang
+  xserver-xorg: Fix build with gcc-5
+  u-boot-mkimage: Backport fix from upstream to fix build with gcc-5
+  mdadm: Fix inline semantics
+  lttng-tools: Add extern qualifier to declarations in .h file
+  subversion: Add -P to CPPFLAGS
+  gnome-icon-theme: Needs nls.m4
+  gtk+: Correct function prototype
+  grub: Backport const qualifier fix for gcc-5
+  gummiboot: upgrade 43 -> 48+git
+  pkgconfig: Upgrade to latest git tip
+  fontconfig: Upgrade to 2.11.93
+  fontconfig: Fix pkgconfig file generation to not have absolute paths
 
-Backport Complain-if-an-inc-recursive-path-is-not-right-for-i.patch to fix it
+ ..._dhcp_vendor-Add-missing-const-qualifiers.patch |  33 ++
+ meta/recipes-bsp/grub/grub2.inc                    |   1 +
+ .../gummiboot/gummiboot/fix-objcopy.patch          |  28 +-
+ meta/recipes-bsp/gummiboot/gummiboot_git.bb        |   4 +-
+ meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch  |  91 ++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb  |   4 +-
+ meta/recipes-core/glibc/glibc_2.21.bb              |   8 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   7 +-
+ .../161_bts777914_fix_undeclared_identifier.patch  |  36 ++
+ meta/recipes-devtools/insserv/insserv_1.14.0.bb    |   1 +
+ ...Strip-system-library-directories-reliably.patch |  30 --
+ .../pkgconfig/pkgconfig-0.28/autofoo.patch         | 528 ---------------------
+ .../pkgconfig-0.28/obsolete_automake_macros.patch  |  16 -
+ meta/recipes-devtools/pkgconfig/pkgconfig.inc      |   6 +-
+ .../pkgconfig/pkgconfig/autofoo.patch              | 528 ---------------------
+ .../fix-glib-configure-libtool-usage.patch         |   0
+ meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb  |  11 -
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  42 +-
+ .../subversion/subversion_1.8.11.bb                |   3 +-
+ meta/recipes-extended/mdadm/files/inline.patch     |  39 ++
+ meta/recipes-extended/mdadm/mdadm_3.3.2.bb         |   1 +
+ .../packagegroups/packagegroup-core-lsb.bb         |   9 +
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |   2 +-
+ .../gtk+/gtk+/strict-prototypes.patch              |  24 +
+ meta/recipes-gnome/gtk+/gtk+_2.24.27.bb            |   1 +
+ .../fontconfig/revert-static-pkgconfig.patch       |  20 +
+ ...{fontconfig_2.11.1.bb => fontconfig_2.11.93.bb} |   7 +-
+ ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch |  50 ++
+ .../xorg-xserver/xserver-xorg_1.16.3.bb            |   1 +
+ .../lttng/lttng-tools/extern-decls.patch           | 442 +++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb     |   1 +
+ 31 files changed, 794 insertions(+), 1180 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
+ create mode 100644 meta/recipes-devtools/insserv/files/161_bts777914_fix_undeclared_identifier.patch
+ delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/0001-Strip-system-library-directories-reliably.patch
+ delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/autofoo.patch
+ delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.28/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/autofoo.patch
+ rename meta/recipes-devtools/pkgconfig/{pkgconfig-0.28 => pkgconfig}/fix-glib-configure-libtool-usage.patch (100%)
+ delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
+ create mode 100644 meta/recipes-extended/mdadm/files/inline.patch
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+/strict-prototypes.patch
+ create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.11.1.bb => fontconfig_2.11.93.bb} (83%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/extern-decls.patch
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- ...-an-inc-recursive-path-is-not-right-for-i.patch | 135 +++++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.1.1.bb         |   4 +-
- 2 files changed, 138 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch
-
-diff --git a/meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch b/meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch
-new file mode 100644
-index 0000000..5ece542
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/rsync-3.1.1/0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch
-@@ -0,0 +1,135 @@
-+From 962f8b90045ab331fc04c9e65f80f1a53e68243b Mon Sep 17 00:00:00 2001
-+From: Wayne Davison <wayned@samba.org>
-+Date: Wed, 31 Dec 2014 12:41:03 -0800
-+Subject: [PATCH] Complain if an inc-recursive path is not right for its dir.
-+ This ensures that a malicious sender can't use a just-sent symlink as a
-+ trasnfer path.
-+
-+Upstream-Status: BackPort
-+
-+Fix the CVE-2014-9512, rsync 3.1.1 allows remote attackers to write to arbitrary
-+files via a symlink attack on a file in the synchronization path.
-+
-+BackPort and fix this patch to make it able to apply to source code
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ flist.c | 22 ++++++++++++++++++++--
-+ io.c    |  2 +-
-+ main.c  |  4 ++--
-+ rsync.c |  2 +-
-+ proto.h | 2 +-
-+ 6 files changed, 31 insertions(+), 8 deletions(-)
-+
-+diff --git a/flist.c b/flist.c
-+index c24672e..92e4b65 100644
-+--- a/flist.c
-++++ b/flist.c
-+@@ -2435,8 +2435,9 @@ struct file_list *send_file_list(int f, int argc, char *argv[])
-+ 	return flist;
-+ }
-+ 
-+-struct file_list *recv_file_list(int f)
-++struct file_list *recv_file_list(int f, int dir_ndx)
-+ {
-++	const char *good_dirname = NULL;
-+ 	struct file_list *flist;
-+ 	int dstart, flags;
-+ 	int64 start_read;
-+@@ -2492,6 +2493,23 @@ struct file_list *recv_file_list(int f)
-+ 		flist_expand(flist, 1);
-+ 		file = recv_file_entry(f, flist, flags);
-+ 
-++		if (inc_recurse) {
-++			static const char empty_dir[] = "\0";
-++			const char *cur_dir = file->dirname ? file->dirname : empty_dir;
-++			if (relative_paths && *cur_dir == '/')
-++				cur_dir++;
-++			if (cur_dir != good_dirname) {
-++				const char *d = dir_ndx >= 0 ? f_name(dir_flist->files[dir_ndx], NULL) : empty_dir;
-++				if (strcmp(cur_dir, d) != 0) {
-++					rprintf(FERROR,
-++						"ABORTING due to invalid dir prefix from sender: %s (should be: %s)\n",
-++						cur_dir, d);
-++					exit_cleanup(RERR_PROTOCOL);
-++				}
-++				good_dirname = cur_dir;
-++			}
-++		}
-++
-+ 		if (S_ISREG(file->mode)) {
-+ 			/* Already counted */
-+ 		} else if (S_ISDIR(file->mode)) {
-+@@ -2615,7 +2633,7 @@ void recv_additional_file_list(int f)
-+ 			rprintf(FINFO, "[%s] receiving flist for dir %d\n",
-+ 				who_am_i(), ndx);
-+ 		}
-+-		flist = recv_file_list(f);
-++		flist = recv_file_list(f, ndx);
-+ 		flist->parent_ndx = ndx;
-+ 	}
-+ }
-+diff --git a/io.c b/io.c
-+index b9a9bd0..a868fa9 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -1685,7 +1685,7 @@ void wait_for_receiver(void)
-+ 				rprintf(FINFO, "[%s] receiving flist for dir %d\n",
-+ 					who_am_i(), ndx);
-+ 			}
-+-			flist = recv_file_list(iobuf.in_fd);
-++			flist = recv_file_list(iobuf.in_fd, ndx);
-+ 			flist->parent_ndx = ndx;
-+ #ifdef SUPPORT_HARD_LINKS
-+ 			if (preserve_hard_links)
-+diff --git a/main.c b/main.c
-+index e7a13f7..713b818 100644
-+--- a/main.c
-++++ b/main.c
-+@@ -1009,7 +1009,7 @@ static void do_server_recv(int f_in, int f_out, int argc, char *argv[])
-+ 		filesfrom_fd = -1;
-+ 	}
-+ 
-+-	flist = recv_file_list(f_in);
-++	flist = recv_file_list(f_in, -1);
-+ 	if (!flist) {
-+ 		rprintf(FERROR,"server_recv: recv_file_list error\n");
-+ 		exit_cleanup(RERR_FILESELECT);
-+@@ -1183,7 +1183,7 @@ int client_run(int f_in, int f_out, pid_t pid, int argc, char *argv[])
-+ 
-+ 	if (write_batch && !am_server)
-+ 		start_write_batch(f_in);
-+-	flist = recv_file_list(f_in);
-++	flist = recv_file_list(f_in, -1);
-+ 	if (inc_recurse && file_total == 1)
-+ 		recv_additional_file_list(f_in);
-+ 
-+diff --git a/rsync.c b/rsync.c
-+index 68ff6b1..c3ecc51 100644
-+--- a/rsync.c
-++++ b/rsync.c
-+@@ -364,7 +364,7 @@ int read_ndx_and_attrs(int f_in, int f_out, int *iflag_ptr, uchar *type_ptr,
-+ 		}
-+ 		/* Send all the data we read for this flist to the generator. */
-+ 		start_flist_forward(ndx);
-+-		flist = recv_file_list(f_in);
-++		flist = recv_file_list(f_in, ndx);
-+ 		flist->parent_ndx = ndx;
-+ 		stop_flist_forward();
-+ 	}
-+diff --git a/proto.h b/proto.h
-+index 22fc539..247c558 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -89,7 +89,7 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
-+ void unmake_file(struct file_struct *file);
-+ void send_extra_file_list(int f, int at_least);
-+ struct file_list *send_file_list(int f, int argc, char *argv[]);
-+-struct file_list *recv_file_list(int f);
-++struct file_list *recv_file_list(int f, int dir_ndx);
-+ void recv_additional_file_list(int f);
-+ int flist_find(struct file_list *flist, struct file_struct *f);
-+ int flist_find_ignore_dirness(struct file_list *flist, struct file_struct *f);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.1.bb b/meta/recipes-devtools/rsync/rsync_3.1.1.bb
-index 5ff8ae8..3a79154 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.1.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.1.bb
-@@ -1,7 +1,9 @@
- require rsync.inc
- 
- 
--SRC_URI += "file://acinclude.m4"
-+SRC_URI += "file://acinclude.m4 \
-+            file://0001-Complain-if-an-inc-recursive-path-is-not-right-for-i.patch \
-+"
- 
- SRC_URI[md5sum] = "43bd6676f0b404326eee2d63be3cdcfe"
- SRC_URI[sha256sum] = "7de4364fcf5fe42f3bdb514417f1c40d10bbca896abe7e7f2c581c6ea08a2621"
 -- 
-1.9.1
+2.1.4
 
 
