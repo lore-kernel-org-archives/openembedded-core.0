@@ -1,30 +1,38 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 3752D6AC24
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 58FC47169F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Apr 2015 10:14:19 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Ylx6K-0002cD-Dp from Dmitry_Eremin@mentor.com ;
-	Sat, 25 Apr 2015 03:14:20 -0700
-Received: from [137.202.140.150] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Sat, 25 Apr 2015 11:14:18 +0100
-Message-ID: <553B68F8.6000702@mentor.com>
-Date: Sat, 25 Apr 2015 13:14:16 +0300
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.5.0
+	Sun, 26 Apr 2015 16:17:48 +0000 (UTC)
+Received: by oiko83 with SMTP id o83so73008961oik.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Apr 2015 09:17:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=D98n418VJkzjRsIxCelE0TtgEUTcwXtGNC7oJBNGMZk=;
+	b=Rxt9HsouFU8edJ3F2rUgR5BBmss7FfAdGSnWO0CWj/jJn4DAwmfG1pNRcUZ7swds1+
+	a4Qu6Q4uKImN//MP1t4OmJLIULiwumEisZ0L1rRYvRcoeF1kOCv+uj1jJxx7IEuVFoq7
+	SzRaC5OcIparRUEazWWdDytrGgllsf49XqLSUAsndiJzfpFzUKZSXzioJKOepDtgXvKJ
+	iA2C0HeZ+90BH1aMYRqsCLtGA1vZ6E4Woj3cqQCFVW+rJlvqs2uMH7BCpS/hroT+RwJK
+	URL6FuC77SGeXJEN945mtsP0ybGtSlY23V4oI+DUSLpUZowYsCJdRv7UVz+R5T9ew96W
+	bqaQ==
+X-Gm-Message-State: ALoCoQlDtRiFAdTrTpNOPAyL9jFnwVO1w/yS4CKF7a+mHNXifNh4qGBPVmVqU/yegkdyIJoJrGgX
+X-Received: by 10.202.95.198 with SMTP id t189mr6193438oib.105.1430065069175; 
+	Sun, 26 Apr 2015 09:17:49 -0700 (PDT)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1429905741-24667-1-git-send-email-dmitry_eremin@mentor.com>
-	<20150424212013.GF2353@jama>
-In-Reply-To: <20150424212013.GF2353@jama>
-X-Originating-IP: [137.202.0.76]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qt4-x11-free: make virtual/libgl dependecy conditional
+Received: by 10.202.225.2 with HTTP; Sun, 26 Apr 2015 09:17:18 -0700 (PDT)
+In-Reply-To: <CAJTo0LY5P1=bxOw5iyq9w1516Z80AK_Zgo4uz_HLeBnSJvDqaA@mail.gmail.com>
+References: <cover.1429623703.git.jussi.kukkonen@intel.com>
+	<8707327ed9f83af241aa6fc3a8afc640854c9ced.1429623703.git.jussi.kukkonen@intel.com>
+	<CAJTo0LY5P1=bxOw5iyq9w1516Z80AK_Zgo4uz_HLeBnSJvDqaA@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Sun, 26 Apr 2015 19:17:18 +0300
+Message-ID: <CAHiDW_HLeP=U-aAVzY4yZS3PyZX+NbP2-ZhDdRPjYoUP9BUgQg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] librsvg: Upgrade 0.40.6 -> 0.40.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +45,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Apr 2015 10:14:21 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 26 Apr 2015 16:17:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 04/25/2015 12:20 AM, Martin Jansa wrote:
-> On Fri, Apr 24, 2015 at 11:02:21PM +0300, Dmitry Eremin-Solenikov wrote:
->> Make qt4-x11-free depend on virtual/libgl only if the DISTRO_FEATURES
->> contain opengl. Otherwise there will be no package to fullfil this
->> dependency.
->>
->> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
->> ---
->>   meta/recipes-qt/qt4/qt4-x11-free.inc | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
->> index 3b1e0fe..835fc96 100644
->> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
->> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
->> @@ -4,7 +4,8 @@ SUMMARY = "Cross-platform UI toolkit and application framework (X11 version)"
->>   DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is the X11 version."
->>   HOMEPAGE = "http://qt-project.org/"
->>   SECTION = "x11/libs"
->> -DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
->> +DEPENDS += "virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
->> +DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
+On 23 April 2015 at 11:50, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> That still leaves opengl support to be autodetected from sysroot for
-> distributions without opengl in DISTRO_FEATURES but where someone built
-> virtual/libgl provider before qt4-x11-free.
+> On 21 April 2015 at 16:49, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> -Upstream-Status: Submitted
+>> [https://bugzilla.gnome.org/show_bug.cgi?id=712693]
 >
-> You need to use PACKAGECONFIG to explicitly disable it when it should be
-> disabled based on DISTRO_FEATURES.
+> This tag disappears in the updated patch, please add it back.
 
-I have checked the qt4-x11-free.inc file. It correctly sets QT_GLFLAGS 
-depending on the presence of 'opengl' in DISTRO_FEATURES. So my patch is 
-correct.
+I fixed Upstream-Status tag in that patch and re-pushed the same
+branch (rebased to current master):
+
+  git://git.yoctoproject.org/poky-contrib jku/update-gnomeish
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/update-gnomeish
 
 
--- 
-With best wishes
-Dmitry
+Thanks,
+  Jussi
 
