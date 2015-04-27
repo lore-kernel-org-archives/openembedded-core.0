@@ -1,33 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A05165CD0
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C18E965CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 07:13:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3R7Dt2J022298; Mon, 27 Apr 2015 08:13:55 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CfA0YpYZKCPh; Mon, 27 Apr 2015 08:13:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3R7DVEn022292
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Apr 2015 08:13:53 +0100
-Message-ID: <1430118811.13022.91.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 27 Apr 2015 08:13:31 +0100
-In-Reply-To: <CABcZAN=Xebt9XPGD_FgpsTp06nbs6OezJhsBNCTnoefCfknxzA@mail.gmail.com>
-References: <cover.1429799661.git.cristian.iorga@intel.com>
-	<1a55976003e57036ced5e47dd031575508dfc87b.1429799661.git.cristian.iorga@intel.com>
-	<1430085461.13022.89.camel@linuxfoundation.org>
-	<CABcZAN=Xebt9XPGD_FgpsTp06nbs6OezJhsBNCTnoefCfknxzA@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 4/4] bluez5: don't exclude from world builds
+	Mon, 27 Apr 2015 08:12:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3R8CVpm027362
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Apr 2015 01:12:31 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.142) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 27 Apr 2015 01:12:30 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Apr 2015 16:12:29 +0800
+Message-ID: <1430122349-8674-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Subject: [PATCH] subversion: upgrade it from 1.8.11 to 1.8.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 07:14:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Apr 2015 08:12:33 -0000
+Content-Type: text/plain
 
-On Sun, 2015-04-26 at 18:17 -0700, Christopher Larson wrote:
-> 
-> On Sun, Apr 26, 2015 at 2:57 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         On Thu, 2015-04-23 at 17:38 +0300, Cristian Iorga wrote:
->         > As BlueZ5 will be the default Bluetooth stack,
->         > don't exclude it from world builds.
->         >
->         > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->         > ---
->         >  meta/recipes-connectivity/bluez5/bluez5.inc | 2 --
->         >  1 file changed, 2 deletions(-)
->         >
->         > diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
->         b/meta/recipes-connectivity/bluez5/bluez5.inc
->         > index 67aafbb..bf845a8 100644
->         > --- a/meta/recipes-connectivity/bluez5/bluez5.inc
->         > +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
->         > @@ -100,5 +100,3 @@ FILES_${PN}-dbg += "\
->         >  RDEPENDS_${PN}-testtools += "python python-dbus
->         python-pygobject"
->         >
->         >  SYSTEMD_SERVICE_${PN} = "bluetooth.service"
->         > -
->         > -EXCLUDE_FROM_WORLD = "1"
->         
->         The reason this is there is to ensure that a bitbake world
->         doesn't build
->         bluez4 and 5 at the same time. Even though v4 is moving to
->         meta-oe, it
->         doesn't change the fact we really need this so world builds
->         don't end up
->         in a mess.
->         
->         Typically, any recipe providing a vritual/xxxx PROVIDES will
->         also end up
->         with an EXCLUDE_FROM_WORLD as the dependency mechanism will
->         then pull in
->         the correct thing(s).
->         
->         Not ideal but its what we have today.
-> 
-> Originally, world was designed to only build one of any given multiple
-> provider situation, IIRC. Is that not the case, or is it the fact that
-> both get pulled in via dependencies in a world build, not directly?
+From: Roy Li <rongqing.li@windriver.com>
 
-I'm not aware of any code that would remove things with multiple
-providers from world? Its possible that got lost when we switched to
-multiple threads of execution but that was a long time ago.
+upgrade to fix two CVE defects: CVE-2015-0248 and CVE-2015-0251
 
-Cheers,
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../{subversion-1.8.11 => subversion-1.8.13}/disable_macos.patch      | 0
+ .../{subversion-1.8.11 => subversion-1.8.13}/libtool2.patch           | 0
+ .../subversion/{subversion_1.8.11.bb => subversion_1.8.13.bb}         | 4 ++--
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/subversion/{subversion-1.8.11 => subversion-1.8.13}/disable_macos.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion-1.8.11 => subversion-1.8.13}/libtool2.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion_1.8.11.bb => subversion_1.8.13.bb} (96%)
 
-Richard
-
+diff --git a/meta/recipes-devtools/subversion/subversion-1.8.11/disable_macos.patch b/meta/recipes-devtools/subversion/subversion-1.8.13/disable_macos.patch
+similarity index 100%
+rename from meta/recipes-devtools/subversion/subversion-1.8.11/disable_macos.patch
+rename to meta/recipes-devtools/subversion/subversion-1.8.13/disable_macos.patch
+diff --git a/meta/recipes-devtools/subversion/subversion-1.8.11/libtool2.patch b/meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch
+similarity index 100%
+rename from meta/recipes-devtools/subversion/subversion-1.8.11/libtool2.patch
+rename to meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.11.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+similarity index 96%
+rename from meta/recipes-devtools/subversion/subversion_1.8.11.bb
+rename to meta/recipes-devtools/subversion/subversion_1.8.13.bb
+index 8e4cd9d..aaeb5cd 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.11.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+@@ -13,8 +13,8 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libtool2.patch \
+            file://disable_macos.patch \
+ "
+-SRC_URI[md5sum] = "766a89bbbb388f8eb76166672d3b9e49"
+-SRC_URI[sha256sum] = "10b056420e1f194c12840368f6bf58842e6200f9cb8cc5ebbf9be2e89e56e4d9"
++SRC_URI[md5sum] = "4413417b529d7bdf82f74e50df02e88b"
++SRC_URI[sha256sum] = "1099cc68840753b48aedb3a27ebd1e2afbcc84ddb871412e5d500e843d607579"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1c2f0119e478700b5428e26386cff923"
+ 
+-- 
+2.1.0
 
 
