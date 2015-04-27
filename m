@@ -1,38 +1,38 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BDA372A78
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BC2065CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 12:10:33 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so60488423igb.0
+	Mon, 27 Apr 2015 12:36:43 +0000 (UTC)
+Received: by iebrs15 with SMTP id rs15so124753576ieb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 05:10:34 -0700 (PDT)
+	Mon, 27 Apr 2015 05:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=ZEhhnnYDbE7sPVozdZgBM512x0tcKwIK8LtYuOZpjnM=;
-	b=S845EIkZi2rotrBWdv+CXexzg9eUHQgUf3HSpCEh4HT9cevvkdBtzlldb641UfaPyM
-	UgLJz++oDr6SL3zU+4y6Ld+BW0NAe6JKqJgldXpJ0/kBjY05396rJpLsTVB8tHtcoMHd
-	QiY8ajL9ZxRTnBWenUHhvltDI2A5u65wzStBJkkCE5NQHmDKhnoOHUFrom3YXjwyS1qC
-	uT0lpM32wJSOaVlqiIce1xWuWFlflB1sCkwJnwaHSYHV38AC+Jnv7pOBQ8H45+fB7xZG
-	DpluNXWyM4FmTJYKPDsMpHha1FMivSLJRf1QmwWcDgoq1bs1M/pnxqXD2DnwtlbmrieQ
-	4Bpg==
+	bh=DhsTOwZW3iVTCbh6w11bg6lEm/w0wRLdH+87ik0NINA=;
+	b=Am8XxEsFaOMMwBs/dtY1JTjJPxhXXH6Ozi6xHElVfb+lKxfkibMKHW7eHCRVKt4CCu
+	/czdQblu7oM+LkRLlCHCJ3FW9oMsmIYCB5He0fvSNq1qpNwZwNYOJPjlwLp1BDYZhwqH
+	G2qCFO4RBti4Eq36MJMEEcfpJxWlyFsmjRrHsCVKX7VfFMzN2nCeudk8HwC/8/JYcSuu
+	Pe9HIKyogqm2GR6DQv6nTXaCPnBn9Z/muIpUsxy8rXX0IlYIBF0OG2XmY+gC7IW7cvPI
+	aRzIgXcAW2d0Lu/Ip9ecGj4LTVtNKglsXJB4wCW+DchiQzUpjk1FwSosZybzE28XK4w/
+	Z5Xg==
 MIME-Version: 1.0
-X-Received: by 10.43.55.12 with SMTP id vw12mr11783569icb.30.1430136634506;
-	Mon, 27 Apr 2015 05:10:34 -0700 (PDT)
+X-Received: by 10.107.134.206 with SMTP id q75mr13251702ioi.27.1430138204756; 
+	Mon, 27 Apr 2015 05:36:44 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.107.23.197 with HTTP; Mon, 27 Apr 2015 05:10:34 -0700 (PDT)
-In-Reply-To: <20150427110426.GE2379@jama>
-References: <1429613620-2989-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150427110426.GE2379@jama>
-Date: Mon, 27 Apr 2015 09:10:34 -0300
-X-Google-Sender-Auth: 2-9AoZ6FIyPlt0tJTTgqL348vl4
-Message-ID: <CAP9ODKp+aLJfqSmT_ghqHvn4NmjDn=Bmiu-yNFKqNtj90iXwfw@mail.gmail.com>
+Received: by 10.107.23.197 with HTTP; Mon, 27 Apr 2015 05:36:44 -0700 (PDT)
+In-Reply-To: <1429921942-19804-2-git-send-email-psidhu@gateworks.com>
+References: <1429921942-19804-1-git-send-email-psidhu@gateworks.com>
+	<1429921942-19804-2-git-send-email-psidhu@gateworks.com>
+Date: Mon, 27 Apr 2015 09:36:44 -0300
+X-Google-Sender-Auth: 6OnTH6S4kWsubK8uufu8XuQzQMs
+Message-ID: <CAP9ODKpua0=cpqyj9EF8+iNmFxDwcU7R+nCbpCCGoEPrdLUafA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
+To: Pushpal Sidhu <psidhu@gateworks.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [fido][PATCH 1/4] elfutils: fix build with -Os
+Subject: Re: [PATCH] image_types.bbclass: add support for multiple ubi sizes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,16 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 12:10:33 -0000
+X-List-Received-Date: Mon, 27 Apr 2015 12:36:46 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Apr 27, 2015 at 8:04 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Tue, Apr 21, 2015 at 12:53:37PM +0200, Martin Jansa wrote:
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+On Fri, Apr 24, 2015 at 9:32 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+> Add new FSTYPE called 'multiubi'. This new type has the ability to
+> create multple ubi's, something that's extremely useful on boards that
+> can include varying flash sizes (e.g. 256MB vs 2GB).
 >
-> ping for all 4 changes
+> Because we don't want to reuse code, I extracted the mkfs and ubinize
+> commands out to a new function that will handle the creation of both
+> multiple ubi's, as well as the 'ubi' FSTYPE (so as not to break current
+> boards).
+>
+> Due to the single processes nature of the OE when doing it's
+> 'create_image', this new multiubi_mkfs function also creates it's own
+> symlinks as well as cleans up it's own cfg file.
+>
+> Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
 
-Ack for all 4 changes
+It makes a lot of sense.
+
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 -- 
 Otavio Salvador                             O.S. Systems
