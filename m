@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 15952734DE
+	by mail.openembedded.org (Postfix) with ESMTP id D755B734DE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Apr 2015 09:53:35 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2015 02:53:36 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2015 02:53:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,656,1422950400"; d="scan'208";a="562337847"
+X-IronPort-AV: E=Sophos;i="5.11,656,1422950400"; d="scan'208";a="562337888"
 Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.4.219])
-	by orsmga003.jf.intel.com with ESMTP; 27 Apr 2015 02:53:33 -0700
+	by orsmga003.jf.intel.com with ESMTP; 27 Apr 2015 02:53:36 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Apr 2015 10:53:16 +0100
-Message-Id: <c6004b2c14265e1e9c98c44441b71080f764ead2.1430128109.git.paul.eggleton@linux.intel.com>
+Date: Mon, 27 Apr 2015 10:53:17 +0100
+Message-Id: <6486cde228cba7bba31df4b3170c3c083a29607b.1430128109.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1430128109.git.paul.eggleton@linux.intel.com>
 References: <cover.1430128109.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1430128109.git.paul.eggleton@linux.intel.com>
 References: <cover.1430128109.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 4/9] devtool: include bbappends in recipe parsing
+Subject: [PATCH v2 5/9] devtool: handle . in recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,115 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 09:53:35 -0000
+X-List-Received-Date: Mon, 27 Apr 2015 09:53:36 -0000
 
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Names such as glib-2.0 are valid (and used) recipe names, so we need to
+support them.
 
-In order to get correct metadata, SRCREV for example.
+Fixes [YOCTO #7643].
 
-Fixes [YOCTO #7648].
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py      |  6 +++---
- scripts/lib/devtool/standard.py | 35 ++++++++++++++++++++++-------------
- 2 files changed, 25 insertions(+), 16 deletions(-)
+ meta/lib/oe/recipeutils.py | 4 ++--
+ scripts/devtool            | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 159a103..09bd7fd 100644
+index 09bd7fd..19d97b6 100644
 --- a/meta/lib/oe/recipeutils.py
 +++ b/meta/lib/oe/recipeutils.py
-@@ -44,10 +44,10 @@ def get_unavailable_reasons(cooker, pn):
-     return taskdata.get_reasons(pn)
+@@ -269,8 +269,8 @@ def get_recipe_patches(d):
+ def validate_pn(pn):
+     """Perform validation on a recipe name (PN) for a new recipe."""
+     reserved_names = ['forcevariable', 'append', 'prepend', 'remove']
+-    if not re.match('[0-9a-z-]+', pn):
+-        return 'Recipe name "%s" is invalid: only characters 0-9, a-z and - are allowed' % pn
++    if not re.match('[0-9a-z-.]+', pn):
++        return 'Recipe name "%s" is invalid: only characters 0-9, a-z, - and . are allowed' % pn
+     elif pn in reserved_names:
+         return 'Recipe name "%s" is invalid: is a reserved keyword' % pn
+     elif pn.startswith('pn-'):
+diff --git a/scripts/devtool b/scripts/devtool
+index 981ff51..841831c 100755
+--- a/scripts/devtool
++++ b/scripts/devtool
+@@ -101,7 +101,7 @@ def read_workspace():
+             _create_workspace(config.workspace_path, config, basepath)
  
- 
--def parse_recipe(fn, d):
-+def parse_recipe(fn, appends, d):
-     """Parse an individual recipe"""
-     import bb.cache
--    envdata = bb.cache.Cache.loadDataFull(fn, [], d)
-+    envdata = bb.cache.Cache.loadDataFull(fn, appends, d)
-     return envdata
- 
- 
-@@ -55,7 +55,7 @@ def get_var_files(fn, varlist, d):
-     """Find the file in which each of a list of variables is set.
-     Note: requires variable history to be enabled when parsing.
-     """
--    envdata = parse_recipe(fn, d)
-+    envdata = parse_recipe(fn, [], d)
-     varfiles = {}
-     for v in varlist:
-         history = envdata.varhistory.variable(v)
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index aa30a98..faf5c92 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -130,18 +130,29 @@ def _get_recipe_file(cooker, pn):
-             logger.error("Unable to find any recipe file matching %s" % pn)
-     return recipefile
- 
-+def _parse_recipe(config, tinfoil, pn, appends):
-+    """Parse recipe of a package"""
-+    import oe.recipeutils
-+    recipefile = _get_recipe_file(tinfoil.cooker, pn)
-+    if not recipefile:
-+        # Error already logged
-+        return None
-+    if appends:
-+        append_files = tinfoil.cooker.collection.get_file_appends(recipefile)
-+        # Filter out appends from the workspace
-+        append_files = [path for path in append_files if
-+                        not path.startswith(config.workspace_path)]
-+    return oe.recipeutils.parse_recipe(recipefile, append_files,
-+                                       tinfoil.config_data)
- 
- def extract(args, config, basepath, workspace):
-     import bb
--    import oe.recipeutils
- 
-     tinfoil = setup_tinfoil()
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(config, tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
- 
-     srctree = os.path.abspath(args.srctree)
-     initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
-@@ -327,11 +338,10 @@ def modify(args, config, basepath, workspace):
- 
-     tinfoil = setup_tinfoil()
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(config, tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
-+    recipefile = rd.getVar('FILE', True)
- 
-     if not _check_compatible_recipe(args.recipename, rd):
-         return -1
-@@ -428,11 +438,10 @@ def update_recipe(args, config, basepath, workspace):
-     from oe.patch import GitApplyTree
-     import oe.recipeutils
- 
--    recipefile = _get_recipe_file(tinfoil.cooker, args.recipename)
--    if not recipefile:
--        # Error already logged
-+    rd = _parse_recipe(config, tinfoil, args.recipename, True)
-+    if not rd:
-         return -1
--    rd = oe.recipeutils.parse_recipe(recipefile, tinfoil.config_data)
-+    recipefile = rd.getVar('FILE', True)
- 
-     orig_src_uri = rd.getVar('SRC_URI', False) or ''
-     if args.mode == 'auto':
+     logger.debug('Reading workspace in %s' % config.workspace_path)
+-    externalsrc_re = re.compile(r'^EXTERNALSRC(_pn-[a-zA-Z0-9-]*)? =.*$')
++    externalsrc_re = re.compile(r'^EXTERNALSRC(_pn-[^ =]+)? =.*$')
+     for fn in glob.glob(os.path.join(config.workspace_path, 'appends', '*.bbappend')):
+         pn = os.path.splitext(os.path.basename(fn))[0].split('_')[0]
+         with open(fn, 'r') as f:
 -- 
 2.1.0
 
