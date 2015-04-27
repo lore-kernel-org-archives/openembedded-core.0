@@ -1,24 +1,39 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E4FDE65CAC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 16:13:09 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 27 Apr 2015 09:12:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,658,1422950400"; 
-	d="scan'208,217";a="486244777"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.24.81])
-	([10.219.24.81])
-	by FMSMGA003.fm.intel.com with ESMTP; 27 Apr 2015 09:12:44 -0700
-Message-ID: <553E5FFC.2030203@linux.intel.com>
-Date: Mon, 27 Apr 2015 11:12:44 -0500
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 04B1A65CAC;
+	Mon, 27 Apr 2015 16:14:04 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so121763242wgs.1;
+	Mon, 27 Apr 2015 09:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=KTImXD+BEcfMsMzgZN94UvTRu/vHmEd1WJqx834qgOc=;
+	b=N5AIQUmZUirPo4HhKjExowOQ0l7E/YBjblyPOZ87f+9SHYfxwSviJOuMTpfYIFgI27
+	t3IkImjdZurM9mTen/wHvngLiYnlQaCxd8hGEjWnbJzVTo+9hdsCGAPnewFh2ygAsm75
+	BPbAvF7MgRRkWn0DiE36Ax64F7gP8czCF47fesAkk5pohSrivyGQHMjtpp4yVaVhuPSK
+	7IbcTebZpKVExM5F/EtL5UWEHRmLAgpKvi2uJn2RkNWXDr24aURS155jUKMAgRrmDhcL
+	GXCfh52x9GyZgZ3U/wavPTMjz9MM6SocVa35Xnm6DTj28vXhJHeOQlRyo2AH1FQFPxoj
+	/fUg==
+X-Received: by 10.181.11.129 with SMTP id ei1mr21982200wid.57.1430151245542;
+	Mon, 27 Apr 2015 09:14:05 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	fl14sm30030647wjc.11.2015.04.27.09.14.04
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Apr 2015 09:14:04 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 27 Apr 2015 18:15:01 +0200
+To: openembedded-core@lists.openembedded.org,
+	Bruno Bottazzini <bruno.bottazzini@intel.com>
+Message-ID: <20150427161501.GI2379@jama>
+References: <20150427143720.09D9C50238@opal.openembedded.org>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity.bbclass: Increased verbosity for connectivity check
+In-Reply-To: <20150427143720.09D9C50238@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Bruno Bottazzini : systemd 219 -> system 219-stable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,136 +46,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 16:13:12 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070300090307010709090302"
+X-List-Received-Date: Mon, 27 Apr 2015 16:14:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
---------------070300090307010709090302
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Mon, Apr 27, 2015 at 02:37:20PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: c21bf9d7bb0cb90392ed50a44c57a3d068b88ef9
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Dc21bf9d7bb0cb90392ed50a44c57a3d068b88ef9
+>=20
+> Author: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> Date:   Wed Apr 22 14:01:10 2015 -0300
+>=20
+> systemd 219 -> system 219-stable
+>=20
+> The upstream systemd git repo only contains the main systemd branch that
+> progresses at a quick pace, continuously bringing both bugfixes and new f=
+eatures.
+>=20
+> Distributions usually prefer basing their releases on stabilized versions
+> that receive the bugfixes but not the features.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-core/systemd/systemd_219.bb | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core=
+/systemd/systemd_219.bb
+> index 43c4f95..d1303f7 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -25,11 +25,11 @@ SECTION =3D "base/shell"
+> =20
+>  inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d updat=
+e-alternatives qemu systemd ptest gettext
+> =20
+> -SRCREV =3D "a88abde72169ddc2df77df3fa5bed30725022253"
+> +SRCREV =3D "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
+> =20
+> -PV =3D "219+git${SRCPV}"
+> +PV =3D "219-stable+git${SRCPV}"
+> =20
+> -SRC_URI =3D "git://anongit.freedesktop.org/systemd/systemd;branch=3Dmast=
+er \
+> +SRC_URI =3D "git://anongit.freedesktop.org/systemd/systemd-stable;branch=
+=3Dv219-stable;protocol=3Dgit \
+>             file://0002-shared-missing.h-fall-back-to-insecure-getenv.pat=
+ch \
+>             file://0003-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0004-configure-Check-for-additional-features-that-ucli=
+bc-.patch \
+> @@ -38,12 +38,8 @@ SRC_URI =3D "git://anongit.freedesktop.org/systemd/sys=
+temd;branch=3Dmaster \
+>             file://0007-util-Use-mkostemp-only-if-libc-supports-it.patch \
+>             file://0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-c=
+onf.patch \
+>             file://0009-sysv-generator-add-support-for-executing-scripts-=
+und.patch \
+> -           file://0010-Make-root-s-home-directory-configurable.patch \
 
-The connectivity sanity error doesn't tell you which URL failed to fetch 
-nor how it failed.
+Removal of this patch causes:
+WARNING: QA Issue: systemd: configure was passed unrecognised options:
+--with-roothomedir [unknown-configure-option]
 
-This provides the URL that failed and why it failed using 
-BBFetchException messages during the connectivity check.
+and why didn't you remove the .patch files which are no longer used from
+SRC_URI?
 
-Please disregard previous patch with the same topic.
+>             file://0011-systemd-user-avoid-using-system-auth.patch \
+> -           file://0001-tmpfiles-avoid-creating-duplicate-acl-entries.pat=
+ch \
+> -           file://0002-tmpfiles-quietly-ignore-ACLs-on-unsupported-files=
+yst.patch \
+>             file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as=
+-th.patch \
+> -           file://0013-journal-fix-Inappropriate-ioctl-for-device-on-ext=
+4.patch \
+>             file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+>             file://0015-Revert-udev-remove-userspace-firmware-loading-sup=
+por.patch \
+>             file://tmpfiles-pam.patch \
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-[YOCTO #7592]
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
-  meta/classes/sanity.bbclass | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index cca39c9..f7e8212 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -278,12 +278,12 @@ def check_connectivity(d):
-          try:
-              fetcher = bb.fetch2.Fetch(test_uris, data)
-              fetcher.checkstatus()
--        except Exception:
-+        except Exception as err:
-              # Allow the message to be configured so that users can be
-              # pointed to a support mechanism.
-              msg = data.getVar('CONNECTIVITY_CHECK_MSG', True) or ""
-              if len(msg) == 0:
--                msg = "Failed to fetch test data from the network. 
-Please ensure your network is configured correctly.\n"
-+                msg = '%s. Please ensure your network is configured 
-correctly.\n' % err
-              retval = msg
-
-      return retval
--- 
-1.8.4.5
-
-
---------------070300090307010709090302
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-text-flowed" style="font-family: -moz-fixed;
-      font-size: 12px;" lang="x-unicode">The connectivity sanity error
-      doesn't tell you which URL failed to fetch nor how it failed.
-      <br>
-      <br>
-      This provides the URL that failed and why it failed using
-      BBFetchException messages during the connectivity check.<br>
-      <br>
-      Please disregard previous patch with the same topic.<br>
-      <br>
-      [YOCTO #7592]
-      <br>
-      <br>
-      Signed-off-by: Mariano Lopez <a class="moz-txt-link-rfc2396E"
-        href="mailto:mariano.lopez@linux.intel.com">&lt;mariano.lopez@linux.intel.com&gt;</a>
-      <br>
-      ---
-      <br>
-       meta/classes/sanity.bbclass | 4 ++--
-      <br>
-       1 file changed, 2 insertions(+), 2 deletions(-)
-      <br>
-      <br>
-      diff --git a/meta/classes/sanity.bbclass
-      b/meta/classes/sanity.bbclass
-      <br>
-      index cca39c9..f7e8212 100644
-      <br>
-      --- a/meta/classes/sanity.bbclass
-      <br>
-      +++ b/meta/classes/sanity.bbclass
-      <br>
-      @@ -278,12 +278,12 @@ def check_connectivity(d):
-      <br>
-               try:
-      <br>
-                   fetcher = bb.fetch2.Fetch(test_uris, data)
-      <br>
-                   fetcher.checkstatus()
-      <br>
-      -        except Exception:
-      <br>
-      +        except Exception as err:
-      <br>
-                   # Allow the message to be configured so that users
-      can be
-      <br>
-                   # pointed to a support mechanism.
-      <br>
-                   msg = data.getVar('CONNECTIVITY_CHECK_MSG', True) or
-      ""
-      <br>
-                   if len(msg) == 0:
-      <br>
-      -                msg = "Failed to fetch test data from the
-      network. Please ensure your network is configured correctly.\n"
-      <br>
-      +                msg = '%s. Please ensure your network is
-      configured correctly.\n' % err
-      <br>
-                   retval = msg
-      <br>
-      <br>
-           return retval
-      <br>
-      <div class="moz-txt-sig"><span class="moz-txt-tag">-- <br>
-        </span>1.8.4.5
-        <br>
-        <br>
-      </div>
-    </div>
-  </body>
-</html>
-
---------------070300090307010709090302--
