@@ -1,43 +1,42 @@
-Return-Path: <scerveau@connected-labs.com>
-Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B211B73D66
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 02D9C73D66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 15:46:43 +0000 (UTC)
-Received: by wgen6 with SMTP id n6so120530945wge.3
+	Mon, 27 Apr 2015 15:48:54 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so133302431pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 08:46:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:message-id:date:from:user-agent
-	:mime-version:to:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=tIOHept9zPLVFgwrt5jIHhT640p40Bl0PmDQbinXiSA=;
-	b=HFjJc8wA2pDAOGFYHAKs957wqrX9lY+BmRwWp08iTYpYV7hwcfP3QW6it3F6u4x39L
-	MwF9eBz5djq+M3cO8PECSXJAWodm70aHGUnqOdIbl0RJ7jpsQYPEjI0VrF9UkI5E6Gcc
-	1UVwJYzeIU3tDieZ7ylBFvntrgTXgUvik+he7yGpzTIH3hBE3rHLKnSBNozkM+GmISZ0
-	fyB223c2TDco30xsl8JXZEK3vrvnRX0DIBzA6lg8xqfPCa7uhmN61OKkpjdwzhqcrIgI
-	AWQEAMWpfmUweUBfYgCvPyA3XESf2oob6WcsAednn2capSzk77l/mrmMa072GFo8Kz9d
-	1hog==
-X-Gm-Message-State: ALoCoQlbwTO9F9qYIzBpE5MZZKGWSOQrCeowh//C7WO+8nC4iTmCwhxOw9QRWobhF0NliLpgl7/q
-X-Received: by 10.180.93.193 with SMTP id cw1mr22250990wib.12.1430149604188;
-	Mon, 27 Apr 2015 08:46:44 -0700 (PDT)
-Received: from [172.24.63.26]
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id fo7sm12182437wic.1.2015.04.27.08.46.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Apr 2015 08:46:43 -0700 (PDT)
-Sender: Stephane Cerveau <scerveau@connected-labs.com>
-Message-ID: <553E59DB.8030204@voxtok.com>
-Date: Mon, 27 Apr 2015 17:46:35 +0200
-From: scerveau <scerveau@voxtok.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>
-References: <553E58AC.40002@voxtok.com>
-In-Reply-To: <553E58AC.40002@voxtok.com>
-Subject: Re: Mariadb 5.5.39 can not be downloaded anymore.
+	Mon, 27 Apr 2015 08:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=lzc7N5WQnvhdvQQol9vMP8wBUJKKuSqDM8RT9d8LvR0=;
+	b=KIvVnAZKzlj8D9cQr5dJD2OHolvosOBAWwfTrxzkRN9dxZcYy0HiZ6qk6pgi71WS2c
+	bjz3fR9t/4BidGxNaOpNjGaxtt04TDhEgpRfWLr+maThMWk1oFn+MZWZjYsgnh9bLYdS
+	zTPop2DK04CGt+1q3J7h5j9JfM1RbjqzQnZQzwnSwXiDWScPXSPWF9vtzhXIvftesi6e
+	kG3eOz34qTTKiNLaKzUjBffH37YlR8nVHHMClILEmVX6O+/s8Emb5u7gQqJHax+5c3Y5
+	ANOaZs3rzg4xmS3ldLzHKpfyLO7OsRkdKn62+MyD05rhYzTdy0a6rucjSKGFx5tU/xSd
+	3WpA==
+X-Received: by 10.70.93.69 with SMTP id cs5mr23137311pdb.165.1430149735946;
+	Mon, 27 Apr 2015 08:48:55 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:b1a4:3fdf:dcf8:7b1c?
+	([2601:9:3580:84c:b1a4:3fdf:dcf8:7b1c])
+	by mx.google.com with ESMTPSA id
+	ei17sm19922376pac.20.2015.04.27.08.48.54
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 27 Apr 2015 08:48:55 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LamJfd_=oqKfiAvoRueB=7EQu5GCYfaQO1r3ADnNdjQzA@mail.gmail.com>
+Date: Mon, 27 Apr 2015 08:48:54 -0700
+Message-Id: <5F36DEAE-E6AB-4E52-A105-B48B0B1CCD9B@gmail.com>
+References: <cover.1429846255.git.raj.khem@gmail.com>
+	<278c32ff3aaa351237215ff41060a0bc8aa7fd36.1429846255.git.raj.khem@gmail.com>
+	<CAJTo0LamJfd_=oqKfiAvoRueB=7EQu5GCYfaQO1r3ADnNdjQzA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/14] subversion: Add -P to CPPFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,34 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 15:46:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Apr 2015 15:48:55 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_55EFE272-0167-444A-BF0E-1244384F6941"
 
-It looks that 5.5.39 has been removed.
-
-http://mirror.stshosting.co.uk/mariadb/mariadb-5.5.42/source is available.
-
-Shall we update or put the package on another mirror ?
-
-BR.
-
-Stéphane
-
-On 04/27/2015 05:41 PM, scerveau wrote:
-> This url answers with 404 status:
->
-> http://mirror.stshosting.co.uk/mariadb/mariadb-5.5.39/source/mariadb-5.5.39.tar.gz 
->
->
-> Shall we update the recipe or wait for the server to be up ?
->
-
--- 
-Stéphane Cerveau
-Tech Lead Audio
-Voxtok Technologies
-04 34 40 82 43
-www.voxtok.com
+--Apple-Mail=_55EFE272-0167-444A-BF0E-1244384F6941
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Apr 27, 2015, at 8:03 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 24 April 2015 at 04:35, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> -inherit gettext
+> +inherit gettext pythonnative
+>=20
+> Why are you doing this?
+
+Don=E2=80=99t have the error handy right now something swig related, =
+however
+because its needing python2 for its bindings and some systems have =
+switched to using python3 as default.
+
+>=20
+> Ross
+
+
+--Apple-Mail=_55EFE272-0167-444A-BF0E-1244384F6941
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Apr 27, 2015, at 8:03 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 24 April 2015 at 04:35, Khem Raj <span =
+dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" =
+target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":24x" =
+class=3D"a3s" style=3D"overflow:hidden">-inherit gettext<br class=3D"">
++inherit gettext pythonnative</div></blockquote></div><br class=3D"">Why =
+are you doing this?</div></div></div></blockquote><div><br =
+class=3D""></div><div>Don=E2=80=99t have the error handy right now =
+something swig related, however</div><div>because its needing python2 =
+for its bindings and some systems have switched to using python3 as =
+default.</div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D""><div dir=3D"ltr" class=3D""><div class=3D"gmail_extra"><br =
+class=3D"">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_55EFE272-0167-444A-BF0E-1244384F6941--
