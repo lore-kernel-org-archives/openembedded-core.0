@@ -1,27 +1,42 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D129073DAF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 41DD473DAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 14:51:50 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2015 07:51:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,657,1422950400"; d="scan'208";a="562498818"
-Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.4.219])
-	by orsmga003.jf.intel.com with ESMTP; 27 Apr 2015 07:51:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: jackie.huang@windriver.com
-Date: Mon, 27 Apr 2015 15:51:50 +0100
-Message-ID: <4123755.9MUpYuNdTt@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
-References: <cover.1429781137.git.jackie.huang@windriver.com>
-	<92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
+	Mon, 27 Apr 2015 14:57:59 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so102869202wid.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Apr 2015 07:58:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=HIBcTj4OFxS1v6ichSAkhGp7YgAIuaiP7Q/3gAbPitI=;
+	b=EvDYq/Ak271aWhAAwn4s51GaiUZQ8x1X5r/K0VrtB1jF9P4hG7uwLyDO3FoBRLAdjp
+	/gsX7JAbRLA6fGidaEm2RnpThW0Us/kOVcfWpB12/O6gkY/fzmYUifvuTap3H/sHgCzD
+	XQTlqWXcRFiabethfTtH/F1ByqzJJLOE9+ycYpRpSyo5yg/72nc0gAET4uJEo/gviB5T
+	z7GhyA73EB3oy3h4zJ1foontvQNQOVhl7NLQa37WZJ+1LTHR9hIUXMUfrLnSPzxR1jng
+	RhZyXQckqgp5awu4ktknsJIthk8GO0bcncRV8DfBX9O9IFJqSHy0YHgTonYW2G0ETWlM
+	rPsA==
+X-Received: by 10.180.208.99 with SMTP id md3mr21347748wic.34.1430146680063;
+	Mon, 27 Apr 2015 07:58:00 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id f8sm11990195wiy.7.2015.04.27.07.57.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Apr 2015 07:57:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 27 Apr 2015 16:58:55 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150427145855.GH2379@jama>
+References: <553DF0CC.4040705@windriver.com>
+	<1430143945.13022.120.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] license.bbclass: allow copying license not in common licenses
+In-Reply-To: <1430143945.13022.120.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] remove the subversion_1.6.15.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 14:51:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 27 Apr 2015 14:58:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jackie,
+On Mon, Apr 27, 2015 at 03:12:25PM +0100, Richard Purdie wrote:
+> On Mon, 2015-04-27 at 16:18 +0800, Rongqing Li wrote:
+> > Hi:
+> >=20
+> >     there are two version subversion in oe-core, Do we have special
+> > need on subversion 1.6.15, if not, I like to remove it
+> >=20
+> > ./meta/recipes-devtools/subversion/subversion_1.8.13.bb
+> > ./meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>=20
+> They changed the on disk format between 1.6 and 1.7 which is why we kept
+> 1.6.x. At this point I personally think it could be removed now though.=
+=20
+>=20
+> CC'ing Martin since I seem to remember he had some interest in this.
 
-A couple of comments in-line below.
+Thanks, I also hope that all projects already upgraded their premirror
+caches to use new format, so I don't mind 1.6 being removed now.
 
-On Thursday 23 April 2015 17:38:15 jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
-> 
-> Some package like linux-firmware has many licenses that aren't in any
-> way common, and new ones will be added from time to time, in order to
-> avoid adding bunch of such common license files that are only applicable
-> to a specific package, NO_GENERIC_LIC is added to allow copying license
-> not in common licenses, it should be used in the recipe as:
-> 
-> NO_GENERIC_LIC[<license_name>] = "<license file in fetched source>"
-> 
-> e.g.
-> NO_GENERIC_LIC[Firmware-Abilis] = "LICENCE.Abilis.txt"
+Regards,
 
-Can we rename this to NO_GENERIC_LICENSE?
-
- 
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/classes/license.bbclass | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index 73a0e97..990f704 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -222,7 +222,9 @@ def find_license_files(d):
->              pass
->          spdx_generic = None
->          license_source = None
-> -        # If the generic does not exist we need to check to see if there is
-> an SPDX mapping to it 
-> +        # If the generic does not exist we need to
-> check to see if there is an SPDX mapping to it, 
-> +        # unless NO_GENERIC_LIC is set.
-> +
->          for lic_dir in license_source_dirs:
->              if not os.path.isfile(os.path.join(lic_dir, license_type)):
->                  if d.getVarFlag('SPDXLICENSEMAP', license_type) != None:
-> @@ -241,6 +243,14 @@ def find_license_files(d):
->              # audit up. This should be fixed in emit_pkgdata (or, we
-> actually got and fix all the recipes)
-> 
->              lic_files_paths.append(("generic_" 
->              + license_type, os.path.join(license_source, spdx_generic))) 
-> +
-> +        elif d.getVarFlag('NO_GENERIC_LIC', license_type):
-> +            # if NO_GENERIC_LIC is set, we copy the license files from the
-> fetched source +            # of the package rather than the
-> license_source_dirs. +            for (basename, path) in lic_files_paths:
-> +                if d.getVarFlag('NO_GENERIC_LIC', license_type) ==
-> basename: 
-> +                    lic_files_paths.append(("generic_" +
-> license_type, path)) 
-> +                    break
->          else:
->              # And here is where we warn people that their licenses are
-> lousy 
->              bb.warn("%s: No generic license file exists for: %s in any
->              provider" % (pn, license_type))
-
-Should we detect and warn when the user is attempting to override a common 
-license with this mechanism (which shouldn't be allowed)?
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
