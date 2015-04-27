@@ -1,25 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 47E4C73C48
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32DDC65CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 09:53:40 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2015 02:53:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,656,1422950400"; d="scan'208";a="562337942"
-Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.4.219])
-	by orsmga003.jf.intel.com with ESMTP; 27 Apr 2015 02:53:41 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Apr 2015 10:53:21 +0100
-Message-Id: <93fc82a4236d31a80d1ddb894c89383161505584.1430128109.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1430128109.git.paul.eggleton@linux.intel.com>
-References: <cover.1430128109.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1430128109.git.paul.eggleton@linux.intel.com>
-References: <cover.1430128109.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 9/9] devtool: update-recipe: check if source tree is a git repository
+	Mon, 27 Apr 2015 10:20:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3RAK3Dm024089
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Apr 2015 03:20:03 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.192) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 27 Apr 2015 03:20:02 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Apr 2015 18:19:59 +0800
+Message-ID: <e2ac9f6da0f11dabd5dddae213ad144f3b82a665.1430129946.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1430129946.git.Qi.Chen@windriver.com>
+References: <cover.1430129946.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] populate_sdk_base: also record the host part into manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 09:53:40 -0000
+X-List-Received-Date: Mon, 27 Apr 2015 10:20:02 -0000
+Content-Type: text/plain
 
-If you've done "devtool add" (or "devtool modify" without -x) then it's
-possible that the external source tree is not a git repository, so we
-should handle that case here instead of printing a traceback.
+For now, we can create manifest for the target part for SDK.
+I think it's nice to have a place for users to look into to examine contents
+of the host part of SDK.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+This also affects uninative-tarball and buildtools-tarball as they
+inherit populate_sdk.bbclass. After this change, we could have a manifest file
+created in the deploy directory containing a list of packages used to
+construct them.
+
+[YOCTO #7604]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- scripts/lib/devtool/standard.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ meta/classes/populate_sdk_base.bbclass | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index a642112..94b5e0b 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -477,13 +477,19 @@ def update_recipe(args, config, basepath, workspace):
-         return updated
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 54b9af5..781b279 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -56,17 +56,28 @@ SDK_RELOCATE_AFTER_INSTALL ?= "1"
  
-     srctree = workspace[args.recipename]
--    if mode == 'srcrev':
+ SDK_TITLE ?= "${@d.getVar('DISTRO_NAME', True) or d.getVar('DISTRO', True)} SDK"
+ 
+-SDK_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.manifest"
++SDK_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"
++SDK_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"
+ python write_target_sdk_manifest () {
+     from oe.sdk import sdk_list_installed_packages
+-    sdkmanifestdir = os.path.dirname(d.getVar("SDK_MANIFEST", True))
++    sdkmanifestdir = os.path.dirname(d.getVar("SDK_TARGET_MANIFEST", True))
+     if not os.path.exists(sdkmanifestdir):
+         bb.utils.mkdirhier(sdkmanifestdir)
+-    with open(d.getVar('SDK_MANIFEST', True), 'w') as output:
++    with open(d.getVar('SDK_TARGET_MANIFEST', True), 'w') as output:
+         output.write(sdk_list_installed_packages(d, True, 'ver'))
+ }
+ 
++python write_host_sdk_manifest () {
++    from oe.sdk import sdk_list_installed_packages
++    sdkmanifestdir = os.path.dirname(d.getVar("SDK_HOST_MANIFEST", True))
++    if not os.path.exists(sdkmanifestdir):
++        bb.utils.mkdirhier(sdkmanifestdir)
++    with open(d.getVar('SDK_HOST_MANIFEST', True), 'w') as output:
++        output.write(sdk_list_installed_packages(d, False, 'ver'))
++}
 +
-+    # Get HEAD revision
-+    try:
-         (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
--        srcrev = stdout.strip()
--        if len(srcrev) != 40:
--            logger.error('Invalid hash returned by git: %s' % stdout)
--            return 1
-+    except bb.process.ExecutionError as err:
-+        print('Failed to get HEAD revision in %s: %s' % (srctree, err))
-+        return 1
-+    srcrev = stdout.strip()
-+    if len(srcrev) != 40:
-+        logger.error('Invalid hash returned by git: %s' % stdout)
-+        return 1
+ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
++POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
  
-+    if mode == 'srcrev':
-         logger.info('Updating SRCREV in recipe %s' % os.path.basename(recipefile))
-         patchfields = {}
-         patchfields['SRCREV'] = srcrev
+ fakeroot python do_populate_sdk() {
+     from oe.sdk import populate_sdk
 -- 
-2.1.0
+1.9.1
 
 
