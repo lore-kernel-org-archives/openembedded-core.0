@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 30D0465CD0
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (down.free-electrons.com
+	[37.187.137.238])
+	by mail.openembedded.org (Postfix) with ESMTP id 7983565CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 21:02:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3RL2Cbu028711; Mon, 27 Apr 2015 22:02:12 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oncohYNS5E3g; Mon, 27 Apr 2015 22:02:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3RL208W028707
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Apr 2015 22:02:11 +0100
-Message-ID: <1430168520.13022.142.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Mon, 27 Apr 2015 22:02:00 +0100
-In-Reply-To: <1429732638-18404-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1429704663-9104-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1429732638-18404-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] split_and_strip_files: regroup hardlinks to make build deterministic
+	Mon, 27 Apr 2015 23:29:10 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id 589F36E0; Tue, 28 Apr 2015 01:29:15 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
+	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 128C8500;
+	Tue, 28 Apr 2015 01:29:15 +0200 (CEST)
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Apr 2015 01:29:07 +0200
+Message-Id: <1430177347-15550-1-git-send-email-alexandre.belloni@free-electrons.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] wic: remove intermediate partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Apr 2015 21:02:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Apr 2015 23:29:17 -0000
 
-On Wed, 2015-04-22 at 22:57 +0300, Ed Bartosh wrote:
-> Reverted 7c0fd561bad0250a00cef63e3d787573112a59cf
-> 
-> Created separate group of hardlinks for the files inside
-> the same package. This should prevent stripped files to be
-> populated outside of package directories.
-> 
-> [YOCTO #7586]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/package.bbclass | 10 ++++++++++
->  meta/lib/oe/package.py       |  3 +--
->  2 files changed, 11 insertions(+), 2 deletions(-)
+Remove intermediate partitions that may have been created by a previous
+wic invocation. Those partitions are causing issues on some systems. In
+particular vfat partition creation is hanging on mcopy execution on
+Fedora.
 
-I ran this on the autobuilder. I noticed:
+Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+---
+ scripts/lib/wic/kickstart/custom_commands/partition.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/269/steps/BuildImages_1/logs/stdio
-
-which would seem related to this patch somehow but I'm not sure what is
-happening to cause it as yet.
-
-Cheers,
-
-Richard
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+index ff906010b8bf..b228b0d73902 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+@@ -230,6 +230,7 @@ class Wic_PartData(Mic_PartData):
+         image_rootfs = rootfs_dir
+         rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+ 
++        exec_cmd("rm -f %s" % rootfs)
+         du_cmd = "du -ks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         actual_rootfs_size = int(out.split()[0])
+@@ -281,6 +282,7 @@ class Wic_PartData(Mic_PartData):
+         image_rootfs = rootfs_dir
+         rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
++        exec_cmd("rm -f %s" % rootfs)
+         du_cmd = "du -ks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         actual_rootfs_size = int(out.split()[0])
+@@ -325,6 +327,7 @@ class Wic_PartData(Mic_PartData):
+         image_rootfs = rootfs_dir
+         rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
++        exec_cmd("rm -f %s" % rootfs)
+         du_cmd = "du -bks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         blocks = int(out.split()[0])
+@@ -377,6 +380,7 @@ class Wic_PartData(Mic_PartData):
+         image_rootfs = rootfs_dir
+         rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+ 
++        exec_cmd("rm -f %s" % rootfs)
+         squashfs_cmd = "mksquashfs %s %s -noappend" % \
+                        (image_rootfs, rootfs)
+         exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
+@@ -415,6 +419,7 @@ class Wic_PartData(Mic_PartData):
+         """
+         fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
++        exec_cmd("rm -f %s" % fs)
+         dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+             (fs, self.size)
+         exec_cmd(dd_cmd)
+@@ -442,6 +447,7 @@ class Wic_PartData(Mic_PartData):
+         """
+         fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
++        exec_cmd("rm -f %s" % fs)
+         dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+             (fs, self.size)
+         exec_cmd(dd_cmd)
+@@ -466,6 +472,7 @@ class Wic_PartData(Mic_PartData):
+         Prepare an empty vfat partition.
+         """
+         fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
++        exec_cmd("rm -f %s" % fs)
+ 
+         blocks = self.size
+ 
+@@ -492,6 +499,7 @@ class Wic_PartData(Mic_PartData):
+                       "Proceeding as requested." % self.mountpoint)
+ 
+         fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
++        exec_cmd("rm -f %s" % fs)
+ 
+         # it is not possible to create a squashfs without source data,
+         # thus prepare an empty temp dir that is used as source
+-- 
+2.1.4
 
 
