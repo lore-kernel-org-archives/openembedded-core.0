@@ -1,36 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A7FEE716CE
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C2F36716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:10:51 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so77657004qkg.1
+	Tue, 28 Apr 2015 11:49:09 +0000 (UTC)
+Received: by qcbii10 with SMTP id ii10so68663928qcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 04:10:53 -0700 (PDT)
+	Tue, 28 Apr 2015 04:49:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=YfB1QHxsbYL9d98+YDvZ8Fp8Bv+m1bb+w6yywtUvr34=;
-	b=lpdmUrvoXQwdLqYXVTgjSmt/vmcRvDnN1yttZ/9vSp9+GEekmVOrRkN8tJjpW7DSms
-	axPrEgUst/tlOTuKKmBK/gd7WmYBbH0E2H+/hqUDZko6QM9uVccCsUUZVK7+UMhd50uX
-	s1Dap0gXrXQCqmeKv1QdMyDn7Pc4aJPjgBoBvZDA+YBaZ6PV9vGNG6nR9/9xzLNk9yce
-	e07pyTaW7ozdQ2iL2OCDzzpYtjAYXqFY+yLedAapyi08o4kNbFKJ3+rqQdXrk85S+cYh
-	QCPqDJxfUv2iHvoyx4AVxvg4mRGcfP4sui3FVxE6kPxPpGDXfamVDR85iWDWoyFRpkcl
-	2r5Q==
-X-Gm-Message-State: ALoCoQnZeiy2O0p+J8hQIAaWV1Q2js3+S5zrLupaIkoxm2lvZPTJ4faJjb0J5djaQaHuLQ4tzckg
-X-Received: by 10.140.235.77 with SMTP id g74mr11967429qhc.64.1430219452986;
-	Tue, 28 Apr 2015 04:10:52 -0700 (PDT)
+	bh=xf5J/J4U/eaSMw0Oav5cQJvEdBi9ClI6n1yJP17trdI=;
+	b=XxLBd5WCte2HKDl3F2xzhZ169AqU/D7tFMC80Qr5LN+HLiIPs/P5vFT+RdjXE+9YTJ
+	cP2ieov5qZNQpQ3IvYUJ1JOKy0gH1IJ64IJo6gh6hpIpDDjxYBk2t24QngVQ+MTd3DA9
+	ZVgOVKT2bf6DgqAAzvBgSbS/NuO5ZAj8DBHbk8VNIVTDC9qeJcN9dNT5MJ1AI5YzT7Xz
+	2e6+Qfx4dFA2Koq3T9Q3BNHk9flycghlno9AvD4HEsILeCOU6qzYYKLPb25kNr313G1O
+	R3G3vgnHEabGOdHtQxRdwNPWILoliN6DP7ZkGXtH95w14tBME7mTa/XifvKManTTrAvl
+	8WlQ==
+X-Gm-Message-State: ALoCoQkzJBwHEi2BafbCk0VUUKuOTh5rG7QclFMutmUKAdPTNzECwwJi1ZPsmlc6dJ9sO/Stp0pH
+X-Received: by 10.140.39.164 with SMTP id v33mr11184773qgv.80.1430221750964;
+	Tue, 28 Apr 2015 04:49:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 28 Apr 2015 04:10:32 -0700 (PDT)
-In-Reply-To: <1430117607-3627-1-git-send-email-leimaohui@cn.fujitsu.com>
-References: <1430117607-3627-1-git-send-email-leimaohui@cn.fujitsu.com>
+Received: by 10.140.102.231 with HTTP; Tue, 28 Apr 2015 04:48:50 -0700 (PDT)
+In-Reply-To: <92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
+References: <cover.1429781137.git.jackie.huang@windriver.com>
+	<92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Apr 2015 12:10:32 +0100
-Message-ID: <CAJTo0LY2TzcNo8u9P8HtjgLetvWbVQVXfjxfQ99Sd64AmYV6YQ@mail.gmail.com>
-To: Lei Maohui <leimaohui@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xkeyboard-config: modified the license
+Date: Tue, 28 Apr 2015 12:48:50 +0100
+Message-ID: <CAJTo0LYrLFF-qvYrA2zFZV+KgKu5cv3ZL53h0GC_km+oXvcutg@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] license.bbclass: allow copying license not in common licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 11:10:52 -0000
-Content-Type: multipart/alternative; boundary=001a11354a00724da20514c6ea23
+X-List-Received-Date: Tue, 28 Apr 2015 11:49:11 -0000
+Content-Type: multipart/alternative; boundary=001a11c14eae6ab35b0514c773aa
 
---001a11354a00724da20514c6ea23
+--001a11c14eae6ab35b0514c773aa
 Content-Type: text/plain; charset=UTF-8
 
-On 27 April 2015 at 07:53, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
+On 23 April 2015 at 10:38, <jackie.huang@windriver.com> wrote:
 
-> Because usr/share/X11/xkb/symbols/eu and usr/share/X11/xkb/symbols/ph are
-> GPLv3.
-> So add GPLv3 in the license.
+> Some package like linux-firmware has many licenses that aren't in any
+> way common, and new ones will be added from time to time, in order to
+> avoid adding bunch of such common license files that are only applicable
+> to a specific package, NO_GENERIC_LIC is added to allow copying license
+> not in common licenses, it should be used in the recipe as:
 >
 
-A friendly upstream maintainer I know was surprised at this and has
-requested that the files are relicensed to MIT, so we may be able to take a
-patch from upstream to change the licenses instead of adding GPLv3.
+Why can't linux-firmware just put those licenses into a directory alongside
+the recipe and do something like LICENSE_PATH += "${THISDIR}/licenses"?
 
 Ross
 
---001a11354a00724da20514c6ea23
+--001a11c14eae6ab35b0514c773aa
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 April 2015 at 07:53, Lei Maohui <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:leimaohui@cn.fujitsu.com" target=3D"_blank">leimaohui@cn.fujitsu.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hm" class=
-=3D"a3s" style=3D"overflow:hidden">Because usr/share/X11/xkb/symbols/eu and=
- usr/share/X11/xkb/symbols/ph are GPLv3.<br>
-So add GPLv3 in the license.<br></div></blockquote></div><br>A friendly ups=
-tream maintainer I know was surprised at this and has requested that the fi=
-les are relicensed to MIT, so we may be able to take a patch from upstream =
-to change the licenses instead of adding GPLv3.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 23 April 2015 at 10:38,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jackie.=
+huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2s6" class=3D"a3=
+s" style=3D"overflow:hidden">Some package like linux-firmware has many lice=
+nses that aren&#39;t in any<br>
+way common, and new ones will be added from time to time, in order to<br>
+avoid adding bunch of such common license files that are only applicable<br=
+>
+to a specific package, NO_GENERIC_LIC is added to allow copying license<br>
+not in common licenses, it should be used in the recipe as:<br></div></bloc=
+kquote><div><br></div><div>Why can&#39;t linux-firmware just put those lice=
+nses into a directory alongside the recipe and do something like LICENSE_PA=
+TH +=3D &quot;${THISDIR}/licenses&quot;?</div><div><br></div><div>Ross=C2=
+=A0</div></div></div></div>
 
---001a11354a00724da20514c6ea23--
+--001a11c14eae6ab35b0514c773aa--
