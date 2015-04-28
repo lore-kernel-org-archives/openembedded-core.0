@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 67DA173D53
+	by mail.openembedded.org (Postfix) with ESMTP id 68B4273D60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 03:43:32 +0000 (UTC)
+	Tue, 28 Apr 2015 03:43:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hXN0021281
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hW2N021275
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 20:43:33 -0700 (PDT)
+	Mon, 27 Apr 2015 20:43:32 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 27 Apr 2015 20:43:33 -0700
+	Mon, 27 Apr 2015 20:43:32 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:25 -0700
-Message-ID: <edcd2c15eca156a1267c9a8769f561eb82984717.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:21 -0700
+Message-ID: <3e9df78dab0b31b109404b75a67d2a65b57c2982.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
 References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/11] logrotate: remove logrotate-CVE-2011-1548.patch
+Subject: [PATCH 01/11] python3: remove sys_platform_is_now_always_linux2.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
 Content-Type: text/plain
 
-It is a backport patch, and verified that the patch is in the source.
+It is aready in the source.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../logrotate/logrotate-CVE-2011-1548.patch        |   43 --------------------
- 1 file changed, 43 deletions(-)
- delete mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+ .../sys_platform_is_now_always_linux2.patch        |   29 --------------------
+ 1 file changed, 29 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch b/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+diff --git a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
 deleted file mode 100644
-index ed2750e..0000000
---- a/meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+index 506210f..0000000
+--- a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
 +++ /dev/null
-@@ -1,43 +0,0 @@
--Upstream-Status: Backport
+@@ -1,29 +0,0 @@
+-Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
+-Bugtracker: http://bugs.python.org/issue12326
 -
--logrotate: fix for CVE-2011-1548
+-[Removed "Misc/NEWS" hunk]
 -
--If a logfile is a symlink, it may be read when being compressed, being
--copied (copy, copytruncate) or mailed. Secure data (eg. password files)
--may be exposed.
+-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 -
--Portback nofollow.patch from:
--http://logrotate.sourcearchive.com/downloads/3.8.1-5/logrotate_3.8.1-5.debian.tar.gz
+-# HG changeset patch
+-# User Victor Stinner <victor.stinner@haypocalc.com>
+-# Date 1313841758 -7200
+-# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
+-# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
+-Issue #12326: sys.platform is now always 'linux2' on Linux
 -
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-Even if Python is compiled on Linux 3.
 -
-----
----- a/logrotate.c	2012-09-06 13:25:08.000000000 +0800
--+++ b/logrotate.c	2012-09-06 13:35:57.000000000 +0800
--@@ -390,7 +390,7 @@
--     compressedName = alloca(strlen(name) + strlen(log->compress_ext) + 2);
--     sprintf(compressedName, "%s%s", name, log->compress_ext);
+-Index: Python-3.3.0rc2/configure.ac
+-===================================================================
+---- Python-3.3.0rc2.orig/configure.ac	2012-09-09 02:11:14.000000000 -0700
+-+++ Python-3.3.0rc2/configure.ac	2012-09-20 00:44:03.317124001 -0700
+-@@ -366,7 +366,7 @@
+-     MACHDEP="$ac_md_system$ac_md_release"
 - 
---    if ((inFile = open(name, O_RDWR)) < 0) {
--+    if ((inFile = open(name, O_RDWR | O_NOFOLLOW)) < 0) {
-- 	message(MESS_ERROR, "unable to open %s for compression\n", name);
-- 	return 1;
--     }
--@@ -470,7 +470,7 @@
--     char *mailArgv[] = { mailCommand, "-s", subject, address, NULL };
--     int rc = 0;
-- 
---    if ((mailInput = open(logFile, O_RDONLY)) < 0) {
--+    if ((mailInput = open(logFile, O_RDONLY | O_NOFOLLOW)) < 0) {
-- 	message(MESS_ERROR, "failed to open %s for mailing: %s\n", logFile,
-- 		strerror(errno));
-- 	return 1;
--@@ -561,7 +561,7 @@
--     message(MESS_DEBUG, "copying %s to %s\n", currLog, saveLog);
-- 
--     if (!debug) {
---	if ((fdcurr = open(currLog, (flags & LOG_FLAG_COPY) ? O_RDONLY : O_RDWR)) < 0) {
--+	if ((fdcurr = open(currLog, ((flags & LOG_FLAG_COPY) ? O_RDONLY : O_RDWR) | O_NOFOLLOW)) < 0) {
-- 	    message(MESS_ERROR, "error opening %s: %s\n", currLog,
-- 		    strerror(errno));
-- 	    return 1;
+-     case $MACHDEP in
+--	linux*) MACHDEP="linux";;
+-+	linux*) MACHDEP="linux2";;
+- 	cygwin*) MACHDEP="cygwin";;
+- 	darwin*) MACHDEP="darwin";;
+- 	irix646) MACHDEP="irix6";;
 -- 
 1.7.9.5
 
