@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 447EA727E8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66D7673D41
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Apr 2015 03:43:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hWaw024919
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hW8h021278
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Apr 2015 20:43:32 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	Mon, 27 Apr 2015 20:43:32 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:22 -0700
-Message-ID: <f1e9758c7590af6b5c632463c7519948e07ba0ff.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:23 -0700
+Message-ID: <eae0a5ddc7ddddfb8dc010d13d79c3dc1f5c898d.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
 References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/11] nspr: remove nspr-CVE-2014-1545.patch
+Subject: [PATCH 03/11] libxml2: remove libxml2-CVE-2014-3660.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,83 +40,163 @@ It is a backport patch, and verified that the patch is in the source.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../nspr/nspr/nspr-CVE-2014-1545.patch             |   67 --------------------
- 1 file changed, 67 deletions(-)
- delete mode 100644 meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
+ .../libxml/libxml2/libxml2-CVE-2014-3660.patch     |  147 --------------------
+ 1 file changed, 147 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 
-diff --git a/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch b/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 deleted file mode 100644
-index 565ff16..0000000
---- a/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
+index b9621c9..0000000
+--- a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
 +++ /dev/null
-@@ -1,67 +0,0 @@
--Fix for CVE-2014-1545
+@@ -1,147 +0,0 @@
+-From be2a7edaf289c5da74a4f9ed3a0b6c733e775230 Mon Sep 17 00:00:00 2001
+-From: Daniel Veillard <veillard@redhat.com>
+-Date: Thu, 16 Oct 2014 13:59:47 +0800
+-Subject: Fix for CVE-2014-3660
 -
--Upstream-Status: Backport
+-Issues related to the billion laugh entity expansion which happened to
+-escape the initial set of fixes
 -
--Backported from nspr-4.10.6.tar.gz.
-----
----- a/pr/src/io/prprf.c
--+++ b/pr/src/io/prprf.c
--@@ -50,6 +50,10 @@
-- #include "prlog.h"
-- #include "prmem.h"
-- 
--+#ifdef _MSC_VER
--+#define snprintf _snprintf
--+#endif
+-Upstream-status: Backport
+-Reference: https://git.gnome.org/browse/libxml2/commit/?id=be2a7edaf289c5da74a4f9ed3a0b6c733e775230&context=3&ignorews=0&ss=0
+-
+-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
+-
+-diff --git a/parser.c b/parser.c
+-index f51e8d2..1d93967 100644
+---- a/parser.c
+-+++ b/parser.c
+-@@ -130,6 +130,29 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
+-         return (0);
+-     if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
+-         return (1);
 -+
-- /*
-- ** WARNING: This code may *NOT* call PR_LOG (because PR_LOG calls it)
-- */
--@@ -330,7 +334,7 @@
-- ** Convert a double precision floating point number into its printable
-- ** form.
-- **
---** XXX stop using sprintf to convert floating point
--+** XXX stop using snprintf to convert floating point
-- */
-- static int cvt_f(SprintfState *ss, double d, const char *fmt0, const char *fmt1)
-- {
--@@ -338,15 +342,14 @@
--     char fout[300];
--     int amount = fmt1 - fmt0;
-- 
---    PR_ASSERT((amount > 0) && (amount < sizeof(fin)));
---    if (amount >= sizeof(fin)) {
---	/* Totally bogus % command to sprintf. Just ignore it */
--+    if (amount <= 0 || amount >= sizeof(fin)) {
--+        /* Totally bogus % command to snprintf. Just ignore it */
-- 	return 0;
+-+    /*
+-+     * This may look absurd but is needed to detect
+-+     * entities problems
+-+     */
+-+    if ((ent != NULL) && (ent->etype != XML_INTERNAL_PREDEFINED_ENTITY) &&
+-+	(ent->content != NULL) && (ent->checked == 0)) {
+-+	unsigned long oldnbent = ctxt->nbentities;
+-+	xmlChar *rep;
+-+
+-+	ent->checked = 1;
+-+
+-+	rep = xmlStringDecodeEntities(ctxt, ent->content,
+-+				  XML_SUBSTITUTE_REF, 0, 0, 0);
+-+
+-+	ent->checked = (ctxt->nbentities - oldnbent + 1) * 2;
+-+	if (rep != NULL) {
+-+	    if (xmlStrchr(rep, '<'))
+-+		ent->checked |= 1;
+-+	    xmlFree(rep);
+-+	    rep = NULL;
+-+	}
+-+    }
+-     if (replacement != 0) {
+- 	if (replacement < XML_MAX_TEXT_LENGTH)
+- 	    return(0);
+-@@ -189,9 +212,12 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
+-             return (0);
+-     } else {
+-         /*
+--         * strange we got no data for checking just return
+-+         * strange we got no data for checking
+-          */
+--        return (0);
+-+	if (((ctxt->lastError.code != XML_ERR_UNDECLARED_ENTITY) &&
+-+	     (ctxt->lastError.code != XML_WAR_UNDECLARED_ENTITY)) ||
+-+	    (ctxt->nbentities <= 10000))
+-+	    return (0);
 -     }
--     memcpy(fin, fmt0, amount);
--     fin[amount] = 0;
+-     xmlFatalErr(ctxt, XML_ERR_ENTITY_LOOP, NULL);
+-     return (1);
+-@@ -2589,6 +2615,7 @@ xmlParserHandlePEReference(xmlParserCtxtPtr ctxt) {
+- 				      name, NULL);
+- 		    ctxt->valid = 0;
+- 		}
+-+		xmlParserEntityCheck(ctxt, 0, NULL, 0);
+- 	    } else if (ctxt->input->free != deallocblankswrapper) {
+- 		    input = xmlNewBlanksWrapperInputStream(ctxt, entity);
+- 		    if (xmlPushInput(ctxt, input) < 0)
+-@@ -2759,6 +2786,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
+- 	    if ((ctxt->lastError.code == XML_ERR_ENTITY_LOOP) ||
+- 	        (ctxt->lastError.code == XML_ERR_INTERNAL_ERROR))
+- 	        goto int_error;
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	    if (ent != NULL)
+- 	        ctxt->nbentities += ent->checked / 2;
+- 	    if ((ent != NULL) &&
+-@@ -2810,6 +2838,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
+- 	    ent = xmlParseStringPEReference(ctxt, &str);
+- 	    if (ctxt->lastError.code == XML_ERR_ENTITY_LOOP)
+- 	        goto int_error;
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	    if (ent != NULL)
+- 	        ctxt->nbentities += ent->checked / 2;
+- 	    if (ent != NULL) {
+-@@ -7312,6 +7341,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		   (ret != XML_WAR_UNDECLARED_ENTITY)) {
+- 	    xmlFatalErrMsgStr(ctxt, XML_ERR_UNDECLARED_ENTITY,
+- 		     "Entity '%s' failed to parse\n", ent->name);
+-+	    xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	} else if (list != NULL) {
+- 	    xmlFreeNodeList(list);
+- 	    list = NULL;
+-@@ -7418,7 +7448,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		/*
+- 		 * We are copying here, make sure there is no abuse
+- 		 */
+--		ctxt->sizeentcopy += ent->length;
+-+		ctxt->sizeentcopy += ent->length + 5;
+- 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
+- 		    return;
 - 
---    /* Convert floating point using the native sprintf code */
--+    /* Convert floating point using the native snprintf code */
-- #ifdef DEBUG
--     {
--         const char *p = fin;
--@@ -356,14 +359,11 @@
--         }
+-@@ -7466,7 +7496,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
+- 		/*
+- 		 * We are copying here, make sure there is no abuse
+- 		 */
+--		ctxt->sizeentcopy += ent->length;
+-+		ctxt->sizeentcopy += ent->length + 5;
+- 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
+- 		    return;
+- 
+-@@ -7652,6 +7682,7 @@ xmlParseEntityRef(xmlParserCtxtPtr ctxt) {
+- 		ctxt->sax->reference(ctxt->userData, name);
+- 	    }
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	ctxt->valid = 0;
 -     }
-- #endif
---    sprintf(fout, fin, d);
---
---    /*
---    ** This assert will catch overflow's of fout, when building with
---    ** debugging on. At least this way we can track down the evil piece
---    ** of calling code and fix it!
---    */
---    PR_ASSERT(strlen(fout) < sizeof(fout));
--+    memset(fout, 0, sizeof(fout));
--+    snprintf(fout, sizeof(fout), fin, d);
--+    /* Explicitly null-terminate fout because on Windows snprintf doesn't
--+     * append a null-terminator if the buffer is too small. */
--+    fout[sizeof(fout) - 1] = '\0';
 - 
--     return (*ss->stuff)(ss, fout, strlen(fout));
-- }
+-@@ -7845,6 +7876,7 @@ xmlParseStringEntityRef(xmlParserCtxtPtr ctxt, const xmlChar ** str) {
+- 			  "Entity '%s' not defined\n",
+- 			  name);
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, ent, 0);
+- 	/* TODO ? check regressions ctxt->valid = 0; */
+-     }
+- 
+-@@ -8004,6 +8036,7 @@ xmlParsePEReference(xmlParserCtxtPtr ctxt)
+- 			  name, NULL);
+- 	    ctxt->valid = 0;
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, NULL, 0);
+-     } else {
+- 	/*
+- 	 * Internal checking in case the entity quest barfed
+-@@ -8243,6 +8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const xmlChar **str) {
+- 			  name, NULL);
+- 	    ctxt->valid = 0;
+- 	}
+-+	xmlParserEntityCheck(ctxt, 0, NULL, 0);
+-     } else {
+- 	/*
+- 	 * Internal checking in case the entity quest barfed
+--- 
+-cgit v0.10.1
+-
 -- 
 1.7.9.5
 
