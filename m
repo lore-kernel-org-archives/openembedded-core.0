@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B24873D91
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C195D716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:01:52 +0000 (UTC)
-Received: by wgso17 with SMTP id o17so147204232wgs.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 04:01:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hTzurkyMMkcupqm9fvVcQ9l0LLfBe9LGt4r0n4j4yn4=;
-	b=QDwj09YYUjKsSNv7YFf1yK2N8f29wXY7hrQcN5Ep4Uwre879aGuJpfFg5TJyil8b0T
-	3nKNCzWDdabEZKszLw6MXofOUgbivNsIOvNFP6BDtvOymNXX7PtU6eyYpKkmrpy0Mbck
-	/hqbWzLkcdY9kKPS8R+SZUZ/1gCn2NpOGQWd/+eybJ5xL2UWSwoSxXSXFEJkPagx2BbH
-	QdO+zze/ynYPI43MViosfC6l4bGnJR/N1G381LYzvbRZGCBrpfO2AAtR61eVQN5qkdQ+
-	gpQb/uWVlKDbBrX1cVQaGGiK820GKgR470GzTrrk4x+qdfoekXqQoZ3NFKts+I1O409D
-	pFuA==
-X-Gm-Message-State: ALoCoQmkFav0B+pZfAjKU1dLP0KXcn4kEc+CloV0mQ65gFh9eBuBJZqrO5w7bTDFMBJkve6MglS+
-X-Received: by 10.194.22.40 with SMTP id a8mr31819034wjf.134.1430218913276;
-	Tue, 28 Apr 2015 04:01:53 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id qt2sm33614148wjc.7.2015.04.28.04.01.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Apr 2015 04:01:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Apr 2015 11:58:11 +0100
-Message-Id: <1430218691-6679-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] xserver-xorg: use GCC 5 patch from upstream
+	Tue, 28 Apr 2015 11:08:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3SB8mmk030314; Tue, 28 Apr 2015 12:08:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id t_GJ9r5iYJTK; Tue, 28 Apr 2015 12:08:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3SB8WAu030308
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Apr 2015 12:08:44 +0100
+Message-ID: <1430219312.13022.168.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+Date: Tue, 28 Apr 2015 12:08:32 +0100
+In-Reply-To: <1430207172-6926-1-git-send-email-Yuanjie.Huang@windriver.com>
+References: <1430207172-6926-1-git-send-email-Yuanjie.Huang@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ldconfig-native: Add 64-bit flag for ELF64 entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,108 +36,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 11:01:52 -0000
+X-List-Received-Date: Tue, 28 Apr 2015 11:08:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Upstream has already fixed the GCC 5 problem, so use the patch from upstream.
+On Tue, 2015-04-28 at 15:46 +0800, Yuanjie Huang wrote:
+> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+> 
+> ldconfig-native was grepped from an old version of glibc, and its output
+> lacks neccessary 64bit flag in entries.
+> Due to this defect, ctypes.util.find_library() python function fails to
+> detect any library due to the old file format that ldconfig-native
+> creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
+> 
+> Since the host's elf.h may not have definition for new AArch64 machine
+> type, a work-around is added to correctly flag 64-bit ARM libraries.
+> 
+> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> ---
+>  .../add-64-bit-flag-for-ELF64-entries.patch        | 103 +++++++++++++++++++++
+>  meta/recipes-core/glibc/ldconfig-native_2.12.1.bb  |   1 +
+>  2 files changed, 104 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+> 
+> diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+> new file mode 100644
+> index 0000000..d42f7a1
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+> @@ -0,0 +1,103 @@
+> +From 9d62544090b08849218cd1fc52a36cdd5d90363e Mon Sep 17 00:00:00 2001
+> +From: Yuanjie Huang <yuanjie.huang@windriver.com>
+> +Date: Fri, 24 Apr 2015 03:29:31 +0000
+> +Subject: [PATCH] Add 64-bit flag for ELF64 entries.
+> +
+> +ldconfig-native was grepped from an old version of glibc, and its output
+> +lacks neccessary 64bit flag in entries.
+> +Due to this defect, ctypes.util.find_library() python function fails to
+> +detect any library due to the old file format that ldconfig-native
+> +creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
+> +
+> +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> +---
+> + cache.c      |  4 ++++
+> + ldconfig.h   |  4 ++++
+> + readelflib.c | 34 ++++++++++++++++++++++++++++++++++
+> + 3 files changed, 42 insertions(+)
+> +
+> +diff --git a/cache.c b/cache.c
+> +index a904d44..c4f5411 100644
+> +--- a/cache.c
+> ++++ b/cache.c
+> +@@ -121,6 +121,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
+> +       break;
+> +     case FLAG_MIPS64_LIBN64:
+> +       fputs (",64bit", stdout);
+> ++      break;
+> ++    case FLAG_AARCH64_LIB64:
+> ++      fputs (",AArch64", stdout);
+> ++      break;
+> +     case 0:
+> +       break;
+> +     default:
+> +diff --git a/ldconfig.h b/ldconfig.h
+> +index fadd5ec..6a8a750 100644
+> +--- a/ldconfig.h
+> ++++ b/ldconfig.h
+> +@@ -34,6 +34,10 @@
+> + #define FLAG_POWERPC_LIB64	0x0500
+> + #define FLAG_MIPS64_LIBN32	0x0600
+> + #define FLAG_MIPS64_LIBN64	0x0700
+> ++#define FLAG_X8664_LIBX32		0x0800
+> ++#define FLAG_ARM_LIBHF			0x0900
+> ++#define FLAG_AARCH64_LIB64		0x0a00
+> ++#define FLAG_ARM_LIBSF			0x0b00
+> + 
+> + /* Name of auxiliary cache.  */
+> + #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
+> +diff --git a/readelflib.c b/readelflib.c
+> +index 0bf0de3..6e87afc 100644
+> +--- a/readelflib.c
+> ++++ b/readelflib.c
+> +@@ -28,6 +28,11 @@
+> + 
+> + #include "endian_extra.h"
+> + 
+> ++/* Work-around for old host that does not have AArch64 defined in elf.h. */
+> ++#ifndef EM_AARCH64
+> ++#define EM_AARCH64	183		/* ARM AARCH64 */
+> ++#endif
+> ++
+> + #undef check_ptr
+> + #define check_ptr(ptr)						\
+> + do								\
+> +@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
+> +      libc5/libc6.  */
+> +   *flag = FLAG_ELF;
+> + 
+> ++  /* Set flags according to information in ELF header to align with target
+> ++     ldconfig */
+> ++  switch (elf_header->e_machine)
+> ++    {
+> ++    case EM_IA_64:
+> ++      *flag |= FLAG_IA64_LIB64;
+> ++      break;
+> ++    case EM_X86_64:
+> ++      *flag |= FLAG_X8664_LIB64;
+> ++      break;
+> ++    case EM_S390:
+> ++      *flag |= FLAG_S390_LIB64;
+> ++      break;
+> ++    case EM_PPC64:
+> ++      *flag |= FLAG_POWERPC_LIB64;
+> ++      break;
+> ++    case EM_MIPS:
+> ++    case EM_MIPS_RS3_LE:
+> ++      *flag |= FLAG_MIPS64_LIBN64;
+> ++      break;
+> ++    case EM_AARCH64:
+> ++      *flag |= FLAG_AARCH64_LIB64;
+> ++      break;
+> ++    default:
+> ++      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
+> ++            file_name, (long)elf_header->e_machine);
+> ++      break;
+> ++    }
+> ++
+> +   loadaddr = -1;
+> +   dynamic_addr = 0;
+> +   dynamic_size = 0;
+> +-- 
+> +1.8.5.2.233.g932f7e4
+> +
+> diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> index 7c34635..8a2ea90 100644
+> --- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> +++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+>             file://flag_fix.patch \
+>             file://endianess-header.patch \
+>             file://ldconfig-default-to-all-multilib-dirs.patch \
+> +           file://add-64-bit-flag-for-ELF64-entries.patch \
+>  "
+>  
+>  PR = "r2"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch | 76 +++++++++++-----------
- 1 file changed, 37 insertions(+), 39 deletions(-)
+The patch doesn't seem to apply against master? Master appears to have
+an additional patch than the list above?
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
-index 215c044..9c9f595 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
-@@ -1,50 +1,48 @@
--Upstream-Status: Pending
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
--From 612eb45a2e7a0b35cc3790870e6d0cc42eb50c74 Mon Sep 17 00:00:00 2001
--From: Hans de Goede <hdegoede@redhat.com>
--Date: Wed, 11 Feb 2015 16:26:40 +0100
--Subject: [PATCH] sdksyms.sh: Make sdksyms.sh work with gcc5.
-+From 21b896939c5bb242f3aacc37baf12379e43254b6 Mon Sep 17 00:00:00 2001
-+From: Egbert Eich <eich@freedesktop.org>
-+Date: Tue, 3 Mar 2015 16:27:05 +0100
-+Subject: symbols: Fix sdksyms.sh to cope with gcc5
- 
--gcc5's cpp inserts patterns like this:
-+Gcc5 adds additional lines stating line numbers before and
-+after __attribute__() which need to be skipped.
- 
--extern
--      __attribute__((visibility("default")))
--                int WaitForSomething(int *
--    );
-+Signed-off-by: Egbert Eich <eich@freedesktop.org>
-+Tested-by: Daniel Stone <daniels@collabora.com>
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
- 
--This patch make sdksyms.sh work with this. Note my awk skills are weak, so
--there likely is a better way to deal with this.
--
--Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-----
-- hw/xfree86/sdksyms.sh | 17 +++++++++++++++++
-- 1 file changed, 17 insertions(+)
--
--Index: xorg-server-1.16.3/hw/xfree86/sdksyms.sh
--===================================================================
----- xorg-server-1.16.3.orig/hw/xfree86/sdksyms.sh
--+++ xorg-server-1.16.3/hw/xfree86/sdksyms.sh
--@@ -353,6 +353,23 @@ BEGIN {
-+diff --git a/hw/xfree86/sdksyms.sh b/hw/xfree86/sdksyms.sh
-+index 2305073..05ac410 100755
-+--- a/hw/xfree86/sdksyms.sh
-++++ b/hw/xfree86/sdksyms.sh
-+@@ -350,13 +350,25 @@ BEGIN {
-      if (sdk) {
-  	n = 3;
-  
--+	# detect the following gcc5 cpp pattern and skip it:
--+	# extern
--+	# # 320 "../../include/os.h" 3 4
--+	#     __attribute__((visibility("default")))
--+	# # 320 "../../include/os.h"
--+	# Note in this case the "extern " or "extern void " always has
--+	# a trailing space
--+	if ($0 ~ "^extern.* $") {
--+	    getline;
--+	    getline;
--+	    getline;
--+	    getline;
--+	    n = 1;
--+	    while ($n == " ")
--+		n++;
--+	}
-++        # skip line numbers GCC 5 adds before __attribute__
-++        while ($n == "" || $0 ~ /^# [0-9]+ "/) {
-++           getline;
-++           n = 1;
-++        }
- +
-  	# skip attribute, if any
-  	while ($n ~ /^(__attribute__|__global)/ ||
-  	    # skip modifiers, if any
-+ 	    $n ~ /^\*?(unsigned|const|volatile|struct|_X_EXPORT)$/ ||
-+ 	    # skip pointer
-+-	    $n ~ /^[a-zA-Z0-9_]*\*$/)
-++	    $n ~ /^[a-zA-Z0-9_]*\*$/) {
-+ 	    n++;
-++            # skip line numbers GCC 5 adds after __attribute__
-++            while ($n == "" || $0 ~ /^# [0-9]+ "/) {
-++               getline;
-++               n = 1;
-++            }
-++        }
-+ 
-+ 	# type specifier may not be set, as in
-+ 	#   extern _X_EXPORT unsigned name(...)
-+-- 
-+cgit v0.10.2
--- 
-2.1.4
+Cheers,
+
+Richard
 
 
