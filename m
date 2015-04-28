@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D1572716CE
+	by mail.openembedded.org (Postfix) with ESMTP id F3225716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 10:49:20 +0000 (UTC)
+	Tue, 28 Apr 2015 10:49:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3SAnLUl028739 for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:49:21 +0100
+	t3SAnW32028758 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Apr 2015 11:49:32 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MgIKqStKQNjQ
+	with LMTP id X0yDkYBPJcYC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:49:21 +0100 (BST)
+	Tue, 28 Apr 2015 11:49:32 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3SAn8i4028714
+	t3SAnKDk028735
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:49:20 +0100
-Message-ID: <1430218148.13022.156.camel@linuxfoundation.org>
+	Tue, 28 Apr 2015 11:49:32 +0100
+Message-ID: <1430218152.13022.157.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Apr 2015 11:49:08 +0100
+Date: Tue, 28 Apr 2015 11:49:12 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] testimage: Fix sdk test manifest handling
+Subject: [PATCH] sstate: Use SSTATE_DIR for FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 10:49:22 -0000
+X-List-Received-Date: Tue, 28 Apr 2015 10:49:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Fix SDK_MANIFEST -> SDK_TARGET_MANIFEST and add support for host 
-version too which is useful in SDK QA tests.
+FILESPATH was only being overridden in one fetch location, it should be
+equally handled in both.
+
+Also use SSTATE_DIR as FILESPATH so that mirror urls which do remapping
+can search the local SSTATE_DIR for other paths.
+
+Also ensure that MIRRORS is removed in both locations, previously
+it was only unset in one but both codepaths should be consistent.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index dc163c7..1557675 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -287,12 +287,18 @@ def testsdk_main(d):
-             self.sdkenv = sdkenv
-             self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
-             self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
--            manifest = os.path.join(d.getVar("SDK_MANIFEST", True))
-+            manifest = d.getVar("SDK_TARGET_MANIFEST", True)
-             try:
-                 with open(manifest) as f:
-                     self.pkgmanifest = f.read()
-             except IOError as e:
-                 bb.fatal("No package manifest file found. Did you build the sdk image?\n%s" % e)
-+            hostmanifest = d.getVar("SDK_HOST_MANIFEST", True)
-+            try:
-+                with open(hostmanifest) as f:
-+                    self.hostpkgmanifest = f.read()
-+            except IOError as e:
-+                bb.fatal("No host package manifest file found. Did you build the sdk image?\n%s" % e)
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 8350bb0..450b736 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -569,7 +569,7 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
+     bb.utils.mkdirhier(dldir)
  
-     # test context
-     tc = TestContext()
+     localdata.delVar('MIRRORS')
+-    localdata.delVar('FILESPATH')
++    localdata.setVar('FILESPATH', dldir)
+     localdata.setVar('DL_DIR', dldir)
+     localdata.setVar('PREMIRRORS', mirrors)
+ 
+@@ -700,6 +700,8 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         bb.data.update_data(localdata)
+ 
+         dldir = localdata.expand("${SSTATE_DIR}")
++        localdata.delVar('MIRRORS')
++        localdata.setVar('FILESPATH', dldir)
+         localdata.setVar('DL_DIR', dldir)
+         localdata.setVar('PREMIRRORS', mirrors)
+ 
 
 
 
