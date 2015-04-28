@@ -1,38 +1,29 @@
-Return-Path: <lh_post@yahoo.com>
-X-Greylist: delayed 2706 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Apr 2015 18:28:20 UTC
-Received: from tsn-m.ru (tsn-mechanic.ru [79.99.108.146])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F97172491
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 919BF72491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 18:28:19 +0000 (UTC)
-Received: from tsn-m.ru by tsn-m.ru (Cipher TLSv1:-SHA:128) (MDaemon PRO
-	v13.5.0) with ESMTP id md50000554488.msg
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 20:28:35 +0300
-X-Spam-Processed: tsn-m.ru, Tue, 28 Apr 2015 20:28:35 +0300
-	(not processed: message from trusted or authenticated source)
-X-Authenticated-Sender: Alexey.Seleznev@tsn-m.ru
-X-MDRemoteIP: 123.202.207.47
-X-Return-Path: lh_post@yahoo.com
-X-Envelope-From: lh_post@yahoo.com
-X-MDaemon-Deliver-To: openembedded-core@lists.openembedded.org
-Message-ID: <07CFD7AFF70520BBB40F5D7757D921D7@tsn-m.ru>
-From: "Lars Michael" <lh_post@yahoo.com>
-To: "pipelort" <pipelort@gmail.com>, "Niels Erik Meier" <nem@eabase.dk>,
-	"openembedded core" <openembedded-core@lists.openembedded.org>,
-	"personligsamtale" <personligsamtale@kulturcenter.dk>,
-	"Niels Vrijlandt" <nielsvrijlandt@gmail.com>,
-	"=?ISO-8859-1?Q?Olsen=2C_Brian?=" <brian.olsen@capgeminisogeti.dk>,
-	"Ole Smith" <olesmith@os.dk>, "Nikolaj Sander" <Sander@home.dk>,
-	"nina lindgaard" <nina_lindgaard@hotmail.com>
-Date: Mon, 28 Apr 2015 06:28:23 +0000
+	Tue, 28 Apr 2015 18:43:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3SIhnBZ005597
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 28 Apr 2015 11:43:50 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 28 Apr 2015 11:43:49 -0700
+Message-ID: <553FD4E4.3000900@windriver.com>
+Date: Tue, 28 Apr 2015 14:43:48 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-X-Priority: 3
-X-MSMail-Priority: Normal
-Importance: Normal
-X-Mailer: Microsoft Windows Live Mail 16.4.3522.110
-X-MIMEOLE: Produced By Microsoft MimeOLE V16.4.3522.110
-Subject: 4/28/2015 6:28:23 PM
+To: Marek Vasut <marex@denx.de>, <openembedded-core@lists.openembedded.org>
+References: <1430239116-7671-1-git-send-email-marex@denx.de>
+	<1430239116-7671-9-git-send-email-marex@denx.de>
+In-Reply-To: <1430239116-7671-9-git-send-email-marex@denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 8/8] kernel: Build uImage only when really needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 18:28:22 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_55AD_213C9253.2BA0E4D6"
+X-List-Received-Date: Tue, 28 Apr 2015 18:44:00 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-------=_NextPart_000_55AD_213C9253.2BA0E4D6
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On 2015-04-28 12:38 PM, Marek Vasut wrote:
+> Build the uImage file using the kernel build system only when
+> it is really required, which is only in case KEEPUIMAGE == yes.
+> Otherwise, just build zImage, since the Yocto build system will
+> handle the uImage generation for us.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Cc: Ross Burton <ross.burton@intel.com>
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   meta/classes/kernel-uimage.bbclass | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+> index ce8f96f..acde9ae 100644
+> --- a/meta/classes/kernel-uimage.bbclass
+> +++ b/meta/classes/kernel-uimage.bbclass
+> @@ -6,6 +6,14 @@ python __anonymous () {
+>           depends = d.getVar("DEPENDS", True)
+>           depends = "%s u-boot-mkimage-native" % depends
+>           d.setVar("DEPENDS", depends)
+> +
+> +	# Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+> +	# to kernel.bbclass . We override the variable here, since we need
+> +	# to build uImage using the kernel build system if and only if
+> +	# KEEPUIMAGE != yes. Otherwise, we pack compressed vmlinux into
+> +	# the uImage .
 
 
+I keep reading this, and must be inverting the logic in my head.
+
+If we've set KEEPUIMAGE = yes, that means we just want to let the
+kernel build the uImage and perform no extra generation steps.
+
+When I read this, it looks like if I set the keep flag, I'll be
+overriden to build a zImage. Is that intentional ? I'd think we
+would have just left it alone or set it to uImage (unless we
+are saying that everyone should be building zImage now .. but
+I know some old ppc targets that do want to build uImages).
+
+Bruce
+
+> +	if d.getVar("KEEPUIMAGE", True) == 'yes':
+> +            d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
+>   }
+>
+>   do_uboot_mkimage() {
+>
 
 
- http://sipenglipurlara.com/ictr/uwsrzpblmmrv.jvfpioabnsjljrkquvyvcjlwsiv 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  4/28/2015 6:28:23 PM
-
-------=_NextPart_000_55AD_213C9253.2BA0E4D6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-=EF=BB=BF<HTML><HEAD><META http-equiv=3D"content-type" content: text/html;=
- charset=3DUTF-8></HEAD><BODY><br><br><br> <a href=
-=3D"http://sipenglipurlara.com/ictr/uwsrzpblmmrv.jvfpioabnsjljrkquvyvcjlwsiv">=
-http://sipenglipurlara.com/ictr/uwsrzpblmmrv.jvfpioabnsjljrkquvyvcjlwsiv</a>=
- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>  4/28/2015=
- 6:28:23 PM</BODY></HTML>
-
-------=_NextPart_000_55AD_213C9253.2BA0E4D6--
