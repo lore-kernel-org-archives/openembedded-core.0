@@ -1,35 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B7FD0716CE
+	by mail.openembedded.org (Postfix) with ESMTP id 28985716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 03:36:59 +0000 (UTC)
+	Tue, 28 Apr 2015 03:43:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3b0n6024898
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Apr 2015 20:37:00 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.141]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0224.002;
-	Mon, 27 Apr 2015 20:36:59 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 1/3] license.bbclass: allow copying license
-	not in common licenses
-Thread-Index: AQHQgPm/GtphhcLQFEOZsT7Tc5/LmJ1hxBmg
-Date: Tue, 28 Apr 2015 03:36:59 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF118A4EF@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1429781137.git.jackie.huang@windriver.com>
-	<92ce281f37748218692be482b3393e81b4b817ec.1429781137.git.jackie.huang@windriver.com>
-	<4123755.9MUpYuNdTt@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <4123755.9MUpYuNdTt@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.191]
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hWjc024916
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Apr 2015 20:43:32 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 27 Apr 2015 20:43:31 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Apr 2015 20:43:20 -0700
+Message-ID: <cover.1430192424.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] license.bbclass: allow copying license not in common licenses
+Subject: [PATCH 00/11 V2] Fixes for dangling patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,112 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 03:36:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
+Content-Type: text/plain
 
+* V2
+  Verified the backport patches are in the source, and updated the
+  commit message.
 
+// Robert
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Monday, April 27, 2015 10:52 PM
-> To: Huang, Jie (Jackie)
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/3] license.bbclass: allow copying license=
- not in common licenses
->=20
-> Hi Jackie,
->=20
-> A couple of comments in-line below.
->=20
-> On Thursday 23 April 2015 17:38:15 jackie.huang@windriver.com wrote:
-> > From: Jackie Huang <jackie.huang@windriver.com>
-> >
-> > Some package like linux-firmware has many licenses that aren't in any
-> > way common, and new ones will be added from time to time, in order to
-> > avoid adding bunch of such common license files that are only
-> > applicable to a specific package, NO_GENERIC_LIC is added to allow
-> > copying license not in common licenses, it should be used in the recipe=
- as:
-> >
-> > NO_GENERIC_LIC[<license_name>] =3D "<license file in fetched source>"
-> >
-> > e.g.
-> > NO_GENERIC_LIC[Firmware-Abilis] =3D "LICENCE.Abilis.txt"
->=20
-> Can we rename this to NO_GENERIC_LICENSE?
+The following changes since commit a9eededcb33b2ee41a061298610126436dfc2c11:
 
-Yes, sure, I will rename it.
+  ptest: add recommends to ptest-runner (2015-04-27 15:26:15 +0100)
 
->=20
->=20
-> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> > ---
-> >  meta/classes/license.bbclass | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/license.bbclass
-> > b/meta/classes/license.bbclass index 73a0e97..990f704 100644
-> > --- a/meta/classes/license.bbclass
-> > +++ b/meta/classes/license.bbclass
-> > @@ -222,7 +222,9 @@ def find_license_files(d):
-> >              pass
-> >          spdx_generic =3D None
-> >          license_source =3D None
-> > -        # If the generic does not exist we need to check to see if the=
-re is
-> > an SPDX mapping to it
-> > +        # If the generic does not exist we need to
-> > check to see if there is an SPDX mapping to it,
-> > +        # unless NO_GENERIC_LIC is set.
-> > +
-> >          for lic_dir in license_source_dirs:
-> >              if not os.path.isfile(os.path.join(lic_dir, license_type))=
-:
-> >                  if d.getVarFlag('SPDXLICENSEMAP', license_type) !=3D N=
-one:
-> > @@ -241,6 +243,14 @@ def find_license_files(d):
-> >              # audit up. This should be fixed in emit_pkgdata (or, we
-> > actually got and fix all the recipes)
-> >
-> >              lic_files_paths.append(("generic_"
-> >              + license_type, os.path.join(license_source,
-> > spdx_generic)))
-> > +
-> > +        elif d.getVarFlag('NO_GENERIC_LIC', license_type):
-> > +            # if NO_GENERIC_LIC is set, we copy the license files
-> > + from the
-> > fetched source +            # of the package rather than the
-> > license_source_dirs. +            for (basename, path) in lic_files_pat=
-hs:
-> > +                if d.getVarFlag('NO_GENERIC_LIC', license_type) =3D=3D
-> > basename:
-> > +                    lic_files_paths.append(("generic_" +
-> > license_type, path))
-> > +                    break
-> >          else:
-> >              # And here is where we warn people that their licenses
-> > are lousy
-> >              bb.warn("%s: No generic license file exists for: %s in any
-> >              provider" % (pn, license_type))
->=20
-> Should we detect and warn when the user is attempting to override a commo=
-n license with this
-> mechanism (which shouldn't be allowed)?
+are available in the git repository at:
 
-Yes, we should, it doesn't make sense to use this mechanism for a common li=
-cense, I will add that.
+  git://git.openembedded.org/openembedded-core-contrib rbt/dangling
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/dangling
 
-Thanks
-Jackie
+Robert Yang (11):
+  python3: remove sys_platform_is_now_always_linux2.patch
+  nspr: remove nspr-CVE-2014-1545.patch
+  libxml2: remove libxml2-CVE-2014-3660.patch
+  bind: remove 5 backport patches
+  logrotate: remove logrotate-CVE-2011-1548.patch
+  kmod: remove 0001-Makefile.am-fix-parallel-build-problem.patch
+  openssl: remove 3 patches
+  lttng-modules: remove bio-bvec-iter.patch
+  libaio: remove libaio-generic.patch
+  texinfo: remove enumerate_greater_than_ten.patch
+  elfutils: enable fix-build-gcc-4.8.patch
 
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+ .../bind/bind/bind-9.8.1-CVE-2012-5166.patch       |  119 ---------------
+ .../bind/bind/bind-CVE-2011-4313.patch             |   89 -----------
+ .../bind/bind/bind-CVE-2012-1667.patch             |   92 ------------
+ .../bind/bind/bind-CVE-2013-2266.patch             |   41 -----
+ .../bind/bind/bind-Fix-CVE-2012-4244.patch         |  141 ------------------
+ .../openssl/openssl/debian/make-targets.patch      |   15 --
+ ...NULL-pointer-dereference-in-dh_pub_encode.patch |   26 ----
+ .../openssl/update-version-script-for-1.0.2.patch  |   66 ---------
+ .../libxml/libxml2/libxml2-CVE-2014-3660.patch     |  147 ------------------
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    1 +
+ .../sys_platform_is_now_always_linux2.patch        |   29 ----
+ .../libaio/libaio/libaio-generic.patch             |   65 --------
+ .../logrotate/logrotate-CVE-2011-1548.patch        |   43 ------
+ .../texinfo/enumerate_greater_than_ten.patch       |   51 -------
+ ...01-Makefile.am-fix-parallel-build-problem.patch |   29 ----
+ .../lttng/lttng-modules/bio-bvec-iter.patch        |  156 --------------------
+ .../nspr/nspr/nspr-CVE-2014-1545.patch             |   67 ---------
+ 17 files changed, 1 insertion(+), 1176 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch
+ delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
+ delete mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
+ delete mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
+ delete mode 100644 meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ delete mode 100644 meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
+
+-- 
+1.7.9.5
+
 
