@@ -1,39 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B0BE72277
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7683272277
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 22:13:37 +0000 (UTC)
-Received: by igbpi8 with SMTP id pi8so96948048igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 15:13:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=pjwYnP/Suf21TDEsALbz91zahJ13TKuThRSAHIFdzOo=;
-	b=TkoRCQQA7jYL+iuw/hIf5/B8sKkFtjFZN24cpQCTMZc9skNQ/qkZuDOUJhyPZGtKnx
-	OmazwBPrD3s1Y9pGJV/xrJmScITfPwcaMh/bo7+em/RhYYmfwv6ETMlAexphXX7ZKEME
-	sxLbmMI0dZkZ3HQU96vueQ9IKfORHqHWk0UjE2QbmkCCiorGHLOVgf2PCgsLj6EdZv0j
-	np5SYKS08at1n/wbMK3Rr/SvoC0QotRQHowrHhbXKpJzUt2k8qyoF84aRUDvy2GT+1ef
-	p2+l5+HpxDm4WjiJSNqjm65rfBesKDt5W1kFWhSIa9VwQ5lixbEtOhTYHb0STST/8C7+
-	0gUw==
+	Tue, 28 Apr 2015 22:45:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2015 15:45:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,666,1422950400"; d="scan'208";a="486901249"
+Received: from vkarnati-mobl2.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.33.210])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Apr 2015 15:45:17 -0700
+Message-ID: <55400D7D.1090408@linux.intel.com>
+Date: Tue, 28 Apr 2015 15:45:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-X-Received: by 10.107.169.160 with SMTP id f32mr23380191ioj.83.1430259218396; 
-	Tue, 28 Apr 2015 15:13:38 -0700 (PDT)
-Received: by 10.50.230.178 with HTTP; Tue, 28 Apr 2015 15:13:38 -0700 (PDT)
-Received: by 10.50.230.178 with HTTP; Tue, 28 Apr 2015 15:13:38 -0700 (PDT)
-In-Reply-To: <1430257333.13022.247.camel@linuxfoundation.org>
-References: <1430251922-28699-1-git-send-email-ross.burton@intel.com>
-	<20150428213007.GC2322@jama>
-	<1430257073.5364.1.camel@bottazzini-ThinkPad-T430>
-	<1430257333.13022.247.camel@linuxfoundation.org>
-Date: Tue, 28 Apr 2015 15:13:38 -0700
-Message-ID: <CAMKF1srJC56ZTmBEsUx9SnfM8v2T82BOdAQ_RfiMbvdU2dgNng@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: bring back the patch to customise root's $HOME
+To: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+References: <1430258684-432-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1430258684-432-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] busybox: unbreak tar of uncompressed files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,73 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 22:13:42 -0000
-Content-Type: multipart/alternative; boundary=001a1142646ca63afb0514d02cae
+X-List-Received-Date: Tue, 28 Apr 2015 22:45:19 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1142646ca63afb0514d02cae
-Content-Type: text/plain; charset=UTF-8
 
-On Apr 28, 2015 2:42 PM, "Richard Purdie" <
-richard.purdie@linuxfoundation.org> wrote:
+This is intended for Dizzy, will resend with the correct tag for tracking
+
+Sau!
+
+
+On 04/28/2015 03:04 PM, Saul Wold wrote:
+> A patch was added to fix compressed tar files, but broke uncompressed
+> tar files, this fix is from the busybox mailing list
 >
-> On Tue, 2015-04-28 at 18:37 -0300, Bottazzini, Bruno wrote:
-> > Thanks Ross!
-> >
-> > This slipped trough my fingers when I have remade the first version to
-> > use the stable branch.
-> >
-> > Martin,
-> >
-> > The patch removed will be applied automatically because they are
-> > upstreamed on the stable branch.
+> http://lists.busybox.net/pipermail/busybox/2014-January/080389.html
 >
-> We have a load of unused orphan patch files left in the tree though?
-> These need to be removed.
-
-I was wondering if there was a script or may be bitbake option to warn
-about this case whole Metadata wide
-
+> [YOCTO #7645]
 >
-> Cheers,
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   .../busybox/unbreak_noncompressed_tar.patch        | 23 ++++++++++++++++++++++
+>   meta/recipes-core/busybox/busybox_1.22.1.bb        |  1 +
+>   2 files changed, 24 insertions(+)
+>   create mode 100644 meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
 >
-> Richard
+> diff --git a/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch b/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
+> new file mode 100644
+> index 0000000..3c3c23a
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
+> @@ -0,0 +1,23 @@
+> +
+> +This patch allows tar to continue correctly when it does not detect
+> +a compressed format. This allows tar to then untar a non-compressed
+> +tar file.
+> +
+> +See this thread for details: http://lists.busybox.net/pipermail/busybox/2014-January/080389.html
+> +
+> +Upstream-Status: Inappropriate [Upstream has different fix with additional functionality]
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +
+> +Index: busybox-1.22.1/archival/libarchive/open_transformer.c
+> +===================================================================
+> +--- busybox-1.22.1.orig/archival/libarchive/open_transformer.c
+> ++++ busybox-1.22.1/archival/libarchive/open_transformer.c
+> +@@ -200,7 +200,7 @@ int FAST_FUNC open_zipped(const char *fn
+> + 	 || (ENABLE_FEATURE_SEAMLESS_BZ2)
+> + 	 || (ENABLE_FEATURE_SEAMLESS_XZ)
+> + 	) {
+> +-		setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 1);
+> ++		setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 0);
+> + 	}
+> +
+> + 	return fd;
+> diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
+> index ae8eca7..1b1eaf3 100644
+> --- a/meta/recipes-core/busybox/busybox_1.22.1.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
+> @@ -35,6 +35,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>              file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
+>              file://lzop-add-overflow-check.patch \
+>              file://libarchive-open_zipped-does-not-need-to-check-extens.patch \
+> +           file://unbreak_noncompressed_tar.patch \
+>   "
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>   SRC_URI[tarball.md5sum] = "337d1a15ab1cb1d4ed423168b1eb7d7e"
+>
 
---001a1142646ca63afb0514d02cae
-Content-Type: text/html; charset=UTF-8
-
-<p dir="ltr"><br>
-On Apr 28, 2015 2:42 PM, &quot;Richard Purdie&quot; &lt;<a href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tue, 2015-04-28 at 18:37 -0300, Bottazzini, Bruno wrote:<br>
-&gt; &gt; Thanks Ross!<br>
-&gt; &gt;<br>
-&gt; &gt; This slipped trough my fingers when I have remade the first version to<br>
-&gt; &gt; use the stable branch.<br>
-&gt; &gt;<br>
-&gt; &gt; Martin,<br>
-&gt; &gt;<br>
-&gt; &gt; The patch removed will be applied automatically because they are<br>
-&gt; &gt; upstreamed on the stable branch.<br>
-&gt;<br>
-&gt; We have a load of unused orphan patch files left in the tree though?<br>
-&gt; These need to be removed.</p>
-<p dir="ltr">I was wondering if there was a script or may be bitbake option to warn about this case whole Metadata wide</p>
-<p dir="ltr">&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-</p>
-
---001a1142646ca63afb0514d02cae--
