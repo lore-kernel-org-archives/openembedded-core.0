@@ -1,32 +1,30 @@
 Return-Path: <marex@denx.de>
-X-Greylist: delayed 439 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Apr 2015 02:48:05 UTC
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 10259727E8
+	by mail.openembedded.org (Postfix) with ESMTP id 1101F73BB9
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Apr 2015 02:48:05 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lbRzf3qJ2z3hhsp;
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lbRzf3vzNz3hht4;
 	Tue, 28 Apr 2015 04:40:46 +0200 (CEST)
-X-Auth-Info: c2atBsestpvPic/P0En9WFUJHrcBLUo6vLMM1tKxyBc=
+X-Auth-Info: MzgCQzRKQyqGtcIMpI1SgyHfi/8LmAPIj0AcWx4h9TQ=
 Received: from chi.localnet (unknown [195.140.253.167])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lbRzd6LP8zvdWR; 
-	Tue, 28 Apr 2015 04:40:45 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lbRzf2cHMzvhTg; 
+	Tue, 28 Apr 2015 04:40:46 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Apr 2015 03:09:01 +0200
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 28 Apr 2015 04:39:32 +0200
 User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
 References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<CAJTo0LaYpbN7VuyErJGj9e8mbY+uUZCGePgsMeMq=Eq+Op8aCQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaYpbN7VuyErJGj9e8mbY+uUZCGePgsMeMq=Eq+Op8aCQ@mail.gmail.com>
+	<201410262352.34958.marex@denx.de>
+	<E8543342-2D6B-4707-810A-E88564881F20@dominion.thruhere.net>
+In-Reply-To: <E8543342-2D6B-4707-810A-E88564881F20@dominion.thruhere.net>
 MIME-Version: 1.0
-Message-Id: <201504280309.01881.marex@denx.de>
+Message-Id: <201504280439.32255.marex@denx.de>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] Add basic fitImage support
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +42,43 @@ Content-Type: Text/Plain;
   charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thursday, October 23, 2014 at 01:26:01 AM, Burton, Ross wrote:
-> On 19 October 2014 20:15, Marek Vasut <marex@denx.de> wrote:
-> > This series cleans up the code in kernel.bbclass and
-> > separates out the uImage generation. The last patch
-> > in this series then adds support for generation of the
-> > advanced successor of the uImage, the fitImage.
-> > 
-> > This series adds only very rudimentary support for
-> > generation of fitImage. The advanced features might
-> > be added in subsequent patches.
-> > 
-> > I would also like to thank Richard for explaining to
-> > me how to properly do the implementation and I hope
-> > this series is at least close to that.
-> 
-> For what it's worth I pulled these patches for initial testing and I got
-> 
-> build failures with the fsl-ppc kernel:
-> | "mkimage" command not found - U-Boot images will not be built
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/buil
-> ds/77/steps/BuildImages/logs/stdio
-> 
-> These patches were not the only ones pulled into that branch, but they're
-> the only relevant change that I can see.  It looks like a native dependency
-> disappeared somewhere, can you have a look at this?
+On Monday, October 27, 2014 at 07:59:42 AM, Koen Kooi wrote:
 
-Yikes, right. I found this and I'll repost the patches tomorrow. Sorry
-this took so long.
+Hi!
+
+sorry for the very late reply.
+
+> > So uh, what exactly would you propose then? Ask the BSPs to cater for the
+> > change ? I don't quite like that option, since it's like breaking an API
+> > (or similar interface, I'm not sure what the local equivalent of that
+> > would be).
+> 
+> Personally, I'd try to keep the kernel_foo() methods the same since those
+> are very popular, a lot of BSPs append the configure one. So maybe
+> something like:
+> 
+> kernel.bbclass:
+> 	do_configure
+> 	do_install
+> 	addtask
+> 	etc
+> 	inherit kernel-${KERNEL_IMAGETYPE.bbclass}
+> 
+> kernel-${KERNEL_IMAGETYPE.bbclass}
+> 	do_install (overrides the one in kernel.bbclass)
+> 
+> Someone more familiar with bbclass method (re)naming and scoping should
+> weigh in on the method override above, but I think it should work.
+
+I wonder, is it possible to inherit bbclass if it exists as a file and inherit
+nothing otherwise ?
+
+In case I do:
+inherit kernel-${@d.getVar("KERNEL_IMAGETYPE", True).lower()}
+I get a nasty spit from bitbake in case I'm building with zImage 
+KERNEL_IMAGETYPE . The reason is obvious, the file kernel-zimage.bbclass
+doesn't exist. So I wonder if there's some easy way to check if the class
+actually exists.
 
 Best regards,
 Marek Vasut
