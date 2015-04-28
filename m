@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 83C38727E8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B24873D91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 10:54:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3SAsCsS029337 for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:54:12 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1yh5lGNk-1Od
+	Tue, 28 Apr 2015 11:01:52 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so147204232wgs.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:54:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t3SArxBn029308
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 11:54:11 +0100
-Message-ID: <1430218439.13022.166.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Apr 2015 11:53:59 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] lib/oeqa: Add sdk tests for gcc/perl/python
+	Tue, 28 Apr 2015 04:01:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hTzurkyMMkcupqm9fvVcQ9l0LLfBe9LGt4r0n4j4yn4=;
+	b=QDwj09YYUjKsSNv7YFf1yK2N8f29wXY7hrQcN5Ep4Uwre879aGuJpfFg5TJyil8b0T
+	3nKNCzWDdabEZKszLw6MXofOUgbivNsIOvNFP6BDtvOymNXX7PtU6eyYpKkmrpy0Mbck
+	/hqbWzLkcdY9kKPS8R+SZUZ/1gCn2NpOGQWd/+eybJ5xL2UWSwoSxXSXFEJkPagx2BbH
+	QdO+zze/ynYPI43MViosfC6l4bGnJR/N1G381LYzvbRZGCBrpfO2AAtR61eVQN5qkdQ+
+	gpQb/uWVlKDbBrX1cVQaGGiK820GKgR470GzTrrk4x+qdfoekXqQoZ3NFKts+I1O409D
+	pFuA==
+X-Gm-Message-State: ALoCoQmkFav0B+pZfAjKU1dLP0KXcn4kEc+CloV0mQ65gFh9eBuBJZqrO5w7bTDFMBJkve6MglS+
+X-Received: by 10.194.22.40 with SMTP id a8mr31819034wjf.134.1430218913276;
+	Tue, 28 Apr 2015 04:01:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id qt2sm33614148wjc.7.2015.04.28.04.01.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 28 Apr 2015 04:01:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Apr 2015 11:58:11 +0100
+Message-Id: <1430218691-6679-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] xserver-xorg: use GCC 5 patch from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,148 +43,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 10:54:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Apr 2015 11:01:52 -0000
 
-Enhance testing of the generated SDK tarballs by adding tests for
-gcc/perl/python based on the existing runtime tests.
+Upstream has already fixed the GCC 5 problem, so use the patch from upstream.
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index da9556a..22d76b3 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -129,6 +129,16 @@ class oeSDKTest(oeTest):
-         self.sdktestdir = oeSDKTest.tc.sdktestdir
-         super(oeSDKTest, self).__init__(methodName)
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch | 76 +++++++++++-----------
+ 1 file changed, 37 insertions(+), 39 deletions(-)
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+index 215c044..9c9f595 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+@@ -1,50 +1,48 @@
+-Upstream-Status: Pending
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
  
-+    @classmethod
-+    def hasHostPackage(self, pkg):
-+
-+        if re.search(pkg, oeTest.tc.hostpkgmanifest):
-+            return True
-+        return False
-+
-+    def _run(self, cmd):
-+        return subprocess.check_output(cmd, shell=True)
-+
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
-     # First element of the list the is current frame, caller is 1
-diff --git a/meta/lib/oeqa/sdk/gcc.py b/meta/lib/oeqa/sdk/gcc.py
-new file mode 100644
-index 0000000..67994b9
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/gcc.py
-@@ -0,0 +1,36 @@
-+import unittest
-+import os
-+import shutil
-+from oeqa.oetest import oeSDKTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    machine = oeSDKTest.tc.d.getVar("MACHINE", True)
-+    if not oeSDKTest.hasHostPackage("packagegroup-cross-canadian-" + machine):
-+        skipModule("SDK doesn't contain a cross-canadian toolchain")
-+
-+
-+class GccCompileTest(oeSDKTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        for f in ['test.c', 'test.cpp', 'testmakefile']:
-+            shutil.copyfile(os.path.join(self.tc.filesdir, f), self.tc.sdktestdir + f)
-+
-+    def test_gcc_compile(self):
-+        self._run('$CC %s/test.c -o %s/test -lm' % (self.tc.sdktestdir, self.tc.sdktestdir))
-+
-+    def test_gpp_compile(self):
-+        self._run('$CXX %s/test.c -o %s/test -lm' % (self.tc.sdktestdir, self.tc.sdktestdir))
-+
-+    def test_gpp2_compile(self):
-+        self._run('$CXX %s/test.cpp -o %s/test -lm' % (self.tc.sdktestdir, self.tc.sdktestdir))
-+
-+    def test_make(self):
-+        self._run('cd %s; make -f testmakefile' % self.tc.sdktestdir)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        files = [self.tc.sdktestdir + f for f in ['test.c', 'test.cpp', 'test.o', 'test', 'testmakefile']]
-+        for f in files:
-+            bb.utils.remove(f)
-diff --git a/meta/lib/oeqa/sdk/perl.py b/meta/lib/oeqa/sdk/perl.py
-new file mode 100644
-index 0000000..45f422e
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/perl.py
-@@ -0,0 +1,28 @@
-+import unittest
-+import os
-+import shutil
-+from oeqa.oetest import oeSDKTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    if not oeSDKTest.hasHostPackage("nativesdk-perl"):
-+        skipModule("No perl package in the SDK")
-+
-+
-+class PerlTest(oeSDKTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        for f in ['test.pl']:
-+            shutil.copyfile(os.path.join(self.tc.filesdir, f), self.tc.sdktestdir + f)
-+        self.testfile = self.tc.sdktestdir + "test.pl"
-+
-+    def test_perl_exists(self):
-+        self._run('which perl')
-+
-+    def test_perl_works(self):
-+        self._run('perl %s/test.pl' % self.tc.sdktestdir)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        bb.utils.remove("%s/test.pl" % self.tc.sdktestdir)
-diff --git a/meta/lib/oeqa/sdk/python.py b/meta/lib/oeqa/sdk/python.py
-new file mode 100644
-index 0000000..896fab4
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/python.py
-@@ -0,0 +1,32 @@
-+import unittest
-+import os
-+import shutil
-+from oeqa.oetest import oeSDKTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    if not oeSDKTest.hasHostPackage("nativesdk-python"):
-+        skipModule("No python package in the SDK")
-+
-+
-+class PythonTest(oeSDKTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        for f in ['test.py']:
-+            shutil.copyfile(os.path.join(self.tc.filesdir, f), self.tc.sdktestdir + f)
-+
-+    def test_python_exists(self):
-+        self._run('which python')
-+
-+    def test_python_stdout(self):
-+        output = self._run('python %s/test.py' % self.tc.sdktestdir)
-+        self.assertEqual(output.strip(), "the value of a is 0.01", msg="Incorrect output: %s" % output)
-+
-+    def test_python_testfile(self):
-+        self._run('ls /tmp/testfile.python')
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        bb.utils.remove("%s/test.py" % self.tc.sdktestdir)
-+        bb.utils.remove("/tmp/testfile.python")
-
+-From 612eb45a2e7a0b35cc3790870e6d0cc42eb50c74 Mon Sep 17 00:00:00 2001
+-From: Hans de Goede <hdegoede@redhat.com>
+-Date: Wed, 11 Feb 2015 16:26:40 +0100
+-Subject: [PATCH] sdksyms.sh: Make sdksyms.sh work with gcc5.
++From 21b896939c5bb242f3aacc37baf12379e43254b6 Mon Sep 17 00:00:00 2001
++From: Egbert Eich <eich@freedesktop.org>
++Date: Tue, 3 Mar 2015 16:27:05 +0100
++Subject: symbols: Fix sdksyms.sh to cope with gcc5
+ 
+-gcc5's cpp inserts patterns like this:
++Gcc5 adds additional lines stating line numbers before and
++after __attribute__() which need to be skipped.
+ 
+-extern
+-      __attribute__((visibility("default")))
+-                int WaitForSomething(int *
+-    );
++Signed-off-by: Egbert Eich <eich@freedesktop.org>
++Tested-by: Daniel Stone <daniels@collabora.com>
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+ 
+-This patch make sdksyms.sh work with this. Note my awk skills are weak, so
+-there likely is a better way to deal with this.
+-
+-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+----
+- hw/xfree86/sdksyms.sh | 17 +++++++++++++++++
+- 1 file changed, 17 insertions(+)
+-
+-Index: xorg-server-1.16.3/hw/xfree86/sdksyms.sh
+-===================================================================
+---- xorg-server-1.16.3.orig/hw/xfree86/sdksyms.sh
+-+++ xorg-server-1.16.3/hw/xfree86/sdksyms.sh
+-@@ -353,6 +353,23 @@ BEGIN {
++diff --git a/hw/xfree86/sdksyms.sh b/hw/xfree86/sdksyms.sh
++index 2305073..05ac410 100755
++--- a/hw/xfree86/sdksyms.sh
+++++ b/hw/xfree86/sdksyms.sh
++@@ -350,13 +350,25 @@ BEGIN {
+      if (sdk) {
+  	n = 3;
+  
+-+	# detect the following gcc5 cpp pattern and skip it:
+-+	# extern
+-+	# # 320 "../../include/os.h" 3 4
+-+	#     __attribute__((visibility("default")))
+-+	# # 320 "../../include/os.h"
+-+	# Note in this case the "extern " or "extern void " always has
+-+	# a trailing space
+-+	if ($0 ~ "^extern.* $") {
+-+	    getline;
+-+	    getline;
+-+	    getline;
+-+	    getline;
+-+	    n = 1;
+-+	    while ($n == " ")
+-+		n++;
+-+	}
+++        # skip line numbers GCC 5 adds before __attribute__
+++        while ($n == "" || $0 ~ /^# [0-9]+ "/) {
+++           getline;
+++           n = 1;
+++        }
+ +
+  	# skip attribute, if any
+  	while ($n ~ /^(__attribute__|__global)/ ||
+  	    # skip modifiers, if any
++ 	    $n ~ /^\*?(unsigned|const|volatile|struct|_X_EXPORT)$/ ||
++ 	    # skip pointer
++-	    $n ~ /^[a-zA-Z0-9_]*\*$/)
+++	    $n ~ /^[a-zA-Z0-9_]*\*$/) {
++ 	    n++;
+++            # skip line numbers GCC 5 adds after __attribute__
+++            while ($n == "" || $0 ~ /^# [0-9]+ "/) {
+++               getline;
+++               n = 1;
+++            }
+++        }
++ 
++ 	# type specifier may not be set, as in
++ 	#   extern _X_EXPORT unsigned name(...)
++-- 
++cgit v0.10.2
+-- 
+2.1.4
 
 
