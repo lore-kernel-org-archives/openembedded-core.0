@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F38C73D94
+	by mail.openembedded.org (Postfix) with ESMTP id 049A9716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 03:43:32 +0000 (UTC)
+	Tue, 28 Apr 2015 03:43:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hYqr024928
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hZvi024931
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 20:43:34 -0700 (PDT)
+	Mon, 27 Apr 2015 20:43:35 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 27 Apr 2015 20:43:34 -0700
+	Mon, 27 Apr 2015 20:43:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:28 -0700
-Message-ID: <0b150752ec15a01f06abda49aa0f614dc8ad581c.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:30 -0700
+Message-ID: <dad84cb8f81389eb5bfc4b012ea4a202ca58e886.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
 References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/11] lttng-modules: remove bio-bvec-iter.patch
+Subject: [PATCH 10/11] texinfo: remove enumerate_greater_than_ten.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,179 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
+X-List-Received-Date: Tue, 28 Apr 2015 03:43:34 -0000
 Content-Type: text/plain
 
-It is aready in the source.
+It is a backport patch, and verified that the patch is in the source.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../lttng/lttng-modules/bio-bvec-iter.patch        |  156 --------------------
- 1 file changed, 156 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ .../texinfo/enumerate_greater_than_ten.patch       |   51 --------------------
+ 1 file changed, 51 deletions(-)
+ delete mode 100644 meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch b/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+diff --git a/meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch b/meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch
 deleted file mode 100644
-index d6c66e4..0000000
---- a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+index ef69143..0000000
+--- a/meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch
 +++ /dev/null
-@@ -1,156 +0,0 @@
--Upstream-Status: Pending
+@@ -1,51 +0,0 @@
+-From 0e70072ce655a0d053bb7433083ced5e6eac74d4 Mon Sep 17 00:00:00 2001
+-From: Jackie Huang <jackie.huang@windriver.com>
+-Date: Thu, 15 Aug 2013 23:49:47 -0700
+-Subject: [PATCH] handle correctly @enumerate specification greater than 10
 -
--In 3.14, bi_sector and bi_size were moved into an iterator, thus
--breaking any tracepoints that still expect them in the bio.  Fix up
--the lttng-module tracepoints to use the new scheme when the kernel
--version is >= 3.14.
+-Upstream-Status: Backport
 -
--Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+-Revision: 5270
+-          http://svn.sv.gnu.org/viewvc/?view=rev&root=texinfo&revision=5270
+-Author:   pertusus
+-Date:     2013-07-29 20:02:23 +0000 (Mon, 29 Jul 2013)
+-Log Message:
+------------
+-        * tp/Common.pm (enumerate_item_representation), Texinfo/Parser.pm:
+-        handle correctly @enumerate specification greater than 10.  Report
+-        from Dmitry Shachnev.
 -
--diff --git a/instrumentation/events/lttng-module/block.h b/instrumentation/events/lttng-module/block.h
--index f3b8bff..0a61543 100644
----- a/instrumentation/events/lttng-module/block.h
--+++ b/instrumentation/events/lttng-module/block.h
--@@ -341,9 +341,15 @@ TRACE_EVENT(block_bio_bounce,
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev ?
-- 					  bio->bi_bdev->bd_dev : 0)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
-- 	),
-- 
--@@ -385,14 +391,24 @@ TRACE_EVENT(block_bio_complete,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev->bd_dev)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
--+
-- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
-- 		tp_assign(error, error)
-- #else
-- 		tp_assign(error, 0)
-- #endif
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 	),
-- 
-- 	TP_printk("%d,%d %s %llu + %u [%d]",
--@@ -419,9 +435,15 @@ DECLARE_EVENT_CLASS(block_bio_merge,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev->bd_dev)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
-- 	),
-- 
--@@ -485,9 +507,15 @@ TRACE_EVENT(block_bio_queue,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev->bd_dev)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
-- 	),
-- 
--@@ -513,9 +541,15 @@ DECLARE_EVENT_CLASS(block_bio,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev ? bio->bi_bdev->bd_dev : 0)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
-- 	),
-- 
--@@ -587,10 +621,17 @@ DECLARE_EVENT_CLASS(block_get_rq,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio ? bio->bi_bdev->bd_dev : 0)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio ? bio->bi_iter.bi_sector : 0)
--+		tp_assign(nr_sector, bio ? bio->bi_iter.bi_size >> 9 : 0)
--+		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
--+			      bio ? bio->bi_iter.bi_size >> 9 : 0)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio ? bio->bi_sector : 0)
-- 		tp_assign(nr_sector, bio ? bio->bi_size >> 9 : 0)
-- 		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
-- 			      bio ? bio->bi_size >> 9 : 0)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
--         ),
-- 
--@@ -759,9 +800,15 @@ TRACE_EVENT(block_split,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev->bd_dev)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(new_sector, new_sector)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(new_sector, new_sector)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
-- 	),
-- 
--@@ -805,11 +852,19 @@ TRACE_EVENT(block_remap,
-- 
-- 	TP_fast_assign(
-- 		tp_assign(dev, bio->bi_bdev->bd_dev)
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
--+		tp_assign(sector, bio->bi_iter.bi_sector)
--+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
--+		tp_assign(old_dev, dev)
--+		tp_assign(old_sector, from)
--+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
--+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 		tp_assign(sector, bio->bi_sector)
-- 		tp_assign(nr_sector, bio->bi_size >> 9)
-- 		tp_assign(old_dev, dev)
-- 		tp_assign(old_sector, from)
-- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
--+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
-- 	),
-- 
-- 	TP_printk("%d,%d %s %llu + %u <- (%d,%d) %llu",
+----
+- tp/Texinfo/Common.pm |    2 +-
+- tp/Texinfo/Parser.pm |    2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/tp/Texinfo/Common.pm b/tp/Texinfo/Common.pm
+-index 8aee9f7..bdffeee 100644
+---- a/tp/Texinfo/Common.pm
+-+++ b/tp/Texinfo/Common.pm
+-@@ -1382,7 +1382,7 @@ sub enumerate_item_representation($$)
+-   my $specification = shift;
+-   my $number = shift;
+-
+--  if ($specification =~ /^[0-9]$/) {
+-+  if ($specification =~ /^[0-9]+$/) {
+-     return $specification + $number -1;
+-   }
+-
+-diff --git a/tp/Texinfo/Parser.pm b/tp/Texinfo/Parser.pm
+-index cf8fa72..8e845e9 100644
+---- a/tp/Texinfo/Parser.pm
+-+++ b/tp/Texinfo/Parser.pm
+-@@ -2973,7 +2973,7 @@ sub _end_line($$$)
+-                         $current->{'cmdname'});
+-           }
+-           my $arg = $current->{'extra'}->{'block_command_line_contents'}->[0]->[0];
+--          if (!defined($arg->{'text'}) or $arg->{'text'} !~ /^[[:alnum:]]$/) {
+-+          if (!defined($arg->{'text'}) or $arg->{'text'} !~ /^(([[:digit:]]+)|([[:alpha:]]+))$/) {
+-             $self->_command_error($current, $line_nr, 
+-                         $self->__("bad argument to \@%s"),
+-                         $current->{'cmdname'});
+---
+-1.7.1
+-
 -- 
 1.7.9.5
 
