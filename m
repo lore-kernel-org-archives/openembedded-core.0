@@ -1,34 +1,26 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ED39716CE
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C944716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 09:10:50 +0000 (UTC)
+	Tue, 28 Apr 2015 09:41:36 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2015 02:10:52 -0700
+	by orsmga103.jf.intel.com with ESMTP; 28 Apr 2015 02:41:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,662,1422950400"; d="scan'208";a="702005773"
-Received: from irsmsx106.ger.corp.intel.com ([163.33.3.31])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2015 02:10:51 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.178]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.204]) with mapi id
-	14.03.0224.002; Tue, 28 Apr 2015 10:10:51 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v6 0/3] Switch to BlueZ 5.x as default
-	Bluetooth	stack
-Thread-Index: AQHQgZJfaFrbXJKPRkiKn5lOeN2uEJ1iIvEQ
-Date: Tue, 28 Apr 2015 09:10:50 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F4B8B22@irsmsx105.ger.corp.intel.com>
-References: <cover.1430211653.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1430211653.git.cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+X-IronPort-AV: E=Sophos;i="5.11,662,1422950400"; d="scan'208";a="702017232"
+Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2015 02:41:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Tue, 28 Apr 2015 10:41:35 +0100
+Message-ID: <204319168.AWQiYTztFe@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.4 (Linux/3.18.9-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <1429820740-5133-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1429820740-5133-1-git-send-email-ed.bartosh@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/3] Switch to BlueZ 5.x as default Bluetooth	stack
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH] wic tests: Add functional tests for directdisk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,91 +33,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 09:10:53 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 28 Apr 2015 09:41:38 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-In v6:
-1. fix systemd crash for gst-plugin-bluetooth;
-2. dropped patch that removed exclusion from world build.
-/Cristian
+Hi Ed,
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
-Sent: Tuesday, April 28, 2015 12:03 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH v6 0/3] Switch to BlueZ 5.x as default Bluetooth =
-stack
+On Thursday 23 April 2015 23:25:40 Ed Bartosh wrote:
+> Added 2 simple functional test cases to check if
+> wic is able to produce images using directdisk.wks
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  scripts/setup.cfg                       |  2 +-
+>  scripts/tests/02_wic_test_directdisk.py | 61
+> +++++++++++++++++++++++++++++++++ 2 files changed, 62 insertions(+), 1
+> deletion(-)
+>  create mode 100644 scripts/tests/02_wic_test_directdisk.py
+> 
+> diff --git a/scripts/setup.cfg b/scripts/setup.cfg
+> index 48a0bb2..f378efa 100644
+> --- a/scripts/setup.cfg
+> +++ b/scripts/setup.cfg
+> @@ -3,4 +3,4 @@ verbosity=2
+>  exe=1
+>  with-coverage=1
+>  cover-erase=1
+> -cover-package=wic,image
+> +cover-package=wic,image,wic.imager
+> diff --git a/scripts/tests/02_wic_test_directdisk.py
+> b/scripts/tests/02_wic_test_directdisk.py new file mode 100644
+> index 0000000..9108621
+> --- /dev/null
+> +++ b/scripts/tests/02_wic_test_directdisk.py
+> @@ -0,0 +1,61 @@
+> +#!/usr/bin/env python
+> +# ex:ts=4:sw=4:sts=4:et
+> +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+> +#
+> +# Copyright (c) 2015, Intel Corporation.
+> +# All rights reserved.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License version 2 as
+> +# published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License along
+> +# with this program; if not, write to the Free Software Foundation, Inc.,
+> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+> +#
+> +# AUTHORS
+> +# Ed Bartosh <ed.bartosh@linux.intel.com>
+> +
+> +"""Test directdisk builds."""
+> +
+> +import imp
+> +import unittest
+> +import os
+> +import shutil
+> +import glob
+> +
+> +class TestWicDirectdisk(unittest.TestCase):
+> +    """Test build of directdisk image"""
+> +    def __init__(self, methodName='runTest'):
+> +        unittest.TestCase.__init__(self, methodName)
+> +        self.main = imp.load_source("wic", "wic").main
+> +        self.resultdir = "/var/tmp/wic/build/"
+> +
+> +    def setUp(self):
+> +        """This code executes before each test method."""
+> +        shutil.rmtree(self.resultdir)
+> +        os.chdir(os.getenv("BUILDDIR"))
+> +
+> +    def _build(self, cmdline):
+> +        """Call self.main with provided commandline."""
+> +        self.assertIsNone(self.main(cmdline))
+> +        self.assertEqual(1, len(glob.glob(self.resultdir + \
+> +                                "directdisk-*.direct")))
+> +
+> +    def testbuild_image_name(self):
+> +        self._build(["create", "directdisk",
+> +                     "--image-name", "core-image-minimal"])
+> +
+> +    def testbuild_artifacts(self):
+> +        self._build(["create", "directdisk",
+> +                     "-b", "tmp/sysroots/qemux86/usr/share",
+> +                     "-k", "tmp/deploy/images/qemux86",
+> +                     "-n", "tmp/sysroots/x86_64-linux",
+> +                     "-r", "tmp/work/qemux86-poky-linux/"
+> +                           "core-image-minimal/1.0-r0/rootfs"])
+> +
 
-BlueZ 5.x is now the default Bluetooth stack.
-BlueZ 4.x is moved to recipes-connectivity in meta-oe layer and still suppo=
-rted in poky/YP.
+So I appreciate what you're trying to do here, but I really think we ought to 
+be running wic as users would run it or we're not really testing the same 
+thing. Additionally, we should have these tests as part of the existing 
+oe-selftest framework (tests in meta/lib/oeqa/selftest) rather than a new 
+framework that has to be run separately. (I should have mentioned this when 
+you sent the first patch earlier, sorry about that.)
 
-The following changes since commit ae736dbdd140975ba43f06e635b461dbf36a117e=
-:
+Cheers,
+Paul
 
-  libxfont: Security Advisory - libxfont - CVE-2015-1804 (2015-04-28 07:56:=
-57 +0100)
+-- 
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v5
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3DCiorga/YB7479_=
-v5
-
-Cristian Iorga (3):
-  bluez4: add proper systemd support
-  bluez: remove bluez4 recipes
-  bitbake.conf: backfill bluez5 feature
-
- meta/conf/bitbake.conf                             |   2 +-
- .../obsolete_automake_macros.patch                 |  14 ---
- .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
- .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
- .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
- .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 -----------------=
-----
- .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
- ...ork-fix-network-Connect-method-parameters.patch |  30 ------
- .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
- .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
- ...pygobject-instead-ofgobject-introspection.patch |  27 -----
- meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
- .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
- 14 files changed, 1 insertion(+), 453 deletions(-)  delete mode 100644 met=
-a/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.pat=
-ch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.=
-conf
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-p=
-aths.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encryp=
-t_collision.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-te=
-st-script.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fi=
-x-network-Connect-method-parameters.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_a=
-utomake_macros.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.pa=
-tch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy=
--pygobject-instead-ofgobject-introspection.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
- delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.=
-101.bb
-
---
-2.1.0
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Paul Eggleton
+Intel Open Source Technology Centre
 
