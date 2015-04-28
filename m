@@ -1,22 +1,33 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBD87382F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A371C7382F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 22:46:05 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Apr 2015 15:46:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,666,1422950400"; d="scan'208";a="687123903"
-Received: from vkarnati-mobl2.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.33.210])
-	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2015 15:46:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 28 Apr 2015 15:46:04 -0700
-Message-Id: <1430261164-1199-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH][dizzy] busybox: unbreak tar of uncompressed files
+	Tue, 28 Apr 2015 22:46:16 +0000 (UTC)
+Received: by wgin8 with SMTP id n8so10029561wgi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Apr 2015 15:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=U3fpbLmE9V3rGeZZV4ifhylrIgXhf2NONCcw3oApxys=;
+	b=rsSw4xSAoAlxPViwV8A7iCU5WAmPz54Si98YdKbvxYizOVT4esTKC3hTJ7W5GNwlyC
+	Yci21K3cOJPHbIsa5qJanYFg/ibBkb/JRyyQm02XE6yaMpBmS1yhehk1HlWqHQdB2ANO
+	ZOBAbmHD+8q8wGzVIfUnv2oKynnTB8uPkcSDUuNqWX0K9PEgX0GnCSpX1EdPbAlOZOTV
+	c/HywGjAbUU+O4e3uxhmBco8ICJQUU8On6/L0R6Fc8aezj4xR8DkoHaLdFPhmpY4C0A3
+	s0+y5aGkiwhTUPK8uHdz/QbqPScdDSk1QLiwMfipMq4aRkPXwGV3O1uPZrGyvrR2AtwN
+	ruQA==
+X-Received: by 10.180.106.70 with SMTP id gs6mr3120155wib.36.1430261177525;
+	Tue, 28 Apr 2015 15:46:17 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id g14sm8898215wjs.47.2015.04.28.15.46.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Apr 2015 15:46:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Apr 2015 00:46:18 +0200
+Message-Id: <1430261178-3911-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,64 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 22:46:07 -0000
+X-List-Received-Date: Tue, 28 Apr 2015 22:46:18 -0000
 
-A patch was added to fix compressed tar files, but broke uncompressed
-tar files, this fix is from the busybox mailing list
+* install populate-extfs.sh from contrib, be aware that in order
+  to use it you need to set DEBUGFS shell variable, otherwise it will
+  try to use debugfs from relative path which is almost always
+  incorrect:
+    CONTRIB_DIR=$(dirname $(readlink -f $0))
+    DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
 
-http://lists.busybox.net/pipermail/busybox/2014-January/080389.html
-
-[YOCTO #7645]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../busybox/unbreak_noncompressed_tar.patch        | 23 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.22.1.bb        |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch b/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
-new file mode 100644
-index 0000000..3c3c23a
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/unbreak_noncompressed_tar.patch
-@@ -0,0 +1,23 @@
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index 67a5ea7..be1db9e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -54,6 +54,8 @@ do_install () {
+ 	oe_multilib_header ext2fs/ext2_types.h
+ 	install -d ${D}${base_bindir}
+ 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
 +
-+This patch allows tar to continue correctly when it does not detect
-+a compressed format. This allows tar to then untar a non-compressed 
-+tar file.
-+
-+See this thread for details: http://lists.busybox.net/pipermail/busybox/2014-January/080389.html
-+
-+Upstream-Status: Inappropriate [Upstream has different fix with additional functionality]
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: busybox-1.22.1/archival/libarchive/open_transformer.c
-+===================================================================
-+--- busybox-1.22.1.orig/archival/libarchive/open_transformer.c
-++++ busybox-1.22.1/archival/libarchive/open_transformer.c
-+@@ -200,7 +200,7 @@ int FAST_FUNC open_zipped(const char *fn
-+ 	 || (ENABLE_FEATURE_SEAMLESS_BZ2)
-+ 	 || (ENABLE_FEATURE_SEAMLESS_XZ)
-+ 	) {
-+-		setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 1);
-++		setup_unzip_on_fd(fd, /*fail_if_not_detected:*/ 0);
-+ 	}
-+ 
-+ 	return fd;
-diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
-index ae8eca7..1b1eaf3 100644
---- a/meta/recipes-core/busybox/busybox_1.22.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
-            file://lzop-add-overflow-check.patch \
-            file://libarchive-open_zipped-does-not-need-to-check-extens.patch \
-+           file://unbreak_noncompressed_tar.patch \
- "
++	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+ }
  
- SRC_URI[tarball.md5sum] = "337d1a15ab1cb1d4ed423168b1eb7d7e"
+ do_install_append_class-target() {
 -- 
-2.1.0
+2.3.5
 
 
