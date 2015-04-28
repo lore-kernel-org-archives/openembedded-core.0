@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DC3D716CE
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB1572491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 09:03:24 +0000 (UTC)
+	Tue, 28 Apr 2015 09:03:26 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2015 02:03:26 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2015 02:03:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,662,1422950400"; d="scan'208";a="686749277"
+X-IronPort-AV: E=Sophos;i="5.11,662,1422950400"; d="scan'208";a="686749285"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2015 02:03:25 -0700
+	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2015 02:03:26 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Apr 2015 12:03:15 +0300
-Message-Id: <cover.1430211653.git.cristian.iorga@intel.com>
+Date: Tue, 28 Apr 2015 12:03:16 +0300
+Message-Id: <d046583ec91ae2bdaa02705da97802f7e7abd34c.1430211653.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH v6 0/3] Switch to BlueZ 5.x as default Bluetooth stack
+In-Reply-To: <cover.1430211653.git.cristian.iorga@intel.com>
+References: <cover.1430211653.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1430211653.git.cristian.iorga@intel.com>
+References: <cover.1430211653.git.cristian.iorga@intel.com>
+Subject: [PATCH v6 1/3] bluez4: add proper systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,53 +33,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Apr 2015 09:03:28 -0000
 
-BlueZ 5.x is now the default Bluetooth stack.
-BlueZ 4.x is moved to recipes-connectivity in meta-oe
-layer and still supported in poky/YP.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/bluez/bluez4.inc      | 4 +++-
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-The following changes since commit ae736dbdd140975ba43f06e635b461dbf36a117e:
-
-  libxfont: Security Advisory - libxfont - CVE-2015-1804 (2015-04-28 07:56:57 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib Ciorga/YB7479_v5
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=Ciorga/YB7479_v5
-
-Cristian Iorga (3):
-  bluez4: add proper systemd support
-  bluez: remove bluez4 recipes
-  bitbake.conf: backfill bluez5 feature
-
- meta/conf/bitbake.conf                             |   2 +-
- .../obsolete_automake_macros.patch                 |  14 ---
- .../bluez/bluez-hcidump_2.5.bb                     |  22 -----
- .../bluez/bluez4-4.101/bluetooth.conf              |  16 ---
- .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 -------
- .../bluez/bluez4-4.101/fix_encrypt_collision.patch | 110 ---------------------
- .../bluez/bluez4-4.101/install-test-script.patch   |  26 -----
- ...ork-fix-network-Connect-method-parameters.patch |  30 ------
- .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ---
- .../bluez/bluez4-4.101/sbc_mmx.patch               |  24 -----
- ...pygobject-instead-ofgobject-introspection.patch |  27 -----
- meta/recipes-connectivity/bluez/bluez4.inc         |  46 ---------
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  47 ---------
- .../bluez/gst-plugin-bluetooth_4.101.bb            |  39 --------
- 14 files changed, 1 insertion(+), 453 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump-2.5/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix_encrypt_collision.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4.inc
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
- delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
-
+diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
+index 11c9616..9429d0a 100644
+--- a/meta/recipes-connectivity/bluez/bluez4.inc
++++ b/meta/recipes-connectivity/bluez/bluez4.inc
+@@ -13,9 +13,11 @@ RDEPENDS_${PN}-dev = "bluez-hcidump"
+ PACKAGECONFIG ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'pie', 'pie', '', d)}\
++    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd','systemd', '', d)} \
+ "
+ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
+ PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,"
++PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+ 
+ ASNEEDED = ""
+ 
+@@ -24,7 +26,7 @@ SRC_URI = "\
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+-inherit autotools-brokensep pkgconfig
++inherit autotools-brokensep pkgconfig systemd
+ 
+ EXTRA_OECONF = "\
+   --disable-gstreamer \
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+index f900c7c..1023923 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+@@ -45,3 +45,5 @@ FILES_${PN}-dbg += "\
+   ${libdir}/*/.debug \
+   */udev/.debug \
+   "
++
++SYSTEMD_SERVICE_${PN} = "bluetooth.service"
 -- 
 2.1.0
 
