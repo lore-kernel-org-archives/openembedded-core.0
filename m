@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 02200727E8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C25C73D41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 06:47:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S6m1on004519
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 23:48:01 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.192) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 27 Apr 2015 23:48:00 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Apr 2015 14:48:00 +0800
-Message-ID: <1cbf2ad83fa3a65693707b98922fc10187f0a16b.1430203645.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1430203645.git.Qi.Chen@windriver.com>
-References: <cover.1430203645.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pigz: set ALTERNATIVE for nativesdk package to empty
+	Tue, 28 Apr 2015 06:58:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3S6w67g015850; Tue, 28 Apr 2015 07:58:33 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GsCNh4TVHCa6; Tue, 28 Apr 2015 07:58:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3S6wJHY016054
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Apr 2015 07:58:31 +0100
+Message-ID: <1430204299.13022.150.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 28 Apr 2015 07:58:19 +0100
+In-Reply-To: <3dc0f6b6bab9dbb97848cee072e5f14529eab96f.1430203491.git.Qi.Chen@windriver.com>
+References: <cover.1430203491.git.Qi.Chen@windriver.com>
+	<3dc0f6b6bab9dbb97848cee072e5f14529eab96f.1430203491.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] toolchain-shar-extract.sh: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +37,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 06:48:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Apr 2015 06:58:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Set ALTERNATIVE for nativesdk package to empty to avoid warnings like below.
+On Tue, 2015-04-28 at 14:45 +0800, Chen Qi wrote:
+> Fix typo: overwritten -> overridden
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-     WARNING: pigz: NOT adding alternative provide xxx/bin/gunzip: xxx/bin/pigz does not exist
+I don't think this is a typo, it really does mean overwritten...
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/pigz/pigz.inc | 3 +++
- 1 file changed, 3 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc
-index c271f70..6a6a553 100644
---- a/meta/recipes-extended/pigz/pigz.inc
-+++ b/meta/recipes-extended/pigz/pigz.inc
-@@ -15,6 +15,7 @@ DEPENDS = "zlib"
- 
- inherit update-alternatives
- 
-+# do_install for target
- do_install_class-target() {
- 	# Install files into /bin (FHS), which is typical place for gzip
- 	install -d ${D}${base_bindir}
-@@ -23,6 +24,7 @@ do_install_class-target() {
- 	ln -nsf pigz ${D}${base_bindir}/pigzcat
- }
- 
-+# do_install for native and nativesdk package
- do_install() {
- 	install -d ${D}${bindir}
- 	install ${B}/pigz ${D}${bindir}/gzip
-@@ -32,6 +34,7 @@ do_install() {
- 
- ALTERNATIVE_PRIORITY = "80"
- ALTERNATIVE_${PN} = "gunzip gzip zcat"
-+ALTERNATIVE_${PN}_class-nativesdk = ""
- ALTERNATIVE_LINK_NAME[gunzip] = "${base_bindir}/gunzip"
- ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
- ALTERNATIVE_LINK_NAME[zcat] = "${base_bindir}/zcat"
--- 
-1.9.1
+Richard
 
 
