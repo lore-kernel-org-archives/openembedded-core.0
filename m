@@ -1,31 +1,41 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 473CA72A85
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F6D472491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 21:16:23 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lbwkq0Xsxz3hk4S;
-	Tue, 28 Apr 2015 23:16:18 +0200 (CEST)
-X-Auth-Info: 4T3B3nUXQC/iezw+28hk4GCcyWSgAliUxvyfcdh4yaw=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lbwkp3tqDzvdWV; 
-	Tue, 28 Apr 2015 23:16:18 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 28 Apr 2015 23:15:19 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1430239116-7671-1-git-send-email-marex@denx.de>
-	<1430239116-7671-9-git-send-email-marex@denx.de>
-	<553FD4E4.3000900@windriver.com>
-In-Reply-To: <553FD4E4.3000900@windriver.com>
+	Tue, 28 Apr 2015 21:30:03 +0000 (UTC)
+Received: by wizk4 with SMTP id k4so156992517wiz.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Apr 2015 14:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=RxzLtU+uaZVLWXRFgqK6W/G4/cMB+Kr1nsXOTvljMoM=;
+	b=qiFMTO27/u16fDof9TL7/2KNbLYBo80XKDX8qrfSaHLJbcVq7NsR6d7Dd8FZiofrjP
+	zGuq1/TwZ0MmERMNqsiW6kJTAFn0ziZBASLvPSmmVHws2HWCRltTNpo1+mHu3tm3gcmV
+	CuYKo8rfBkHUA5888GzClJrnsFHG+hh7gCq+qds6qpx57iyREJIAaxm/TM+mwVn0naG6
+	74cxzEijOWKF9RRga8C711C3FB7XpzeiCOws4ITaPFJXMkz6Yf1IefhNvg2oFtJ7ruip
+	jjmh7Y0rVG50HTjEFp+pgCKJfCgEoeRBNFkRydJcFGudRjwElb4g7UERtKOVicl9m27n
+	yc1Q==
+X-Received: by 10.194.6.102 with SMTP id z6mr27076775wjz.121.1430256604921;
+	Tue, 28 Apr 2015 14:30:04 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	es5sm36031914wjc.30.2015.04.28.14.30.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Apr 2015 14:30:03 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 28 Apr 2015 23:30:07 +0200
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20150428213007.GC2322@jama>
+References: <1430251922-28699-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-Message-Id: <201504282315.19422.marex@denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/8] kernel: Build uImage only when really needed
+In-Reply-To: <1430251922-28699-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: bring back the patch to customise root's $HOME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,60 +48,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 21:16:23 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Apr 2015 21:30:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, April 28, 2015 at 08:43:48 PM, Bruce Ashfield wrote:
-> On 2015-04-28 12:38 PM, Marek Vasut wrote:
-> > Build the uImage file using the kernel build system only when
-> > it is really required, which is only in case KEEPUIMAGE == yes.
-> > Otherwise, just build zImage, since the Yocto build system will
-> > handle the uImage generation for us.
-> > 
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Cc: Koen Kooi <koen@dominion.thruhere.net>
-> > Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > Cc: Ross Burton <ross.burton@intel.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > ---
-> > 
-> >   meta/classes/kernel-uimage.bbclass | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/meta/classes/kernel-uimage.bbclass
-> > b/meta/classes/kernel-uimage.bbclass index ce8f96f..acde9ae 100644
-> > --- a/meta/classes/kernel-uimage.bbclass
-> > +++ b/meta/classes/kernel-uimage.bbclass
-> > @@ -6,6 +6,14 @@ python __anonymous () {
-> > 
-> >           depends = d.getVar("DEPENDS", True)
-> >           depends = "%s u-boot-mkimage-native" % depends
-> >           d.setVar("DEPENDS", depends)
-> > 
-> > +
-> > +	# Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
-> > +	# to kernel.bbclass . We override the variable here, since we need
-> > +	# to build uImage using the kernel build system if and only if
-> > +	# KEEPUIMAGE != yes. Otherwise, we pack compressed vmlinux into
-> > +	# the uImage .
-> 
-> I keep reading this, and must be inverting the logic in my head.
-> 
-> If we've set KEEPUIMAGE = yes, that means we just want to let the
-> kernel build the uImage and perform no extra generation steps.
-> 
-> When I read this, it looks like if I set the keep flag, I'll be
-> overriden to build a zImage. Is that intentional ? I'd think we
-> would have just left it alone or set it to uImage (unless we
-> are saying that everyone should be building zImage now .. but
-> I know some old ppc targets that do want to build uImages).
+On Tue, Apr 28, 2015 at 09:12:02PM +0100, Ross Burton wrote:
+> This patch appears to have been accidently dropped in the move to 219-sta=
+ble,
+> probably because it didn't apply.  Update the patch and re-add it.
 
-Uhhh, you're obviously right. The logic in the __anonymous function is
-clearly inverted. Thanks for spotting this!
+what about the unused .patch files reported in:
+http://lists.openembedded.org/pipermail/openembedded-core/2015-April/104197=
+=2Ehtml
+?
 
-Best regards,
-Marek Vasut
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  .../systemd/systemd/0010-Make-root-s-home-directory-configurable.patch |=
+ 3 ++-
+>  meta/recipes-core/systemd/systemd_219.bb                               |=
+ 1 +
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-dire=
+ctory-configurable.patch b/meta/recipes-core/systemd/systemd/0010-Make-root=
+-s-home-directory-configurable.patch
+> index 41b9039..b65fe42 100644
+> --- a/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-c=
+onfigurable.patch
+> +++ b/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-c=
+onfigurable.patch
+> @@ -26,10 +26,11 @@ diff --git a/Makefile.am b/Makefile.am
+>  index 0fb3f9f..4623963 100644
+>  --- a/Makefile.am
+>  +++ b/Makefile.am
+> -@@ -199,6 +199,7 @@ AM_CPPFLAGS =3D \
+> +@@ -199,7 +199,8 @@ AM_CPPFLAGS =3D \
+>   	-DKEXEC=3D\"$(KEXEC)\" \
+>   	-DLIBDIR=3D\"$(libdir)\" \
+>   	-DROOTLIBDIR=3D\"$(rootlibdir)\" \
+> + 	-DROOTLIBEXECDIR=3D\"$(rootlibexecdir)\" \
+>  +	-DROOTHOMEDIR=3D\"$(roothomedir)\" \
+>   	-DTEST_DIR=3D\"$(abs_top_srcdir)/test\" \
+>   	-I $(top_srcdir)/src \
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core=
+/systemd/systemd_219.bb
+> index d1303f7..c196017 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -38,6 +38,7 @@ SRC_URI =3D "git://anongit.freedesktop.org/systemd/syst=
+emd-stable;branch=3Dv219-stab
+>             file://0007-util-Use-mkostemp-only-if-libc-supports-it.patch \
+>             file://0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-c=
+onf.patch \
+>             file://0009-sysv-generator-add-support-for-executing-scripts-=
+und.patch \
+> +           file://0010-Make-root-s-home-directory-configurable.patch \
+>             file://0011-systemd-user-avoid-using-system-auth.patch \
+>             file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as=
+-th.patch \
+>             file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
