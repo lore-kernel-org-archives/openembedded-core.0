@@ -1,31 +1,31 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FDB372491
+	by mail.openembedded.org (Postfix) with ESMTP id 473CA72A85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 21:16:20 +0000 (UTC)
+	Tue, 28 Apr 2015 21:16:23 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lbwkq0sG5z3hk4Z;
-	Tue, 28 Apr 2015 23:16:19 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lbwkq0Xsxz3hk4S;
+	Tue, 28 Apr 2015 23:16:18 +0200 (CEST)
 X-Auth-Info: 4T3B3nUXQC/iezw+28hk4GCcyWSgAliUxvyfcdh4yaw=
 Received: from chi.localnet (unknown [195.140.253.167])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lbwkp6WgyzvhTZ; 
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lbwkp3tqDzvdWV; 
 	Tue, 28 Apr 2015 23:16:18 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 28 Apr 2015 23:16:17 +0200
+Date: Tue, 28 Apr 2015 23:15:19 +0200
 User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
 References: <1430239116-7671-1-git-send-email-marex@denx.de>
-	<1430239116-7671-5-git-send-email-marex@denx.de>
-	<553FD526.2020708@windriver.com>
-In-Reply-To: <553FD526.2020708@windriver.com>
+	<1430239116-7671-9-git-send-email-marex@denx.de>
+	<553FD4E4.3000900@windriver.com>
+In-Reply-To: <553FD4E4.3000900@windriver.com>
 MIME-Version: 1.0
-Message-Id: <201504282316.17774.marex@denx.de>
+Message-Id: <201504282315.19422.marex@denx.de>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Koen Kooi <koen@dominion.thruhere.net>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
+Subject: Re: [PATCH 8/8] kernel: Build uImage only when really needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,12 +43,12 @@ Content-Type: Text/Plain;
   charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
+On Tuesday, April 28, 2015 at 08:43:48 PM, Bruce Ashfield wrote:
 > On 2015-04-28 12:38 PM, Marek Vasut wrote:
-> > Pull the uImage image format generation from kernel.bbclass into
-> > a separate kernel-uimage.bbclass. The recipes which now need to
-> > generate an uImage will have to inherit kernel-uimage instead of
-> > kernel class.
+> > Build the uImage file using the kernel build system only when
+> > it is really required, which is only in case KEEPUIMAGE == yes.
+> > Otherwise, just build zImage, since the Yocto build system will
+> > handle the uImage generation for us.
 > > 
 > > Signed-off-by: Marek Vasut <marex@denx.de>
 > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -58,41 +58,40 @@ On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
 > > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
 > > ---
 > > 
-> >   meta/classes/kernel-uimage.bbclass | 48
-> >   +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass        |
-> >   55 +++++++------------------------------- 2 files changed, 58
-> >   insertions(+), 45 deletions(-)
-> >   create mode 100644 meta/classes/kernel-uimage.bbclass
+> >   meta/classes/kernel-uimage.bbclass | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
 > > 
-> > NOTE: The "inherit kernel-uimage" in kernel.bbclass should be changed to
+> > diff --git a/meta/classes/kernel-uimage.bbclass
+> > b/meta/classes/kernel-uimage.bbclass index ce8f96f..acde9ae 100644
+> > --- a/meta/classes/kernel-uimage.bbclass
+> > +++ b/meta/classes/kernel-uimage.bbclass
+> > @@ -6,6 +6,14 @@ python __anonymous () {
 > > 
-> >        something like "inherit kernel-${@d.getVar("KERNEL_IMAGETYPE",
-> >        True).lower()}" but the problem is that I only want to perform
-> >        the inheritance for uimage and fitimage, the other image types
-> >        don't need to inherit any additional special stuff.
-> >        Paul suggested I can do "inherit <empty here>". This would at
-> >        least let me implement a python function which returns either
-> >        "kernel-uimage", "kernel-fitimage" or "" and based on that, I
-> >        could inherit the particular image type specifics into
-> >        kernel.bbclass.
-> >        What I don't know how to implement well is this function which
-> >        returns those three strings based on the KERNEL_IMAGETYPE. What I
-> >        would like to avoid is encoding those strings explicitly into the
-> >        function, since that would force each new kernel image format to
-> >        also edit this function in kernel.bbclass . Apparently, checking
-> >        whether class exists and inheriting it only if it does is also
-> >        not a simple task.
+> >           depends = d.getVar("DEPENDS", True)
+> >           depends = "%s u-boot-mkimage-native" % depends
+> >           d.setVar("DEPENDS", depends)
+> > 
+> > +
+> > +	# Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+> > +	# to kernel.bbclass . We override the variable here, since we need
+> > +	# to build uImage using the kernel build system if and only if
+> > +	# KEEPUIMAGE != yes. Otherwise, we pack compressed vmlinux into
+> > +	# the uImage .
 > 
-> Agreed that this would be better. It would remove a lot of the checks
-> in the other tasks for the image type.
+> I keep reading this, and must be inverting the logic in my head.
+> 
+> If we've set KEEPUIMAGE = yes, that means we just want to let the
+> kernel build the uImage and perform no extra generation steps.
+> 
+> When I read this, it looks like if I set the keep flag, I'll be
+> overriden to build a zImage. Is that intentional ? I'd think we
+> would have just left it alone or set it to uImage (unless we
+> are saying that everyone should be building zImage now .. but
+> I know some old ppc targets that do want to build uImages).
 
-Hi!
+Uhhh, you're obviously right. The logic in the __anonymous function is
+clearly inverted. Thanks for spotting this!
 
-Yes, that's indeed true. All the image type checks would disappear from
-kernel-uimage and kernel-fitimage bbclasses.
-
-> I'm not aware of the exact details on how to make this work, but
-> hopefully others have the foo.
-
-Thank you!
+Best regards,
+Marek Vasut
 
