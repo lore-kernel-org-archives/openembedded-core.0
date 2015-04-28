@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 68B4273D60
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DC94273D93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 03:43:30 +0000 (UTC)
+	Tue, 28 Apr 2015 03:43:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hW2N021275
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hXJn024925
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 20:43:32 -0700 (PDT)
+	Mon, 27 Apr 2015 20:43:33 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 27 Apr 2015 20:43:32 -0700
+	Mon, 27 Apr 2015 20:43:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:21 -0700
-Message-ID: <3e9df78dab0b31b109404b75a67d2a65b57c2982.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:26 -0700
+Message-ID: <b940b92cdda60992521dae025a9ab75d03842eea.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
 References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/11] python3: remove sys_platform_is_now_always_linux2.patch
+Subject: [PATCH 06/11] kmod: remove 0001-Makefile.am-fix-parallel-build-problem.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
 Content-Type: text/plain
 
-It is aready in the source.
+Confirmed with the author Qi, it isn't needed.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../sys_platform_is_now_always_linux2.patch        |   29 --------------------
+ ...01-Makefile.am-fix-parallel-build-problem.patch |   29 --------------------
  1 file changed, 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
 
-diff --git a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
+diff --git a/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch b/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
 deleted file mode 100644
-index 506210f..0000000
---- a/meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
+index 49b0209..0000000
+--- a/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
 +++ /dev/null
 @@ -1,29 +0,0 @@
--Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
--Bugtracker: http://bugs.python.org/issue12326
+-Upstream-Status: Pending
 -
--[Removed "Misc/NEWS" hunk]
+-Subject: Makefile.am: fix parallel build problem
 -
--Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+-Fix parallel build problem to avoid errors like below.
 -
--# HG changeset patch
--# User Victor Stinner <victor.stinner@haypocalc.com>
--# Date 1313841758 -7200
--# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
--# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
--Issue #12326: sys.platform is now always 'linux2' on Linux
+-    install: cannot stat 'testsuite/module-playground/mod-fake-cciss.ko': No such file or directory
 -
--Even if Python is compiled on Linux 3.
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--Index: Python-3.3.0rc2/configure.ac
--===================================================================
----- Python-3.3.0rc2.orig/configure.ac	2012-09-09 02:11:14.000000000 -0700
--+++ Python-3.3.0rc2/configure.ac	2012-09-20 00:44:03.317124001 -0700
--@@ -366,7 +366,7 @@
--     MACHDEP="$ac_md_system$ac_md_release"
+-diff --git a/Makefile.am b/Makefile.am
+-index 9457655..d5b02eb 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -237,7 +237,7 @@ rootfs: build-module-playground
 - 
--     case $MACHDEP in
---	linux*) MACHDEP="linux";;
--+	linux*) MACHDEP="linux2";;
-- 	cygwin*) MACHDEP="cygwin";;
-- 	darwin*) MACHDEP="darwin";;
-- 	irix646) MACHDEP="irix6";;
+- .PHONY: rootfs build-playground
+- 
+--$(ROOTFS): $(ROOTFS_PRISTINE)
+-+$(ROOTFS): $(ROOTFS_PRISTINE) build-module-playground
+- 	$(CREATE_ROOTFS)
+- 
+- TESTSUITE_OVERRIDE_LIBS = \
+--- 
+-1.9.1
+-
 -- 
 1.7.9.5
 
