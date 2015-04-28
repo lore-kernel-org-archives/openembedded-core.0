@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DC94273D93
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE47873D76
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Apr 2015 03:43:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hXJn024925
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hYGR021284
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Apr 2015 20:43:33 -0700 (PDT)
+	Mon, 27 Apr 2015 20:43:34 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Mon, 27 Apr 2015 20:43:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:26 -0700
-Message-ID: <b940b92cdda60992521dae025a9ab75d03842eea.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:27 -0700
+Message-ID: <c5057737463d10e61561bf5321778aa660d50a62.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
 References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/11] kmod: remove 0001-Makefile.am-fix-parallel-build-problem.patch
+Subject: [PATCH 07/11] openssl: remove 3 patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +36,149 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
 Content-Type: text/plain
 
-Confirmed with the author Qi, it isn't needed.
+Removed:
+ - openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+ - upgate-vegsion-script-for-1.0.2.patch
+   Since they are already in the source.
+ - make-targets.patch
+   It removed test dir from DIRS, which is not needed any more since we
+   need build it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...01-Makefile.am-fix-parallel-build-problem.patch |   29 --------------------
- 1 file changed, 29 deletions(-)
- delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+ .../openssl/openssl/debian/make-targets.patch      |   15 -----
+ ...NULL-pointer-dereference-in-dh_pub_encode.patch |   26 --------
+ .../openssl/update-version-script-for-1.0.2.patch  |   66 --------------------
+ 3 files changed, 107 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch
 
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch b/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch
 deleted file mode 100644
-index 49b0209..0000000
---- a/meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
+index ee0a62c..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch
 +++ /dev/null
-@@ -1,29 +0,0 @@
--Upstream-Status: Pending
+@@ -1,15 +0,0 @@
+-Upstream-Status: Backport [debian]
 -
--Subject: Makefile.am: fix parallel build problem
+-Index: openssl-1.0.1/Makefile.org
+-===================================================================
+---- openssl-1.0.1.orig/Makefile.org	2012-03-17 09:41:07.000000000 +0000
+-+++ openssl-1.0.1/Makefile.org	2012-03-17 09:41:21.000000000 +0000
+-@@ -135,7 +135,7 @@
+- 
+- BASEADDR=
+- 
+--DIRS=   crypto ssl engines apps test tools
+-+DIRS=   crypto ssl engines apps tools
+- ENGDIRS= ccgost
+- SHLIBDIRS= crypto ssl
+- 
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+deleted file mode 100644
+index d7047bb..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-openssl: avoid NULL pointer dereference in dh_pub_encode()/dsa_pub_encode()
 -
--Fix parallel build problem to avoid errors like below.
+-We should avoid accessing the pointer if ASN1_STRING_new()
+-allocates memory failed.
 -
--    install: cannot stat 'testsuite/module-playground/mod-fake-cciss.ko': No such file or directory
+-Upstream-Status: Submitted
+-http://www.mail-archive.com/openssl-dev@openssl.org/msg32859.html
 -
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
 ----
-- Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index 9457655..d5b02eb 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -237,7 +237,7 @@ rootfs: build-module-playground
+-Index: openssl-1.0.2/crypto/dh/dh_ameth.c
+-===================================================================
+---- openssl-1.0.2.orig/crypto/dh/dh_ameth.c
+-+++ openssl-1.0.2/crypto/dh/dh_ameth.c
+-@@ -161,6 +161,11 @@ static int dh_pub_encode(X509_PUBKEY *pk
+-     dh = pkey->pkey.dh;
 - 
-- .PHONY: rootfs build-playground
+-     str = ASN1_STRING_new();
+-+    if (!str) {
+-+        DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+-+        goto err;
+-+    }
+-+
+-     str->length = i2d_dhp(pkey, dh, &str->data);
+-     if (str->length <= 0) {
+-         DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+diff --git a/meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch b/meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch
+deleted file mode 100644
+index fcfccfa..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-Index: openssl-1.0.2/openssl.ld
+-===================================================================
+---- openssl-1.0.2.orig/openssl.ld
+-+++ openssl-1.0.2/openssl.ld
+-@@ -4618,3 +4618,61 @@ OPENSSL_1.0.1d {
+- 		CRYPTO_memcmp;
+- } OPENSSL_1.0.1;
 - 
---$(ROOTFS): $(ROOTFS_PRISTINE)
--+$(ROOTFS): $(ROOTFS_PRISTINE) build-module-playground
-- 	$(CREATE_ROOTFS)
-- 
-- TESTSUITE_OVERRIDE_LIBS = \
---- 
--1.9.1
--
+-+OPENSSL_1.0.2 {
+-+	global:
+-+		ASN1_TIME_diff;
+-+		CMS_RecipientInfo_get0_pkey_ctx;
+-+		CMS_RecipientInfo_kari_get0_ctx;
+-+		CMS_SignerInfo_get0_pkey_ctx;
+-+		DH_get_1024_160;
+-+		DH_get_2048_224;
+-+		DH_get_2048_256;
+-+		DTLS_client_method;
+-+		DTLS_server_method;
+-+		DTLSv1_2_client_method;
+-+		DTLSv1_2_server_method;
+-+		EC_curve_nid2nist;
+-+		EC_curve_nist2nid;
+-+		EVP_aes_128_cbc_hmac_sha256;
+-+		EVP_aes_128_wrap;
+-+		EVP_aes_192_wrap;
+-+		EVP_aes_256_cbc_hmac_sha256;
+-+		EVP_aes_256_wrap;
+-+		EVP_des_ede3_wrap;
+-+		OCSP_REQ_CTX_http;
+-+		OCSP_REQ_CTX_new;
+-+		PEM_write_bio_DHxparams;
+-+		SSL_CIPHER_find;
+-+		SSL_CONF_CTX_finish;
+-+		SSL_CONF_CTX_free;
+-+		SSL_CONF_CTX_new;
+-+		SSL_CONF_CTX_set_flags;
+-+		SSL_CONF_CTX_set_ssl_ctx;
+-+		SSL_CONF_cmd;
+-+		SSL_CONF_cmd_argv;
+-+		SSL_CTX_add_client_custom_ext;
+-+		SSL_CTX_add_server_custom_ext;
+-+		SSL_CTX_set_alpn_protos;
+-+		SSL_CTX_set_alpn_select_cb;
+-+		SSL_CTX_set_cert_cb;
+-+		SSL_CTX_use_serverinfo_file;
+-+		SSL_certs_clear;
+-+		SSL_check_chain;
+-+		SSL_get0_alpn_selected;
+-+		SSL_get_shared_sigalgs;
+-+		SSL_get_sigalgs;
+-+		SSL_is_server;
+-+		X509_CRL_diff;
+-+		X509_CRL_http_nbio;
+-+		X509_STORE_set_lookup_crls_cb;
+-+		X509_VERIFY_PARAM_set1_email;
+-+		X509_VERIFY_PARAM_set1_host;
+-+		X509_VERIFY_PARAM_set1_ip_asc;
+-+		X509_chain_check_suiteb;
+-+		X509_chain_up_ref;
+-+		X509_check_email;
+-+		X509_check_host;
+-+		X509_check_ip_asc;
+-+		X509_get_signature_nid;
+-+		X509_http_nbio;
+-+} OPENSSL_1.0.1d;
 -- 
 1.7.9.5
 
