@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 28985716CE
+	by mail.openembedded.org (Postfix) with ESMTP id 447EA727E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 03:43:30 +0000 (UTC)
+	Tue, 28 Apr 2015 03:43:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hWjc024916
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S3hWaw024919
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Apr 2015 20:43:32 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 27 Apr 2015 20:43:31 -0700
+	Mon, 27 Apr 2015 20:43:32 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2015 20:43:20 -0700
-Message-ID: <cover.1430192424.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Apr 2015 20:43:22 -0700
+Message-ID: <f1e9758c7590af6b5c632463c7519948e07ba0ff.1430192424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1430192424.git.liezhi.yang@windriver.com>
+References: <cover.1430192424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/11 V2] Fixes for dangling patches
+Subject: [PATCH 02/11] nspr: remove nspr-CVE-2014-1545.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +36,87 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Apr 2015 03:43:33 -0000
 Content-Type: text/plain
 
-* V2
-  Verified the backport patches are in the source, and updated the
-  commit message.
+It is a backport patch, and verified that the patch is in the source.
 
-// Robert
-
-The following changes since commit a9eededcb33b2ee41a061298610126436dfc2c11:
-
-  ptest: add recommends to ptest-runner (2015-04-27 15:26:15 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/dangling
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/dangling
-
-Robert Yang (11):
-  python3: remove sys_platform_is_now_always_linux2.patch
-  nspr: remove nspr-CVE-2014-1545.patch
-  libxml2: remove libxml2-CVE-2014-3660.patch
-  bind: remove 5 backport patches
-  logrotate: remove logrotate-CVE-2011-1548.patch
-  kmod: remove 0001-Makefile.am-fix-parallel-build-problem.patch
-  openssl: remove 3 patches
-  lttng-modules: remove bio-bvec-iter.patch
-  libaio: remove libaio-generic.patch
-  texinfo: remove enumerate_greater_than_ten.patch
-  elfutils: enable fix-build-gcc-4.8.patch
-
- .../bind/bind/bind-9.8.1-CVE-2012-5166.patch       |  119 ---------------
- .../bind/bind/bind-CVE-2011-4313.patch             |   89 -----------
- .../bind/bind/bind-CVE-2012-1667.patch             |   92 ------------
- .../bind/bind/bind-CVE-2013-2266.patch             |   41 -----
- .../bind/bind/bind-Fix-CVE-2012-4244.patch         |  141 ------------------
- .../openssl/openssl/debian/make-targets.patch      |   15 --
- ...NULL-pointer-dereference-in-dh_pub_encode.patch |   26 ----
- .../openssl/update-version-script-for-1.0.2.patch  |   66 ---------
- .../libxml/libxml2/libxml2-CVE-2014-3660.patch     |  147 ------------------
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    1 +
- .../sys_platform_is_now_always_linux2.patch        |   29 ----
- .../libaio/libaio/libaio-generic.patch             |   65 --------
- .../logrotate/logrotate-CVE-2011-1548.patch        |   43 ------
- .../texinfo/enumerate_greater_than_ten.patch       |   51 -------
- ...01-Makefile.am-fix-parallel-build-problem.patch |   29 ----
- .../lttng/lttng-modules/bio-bvec-iter.patch        |  156 --------------------
- .../nspr/nspr/nspr-CVE-2014-1545.patch             |   67 ---------
- 17 files changed, 1 insertion(+), 1176 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/debian/make-targets.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/update-version-script-for-1.0.2.patch
- delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
- delete mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
- delete mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
- delete mode 100644 meta/recipes-extended/logrotate/logrotate/logrotate-CVE-2011-1548.patch
- delete mode 100644 meta/recipes-extended/texinfo/texinfo/enumerate_greater_than_ten.patch
- delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Makefile.am-fix-parallel-build-problem.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../nspr/nspr/nspr-CVE-2014-1545.patch             |   67 --------------------
+ 1 file changed, 67 deletions(-)
  delete mode 100644 meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
 
+diff --git a/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch b/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
+deleted file mode 100644
+index 565ff16..0000000
+--- a/meta/recipes-support/nspr/nspr/nspr-CVE-2014-1545.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-Fix for CVE-2014-1545
+-
+-Upstream-Status: Backport
+-
+-Backported from nspr-4.10.6.tar.gz.
+----
+---- a/pr/src/io/prprf.c
+-+++ b/pr/src/io/prprf.c
+-@@ -50,6 +50,10 @@
+- #include "prlog.h"
+- #include "prmem.h"
+- 
+-+#ifdef _MSC_VER
+-+#define snprintf _snprintf
+-+#endif
+-+
+- /*
+- ** WARNING: This code may *NOT* call PR_LOG (because PR_LOG calls it)
+- */
+-@@ -330,7 +334,7 @@
+- ** Convert a double precision floating point number into its printable
+- ** form.
+- **
+--** XXX stop using sprintf to convert floating point
+-+** XXX stop using snprintf to convert floating point
+- */
+- static int cvt_f(SprintfState *ss, double d, const char *fmt0, const char *fmt1)
+- {
+-@@ -338,15 +342,14 @@
+-     char fout[300];
+-     int amount = fmt1 - fmt0;
+- 
+--    PR_ASSERT((amount > 0) && (amount < sizeof(fin)));
+--    if (amount >= sizeof(fin)) {
+--	/* Totally bogus % command to sprintf. Just ignore it */
+-+    if (amount <= 0 || amount >= sizeof(fin)) {
+-+        /* Totally bogus % command to snprintf. Just ignore it */
+- 	return 0;
+-     }
+-     memcpy(fin, fmt0, amount);
+-     fin[amount] = 0;
+- 
+--    /* Convert floating point using the native sprintf code */
+-+    /* Convert floating point using the native snprintf code */
+- #ifdef DEBUG
+-     {
+-         const char *p = fin;
+-@@ -356,14 +359,11 @@
+-         }
+-     }
+- #endif
+--    sprintf(fout, fin, d);
+--
+--    /*
+--    ** This assert will catch overflow's of fout, when building with
+--    ** debugging on. At least this way we can track down the evil piece
+--    ** of calling code and fix it!
+--    */
+--    PR_ASSERT(strlen(fout) < sizeof(fout));
+-+    memset(fout, 0, sizeof(fout));
+-+    snprintf(fout, sizeof(fout), fin, d);
+-+    /* Explicitly null-terminate fout because on Windows snprintf doesn't
+-+     * append a null-terminator if the buffer is too small. */
+-+    fout[sizeof(fout) - 1] = '\0';
+- 
+-     return (*ss->stuff)(ss, fout, strlen(fout));
+- }
 -- 
 1.7.9.5
 
