@@ -1,24 +1,22 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 65B7F73D41
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CBBA73D76
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 07:44:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3S7igPr026355
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Apr 2015 00:44:42 -0700 (PDT)
-Received: from Flora.corp.ad.wrs.com (128.224.162.177) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 28 Apr 2015 00:44:42 -0700
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Apr 2015 15:46:12 +0800
-Message-ID: <1430207172-6926-1-git-send-email-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.3.6
-MIME-Version: 1.0
-Subject: [PATCH 1/1] ldconfig-native: Add 64-bit flag for ELF64 entries
+	Tue, 28 Apr 2015 08:03:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 0F57460035F
+Message-ID: <1430208222.2801.1.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 28 Apr 2015 09:03:42 +0100
+In-Reply-To: <1430143463.13022.118.camel@linuxfoundation.org>
+References: <1429613620-2989-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150427110426.GE2379@jama>
+	<1430143463.13022.118.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.11 (3.12.11-1.fc21) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [fido][PATCH 1/4] elfutils: fix build with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,149 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Apr 2015 07:44:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Apr 2015 08:03:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+On Mon, 2015-04-27 at 15:04 +0100, Richard Purdie wrote:
+> On Mon, 2015-04-27 at 13:04 +0200, Martin Jansa wrote:
+> > On Tue, Apr 21, 2015 at 12:53:37PM +0200, Martin Jansa wrote:
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > 
+> > ping for all 4 changes
+> 
+> I had hoped the fido maintainer would look at this but evidently not.
 
-ldconfig-native was grepped from an old version of glibc, and its output
-lacks neccessary 64bit flag in entries.
-Due to this defect, ctypes.util.find_library() python function fails to
-detect any library due to the old file format that ldconfig-native
-creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
+Apologies, I had looked and even pulled the 3 changes from master into
+my local testing branch but hadn't completed a test build yet. I shall
+endeavour to respond more quickly in future.
 
-Since the host's elf.h may not have definition for new AArch64 machine
-type, a work-around is added to correctly flag 64-bit ARM libraries.
+> If you are going to propose patches which aren't in master, please
+> mention that.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- .../add-64-bit-flag-for-ELF64-entries.patch        | 103 +++++++++++++++++++++
- meta/recipes-core/glibc/ldconfig-native_2.12.1.bb  |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+Yes, please do.
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-new file mode 100644
-index 0000000..d42f7a1
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-@@ -0,0 +1,103 @@
-+From 9d62544090b08849218cd1fc52a36cdd5d90363e Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Fri, 24 Apr 2015 03:29:31 +0000
-+Subject: [PATCH] Add 64-bit flag for ELF64 entries.
-+
-+ldconfig-native was grepped from an old version of glibc, and its output
-+lacks neccessary 64bit flag in entries.
-+Due to this defect, ctypes.util.find_library() python function fails to
-+detect any library due to the old file format that ldconfig-native
-+creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ cache.c      |  4 ++++
-+ ldconfig.h   |  4 ++++
-+ readelflib.c | 34 ++++++++++++++++++++++++++++++++++
-+ 3 files changed, 42 insertions(+)
-+
-+diff --git a/cache.c b/cache.c
-+index a904d44..c4f5411 100644
-+--- a/cache.c
-++++ b/cache.c
-+@@ -121,6 +121,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
-+       break;
-+     case FLAG_MIPS64_LIBN64:
-+       fputs (",64bit", stdout);
-++      break;
-++    case FLAG_AARCH64_LIB64:
-++      fputs (",AArch64", stdout);
-++      break;
-+     case 0:
-+       break;
-+     default:
-+diff --git a/ldconfig.h b/ldconfig.h
-+index fadd5ec..6a8a750 100644
-+--- a/ldconfig.h
-++++ b/ldconfig.h
-+@@ -34,6 +34,10 @@
-+ #define FLAG_POWERPC_LIB64	0x0500
-+ #define FLAG_MIPS64_LIBN32	0x0600
-+ #define FLAG_MIPS64_LIBN64	0x0700
-++#define FLAG_X8664_LIBX32		0x0800
-++#define FLAG_ARM_LIBHF			0x0900
-++#define FLAG_AARCH64_LIB64		0x0a00
-++#define FLAG_ARM_LIBSF			0x0b00
-+ 
-+ /* Name of auxiliary cache.  */
-+ #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
-+diff --git a/readelflib.c b/readelflib.c
-+index 0bf0de3..6e87afc 100644
-+--- a/readelflib.c
-++++ b/readelflib.c
-+@@ -28,6 +28,11 @@
-+ 
-+ #include "endian_extra.h"
-+ 
-++/* Work-around for old host that does not have AArch64 defined in elf.h. */
-++#ifndef EM_AARCH64
-++#define EM_AARCH64	183		/* ARM AARCH64 */
-++#endif
-++
-+ #undef check_ptr
-+ #define check_ptr(ptr)						\
-+ do								\
-+@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+      libc5/libc6.  */
-+   *flag = FLAG_ELF;
-+ 
-++  /* Set flags according to information in ELF header to align with target
-++     ldconfig */
-++  switch (elf_header->e_machine)
-++    {
-++    case EM_IA_64:
-++      *flag |= FLAG_IA64_LIB64;
-++      break;
-++    case EM_X86_64:
-++      *flag |= FLAG_X8664_LIB64;
-++      break;
-++    case EM_S390:
-++      *flag |= FLAG_S390_LIB64;
-++      break;
-++    case EM_PPC64:
-++      *flag |= FLAG_POWERPC_LIB64;
-++      break;
-++    case EM_MIPS:
-++    case EM_MIPS_RS3_LE:
-++      *flag |= FLAG_MIPS64_LIBN64;
-++      break;
-++    case EM_AARCH64:
-++      *flag |= FLAG_AARCH64_LIB64;
-++      break;
-++    default:
-++      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
-++            file_name, (long)elf_header->e_machine);
-++      break;
-++    }
-++
-+   loadaddr = -1;
-+   dynamic_addr = 0;
-+   dynamic_size = 0;
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-index 7c34635..8a2ea90 100644
---- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-@@ -12,6 +12,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://flag_fix.patch \
-            file://endianess-header.patch \
-            file://ldconfig-default-to-all-multilib-dirs.patch \
-+           file://add-64-bit-flag-for-ELF64-entries.patch \
- "
- 
- PR = "r2"
--- 
-1.8.5.2.233.g932f7e4
+Cheers,
+
+Joshua
+
 
 
