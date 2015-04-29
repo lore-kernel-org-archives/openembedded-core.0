@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 43A997169F
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C19A47169F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 08:58:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Apr 2015 01:58:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,670,1422950400"; d="scan'208";a="702585420"
-Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Apr 2015 01:58:44 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Wed, 29 Apr 2015 09:58:42 +0100
-Message-ID: <3660887.yGCeB9zHDt@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <203a7291ad8678391e4cf6d7785cb22e23ea43de.1430294879.git.Qi.Chen@windriver.com>
-References: <cover.1430294879.git.Qi.Chen@windriver.com>
-	<203a7291ad8678391e4cf6d7785cb22e23ea43de.1430294879.git.Qi.Chen@windriver.com>
+	Wed, 29 Apr 2015 08:59:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T8xRgA013656
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 01:59:27 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.142) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 29 Apr 2015 01:59:27 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Apr 2015 16:59:26 +0800
+Message-ID: <1430297966-25315-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] populate_sdk_ext: install the latest buildtools-tarball
+Subject: [PATCH] bind: upgrade to 9.10.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +31,1721 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 08:58:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Apr 2015 08:59:26 -0000
+Content-Type: text/plain
 
-On Wednesday 29 April 2015 16:08:37 Chen Qi wrote:
-> If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-> core-image-minimal -c populate_sdk_ext', we would meet errors like below.
-> 
-> | install: cannot stat
-> | '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-> 
-> poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalon
-> e -1.8+snapshot-20150429.sh': No such file or directory
-> 
-> The problem is that the output name for buildtools-tarball has ${DATE} in
-> it. So if populate_sdk_ext task is executed but buildtools-tarball is not
-> rebuilt, the above error appears.
-> 
-> Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
-> install_tools() function, we should find the latest buildtools-tarball based
-> on the modification time and install it.
-> 
-> [YOCTO #7674]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> b/meta/classes/populate_sdk_ext.bbclass index 7925ece..0e4ee31 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -188,7 +188,17 @@ install_tools() {
->  	ln -sr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool
-> ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool touch
-> ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
-> 
-> -	install
-> ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKG
-> ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh
-> ${SDK_OUTPUT}/${SDKPATH} +	# find latest buildtools-tarball and install it
-> +	maxseconds=0
-> +	buildtools_path=""
-> +	for f in `ls
-> ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKG
-> ARCH}-buildtools-nativesdk-standalone-*.sh`; do +		seconds=`stat -c 
-"%Y" $f`
-> +		if [ $seconds -gt $maxseconds ]; then
-> +			maxseconds=$seconds
-> +			buildtools_path="$f"
-> +		fi
-> +	done
-> +	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+From: Roy Li <rongqing.li@windriver.com>
 
-Surely it would be simpler to just `ls -t ... | head -n1` ?
+1. Remove seven unneeded CVE patches, and five patches in them were
+not already used
+2. 9.10.2 fixed the CVE-2015-1349
+3. Remove bind-subdirs-run-serially.patch and cross-build-fix.patch,
+similar fixes are merged into 9.10.2
+4. update the dont-test-on-host.patch
+5. update the Copyright file checksum, since the date in it has been changed.
 
-Cheers,
-Paul
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../bind/bind/bind-9.8.1-CVE-2012-5166.patch       | 119 ---
+ .../bind/bind/bind-CVE-2011-4313.patch             |  89 --
+ .../bind/bind/bind-CVE-2012-1667.patch             |  92 --
+ .../bind/bind/bind-CVE-2012-3817.patch             |  40 -
+ .../bind/bind/bind-CVE-2013-2266.patch             |  41 -
+ .../bind/bind/bind-Fix-CVE-2012-4244.patch         | 141 ---
+ .../bind/bind/bind-subdirs-run-serially.patch      |  35 -
+ .../bind/bind/bind9_9_5-CVE-2014-8500.patch        | 990 ---------------------
+ .../bind/bind/cross-build-fix.patch                |  21 -
+ .../bind/bind/dont-test-on-host.patch              |   4 +-
+ .../bind/{bind_9.9.5.bb => bind_9.10.2.bb}         |   9 +-
+ 11 files changed, 5 insertions(+), 1576 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2014-8500.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+ rename meta/recipes-connectivity/bind/{bind_9.9.5.bb => bind_9.10.2.bb} (90%)
 
+diff --git a/meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch b/meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+deleted file mode 100644
+index 0abb475..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
++++ /dev/null
+@@ -1,119 +0,0 @@
+-bind_Fix_for_CVE-2012-5166
+-
+-Upstream-Status: Backport
+-
+-Reference:http://launchpadlibrarian.net/119212498/bind9_1%3A9.7.3.dfsOBg
+--1ubuntu2.6_1%3A9.7.3.dfsg-1ubuntu2.7.diff.gz
+-
+-ISC BIND 9.x before 9.7.6-P4, 9.8.x before 9.8.3-P4, 9.9.x before
+-9.9.1-P4, and 9.4-ESV and 9.6-ESV before 9.6-ESV-R7-P4 allows
+-remote attackers to cause a denial of service (named daemon hang)
+-via unspecified combinations of resource records.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5166
+-
+-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+-diff -urpN a/bin/named/query.c b/bin/named/query.c
+---- a/bin/named/query.c	2012-10-22 13:24:27.000000000 +0800
+-+++ b/bin/named/query.c	2012-10-22 13:17:04.000000000 +0800
+-@@ -1137,13 +1137,6 @@ query_isduplicate(ns_client_t *client, d
+- 		mname = NULL;
+- 	}
+- 
+--	/*
+--	 * If the dns_name_t we're looking up is already in the message,
+--	 * we don't want to trigger the caller's name replacement logic.
+--	 */
+--	if (name == mname)
+--		mname = NULL;
+--
+- 	*mnamep = mname;
+- 
+- 	CTRACE("query_isduplicate: false: done");
+-@@ -1341,6 +1334,7 @@ query_addadditional(void *arg, dns_name_
+- 	if (dns_rdataset_isassociated(rdataset) &&
+- 	    !query_isduplicate(client, fname, type, &mname)) {
+- 		if (mname != NULL) {
+-+			INSIST(mname != fname);
+- 			query_releasename(client, &fname);
+- 			fname = mname;
+- 		} else
+-@@ -1401,11 +1395,13 @@ query_addadditional(void *arg, dns_name_
+- 			mname = NULL;
+- 			if (!query_isduplicate(client, fname,
+- 					       dns_rdatatype_a, &mname)) {
+--				if (mname != NULL) {
+--					query_releasename(client, &fname);
+--					fname = mname;
+--				} else
+--					need_addname = ISC_TRUE;
+-+				if (mname != fname) {
+-+					if (mname != NULL) {
+-+						query_releasename(client, &fname);
+-+						fname = mname;
+-+					} else
+-+						need_addname = ISC_TRUE;
+-+				}
+- 				ISC_LIST_APPEND(fname->list, rdataset, link);
+- 				added_something = ISC_TRUE;
+- 				if (sigrdataset != NULL &&
+-@@ -1444,11 +1440,13 @@ query_addadditional(void *arg, dns_name_
+- 			mname = NULL;
+- 			if (!query_isduplicate(client, fname,
+- 					       dns_rdatatype_aaaa, &mname)) {
+--				if (mname != NULL) {
+--					query_releasename(client, &fname);
+--					fname = mname;
+--				} else
+--					need_addname = ISC_TRUE;
+-+				if (mname != fname) {
+-+					if (mname != NULL) {
+-+						query_releasename(client, &fname);
+-+						fname = mname;
+-+					} else
+-+						need_addname = ISC_TRUE;
+-+				}
+- 				ISC_LIST_APPEND(fname->list, rdataset, link);
+- 				added_something = ISC_TRUE;
+- 				if (sigrdataset != NULL &&
+-@@ -1960,22 +1958,24 @@ query_addadditional2(void *arg, dns_name
+- 		    crdataset->type == dns_rdatatype_aaaa) {
+- 			if (!query_isduplicate(client, fname, crdataset->type,
+- 					       &mname)) {
+--				if (mname != NULL) {
+--					/*
+--					 * A different type of this name is
+--					 * already stored in the additional
+--					 * section.  We'll reuse the name.
+--					 * Note that this should happen at most
+--					 * once.  Otherwise, fname->link could
+--					 * leak below.
+--					 */
+--					INSIST(mname0 == NULL);
+--
+--					query_releasename(client, &fname);
+--					fname = mname;
+--					mname0 = mname;
+--				} else
+--					need_addname = ISC_TRUE;
+-+				if (mname != fname) {
+-+					if (mname != NULL) {
+-+						/*
+-+						 * A different type of this name is
+-+						 * already stored in the additional
+-+						 * section.  We'll reuse the name.
+-+						 * Note that this should happen at most
+-+						 * once.  Otherwise, fname->link could
+-+						 * leak below.
+-+						 */
+-+						INSIST(mname0 == NULL);
+-+
+-+						query_releasename(client, &fname);
+-+						fname = mname;
+-+						mname0 = mname;
+-+					} else
+-+						need_addname = ISC_TRUE;
+-+				}
+- 				ISC_LIST_UNLINK(cfname.list, crdataset, link);
+- 				ISC_LIST_APPEND(fname->list, crdataset, link);
+- 				added_something = ISC_TRUE;
+diff --git a/meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+deleted file mode 100644
+index 19d8df1..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
++++ /dev/null
+@@ -1,89 +0,0 @@
+-The patch to fix CVE-2011-4313
+-
+-Upstream-Status: Backport
+-
+-Reference: https://www.redhat.com/security/data/cve/CVE-2011-4313.html
+-
+-query.c in ISC BIND 9.0.x through 9.6.x, 9.4-ESV through 9.4-ESV-R5, 9.6-ESV
+-through 9.6-ESV-R5, 9.7.0 through 9.7.4, 9.8.0 through 9.8.1, and 9.9.0a1
+-through 9.9.0b1 allows remote attackers to cause a denial of service
+-(assertion failure and named exit) via unknown vectors related to recursive DNS
+-queries, error logging, and the caching of an invalid record by the resolver.
+-
+-Signed-off-by Ming Liu <ming.liu@windriver.com>
+----
+- bin/named/query.c |   19 ++++++++-----------
+- lib/dns/rbtdb.c   |    4 ++--
+- 2 files changed, 10 insertions(+), 13 deletions(-)
+-
+---- a/bin/named/query.c
+-+++ b/bin/named/query.c
+-@@ -1393,11 +1393,9 @@ query_addadditional(void *arg, dns_name_
+- 			goto addname;
+- 		if (result == DNS_R_NCACHENXRRSET) {
+- 			dns_rdataset_disassociate(rdataset);
+--			/*
+--			 * Negative cache entries don't have sigrdatasets.
+--			 */
+--			INSIST(sigrdataset == NULL ||
+--			       ! dns_rdataset_isassociated(sigrdataset));
+-+			if (sigrdataset != NULL &&
+-+			    dns_rdataset_isassociated(sigrdataset))
+-+				dns_rdataset_disassociate(sigrdataset);
+- 		}
+- 		if (result == ISC_R_SUCCESS) {
+- 			mname = NULL;
+-@@ -1438,8 +1436,9 @@ query_addadditional(void *arg, dns_name_
+- 			goto addname;
+- 		if (result == DNS_R_NCACHENXRRSET) {
+- 			dns_rdataset_disassociate(rdataset);
+--			INSIST(sigrdataset == NULL ||
+--			       ! dns_rdataset_isassociated(sigrdataset));
+-+			if (sigrdataset != NULL &&
+-+			    dns_rdataset_isassociated(sigrdataset))
+-+				dns_rdataset_disassociate(sigrdataset);
+- 		}
+- 		if (result == ISC_R_SUCCESS) {
+- 			mname = NULL;
+-@@ -1889,10 +1888,8 @@ query_addadditional2(void *arg, dns_name
+- 		goto setcache;
+- 	if (result == DNS_R_NCACHENXRRSET) {
+- 		dns_rdataset_disassociate(rdataset);
+--		/*
+--		 * Negative cache entries don't have sigrdatasets.
+--		 */
+--		INSIST(! dns_rdataset_isassociated(sigrdataset));
+-+		if (dns_rdataset_isassociated(sigrdataset))
+-+			dns_rdataset_disassociate(sigrdataset);
+- 	}
+- 	if (result == ISC_R_SUCCESS) {
+- 		/* Remember the result as a cache */
+---- a/lib/dns/rbtdb.c
+-+++ b/lib/dns/rbtdb.c
+-@@ -5053,7 +5053,7 @@ cache_find(dns_db_t *db, dns_name_t *nam
+- 			      rdataset);
+- 		if (need_headerupdate(found, search.now))
+- 			update = found;
+--		if (foundsig != NULL) {
+-+		if (!NEGATIVE(found) && foundsig != NULL) {
+- 			bind_rdataset(search.rbtdb, node, foundsig, search.now,
+- 				      sigrdataset);
+- 			if (need_headerupdate(foundsig, search.now))
+-@@ -5596,7 +5596,7 @@ zone_findrdataset(dns_db_t *db, dns_dbno
+- 	}
+- 	if (found != NULL) {
+- 		bind_rdataset(rbtdb, rbtnode, found, now, rdataset);
+--		if (foundsig != NULL)
+-+		if (!NEGATIVE(found) && foundsig != NULL)
+- 			bind_rdataset(rbtdb, rbtnode, foundsig, now,
+- 				      sigrdataset);
+- 	}
+-@@ -5685,7 +5685,7 @@ cache_findrdataset(dns_db_t *db, dns_dbn
+- 	}
+- 	if (found != NULL) {
+- 		bind_rdataset(rbtdb, rbtnode, found, now, rdataset);
+--		if (foundsig != NULL)
+-+		if (!NEGATIVE(found) && foundsig != NULL)
+- 			bind_rdataset(rbtdb, rbtnode, foundsig, now,
+- 				      sigrdataset);
+- 	}
+diff --git a/meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+deleted file mode 100644
+index c441eab..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
++++ /dev/null
+@@ -1,92 +0,0 @@
+-bind CVE-2012-1667
+-
+-Upstream-Status: Backport
+-
+-ISC BIND 9.x before 9.7.6-P1, 9.8.x before 9.8.3-P1, 9.9.x before 9.9.1-P1,
+-and 9.4-ESV and 9.6-ESV before 9.6-ESV-R7-P1 does not properly handle resource
+-records with a zero-length RDATA section, which allows remote DNS servers to
+-cause a denial of service (daemon crash or data corruption) or obtain
+-sensitive information from process memory via a crafted record.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-1667
+-
+-The cve patch comes from bind97-9.7.0-10.P2.el5_8.1.src.rpm package.
+-
+-Signed-off-by: Li Wang <li.wang@windriver.com>
+----
+- lib/dns/rdata.c     |    8 ++++----
+- lib/dns/rdataslab.c |   11 ++++++++---
+- 2 files changed, 12 insertions(+), 7 deletions(-)
+-
+-diff --git a/lib/dns/rdata.c b/lib/dns/rdata.c
+-index 063b1f6..9337a80 100644
+---- a/lib/dns/rdata.c
+-+++ b/lib/dns/rdata.c
+-@@ -325,8 +325,8 @@ dns_rdata_compare(const dns_rdata_t *rdata1, const dns_rdata_t *rdata2) {
+- 
+- 	REQUIRE(rdata1 != NULL);
+- 	REQUIRE(rdata2 != NULL);
+--	REQUIRE(rdata1->data != NULL);
+--	REQUIRE(rdata2->data != NULL);
+-+	REQUIRE(rdata1->length == 0 || rdata1->data != NULL);
+-+	REQUIRE(rdata2->length == 0 || rdata2->data != NULL);
+- 	REQUIRE(DNS_RDATA_VALIDFLAGS(rdata1));
+- 	REQUIRE(DNS_RDATA_VALIDFLAGS(rdata2));
+- 
+-@@ -356,8 +356,8 @@ dns_rdata_casecompare(const dns_rdata_t *rdata1, const dns_rdata_t *rdata2) {
+- 
+- 	REQUIRE(rdata1 != NULL);
+- 	REQUIRE(rdata2 != NULL);
+--	REQUIRE(rdata1->data != NULL);
+--	REQUIRE(rdata2->data != NULL);
+-+	REQUIRE(rdata1->length == 0 || rdata1->data != NULL);
+-+	REQUIRE(rdata2->length == 0 || rdata2->data != NULL);
+- 	REQUIRE(DNS_RDATA_VALIDFLAGS(rdata1));
+- 	REQUIRE(DNS_RDATA_VALIDFLAGS(rdata2));
+- 
+-diff --git a/lib/dns/rdataslab.c b/lib/dns/rdataslab.c
+-index a41f16f..ed13b30 100644
+---- a/lib/dns/rdataslab.c
+-+++ b/lib/dns/rdataslab.c
+-@@ -125,6 +125,11 @@ isc_result_t
+- dns_rdataslab_fromrdataset(dns_rdataset_t *rdataset, isc_mem_t *mctx,
+- 			   isc_region_t *region, unsigned int reservelen)
+- {
+-+	/*
+-+	 * Use &removed as a sentinal pointer for duplicate
+-+	 * rdata as rdata.data == NULL is valid.
+-+	 */
+-+	static unsigned char removed;
+- 	struct xrdata  *x;
+- 	unsigned char  *rawbuf;
+- #if DNS_RDATASET_FIXED
+-@@ -168,6 +173,7 @@ dns_rdataslab_fromrdataset(dns_rdataset_t *rdataset, isc_mem_t *mctx,
+- 		INSIST(result == ISC_R_SUCCESS);
+- 		dns_rdata_init(&x[i].rdata);
+- 		dns_rdataset_current(rdataset, &x[i].rdata);
+-+		INSIST(x[i].rdata.data != &removed);
+- #if DNS_RDATASET_FIXED
+- 		x[i].order = i;
+- #endif
+-@@ -200,8 +206,7 @@ dns_rdataslab_fromrdataset(dns_rdataset_t *rdataset, isc_mem_t *mctx,
+- 	 */
+- 	for (i = 1; i < nalloc; i++) {
+- 		if (compare_rdata(&x[i-1].rdata, &x[i].rdata) == 0) {
+--			x[i-1].rdata.data = NULL;
+--			x[i-1].rdata.length = 0;
+-+			x[i-1].rdata.data = &removed;
+- #if DNS_RDATASET_FIXED
+- 			/*
+- 			 * Preserve the least order so A, B, A -> A, B
+-@@ -291,7 +296,7 @@ dns_rdataslab_fromrdataset(dns_rdataset_t *rdataset, isc_mem_t *mctx,
+- #endif
+- 
+- 	for (i = 0; i < nalloc; i++) {
+--		if (x[i].rdata.data == NULL)
+-+		if (x[i].rdata.data == &removed)
+- 			continue;
+- #if DNS_RDATASET_FIXED
+- 		offsettable[x[i].order] = rawbuf - offsetbase;
+--- 
+-1.7.0.5
+-
+diff --git a/meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+deleted file mode 100644
+index 1e159bd..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-bind: fix for CVE-2012-3817
+-
+-Upstream-Status: Backport
+-
+-ISC BIND 9.4.x, 9.5.x, 9.6.x, and 9.7.x before 9.7.6-P2; 9.8.x before 9.8.3-P2;
+-9.9.x before 9.9.1-P2; and 9.6-ESV before 9.6-ESV-R7-P2, when DNSSEC validation
+-is enabled, does not properly initialize the failing-query cache, which allows
+-remote attackers to cause a denial of service (assertion failure and daemon exit)
+-by sending many queries.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-3817
+-
+-This patch is back-ported from bind-9.3.6-20.P1.el5_8.2.src.rpm package.
+-
+-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+----
+- resolver.c |    5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -8318,6 +8318,7 @@ dns_resolver_addbadcache(dns_resolver_t 
+- 			goto cleanup;
+- 		bad->type = type;
+- 		bad->hashval = hashval;
+-+		bad->expire = *expire;
+- 		isc_buffer_init(&buffer, bad + 1, name->length);
+- 		dns_name_init(&bad->name, NULL);
+- 		dns_name_copy(name, &bad->name, &buffer);
+-@@ -8329,8 +8330,8 @@ dns_resolver_addbadcache(dns_resolver_t 
+- 		if (resolver->badcount < resolver->badhash * 2 &&
+- 		    resolver->badhash > DNS_BADCACHE_SIZE)
+- 			resizehash(resolver, &now, ISC_FALSE);
+--	}
+--	bad->expire = *expire;
+-+	} else
+-+		bad->expire = *expire;
+-  cleanup:
+- 	UNLOCK(&resolver->lock);
+- }
+diff --git a/meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+deleted file mode 100644
+index 7ec6deb..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-bind: fix for CVE-2013-2266
+-
+-Upstream-Status: Backport
+-
+-libdns in ISC BIND 9.7.x and 9.8.x before 9.8.4-P2, 9.8.5 before 9.8.5b2,
+-9.9.x before 9.9.2-P2, and 9.9.3 before 9.9.3b2 on UNIX platforms allows
+-remote attackers to cause a denial of service (memory consumption) via a
+-crafted regular expression, as demonstrated by a memory-exhaustion attack
+-against a machine running a named process.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2266
+-
+-Signed-off-by Ming Liu <ming.liu@windriver.com>
+----
+- config.h.in  |    3 ---
+- configure.in |    2 +-
+- 2 files changed, 1 insertion(+), 4 deletions(-)
+-
+---- a/config.h.in
+-+++ b/config.h.in
+-@@ -277,9 +277,6 @@ int sigwait(const unsigned int *set, int
+- /* Define if your OpenSSL version supports GOST. */
+- #undef HAVE_OPENSSL_GOST
+- 
+--/* Define to 1 if you have the <regex.h> header file. */
+--#undef HAVE_REGEX_H
+--
+- /* Define to 1 if you have the `setegid' function. */
+- #undef HAVE_SETEGID
+- 
+---- a/configure.in
+-+++ b/configure.in
+-@@ -279,7 +279,7 @@ esac
+- 
+- AC_HEADER_STDC
+- 
+--AC_CHECK_HEADERS(fcntl.h regex.h sys/time.h unistd.h sys/sockio.h sys/select.h sys/param.h sys/sysctl.h net/if6.h,,,
+-+AC_CHECK_HEADERS(fcntl.h sys/time.h unistd.h sys/sockio.h sys/select.h sys/param.h sys/sysctl.h net/if6.h,,,
+- [$ac_includes_default
+- #ifdef HAVE_SYS_PARAM_H
+- # include <sys/param.h>
+diff --git a/meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch b/meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+deleted file mode 100644
+index 5dd6f69..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
++++ /dev/null
+@@ -1,141 +0,0 @@
+-bind_Fix_for_CVE-2012-4244
+-
+-Upstream-Status: Backport
+-
+-Reference:https://bugzilla.novell.com/attachment.cgi?id=505661&action=edit
+-
+-ISC BIND 9.x before 9.7.6-P3, 9.8.x before 9.8.3-P3, 9.9.x before 9.9.1-P3,
+- and 9.4-ESV and 9.6-ESV before 9.6-ESV-R7-P3 allows remote attackers to
+-cause a denial of service (assertion failure and named daemon exit) via
+-a query for a long resource record.
+-
+-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+-
+-diff -urpN a/lib/dns/include/dns/rdata.h b/lib/dns/include/dns/rdata.h
+---- a/lib/dns/include/dns/rdata.h	2012-10-08 12:19:42.000000000 +0800
+-+++ b/lib/dns/include/dns/rdata.h	2012-10-08 11:26:43.000000000 +0800
+-@@ -147,6 +147,17 @@ struct dns_rdata {
+- 	(((rdata)->flags & ~(DNS_RDATA_UPDATE|DNS_RDATA_OFFLINE)) == 0)
+- 
+- /*
+-+ * The maximum length of a RDATA that can be sent on the wire.
+-+ * Max packet size (65535) less header (12), less name (1), type (2),
+-+ * class (2), ttl(4), length (2).
+-+ *
+-+ * None of the defined types that support name compression can exceed
+-+ * this and all new types are to be sent uncompressed.
+-+ */
+-+
+-+#define DNS_RDATA_MAXLENGTH    65512U
+-+
+-+/*
+-  * Flags affecting rdata formatting style.  Flags 0xFFFF0000
+-  * are used by masterfile-level formatting and defined elsewhere.
+-  * See additional comments at dns_rdata_tofmttext().
+-diff -urpN a/lib/dns/master.c b/lib/dns/master.c
+---- a/lib/dns/master.c	2012-10-08 12:19:42.000000000 +0800
+-+++ b/lib/dns/master.c	2012-10-08 11:27:06.000000000 +0800
+-@@ -75,7 +75,7 @@
+- /*%
+-  * max message size - header - root - type - class - ttl - rdlen
+-  */
+--#define MINTSIZ (65535 - 12 - 1 - 2 - 2 - 4 - 2)
+-+#define MINTSIZ DNS_RDATA_MAXLENGTH 
+- /*%
+-  * Size for tokens in the presentation format,
+-  * The largest tokens are the base64 blocks in KEY and CERT records,
+-diff -urpN a/lib/dns/rdata.c b/lib/dns/rdata.c
+---- a/lib/dns/rdata.c	2012-10-08 12:19:42.000000000 +0800
+-+++ b/lib/dns/rdata.c	2012-10-08 11:27:27.000000000 +0800
+-@@ -425,6 +425,7 @@ dns_rdata_fromwire(dns_rdata_t *rdata, d
+- 	isc_buffer_t st;
+- 	isc_boolean_t use_default = ISC_FALSE;
+- 	isc_uint32_t activelength;
+-+	size_t length;
+- 
+- 	REQUIRE(dctx != NULL);
+- 	if (rdata != NULL) {
+-@@ -455,6 +456,14 @@ dns_rdata_fromwire(dns_rdata_t *rdata, d
+- 	}
+- 
+- 	/*
+-+	 * Reject any rdata that expands out to more than DNS_RDATA_MAXLENGTH
+-+	 * as we cannot transmit it.
+-+	 */
+-+	length = isc_buffer_usedlength(target) - isc_buffer_usedlength(&st);
+-+	if (result == ISC_R_SUCCESS && length > DNS_RDATA_MAXLENGTH)
+-+		result = DNS_R_FORMERR;
+-+
+-+	/*
+- 	 * We should have consumed all of our buffer.
+- 	 */
+- 	if (result == ISC_R_SUCCESS && !buffer_empty(source))
+-@@ -462,8 +471,7 @@ dns_rdata_fromwire(dns_rdata_t *rdata, d
+- 
+- 	if (rdata != NULL && result == ISC_R_SUCCESS) {
+- 		region.base = isc_buffer_used(&st);
+--		region.length = isc_buffer_usedlength(target) -
+--				isc_buffer_usedlength(&st);
+-+		region.length = length;
+- 		dns_rdata_fromregion(rdata, rdclass, type, &region);
+- 	}
+- 
+-@@ -598,6 +606,7 @@ dns_rdata_fromtext(dns_rdata_t *rdata, d
+- 	unsigned long line;
+- 	void (*callback)(dns_rdatacallbacks_t *, const char *, ...);
+- 	isc_result_t tresult;
+-+	size_t length;
+- 
+- 	REQUIRE(origin == NULL || dns_name_isabsolute(origin) == ISC_TRUE);
+- 	if (rdata != NULL) {
+-@@ -670,10 +679,13 @@ dns_rdata_fromtext(dns_rdata_t *rdata, d
+- 		}
+- 	} while (1);
+- 
+-+	length = isc_buffer_usedlength(target) - isc_buffer_usedlength(&st);
+-+	if (result == ISC_R_SUCCESS && length > DNS_RDATA_MAXLENGTH)
+-+		result = ISC_R_NOSPACE;
+-+
+- 	if (rdata != NULL && result == ISC_R_SUCCESS) {
+- 		region.base = isc_buffer_used(&st);
+--		region.length = isc_buffer_usedlength(target) -
+--				isc_buffer_usedlength(&st);
+-+		region.length = length;
+- 		dns_rdata_fromregion(rdata, rdclass, type, &region);
+- 	}
+- 	if (result != ISC_R_SUCCESS) {
+-@@ -781,6 +793,7 @@ dns_rdata_fromstruct(dns_rdata_t *rdata,
+- 	isc_buffer_t st;
+- 	isc_region_t region;
+- 	isc_boolean_t use_default = ISC_FALSE;
+-+	size_t length;
+- 
+- 	REQUIRE(source != NULL);
+- 	if (rdata != NULL) {
+-@@ -795,10 +808,13 @@ dns_rdata_fromstruct(dns_rdata_t *rdata,
+- 	if (use_default)
+- 		(void)NULL;
+- 
+-+	length = isc_buffer_usedlength(target) - isc_buffer_usedlength(&st);
+-+	if (result == ISC_R_SUCCESS && length > DNS_RDATA_MAXLENGTH)
+-+		result = ISC_R_NOSPACE;
+-+
+- 	if (rdata != NULL && result == ISC_R_SUCCESS) {
+- 		region.base = isc_buffer_used(&st);
+--		region.length = isc_buffer_usedlength(target) -
+--				isc_buffer_usedlength(&st);
+-+		region.length = length;
+- 		dns_rdata_fromregion(rdata, rdclass, type, &region);
+- 	}
+- 	if (result != ISC_R_SUCCESS)
+-diff -urpN a/lib/dns/rdataslab.c b/lib/dns/rdataslab.c
+---- a/lib/dns/rdataslab.c	2012-10-08 12:19:42.000000000 +0800
+-+++ b/lib/dns/rdataslab.c	2012-10-08 11:27:54.000000000 +0800
+-@@ -304,6 +304,7 @@ dns_rdataslab_fromrdataset(dns_rdataset_
+- 		length = x[i].rdata.length;
+- 		if (rdataset->type == dns_rdatatype_rrsig)
+- 			length++;
+-+		INSIST(length <= 0xffff);
+- 		*rawbuf++ = (length & 0xff00) >> 8;
+- 		*rawbuf++ = (length & 0x00ff);
+- #if DNS_RDATASET_FIXED
+diff --git a/meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch b/meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch
+deleted file mode 100644
+index 9db7a17..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From b24468b6fe1f136bfd854773bc0e117aca0012d5 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Wed, 28 Jan 2015 01:23:09 -0800
+-Subject: [PATCH] lib/export/isc/Makefile.in: let SUBDIRS run serially
+-
+-Fix parallel issue::
+-make[2]: *** No rule to make target `nls/msgcat.o', needed by `libisc.a'.  Stop.
+-make[2]: *** Waiting for unfinished jobs....
+-make[3]: Leaving directory `bind-9.9.5/lib/export/isc/unix'
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- lib/export/isc/Makefile.in |    4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/lib/export/isc/Makefile.in b/lib/export/isc/Makefile.in
+-index a92f66f..27dabcb 100644
+---- a/lib/export/isc/Makefile.in
+-+++ b/lib/export/isc/Makefile.in
+-@@ -103,6 +103,10 @@ SRCS =		@ISC_EXTRA_SRCS@ \
+- 
+- LIBS =		@LIBS@
+- 
+-+# Note: the order of SUBDIRS is important.
+-+# Attempt to disable parallel processing.
+-+.NOTPARALLEL:
+-+.NO_PARALLEL:
+- SUBDIRS =	include unix nls @ISC_THREAD_DIR@
+- TARGETS =	timestamp
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2014-8500.patch b/meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2014-8500.patch
+deleted file mode 100644
+index 62142d2..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2014-8500.patch
++++ /dev/null
+@@ -1,990 +0,0 @@
+-From 603a0e2637b35a2da820bc807f69bcf09c682dce Mon Sep 17 00:00:00 2001
+-From: Evan Hunt <each@isc.org>
+-Date: Mon, 17 Nov 2014 23:49:07 -0800
+-Subject: [PATCH] [v9_9] limit recursion depth and iterative queries
+-
+-4006.	[security]	A flaw in delegation handling could be exploited
+-			to put named into an infinite loop.  This has
+-			been addressed by placing limits on the number
+-			of levels of recursion named will allow (default 7),
+-			and the number of iterative queries that it will
+-			send (default 50) before terminating a recursive
+-			query (CVE-2014-8500).
+-
+-			The recursion depth limit is configured via the
+-			"max-recursion-depth" option.  [RT #35780]
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+----
+- bin/named/config.c                   |  3 +-
+- bin/named/include/named/query.h      |  2 -
+- bin/named/query.c                    |  7 ++-
+- bin/named/server.c                   |  5 ++
+- bin/tests/system/many/clean.sh       |  7 +++
+- bin/tests/system/many/ns1/named.conf | 33 +++++++++++++
+- bin/tests/system/many/ns2/named.conf | 30 ++++++++++++
+- bin/tests/system/many/ns3/named.conf | 32 +++++++++++++
+- bin/tests/system/many/ns4/named.conf | 30 ++++++++++++
+- bin/tests/system/many/ns5/hints.db   |  2 +
+- bin/tests/system/many/ns5/named.conf | 29 ++++++++++++
+- bin/tests/system/many/setup.sh       | 75 ++++++++++++++++++++++++++++++
+- bin/tests/system/many/tests.sh       | 48 +++++++++++++++++++
+- doc/arm/Bv9ARM-book.xml              | 12 +++++
+- lib/dns/adb.c                        | 58 ++++++++++++++++-------
+- lib/dns/include/dns/adb.h            |  8 ++++
+- lib/dns/include/dns/resolver.h       | 25 ++++++++++
+- lib/dns/resolver.c                   | 90 ++++++++++++++++++++++++++++++------
+- lib/isccfg/namedconf.c               |  1 +
+- 20 files changed, 471 insertions(+), 37 deletions(-)
+- create mode 100644 bin/tests/system/many/clean.sh
+- create mode 100644 bin/tests/system/many/ns1/named.conf
+- create mode 100644 bin/tests/system/many/ns2/named.conf
+- create mode 100644 bin/tests/system/many/ns3/named.conf
+- create mode 100644 bin/tests/system/many/ns4/named.conf
+- create mode 100644 bin/tests/system/many/ns5/hints.db
+- create mode 100644 bin/tests/system/many/ns5/named.conf
+- create mode 100644 bin/tests/system/many/setup.sh
+- create mode 100644 bin/tests/system/many/tests.sh
+-
+-diff --git a/bin/named/config.c b/bin/named/config.c
+-index 2782720..5ee8c4e 100644
+---- a/bin/named/config.c
+-+++ b/bin/named/config.c
+-@@ -15,8 +15,6 @@
+-  * PERFORMANCE OF THIS SOFTWARE.
+-  */
+-
+--/* $Id: config.c,v 1.123 2012/01/06 23:46:41 tbox Exp $ */
+--
+- /*! \file */
+-
+- #include <config.h>
+-@@ -160,6 +158,7 @@ options {\n\
+- 	dnssec-accept-expired no;\n\
+- 	clients-per-query 10;\n\
+- 	max-clients-per-query 100;\n\
+-+	max-recursion-depth 7;\n\
+- 	zero-no-soa-ttl-cache no;\n\
+- 	nsec3-test-zone no;\n\
+- 	allow-new-zones no;\n\
+-diff --git a/bin/named/include/named/query.h b/bin/named/include/named/query.h
+-index 3beabb8..b5e3900 100644
+---- a/bin/named/include/named/query.h
+-+++ b/bin/named/include/named/query.h
+-@@ -15,8 +15,6 @@
+-  * PERFORMANCE OF THIS SOFTWARE.
+-  */
+-
+--/* $Id: query.h,v 1.45 2011/01/13 04:59:24 tbox Exp $ */
+--
+- #ifndef NAMED_QUERY_H
+- #define NAMED_QUERY_H 1
+-
+-diff --git a/bin/named/query.c b/bin/named/query.c
+-index 982f76d..47bfc6a 100644
+---- a/bin/named/query.c
+-+++ b/bin/named/query.c
+-@@ -3877,12 +3877,11 @@ query_recurse(ns_client_t *client, dns_rdatatype_t qtype, dns_name_t *qname,
+- 		peeraddr = &client->peeraddr;
+- 	else
+- 		peeraddr = NULL;
+--	result = dns_resolver_createfetch2(client->view->resolver,
+-+	result = dns_resolver_createfetch3(client->view->resolver,
+- 					   qname, qtype, qdomain, nameservers,
+- 					   NULL, peeraddr, client->message->id,
+--					   client->query.fetchoptions,
+--					   client->task,
+--					   query_resume, client,
+-+					   client->query.fetchoptions, 0,
+-+					   client->task, query_resume, client,
+- 					   rdataset, sigrdataset,
+- 					   &client->query.fetch);
+- 
+-diff --git a/bin/named/server.c b/bin/named/server.c
+-index ac015a4..0559977 100644
+---- a/bin/named/server.c
+-+++ b/bin/named/server.c
+-@@ -3161,6 +3161,11 @@ configure_view(dns_view_t *view, cfg_obj_t *config, cfg_obj_t *vconfig,
+- 					cfg_obj_asuint32(obj),
+- 					max_clients_per_query);
+- 
+-+	obj = NULL;
+-+	result = ns_config_get(maps, "max-recursion-depth", &obj);
+-+	INSIST(result == ISC_R_SUCCESS);
+-+	dns_resolver_setmaxdepth(view->resolver, cfg_obj_asuint32(obj));
+-+
+- #ifdef ALLOW_FILTER_AAAA_ON_V4
+- 	obj = NULL;
+- 	result = ns_config_get(maps, "filter-aaaa-on-v4", &obj);
+-diff --git a/bin/tests/system/many/clean.sh b/bin/tests/system/many/clean.sh
+-new file mode 100644
+-index 0000000..119b1f5
+---- /dev/null
+-+++ b/bin/tests/system/many/clean.sh
+-@@ -0,0 +1,7 @@
+-+rm -f ns1/[1-9]*example.tld?.db
+-+rm -f ns2/[1-9]*example.tld?.db
+-+rm -f ns1/zones.conf
+-+rm -f ns2/zones.conf
+-+rm -f */root.db
+-+rm -f ns3/tld1.db
+-+rm -f ns4/tld2.db
+-diff --git a/bin/tests/system/many/ns1/named.conf b/bin/tests/system/many/ns1/named.conf
+-new file mode 100644
+-index 0000000..abc9dca
+---- /dev/null
+-+++ b/bin/tests/system/many/ns1/named.conf
+-@@ -0,0 +1,33 @@
+-+/*
+-+ * Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+ *
+-+ * Permission to use, copy, modify, and/or distribute this software for any
+-+ * purpose with or without fee is hereby granted, provided that the above
+-+ * copyright notice and this permission notice appear in all copies.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+ * AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+ * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+ * PERFORMANCE OF THIS SOFTWARE.
+-+ */
+-+
+-+controls { /* empty */ };
+-+
+-+options {
+-+	query-source address 10.53.0.1;
+-+	notify-source 10.53.0.1;
+-+	transfer-source 10.53.0.1;
+-+	port 5300;
+-+	pid-file "named.pid";
+-+	listen-on { 10.53.0.1; };
+-+	listen-on-v6 { none; };
+-+	recursion no;
+-+};
+-+
+-+include "zones.conf";
+-+
+-+// zone "tld1" { type master; file "tld1.db"; };
+-+// zone "tld2" { type master; file "tld2.db"; };
+-diff --git a/bin/tests/system/many/ns2/named.conf b/bin/tests/system/many/ns2/named.conf
+-new file mode 100644
+-index 0000000..16266e2
+---- /dev/null
+-+++ b/bin/tests/system/many/ns2/named.conf
+-@@ -0,0 +1,30 @@
+-+/*
+-+ * Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+ *
+-+ * Permission to use, copy, modify, and/or distribute this software for any
+-+ * purpose with or without fee is hereby granted, provided that the above
+-+ * copyright notice and this permission notice appear in all copies.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+ * AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+ * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+ * PERFORMANCE OF THIS SOFTWARE.
+-+ */
+-+
+-+controls { /* empty */ };
+-+
+-+options {
+-+	query-source address 10.53.0.2;
+-+	notify-source 10.53.0.2;
+-+	transfer-source 10.53.0.2;
+-+	port 5300;
+-+	pid-file "named.pid";
+-+	listen-on { 10.53.0.2; };
+-+	listen-on-v6 { none; };
+-+	recursion no;
+-+};
+-+
+-+include "zones.conf";
+-diff --git a/bin/tests/system/many/ns3/named.conf b/bin/tests/system/many/ns3/named.conf
+-new file mode 100644
+-index 0000000..b950afe
+---- /dev/null
+-+++ b/bin/tests/system/many/ns3/named.conf
+-@@ -0,0 +1,32 @@
+-+/*
+-+ * Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+ *
+-+ * Permission to use, copy, modify, and/or distribute this software for any
+-+ * purpose with or without fee is hereby granted, provided that the above
+-+ * copyright notice and this permission notice appear in all copies.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+ * AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+ * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+ * PERFORMANCE OF THIS SOFTWARE.
+-+ */
+-+
+-+controls { /* empty */ };
+-+
+-+options {
+-+	query-source address 10.53.0.3;
+-+	notify-source 10.53.0.3;
+-+	transfer-source 10.53.0.3;
+-+	port 5300;
+-+	pid-file "named.pid";
+-+	listen-on { 10.53.0.3; };
+-+	listen-on-v6 { none; };
+-+	recursion no;
+-+};
+-+
+-+zone "." { type master; file "root.db"; };
+-+
+-+zone "tld1" { type master; file "tld1.db"; };
+-diff --git a/bin/tests/system/many/ns4/named.conf b/bin/tests/system/many/ns4/named.conf
+-new file mode 100644
+-index 0000000..ca9aa6a
+---- /dev/null
+-+++ b/bin/tests/system/many/ns4/named.conf
+-@@ -0,0 +1,30 @@
+-+/*
+-+ * Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+ *
+-+ * Permission to use, copy, modify, and/or distribute this software for any
+-+ * purpose with or without fee is hereby granted, provided that the above
+-+ * copyright notice and this permission notice appear in all copies.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+ * AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+ * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+ * PERFORMANCE OF THIS SOFTWARE.
+-+ */
+-+
+-+controls { /* empty */ };
+-+
+-+options {
+-+	query-source address 10.53.0.4;
+-+	notify-source 10.53.0.4;
+-+	transfer-source 10.53.0.4;
+-+	port 5300;
+-+	pid-file "named.pid";
+-+	listen-on { 10.53.0.4; };
+-+	listen-on-v6 { none; };
+-+	recursion no;
+-+};
+-+
+-+zone "tld2" { type master; file "tld2.db"; };
+-diff --git a/bin/tests/system/many/ns5/hints.db b/bin/tests/system/many/ns5/hints.db
+-new file mode 100644
+-index 0000000..c05809b
+---- /dev/null
+-+++ b/bin/tests/system/many/ns5/hints.db
+-@@ -0,0 +1,2 @@
+-+. 60 in ns ns.nil.
+-+ns.nil. 60 in A 10.53.0.3
+-diff --git a/bin/tests/system/many/ns5/named.conf b/bin/tests/system/many/ns5/named.conf
+-new file mode 100644
+-index 0000000..fce7d59
+---- /dev/null
+-+++ b/bin/tests/system/many/ns5/named.conf
+-@@ -0,0 +1,29 @@
+-+/*
+-+ * Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+ *
+-+ * Permission to use, copy, modify, and/or distribute this software for any
+-+ * purpose with or without fee is hereby granted, provided that the above
+-+ * copyright notice and this permission notice appear in all copies.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+ * AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+ * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+ * PERFORMANCE OF THIS SOFTWARE.
+-+ */
+-+
+-+controls { /* empty */ };
+-+
+-+options {
+-+	query-source address 10.53.0.5;
+-+	notify-source 10.53.0.5;
+-+	transfer-source 10.53.0.5;
+-+	port 5300;
+-+	pid-file "named.pid";
+-+	listen-on { 10.53.0.5; };
+-+	listen-on-v6 { none; };
+-+};
+-+
+-+zone "." { type hint; file "hints.db"; };
+-diff --git a/bin/tests/system/many/setup.sh b/bin/tests/system/many/setup.sh
+-new file mode 100644
+-index 0000000..80695b5
+---- /dev/null
+-+++ b/bin/tests/system/many/setup.sh
+-@@ -0,0 +1,75 @@
+-+i=1
+-+
+-+cat > ns3/root.db << EOF
+-+. 60 in soa ns.nil. hostmaster.ns.nil. 1 0 0 0 0
+-+. 60 in ns ns.nil.
+-+ns.nil. 60 in a 10.53.0.3
+-+tld1. 60 in ns ns.tld1.
+-+ns.tld1. 60 in a 10.53.0.3
+-+tld2. 60 in ns ns.tld2.
+-+ns.tld2. 60 in a 10.53.0.4
+-+EOF
+-+
+-+cat > ns3/tld1.db << EOF
+-+tld1. 60 in soa ns.tld1. hostmaster.ns.tld1. 1 0 0 0 0
+-+tld1. 60 in ns ns.tld1.
+-+ns.tld1. 60 in a 10.53.0.1
+-+EOF
+-+
+-+cat > ns4/tld2.db << EOF
+-+tld2. 60 in soa ns.tld2. hostmaster.ns.tld4. 1 0 0 0 0
+-+tld2. 60 in ns ns.tld2.
+-+ns.tld2. 60 in a 10.53.0.1
+-+EOF
+-+
+-+: > ns1/zones.conf
+-+: > ns2/zones.conf
+-+
+-+while [ $i -lt 1000 ]
+-+do
+-+j=`expr $i + 1`
+-+s=`expr $j % 2 + 1`
+-+n=`expr $i % 2 + 1`
+-+t=`expr $s + 2`
+-+
+-+# i=1 j=2 s=1 n=2
+-+# i=2 j=3 s=1 n=2
+-+# i=3 j=4 s=1 n=2
+-+
+-+cat > ns1/${i}example.tld${s}.db << EOF
+-+${i}example.tld${s}. 60 in soa ns.${j}example.tld${n}. hostmaster 1 0 0 0 0
+-+${i}example.tld${s}. 60 in ns ns.${j}example.tld${n}.
+-+ns.${i}example.tld${s}. 60 in a 10.53.0.1
+-+EOF
+-+
+-+cat >> ns1/zones.conf << EOF
+-+zone "${i}example.tld${s}" { type master; file "${i}example.tld${s}.db"; };
+-+EOF
+-+
+-+cat >> ns${t}/tld${s}.db << EOF
+-+${i}example.tld${s}. 60 in ns ns.${j}example.tld${n}.
+-+EOF
+-+
+-+i=$j
+-+
+-+done
+-+
+-+j=`expr $i + 1`
+-+s=`expr $j % 2 + 1`
+-+n=`expr $s % 2 + 1`
+-+t=`expr $s + 2`
+-+
+-+cat > ns1/${i}example.tld${s}.db << EOF
+-+${i}example.tld${s}. 60 in soa ns.${i}example.tld${s}. hostmaster 1 0 0 0 0
+-+${i}example.tld${s}. 60 in ns ns.${i}example.tld${s}.
+-+ns.${i}example.tld${s}. 60 in a 10.53.0.1
+-+EOF
+-+
+-+cat >> ns1/zones.conf << EOF
+-+zone "${i}example.tld${s}" { type master; file "${i}example.tld${s}.db"; };
+-+EOF
+-+
+-+cat >> ns${t}/tld${s}.db << EOF
+-+${i}example.tld${s}. 60 in ns ns.${i}example.tld${s}.
+-+ns.${i}example.tld${s}. 60 in a 10.53.0.1
+-+EOF
+-diff --git a/bin/tests/system/many/tests.sh b/bin/tests/system/many/tests.sh
+-new file mode 100644
+-index 0000000..37964e2
+---- /dev/null
+-+++ b/bin/tests/system/many/tests.sh
+-@@ -0,0 +1,48 @@
+-+#!/bin/sh
+-+#
+-+# Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+-+#
+-+# Permission to use, copy, modify, and/or distribute this software for any
+-+# purpose with or without fee is hereby granted, provided that the above
+-+# copyright notice and this permission notice appear in all copies.
+-+#
+-+# THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+-+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-+# AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+-+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+-+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+-+# OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+-+# PERFORMANCE OF THIS SOFTWARE.
+-+
+-+SYSTEMTESTTOP=..
+-+. $SYSTEMTESTTOP/conf.sh
+-+
+-+status=0
+-+n=0
+-+
+-+n=`expr $n + 1`
+-+echo "I: attempt lookup 1example.tld2 soa ($n)"
+-+ret=0
+-+$DIG +tcp 1example.tld1 soa @10.53.0.5 -p 5300  > dig.out.test$n
+-+grep "status: SERVFAIL" dig.out.test$n > /dev/null || ret=1
+-+if [ $ret != 0 ]; then echo "I:failed"; fi
+-+status=`expr $status + $ret`
+-+
+-+n=`expr $n + 1`
+-+echo "I: attempt lookup 992example.tld2 soa ($n)"
+-+ret=0
+-+$DIG +tcp 992example.tld2 soa @10.53.0.5 -p 5300 >  dig.out.test$n
+-+grep "status: SERVFAIL" dig.out.test$n > /dev/null || ret=1
+-+if [ $ret != 0 ]; then echo "I:failed"; fi
+-+status=`expr $status + $ret`
+-+
+-+n=`expr $n + 1`
+-+echo "I: attempt lookup 993example.tld1 soa ($n)"
+-+ret=0
+-+$DIG +tcp 993example.tld1 soa @10.53.0.5 -p 5300 >  dig.out.test$n
+-+grep "status: NOERROR" dig.out.test$n > /dev/null || ret=1
+-+if [ $ret != 0 ]; then echo "I:failed"; fi
+-+status=`expr $status + $ret`
+-+
+-+echo "I:exit status: $status"
+-+exit $status
+-diff --git a/doc/arm/Bv9ARM-book.xml b/doc/arm/Bv9ARM-book.xml
+-index 9f7bd38..fff4249 100644
+---- a/doc/arm/Bv9ARM-book.xml
+-+++ b/doc/arm/Bv9ARM-book.xml
+-@@ -4861,6 +4861,7 @@ badresp:1,adberr:0,findfail:0,valfail:0]
+-     <optional> max-acache-size <replaceable>size_spec</replaceable> ; </optional>
+-     <optional> clients-per-query <replaceable>number</replaceable> ; </optional>
+-     <optional> max-clients-per-query <replaceable>number</replaceable> ; </optional>
+-+    <optional> max-recursion-depth <replaceable>number</replaceable> ; </optional>
+-     <optional> masterfile-format (<constant>text</constant>|<constant>raw</constant>) ; </optional>
+-     <optional> empty-server <replaceable>name</replaceable> ; </optional>
+-     <optional> empty-contact <replaceable>name</replaceable> ; </optional>
+-@@ -8680,6 +8681,17 @@ avoid-v6-udp-ports { 40000; range 50000 60000; };
+- 	      </listitem>
+- 	    </varlistentry>
+- 
+-+	    <varlistentry id="max-recursion-depth">
+-+	      <term><command>max-recursion-depth</command></term>
+-+	      <listitem>
+-+		<para>
+-+		  Sets the maximum number of levels of recursion
+-+		  permitted at any one time while resolving a name.
+-+		  The default is 7.
+-+		</para>
+-+	      </listitem>
+-+	    </varlistentry>
+-+
+- 	    <varlistentry>
+- 	      <term><command>notify-delay</command></term>
+- 	      <listitem>
+-diff --git a/lib/dns/adb.c b/lib/dns/adb.c
+-index 2ccb51e..fe9b3f7 100644
+---- a/lib/dns/adb.c
+-+++ b/lib/dns/adb.c
+-@@ -199,6 +199,7 @@ struct dns_adbfetch {
+- 	unsigned int                    magic;
+- 	dns_fetch_t                    *fetch;
+- 	dns_rdataset_t                  rdataset;
+-+	unsigned int			depth;
+- };
+- 
+- /*%
+-@@ -300,7 +301,7 @@ static inline void violate_locking_hierarchy(isc_mutex_t *, isc_mutex_t *);
+- static isc_boolean_t clean_namehooks(dns_adb_t *, dns_adbnamehooklist_t *);
+- static void clean_target(dns_adb_t *, dns_name_t *);
+- static void clean_finds_at_name(dns_adbname_t *, isc_eventtype_t,
+--				unsigned int);
+-+				isc_uint32_t, unsigned int);
+- static isc_boolean_t check_expire_namehooks(dns_adbname_t *, isc_stdtime_t);
+- static isc_boolean_t check_expire_entry(dns_adb_t *, dns_adbentry_t **,
+- 					isc_stdtime_t);
+-@@ -308,7 +309,7 @@ static void cancel_fetches_at_name(dns_adbname_t *);
+- static isc_result_t dbfind_name(dns_adbname_t *, isc_stdtime_t,
+- 				dns_rdatatype_t);
+- static isc_result_t fetch_name(dns_adbname_t *, isc_boolean_t,
+--			       dns_rdatatype_t);
+-+			       unsigned int, dns_rdatatype_t);
+- static inline void check_exit(dns_adb_t *);
+- static void destroy(dns_adb_t *);
+- static isc_boolean_t shutdown_names(dns_adb_t *);
+-@@ -984,7 +985,7 @@ kill_name(dns_adbname_t **n, isc_eventtype_t ev) {
+- 	 * Clean up the name's various lists.  These two are destructive
+- 	 * in that they will always empty the list.
+- 	 */
+--	clean_finds_at_name(name, ev, DNS_ADBFIND_ADDRESSMASK);
+-+	clean_finds_at_name(name, ev, 0, DNS_ADBFIND_ADDRESSMASK);
+- 	result4 = clean_namehooks(adb, &name->v4);
+- 	result6 = clean_namehooks(adb, &name->v6);
+- 	clean_target(adb, &name->target);
+-@@ -1409,7 +1410,7 @@ event_free(isc_event_t *event) {
+-  */
+- static void
+- clean_finds_at_name(dns_adbname_t *name, isc_eventtype_t evtype,
+--		    unsigned int addrs)
+-+		    isc_uint32_t qtotal, unsigned int addrs)
+- {
+- 	isc_event_t *ev;
+- 	isc_task_t *task;
+-@@ -1469,6 +1470,7 @@ clean_finds_at_name(dns_adbname_t *name, isc_eventtype_t evtype,
+- 			ev->ev_sender = find;
+- 			find->result_v4 = find_err_map[name->fetch_err];
+- 			find->result_v6 = find_err_map[name->fetch6_err];
+-+			find->qtotal += qtotal;
+- 			ev->ev_type = evtype;
+- 			ev->ev_destroy = event_free;
+- 			ev->ev_destroy_arg = find;
+-@@ -1827,6 +1829,7 @@ new_adbfind(dns_adb_t *adb) {
+- 	h->flags = 0;
+- 	h->result_v4 = ISC_R_UNEXPECTED;
+- 	h->result_v6 = ISC_R_UNEXPECTED;
+-+	h->qtotal = 0;
+- 	ISC_LINK_INIT(h, publink);
+- 	ISC_LINK_INIT(h, plink);
+- 	ISC_LIST_INIT(h->list);
+-@@ -2799,6 +2802,19 @@ dns_adb_createfind(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		   isc_stdtime_t now, dns_name_t *target,
+- 		   in_port_t port, dns_adbfind_t **findp)
+- {
+-+	return (dns_adb_createfind2(adb, task, action, arg, name,
+-+				    qname, qtype, options, now,
+-+				    target, port, 0, findp));
+-+}
+-+
+-+isc_result_t
+-+dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+-+		    void *arg, dns_name_t *name, dns_name_t *qname,
+-+		    dns_rdatatype_t qtype, unsigned int options,
+-+		    isc_stdtime_t now, dns_name_t *target,
+-+		    in_port_t port, unsigned int depth,
+-+		    dns_adbfind_t **findp)
+-+{
+- 	dns_adbfind_t *find;
+- 	dns_adbname_t *adbname;
+- 	int bucket;
+-@@ -3029,7 +3045,7 @@ dns_adb_createfind(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * Start V4.
+- 		 */
+- 		if (WANT_INET(wanted_fetches) &&
+--		    fetch_name(adbname, start_at_zone,
+-+		    fetch_name(adbname, start_at_zone, depth,
+- 			       dns_rdatatype_a) == ISC_R_SUCCESS) {
+- 			DP(DEF_LEVEL,
+- 			   "dns_adb_createfind: started A fetch for name %p",
+-@@ -3040,7 +3056,7 @@ dns_adb_createfind(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * Start V6.
+- 		 */
+- 		if (WANT_INET6(wanted_fetches) &&
+--		    fetch_name(adbname, start_at_zone,
+-+		    fetch_name(adbname, start_at_zone, depth,
+- 			       dns_rdatatype_aaaa) == ISC_R_SUCCESS) {
+- 			DP(DEF_LEVEL,
+- 			   "dns_adb_createfind: "
+-@@ -3656,6 +3672,7 @@ fetch_callback(isc_task_t *task, isc_event_t *ev) {
+- 	isc_result_t result;
+- 	unsigned int address_type;
+- 	isc_boolean_t want_check_exit = ISC_FALSE;
+-+	isc_uint32_t qtotal = 0;
+- 
+- 	UNUSED(task);
+- 
+-@@ -3666,6 +3683,8 @@ fetch_callback(isc_task_t *task, isc_event_t *ev) {
+- 	adb = name->adb;
+- 	INSIST(DNS_ADB_VALID(adb));
+- 
+-+	qtotal = dev->qtotal;
+-+
+- 	bucket = name->lock_bucket;
+- 	LOCK(&adb->namelocks[bucket]);
+- 
+-@@ -3783,6 +3802,12 @@ fetch_callback(isc_task_t *task, isc_event_t *ev) {
+- 		DP(DEF_LEVEL, "adb: fetch of '%s' %s failed: %s",
+- 		   buf, address_type == DNS_ADBFIND_INET ? "A" : "AAAA",
+- 		   dns_result_totext(dev->result));
+-+		/*
+-+		 * Don't record a failure unless this is the initial
+-+		 * fetch of a chain.
+-+		 */
+-+		if (fetch->depth > 1)
+-+			goto out;
+- 		/* XXXMLG Don't pound on bad servers. */
+- 		if (address_type == DNS_ADBFIND_INET) {
+- 			name->expire_v4 = ISC_MIN(name->expire_v4, now + 300);
+-@@ -3814,15 +3839,14 @@ fetch_callback(isc_task_t *task, isc_event_t *ev) {
+- 	free_adbfetch(adb, &fetch);
+- 	isc_event_free(&ev);
+- 
+--	clean_finds_at_name(name, ev_status, address_type);
+-+	clean_finds_at_name(name, ev_status, qtotal, address_type);
+- 
+- 	UNLOCK(&adb->namelocks[bucket]);
+- }
+- 
+- static isc_result_t
+--fetch_name(dns_adbname_t *adbname,
+--	   isc_boolean_t start_at_zone,
+--	   dns_rdatatype_t type)
+-+fetch_name(dns_adbname_t *adbname, isc_boolean_t start_at_zone,
+-+	   unsigned int depth, dns_rdatatype_t type)
+- {
+- 	isc_result_t result;
+- 	dns_adbfetch_t *fetch = NULL;
+-@@ -3867,12 +3891,14 @@ fetch_name(dns_adbname_t *adbname,
+- 		result = ISC_R_NOMEMORY;
+- 		goto cleanup;
+- 	}
+--
+--	result = dns_resolver_createfetch(adb->view->resolver, &adbname->name,
+--					  type, name, nameservers, NULL,
+--					  options, adb->task, fetch_callback,
+--					  adbname, &fetch->rdataset, NULL,
+--					  &fetch->fetch);
+-+	fetch->depth = depth;
+-+
+-+	result = dns_resolver_createfetch3(adb->view->resolver, &adbname->name,
+-+					   type, name, nameservers, NULL,
+-+					   NULL, 0, options, depth, adb->task,
+-+					   fetch_callback, adbname,
+-+					   &fetch->rdataset, NULL,
+-+					   &fetch->fetch);
+- 	if (result != ISC_R_SUCCESS)
+- 		goto cleanup;
+- 
+-diff --git a/lib/dns/include/dns/adb.h b/lib/dns/include/dns/adb.h
+-index 35350ff..7501f01 100644
+---- a/lib/dns/include/dns/adb.h
+-+++ b/lib/dns/include/dns/adb.h
+-@@ -118,6 +118,8 @@ struct dns_adbfind {
+- 	isc_result_t			result_v6;	/*%< RO: v6 result */
+- 	ISC_LINK(dns_adbfind_t)		publink;	/*%< RW: client use */
+- 
+-+	isc_uint32_t			qtotal;
+-+
+- 	/* Private */
+- 	isc_mutex_t			lock;		/* locks all below */
+- 	in_port_t			port;
+-@@ -334,6 +336,12 @@ dns_adb_createfind(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		   dns_rdatatype_t qtype, unsigned int options,
+- 		   isc_stdtime_t now, dns_name_t *target,
+- 		   in_port_t port, dns_adbfind_t **find);
+-+isc_result_t
+-+dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+-+		    void *arg, dns_name_t *name, dns_name_t *qname,
+-+		    dns_rdatatype_t qtype, unsigned int options,
+-+		    isc_stdtime_t now, dns_name_t *target, in_port_t port,
+-+		    unsigned int depth, dns_adbfind_t **find);
+- /*%<
+-  * Main interface for clients. The adb will look up the name given in
+-  * "name" and will build up a list of found addresses, and perhaps start
+-diff --git a/lib/dns/include/dns/resolver.h b/lib/dns/include/dns/resolver.h
+-index 4e20eb6..c256049 100644
+---- a/lib/dns/include/dns/resolver.h
+-+++ b/lib/dns/include/dns/resolver.h
+-@@ -82,6 +82,7 @@ typedef struct dns_fetchevent {
+- 	isc_sockaddr_t *		client;
+- 	dns_messageid_t			id;
+- 	isc_result_t			vresult;
+-+	isc_uint32_t 			qtotal;
+- } dns_fetchevent_t;
+- 
+- /*
+-@@ -275,6 +276,18 @@ dns_resolver_createfetch2(dns_resolver_t *res, dns_name_t *name,
+- 			  dns_rdataset_t *rdataset,
+- 			  dns_rdataset_t *sigrdataset,
+- 			  dns_fetch_t **fetchp);
+-+isc_result_t
+-+dns_resolver_createfetch3(dns_resolver_t *res, dns_name_t *name,
+-+			  dns_rdatatype_t type,
+-+			  dns_name_t *domain, dns_rdataset_t *nameservers,
+-+			  dns_forwarders_t *forwarders,
+-+			  isc_sockaddr_t *client, isc_uint16_t id,
+-+			  unsigned int options, unsigned int depth,
+-+			  isc_task_t *task,
+-+			  isc_taskaction_t action, void *arg,
+-+			  dns_rdataset_t *rdataset,
+-+			  dns_rdataset_t *sigrdataset,
+-+			  dns_fetch_t **fetchp);
+- /*%<
+-  * Recurse to answer a question.
+-  *
+-@@ -576,6 +589,18 @@ dns_resolver_printbadcache(dns_resolver_t *resolver, FILE *fp);
+-  * \li	resolver to be valid.
+-  */
+- 
+-+void
+-+dns_resolver_setmaxdepth(dns_resolver_t *resolver, unsigned int maxdepth);
+-+unsigned int
+-+dns_resolver_getmaxdepth(dns_resolver_t *resolver);
+-+/*%
+-+ * Get and set how many NS indirections will be followed when looking for
+-+ * nameserver addresses.
+-+ *
+-+ * Requires:
+-+ * \li	resolver to be valid.
+-+ */
+-+
+- ISC_LANG_ENDDECLS
+- 
+- #endif /* DNS_RESOLVER_H */
+-diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
+-index e517dad..6a635b2 100644
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -131,6 +131,16 @@
+- #define MAXIMUM_QUERY_TIMEOUT 30 /* The maximum time in seconds for the whole query to live. */
+- #endif
+- 
+-+/* The default maximum number of recursions to follow before giving up. */
+-+#ifndef DEFAULT_RECURSION_DEPTH
+-+#define DEFAULT_RECURSION_DEPTH 7
+-+#endif
+-+
+-+/* The default maximum number of iterative queries to allow before giving up. */
+-+#ifndef DEFAULT_MAX_QUERIES
+-+#define DEFAULT_MAX_QUERIES 50
+-+#endif
+-+
+- /*%
+-  * Maximum EDNS0 input packet size.
+-  */
+-@@ -297,6 +307,7 @@ struct fetchctx {
+- 	isc_uint64_t			duration;
+- 	isc_boolean_t			logged;
+- 	unsigned int			querysent;
+-+	unsigned int			totalqueries;
+- 	unsigned int			referrals;
+- 	unsigned int			lamecount;
+- 	unsigned int			neterr;
+-@@ -307,6 +318,7 @@ struct fetchctx {
+- 	isc_boolean_t			timeout;
+- 	dns_adbaddrinfo_t 		*addrinfo;
+- 	isc_sockaddr_t			*client;
+-+	unsigned int			depth;
+- };
+- 
+- #define FCTX_MAGIC			ISC_MAGIC('F', '!', '!', '!')
+-@@ -419,6 +431,7 @@ struct dns_resolver {
+- 	isc_timer_t *			spillattimer;
+- 	isc_boolean_t			zero_no_soa_ttl;
+- 	unsigned int			query_timeout;
+-+	unsigned int			maxdepth;
+- 
+- 	/* Locked by lock. */
+- 	unsigned int			references;
+-@@ -1097,6 +1110,7 @@ fctx_sendevents(fetchctx_t *fctx, isc_result_t result, int line) {
+- 			       event->result == DNS_R_NCACHENXRRSET);
+- 		}
+- 
+-+		event->qtotal = fctx->totalqueries;
+- 		isc_task_sendanddetach(&task, ISC_EVENT_PTR(&event));
+- 		count++;
+- 	}
+-@@ -1537,7 +1551,9 @@ fctx_query(fetchctx_t *fctx, dns_adbaddrinfo_t *addrinfo,
+- 		if (result != ISC_R_SUCCESS)
+- 			goto cleanup_dispatch;
+- 	}
+-+
+- 	fctx->querysent++;
+-+	fctx->totalqueries++;
+- 
+- 	ISC_LIST_APPEND(fctx->queries, query, link);
+- 	query->fctx->nqueries++;
+-@@ -2194,9 +2210,10 @@ fctx_finddone(isc_task_t *task, isc_event_t *event) {
+- 		 */
+- 		INSIST(!SHUTTINGDOWN(fctx));
+- 		fctx->attributes &= ~FCTX_ATTR_ADDRWAIT;
+--		if (event->ev_type == DNS_EVENT_ADBMOREADDRESSES)
+-+		if (event->ev_type == DNS_EVENT_ADBMOREADDRESSES) {
+- 			want_try = ISC_TRUE;
+--		else {
+-+			fctx->totalqueries += find->qtotal;
+-+		} else {
+- 			fctx->findfail++;
+- 			if (fctx->pending == 0) {
+- 				/*
+-@@ -2479,12 +2496,13 @@ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
+- 	 * See what we know about this address.
+- 	 */
+- 	find = NULL;
+--	result = dns_adb_createfind(fctx->adb,
+--				    res->buckets[fctx->bucketnum].task,
+--				    fctx_finddone, fctx, name,
+--				    &fctx->name, fctx->type,
+--				    options, now, NULL,
+--				    res->view->dstport, &find);
+-+	result = dns_adb_createfind2(fctx->adb,
+-+				     res->buckets[fctx->bucketnum].task,
+-+				     fctx_finddone, fctx, name,
+-+				     &fctx->name, fctx->type,
+-+				     options, now, NULL,
+-+				     res->view->dstport,
+-+				     fctx->depth + 1, &find);
+- 	if (result != ISC_R_SUCCESS) {
+- 		if (result == DNS_R_ALIAS) {
+- 			/*
+-@@ -2592,6 +2610,11 @@ fctx_getaddresses(fetchctx_t *fctx, isc_boolean_t badcache) {
+- 
+- 	res = fctx->res;
+- 
+-+	if (fctx->depth > res->maxdepth) {
+-+		FCTXTRACE("too much NS indirection");
+-+		return (DNS_R_SERVFAIL);
+-+	}
+-+
+- 	/*
+- 	 * Forwarders.
+- 	 */
+-@@ -3030,6 +3053,9 @@ fctx_try(fetchctx_t *fctx, isc_boolean_t retrying, isc_boolean_t badcache) {
+- 
+- 	REQUIRE(!ADDRWAIT(fctx));
+- 
+-+	if (fctx->totalqueries > DEFAULT_MAX_QUERIES)
+-+		fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+-+
+- 	addrinfo = fctx_nextaddress(fctx);
+- 	if (addrinfo == NULL) {
+- 		/*
+-@@ -3388,6 +3414,7 @@ fctx_start(isc_task_t *task, isc_event_t *event) {
+- 		 * Normal fctx startup.
+- 		 */
+- 		fctx->state = fetchstate_active;
+-+		fctx->totalqueries = 0;
+- 		/*
+- 		 * Reset the control event for later use in shutting down
+- 		 * the fctx.
+-@@ -3457,6 +3484,7 @@ fctx_join(fetchctx_t *fctx, isc_task_t *task, isc_sockaddr_t *client,
+- 	event->fetch = fetch;
+- 	event->client = client;
+- 	event->id = id;
+-+	event->qtotal = 0;
+- 	dns_fixedname_init(&event->foundname);
+- 
+- 	/*
+-@@ -3493,7 +3521,8 @@ log_ns_ttl(fetchctx_t *fctx, const char *where) {
+- static isc_result_t
+- fctx_create(dns_resolver_t *res, dns_name_t *name, dns_rdatatype_t type,
+- 	    dns_name_t *domain, dns_rdataset_t *nameservers,
+--	    unsigned int options, unsigned int bucketnum, fetchctx_t **fctxp)
+-+	    unsigned int options, unsigned int bucketnum, unsigned int depth,
+-+	    fetchctx_t **fctxp)
+- {
+- 	fetchctx_t *fctx;
+- 	isc_result_t result;
+-@@ -3545,6 +3574,7 @@ fctx_create(dns_resolver_t *res, dns_name_t *name, dns_rdatatype_t type,
+- 	fctx->state = fetchstate_init;
+- 	fctx->want_shutdown = ISC_FALSE;
+- 	fctx->cloned = ISC_FALSE;
+-+	fctx->depth = depth;
+- 	ISC_LIST_INIT(fctx->queries);
+- 	ISC_LIST_INIT(fctx->finds);
+- 	ISC_LIST_INIT(fctx->altfinds);
+-@@ -3563,6 +3593,7 @@ fctx_create(dns_resolver_t *res, dns_name_t *name, dns_rdatatype_t type,
+- 	fctx->pending = 0;
+- 	fctx->restarts = 0;
+- 	fctx->querysent = 0;
+-+	fctx->totalqueries = 0;
+- 	fctx->referrals = 0;
+- 	TIME_NOW(&fctx->start);
+- 	fctx->timeouts = 0;
+-@@ -7781,6 +7812,7 @@ dns_resolver_create(dns_view_t *view,
+- 	res->spillattimer = NULL;
+- 	res->zero_no_soa_ttl = ISC_FALSE;
+- 	res->query_timeout = DEFAULT_QUERY_TIMEOUT;
+-+	res->maxdepth = DEFAULT_RECURSION_DEPTH;
+- 	res->nbuckets = ntasks;
+- 	res->activebuckets = ntasks;
+- 	res->buckets = isc_mem_get(view->mctx,
+-@@ -8219,9 +8251,9 @@ dns_resolver_createfetch(dns_resolver_t *res, dns_name_t *name,
+- 			 dns_rdataset_t *sigrdataset,
+- 			 dns_fetch_t **fetchp)
+- {
+--	return (dns_resolver_createfetch2(res, name, type, domain,
+-+	return (dns_resolver_createfetch3(res, name, type, domain,
+- 					  nameservers, forwarders, NULL, 0,
+--					  options, task, action, arg,
+-+					  options, 0, task, action, arg,
+- 					  rdataset, sigrdataset, fetchp));
+- }
+- 
+-@@ -8237,6 +8269,25 @@ dns_resolver_createfetch2(dns_resolver_t *res, dns_name_t *name,
+- 			  dns_rdataset_t *sigrdataset,
+- 			  dns_fetch_t **fetchp)
+- {
+-+	return (dns_resolver_createfetch3(res, name, type, domain,
+-+					  nameservers, forwarders, client, id,
+-+					  options, 0, task, action, arg,
+-+					  rdataset, sigrdataset, fetchp));
+-+}
+-+
+-+isc_result_t
+-+dns_resolver_createfetch3(dns_resolver_t *res, dns_name_t *name,
+-+			  dns_rdatatype_t type,
+-+			  dns_name_t *domain, dns_rdataset_t *nameservers,
+-+			  dns_forwarders_t *forwarders,
+-+			  isc_sockaddr_t *client, dns_messageid_t id,
+-+			  unsigned int options, unsigned int depth,
+-+			  isc_task_t *task,
+-+			  isc_taskaction_t action, void *arg,
+-+			  dns_rdataset_t *rdataset,
+-+			  dns_rdataset_t *sigrdataset,
+-+			  dns_fetch_t **fetchp)
+-+{
+- 	dns_fetch_t *fetch;
+- 	fetchctx_t *fctx = NULL;
+- 	isc_result_t result = ISC_R_SUCCESS;
+-@@ -8325,11 +8376,12 @@ dns_resolver_createfetch2(dns_resolver_t *res, dns_name_t *name,
+- 
+- 	if (fctx == NULL) {
+- 		result = fctx_create(res, name, type, domain, nameservers,
+--				     options, bucketnum, &fctx);
+-+				     options, bucketnum, depth, &fctx);
+- 		if (result != ISC_R_SUCCESS)
+- 			goto unlock;
+- 		new_fctx = ISC_TRUE;
+--	}
+-+	} else if (fctx->depth > depth)
+-+		fctx->depth = depth;
+- 
+- 	result = fctx_join(fctx, task, client, id, action, arg,
+- 			   rdataset, sigrdataset, fetch);
+-@@ -9101,3 +9153,15 @@ dns_resolver_settimeout(dns_resolver_t *resolver, unsigned int seconds) {
+- 
+- 	resolver->query_timeout = seconds;
+- }
+-+
+-+void
+-+dns_resolver_setmaxdepth(dns_resolver_t *resolver, unsigned int maxdepth) {
+-+	REQUIRE(VALID_RESOLVER(resolver));
+-+	resolver->maxdepth = maxdepth;
+-+}
+-+
+-+unsigned int
+-+dns_resolver_getmaxdepth(dns_resolver_t *resolver) {
+-+	REQUIRE(VALID_RESOLVER(resolver));
+-+	return (resolver->maxdepth);
+-+}
+-diff --git a/lib/isccfg/namedconf.c b/lib/isccfg/namedconf.c
+-index bfd4bab..5f8b037 100644
+---- a/lib/isccfg/namedconf.c
+-+++ b/lib/isccfg/namedconf.c
+-@@ -1393,6 +1393,7 @@ view_clauses[] = {
+- 	{ "max-cache-ttl", &cfg_type_uint32, 0 },
+- 	{ "max-clients-per-query", &cfg_type_uint32, 0 },
+- 	{ "max-ncache-ttl", &cfg_type_uint32, 0 },
+-+	{ "max-recursion-depth", &cfg_type_uint32, 0 },
+- 	{ "max-udp-size", &cfg_type_uint32, 0 },
+- 	{ "min-roots", &cfg_type_uint32, CFG_CLAUSEFLAG_NOTIMP },
+- 	{ "minimal-responses", &cfg_type_boolean, 0 },
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-connectivity/bind/bind/cross-build-fix.patch b/meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+deleted file mode 100644
+index 4c37b6b..0000000
+--- a/meta/recipes-connectivity/bind/bind/cross-build-fix.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-11/30/2010
+-gen.c should be build by ${BUILD_CC}
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-
+-diff --git a/lib/export/dns/Makefile.in b/lib/export/dns/Makefile.in
+-index aeadf57..d3fae74 100644
+---- a/lib/export/dns/Makefile.in
+-+++ b/lib/export/dns/Makefile.in
+-@@ -166,7 +166,8 @@ code.h:	gen
+- 	./gen -s ${srcdir} > code.h
+- 
+- gen: ${srcdir}/gen.c
+--	${CC} ${ALL_CFLAGS} ${LDFLAGS} -o $@ ${srcdir}/gen.c ${LIBS}
+-+	${BUILD_CC} ${BUILD_CFLAGS} -I${top_srcdir}/lib/isc/include \
+-+	${BUILD_CPPFLAGS} ${BUILD_LDFLAGS} -o $@ ${srcdir}/gen.c ${BUILD_LIBS}
+- 
+- #We don't need rbtdb64 for this library
+- #rbtdb64.@O@: rbtdb.c
+diff --git a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+index 288e58b..6989d6d 100644
+--- a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
++++ b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+@@ -10,8 +10,8 @@ Index: bind-9.9.5/bin/Makefile.in
+  VPATH =		@srcdir@
+  top_srcdir =	@top_srcdir@
+  
+--SUBDIRS =	named rndc dig dnssec tools tests nsupdate \
+-+SUBDIRS =	named rndc dig dnssec tools nsupdate \
++-SUBDIRS =	named rndc dig delv dnssec tools tests nsupdate \
+++SUBDIRS =	named rndc dig delv dnssec tools nsupdate \
+  		check confgen @PYTHON_TOOLS@ @PKCS11_TOOLS@
+  TARGETS =
+  
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.10.2.bb
+similarity index 90%
+rename from meta/recipes-connectivity/bind/bind_9.9.5.bb
+rename to meta/recipes-connectivity/bind/bind_9.10.2.bb
+index e34cded..e956d9c 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.2.bb
+@@ -3,13 +3,12 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=a3df5f651469919a0e6cb42f84fb6ff1"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0a95f52a0ab6c5f52dedc9a45e7abb3f"
+ 
+ DEPENDS = "openssl libcap"
+ 
+ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://conf.patch \
+-           file://cross-build-fix.patch \
+            file://make-etc-initd-bind-stop-work.patch \
+            file://mips1-not-support-opcode.diff \
+            file://dont-test-on-host.patch \
+@@ -17,14 +16,12 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://named.service \
+            file://bind9 \
+            file://init.d-add-support-for-read-only-rootfs.patch \
+-           file://bind9_9_5-CVE-2014-8500.patch \
+            file://bind-add-crosscripts-search-path-for-xml2-config.patch \
+-           file://bind-subdirs-run-serially.patch \
+            file://bind-confgen-build-unix.o-once.patch \
+ 	   "
+ 
+-SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
+-SRC_URI[sha256sum] = "d4b64c1dde442145a316679acff2df4008aa117ae52dfa3a6bc69efecc7840d1"
++SRC_URI[md5sum] = "dca7a9967947bffa98547fca6130fc04"
++SRC_URI[sha256sum] = "6f9bb7908aa45c1edfa391e356fc0afc1ded175386cdefb6cf9e1289f7457a98"
+ 
+ # --enable-exportlib is necessary for building dhcp
+ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
