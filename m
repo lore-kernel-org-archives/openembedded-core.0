@@ -1,25 +1,25 @@
 Return-Path: <Maxin.John@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id AC70C73DAF
+	by mail.openembedded.org (Postfix) with SMTP id 14A1B73DA3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Apr 2015 09:02:42 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 11:02:43 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 4A0AD28BA1D;
-	Wed, 29 Apr 2015 11:02:43 +0200 (CEST)
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 29 Apr 2015 11:02:44 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 0747C28BA1F;
+	Wed, 29 Apr 2015 11:02:44 +0200 (CEST)
 From: "Maxin B. John" <maxin.john@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 11:02:20 +0200
-Message-ID: <1430298142-9117-4-git-send-email-maxin.john@enea.com>
+Date: Wed, 29 Apr 2015 11:02:21 +0200
+Message-ID: <1430298142-9117-5-git-send-email-maxin.john@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
 References: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
 	designate permitted sender hosts)
 Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [daisy 3/5] coreutils: parse-datetime: CVE-2014-9471
+Subject: [daisy 4/5] elfutils: CVE-2014-9447
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +33,95 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 29 Apr 2015 09:02:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 
-Memory corruption flaw in parse_datetime()
+directory traversal in read_long_names()
 
 Reference
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2014-9471
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9447
+
+Upstream commit with the analysis:
+https://git.fedorahosted.org/cgit/elfutils.git/commit/?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 Signed-off-by: Maxin B. John <maxin.john@enea.com>
 ---
- .../parse-datetime-CVE-2014-9471.patch             | 43 ++++++++++++++++++=
-++++
- meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/parse-dateti=
-me-CVE-2014-9471.patch
+ .../elfutils/elfutils/CVE-2014-9447.patch          | 50 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.155.bb   |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.22/parse-datetime-CVE-=
-2014-9471.patch b/meta/recipes-core/coreutils/coreutils-8.22/parse-datetime=
--CVE-2014-9471.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
 new file mode 100644
-index 0000000..a094b8b
+index 0000000..82b05fb
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.22/parse-datetime-CVE-2014-94=
-71.patch
-@@ -0,0 +1,43 @@
++++ b/meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
+@@ -0,0 +1,50 @@
++libelf: Fix dir traversal vuln in ar extraction.
++
++read_long_names terminates names at the first '/' found but then skips one
++character without checking (it's supposed to be '\n'). Hence the next name could
++start with any character including '/'. This leads to a directory traversal
++vulnerability at the time the contents of the archive is extracted.
++
++The danger is mitigated by the fact that only one '/' is possible in a resulting
++filename
++and only in the leading position. Hence only files in the root directory can be
++written via this vuln and only when ar is executed as root. The fix for the vuln
++is to not skip any characters while looking for '/'.
++
++Upstream commit:
++https://git.fedorahosted.org/cgit/elfutils.git/commit/
++?id=147018e729e7c22eeabf15b82d26e4bf68a0d18e
++
++Fixes CVE-2014-9447
 +Upstream-Status: Backport
++
++Signed-off-by: Alexander Cherepanov <cherepan@mccme.ru>
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+diff -ruN a/ChangeLog b/ChangeLog
-+--- a/ChangeLog	2013-12-13 16:20:00.000000000 +0100
-++++ b/ChangeLog	2015-02-26 09:24:10.640577829 +0100
-+@@ -1,3 +1,11 @@
-++2014-02-25  Sona Sarmadi <sona.sarmadi@enea.com>
++diff -ruN a/libelf/ChangeLog b/libelf/ChangeLog
++--- a/libelf/ChangeLog	2015-03-03 12:39:39.255277970 +0100
+++++ b/libelf/ChangeLog	2015-03-03 12:43:44.700870042 +0100
++@@ -1,3 +1,8 @@
+++2014-12-28  Alexander Cherepanov  <cherepan@mccme.ru>
 ++
-++       parse-datetime: fix crash or infloop in TZ=3D"" parsing
-++       * lib/parse-datetime.y (parse_datetime): Break out of the
-++       TZ=3D"" parsing loop once the second significant " is found.
-++       Also skip over any subsequent whitespace to be consistent
-++       with the non TZ=3D case (CVE-2014-9471)
+++       * elf_begin.c (read_long_names): Don't miss '/' right after
+++       another '/'. Fixes a dir traversal vuln in ar extraction.
 ++
-+ 2013-12-13  P=C3=A1draig Brady  <P@draigBrady.com>
-+=20
-+ 	version 8.22
-+diff -ruN a/lib/parse-datetime.y b/lib/parse-datetime.y
-+--- a/lib/parse-datetime.y	2013-12-04 15:53:33.000000000 +0100
-++++ b/lib/parse-datetime.y	2015-02-26 09:20:15.238528670 +0100
-+@@ -1303,8 +1303,6 @@
-+             char tz1buf[TZBUFSIZE];
-+             bool large_tz =3D TZBUFSIZE < tzsize;
-+             bool setenv_ok;
-+-            /* Free tz0, in case this is the 2nd or subsequent time throu=
-gh. */
-+-            free (tz0);
-+             tz0 =3D get_tz (tz0buf);
-+             z =3D tz1 =3D large_tz ? xmalloc (tzsize) : tz1buf;
-+             for (s =3D tzbase; *s !=3D '"'; s++)
-+@@ -1316,7 +1314,12 @@
-+             if (!setenv_ok)
-+               goto fail;
-+             tz_was_altered =3D true;
-++
-+             p =3D s + 1;
-++            while (c =3D *p, c_isspace (c))
-++              p++;
-++
-++            break;
-+           }
-+     }
-+=20
-diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-c=
-ore/coreutils/coreutils_8.22.bb
-index ba3a0a0..9746683 100644
---- a/meta/recipes-core/coreutils/coreutils_8.22.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
-@@ -16,6 +16,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
-            file://dummy_help2man.patch \
-            file://fix-for-dummy-man-usage.patch \
-+           file://parse-datetime-CVE-2014-9471.patch \
-           "
-=20
- SRC_URI[md5sum] =3D "8fb0ae2267aa6e728958adc38f8163a2"
---=20
++ 2012-08-16  Roland McGrath  <roland@hack.frob.com>
++ 
++ 	* elf.h: Update from glibc.
++diff -ruN a/libelf/elf_begin.c b/libelf/elf_begin.c
++--- a/libelf/elf_begin.c	2015-03-03 12:39:39.835253375 +0100
+++++ b/libelf/elf_begin.c	2015-03-03 12:41:30.906543370 +0100
++@@ -744,10 +744,7 @@
++ 	    break;
++ 
++ 	  /* NUL-terminate the string.  */
++-	  *runp = '\0';
++-
++-	  /* Skip the NUL byte and the \012.  */
++-	  runp += 2;
+++	  *runp++ = '\0';
++ 
++ 	  /* A sanity check.  Somebody might have generated invalid
++ 	     archive.  */
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.155.bb b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
+index b1f410c..edb4919 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.155.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
+@@ -23,6 +23,7 @@ SRC_URI += "\
+ 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+ 	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
+ 	file://fix-build-gcc-4.8.patch \
++        file://CVE-2014-9447.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
+-- 
 1.9.1
 
 
