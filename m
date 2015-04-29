@@ -1,24 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AA2773D5C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 01CD572A85
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 08:09:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T89e8M004282
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 01:09:40 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.142) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 29 Apr 2015 01:09:39 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 16:09:38 +0800
-Message-ID: <1430294978-24756-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 2.1.0
-MIME-Version: 1.0
-Subject: [PATCH] dpkg: upgrade to 1.17.25
+	Wed, 29 Apr 2015 08:11:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3T8BBmp017085; Wed, 29 Apr 2015 09:11:11 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dKr_TenUVA12; Wed, 29 Apr 2015 09:11:11 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3T8AxAJ017079
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 29 Apr 2015 09:11:10 +0100
+Message-ID: <1430295059.19130.3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Apr 2015 09:10:59 +0100
+In-Reply-To: <c908ef675077815a75f8dbe800a9e9208d80737f.1430285475.git.raj.khem@gmail.com>
+References: <9594a8c72803b604619bc23672e227ec29b239f6.1430285475.git.raj.khem@gmail.com>
+	<c908ef675077815a75f8dbe800a9e9208d80737f.1430285475.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] glibc: ignore for musl/uclibc but only for target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 08:09:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Apr 2015 08:11:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+On Tue, 2015-04-28 at 22:34 -0700, Khem Raj wrote:
+> we still need nativesdk  or native recipes for libc to come
+> from glibc, but only be ignored for target recipes types
+> 
+> Change-Id: Ibaf8114f2aef63f1eadf493b264e78cd928535a0
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-collateral.inc | 3 +++
+>  meta/recipes-core/glibc/glibc_2.21.bb        | 9 +++------
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 
-upgrade to fix two CVE defects: CVE-2014-8625 and CVE-2015-0840
+I'm getting *really* frustrated with the continual changes to these
+lines of code. Can we please figure out something that works, test it
+and make sure that it is the right thing to do, then be done with it.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8625
+I'm not merging this for at least a couple of weeks so that we can see
+if it is right or not. I'll revert the last set of changes if that helps
+though.
 
-Multiple format string vulnerabilities in the parse_error_msg
-function in parsehelp.c in dpkg before 1.17.22 allow remote attackers
-to cause a denial of service (crash) and possibly execute arbitrary
-code via format string specifiers in the (1) package or (2)
-architecture name.
+Cheers,
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0840
+Richard
 
-The dpkg-source command in Debian dpkg before 1.16.16 and 1.17.x before
-1.17.25 allows remote attackers to bypass signature verification
-via a crafted Debian source control file (.dsc).
+> diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+> index f82db06..60655eb 100644
+> --- a/meta/recipes-core/glibc/glibc-collateral.inc
+> +++ b/meta/recipes-core/glibc/glibc-collateral.inc
+> @@ -17,3 +17,6 @@ do_compile[noexec] = "1"
+>  
+>  do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
+>  
+> +COMPATIBLE_HOST_libc-musl_class-target = "null"
+> +COMPATIBLE_HOST_libc-uclibc_class-target = "null"
+> +
+> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+> index 58a9601..5295ddd 100644
+> --- a/meta/recipes-core/glibc/glibc_2.21.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
+> @@ -64,14 +64,11 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+>  GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+>  
+>  #
+> -# We will skip parsing glibc when system C library selection is not glibc
+> +# We will skip parsing glibc when target system C library selection is not glibc
+>  # this helps in easing out parsing for non-glibc system libraries
+>  #
+> -python __anonymous () {
+> -    if d.getVar('TCLIBC', True) != "glibc":
+> -        raise bb.parse.SkipPackage("incompatible with %s C library" %
+> -                                   d.getVar('TCLIBC', True))
+> -}
+> +COMPATIBLE_HOST_libc-musl_class-target = "null"
+> +COMPATIBLE_HOST_libc-uclibc_class-target = "null"
+>  
+>  EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+>                  --without-cvs --disable-profile \
+> -- 
+> 2.1.4
+> 
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/dpkg/{dpkg_1.17.21.bb => dpkg_1.17.25.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.17.21.bb => dpkg_1.17.25.bb} (81%)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-similarity index 81%
-rename from meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-index ebb8671..74b1dd0 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-@@ -15,6 +15,6 @@ SRC_URI += "file://noman.patch \
-             file://add_armeb_triplet_entry.patch \
-            "
- 
--SRC_URI[md5sum] = "765a96fd0180196613bbfa3c4aef0775"
--SRC_URI[sha256sum] = "3ed776627181cb9c1c9ba33f94a6319084be2e9ec9c23dd61ce784c4f602cf05"
-+SRC_URI[md5sum] = "e48fcfdb2162e77d72c2a83432d537ca"
-+SRC_URI[sha256sum] = "07019d38ae98fb107c79dbb3690cfadff877f153b8c4970e3a30d2e59aa66baa"
- 
--- 
-2.1.0
 
 
