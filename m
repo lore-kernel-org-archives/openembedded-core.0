@@ -1,34 +1,39 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 301E772A85
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 19:43:38 +0000 (UTC)
-Received: by iecrt8 with SMTP id rt8so51091773iec.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 12:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6Gf89aRT4+QK5c51p0Db19WMgJ3bTMYiQpLWmiy+oAw=;
-	b=y5v+up7zf38dG0t0122YZYDxcX8Ddi2SjW8E4rpcwQPW1xm58tycLlrC1a1rLvAoza
-	w2isinzUPfaxeV/pGICz6dZ4A1q5ZqdQPoikaGX9WkI7cnOU7QaWxK07r0dUZtgQYFQX
-	BPURZPz3vZc2jhHOgblw5mm/az7+wWem2wCjowxQakyYoED6i7KKPXfexMcxlHe8CErW
-	Z4OXpmGIOrGFj+WiqF8l09+6Yjq18fLDPEzfHjiuehDe6HfaSLQKwXx56YlneGJJZERI
-	OPspwWD8yl/tRWdA5bxCFE6ZreZKYgczvnZECJTmPRXB88W44IDUu2Fn5UeG72+mhHVw
-	bpsA==
-X-Received: by 10.43.60.76 with SMTP id wr12mr5401748icb.83.1430336619392;
-	Wed, 29 Apr 2015 12:43:39 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id 71sm22506ioe.16.2015.04.29.12.43.37
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 Apr 2015 12:43:38 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Apr 2015 12:43:27 -0700
-Message-Id: <1430336607-19925-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [fido][PATCH] busybox: remove CVE-2014-9645 patch (already upstream in 1.23.x)
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A3392738EB;
+	Wed, 29 Apr 2015 21:22:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Apr 2015 14:22:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,672,1422950400"; 
+	d="scan'208,217";a="687677239"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by orsmga001.jf.intel.com with ESMTP; 29 Apr 2015 14:22:14 -0700
+Received: from fmsmsx106.amr.corp.intel.com (10.18.124.204) by
+	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 29 Apr 2015 14:22:12 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.169]) by
+	FMSMSX106.amr.corp.intel.com ([169.254.5.29]) with mapi id
+	14.03.0224.002; Wed, 29 Apr 2015 14:22:11 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yocto@yoctoproject.org"
+	<yocto@yoctoproject.org>, "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, "'poky@yotcoproject.org'"
+	<poky@yotcoproject.org>
+Thread-Topic: YP 1.8 Release Survey/Retrospective - REMINDER
+Thread-Index: AdCCwo1CaUar6/6JS7yO5QfMEYJK0A==
+Importance: high
+X-Priority: 1
+Date: Wed, 29 Apr 2015 21:22:10 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E5549E634@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.106]
+MIME-Version: 1.0
+Subject: YP 1.8 Release Survey/Retrospective - REMINDER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,91 +46,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 19:43:42 -0000
+X-List-Received-Date: Wed, 29 Apr 2015 21:22:12 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5549E634fmsmsx111amrcor_"
 
-The CVE-2014-9645 fix was merged in Busybox prior to the 1.23.0
-release [1]. The fix was then reworked in Busybox 1.23.1, in such
-a way that the original change was no longer required [2].
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5549E634fmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Although oe-core's CVE-2014-9645 patch still applies cleanly to
-Busybox 1.23.1 and 1.23.2, applying it partially reverts the second
-version of the upstream fix.
+All,
 
-  [1] http://git.busybox.net/busybox/commit/modutils/modprobe.c?h=1_23_stable&id=4e314faa0aecb66717418e9a47a4451aec59262b
-  [2] http://git.busybox.net/busybox/commit/modutils/modprobe.c?h=1_23_stable&id=1ecfe811fe2f70380170ef7d820e8150054e88ca
+Yocto Project 1.8 released last week!   YP provides a major release every s=
+ix months, and as an open source project we are always working to improve o=
+ur processes.  This survey is for the Yocto Project community to provide fe=
+edback into the development process.  We would greatly appreciate your part=
+icipation, especially if you have participated in the development process f=
+or 1.8 by writing code, submitting bugs, patches, documentation, contributi=
+ng to the wiki, or actively participating on the mailing lists or IRC chann=
+els.
 
-This is a fido (busybox 1.23.1) backport of the fix already in
-oe-core master (busybox 1.23.2):
+https://www.surveymonkey.com/r/SFV7VPH
 
-  http://git.openembedded.org/openembedded-core/commit/?id=a753d3d8884b96baad5ed1a03335a81586420b86
+Thanks for being an important part of the Yocto Project community!
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ..._busybox_reject_module_names_with_slashes.patch | 41 ----------------------
- meta/recipes-core/busybox/busybox_1.23.1.bb        |  1 -
- 2 files changed, 42 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch b/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
-deleted file mode 100644
-index 4e76067..0000000
---- a/meta/recipes-core/busybox/busybox/CVE-2014-9645_busybox_reject_module_names_with_slashes.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-status: Backport
--http://git.busybox.net/busybox/commit/?id=4e314faa0aecb66717418e9a47a4451aec59262b
--
--CVE-2014-9645 fix.
--
--[YOCTO #7257]
--
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
--From 4e314faa0aecb66717418e9a47a4451aec59262b Mon Sep 17 00:00:00 2001
--From: Denys Vlasenko <vda.linux@googlemail.com>
--Date: Thu, 20 Nov 2014 17:24:33 +0000
--Subject: modprobe,rmmod: reject module names with slashes
--
--function                                             old     new   delta
--add_probe                                             86     113     +27
--
--Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-----
--Index: busybox-1.22.1/modutils/modprobe.c
--===================================================================
----- busybox-1.22.1.orig/modutils/modprobe.c
--+++ busybox-1.22.1/modutils/modprobe.c
--@@ -238,6 +238,17 @@ static void add_probe(const char *name)
-- {
-- 	struct module_entry *m;
-- 
--+	/*
--+	 * get_or_add_modentry() strips path from name and works
--+	 * on remaining basename.
--+	 * This would make "rmmod dir/name" and "modprobe dir/name"
--+	 * to work like "rmmod name" and "modprobe name",
--+	 * which is wrong, and can be abused via implicit modprobing:
--+	 * "ifconfig /usbserial up" tries to modprobe netdev-/usbserial.
--+	 */
--+	if (strchr(name, '/'))
--+		bb_error_msg_and_die("malformed module name '%s'", name);
--+
-- 	m = get_or_add_modentry(name);
-- 	if (!(option_mask32 & (OPT_REMOVE | OPT_SHOW_DEPS))
-- 	 && (m->flags & MODULE_FLAG_LOADED)
-diff --git a/meta/recipes-core/busybox/busybox_1.23.1.bb b/meta/recipes-core/busybox/busybox_1.23.1.bb
-index 1742390..7c3ed84 100644
---- a/meta/recipes-core/busybox/busybox_1.23.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.1.bb
-@@ -30,7 +30,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://login-utilities.cfg \
-            file://recognize_connmand.patch \
-            file://busybox-cross-menuconfig.patch \
--           file://CVE-2014-9645_busybox_reject_module_names_with_slashes.patch \
- "
- 
- SRC_URI[tarball.md5sum] = "5c94d6301a964cd91619bd4d74605245"
--- 
-1.9.1
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*   Work Telephone:          (503) 712-0534
+*    Cell:                                                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
 
 
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5549E634fmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
+icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
+:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
+uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
+t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
+m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
+t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
+:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
+soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
+icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
+schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
+point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
+/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
+=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
+schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
+.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
+/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
+://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
+repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
+ xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
+schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
+/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
+ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
+p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
+/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
+mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
+crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
+s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
+ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
+om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
+ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
+partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
+06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
+6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
+deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
+Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
+st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">All,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><b>Yocto Project 1.8 released last week!</b>&nbsp;&n=
+bsp; YP provides a major release every six months, and as an open source pr=
+oject we are always working to improve our processes. &nbsp;This survey is =
+for the Yocto Project community to provide feedback
+ into the development process. &nbsp;We would greatly appreciate your parti=
+cipation, especially if you have participated in the development process fo=
+r 1.8 by writing code, submitting bugs, patches, documentation, contributin=
+g to the wiki, or actively participating
+ on the mailing lists or IRC channels. <o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://www.surveymonkey.com/r/SFV7VPH">h=
+ttps://www.surveymonkey.com/r/SFV7VPH</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks for being an important part of the Yocto Proj=
+ect community!<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
+span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
+rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp; &nbsp;</span><b><span style=3D"fon=
+t-size:8.0pt;font-family:&quot;Comic Sans MS&quot;;color:teal">Cell</span><=
+/b><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;;col=
+or:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; </span><span style=3D"font-size:9.0pt;font-family:&quot;MS=
+ Sans Serif&quot;">(208) 244-4460<span style=3D"color:black"><o:p></o:p></s=
+pan></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5549E634fmsmsx111amrcor_--
