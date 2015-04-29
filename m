@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49FF372A85
+	by mail.openembedded.org (Postfix) with ESMTP id 4B3D473D91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 07:29:55 +0000 (UTC)
+	Wed, 29 Apr 2015 07:29:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T7Tuvc027169
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T7TuY9027166
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 00:29:57 -0700 (PDT)
+	Wed, 29 Apr 2015 00:29:56 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Wed, 29 Apr 2015 00:29:56 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 00:29:54 -0700
-Message-ID: <a45ced86a68b142178e2d475c5073808ef3a5e31.1430292533.git.liezhi.yang@windriver.com>
+Date: Wed, 29 Apr 2015 00:29:52 -0700
+Message-ID: <cover.1430292533.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1430292533.git.liezhi.yang@windriver.com>
-References: <cover.1430292533.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] git: 2.3.5 -> 2.3.7
+Subject: [PATCH 0/4] Package upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +34,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 Apr 2015 07:29:57 -0000
 Content-Type: text/plain
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../git/{git_2.3.5.bb => git_2.3.7.bb}             |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_2.3.5.bb => git_2.3.7.bb} (41%)
+The following changes since commit 4dd4b96b6d60246338bb30ede9f3ab1b2e757be9:
 
-diff --git a/meta/recipes-devtools/git/git_2.3.5.bb b/meta/recipes-devtools/git/git_2.3.7.bb
-similarity index 41%
-rename from meta/recipes-devtools/git/git_2.3.5.bb
-rename to meta/recipes-devtools/git/git_2.3.7.bb
-index f7e6af1..61248c0 100644
---- a/meta/recipes-devtools/git/git_2.3.5.bb
-+++ b/meta/recipes-devtools/git/git_2.3.7.bb
-@@ -1,9 +1,9 @@
- require git.inc
- 
--SRC_URI[tarball.md5sum] = "8101cd7497ee64d1ed07d12541826a30"
--SRC_URI[tarball.sha256sum] = "ab88b66b71bcf1918d57f2cb9d4f4763a63d6628c8c69ab331ba77263da1f096"
--SRC_URI[manpages.md5sum] = "209ed840bb155bc6fc129675ee7bb0a2"
--SRC_URI[manpages.sha256sum] = "56a1661df8c405b1ca54ee61c6e2327af517a0e14b686abc16480f02fec69819"
-+SRC_URI[tarball.md5sum] = "370cc33cc0a77a1242b95cc703228162"
-+SRC_URI[tarball.sha256sum] = "250ebf19c758bcf848f23f42bc632282ba8828b8965a306ad006bfb36ac1499a"
-+SRC_URI[manpages.md5sum] = "4c3b585c74bd937b80e04cba6db71da2"
-+SRC_URI[manpages.sha256sum] = "079fcd6b8dad124960578fe91964a1185c99cdf024149ad50bde141600b21628"
- 
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+  libxfont: Security Advisory - libxfont - CVE-2015-1804 (2015-04-28 07:56:01 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/PU
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
+
+Robert Yang (4):
+  man-pages: 3.82 -> 3.83
+  git: 2.3.5 -> 2.3.7
+  ltp: 20150119 -> 20150420
+  rpcbind: 0.2.2 -> 0.2.3
+
+ .../git/{git_2.3.5.bb => git_2.3.7.bb}             |    8 +-
+ .../ltp/{ltp_20150119.bb => ltp_20150420.bb}       |    4 +-
+ .../{man-pages_3.82.bb => man-pages_3.83.bb}       |    4 +-
+ ...001-Avoid-use-of-glibc-sys-cdefs.h-header.patch |  109 ++++++++++----------
+ .../rpcbind/0002-uclibc-rpcsvc-defines.patch       |   60 -----------
+ .../rpcbind/{rpcbind_0.2.2.bb => rpcbind_0.2.3.bb} |   10 +-
+ 6 files changed, 65 insertions(+), 130 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.3.5.bb => git_2.3.7.bb} (41%)
+ rename meta/recipes-extended/ltp/{ltp_20150119.bb => ltp_20150420.bb} (97%)
+ rename meta/recipes-extended/man-pages/{man-pages_3.82.bb => man-pages_3.83.bb} (86%)
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
+ rename meta/recipes-extended/rpcbind/{rpcbind_0.2.2.bb => rpcbind_0.2.3.bb} (87%)
+
 -- 
 1.7.9.5
 
