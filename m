@@ -1,25 +1,28 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 553E073D5C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EAD273DB8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Apr 2015 09:02:44 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 11:02:44 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id E494328BA1E;
-	Wed, 29 Apr 2015 11:02:44 +0200 (CEST)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 11:02:22 +0200
-Message-ID: <1430298142-9117-6-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
-References: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Apr 2015 02:02:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,670,1422950400"; d="scan'208";a="717637279"
+Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Apr 2015 02:02:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 29 Apr 2015 10:02:35 +0100
+Message-ID: <1970234.cLuSp3sAr0@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <1430297977.19130.5.camel@linuxfoundation.org>
+References: <cover.1430294879.git.Qi.Chen@windriver.com>
+	<1574592.uPXveHVxj5@peggleto-mobl.ger.corp.intel.com>
+	<1430297977.19130.5.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [daisy 5/5] e2fsprogs: CVE-2015-0247
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +36,82 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 29 Apr 2015 09:02:45 -0000
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Sona Sarmadi <sona.sarmadi@enea.com>
+On Wednesday 29 April 2015 09:59:37 Richard Purdie wrote:
+> On Wed, 2015-04-29 at 09:54 +0100, Paul Eggleton wrote:
+> > On Wednesday 29 April 2015 16:08:36 Chen Qi wrote:
+> > > Copy the contents of local.conf under TOPDIR into the final generated
+> > > local.conf. In this way, custom settings are also made into the final
+> > > local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx,
+> > > etc.
+> > > 
+> > > Before this change, installing extensible SDK would usually report
+> > > failure
+> > > when preparing the build system if the user has custom configuration for
+> > > DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
+> > > local.conf also don't get built correctly.
+> > > 
+> > > This patch solves the above problem.
+> > > 
+> > > A blacklist mechanism is also introduced so that we can blacklist
+> > > variables
+> > > that should not be copied into the final local.conf file. Currently, the
+> > > blacklist contains 'SSTATE_DIR' and 'DL_DIR'.
+> > > 
+> > > [YOCTO #7616]
+> > > 
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > > 
+> > >  meta/classes/populate_sdk_ext.bbclass | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > > 
+> > > diff --git a/meta/classes/populate_sdk_ext.bbclass
+> > > b/meta/classes/populate_sdk_ext.bbclass index dc2c58e..7925ece 100644
+> > > --- a/meta/classes/populate_sdk_ext.bbclass
+> > > +++ b/meta/classes/populate_sdk_ext.bbclass
+> > > @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
+> > > ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
+> > > 
+> > >  SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
+> > > 
+> > > +SDK_META_CONF_BLACKLIST ?= "DL_DIR SSTATE_DIR"
+> > 
+> > I'm not totally opposed to this approach but we are going to have to get
+> > the default list right if we are going to do it - e.g. you've missed the
+> > fairly obvious TMPDIR. There are quite a large number of other variables
+> > the user might set that should be blacklisted - potentially any variable
+> > that points to a location where the build system would write files
+> > (DEPLOY_DIR, DEPLOY_DIR_*, WORKDIR, T, S, B, ...). We might go a step
+> > further and use the data dictionary to check if the value evaluates to
+> > somewhere outside of ${TMPDIR} (if we first make a copy of d and set
+> > TMPDIR to a dummy value); this way we would allow adjustments within
+> > TMPDIR but not outside of it.
+> > 
+> > My other concern (perhaps a pet issue of mine) is that people are far too
+> > reliant on putting things in local.conf that they really shouldn't. On the
+> > other hand building a potentially broken SDK or at least one that doesn't
+> > match up with the image is worse, but I'm still concerned about the way
+> > local.conf is often abused.
+> 
+> One thing we could do programatically is to build the bash config hash
+> with and without local.conf. If they match, local.conf isn't influencing
+> the build checksums. If they don't match, local.conf has something
+> problematic in it and we could error and tell the user to fix it?
+> 
+> This would also cover site.conf, auto.conf and the other conf files we
+> can detect.
 
-Fixes input sanitization errors.
+Hmm, yes... this might be another check we could turn on when switching from 
+development -> production (what I mentioned at OEDAM).
 
-References
-http://git.kernel.org/cgit/fs/ext2/e2fsprogs.git/commit/?id=f66e6ce4
-http://www.ocert.org/advisories/ocert-2015-002.html
+Cheers,
+Paul
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- .../e2fsprogs/e2fsprogs/CVE-2015-0247.patch        | 58 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
-
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
-new file mode 100644
-index 0000000..4de67c9
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
-@@ -0,0 +1,58 @@
-+From f66e6ce4446738c2c7f43d41988a3eb73347e2f5 Mon Sep 17 00:00:00 2001
-+From: Theodore Ts'o <tytso@mit.edu>
-+Date: Sat, 9 Aug 2014 12:24:54 -0400
-+Subject: libext2fs: avoid buffer overflow if s_first_meta_bg is too big
-+
-+If s_first_meta_bg is greater than the of number block group
-+descriptor blocks, then reading or writing the block group descriptors
-+will end up overruning the memory buffer allocated for the
-+descriptors.  Fix this by limiting first_meta_bg to no more than
-+fs->desc_blocks.  This doesn't correct the bad s_first_meta_bg value,
-+but it avoids causing the e2fsprogs userspace programs from
-+potentially crashing.
-+
-+Fixes CVE-2015-0247
-+Upstream-Status: Backport
-+
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+
-+diff --git a/lib/ext2fs/closefs.c b/lib/ext2fs/closefs.c
-+index 4599eef..1f99113 100644
-+--- a/lib/ext2fs/closefs.c
-++++ b/lib/ext2fs/closefs.c
-+@@ -344,9 +344,11 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
-+ 	 * superblocks and group descriptors.
-+ 	 */
-+ 	group_ptr = (char *) group_shadow;
-+-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
-++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
-+ 		old_desc_blocks = fs->super->s_first_meta_bg;
-+-	else
-++		if (old_desc_blocks > fs->super->s_first_meta_bg)
-++			old_desc_blocks = fs->desc_blocks;
-++	} else
-+ 		old_desc_blocks = fs->desc_blocks;
-+ 
-+ 	ext2fs_numeric_progress_init(fs, &progress, NULL,
-+diff --git a/lib/ext2fs/openfs.c b/lib/ext2fs/openfs.c
-+index a1a3517..ba501e6 100644
-+--- a/lib/ext2fs/openfs.c
-++++ b/lib/ext2fs/openfs.c
-+@@ -378,9 +378,11 @@ errcode_t ext2fs_open2(const char *name, const char *io_options,
-+ #ifdef WORDS_BIGENDIAN
-+ 	groups_per_block = EXT2_DESC_PER_BLOCK(fs->super);
-+ #endif
-+-	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG)
-++	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
-+ 		first_meta_bg = fs->super->s_first_meta_bg;
-+-	else
-++		if (first_meta_bg > fs->desc_blocks)
-++			first_meta_bg = fs->desc_blocks;
-++	} else
-+ 		first_meta_bg = fs->desc_blocks;
-+ 	if (first_meta_bg) {
-+ 		retval = io_channel_read_blk(fs->io, group_block +
-+-- 
-+cgit v0.10.2
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 2bdd724..a29ce5b 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -18,6 +18,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch \
-             file://0001-e2fsprogs-fix-cross-compilation-problem.patch \
-             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
-+            file://CVE-2015-0247.patch \
- "
- 
- SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
