@@ -1,23 +1,25 @@
 Return-Path: <Maxin.John@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id DF89B7169F
+	by mail.openembedded.org (Postfix) with SMTP id 7876473D5C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 09:02:29 +0000 (UTC)
+	Wed, 29 Apr 2015 09:02:40 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 11:02:29 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 69C8728BA1D;
-	Wed, 29 Apr 2015 11:02:29 +0200 (CEST)
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 29 Apr 2015 11:02:40 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id F0A9728BA1D;
+	Wed, 29 Apr 2015 11:02:40 +0200 (CEST)
 From: "Maxin B. John" <maxin.john@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 11:02:17 +0200
-Message-ID: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
+Date: Wed, 29 Apr 2015 11:02:18 +0200
+Message-ID: <1430298142-9117-2-git-send-email-maxin.john@enea.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
+References: <1430298142-9117-1-git-send-email-maxin.john@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
 	designate permitted sender hosts)
 Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [daisy 0/5] Fix security related bugs
+Subject: [daisy 1/5] Qemu: CVE-2014-2894
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 09:02:31 -0000
+X-List-Received-Date: Wed, 29 Apr 2015 09:02:41 -0000
 Content-Type: text/plain
 
-Fixes a number of security related bugs for daisy branch.
+From: Sona Sarmadi <sona.sarmadi@enea.com>
 
-Sona Sarmadi (5):
-  Qemu: CVE-2014-2894
-  libpng16: CVE-2015-0973
-  coreutils: parse-datetime: CVE-2014-9471
-  elfutils: CVE-2014-9447
-  e2fsprogs: CVE-2015-0247
+Fixes an out of bounds memory access flaw
+in Qemu's IDE device model
 
- .../parse-datetime-CVE-2014-9471.patch             | 43 ++++++++++++++++
- meta/recipes-core/coreutils/coreutils_8.22.bb      |  1 +
- .../e2fsprogs/e2fsprogs/CVE-2015-0247.patch        | 58 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
- .../elfutils/elfutils/CVE-2014-9447.patch          | 50 +++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.155.bb   |  1 +
- .../qemu/files/ide-CVE-2014-2894.patch             | 46 +++++++++++++++++
+Reference
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-2894
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../qemu/files/ide-CVE-2014-2894.patch             | 46 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  3 +-
- .../libpng/libpng/libpng16-CVE-2015-0973.patch     | 47 ++++++++++++++++++
- meta/recipes-multimedia/libpng/libpng_1.6.8.bb     |  1 +
- 10 files changed, 250 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/parse-datetime-CVE-2014-9471.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2015-0247.patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils/CVE-2014-9447.patch
+ 2 files changed, 48 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/qemu/files/ide-CVE-2014-2894.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng/libpng16-CVE-2015-0973.patch
 
+diff --git a/meta/recipes-devtools/qemu/files/ide-CVE-2014-2894.patch b/meta/recipes-devtools/qemu/files/ide-CVE-2014-2894.patch
+new file mode 100644
+index 0000000..bd3566e
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/ide-CVE-2014-2894.patch
+@@ -0,0 +1,46 @@
++From c5dae2f4c50ef848f224da718154af4438862cdb Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Beno=C3=AEt=20Canet?= <benoit.canet@irqsave.net>
++Date: Sat, 12 Apr 2014 22:59:50 +0200
++Subject: [PATCH] ide: Correct improper smart self test counter reset in ide
++ core.
++
++The SMART self test counter was incorrectly being reset to zero,
++not 1. This had the effect that on every 21st SMART EXECUTE OFFLINE:
++ * We would write off the beginning of a dynamically allocated buffer
++ * We forgot the SMART history
++Fix this.
++
++Signed-off-by: Benoit Canet <benoit@irqsave.net>
++Message-id: 1397336390-24664-1-git-send-email-benoit.canet@irqsave.net
++Reviewed-by: Markus Armbruster <armbru@redhat.com>
++Cc: qemu-stable@nongnu.org
++Acked-by: Kevin Wolf <kwolf@redhat.com>
++[PMM: tweaked commit message as per suggestions from Markus]
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++Fixes CVE-2014-2894
++Upstream-Status: Backport
++
++(cherry picked from commit 940973ae0b45c9b6817bab8e4cf4df99a9ef83d7)
++Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ hw/ide/core.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/ide/core.c b/hw/ide/core.c
++index e1f4c33..6007f6f 100644
++--- a/hw/ide/core.c
+++++ b/hw/ide/core.c
++@@ -1601,7 +1601,7 @@ static bool cmd_smart(IDEState *s, uint8_t cmd)
++         case 2: /* extended self test */
++             s->smart_selftest_count++;
++             if (s->smart_selftest_count > 21) {
++-                s->smart_selftest_count = 0;
+++                s->smart_selftest_count = 1;
++             }
++             n = 2 + (s->smart_selftest_count - 1) * 24;
++             s->smart_selftest_data[n] = s->sector;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu_1.7.0.bb b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+index b776ccc..a519645 100644
+--- a/meta/recipes-devtools/qemu/qemu_1.7.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ 
+ SRC_URI += "file://fxrstorssefix.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+-            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch"
++            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://ide-CVE-2014-2894.patch"
+ 
+ SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "32893941d40d052a5e649efcf06aca06"
 -- 
 1.9.1
 
