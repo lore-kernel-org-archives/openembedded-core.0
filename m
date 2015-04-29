@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EAD273DB8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 906E1716CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 09:02:44 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Apr 2015 02:02:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,670,1422950400"; d="scan'208";a="717637279"
-Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Apr 2015 02:02:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 29 Apr 2015 10:02:35 +0100
-Message-ID: <1970234.cLuSp3sAr0@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <1430297977.19130.5.camel@linuxfoundation.org>
-References: <cover.1430294879.git.Qi.Chen@windriver.com>
-	<1574592.uPXveHVxj5@peggleto-mobl.ger.corp.intel.com>
-	<1430297977.19130.5.camel@linuxfoundation.org>
+	Wed, 29 Apr 2015 09:09:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3T99JO4011708
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 02:09:19 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 29 Apr 2015 02:09:18 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Apr 2015 02:09:17 -0700
+Message-ID: <cover.1430298535.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] populate_sdk_ext: consider custom configuration in local.conf
+Subject: [PATCH 0/1] python-numpy: remove 2 dangling patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 09:02:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Apr 2015 09:09:17 -0000
+Content-Type: text/plain
 
-On Wednesday 29 April 2015 09:59:37 Richard Purdie wrote:
-> On Wed, 2015-04-29 at 09:54 +0100, Paul Eggleton wrote:
-> > On Wednesday 29 April 2015 16:08:36 Chen Qi wrote:
-> > > Copy the contents of local.conf under TOPDIR into the final generated
-> > > local.conf. In this way, custom settings are also made into the final
-> > > local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx,
-> > > etc.
-> > > 
-> > > Before this change, installing extensible SDK would usually report
-> > > failure
-> > > when preparing the build system if the user has custom configuration for
-> > > DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
-> > > local.conf also don't get built correctly.
-> > > 
-> > > This patch solves the above problem.
-> > > 
-> > > A blacklist mechanism is also introduced so that we can blacklist
-> > > variables
-> > > that should not be copied into the final local.conf file. Currently, the
-> > > blacklist contains 'SSTATE_DIR' and 'DL_DIR'.
-> > > 
-> > > [YOCTO #7616]
-> > > 
-> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > > ---
-> > > 
-> > >  meta/classes/populate_sdk_ext.bbclass | 20 ++++++++++++++++++++
-> > >  1 file changed, 20 insertions(+)
-> > > 
-> > > diff --git a/meta/classes/populate_sdk_ext.bbclass
-> > > b/meta/classes/populate_sdk_ext.bbclass index dc2c58e..7925ece 100644
-> > > --- a/meta/classes/populate_sdk_ext.bbclass
-> > > +++ b/meta/classes/populate_sdk_ext.bbclass
-> > > @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
-> > > ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
-> > > 
-> > >  SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
-> > > 
-> > > +SDK_META_CONF_BLACKLIST ?= "DL_DIR SSTATE_DIR"
-> > 
-> > I'm not totally opposed to this approach but we are going to have to get
-> > the default list right if we are going to do it - e.g. you've missed the
-> > fairly obvious TMPDIR. There are quite a large number of other variables
-> > the user might set that should be blacklisted - potentially any variable
-> > that points to a location where the build system would write files
-> > (DEPLOY_DIR, DEPLOY_DIR_*, WORKDIR, T, S, B, ...). We might go a step
-> > further and use the data dictionary to check if the value evaluates to
-> > somewhere outside of ${TMPDIR} (if we first make a copy of d and set
-> > TMPDIR to a dummy value); this way we would allow adjustments within
-> > TMPDIR but not outside of it.
-> > 
-> > My other concern (perhaps a pet issue of mine) is that people are far too
-> > reliant on putting things in local.conf that they really shouldn't. On the
-> > other hand building a potentially broken SDK or at least one that doesn't
-> > match up with the image is worse, but I'm still concerned about the way
-> > local.conf is often abused.
-> 
-> One thing we could do programatically is to build the bash config hash
-> with and without local.conf. If they match, local.conf isn't influencing
-> the build checksums. If they don't match, local.conf has something
-> problematic in it and we could error and tell the user to fix it?
-> 
-> This would also cover site.conf, auto.conf and the other conf files we
-> can detect.
+The following changes since commit 4dd4b96b6d60246338bb30ede9f3ab1b2e757be9:
 
-Hmm, yes... this might be another check we could turn on when switching from 
-development -> production (what I mentioned at OEDAM).
+  libxfont: Security Advisory - libxfont - CVE-2015-1804 (2015-04-28 07:56:01 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/python-numpy
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/python-numpy
+
+Robert Yang (1):
+  python-numpy: remove 2 dangling patches
+
+ .../python/python-numpy/trycompile.diff            |   36 --------------------
+ .../python/python-numpy/unbreak-assumptions.diff   |   19 -----------
+ 2 files changed, 55 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-numpy/trycompile.diff
+ delete mode 100644 meta/recipes-devtools/python/python-numpy/unbreak-assumptions.diff
 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
