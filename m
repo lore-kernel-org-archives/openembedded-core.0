@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7559772A85
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0D317382F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Apr 2015 07:26:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3T7Qflx010815
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T7QgAf026806
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Apr 2015 00:26:42 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 00:26:41 -0700
+	Wed, 29 Apr 2015 00:26:42 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 00:26:40 -0700
-Message-ID: <cover.1430292378.git.liezhi.yang@windriver.com>
+Date: Wed, 29 Apr 2015 00:26:41 -0700
+Message-ID: <7109a33ad37ba0f8193de18a2c7f113acc087990.1430292378.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1430292378.git.liezhi.yang@windriver.com>
+References: <cover.1430292378.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] libxml2: fix python path and add libxml2-python
+Subject: [PATCH 1/1] libxml2: fix python path and add libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,62 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 Apr 2015 07:26:44 -0000
 Content-Type: text/plain
 
-The following changes since commit 4dd4b96b6d60246338bb30ede9f3ab1b2e757be9:
+We have libxml2-python for native and nativesdk, but don't have it for
+target, and can't find the reason from the git log, libxml2-python is
+widely used, after looked into it's configure.in, we can add it
+by PACKAGECONFIG.
 
-  libxfont: Security Advisory - libxfont - CVE-2015-1804 (2015-04-28 07:56:01 +0100)
+The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
+acted as work becase it's conigure can check automatically, python is in
+${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
+${PYTHON}.
 
-are available in the git repository at:
+Add python to PACKAGECONFIG, since createrepo rdepends on
+libxml2-python, otherwise the target createrepo can't work.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/libxml2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/libxml2
-
-Robert Yang (1):
-  libxml2: fix python path and add libxml2-python
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/libxml/libxml2.inc |   18 ++++++++----------
  1 file changed, 8 insertions(+), 10 deletions(-)
 
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 1314bbf..4886705 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
+                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
+ 
+-DEPENDS_class-nativesdk = "nativesdk-python"
+-DEPENDS_class-native = "python-native"
+ DEPENDS =+ "zlib"
+ 
+ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+@@ -37,16 +35,16 @@ do_configure_prepend () {
+ 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.ac
+ }
+ 
+-do_configure_prepend_class-nativesdk () {
+-	# Ensure we get the correct site-packages path
+-	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+-}
++export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
++
++PACKAGECONFIG ??= "python"
+ 
++PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python,python-core"
+ # WARNING: zlib is require for RPM use
+-EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+-EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+-EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+-EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
++EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
+ 
+ # required for pythong binding
+ export HOST_SYS
 -- 
 1.7.9.5
 
