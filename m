@@ -1,36 +1,35 @@
-Return-Path: <reinette.chatre@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EC9873DA4
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vn0-f54.google.com (mail-vn0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 135067169F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 17:46:03 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 29 Apr 2015 10:46:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,671,1422950400"; d="scan'208";a="563807911"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by orsmga003.jf.intel.com with ESMTP; 29 Apr 2015 10:46:04 -0700
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 29 Apr 2015 10:46:04 -0700
-Received: from orsmsx111.amr.corp.intel.com ([169.254.11.135]) by
-	ORSMSX114.amr.corp.intel.com ([169.254.8.220]) with mapi id
-	14.03.0224.002; Wed, 29 Apr 2015 10:46:03 -0700
-From: "Chatre, Reinette" <reinette.chatre@intel.com>
-To: "joshua.lock@collabora.co.uk" <joshua.lock@collabora.co.uk>, Armin Kuster
-	<akuster808@gmail.com>
-Thread-Topic: [fido] [dizzy] Please port gummiboot install fix to fido and
-	dizzy branches
-Thread-Index: AdCCo/pgPlIjFjBsQRK+JL8u1Ab7Mg==
-Date: Wed, 29 Apr 2015 17:46:03 +0000
-Message-ID: <0D818C7A2259ED42912C1E04120FDE26710B11FC@ORSMSX111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
+	Wed, 29 Apr 2015 18:17:02 +0000 (UTC)
+Received: by vnbg1 with SMTP id g1so4379591vnb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 11:17:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:content-type;
+	bh=ZT/qCU87agxbW0x2EnAxdt5Cw6WIXFzNyOyMeIOgHwY=;
+	b=iorIkh4IiUHtjtYUxyWpyyvbXCF47g49b1+S6Aas1f4Xj+FiNBR8J20OT58kKx1Lnu
+	/KAseifUcENvovmScyrj8wTkNDqJ9nQHWbWEQ2tooldFkdk8/VO9XzRPd6MZIT17TiRp
+	cYd9vwhhuDYltUnrZNtF5WaEbARTrI62YdBxv7pbvgHs4EXSwmtt7/kwlRWK+D1tIdd0
+	OI7QwL6ixJurLQUmvSBFJFqYIJx6e298DGI46HLxiONom1wSpLfFz7X31nrvFfvAid9A
+	RVjRD8bzf6wpzCBukwH5CLOluvCnCLB9oaD34rwKOnK9dtZowQP3SbuxJNivV2OgVaSD
+	SYdg==
+X-Gm-Message-State: ALoCoQlfetPtAkLvIGKt6QGo6ED7smx8nkl6wq/zbIehUKXRMao2/yVsaUAT2PYs0abXErII6MZu
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: [fido] [dizzy] Please port gummiboot install fix to fido and dizzy branches
+X-Received: by 10.52.180.102 with SMTP id dn6mr613167vdc.17.1430331422855;
+	Wed, 29 Apr 2015 11:17:02 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.53.6.12 with HTTP; Wed, 29 Apr 2015 11:17:02 -0700 (PDT)
+Date: Wed, 29 Apr 2015 19:17:02 +0100
+X-Google-Sender-Auth: i3vJmFZ6E32gehtvlK4_AhiPT_s
+Message-ID: <CAOMwXhN7Jiirin0gBxZnL9Ps1_Zd0d5W225apwrROY6FY_8o3A@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Migration from dylan to daisy (and dizzy)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 17:46:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Apr 2015 18:17:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Joshua and Armin,
+Dear OpenEmbedded Community,
 
-We are seeing installation failures as a result of gummiboot entries not be=
-ing installed correctly. This is already fixed in master with the commit be=
-low. It applies cleanly to fido and dizzy branches since apart from this pa=
-tch the file being changed has exactly the same git history there as master=
-. Could you please port this fix to the fido and dizzy branches?
+I have been trying to migrate over from dylan to daisy (and dizzy,
+fwiw), but my own kernel would not boot. It used to work just fine
+with dylen. It is kernel 3.2 with our BSP changes on top of it, which
+are unfortunately not upstream. Either way, dylan was using 4.7 and I
+tried to build the kernel with gcc 4.8 from daisy and gcc 4.9 from
+dizzy.
 
-commit fc15878af46c09512fc3cb73480359fcbb22e627
-Author: Reinette Chatre <reinette.chatre@intel.com>
-Date:   Tue Apr 14 11:49:37 2015 -0700
+I suspect that it is a toolchain and/or kernel issue, definitely not
+Yocto as I can reproduce this with some Linaro binaries for arm
+gnueabi. Still, I hope that some may have some ideas while working in
+scenarios like this?
 
-    init-install-efi.sh: fix gummiboot entry installation
-   =20
-    After selecting the "install" gummiboot option of a Live image we are
-    seeing boot failure resulting from the gummiboot entries not being
-    installed correctly. This seems to be a problem in this init-install-ef=
-i.sh
-    script where it incorrectly installs the gummiboot entries into the roo=
-t
-    filesystem, not the boot partition. We fix it by installing the entries=
- in
-    the boot partition.
-   =20
-    (From OE-Core rev: c9b06c79ed8a082d1b385e9f61721aeeda9bf1af)
-   =20
-    Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
-    Acked-by: Darren Hart <dvhart@linux.intel.com>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Jtag with openocd and gdb shows the following backtrace, where
+foo_map_io comes from our board description. As you can see it is
+fundamentally broken as it gets stuck at the early register access,
+even before printk could be used! I tried using early_prink by
+enabling debug_ll, but it did not work out for me. Like I wrote, this
+is a really early stage of the booting process.
 
-Thank you very much
+Has anyone experienced similar issues? I would like to update our
+Yocto, but it is becoming very difficult as I do not possess the
+corresponding gcc and linux expertise, unfortunately. :(
 
-Reinette
+Thank you in advance!
+
+    (gdb) bt
+    #0  0xc0016f40 in davinci_psc_config ()
+    #1  0xc00164b8 in __clk_enable ()
+    #2  0xc00165cc in clk_enable ()
+    #3  0xc03aa8b0 in davinci_clk_init ()
+    #4  0xc03ab2ec in davinci_common_init ()
+    #5  0xc03ab52c in da850_init ()
+    #6  0xc03ac360 in foo_map_io ()
+    #7  0xc03aa2d4 in paging_init ()
+    #8  0xc03a8640 in setup_arch ()
+    #9  0xc03a6590 in start_kernel ()
+    #10 0xc0008040 in stext ()
+    (gdb)
+
+Ys, L.
 
