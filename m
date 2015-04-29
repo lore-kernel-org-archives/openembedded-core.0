@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 94A7A7169F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1314B7169F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 10:32:58 +0000 (UTC)
-Received: by qgeb100 with SMTP id b100so9206553qge.3
+	Wed, 29 Apr 2015 13:23:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3TDNUXA002641 for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 14:23:30 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vg6g5-zsdcMQ
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 03:33:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=VL1i9z1Js07qz8bY1UzVcE7cTokOlIH5oHhI6G09mVw=;
-	b=ORyd501OrNkSr9lUwOtGsmvsxQhTeYt7R6PxPXm1ee+8zPtex5mjkrU+PGdknfz0M0
-	Q4I/oRwChR8dIlbdDMyamvE45CAR221xf298+nqjv540XwQEfyCXXdRm8pke4RD+T8na
-	bvsy92VkQZwQxicLvwuS1yad8EXKzrbqLBNfyadQIBlhzbMdLICrgC1k2QllJ8mo4Ofv
-	RCMJcIftANsY2E19aADQC/d+XLNefkLrW3JZqCoVOY+EcjakVZWW3QrcvYEgEcfYueAw
-	pW1DAbvnp36aOGx0xd8/rtArcsfsv2zlkMqIRqlILjONZZzUwnZ14LQnZEhqQnU9mtIr
-	JeaQ==
-X-Gm-Message-State: ALoCoQm5h+nFQIndB8yiijFxVNmBiYY4jWmT4RitP3/dgitMZkPG6iJw2xmySUI6OBMXKHy1l1ch
-X-Received: by 10.140.235.77 with SMTP id g74mr17257705qhc.64.1430303579965;
-	Wed, 29 Apr 2015 03:32:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 29 Apr 2015 03:32:39 -0700 (PDT)
-In-Reply-To: <CAMKF1spa7T5vg9xSsN5tBxj-VZP7=y8pF9sVKoJY8qUMibtcFA@mail.gmail.com>
-References: <1430218691-6679-1-git-send-email-ross.burton@intel.com>
-	<CAMKF1spa7T5vg9xSsN5tBxj-VZP7=y8pF9sVKoJY8qUMibtcFA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 Apr 2015 11:32:39 +0100
-Message-ID: <CAJTo0LaLCtw29Sq_QCuQ-LYU5j=7P6x=XC_udnS+EP8NeSZVBg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-xorg: use GCC 5 patch from upstream
+	Wed, 29 Apr 2015 14:23:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t3TDNE06002625
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 14:23:25 +0100
+Message-ID: <1430313794.19130.15.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Apr 2015 14:23:14 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] package: Fix license exclusion packaging errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 10:33:01 -0000
-Content-Type: multipart/alternative; boundary=001a11354a00ce3cc70514da802e
+X-List-Received-Date: Wed, 29 Apr 2015 13:23:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11354a00ce3cc70514da802e
-Content-Type: text/plain; charset=UTF-8
+Currently the license exclusion code removes packages from PACKAGES
+pre population of the package directories. This means that the FILES
+entries for some packages are not seen and invariably results in
+packaging errors.
 
-On 28 April 2015 at 15:33, Khem Raj <raj.khem@gmail.com> wrote:
+Instead, remove the packages from PACKAGES post population of the packages
+so the usual FILES entries work as expected but the file are not placed
+into any packages and no packages containing embargoed licenses are generated.
 
-> looks good. You need to remove the CPPFLAGS change from recipe now
-> with this patch
->
+This avoids errors from gcc-runtime with GPLv3 exclusion like:
 
-Either I can't see what you're referring to, or you're confusing this with
-a different recipe...
+ERROR: QA Issue: gcc-runtime: Files/directories were installed but not shipped in any package:
+  /usr/share
+  /usr/src
+  /usr/share/gcc-4.9.2
+  /usr/share/gcc-4.9.2/python
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install. [installed-vs-shipped]
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---001a11354a00ce3cc70514da802e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 5ece69e..a76e6e9 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1041,14 +1041,11 @@ python populate_packages () {
+     bb.utils.mkdirhier(outdir)
+     os.chdir(dvar)
+ 
+-    # Sanity check PACKAGES for duplicates and for LICENSE_EXCLUSION
++    # Sanity check PACKAGES for duplicates
+     # Sanity should be moved to sanity.bbclass once we have the infrastucture
+     package_list = []
+ 
+     for pkg in packages.split():
+-        if d.getVar('LICENSE_EXCLUSION-' + pkg, True):
+-            msg = "%s has an incompatible license. Excluding from packaging." % pkg
+-            package_qa_handle_error("incompatible-license", msg, d)
+         if pkg in package_list:
+             msg = "%s is listed in PACKAGES multiple times, this leads to packaging errors." % pkg
+             package_qa_handle_error("packages-list", msg, d)
+@@ -1082,9 +1079,6 @@ python populate_packages () {
+                 continue
+             seen.append(file)
+ 
+-            if d.getVar('LICENSE_EXCLUSION-' + pkg, True):
+-                continue
+-
+             def mkdir(src, dest, p):
+                 src = os.path.join(src, p)
+                 dest = os.path.join(dest, p)
+@@ -1125,6 +1119,16 @@ python populate_packages () {
+     os.umask(oldumask)
+     os.chdir(workdir)
+ 
++    # Handle LICENSE_EXCLUSION
++    package_list = []
++    for pkg in packages.split():
++        if d.getVar('LICENSE_EXCLUSION-' + pkg, True):
++            msg = "%s has an incompatible license. Excluding from packaging." % pkg
++            package_qa_handle_error("incompatible-license", msg, d)
++        else:
++            package_list.append(pkg)
++    d.setVar('PACKAGES', ' '.join(package_list))
++
+     unshipped = []
+     for root, dirs, files in cpath.walk(dvar):
+         dir = root[len(dvar):]
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 April 2015 at 15:33, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":3pc" class=3D"a3s" style=
-=3D"overflow:hidden">looks good. You need to remove the CPPFLAGS change fro=
-m recipe now<br>
-with this patch</div></blockquote><div><br></div><div>Either I can&#39;t se=
-e what you&#39;re referring to, or you&#39;re confusing this with a differe=
-nt recipe...</div><div><br></div><div>Ross</div></div><br></div></div>
 
---001a11354a00ce3cc70514da802e--
+
