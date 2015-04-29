@@ -1,26 +1,27 @@
-Return-Path: <Shan.Hai@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6825F7169F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DBFD7169F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 08:53:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T8rCjA011966
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 01:53:13 -0700 (PDT)
-Received: from localhost.localdomain (128.224.153.43) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 29 Apr 2015 01:53:12 -0700
-From: Shan Hai <shan.hai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Apr 2015 16:53:09 +0800
-Message-ID: <1430297589-27335-2-git-send-email-shan.hai@windriver.com>
-X-Mailer: git-send-email 1.7.0.5
-In-Reply-To: <1430297589-27335-1-git-send-email-shan.hai@windriver.com>
-References: <1430297589-27335-1-git-send-email-shan.hai@windriver.com>
+	Wed, 29 Apr 2015 08:54:21 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Apr 2015 01:54:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,670,1422950400"; d="scan'208";a="563539926"
+Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
+	by orsmga003.jf.intel.com with ESMTP; 29 Apr 2015 01:54:22 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Wed, 29 Apr 2015 09:54:21 +0100
+Message-ID: <1574592.uPXveHVxj5@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <9798a8311486c433ae323a8c5d7fef53ce07d380.1430294879.git.Qi.Chen@windriver.com>
+References: <cover.1430294879.git.Qi.Chen@windriver.com>
+	<9798a8311486c433ae323a8c5d7fef53ce07d380.1430294879.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] grub2: fix initrd size restriction bug
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 08:53:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Apr 2015 08:54:22 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The current grub2 fails on loading large initrd file (> 500M) since
-the initrd size is added to the addr_min and causes the failure.
-Fix it by picking a patch from grub2 upstream.
+Hi Qi,
 
-Signed-off-by: Shan Hai <shan.hai@windriver.com>
----
- .../grub/files/grub2-fix-initrd-size-bug.patch     | 48 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc                    |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/grub2-fix-initrd-size-bug.patch
+On Wednesday 29 April 2015 16:08:36 Chen Qi wrote:
+> Copy the contents of local.conf under TOPDIR into the final generated
+> local.conf. In this way, custom settings are also made into the final
+> local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
+> 
+> Before this change, installing extensible SDK would usually report failure
+> when preparing the build system if the user has custom configuration for
+> DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
+> local.conf also don't get built correctly.
+> 
+> This patch solves the above problem.
+> 
+> A blacklist mechanism is also introduced so that we can blacklist variables
+> that should not be copied into the final local.conf file. Currently, the
+> blacklist contains 'SSTATE_DIR' and 'DL_DIR'.
+> 
+> [YOCTO #7616]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass index dc2c58e..7925ece 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
+> ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
+> 
+>  SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
+> +SDK_META_CONF_BLACKLIST ?= "DL_DIR SSTATE_DIR"
 
-diff --git a/meta/recipes-bsp/grub/files/grub2-fix-initrd-size-bug.patch b/meta/recipes-bsp/grub/files/grub2-fix-initrd-size-bug.patch
-new file mode 100644
-index 0000000..d114f48
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub2-fix-initrd-size-bug.patch
-@@ -0,0 +1,48 @@
-+From 8fbb150a56966edde4dc07b8d01be5eb149b65ab Mon Sep 17 00:00:00 2001
-+From: Colin Watson <cjwatson@ubuntu.com>
-+Date: Sun, 20 Jan 2013 23:03:35 +0000
-+Subject: [PATCH 1/1] * grub-core/loader/i386/linux.c (grub_cmd_initrd): Don't
-+ add the initrd size to addr_min, since the initrd will be allocated after
-+ this address.
-+
-+commit 6a0debbd9167e8f79cdef5497a73d23e580c0cd4 upstream
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Shan Hai <shan.hai@windriver.com>
-+---
-+ ChangeLog                     | 6 ++++++
-+ grub-core/loader/i386/linux.c | 3 +--
-+ 2 files changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/ChangeLog b/ChangeLog
-+index c2f42d5..40cb508 100644
-+--- a/ChangeLog
-++++ b/ChangeLog
-+@@ -1,3 +1,9 @@
-++2013-01-20  Colin Watson  <cjwatson@ubuntu.com>
-++
-++	* grub-core/loader/i386/linux.c (grub_cmd_initrd): Don't add the
-++	initrd size to addr_min, since the initrd will be allocated after
-++	this address.
-++
-+ 2012-07-02  Vladimir Serbinenko  <phcoder@gmail.com>
-+ 
-+ 	* grub-core/net/tftp.c (ack): Fix endianness problem.
-+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
-+index 62087cf..e2425c8 100644
-+--- a/grub-core/loader/i386/linux.c
-++++ b/grub-core/loader/i386/linux.c
-+@@ -1098,8 +1098,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
-+      worse than that of Linux 2.3.xx, so avoid the last 64kb.  */
-+   addr_max -= 0x10000;
-+ 
-+-  addr_min = (grub_addr_t) prot_mode_target + prot_init_space
-+-             + page_align (size);
-++  addr_min = (grub_addr_t) prot_mode_target + prot_init_space;
-+ 
-+   /* Put the initrd as high as possible, 4KiB aligned.  */
-+   addr = (addr_max - size) & ~0xFFF;
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index add4586..312771b 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://grub-efi-fix-with-glibc-2.20.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch \
-+           file://grub2-fix-initrd-size-bug.patch \
-             "
- 
- DEPENDS = "flex-native bison-native xz"
+I'm not totally opposed to this approach but we are going to have to get the 
+default list right if we are going to do it - e.g. you've missed the fairly 
+obvious TMPDIR. There are quite a large number of other variables the user 
+might set that should be blacklisted - potentially any variable that points to 
+a location where the build system would write files (DEPLOY_DIR, DEPLOY_DIR_*, 
+WORKDIR, T, S, B, ...). We might go a step further and use the data dictionary 
+to check if the value evaluates to somewhere outside of ${TMPDIR} (if we first 
+make a copy of d and set TMPDIR to a dummy value); this way we would allow 
+adjustments within TMPDIR but not outside of it.
+
+My other concern (perhaps a pet issue of mine) is that people are far too 
+reliant on putting things in local.conf that they really shouldn't. On the 
+other hand building a potentially broken SDK or at least one that doesn't 
+match up with the image is worse, but I'm still concerned about the way 
+local.conf is often abused.
+
+Cheers,
+Paul
+
 -- 
-1.8.5.2.233.g932f7e4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
