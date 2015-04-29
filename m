@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A36D7169F
+	by mail.openembedded.org (Postfix) with ESMTP id 8275073C48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 13:42:36 +0000 (UTC)
+	Wed, 29 Apr 2015 13:42:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2015 06:42:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2015 06:42:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,671,1422950400"; d="scan'208";a="721057391"
+X-IronPort-AV: E=Sophos;i="5.11,671,1422950400"; d="scan'208";a="721057405"
 Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
-	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2015 06:42:18 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2015 06:42:20 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Apr 2015 14:41:54 +0100
-Message-Id: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+Date: Wed, 29 Apr 2015 14:41:56 +0100
+Message-Id: <df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/6] devtool: enable adding remote source
+In-Reply-To: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+References: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+References: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 2/6] recipetool: ensure git clone is a full clone when extracting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +32,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 13:42:37 -0000
+X-List-Received-Date: Wed, 29 Apr 2015 13:42:38 -0000
 
-Enable specifying a remote URI to fetch and extract (so you don't have
-to do this manually) as well as some related fixes and improvements.
+If -x is specified and the specified URI was a git repository, we need
+to ensure that the resulting clone is a full clone and not one that has
+pointers into the temporary fetch location or DL_DIR. Split out the code
+from devtool that already does this for "devtool modify -x" and reuse
+that.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py  |  8 ++------
+ scripts/lib/recipetool/create.py |  2 ++
+ scripts/lib/scriptutils.py       | 10 ++++++++++
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-The following changes since commit 82d00f7254b7d3bb6a167d675d798134884d1b19:
-
-  split_and_strip_files: regroup hardlinks to make build deterministic (2015-04-29 10:39:41 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool-add-fetch
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-add-fetch
-
-Paul Eggleton (6):
-  recipetool: avoid second-level subdir when extracting
-  recipetool: ensure git clone is a full clone when extracting
-  devtool: add: add an option to fetch remote source
-  devtool: add: use the appropriate file naming and versioning for SCM
-    recipes
-  recipetool: allow specifying SRCREV via rev= in URI
-  oe-selftest: devtool: add some tests for devtool add -f
-
- meta/lib/oeqa/selftest/devtool.py | 148 ++++++++++++++++++++++++++++++--------
- scripts/lib/devtool/standard.py   |  47 +++++++++---
- scripts/lib/recipetool/create.py  |  47 ++++++++----
- scripts/lib/scriptutils.py        |  10 +++
- 4 files changed, 199 insertions(+), 53 deletions(-)
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 94b5e0b..eb41f28 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -23,6 +23,7 @@ import glob
+ import tempfile
+ import logging
+ import argparse
++import scriptutils
+ from devtool import exec_build_env_command, setup_tinfoil
+ 
+ logger = logging.getLogger('devtool')
+@@ -236,12 +237,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             # Handle if S is set to a subdirectory of the source
+             srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
+ 
+-        if os.path.exists(os.path.join(srcsubdir, '.git')):
+-            alternatesfile = os.path.join(srcsubdir, '.git', 'objects', 'info', 'alternates')
+-            if os.path.exists(alternatesfile):
+-                # This will have been cloned with -s, so we need to convert it to a full clone
+-                bb.process.run('git repack -a', cwd=srcsubdir)
+-                os.remove(alternatesfile)
++        scriptutils.git_convert_full_clone(srcsubdir)
+ 
+         patchdir = os.path.join(srcsubdir, 'patches')
+         haspatches = False
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 1d5bfd9..15de694 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -22,6 +22,7 @@ import glob
+ import fnmatch
+ import re
+ import logging
++import scriptutils
+ 
+ logger = logging.getLogger('recipetool')
+ 
+@@ -238,6 +239,7 @@ def create_recipe(args):
+     outlines.extend(lines_after)
+ 
+     if args.extract_to:
++        scriptutils.git_convert_full_clone(srctree)
+         shutil.move(srctree, args.extract_to)
+         logger.info('Source extracted to %s' % args.extract_to)
+ 
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index e786126..4af6fd5 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -58,3 +58,13 @@ def load_plugins(logger, plugins, pluginpath):
+             if hasattr(plugin, 'plugin_init'):
+                 plugin.plugin_init(plugins)
+                 plugins.append(plugin)
++
++def git_convert_full_clone(repodir):
++    """If specified directory is a git repository, ensure it's a full clone"""
++    import bb.process
++    if os.path.exists(os.path.join(repodir, '.git')):
++        alternatesfile = os.path.join(repodir, '.git', 'objects', 'info', 'alternates')
++        if os.path.exists(alternatesfile):
++            # This will have been cloned with -s, so we need to convert it to a full clone
++            bb.process.run('git repack -a', cwd=repodir)
++            os.remove(alternatesfile)
 -- 
 2.1.0
 
