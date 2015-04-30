@@ -1,25 +1,24 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E24A65CD0
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D6372A85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 10:17:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Apr 2015 03:17:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,676,1422950400"; d="scan'208";a="721545527"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2015 03:17:42 -0700
-Message-ID: <1430389061.9508.14.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 30 Apr 2015 13:17:41 +0300
-In-Reply-To: <df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
-References: <cover.1430314621.git.paul.eggleton@linux.intel.com>
-	<df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] recipetool: ensure git clone is a full clone when extracting
+	Thu, 30 Apr 2015 10:17:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3UAHiGG003962
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Apr 2015 03:17:44 -0700 (PDT)
+Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.214) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 30 Apr 2015 03:17:44 -0700
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Apr 2015 18:17:39 +0800
+Message-ID: <1430389059-27361-1-git-send-email-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] openssh: fix login fails for ssh -o Batchmode=yes with empty passwords
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +32,89 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Apr 2015 10:17:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi,
+The patch fixes the login fails for ssh -o Batchmode=yes when passwords is
+empty and without authorized_keys file even if set "PermitEmptyPasswords yes"
+in sshd_config file.
 
-On Wed, 2015-04-29 at 14:41 +0100, Paul Eggleton wrote:
-> If -x is specified and the specified URI was a git repository, we need
-> to ensure that the resulting clone is a full clone and not one that has
-> pointers into the temporary fetch location or DL_DIR. Split out the code
-> from devtool that already does this for "devtool modify -x" and reuse
-> that.
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  scripts/lib/devtool/standard.py  |  8 ++------
->  scripts/lib/recipetool/create.py |  2 ++
->  scripts/lib/scriptutils.py       | 10 ++++++++++
->  3 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-> index 94b5e0b..eb41f28 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -23,6 +23,7 @@ import glob
->  import tempfile
->  import logging
->  import argparse
-> +import scriptutils
->  from devtool import exec_build_env_command, setup_tinfoil
->  
->  logger = logging.getLogger('devtool')
-> @@ -236,12 +237,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
->              # Handle if S is set to a subdirectory of the source
->              srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
->  
-> -        if os.path.exists(os.path.join(srcsubdir, '.git')):
-> -            alternatesfile = os.path.join(srcsubdir, '.git', 'objects', 'info', 'alternates')
-> -            if os.path.exists(alternatesfile):
-> -                # This will have been cloned with -s, so we need to convert it to a full clone
-> -                bb.process.run('git repack -a', cwd=srcsubdir)
-> -                os.remove(alternatesfile)
-> +        scriptutils.git_convert_full_clone(srcsubdir)
->  
->          patchdir = os.path.join(srcsubdir, 'patches')
->          haspatches = False
-> diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-> index 1d5bfd9..15de694 100644
-> --- a/scripts/lib/recipetool/create.py
-> +++ b/scripts/lib/recipetool/create.py
-> @@ -22,6 +22,7 @@ import glob
->  import fnmatch
->  import re
->  import logging
-> +import scriptutils
->  
->  logger = logging.getLogger('recipetool')
->  
-> @@ -238,6 +239,7 @@ def create_recipe(args):
->      outlines.extend(lines_after)
->  
->      if args.extract_to:
-> +        scriptutils.git_convert_full_clone(srctree)
->          shutil.move(srctree, args.extract_to)
->          logger.info('Source extracted to %s' % args.extract_to)
->  
-> diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-> index e786126..4af6fd5 100644
-> --- a/scripts/lib/scriptutils.py
-> +++ b/scripts/lib/scriptutils.py
-> @@ -58,3 +58,13 @@ def load_plugins(logger, plugins, pluginpath):
->              if hasattr(plugin, 'plugin_init'):
->                  plugin.plugin_init(plugins)
->                  plugins.append(plugin)
-> +
-> +def git_convert_full_clone(repodir):
-> +    """If specified directory is a git repository, ensure it's a full clone"""
-> +    import bb.process
-> +    if os.path.exists(os.path.join(repodir, '.git')):
-> +        alternatesfile = os.path.join(repodir, '.git', 'objects', 'info', 'alternates')
-> +        if os.path.exists(alternatesfile):
-> +            # This will have been cloned with -s, so we need to convert it to a full clone
-> +            bb.process.run('git repack -a', cwd=repodir)
-> +            os.remove(alternatesfile)
-> -- 
-> 2.1.0
-> 
+Here, to fix this issue, we remove the file auth2-none.c-avoid-authenticate-
+empty-passwords-to-m.patch, that fixed broken pipe while sshd with pam,
+but it isn't needed any more now, because we make it has gone by change
+ChallengeResponseAuthentication value in sshd_config file.
 
-I just find the term "full clone" a bit misleading here. I somehow tend
-to associate it with a mirrored clone / cloning all refs / cloning with
-full history. Could the term used above be "independent clone" or
-"standalone clone" or something?
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+---
+ ...c-avoid-authenticate-empty-passwords-to-m.patch |   30 --------------------
+ .../openssh/openssh/sshd_config                    |    2 +-
+ meta/recipes-connectivity/openssh/openssh_6.8p1.bb |    3 +-
+ 3 files changed, 2 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch
 
-Thanks,
-  Markus Lehtonen
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch b/meta/recipes-connectivity/openssh/openssh/auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch
+deleted file mode 100644
+index ba13cd1..0000000
+--- a/meta/recipes-connectivity/openssh/openssh/auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: Pending
+-
+-Subject: auth2-none.c: avoid authenticate empty passwords to mess up with PAM
+-
+-If UsePAM, PermitEmptyPasswords, PasswordAuthentication are enabled. The ssh daemon
+-will try to authenticate an empty password, resulting in login failures of any user.
+-If PAM is enabled, then we should leave the task of password authentication to PAM.
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-
+----
+- auth2-none.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/auth2-none.c b/auth2-none.c
+-index c8c6c74..b48b2fd 100644
+---- a/auth2-none.c
+-+++ b/auth2-none.c
+-@@ -61,7 +61,7 @@ userauth_none(Authctxt *authctxt)
+- {
+- 	none_enabled = 0;
+- 	packet_check_eom();
+--	if (options.permit_empty_passwd && options.password_authentication)
+-+	if (options.permit_empty_passwd && options.password_authentication && !options.use_pam)
+- 		return (PRIVSEP(auth_password(authctxt, "")));
+- 	return (0);
+- }
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
+index 3553669..d48bd2b 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd_config
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
+@@ -73,7 +73,7 @@ AuthorizedKeysFile .ssh/authorized_keys
+ #PermitEmptyPasswords no
+ 
+ # Change to no to disable s/key passwords
+-#ChallengeResponseAuthentication yes
++ChallengeResponseAuthentication no
+ 
+ # Kerberos options
+ #KerberosAuthentication no
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.8p1.bb b/meta/recipes-connectivity/openssh/openssh_6.8p1.bb
+index 8e07e00..b00ef6f 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.8p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.8p1.bb
+@@ -20,8 +20,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://sshdgenkeys.service \
+            file://volatiles.99_sshd \
+            file://add-test-support-for-busybox.patch \
+-           file://run-ptest \
+-           file://auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch"
++           file://run-ptest"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-- 
+1.7.9.5
 
 
