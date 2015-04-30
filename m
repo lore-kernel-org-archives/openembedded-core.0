@@ -1,39 +1,20 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F9796AC38
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E28B65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 06:07:27 +0000 (UTC)
-Received: by wgso17 with SMTP id o17so50531103wgs.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2015 23:07:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=IhicqHwH7Qxt9OgUvE6E9Ag+rNHm/ee1YLBGb1GFS1k=;
-	b=PM0fXhZx2AejAYBRyimfMQMjh1o4uNLFseAtuNV67/7tPZFBP/Jq1eLVxMvwL5PNqi
-	5UhNCZxqNXmDxTz2MvUUlgtiTbvsAx/wQFHBZZdyMJRNv+r8GAFplDDACOnPT6RFLk4e
-	oxzJMEmkU+5aOLdt3TVLzJkH5UT2s8XC9l4SX4B3JsQDvJjznnE6lNsROd1fMOXcpfKR
-	fol3JFdT3dTas7O1qP4UGR5I5yXB7BW4J6dY9Yyz84tdkIT+ejZtKdsn8ODHcNVUrAxs
-	5GjhLQaPGSC6ulEedOZh2KHqeiNEadB1UngyUgTfvERbwdXIH0AkzMEG95kocBicI4Op
-	9lRQ==
-X-Gm-Message-State: ALoCoQlweGBcS6kGB4PRKy8w6YLDkl0FBl2a3qyfpMQtZ3yijffGrODDZYVtHTq3bOcGL3V+yFmA
-X-Received: by 10.180.78.135 with SMTP id b7mr2245076wix.65.1430374047808;
-	Wed, 29 Apr 2015 23:07:27 -0700 (PDT)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id jq3sm1682439wjc.22.2015.04.29.23.07.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Apr 2015 23:07:26 -0700 (PDT)
-Message-ID: <5541C69D.9040307@dresearch-fe.de>
-Date: Thu, 30 Apr 2015 08:07:25 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Koen Kooi <koen@openembedded.org>
-Subject: [fido] orphaned bbappend in meta-angstrom
+	Thu, 30 Apr 2015 07:38:32 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2015 00:38:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,675,1422950400"; d="scan'208";a="718277210"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Apr 2015 00:38:32 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Apr 2015 10:38:04 +0300
+Message-Id: <cover.1430379176.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] icu and freetype upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,23 +27,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 06:07:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Apr 2015 07:38:33 -0000
 
-The angstrom-v2015.06-yocto1.8 branch of meta-angstrom contains recipes-tweaks/linux/linux-yocto_3.10.bbappend. But the fido branch of openembedded-core does not have a recipe for linux-yocto_3.10 (just 3.14 and 3.19).
+The following changes since commit db409697db2ea0931cdcd2015d089b6b0ea39bbb:
 
-So the bbappend should be removed or updated.
+  bitbake: bitbake: reset build mtime cache before the build (2015-04-29 10:59:54 +0100)
 
-Regards,
-Steffen
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/update-fontz
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/update-fontz
+
+Jussi Kukkonen (2):
+  freetype: Upgrade 2.5.4 -> 2.5.5
+  icu: Upgrade 54.1 -> 55.1
+
+ .../freetype/{freetype_2.5.4.bb => freetype_2.5.5.bb}               | 4 ++--
+ meta/recipes-support/icu/{icu_54.1.bb => icu_55.1.bb}               | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.5.4.bb => freetype_2.5.5.bb} (92%)
+ rename meta/recipes-support/icu/{icu_54.1.bb => icu_55.1.bb} (67%)
 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+2.1.4
+
 
