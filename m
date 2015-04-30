@@ -1,21 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 29B3265CD0
+	by mail.openembedded.org (Postfix) with ESMTP id 2B83173D53
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 09:16:13 +0000 (UTC)
+	Thu, 30 Apr 2015 09:16:16 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2015 02:16:14 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2015 02:16:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,675,1422950400"; d="scan'208";a="487591006"
+X-IronPort-AV: E=Sophos;i="5.11,675,1422950400"; d="scan'208";a="487591047"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Apr 2015 02:16:13 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Apr 2015 02:16:15 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Apr 2015 12:16:06 +0300
-Message-Id: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu, 30 Apr 2015 12:16:08 +0300
+Message-Id: <1430385372-6975-3-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 0/6] devtool: improve handling of local source files
+Subject: [PATCH 2/6] recipeutils: implement get_recipe_local_files()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,28 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 09:16:20 -0000
+X-List-Received-Date: Thu, 30 Apr 2015 09:16:21 -0000
 
-This patchset tries to improve handling of local source files (i.e. file:// in
-SRC_URI). First, it improves packages for which S=WORKDIR (that possibly only
-have local sources. Second, it makes local sources available in the srctree for
-all packages.
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oe/recipeutils.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-See yocto bug #7602
-
-Markus Lehtonen (6):
-  devtool: extract: remove patches when S=WORKDIR
-  recipeutils: implement get_recipe_local_files()
-  oe.patch.GitApplyTree: add paths argument to extractPatches
-  devtool: update-recipe: update local files directly
-  devtool: extract: always import local files to srctree
-  devtool: modify: make bitbake use local files from srctree
-
- meta/lib/oe/patch.py            |   5 +-
- meta/lib/oe/recipeutils.py      |   8 +++
- scripts/lib/devtool/standard.py | 116 +++++++++++++++++++++++++++++++++++++---
- 3 files changed, 122 insertions(+), 7 deletions(-)
-
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 19d97b6..f3af717 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -254,6 +254,14 @@ def copy_recipe_files(d, tgt_dir, whole_dir=False, download=True):
+     return remotes
+ 
+ 
++def get_recipe_local_files(d):
++    """Get a list of local files in SRC_URI within a recipe."""
++    uris = (d.getVar('SRC_URI', True) or "").split()
++    fetch = bb.fetch2.Fetch(uris, d)
++    return dict([(fetch.ud[uri].basepath, fetch.localpath(uri)) for uri in uris
++                 if uri.startswith('file://')])
++
++
+ def get_recipe_patches(d):
+     """Get a list of the patches included in SRC_URI within a recipe."""
+     patchfiles = []
 -- 
 2.1.4
 
