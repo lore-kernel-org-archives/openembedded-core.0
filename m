@@ -1,42 +1,24 @@
-Return-Path: <mario.goulart@gmail.com>
-Received: from mail-vn0-f42.google.com (mail-vn0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD2E72491
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 386 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 30 Apr 2015 14:35:09 UTC
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 9320D65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 13:30:33 +0000 (UTC)
-Received: by vnbg1 with SMTP id g1so7161552vnb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 06:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=sf8XORveqq47BzdaVsaXPmMUdVyEUgd1Ww3685VNrFA=;
-	b=du2R+hcbmZH6MPCoPrnFza73akzBFYDMw9ZBsYXOPeh4mNmekYZRLWXKcjbyM7wvzM
-	yUmhYLmC6LyrUW0457FG8eB9OMwVlUruB5wEZE4+jus3bbFnfth+dLrpiqmfEfPOdsa9
-	3T9mTrHqUMOvjazIJDnaEAmlhrFbi5xxj4HIlY64Kg+lRBH07TBUaZJNHqo7kOZZ//4l
-	rioDrsJ5ps4tAFGYIay3P+XboN0hOr97MBnxrCKKHTVe+gucGVHimWMJTudrVKIMhLNc
-	7jKGiJf6a/I5phvHRrdF42io5TC1Et7sjq2IxZdGSoRY5Oj8tS2C8BbF4e3JKw177WQ3
-	97bQ==
-X-Received: by 10.52.240.198 with SMTP id wc6mr7674603vdc.34.1430400634038;
-	Thu, 30 Apr 2015 06:30:34 -0700 (PDT)
-Received: from email.parenteses.org.gmail.com (email.parenteses.org.
-	[198.199.72.94])
-	by mx.google.com with ESMTPSA id h7sm3394010vdb.18.2015.04.30.06.30.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Apr 2015 06:30:33 -0700 (PDT)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
-To: Gary Thomas <gary@mlbassoc.com>
-References: <1430391890-6083-1-git-send-email-ed.bartosh@linux.intel.com>
-	<87egn12286.fsf@email.parenteses.org> <55422B2C.6030300@mlbassoc.com>
-Date: Thu, 30 Apr 2015 13:30:30 +0000
-In-Reply-To: <55422B2C.6030300@mlbassoc.com> (Gary Thomas's message of "Thu,
-	30 Apr 2015 07:16:28 -0600")
-Message-ID: <871tj1216x.fsf@email.parenteses.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+	Thu, 30 Apr 2015 14:35:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.11,677,1422921600"; d="scan'208";a="119724298"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 30 Apr 2015 15:28:42 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1YnpSE-0005Hc-9w; Thu, 30 Apr 2015 15:28:42 +0100
+Date: Thu, 30 Apr 2015 15:28:42 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20150430142842.GA19899@mcrowe.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oeqa/utils: Allow ~ in bblayers
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: libcap: make -e causing trouble
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 13:30:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Apr 2015 14:35:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 30 Apr 2015 07:16:28 -0600 Gary Thomas <gary@mlbassoc.com> wrote:
+oe-core 51540b64f62234c145fc32cfa3fbbaaebbeece08 altered libcap.inc (at the
+time) to append to EXTRA_OEMAKE rather than assign to it. The default value
+for EXTRA_OEMAKE contains "-e". This means that the change caused "-e" to
+be passed to make for the first time.
 
-> On 2015-04-30 07:08, Mario Domenech Goulart wrote:
->>
->> On Thu, 30 Apr 2015 14:04:50 +0300 Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
->>
->>> Bitbake can parse ~ in bblayer's paths.
->>> Added this functionality to oeqa code.
->>>
->>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>> ---
->>>   meta/lib/oeqa/utils/commands.py | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
->>> index e8a467f..bc1dbb1 100644
->>> --- a/meta/lib/oeqa/utils/commands.py
->>> +++ b/meta/lib/oeqa/utils/commands.py
->>> @@ -155,6 +155,8 @@ def get_test_layer():
->>>       layers = get_bb_var("BBLAYERS").split()
->>>       testlayer = None
->>>       for l in layers:
->>> +        if '~' in l:
->>> +            l = os.path.expanduser(l)
->>
->> Is the "if '~' in l" test necessary?
->>
->> AFAIK, applying expanduser to a string that doesn't contain '~' will
->> just return the string itself.
->
-> True, but why expand (create a new string, have to garbage-collect
-> the old one, etc) when it's not necessary?
+Unfortunately passing "-e" subtly changes the behaviour of libcap's
+Make.Rules under recursive make when prefix="" (which it is for us since
+we're using meta-micro.) Here's a snippet of Make.rules:
 
-Good point, Gary.  Maybe we should only care about '~' as the first
-character in paths?  In this case, "if l.startswith('~')" would do the
-trick.
+ifdef prefix
+exec_prefix=$(prefix)
+lib_prefix=$(exec_prefix)
+inc_prefix=$(lib_prefix)
+man_prefix=$(prefix)/share
+else
+prefix=/usr
+exec_prefix=
+lib_prefix=$(exec_prefix)
+inc_prefix=$(prefix)
+man_prefix=$(prefix)/share
+endif
 
-Best wishes.
-Mario
--- 
-http://www.ossystems.com.br
+Without "-e" the prefix comes from the command line in both the parent and
+submakes. This takes precedence over any attempt to reassign it with a
+simple "=" operation so the headers are correctly installed in (empty
+string)/include.
+
+With "-e" the prefix still comes from the command line in the parent make
+but from the environment in the submake. The attempt to assign it fails in
+the parent make as before, but not in the submake so the headers are
+installed incorrectly in /usr/include.
+
+In all four cases the "ifdef prefix" else clause is executed.
+
+The quick-and-easy fix for this is simply to pass prefix="${prefix}/" but
+it's really just working around the problem.
+
+Alternatively we could go back to assigning EXTRA_OEMAKE rather than
+appending to it.
+
+What would be the preferred course of action?
+
+Thanks.
+
+Mike.
 
