@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B83173D53
+	by mail.openembedded.org (Postfix) with ESMTP id 4580673D76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 09:16:16 +0000 (UTC)
+	Thu, 30 Apr 2015 09:16:20 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2015 02:16:17 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2015 02:16:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,675,1422950400"; d="scan'208";a="487591047"
+X-IronPort-AV: E=Sophos;i="5.11,675,1422950400"; d="scan'208";a="487591080"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Apr 2015 02:16:15 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Apr 2015 02:16:17 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Apr 2015 12:16:08 +0300
-Message-Id: <1430385372-6975-3-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu, 30 Apr 2015 12:16:09 +0300
+Message-Id: <1430385372-6975-4-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/6] recipeutils: implement get_recipe_local_files()
+Subject: [PATCH 3/6] oe.patch.GitApplyTree: add paths argument to extractPatches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +32,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Apr 2015 09:16:21 -0000
 
+Makes it possible to define which paths are included in the patches.
+
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oe/patch.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 19d97b6..f3af717 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -254,6 +254,14 @@ def copy_recipe_files(d, tgt_dir, whole_dir=False, download=True):
-     return remotes
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index f68d40f..85cb2c1 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -273,12 +273,15 @@ class GitApplyTree(PatchTree):
+         return (tmpfile, cmd)
  
- 
-+def get_recipe_local_files(d):
-+    """Get a list of local files in SRC_URI within a recipe."""
-+    uris = (d.getVar('SRC_URI', True) or "").split()
-+    fetch = bb.fetch2.Fetch(uris, d)
-+    return dict([(fetch.ud[uri].basepath, fetch.localpath(uri)) for uri in uris
-+                 if uri.startswith('file://')])
-+
-+
- def get_recipe_patches(d):
-     """Get a list of the patches included in SRC_URI within a recipe."""
-     patchfiles = []
+     @staticmethod
+-    def extractPatches(tree, startcommit, outdir):
++    def extractPatches(tree, startcommit, outdir, paths=None):
+         import tempfile
+         import shutil
+         tempdir = tempfile.mkdtemp(prefix='oepatch')
+         try:
+             shellcmd = ["git", "format-patch", startcommit, "-o", tempdir]
++            if paths:
++                shellcmd.append('--')
++                shellcmd.extend(paths)
+             out = runcmd(["sh", "-c", " ".join(shellcmd)], tree)
+             if out:
+                 for srcfile in out.split():
 -- 
 2.1.4
 
