@@ -1,25 +1,25 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 370A765CD0
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E24A65CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 09:34:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3U9YcDS025562
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 02:34:38 -0700 (PDT)
-Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 30 Apr 2015 02:34:37 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Apr 2015 17:34:23 +0800
-Message-ID: <1430386463-13290-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.243]
-Subject: [PATCH] boost & libxslt: nativesdk is missed in bb file and break <make universe>
+	Thu, 30 Apr 2015 10:17:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Apr 2015 03:17:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.11,676,1422950400"; d="scan'208";a="721545527"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2015 03:17:42 -0700
+Message-ID: <1430389061.9508.14.camel@linux.intel.com>
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 30 Apr 2015 13:17:41 +0300
+In-Reply-To: <df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
+References: <cover.1430314621.git.paul.eggleton@linux.intel.com>
+	<df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.12.11 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/6] recipetool: ensure git clone is a full clone when extracting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 09:34:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Apr 2015 10:17:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When run <make universe.fetchall>, the make will be broken because
-nativesdk-boost and nativesdk-libxslt don't exist.
-nativesdk-boost is depended by nativesdk-curlpp.
-nativesdk-libxslt is depended by nativesdk-python-lxml.
-In condition that meta-openembedded is compiled in.
+Hi,
 
-Add nativesdk building for boost and libxslt.
+On Wed, 2015-04-29 at 14:41 +0100, Paul Eggleton wrote:
+> If -x is specified and the specified URI was a git repository, we need
+> to ensure that the resulting clone is a full clone and not one that has
+> pointers into the temporary fetch location or DL_DIR. Split out the code
+> from devtool that already does this for "devtool modify -x" and reuse
+> that.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  scripts/lib/devtool/standard.py  |  8 ++------
+>  scripts/lib/recipetool/create.py |  2 ++
+>  scripts/lib/scriptutils.py       | 10 ++++++++++
+>  3 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+> index 94b5e0b..eb41f28 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -23,6 +23,7 @@ import glob
+>  import tempfile
+>  import logging
+>  import argparse
+> +import scriptutils
+>  from devtool import exec_build_env_command, setup_tinfoil
+>  
+>  logger = logging.getLogger('devtool')
+> @@ -236,12 +237,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+>              # Handle if S is set to a subdirectory of the source
+>              srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
+>  
+> -        if os.path.exists(os.path.join(srcsubdir, '.git')):
+> -            alternatesfile = os.path.join(srcsubdir, '.git', 'objects', 'info', 'alternates')
+> -            if os.path.exists(alternatesfile):
+> -                # This will have been cloned with -s, so we need to convert it to a full clone
+> -                bb.process.run('git repack -a', cwd=srcsubdir)
+> -                os.remove(alternatesfile)
+> +        scriptutils.git_convert_full_clone(srcsubdir)
+>  
+>          patchdir = os.path.join(srcsubdir, 'patches')
+>          haspatches = False
+> diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+> index 1d5bfd9..15de694 100644
+> --- a/scripts/lib/recipetool/create.py
+> +++ b/scripts/lib/recipetool/create.py
+> @@ -22,6 +22,7 @@ import glob
+>  import fnmatch
+>  import re
+>  import logging
+> +import scriptutils
+>  
+>  logger = logging.getLogger('recipetool')
+>  
+> @@ -238,6 +239,7 @@ def create_recipe(args):
+>      outlines.extend(lines_after)
+>  
+>      if args.extract_to:
+> +        scriptutils.git_convert_full_clone(srctree)
+>          shutil.move(srctree, args.extract_to)
+>          logger.info('Source extracted to %s' % args.extract_to)
+>  
+> diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+> index e786126..4af6fd5 100644
+> --- a/scripts/lib/scriptutils.py
+> +++ b/scripts/lib/scriptutils.py
+> @@ -58,3 +58,13 @@ def load_plugins(logger, plugins, pluginpath):
+>              if hasattr(plugin, 'plugin_init'):
+>                  plugin.plugin_init(plugins)
+>                  plugins.append(plugin)
+> +
+> +def git_convert_full_clone(repodir):
+> +    """If specified directory is a git repository, ensure it's a full clone"""
+> +    import bb.process
+> +    if os.path.exists(os.path.join(repodir, '.git')):
+> +        alternatesfile = os.path.join(repodir, '.git', 'objects', 'info', 'alternates')
+> +        if os.path.exists(alternatesfile):
+> +            # This will have been cloned with -s, so we need to convert it to a full clone
+> +            bb.process.run('git repack -a', cwd=repodir)
+> +            os.remove(alternatesfile)
+> -- 
+> 2.1.0
+> 
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- meta/recipes-support/boost/boost.inc           |    2 +-
- meta/recipes-support/libxslt/libxslt_1.1.28.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I just find the term "full clone" a bit misleading here. I somehow tend
+to associate it with a mirrored clone / cloning all refs / cloning with
+full history. Could the term used above be "independent clone" or
+"standalone clone" or something?
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 6b42133..7628e37 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -181,4 +181,4 @@ do_install() {
- 
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.28.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-index ded883e..166bcd8 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-@@ -43,4 +43,4 @@ do_install_append_class-native () {
- FILES_${PN} += "${libdir}/libxslt-plugins"
- FILES_${PN}-dev += "${libdir}/xsltConf.sh"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.9.5
+Thanks,
+  Markus Lehtonen
+
 
 
