@@ -1,29 +1,39 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EE6B16AC38
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F9796AC38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 05:43:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3U5hSH2023799
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Apr 2015 22:43:28 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 22:43:28 -0700
-Message-ID: <5541C0FE.1000706@windriver.com>
-Date: Thu, 30 Apr 2015 13:43:26 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Thu, 30 Apr 2015 06:07:27 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so50531103wgs.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Apr 2015 23:07:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=IhicqHwH7Qxt9OgUvE6E9Ag+rNHm/ee1YLBGb1GFS1k=;
+	b=PM0fXhZx2AejAYBRyimfMQMjh1o4uNLFseAtuNV67/7tPZFBP/Jq1eLVxMvwL5PNqi
+	5UhNCZxqNXmDxTz2MvUUlgtiTbvsAx/wQFHBZZdyMJRNv+r8GAFplDDACOnPT6RFLk4e
+	oxzJMEmkU+5aOLdt3TVLzJkH5UT2s8XC9l4SX4B3JsQDvJjznnE6lNsROd1fMOXcpfKR
+	fol3JFdT3dTas7O1qP4UGR5I5yXB7BW4J6dY9Yyz84tdkIT+ejZtKdsn8ODHcNVUrAxs
+	5GjhLQaPGSC6ulEedOZh2KHqeiNEadB1UngyUgTfvERbwdXIH0AkzMEG95kocBicI4Op
+	9lRQ==
+X-Gm-Message-State: ALoCoQlweGBcS6kGB4PRKy8w6YLDkl0FBl2a3qyfpMQtZ3yijffGrODDZYVtHTq3bOcGL3V+yFmA
+X-Received: by 10.180.78.135 with SMTP id b7mr2245076wix.65.1430374047808;
+	Wed, 29 Apr 2015 23:07:27 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id jq3sm1682439wjc.22.2015.04.29.23.07.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 Apr 2015 23:07:26 -0700 (PDT)
+Message-ID: <5541C69D.9040307@dresearch-fe.de>
+Date: Thu, 30 Apr 2015 08:07:25 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1427262046.git.liezhi.yang@windriver.com>	
-	<78a8e0beb1dd78a8461b994816267ec8848b2ca7.1427262046.git.liezhi.yang@windriver.com>
-	<1429601943.26983.74.camel@linuxfoundation.org>
-In-Reply-To: <1429601943.26983.74.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libarchive: set CLEANBROKEN
+To: angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Koen Kooi <koen@openembedded.org>
+Subject: [fido] orphaned bbappend in meta-angstrom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,99 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 05:43:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Apr 2015 06:07:28 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
+The angstrom-v2015.06-yocto1.8 branch of meta-angstrom contains recipes-tweaks/linux/linux-yocto_3.10.bbappend. But the fido branch of openembedded-core does not have a recipe for linux-yocto_3.10 (just 3.14 and 3.19).
 
+So the bbappend should be removed or updated.
 
-On 04/21/2015 03:39 PM, Richard Purdie wrote:
-> On Tue, 2015-03-24 at 22:41 -0700, Robert Yang wrote:
->> Errors when rebuild:
->> checking for xml2-config... /path/to/tmp/sysroots/qemux86-64/usr/bin/crossscripts/xml2-config
->> checking for xmlInitParser in -lxml2... no
->> configure: error: in `/path/to/tmp/work/core2-64-poky-linux/libarchive/3.1.2-r0/libarchive-3.1.2':
->> configure: error: Missing xml2 library
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../libarchive/libarchive_3.1.2.bb                 |    2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
->> index 96e2d50..2ac8c5e 100644
->> --- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
->> +++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
->> @@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
->>
->>   DEPENDS = "e2fsprogs-native"
->>
->> +CLEANBROKEN = "1"
->> +
->>   PACKAGECONFIG ?= "libxml2 zlib bz2"
->>
->>   PACKAGECONFIG_append_class-target = "\
->
-> I just looked into this I will explain why this worries me. We patch
-> libarchive to remove the reference to xml2-config in SRC_URI. For this
-> error to appear, the patch must have been removed.
->
-> The question is therefore why does it get removed and why isn't that an
-> error? Does the CVE patch get removed too?
->
-> FWIW, "bitbake libarchive -c configure -f" does not reproduce the error
-> and the clean broken is therefore a workaround/hack.
->
-> Actually, I just found what does break it is "bitbake libarchive -C
-> unpack". Why? Running "make clean" triggers configure to run again since
-> after unpack, the configure timestamp is more recent that config.status.
->
-> So to fix this, we just need to touch config.status (if it exists)
-> before running make clean. We should probably do this in the autotools
-> class.
+Regards,
+Steffen
 
-Hi RP,
-
-When the error happens, more than one do_patch and do_configure runs nearly
-at the same time:
-
-$ ls -lt ../temp/log.do_patch* --full-time
-lrwxrwxrwx 1 lyang1 users   17 2015-04-29 19:43:45.654157649 -0700 
-../temp/log.do_patch -> log.do_patch.9045
--rw-r--r-- 1 lyang1 users 2867 2015-04-29 19:43:45.614157776 -0700 
-../temp/log.do_patch.22016
--rw-r--r-- 1 lyang1 users 4324 2015-04-29 19:43:45.386158500 -0700 
-../temp/log.do_patch.9045
--rw-r--r-- 1 lyang1 users 2867 2015-04-29 19:43:45.378158526 -0700 
-../temp/log.do_patch.13113
-
-$ ls -lt ../temp/log.do_configure* --full-time
--rw-r--r-- 1 lyang1 users 15114 2015-04-29 19:43:45.670157600 -0700 
-../temp/log.do_configure.30582
-lrwxrwxrwx 1 lyang1 users    22 2015-04-29 19:43:45.630157725 -0700 
-../temp/log.do_configure -> log.do_configure.30582
--rw-r--r-- 1 lyang1 users 16397 2015-04-29 19:43:45.626157739 -0700 
-../temp/log.do_configure.22478
--rw-r--r-- 1 lyang1 users 27431 2015-04-29 19:43:45.614157776 -0700 
-../temp/log.do_configure.8960
--rw-r--r-- 1 lyang1 users 25954 2015-04-29 19:43:45.502158132 -0700 
-../temp/log.do_configure.15184
--rw-r--r-- 1 lyang1 users 25014 2015-04-29 19:43:45.434158347 -0700 
-../temp/log.do_configure.1545
--rw-r--r-- 1 lyang1 users 16396 2015-04-29 19:43:45.294158792 -0700 
-../temp/log.do_configure.9513
-
-do you have any suggestions, please ?
-
-// Robert
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
