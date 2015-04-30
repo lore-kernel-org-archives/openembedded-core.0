@@ -1,28 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 287BA72491
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EA9072491
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 10:26:35 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 30 Apr 2015 03:26:36 -0700
+	Thu, 30 Apr 2015 10:33:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 30 Apr 2015 03:33:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.11,676,1422950400"; d="scan'208";a="687945809"
-Received: from pkcletus-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.230])
-	by orsmga001.jf.intel.com with ESMTP; 30 Apr 2015 03:26:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Thu, 30 Apr 2015 11:26:34 +0100
-Message-ID: <2485695.8j5bf1Bp03@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <1430389061.9508.14.camel@linux.intel.com>
-References: <cover.1430314621.git.paul.eggleton@linux.intel.com>
-	<df99c07e8afaaef6fe5f0ada4cd3f33b7f7b555f.1430314621.git.paul.eggleton@linux.intel.com>
-	<1430389061.9508.14.camel@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] recipetool: ensure git clone is a full clone when extracting
+X-IronPort-AV: E=Sophos;i="5.11,676,1422950400"; d="scan'208";a="718354655"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Apr 2015 03:33:50 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 92C836A408F;
+	Thu, 30 Apr 2015 03:33:21 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Apr 2015 13:33:40 +0300
+Message-Id: <1430390020-5607-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic tests: Move wic tests to oe-selftest infra
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,118 +30,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 10:26:37 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 30 Apr 2015 10:33:50 -0000
 
-Hi Markus,
+Modified existing wic test modules to work with oe-selftest
+infrastructure.
 
-On Thursday 30 April 2015 13:17:41 Markus Lehtonen wrote:
-> On Wed, 2015-04-29 at 14:41 +0100, Paul Eggleton wrote:
-> > If -x is specified and the specified URI was a git repository, we need
-> > to ensure that the resulting clone is a full clone and not one that has
-> > pointers into the temporary fetch location or DL_DIR. Split out the code
-> > from devtool that already does this for "devtool modify -x" and reuse
-> > that.
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > ---
-> > 
-> >  scripts/lib/devtool/standard.py  |  8 ++------
-> >  scripts/lib/recipetool/create.py |  2 ++
-> >  scripts/lib/scriptutils.py       | 10 ++++++++++
-> >  3 files changed, 14 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/scripts/lib/devtool/standard.py
-> > b/scripts/lib/devtool/standard.py index 94b5e0b..eb41f28 100644
-> > --- a/scripts/lib/devtool/standard.py
-> > +++ b/scripts/lib/devtool/standard.py
-> > @@ -23,6 +23,7 @@ import glob
-> > 
-> >  import tempfile
-> >  import logging
-> >  import argparse
-> > 
-> > +import scriptutils
-> > 
-> >  from devtool import exec_build_env_command, setup_tinfoil
-> >  
-> >  logger = logging.getLogger('devtool')
-> > 
-> > @@ -236,12 +237,7 @@ def _extract_source(srctree, keep_temp, devbranch, 
-d):
-> >              # Handle if S is set to a subdirectory of the source
-> >              srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir,
-> >              workdir).split(os.sep)[0])> 
-> > -        if os.path.exists(os.path.join(srcsubdir, '.git')):
-> > -            alternatesfile = os.path.join(srcsubdir, '.git', 'objects',
-> > 'info', 'alternates') -            if os.path.exists(alternatesfile):
-> > -                # This will have been cloned with -s, so we need to
-> > convert it to a full clone -                bb.process.run('git repack
-> > -a', cwd=srcsubdir)
-> > -                os.remove(alternatesfile)
-> > +        scriptutils.git_convert_full_clone(srcsubdir)
-> > 
-> >          patchdir = os.path.join(srcsubdir, 'patches')
-> >          haspatches = False
-> > 
-> > diff --git a/scripts/lib/recipetool/create.py
-> > b/scripts/lib/recipetool/create.py index 1d5bfd9..15de694 100644
-> > --- a/scripts/lib/recipetool/create.py
-> > +++ b/scripts/lib/recipetool/create.py
-> > @@ -22,6 +22,7 @@ import glob
-> > 
-> >  import fnmatch
-> >  import re
-> >  import logging
-> > 
-> > +import scriptutils
-> > 
-> >  logger = logging.getLogger('recipetool')
-> > 
-> > @@ -238,6 +239,7 @@ def create_recipe(args):
-> >      outlines.extend(lines_after)
-> > 
-> >      if args.extract_to:
-> > +        scriptutils.git_convert_full_clone(srctree)
-> > 
-> >          shutil.move(srctree, args.extract_to)
-> >          logger.info('Source extracted to %s' % args.extract_to)
-> > 
-> > diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-> > index e786126..4af6fd5 100644
-> > --- a/scripts/lib/scriptutils.py
-> > +++ b/scripts/lib/scriptutils.py
-> > 
-> > @@ -58,3 +58,13 @@ def load_plugins(logger, plugins, pluginpath):
-> >              if hasattr(plugin, 'plugin_init'):
-> >                  plugin.plugin_init(plugins)
-> >                  plugins.append(plugin)
-> > 
-> > +
-> > +def git_convert_full_clone(repodir):
-> > +    """If specified directory is a git repository, ensure it's a full
-> > clone""" +    import bb.process
-> > +    if os.path.exists(os.path.join(repodir, '.git')):
-> > +        alternatesfile = os.path.join(repodir, '.git', 'objects', 'info',
-> > 'alternates') +        if os.path.exists(alternatesfile):
-> > +            # This will have been cloned with -s, so we need to convert
-> > it to a full clone +            bb.process.run('git repack -a',
-> > cwd=repodir)
-> > +            os.remove(alternatesfile)
-> 
-> I just find the term "full clone" a bit misleading here. I somehow tend
-> to associate it with a mirrored clone / cloning all refs / cloning with
-> full history. Could the term used above be "independent clone" or
-> "standalone clone" or something?
+$ oe-selftest --run-tests wic
+...
+test01_help (oeqa.selftest.wic.Wic)
+Test wic --help ... ok
+test02_createhelp (oeqa.selftest.wic.Wic)
+Test wic create --help ... ok
+test03_listhelp (oeqa.selftest.wic.Wic)
+Test wic list --help ... ok
+test04_build_image_name (oeqa.selftest.wic.Wic)
+Test wic create directdisk --image-name core-image-minimal ... ok
+test05_build_artifacts (oeqa.selftest.wic.Wic)
+Test wic create directdisk providing all artifacts. ... ok
 
-Yep, sounds reasonable - I'll rename it in a v2.
+----------------------------------------------------------------------
+Ran 5 tests in 6.434s
 
-Cheers,
-Paul
+OK
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py           | 69 +++++++++++++++++++++++++++++++++
+ scripts/setup.cfg                       |  6 ---
+ scripts/tests/01_wic_test_help.py       | 44 ---------------------
+ scripts/tests/02_wic_test_directdisk.py | 63 ------------------------------
+ 4 files changed, 69 insertions(+), 113 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/wic.py
+ delete mode 100644 scripts/setup.cfg
+ delete mode 100644 scripts/tests/01_wic_test_help.py
+ delete mode 100644 scripts/tests/02_wic_test_directdisk.py
+
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+new file mode 100644
+index 0000000..c628b59
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# Copyright (c) 2015, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++# AUTHORS
++# Ed Bartosh <ed.bartosh@linux.intel.com>
++
++"""Test cases for wic."""
++
++import sys
++
++from glob import glob
++from shutil import rmtree
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd
++
++class Wic(oeSelfTest):
++    """Wic test class."""
++
++    resultdir = "/var/tmp/wic/build/"
++
++    def setUp(self):
++        """This code is executed before each test method."""
++        rmtree(self.resultdir, ignore_errors=True)
++
++    def test01_help(self):
++        """Test wic --help"""
++        self.assertEqual(0, runCmd('wic --help').status)
++
++    def test02_createhelp(self):
++        """Test wic create --help"""
++        self.assertEqual(0, runCmd('wic creat --help').status)
++
++    def test03_listhelp(self):
++        """Test wic list --help"""
++        self.assertEqual(0, runCmd('wic list --help').status)
++
++    def test04_build_image_name(self):
++        """Test wic create directdisk --image-name core-image-minimal"""
++        self.assertEqual(0, runCmd("wic create directdisk "
++                                   "--image-name core-image-minimal").status)
++        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
++
++    def test05_build_artifacts(self):
++        """Test wic create directdisk providing all artifacts."""
++        self.assertEqual(0, runCmd("wic create directdisk "
++                                   "-b tmp/sysroots/qemux86/usr/share "
++                                   "-k tmp/deploy/images/qemux86 "
++                                   "-n tmp/sysroots/x86_64-linux "
++                                   "-r tmp/work/qemux86-poky-linux/"
++                                   "core-image-minimal/1.0-r0/rootfs").status)
++        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+diff --git a/scripts/setup.cfg b/scripts/setup.cfg
+deleted file mode 100644
+index f378efa..0000000
+--- a/scripts/setup.cfg
++++ /dev/null
+@@ -1,6 +0,0 @@
+-[nosetests]
+-verbosity=2
+-exe=1
+-with-coverage=1
+-cover-erase=1
+-cover-package=wic,image,wic.imager
+diff --git a/scripts/tests/01_wic_test_help.py b/scripts/tests/01_wic_test_help.py
+deleted file mode 100644
+index 4aaa66f..0000000
+--- a/scripts/tests/01_wic_test_help.py
++++ /dev/null
+@@ -1,44 +0,0 @@
+-#!/usr/bin/env python
+-# ex:ts=4:sw=4:sts=4:et
+-# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+-#
+-# Copyright (c) 2015, Intel Corporation.
+-# All rights reserved.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License version 2 as
+-# published by the Free Software Foundation.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along
+-# with this program; if not, write to the Free Software Foundation, Inc.,
+-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-#
+-# AUTHORS
+-# Ed Bartosh <ed.bartosh@linux.intel.com>
+-
+-import imp
+-import unittest
+-
+-class TestWicHelp(unittest.TestCase):
+-    """Test help output of wic (sub)commands"""
+-
+-    def setUp(self):
+-        """This code is executed before each test method."""
+-        self.main = imp.load_source("wic", "wic").main
+-
+-    def testhelp(self):
+-        """Test wic --help"""
+-        self.assertRaises(SystemExit, self.main, ['--help'])
+-
+-    def testcreatehelp(self):
+-        """Test wic create --help"""
+-        self.assertRaises(SystemExit, self.main, ['create', '--help'])
+-
+-    def testlisthelp(self):
+-        """Test wic list --help"""
+-        self.assertRaises(SystemExit, self.main, ['list', '--help'])
+diff --git a/scripts/tests/02_wic_test_directdisk.py b/scripts/tests/02_wic_test_directdisk.py
+deleted file mode 100644
+index 6beff71..0000000
+--- a/scripts/tests/02_wic_test_directdisk.py
++++ /dev/null
+@@ -1,63 +0,0 @@
+-#!/usr/bin/env python
+-# ex:ts=4:sw=4:sts=4:et
+-# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+-#
+-# Copyright (c) 2015, Intel Corporation.
+-# All rights reserved.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License version 2 as
+-# published by the Free Software Foundation.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along
+-# with this program; if not, write to the Free Software Foundation, Inc.,
+-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-#
+-# AUTHORS
+-# Ed Bartosh <ed.bartosh@linux.intel.com>
+-
+-"""Test directdisk builds."""
+-
+-import imp
+-import unittest
+-import os
+-import shutil
+-import glob
+-
+-class TestWicDirectdisk(unittest.TestCase):
+-    """Test build of directdisk image"""
+-    def __init__(self, methodName='runTest'):
+-        unittest.TestCase.__init__(self, methodName)
+-        self.main = imp.load_source("wic", "wic").main
+-        self.resultdir = "/var/tmp/wic/build/"
+-
+-    def setUp(self):
+-        """This code executes before each test method."""
+-        shutil.rmtree(self.resultdir)
+-        os.chdir(os.getenv("BUILDDIR"))
+-
+-    def _build(self, cmdline):
+-        """Call self.main with provided commandline."""
+-        self.assertIsNone(self.main(cmdline))
+-        self.assertEqual(1, len(glob.glob(self.resultdir + \
+-                                "directdisk-*.direct")))
+-
+-    def testbuild_image_name(self):
+-        """Test wic create directdisk --image-name core-image-minimal"""
+-        self._build(["create", "directdisk",
+-                     "--image-name", "core-image-minimal"])
+-
+-    def testbuild_artifacts(self):
+-        """Test wic create directdisk providing all artifacts."""
+-        self._build(["create", "directdisk",
+-                     "-b", "tmp/sysroots/qemux86/usr/share",
+-                     "-k", "tmp/deploy/images/qemux86",
+-                     "-n", "tmp/sysroots/x86_64-linux",
+-                     "-r", "tmp/work/qemux86-poky-linux/"
+-                           "core-image-minimal/1.0-r0/rootfs"])
+-
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
