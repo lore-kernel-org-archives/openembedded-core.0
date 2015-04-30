@@ -1,28 +1,29 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2817B716CE
+	by mail.openembedded.org (Postfix) with ESMTP id EE6B16AC38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Apr 2015 02:11:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3U2BiUQ022852
+	Thu, 30 Apr 2015 05:43:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3U5hSH2023799
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Apr 2015 19:11:45 -0700 (PDT)
-Received: from [128.224.162.177] (128.224.162.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 29 Apr 2015 19:11:44 -0700
-Message-ID: <55418FB8.8070508@windriver.com>
-Date: Thu, 30 Apr 2015 10:13:12 +0800
-From: "Huang, Yuanjie" <yuanjie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed, 29 Apr 2015 22:43:28 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 29 Apr 2015 22:43:28 -0700
+Message-ID: <5541C0FE.1000706@windriver.com>
+Date: Thu, 30 Apr 2015 13:43:26 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1430207172-6926-1-git-send-email-Yuanjie.Huang@windriver.com>
-	<1430219312.13022.168.camel@linuxfoundation.org>
-In-Reply-To: <1430219312.13022.168.camel@linuxfoundation.org>
+References: <cover.1427262046.git.liezhi.yang@windriver.com>	
+	<78a8e0beb1dd78a8461b994816267ec8848b2ca7.1427262046.git.liezhi.yang@windriver.com>
+	<1429601943.26983.74.camel@linuxfoundation.org>
+In-Reply-To: <1429601943.26983.74.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ldconfig-native: Add 64-bit flag for ELF64 entries
+Subject: Re: [PATCH 1/1] libarchive: set CLEANBROKEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,321 +36,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Apr 2015 02:11:47 -0000
-X-Groupsio-MsgNum: 64999
-Content-Type: multipart/mixed; boundary="------------080405080201000104090906"
-
---------------080405080201000104090906
+X-List-Received-Date: Thu, 30 Apr 2015 05:43:31 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Sorry I was on the wrong tree and was one patch behind. Please see the 
-revised patch.
 
-Best,
-Yuanjie
 
-On 04/28/2015 07:08 PM, Richard Purdie wrote:
-> On Tue, 2015-04-28 at 15:46 +0800, Yuanjie Huang wrote:
->> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+On 04/21/2015 03:39 PM, Richard Purdie wrote:
+> On Tue, 2015-03-24 at 22:41 -0700, Robert Yang wrote:
+>> Errors when rebuild:
+>> checking for xml2-config... /path/to/tmp/sysroots/qemux86-64/usr/bin/crossscripts/xml2-config
+>> checking for xmlInitParser in -lxml2... no
+>> configure: error: in `/path/to/tmp/work/core2-64-poky-linux/libarchive/3.1.2-r0/libarchive-3.1.2':
+>> configure: error: Missing xml2 library
 >>
->> ldconfig-native was grepped from an old version of glibc, and its output
->> lacks neccessary 64bit flag in entries.
->> Due to this defect, ctypes.util.find_library() python function fails to
->> detect any library due to the old file format that ldconfig-native
->> creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
->>
->> Since the host's elf.h may not have definition for new AArch64 machine
->> type, a work-around is added to correctly flag 64-bit ARM libraries.
->>
->> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 >> ---
->>   .../add-64-bit-flag-for-ELF64-entries.patch        | 103 +++++++++++++++++++++
->>   meta/recipes-core/glibc/ldconfig-native_2.12.1.bb  |   1 +
->>   2 files changed, 104 insertions(+)
->>   create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+>>   .../libarchive/libarchive_3.1.2.bb                 |    2 ++
+>>   1 file changed, 2 insertions(+)
 >>
->> diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
->> new file mode 100644
->> index 0000000..d42f7a1
->> --- /dev/null
->> +++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
->> @@ -0,0 +1,103 @@
->> +From 9d62544090b08849218cd1fc52a36cdd5d90363e Mon Sep 17 00:00:00 2001
->> +From: Yuanjie Huang <yuanjie.huang@windriver.com>
->> +Date: Fri, 24 Apr 2015 03:29:31 +0000
->> +Subject: [PATCH] Add 64-bit flag for ELF64 entries.
+>> diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> index 96e2d50..2ac8c5e 100644
+>> --- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> +++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> @@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
+>>
+>>   DEPENDS = "e2fsprogs-native"
+>>
+>> +CLEANBROKEN = "1"
 >> +
->> +ldconfig-native was grepped from an old version of glibc, and its output
->> +lacks neccessary 64bit flag in entries.
->> +Due to this defect, ctypes.util.find_library() python function fails to
->> +detect any library due to the old file format that ldconfig-native
->> +creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
->> +
->> +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
->> +---
->> + cache.c      |  4 ++++
->> + ldconfig.h   |  4 ++++
->> + readelflib.c | 34 ++++++++++++++++++++++++++++++++++
->> + 3 files changed, 42 insertions(+)
->> +
->> +diff --git a/cache.c b/cache.c
->> +index a904d44..c4f5411 100644
->> +--- a/cache.c
->> ++++ b/cache.c
->> +@@ -121,6 +121,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
->> +       break;
->> +     case FLAG_MIPS64_LIBN64:
->> +       fputs (",64bit", stdout);
->> ++      break;
->> ++    case FLAG_AARCH64_LIB64:
->> ++      fputs (",AArch64", stdout);
->> ++      break;
->> +     case 0:
->> +       break;
->> +     default:
->> +diff --git a/ldconfig.h b/ldconfig.h
->> +index fadd5ec..6a8a750 100644
->> +--- a/ldconfig.h
->> ++++ b/ldconfig.h
->> +@@ -34,6 +34,10 @@
->> + #define FLAG_POWERPC_LIB64	0x0500
->> + #define FLAG_MIPS64_LIBN32	0x0600
->> + #define FLAG_MIPS64_LIBN64	0x0700
->> ++#define FLAG_X8664_LIBX32		0x0800
->> ++#define FLAG_ARM_LIBHF			0x0900
->> ++#define FLAG_AARCH64_LIB64		0x0a00
->> ++#define FLAG_ARM_LIBSF			0x0b00
->> +
->> + /* Name of auxiliary cache.  */
->> + #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
->> +diff --git a/readelflib.c b/readelflib.c
->> +index 0bf0de3..6e87afc 100644
->> +--- a/readelflib.c
->> ++++ b/readelflib.c
->> +@@ -28,6 +28,11 @@
->> +
->> + #include "endian_extra.h"
->> +
->> ++/* Work-around for old host that does not have AArch64 defined in elf.h. */
->> ++#ifndef EM_AARCH64
->> ++#define EM_AARCH64	183		/* ARM AARCH64 */
->> ++#endif
->> ++
->> + #undef check_ptr
->> + #define check_ptr(ptr)						\
->> + do								\
->> +@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
->> +      libc5/libc6.  */
->> +   *flag = FLAG_ELF;
->> +
->> ++  /* Set flags according to information in ELF header to align with target
->> ++     ldconfig */
->> ++  switch (elf_header->e_machine)
->> ++    {
->> ++    case EM_IA_64:
->> ++      *flag |= FLAG_IA64_LIB64;
->> ++      break;
->> ++    case EM_X86_64:
->> ++      *flag |= FLAG_X8664_LIB64;
->> ++      break;
->> ++    case EM_S390:
->> ++      *flag |= FLAG_S390_LIB64;
->> ++      break;
->> ++    case EM_PPC64:
->> ++      *flag |= FLAG_POWERPC_LIB64;
->> ++      break;
->> ++    case EM_MIPS:
->> ++    case EM_MIPS_RS3_LE:
->> ++      *flag |= FLAG_MIPS64_LIBN64;
->> ++      break;
->> ++    case EM_AARCH64:
->> ++      *flag |= FLAG_AARCH64_LIB64;
->> ++      break;
->> ++    default:
->> ++      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
->> ++            file_name, (long)elf_header->e_machine);
->> ++      break;
->> ++    }
->> ++
->> +   loadaddr = -1;
->> +   dynamic_addr = 0;
->> +   dynamic_size = 0;
->> +--
->> +1.8.5.2.233.g932f7e4
->> +
->> diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
->> index 7c34635..8a2ea90 100644
->> --- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
->> +++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
->> @@ -12,6 +12,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
->>              file://flag_fix.patch \
->>              file://endianess-header.patch \
->>              file://ldconfig-default-to-all-multilib-dirs.patch \
->> +           file://add-64-bit-flag-for-ELF64-entries.patch \
->>   "
->>   
->>   PR = "r2"
-> The patch doesn't seem to apply against master? Master appears to have
-> an additional patch than the list above?
+>>   PACKAGECONFIG ?= "libxml2 zlib bz2"
+>>
+>>   PACKAGECONFIG_append_class-target = "\
+>
+> I just looked into this I will explain why this worries me. We patch
+> libarchive to remove the reference to xml2-config in SRC_URI. For this
+> error to appear, the patch must have been removed.
+>
+> The question is therefore why does it get removed and why isn't that an
+> error? Does the CVE patch get removed too?
+>
+> FWIW, "bitbake libarchive -c configure -f" does not reproduce the error
+> and the clean broken is therefore a workaround/hack.
+>
+> Actually, I just found what does break it is "bitbake libarchive -C
+> unpack". Why? Running "make clean" triggers configure to run again since
+> after unpack, the configure timestamp is more recent that config.status.
+>
+> So to fix this, we just need to touch config.status (if it exists)
+> before running make clean. We should probably do this in the autotools
+> class.
+
+Hi RP,
+
+When the error happens, more than one do_patch and do_configure runs nearly
+at the same time:
+
+$ ls -lt ../temp/log.do_patch* --full-time
+lrwxrwxrwx 1 lyang1 users   17 2015-04-29 19:43:45.654157649 -0700 
+../temp/log.do_patch -> log.do_patch.9045
+-rw-r--r-- 1 lyang1 users 2867 2015-04-29 19:43:45.614157776 -0700 
+../temp/log.do_patch.22016
+-rw-r--r-- 1 lyang1 users 4324 2015-04-29 19:43:45.386158500 -0700 
+../temp/log.do_patch.9045
+-rw-r--r-- 1 lyang1 users 2867 2015-04-29 19:43:45.378158526 -0700 
+../temp/log.do_patch.13113
+
+$ ls -lt ../temp/log.do_configure* --full-time
+-rw-r--r-- 1 lyang1 users 15114 2015-04-29 19:43:45.670157600 -0700 
+../temp/log.do_configure.30582
+lrwxrwxrwx 1 lyang1 users    22 2015-04-29 19:43:45.630157725 -0700 
+../temp/log.do_configure -> log.do_configure.30582
+-rw-r--r-- 1 lyang1 users 16397 2015-04-29 19:43:45.626157739 -0700 
+../temp/log.do_configure.22478
+-rw-r--r-- 1 lyang1 users 27431 2015-04-29 19:43:45.614157776 -0700 
+../temp/log.do_configure.8960
+-rw-r--r-- 1 lyang1 users 25954 2015-04-29 19:43:45.502158132 -0700 
+../temp/log.do_configure.15184
+-rw-r--r-- 1 lyang1 users 25014 2015-04-29 19:43:45.434158347 -0700 
+../temp/log.do_configure.1545
+-rw-r--r-- 1 lyang1 users 16396 2015-04-29 19:43:45.294158792 -0700 
+../temp/log.do_configure.9513
+
+do you have any suggestions, please ?
+
+// Robert
+
 >
 > Cheers,
 >
 > Richard
 >
+>
+>
+>
+>
 
-
---------------080405080201000104090906
-Content-Type: text/x-patch;
-	name="0001-ldconfig-native-Add-64-bit-flag-for-ELF64-entries.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="0001-ldconfig-native-Add-64-bit-flag-for-ELF64-entries.patch"
-
-From 3bb982232e7914a078688151630e71905f01cc49 Mon Sep 17 00:00:00 2001
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-Date: Mon, 27 Apr 2015 15:42:03 +0800
-Subject: [PATCH] ldconfig-native: Add 64-bit flag for ELF64 entries
-
-ldconfig-native was grepped from an old version of glibc, and its output
-lacks neccessary 64bit flag in entries.
-Due to this defect, ctypes.util.find_library() python function fails to
-detect any library due to the old file format that ldconfig-native
-creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
-
-Since the host's elf.h may not have definition for new AArch64 machine
-type, a work-around is added to correctly flag 64-bit ARM libraries.
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- .../add-64-bit-flag-for-ELF64-entries.patch        | 103 +++++++++++++++++++++
- meta/recipes-core/glibc/ldconfig-native_2.12.1.bb  |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-new file mode 100644
-index 0000000..d42f7a1
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-@@ -0,0 +1,103 @@
-+From 9d62544090b08849218cd1fc52a36cdd5d90363e Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Fri, 24 Apr 2015 03:29:31 +0000
-+Subject: [PATCH] Add 64-bit flag for ELF64 entries.
-+
-+ldconfig-native was grepped from an old version of glibc, and its output
-+lacks neccessary 64bit flag in entries.
-+Due to this defect, ctypes.util.find_library() python function fails to
-+detect any library due to the old file format that ldconfig-native
-+creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ cache.c      |  4 ++++
-+ ldconfig.h   |  4 ++++
-+ readelflib.c | 34 ++++++++++++++++++++++++++++++++++
-+ 3 files changed, 42 insertions(+)
-+
-+diff --git a/cache.c b/cache.c
-+index a904d44..c4f5411 100644
-+--- a/cache.c
-++++ b/cache.c
-+@@ -121,6 +121,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
-+       break;
-+     case FLAG_MIPS64_LIBN64:
-+       fputs (",64bit", stdout);
-++      break;
-++    case FLAG_AARCH64_LIB64:
-++      fputs (",AArch64", stdout);
-++      break;
-+     case 0:
-+       break;
-+     default:
-+diff --git a/ldconfig.h b/ldconfig.h
-+index fadd5ec..6a8a750 100644
-+--- a/ldconfig.h
-++++ b/ldconfig.h
-+@@ -34,6 +34,10 @@
-+ #define FLAG_POWERPC_LIB64	0x0500
-+ #define FLAG_MIPS64_LIBN32	0x0600
-+ #define FLAG_MIPS64_LIBN64	0x0700
-++#define FLAG_X8664_LIBX32		0x0800
-++#define FLAG_ARM_LIBHF			0x0900
-++#define FLAG_AARCH64_LIB64		0x0a00
-++#define FLAG_ARM_LIBSF			0x0b00
-+ 
-+ /* Name of auxiliary cache.  */
-+ #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
-+diff --git a/readelflib.c b/readelflib.c
-+index 0bf0de3..6e87afc 100644
-+--- a/readelflib.c
-++++ b/readelflib.c
-+@@ -28,6 +28,11 @@
-+ 
-+ #include "endian_extra.h"
-+ 
-++/* Work-around for old host that does not have AArch64 defined in elf.h. */
-++#ifndef EM_AARCH64
-++#define EM_AARCH64	183		/* ARM AARCH64 */
-++#endif
-++
-+ #undef check_ptr
-+ #define check_ptr(ptr)						\
-+ do								\
-+@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+      libc5/libc6.  */
-+   *flag = FLAG_ELF;
-+ 
-++  /* Set flags according to information in ELF header to align with target
-++     ldconfig */
-++  switch (elf_header->e_machine)
-++    {
-++    case EM_IA_64:
-++      *flag |= FLAG_IA64_LIB64;
-++      break;
-++    case EM_X86_64:
-++      *flag |= FLAG_X8664_LIB64;
-++      break;
-++    case EM_S390:
-++      *flag |= FLAG_S390_LIB64;
-++      break;
-++    case EM_PPC64:
-++      *flag |= FLAG_POWERPC_LIB64;
-++      break;
-++    case EM_MIPS:
-++    case EM_MIPS_RS3_LE:
-++      *flag |= FLAG_MIPS64_LIBN64;
-++      break;
-++    case EM_AARCH64:
-++      *flag |= FLAG_AARCH64_LIB64;
-++      break;
-++    default:
-++      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
-++            file_name, (long)elf_header->e_machine);
-++      break;
-++    }
-++
-+   loadaddr = -1;
-+   dynamic_addr = 0;
-+   dynamic_size = 0;
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-index 1debf8e..93c0b18 100644
---- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://endianess-header.patch \
-            file://ldconfig-default-to-all-multilib-dirs.patch \
-            file://endian-ness_handling_fix.patch \
-+           file://add-64-bit-flag-for-ELF64-entries.patch \
- "
- 
- PR = "r2"
--- 
-2.3.6
-
-
---------------080405080201000104090906--
