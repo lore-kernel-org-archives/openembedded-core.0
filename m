@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 90BF673BB8
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AE42373E11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 May 2015 20:41:29 +0000 (UTC)
-Received: by qcbdu2 with SMTP id du2so6938731qcb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 May 2015 13:41:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=p/bzDwljadmP54kzcEtKWy2pfaWQxB2jGtH9ZrH2s1k=;
-	b=D0oxXPckaweG/ku1kDE8Dr7l7eVaLeOHMOeWv4gT1/tckgnV3/yUBdSI44TPCfL/Xd
-	lg66MlBzswTEYooik4fXWilVrIp0jBS184Kx3VKINgSnTh1T2DNYxpnH34PanW9P7Gxd
-	UWn9vm1PIDSMLURnWROJN/4TIPpslPLCiHLmGq0FoUoXDbBSvAjmrAThFjDnsjHP2Oqi
-	lRN2ETE9lqdKtTydGZU5Pis+LqKNnZIq3OVrUt8bWtg16BZFvgBP1lZQSAx+l8KTwIIU
-	TBGquRLgq846SssJUoqI21gGH2GiAnBnr7MYEPVIfiEgf/J+4ItsxzFgRLFSQhJvv45+
-	rhAA==
-X-Gm-Message-State: ALoCoQn1WSHvjXqo9b2QFSgl9aMd7rfJKMW+FxRilFlk2Sd5m229jszrPlKmz5BpfV4wPfpSuKK6
-X-Received: by 10.140.89.37 with SMTP id u34mr13063581qgd.15.1430512890284;
-	Fri, 01 May 2015 13:41:30 -0700 (PDT)
+	Fri,  1 May 2015 22:13:04 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t41MD5CM018287 for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 May 2015 17:13:05 -0500
+Received: from [10.2.106.105] ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015050117130577-548859 ;
+	Fri, 1 May 2015 17:13:05 -0500 
+Message-ID: <5543FA71.9060903@ni.com>
+Date: Fri, 01 May 2015 17:13:05 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 1 May 2015 13:41:09 -0700 (PDT)
-In-Reply-To: <1429720746-20096-1-git-send-email-thomas.perrot@tupi.fr>
-References: <1429720746-20096-1-git-send-email-thomas.perrot@tupi.fr>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 May 2015 21:41:09 +0100
-Message-ID: <CAJTo0LZkVGZTVBueVpwFaTvmiK_3vsXRB45abKSs0--fbVWzZw@mail.gmail.com>
-To: Thomas Perrot <thomas.perrot@tupi.fr>
-Cc: tprrt <tprrt@tupi.fr>, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-systemctl-native: fix checksum error
+To: openembedded-core@lists.openembedded.org
+References: <20150501160602.GA5885@denix.org>
+In-Reply-To: <20150501160602.GA5885@denix.org>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 05/01/2015 05:13:05 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 05/01/2015 05:13:05 PM,
+	Serialize complete at 05/01/2015 05:13:05 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-05-01_08:, , signatures=0
+Subject: Re: opkg_install_pkg: Package <name> md5sum mismatch. Either the opkg or the package index are corrupt.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 May 2015 20:41:29 -0000
-Content-Type: multipart/alternative; boundary=001a11c117eeac44b605150b3cc6
+X-List-Received-Date: Fri, 01 May 2015 22:13:11 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=windows-1252
 
---001a11c117eeac44b605150b3cc6
-Content-Type: text/plain; charset=UTF-8
 
-On 22 April 2015 at 17:39, Thomas Perrot <thomas.perrot@tupi.fr> wrote:
 
-> ERROR: systemd-systemctl-native: md5 data is not matching for
-> file:///home/tprrt/dev/oe-build-easy/combination/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690
-> ERROR: systemd-systemctl-native: The new md5 checksum is
-> 751419260aa954499f7abaabaa882bbe
+On 05/01/2015 11:06 AM, Denys Dmytriyenko wrote:
+> Hi,
 >
+> Has anyone ever seen this message during <image>.do_rootfs task?
+>
+> Collected errors:
+>  * opkg_install_pkg: Package <package> md5sum mismatch. Either the opkg or the package index are corrupt. Try 'opkg update'.
+>  * opkg_install_cmd: Cannot install package <package>.
+>
+> We started seeing it on random packages inside the <image> few weeks ago on 
+> different machines. At the time we had switched to bitbake 1.26. But even 
+> trying different bitbake versions still occasionally caused the same error, so 
+> the culprit is still unknwon. Using oe-core/daisy for now.
+>
+> Any comments or suggestions to where start looking would be appreciated! 
+> Thanks.
+>
+The error is saying that there is a mismatch between the registered package mds5sum and the actual md5sum of the package. On your log.do_rootfs log file you should find the opkg-cl command being called, which has an opkg.conf file as parameter. Inside the conf file, you will see the paths to the local repos being used to build your image.  Can you confirm that the registered md5sum for one of the problematic packages on the Package file on the repo doesn't match the actual package md5sum?
 
-The LICENSE in oe-core definitely has the md5sum 4d92[...].  Are you using
-a tool to create a combined repository that is overriding the LICENSE file?
+Alejandro
 
-Ross
-
---001a11c117eeac44b605150b3cc6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 April 2015 at 17:39, Thomas Perrot <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:thomas.perrot@tupi.fr" target=3D"_blank">thomas.perrot@tupi.fr</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5ie" class=3D=
-"a3s" style=3D"overflow:hidden">ERROR: systemd-systemctl-native: md5 data i=
-s not matching for file:///home/tprrt/dev/oe-build-easy/combination/LICENSE=
-;md5=3D4d92cd373abda3937c2bc47fbc49d690<br>
-ERROR: systemd-systemctl-native: The new md5 checksum is 751419260aa954499f=
-7abaabaa882bbe<br></div></blockquote></div><br>The LICENSE in oe-core defin=
-itely has the md5sum 4d92[...].=C2=A0 Are you using a tool to create a comb=
-ined repository that is overriding the LICENSE file?</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c117eeac44b605150b3cc6--
