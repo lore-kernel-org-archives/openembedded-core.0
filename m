@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 644CB73DD9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 500CC73DA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 May 2015 14:03:57 +0000 (UTC)
-Received: by qcrf4 with SMTP id f4so44020989qcr.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 May 2015 07:03:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+tNyFuD87pm7bVbsh1pLWbeJ0vXWjSnQ1z+jGCRfZkc=;
-	b=IgIvnk/LQbsSyrMiRXShrqEnaX+Cp+DMiY3h0s2KW2pPUttVyb6Si0QLmh6k1XoPOF
-	N+wiZP2oQL9TZ4D+G7tvCE6Zpg8om5b5x7hKsQjct3QzglISROyFNu1RFOikejVICUrT
-	GT3lx2PQqON4Ti4IXqw1VCHHPwnHlnAX3h+pCobnHgBEZDCYu2QHH9o/GjYfu8HlBeFr
-	8knaUUw5XAtzQk5ANC9vE+pq3MN02mKmlAskSLKIdQeDB9PY8JfKmKyGRmmVXQUZn9dH
-	OzBay1giuTR5vqjYp76cKc4ELTTln9vh10P5xK1/qYKk3H4/fVFMcnsQhbG6wCdwE4WT
-	Mz+w==
-X-Gm-Message-State: ALoCoQk94J5LfGZRNQ4blB6TyazhCYPrFoG/geMY0GH87hA7w748VVa3EvlQKA+wlQF9MmM8mWac
-X-Received: by 10.140.149.147 with SMTP id 141mr12291545qhv.17.1430489038762; 
-	Fri, 01 May 2015 07:03:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 1 May 2015 07:03:38 -0700 (PDT)
-In-Reply-To: <1430480517-8245-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1430480517-8245-1-git-send-email-jukka.rissanen@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 May 2015 15:03:38 +0100
-Message-ID: <CAJTo0LYtz5=Onm6ERW1fomWViwLNpWtaGnPZUYEfE53YNBsRmw@mail.gmail.com>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: Enable automake dependency tracking
+	Fri,  1 May 2015 14:29:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t41ESwOY020587; Fri, 1 May 2015 15:28:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QYXCuFd2y8Nn; Fri,  1 May 2015 15:28:58 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t41ESjag020579
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 1 May 2015 15:28:56 +0100
+Message-ID: <1430490525.18360.14.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Fri, 01 May 2015 15:28:45 +0100
+In-Reply-To: <1429030567-20338-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1429030567-20338-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +36,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 May 2015 14:03:59 -0000
-Content-Type: multipart/alternative; boundary=001a1137681602d641051505af23
+X-List-Received-Date: Fri, 01 May 2015 14:29:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1137681602d641051505af23
-Content-Type: text/plain; charset=UTF-8
+On Tue, 2015-04-14 at 19:56 +0300, Ed Bartosh wrote:
+> Race condition between do_compile_kernelmodules and do_shared_workdir
+> tasks occurs when do_compilemodules changes files in include/generated/*
+> while do_shared_workdir tries to copy them to shared working directory.
+> 
+> Functionality of do_shared_workdir has been moved to separate function
+> mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
+> left in the code as it may be used in many recipes.
 
-On 1 May 2015 at 12:41, Jukka Rissanen <jukka.rissanen@linux.intel.com>
-wrote:
+Its called from do_kernel_install according to the patch?
 
-> The automake option --disable-dependency-tracking does not work nicely
-> with ConnMan 1.29 release.
-> The reason is ConnMan commits ac332c5d01b0737c18cb58c8ccc67cf6b0427e1d
-> and ea6c21b0b20f6f25b25386285d81d859dc843820 that change how and when
-> various .in files are generated. After those commits, the auto
-> generated files / directories are created during compilation. Earlier
-> they were generated by configure script.
->
+This leaves a race since some code depends on the do_shared_work task
+and shared_work is added after compile before install.
 
-Yesterday I fixed this the other way: by adding mkdir calls to connman so
-that instead of requiring dependency tracking to be on so that directories
-are generated, the build makes the directories as required.
+Cheers,
 
-970e0ae was where dependency tracking was disabled on the rationale that
-it's slower, has races, and theoretically won't give us an advantage as we
-don't generally rebuild the same source tree repeatedly.
+Richard
 
-I'll submit my fix to connman in a moment.
+> [YOCTO #7321]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 125ed88..aad430a 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -231,6 +231,8 @@ kernel_do_install() {
+>  	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+>  	install -d ${D}${sysconfdir}/modules-load.d
+>  	install -d ${D}${sysconfdir}/modprobe.d
+> +
+> +	mk_shared_workdir
+>  }
+>  do_install[prefuncs] += "package_get_auto_pr"
+>  
+> @@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
+>  
+>  PACKAGEFUNCS += "emit_depmod_pkgdata"
+>  
+> -do_shared_workdir () {
+> +mk_shared_workdir () {
+>  	cd ${B}
+>  
+>  	kerneldir=${STAGING_KERNEL_BUILDDIR}
+> @@ -289,6 +291,14 @@ do_shared_workdir () {
+>  	fi
+>  }
+>  
+> +# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
+> +# and called from kernel_do_compile.
+> +# It caused race condition with do_compile_kernelmodules when it runs
+> +# in parallel with do_compile_kernelmodules
+> +do_shared_workdir () {
+> +	:
+> +}
+> +
+>  # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+>  sysroot_stage_all () {
+>  	:
+> -- 
+> 2.1.4
+> 
 
-Ross
 
---001a1137681602d641051505af23
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 May 2015 at 12:41, Jukka Rissanen <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:jukka.rissanen@linux.intel.com" target=3D"_blank">jukka.rissanen@linux.=
-intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":3bb" class=
-=3D"" style=3D"overflow:hidden">The automake option --disable-dependency-tr=
-acking does not work nicely<br>
-with ConnMan 1.29 release.<br>
-The reason is ConnMan commits ac332c5d01b0737c18cb58c8ccc67cf6b0427e1d<br>
-and ea6c21b0b20f6f25b25386285d81d859dc843820 that change how and when<br>
-various .in files are generated. After those commits, the auto<br>
-generated files / directories are created during compilation. Earlier<br>
-they were generated by configure script.</div></blockquote><div><br></div><=
-div>Yesterday I fixed this the other way: by adding mkdir calls to connman =
-so that instead of requiring dependency tracking to be on so that directori=
-es are generated, the build makes the directories as required.</div><div><b=
-r></div><div>970e0ae was where dependency tracking was disabled on the rati=
-onale that it&#39;s slower, has races, and theoretically won&#39;t give us =
-an advantage as we don&#39;t generally rebuild the same source tree repeate=
-dly.</div><div><br></div><div>I&#39;ll submit my fix to connman in a moment=
-.</div><div><br></div><div>Ross</div></div></div></div>
-
---001a1137681602d641051505af23--
