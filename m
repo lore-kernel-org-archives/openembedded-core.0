@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4677B73DA5
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DDE9F73DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 May 2015 15:47:18 +0000 (UTC)
-Received: by qcbgu10 with SMTP id gu10so4915437qcb.2
+	Fri,  1 May 2015 15:58:05 +0000 (UTC)
+Received: by qkx62 with SMTP id 62so53051218qkx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 May 2015 08:47:19 -0700 (PDT)
+	Fri, 01 May 2015 08:58:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=VXkZUhKxRgWAnYgg1MaOtzqgVsACMfcrXzTF1R3DQOI=;
-	b=hP/l21//0hgABGUky58lcAtlV6uROXe/4qqq5ID+eSPoCY6PjxARqQkwnGLg2Aha3U
-	H5ioAB9iNFuAiPFeq0CeeCAAZ9VQ+/Ytd2NfMqPNyHV5NZUm/K6VNye+/aKVpNup9qth
-	qW2VydikXedtx/G8+zb4bSCLsGRBoSGXPl2t2mHLwzDaa4Cs3H0705mdz4M1NMX09a/I
-	kemJXma/s8nJHm3w2/cjOyECWnjLVxl/dYWFI+CTZU7ZYUAZMLWmiYlZt2Ve2P3KLOKN
-	ZkaloyEh0rKLOBSo7hmMEE5bo1XFPcFGTB2iZ/fPn9jGVAwgbJ6/bE1RrNUy8GzsrPbG
-	6nJw==
-X-Gm-Message-State: ALoCoQnLuKq1eydiAD54Q3rDyZWaXBKH11yjOp4vGZduvPD7TlRI1JZzj90+pg5eKZWaqk6K+5e9
-X-Received: by 10.140.88.35 with SMTP id s32mr11353336qgd.59.1430495239456;
-	Fri, 01 May 2015 08:47:19 -0700 (PDT)
+	bh=8dUfdg3u5HnSHHKt8k/9vuQtoDyLHOj8QadyXqlJYZA=;
+	b=LFgL2Q3Q2/m75OgpDj9Aflp3HP0i8gEc6CiwIaYB772TPVoEwfpYFZPJHLtnYruCmP
+	VUXDUoeQfsXAsgljO4tESWR6w6La86anR8zfFWFwwHqNcbWz9oSn6/U9l7M0QLFW9NoJ
+	VgPcsuXpWWSdvdslznFNXERKCYyLnyiu4gbtO7Le8AnWPhMg0SSQ9K+xLtGwvhu802Yq
+	6VmYd6r2NFeNqO0lE4De33OnXRSpPzMvyqnYkRERXJHvxUqhwAnzFi+PYSzM/ilD+mmL
+	hdEcc2ZoU7TQ67D8JV8vQIT8s5BYDVuu7RnTNV3/Qa8lsNwAKsbOaIaFzzadZRLxJchr
+	eeLQ==
+X-Gm-Message-State: ALoCoQm+lNQ4AEpqgdIyxYxvuZZHtxGk3uxWhlT8sWugv7a8VmpReRYMpLo/dorAMTQ9RD5G2vUU
+X-Received: by 10.140.89.37 with SMTP id u34mr11539307qgd.15.1430495886732;
+	Fri, 01 May 2015 08:58:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 1 May 2015 08:46:58 -0700 (PDT)
-In-Reply-To: <7109a33ad37ba0f8193de18a2c7f113acc087990.1430292378.git.liezhi.yang@windriver.com>
-References: <cover.1430292378.git.liezhi.yang@windriver.com>
-	<7109a33ad37ba0f8193de18a2c7f113acc087990.1430292378.git.liezhi.yang@windriver.com>
+Received: by 10.140.102.231 with HTTP; Fri, 1 May 2015 08:57:46 -0700 (PDT)
+In-Reply-To: <5541F4B9.4080201@windriver.com>
+References: <1430297966-25315-1-git-send-email-rongqing.li@windriver.com>
+	<1430380974.19130.51.camel@linuxfoundation.org>
+	<5541F4B9.4080201@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 May 2015 16:46:58 +0100
-Message-ID: <CAJTo0LZcADEC1Y3rjcEs61+S8jSe9C+28sT0r2xvGpSO5vR3Xw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 1 May 2015 16:57:46 +0100
+Message-ID: <CAJTo0LYH_qarpYL5En9XVJfT=CynFW_6aY-eCDw42Ki0E9i-OA@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libxml2: fix python path and add libxml2-python
+Subject: Re: [PATCH] bind: upgrade to 9.10.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,210 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 May 2015 15:47:20 -0000
-Content-Type: multipart/alternative; boundary=001a11c11d0299e0c805150720ab
+X-List-Received-Date: Fri, 01 May 2015 15:58:06 -0000
+Content-Type: multipart/alternative; boundary=001a11c117ee2e88500515074764
 
---001a11c11d0299e0c805150720ab
+--001a11c117ee2e88500515074764
 Content-Type: text/plain; charset=UTF-8
 
-buildhistory says:
+On 30 April 2015 at 10:24, Rongqing Li <rongqing.li@windriver.com> wrote:
 
-packages/corei7-64-poky-linux/libxml2/libxml2: RDEPENDS: added "python-core"
+> I can not reproduce it on Ubuntu and Fedora release 21, for x86. mips
+>
 
-Why does the library package gain a dependency on python?
+This is what I see:
+
+| x86_64-poky-linux-gcc  -m64 -march=corei7 -mtune=corei7 -mfpmath=sse
+-msse4.2 --sysroot=/data/poky-master/tmp/sysroots/intel-corei7-64  -O2
+-pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE
+ -I/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//include  -Wl,-O1
+-Wl,--hash-style=gnu -Wl,--as-needed -o svtest test.o libomapi.a
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libirs.a
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libdns.a
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libisccfg.a
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libisc.a -lcrypto
+|
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libdns.a(cache.o):
+In function `renderstat':
+|
+/data/poky-master/tmp/work/corei7-64-poky-linux/bind/9.10.2-r0/bind-9.10.2/lib/dns/cache.c:1419:
+undefined reference to `xmlTextWriterStartElement'
+
+It appears to be forgetting to link to libxml2.
 
 Ross
 
-On 29 April 2015 at 08:26, Robert Yang <liezhi.yang@windriver.com> wrote:
-
-> We have libxml2-python for native and nativesdk, but don't have it for
-> target, and can't find the reason from the git log, libxml2-python is
-> widely used, after looked into it's configure.in, we can add it
-> by PACKAGECONFIG.
->
-> The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-> acted as work becase it's conigure can check automatically, python is in
-> ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-> ${PYTHON}.
->
-> Add python to PACKAGECONFIG, since createrepo rdepends on
-> libxml2-python, otherwise the target createrepo can't work.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-core/libxml/libxml2.inc |   18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/meta/recipes-core/libxml/libxml2.inc
-> b/meta/recipes-core/libxml/libxml2.inc
-> index 1314bbf..4886705 100644
-> --- a/meta/recipes-core/libxml/libxml2.inc
-> +++ b/meta/recipes-core/libxml/libxml2.inc
-> @@ -9,8 +9,6 @@ LIC_FILES_CHKSUM =
-> "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
->
->  file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
->
->  file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
->
-> -DEPENDS_class-nativesdk = "nativesdk-python"
-> -DEPENDS_class-native = "python-native"
->  DEPENDS =+ "zlib"
->
->  SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-> @@ -37,16 +35,16 @@ do_configure_prepend () {
->         sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.ac
->  }
->
-> -do_configure_prepend_class-nativesdk () {
-> -       # Ensure we get the correct site-packages path
-> -       export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-> -}
-> +export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-> +
-> +PACKAGECONFIG ??= "python"
->
-> +PACKAGECONFIG[python] =
-> "--with-python=${PYTHON},--without-python,python,python-core"
->  # WARNING: zlib is require for RPM use
-> -EXTRA_OECONF = "--without-python --without-debug --without-legacy
-> --with-catalog --without-docbook --with-c14n --without-lzma
-> --with-fexceptions"
-> -EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python
-> --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> -EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python
-> --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> -EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy
-> --with-docbook --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF = "--without-debug --without-legacy --with-catalog
-> --without-docbook --with-c14n --without-lzma --with-fexceptions"
-> +EXTRA_OECONF_class-native = "--without-legacy --without-docbook
-> --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook
-> --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook
-> --with-c14n --without-lzma --with-zlib"
->
->  # required for pythong binding
->  export HOST_SYS
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a11c11d0299e0c805150720ab
+--001a11c117ee2e88500515074764
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>buildhistory says:</div><div><br></div>packages/corei=
-7-64-poky-linux/libxml2/libxml2: RDEPENDS: added &quot;python-core&quot;<br=
-><div><br></div><div>Why does the library package gain a dependency on pyth=
-on?</div><div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br=
-><div class=3D"gmail_quote">On 29 April 2015 at 08:26, Robert Yang <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank=
-">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">We have libxml2-python for native and nativesdk, but don&#39;t hav=
-e it for<br>
-target, and can&#39;t find the reason from the git log, libxml2-python is<b=
-r>
-widely used, after looked into it&#39;s <a href=3D"http://configure.in" tar=
-get=3D"_blank">configure.in</a>, we can add it<br>
-by PACKAGECONFIG.<br>
-<br>
-The previous --with-python=3D${STAGING_BINDIR}/python is incorrect, it<br>
-acted as work becase it&#39;s conigure can check automatically, python is i=
-n<br>
-${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as<br>
-${PYTHON}.<br>
-<br>
-Add python to PACKAGECONFIG, since createrepo rdepends on<br>
-libxml2-python, otherwise the target createrepo can&#39;t work.<br>
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;<br>
----<br>
-<span class=3D"">=C2=A0meta/recipes-core/libxml/libxml2.inc |=C2=A0 =C2=A01=
-8 ++++++++----------<br>
-=C2=A01 file changed, 8 insertions(+), 10 deletions(-)<br>
-<br>
-</span>diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-cor=
-e/libxml/libxml2.inc<br>
-index 1314bbf..4886705 100644<br>
---- a/meta/recipes-core/libxml/libxml2.inc<br>
-+++ b/meta/recipes-core/libxml/libxml2.inc<br>
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM =3D &quot;file://Copyright;md5=3D2044417e2=
-e5006b65a8b9067b683fcf1 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0file://list.c;beginline=3D4;endline=3D13;md5=3Dcdbfa3dee51c099edb04e39f7=
-62ee907 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0file://trio.c;beginline=3D5;endline=3D14;md5=3D6c025753c86d958722ec76e94=
-cae932e&quot;<br>
-<br>
--DEPENDS_class-nativesdk =3D &quot;nativesdk-python&quot;<br>
--DEPENDS_class-native =3D &quot;python-native&quot;<br>
-=C2=A0DEPENDS =3D+ &quot;zlib&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"ftp://xmlsoft.org/libxml2/libxml2-${PV}.=
-tar.gz;name=3Dlibtar" target=3D"_blank">ftp://xmlsoft.org/libxml2/libxml2-$=
-{PV}.tar.gz;name=3Dlibtar</a> \<br>
-@@ -37,16 +35,16 @@ do_configure_prepend () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/.*ansidecl.h.*/d&#39; ${S}/<a h=
-ref=3D"http://configure.ac" target=3D"_blank">configure.ac</a><br>
-=C2=A0}<br>
-<br>
--do_configure_prepend_class-nativesdk () {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# Ensure we get the correct site-packages path<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export PYTHON_SITE_PACKAGES=3D&quot;${PYTHON_SI=
-TEPACKAGES_DIR}&quot;<br>
--}<br>
-+export PYTHON_SITE_PACKAGES=3D&quot;${PYTHON_SITEPACKAGES_DIR}&quot;<br>
-+<br>
-+PACKAGECONFIG ??=3D &quot;python&quot;<br>
-<br>
-+PACKAGECONFIG[python] =3D &quot;--with-python=3D${PYTHON},--without-python=
-,python,python-core&quot;<br>
-=C2=A0# WARNING: zlib is require for RPM use<br>
--EXTRA_OECONF =3D &quot;--without-python --without-debug --without-legacy -=
--with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptio=
-ns&quot;<br>
--EXTRA_OECONF_class-native =3D &quot;--with-python=3D${STAGING_BINDIR}/pyth=
-on --without-legacy --without-docbook --with-c14n --without-lzma --with-zli=
-b&quot;<br>
--EXTRA_OECONF_class-nativesdk =3D &quot;--with-python=3D${STAGING_BINDIR}/p=
-ython --without-legacy --without-docbook --with-c14n --without-lzma --with-=
-zlib&quot;<br>
--EXTRA_OECONF_linuxstdbase =3D &quot;--without-python --with-debug --with-l=
-egacy --with-docbook --with-c14n --without-lzma --with-zlib&quot;<br>
-+EXTRA_OECONF =3D &quot;--without-debug --without-legacy --with-catalog --w=
-ithout-docbook --with-c14n --without-lzma --with-fexceptions&quot;<br>
-+EXTRA_OECONF_class-native =3D &quot;--without-legacy --without-docbook --w=
-ith-c14n --without-lzma --with-zlib&quot;<br>
-+EXTRA_OECONF_class-nativesdk =3D &quot;--without-legacy --without-docbook =
---with-c14n --without-lzma --with-zlib&quot;<br>
-+EXTRA_OECONF_linuxstdbase =3D &quot;--with-debug --with-legacy --with-docb=
-ook --with-c14n --without-lzma --with-zlib&quot;<br>
-<br>
-=C2=A0# required for pythong binding<br>
-=C2=A0export HOST_SYS<br>
-<div class=3D"HOEnZb"><div class=3D"h5">--<br>
-1.7.9.5<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</div></div></blockquote></div><br></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 April 2015 at 10:24, Rongqing Li <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:rongqing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);=
+border-left-style:solid;padding-left:1ex"><div id=3D":22b" class=3D"" style=
+=3D"overflow:hidden">I can not reproduce it on Ubuntu and Fedora release 21=
+, for x86. mips<div class=3D""><div id=3D":xx" class=3D"" tabindex=3D"0"></=
+div></div></div></blockquote></div><br>This is what I see:</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
+xtra">| x86_64-poky-linux-gcc =C2=A0-m64 -march=3Dcorei7 -mtune=3Dcorei7 -m=
+fpmath=3Dsse -msse4.2 --sysroot=3D/data/poky-master/tmp/sysroots/intel-core=
+i7-64 =C2=A0-O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE =C2=
+=A0-I/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//include =C2=A0=
+-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o svtest test.o libomapi.a =
+/data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libirs.a /data/poky=
+-master/tmp/sysroots/intel-corei7-64/usr/lib//libdns.a /data/poky-master/tm=
+p/sysroots/intel-corei7-64/usr/lib//libisccfg.a /data/poky-master/tmp/sysro=
+ots/intel-corei7-64/usr/lib//libisc.a -lcrypto</div><div class=3D"gmail_ext=
+ra">| /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib//libdns.a(cach=
+e.o): In function `renderstat&#39;:</div><div class=3D"gmail_extra">| /data=
+/poky-master/tmp/work/corei7-64-poky-linux/bind/9.10.2-r0/bind-9.10.2/lib/d=
+ns/cache.c:1419: undefined reference to `xmlTextWriterStartElement&#39;</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">It appear=
+s to be forgetting to link to libxml2.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a11c11d0299e0c805150720ab--
+--001a11c117ee2e88500515074764--
