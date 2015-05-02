@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 08ABB736BA
+	by mail.openembedded.org (Postfix) with ESMTP id 9DC766AC56
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 May 2015 09:00:32 +0000 (UTC)
+	Sat,  2 May 2015 09:04:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4290WjA005391; Sat, 2 May 2015 10:00:32 +0100
+	t4294pPN005627 for <openembedded-core@lists.openembedded.org>;
+	Sat, 2 May 2015 10:04:51 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WImINz12C3ho; Sat,  2 May 2015 10:00:32 +0100 (BST)
+	with LMTP id 6HNGMnv7g8jG
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  2 May 2015 10:04:51 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4290GWT005376
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 2 May 2015 10:00:28 +0100
-Message-ID: <1430557216.18360.38.camel@linuxfoundation.org>
+	t4294bYL005617
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 2 May 2015 10:04:48 +0100
+Message-ID: <1430557477.18360.39.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Sat, 02 May 2015 10:00:16 +0100
-In-Reply-To: <55440C90.5060605@windriver.com>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430521154.18360.28.camel@linuxfoundation.org>
-	<55440C90.5060605@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 02 May 2015 10:04:37 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+Subject: [PATCH] multilib: Tweak value of PN used for OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,73 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 May 2015 09:00:33 -0000
+X-List-Received-Date: Sat, 02 May 2015 09:04:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-05-01 at 19:30 -0400, Bruce Ashfield wrote:
-> On 2015-05-01 6:59 PM, Richard Purdie wrote:
-> > On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
-> >> Here is the latest consolidated pull request for the supported linux-yocto
-> >> kernels.
-> >>
-> >>   - We have a refresh of the 3.14-rt support
-> >>   - bluetooh configuration changes for common-pc/qemux86
-> >>   - braswell BSP features and fixes
-> >>   - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
-> >>
-> >> I've built and booted these on my local machines and qemu, and
-> >> everything was sane.
-> >>
-> >> The -dev kernel obviously isn't something for deployment yet, but
-> >> it builds, and forms the base for follow up config changes, features
-> >> and development work. I built and booted core-image-kernel dev with
-> >> the 4.1 changes in place.
-> >
-> > The autobuilder showed up this for an x32 build :/.
-> 
-> Can one of the intel folks have a look at this ? I won't be able to get
-> to it until Tuesday at the earliest.
+Currently, PN is used in overrides which is expanded to have a MLPREFIX. This
+means and pn- overrides without the prefix would be ignored which is not what
+is usually expected.
 
-I had a look into this. The issue is that this has been applied:
+We noticed huge problems using poky-lsb with multilib since the per recipe
+overrides were not applied. This adds in handling for PN with and without
+the prefix. This should unbreak world-lsb builds on the autobuilder.
 
-http://git.yoctoproject.org/cgit.cgi/linux-yocto-3.19/commit/?h=standard/base&id=423e98721e048f6c7b925a75448f6c4ecb2b5b69
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-but it needs:
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index eea2fd5..2b5d356 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -18,6 +18,11 @@ python multilib_virtclass_handler () {
+         if val:
+             e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
+ 
++    overrides = e.data.getVar("OVERRIDES", False)
++    pn = e.data.getVar("PN", False)
++    overrides = overrides.replace("pn-${PN}", "pn-${PN}:pn-" + pn)
++    e.data.setVar("OVERRIDES", overrides)
++
+     if bb.data.inherits_class('image', e.data):
+         e.data.setVar("MLPREFIX", variant + "-")
+         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
 
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ce793486e23e0162a732c605189c8028e0910e86
-
-and the ioapic driver also appears to need:
-
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=ecf5636dcd59cd5508641f995cc4c2bafedbb995
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=62d1141ff34e35de496ba06491c8e854b23b3f3e
-
-
-which meant I also had to add:
-
-struct resource_win {
-	struct resource res;		/* In master (CPU) address space */
-	resource_size_t offset;		/* Translation offset for bridge */
-};
-
-to drivers/acpi/ioapic.c to make it compile which appears to be related to:
-
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=a49170b552423a3e85fc4f0d778c707402ee4863
-
-which depends on a number of patches from around that time which change acpi/resource.c:
-
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/drivers/acpi/resource.c
-
-(from 2015/2/3)
-
-At this point I'm out my depth on how you want to fix this but it does
-appear related to the Braswell changes.
-
-To be clear qemux86 and qemux86-64 don't build at all with this series.
-I'll see if I can just drop the Braswell parts.
-
-Cheers,
-
-Richard
 
 
