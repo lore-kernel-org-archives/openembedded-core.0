@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 90F1960024
+	by mail.openembedded.org (Postfix) with ESMTP id E4D5D73C7D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 10:28:35 +0000 (UTC)
+	Sun,  3 May 2015 10:37:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43ASaQG019691 for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 May 2015 11:28:36 +0100
+	t43AbwSG019904 for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 May 2015 11:37:58 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Bn0NJE_nqfII
+	with LMTP id BhwGReDElxjy
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 11:28:36 +0100 (BST)
+	Sun,  3 May 2015 11:37:57 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43ASM0p019677
+	t43Abg3v019901
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 May 2015 11:28:33 +0100
-Message-ID: <1430648902.18360.92.camel@linuxfoundation.org>
+	Sun, 3 May 2015 11:37:53 +0100
+Message-ID: <1430649462.18360.93.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 03 May 2015 11:28:22 +0100
+Date: Sun, 03 May 2015 11:37:42 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] directfb: Correct bashism
+Subject: [PATCH] bitbake.conf/base.bbclass: Drop PRINC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +37,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 May 2015 10:28:36 -0000
+X-List-Received-Date: Sun, 03 May 2015 10:38:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Fix builds of directfb on systems with dash as /bin/sh
+PRINC is no longer needed since we have the PR service instead
+which people should be using. Drop the PRINC code.
+
+This has been deprecated with a warning and then an error for quite some
+time so we can remove it now.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index e863b12..4fbca87 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -13,7 +13,8 @@ DEPENDS = "jpeg libpng freetype zlib tslib sysfsutils"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index c6494e3..d19d9e1 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -394,22 +394,6 @@ python () {
+         else:
+             appendVar('EXTRA_OECONF', extraconf)
  
- SRC_URI = "http://www.directfb.org/downloads/Core/DirectFB-1.7/DirectFB-${PV}.tar.gz \
-            file://configurefix.patch \
--           file://fusion.patch"
-+           file://fusion.patch \
-+           file://bashism.patch"
- 
- S = "${WORKDIR}/DirectFB-${PV}"
- 
-diff --git a/meta/recipes-graphics/directfb/directfb/bashism.patch b/meta/recipes-graphics/directfb/directfb/bashism.patch
-new file mode 100644
-index 0000000..2ef4e93
---- /dev/null
-+++ b/meta/recipes-graphics/directfb/directfb/bashism.patch
-@@ -0,0 +1,18 @@
-+${x//y/} is a bash syntax. Replace with something dash compatible
-+
-+RP 2015/5/3
-+Upstream-Status: Pending
-+
-+Index: DirectFB-1.7.7/configure.in
-+===================================================================
-+--- DirectFB-1.7.7.orig/configure.in
-++++ DirectFB-1.7.7/configure.in
-+@@ -2696,7 +2696,7 @@ AM_CONDITIONAL(BUILD_TOOLS, test "$with_
-+ AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = "yes")
-+ 
-+ CFLAGS="$CFLAGS $DFB_INTERNAL_CFLAGS"
-+-CXXFLAGS="$CXXFLAGS ${CFLAGS//-Werror-implicit-function-declaration/}"
-++CXXFLAGS="$CXXFLAGS $(printf '%s\n' "$CFLAGS" | sed 's/-Werror-implicit-function-declaration//g')"
-+ DFB_LDFLAGS="$LDFLAGS $ZLIB_LIBS"
-+ 
-+ CFLAGS="$CFLAGS $CFLAGS_STD"
+-    # If PRINC is set, try and increase the PR value by the amount specified
+-    # The PR server is now the preferred way to handle PR changes based on
+-    # the checksum of the recipe (including bbappend).  The PRINC is now
+-    # obsolete.  Return a warning to the user.
+-    princ = d.getVar('PRINC', True)
+-    if princ and princ != "0":
+-        bb.error("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+-        pr = d.getVar('PR', True)
+-        pr_prefix = re.search("\D+",pr)
+-        prval = re.search("\d+",pr)
+-        if pr_prefix is None or prval is None:
+-            bb.error("Unable to analyse format of PR variable: %s" % pr)
+-        nval = int(prval.group(0)) + int(princ)
+-        pr = pr_prefix.group(0) + str(nval) + pr[prval.end():]
+-        d.setVar('PR', pr)
+-
+     pn = d.getVar('PN', True)
+     license = d.getVar('LICENSE', True)
+     if license == "INVALID":
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f544a71..8653a7f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -182,7 +182,6 @@ ASSUME_PROVIDED = "\
+ PN = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or 'defaultpkgname'}"
+ PV = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '1.0'}"
+ PR = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or 'r0'}"
+-PRINC ?= "0"
+ PF = "${PN}-${EXTENDPE}${PV}-${PR}"
+ EXTENDPE = "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
+ P = "${PN}-${PV}"
 
 
 
