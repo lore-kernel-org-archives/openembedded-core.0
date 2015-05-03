@@ -1,27 +1,28 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40B2172120
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 940B672120
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 02:50:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t432os7o014635
+	Sun,  3 May 2015 02:53:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t432r3S9021770
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 2 May 2015 19:50:55 -0700 (PDT)
-Received: from server.local (128.224.23.1) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Sat, 2 May 2015 19:50:54 -0700
-Message-ID: <55458D0D.6070904@windriver.com>
-Date: Sat, 2 May 2015 22:50:53 -0400
+	Sat, 2 May 2015 19:53:03 -0700 (PDT)
+Received: from server.local (128.224.23.1) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Sat, 2 May 2015 19:53:03 -0700
+Message-ID: <55458D8E.40206@windriver.com>
+Date: Sat, 2 May 2015 22:53:02 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430521154.18360.28.camel@linuxfoundation.org>
-	<55440C90.5060605@windriver.com> <20150502081346.GD2366@jama>
-In-Reply-To: <20150502081346.GD2366@jama>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1430443583.git.bruce.ashfield@windriver.com>	
+	<1430521154.18360.28.camel@linuxfoundation.org>	
+	<55440C90.5060605@windriver.com>
+	<1430557216.18360.38.camel@linuxfoundation.org>
+In-Reply-To: <1430557216.18360.38.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,12 +37,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 May 2015 02:51:04 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Sun, 03 May 2015 02:53:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2015-05-02 4:13 AM, Martin Jansa wrote:
-> On Fri, May 01, 2015 at 07:30:24PM -0400, Bruce Ashfield wrote:
+On 2015-05-02 5:00 AM, Richard Purdie wrote:
+> On Fri, 2015-05-01 at 19:30 -0400, Bruce Ashfield wrote:
 >> On 2015-05-01 6:59 PM, Richard Purdie wrote:
 >>> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
 >>>> Here is the latest consolidated pull request for the supported linux-yocto
@@ -51,20 +52,10 @@ On 2015-05-02 4:13 AM, Martin Jansa wrote:
 >>>>    - bluetooh configuration changes for common-pc/qemux86
 >>>>    - braswell BSP features and fixes
 >>>>    - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
+>>>>
 >>>> I've built and booted these on my local machines and qemu, and
 >>>> everything was sane.
->
-> Does it fix the issue I've reported few days ago?
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-April/104344.html
-
-Nope. But one config warning is far down on the list when I'm
-trying to introduce new -stable's and an entire -dev kernel.
-
-I didn't forget about it, it'll just get done in priority order.
-
-Bruce
-
->
+>>>>
 >>>> The -dev kernel obviously isn't something for deployment yet, but
 >>>> it builds, and forms the base for follow up config changes, features
 >>>> and development work. I built and booted core-image-kernel dev with
@@ -74,22 +65,59 @@ Bruce
 >>
 >> Can one of the intel folks have a look at this ? I won't be able to get
 >> to it until Tuesday at the earliest.
->>
->> Bruce
->>
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/282/steps/BuildImages/logs/stdio
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> I had a look into this. The issue is that this has been applied:
+>
+> http://git.yoctoproject.org/cgit.cgi/linux-yocto-3.19/commit/?h=standard/base&id=423e98721e048f6c7b925a75448f6c4ecb2b5b69
+>
+> but it needs:
+>
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ce793486e23e0162a732c605189c8028e0910e86
+>
+> and the ioapic driver also appears to need:
+>
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=ecf5636dcd59cd5508641f995cc4c2bafedbb995
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=62d1141ff34e35de496ba06491c8e854b23b3f3e
+>
+>
+> which meant I also had to add:
+>
+> struct resource_win {
+> 	struct resource res;		/* In master (CPU) address space */
+> 	resource_size_t offset;		/* Translation offset for bridge */
+> };
+>
+> to drivers/acpi/ioapic.c to make it compile which appears to be related to:
+>
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=a49170b552423a3e85fc4f0d778c707402ee4863
+>
+> which depends on a number of patches from around that time which change acpi/resource.c:
+>
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/drivers/acpi/resource.c
+>
+> (from 2015/2/3)
+>
+> At this point I'm out my depth on how you want to fix this but it does
+> appear related to the Braswell changes.
+>
+> To be clear qemux86 and qemux86-64 don't build at all with this series.
+> I'll see if I can just drop the Braswell parts.
+
+Gah. It figures. That's of course the issue with any set of BSP ports ..
+they get tangled up with Greg's series from time to time.
+
+The changes are all additive, so we can't really drop the braswell parts
+unless I revert the whole block of changes.
+
+Drop those -stable updates for now, and I'll see if I can carve out some
+time tomorrow to get that config building.
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
 >
 
 
