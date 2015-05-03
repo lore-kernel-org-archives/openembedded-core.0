@@ -1,30 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E4D5D73C7D
+	by mail.openembedded.org (Postfix) with ESMTP id C1DAA73C7D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 10:37:57 +0000 (UTC)
+	Sun,  3 May 2015 10:48:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43AbwSG019904 for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 May 2015 11:37:58 +0100
+	t43AmxD0020642; Sun, 3 May 2015 11:48:59 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BhwGReDElxjy
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 11:37:57 +0100 (BST)
+	with LMTP id IWO342FS1ql8; Sun,  3 May 2015 11:48:59 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43Abg3v019901
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 May 2015 11:37:53 +0100
-Message-ID: <1430649462.18360.93.camel@linuxfoundation.org>
+	t43Ami7m020639
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 3 May 2015 11:48:56 +0100
+Message-ID: <1430650124.18360.96.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 03 May 2015 11:37:42 +0100
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Sun, 03 May 2015 11:48:44 +0100
+In-Reply-To: <55459B76.4090502@windriver.com>
+References: <cover.1430443583.git.bruce.ashfield@windriver.com>
+	<1430521154.18360.28.camel@linuxfoundation.org>
+	<55440C90.5060605@windriver.com>
+	<1430557216.18360.38.camel@linuxfoundation.org>
+	<55459B76.4090502@windriver.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] bitbake.conf/base.bbclass: Drop PRINC support
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +40,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 May 2015 10:38:00 -0000
+X-List-Received-Date: Sun, 03 May 2015 10:49:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-PRINC is no longer needed since we have the PR service instead
-which people should be using. Drop the PRINC code.
+On Sat, 2015-05-02 at 23:52 -0400, Bruce Ashfield wrote:
+> On 2015-05-02 5:00 AM, Richard Purdie wrote:
+> > On Fri, 2015-05-01 at 19:30 -0400, Bruce Ashfield wrote:
+> >> On 2015-05-01 6:59 PM, Richard Purdie wrote:
+> >>> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
+> >>>> Here is the latest consolidated pull request for the supported linux-yocto
+> >>>> kernels.
+> >>>>
+> >>>>    - We have a refresh of the 3.14-rt support
+> >>>>    - bluetooh configuration changes for common-pc/qemux86
+> >>>>    - braswell BSP features and fixes
+> >>>>    - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
+> >>>>
+> >>>> I've built and booted these on my local machines and qemu, and
+> >>>> everything was sane.
+> >>>>
+> >>>> The -dev kernel obviously isn't something for deployment yet, but
+> >>>> it builds, and forms the base for follow up config changes, features
+> >>>> and development work. I built and booted core-image-kernel dev with
+> >>>> the 4.1 changes in place.
+> >>>
+> >>> The autobuilder showed up this for an x32 build :/.
+> >>
+> >> Can one of the intel folks have a look at this ? I won't be able to get
+> >> to it until Tuesday at the earliest.
+> >
+> > I had a look into this. The issue is that this has been applied:
+> >
+> > http://git.yoctoproject.org/cgit.cgi/linux-yocto-3.19/commit/?h=standard/base&id=423e98721e048f6c7b925a75448f6c4ecb2b5b69
+> >
+> > but it needs:
+> >
+> > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ce793486e23e0162a732c605189c8028e0910e86
+> >
+> > and the ioapic driver also appears to need:
+> >
+> > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=ecf5636dcd59cd5508641f995cc4c2bafedbb995
+> > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/patch/?id=62d1141ff34e35de496ba06491c8e854b23b3f3e
+> >
+> >
+> > which meant I also had to add:
+> >
+> > struct resource_win {
+> > 	struct resource res;		/* In master (CPU) address space */
+> > 	resource_size_t offset;		/* Translation offset for bridge */
+> > };
+> >
+> > to drivers/acpi/ioapic.c to make it compile which appears to be related to:
+> >
+> > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=a49170b552423a3e85fc4f0d778c707402ee4863
+> >
+> > which depends on a number of patches from around that time which change acpi/resource.c:
+> >
+> > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/drivers/acpi/resource.c
+> >
+> > (from 2015/2/3)
+> >
+> > At this point I'm out my depth on how you want to fix this but it does
+> > appear related to the Braswell changes.
+> >
+> > To be clear qemux86 and qemux86-64 don't build at all with this series.
+> > I'll see if I can just drop the Braswell parts.
+> 
+> I did reproduce the issue here as well, so with any luck, I can sneak
+> enough time to have this fixed for Monday after all.
 
-This has been deprecated with a warning and then an error for quite some
-time so we can remove it now.
+From my perspective there isn't a rush at this point. I've merged the
+config changes which unblocked the bluez patches and things are
+therefore "flowing" from my perspective, the stable update can wait
+until later in the week.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index c6494e3..d19d9e1 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -394,22 +394,6 @@ python () {
-         else:
-             appendVar('EXTRA_OECONF', extraconf)
- 
--    # If PRINC is set, try and increase the PR value by the amount specified
--    # The PR server is now the preferred way to handle PR changes based on
--    # the checksum of the recipe (including bbappend).  The PRINC is now
--    # obsolete.  Return a warning to the user.
--    princ = d.getVar('PRINC', True)
--    if princ and princ != "0":
--        bb.error("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
--        pr = d.getVar('PR', True)
--        pr_prefix = re.search("\D+",pr)
--        prval = re.search("\d+",pr)
--        if pr_prefix is None or prval is None:
--            bb.error("Unable to analyse format of PR variable: %s" % pr)
--        nval = int(prval.group(0)) + int(princ)
--        pr = pr_prefix.group(0) + str(nval) + pr[prval.end():]
--        d.setVar('PR', pr)
--
-     pn = d.getVar('PN', True)
-     license = d.getVar('LICENSE', True)
-     if license == "INVALID":
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f544a71..8653a7f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -182,7 +182,6 @@ ASSUME_PROVIDED = "\
- PN = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or 'defaultpkgname'}"
- PV = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '1.0'}"
- PR = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or 'r0'}"
--PRINC ?= "0"
- PF = "${PN}-${EXTENDPE}${PV}-${PR}"
- EXTENDPE = "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
- P = "${PN}-${PV}"
-
+Richard
 
 
