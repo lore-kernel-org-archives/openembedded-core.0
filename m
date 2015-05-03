@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 940B672120
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E2AA472120
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 02:53:03 +0000 (UTC)
+	Sun,  3 May 2015 03:52:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t432r3S9021770
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t433qNq8016196
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 2 May 2015 19:53:03 -0700 (PDT)
+	Sat, 2 May 2015 20:52:24 -0700 (PDT)
 Received: from server.local (128.224.23.1) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Sat, 2 May 2015 19:53:03 -0700
-Message-ID: <55458D8E.40206@windriver.com>
-Date: Sat, 2 May 2015 22:53:02 -0400
+	Sat, 2 May 2015 20:52:23 -0700
+Message-ID: <55459B76.4090502@windriver.com>
+Date: Sat, 2 May 2015 23:52:22 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 May 2015 02:53:06 -0000
+X-List-Received-Date: Sun, 03 May 2015 03:52:30 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -103,14 +103,8 @@ On 2015-05-02 5:00 AM, Richard Purdie wrote:
 > To be clear qemux86 and qemux86-64 don't build at all with this series.
 > I'll see if I can just drop the Braswell parts.
 
-Gah. It figures. That's of course the issue with any set of BSP ports ..
-they get tangled up with Greg's series from time to time.
-
-The changes are all additive, so we can't really drop the braswell parts
-unless I revert the whole block of changes.
-
-Drop those -stable updates for now, and I'll see if I can carve out some
-time tomorrow to get that config building.
+I did reproduce the issue here as well, so with any luck, I can sneak
+enough time to have this fixed for Monday after all.
 
 Bruce
 
