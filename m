@@ -1,28 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F5D3601DC
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E871D72C04
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 15:01:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t44F1nIZ004920
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 May 2015 08:01:49 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 4 May 2015 08:01:49 -0700
-Message-ID: <554789DD.5060700@windriver.com>
-Date: Mon, 4 May 2015 11:01:49 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Mon,  4 May 2015 15:13:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 04 May 2015 08:13:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="720373496"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.36])
+	([10.219.4.36])
+	by fmsmga002.fm.intel.com with ESMTP; 04 May 2015 08:13:31 -0700
+Message-ID: <55478CD5.5060303@linux.intel.com>
+Date: Mon, 04 May 2015 10:14:29 -0500
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430688616.18360.101.camel@linuxfoundation.org>
-In-Reply-To: <1430688616.18360.101.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+To: rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
+References: <1430294978-24756-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1430294978-24756-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] dpkg: upgrade to 1.17.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 15:01:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 May 2015 15:13:34 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2015-05-03 05:30 PM, Richard Purdie wrote:
-> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
->> Here is the latest consolidated pull request for the supported linux-yocto
->> kernels.
->>
->>   - We have a refresh of the 3.14-rt support
->>   - bluetooh configuration changes for common-pc/qemux86
->>   - braswell BSP features and fixes
->>   - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
->>
->> I've built and booted these on my local machines and qemu, and
->> everything was sane.
->>
->> The -dev kernel obviously isn't something for deployment yet, but
->> it builds, and forms the base for follow up config changes, features
->> and development work. I built and booted core-image-kernel dev with
->> the 4.1 changes in place.
->
-> There was also a problem with poky-lsb. The idea (as far as I remember)
-> is that it should be using LTSI rather than the default main kernel so
-> we could split the testing. Unfortunately it was pointing at 3.10 which
-> doesn't exist any longer so was using 3.17. I think LTSI is 3.14 so I
-> updated the PREFERRED_VERSION to that.
->
-> This resulted in this failure on the autobuilder:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/281/steps/BuildImages/logs/stdio
->
-> Basically with qemumips and 3.14. Hopefully not a hard one to fix. If
-> I've mixed the versions up, let me know which one poky-lsb should be
+Hi,
 
-FYI: I've fixed the mips build. Looking at x86 now. SRCREV updates
-to follow ASAP.
 
-Bruce
+On 29/04/15 03:09, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> upgrade to fix two CVE defects: CVE-2014-8625 and CVE-2015-0840
+>
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8625
+>
+> Multiple format string vulnerabilities in the parse_error_msg
+> function in parsehelp.c in dpkg before 1.17.22 allow remote attackers
+> to cause a denial of service (crash) and possibly execute arbitrary
+> code via format string specifiers in the (1) package or (2)
+> architecture name.
+>
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0840
+>
+> The dpkg-source command in Debian dpkg before 1.16.16 and 1.17.x before
+> 1.17.25 allows remote attackers to bypass signature verification
+> via a crafted Debian source control file (.dsc).
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-devtools/dpkg/{dpkg_1.17.21.bb => dpkg_1.17.25.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-devtools/dpkg/{dpkg_1.17.21.bb => dpkg_1.17.25.bb} (81%)
+>
+> diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
+> similarity index 81%
+> rename from meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
+> rename to meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
+> index ebb8671..74b1dd0 100644
+> --- a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
+> +++ b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
+> @@ -15,6 +15,6 @@ SRC_URI += "file://noman.patch \
+>               file://add_armeb_triplet_entry.patch \
+>              "
+>   
+> -SRC_URI[md5sum] = "765a96fd0180196613bbfa3c4aef0775"
+> -SRC_URI[sha256sum] = "3ed776627181cb9c1c9ba33f94a6319084be2e9ec9c23dd61ce784c4f602cf05"
+> +SRC_URI[md5sum] = "e48fcfdb2162e77d72c2a83432d537ca"
+> +SRC_URI[sha256sum] = "07019d38ae98fb107c79dbb3690cfadff877f153b8c4970e3a30d2e59aa66baa"
+>   
 
-> using.
->
-> Cheers,
->
-> Richard
->
+Acked-by: Aníbal Limón <anibal.limon@linux.intel.com>
 
+Cheers,
+     alimon
 
