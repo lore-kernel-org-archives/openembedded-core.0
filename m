@@ -1,42 +1,25 @@
-Return-Path: <christophe.guillon@st.com>
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
-	[91.207.212.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F0A8473C8C
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9591E7169F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 11:01:04 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx08-00178001.pphosted.com (8.14.5/8.14.5) with SMTP id
-	t44Aw2o7023620 for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 May 2015 13:01:05 +0200
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx08-00178001.pphosted.com with ESMTP id 1u6706g5qy-1
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 May 2015 13:01:05 +0200
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6680531
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 11:01:03 +0000 (GMT)
-Received: from Webmail-eu.st.com (safex1hubcas3.st.com [10.75.90.18])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2AE3B5048
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 11:01:03 +0000 (GMT)
-Received: from gnx2112.gnb.st.com (10.129.179.50) by webmail-eu.st.com
-	(10.75.90.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 4 May 2015 13:01:02 +0200
-From: Christophe Guillon <christophe.guillon@st.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 May 2015 13:00:45 +0200
-Message-ID: <1430737245-3904-2-git-send-email-christophe.guillon@st.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1430737245-3904-1-git-send-email-christophe.guillon@st.com>
-References: <1430737245-3904-1-git-send-email-christophe.guillon@st.com>
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
-	0.0.0000
-	definitions=2015-05-04_01:2015-05-04, 2015-05-03,
-	1970-01-01 signatures=0
-Subject: [PATCH 1/1] ncurses: inherit ncurses from pkgconfig
+	Mon,  4 May 2015 14:11:34 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 04 May 2015 07:11:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="689610510"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2015 07:11:34 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 7367F6A408F;
+	Mon,  4 May 2015 07:11:05 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 May 2015 17:11:29 +0300
+Message-Id: <1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1430490525.18360.14.camel@linuxfoundation.org>
+References: <1430490525.18360.14.camel@linuxfoundation.org>
+Subject: [PATCH] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,33 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 11:01:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 May 2015 14:11:38 -0000
 
-Inherit ncurses from pkgconfig bbclass such that the ncurses
-build installs pkgconfig .pc files correctly.
-Otherwise packages depending on ncurses may not get the
-right ncurses configuration.
+Race condition between do_compile_kernelmodules and do_shared_workdir
+tasks occurs when do_compilemodules changes files in include/generated/*
+while do_shared_workdir tries to copy them to shared working directory.
 
-Signed-off-by: Christophe Guillon <christophe.guillon@st.com>
+Functionality of do_shared_workdir has been moved to separate function
+mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
+left in the code as it may be used in many recipes.
+
+[YOCTO #7321]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index f0a4044..33f937e 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -8,7 +8,7 @@ DEPENDS = "ncurses-native"
- DEPENDS_class-native = ""
- INC_PR = "r15"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 125ed88..13c0180 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -192,6 +192,8 @@ kernel_do_compile() {
+ 	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+ 		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+ 	fi
++
++	mk_shared_workdir
+ }
  
--inherit autotools binconfig multilib_header
-+inherit autotools pkgconfig binconfig multilib_header
+ do_compile_kernelmodules() {
+@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
  
- # Upstream has useful patches at times at ftp://invisible-island.net/ncurses/
- SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz"
+ PACKAGEFUNCS += "emit_depmod_pkgdata"
+ 
+-do_shared_workdir () {
++mk_shared_workdir () {
+ 	cd ${B}
+ 
+ 	kerneldir=${STAGING_KERNEL_BUILDDIR}
+@@ -289,6 +291,14 @@ do_shared_workdir () {
+ 	fi
+ }
+ 
++# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
++# and called from kernel_do_compile.
++# It caused race condition with do_compile_kernelmodules when it runs
++# in parallel with do_compile_kernelmodules
++do_shared_workdir () {
++	:
++}
++
+ # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+ sysroot_stage_all () {
+ 	:
 -- 
-1.7.9.5
+2.1.4
 
 
