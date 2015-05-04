@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 427D973C7D
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D1EF972120
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 07:59:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t447xOhB029323
+	Mon,  4 May 2015 08:47:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t448lb9d021707
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 May 2015 00:59:24 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.192) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 4 May 2015 00:59:23 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 4 May 2015 01:47:37 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 4 May 2015 01:47:37 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 May 2015 15:59:30 +0800
-Message-ID: <c8ffc58be15eb07a95d84ec02e2895bb6828e1bf.1430726210.git.Qi.Chen@windriver.com>
+Date: Mon, 4 May 2015 16:43:38 +0800
+Message-ID: <cover.1430727318.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1430726210.git.Qi.Chen@windriver.com>
-References: <cover.1430726210.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] populate_sdk_ext: consider custom configuration in local.conf
+Subject: [PATCH 0/2][v2] upgrade bind to 9.10.2, and fix the building failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 07:59:23 -0000
+X-List-Received-Date: Mon, 04 May 2015 08:47:38 -0000
 Content-Type: text/plain
 
-Copy the contents of local.conf under TOPDIR into the final generated
-local.conf. In this way, custom settings are also made into the final
-local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
+From: Roy Li <rongqing.li@windriver.com>
 
-Before this change, installing extensible SDK would usually report failure
-when preparing the build system if the user has custom configuration for
-DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in local.conf
-also don't get built correctly.
+The following changes since commit 7a8f37daa7b42905233c31366915b897886a957a:
 
-This patch solves the above problem.
+  dev-manual: Updates to add Luna support for Eclipse (2015-05-03 11:49:35 +0100)
 
-A blacklist mechanism is also introduced so that we can blacklist variables that
-should not be copied into the final local.conf file. Currently, the blacklist
-contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR', 'BASE_WORKDIR' and
-'DEPLOY_DIR'. What these variables have in common is that they are set in
-bitbake.conf using '?=' or '??='.
+are available in the git repository at:
 
-This list of course doesn't cover every possible setting allowed in local.conf.
-And it's possible that some setting in local.conf would still result in failure
-when preparing build system at installation time of extensible SDK. The point
-is that we want to make sure that reasonable settings like PACKAGECONFIG,
-DISTRO_FEATURES, IMAGE_INSTALL, etc, don't result in failure which would
-very much depress the users of extensible SDK.
+  git://git.pokylinux.org/poky-contrib roy/bind-9.10.2-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/bind-9.10.2-1
 
-[YOCTO #7616]
+Roy Li (2):
+  bind: upgrade to 9.10.2
+  dhcp: fix a building failure when upgrade bind
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/populate_sdk_ext.bbclass | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../bind/bind/bind-CVE-2012-3817.patch             |  40 -
+ ...d-crosscripts-search-path-for-xml2-config.patch |   2 +-
+ .../bind/bind/bind-subdirs-run-serially.patch      |  35 -
+ .../bind/bind/bind9_9_5-CVE-2014-8500.patch        | 990 ---------------------
+ .../bind/bind/cross-build-fix.patch                |  21 -
+ .../bind/bind/dont-test-on-host.patch              |   4 +-
+ .../bind/{bind_9.9.5.bb => bind_9.10.2.bb}         |  10 +-
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   7 +-
+ .../dhcp/dhcp/0001-search-libxml2.patch            |  35 +
+ 9 files changed, 47 insertions(+), 1097 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-subdirs-run-serially.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2014-8500.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+ rename meta/recipes-connectivity/bind/{bind_9.9.5.bb => bind_9.10.2.bb} (87%)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-search-libxml2.patch
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 2fc4c11..f08ba86 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = " ${SDK_TARGETS}"
- SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
- 
- SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
-+SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR BASE_WORKDIR DEPLOY_DIR"
- 
- SDK_TARGETS ?= "${PN}"
- OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
-@@ -114,6 +115,25 @@ python copy_buildsystem () {
-         f.write('# this configuration provides, it is strongly suggested that you set\n')
-         f.write('# up a proper instance of the full build system and use that instead.\n\n')
- 
-+        # Copy configurations from the current local.conf
-+        builddir = d.getVar('TOPDIR', True)
-+        with open(builddir + '/conf/local.conf', 'r') as lf:
-+            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST', True).split()
-+            skip = False
-+            for line in lf:
-+                line = line.lstrip()
-+                if line.startswith('#'):
-+                    continue
-+                for varname in varblacklist:
-+                    if line.startswith(varname):
-+                        skip = True
-+                        break
-+                if not skip:
-+                    f.write(line)
-+                skip = False
-+        f.write('\n')
-+
-+        # Configurations in local.conf which are specific for extensible SDK
-         f.write('INHERIT += "%s"\n\n' % 'uninative')
-         f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
- 
 -- 
 1.9.1
 
