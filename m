@@ -1,25 +1,27 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E46F73C7D
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ADEA601DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 16:42:57 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 04 May 2015 09:42:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="566012488"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by orsmga003.jf.intel.com with ESMTP; 04 May 2015 09:42:52 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 May 2015 09:43:01 +0000
-Message-Id: <8e23f7b415fcb129bded92112cac97c74ead2460.1430732245.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <f0998ca770393ec8de5dbf0af7e46ee6500ed529.1430732245.git.alejandro.hernandez@linux.intel.com>
-References: <f0998ca770393ec8de5dbf0af7e46ee6500ed529.1430732245.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <cover.1430732245.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1430732245.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 2/2] python3: Disable pip to fix issues on the Autobuilders
+	Mon,  4 May 2015 18:45:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t44IjPNC003947
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 May 2015 11:45:26 -0700 (PDT)
+Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 4 May 2015 11:45:25 -0700
+Message-ID: <5547BE45.2050206@windriver.com>
+Date: Mon, 4 May 2015 14:45:25 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Originating-IP: [128.224.56.84]
+Subject: Add libreSSL to oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 16:42:58 -0000
+X-List-Received-Date: Mon, 04 May 2015 18:45:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-As Python-3.4 pip is required and installed by default, pips installation
-is bootstrapped using python wheels, this makes it complicated to patch,
-by default the installation uses an absolute path to /tmp, on most cases
-this would not be a problem, but since on the Autobuilders several Python
-installations (for different archs) may be happening at the same time,
-this shared resource utilization results in errors at do_install(), this
-patch disables pip installation by default for now, until we have a
-python3-pip package which we can easily patch in these situations.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-devtools/python/python3_3.4.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Should oe-core add libressl as an alternative to openssl and other
+OE SSL/TLS implementations?
 
-diff --git a/meta/recipes-devtools/python/python3_3.4.2.bb b/meta/recipes-devtools/python/python3_3.4.2.bb
-index 8bd69ed..0350de6 100644
---- a/meta/recipes-devtools/python/python3_3.4.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.2.bb
-@@ -62,7 +62,7 @@ TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
- TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
- TARGET_CC_ARCH += "-DNDEBUG -fno-inline"
- EXTRA_OEMAKE += "CROSS_COMPILE=yes"
--EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
-+EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip"
+We had a request from a customer to add LibreSSL so I was wondering
+about the plans of the Yocto community and indeed of the larger Linux
+distro community.
+
+Libressl claims (aims?) to be  a more stable, secure TLS implementation
+then OpenSSL. It was initially only for OpenBSD but it supports a
+variety of platforms now:
+    http://www.libressl.org/releases.html
+The CVE history enthusiastically summarized on Wikipedia:
+    https://en.wikipedia.org/wiki/LibreSSL
+does indicate that libressl has been vulnerable to fewer CVEs than
+openssl so far. I quickly reviewed:
+    https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations
+but perhaps someone on the list has more direct experience, knowledge
+and/or opinions of implementations of TLS? Note that the libressl devs
+has stated that they have no interest in FIPS 140-2 certification:
+    http://marc.info/?l=openbsd-misc&m=139819485423701&w=2
+so that could be a problem for some users.
+
+
+Other than Arch, and openSUSE Factory build, it seems that no
+major linux distro has added libressl:
+    http://pkgs.org/search/libressl
+
+An OE libressl recipe is not current indexed:
  
- export CROSS_COMPILE = "${TARGET_PREFIX}"
- export _PYTHON_PROJECT_BASE = "${B}"
+http://layers.openembedded.org/layerindex/branch/master/recipes/?q=libressl
+
+If I search more broadly:
+    http://layers.openembedded.org/layerindex/branch/master/recipes/?q=ssl
+
+I see that the OE community does have recipes for:
+   gnutls, nss, polarssl (now mbed TLS) and wolfssl.
+
+So what do you think of libressl?
+
 -- 
-1.8.4.5
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
 
