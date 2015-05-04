@@ -1,29 +1,41 @@
-Return-Path: <denis@denix.org>
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 864A772120;
-	Mon,  4 May 2015 22:27:11 +0000 (UTC)
-Received: from gandalf.denix.org ([108.28.31.169]) by vms173019.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NNU001UYJPCZMA0@vms173019.mailsrvcs.net>; Mon,
-	04 May 2015 17:27:13 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=PIC4Ikvq c=1 sm=1 tr=0	a=fMO+sUsoiA3cqMJ/JkSOnA==:117
-	a=jLWw55sr_RoA:10 a=8nJEP1OIZ-IA:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=h1PgugrvaO0A:10	a=HOI7-lVZ4g_ahJtD6ZgA:9
-	a=wPNLvfGTeEIA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 81D66200EF; Mon,
-	4 May 2015 18:27:11 -0400 (EDT)
-Date: Mon, 04 May 2015 18:27:11 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-members@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-id: <20150504222711.GD5885@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: OpenEmbedded e.V. membership status announcement
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 40F4B72120
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 May 2015 23:07:14 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so176152162pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 May 2015 16:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=wpMNDv8GQxi4m77uaJEOh+UCIQo17wXijfbSIH7SMxU=;
+	b=S+wFk0qtg7eBNdP5YRkj/bb+LlD94cZE90LIfL/I4gMCjDFVkjha03EqjqInR3rEZ0
+	Z1GTfXxMcyDPVEOnOySbZqiVI/pVehpQ82/uzWmwGnSe9XCVvMKBX21Svf8JhZ7l60ug
+	9HdklmPLceDd8vgJdDxYgC253/j9VFrptNV8R1d10bpnFVZ8t7sFZNOv4fji8YwVcbaA
+	KHduWYMtfagp2347BoZJvONeqFL73p2qrPb4L+QARoxdN/uG82HKWCQnpfx2RQ3WY2Ol
+	+bDyE3Ydj75PqZJ9TSMWfP1axmD/g8HctK0CHLGzpyMea4EeKFRSUdIrHjPwa0Yn/UUI
+	7gvA==
+X-Received: by 10.70.93.36 with SMTP id cr4mr45593941pdb.68.1430780835996;
+	Mon, 04 May 2015 16:07:15 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:382f:4bd0:54be:1ddc?
+	([2601:c:a700:3ba7:382f:4bd0:54be:1ddc])
+	by mx.google.com with ESMTPSA id
+	df7sm13868692pdb.32.2015.05.04.16.07.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 May 2015 16:07:14 -0700 (PDT)
+Message-ID: <5547FB9B.5080102@gmail.com>
+Date: Mon, 04 May 2015 16:07:07 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,73 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 22:27:13 -0000
-Content-type: text/plain; charset=iso-8859-1
-Content-disposition: inline
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Mon, 04 May 2015 23:07:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-All,
+merged to staging.
+- armin
 
-In accordance with OpenEmbedded e.V. statutes, members that were absent from 
-two or more consecutive annual General Assembly meetings and didn't have 
-anyone representing them by proxy, forfeit their active membership status and 
-can no longer vote in any OE e.V. election. Thus, the current up-to-date 
-membership roster is one of the blocking items for any election process.
-
-After collating the attendance records and all gathered proxy forms from past 
-years GA meetings, the Board of Directors came up with the following list of 
-inactive members - see below.
-
-Realizing, that some people may still be active in other capacities in the 
-OpenEmbedded e.V. organization, or just wish to renew their active status, the 
-Board of Directors would like to open up a two-week period for inactive 
-members to state their intent to become active, after which we should be able 
-to vote for reinstating them back.
-
-The Board will make an effort to contact inactive members directly by email, 
-or please feel free to reply to this announcement with your intent. Thanks.
-
-The list of e.V. members to become inactive, based on GA attendance:
-
-===========================
-Alessandro Gardich
-Andreas Oberritter
-Andrei Gherzan
-Chris Larson
-Cliff Brake
-Daniel Willmann
-Dirk Hohndel
-Dirk Opfer
-Dmitry Eremin­Solenikov
-Esben Haabendal
-Florian Boor
-Frans Meulenbrooks
-Graham Gower
-Holger Freyther
-Jan Lübbe
-Jason Kridner
-John Willis
-Joshua Lock
-Ken Gilmer
-Liam Girdwood
-Marcin Juszkiewicz
-Mark Brown
-Michael Lauer
-Michael Smith
-Philip Blundell
-Phillip Zabel
-Robert Schuster
-Roman I Khimov
-Steve Sakoman
-Tom King
-Tom Rini
-Yu Ke
-Yury Bushmelev
-===========================
-
-Please let us know of any concerns or comments. Thanks.
-
--- 
-Denys Dmytriyenko
-OpenEmbedded e.V. Board of Directors
+On 05/01/2015 10:47 AM, Martin Jansa wrote:
+> From: Andre McCurdy <armccurdy@gmail.com>
+>
+> As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
+> has been renamed to "--enable-llvm-shared-libs".
+>
+>    http://www.mesa3d.org/relnotes/10.2.html
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 1857f3c..658bd3a 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --witho
+>   PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
+>   PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
+>   MESA_LLVM_RELEASE ?= "3.3"
+> -PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+> +PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --enable-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+>                                  ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+>   export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+>
+>
 
