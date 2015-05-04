@@ -1,34 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 469EC65D00
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 21:49:59 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so97135817igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 May 2015 14:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=clsIraTmqZIxqgUimZJolLmqF/wwmYDOw+4UVwrRu/8=;
-	b=RBIC14E1FRsD4EJYDBlAZ1TJ3XPks/lzXKo5DnKZmImcgd6ftVh8qU2IOCASvWoM6u
-	5adhOL6BMqiS7FqAxZQLQgDXyPTU53Dp8Tv7ATv8PWJv/Hv8GQsW+kEYy91m3KYv80jQ
-	Q3ineLrEWFJ8p5i2GY9BWGS7kR2iAnmJUvvoh1V+nNlh9Bv6FLmewqR7eZM3H8CxaRz6
-	iCmMLO4ETWJ0VYl+0cfkz0g6p/oDODIK5hCgYKJtfmWiAGBm5jHFmUR1XDOujezXlgjt
-	R63kD5uncvCYpte/OMZhS+I5cA9Dii8iWqgHmT7p5paq37t7gFIB2Ws5IOJn0oYxRk3l
-	nHsg==
-X-Received: by 10.50.98.73 with SMTP id eg9mr890881igb.10.1430776200408;
-	Mon, 04 May 2015 14:50:00 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id m5sm10461261ioi.4.2015.05.04.14.49.59
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 04 May 2015 14:49:59 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 May 2015 14:49:53 -0700
-Message-Id: <1430776193-32107-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] mirrors.bbclass: drop support for svk sources
+Return-Path: <denis@denix.org>
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 864A772120;
+	Mon,  4 May 2015 22:27:11 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.31.169]) by vms173019.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NNU001UYJPCZMA0@vms173019.mailsrvcs.net>; Mon,
+	04 May 2015 17:27:13 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=PIC4Ikvq c=1 sm=1 tr=0	a=fMO+sUsoiA3cqMJ/JkSOnA==:117
+	a=jLWw55sr_RoA:10 a=8nJEP1OIZ-IA:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=h1PgugrvaO0A:10	a=HOI7-lVZ4g_ahJtD6ZgA:9
+	a=wPNLvfGTeEIA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 81D66200EF; Mon,
+	4 May 2015 18:27:11 -0400 (EDT)
+Date: Mon, 04 May 2015 18:27:11 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-id: <20150504222711.GD5885@denix.org>
+MIME-version: 1.0
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: OpenEmbedded e.V. membership status announcement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +36,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 21:50:05 -0000
+X-List-Received-Date: Mon, 04 May 2015 22:27:13 -0000
+Content-type: text/plain; charset=iso-8859-1
+Content-disposition: inline
+Content-transfer-encoding: 8bit
 
-The svk fetcher was removed from bitbake 1.22, so svk support should
-logically have been removed from oe-core Daisy onwards.
+All,
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/mirrors.bbclass     | 2 --
- meta/classes/own-mirrors.bbclass | 1 -
- meta/classes/sanity.bbclass      | 2 +-
- 3 files changed, 1 insertion(+), 4 deletions(-)
+In accordance with OpenEmbedded e.V. statutes, members that were absent from 
+two or more consecutive annual General Assembly meetings and didn't have 
+anyone representing them by proxy, forfeit their active membership status and 
+can no longer vote in any OE e.V. election. Thus, the current up-to-date 
+membership roster is one of the blocking items for any election process.
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 0d9b517..081c982 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -52,7 +52,6 @@ svn://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- git://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- hg://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \n \
- bzr://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
--svk://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- p4://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \n \
- osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- https?$://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
-@@ -62,7 +61,6 @@ svn://.*/.*     http://sources.openembedded.org/ \n \
- git://.*/.*     http://sources.openembedded.org/ \n \
- hg://.*/.*      http://sources.openembedded.org/ \n \
- bzr://.*/.*     http://sources.openembedded.org/ \n \
--svk://.*/.*     http://sources.openembedded.org/ \n \
- p4://.*/.*      http://sources.openembedded.org/ \n \
- osc://.*/.*     http://sources.openembedded.org/ \n \
- https?$://.*/.* http://sources.openembedded.org/ \n \
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
-index 77bf0c1..e235227 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -5,7 +5,6 @@ git://.*/.*     ${SOURCE_MIRROR_URL}
- gitsm://.*/.*   ${SOURCE_MIRROR_URL}
- hg://.*/.*      ${SOURCE_MIRROR_URL}
- bzr://.*/.*     ${SOURCE_MIRROR_URL}
--svk://.*/.*     ${SOURCE_MIRROR_URL}
- p4://.*/.*      ${SOURCE_MIRROR_URL}
- osc://.*/.*     ${SOURCE_MIRROR_URL}
- https?$://.*/.* ${SOURCE_MIRROR_URL}
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index cca39c9..f8b9fac 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -772,7 +772,7 @@ def check_sanity_everybuild(status, d):
-     import re
-     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
-     protocols = ['http', 'ftp', 'file', 'https', \
--                 'git', 'gitsm', 'hg', 'osc', 'p4', 'svk', 'svn', \
-+                 'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
-                  'bzr', 'cvs']
-     for mirror_var in mirror_vars:
-         mirrors = (d.getVar(mirror_var, True) or '').replace('\\n', '\n').split('\n')
+After collating the attendance records and all gathered proxy forms from past 
+years GA meetings, the Board of Directors came up with the following list of 
+inactive members - see below.
+
+Realizing, that some people may still be active in other capacities in the 
+OpenEmbedded e.V. organization, or just wish to renew their active status, the 
+Board of Directors would like to open up a two-week period for inactive 
+members to state their intent to become active, after which we should be able 
+to vote for reinstating them back.
+
+The Board will make an effort to contact inactive members directly by email, 
+or please feel free to reply to this announcement with your intent. Thanks.
+
+The list of e.V. members to become inactive, based on GA attendance:
+
+===========================
+Alessandro Gardich
+Andreas Oberritter
+Andrei Gherzan
+Chris Larson
+Cliff Brake
+Daniel Willmann
+Dirk Hohndel
+Dirk Opfer
+Dmitry Eremin­Solenikov
+Esben Haabendal
+Florian Boor
+Frans Meulenbrooks
+Graham Gower
+Holger Freyther
+Jan Lübbe
+Jason Kridner
+John Willis
+Joshua Lock
+Ken Gilmer
+Liam Girdwood
+Marcin Juszkiewicz
+Mark Brown
+Michael Lauer
+Michael Smith
+Philip Blundell
+Phillip Zabel
+Robert Schuster
+Roman I Khimov
+Steve Sakoman
+Tom King
+Tom Rini
+Yu Ke
+Yury Bushmelev
+===========================
+
+Please let us know of any concerns or comments. Thanks.
+
 -- 
-1.9.1
-
+Denys Dmytriyenko
+OpenEmbedded e.V. Board of Directors
 
