@@ -1,25 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <cristian.iorga@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9591E7169F
+	by mail.openembedded.org (Postfix) with ESMTP id C46AB73C8C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 14:11:34 +0000 (UTC)
+	Mon,  4 May 2015 14:15:42 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 04 May 2015 07:11:36 -0700
+	by orsmga103.jf.intel.com with ESMTP; 04 May 2015 07:15:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="689610510"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2015 07:11:34 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 7367F6A408F;
-	Mon,  4 May 2015 07:11:05 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="689613084"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2015 07:15:42 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 May 2015 17:11:29 +0300
-Message-Id: <1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1430490525.18360.14.camel@linuxfoundation.org>
-References: <1430490525.18360.14.camel@linuxfoundation.org>
-Subject: [PATCH] kernel.bbclass: Fix race condition
+Date: Mon,  4 May 2015 17:15:38 +0300
+Message-Id: <3cd7346304aac934738db52394a468aba581d05d.1430748903.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1430748903.git.cristian.iorga@intel.com>
+References: <cover.1430748903.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1430748903.git.cristian.iorga@intel.com>
+References: <cover.1430748903.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/2] connman: code cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 14:11:38 -0000
+X-List-Received-Date: Mon, 04 May 2015 14:15:43 -0000
 
-Race condition between do_compile_kernelmodules and do_shared_workdir
-tasks occurs when do_compilemodules changes files in include/generated/*
-while do_shared_workdir tries to copy them to shared working directory.
+- cleanup multiple inherit lines;
+- RDEPENDS cleanup, use PACKAGECONFIG[] instead.
 
-Functionality of do_shared_workdir has been moved to separate function
-mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
-left in the code as it may be used in many recipes.
-
-[YOCTO #7321]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/classes/kernel.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/connman/connman.inc | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 125ed88..13c0180 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -192,6 +192,8 @@ kernel_do_compile() {
- 	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
- 		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
- 	fi
-+
-+	mk_shared_workdir
- }
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index d068ba8..17dc4b9 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=486a279a6ab0c8d152bcda3a5b5edc36"
  
- do_compile_kernelmodules() {
-@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
+-inherit bluetooth
++inherit autotools pkgconfig systemd update-rc.d bluetooth
  
- PACKAGEFUNCS += "emit_depmod_pkgdata"
+ DEPENDS  = "dbus glib-2.0 ppp iptables"
  
--do_shared_workdir () {
-+mk_shared_workdir () {
- 	cd ${B}
+@@ -43,9 +43,9 @@ PACKAGECONFIG ??= "wispr \
+ # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
  
- 	kerneldir=${STAGING_KERNEL_BUILDDIR}
-@@ -289,6 +291,14 @@ do_shared_workdir () {
- 	fi
- }
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+-PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
+-PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
+-PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
++PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant, wpa-supplicant"
++PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}, ${BLUEZ}"
++PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
+ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+ PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+ PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+@@ -69,8 +69,6 @@ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+ SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
  
-+# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
-+# and called from kernel_do_compile.
-+# It caused race condition with do_compile_kernelmodules when it runs
-+# in parallel with do_compile_kernelmodules
-+do_shared_workdir () {
-+	:
-+}
-+
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
- sysroot_stage_all () {
- 	:
+-inherit autotools pkgconfig systemd update-rc.d
+-
+ # This allows *everyone* to access ConnMan over DBus, without any access
+ # control.  Really the at_console flag should work, which would mean that
+ # both this and the xuser patch can be dropped.
+@@ -114,9 +112,6 @@ RPROVIDES_${PN} = "\
+ 
+ RDEPENDS_${PN} = "\
+ 	dbus \
+-	${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', '${BLUEZ}', '', d)} \
+-	${@bb.utils.contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
+-	${@bb.utils.contains('PACKAGECONFIG', '3g','ofono', '', d)} \
+ 	${@base_conditional('ROOTLESS_X', '1', 'xuser-account', '', d)} \
+ 	"
+ 
 -- 
-2.1.4
+2.1.0
 
 
