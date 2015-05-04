@@ -1,24 +1,28 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D188A73D9C
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C2ED572120
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 14:15:42 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 04 May 2015 07:15:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,366,1427785200"; d="scan'208";a="689613087"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2015 07:15:43 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 May 2015 17:15:39 +0300
-Message-Id: <2b01d7b33d64ff7af4992d86c031083092eb56f8.1430748903.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1430748903.git.cristian.iorga@intel.com>
-References: <cover.1430748903.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1430748903.git.cristian.iorga@intel.com>
-References: <cover.1430748903.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/2] connman: upgrade to 1.29
+	Mon,  4 May 2015 14:33:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t44EXhh4017457
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 May 2015 07:33:43 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 4 May 2015 07:33:42 -0700
+Message-ID: <55478346.706@windriver.com>
+Date: Mon, 4 May 2015 10:33:42 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1430490525.18360.14.camel@linuxfoundation.org>
+	<1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
+In-Reply-To: <1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
+Subject: Re: [PATCH] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,96 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 14:15:43 -0000
+X-List-Received-Date: Mon, 04 May 2015 14:33:55 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-- Add support for Ethernet and VLAN usage;
-- Fixes.
+On 2015-05-04 10:11 AM, Ed Bartosh wrote:
+> Race condition between do_compile_kernelmodules and do_shared_workdir
+> tasks occurs when do_compilemodules changes files in include/generated/*
+> while do_shared_workdir tries to copy them to shared working directory.
+>
+> Functionality of do_shared_workdir has been moved to separate function
+> mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
+> left in the code as it may be used in many recipes.
 
-Added build-create-dirs-before-putting-files-in-them.patch,
-already submitted upstream.
+Looks good. Thanks for the respin of the patch! I'll put my
+variant in the attic, since this looks like it will solve
+the issue.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...-create-dirs-before-putting-files-in-them.patch | 46 ++++++++++++++++++++++
- .../connman/{connman_1.28.bb => connman_1.29.bb}   |  5 ++-
- 2 files changed, 49 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
- rename meta/recipes-connectivity/connman/{connman_1.28.bb => connman_1.29.bb} (58%)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch b/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
-new file mode 100644
-index 0000000..260d68d
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
-@@ -0,0 +1,46 @@
-+When automake's dependency tracking is enabled a mirror of the source tree is
-+created in the build directory as it writes the dependency information.
-+
-+However, if dependency tracking is disabled on an out-of-tree build this mirror
-+isn't created and it's possible that the .service files can't be written as the
-+directories they go into haven't been created yet (racing against the compiles,
-+which do create directories).
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+---
-+ Makefile.am | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 507736d..bc3c695 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -410,9 +410,11 @@ MAINTAINERCLEANFILES = Makefile.in \
-+
-+
-+ src/builtin.h: src/genbuiltin $(builtin_sources)
-++	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-+ 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
-+
-+ vpn/builtin.h: src/genbuiltin $(builtin_vpn_sources)
-++	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-+ 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_vpn_modules) > $@
-+
-+ src/connman.conf: src/connman-dbus.conf src/connman-polkit.conf
-+@@ -449,9 +451,11 @@ do_subst = $(AM_V_GEN)$(SED) \
-+ 		-e 's,[@]sysconfdir[@],$(sysconfdir),g'
-+
-+ %.service: %.service.in Makefile
-++	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-+ 	$(do_subst) < $< > $@
-+
-+ scripts/connman: scripts/connman.in Makefile
-++	$(AM_V_at)$(MKDIR_P) scripts
-+ 	$(do_subst) < $< > $@
-+
-+ include/connman/version.h: include/version.h
-+--
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.28.bb b/meta/recipes-connectivity/connman/connman_1.29.bb
-similarity index 58%
-rename from meta/recipes-connectivity/connman/connman_1.28.bb
-rename to meta/recipes-connectivity/connman/connman_1.29.bb
-index 53e71fa..3bcd778 100644
---- a/meta/recipes-connectivity/connman/connman_1.28.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.29.bb
-@@ -3,10 +3,11 @@ require connman.inc
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-+            file://build-create-dirs-before-putting-files-in-them.patch \
-             file://connman \
-             "
--SRC_URI[md5sum] = "6e07c93877f80bb73c9d4dbfc697f3fc"
--SRC_URI[sha256sum] = "b1d5e7dd2652725906e220a8b0206477e97080e835272971e3b2fd10943c5c94"
-+SRC_URI[md5sum] = "5283884504860f5fba2e6f489f517293"
-+SRC_URI[sha256sum] = "2a5a69693566f7fd59b2e677fa89356ada6d709998aa665caef8707b1e7a8594"
- 
- RRECOMMENDS_${PN} = "connman-conf"
- 
--- 
-2.1.0
+Bruce
+
+>
+> [YOCTO #7321]
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   meta/classes/kernel.bbclass | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 125ed88..13c0180 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -192,6 +192,8 @@ kernel_do_compile() {
+>   	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>   		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>   	fi
+> +
+> +	mk_shared_workdir
+>   }
+>
+>   do_compile_kernelmodules() {
+> @@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
+>
+>   PACKAGEFUNCS += "emit_depmod_pkgdata"
+>
+> -do_shared_workdir () {
+> +mk_shared_workdir () {
+>   	cd ${B}
+>
+>   	kerneldir=${STAGING_KERNEL_BUILDDIR}
+> @@ -289,6 +291,14 @@ do_shared_workdir () {
+>   	fi
+>   }
+>
+> +# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
+> +# and called from kernel_do_compile.
+> +# It caused race condition with do_compile_kernelmodules when it runs
+> +# in parallel with do_compile_kernelmodules
+> +do_shared_workdir () {
+> +	:
+> +}
+> +
+>   # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+>   sysroot_stage_all () {
+>   	:
+>
 
 
