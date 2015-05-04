@@ -1,26 +1,30 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B351765D00
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 3455F65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 20:55:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t44KtqCS008482
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 May 2015 13:55:52 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 4 May 2015 13:55:51 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 May 2015 15:55:49 -0500
-Message-ID: <3a91a1b4561c60a05e43d44bcf042666545932d6.1430767796.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <cover.1430767796.git.peter.seebach@windriver.com>
-References: <cover.1430767796.git.peter.seebach@windriver.com>
+	Mon,  4 May 2015 21:41:51 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lgd1T1CqTz3hkWP;
+	Mon,  4 May 2015 23:41:48 +0200 (CEST)
+X-Auth-Info: zlsdisoybd2UnCH3QPTx+mQoGrDfJrNQzHuh1d324fE=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lgd1R6fw9zvdWV; 
+	Mon,  4 May 2015 23:41:47 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 4 May 2015 23:41:47 +0200
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1430239116-7671-1-git-send-email-marex@denx.de>
+	<553FD526.2020708@windriver.com> <201504282316.17774.marex@denx.de>
+In-Reply-To: <201504282316.17774.marex@denx.de>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo 1.6.5: less pointlessly chatty
+Message-Id: <201505042341.47651.marex@denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +37,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 20:55:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 May 2015 21:41:53 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-There was a stupid logic error controlling the diagnostic for
-a "possible" mismatch involving trailing slashes and whether or
-not a node was believed to be a directory. Specifically, a diagnostic
-got printed any time a lookup for a directory *didn't* have a
-trailing slash, as well as in the (actually intended) case where
-a non-directory lookup *did*.
+On Tuesday, April 28, 2015 at 11:16:17 PM, Marek Vasut wrote:
+> On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
+> > On 2015-04-28 12:38 PM, Marek Vasut wrote:
+> > > Pull the uImage image format generation from kernel.bbclass into
+> > > a separate kernel-uimage.bbclass. The recipes which now need to
+> > > generate an uImage will have to inherit kernel-uimage instead of
+> > > kernel class.
+> > > 
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > Cc: Koen Kooi <koen@dominion.thruhere.net>
+> > > Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > > Cc: Ross Burton <ross.burton@intel.com>
+> > > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > > ---
+> > > 
+> > >   meta/classes/kernel-uimage.bbclass | 48
+> > >   +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass       
+> > >   | 55 +++++++------------------------------- 2 files changed, 58
+> > >   insertions(+), 45 deletions(-)
+> > >   create mode 100644 meta/classes/kernel-uimage.bbclass
+> > > 
+> > > NOTE: The "inherit kernel-uimage" in kernel.bbclass should be changed
+> > > to
+> > > 
+> > >        something like "inherit kernel-${@d.getVar("KERNEL_IMAGETYPE",
+> > >        True).lower()}" but the problem is that I only want to perform
+> > >        the inheritance for uimage and fitimage, the other image types
+> > >        don't need to inherit any additional special stuff.
+> > >        Paul suggested I can do "inherit <empty here>". This would at
+> > >        least let me implement a python function which returns either
+> > >        "kernel-uimage", "kernel-fitimage" or "" and based on that, I
+> > >        could inherit the particular image type specifics into
+> > >        kernel.bbclass.
+> > >        What I don't know how to implement well is this function which
+> > >        returns those three strings based on the KERNEL_IMAGETYPE. What
+> > >        I would like to avoid is encoding those strings explicitly into
+> > >        the function, since that would force each new kernel image
+> > >        format to also edit this function in kernel.bbclass .
+> > >        Apparently, checking whether class exists and inheriting it
+> > >        only if it does is also not a simple task.
+> > 
+> > Agreed that this would be better. It would remove a lot of the checks
+> > in the other tasks for the image type.
+> 
+> Hi!
+> 
+> Yes, that's indeed true. All the image type checks would disappear from
+> kernel-uimage and kernel-fitimage bbclasses.
+> 
+> > I'm not aware of the exact details on how to make this work, but
+> > hopefully others have the foo.
 
-No other changes, but that one is probably significant.
----
- meta/recipes-devtools/pseudo/{pseudo_1.6.4.bb => pseudo_1.6.5.bb} | 4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb                        | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.6.4.bb => pseudo_1.6.5.bb} (77%)
+Any ideas please ?
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-similarity index 77%
-rename from meta/recipes-devtools/pseudo/pseudo_1.6.4.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-index 3d5b1fb..2a9dc63 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.4.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-@@ -6,8 +6,8 @@ SRC_URI = " \
-     file://fallback-group \
- "
- 
--SRC_URI[md5sum] = "2fb800c90d643bfce55e1ce5ca67f3b3"
--SRC_URI[sha256sum] = "25a7528f9191f74cceccc08a90c00086f2b3a9f6b900ea419a4f092de9a06775"
-+SRC_URI[md5sum] = "a5545ff365e243193c81981df98e870b"
-+SRC_URI[sha256sum] = "f5a0af976c958915503f516dd02097ab6a64c98a3c0cb4ceb0ce8b1ef8e38b3c"
- 
- PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index b505910..aa315d3 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "41389d4279d6a5f694615906217f481605b183b7"
--PV = "1.6.4+git${SRCPV}"
-+SRCREV = "db758fb11167c79d9682a17d359568e2a3c4acd5"
-+PV = "1.6.5+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--- 
-2.3.1
-
+Best regards,
+Marek Vasut
 
