@@ -1,28 +1,30 @@
 Return-Path: <bruno.bottazzini@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EC95C65D00
+	by mail.openembedded.org (Postfix) with ESMTP id 1831572C55
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 21:43:31 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2015 14:43:33 -0700
+	Mon,  4 May 2015 21:43:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 04 May 2015 14:43:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,368,1427785200"; d="scan'208";a="566176050"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
-	by orsmga003.jf.intel.com with ESMTP; 04 May 2015 14:43:32 -0700
+X-IronPort-AV: E=Sophos;i="5.13,368,1427785200"; d="scan'208";a="720588193"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by fmsmga002.fm.intel.com with ESMTP; 04 May 2015 14:43:34 -0700
 Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 4 May 2015 14:43:32 -0700
+	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Mon, 4 May 2015 14:43:34 -0700
 Received: from localhost.localdomain (10.218.98.31) by
 	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 4 May 2015 14:43:31 -0700
+	(TLS) id 14.3.224.2; Mon, 4 May 2015 14:43:33 -0700
 From: Bruno Bottazzini <bruno.bottazzini@intel.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 May 2015 18:43:21 -0300
-Message-ID: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
+Date: Mon, 4 May 2015 18:43:22 -0300
+Message-ID: <1430775804-30845-2-git-send-email-bruno.bottazzini@intel.com>
 X-Mailer: git-send-email 2.3.7
+In-Reply-To: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
+References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.218.98.31]
-Subject: [PATCH V2 0/3] systemd and dbus: split modules into packages
+Subject: [PATCH V2 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +40,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 04 May 2015 21:43:34 -0000
 Content-Type: text/plain
 
-Differences from V1:
-- Making sure that we don't change default configuration as Anders and
-  Otavio suggested.
-- Changing EXTRA_OECONF flags to use it with PAKAGECONFIG as Anders pointed
-  in the review.
-- New patch that verifies if journal-flush.service exists.
-  It may not exists depending on package configuration that the users want to
-  be installed or removed.
+From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
 
-Bruno Bottazzini (2):
-  systemd: Verify if journal-flush.service exists.
-  systemd: split modules into packages
+Most tools are not required if one is launching a simple daemon.
+The user will be able to exclude dbus-tool and save some space in his
+build
 
-Gustavo Sverzut Barbieri (1):
-  dbus: split tools package.
+Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- meta/recipes-core/dbus/dbus.inc          |    9 +-
- meta/recipes-core/systemd/systemd_219.bb | 1146 ++++++++++++++++++++++++++----
- 2 files changed, 1025 insertions(+), 130 deletions(-)
-
---
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index fb5d017..58dd728 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -39,7 +39,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-tools"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -47,6 +47,7 @@ OLDPKGNAME_class-nativesdk = ""
+ # for compatibility
+ RPROVIDES_${PN} = "${OLDPKGNAME}"
+ RREPLACES_${PN} += "${OLDPKGNAME}"
++RRECOMMENDS_${PN}_class-native = ""
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+@@ -64,6 +65,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
++FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
++                      ${bindir}/dbus-cleanup-sockets \
++                      ${bindir}/dbus-monitor \
++                      ${bindir}/dbus-launch \
++                      ${bindir}/dbus-run-session"
++RRECOMMENDS_${PN} = "${PN}-tools"
+ 
+ pkg_postinst_dbus() {
+ 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+-- 
 2.3.7
 
 
