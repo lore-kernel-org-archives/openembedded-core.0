@@ -1,28 +1,42 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E8B127169F
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 623AB73D99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 May 2015 04:36:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t444aUOL024658
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 May 2015 21:36:30 -0700 (PDT)
-Received: from server.local (128.224.23.5) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Sun, 3 May 2015 21:36:30 -0700
-Message-ID: <5546F74D.2000200@windriver.com>
-Date: Mon, 4 May 2015 00:36:29 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	Mon,  4 May 2015 05:46:29 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so139384093wgs.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 May 2015 22:46:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=rWQ7D5DpCyQWO+BijBWlR2zpWOSft2um8XQp9rkM4cA=;
+	b=eVz+hdd/55/9rDa4b6cIGpdUjLR2viWLteOeDPylB56Zh1r1hk+J3aMkguWpBDxpme
+	VugeApeqew65fROpsgm3RvreMVvuYZII64IGn+EVyGDkPNs+4UtmOS1R/j72oQlUtDe9
+	BnMGL4HO7Usce51WlZvZx/kKsTvItMLKd8CKSQUXY+xVpRhL8Fio5fRpBPCPRfXF7glg
+	v45RyZDGZR8WGFvuktjOI0tUBNrphet4Cqr7i9sg5dqqndiCim/juUI4MqLyz3oyWFaZ
+	nK6MezWvTIVvFM3cM92ONKzWIC9/rkt6ry0DRgYbipiBgL48n23gOpuBIzoHJgeEzbgK
+	SzAQ==
+X-Gm-Message-State: ALoCoQlusX5z8VS69seekwwrpY0TZvkq7Y0/zoEoDDrSsr+ljT+cMXYd8+dp3EzDc1EnXaPrHQ/T
+X-Received: by 10.180.37.101 with SMTP id x5mr16608516wij.74.1430718390382;
+	Sun, 03 May 2015 22:46:30 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id go4sm9477095wib.1.2015.05.03.22.46.28
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 03 May 2015 22:46:29 -0700 (PDT)
+Message-ID: <554707B3.70102@dresearch-fe.de>
+Date: Mon, 04 May 2015 07:46:27 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430688616.18360.101.camel@linuxfoundation.org>
-In-Reply-To: <1430688616.18360.101.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+To: angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Koen Kooi <koen@openembedded.org>
+References: <5541C69D.9040307@dresearch-fe.de>
+In-Reply-To: <5541C69D.9040307@dresearch-fe.de>
+Subject: Re: [fido] orphaned bbappend in meta-angstrom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +49,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 May 2015 04:36:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 May 2015 05:46:30 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 2015-05-03 5:30 PM, Richard Purdie wrote:
-> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
->> Here is the latest consolidated pull request for the supported linux-yocto
->> kernels.
->>
->>   - We have a refresh of the 3.14-rt support
->>   - bluetooh configuration changes for common-pc/qemux86
->>   - braswell BSP features and fixes
->>   - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
->>
->> I've built and booted these on my local machines and qemu, and
->> everything was sane.
->>
->> The -dev kernel obviously isn't something for deployment yet, but
->> it builds, and forms the base for follow up config changes, features
->> and development work. I built and booted core-image-kernel dev with
->> the 4.1 changes in place.
->
-> There was also a problem with poky-lsb. The idea (as far as I remember)
-> is that it should be using LTSI rather than the default main kernel so
-> we could split the testing. Unfortunately it was pointing at 3.10 which
-> doesn't exist any longer so was using 3.17. I think LTSI is 3.14 so I
-> updated the PREFERRED_VERSION to that.
+On 30.04.2015 08:07, Steffen Sledz wrote:
+> The angstrom-v2015.06-yocto1.8 branch of meta-angstrom contains recipes-tweaks/linux/linux-yocto_3.10.bbappend. But the fido branch of openembedded-core does not have a recipe for linux-yocto_3.10 (just 3.14 and 3.19).
+> 
+> So the bbappend should be removed or updated.
 
-Correct on all counts. We did want it to use LTSI, and that is 3.14
-at the moment.
+Ping!
 
->
-> This resulted in this failure on the autobuilder:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/281/steps/BuildImages/logs/stdio
->
-> Basically with qemumips and 3.14. Hopefully not a hard one to fix. If
-
-Doesn't look to bad. I'll address this one along with the x32 build
-failure on Monday (assuming I get it fixed in the day).
-
-Bruce
-
-> I've mixed the versions up, let me know which one poky-lsb should be
-> using.
->
-> Cheers,
->
-> Richard
->
-
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
