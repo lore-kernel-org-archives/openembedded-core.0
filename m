@@ -1,29 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DE87672120
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1825E65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 May 2015 21:30:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43LUWkD000443; Sun, 3 May 2015 22:30:32 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sDskZpT2Ds0Y; Sun,  3 May 2015 22:30:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t43LUGAL000424
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 3 May 2015 22:30:28 +0100
-Message-ID: <1430688616.18360.101.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Sun, 03 May 2015 22:30:16 +0100
-In-Reply-To: <cover.1430443583.git.bruce.ashfield@windriver.com>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+	Mon,  4 May 2015 01:34:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t441YnQ8027415
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 May 2015 18:34:49 -0700 (PDT)
+Received: from [128.224.162.142] (128.224.162.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Sun, 3 May 2015 18:34:48 -0700
+Message-ID: <5546CCB7.4020804@windriver.com>
+Date: Mon, 4 May 2015 09:34:47 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1429759127-1927-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1429759127-1927-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 May 2015 21:30:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 May 2015 01:34:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
-> Here is the latest consolidated pull request for the supported linux-yocto
-> kernels.
-> 
->  - We have a refresh of the 3.14-rt support
->  - bluetooh configuration changes for common-pc/qemux86
->  - braswell BSP features and fixes
->  - Introduction of the 4.1-rc1 -dev kernel (and associated perf fix).
-> 
-> I've built and booted these on my local machines and qemu, and
-> everything was sane.
-> 
-> The -dev kernel obviously isn't something for deployment yet, but
-> it builds, and forms the base for follow up config changes, features
-> and development work. I built and booted core-image-kernel dev with
-> the 4.1 changes in place.
+ping
 
-There was also a problem with poky-lsb. The idea (as far as I remember)
-is that it should be using LTSI rather than the default main kernel so
-we could split the testing. Unfortunately it was pointing at 3.10 which
-doesn't exist any longer so was using 3.17. I think LTSI is 3.14 so I
-updated the PREFERRED_VERSION to that.
+-R
 
-This resulted in this failure on the autobuilder:
+On 2015年04月23日 11:18, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> Remove -D_FORTIFY_SOURCE=2 from AM_CFLAGS when DEBUG_BUILD is 1
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-devtools/mmc/mmc-utils_git.bb | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> index bdb4fed..2b61745 100644
+> --- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> +++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> @@ -13,6 +13,9 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branc
+>
+>   S = "${WORKDIR}/git"
+>
+> +export FORITY="${@base_conditional( "DEBUG_BUILD", "1", "", "-D_FORTIFY_SOURCE=2", d )}"
+> +EXTRA_OEMAKE = 'AM_CFLAGS="-D_FILE_OFFSET_BITS=64 ${FORITY}"'
+> +
+>   do_install() {
+>       install -d ${D}${bindir}
+>       install -m 0755 mmc ${D}${bindir}
+>
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/281/steps/BuildImages/logs/stdio
-
-Basically with qemumips and 3.14. Hopefully not a hard one to fix. If
-I've mixed the versions up, let me know which one poky-lsb should be
-using.
-
-Cheers,
-
-Richard
-
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
