@@ -1,26 +1,35 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id D413071144
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F70C6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 14:14:44 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Tue, 5 May 2015
-	16:14:39 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 6A11128BA1D;
-	Tue,  5 May 2015 16:14:39 +0200 (CEST)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 May 2015 16:14:37 +0200
-Message-ID: <1430835277-21526-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  5 May 2015 14:35:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 May 2015 07:35:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,372,1427785200"; d="scan'208";a="724013906"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 05 May 2015 07:35:30 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 50E5A6A408D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 May 2015 07:35:02 -0700 (PDT)
+Date: Tue, 5 May 2015 17:35:24 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150505143524.GA26276@linux.intel.com>
+References: <D16E537B.5AAE0%belen.barros.pena@intel.com>
+	<1430830633-30115-1-git-send-email-ed.bartosh@linux.intel.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] serf: update SRC_URI to use debian mirrors instead of googlecode
+In-Reply-To: <1430830633-30115-1-git-send-email-ed.bartosh@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] bitbake: toastergui: show relative paths in configvars view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -30,37 +39,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 14:14:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 May 2015 14:35:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Update SRC_URI to use debian mirrors as googlecode will be closed
-in near future. Also added a summary to the recipe.
+On Tue, May 05, 2015 at 03:57:13PM +0300, Ed Bartosh wrote:
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-support/serf/serf_1.3.8.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Sorry, wrong list. Please ignore.
 
-diff --git a/meta/recipes-support/serf/serf_1.3.8.bb b/meta/recipes-support/serf/serf_1.3.8.bb
-index aa7918b..b5059d5 100644
---- a/meta/recipes-support/serf/serf_1.3.8.bb
-+++ b/meta/recipes-support/serf/serf_1.3.8.bb
-@@ -1,10 +1,10 @@
--
--SRC_URI = "http://serf.googlecode.com/svn/src_releases/serf-${PV}.tar.bz2 \
-+SUMMARY = "High-Performance Asynchronous HTTP Client Library"
-+SRC_URI = "${DEBIAN_MIRROR}/main/s/${BPN}/${BPN}_${PV}.orig.tar.gz \
-            file://norpath.patch \
-            file://env.patch"
- 
--SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
--SRC_URI[sha256sum] = "e0500be065dbbce490449837bb2ab624e46d64fc0b090474d9acaa87c82b2590"
-+SRC_URI[md5sum] = "713beaf05d7f3329de121e218e2fcb93"
-+SRC_URI[sha256sum] = "77134cd5010664ca023585bce50978bd4005906ed280ff889f591f86df7c59e4"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+> Stripped topdir from paths to config files in configvars view.
+> 
+> [YOCTO #7463]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  bitbake/lib/toaster/toastergui/templates/configvars.html   | 4 ++--
+>  bitbake/lib/toaster/toastergui/templatetags/projecttags.py | 6 ++++++
+>  bitbake/lib/toaster/toastergui/views.py                    | 2 ++
+>  3 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/bitbake/lib/toaster/toastergui/templates/configvars.html b/bitbake/lib/toaster/toastergui/templates/configvars.html
+> index 3e4c7e8..99ffe8b 100644
+> --- a/bitbake/lib/toaster/toastergui/templates/configvars.html
+> +++ b/bitbake/lib/toaster/toastergui/templates/configvars.html
+> @@ -55,7 +55,7 @@
+>          <td class="variable_value"><a data-toggle="modal" href="#variable-{{variable.pk}}">{{variable.variable_value|truncatechars:153}}</a></td>
+>          <td class="file"><a data-toggle="modal" href="#variable-{{variable.pk}}">
+>              {% if variable.vhistory.all %} {% autoescape off %}
+> -                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names}}
+> +                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names | cut_topdir_path_prefix:topdir}}
+>              {% endautoescape %} {% endif %}
+>          </a></td>
+>          <td class="description">
+> @@ -115,7 +115,7 @@
+>                  <tbody>
+>                      {% for vh in variable.vhistory.all %}
+>                      <tr>
+> -                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
+> +                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names|cut_topdir_path_prefix:topdir}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
+>                      </tr>
+>                      {%endfor%}
+>                  </tbody>
+> diff --git a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
+> index 54700e3..67762a5 100644
+> --- a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
+> +++ b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
+> @@ -20,6 +20,7 @@
+>  # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+>  
+>  from datetime import datetime, timedelta
+> +from os.path import relpath
+>  import re
+>  from django import template
+>  from django.utils import timezone
+> @@ -326,3 +327,8 @@ def cut_layer_path_prefix(fullpath,layer_names):
+>                  parts = re.split(lname, fullpath, 1)
+>                  return lname + parts[1]
+>      return fullpath
+> +
+> +@register.filter
+> +def cut_topdir_path_prefix(fullpath, topdir):
+> +    """Cut topdir from the fullpath."""
+> +    return relpath(fullpath, topdir) if fullpath.startswith(topdir) else fullpath
+> diff --git a/bitbake/lib/toaster/toastergui/views.py b/bitbake/lib/toaster/toastergui/views.py
+> index 7849b50..d2cd367 100755
+> --- a/bitbake/lib/toaster/toastergui/views.py
+> +++ b/bitbake/lib/toaster/toastergui/views.py
+> @@ -39,6 +39,7 @@ from datetime import timedelta, datetime, date
+>  from django.utils import formats
+>  from toastergui.templatetags.projecttags import json as jsonfilter
+>  import json
+> +from os.path import dirname
+>  
+>  # all new sessions should come through the landing page;
+>  # determine in which mode we are running in, and redirect appropriately
+> @@ -1326,6 +1327,7 @@ def configvars(request, build_id):
+>                  'default_orderby' : 'variable_name:+',
+>                  'search_term':search_term,
+>                  'layer_names' : layer_names,
+> +                'topdir': dirname(build_dir),
+>              # Specifies the display of columns for the table, appearance in "Edit columns" box, toggling default show/hide, and specifying filters for columns
+>                  'tablecols' : [
+>                  {'name': 'Variable',
+> -- 
+> 2.1.4
+> 
+
 -- 
-1.9.1
-
+--
+Regards,
+Ed
 
