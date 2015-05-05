@@ -1,37 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A5A72376
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 52B3E72376
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 14:40:44 +0000 (UTC)
-Received: by igblo3 with SMTP id lo3so100409840igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 07:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aM6+6iRkn80Vn62yL3JVdkU6NqHRH+qba4dtm5+FO4I=;
-	b=lZmQLy7wcgYNN8yAFktiWQJ9jDxe+ghxt+9AhVZeFgltScO9TfTEWnDM029a4VN0Kr
-	ZFql76Mds1L2cquBFYCqbSkWhWus04cN9siOKR5/O6lOY4ee51OD6jOV83yk2zUvtAht
-	ind378o82ImPcglEIXvaGECS/prth/VNXtC0CYKTQO+yJIkbMcwc61YrE4k2v1mEyuXr
-	oD83tUevhM+GoxMJk2Qv9yWMB6+Nfp4EYTxMIi7/KFkU4ku0XZa0CROXVO9XP1GherXV
-	dXXL4fcELbLIP6tYwzLqk3uMonLmoVWcvxYY726sozJxiXwgVX9OiCYTD9+x+LYO+bKd
-	K32A==
-X-Received: by 10.50.13.5 with SMTP id d5mr2197898igc.4.1430836840797; Tue, 05
-	May 2015 07:40:40 -0700 (PDT)
+	Tue,  5 May 2015 14:49:29 +0000 (UTC)
+Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0224.002; Tue, 5 May 2015 16:49:29 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "yocto.security@yoctoproject.org" <yocto.security@yoctoproject.org>
+Thread-Topic: CVE list vs bugzilla 
+Thread-Index: AdCHMQJlypVzgTuuROqRC6C4yAIJCw==
+Date: Tue, 5 May 2015 14:49:28 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48258EB7C5@sestoex09.enea.se>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Received: by 10.50.230.178 with HTTP; Tue, 5 May 2015 07:40:10 -0700 (PDT)
-In-Reply-To: <CAHiDW_FrGE1ryPPZinOTg-CbmT7ZUQPa3fNod79dwBY1oT=_mA@mail.gmail.com>
-References: <1430735858-6704-1-git-send-email-jussi.kukkonen@intel.com>
-	<CAMKF1sr7joRJQMLsX4==4e6f185hzkgC9QdwBFhxSVsHjkz64w@mail.gmail.com>
-	<CAHiDW_FrGE1ryPPZinOTg-CbmT7ZUQPa3fNod79dwBY1oT=_mA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 May 2015 07:40:10 -0700
-Message-ID: <CAMKF1sou2QNk6JaUw9nqWYqqD++x+D7NiBg4Co8gYEY4yp=hnA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] shared-mime-info: Upgrade 1.3 -> 1.4
+Subject: CVE list vs bugzilla
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 14:40:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 May 2015 14:49:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 5, 2015 at 12:57 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> [diff]
->         renames = true
->
+Hi all,
 
-If set to "copies" or "copy", it will detect copies, as well.
+To monitor/scan vulnerabilities (CVE), check affected packages, versions, b=
+ranches, fixed versions/branches etc ... we need either to file a bug in bu=
+gzilla for each publically disclosed CVE or have a simple data base. Today,=
+ we sometimes file a bug but most of the time vulnerabilities just get fixe=
+d by someone volunteer and some vulnerabilities don't get fixed.
+
+We have created a CVE list just for test to see if this is easier to mainta=
+in and provides better overview, please have a look at this and let us to k=
+now what you think:
+https://docs.google.com/spreadsheets/d/13o4IPsCQ42aR2CCGzYOHdmpIEHkHUwDWlF4=
+QqgI6emQ/edit#gid=3D0=20
+
+The alternative for maintaining such a list is filing a bug in Bugzilla. Th=
+e question is which approach is the best, here are some pros and cons:
+
+Bugzilla:=20
+=3D=3D=3D=3D=3D=3D=3D
+- it takes more time to create/update a bug  in Bugzilla (not a big problem=
+)
+- history, traceable who updated
+- when we have releases, we go through open bugs and try to get them fixed
+
+Question: can we generate a report from Bugzilla, search for CVEs and find =
+out what CVEs have been fixed and in what branches etc?
+
+
+CVE spread sheet:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++ Easy to update, anyone just can add info preferably automatically; we cou=
+ld use a tool to check with NVD (https://nvd.nist.gov/ ) daily and update t=
+he list (some human interactions needs to be done though)=20
++ easy to have an overview
+- ?
+
+Any comments?
+
+Thanks
+Sona
 
