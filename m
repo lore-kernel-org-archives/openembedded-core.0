@@ -1,16 +1,16 @@
 Return-Path: <fabien.proriol@jdsu.com>
 Received: from ks.kazoe.org (ks.kazoe.org [91.121.82.209])
-	by mail.openembedded.org (Postfix) with ESMTP id 517F9736B3
+	by mail.openembedded.org (Postfix) with ESMTP id 7417F736B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 09:29:27 +0000 (UTC)
+	Tue,  5 May 2015 09:33:44 +0000 (UTC)
 From: fabien.proriol@jdsu.com
 To: cristian.iorga@intel.com
-Date: Tue,  5 May 2015 11:20:58 +0200
-Message-Id: <1430817658-20363-1-git-send-email-fabien.proriol@jdsu.com>
+Date: Tue,  5 May 2015 11:31:41 +0200
+Message-Id: <1430818301-20647-1-git-send-email-fabien.proriol@jdsu.com>
 X-Mailer: git-send-email 2.0.5
 Cc: Fabien Proriol <fabien.proriol@jdsu.com>,
 	openembedded-core@lists.openembedded.org
-Subject: [PATCH] bluez5: Add init script to start service with sysvinit
+Subject: [PATCH] bluez5: Add init script to start obex service with sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,83 +23,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 09:29:28 -0000
+X-List-Received-Date: Tue, 05 May 2015 09:33:44 -0000
 
 From: Fabien Proriol <fabien.proriol@jdsu.com>
 
 Signed-off-by: Fabien Proriol <fabien.proriol@jdsu.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc        |  9 +++++-
- .../recipes-connectivity/bluez5/bluez5/bluez5.init | 36 ++++++++++++++++++++++
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluez5.init
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  9 ++++-
+ .../bluez5/bluez5/bluez5-obexd.init                | 39 ++++++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5/obexd.conf | 12 +++++++
+ 3 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/obexd.conf
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 67aafbb..d216002 100644
+index d216002..66e0df2 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -19,10 +19,11 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- SRC_URI = "\
+@@ -20,6 +20,8 @@ SRC_URI = "\
      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
      file://bluetooth.conf \
-+    file://bluez.init \
+     file://bluez.init \
++    file://bluez5-obexd.init \
++    file://obexd.conff \
  "
  S = "${WORKDIR}/bluez-${PV}"
  
--inherit autotools-brokensep pkgconfig systemd
-+inherit autotools-brokensep pkgconfig systemd update-rc.d
- 
- EXTRA_OECONF = "\
-   --enable-tools \
-@@ -33,6 +34,10 @@ EXTRA_OECONF = "\
+@@ -34,9 +36,11 @@ EXTRA_OECONF = "\
    --enable-library \
  "
  
-+INITSCRIPT_PACKAGES = "${PN}
-+INITSCRIPT_NAME_${PN} = "${PN}"
-+INITSCRIPT_PARAMS_${PN} = "start 16 5 . stop 01 0 1 6 ."
-+
+-INITSCRIPT_PACKAGES = "${PN}
++INITSCRIPT_PACKAGES = "${PN} ${PN}-obex"
+ INITSCRIPT_NAME_${PN} = "${PN}"
+ INITSCRIPT_PARAMS_${PN} = "start 16 5 . stop 01 0 1 6 ."
++INITSCRIPT_NAME_${PN}-obex = "${PN}-obexd"
++INITSCRIPT_PARAMS_${PN}-obex = "start 18 5 . stop 01 0 1 6 ."
+ 
  # bluez5 builds a large number of useful utilities but does not
  # install them.  Specify which ones we want put into ${PN}-noinst-tools.
- NOINST_TOOLS_READLINE ??= ""
-@@ -60,6 +65,8 @@ do_install_append() {
-         for f in ${NOINST_TOOLS} ; do
- 	    install -m 755 ${B}/$f ${D}/${bindir}
+@@ -67,6 +71,9 @@ do_install_append() {
  	done
-+	install -d ${D}/etc/init.d
-+	install -m 0755 ${WORKDIR}/bluez5.init ${D}${sysconfdir}/init.d/bluez5
+ 	install -d ${D}/etc/init.d
+ 	install -m 0755 ${WORKDIR}/bluez5.init ${D}${sysconfdir}/init.d/bluez5
++	install -d ${D}/etc/dbus-1/system.d
++	install -m 0644 ${WORKDIR}/obexd.conf ${D}${sysconfdir}/dbus-1/system.d
++	install -m 0755 ${WORKDIR}/bluez5-obexd.init ${D}${sysconfdir}/init.d/bluez5-obexd
  }
  
  ALLOW_EMPTY_libasound-module-bluez = "1"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluez5.init b/meta/recipes-connectivity/bluez5/bluez5/bluez5.init
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init b/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
 new file mode 100644
-index 0000000..4d6b365
+index 0000000..c958e03
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/bluez5.init
-@@ -0,0 +1,36 @@
++++ b/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
+@@ -0,0 +1,39 @@
 +#!/bin/sh
 +### BEGIN INIT INFO
-+# Provides: bluez5
++# Provides: bluez5-obex
 +# Default-Start:  5
 +# Default-Stop:   016
-+# Short-Description: run bluez5 daemon
++# Short-Description: run bluez5-obex daemon
 +# Description: Linux Bluetooth stack V5 userland components..
 +### END INIT INFO
 +
 +export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 +export DBUS_SESSION_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
 +
-+test -x /usr/lib/bluez5/bluetooth/bluetoothd || exit 0
++test -x /usr/lib/bluez5/bluetooth/obexd || exit 0
 +
 +case "$1" in
 +    start)
-+        echo -n "Starting Bluez"
-+        start-stop-daemon --start --quiet --background --exec dbus-launch -- /usr/lib/bluez5/bluetooth/bluetoothd
++        echo -n "Starting Obexd"
++        mkdir -p /tmp/bluetooth-inbox
++        mount /tmp/bluetooth-inbox
++        start-stop-daemon --start --quiet --background --exec /usr/lib/bluez5/bluetooth/obexd -- --root=/tmp/bluetooth-inbox -l -d
 +        echo "."
 +        ;;
 +    stop)
-+        echo -n "Stopping Bluez"
-+        start-stop-daemon --stop --retry TERM/20/KILL/5 --quiet --exec /usr/lib/bluez5/bluetooth/bluetoothd
++        echo -n "Stopping Obexd"
++        start-stop-daemon --stop --retry TERM/20/KILL/5 --quiet --exec /usr/lib/bluez5/bluetooth/obexd
++        umount -f /tmp/bluetooth-inbox
 +        echo "."
 +        ;;
 +    restart)
@@ -107,12 +111,30 @@ index 0000000..4d6b365
 +        $0 start
 +        ;;
 +    *)
-+        echo "Usage: /etc/init.d/bluez5 {start|stop|restart}"
++        echo "Usage: /etc/init.d/bluez5-obexd {start|stop|restart}"
 +        exit 1
 +        ;;
 +esac
 +
 +exit 0
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/obexd.conf b/meta/recipes-connectivity/bluez5/bluez5/obexd.conf
+new file mode 100644
+index 0000000..939d544
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/obexd.conf
+@@ -0,0 +1,12 @@
++<!-- This configuration file specifies the required security policies
++     for Obex core daemon to work. -->
++
++<!DOCTYPE busconfig PUBLIC "-//freedesktop/DTD D-BUS Configuration 1.0//EN"
++ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
++<busconfig>
++	<policy user="root">
++		<allow own="org.bluez.obex"/>
++		<allow send_destination="org.bluez.obex"/>
++		<allow send_interface="org.bluez.obex"/>
++	</policy>
++</busconfig>
 -- 
 2.0.5
 
