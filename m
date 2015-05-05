@@ -1,40 +1,20 @@
-Return-Path: <psidhu@gateworks.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9582A6AC3E
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8676972376
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 19:23:19 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so159005935wiu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 12:23:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/87Wbc5mkwTWL9Z0Qfi7aIE5Y6IUWjottEl8jqOm5Tk=;
-	b=BBVAYzfUyuxK2AWNm0LSyYmMpeWJt+z+CY1zvM0Kh23WEfTWkTGanaJWlbWnVeELiG
-	BRR+09mJgG3v32v07MhR38PYdorzabXTd3KfM4fLEJs0t9uQeymqbNngt20+O9VBdEry
-	ThgoxofGfTF7xL3l9FteolFPFgDPd96RmXGTT8QzDaIVqwaw8XCLjM+2lPVGX46qm2mx
-	XncRaCa/UyLpr1XqsFdSfEsB6MPA7ki/ZCGM6GJbAZp46QyirLSN6v1c0Jk2lScSv4xc
-	bYNUan3YLqSnwB9NgYE/FCJ8ET21IIxzljt6j3q4gZ2bSXRIKvdWyoAYUwrHtkEJ3bq7
-	ZJYg==
-X-Gm-Message-State: ALoCoQkLKIRHSWO+Z63K17BFplWVmDK2dOY4rYhHXBTGVHH8JQ1DslcP+Vk81WwYQYshEoJbSmhZ
-X-Received: by 10.194.21.8 with SMTP id r8mr1861104wje.60.1430853800636; Tue,
-	05 May 2015 12:23:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.194.58.70 with HTTP; Tue, 5 May 2015 12:22:50 -0700 (PDT)
-In-Reply-To: <CAP9ODKpua0=cpqyj9EF8+iNmFxDwcU7R+nCbpCCGoEPrdLUafA@mail.gmail.com>
-References: <1429921942-19804-1-git-send-email-psidhu@gateworks.com>
-	<1429921942-19804-2-git-send-email-psidhu@gateworks.com>
-	<CAP9ODKpua0=cpqyj9EF8+iNmFxDwcU7R+nCbpCCGoEPrdLUafA@mail.gmail.com>
-From: Pushpal Sidhu <psidhu@gateworks.com>
-Date: Tue, 5 May 2015 12:22:50 -0700
-Message-ID: <CAD1M060TXfPiHXLzkq8vzx6-90HUyWDtmgxiisgHvDfPU9uA5Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: add support for multiple ubi sizes
+	Tue,  5 May 2015 19:33:14 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 05 May 2015 12:33:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,374,1427785200"; d="scan'208";a="721159117"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 05 May 2015 12:33:14 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 May 2015 22:33:00 +0300
+Message-Id: <cover.1430854134.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] Minor X protocol extension upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 19:23:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 May 2015 19:33:15 -0000
 
-ping.
+The following changes since commit 7a8f37daa7b42905233c31366915b897886a957a:
 
-- Pushpal
+  dev-manual: Updates to add Luna support for Eclipse (2015-05-03 11:49:35 +0100)
 
-On Mon, Apr 27, 2015 at 5:36 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
->
-> On Fri, Apr 24, 2015 at 9:32 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
-> > Add new FSTYPE called 'multiubi'. This new type has the ability to
-> > create multple ubi's, something that's extremely useful on boards that
-> > can include varying flash sizes (e.g. 256MB vs 2GB).
-> >
-> > Because we don't want to reuse code, I extracted the mkfs and ubinize
-> > commands out to a new function that will handle the creation of both
-> > multiple ubi's, as well as the 'ubi' FSTYPE (so as not to break current
-> > boards).
-> >
-> > Due to the single processes nature of the OE when doing it's
-> > 'create_image', this new multiubi_mkfs function also creates it's own
-> > symlinks as well as cleans up it's own cfg file.
-> >
-> > Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
->
-> It makes a lot of sense.
->
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xorg-proto
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xorg-proto
+
+Jussi Kukkonen (3):
+  xproto: Upgrade 7.0.26 -> 7.0.27
+  randrproto: Upgrade 1.4.0 -> 1.4.1
+  kbproto: Upgrade 1.0.6 -> 1.0.7
+
+ .../xorg-proto/{kbproto_1.0.6.bb => kbproto_1.0.7.bb}                | 4 ++--
+ .../xorg-proto/{randrproto_1.4.0.bb => randrproto_1.4.1.bb}          | 4 ++--
+ .../xorg-proto/{xproto_7.0.26.bb => xproto_7.0.27.bb}                | 5 ++---
+ 3 files changed, 6 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{kbproto_1.0.6.bb => kbproto_1.0.7.bb} (77%)
+ rename meta/recipes-graphics/xorg-proto/{randrproto_1.4.0.bb => randrproto_1.4.1.bb} (80%)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.26.bb => xproto_7.0.27.bb} (73%)
+
+-- 
+2.1.4
+
 
