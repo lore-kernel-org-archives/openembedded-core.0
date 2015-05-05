@@ -1,40 +1,43 @@
-Return-Path: <vomegaz@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B21B72376
+	by mail.openembedded.org (Postfix) with ESMTP id 8343A6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 17:11:38 +0000 (UTC)
-Received: by wgyo15 with SMTP id o15so190803974wgy.2
+	Tue,  5 May 2015 17:22:32 +0000 (UTC)
+Received: by wgiu9 with SMTP id u9so27737525wgi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 10:11:40 -0700 (PDT)
+	Tue, 05 May 2015 10:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=pQxOeBrt3eYVrrxlGR5gGDlRQxOiNlbusLWqaZglhpU=;
-	b=h+yGKfm9FRYHNzLoxypQIqBy1omcRHzVUD/PPDQ1BVNfgvZ+t4wmhun74MK3qia9H9
-	Qw4bGnSv8HKx7TLGZhiKxshqxYwK2kD1+pJIhGS0KojzhHUseCHdp99ZHTbwkJDa2xUm
-	daIJ5a3ArMXKrBtkwtRIf28kTfbyo2RRPi1jOssBzrl+EyD4z2Zu0rA8MZJ6PaurLEst
-	Lo3ZluGA2XARQPp78V10iv8SYSEJD3aRlU4G/MEE46kab3xr1+tPeM/TrMzNr50TmQUB
-	SJ7ByboRJKlInAYzJHzvZHAM++93tgzpkvMk1FelKnfkRvNPObrU6YDi7rfBbwV5EzNS
-	7M5Q==
-X-Received: by 10.194.178.227 with SMTP id db3mr46258025wjc.82.1430845900020; 
-	Tue, 05 May 2015 10:11:40 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=OnoSIb1g0Y2bOLZN3TwxJPl9tB/GwX5Qf9FtHQ/W9cU=;
+	b=kbKIN2s+tzFx2Gf7QeTcmPV4UuRC4eFz4vap3HtdCWg8LrFCHB/fKGQUJ0/9LVIJCQ
+	uN2a3S8vtUuREROhJAJnSAy7AmjSzzmLi3L6xe6NFSjHeQXYX+xt5q3CHAoxa6ZuMw3c
+	9l2aCdWZoCQTjohs9AkDFPQJ2KILKrkyiEIUkR7g0f4bGsUQ7+vSilPbWjxVrLt525zK
+	3+T/wWXEdT69canzRDXMgzmoyutMfAopnyx4It8uDASEk5NozEw3q8fW5OphMlJU5Nif
+	J2yr6XaMvo1EvI7VPY2VVhQayzJIn/W/vIwaDtwhFy1J2ESnsLSKrwhuaQw3o8juptdq
+	2Izg==
+X-Received: by 10.180.81.104 with SMTP id z8mr6034379wix.5.1430846553685;
+	Tue, 05 May 2015 10:22:33 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	xb3sm26532805wjc.38.2015.05.05.10.22.32
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 May 2015 10:22:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 5 May 2015 19:22:37 +0200
+To: Andrea Di Chiara <andrea.dichiara79@gmail.com>
+Message-ID: <20150505172237.GF2378@jama>
+References: <5548F63F.6090800@gmail.com>
 MIME-Version: 1.0
-Sender: vomegaz@gmail.com
-Received: by 10.28.9.73 with HTTP; Tue, 5 May 2015 10:10:59 -0700 (PDT)
-In-Reply-To: <CAJTo0LZkVGZTVBueVpwFaTvmiK_3vsXRB45abKSs0--fbVWzZw@mail.gmail.com>
-References: <1429720746-20096-1-git-send-email-thomas.perrot@tupi.fr>
-	<CAJTo0LZkVGZTVBueVpwFaTvmiK_3vsXRB45abKSs0--fbVWzZw@mail.gmail.com>
-From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Tue, 5 May 2015 19:10:59 +0200
-X-Google-Sender-Auth: Qw-fFw-oqiW7Pt7_odqLHPcuzJs
-Message-ID: <CAGXeWg=6c28bYgZsOVe0E18AwD6Q1AECZopu9T4EEQuVRbU0ng@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: tprrt <tprrt@tupi.fr>, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-systemctl-native: fix checksum error
+In-Reply-To: <5548F63F.6090800@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: upstart init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: thomas.perrot@tupi.fr
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,30 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 17:11:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 May 2015 17:22:35 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, May 05, 2015 at 06:56:31PM +0200, Andrea Di Chiara wrote:
+> Hi,
+> I'm building my own distribution using Yocto Project and I'm trying to=20
+> setup Upstart as init manager. In my local.conf I have added these lines:
+>=20
+> DISTRO_FEATURES_append =3D =E2=80=9C upstart=E2=80=9D
+> VIRTUAL-RUNTIME_init_manager =3D =E2=80=9Cupstart=E2=80=9D
+>=20
+> but no recipe seems to exist. Am I wrong? I have searched through=20
+> openembedded layers but I found only a recipe for WebOS distribution. Is=
+=20
+> it possible to use it with Yocto Dora or Yocto Daisy? There is another=20
+> recipe?
 
-Yes, I used combo-layer to create combined repository.
------------------------------------------------------------------------------------------
-http://fr.linkedin.com/pub/thomas-perrot/37/436/876
-https://plus.google.com/u/0/111501193434241021399
-https://github.com/tprrt
+meta-webos is compatible only with Dylan release, but you should be able
+to copy upstart + libnih from there to your layer and use them.
 
+You can also check couple bbappends in meta-webos which add upstart init
+scripts to various components (to replace sysvinit scripts).
 
-On Fri, May 1, 2015 at 10:41 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 22 April 2015 at 17:39, Thomas Perrot <thomas.perrot@tupi.fr> wrote:
->>
->> ERROR: systemd-systemctl-native: md5 data is not matching for
->> file:///home/tprrt/dev/oe-build-easy/combination/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690
->> ERROR: systemd-systemctl-native: The new md5 checksum is
->> 751419260aa954499f7abaabaa882bbe
->
->
-> The LICENSE in oe-core definitely has the md5sum 4d92[...].  Are you using a
-> tool to create a combined repository that is overriding the LICENSE file?
->
-> Ross
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
