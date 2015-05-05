@@ -1,40 +1,30 @@
-Return-Path: <pbarker@betafive.co.uk>
-X-Greylist: delayed 8400 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 May 2015 20:05:33 UTC
-Received: from 6.mo68.mail-out.ovh.net (6.mo68.mail-out.ovh.net
-	[46.105.63.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA5973BB8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DAAD473BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 20:05:33 +0000 (UTC)
-Received: from mail626.ha.ovh.net (gw6.ovh.net [213.251.189.206])
-	by mo68.mail-out.ovh.net (Postfix) with SMTP id 8E4D0FF9F99
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 19:37:25 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 5 May 2015 19:37:25 +0200
-Received: from cpc19-shep11-2-0-cust55.8-3.cable.virginm.net (HELO
-	bang.betafive.co.uk) (paul@betafive.co.uk@81.111.243.56)
-	by ns0.ovh.net with SMTP; 5 May 2015 19:37:23 +0200
-Received: by bang.betafive.co.uk (Postfix, from userid 1000)
-	id 78D6D40533; Tue,  5 May 2015 18:39:05 +0100 (BST)
-Date: Tue, 5 May 2015 18:39:05 +0100
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150505173905.GA9830@bang.betafive.co.uk>
-References: <1430847181-11913-1-git-send-email-paul@paulbarker.me.uk>
-MIME-Version: 1.0
-In-Reply-To: <1430847181-11913-1-git-send-email-paul@paulbarker.me.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Ovh-Tracer-Id: 18434077701239585730
-X-Ovh-Remote: 81.111.243.56 (cpc19-shep11-2-0-cust55.8-3.cable.virginm.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeektddrkeehucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeektddrkeehucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-Subject: Re: [dylan][PATCH] kernel.bbclass: Complete fix for modules symlink
+	Tue,  5 May 2015 20:06:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t45K5lOI016109; Tue, 5 May 2015 21:06:53 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SLshcCEPYtdr; Tue,  5 May 2015 21:06:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t45K6fhu016154
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 5 May 2015 21:06:53 +0100
+Message-ID: <1430856401.8074.13.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Tue, 05 May 2015 21:06:41 +0100
+In-Reply-To: <1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1430490525.18360.14.camel@linuxfoundation.org>
+	<1430748689-7217-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,60 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 20:05:36 -0000
-X-Groupsio-MsgNum: 65163
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 May 2015 20:07:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2015-05-04 at 17:11 +0300, Ed Bartosh wrote:
+> Race condition between do_compile_kernelmodules and do_shared_workdir
+> tasks occurs when do_compilemodules changes files in include/generated/*
+> while do_shared_workdir tries to copy them to shared working directory.
+> 
+> Functionality of do_shared_workdir has been moved to separate function
+> mk_shared_workdir and called from do_kernel_compile. do_shared_workdir
+> left in the code as it may be used in many recipes.
+> 
+> [YOCTO #7321]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 125ed88..13c0180 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -192,6 +192,8 @@ kernel_do_compile() {
+>  	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>  		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>  	fi
+> +
+> +	mk_shared_workdir
+>  }
+>  
+>  do_compile_kernelmodules() {
+> @@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
+>  
+>  PACKAGEFUNCS += "emit_depmod_pkgdata"
+>  
+> -do_shared_workdir () {
+> +mk_shared_workdir () {
+>  	cd ${B}
+>  
+>  	kerneldir=${STAGING_KERNEL_BUILDDIR}
+> @@ -289,6 +291,14 @@ do_shared_workdir () {
+>  	fi
+>  }
+>  
+> +# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
+> +# and called from kernel_do_compile.
+> +# It caused race condition with do_compile_kernelmodules when it runs
+> +# in parallel with do_compile_kernelmodules
+> +do_shared_workdir () {
+> +	:
+> +}
+> +
+>  # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+>  sysroot_stage_all () {
+>  	:
 
-On Tue, May 05, 2015 at 06:33:01PM +0100, Paul Barker wrote:
-> From: Paul Barker <paul.barker@commagility.com>
->=20
-> The fix backported in commit aa9fc551 of oe-core does not completely fix =
-the
-> issue (Yocto #4595) as intended. The modules symlink is still created in =
-the
-> working directory instead of in the deploy directory. To fix this, we jus=
-t need
-> to use an absolute path to ${DEPLOYDIR} when creating the symlink.
->=20
-> Signed-off-by: Paul Barker <paul.barker@commagility.com>
+This fails on the autobuilder with a missing kernel-None package.
+Building lttng-modules, then looking at the package dependencies 100%
+reproduces. The problem is this line:
 
-This is a follow-up to my backport request in January, sorry it's took ages=
- to
-get this one out. I've had to forward the email from my personal account as=
- the
-email system at work would munch the patch.
+echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
 
-This has been tested on our autobuilder and looks to be working as expected.
+since KERNEL_VERSION is obtained from ${B} via:
 
-Thanks,
+KERNEL_VERSION = "${@get_kernelversion_headers('${B}')}"
 
---=20
-Paul Barker
+and ${B} isn't populated when the do_compile shell script is generated
+resulting in the file containing "None".
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Cheers,
 
---2fHTh5uZTiUOsy+g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Richard
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
 
-iQEcBAEBAgAGBQJVSQA5AAoJEBwoJlo7UPQD28gIAIoIjNfcevjZXDDjnBgln03d
-bB0ikQO5iH2qocABiIATt3DXznw9aocpPkow2LYnZeg7NUNV0PoCFlZ+Hq4YR/fr
-Ypj4Bq1fJcLHqzsz5iwIO86BhZmv+30hGoOGuRlkeWe1Xq33XbcHWIZCfncVn5YQ
-qrzRzCMeJ6xx1xfaTsgZY1FMYEvgLHFWGCEHiw3RyVJjg1HEur7XX84PdGtd2vIA
-8/Ifrmm0S8X3BMv1DstX7hqWo+npabuWfufuCV0zusXRl+7ELvdxEGCsI0TfDhCe
-Z7Kh6TalSeBVshsMibkVkNK49rVmojNZ+C28IXz6R6x/DazV5eYVmp4Fg6/kIr0=
-=0fVo
------END PGP SIGNATURE-----
 
---2fHTh5uZTiUOsy+g--
