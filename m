@@ -1,40 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 8343A6AC3E
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id F034272A85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 17:22:32 +0000 (UTC)
-Received: by wgiu9 with SMTP id u9so27737525wgi.3
+	Tue,  5 May 2015 17:31:39 +0000 (UTC)
+Received: by wicmx19 with SMTP id mx19so106626659wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 10:22:33 -0700 (PDT)
+	Tue, 05 May 2015 10:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=OnoSIb1g0Y2bOLZN3TwxJPl9tB/GwX5Qf9FtHQ/W9cU=;
-	b=kbKIN2s+tzFx2Gf7QeTcmPV4UuRC4eFz4vap3HtdCWg8LrFCHB/fKGQUJ0/9LVIJCQ
-	uN2a3S8vtUuREROhJAJnSAy7AmjSzzmLi3L6xe6NFSjHeQXYX+xt5q3CHAoxa6ZuMw3c
-	9l2aCdWZoCQTjohs9AkDFPQJ2KILKrkyiEIUkR7g0f4bGsUQ7+vSilPbWjxVrLt525zK
-	3+T/wWXEdT69canzRDXMgzmoyutMfAopnyx4It8uDASEk5NozEw3q8fW5OphMlJU5Nif
-	J2yr6XaMvo1EvI7VPY2VVhQayzJIn/W/vIwaDtwhFy1J2ESnsLSKrwhuaQw3o8juptdq
-	2Izg==
-X-Received: by 10.180.81.104 with SMTP id z8mr6034379wix.5.1430846553685;
-	Tue, 05 May 2015 10:22:33 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=9BlczNR9oqx92aCE8Sk5sn0FPwGIEKAZ+K518+dfONQ=;
+	b=PMSYh0OZHiGJ9pqGsgt0am0cMFQ4o/4r/iYBIVMzluUzohPqZambbMAAUAmSvG6lJD
+	cGPOxud2lGRXN5qlUPaosmeT6jyc9D+55WxOoE4jThUPOX5fpm8ddAzQRLHeS2VAJ4hG
+	pN0mlTn6DCJjC0xnCj3dOxEiQEnnk2mDbjyPNF5d/+8hQGYHmS2nPFKzQImwf/SDsNtR
+	1TfzkHgZsFNq3jzFrzMuCk+z3HBbWfoodGO7zNjGwXq0lMtUApTBd6ccQqvy6EY2T6aG
+	c1JRyFz/a+JGGUhbDJWv9rnIa3Z/Y1APfCdXCQ71iOpikzA4V5EkjgvGwjL/2YW6PQET
+	0Qrw==
+X-Received: by 10.180.37.73 with SMTP id w9mr185439wij.7.1430847100427;
+	Tue, 05 May 2015 10:31:40 -0700 (PDT)
+Received: from bang.betafive.co.uk
+	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
 	by mx.google.com with ESMTPSA id
-	xb3sm26532805wjc.38.2015.05.05.10.22.32
+	fs9sm26575864wjc.34.2015.05.05.10.31.38
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 May 2015 10:22:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 5 May 2015 19:22:37 +0200
-To: Andrea Di Chiara <andrea.dichiara79@gmail.com>
-Message-ID: <20150505172237.GF2378@jama>
-References: <5548F63F.6090800@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <5548F63F.6090800@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: upstart init manager
+	Tue, 05 May 2015 10:31:39 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 May 2015 18:33:01 +0100
+Message-Id: <1430847181-11913-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.9.1
+Cc: Paul Barker <paul.barker@commagility.com>
+Subject: [dylan][PATCH] kernel.bbclass: Complete fix for modules symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 17:22:35 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 May 2015 17:31:40 -0000
 
-On Tue, May 05, 2015 at 06:56:31PM +0200, Andrea Di Chiara wrote:
-> Hi,
-> I'm building my own distribution using Yocto Project and I'm trying to=20
-> setup Upstart as init manager. In my local.conf I have added these lines:
->=20
-> DISTRO_FEATURES_append =3D =E2=80=9C upstart=E2=80=9D
-> VIRTUAL-RUNTIME_init_manager =3D =E2=80=9Cupstart=E2=80=9D
->=20
-> but no recipe seems to exist. Am I wrong? I have searched through=20
-> openembedded layers but I found only a recipe for WebOS distribution. Is=
-=20
-> it possible to use it with Yocto Dora or Yocto Daisy? There is another=20
-> recipe?
+From: Paul Barker <paul.barker@commagility.com>
 
-meta-webos is compatible only with Dylan release, but you should be able
-to copy upstart + libnih from there to your layer and use them.
+The fix backported in commit aa9fc551 of oe-core does not completely fix the
+issue (Yocto #4595) as intended. The modules symlink is still created in the
+working directory instead of in the deploy directory. To fix this, we just need
+to use an absolute path to ${DEPLOYDIR} when creating the symlink.
 
-You can also check couple bbappends in meta-webos which add upstart init
-scripts to various components (to replace sysvinit scripts).
+Signed-off-by: Paul Barker <paul.barker@commagility.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 324e812..67b662a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -372,7 +372,7 @@ kernel_do_deploy() {
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}/lib
+ 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+-		ln -sf ${MODULE_TARBALL_BASE_NAME} ${MODULE_TARBALL_SYMLINK_NAME}
++		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
+ 	fi
+ 
+ 	cd ${DEPLOYDIR}
+-- 
+1.9.1
+
 
