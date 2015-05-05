@@ -1,30 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 11DF072A85
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id E69DD73BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 19:51:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t45Jpj9j015375; Tue, 5 May 2015 20:51:45 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id l2QB14m0vHou; Tue,  5 May 2015 20:51:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t45JpTWN015370
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 5 May 2015 20:51:41 +0100
-Message-ID: <1430855489.8074.10.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Tue, 05 May 2015 20:51:29 +0100
-In-Reply-To: <5547BE45.2050206@windriver.com>
-References: <5547BE45.2050206@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Add libreSSL to oe-core?
+	Tue,  5 May 2015 20:01:33 +0000 (UTC)
+Received: by layy10 with SMTP id y10so136432780lay.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 May 2015 13:01:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=GuXbrj+6pI3SucFfoGIEspNmxbIwFB3/KAl6KNvwnSY=;
+	b=VeV8plqM1blVb2lILl66rofqL9gOcwgQ1tbCLj1WXd9pjSmvQRTMYK7eWjwhtdLASX
+	112OkvMw33cx3mW3dm1M9yZkcHqdBpnzenS059omkzgmWkyzAbizSmfZAA/oZbxmZ8S1
+	daMTKtC5rJ2r5eVqDAo97JGbFeDPrIl44ukgM0zwReEapCv7WjHyjWXiWYyIjEnItLOt
+	UY5DGVL8lTlPkCtuFuq06mZfUbOqqKVZQGJwi1Bs3eHFRQeiMnz77K/4/V0e11XjFlOw
+	6XzIQMljyY0uS/13aXy+VISO3LVcN2H9JnsgPnFDSTsgatMkPDtcsNx4BYv+wO94U+h4
+	F1nQ==
+X-Gm-Message-State: ALoCoQkzoyn9EwbF3LARAyhNwhpcpm1GUAXrvtYQnzt6uxNMFDMcezcjTA+J4Zd3u9xGdYQWU8Bm
+X-Received: by 10.152.21.170 with SMTP id w10mr14034192lae.27.1430856093720;
+	Tue, 05 May 2015 13:01:33 -0700 (PDT)
+Received: from ad.chargestorm.se (2.71.103.47.mobile.tre.se. [2.71.103.47])
+	by mx.google.com with ESMTPSA id pn1sm4271553lbc.6.2015.05.05.13.01.32
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 May 2015 13:01:32 -0700 (PDT)
+Date: Tue, 5 May 2015 22:01:29 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Message-ID: <20150505200129.GA7291@ad.chargestorm.se>
+Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
+	<1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,64 +56,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 19:51:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 May 2015 20:01:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2015-05-04 at 14:45 -0400, Randy MacLeod wrote:
-> Should oe-core add libressl as an alternative to openssl and other
-> OE SSL/TLS implementations?
-> 
-> We had a request from a customer to add LibreSSL so I was wondering
-> about the plans of the Yocto community and indeed of the larger Linux
-> distro community.
-> 
-> Libressl claims (aims?) to be  a more stable, secure TLS implementation
-> then OpenSSL. It was initially only for OpenBSD but it supports a
-> variety of platforms now:
->     http://www.libressl.org/releases.html
-> The CVE history enthusiastically summarized on Wikipedia:
->     https://en.wikipedia.org/wiki/LibreSSL
-> does indicate that libressl has been vulnerable to fewer CVEs than
-> openssl so far. I quickly reviewed:
->     https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations
-> but perhaps someone on the list has more direct experience, knowledge
-> and/or opinions of implementations of TLS? Note that the libressl devs
-> has stated that they have no interest in FIPS 140-2 certification:
->     http://marc.info/?l=openbsd-misc&m=139819485423701&w=2
-> so that could be a problem for some users.
-> 
-> 
-> Other than Arch, and openSUSE Factory build, it seems that no
-> major linux distro has added libressl:
->     http://pkgs.org/search/libressl
-> 
-> An OE libressl recipe is not current indexed:
->  
-> http://layers.openembedded.org/layerindex/branch/master/recipes/?q=libressl
-> 
-> If I search more broadly:
->     http://layers.openembedded.org/layerindex/branch/master/recipes/?q=ssl
-> 
-> I see that the OE community does have recipes for:
->    gnutls, nss, polarssl (now mbed TLS) and wolfssl.
-> 
-> So what do you think of libressl?
+* Bruno Bottazzini <bruno.bottazzini@intel.com> [150504 23:43]:
 
-I don't see a pressing reason to accept this into OE-Core right now. The
-CVE numbers are bound to be lower for something with less exposure and
-the fact most mainline distros aren't using it is also a mild
-contraindication.
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> index b4bff18..2da74dc 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -60,9 +60,89 @@ LDFLAGS_append_libc-uclibc = " -lrt"
+>  GTKDOC_DOCDIR = "${S}/docs/"
 
-Certainly a recipe in meta-oe and someone experimenting with it would be
-great and I've love to see the feedback and results but I'd be cautious
-here for the core right now.
+>  PACKAGECONFIG ??= "xz ldconfig \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'gcrypt', 'gcrypt', "", d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', "", d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
+> -
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'glib', 'glib', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'smack', 'smack', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'ima', 'ima', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'apparmor', 'apparmor', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'qrencode', 'qrencode', '', d)} \
 
-Obviously it will be interesting to see if anyone else has strong
-opinions though too.
+NAK.
+
+I like the split of systemd into smaller packages, but NAK for this
+version. We're not going to add all this to DISTRO_FEATURES...
+
+Add all the PACKAGCONFIG options, but enable only those that either were
+enabled before, or where we have a real DISTRO_FEATURE to check for.
+Dpn't add a new DISTRO_FEATURE for every PACKAGECONFIG.
 
 Cheers,
+Anders
 
-Richard
-
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
