@@ -1,16 +1,20 @@
-Return-Path: <fabien.proriol@jdsu.com>
-Received: from ks.kazoe.org (ks.kazoe.org [91.121.82.209])
-	by mail.openembedded.org (Postfix) with ESMTP id 7417F736B3
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 31C0B6AC56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 09:33:44 +0000 (UTC)
-From: fabien.proriol@jdsu.com
-To: cristian.iorga@intel.com
-Date: Tue,  5 May 2015 11:31:41 +0200
-Message-Id: <1430818301-20647-1-git-send-email-fabien.proriol@jdsu.com>
-X-Mailer: git-send-email 2.0.5
-Cc: Fabien Proriol <fabien.proriol@jdsu.com>,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] bluez5: Add init script to start obex service with sysvinit
+	Tue,  5 May 2015 11:12:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 05 May 2015 04:12:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,372,1427785200"; d="scan'208";a="720893582"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 05 May 2015 04:12:48 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 May 2015 14:12:24 +0300
+Message-Id: <cover.1430824114.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Minor upgrades to xorg-app/*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,118 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 09:33:44 -0000
+X-List-Received-Date: Tue, 05 May 2015 11:12:50 -0000
 
-From: Fabien Proriol <fabien.proriol@jdsu.com>
+The following changes since commit 7a8f37daa7b42905233c31366915b897886a957a:
 
-Signed-off-by: Fabien Proriol <fabien.proriol@jdsu.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc        |  9 ++++-
- .../bluez5/bluez5/bluez5-obexd.init                | 39 ++++++++++++++++++++++
- meta/recipes-connectivity/bluez5/bluez5/obexd.conf | 12 +++++++
- 3 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/obexd.conf
+  dev-manual: Updates to add Luna support for Eclipse (2015-05-03 11:49:35 +0100)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index d216002..66e0df2 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -20,6 +20,8 @@ SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-     file://bluetooth.conf \
-     file://bluez.init \
-+    file://bluez5-obexd.init \
-+    file://obexd.conff \
- "
- S = "${WORKDIR}/bluez-${PV}"
- 
-@@ -34,9 +36,11 @@ EXTRA_OECONF = "\
-   --enable-library \
- "
- 
--INITSCRIPT_PACKAGES = "${PN}
-+INITSCRIPT_PACKAGES = "${PN} ${PN}-obex"
- INITSCRIPT_NAME_${PN} = "${PN}"
- INITSCRIPT_PARAMS_${PN} = "start 16 5 . stop 01 0 1 6 ."
-+INITSCRIPT_NAME_${PN}-obex = "${PN}-obexd"
-+INITSCRIPT_PARAMS_${PN}-obex = "start 18 5 . stop 01 0 1 6 ."
- 
- # bluez5 builds a large number of useful utilities but does not
- # install them.  Specify which ones we want put into ${PN}-noinst-tools.
-@@ -67,6 +71,9 @@ do_install_append() {
- 	done
- 	install -d ${D}/etc/init.d
- 	install -m 0755 ${WORKDIR}/bluez5.init ${D}${sysconfdir}/init.d/bluez5
-+	install -d ${D}/etc/dbus-1/system.d
-+	install -m 0644 ${WORKDIR}/obexd.conf ${D}${sysconfdir}/dbus-1/system.d
-+	install -m 0755 ${WORKDIR}/bluez5-obexd.init ${D}${sysconfdir}/init.d/bluez5-obexd
- }
- 
- ALLOW_EMPTY_libasound-module-bluez = "1"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init b/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
-new file mode 100644
-index 0000000..c958e03
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/bluez5-obexd.init
-@@ -0,0 +1,39 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides: bluez5-obex
-+# Default-Start:  5
-+# Default-Stop:   016
-+# Short-Description: run bluez5-obex daemon
-+# Description: Linux Bluetooth stack V5 userland components..
-+### END INIT INFO
-+
-+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
-+export DBUS_SESSION_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
-+
-+test -x /usr/lib/bluez5/bluetooth/obexd || exit 0
-+
-+case "$1" in
-+    start)
-+        echo -n "Starting Obexd"
-+        mkdir -p /tmp/bluetooth-inbox
-+        mount /tmp/bluetooth-inbox
-+        start-stop-daemon --start --quiet --background --exec /usr/lib/bluez5/bluetooth/obexd -- --root=/tmp/bluetooth-inbox -l -d
-+        echo "."
-+        ;;
-+    stop)
-+        echo -n "Stopping Obexd"
-+        start-stop-daemon --stop --retry TERM/20/KILL/5 --quiet --exec /usr/lib/bluez5/bluetooth/obexd
-+        umount -f /tmp/bluetooth-inbox
-+        echo "."
-+        ;;
-+    restart)
-+        $0 stop
-+        $0 start
-+        ;;
-+    *)
-+        echo "Usage: /etc/init.d/bluez5-obexd {start|stop|restart}"
-+        exit 1
-+        ;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/obexd.conf b/meta/recipes-connectivity/bluez5/bluez5/obexd.conf
-new file mode 100644
-index 0000000..939d544
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/obexd.conf
-@@ -0,0 +1,12 @@
-+<!-- This configuration file specifies the required security policies
-+     for Obex core daemon to work. -->
-+
-+<!DOCTYPE busconfig PUBLIC "-//freedesktop/DTD D-BUS Configuration 1.0//EN"
-+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-+<busconfig>
-+	<policy user="root">
-+		<allow own="org.bluez.obex"/>
-+		<allow send_destination="org.bluez.obex"/>
-+		<allow send_interface="org.bluez.obex"/>
-+	</policy>
-+</busconfig>
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xorg-app
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xorg-app
+
+Jussi Kukkonen (4):
+  xev: Upgrade 1.2.1 -> 1.2.2
+  xmodmap: Upgrade 1.0.8 -> 1.0.9
+  xhost: Upgrade 1.0.6 -> 1.0.7
+  x11perf: Upgrade 1.5.4 -> 1.6.0
+
+ .../recipes-graphics/xorg-app/{x11perf_1.5.4.bb => x11perf_1.6.0.bb} | 5 ++---
+ meta/recipes-graphics/xorg-app/{xev_1.2.1.bb => xev_1.2.2.bb}        | 4 ++--
+ meta/recipes-graphics/xorg-app/{xhost_1.0.6.bb => xhost_1.0.7.bb}    | 4 ++--
+ .../recipes-graphics/xorg-app/{xmodmap_1.0.8.bb => xmodmap_1.0.9.bb} | 4 ++--
+ 4 files changed, 8 insertions(+), 9 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{x11perf_1.5.4.bb => x11perf_1.6.0.bb} (75%)
+ rename meta/recipes-graphics/xorg-app/{xev_1.2.1.bb => xev_1.2.2.bb} (77%)
+ rename meta/recipes-graphics/xorg-app/{xhost_1.0.6.bb => xhost_1.0.7.bb} (81%)
+ rename meta/recipes-graphics/xorg-app/{xmodmap_1.0.8.bb => xmodmap_1.0.9.bb} (78%)
+
 -- 
-2.0.5
+2.1.4
+
 
