@@ -1,49 +1,37 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E69DD73BB8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B623173BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 20:01:33 +0000 (UTC)
-Received: by layy10 with SMTP id y10so136432780lay.0
+	Tue,  5 May 2015 20:05:25 +0000 (UTC)
+Received: by igbyr2 with SMTP id yr2so113024564igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 13:01:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=GuXbrj+6pI3SucFfoGIEspNmxbIwFB3/KAl6KNvwnSY=;
-	b=VeV8plqM1blVb2lILl66rofqL9gOcwgQ1tbCLj1WXd9pjSmvQRTMYK7eWjwhtdLASX
-	112OkvMw33cx3mW3dm1M9yZkcHqdBpnzenS059omkzgmWkyzAbizSmfZAA/oZbxmZ8S1
-	daMTKtC5rJ2r5eVqDAo97JGbFeDPrIl44ukgM0zwReEapCv7WjHyjWXiWYyIjEnItLOt
-	UY5DGVL8lTlPkCtuFuq06mZfUbOqqKVZQGJwi1Bs3eHFRQeiMnz77K/4/V0e11XjFlOw
-	6XzIQMljyY0uS/13aXy+VISO3LVcN2H9JnsgPnFDSTsgatMkPDtcsNx4BYv+wO94U+h4
-	F1nQ==
-X-Gm-Message-State: ALoCoQkzoyn9EwbF3LARAyhNwhpcpm1GUAXrvtYQnzt6uxNMFDMcezcjTA+J4Zd3u9xGdYQWU8Bm
-X-Received: by 10.152.21.170 with SMTP id w10mr14034192lae.27.1430856093720;
-	Tue, 05 May 2015 13:01:33 -0700 (PDT)
-Received: from ad.chargestorm.se (2.71.103.47.mobile.tre.se. [2.71.103.47])
-	by mx.google.com with ESMTPSA id pn1sm4271553lbc.6.2015.05.05.13.01.32
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 May 2015 13:01:32 -0700 (PDT)
-Date: Tue, 5 May 2015 22:01:29 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>
-Message-ID: <20150505200129.GA7291@ad.chargestorm.se>
-Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
-	<1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
+	Tue, 05 May 2015 13:05:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=sLFGBb7eOEOe5NtMHCNPGZQ2vtMZrZKzIzPwBxRRaqE=;
+	b=V/x9pF7OrSFq0o+Qy6WcyvXnRr6xZrWZh2W7sNJHn8RqhU7MkBqi5OqPDYtbqQv312
+	FjRsWXfE9Y/hDMjR9Z6mJ7QgIgSc7foOizLSlP66JBAs4FgG6GDBG6moYuTlRwm7SJgl
+	BiwOP2pde5jRNXW5JkfGyci7qbip6jUpbQlr5GcoegpthB7jAHGmXrAq5biwsc6rOT/Y
+	eTLM6ZTkETmi260zyyDpYHPP6l6XovWWlhoehQqNPA563wqgzyqYe/hCXIcpc8ERGAxb
+	cM2UqxmcjJW9muWoaqm32AkgcyVuFCRKOfNhp4+VIS5tDv/NLV3XhKbD9I/QlNhMyGCY
+	HzuA==
 MIME-Version: 1.0
-In-Reply-To: <1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 3/3] systemd: split modules into packages
+X-Received: by 10.50.117.35 with SMTP id kb3mr4073098igb.13.1430856326573;
+	Tue, 05 May 2015 13:05:26 -0700 (PDT)
+Received: by 10.50.230.178 with HTTP; Tue, 5 May 2015 13:05:26 -0700 (PDT)
+Received: by 10.50.230.178 with HTTP; Tue, 5 May 2015 13:05:26 -0700 (PDT)
+In-Reply-To: <1430855489.8074.10.camel@linuxfoundation.org>
+References: <5547BE45.2050206@windriver.com>
+	<1430855489.8074.10.camel@linuxfoundation.org>
+Date: Tue, 5 May 2015 13:05:26 -0700
+Message-ID: <CAMKF1sqVu4WSjSwfmH5WiKvzaKQE-yP9Xtt0Tmr5zEcKqtOpSA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Add libreSSL to oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,56 +44,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 20:01:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 May 2015 20:05:28 -0000
+Content-Type: multipart/alternative; boundary=089e01183c9e11f55505155b3327
 
-* Bruno Bottazzini <bruno.bottazzini@intel.com> [150504 23:43]:
+--089e01183c9e11f55505155b3327
+Content-Type: text/plain; charset=UTF-8
 
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index b4bff18..2da74dc 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -60,9 +60,89 @@ LDFLAGS_append_libc-uclibc = " -lrt"
->  GTKDOC_DOCDIR = "${S}/docs/"
+On May 5, 2015 12:52 PM, "Richard Purdie" <
+richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2015-05-04 at 14:45 -0400, Randy MacLeod wrote:
+> > Should oe-core add libressl as an alternative to openssl and other
+> > OE SSL/TLS implementations?
+> >
+> > We had a request from a customer to add LibreSSL so I was wondering
+> > about the plans of the Yocto community and indeed of the larger Linux
+> > distro community.
+> >
+> > Libressl claims (aims?) to be  a more stable, secure TLS implementation
+> > then OpenSSL. It was initially only for OpenBSD but it supports a
+> > variety of platforms now:
+> >     http://www.libressl.org/releases.html
+> > The CVE history enthusiastically summarized on Wikipedia:
+> >     https://en.wikipedia.org/wiki/LibreSSL
+> > does indicate that libressl has been vulnerable to fewer CVEs than
+> > openssl so far. I quickly reviewed:
+> >     https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations
+> > but perhaps someone on the list has more direct experience, knowledge
+> > and/or opinions of implementations of TLS? Note that the libressl devs
+> > has stated that they have no interest in FIPS 140-2 certification:
+> >     http://marc.info/?l=openbsd-misc&m=139819485423701&w=2
+> > so that could be a problem for some users.
+> >
+> >
+> > Other than Arch, and openSUSE Factory build, it seems that no
+> > major linux distro has added libressl:
+> >     http://pkgs.org/search/libressl
+> >
+> > An OE libressl recipe is not current indexed:
+> >
+> >
+http://layers.openembedded.org/layerindex/branch/master/recipes/?q=libressl
+> >
+> > If I search more broadly:
+> >
+http://layers.openembedded.org/layerindex/branch/master/recipes/?q=ssl
+> >
+> > I see that the OE community does have recipes for:
+> >    gnutls, nss, polarssl (now mbed TLS) and wolfssl.
+> >
+> > So what do you think of libressl?
+>
+> I don't see a pressing reason to accept this into OE-Core right now.
 
->  PACKAGECONFIG ??= "xz ldconfig \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'gcrypt', 'gcrypt', "", d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', "", d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
-> -
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'glib', 'glib', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'smack', 'smack', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'ima', 'ima', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'apparmor', 'apparmor', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'qrencode', 'qrencode', '', d)} \
+Me neither
 
-NAK.
+The
+> CVE numbers are bound to be lower for something with less exposure and
+> the fact most mainline distros aren't using it is also a mild
+> contraindication.
+>
+> Certainly a recipe in meta-oe and someone experimenting with it would be
+> great and I've love to see the feedback and results but I'd be cautious
+> here for the core right now.
+>
+> Obviously it will be interesting to see if anyone else has strong
+> opinions though too.
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I like the split of systemd into smaller packages, but NAK for this
-version. We're not going to add all this to DISTRO_FEATURES...
+--089e01183c9e11f55505155b3327
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add all the PACKAGCONFIG options, but enable only those that either were
-enabled before, or where we have a real DISTRO_FEATURE to check for.
-Dpn't add a new DISTRO_FEATURE for every PACKAGECONFIG.
+<p dir=3D"ltr"><br>
+On May 5, 2015 12:52 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:r=
+ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
+t; wrote:<br>
+&gt;<br>
+&gt; On Mon, 2015-05-04 at 14:45 -0400, Randy MacLeod wrote:<br>
+&gt; &gt; Should oe-core add libressl as an alternative to openssl and othe=
+r<br>
+&gt; &gt; OE SSL/TLS implementations?<br>
+&gt; &gt;<br>
+&gt; &gt; We had a request from a customer to add LibreSSL so I was wonderi=
+ng<br>
+&gt; &gt; about the plans of the Yocto community and indeed of the larger L=
+inux<br>
+&gt; &gt; distro community.<br>
+&gt; &gt;<br>
+&gt; &gt; Libressl claims (aims?) to be=C2=A0 a more stable, secure TLS imp=
+lementation<br>
+&gt; &gt; then OpenSSL. It was initially only for OpenBSD but it supports a=
+<br>
+&gt; &gt; variety of platforms now:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://www.libressl.org/releases.ht=
+ml">http://www.libressl.org/releases.html</a><br>
+&gt; &gt; The CVE history enthusiastically summarized on Wikipedia:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://en.wikipedia.org/wiki/Libre=
+SSL">https://en.wikipedia.org/wiki/LibreSSL</a><br>
+&gt; &gt; does indicate that libressl has been vulnerable to fewer CVEs tha=
+n<br>
+&gt; &gt; openssl so far. I quickly reviewed:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://en.wikipedia.org/wiki/Compa=
+rison_of_TLS_implementations">https://en.wikipedia.org/wiki/Comparison_of_T=
+LS_implementations</a><br>
+&gt; &gt; but perhaps someone on the list has more direct experience, knowl=
+edge<br>
+&gt; &gt; and/or opinions of implementations of TLS? Note that the libressl=
+ devs<br>
+&gt; &gt; has stated that they have no interest in FIPS 140-2 certification=
+:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://marc.info/?l=3Dopenbsd-misc&=
+amp;m=3D139819485423701&amp;w=3D2">http://marc.info/?l=3Dopenbsd-misc&amp;m=
+=3D139819485423701&amp;w=3D2</a><br>
+&gt; &gt; so that could be a problem for some users.<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Other than Arch, and openSUSE Factory build, it seems that no<br>
+&gt; &gt; major linux distro has added libressl:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://pkgs.org/search/libressl">ht=
+tp://pkgs.org/search/libressl</a><br>
+&gt; &gt;<br>
+&gt; &gt; An OE libressl recipe is not current indexed:<br>
+&gt; &gt;<br>
+&gt; &gt; <a href=3D"http://layers.openembedded.org/layerindex/branch/maste=
+r/recipes/?q=3Dlibressl">http://layers.openembedded.org/layerindex/branch/m=
+aster/recipes/?q=3Dlibressl</a><br>
+&gt; &gt;<br>
+&gt; &gt; If I search more broadly:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://layers.openembedded.org/laye=
+rindex/branch/master/recipes/?q=3Dssl">http://layers.openembedded.org/layer=
+index/branch/master/recipes/?q=3Dssl</a><br>
+&gt; &gt;<br>
+&gt; &gt; I see that the OE community does have recipes for:<br>
+&gt; &gt;=C2=A0 =C2=A0 gnutls, nss, polarssl (now mbed TLS) and wolfssl.<br=
+>
+&gt; &gt;<br>
+&gt; &gt; So what do you think of libressl?<br>
+&gt;<br>
+&gt; I don&#39;t see a pressing reason to accept this into OE-Core right no=
+w. </p>
+<p dir=3D"ltr">Me neither</p>
+<p dir=3D"ltr">The<br>
+&gt; CVE numbers are bound to be lower for something with less exposure and=
+<br>
+&gt; the fact most mainline distros aren&#39;t using it is also a mild<br>
+&gt; contraindication.<br>
+&gt;<br>
+&gt; Certainly a recipe in meta-oe and someone experimenting with it would =
+be<br>
+&gt; great and I&#39;ve love to see the feedback and results but I&#39;d be=
+ cautious<br>
+&gt; here for the core right now.<br>
+&gt;<br>
+&gt; Obviously it will be interesting to see if anyone else has strong<br>
+&gt; opinions though too.<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
 
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
-
+--089e01183c9e11f55505155b3327--
