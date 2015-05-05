@@ -1,37 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A480D73EDC
+Return-Path: <andrea.dichiara79@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A85496AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 15:44:46 +0000 (UTC)
-Received: by qgeb100 with SMTP id b100so83208417qge.3
+	Tue,  5 May 2015 16:56:29 +0000 (UTC)
+Received: by wief7 with SMTP id f7so106099162wie.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 08:44:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6yOtDOSYizEnBgymVRSnCQwT1xXB6+Dd2VjobrhP/ZA=;
-	b=Pa1eSekhp8TzVNMGs1N/UAPzOygZfK2vH8vogzx8lQl4zBvusFCEk/RP3SBGs9xuS6
-	G60dS0lgF4zlq1T0+mmQnn/Ow5G92kKOV4UETuQDxjJx94gNd8vRKAXbbRXpQE0FvAF6
-	gWcX31A6Y4ecirFzrV8l0i4Y6o1fRW9d6MX3QOkfwzCkrbbWI401kdhv8aJMhQv+k37D
-	o1yV3GCYBJwEM8nrXV8uahglxwxSSY51W68ANtP5gH3ydhR5J35giczbjTeTSDTxA7bu
-	H1153NYwfs7oBlzMpV3HJiIcfixeaEQROCzGR8V6g7PC/YlG/mE4La6XH3gAVLZy9vAK
-	xOyg==
-X-Gm-Message-State: ALoCoQnRRnhj6mtUWo4UHw16qny5h2JypWJsFwPwhYv8XC6f5w0hxg9cVYQ5J6d666a/IHsRuZk2
-X-Received: by 10.229.110.10 with SMTP id l10mr15328217qcp.5.1430840687471;
-	Tue, 05 May 2015 08:44:47 -0700 (PDT)
+	Tue, 05 May 2015 09:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=nnAyE3SKR4qQPffbkJTInToCEgkdRJklxjrxeWeiTRA=;
+	b=yfDXPUFVh0IKiYKskt0q9mgUj7HE6uiiDppEPHF4LfRTE45ckgrYiJT3zCGsBM5tKr
+	pCWA6gvN7dxadnD3cRUxvjGR+4JJEkaRHNjKK71sxP1IH67EkldC6z4ZcBurl44ELNlp
+	JA/9a/6QNhECw3u/tY9EpXJOmWJeecToTSdBcjR10XgS40F7a3Xd8I0fpOdZBhgbJdFK
+	8Z3Xqo8d1SEJZThjGI+T/3li6UFl1skKknHNkmuPZZMyGLxl68YANfz2bx7os1A5lGJi
+	Tl3TiRXYkjUR8CJNeegkbisU+XZaE0jRM+I3oYC6XIaXxutlGUyHwjJ9Wc7772kbEHVQ
+	c8VA==
+X-Received: by 10.194.237.34 with SMTP id uz2mr52273959wjc.157.1430844990087; 
+	Tue, 05 May 2015 09:56:30 -0700 (PDT)
+Received: from [192.168.1.101]
+	(host115-101-dynamic.252-95-r.retail.telecomitalia.it.
+	[95.252.101.115]) by mx.google.com with ESMTPSA id
+	gs7sm17031871wib.10.2015.05.05.09.56.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 May 2015 09:56:29 -0700 (PDT)
+Message-ID: <5548F63F.6090800@gmail.com>
+Date: Tue, 05 May 2015 18:56:31 +0200
+From: Andrea Di Chiara <andrea.dichiara79@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 5 May 2015 08:44:27 -0700 (PDT)
-In-Reply-To: <78a8e0beb1dd78a8461b994816267ec8848b2ca7.1427262046.git.liezhi.yang@windriver.com>
-References: <cover.1427262046.git.liezhi.yang@windriver.com>
-	<78a8e0beb1dd78a8461b994816267ec8848b2ca7.1427262046.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 May 2015 16:44:27 +0100
-Message-ID: <CAJTo0LZ+i0JH957CCT-mkt3T7iFEPj-gbiNYE1+ckoO6O2bsCw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libarchive: set CLEANBROKEN
+To: openembedded-core@lists.openembedded.org
+Subject: upstart init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 15:44:48 -0000
-Content-Type: multipart/alternative; boundary=001a11344c84e849a70515578e84
+X-List-Received-Date: Tue, 05 May 2015 16:56:30 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---001a11344c84e849a70515578e84
-Content-Type: text/plain; charset=UTF-8
+Hi,
+I'm building my own distribution using Yocto Project and I'm trying to 
+setup Upstart as init manager. In my local.conf I have added these lines:
 
-On 25 March 2015 at 05:41, Robert Yang <liezhi.yang@windriver.com> wrote:
+DISTRO_FEATURES_append = “ upstart”
+VIRTUAL-RUNTIME_init_manager = “upstart”
 
-> Errors when rebuild:
-> checking for xml2-config...
-> /path/to/tmp/sysroots/qemux86-64/usr/bin/crossscripts/xml2-config
-> checking for xmlInitParser in -lxml2... no
-> configure: error: in
-> `/path/to/tmp/work/core2-64-poky-linux/libarchive/3.1.2-r0/libarchive-3.1.2':
-> configure: error: Missing xml2 library
->
+but no recipe seems to exist. Am I wrong? I have searched through 
+openembedded layers but I found only a recipe for WebOS distribution. Is 
+it possible to use it with Yocto Dora or Yocto Daisy? There is another 
+recipe?
 
-I haven't managed to fix autotools.bbclass but I have just submitted a
-patch to let libarchive use autotools (not -brokensep).
+thank you for the attention,
+best regards,
+Andrea
 
-Ross
 
---001a11344c84e849a70515578e84
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 March 2015 at 05:41, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":c0v" cl=
-ass=3D"a3s" style=3D"overflow:hidden">Errors when rebuild:<br>
-checking for xml2-config... /path/to/tmp/sysroots/qemux86-64/usr/bin/crosss=
-cripts/xml2-config<br>
-checking for xmlInitParser in -lxml2... no<br>
-configure: error: in `/path/to/tmp/work/core2-64-poky-linux/libarchive/3.1.=
-2-r0/libarchive-3.1.2&#39;:<br>
-configure: error: Missing xml2 library<br></div></blockquote></div><br>I ha=
-ven&#39;t managed to fix autotools.bbclass but I have just submitted a patc=
-h to let libarchive use autotools (not -brokensep).</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11344c84e849a70515578e84--
