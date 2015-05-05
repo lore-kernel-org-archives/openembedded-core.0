@@ -1,24 +1,30 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C5FB473EF0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 11DF072A85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 19:33:26 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 05 May 2015 12:33:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,374,1427785200"; d="scan'208";a="690381510"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga001.jf.intel.com with ESMTP; 05 May 2015 12:33:28 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 May 2015 22:33:11 +0300
-Message-Id: <32c70a3ab2f5ab06f67de7f71399dd202e4ec88b.1430854134.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <24c5746bad8f22cc3d79ae2e3a6ded92ae2653af.1430854134.git.jussi.kukkonen@intel.com>
-References: <24c5746bad8f22cc3d79ae2e3a6ded92ae2653af.1430854134.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1430854134.git.jussi.kukkonen@intel.com>
-References: <cover.1430854134.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 3/3] kbproto: Upgrade 1.0.6 -> 1.0.7
+	Tue,  5 May 2015 19:51:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t45Jpj9j015375; Tue, 5 May 2015 20:51:45 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id l2QB14m0vHou; Tue,  5 May 2015 20:51:45 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t45JpTWN015370
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 5 May 2015 20:51:41 +0100
+Message-ID: <1430855489.8074.10.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Tue, 05 May 2015 20:51:29 +0100
+In-Reply-To: <5547BE45.2050206@windriver.com>
+References: <5547BE45.2050206@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Add libreSSL to oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 19:33:27 -0000
+X-List-Received-Date: Tue, 05 May 2015 19:51:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../xorg-proto/{kbproto_1.0.6.bb => kbproto_1.0.7.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{kbproto_1.0.6.bb => kbproto_1.0.7.bb} (77%)
+On Mon, 2015-05-04 at 14:45 -0400, Randy MacLeod wrote:
+> Should oe-core add libressl as an alternative to openssl and other
+> OE SSL/TLS implementations?
+> 
+> We had a request from a customer to add LibreSSL so I was wondering
+> about the plans of the Yocto community and indeed of the larger Linux
+> distro community.
+> 
+> Libressl claims (aims?) to be  a more stable, secure TLS implementation
+> then OpenSSL. It was initially only for OpenBSD but it supports a
+> variety of platforms now:
+>     http://www.libressl.org/releases.html
+> The CVE history enthusiastically summarized on Wikipedia:
+>     https://en.wikipedia.org/wiki/LibreSSL
+> does indicate that libressl has been vulnerable to fewer CVEs than
+> openssl so far. I quickly reviewed:
+>     https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations
+> but perhaps someone on the list has more direct experience, knowledge
+> and/or opinions of implementations of TLS? Note that the libressl devs
+> has stated that they have no interest in FIPS 140-2 certification:
+>     http://marc.info/?l=openbsd-misc&m=139819485423701&w=2
+> so that could be a problem for some users.
+> 
+> 
+> Other than Arch, and openSUSE Factory build, it seems that no
+> major linux distro has added libressl:
+>     http://pkgs.org/search/libressl
+> 
+> An OE libressl recipe is not current indexed:
+>  
+> http://layers.openembedded.org/layerindex/branch/master/recipes/?q=libressl
+> 
+> If I search more broadly:
+>     http://layers.openembedded.org/layerindex/branch/master/recipes/?q=ssl
+> 
+> I see that the OE community does have recipes for:
+>    gnutls, nss, polarssl (now mbed TLS) and wolfssl.
+> 
+> So what do you think of libressl?
 
-diff --git a/meta/recipes-graphics/xorg-proto/kbproto_1.0.6.bb b/meta/recipes-graphics/xorg-proto/kbproto_1.0.7.bb
-similarity index 77%
-rename from meta/recipes-graphics/xorg-proto/kbproto_1.0.6.bb
-rename to meta/recipes-graphics/xorg-proto/kbproto_1.0.7.bb
-index 07c8e42..46f5c92 100644
---- a/meta/recipes-graphics/xorg-proto/kbproto_1.0.6.bb
-+++ b/meta/recipes-graphics/xorg-proto/kbproto_1.0.7.bb
-@@ -14,5 +14,5 @@ PE = "1"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "677ea8523eec6caca86121ad2dca0b71"
--SRC_URI[sha256sum] = "037cac0aeb80c4fccf44bf736d791fccb2ff7fd34c558ef8f03ac60b61085479"
-+SRC_URI[md5sum] = "94afc90c1f7bef4a27fdd59ece39c878"
-+SRC_URI[sha256sum] = "f882210b76376e3fa006b11dbd890e56ec0942bc56e65d1249ff4af86f90b857"
--- 
-2.1.4
+I don't see a pressing reason to accept this into OE-Core right now. The
+CVE numbers are bound to be lower for something with less exposure and
+the fact most mainline distros aren't using it is also a mild
+contraindication.
+
+Certainly a recipe in meta-oe and someone experimenting with it would be
+great and I've love to see the feedback and results but I'd be cautious
+here for the core right now.
+
+Obviously it will be interesting to see if anyone else has strong
+opinions though too.
+
+Cheers,
+
+Richard
 
 
