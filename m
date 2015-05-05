@@ -1,25 +1,37 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 785556AC3E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 32ABF6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 21:57:35 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 05 May 2015 14:57:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,375,1427785200"; d="scan'208";a="690446628"
-Received: from bottazzini-thinkpad-t430 (HELO [10.218.98.31]) ([10.218.98.31])
-	by orsmga001.jf.intel.com with ESMTP; 05 May 2015 14:57:35 -0700
-Message-ID: <1430863053.29137.0.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Leandro Dorileo <leandro.maciel.dorileo@intel.com>
-Date: Tue, 05 May 2015 18:57:33 -0300
-In-Reply-To: <55492A4A.6010305@intel.com>
+	Tue,  5 May 2015 22:04:43 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so209947014pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 May 2015 15:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=fY1K+ff3iWKPH8gncpEmMu0/JMunGAkksEIzYunKTIo=;
+	b=EtEuzmV3tQsc87RYS6eD22eViAsAXlRNbfuifrfjXb1PRCCVT8GnY7HlqF0nMbjUO1
+	86AoUBapPc2h79jp7DRLDGnwJ7ikbmC+6rcfQjrM507U4m0AlGIS1ba/I46eaO38IW4s
+	PX68Wtb7lK18TZ0/zqG6NYrWwDm5N1FptDwc9AI58gUFYx2Y7pNTYn7+BBBw2ux1ICAK
+	vPFyuOsatkI/52nwAn3FEUwZOsu3SjxF1yymC4Alk9DXsqmlOonI3xoBS8y4D9sQ6kzI
+	1aWQPP2WWJlm7FJzqlYl55YAilmAXZP9HZb6I3otanxJEiaW2KwNUlb19lLCisHiLShH
+	OiDw==
+MIME-Version: 1.0
+X-Received: by 10.66.216.136 with SMTP id oq8mr5142779pac.97.1430863485105;
+	Tue, 05 May 2015 15:04:45 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Tue, 5 May 2015 15:04:45 -0700 (PDT)
+In-Reply-To: <1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
 References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
 	<1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
-	<20150505200129.GA7291@ad.chargestorm.se> <55492A4A.6010305@intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 5 May 2015 19:04:45 -0300
+X-Google-Sender-Auth: aYrQVGAy2GU8Xiqrn54fH80nR_c
+Message-ID: <CAP9ODKoMD0hKJgALeHQPGTGxGANOOhwrMg7f=uKwEc+KN-bH-g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V2 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,76 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 21:57:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 May 2015 22:04:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Mon, May 4, 2015 at 6:43 PM, Bruno Bottazzini
+<bruno.bottazzini@intel.com> wrote:
+> if one wants to launch a simple deamon, most modules are not
+> required.
+> He will be able to save space and exclude unwanted packages
+> from the final image.
+>
+> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
 
-On Ter, 2015-05-05 at 17:38 -0300, Leandro Dorileo wrote:
-> On 05/05/2015 05:01 PM, Anders Darander wrote:
-> > * Bruno Bottazzini <bruno.bottazzini@intel.com> [150504 23:43]:
-> >
-> >> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> >> index b4bff18..2da74dc 100644
-> >> --- a/meta/recipes-core/systemd/systemd_219.bb
-> >> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> >> @@ -60,9 +60,89 @@ LDFLAGS_append_libc-uclibc = " -lrt"
-> >>   GTKDOC_DOCDIR = "${S}/docs/"
-> >
-> >>   PACKAGECONFIG ??= "xz ldconfig \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'gcrypt', 'gcrypt', "", d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', "", d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-> >>                      ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-> >> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
-> >> -
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'glib', 'glib', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'smack', 'smack', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'ima', 'ima', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'apparmor', 'apparmor', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
-> >> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'qrencode', 'qrencode', '', d)} \
-> >
-> > NAK.
-> >
-> > I like the split of systemd into smaller packages, but NAK for this
-> > version. We're not going to add all this to DISTRO_FEATURES...
-> >
-> > Add all the PACKAGCONFIG options, but enable only those that either were
-> > enabled before, or where we have a real DISTRO_FEATURE to check for.
-> > Dpn't add a new DISTRO_FEATURE for every PACKAGECONFIG.
-> >
-> 
-> Just to have it documented here via ML, Anders and I talked on IRC
-> and we agreed to add PACKAGECONFIG[feature] definitions for both
-> features and have the "current features" enabled by default without
-> using  DISTRO_FEATURES - since we don't want to add these
-> DISTRO_FEATURES.
-> 
-> For distros wanting to use the "new packages/features" we do so by
-> adding PACKAGECONFIG_pn-systemd... on the distro side.
-> 
-> Regards...
-> 
-> --
-> Dorileo
+I a fine to add PACKAGECNFIG but NACK the DISTRO_FEATURES change. This
+is what a bbappend should be used for.
 
-I agree with the changes as soon as everyone has reviewed I will send a
-new one version.
-
-Best Regards,
-
-Bruno Bottazzini
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
