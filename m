@@ -1,26 +1,28 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 52B3E72376
+	by mail.openembedded.org (Postfix) with SMTP id 182B173EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 14:49:29 +0000 (UTC)
+	Tue,  5 May 2015 15:11:38 +0000 (UTC)
 Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
 	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0224.002; Tue, 5 May 2015 16:49:29 +0200
+	14.03.0224.002; Tue, 5 May 2015 17:11:37 +0200
 From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "yocto.security@yoctoproject.org" <yocto.security@yoctoproject.org>
+To: "yocto-security@yoctoproject.org" <yocto-security@yoctoproject.org>
 Thread-Topic: CVE list vs bugzilla 
-Thread-Index: AdCHMQJlypVzgTuuROqRC6C4yAIJCw==
-Date: Tue, 5 May 2015 14:49:28 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48258EB7C5@sestoex09.enea.se>
+Thread-Index: AdCHMQJlypVzgTuuROqRC6C4yAIJCwAEoZMg
+Date: Tue, 5 May 2015 15:11:37 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48258EB860@sestoex09.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48258EB7C5@sestoex09.enea.se>
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48258EB7C5@sestoex09.enea.se>
 Accept-Language: sv-SE, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+Cc: "'yocto@yoctoproject.org'" <yocto@yoctoproject.org>,
+	"'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
-Subject: CVE list vs bugzilla
+Subject: Re: CVE list vs bugzilla
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,10 +35,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 14:49:31 -0000
+X-List-Received-Date: Tue, 05 May 2015 15:11:42 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Trying with correct email address :)=20
 
 Hi all,
 
@@ -68,10 +72,10 @@ out what CVEs have been fixed and in what branches etc?
 
 CVE spread sheet:
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+ Easy to update, anyone just can add info preferably automatically; we cou=
-ld use a tool to check with NVD (https://nvd.nist.gov/ ) daily and update t=
-he list (some human interactions needs to be done though)=20
-+ easy to have an overview
++ Easy to update, anyone just can add info preferably automatically; we=20
++ could use a tool to check with NVD (https://nvd.nist.gov/ ) daily and=20
++ update the list (some human interactions needs to be done though) easy=20
++ to have an overview
 - ?
 
 Any comments?
