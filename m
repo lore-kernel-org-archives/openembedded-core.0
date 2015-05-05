@@ -1,35 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9FA73C7D
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E8DE771144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 12:21:46 +0000 (UTC)
-Received: by qcyk17 with SMTP id k17so86608786qcy.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 05:21:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=FGKmm792guzRahrmMSTAPUn49c0B88ZdQmn4PzejIrg=;
-	b=ZkYRd/GYtcoUxU3+BzNYraUxMDXAf9F9OvEGh0KOZMwkSHZe/mJOU6DJVYnmPemFse
-	V77LgGGr63l5zBTTXmQPa95mUbslysBhbpsQsAIJLNQIG1YTaGScSIWgm2Mg0fbnhqqz
-	VNqqjJuIw/X+yAUuCG2L8NOv2wDGeDBZqRZISYk0uVeXe+0X8/dro/4856mbWalmjcJn
-	hRxl/iPjI+iC/HPpoCDc6Kby9pA1ScelnwDUJxWGe9Edy/wxrjJuqI0uii8dJq3ZMPA5
-	jXJcnziCacf+NKQUvY6Hla6x6xIgBjzerhaDgNW1OZzmB0sB/HaE7SUJEPYQozY3mkJV
-	FP6g==
-X-Gm-Message-State: ALoCoQl44rsZxHeriN4h2ZK2qU8zU4vyeAJ54O45TLUaYCzKKkhxBzBeh/YP2HpW0K4G2Agn5Qcz
-X-Received: by 10.55.50.20 with SMTP id y20mr55556110qky.58.1430828506889;
-	Tue, 05 May 2015 05:21:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 5 May 2015 05:21:26 -0700 (PDT)
-In-Reply-To: <1430828220-14251-1-git-send-email-ross.burton@intel.com>
-References: <1430828220-14251-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 May 2015 13:21:26 +0100
-Message-ID: <CAJTo0LYPCxdbcKkpJnBhW4ecrAdyPvOURaB6PLLoLWCB_Q-wcA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] poky.conf: remove SVK mirror
+	Tue,  5 May 2015 12:57:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 05 May 2015 05:57:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,372,1427785200"; d="scan'208";a="723963087"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 05 May 2015 05:57:25 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 7E5926A408D;
+	Tue,  5 May 2015 05:56:49 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 May 2015 15:57:13 +0300
+Message-Id: <1430830633-30115-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <D16E537B.5AAE0%belen.barros.pena@intel.com>
+References: <D16E537B.5AAE0%belen.barros.pena@intel.com>
+Subject: [PATCH] bitbake: toastergui: show relative paths in configvars view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,94 +32,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 12:21:48 -0000
-Content-Type: multipart/alternative; boundary=001a11471392e35473051554b8ee
+X-List-Received-Date: Tue, 05 May 2015 12:57:38 -0000
 
---001a11471392e35473051554b8ee
-Content-Type: text/plain; charset=UTF-8
+Stripped topdir from paths to config files in configvars view.
 
-Sorry, my fingers typing on their own, re-sending to the right list now...
+[YOCTO #7463]
 
-Ross
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ bitbake/lib/toaster/toastergui/templates/configvars.html   | 4 ++--
+ bitbake/lib/toaster/toastergui/templatetags/projecttags.py | 6 ++++++
+ bitbake/lib/toaster/toastergui/views.py                    | 2 ++
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
-On 5 May 2015 at 13:17, Ross Burton <ross.burton@intel.com> wrote:
+diff --git a/bitbake/lib/toaster/toastergui/templates/configvars.html b/bitbake/lib/toaster/toastergui/templates/configvars.html
+index 3e4c7e8..99ffe8b 100644
+--- a/bitbake/lib/toaster/toastergui/templates/configvars.html
++++ b/bitbake/lib/toaster/toastergui/templates/configvars.html
+@@ -55,7 +55,7 @@
+         <td class="variable_value"><a data-toggle="modal" href="#variable-{{variable.pk}}">{{variable.variable_value|truncatechars:153}}</a></td>
+         <td class="file"><a data-toggle="modal" href="#variable-{{variable.pk}}">
+             {% if variable.vhistory.all %} {% autoescape off %}
+-                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names}}
++                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names | cut_topdir_path_prefix:topdir}}
+             {% endautoescape %} {% endif %}
+         </a></td>
+         <td class="description">
+@@ -115,7 +115,7 @@
+                 <tbody>
+                     {% for vh in variable.vhistory.all %}
+                     <tr>
+-                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
++                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names|cut_topdir_path_prefix:topdir}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
+                     </tr>
+                     {%endfor%}
+                 </tbody>
+diff --git a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
+index 54700e3..67762a5 100644
+--- a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
++++ b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
+@@ -20,6 +20,7 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+ from datetime import datetime, timedelta
++from os.path import relpath
+ import re
+ from django import template
+ from django.utils import timezone
+@@ -326,3 +327,8 @@ def cut_layer_path_prefix(fullpath,layer_names):
+                 parts = re.split(lname, fullpath, 1)
+                 return lname + parts[1]
+     return fullpath
++
++@register.filter
++def cut_topdir_path_prefix(fullpath, topdir):
++    """Cut topdir from the fullpath."""
++    return relpath(fullpath, topdir) if fullpath.startswith(topdir) else fullpath
+diff --git a/bitbake/lib/toaster/toastergui/views.py b/bitbake/lib/toaster/toastergui/views.py
+index 7849b50..d2cd367 100755
+--- a/bitbake/lib/toaster/toastergui/views.py
++++ b/bitbake/lib/toaster/toastergui/views.py
+@@ -39,6 +39,7 @@ from datetime import timedelta, datetime, date
+ from django.utils import formats
+ from toastergui.templatetags.projecttags import json as jsonfilter
+ import json
++from os.path import dirname
+ 
+ # all new sessions should come through the landing page;
+ # determine in which mode we are running in, and redirect appropriately
+@@ -1326,6 +1327,7 @@ def configvars(request, build_id):
+                 'default_orderby' : 'variable_name:+',
+                 'search_term':search_term,
+                 'layer_names' : layer_names,
++                'topdir': dirname(build_dir),
+             # Specifies the display of columns for the table, appearance in "Edit columns" box, toggling default show/hide, and specifying filters for columns
+                 'tablecols' : [
+                 {'name': 'Variable',
+-- 
+2.1.4
 
-> The svk fetcher was removed in bitbake 1.22 and oe-core master doesn't
-> consider
-> svk: a valid URL for mirrors.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta-yocto/conf/distro/poky.conf | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta-yocto/conf/distro/poky.conf
-> b/meta-yocto/conf/distro/poky.conf
-> index 3598f4f..aa6f01e 100644
-> --- a/meta-yocto/conf/distro/poky.conf
-> +++ b/meta-yocto/conf/distro/poky.conf
-> @@ -53,7 +53,6 @@ gitsm://.*/.*
-> http://downloads.yoctoproject.org/mirror/sources/ \n \
->  hg://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \n \
->  osc://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n \
->  p4://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \n \
-> -svk://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n \
->  svn://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n"
->
->  MIRRORS =+ "\
-> --
-> 2.1.4
->
->
 
---001a11471392e35473051554b8ee
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Sorry, my fingers typing on their own, re-sending to the r=
-ight list now...<div><br></div><div>Ross</div></div><div class=3D"gmail_ext=
-ra"><br><div class=3D"gmail_quote">On 5 May 2015 at 13:17, Ross Burton <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank=
-">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">The svk fetcher was removed in bitbake 1.22 and oe-core master doesn&#=
-39;t consider<br>
-svk: a valid URL for mirrors.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta-yocto/conf/distro/poky.conf | 1 -<br>
-=C2=A01 file changed, 1 deletion(-)<br>
-<br>
-diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky=
-.conf<br>
-index 3598f4f..aa6f01e 100644<br>
---- a/meta-yocto/conf/distro/poky.conf<br>
-+++ b/meta-yocto/conf/distro/poky.conf<br>
-@@ -53,7 +53,6 @@ gitsm://.*/.* <a href=3D"http://downloads.yoctoproject.or=
-g/mirror/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirr=
-or/sources/</a> \n \<br>
-=C2=A0hg://.*/.*=C2=A0 =C2=A0 <a href=3D"http://downloads.yoctoproject.org/=
-mirror/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirror=
-/sources/</a> \n \<br>
-=C2=A0osc://.*/.*=C2=A0 =C2=A0<a href=3D"http://downloads.yoctoproject.org/=
-mirror/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirror=
-/sources/</a> \n \<br>
-=C2=A0p4://.*/.*=C2=A0 =C2=A0 <a href=3D"http://downloads.yoctoproject.org/=
-mirror/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirror=
-/sources/</a> \n \<br>
--svk://.*/.*=C2=A0 =C2=A0<a href=3D"http://downloads.yoctoproject.org/mirro=
-r/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirror/sour=
-ces/</a> \n \<br>
-=C2=A0svn://.*/.*=C2=A0 =C2=A0<a href=3D"http://downloads.yoctoproject.org/=
-mirror/sources/" target=3D"_blank">http://downloads.yoctoproject.org/mirror=
-/sources/</a> \n&quot;<br>
-<br>
-=C2=A0MIRRORS =3D+ &quot;\<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---001a11471392e35473051554b8ee--
