@@ -1,35 +1,39 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F70C6AC3E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3556C6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 14:35:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 05 May 2015 07:35:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,372,1427785200"; d="scan'208";a="724013906"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 05 May 2015 07:35:30 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 50E5A6A408D
+	Tue,  5 May 2015 14:37:08 +0000 (UTC)
+Received: by wgyo15 with SMTP id o15so185546061wgy.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 07:35:02 -0700 (PDT)
-Date: Tue, 5 May 2015 17:35:24 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Tue, 05 May 2015 07:37:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=U5AR1fVySdDJE/IteIQ9d8pm6GNdVAXMnQULIAyXrZ4=;
+	b=CBDT7U1BWYY3ySmGQPJZFhDrJ8MlVynHxQMfn+ik+BeXNySQFr5vB+tjVOVX7UFhGO
+	LM0XP5WiM954xCipUl5R8bolbSXTI0lHFthuxHORvhKuLKSvxLzEP5uGIqIuwLTySpZW
+	3HBBlBMkdqvnLOLrHqULu5mDVYcboo3PQLWXdgtZ8qTYX2OxI7QyR84ILHCiOoqskh41
+	OT9a1YR8pv/xeKInWM4lU1FtDE7B6W9/ceda6WfV70SSvroukCKdbR0/zyRT6Rv1RQaA
+	9raIwjg5VQVLWS7WMtDR3USXojS0d1V2v98qXWN6r4kLUMLIKjW7fH2TRs0NMHbdfWb/
+	+Rpg==
+X-Gm-Message-State: ALoCoQnrBw0sQagmflC+IHn57ttf/q/pPDVuZMV5+SaMVutHswJWSAusNiOuaOBw3qPsgLzFGWOF
+X-Received: by 10.180.206.229 with SMTP id lr5mr4739600wic.86.1430836629250;
+	Tue, 05 May 2015 07:37:09 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	yr1sm25874536wjc.37.2015.05.05.07.37.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 May 2015 07:37:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20150505143524.GA26276@linux.intel.com>
-References: <D16E537B.5AAE0%belen.barros.pena@intel.com>
-	<1430830633-30115-1-git-send-email-ed.bartosh@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1430830633-30115-1-git-send-email-ed.bartosh@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] bitbake: toastergui: show relative paths in configvars view
+Date: Tue,  5 May 2015 15:33:15 +0100
+Message-Id: <1430836395-4815-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] libarchive: fix out of tree builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -39,94 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 14:35:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 May 2015 14:37:09 -0000
 
-On Tue, May 05, 2015 at 03:57:13PM +0300, Ed Bartosh wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libarchive/libarchive/mkdir.patch              | 45 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.1.2.bb                 |  3 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/mkdir.patch
 
-Sorry, wrong list. Please ignore.
-
-> Stripped topdir from paths to config files in configvars view.
-> 
-> [YOCTO #7463]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  bitbake/lib/toaster/toastergui/templates/configvars.html   | 4 ++--
->  bitbake/lib/toaster/toastergui/templatetags/projecttags.py | 6 ++++++
->  bitbake/lib/toaster/toastergui/views.py                    | 2 ++
->  3 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/bitbake/lib/toaster/toastergui/templates/configvars.html b/bitbake/lib/toaster/toastergui/templates/configvars.html
-> index 3e4c7e8..99ffe8b 100644
-> --- a/bitbake/lib/toaster/toastergui/templates/configvars.html
-> +++ b/bitbake/lib/toaster/toastergui/templates/configvars.html
-> @@ -55,7 +55,7 @@
->          <td class="variable_value"><a data-toggle="modal" href="#variable-{{variable.pk}}">{{variable.variable_value|truncatechars:153}}</a></td>
->          <td class="file"><a data-toggle="modal" href="#variable-{{variable.pk}}">
->              {% if variable.vhistory.all %} {% autoescape off %}
-> -                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names}}
-> +                {{variable.vhistory.all | filter_setin_files:file_filter | cut_layer_path_prefix:layer_names | cut_topdir_path_prefix:topdir}}
->              {% endautoescape %} {% endif %}
->          </a></td>
->          <td class="description">
-> @@ -115,7 +115,7 @@
->                  <tbody>
->                      {% for vh in variable.vhistory.all %}
->                      <tr>
-> -                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
-> +                        <td>{{forloop.counter}}</td><td>{{vh.file_name|cut_layer_path_prefix:layer_names|cut_topdir_path_prefix:topdir}}</td><td>{{vh.operation}}</td><td>{{vh.line_number}}</td>
->                      </tr>
->                      {%endfor%}
->                  </tbody>
-> diff --git a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-> index 54700e3..67762a5 100644
-> --- a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-> +++ b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-> @@ -20,6 +20,7 @@
->  # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
->  
->  from datetime import datetime, timedelta
-> +from os.path import relpath
->  import re
->  from django import template
->  from django.utils import timezone
-> @@ -326,3 +327,8 @@ def cut_layer_path_prefix(fullpath,layer_names):
->                  parts = re.split(lname, fullpath, 1)
->                  return lname + parts[1]
->      return fullpath
-> +
-> +@register.filter
-> +def cut_topdir_path_prefix(fullpath, topdir):
-> +    """Cut topdir from the fullpath."""
-> +    return relpath(fullpath, topdir) if fullpath.startswith(topdir) else fullpath
-> diff --git a/bitbake/lib/toaster/toastergui/views.py b/bitbake/lib/toaster/toastergui/views.py
-> index 7849b50..d2cd367 100755
-> --- a/bitbake/lib/toaster/toastergui/views.py
-> +++ b/bitbake/lib/toaster/toastergui/views.py
-> @@ -39,6 +39,7 @@ from datetime import timedelta, datetime, date
->  from django.utils import formats
->  from toastergui.templatetags.projecttags import json as jsonfilter
->  import json
-> +from os.path import dirname
->  
->  # all new sessions should come through the landing page;
->  # determine in which mode we are running in, and redirect appropriately
-> @@ -1326,6 +1327,7 @@ def configvars(request, build_id):
->                  'default_orderby' : 'variable_name:+',
->                  'search_term':search_term,
->                  'layer_names' : layer_names,
-> +                'topdir': dirname(build_dir),
->              # Specifies the display of columns for the table, appearance in "Edit columns" box, toggling default show/hide, and specifying filters for columns
->                  'tablecols' : [
->                  {'name': 'Variable',
-> -- 
-> 2.1.4
-> 
-
+diff --git a/meta/recipes-extended/libarchive/libarchive/mkdir.patch b/meta/recipes-extended/libarchive/libarchive/mkdir.patch
+new file mode 100644
+index 0000000..509a295
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/mkdir.patch
+@@ -0,0 +1,45 @@
++Add missing mkdir calls so that out-of-tree builds work.
++
++Upstream-Status: Submitted (https://github.com/libarchive/libarchive/pull/534)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/Makefile.am b/Makefile.am
++index 3fa2d22..5ecca52 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -508,6 +508,7 @@ libarchive_test_LDADD= $(LTLIBICONV)
++ # Building it automatically provides a sanity-check on libarchive_test_SOURCES
++ # above.
++ libarchive/test/list.h: Makefile
+++	$(MKDIR_P) libarchive/test
++ 	cat $(top_srcdir)/libarchive/test/test_*.c | grep DEFINE_TEST > libarchive/test/list.h
++ 
++ libarchive_TESTS_ENVIRONMENT= LIBARCHIVE_TEST_FILES=`cd $(top_srcdir);/bin/pwd`/libarchive/test LRZIP=NOCONFIG
++@@ -835,6 +836,7 @@ bsdtar_test_CPPFLAGS=\
++ 	$(PLATFORMCPPFLAGS)
++ 
++ tar/test/list.h: Makefile
+++	$(MKDIR_P) tar/test
++ 	cat $(top_srcdir)/tar/test/test_*.c | grep DEFINE_TEST > tar/test/list.h
++ 
++ if BUILD_BSDTAR
++@@ -975,6 +977,7 @@ bsdcpio_test_CPPFLAGS= \
++ bsdcpio_test_LDADD=libarchive_fe.la
++ 
++ cpio/test/list.h: Makefile
+++	$(MKDIR_P) cpio/test
++ 	cat $(top_srcdir)/cpio/test/test_*.c | grep DEFINE_TEST > cpio/test/list.h
++ 
++ if BUILD_BSDCPIO
++diff --git a/configure.ac b/configure.ac
++index 38bd299..7bdb00c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -102,6 +102,7 @@ AC_USE_SYSTEM_EXTENSIONS
++ AC_LIBTOOL_WIN32_DLL
++ AC_PROG_LIBTOOL
++ AC_CHECK_TOOL([STRIP],[strip])
+++AC_PROG_MKDIR_P
++ 
++ #
++ # Options for building bsdtar.
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+index 75008c3..aaa3255 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+@@ -33,12 +33,13 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://libarchive-CVE-2013-0211.patch \
+            file://pkgconfig.patch \
+            file://0001-Add-ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS-option.patch \
++           file://mkdir.patch \
+            "
+ 
+ SRC_URI[md5sum] = "efad5a503f66329bb9d2f4308b5de98a"
+ SRC_URI[sha256sum] = "eb87eacd8fe49e8d90c8fdc189813023ccc319c5e752b01fb6ad0cc7b2c53d5e"
+ 
+-inherit autotools-brokensep lib_package pkgconfig
++inherit autotools lib_package pkgconfig
+ 
+ CPPFLAGS += "-I${WORKDIR}/extra-includes"
+ 
 -- 
---
-Regards,
-Ed
+2.1.4
+
 
