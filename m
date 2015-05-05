@@ -1,24 +1,36 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E1C5073C5B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AD22373C7D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 11:13:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 05 May 2015 04:13:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,372,1427785200"; d="scan'208";a="723908396"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 05 May 2015 04:13:09 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Tue,  5 May 2015 12:20:52 +0000 (UTC)
+Received: by wgiu9 with SMTP id u9so17499416wgi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 May 2015 05:20:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UCwIlbndPW9O3Eqf+CpkbbX3xOMy78dVeHXMsuU3AkM=;
+	b=B2ZnTSxPo3qhNHp6CmEzCtl9hpWv1VYxylulaDNkBEsgbeq784XbvKKXH2Zzdk95i0
+	mxbHMJbsPA9OELQSoveox2wVCDZ5kN3UYT4CuzjII5JgRiYdXeL2fTlG/DKxayQe5bf3
+	rM1wEOpRMdVLqDtxswlL7rLv+1V266p2n2QkdFuIDnEY1qCTnaCi9BnolWDQUYFDjIjY
+	WW4IacSkE4cYf4ONhSQUUTk+XyD+J7O7TvKAbpInuzXaNdRkCnCvhIOimFOsONuh7xTC
+	0Mf43i2HRkbBO7CS/fvyz3DX/XGJOif9jyUChbCuJhrPa4OeNJ+q8fCt2pTVuZVVqThy
+	ueWQ==
+X-Gm-Message-State: ALoCoQmYOEI6up6XGdc2fzVlsYvWItiim96wQEy1EelTeSBduPGsAGIqExQbS/NXhwvu3ML534rs
+X-Received: by 10.180.14.134 with SMTP id p6mr3528478wic.44.1430828453183;
+	Tue, 05 May 2015 05:20:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id js3sm25339706wjc.5.2015.05.05.05.20.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 May 2015 05:20:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 May 2015 14:12:49 +0300
-Message-Id: <b8cb493fc7748508d3836a5069383c8d94c503ac.1430824114.git.jussi.kukkonen@intel.com>
+Date: Tue,  5 May 2015 13:17:00 +0100
+Message-Id: <1430828220-14251-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <2794ed3bb198b06f681f9492dbeea032a3fd4438.1430824114.git.jussi.kukkonen@intel.com>
-References: <2794ed3bb198b06f681f9492dbeea032a3fd4438.1430824114.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1430824114.git.jussi.kukkonen@intel.com>
-References: <cover.1430824114.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 4/4] x11perf: Upgrade 1.5.4 -> 1.6.0
+Subject: [PATCH] poky.conf: remove SVK mirror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 11:13:09 -0000
+X-List-Received-Date: Tue, 05 May 2015 12:20:53 -0000
 
-* remove PR
+The svk fetcher was removed in bitbake 1.22 and oe-core master doesn't consider
+svk: a valid URL for mirrors.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../recipes-graphics/xorg-app/{x11perf_1.5.4.bb => x11perf_1.6.0.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-app/{x11perf_1.5.4.bb => x11perf_1.6.0.bb} (75%)
+ meta-yocto/conf/distro/poky.conf | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/x11perf_1.5.4.bb b/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-app/x11perf_1.5.4.bb
-rename to meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-index cc0b323..4e93558 100644
---- a/meta/recipes-graphics/xorg-app/x11perf_1.5.4.bb
-+++ b/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-@@ -11,10 +11,9 @@ DEPENDS += "libxmu libxrender libxft libxext fontconfig"
- LIC_FILES_CHKSUM = "file://COPYING;md5=428ca4d67a41fcd4fc3283dce9bbda7e \
-                     file://x11perf.h;endline=24;md5=29555066baf406a105ff917ac25b2d01"
+diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky.conf
+index 3598f4f..aa6f01e 100644
+--- a/meta-yocto/conf/distro/poky.conf
++++ b/meta-yocto/conf/distro/poky.conf
+@@ -53,7 +53,6 @@ gitsm://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
+ hg://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \n \
+ osc://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n \
+ p4://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \n \
+-svk://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n \
+ svn://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \n"
  
--PR = "${INC_PR}.0"
- PE = "1"
- 
- FILES_${PN} += "${libdir}/X11/x11perfcomp/*"
- 
--SRC_URI[md5sum] = "5c3c7431a38775caaea6051312a49bc9"
--SRC_URI[sha256sum] = "24ee8857a2bf414b360addabf1c27ef797f7f504ee9bc409c151760bfbe53184"
-+SRC_URI[md5sum] = "f0b24e4d8beb622a419e8431e1c03cd7"
-+SRC_URI[sha256sum] = "e87098dec1947572d70c62697a7b70bde1ab5668237d4660080eade6bc096751"
+ MIRRORS =+ "\
 -- 
 2.1.4
 
