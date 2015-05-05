@@ -1,25 +1,20 @@
-Return-Path: <leandro.maciel.dorileo@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5234A6AC3E
+Return-Path: <kevron.m.rees@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7010360557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 20:38:34 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 05 May 2015 13:38:35 -0700
+	Tue,  5 May 2015 21:37:48 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 05 May 2015 14:37:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,374,1427785200"; d="scan'208";a="724212188"
-Received: from unknown (HELO [10.218.100.121]) ([10.218.100.121])
-	by orsmga002.jf.intel.com with ESMTP; 05 May 2015 13:38:35 -0700
-Message-ID: <55492A4A.6010305@intel.com>
-Date: Tue, 05 May 2015 17:38:34 -0300
-From: Leandro Dorileo <leandro.maciel.dorileo@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.13,375,1427785200"; d="scan'208";a="566801973"
+Received: from unknown (HELO tripzero-desktop.jf.intel.com) ([10.7.201.48])
+	by orsmga003.jf.intel.com with ESMTP; 05 May 2015 14:37:49 -0700
+From: Kevron Rees <kevron.m.rees@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>	<1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
-	<20150505200129.GA7291@ad.chargestorm.se>
-In-Reply-To: <20150505200129.GA7291@ad.chargestorm.se>
-Subject: Re: [PATCH V2 3/3] systemd: split modules into packages
+Date: Tue,  5 May 2015 14:37:48 -0700
+Message-Id: <1430861868-8043-1-git-send-email-kevron.m.rees@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bluez: update to 5.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +27,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 20:38:35 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 May 2015 21:37:49 -0000
 
-On 05/05/2015 05:01 PM, Anders Darander wrote:
-> * Bruno Bottazzini <bruno.bottazzini@intel.com> [150504 23:43]:
->
->> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
->> index b4bff18..2da74dc 100644
->> --- a/meta/recipes-core/systemd/systemd_219.bb
->> +++ b/meta/recipes-core/systemd/systemd_219.bb
->> @@ -60,9 +60,89 @@ LDFLAGS_append_libc-uclibc = " -lrt"
->>   GTKDOC_DOCDIR = "${S}/docs/"
->
->>   PACKAGECONFIG ??= "xz ldconfig \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'gcrypt', 'gcrypt', "", d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', "", d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'lz4', 'lz4', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'libidn', 'libidn', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
->> -
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'glib', 'glib', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'blkid', 'blkid', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'efi', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'kmod', 'kmod', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'smack', 'smack', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'ima', 'ima', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'apparmor', 'apparmor', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'qrencode', 'qrencode', '', d)} \
->
-> NAK.
->
-> I like the split of systemd into smaller packages, but NAK for this
-> version. We're not going to add all this to DISTRO_FEATURES...
->
-> Add all the PACKAGCONFIG options, but enable only those that either were
-> enabled before, or where we have a real DISTRO_FEATURE to check for.
-> Dpn't add a new DISTRO_FEATURE for every PACKAGECONFIG.
->
+Signed-off-by: Kevron Rees <kevron.m.rees@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5_5.29.bb | 52 -------------------------
+ meta/recipes-connectivity/bluez5/bluez5_5.30.bb | 52 +++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.29.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.30.bb
 
-Just to have it documented here via ML, Anders and I talked on IRC
-and we agreed to add PACKAGECONFIG[feature] definitions for both
-features and have the "current features" enabled by default without
-using  DISTRO_FEATURES - since we don't want to add these
-DISTRO_FEATURES.
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.29.bb b/meta/recipes-connectivity/bluez5/bluez5_5.29.bb
+deleted file mode 100644
+index 0fe8e7f..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.29.bb
++++ /dev/null
+@@ -1,52 +0,0 @@
+-require bluez5.inc
+-SRC_URI[md5sum] = "aa9dc91689695a486c78c131cd68673e"
+-SRC_URI[sha256sum] = "df216a6d5ec6133355e5d4ed6b5e7a188a940940d337374e166758513246f0e4"
+-
+-# noinst programs in Makefile.tools that are conditional on READLINE
+-# support
+-NOINST_TOOLS_READLINE ?= " \
+-    attrib/gatttool \
+-    tools/obex-client-tool \
+-    tools/obex-server-tool \
+-    tools/bluetooth-player \
+-    tools/obexctl \
+-"
+-
+-# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
+-# support
+-NOINST_TOOLS_EXPERIMENTAL ?= " \
+-    emulator/btvirt \
+-    emulator/b1ee \
+-    emulator/hfp \
+-    tools/3dsp \
+-    tools/mgmt-tester \
+-    tools/gap-tester \
+-    tools/l2cap-tester \
+-    tools/sco-tester \
+-    tools/smp-tester \
+-    tools/hci-tester \
+-    tools/rfcomm-tester \
+-    tools/bdaddr \
+-    tools/avinfo \
+-    tools/avtest \
+-    tools/scotest \
+-    tools/amptest \
+-    tools/hwdb \
+-    tools/hcieventmask \
+-    tools/hcisecfilter \
+-    tools/btmgmt \
+-    tools/btinfo \
+-    tools/btattach \
+-    tools/btsnoop \
+-    tools/btproxy \
+-    tools/btiotest \
+-    tools/mcaptest \
+-    tools/cltest \
+-    tools/oobtest \
+-    tools/seq2bseq \
+-    tools/ibeacon \
+-    tools/btgatt-client \
+-    tools/btgatt-server \
+-    tools/gatt-service \
+-    profiles/iap/iapd \
+-"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.30.bb b/meta/recipes-connectivity/bluez5/bluez5_5.30.bb
+new file mode 100644
+index 0000000..0741c98
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.30.bb
+@@ -0,0 +1,52 @@
++require bluez5.inc
++SRC_URI[md5sum] = "24ba1d1e8e7ef5b8f4033a3059d7600e"
++SRC_URI[sha256sum] = "1e3a4adb5a097dab83b3cf58e09c9541b815c6f33e3da972e18dfd1eb05d382c"
++
++# noinst programs in Makefile.tools that are conditional on READLINE
++# support
++NOINST_TOOLS_READLINE ?= " \
++    attrib/gatttool \
++    tools/obex-client-tool \
++    tools/obex-server-tool \
++    tools/bluetooth-player \
++    tools/obexctl \
++"
++
++# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
++# support
++NOINST_TOOLS_EXPERIMENTAL ?= " \
++    emulator/btvirt \
++    emulator/b1ee \
++    emulator/hfp \
++    tools/3dsp \
++    tools/mgmt-tester \
++    tools/gap-tester \
++    tools/l2cap-tester \
++    tools/sco-tester \
++    tools/smp-tester \
++    tools/hci-tester \
++    tools/rfcomm-tester \
++    tools/bdaddr \
++    tools/avinfo \
++    tools/avtest \
++    tools/scotest \
++    tools/amptest \
++    tools/hwdb \
++    tools/hcieventmask \
++    tools/hcisecfilter \
++    tools/btmgmt \
++    tools/btinfo \
++    tools/btattach \
++    tools/btsnoop \
++    tools/btproxy \
++    tools/btiotest \
++    tools/mcaptest \
++    tools/cltest \
++    tools/oobtest \
++    tools/seq2bseq \
++    tools/ibeacon \
++    tools/btgatt-client \
++    tools/btgatt-server \
++    tools/gatt-service \
++    profiles/iap/iapd \
++"
+-- 
+2.1.4
 
-For distros wanting to use the "new packages/features" we do so by
-adding PACKAGECONFIG_pn-systemd... on the distro side.
-
-Regards...
-
---
-Dorileo
 
