@@ -1,38 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id EC89471144
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FCBE73DA2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 07:58:08 +0000 (UTC)
-Received: by oiko83 with SMTP id o83so134971981oik.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 00:58:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NsCFnuGAjco891PNO7IbzctKgVc74VaGCSVSxDq32Ow=;
-	b=fgT92zp7/YahGvbIxUj1K5D6JuoQ1myZWuRly/Kb55G5+Ex2cLZ6x5UBWCO3IL0Mgg
-	vLAr8xDbck/hCTYjJlKFwdbDziW3Z74EVOU1872mLhYFrml74zuGai6nO3+OqwGFmri+
-	OZoN9o3oZW22EiKQy3TmCIpwBhv6u5e+2jSSXjjaUwalbDDL/oX0JnV6oTxXz52EsQs7
-	A4h2Nfah/aa3KQo9W4pHsPvnLGt/8XAj4rsHyzTnwO268dL3W917dLrW3Z4qavAGxoBv
-	62AI36X2lEBQbf8ty8g8sI/akXPbdsJtmJdUU5ccUEHbEyBrQSc03xMIIOyjETRcfIor
-	f3VQ==
-X-Gm-Message-State: ALoCoQm6vBCwztDf0V2TcV6O2DniI3lGAv8KR0Ld7TiKNsKEBT9mb3YIqPdhScbTMNyHBgFhrX0g
-X-Received: by 10.182.65.194 with SMTP id z2mr21269863obs.30.1430812689221;
-	Tue, 05 May 2015 00:58:09 -0700 (PDT)
+	Tue,  5 May 2015 08:14:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,371,1427752800"; d="scan'208";a="74809604"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 05 May 2015 10:14:19 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.210.2; Tue, 5 May 2015 10:14:19 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.3.210.2; Tue, 5 May 2015 10:14:19 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 May 2015 10:14:01 +0200
+Message-ID: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
 MIME-Version: 1.0
-Received: by 10.202.225.2 with HTTP; Tue, 5 May 2015 00:57:38 -0700 (PDT)
-In-Reply-To: <CAMKF1sr7joRJQMLsX4==4e6f185hzkgC9QdwBFhxSVsHjkz64w@mail.gmail.com>
-References: <1430735858-6704-1-git-send-email-jussi.kukkonen@intel.com>
-	<CAMKF1sr7joRJQMLsX4==4e6f185hzkgC9QdwBFhxSVsHjkz64w@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 5 May 2015 10:57:38 +0300
-Message-ID: <CAHiDW_FrGE1ryPPZinOTg-CbmT7ZUQPa3fNod79dwBY1oT=_mA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] shared-mime-info: Upgrade 1.3 -> 1.4
+Subject: [PATCH] zlib: minor symbolic link issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,23 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 07:58:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 May 2015 08:14:20 -0000
+Content-Type: text/plain
 
-On 4 May 2015 at 23:22, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, May 4, 2015 at 3:37 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
->> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->
-> Looks ok. In future use git format-patch -M option to let git work
-> harder on detecting renames
+libz.so symbolic link created in ${libdir} is ../..//lib/libz.so.1.2.8
+Make it cleaner and generic (idea comes from libcgroup recipe).
 
-Thanks. For anyone else wondering how to get that behaviour as the
-default for git diffs, this seems to do the trick in git config:
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-core/zlib/zlib_1.2.8.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-[diff]
-        renames = true
+diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.8.bb
+index ca0ba3f..5e11f23 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.8.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
+@@ -6,7 +6,6 @@ SECTION = "libs"
+ LICENSE = "Zlib"
+ LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b73844a0c494fd"
+ 
+-
+ SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.xz \
+            file://remove.ldconfig.call.patch \
+            file://Makefile-runtests.patch \
+@@ -54,7 +53,8 @@ do_install_append_class-target() {
+ 		mkdir -p ${D}/${base_libdir}
+ 		mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
+ 		tmp=`readlink ${D}/${libdir}/libz.so`
+-		ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
++		rel_lib_prefix=`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
++		ln -sf ${rel_lib_prefix}${base_libdir}/$tmp ${D}/${libdir}/libz.so
+ 	fi
+ }
+ 
+-- 
+1.9.1
 
-
-Cheers,
-  Jussi
 
