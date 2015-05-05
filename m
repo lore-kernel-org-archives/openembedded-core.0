@@ -1,14 +1,12 @@
 Return-Path: <fabien.proriol@jdsu.com>
-X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 May 2015 09:29:27 UTC
 Received: from ks.kazoe.org (ks.kazoe.org [91.121.82.209])
-	by mail.openembedded.org (Postfix) with ESMTP id D5E67736B3
+	by mail.openembedded.org (Postfix) with ESMTP id 517F9736B3
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  5 May 2015 09:29:27 +0000 (UTC)
 From: fabien.proriol@jdsu.com
-To: fabien.proriol@saint-pal.com
-Date: Tue,  5 May 2015 11:20:15 +0200
-Message-Id: <1430817615-20327-1-git-send-email-fabien.proriol@jdsu.com>
+To: cristian.iorga@intel.com
+Date: Tue,  5 May 2015 11:20:58 +0200
+Message-Id: <1430817658-20363-1-git-send-email-fabien.proriol@jdsu.com>
 X-Mailer: git-send-email 2.0.5
 Cc: Fabien Proriol <fabien.proriol@jdsu.com>,
 	openembedded-core@lists.openembedded.org
