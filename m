@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9635473F2A
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F59373F33
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 07:05:10 +0000 (UTC)
-Received: by igbpi8 with SMTP id pi8so93028537igb.0
+	Wed,  6 May 2015 07:05:08 +0000 (UTC)
+Received: by iget9 with SMTP id t9so93037578ige.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 May 2015 00:05:11 -0700 (PDT)
+	Wed, 06 May 2015 00:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=774D7CUAoROCf1XxMOSxZMuK76OY4+RCDL43ZY8E16s=;
-	b=diQsA+odraSOVZC6b6hxIrvbhPDEcRSPvFiUlKzyzZUkLnT0KHKz8AUi3Kx38oTWRa
-	qaqsdKSOsiwPQBZIjIRZ8GB0avHPVD6u7G2owz1z0G93S/Lu38izRlbr4+w3udoLlCh2
-	N7wMnktlko5hQSyKn8CpZcBAWthmmEKNHh+zR7YIwpVaX2Vmsg4TsMnLHwLrCeuTcsGm
-	crCTsyu8Ifs56l7C+9Re6OGs0j9aj9IZVhcNJ1QMZr8NwYXA/whsxP+tVkBvlTQnnPtr
-	OfdYUht9EuSHAw1VSIdpKjnpvXO+/vsIGAYuRGeOuvjt2o61vZ71EdWCnU6o08p5hMIx
-	870g==
-X-Received: by 10.42.226.8 with SMTP id iu8mr1126442icb.17.1430895911730;
-	Wed, 06 May 2015 00:05:11 -0700 (PDT)
+	bh=BeM9cLsPR2Mk5QcG6SVh1vUoUPiMpquC45fn6iZastY=;
+	b=eMwH73fYvPve5ZockxCaakAxBsA27Xx0ydpOLklsyR2Ury3aS6+uy0M+blwHTgvJTz
+	kO7mwN4PFN4XYB+ZROeK1WRQYS9h0QLj135lDrTG/5hgBG6p81Us8OGUB31nonzHjmuN
+	Cuk4VUNDJT2VXrXoEzxKys2OQFendl6ETH6RmhvDBvAGMYDThCGslv+udgPzGnIfFdCc
+	rUbgacJMuA0Su3Qr1x7I+TfU8W+e9gFfNCWK3PqRnoPRBeed3T+/gKBWTG896dy//22q
+	qv5mO9rvOpOrjHE2fyIJ4MtcQlSoJGWFaNoq9vWhfdpx7T41xuf9m4J/XNGfNO4YTgW2
+	VnRg==
+X-Received: by 10.42.200.8 with SMTP id eu8mr1144111icb.65.1430895909667;
+	Wed, 06 May 2015 00:05:09 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id m5sm622733ioi.4.2015.05.06.00.05.10
+	by mx.google.com with ESMTPSA id m5sm622733ioi.4.2015.05.06.00.05.08
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 May 2015 00:05:10 -0700 (PDT)
+	Wed, 06 May 2015 00:05:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 May 2015 00:04:59 -0700
-Message-Id: <255b008af3c6dbe562d8e114d17a9ed72b7709da.1430895556.git.raj.khem@gmail.com>
+Date: Wed,  6 May 2015 00:04:57 -0700
+Message-Id: <3db64b4caceded77e473a4e07d44e18dcb1c7098.1430895556.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <f19629f2963bbec46e41a35626a11a64fc4a0c6d.1430895556.git.raj.khem@gmail.com>
 References: <f19629f2963bbec46e41a35626a11a64fc4a0c6d.1430895556.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1430895556.git.raj.khem@gmail.com>
 References: <cover.1430895556.git.raj.khem@gmail.com>
-Subject: [PATCH 6/6] libart-lgpl: Fix cross compiling
+Subject: [PATCH 4/6] gcc-4.9, gcc-5: Use variable SYSTEMLIBS_DIR instead of hardcoding it for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,133 +48,104 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 May 2015 07:05:10 -0000
 
-We use standard ISO C data types and get rid of configure guess work
-which is iffy in cross compiled environment. Cleans up the re-build as well
-since we were deleting art_config.h without considering if the file is
-there in first place or not.
-
+Change-Id: I54dc82a569f02d489137d88f16d6b768c4ab779b
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libart_lgpl-2.3.21-crosscompile.patch          | 84 ++++++++++++++++++++++
- meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb     | 10 +--
- 2 files changed, 87 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/libart_lgpl-2.3.21-crosscompile.patch
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ ...IBS_DIR-replacement-instead-of-hardcoding.patch | 24 +++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-5.1.inc              |  1 +
+ ...IBS_DIR-replacement-instead-of-hardcoding.patch | 27 ++++++++++++++++++++++
+ 4 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
 
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl/libart_lgpl-2.3.21-crosscompile.patch b/meta/recipes-gnome/gnome/libart-lgpl/libart_lgpl-2.3.21-crosscompile.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index ee31f0b..9ed3e09 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -78,6 +78,7 @@ SRC_URI = "\
+     file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+     file://0061-target-gcc-includedir.patch \
+     file://0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
++    file://0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+ "
+ SRC_URI[md5sum] = "4df8ee253b7f3863ad0b86359cd39c43"
+ SRC_URI[sha256sum] = "2020c98295856aa13fda0f2f3a4794490757fc24bcca918d52cc8b4917b972dd"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
 new file mode 100644
-index 0000000..0261f58
+index 0000000..c48bd48
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome/libart-lgpl/libart_lgpl-2.3.21-crosscompile.patch
-@@ -0,0 +1,84 @@
-+Taken from portage
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+@@ -0,0 +1,24 @@
++From 861bcfd4ae814f351e0c668ee26d01d1331e0422 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 28 Apr 2015 23:15:27 -0700
++Subject: [PATCH 36/37] Use SYSTEMLIBS_DIR replacement instead of hardcoding
++ base_libdir
 +
-+Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+From e1443c945a4cf67096d8c27721aadd7368382b3f Mon Sep 17 00:00:00 2001
-+From: Gilles Dartiguelongue <eva@gentoo.org>
-+Date: Tue, 6 Apr 2010 15:22:25 +0200
-+Subject: [PATCH 2/2] gentoo: use ISO types for fixed type size
-+
 +---
-+ Makefile.am  |   11 ++---------
-+ art_config.h |    5 +++++
-+ configure.in |   10 ----------
-+ 3 files changed, 7 insertions(+), 19 deletions(-)
-+ create mode 100644 art_config.h
++ gcc/config/aarch64/aarch64-linux.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 95952da..6aa2fe3 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -2,13 +2,6 @@ check_PROGRAMS = testart testuta
++Index: gcc-4.9.2/gcc/config/aarch64/aarch64-linux.h
++===================================================================
++--- gcc-4.9.2.orig/gcc/config/aarch64/aarch64-linux.h
+++++ gcc-4.9.2/gcc/config/aarch64/aarch64-linux.h
++@@ -21,7 +21,7 @@
++ #ifndef GCC_AARCH64_LINUX_H
++ #define GCC_AARCH64_LINUX_H
 + 
-+ bin_SCRIPTS = \
-+ 	libart2-config
-+-	
-+-noinst_SCRIPTS = gen_art_config.sh
-+-
-+-BUILT_SOURCES = art_config.h
-+-
-+-art_config.h:
-+-	./gen_art_config.sh > art_config.h
++-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
+++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-linux-aarch64%{mbig-endian:_be}.so.1"
 + 
-+ EXTRA_DIST = 			\
-+ 	libart.def		\
-+@@ -173,5 +166,5 @@ install-data-local: install-ms-lib install-libtool-import-lib
++ #define CPP_SPEC "%{pthread:-D_REENTRANT}"
 + 
-+ uninstall-local: uninstall-ms-lib uninstall-libtool-import-lib
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1.inc b/meta/recipes-devtools/gcc/gcc-5.1.inc
+index d38a7d9..db4c795 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.1.inc
+@@ -67,6 +67,7 @@ SRC_URI = "\
+            file://0033-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch \
+            file://0034-Don-t-search-host-directory-during-relink-if-inst_pr.patch \
+            file://0035-Dont-link-the-plugins-with-libgomp-explicitly.patch \
++           file://0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+           "
+ 
+ #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${SNAP}"
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1/0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-5.1/0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+new file mode 100644
+index 0000000..b691946
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.1/0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+@@ -0,0 +1,27 @@
++From 861bcfd4ae814f351e0c668ee26d01d1331e0422 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 28 Apr 2015 23:15:27 -0700
++Subject: [PATCH 36/37] Use SYSTEMLIBS_DIR replacement instead of hardcoding
++ base_libdir
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ gcc/config/aarch64/aarch64-linux.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gcc/config/aarch64/aarch64-linux.h b/gcc/config/aarch64/aarch64-linux.h
++index 9abb252..79525ee 100644
++--- a/gcc/config/aarch64/aarch64-linux.h
+++++ b/gcc/config/aarch64/aarch64-linux.h
++@@ -21,7 +21,7 @@
++ #ifndef GCC_AARCH64_LINUX_H
++ #define GCC_AARCH64_LINUX_H
 + 
-+-CLEANFILES = $(BUILT_SOURCES) $(bin_SCRIPTS)
-+-DISTCLEANFILES = $(BUILT_SOURCES) $(bin_SCRIPTS)
-++CLEANFILES = $(bin_SCRIPTS)
-++DISTCLEANFILES = $(bin_SCRIPTS)
-+diff --git a/art_config.h b/art_config.h
-+new file mode 100644
-+index 0000000..5985f1f
-+--- a/art_config.h
-++++ b/art_config.h
-+@@ -0,0 +1,5 @@
-++#include <stdint.h>
-++
-++typedef uint8_t art_u8;
-++typedef uint16_t art_u16;
-++typedef uint32_t art_u32;
-+diff --git a/configure.in b/configure.in
-+index e4804f7..ddcac4f 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -92,15 +92,6 @@ AC_FUNC_ALLOCA
++-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+++#define GLIBC_DYNAMIC_LINKER  SYSTEMLIBS_DIR "ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
 + 
-+ AC_C_BIGENDIAN
-+ 
-+-AC_CHECK_SIZEOF(char)
-+-AC_SUBST(ART_SIZEOF_CHAR, $ac_cv_sizeof_char)
-+-AC_CHECK_SIZEOF(short)
-+-AC_SUBST(ART_SIZEOF_SHORT, $ac_cv_sizeof_short)
-+-AC_CHECK_SIZEOF(int)
-+-AC_SUBST(ART_SIZEOF_INT, $ac_cv_sizeof_int)
-+-AC_CHECK_SIZEOF(long)
-+-AC_SUBST(ART_SIZEOF_LONG, $ac_cv_sizeof_long)
-+-
-+ AC_CONFIG_FILES([
-+ libart-features.h
-+ Makefile
-+@@ -109,6 +100,5 @@ libart-2.0-uninstalled.pc
-+ libart-zip])
-+ 
-+ AC_CONFIG_FILES([libart-config],[chmod +x libart-config])
-+-AC_CONFIG_FILES([gen_art_config.sh],[chmod +x gen_art_config.sh])
-+ 
-+ AC_OUTPUT
++ #undef  ASAN_CC1_SPEC
++ #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
 +-- 
-+1.7.0.4
++2.1.4
 +
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-index 1384616..95581b2 100644
---- a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-+++ b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- PR = "r2"
- 
- # can't use gnome.oeclass due to _ in filename
--SRC_URI = "${GNOME_MIRROR}/libart_lgpl/2.3/libart_lgpl-${PV}.tar.bz2"
-+SRC_URI = "${GNOME_MIRROR}/libart_lgpl/2.3/libart_lgpl-${PV}.tar.bz2 \
-+           file://libart_lgpl-2.3.21-crosscompile.patch \
-+          "
- 
- SRC_URI[md5sum] = "08559ff3c67fd95d57b0c5e91a6b4302"
- SRC_URI[sha256sum] = "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"
-@@ -18,9 +20,3 @@ FILES_${PN} = "${libdir}/*.so.*"
- FILES_${PN}-dev += "${bindir}/libart2-config"
- 
- S = "${WORKDIR}/libart_lgpl-${PV}"
--
--do_compile_prepend() {
--	# enforce regeneration of art_config.h
--	rm ${S}/art_config.h
--}
--
 -- 
 2.1.4
 
