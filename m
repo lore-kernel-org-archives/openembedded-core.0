@@ -1,43 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C43D560138
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C797672376
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 15:33:02 +0000 (UTC)
-Received: by wgin8 with SMTP id n8so15859337wgi.0
+	Wed,  6 May 2015 15:39:10 +0000 (UTC)
+Received: by wiun10 with SMTP id n10so27292113wiu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 May 2015 08:33:03 -0700 (PDT)
+	Wed, 06 May 2015 08:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:content-transfer-encoding
 	:in-reply-to:user-agent;
-	bh=z3VrLo/fm59qHFFw3Nm577BuuzEuVabHV/xGBWjuW4o=;
-	b=n6Jzy8IPJG0UnGi8Trq/bT7hnWfAZJ3IF1lqM6/569MyIXHabyAH7XeVyN9ltQTJ81
-	nZ+aA+Or/iKHd5/dtZBu6B96+AGOvIz+Psw1Sy5N9u2EsTa3Wej8fNe2K58uQ089ImXx
-	aTgEodvCI0osIFrQBMyZVNQvDIz4kZOwiqRnXz+r8a5X4L4Mi7WMSotCAAvaT4DQjzU9
-	oM/hWGAbxj5uGMgQSVoiWUHX3X6v2u63Z2G/cF42vbG1Oxr2mtMiZwQqqXkH+x0DBSoQ
-	44T/lftc6wsIf1M5UVtVPxiPlXUlOZnRyc5n2/U1BAJsdcWN6K2O7uk20IuQyFoWL164
-	xEAA==
-X-Received: by 10.180.37.3 with SMTP id u3mr6059126wij.43.1430926383226;
-	Wed, 06 May 2015 08:33:03 -0700 (PDT)
+	bh=iMoUvKTKVIWez7KvRilGzlSF4e9I2FBJfz6MPskEhVg=;
+	b=vFUetaIPKmfmYqx+WoGnB00fTjKFpGNC6Xb3QINJCftSp5Vf6OGE22W8Y9+PfXvIJA
+	ilNOz2JGfjFE6njDd8mnkYWALMZaigyFuoFv/iTz90JdHEOwsUU0mat6wIJeB2rrB5E/
+	8hoPH4fzB6SvOxvN7yiwzH+QW5ynb9HyDBP7dDcA3SQZqvrQr/GYqhd8yBBuv9dTBFGC
+	UaoWh9mvxMyvfdR+xkB5ufQWy8oz1stKFgWOqMQzYULTjy/tN6E9uS0MZZ6QGafgxz8y
+	55xZbUK/r62DXTKU1kliwutvtQjpzrZ3YiZXzOJdYDDcR1mzSB94pQGMMRxZi0A8o+IN
+	6cbA==
+X-Received: by 10.180.10.102 with SMTP id h6mr5862319wib.37.1430926750986;
+	Wed, 06 May 2015 08:39:10 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id fw3sm2703591wib.5.2015.05.06.08.33.02
+	by mx.google.com with ESMTPSA id gs7sm2721282wib.10.2015.05.06.08.39.09
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 May 2015 08:33:02 -0700 (PDT)
+	Wed, 06 May 2015 08:39:10 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 6 May 2015 17:33:25 +0200
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20150506153325.GB2067@jama>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430521154.18360.28.camel@linuxfoundation.org>
-	<55440C90.5060605@windriver.com> <20150502081346.GD2366@jama>
-	<55458D0D.6070904@windriver.com> <20150506144241.GA2067@jama>
-	<554A2C1C.5040304@windriver.com>
+Date: Wed, 6 May 2015 17:39:33 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150506153933.GC2067@jama>
+References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <554A2C1C.5040304@windriver.com>
+In-Reply-To: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,112 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 15:33:09 -0000
+X-List-Received-Date: Wed, 06 May 2015 15:39:11 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 06, 2015 at 10:58:36AM -0400, Bruce Ashfield wrote:
-> On 2015-05-06 10:42 AM, Martin Jansa wrote:
-> > On Sat, May 02, 2015 at 10:50:53PM -0400, Bruce Ashfield wrote:
-> >> On 2015-05-02 4:13 AM, Martin Jansa wrote:
-> >>> On Fri, May 01, 2015 at 07:30:24PM -0400, Bruce Ashfield wrote:
-> >>>> On 2015-05-01 6:59 PM, Richard Purdie wrote:
-> >>>>> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
-> >>>>>> Here is the latest consolidated pull request for the supported lin=
-ux-yocto
-> >>>>>> kernels.
-> >>>>>>
-> >>>>>>     - We have a refresh of the 3.14-rt support
-> >>>>>>     - bluetooh configuration changes for common-pc/qemux86
-> >>>>>>     - braswell BSP features and fixes
-> >>>>>>     - Introduction of the 4.1-rc1 -dev kernel (and associated perf=
- fix).
-> >>>>>> I've built and booted these on my local machines and qemu, and
-> >>>>>> everything was sane.
-> >>>
-> >>> Does it fix the issue I've reported few days ago?
-> >>> http://lists.openembedded.org/pipermail/openembedded-core/2015-April/=
-104344.html
-> >>
-> >> Nope. But one config warning is far down on the list when I'm
-> >> trying to introduce new -stable's and an entire -dev kernel.
-> >>
-> >> I didn't forget about it, it'll just get done in priority order.
-> >
-> > OK, now it fails completely in default qemux86 builds:
-> >
+On Fri, May 01, 2015 at 07:47:42PM +0200, Martin Jansa wrote:
+> From: Andre McCurdy <armccurdy@gmail.com>
 >=20
-> At this point, all I can say is file a bug. My builds of the same
-> board work, and the autobuilder show up green.
+> As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
+> has been renamed to "--enable-llvm-shared-libs".
 >=20
-> That screams race condition, so I'll look into it from that angle.
+>   http://www.mesa3d.org/relnotes/10.2.html
 
-I'm considering providing simple old-style recipes for vanilla kernels
-and using them in my jenkins builds instead linux-yocto, because kernel
-shouldn't block testing other recipes from meta-oe and other layers as
-often as linux-yocto does.
+Be aware that this correctly enables gallium-llvm, but then
+gbm_gallium_drm can fail to find LLVM libs:
 
-> > ERROR: Function failed: do_kernel_configme (log file is located at /hom=
-e/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.1=
-9.5+gitAUTOINC+7215fe4313_d5d30ba4d2-r0/temp/log.do_kernel_configme.1159)
-> > ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tm=
-p-glibc/work/qemux86-oe-linux/linux-yocto/3.19.5+gitAUTOINC+7215fe4313_d5d3=
-0ba4d2-r0/temp/log.do_kernel_configme.1159
-> > Log data follows:
-> > | DEBUG: Executing shell function do_kernel_configme
-> > | NOTE: kernel configme
-> > | [INFO] Configuring target/machine combo: "standard/qemux86"
-> > | [INFO] collecting configs in .meta/meta-series
-> > | [ERROR] frag /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qe=
-mux86/kernel-source/.meta/cfg/kernel-cache/bsp/common-pc/common-pc-drivers-=
-32.cfg does not exist
-> > | Error running the meta series for collecting config data
-> > | config of "standard/qemux86" failed
-> > | WARNING: exit code 1 from a shell command.
-> > | ERROR: Function failed: do_kernel_configme (log file is located at /h=
-ome/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3=
-=2E19.5+gitAUTOINC+7215fe4313_d5d30ba4d2-r0/temp/log.do_kernel_configme.115=
-9)
-> > NOTE: recipe linux-yocto-3.19.5+gitAUTOINC+7215fe4313_d5d30ba4d2-r0: ta=
-sk do_kernel_configme: Failed
-> > ERROR: Task 30162 (/home/jenkins/oe/world/shr-core/openembedded-core/me=
-ta/recipes-kernel/linux/linux-yocto_3.19.bb, do_kernel_configme) failed wit=
-h exit code '1'
-> >
-> > http://errors.yoctoproject.org/Errors/Details/10481/
-> >
-> >>>>>> The -dev kernel obviously isn't something for deployment yet, but
-> >>>>>> it builds, and forms the base for follow up config changes, featur=
-es
-> >>>>>> and development work. I built and booted core-image-kernel dev with
-> >>>>>> the 4.1 changes in place.
-> >>>>>
-> >>>>> The autobuilder showed up this for an x32 build :/.
-> >>>>
-> >>>> Can one of the intel folks have a look at this ? I won't be able to =
-get
-> >>>> to it until Tuesday at the earliest.
-> >>>>
-> >>>> Bruce
-> >>>>
-> >>>>>
-> >>>>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/buil=
-ds/282/steps/BuildImages/logs/stdio
-> >>>>>
-> >>>>> Cheers,
-> >>>>>
-> >>>>> Richard
-> >>>>>
-> >>>>
-> >>>> --
-> >>>> _______________________________________________
-> >>>> Openembedded-core mailing list
-> >>>> Openembedded-core@lists.openembedded.org
-> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>>
-> >>
-> >
+ld: cannot find -lLLVMMCJIT
+| collect2: error: ld returned 1 exit status
+| make[3]: *** [gbm_gallium_drm.la] Error 1
+
+at least in some configurations, I'm looking what's the difference in
+builds I'm seeing failing.
+
+>=20
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index 1857f3c..658bd3a 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      =3D "--with-gallium-drivers=
+=3D${GALLIUMDRIVERS}, --witho
+>  PACKAGECONFIG[gallium-egl]  =3D "--enable-gallium-egl, --disable-gallium=
+-egl"
+>  PACKAGECONFIG[gallium-gbm]  =3D "--enable-gallium-gbm, --disable-gallium=
+-gbm"
+>  MESA_LLVM_RELEASE ?=3D "3.3"
+> -PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --with-llvm-share=
+d-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+> +PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --enable-llvm-sha=
+red-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+>                                 ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_=
+ENABLED} else ''}"
+>  export WANT_LLVM_RELEASE =3D "${MESA_LLVM_RELEASE}"
+> =20
+> --=20
+> 2.3.5
 >=20
 
 --=20
