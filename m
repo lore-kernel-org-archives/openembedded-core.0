@@ -1,24 +1,25 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EF9173F44
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 561AC73EFD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 09:09:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4699gEJ029210
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 May 2015 02:09:42 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.142) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 6 May 2015 02:09:42 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 May 2015 17:09:41 +0800
-Message-ID: <1430903381-31057-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 2.1.0
-MIME-Version: 1.0
-Subject: [PATCH] e2fsprogs: fix the CVE-2015-1572
+	Wed,  6 May 2015 10:26:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 06 May 2015 03:26:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,379,1427785200"; d="scan'208";a="690713991"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 06 May 2015 03:26:11 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id E783E6A408D;
+	Wed,  6 May 2015 03:25:42 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 May 2015 13:26:07 +0300
+Message-Id: <1430907967-19805-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1430856401.8074.13.camel@linuxfoundation.org>
+References: <1430856401.8074.13.camel@linuxfoundation.org>
+Subject: [PATCH] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 09:09:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 May 2015 10:26:17 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+Race condition between do_compile_kernelmodules and do_shared_workdir
+tasks occurs when do_compile_kernelmodules changes files in
+include/generated/* while do_shared_workdir tries to copy them to
+shared working directory.
 
-Backport a patch to fix CVE-2015-1572
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1572
+Functionality of do_shared_workdir has been moved to separate function
+mk_shared_workdir and called from do_compile_kernelmodules.
+do_shared_workdir is left in the code as it may be used in many recipes.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+[YOCTO #7321]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- ...-fix-potential-buffer-overflow-in-closefs.patch | 58 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
+ meta/classes/kernel.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
-new file mode 100644
-index 0000000..72f77cc
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
-@@ -0,0 +1,58 @@
-+From 49d0fe2a14f2a23da2fe299643379b8c1d37df73 Mon Sep 17 00:00:00 2001
-+From: Theodore Ts'o <tytso@mit.edu>
-+Date: Fri, 6 Feb 2015 12:46:39 -0500
-+Subject: [PATCH] libext2fs: fix potential buffer overflow in closefs()
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 125ed88..7878a73 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -201,6 +201,8 @@ do_compile_kernelmodules() {
+ 	else
+ 		bbnote "no modules to compile"
+ 	fi
 +
-+Upstream-Status: Backport
-+
-+The bug fix in f66e6ce4446: "libext2fs: avoid buffer overflow if
-+s_first_meta_bg is too big" had a typo in the fix for
-+ext2fs_closefs().  In practice most of the security exposure was from
-+the openfs path, since this meant if there was a carefully crafted
-+file system, buffer overrun would be triggered when the file system was
-+opened.
-+
-+However, if corrupted file system didn't trip over some corruption
-+check, and then the file system was modified via tune2fs or debugfs,
-+such that the superblock was marked dirty and then written out via the
-+closefs() path, it's possible that the buffer overrun could be
-+triggered when the file system is closed.
-+
-+Also clear up a signed vs unsigned warning while we're at it.
-+
-+Thanks to Nick Kralevich <nnk@google.com> for asking me to look at
-+compiler warning in the code in question, which led me to notice the
-+bug in f66e6ce4446.
-+
-+Addresses: CVE-2015-1572
-+
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-+---
-+ lib/ext2fs/closefs.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/ext2fs/closefs.c b/lib/ext2fs/closefs.c
-+index 1f99113..ab5b2fb 100644
-+--- a/lib/ext2fs/closefs.c
-++++ b/lib/ext2fs/closefs.c
-+@@ -287,7 +287,7 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
-+ 	dgrp_t		j;
-+ #endif
-+ 	char	*group_ptr;
-+-	int	old_desc_blocks;
-++	blk64_t	old_desc_blocks;
-+ 	struct ext2fs_numeric_progress_struct progress;
-+ 
-+ 	EXT2_CHECK_MAGIC(fs, EXT2_ET_MAGIC_EXT2FS_FILSYS);
-+@@ -346,7 +346,7 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
-+ 	group_ptr = (char *) group_shadow;
-+ 	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
-+ 		old_desc_blocks = fs->super->s_first_meta_bg;
-+-		if (old_desc_blocks > fs->super->s_first_meta_bg)
-++		if (old_desc_blocks > fs->desc_blocks)
-+ 			old_desc_blocks = fs->desc_blocks;
-+ 	} else
-+ 		old_desc_blocks = fs->desc_blocks;
-+-- 
-+2.1.0
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index be1db9e..b354088 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -21,6 +21,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
-             file://cache_inode.patch \
-             file://CVE-2015-0247.patch \
-+            file://0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch \
- "
++	mk_shared_workdir
+ }
+ addtask compile_kernelmodules after do_compile before do_strip
  
- SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
+ 
+ PACKAGEFUNCS += "emit_depmod_pkgdata"
+ 
+-do_shared_workdir () {
++mk_shared_workdir () {
+ 	cd ${B}
+ 
+ 	kerneldir=${STAGING_KERNEL_BUILDDIR}
+@@ -289,6 +291,14 @@ do_shared_workdir () {
+ 	fi
+ }
+ 
++# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
++# and called from kernel_do_compile.
++# It caused race condition with do_compile_kernelmodules when it runs
++# in parallel with do_compile_kernelmodules
++do_shared_workdir () {
++	:
++}
++
+ # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+ sysroot_stage_all () {
+ 	:
 -- 
-2.1.0
+2.1.4
 
 
