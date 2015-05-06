@@ -1,25 +1,36 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 561AC73EFD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8824C73F30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 10:26:11 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 06 May 2015 03:26:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,379,1427785200"; d="scan'208";a="690713991"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 06 May 2015 03:26:11 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id E783E6A408D;
-	Wed,  6 May 2015 03:25:42 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 May 2015 13:26:07 +0300
-Message-Id: <1430907967-19805-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1430856401.8074.13.camel@linuxfoundation.org>
-References: <1430856401.8074.13.camel@linuxfoundation.org>
-Subject: [PATCH] kernel.bbclass: Fix race condition
+	Wed,  6 May 2015 10:35:21 +0000 (UTC)
+Received: by qgfi89 with SMTP id i89so2113732qgf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 May 2015 03:35:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nEeli1jDg+15lktCkikSEjV00bBsOvfXhRMkjAELqo4=;
+	b=fJLb7rFpfh4Foen/nickAV7C4u7Mb7HhU8EG44Y1nPbehZbTYozpxaLW3gP2V820sU
+	fKz+So4zQpCzQW9vLn102SBYpao1mz6qiLm11uPZKcjw0PGpHfCqospKy0Dqt1hUDus8
+	/nQdo59kRzJsl9cEQ9zz4wRpoiyPdC4OVTGrEO6Xn+DR3aOrx3qki0R4UG+EpT71ln6C
+	J5eRDbVkJV5X/dNDlv39BEsbNsKk7ExBz6YPY12z1lDDfXHKvipepM68PHosdAnFydfA
+	ib4KWEAXbKZcaeVORpxJwdUWzI/QuSbh7C5XOOF9OvAjJKnpCeNuYSymHerq3W1UyqcN
+	LOEw==
+X-Gm-Message-State: ALoCoQksNUwtS84vGDdqWhcTgPCQd7ujyzWd0ruFO8OXzj3JJgMet46RzmisowarIJP+Oye8pkF2
+X-Received: by 10.229.110.10 with SMTP id l10mr20522313qcp.5.1430908522995;
+	Wed, 06 May 2015 03:35:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Wed, 6 May 2015 03:35:02 -0700 (PDT)
+In-Reply-To: <5549B621.4060008@topic.nl>
+References: <5549B621.4060008@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 May 2015 11:35:02 +0100
+Message-ID: <CAJTo0LZ1DgAk3Dmaq5Ted_7K-QWzM=nvsScgSMdUSQtFb9Bq3g@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Changing external kernel module results in rebuild of whole kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 10:26:17 -0000
+X-List-Received-Date: Wed, 06 May 2015 10:35:22 -0000
+Content-Type: multipart/alternative; boundary=001a11344c843837410515675a48
 
-Race condition between do_compile_kernelmodules and do_shared_workdir
-tasks occurs when do_compile_kernelmodules changes files in
-include/generated/* while do_shared_workdir tries to copy them to
-shared working directory.
+--001a11344c843837410515675a48
+Content-Type: text/plain; charset=UTF-8
 
-Functionality of do_shared_workdir has been moved to separate function
-mk_shared_workdir and called from do_compile_kernelmodules.
-do_shared_workdir is left in the code as it may be used in many recipes.
+On 6 May 2015 at 07:35, Mike Looijmans <mike.looijmans@topic.nl> wrote:
 
-[YOCTO #7321]
+> If I change a recipe for a kernel module (a bb recipe that does "inherit
+> module") this will trigger a rebuild of the whole kernel.
+>
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+You can start to debug this by using bitbake-whatchanged. Build the kernel
+and modules, make a minor change to the module recipe, and then run
+"bitbake-whatchanged virtual/kernel" or some relevant target.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 125ed88..7878a73 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -201,6 +201,8 @@ do_compile_kernelmodules() {
- 	else
- 		bbnote "no modules to compile"
- 	fi
-+
-+	mk_shared_workdir
- }
- addtask compile_kernelmodules after do_compile before do_strip
- 
-@@ -245,7 +247,7 @@ emit_depmod_pkgdata() {
- 
- PACKAGEFUNCS += "emit_depmod_pkgdata"
- 
--do_shared_workdir () {
-+mk_shared_workdir () {
- 	cd ${B}
- 
- 	kerneldir=${STAGING_KERNEL_BUILDDIR}
-@@ -289,6 +291,14 @@ do_shared_workdir () {
- 	fi
- }
- 
-+# NOTE!!! Functionality of do_shared_workdir has been moved to mk_shared_workdir
-+# and called from kernel_do_compile.
-+# It caused race condition with do_compile_kernelmodules when it runs
-+# in parallel with do_compile_kernelmodules
-+do_shared_workdir () {
-+	:
-+}
-+
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
- sysroot_stage_all () {
- 	:
--- 
-2.1.4
+Ross
 
+--001a11344c843837410515675a48
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 May 2015 at 07:35, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fzi" class=
+=3D"a3s" style=3D"overflow:hidden">If I change a recipe for a kernel module=
+ (a bb recipe that does &quot;inherit module&quot;) this will trigger a reb=
+uild of the whole kernel.<br></div></blockquote></div><br>You can start to =
+debug this by using bitbake-whatchanged. Build the kernel and modules, make=
+ a minor change to the module recipe, and then run &quot;bitbake-whatchange=
+d virtual/kernel&quot; or some relevant target.</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11344c843837410515675a48--
