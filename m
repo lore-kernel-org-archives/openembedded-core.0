@@ -1,38 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 32ABF6AC3E
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ECEB460138
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 May 2015 22:04:43 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so209947014pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 May 2015 15:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=fY1K+ff3iWKPH8gncpEmMu0/JMunGAkksEIzYunKTIo=;
-	b=EtEuzmV3tQsc87RYS6eD22eViAsAXlRNbfuifrfjXb1PRCCVT8GnY7HlqF0nMbjUO1
-	86AoUBapPc2h79jp7DRLDGnwJ7ikbmC+6rcfQjrM507U4m0AlGIS1ba/I46eaO38IW4s
-	PX68Wtb7lK18TZ0/zqG6NYrWwDm5N1FptDwc9AI58gUFYx2Y7pNTYn7+BBBw2ux1ICAK
-	vPFyuOsatkI/52nwAn3FEUwZOsu3SjxF1yymC4Alk9DXsqmlOonI3xoBS8y4D9sQ6kzI
-	1aWQPP2WWJlm7FJzqlYl55YAilmAXZP9HZb6I3otanxJEiaW2KwNUlb19lLCisHiLShH
-	OiDw==
+	Wed,  6 May 2015 00:57:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t460v01x024089
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 5 May 2015 17:57:01 -0700 (PDT)
+Received: from [128.224.162.142] (128.224.162.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 5 May 2015 17:57:00 -0700
+Message-ID: <554966DB.4070907@windriver.com>
+Date: Wed, 6 May 2015 08:56:59 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.66.216.136 with SMTP id oq8mr5142779pac.97.1430863485105;
-	Tue, 05 May 2015 15:04:45 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Tue, 5 May 2015 15:04:45 -0700 (PDT)
-In-Reply-To: <1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
-References: <1430775804-30845-1-git-send-email-bruno.bottazzini@intel.com>
-	<1430775804-30845-4-git-send-email-bruno.bottazzini@intel.com>
-Date: Tue, 5 May 2015 19:04:45 -0300
-X-Google-Sender-Auth: aYrQVGAy2GU8Xiqrn54fH80nR_c
-Message-ID: <CAP9ODKoMD0hKJgALeHQPGTGxGANOOhwrMg7f=uKwEc+KN-bH-g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 3/3] systemd: split modules into packages
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1429759127-1927-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LZ=0w_VY4jmhS5qPTrKh3iU66S+gWYjXC34JT059qkH1g@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ=0w_VY4jmhS5qPTrKh3iU66S+gWYjXC34JT059qkH1g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,23 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 May 2015 22:04:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 May 2015 00:57:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 4, 2015 at 6:43 PM, Bruno Bottazzini
-<bruno.bottazzini@intel.com> wrote:
-> if one wants to launch a simple deamon, most modules are not
-> required.
-> He will be able to save space and exclude unwanted packages
-> from the final image.
+
+
+On 2015年05月05日 23:43, Burton, Ross wrote:
 >
-> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> On 23 April 2015 at 04:18, <rongqing.li@windriver.com
+> <mailto:rongqing.li@windriver.com>> wrote:
+>
+>     +export FORITY="${@base_conditional( "DEBUG_BUILD", "1", "",
+>     "-D_FORTIFY_SOURCE=2", d )}"
+>     +EXTRA_OEMAKE = 'AM_CFLAGS="-D_FILE_OFFSET_BITS=64 ${FORITY}"'
+>
+>
+> "FORTIFY" not "FORITY", and why does that need to be exported?
+>
 
-I a fine to add PACKAGECNFIG but NACK the DISTRO_FEATURES change. This
-is what a bbappend should be used for.
+typos, but it still fix the building failure.
+
+
+> I'm also curious as to why fortify and debug builds are incompatible,
+> and if there's a sufficient number of problems should we just disable
+> fortify in security_flags.inc when debug builds are enabled?
+>
+
+the mmc-utils always uses the _FORTIFY_SOURCE, so we
+need to override AM_CFLAGS to remove FORTIFY.
+
+
+mmc-utils/git$ grep AM_CFLAGS Makefile
+AM_CFLAGS = -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2
+override CFLAGS := $(CHECKFLAGS) $(AM_CFLAGS) $(CFLAGS)
+mmc-utils/git$
+
+
+-Roy
+
+> Ross
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Reagrds,
+Roy | RongQing Li
 
