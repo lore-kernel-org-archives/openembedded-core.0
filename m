@@ -1,24 +1,33 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3331973F21
+	by mail.openembedded.org (Postfix) with ESMTP id BE31D73D48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 15:21:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 06 May 2015 08:21:54 -0700
+	Wed,  6 May 2015 15:26:14 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 06 May 2015 08:26:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,380,1427785200"; d="scan'208";a="567210809"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga003.jf.intel.com with ESMTP; 06 May 2015 08:21:52 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 May 2015 18:21:47 +0300
-Message-Id: <575db48cb64e54d04b6d9b7137702a6491b3edc6.1430925667.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1430925667.git.cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,380,1427785200"; d="scan'208";a="706155291"
+Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
+	by fmsmga001.fm.intel.com with ESMTP; 06 May 2015 08:26:16 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.178]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.46]) with mapi id
+	14.03.0224.002; Wed, 6 May 2015 16:25:45 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/2] qemu 2.3.0 upgrade
+Thread-Index: AQHQiBB5CEZrK+peeki/91cti5HcDp1vERqQ
+Date: Wed, 6 May 2015 15:25:45 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F4BC395@irsmsx105.ger.corp.intel.com>
 References: <cover.1430925667.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1430925667.git.cristian.iorga@intel.com>
-References: <cover.1430925667.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/2] runqemu-internal: correctly set format for root FS as raw
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2] qemu 2.3.0 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 15:21:53 -0000
+X-List-Received-Date: Wed, 06 May 2015 15:26:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-qemu guesses via probing the format of root FS, but
-gives a warning and restricts write operations on block 0.
-So fix it by setting correctly the format as raw.
+Hello,
+Can other interested stakeholders test this upgrade to their own interest a=
+nd variations?
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- scripts/runqemu-internal | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I tested a lot of combinations, but my testing cannot be exhaustive when we=
+ are talking about qemu.
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2db5566..bc2a355 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -123,7 +123,7 @@ if [ "$SLIRP_ENABLED" = "yes" ]; then
-     if [ "$KVM_ACTIVE" = "yes" ]; then
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/vda"
--        ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio"
-+        ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
-     else
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/hda"
-@@ -261,7 +261,7 @@ else
-         if [ "$KVM_ACTIVE" = "yes" ]; then
-             QEMU_NETWORK_CMD="-net nic,model=virtio $QEMU_TAP_CMD,vhost=on"
-             DROOT="/dev/vda"
--            ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio"
-+            ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
-         else
-             QEMU_NETWORK_CMD="-net nic,vlan=0 $QEMU_TAP_CMD"
-             DROOT="/dev/hda"
--- 
+Thanks,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
+Sent: Wednesday, May 6, 2015 6:22 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 0/2] qemu 2.3.0 upgrade
+
+The following changes since commit b2b59b14ecfe13ba794d92f97d1403d6503c7407=
+:
+
+  poky.conf: remove SVK mirror (2015-05-05 22:18:23 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib Ciorga/qemu-upg
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3DCiorga/qemu-up=
+g
+
+Cristian Iorga (2):
+  qemu: upgrade to 2.3.0
+  runqemu-internal: correctly set format for root FS as raw
+
+ ...-Arm-versatilepb-Add-memory-size-checking.patch | 22 ++++----
+ meta/recipes-devtools/qemu/qemu.inc                |  2 +-
+ .../37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch | 59 ------------------=
+----
+ .../qemu/{qemu_2.2.0.bb =3D> qemu_2.3.0.bb}          |  5 +-
+ scripts/runqemu-internal                           |  4 +-
+ 5 files changed, 17 insertions(+), 75 deletions(-)  delete mode 100644 met=
+a/recipes-devtools/qemu/qemu/37ed3bf1ee07bb1a26adca0df8718f601f231c0b.patch
+ rename meta/recipes-devtools/qemu/{qemu_2.2.0.bb =3D> qemu_2.3.0.bb} (76%)
+
+--
 2.1.0
 
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
