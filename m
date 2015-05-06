@@ -1,25 +1,35 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE9473EED
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AD4A73BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 20:28:45 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 06 May 2015 13:28:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,380,1427785200"; d="scan'208";a="567370669"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 06 May 2015 13:28:47 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 9DFFD6A408F;
-	Wed,  6 May 2015 13:28:17 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 May 2015 23:28:39 +0300
-Message-Id: <1430944119-1825-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1430922461.8074.45.camel@linuxfoundation.org>
-References: <1430922461.8074.45.camel@linuxfoundation.org>
-Subject: [PATCH v.5] kernel.bbclass: Fix race condition
+	Wed,  6 May 2015 21:33:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t46LX2uD031336; Wed, 6 May 2015 22:33:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eLvahiG0QfI0; Wed,  6 May 2015 22:33:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t46LWkxC031333
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 6 May 2015 22:32:58 +0100
+Message-ID: <1430947966.8074.108.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Wed, 06 May 2015 22:32:46 +0100
+In-Reply-To: <554A536C.5060608@windriver.com>
+References: <cover.1430443583.git.bruce.ashfield@windriver.com>
+	<1430521154.18360.28.camel@linuxfoundation.org>
+	<55440C90.5060605@windriver.com> <20150502081346.GD2366@jama>
+	<55458D0D.6070904@windriver.com> <20150506144241.GA2067@jama>
+	<554A2C1C.5040304@windriver.com> <20150506153325.GB2067@jama>
+	<1430927086.8074.65.camel@linuxfoundation.org>
+	<20150506160708.GD2067@jama> <554A536C.5060608@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 20:28:46 -0000
+X-List-Received-Date: Wed, 06 May 2015 21:33:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Race condition between do_compile_kernelmodules and do_shared_workdir
-tasks occurs when do_compile_kernelmodules changes files in
-include/generated/* while do_shared_workdir tries to copy them to
-shared working directory.
+On Wed, 2015-05-06 at 13:46 -0400, Bruce Ashfield wrote:
+> On 2015-05-06 12:07 PM, Martin Jansa wrote:
+> > I've used master-next week or two ago (mostly to test bluez4 and python3
+> > changes) and soon after that dropped all linux-yocto related changes
+> > from it assuming that it's indeed cause for the issues I'm seeing, but
+> > it's not and it's still failing with master as well (and my
+> > jenkins/world builds are just small portion of my builds executed
+> > elsewhere where I see similar issues).
+> 
+> Richard: How can we sort out the differences between the build
+> environment that Martin uses versus what the autobuilder is showing?
+> 
+> There's nothing particularly complex happening during that build,
+> it's a checkout and generation of a config.
+> 
+> I'm unable to reproduce any of the failures, and neither is the
+> autobuilder.
 
-Fixed race by moving do_shared_workdir after do_compile but before
-do_compile_kernelmodules.
+This is a tough one and I'm struggling a little. We could try looking at
+the tmp/stamps/qemux86-poky-linux/linux-yocto/* files (sigdata in
+particular) as well as
+tmp/work/qemux86-poky-linux/linux-yocto/*/temp/log.task_order
 
-[YOCTO #7321]
+Martin, would you be able to share the above somewhere? I'm hoping this
+would give us a clue as to what the difference is between the builds and
+allow us to reproduce the problem.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 125ed88..74092e9 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -234,7 +234,7 @@ kernel_do_install() {
- }
- do_install[prefuncs] += "package_get_auto_pr"
- 
--addtask shared_workdir after do_compile before do_install
-+addtask shared_workdir after do_compile before do_compile_kernelmodules
- 
- emit_depmod_pkgdata() {
- 	# Stash data for depmod
--- 
-2.1.4
+Richard
+
 
 
