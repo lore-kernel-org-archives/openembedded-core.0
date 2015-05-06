@@ -1,30 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 18D4973F54
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 601EB73D94
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 14:27:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t46ERsbw001393; Wed, 6 May 2015 15:27:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DJQd82qime0A; Wed,  6 May 2015 15:27:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t46ERfQj001378
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 6 May 2015 15:27:53 +0100
-Message-ID: <1430922461.8074.45.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Wed, 06 May 2015 15:27:41 +0100
-In-Reply-To: <1430921004-21983-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1430856401.8074.13.camel@linuxfoundation.org>
-	<1430921004-21983-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	Wed,  6 May 2015 14:42:18 +0000 (UTC)
+Received: by wgso17 with SMTP id o17so14181523wgs.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 May 2015 07:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=TQmMNrEzeRglDdrN7fY5yYRJCsgHMhtlnHzP2QuelWU=;
+	b=tj2FRx/B/dczvjFjC3R+Dz2Lk6SutcTZTUo/6SaIPE5YjxsmOzgq3ZaE3S8jLfwL84
+	lskl+u3mn0oDQziZBPaKEb51Nx2QLelMelUixFjOzYPK91AsKHEVFYp1lqU9FjGhXNqD
+	sE714t5PvfgJ9O6GyU+D0o86tpWEnXM9P1QwZR6pRbPk8yOO9+i65hhy4uGtQfidEXoX
+	fkZJghweoz7BUT0DnUM1UgFM6ldndaDJ1kWl6tFF3/MqLHp7aEYroAeE6sn9FMws8wuO
+	2nZj2m1Jje8sRCCAdjv23Lt+VqjK2hN2Lv16yL8DQheZppvQPNWVGTRya/DRoirBfePv
+	RjKw==
+X-Received: by 10.194.78.49 with SMTP id y17mr63449601wjw.131.1430923339240;
+	Wed, 06 May 2015 07:42:19 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id di7sm2471828wib.23.2015.05.06.07.42.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 May 2015 07:42:18 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 6 May 2015 16:42:41 +0200
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20150506144241.GA2067@jama>
+References: <cover.1430443583.git.bruce.ashfield@windriver.com>
+	<1430521154.18360.28.camel@linuxfoundation.org>
+	<55440C90.5060605@windriver.com> <20150502081346.GD2366@jama>
+	<55458D0D.6070904@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <55458D0D.6070904@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v.4] kernel.bbclass: Fix race condition
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +49,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 14:27:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 May 2015 14:42:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2015-05-06 at 17:03 +0300, Ed Bartosh wrote:
-> Race condition between do_compile_kernelmodules and do_shared_workdir
-> tasks occurs when do_compile_kernelmodules changes files in
-> include/generated/* while do_shared_workdir tries to copy them to
-> shared working directory.
-> 
-> Fixed race by moving do_shared_workdir after do_compile_kernelmodules.
-> 
-> [YOCTO #7321]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 125ed88..9207ae4 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -234,7 +234,7 @@ kernel_do_install() {
->  }
->  do_install[prefuncs] += "package_get_auto_pr"
->  
-> -addtask shared_workdir after do_compile before do_install
-> +addtask shared_workdir after do_compile_kernelmodules before do_install
+On Sat, May 02, 2015 at 10:50:53PM -0400, Bruce Ashfield wrote:
+> On 2015-05-02 4:13 AM, Martin Jansa wrote:
+> > On Fri, May 01, 2015 at 07:30:24PM -0400, Bruce Ashfield wrote:
+> >> On 2015-05-01 6:59 PM, Richard Purdie wrote:
+> >>> On Thu, 2015-04-30 at 21:34 -0400, Bruce Ashfield wrote:
+> >>>> Here is the latest consolidated pull request for the supported linux=
+-yocto
+> >>>> kernels.
+> >>>>
+> >>>>    - We have a refresh of the 3.14-rt support
+> >>>>    - bluetooh configuration changes for common-pc/qemux86
+> >>>>    - braswell BSP features and fixes
+> >>>>    - Introduction of the 4.1-rc1 -dev kernel (and associated perf fi=
+x).
+> >>>> I've built and booted these on my local machines and qemu, and
+> >>>> everything was sane.
+> >
+> > Does it fix the issue I've reported few days ago?
+> > http://lists.openembedded.org/pipermail/openembedded-core/2015-April/10=
+4344.html
+>=20
+> Nope. But one config warning is far down on the list when I'm
+> trying to introduce new -stable's and an entire -dev kernel.
+>=20
+> I didn't forget about it, it'll just get done in priority order.
 
-Sorry to further discuss this, however I was thinking about something
-Mike was saying about external kernel module builds causing kernel
-builds in a different thread. 
+OK, now it fails completely in default qemux86 builds:
 
-The above will mean that external module builds depend on
-do_compile_kernelmodules.
+ERROR: Function failed: do_kernel_configme (log file is located at /home/je=
+nkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19.5+=
+gitAUTOINC+7215fe4313_d5d30ba4d2-r0/temp/log.do_kernel_configme.1159)
+ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-gl=
+ibc/work/qemux86-oe-linux/linux-yocto/3.19.5+gitAUTOINC+7215fe4313_d5d30ba4=
+d2-r0/temp/log.do_kernel_configme.1159
+Log data follows:
+| DEBUG: Executing shell function do_kernel_configme
+| NOTE: kernel configme
+| [INFO] Configuring target/machine combo: "standard/qemux86"
+| [INFO] collecting configs in .meta/meta-series
+| [ERROR] frag /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux8=
+6/kernel-source/.meta/cfg/kernel-cache/bsp/common-pc/common-pc-drivers-32.c=
+fg does not exist
+| Error running the meta series for collecting config data
+| config of "standard/qemux86" failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_kernel_configme (log file is located at /home/=
+jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/3.19.=
+5+gitAUTOINC+7215fe4313_d5d30ba4d2-r0/temp/log.do_kernel_configme.1159)
+NOTE: recipe linux-yocto-3.19.5+gitAUTOINC+7215fe4313_d5d30ba4d2-r0: task d=
+o_kernel_configme: Failed
+ERROR: Task 30162 (/home/jenkins/oe/world/shr-core/openembedded-core/meta/r=
+ecipes-kernel/linux/linux-yocto_3.19.bb, do_kernel_configme) failed with ex=
+it code '1'
 
-I therefore think we should do:
+http://errors.yoctoproject.org/Errors/Details/10481/
 
-addtask shared_workdir after do_compile before do_compile_kernelmodules
+> >>>> The -dev kernel obviously isn't something for deployment yet, but
+> >>>> it builds, and forms the base for follow up config changes, features
+> >>>> and development work. I built and booted core-image-kernel dev with
+> >>>> the 4.1 changes in place.
+> >>>
+> >>> The autobuilder showed up this for an x32 build :/.
+> >>
+> >> Can one of the intel folks have a look at this ? I won't be able to get
+> >> to it until Tuesday at the earliest.
+> >>
+> >> Bruce
+> >>
+> >>>
+> >>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds=
+/282/steps/BuildImages/logs/stdio
+> >>>
+> >>> Cheers,
+> >>>
+> >>> Richard
+> >>>
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>=20
 
-since that will inflict less overhead on module builds.
-
-Cheers,
-
-Richard
-
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
