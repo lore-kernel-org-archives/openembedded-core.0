@@ -1,39 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id C797672376
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 15:39:10 +0000 (UTC)
-Received: by wiun10 with SMTP id n10so27292113wiu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 May 2015 08:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=iMoUvKTKVIWez7KvRilGzlSF4e9I2FBJfz6MPskEhVg=;
-	b=vFUetaIPKmfmYqx+WoGnB00fTjKFpGNC6Xb3QINJCftSp5Vf6OGE22W8Y9+PfXvIJA
-	ilNOz2JGfjFE6njDd8mnkYWALMZaigyFuoFv/iTz90JdHEOwsUU0mat6wIJeB2rrB5E/
-	8hoPH4fzB6SvOxvN7yiwzH+QW5ynb9HyDBP7dDcA3SQZqvrQr/GYqhd8yBBuv9dTBFGC
-	UaoWh9mvxMyvfdR+xkB5ufQWy8oz1stKFgWOqMQzYULTjy/tN6E9uS0MZZ6QGafgxz8y
-	55xZbUK/r62DXTKU1kliwutvtQjpzrZ3YiZXzOJdYDDcR1mzSB94pQGMMRxZi0A8o+IN
-	6cbA==
-X-Received: by 10.180.10.102 with SMTP id h6mr5862319wib.37.1430926750986;
-	Wed, 06 May 2015 08:39:10 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id gs7sm2721282wib.10.2015.05.06.08.39.09
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 May 2015 08:39:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 6 May 2015 17:39:33 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150506153933.GC2067@jama>
-References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E17F73C8C;
+	Wed,  6 May 2015 15:43:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t46FhLje005017
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 6 May 2015 08:43:21 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 6 May 2015 08:43:20 -0700
+Message-ID: <554A3697.5050208@windriver.com>
+Date: Wed, 6 May 2015 11:43:19 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-In-Reply-To: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
+To: <rongqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, <Mark.Hatle@windriver.com>
+References: <1430810046-27021-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1430810046-27021-1-git-send-email-rongqing.li@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 1/1] apt: upgrade to 1.0.9.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,60 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 15:39:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 May 2015 15:43:20 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 01, 2015 at 07:47:42PM +0200, Martin Jansa wrote:
-> From: Andre McCurdy <armccurdy@gmail.com>
->=20
-> As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
-> has been renamed to "--enable-llvm-shared-libs".
->=20
->   http://www.mesa3d.org/relnotes/10.2.html
+On 2015-05-05 03:14 AM, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> Upgrade to fix the several CVEs: CVE-2014-0488, CVE-2014-0490
+> Remove apt-0.9.9.4-CVE-2014-0478.patch, which was backport.
+> Romve no-ko-translation.patch, apt-1.0.9.9 has ko translation
+s/Romve/Remove/
+> Update use-host.patch no-curl.patch db_linking_hack.patch and
+> noconfigure.patch
+> Not build the test cases since it requires gtest
 
-Be aware that this correctly enables gallium-llvm, but then
-gbm_gallium_drm can fail to find LLVM libs:
+meta-oe has gtest:
+    http://layers.openembedded.org/layerindex/recipe/31721/
 
-ld: cannot find -lLLVMMCJIT
-| collect2: error: ld returned 1 exit status
-| make[3]: *** [gbm_gallium_drm.la] Error 1
+Is there any reason not to move it and gmock to oe-core?
+It has no dependencies and it's used by:
+    llvm, google-protocol buffers, opencv, google-chrome
+and probably other packages.
 
-at least in some configurations, I'm looking what's the difference in
-builds I'm seeing failing.
+I think Mark mentioned that llvm might move to oe-core as
+well so that would be two recipes that benefit from moving gtest.
 
->=20
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 1857f3c..658bd3a 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      =3D "--with-gallium-drivers=
-=3D${GALLIUMDRIVERS}, --witho
->  PACKAGECONFIG[gallium-egl]  =3D "--enable-gallium-egl, --disable-gallium=
--egl"
->  PACKAGECONFIG[gallium-gbm]  =3D "--enable-gallium-gbm, --disable-gallium=
--gbm"
->  MESA_LLVM_RELEASE ?=3D "3.3"
-> -PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --with-llvm-share=
-d-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-> +PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --enable-llvm-sha=
-red-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
->                                 ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_=
-ENABLED} else ''}"
->  export WANT_LLVM_RELEASE =3D "${MESA_LLVM_RELEASE}"
-> =20
-> --=20
-> 2.3.5
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
