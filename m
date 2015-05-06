@@ -1,57 +1,36 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx6-out12.antispamcloud.com (mx6-out12.antispamcloud.com
-	[95.211.2.203])
-	by mail.openembedded.org (Postfix) with ESMTP id 546A173F4D
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C301B73F51
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 14:03:47 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1YpyC3-0000x4-Rs; Wed, 06 May 2015 14:12:58 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 6 May 2015 14:13:31 +0200
-Message-ID: <554A0542.4040606@topic.nl>
-Date: Wed, 6 May 2015 14:12:50 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Wed,  6 May 2015 14:12:45 +0000 (UTC)
+Received: by yhrr66 with SMTP id r66so2650831yhr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 May 2015 07:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Dob68ZJORr1m5ZUCS8jdXKN0+9G5hM8W839l2KzlXiY=;
+	b=RFt1A8wpdaeWhox/Vbg2FSOxvOzQkDm+IKQBZZ4IzoqRe8cYrDFKFF4BldL/87ceQd
+	9vYuZjfO0PMZZYjz4PKlk7gHASI5esOcgkWLlTRwYpfWIwzLlPreFp9iIi4BFeMwCfwf
+	HyXaanUzc1nf7UxEcVKK/OIQGSwXhOuvCL74DQjKyIij0p+gYl4DSaBwAxyFXBIRlAr0
+	VTV8JwuzrJA8zpLXL5hNLyAgBcqqlZsep/cOigVVPUBCl+0kUONuk678O6SCbUuuic+F
+	5FhKlveR0X13jHTK6iqEmX9neUHVv5bERrADcFbM7AnGigcjOtKV91bN60llBKqw1NyX
+	wDhw==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <5549B621.4060008@topic.nl>
-	<CAJTo0LZ1DgAk3Dmaq5Ted_7K-QWzM=nvsScgSMdUSQtFb9Bq3g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ1DgAk3Dmaq5Ted_7K-QWzM=nvsScgSMdUSQtFb9Bq3g@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarwy3Yf5i+byKl6pUyknU7g+6rXMBzn0F1oDrD0qksn30/k3FHeKPAqRkkdvhE3/JZtuvP
-	/eyb7dZ1gnp8kuB8vMeopzLgn8wssArbkgpMfcNE+xfnvoLYfV9PCJ+exVDbH2GGOiJg+8i225jm
-	TXrvPtiPbfYZfVe9lyOiFVM9+axiru/B7si0qI3irBlHPUREtddi78hxAm5YeVucw6yDrTm4ixWS
-	YWIo3iDqxvNn8MbZthuT4+4kCRJrTVMx94nWehl3nu5T69iXWSkq1I5au9rb1RTd+tiBnRNHtuL9
-	OgWfw6nIoDr0sXUZ7YZoZ/GZ+rGD/6nZmOk2cVWGlu5QCx1n9GVTW/nW9eNoe80Npm9ie1EE4yqQ
-	1EI/t9VtuH+6oaqVacn61CQ/Ue9T33jTf6hz97WtUuwtFHN49xvqVUOJHP0P7/2hK3mNSshpZeN0
-	9AgIZKoMflnGoIJfIRts3DLpwyKIfeLPAW77HB1WFnJfkvmDabwMIaBQcfGfp7qACvNfk0jfurgA
-	7uQmurDZBp4iwejqMrJzOReiOOuj8NH8IRFsicyJMEhQFtD8PLoinidBLpGJB9PkMIE5LxkXian5
-	DiTPFKcI3WL9qDK1bCxu93CBYYrlJQ2RYdVX9Lwn6g3a/FwOUc6StMtCV3AnZ0bMnGw93Ke7jfGo
-	coiXh3BDMS+4ayUpOtEhdxekWDmK9g==
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Changing external kernel module results in rebuild of whole kernel
+X-Received: by 10.236.61.137 with SMTP id w9mr21653190yhc.31.1430921566566;
+	Wed, 06 May 2015 07:12:46 -0700 (PDT)
+Received: by 10.129.109.20 with HTTP; Wed, 6 May 2015 07:12:46 -0700 (PDT)
+In-Reply-To: <1430921004-21983-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1430856401.8074.13.camel@linuxfoundation.org>
+	<1430921004-21983-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 6 May 2015 10:12:46 -0400
+Message-ID: <CADkTA4PQY4vkB6X6Eu3DhD3e8neAKp0dHCO0BCuSzLJhK=yVPQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v.4] kernel.bbclass: Fix race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,68 +43,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 14:03:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 May 2015 14:12:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFJust tried that. Change the SRCREV of the module, and ran
-bitbake-whatchanged kernel-module-dyplo
-
-Then it claims nothing changed:
-$ bitbake-whatchanged kernel-module-dyplo
-Figuring out the STAMPS_DIR ...
-Generating the new stamps ... (need several minutes)
-
-=3D=3D=3D Summary: (0 changed, 0 unchanged)
-Newly added: 0
-PV changed: 0
-PR changed: 0
-Dependencies changed: 0
-
-
-But if I run bitbake -n kernel-module-dyplo, it really wants to rebuild the=
-=20
-kernel and module.
-
-I'm merged oe-core master last monday, so it's pretty recent.
-
-
-On 06-05-15 12:35, Burton, Ross wrote:
+On Wed, May 6, 2015 at 10:03 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> Race condition between do_compile_kernelmodules and do_shared_workdir
+> tasks occurs when do_compile_kernelmodules changes files in
+> include/generated/* while do_shared_workdir tries to copy them to
+> shared working directory.
 >
-> On 6 May 2015 at 07:35, Mike Looijmans <mike.looijmans@topic.nl
-> <mailto:mike.looijmans@topic.nl>> wrote:
+> Fixed race by moving do_shared_workdir after do_compile_kernelmodules.
+
+I assume that this supersedes all the old versions.
+
+I had a comment typed for the first, but got distracted and didn't send it
+before this one came out!
+
+I was concerned in the earlier revision that the race still existed, or
+more precisely that we had things in a non-obvious place if a recipe
+needed to depend on the artifacts in the shared directory.
+
+Will this variant fix the issue that Richard pointed out with lttng-modules ?
+(It should, since lttng-modules does depend on
+'virtual/kernel:do_shared_workdir'
+and that will now run after the kernel modules are installed.
+
+We are forcing a bit of serialization of the module build for anything external
+that depends on the artifacts, but I'd rather get this working .. and
+worry about
+any optimizations and further tweaks later.
+
+Bruce
+
+
 >
->     If I change a recipe for a kernel module (a bb recipe that does "inhe=
-rit
->     module") this will trigger a rebuild of the whole kernel.
+> [YOCTO #7321]
 >
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  meta/classes/kernel.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> You can start to debug this by using bitbake-whatchanged. Build the kerne=
-l and
-> modules, make a minor change to the module recipe, and then run
-> "bitbake-whatchanged virtual/kernel" or some relevant target.
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 125ed88..9207ae4 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -234,7 +234,7 @@ kernel_do_install() {
+>  }
+>  do_install[prefuncs] += "package_get_auto_pr"
 >
-> Ross
+> -addtask shared_workdir after do_compile before do_install
+> +addtask shared_workdir after do_compile_kernelmodules before do_install
+>
+>  emit_depmod_pkgdata() {
+>         # Stash data for depmod
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
