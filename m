@@ -1,53 +1,24 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx12-out9.antispamcloud.com (mx12-out9.antispamcloud.com
-	[46.165.232.179])
-	by mail.openembedded.org (Postfix) with ESMTP id F0FF073F32
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EF9173F44
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 08:56:58 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1YpsvK-0005j1-V9 for openembedded-core@lists.openembedded.org;
-	Wed, 06 May 2015 08:35:17 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 6 May 2015 08:35:54 +0200
-Message-ID: <5549B621.4060008@topic.nl>
-Date: Wed, 6 May 2015 08:35:13 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
+	Wed,  6 May 2015 09:09:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4699gEJ029210
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 May 2015 02:09:42 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.142) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 6 May 2015 02:09:42 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrLMOtkJDbBqrcsuUcZSoO5Z5WtPw3EbAhH6TS
-	YslFGCs8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
-	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJZ49yz1MT0kfUl6zGjl7omzJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Changing external kernel module results in rebuild of whole kernel
+Date: Wed, 6 May 2015 17:09:41 +0800
+Message-ID: <1430903381-31057-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Subject: [PATCH] e2fsprogs: fix the CVE-2015-1572
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +31,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 08:57:01 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 May 2015 09:09:42 -0000
+Content-Type: text/plain
 
-=EF=BB=BFSomething in recent OE-core triggered a weird dependency "backfire=
-".
+From: Roy Li <rongqing.li@windriver.com>
 
-If I change a recipe for a kernel module (a bb recipe that does "inherit=20
-module") this will trigger a rebuild of the whole kernel.
+Backport a patch to fix CVE-2015-1572
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1572
 
-This turns the 5-second job of just updating a single module into a several=
-=20
-minute workout for the build machine, and then causes boards to re-write th=
-e=20
-kernel into flash needlessly when upgrading.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...-fix-potential-buffer-overflow-in-closefs.patch | 58 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
 
-I now see this on all projects using OE-core master. I can't really pin wha=
-t=20
-caused it though. Anyone else seen this?
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
+new file mode 100644
+index 0000000..72f77cc
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch
+@@ -0,0 +1,58 @@
++From 49d0fe2a14f2a23da2fe299643379b8c1d37df73 Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Fri, 6 Feb 2015 12:46:39 -0500
++Subject: [PATCH] libext2fs: fix potential buffer overflow in closefs()
++
++Upstream-Status: Backport
++
++The bug fix in f66e6ce4446: "libext2fs: avoid buffer overflow if
++s_first_meta_bg is too big" had a typo in the fix for
++ext2fs_closefs().  In practice most of the security exposure was from
++the openfs path, since this meant if there was a carefully crafted
++file system, buffer overrun would be triggered when the file system was
++opened.
++
++However, if corrupted file system didn't trip over some corruption
++check, and then the file system was modified via tune2fs or debugfs,
++such that the superblock was marked dirty and then written out via the
++closefs() path, it's possible that the buffer overrun could be
++triggered when the file system is closed.
++
++Also clear up a signed vs unsigned warning while we're at it.
++
++Thanks to Nick Kralevich <nnk@google.com> for asking me to look at
++compiler warning in the code in question, which led me to notice the
++bug in f66e6ce4446.
++
++Addresses: CVE-2015-1572
++
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++---
++ lib/ext2fs/closefs.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/lib/ext2fs/closefs.c b/lib/ext2fs/closefs.c
++index 1f99113..ab5b2fb 100644
++--- a/lib/ext2fs/closefs.c
+++++ b/lib/ext2fs/closefs.c
++@@ -287,7 +287,7 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
++ 	dgrp_t		j;
++ #endif
++ 	char	*group_ptr;
++-	int	old_desc_blocks;
+++	blk64_t	old_desc_blocks;
++ 	struct ext2fs_numeric_progress_struct progress;
++ 
++ 	EXT2_CHECK_MAGIC(fs, EXT2_ET_MAGIC_EXT2FS_FILSYS);
++@@ -346,7 +346,7 @@ errcode_t ext2fs_flush2(ext2_filsys fs, int flags)
++ 	group_ptr = (char *) group_shadow;
++ 	if (fs->super->s_feature_incompat & EXT2_FEATURE_INCOMPAT_META_BG) {
++ 		old_desc_blocks = fs->super->s_first_meta_bg;
++-		if (old_desc_blocks > fs->super->s_first_meta_bg)
+++		if (old_desc_blocks > fs->desc_blocks)
++ 			old_desc_blocks = fs->desc_blocks;
++ 	} else
++ 		old_desc_blocks = fs->desc_blocks;
++-- 
++2.1.0
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index be1db9e..b354088 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -21,6 +21,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
+             file://cache_inode.patch \
+             file://CVE-2015-0247.patch \
++            file://0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+-- 
+2.1.0
 
 
