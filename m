@@ -1,34 +1,44 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A58273D98
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 88B0073755
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 May 2015 17:46:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t46HkLZr009490
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 May 2015 10:46:21 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 6 May 2015 10:46:21 -0700
-Message-ID: <554A536C.5060608@windriver.com>
-Date: Wed, 6 May 2015 13:46:20 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed,  6 May 2015 19:12:45 +0000 (UTC)
+Received: by wgyo15 with SMTP id o15so21975331wgy.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 May 2015 12:12:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=hLPetjrks3RX8Q5fXBNzPD+WdK+2H/0Ua6Ik1QmYEwc=;
+	b=VDonKgG7Rww9ro000ih4jNqhb/+yjlbirsaMOJZVzeh/kwecP7Crr8321gtRTXURqJ
+	6hSjbe8CCHxZlNWti/vNYbXAAx6KMTQACqhAeBbSiCqBJBy31rooqfLb+GvNwUWcLPWS
+	JWHuueuLX3LeD/tJRE9ELI+ZTVzE0H3DRiPQFW5r9q04WyxM/tou5LrhYpOxSEtKbVjp
+	VgiNuRFtKt9uRaUVwfdUCA/Ek/mhi1snd2coMQdmQ3gbYgy5IspA+vDtKfS2Lf88qnr3
+	+NuPn1veLWI46Hkwfoyv3mWp/5oixrWateQFnrZGmSnM57sk/ZF6w7q7pWy4RulQuKXv
+	bNig==
+X-Gm-Message-State: ALoCoQlyMnP8Mw/sog7cBJO5DSGH0Lfrh6ogi+5m6bUGxAqVWlzauP0QcirK2Z3n72q2d8OsykcV
+X-Received: by 10.194.63.9 with SMTP id c9mr303986wjs.143.1430939566686;
+	Wed, 06 May 2015 12:12:46 -0700 (PDT)
+Received: from ?IPv6:2001:bf0:c080:401::2? (wiki.deck1.zone42.org.
+	[2001:bf0:c080:401::2])
+	by mx.google.com with ESMTPSA id dl2sm3546036wib.2.2015.05.06.12.12.44
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 May 2015 12:12:45 -0700 (PDT)
+Message-ID: <554A67AB.1000800@dresearch-fe.de>
+Date: Wed, 06 May 2015 21:12:43 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>
-	<1430521154.18360.28.camel@linuxfoundation.org>
-	<55440C90.5060605@windriver.com> <20150502081346.GD2366@jama>
-	<55458D0D.6070904@windriver.com> <20150506144241.GA2067@jama>
-	<554A2C1C.5040304@windriver.com> <20150506153325.GB2067@jama>
-	<1430927086.8074.65.camel@linuxfoundation.org>
-	<20150506160708.GD2067@jama>
-In-Reply-To: <20150506160708.GD2067@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+To: Andrea Adami <andrea.adami@gmail.com>, Denys Dmytriyenko <denis@denix.org>
+References: <20150501160602.GA5885@denix.org>
+	<CAAQYJAvpGUdZyAzOay+VuDz+tdZF72ny0bgDfkTFomCFbVrMhQ@mail.gmail.com>
+In-Reply-To: <CAAQYJAvpGUdZyAzOay+VuDz+tdZF72ny0bgDfkTFomCFbVrMhQ@mail.gmail.com>
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg_install_pkg: Package <name> md5sum mismatch. Either the opkg or the package index are corrupt.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 17:46:25 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 May 2015 19:12:48 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-On 2015-05-06 12:07 PM, Martin Jansa wrote:
-> On Wed, May 06, 2015 at 04:44:46PM +0100, Richard Purdie wrote:
->> On Wed, 2015-05-06 at 17:33 +0200, Martin Jansa wrote:
->>> On Wed, May 06, 2015 at 10:58:36AM -0400, Bruce Ashfield wrote:
->>>> On 2015-05-06 10:42 AM, Martin Jansa wrote:
->>>> At this point, all I can say is file a bug. My builds of the same
->>>> board work, and the autobuilder show up green.
->>>>
->>>> That screams race condition, so I'll look into it from that angle.
->>>
->>> I'm considering providing simple old-style recipes for vanilla kernels
->>> and using them in my jenkins builds instead linux-yocto, because kernel
->>> shouldn't block testing other recipes from meta-oe and other layers as
->>> often as linux-yocto does.
+Am 02.05.2015 um 23:55 schrieb Andrea Adami:
+> On Fri, May 1, 2015 at 6:06 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+>> Has anyone ever seen this message during <image>.do_rootfs task?
 >>
->> I wasn't aware of linux-yocto breaking that often?
->
-> Someone can query http://errors.yoctoproject.org/ database to see how
-> often (or if it's just me and my builds), unfortunately the full-text
-> search for "linux-yocto" doesn't provide good overview of issues,
-> because it shows 350 errors and not all are from linux-yocto recipe.
->
-> http://www.openembedded.org/wiki/Bitbake_World_Status* pages and status
-> on e-mail also aren't very accurate because I submit only reports from
-> relatively success full builds (so I usually skip the builds with failed
-> kernel, unless it's failing like that for long time).
->
->> I am aware that:
+>> Collected errors:
+>>  * opkg_install_pkg: Package <package> md5sum mismatch. Either the opkg or the package index are corrupt. Try 'opkg update'.
+>>  * opkg_install_cmd: Cannot install package <package>.
 >>
->> * we have a race issue with shared_work which we're trying to resolve
->>    and its proving tricky to find a patch which doesn't break builds
+>> We started seeing it on random packages inside the <image> few weeks ago on
+>> different machines. At the time we had switched to bitbake 1.26. But even
+>> trying different bitbake versions still occasionally caused the same error, so
+>> the culprit is still unknwon. Using oe-core/daisy for now.
 >>
->> * we have the newly reported issue in this thread. FWIW the builders
->>    I've seen are all green
->>
->> * there are some warnings in the build which need addressing
->>
->> but on the most part I thought we'd caught the serious kernel failures
->> in advance of changes hitting master. Are you using master-next or
->> master?
->
-> I've used master-next week or two ago (mostly to test bluez4 and python3
-> changes) and soon after that dropped all linux-yocto related changes
-> from it assuming that it's indeed cause for the issues I'm seeing, but
-> it's not and it's still failing with master as well (and my
-> jenkins/world builds are just small portion of my builds executed
-> elsewhere where I see similar issues).
+>> Any comments or suggestions to where start looking would be appreciated!
+> 
+> yes, I have seen this during multimachine builds.
+> My TMPDIR is on tmpfs in ram so everytime I reboot it is re-populated
+> from sstate.
+> ...
 
-Richard: How can we sort out the differences between the build
-environment that Martin uses versus what the autobuilder is showing?
+We have the same problem here. Also with packages from the "all" feed in a multimachine build environment. But it does not seem related to packagegroups.
 
-There's nothing particularly complex happening during that build,
-it's a checkout and generation of a config.
+I've a hypothesis but was not able to validate or falsify it till now: Given a recipe which does only use file:// type SRC_URI. If i change something in these sources and do not update PR the prserv/hashing mechanism detects the changes a builds a new package. But this package has the same version info as the one before. So for opkg there's no need to update it's "package database".
 
-I'm unable to reproduce any of the failures, and neither is the
-autobuilder.
+As said before this is just a hypothesis.
 
-I've stared at the code and can't see what could cause any of this.
+Steffen
 
-That being said, I think I have a solution to what Martin is reporting
-here, where I've changed the way the meta data is maintained and
-build.
-
-It will be ready in a week or so, so I'd be interested in us holding
-on anything drastic until we can try that out.
-
-Bruce
-
->
->> Its its -next, I can understand the problems more as that has been
->> unstable recently but then by its nature, it can be. We are rooting out
->> problems before master afaict though?
->>
->> Cheers,
->>
->> Richard
->
-
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
