@@ -1,38 +1,23 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A12656081A
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 85F3F73F27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 21:20:12 +0000 (UTC)
-Received: by pabtp1 with SMTP id tp1so50457604pab.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 May 2015 14:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=NyQSzblfjVyA8wT2359LRG8A4wi3GKwZ9dk4AJJNSec=;
-	b=tNEFBaSZRVSxStMS/krITERE3KNDjOceFi9ILd+4OUxvRD26xn9j/0Ip7ib/kjC4to
-	rcHcb1n+oL1bN5zhuOiYQTnCKPlbmgSDhcUGKkRwjPaOJxcXMzGX0oCbUWVI1JEC9jDt
-	OppTN20I8Il4osfeXwcWI3a1/Ucy4/CoQ2S6EhUw3SpMuAw9FjaO9UQfcmszMqkyRwug
-	H8dxv2k16zitf5MrWGJchrPgESvbOjWDIeI3Vax3IfI2gSpSFzhJqzuT+XguqfLCRms/
-	XpEKHCSVT5HKtTJh/TNxK9VWhHrM1S3c1HrEcYCh2jz7/UA1CUtQAwMcB/iN+L4agVGq
-	V6jA==
+	Thu,  7 May 2015 21:38:52 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 07 May 2015 14:38:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,386,1427785200"; d="scan'208";a="568026459"
+Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
+	([10.23.219.52])
+	by orsmga003.jf.intel.com with ESMTP; 07 May 2015 14:38:53 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 May 2015 21:38:51 +0000
+Message-Id: <cover.1431034430.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
 MIME-Version: 1.0
-X-Received: by 10.70.128.9 with SMTP id nk9mr1042917pdb.58.1431033613902; Thu,
-	07 May 2015 14:20:13 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Thu, 7 May 2015 14:20:13 -0700 (PDT)
-In-Reply-To: <1430948328-17891-3-git-send-email-igor.santos@aker.com.br>
-References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
-	<1430948328-17891-3-git-send-email-igor.santos@aker.com.br>
-Date: Thu, 7 May 2015 18:20:13 -0300
-X-Google-Sender-Auth: Zl3ZKh1sPzsz_2jdau0Cg8Pyyns
-Message-ID: <CAP9ODKrwdcH9F-=nkCSNiuEutQDmBcCi0uvP1hbggQM1PHOwDw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Igor Santos <igor.santos@aker.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cscope: add
+Cc: richard.purdie@liuxfoundation.org
+Subject: [PATCHv2 0/4] Add support to handle INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 21:20:16 -0000
+X-List-Received-Date: Thu, 07 May 2015 21:38:55 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 6, 2015 at 6:38 PM, Igor Santos <igor.santos@aker.com.br> wrote:
-> Cscope is an interactive, screen-oriented tool that allows the user to
-> browse through C source files for specified elements of code.
->
-> Signed-off-by: Igor Santos <igor.santos@aker.com.br>
+The next changes are to add support for handle INCOMPATIBLE_LICENSE in 
+manifest creation, in order to do it the license_create_manifest was 
+reimplemented in python and also added some tweaks for save disk space
+during build.
 
-meta-oe please.
+This patchset v2 fixes an issue when try to handle () into ManifestVisitor
+for more info see next patches,
+	license: Split visit_string in LicenseVisitor
+	license: Add support for handle INCOMPATIBLE_LICENSE in manifest
+    creation
 
-Igor, generally speaking, you shouldn't add new recipes to OE-Core
-except if there is a very good reason to do so.
+The following changes since commit 4a711028c709d4bb1421e1637ae3fb0ac404fb45:
+
+  oe-selftest: devtool: add a proper test to see if tap devices exist (2015-05-07 14:59:43 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/license-v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/license-v2
+
+Aníbal Limón (4):
+  license_class: Reimplemented manifest creation in python
+  license_class: Generalize license_ok function
+  license: Split visit_string in LicenseVisitor
+  license: Add support for handle INCOMPATIBLE_LICENSE in manifest    
+    creation
+
+ meta/classes/license.bbclass | 205 +++++++++++++++++++++++--------------------
+ meta/lib/oe/license.py       | 106 +++++++++++++++++++++-
+ 2 files changed, 211 insertions(+), 100 deletions(-)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.4.5
+
 
