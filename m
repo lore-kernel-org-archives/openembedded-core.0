@@ -1,33 +1,30 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E9DC973F49
+Return-Path: <igor.santos@aker.com.br>
+Received: from asmg.aker.com.br (asmg.aker.com.br [177.159.144.67])
+	by mail.openembedded.org (Postfix) with SMTP id D822073C81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 16:41:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 May 2015 09:41:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,384,1427785200"; d="scan'208";a="725425299"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2015 09:41:36 -0700
-Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:36 -0700
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:36 -0700
-Received: from localhost.localdomain (10.218.98.31) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:22 -0700
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 May 2015 13:40:40 -0300
-Message-ID: <1431016840-26287-4-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
-References: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
+	Thu,  7 May 2015 16:48:44 +0000 (UTC)
+Received: from mail.aker.com.br (bat.bsb.aker.com.br [10.0.0.20])
+	by asmg.aker.com.br [10.0.1.3]; Thu, 7 May 2015 13:48:45 -0300
+	(envelope-from igor.santos@aker.com.br)
+Received: from igor.santos.devel (10.4.59.1) by mail.aker.com.br (10.0.0.20)
+	with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Thu, 7 May 2015 13:48:40 -0300
+Message-ID: <554B9768.6050208@aker.com.br>
+Date: Thu, 7 May 2015 13:48:40 -0300
+From: Igor de Souza Santos <igor.santos@aker.com.br>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-X-Originating-IP: [10.218.98.31]
-Subject: [PATCH V3 3/3] systemd: split modules into packages
+To: Khem Raj <raj.khem@gmail.com>
+References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+	<1430948328-17891-2-git-send-email-igor.santos@aker.com.br>
+	<3FF1E51B-2E08-4368-AC33-41D73EA2EDC6@gmail.com>
+In-Reply-To: <3FF1E51B-2E08-4368-AC33-41D73EA2EDC6@gmail.com>
+X-AkerSMTPGW-ServerID: a5fc2d2b506f49fc2bd6d1c7ad2f56ee346d5d27
+X-AkerSMTPGW-MessageID: 390c4fc25ad496d5b1db8077bfa491df44bfc6e2-15o
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ctags: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,1145 +37,442 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 16:41:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 May 2015 16:48:48 -0000
+X-Groupsio-MsgNum: 65253
+Content-Type: multipart/alternative;
+	boundary="------------090805060208050609060406"
 
-if one wants to launch a simple deamon, most modules are not
-required.
-He will be able to save space and exclude unwanted packages
-from the final image.
+--------------090805060208050609060406
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
----
- meta/recipes-core/systemd/systemd_219.bb | 1063 ++++++++++++++++++++++++++----
- 1 file changed, 938 insertions(+), 125 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index b4bff18..629c7fc 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -60,9 +60,55 @@ LDFLAGS_append_libc-uclibc = " -lrt"
- GTKDOC_DOCDIR = "${S}/docs/"
- 
- PACKAGECONFIG ??= "xz ldconfig \
-+                   getty \
-+                   sysvcompat \
-+                   nspawn \
-+                   machined \
-+                   bootchart \
-+                   zsh \
-+                   rpm-macros \
-+                   kernel-install \
-+                   initramfs \
-+                   bash \
-+                   tools \
-+                   udev \
-+                   tmpfiles \
-+                   sysusers \
-+                   sysctl \
-+                   sleep \
-+                   randomseed \
-+                   modules-load \
-+                   journal \
-+                   fsck \
-+                   preset \
-+                   filesystems \
-+                   vconsole \
-+                   update \
-+                   timesyncd \
-+                   rfkill \
-+                   quota \
-+                   fuse \
-+                   firstboot \
-+                   dbus \
-+                   binfmt \
-+                   backlight \
-+                   ask-password \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)}"
- 
-+PACKAGECONFIG[glib] = "--enable-gudev,--disable-gudev,glib-2.0"
-+PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
-+PACKAGECONFIG[blkid] = "--enable-blkid,--disable-blkid,util-linux"
-+PACKAGECONFIG[efi] = "--enable-efi,--disable-efi"
-+PACKAGECONFIG[kmod] = "--enable-kmod,--disable-kmod,kmod"
-+PACKAGECONFIG[polkit] = "--enable-polkit,--disable-polkit,polkit"
-+PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
-+PACKAGECONFIG[smack] = "--enable-smack,--disable-smack"
-+PACKAGECONFIG[ima] = "--enable-ima,--disable-ima"
-+PACKAGECONFIG[apparmor] = "--enable-apparmor,--disable-apparmor,libapparmor"
-+PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
-+PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,libqrencode"
-+PACKAGECONFIG[lz4] = "--enable-lz4,--disable-lz4,lz4"
- PACKAGECONFIG[journal-upload] = "--enable-libcurl,--disable-libcurl,curl"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
-@@ -206,158 +252,742 @@ do_install_ptest () {
- 
- python populate_packages_prepend (){
-     systemdlibdir = d.getVar("rootlibdir", True)
--    do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
-+    do_split_packages(d, systemdlibdir, '^lib(udev|gudev|systemd|nss)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
- }
--PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
-+PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd|nss).*"
-+
-+########################################################################
-+# Base Packages
-+########################################################################
-+
-+PACKAGES =+ "${PN}-generators-filesystems"
-+SUMMARY_${PN}-generators-filesystems = "Unit generator for /etc/fstab"
-+RDEPENDS_${PN}-generators-filesystems = "${PN}-services-fsck"
-+FILES_${PN}-generators-filesystems = "\
-+        ${rootlibexecdir}/systemd/system-generators/systemd-fstab-generator \
-+        ${rootlibexecdir}/systemd/system-generators/systemd-gpt-auto-generator \
-+        ${rootlibexecdir}/systemd/systemd-remount-fs \
-+        ${systemd_unitdir}/system/local-fs.target.wants/systemd-remount-fs.service \
-+        ${systemd_unitdir}/system/systemd-remount-fs.service \
-+"
- 
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install \
--             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh libgudev"
-+PACKAGES =+ "${PN}-generators-getty"
-+SUMMARY_${PN}-generators-getty = "Generator for enabling getty instances on the console"
-+RDEPENDS_${PN}-generators-getty = "${PN}-services-getty"
-+FILES_${PN}-generators-getty = "\
-+        ${rootlibexecdir}/systemd/system-generators/systemd-getty-generator \
-+"
- 
--SYSTEMD_PACKAGES = "${PN}-binfmt"
--SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
-+PACKAGES =+ "${PN}-tools"
-+SUMMARY_${PN}-tools = "systemd command line tools (cgls, delta, run, analyze...)"
-+RRECOMMENDS_${PN}-tools = "${PN}-services-base"
-+FILES_${PN}-tools = "\
-+        ${base_bindir}/systemd-machine-id-setup \
-+        ${bindir}/busctl \
-+        ${bindir}/coredumpctl \
-+        ${bindir}/systemd-analyze \
-+        ${bindir}/systemd-cat \
-+        ${bindir}/systemd-cgls \
-+        ${bindir}/systemd-cgtop \
-+        ${bindir}/systemd-delta \
-+        ${bindir}/systemd-detect-virt \
-+        ${bindir}/systemd-path \
-+        ${bindir}/systemd-run \
-+        ${rootlibexecdir}/systemd/systemd-ac-power \
-+        ${rootlibexecdir}/systemd/systemd-activate \
-+        ${rootlibexecdir}/systemd/systemd-reply-password \
-+        ${rootprefix}/bin/systemd-escape \
-+        ${rootprefix}/bin/systemd-notify \
-+"
- 
--USERADD_PACKAGES = "${PN}"
--USERADD_PARAM_${PN} += "--system systemd-journal-gateway; --system systemd-timesync"
--GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-+########################################################################
-+# Services Packages
-+########################################################################
-+
-+PACKAGES =+ "${PN}-services-ask-password"
-+SUMMARY_${PN}-services-ask-password = "Query the user for a system password"
-+RRECOMMENDS_${PN}-services-ask-password = "${PN}-services-base"
-+FILES_${PN}-services-ask-password = "\
-+        ${rootprefix}/bin/systemd-ask-password \
-+        ${rootprefix}/bin/systemd-tty-ask-password-agent \
-+        ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path \
-+        ${systemd_unitdir}/system/systemd-ask-password-console.path \
-+        ${systemd_unitdir}/system/systemd-ask-password-console.service \
-+        ${systemd_unitdir}/system/systemd-ask-password-wall.path \
-+        ${systemd_unitdir}/system/systemd-ask-password-wall.service \
-+"
- 
--FILES_${PN}-analyze = "${bindir}/systemd-analyze"
-+PACKAGES =+ "${PN}-services-backlight"
-+SUMMARY_${PN}-services-backlight = "Load and save the display backlight brightness at boot and shutdown"
-+FILES_${PN}-services-backlight = "\
-+        ${systemd_unitdir}/system/systemd-backlight@.service \
-+        ${rootlibexecdir}/systemd/systemd-backlight \
-+"
- 
--FILES_${PN}-initramfs = "/init"
--RDEPENDS_${PN}-initramfs = "${PN}"
-+PACKAGES =+ "${PN}-services-binfmt"
-+SUMMARY_${PN}-services-binfmt = "Configure additional binary formats for executables at boot"
-+RRECOMMENDS_${PN}-services-binfmt = "kernel-module-binfmt-misc"
-+FILES_${PN}-services-binfmt = "\
-+        ${sysconfdir}/binfmt.d/ \
-+        ${exec_prefix}/lib/binfmt.d/ \
-+        ${systemd_unitdir}/system/proc-sys-fs-binfmt_misc.automount \
-+        ${systemd_unitdir}/system/proc-sys-fs-binfmt_misc.mount \
-+        ${systemd_unitdir}/system/sysinit.target.wants/proc-sys-fs-binfmt_misc.automount \
-+        ${systemd_unitdir}/system/proc-sys-fs-binfmt_misc.* \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-binfmt.service \
-+        ${systemd_unitdir}/system/systemd-binfmt.service \
-+        ${rootlibexecdir}/systemd/systemd-binfmt \
-+"
-+
-+PACKAGES =+ "${PN}-services-bootchart"
-+SUMMARY_${PN}-services-bootchart = "Boot performance graphing tool"
-+CONFFILES_${PN}-services-bootchart = "${sysconfdir}/systemd/bootchart.conf"
-+FILES_${PN}-services-bootchart = "\
-+        ${sysconfdir}/systemd/bootchart.conf \
-+        ${rootlibexecdir}/systemd/systemd-bootchart \
-+"
- 
--FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
-+PACKAGES =+ "${PN}-services-coredump"
-+SUMMARY_${PN}-services-coredump = "Log and store core dumps"
-+RDEPENDS_${PN}-services-coredump = "${PN}-services-sysctl"
-+CONFFILES_${PN}-services-coredump = "${sysconfdir}/systemd/coredump.conf"
-+FILES_${PN}-services-coredump = "\
-+        ${exec_prefix}/lib/sysctl.d/50-coredump.conf \
-+        ${sysconfdir}/systemd/coredump.conf \
-+        ${rootlibexecdir}/systemd/systemd-coredump \
-+"
- 
--RDEPENDS_${PN}-ptest += "perl python bash"
--FILES_${PN}-ptest += "${libdir}/udev/rules.d"
-+PACKAGES =+ "${PN}-services-cryptsetup"
-+SUMMARY_${PN}-services-cryptsetup = "Unit generator for /etc/crypttab"
-+ALLOW_EMPTY_${PN}-services-cryptsetup = "1"
-+FILES_${PN}-services-cryptsetup = "\
-+        ${rootlibexecdir}/systemd/system-generators/systemd-cryptsetup-generator \
-+        ${systemd_unitdir}/system/cryptsetup-pre.target \
-+        ${systemd_unitdir}/system/cryptsetup.target \
-+        ${systemd_unitdir}/system/sysinit.target.wants/cryptsetup.target \
-+        ${rootlibexecdir}/systemd/systemd-cryptsetup \
-+"
-+
-+PACKAGES =+ "${PN}-services-dbus"
-+SUMMARY_${PN}-services-dbus = "Dbus daemon system service"
-+# NOTE: dbus dependency will go away when kdbus is in use
-+RDEPENDS_${PN}-services-dbus = "dbus"
-+FILES_${PN}-services-dbus = "\
-+        ${datadir}/dbus-1/services/org.freedesktop.systemd1.service \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.systemd1.service \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.systemd1.conf \
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
-+        ${systemd_unitdir}/system/sockets.target.wants/dbus.socket \
-+        ${systemd_unitdir}/system/dbus.target.wants/dbus.socket \
-+        ${systemd_unitdir}/system/multi-user.target.wants/dbus.service \
-+        ${systemd_unitdir}/system/dbus.socket \
-+        ${systemd_unitdir}/system/dbus.service \
-+"
-+
-+PACKAGES =+ "${PN}-services-debug"
-+SUMMARY_${PN}-services-debug = "Generator for enabling a runtime debug shell and masking specific units at boot"
-+RRECOMMENDS_${PN}-services-debug = "${PN}-services-base ${PN}-tools"
-+FILES_${PN}-services-debug = "\
-+        ${rootlibexecdir}/systemd/system-generators/systemd-debug-generator \
-+        ${systemd_unitdir}/system/debug-shell.service \
-+        ${systemd_unitdir}/system/sys-kernel-config.mount \
-+        ${systemd_unitdir}/system/sys-kernel-debug.mount \
-+        ${systemd_unitdir}/system/sysinit.target.wants/sys-kernel-config.mount \
-+        ${systemd_unitdir}/system/sysinit.target.wants/sys-kernel-debug.mount \
-+"
-+
-+PACKAGES =+ "${PN}-services-firstboot"
-+SUMMARY_${PN}-services-firstboot = "Initialize basic system settings on or before the first boot-up of a system"
-+FILES_${PN}-services-firstboot = "\
-+        ${base_bindir}/systemd-firstboot \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-firstboot.service \
-+        ${systemd_unitdir}/system/systemd-firstboot.service \
-+"
-+
-+PACKAGES =+ "${PN}-services-fsck"
-+SUMMARY_${PN}-services-fsck = "File system checker logic"
-+RRECOMMENDS_${PN}-services-fsck = "util-linux-fsck e2fsprogs-e2fsck"
-+FILES_${PN}-services-fsck = "\
-+        ${systemd_unitdir}/system/systemd-fsck-root.service \
-+        ${systemd_unitdir}/system/systemd-fsck@.service \
-+        ${rootlibexecdir}/systemd/systemd-fsck \
-+"
- 
--FILES_${PN}-dbg += "${libdir}/systemd/ptest/.debug"
-+PACKAGES =+ "${PN}-services-fuse"
-+SUMMARY_${PN}-services-fuse = "FUSE (filesystem in userspace) service"
-+FILES_${PN}-services-fuse = "\
-+        ${systemd_unitdir}/system/sysinit.target.wants/sys-fs-fuse-connections.mount \
-+        ${systemd_unitdir}/system/sys-fs-fuse-connections.mount \
-+"
-+
-+PACKAGES =+ "${PN}-services-getty"
-+SUMMARY_${PN}-services-getty = "Getty service"
-+RRECOMMENDS_${PN}-services-getty = "util-linux-agetty ${PN}-generators-getty"
-+FILES_${PN}-services-getty = "\
-+        ${systemd_unitdir}/system/autovt@.service \
-+        ${systemd_unitdir}/system/console-getty.service \
-+        ${systemd_unitdir}/system/container-getty@.service \
-+        ${systemd_unitdir}/system/getty@.service \
-+        ${systemd_unitdir}/system/serial-getty@.service \
-+        ${sysconfdir}/systemd/system/getty.target.wants/ \
-+"
-+
-+PACKAGES =+ "${PN}-services-hostnamed"
-+SUMMARY_${PN}-services-hostnamed = "Host name bus mechanism"
-+RDEPENDS_${PN}-services-hostnamed = "${PN}-services-dbus"
-+CONFFILES_${PN}-services-hostnamed = "${sysconfdir}/dbus-1/system.d/org.freedesktop.hostname1.conf"
-+FILES_${PN}-services-hostnamed = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.hostname1.conf \
-+        ${bindir}/hostnamectl \
-+        ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.hostname1.busname \
-+        ${systemd_unitdir}/system/dbus-org.freedesktop.hostname1.service \
-+        ${systemd_unitdir}/system/org.freedesktop.hostname1.busname \
-+        ${systemd_unitdir}/system/systemd-hostnamed.service \
-+        ${rootlibexecdir}/systemd/systemd-hostnamed \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.hostname1.service \
-+        ${datadir}/polkit-1/actions/org.freedesktop.hostname1.policy \
-+"
-+
-+PACKAGES =+ "${PN}-services-journal"
-+SUMMARY_${PN}-services-journal = "Journal (logging) service"
-+CONFFILES_${PN}-services-journal = "${sysconfdir}/systemd/journald.conf"
-+FILES_${PN}-services-journal = "\
-+        ${base_bindir}/journalctl \
-+        ${rootlibexecdir}/systemd/systemd-journald \
-+        ${sysconfdir}/systemd/journald.conf \
-+        ${systemd_unitdir}/system/sockets.target.wants/systemd-journald-dev-log.socket \
-+        ${systemd_unitdir}/system/sockets.target.wants/systemd-journald.socket \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-journal-catalog-update.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-journal-flush.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-journald.service \
-+        ${systemd_unitdir}/system/systemd-journal-catalog-update.service \
-+        ${systemd_unitdir}/system/systemd-journal-flush.service \
-+        ${systemd_unitdir}/system/systemd-journald-dev-log.socket \
-+        ${systemd_unitdir}/system/systemd-journald.service \
-+        ${systemd_unitdir}/system/systemd-journald.socket \
-+        ${exec_prefix}/lib/systemd/catalog/ \
-+"
-+
-+PACKAGES =+ "${PN}-services-ldconfig"
-+SUMMARY_${PN}-services-ldconfig = "Service to run ldconfig after updates"
-+FILES_${PN}-services-ldconfig = "\
-+        ${systemd_unitdir}/system/sysinit.target.wants/ldconfig.service \
-+        ${systemd_unitdir}/system/ldconfig.service \
-+"
-+
-+PACKAGES =+ "${PN}-services-localed"
-+SUMMARY_${PN}-services-localed = "Locale bus mechanism"
-+RDEPENDS_${PN}-services-localed = "${PN}-services-dbus"
-+CONFFILES_${PN}-services-localed = "${sysconfdir}/dbus-1/system.d/org.freedesktop.locale1.conf"
-+FILES_${PN}-services-localed = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.locale1.conf \
-+        ${bindir}/localectl \
-+        ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.locale1.busname \
-+        ${systemd_unitdir}/system/dbus-org.freedesktop.locale1.service \
-+        ${systemd_unitdir}/system/org.freedesktop.locale1.busname \
-+        ${systemd_unitdir}/system/systemd-localed.service \
-+        ${rootlibexecdir}/systemd/systemd-localed \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.locale1.service \
-+        ${datadir}/polkit-1/actions/org.freedesktop.locale1.policy \
-+        ${datadir}/systemd/kbd-model-map \
-+"
-+
-+PACKAGES =+ "${PN}-services-logind"
-+SUMMARY_${PN}-services-logind = "Login management service"
-+RDEPENDS_${PN}-services-logind = "${PN}-services-dbus ${PN}-services-tmpfiles"
-+RRECOMMENDS_${PN}-services-logind = "udev"
-+CONFFILES_${PN}-services-logind = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.login1.conf \
-+        ${sysconfdir}/systemd/logind.conf \
-+"
-+FILES_${PN}-services-logind = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.login1.conf \
-+        ${sysconfdir}/systemd/logind.conf \
-+        ${base_bindir}/loginctl \
-+        ${base_bindir}/systemd-inhibit \
-+        ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.login1.busname \
-+        ${systemd_unitdir}/system/dbus-org.freedesktop.login1.service \
-+        ${systemd_unitdir}/system/multi-user.target.wants/systemd-logind.service \
-+        ${systemd_unitdir}/system/multi-user.target.wants/systemd-user-sessions.service \
-+        ${systemd_unitdir}/system/org.freedesktop.login1.busname \
-+        ${systemd_unitdir}/system/systemd-logind.service \
-+        ${systemd_unitdir}/system/systemd-user-sessions.service \
-+        ${systemd_unitdir}/system/user@.service \
-+        ${rootlibexecdir}/systemd/systemd-logind \
-+        ${rootlibexecdir}/systemd/systemd-user-sessions \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.login1.service \
-+        ${datadir}/polkit-1/actions/org.freedesktop.login1.policy \
-+        ${rootlibexecdir}/udev/rules.d/70-uaccess.rules \
-+        ${rootlibexecdir}/udev/rules.d/70-power-switch.rules \
-+        ${rootlibexecdir}/udev/rules.d/71-seat.rules \
-+        ${rootlibexecdir}/udev/rules.d/73-seat-late.rules \
-+"
-+
-+PACKAGES =+ "${PN}-services-machined"
-+SUMMARY_${PN}-services-machined = "Virtual machine and container registration manager"
-+RDEPENDS_${PN}-services-machined = "${PN}-services-dbus"
-+CONFFILES_${PN}-services-machined = "${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf"
-+FILES_${PN}-services-machined = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-+        ${base_bindir}/machinectl \
-+        ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.machine1.busname \
-+        ${systemd_unitdir}/system/dbus-org.freedesktop.machine1.service \
-+        ${systemd_unitdir}/system/machine.slice \
-+        ${systemd_unitdir}/system/org.freedesktop.machine1.busname \
-+        ${systemd_unitdir}/system/systemd-machined.service \
-+        ${rootlibexecdir}/systemd/systemd-machined \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
-+"
-+
-+PACKAGES =+ "${PN}-services-modules-load"
-+SUMMARY_${PN}-services-modules-load = "Load kernel modules at boot"
-+FILES_${PN}-services-modules-load = "\
-+        ${sysconfdir}/modules-load.d/ \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-modules-load.service \
-+        ${systemd_unitdir}/system/systemd-modules-load.service \
-+        ${rootlibexecdir}/systemd/systemd-modules-load \
-+        ${exec_prefix}/lib/modules-load.d \
-+"
-+
-+PACKAGES =+ "${PN}-services-modules-static-nodes"
-+SUMMARY_${PN}-services-modules-static-nodes = "Create list of required static device nodes for the current kernel"
-+RDEPENDS_${PN}-services-modules-static-nodes = "kmod ${PN}-services-tmpfiles"
-+FILES_${PN}-services-modules-static-nodes = "\
-+        ${systemd_unitdir}/system/sysinit.target.wants/kmod-static-nodes.service \
-+        ${systemd_unitdir}/system/kmod-static-nodes.service \
-+"
-+
-+
-+PACKAGES =+ "${PN}-services-multi-seat-x"
-+SUMMARY_${PN}-services-multi-seat-x = "X11 multi-seat support service"
-+RDEPENDS_${PN}-services-multi-seat-x = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/xserver', '', d)}"
-+FILES_${PN}-services-multi-seat-x = "\
-+        ${rootlibexecdir}/systemd/systemd-multi-seat-x \
-+"
-+
-+PACKAGES += "${PN}-services-networkd"
-+SUMMARY_${PN}-services-networkd = "Network manager (static, DHCP, bridge...)"
-+# NOTE: if no sysusers, then users/groups must be setup
-+RRECOMMENDS_${PN}-services-networkd = "${PN}-services-sysusers"
-+FILES_${PN}-services-networkd = "\
-+        ${sysconfdir}/systemd/network/ \
-+        ${sysconfdir}/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service \
-+        ${sysconfdir}/systemd/system/multi-user.target.wants/systemd-networkd.service \
-+        ${base_bindir}/networkctl \
-+        ${rootlibexecdir}/systemd/network/80-container-host0.network \
-+        ${rootlibexecdir}/systemd/network/80-container-ve.network \
-+        ${rootlibexecdir}/systemd/network/99-default.link \
-+        ${systemd_unitdir}/system/systemd-networkd-wait-online.service \
-+        ${systemd_unitdir}/system/systemd-networkd.service \
-+        ${rootlibexecdir}/systemd/systemd-networkd \
-+        ${rootlibexecdir}/systemd/systemd-networkd-wait-online \
-+        ${exec_prefix}/lib/systemd/network \
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.network1.conf \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.network1.service \
-+"
-+
-+PACKAGES += "${PN}-services-journal-gatewayd"
-+SUMMARY_${PN}-services-journal-gatewayd = "HTTP server for journal events"
-+RRECOMMENDS_${PN}-services-journal-gatewayd = "${PN}-services-networkd"
-+FILES_${PN}-services-journal-gatewayd = "\
-+	${rootlibexecdir}/systemd/systemd-journal-gatewayd \
-+	${rootlibexecdir}/systemd/systemd-journal-remote \
-+	${exec_prefix}/lib/sysusers.d/systemd-remote.conf \
-+	${exec_prefix}/lib/tmpfiles.d/systemd-remote.conf \
-+	${sysconfdir}/systemd/journal-remote.conf \
-+"
-+
-+PACKAGES =+ "${PN}-services-nspawn"
-+SUMMARY_${PN}-services-nspawn = "Spawn a namespace container for debugging, testing and building"
-+FILES_${PN}-services-nspawn = "\
-+        ${systemd_unitdir}/system/systemd-nspawn@.service \
-+        ${bindir}/systemd-nspawn \
-+"
-+
-+PACKAGES =+ "${PN}-services-quota"
-+SUMMARY_${PN}-services-quota = "File system quota checker logic"
-+RDEPENDS_${PN}-services-quota = "quota"
-+FILES_${PN}-services-quota = "\
-+        ${systemd_unitdir}/system/quotaon.service \
-+        ${systemd_unitdir}/system/systemd-quotacheck.service \
-+        ${rootlibexecdir}/systemd/systemd-quotacheck \
-+"
-+
-+PACKAGES =+ "${PN}-services-randomseed"
-+SUMMARY_${PN}-services-randomseed = "systemd's random seed save/restore service"
-+FILES_${PN}-services-randomseed = "\
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-random-seed.service \
-+        ${systemd_unitdir}/system/systemd-random-seed.service \
-+        ${rootlibexecdir}/systemd/systemd-random-seed \
-+"
-+
-+PACKAGES =+ "${PN}-services-readahead"
-+SUMMARY_${PN}-services-readahead = "Load and save the system random seed at boot and shutdown"
-+FILES_${PN}-services-readahead = "\
-+        ${systemd_unitdir}/system/systemd-readahead-collect.service \
-+        ${systemd_unitdir}/system/systemd-readahead-done.service \
-+        ${systemd_unitdir}/system/systemd-readahead-done.timer \
-+        ${systemd_unitdir}/system/systemd-readahead-drop.service \
-+        ${systemd_unitdir}/system/systemd-readahead-replay.service \
-+        ${rootlibexecdir}/systemd/systemd-readahead \
-+"
-+
-+PACKAGES =+ "${PN}-services-rfkill"
-+SUMMARY_${PN}-services-rfkill = "Load and save the RF kill switch state at boot and shutdown"
-+FILES_${PN}-services-rfkill = "\
-+        ${systemd_unitdir}/system/systemd-rfkill@.service \
-+        ${rootlibexecdir}/systemd/systemd-rfkill \
-+"
-+
-+PACKAGES =+ "${PN}-services-sleep"
-+SUMMARY_${PN}-services-sleep = "System sleep state logic"
-+FILES_${PN}-services-sleep = "\
-+        ${systemd_unitdir}/system/systemd-hybrid-sleep.service \
-+        ${systemd_unitdir}/system/systemd-suspend.service \
-+        ${systemd_unitdir}/system/systemd-hibernate.service \
-+        ${systemd_unitdir}/system-sleep/ \
-+        ${rootlibexecdir}/systemd/systemd-sleep \
-+"
-+
-+PACKAGES =+ "${PN}-services-sysctl"
-+SUMMARY_${PN}-services-sysctl = "Configure kernel parameters at boot"
-+FILES_${PN}-services-sysctl = "\
-+        ${sysconfdir}/sysctl.d/ \
-+        ${exec_prefix}/lib/sysctl.d/ \
-+        ${exec_prefix}/lib/sysctl.d/50-default.conf \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-sysctl.service \
-+        ${systemd_unitdir}/system/systemd-sysctl.service \
-+        ${rootlibexecdir}/systemd/systemd-sysctl \
-+"
-+
-+PACKAGES =+ "${PN}-services-sysusers"
-+SUMMARY_${PN}-services-sysusers = "Allocate system users and groups"
-+FILES_${PN}-services-sysusers = "\
-+        ${base_bindir}/systemd-sysusers \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-sysusers.service \
-+        ${systemd_unitdir}/system/systemd-sysusers.service \
-+        ${exec_prefix}/lib/sysusers.d/basic.conf \
-+        ${exec_prefix}/lib/sysusers.d/systemd.conf \
-+"
-+
-+PACKAGES =+ "${PN}-services-sysvcompat"
-+SUMMARY_${PN}-services-sysvcompat = "SYSV legacy and compatibility services"
-+# NOTE: if no sysusers or tmpfiles, then users/groups and FS structure must be setup
-+RRECOMMENDS_${PN}-services-sysvcompat = "${PN}-services-sysusers ${PN}-services-tmpfiles"
-+FILES_${PN}-services-sysvcompat = "\
-+        ${rootlibexecdir}/systemd/systemd-bus-proxyd \
-+        ${rootlibexecdir}/systemd/systemd-socket-proxyd \
-+        ${bindir}/systemd-stdio-bridge \
-+        ${rootlibexecdir}/systemd/system-generators/systemd-rc-local-generator \
-+        ${rootlibexecdir}/systemd/system-generators/systemd-sysv-generator \
-+        ${rootlibexecdir}/systemd/systemd-initctl \
-+        ${rootlibexecdir}/systemd/systemd-update-utmp \
-+        ${systemd_unitdir}/system/halt-local.service \
-+        ${systemd_unitdir}/system/rc-local.service \
-+        ${systemd_unitdir}/system/runlevel1.target.wants/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/runlevel2.target.wants/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/runlevel3.target.wants/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/runlevel4.target.wants/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/runlevel5.target.wants/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/sockets.target.wants/systemd-initctl.socket \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-update-utmp.service \
-+        ${systemd_unitdir}/system/systemd-initctl.service \
-+        ${systemd_unitdir}/system/systemd-initctl.socket \
-+        ${systemd_unitdir}/system/systemd-update-utmp-runlevel.service \
-+        ${systemd_unitdir}/system/systemd-update-utmp.service \
-+        ${exec_prefix}/lib/tmpfiles.d/legacy.conf \
-+"
-+
-+PACKAGES =+ "${PN}-services-timedated"
-+SUMMARY_${PN}-services-timedated = "Time and date bus mechanism"
-+RDEPENDS_${PN}-services-timedated = "${PN}-services-dbus"
-+CONFFILES_${PN}-services-timedated = "${sysconfdir}/dbus-1/system.d/org.freedesktop.timedate1.conf"
-+FILES_${PN}-services-timedated = "\
-+        ${sysconfdir}/dbus-1/system.d/org.freedesktop.timedate1.conf \
-+        ${bindir}/timedatectl \
-+        ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.timedate1.busname \
-+        ${systemd_unitdir}/system/dbus-org.freedesktop.timedate1.service \
-+        ${systemd_unitdir}/system/org.freedesktop.timedate1.busname \
-+        ${systemd_unitdir}/system/systemd-timedated.service \
-+        ${rootlibexecdir}/systemd/systemd-timedated \
-+        ${datadir}/dbus-1/system-services/org.freedesktop.timedate1.service \
-+        ${datadir}/polkit-1/actions/org.freedesktop.timedate1.policy \
-+"
-+
-+PACKAGES =+ "${PN}-services-timesyncd"
-+SUMMARY_${PN}-services-timesyncd = "Network Time Synchronization"
-+# NOTE: if no sysusers, then users/groups must be setup
-+RRECOMMENDS_${PN}-services-timesyncd = "${PN}-services-sysusers"
-+CONFFILES_${PN}-services-timesyncd = "${sysconfdir}/systemd/timesyncd.conf"
-+FILES_${PN}-services-timesyncd = "\
-+        ${sysconfdir}/systemd/system/sysinit.target.wants/systemd-timesyncd.service \
-+        ${sysconfdir}/systemd/timesyncd.conf \
-+        ${systemd_unitdir}/system/systemd-timesyncd.service \
-+        ${rootlibexecdir}/systemd/systemd-timesyncd \
-+"
-+
-+PACKAGES =+ "${PN}-services-tmpfiles"
-+SUMMARY_${PN}-services-tmpfiles = "Creates, deletes and cleans up volatile and temporary files and directories"
-+FILES_${PN}-services-tmpfiles = "\
-+        ${sysconfdir}/tmpfiles.d/ \
-+        ${base_bindir}/systemd-tmpfiles \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-tmpfiles-setup-dev.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-tmpfiles-setup.service \
-+        ${systemd_unitdir}/system/systemd-tmpfiles-clean.service \
-+        ${systemd_unitdir}/system/systemd-tmpfiles-clean.timer \
-+        ${systemd_unitdir}/system/systemd-tmpfiles-setup-dev.service \
-+        ${systemd_unitdir}/system/systemd-tmpfiles-setup.service \
-+        ${systemd_unitdir}/system/timers.target.wants/systemd-tmpfiles-clean.timer \
-+        ${exec_prefix}/lib/tmpfiles.d/etc.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/systemd-nologin.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/systemd.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/tmp.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/var.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/00-create-volatile.conf \
-+        ${exec_prefix}/lib/tmpfiles.d/x11.conf \
-+"
-+
-+PACKAGES =+ "${PN}-services-udev"
-+SUMMARY_${PN}-services-udev = "Device event managing daemon"
-+RDEPENDS_${PN}-services-udev = "udev"
-+FILES_${PN}-services-udev = "\
-+        ${systemd_unitdir}/system/initrd-udevadm-cleanup-db.service \
-+        ${systemd_unitdir}/system/systemd-udev-hwdb-update.service \
-+        ${systemd_unitdir}/system/systemd-udev-settle.service \
-+        ${systemd_unitdir}/system/systemd-udev-trigger.service \
-+        ${systemd_unitdir}/system/systemd-udevd-control.socket \
-+        ${systemd_unitdir}/system/systemd-udevd-kernel.socket \
-+        ${systemd_unitdir}/system/systemd-udevd.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-udevd.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-udev-trigger.service \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-udev-hwdb-update.service \
-+        ${systemd_unitdir}/system/sockets.target.wants/systemd-udevd-kernel.socket \
-+        ${systemd_unitdir}/system/sockets.target.wants/systemd-udevd-control.socket \
-+"
-+
-+PACKAGES =+ "${PN}-services-update"
-+SUMMARY_${PN}-services-update = "Mark /etc and /var fully updated"
-+FILES_${PN}-services-update = "\
-+        ${rootlibexecdir}/systemd/system-generators/systemd-system-update-generator \
-+        ${rootlibexecdir}/systemd/systemd-update-done \
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-update-done.service \
-+        ${systemd_unitdir}/system/systemd-update-done.service \
-+"
-+
-+PACKAGES =+ "${PN}-services-vconsole"
-+SUMMARY_${PN}-services-vconsole = "Configure the virtual console at boot"
-+RECOMMENDS_${PN}-services-vconsole = "kbd kbd-consolefonts kbd-keymaps"
-+FILES_${PN}-services-vconsole = "\
-+        ${systemd_unitdir}/system/sysinit.target.wants/systemd-vconsole-setup.service \
-+        ${systemd_unitdir}/system/systemd-vconsole-setup.service \
-+        ${rootlibexecdir}/systemd/systemd-vconsole-setup \
-+"
-+
-+########################################################################
-+# Standard BitBake Packages
-+########################################################################
-+
-+FILES_${PN}-dbg += "\
-+        ${base_libdir}/security/.debug/ \
-+        ${libdir}/systemd/ptest/.debug \
-+        ${rootlibdir}/.debug \
-+        ${systemd_unitdir}/*/.debug \
-+        ${systemd_unitdir}/.debug \
-+"
- 
- FILES_${PN}-gui = "${bindir}/systemadm"
- 
--FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
--                              ${systemd_unitdir}/system/systemd-vconsole-setup.service \
--                              ${systemd_unitdir}/system/sysinit.target.wants/systemd-vconsole-setup.service"
-+FILES_${PN}-dev += "\
-+        ${base_libdir}/security/*.la \
-+        ${datadir}/dbus-1/interfaces/ \
-+        ${sysconfdir}/rpm/macros.systemd \
-+"
- 
--RDEPENDS_${PN}-kernel-install += "bash"
--FILES_${PN}-kernel-install = "${bindir}/kernel-install \
--                              ${sysconfdir}/kernel/ \
--                              ${exec_prefix}/lib/kernel \
--                             "
--FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
--                         "
--
--FILES_${PN}-zsh = "${datadir}/zsh/site-functions"
--
--FILES_${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
--                      ${exec_prefix}/lib/binfmt.d \
--                      ${rootlibexecdir}/systemd/systemd-binfmt \
--                      ${systemd_unitdir}/system/proc-sys-fs-binfmt_misc.* \
--                      ${systemd_unitdir}/system/systemd-binfmt.service"
--RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
--
--RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
--
--CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
--                ${sysconfdir}/systemd/logind.conf \
--                ${sysconfdir}/systemd/system.conf \
--                ${sysconfdir}/systemd/user.conf"
--
--FILES_${PN} = " ${base_bindir}/* \
--                ${datadir}/bash-completion \
--                ${datadir}/dbus-1/services \
--                ${datadir}/dbus-1/system-services \
--                ${datadir}/polkit-1 \
--                ${datadir}/${BPN} \
--                ${datadir}/factory \
--                ${sysconfdir}/bash_completion.d/ \
--                ${sysconfdir}/dbus-1/ \
--                ${sysconfdir}/machine-id \
--                ${sysconfdir}/modules-load.d/ \
--                ${sysconfdir}/pam.d/ \
--                ${sysconfdir}/sysctl.d/ \
--                ${sysconfdir}/systemd/ \
--                ${sysconfdir}/tmpfiles.d/ \
--                ${sysconfdir}/xdg/ \
--                ${sysconfdir}/init.d/README \
--                ${rootlibexecdir}/systemd/* \
--                ${systemd_unitdir}/* \
--                ${base_libdir}/security/*.so \
--                ${libdir}/libnss_* \
--                /cgroup \
--                ${bindir}/systemd* \
--                ${bindir}/busctl \
--                ${bindir}/localectl \
--                ${bindir}/hostnamectl \
--                ${bindir}/timedatectl \
--                ${bindir}/bootctl \
--                ${bindir}/kernel-install \
--                ${exec_prefix}/lib/tmpfiles.d/*.conf \
--                ${exec_prefix}/lib/systemd \
--                ${exec_prefix}/lib/modules-load.d \
--                ${exec_prefix}/lib/sysctl.d \
--                ${exec_prefix}/lib/sysusers.d \
--                ${localstatedir} \
--                /lib/udev/rules.d/70-uaccess.rules \
--                /lib/udev/rules.d/71-seat.rules \
--                /lib/udev/rules.d/73-seat-late.rules \
--                /lib/udev/rules.d/99-systemd.rules \
--               "
-+USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM_${PN} += "--system systemd-journal-gateway; --system systemd-timesync"
-+GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
- 
--FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
--FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
-+# The test cases need perl and bash to run correctly.
-+RDEPENDS_${PN}-ptest += "perl python bash"
-+FILES_${PN}-ptest += "\
-+        ${libdir}/udev/rules.d \
-+"
- 
--RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
--RDEPENDS_${PN} += "volatile-binds"
-+########################################################################
-+# Misc Packages
-+########################################################################
-+
-+PACKAGES =+ "${PN}-bash"
-+SUMMARY_${PN}-bash = "Bash shell commands completion"
-+FILES_${PN}-bash = "\
-+        ${datadir}/bash-completion/completions/bootctl \
-+        ${datadir}/bash-completion/completions/busctl \
-+        ${datadir}/bash-completion/completions/coredumpctl \
-+        ${datadir}/bash-completion/completions/hostnamectl \
-+        ${datadir}/bash-completion/completions/journalctl \
-+        ${datadir}/bash-completion/completions/kernel-install \
-+        ${datadir}/bash-completion/completions/localectl \
-+        ${datadir}/bash-completion/completions/loginctl \
-+        ${datadir}/bash-completion/completions/machinectl \
-+        ${datadir}/bash-completion/completions/systemctl \
-+        ${datadir}/bash-completion/completions/systemd-* \
-+        ${datadir}/bash-completion/completions/timedatectl \
-+"
-+
-+PACKAGES =+ "${PN}-initramfs"
-+SUMMARY_${PN}-initramfs = "Initramfs support"
-+FILES_${PN}-initramfs = "/init"
-+RDEPENDS_${PN}-initramfs = "${PN}"
- 
--RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
--                      util-linux-agetty \
--                      util-linux-fsck e2fsprogs-e2fsck \
--                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \
-+PACKAGES =+ "${PN}-kernel-install"
-+SUMMARY_${PN}-kernel-install = "systemd tool to add/remove kernel and initramfs images to/from /boot"
-+RDEPENDS_${PN}-kernel-install += "bash"
-+FILES_${PN}-kernel-install = "\
-+        ${bindir}/kernel-install \
-+        ${sysconfdir}/kernel/ \
-+        ${exec_prefix}/lib/kernel \
- "
- 
--PACKAGES =+ "udev-dbg udev udev-hwdb"
-+PACKAGES =+ "${PN}-pam"
-+SUMMARY_${PN}-pam = "systemd PAM modules and configuration"
-+FILES_${PN}-pam = "\
-+        ${sysconfdir}/pam.d \
-+        ${base_libdir}/security/pam_systemd.so \
-+"
- 
--FILES_udev-dbg += "/lib/udev/.debug"
-+PACKAGES =+ "${PN}-preset"
-+SUMMARY_${PN}-preset = "Service enablement presets"
-+FILES_${PN}-preset = "${systemd_unitdir}/system-preset/90-systemd.preset"
- 
--RPROVIDES_udev = "hotplug"
-+PACKAGES =+ "${PN}-rpm-macros"
-+SUMMARY_${PN}-rpm-macros = "RPM macros"
-+FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
-+			 "
- 
--RDEPENDS_udev-hwdb += "udev"
-+PACKAGES =+ "${PN}-zsh"
-+SUMMARY_${PN}-zsh = "Zsh shell commands completion"
-+FILES_${PN}-zsh = "\
-+        ${datadir}/zsh/site-functions \
-+"
- 
--FILES_udev += "${base_sbindir}/udevd \
--               ${rootlibexecdir}/systemd/systemd-udevd \
--               ${rootlibexecdir}/udev/accelerometer \
--               ${rootlibexecdir}/udev/ata_id \
--               ${rootlibexecdir}/udev/cdrom_id \
--               ${rootlibexecdir}/udev/collect \
--               ${rootlibexecdir}/udev/findkeyboards \
--               ${rootlibexecdir}/udev/keyboard-force-release.sh \
--               ${rootlibexecdir}/udev/keymap \
--               ${rootlibexecdir}/udev/mtd_probe \
--               ${rootlibexecdir}/udev/scsi_id \
--               ${rootlibexecdir}/udev/v4l_id \
--               ${rootlibexecdir}/udev/keymaps \
--               ${rootlibexecdir}/udev/rules.d/*.rules \
--               ${sysconfdir}/udev \
--               ${sysconfdir}/init.d/systemd-udevd \
--               ${systemd_unitdir}/system/*udev* \
--               ${systemd_unitdir}/system/*.wants/*udev* \
--               ${base_bindir}/udevadm \
--               ${datadir}/bash-completion/completions/udevadm \
--              "
--
--FILES_udev-hwdb = "${rootlibexecdir}/udev/hwdb.d"
-+########################################################################
-+# Aggregation of Split Packages
-+########################################################################
-+PACKAGES =+ "${PN}-services-base"
-+SUMMARY_${PN}-services-base = "Base services aggregation"
-+ALLOW_EMPTY_${PN}-services-base = "1"
-+RDEPENDS_${PN}-services-base = " \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'ask-password', '${PN}-services-ask-password', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'backlight', '${PN}-services-backlight', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-services-binfmt', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${PN}-services-dbus', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'firstboot', '${PN}-services-firstboot', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'fuse', '${PN}-services-fuse', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'quota', '${PN}-services-quota', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'rfkill', '${PN}-services-rfkill', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '${PN}-services-timesyncd', '', d)}  \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'update', '${PN}-services-update', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'vconsole', '${PN}-services-vconsole', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'filesystems', '${PN}-generators-filesystems', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'preset', '${PN}-preset', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'fsck', '${PN}-services-fsck', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'journal', '${PN}-services-journal', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'modules-load', '${PN}-services-modules-load', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'randomseed', '${PN}-services-randomseed', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'sleep', '${PN}-services-sleep', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'sysctl', '${PN}-services-sysctl', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'sysusers', '${PN}-services-sysusers', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'tmpfiles', '${PN}-services-tmpfiles', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'udev', '${PN}-services-udev', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'tools', '${PN}-tools', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'bash', '${PN}-bash', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'initramfs', '${PN}-initramfs', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'kernel-install', '${PN}-kernel-install', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'rpm-macros', '${PN}-rpm-macros', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'zsh', '${PN}-zsh', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'bootchart', '${PN}-services-bootchart', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'debug', '${PN}-services-debug', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'machined', '${PN}-services-machined', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'nspawn', '${PN}-services-nspawn', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'sysvcompat', '${PN}-services-sysvcompat', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-generators-getty', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-services-getty', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'ldconfig', '${PN}-services-ldconfig', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-hostnamed', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-localed', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-logind', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-timedated', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PN}-pam', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-services-networkd', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-networkd', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-journal-gatewayd', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', '${PN}-services-cryptsetup', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'gudev', 'udev-dbg', '', d)} \
-+        ${@bb.utils.contains('PACKAGECONFIG', 'x11', '${PN}-services-multi-seat-x', '', d)} \
-+"
- 
--INITSCRIPT_PACKAGES = "udev"
--INITSCRIPT_NAME_udev = "systemd-udevd"
--INITSCRIPT_PARAMS_udev = "start 03 S ."
-+########################################################################
-+# Core Package
-+########################################################################
- 
--python __anonymous() {
--    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
--        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
--}
-+CONFFILES_${PN} = "\
-+        ${sysconfdir}/systemd/system.conf \
-+        ${sysconfdir}/systemd/user.conf \
-+"
- 
-+FILES_${PN} = "\
-+        ${base_bindir}/systemctl \
-+        ${base_bindir}/systemd-hwdb \
-+        ${bindir}/bootctl \
-+        ${datadir}/${BPN} \
-+        ${datadir}/factory \
-+        ${exec_prefix}/lib/libnss_myhostname* \
-+        ${exec_prefix}/lib/libnss_mymachines.so.2 \
-+        ${libdir}/systemd/user-generators/ \
-+        ${libdir}/systemd/user/ \
-+        ${localstatedir} \
-+        ${rootlibexecdir}/systemd/systemd \
-+        ${rootlibexecdir}/systemd/systemd-cgroups-agent \
-+        ${rootlibexecdir}/systemd/systemd-shutdown \
-+        ${rootlibexecdir}/systemd/systemd-shutdownd \
-+        ${rootlibexecdir}/systemd/systemd-machine-id-commit \
-+        ${rootlibexecdir}/systemd/systemd-hibernate-resume \
-+        ${rootlibexecdir}/systemd/systemd-importd \
-+        ${rootlibexecdir}/systemd/import-pubring.gpg \
-+        ${rootlibexecdir}/systemd/systemd-pull \
-+        ${sysconfdir}/init.d/README \
-+        ${sysconfdir}/machine-id \
-+        ${sysconfdir}/systemd/system.conf \
-+        ${sysconfdir}/systemd/system/ \
-+        ${sysconfdir}/systemd/user.conf \
-+        ${sysconfdir}/systemd/user/ \
-+        ${sysconfdir}/xdg/systemd/ \
-+        ${sysconfdir}/X11/xinit/xinitrc.d/50-systemd-user.sh \
-+        ${systemd_unitdir}/system-generators/ \
-+        ${systemd_unitdir}/system-preset/ \
-+        ${systemd_unitdir}/system-shutdown/ \
-+        ${systemd_unitdir}/system/ \
-+"
- # TODO:
- # u-a for runlevel and telinit
-+RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
-+RDEPENDS_${PN} += "volatile-binds"
-+
-+RRECOMMENDS_${PN} += "\
-+        ${PN}-services-base \
-+        kernel-module-autofs4 \
-+        kernel-module-ipv6 \
-+        kernel-module-unix \
-+        util-linux-agetty \
-+        util-linux-fsck \
-+        e2fsprogs-e2fsck \
-+        os-release \
-+        udev-hwdb \
-+        systemd-serialgetty \
-+        systemd-compat-units \
-+"
- 
- ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel"
- 
-@@ -385,6 +1015,41 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
- ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
- ALTERNATIVE_PRIORITY[runlevel] ?= "300"
- 
-+
-+########################################################################
-+# UDEV Section
-+########################################################################
-+
-+PACKAGES =+ "udev-dbg"
-+SUMMARY_udev-dbg = "Dynamic device management - Debugging files"
-+RRECOMMENDS_udev-dbg += "${PN}-dbg"
-+FILES_udev-dbg = "\
-+        ${rootlibexecdir}/udev/.debug \
-+        ${base_sbindir}/.debug/udevd \
-+        ${base_bindir}/.debug/udevadm \
-+        ${rootlibexecdir}/systemd/.debug/systemd-udevd \
-+        ${base_libdir}/.debug/libudev* \
-+        ${base_libdir}/.debug/libgudev* \
-+        ${exec_prefix}/lib/.debug/libgudev* \
-+"
-+
-+PACKAGES =+ "udev-dev"
-+SUMMARY_udev-dev = "Dynamic device management - Development files"
-+RRECOMMENDS_udev-dev += "${PN}-dev"
-+FILES_udev-dev = "\
-+        ${datadir}/pkgconfig/*udev* \
-+        ${libdir}/pkgconfig/*udev* \
-+        ${libdir}/lib*udev*.la \
-+        ${includedir}/*udev* \
-+"
-+
-+PACKAGES =+ "udev-hwdb"
-+SUMMARY_udev-hwdb = "Dynamic device management - Hardware database"
-+RDEPENDS_udev-hwdb += "udev"
-+FILES_udev-hwdb = "\
-+        ${rootlibexecdir}/udev/hwdb.d/ \
-+"
-+
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
- 		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-@@ -402,6 +1067,154 @@ pkg_prerm_udev-hwdb () {
- 	rm -f ${sysconfdir}/udev/hwdb.bin
- }
- 
-+PACKAGES =+ "udev-bash"
-+SUMMARY_udev-bash = "Dynamic device management - Bash shell commands completion"
-+FILES_udev-bash = "${datadir}/bash-completion/completions/udevadm"
-+
-+PACKAGES =+ "udev-zsh"
-+SUMMARY_udev-zsh = "Dynamic device management - zsh shell commands completion"
-+FILES_udev-zsh = "${datadir}/zsh/site-functions/_udevadm"
-+
-+
-+########################################################################
-+# UDEV Rules Packages
-+# split rules that require external programs or dependencies.
-+# those that use only builtins are not split
-+########################################################################
-+
-+PACKAGES =+ "udev-rules-accelerometer"
-+SUMMARY_udev-rules-accelerometer = "Dynamic device management - accelerometer rules"
-+FILES_udev-rules-accelerometer = "\
-+        ${rootlibexecdir}/udev/accelerometer \
-+        ${rootlibexecdir}/udev/rules.d/61-accelerometer.rules \
-+        ${rootlibexecdir}/udev/rules.d/70-touchpad.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-cdrom"
-+SUMMARY_udev-rules-cdrom = "Dynamic device management - cdrom rules"
-+FILES_udev-rules-cdrom = "\
-+        ${rootlibexecdir}/udev/cdrom_id \
-+        ${rootlibexecdir}/udev/rules.d/60-cdrom_id.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-mtd"
-+SUMMARY_udev-rules-mtd = "Dynamic device management - mtd rules"
-+FILES_udev-rules-mtd = "\
-+        ${rootlibexecdir}/udev/mtd_probe \
-+        ${rootlibexecdir}/udev/rules.d/75-probe_mtd.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-persistent-storage"
-+SUMMARY_udev-rules-persistent-storage = "Dynamic device management - persistent storage rules"
-+FILES_udev-rules-persistent-storage = "\
-+        ${rootlibexecdir}/udev/ata_id \
-+        ${rootlibexecdir}/udev/scsi_id \
-+        ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-systemd"
-+SUMMARY_udev-rules-systemd = "Dynamic device management - systemd rules"
-+RDEPENDS_udev-rules-systemd = "${PN} ${PN}-services-sysctl"
-+FILES_udev-rules-systemd = "\
-+        ${rootlibexecdir}/udev/rules.d/99-systemd.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-v4l"
-+SUMMARY_udev-rules-v4l = "Dynamic device management - v4l rules"
-+FILES_udev-rules-v4l = "\
-+        ${rootlibexecdir}/udev/v4l_id \
-+        ${rootlibexecdir}/udev/rules.d/*-persistent-v4l.rules \
-+"
-+
-+PACKAGES =+ "udev-rules-all"
-+SUMMARY_udev-rules-all = "Dynamic device management - all rules aggregation"
-+ALLOW_EMPTY_udev-rules-all = "1"
-+RDEPENDS_udev-rules-all = "\
-+        udev-rules-accelerometer \
-+        udev-rules-cdrom \
-+        udev-rules-mtd \
-+        udev-rules-persistent-storage \
-+        udev-rules-systemd \
-+        udev-rules-v4l \
-+"
-+
-+PACKAGES =+ "udev"
-+SUMMARY_udev = "Dynamic device management"
-+RPROVIDES_udev = "hotplug"
-+PROVIDES = "udev"
-+CONFFILES_udev = "${sysconfdir}/udev/udev.conf"
-+RDEPENDS_udev += "${PN}-services-vconsole"
-+FILES_udev = "\
-+        ${base_bindir}/udevadm \
-+        ${base_sbindir}/udevd \
-+        ${rootlibexecdir}/systemd/systemd-udevd \
-+        ${rootlibexecdir}/udev/collect \
-+        ${rootlibexecdir}/udev/rules.d/42-usb-hid-pm.rules \
-+        ${rootlibexecdir}/udev/rules.d/50-firmware.rules \
-+        ${rootlibexecdir}/udev/rules.d/50-udev-default.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-drm.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-keyboard.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules \
-+        ${rootlibexecdir}/udev/rules.d/60-persistent-serial.rules \
-+        ${rootlibexecdir}/udev/rules.d/64-btrfs.rules \
-+        ${rootlibexecdir}/udev/rules.d/75-net-description.rules \
-+        ${rootlibexecdir}/udev/rules.d/75-tty-description.rules \
-+        ${rootlibexecdir}/udev/rules.d/78-sound-card.rules \
-+        ${rootlibexecdir}/udev/rules.d/80-drivers.rules \
-+        ${rootlibexecdir}/udev/rules.d/80-net-setup-link.rules \
-+        ${rootlibexecdir}/udev/rules.d/95-udev-late.rules \
-+        ${rootlibexecdir}/udev/rules.d/70-mouse.rules \
-+        ${rootlibexecdir}/udev/rules.d/90-vconsole.rules \
-+        ${rootlibexecdir}/udev/rules.d/touchscreen.rules \
-+        ${sysconfdir}/init.d/systemd-udevd \
-+        ${sysconfdir}/udev \
-+"
-+
-+RRECOMMENDS_udev = "\
-+        udev-hwdb \
-+        udev-rules-all \
-+"
-+
-+INITSCRIPT_PACKAGES = "udev"
-+INITSCRIPT_NAME_udev = "systemd-udevd"
-+INITSCRIPT_PARAMS_udev = "start 03 S ."
-+
-+python __anonymous() {
-+    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-+        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-+}
-+
-+# TODO:
-+# u-a for runlevel and telinit
-+
-+ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel"
-+
-+ALTERNATIVE_TARGET[init] = "${rootlibexecdir}/systemd/systemd"
-+ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
-+ALTERNATIVE_PRIORITY[init] ?= "300"
-+
-+ALTERNATIVE_TARGET[halt] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[halt] = "${base_sbindir}/halt"
-+ALTERNATIVE_PRIORITY[halt] ?= "300"
-+
-+ALTERNATIVE_TARGET[reboot] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[reboot] = "${base_sbindir}/reboot"
-+ALTERNATIVE_PRIORITY[reboot] ?= "300"
-+
-+ALTERNATIVE_TARGET[shutdown] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[shutdown] = "${base_sbindir}/shutdown"
-+ALTERNATIVE_PRIORITY[shutdown] ?= "300"
-+
-+ALTERNATIVE_TARGET[poweroff] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[poweroff] = "${base_sbindir}/poweroff"
-+ALTERNATIVE_PRIORITY[poweroff] ?= "300"
-+
-+ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
-+ALTERNATIVE_PRIORITY[runlevel] ?= "300"
-+
- # As this recipe builds udev, respect systemd being in DISTRO_FEATURES so
- # that we don't build both udev and systemd in world builds.
- python () {
+On 07-05-2015 03:28, Khem Raj wrote:
+>> On May 6, 2015, at 2:38 PM, Igor Santos<igor.santos@aker.com.br>  wrote:
+>>
+>> +do_install() {
+>> +    install -d ${D}${bindir}
+>> +    install -m 755 ${B}/ctags ${D}${bindir}/
+>> +    install -d ${D}${mandir}/man1/
+>> +    install -m 644 ${B}/ctags.1 ${D}${mandir}/man1/
+>> +}
+> you could just bundle whole function into two lines
+>
+> install -Dm 0755 ${B}/ctags ${D}${bindir}/ctags
+> install -Dm 0644 ${B}/ctags.1 ${D}${mandir}/man1/ctags.1
+>
+>
+>
+>
+> Para maiores informações, entre em contato com seu administrador de rede
+> Pontuação de spam: 0.0%
+> Para classificar esta mensagem como spam clique no link a seguir:http://asmg.aker.com.br/webgui/train.php?id=&type=spam
+> Para classificar esta mensagem como não spam clique no link a seguir:http://asmg.aker.com.br/webgui/train.php?id=&type=ham
+> Gerado por Aker Secure Mail Gateway -http://www.aker.com.br
+Thank you for the tip!
 -- 
-2.4.0
+
+--------------090805060208050609060406
+Content-Type: multipart/related;
+	boundary="------------050709060208070801070508"
+
+--------------050709060208070801070508
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    On 07-05-2015 03:28, Khem Raj wrote:<br>
+    <blockquote
+      cite="mid:3FF1E51B-2E08-4368-AC33-41D73EA2EDC6@gmail.com"
+      type="cite">
+      <blockquote type="cite">
+        <pre wrap="">On May 6, 2015, at 2:38 PM, Igor Santos <a class="moz-txt-link-rfc2396E" href="mailto:igor.santos@aker.com.br">&lt;igor.santos@aker.com.br&gt;</a> wrote:
+
++do_install() {
++    install -d ${D}${bindir}
++    install -m 755 ${B}/ctags ${D}${bindir}/
++    install -d ${D}${mandir}/man1/
++    install -m 644 ${B}/ctags.1 ${D}${mandir}/man1/
++}
+</pre>
+      </blockquote>
+      <pre wrap="">you could just bundle whole function into two lines
+
+install -Dm 0755 ${B}/ctags ${D}${bindir}/ctags
+install -Dm 0644 ${B}/ctags.1 ${D}${mandir}/man1/ctags.1
 
 
+
+
+Para maiores informações, entre em contato com seu administrador de rede
+Pontuação de spam: 0.0%
+Para classificar esta mensagem como spam clique no link a seguir: <a class="moz-txt-link-freetext" href="http://asmg.aker.com.br/webgui/train.php?id=&amp;type=spam">http://asmg.aker.com.br/webgui/train.php?id=&amp;type=spam</a>
+Para classificar esta mensagem como não spam clique no link a seguir: <a class="moz-txt-link-freetext" href="http://asmg.aker.com.br/webgui/train.php?id=&amp;type=ham">http://asmg.aker.com.br/webgui/train.php?id=&amp;type=ham</a>
+Gerado por Aker Secure Mail Gateway - <a class="moz-txt-link-freetext" href="http://www.aker.com.br">http://www.aker.com.br</a>
+</pre>
+    </blockquote>
+    Thank you for the tip!<br>
+    <div class="moz-signature">-- <br>
+      <img src="cid:part5.08030901.00080705@aker.com.br" border="0"></div>
+  </body>
+</html>
+
+--------------050709060208070801070508
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-ID: <part5.08030901.00080705@aker.com.br>
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/7AARRHVja3kAAQAEAAAAPAAA/+EAGEV4aWYAAElJKgAIAAAA
+AAAAAAAAAAD/4QNtaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49
+Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9
+ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3
+NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0
+cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRp
+b24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
+bW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291
+cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpP
+cmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMUE2MkZFMkQxREFBRjA1
+QjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6M0ZDRTc4NTc3MTE4MTFFMjg1NzM5OTYyMDlE
+MzJBN0EiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6M0ZDRTc4NTY3MTE4MTFFMjg1NzM5OTYy
+MDlEMzJBN0EiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIj4g
+PHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RDREOThBMkFCQTZG
+RTIxMTlDODdFOThDRTQ0QkE3QzYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQw
+NzIwNjgxMUE2MkZFMkQxREFBRjA1QjgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4g
+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
+
+--------------050709060208070801070508--
+
+--------------090805060208050609060406--
