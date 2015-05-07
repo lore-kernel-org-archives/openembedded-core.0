@@ -1,24 +1,41 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7078872A85
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AEB773D59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 01:58:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t471wHkg012315
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  7 May 2015 06:28:45 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so31436402pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 May 2015 18:58:17 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 6 May 2015 18:58:16 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 May 2015 09:54:08 +0800
-Message-ID: <1430963648-6219-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 1/1] dbus: upgrade to 1.8.16
+	Wed, 06 May 2015 23:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=PZ8uz1y9Tokcl7rKSfLvkf7ri7qZ9GNqK6y2PYgienM=;
+	b=VrXLS+5xCJOFSg5uBPc5eollszA+Img01HppWokSHnvRyl1UPfNQi26ZZqi5vTDnNY
+	vEMxeaEvXEZ3PHca1/2XbKDQ3Do/2KSswUMop5YSxwRmQRlijWaTs33SHxUnMK6KCZyf
+	rMAxJqPKcepQNe+RfHCVSNNJotkk0oiq6NqvQbKRs5w5VUgR58iudpGgkCtE51RWLe52
+	0oTzoUoGDXV808m5jC/IrYIWkMKDKvIAD1ZRzdgdV3/N4bteYeKC8ejPbOMV26cn4Mxa
+	VlFOy/X82VbV6hEXvIKoYuDC15M+ot1GVuwbglXh20DlrPAwOzh+SZv5mOMJt1HOxtxP
+	fYqQ==
+X-Received: by 10.68.65.12 with SMTP id t12mr4263646pbs.118.1430980127146;
+	Wed, 06 May 2015 23:28:47 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:2019:32dd:e815:cffd?
+	([2601:9:3580:84c:2019:32dd:e815:cffd])
+	by mx.google.com with ESMTPSA id ht10sm956417pdb.41.2015.05.06.23.28.45
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 06 May 2015 23:28:45 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1430948328-17891-2-git-send-email-igor.santos@aker.com.br>
+Date: Wed, 6 May 2015 23:28:36 -0700
+Message-Id: <3FF1E51B-2E08-4368-AC33-41D73EA2EDC6@gmail.com>
+References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+	<1430948328-17891-2-git-send-email-igor.santos@aker.com.br>
+To: Igor Santos <igor.santos@aker.com.br>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] ctags: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 01:58:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 May 2015 06:28:48 -0000
+X-Groupsio-MsgNum: 65230
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_826624CC-2648-4B4D-8DCF-E0E4ED794135";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Roy Li <rongqing.li@windriver.com>
-
-Upgrade to fix CVE-2015-0245
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-core/dbus/dbus_1.8.10.bb | 4 ----
- meta/recipes-core/dbus/dbus_1.8.16.bb | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 meta/recipes-core/dbus/dbus_1.8.10.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.8.16.bb
-
-diff --git a/meta/recipes-core/dbus/dbus_1.8.10.bb b/meta/recipes-core/dbus/dbus_1.8.10.bb
-deleted file mode 100644
-index 250ea21..0000000
---- a/meta/recipes-core/dbus/dbus_1.8.10.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--include dbus.inc
--
--SRC_URI[md5sum] = "6be5ef99ae784de9d04589eb067fe038"
--SRC_URI[sha256sum] = "10bf87fdb68815edd01d53885101dbcdd80dacad7198912cca61a4fa22dfaf8e"
-diff --git a/meta/recipes-core/dbus/dbus_1.8.16.bb b/meta/recipes-core/dbus/dbus_1.8.16.bb
-new file mode 100644
-index 0000000..b549651
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus_1.8.16.bb
-@@ -0,0 +1,4 @@
-+include dbus.inc
-+
-+SRC_URI[md5sum] = "020824a38850501e7d6ba8307a7c5ac3"
-+SRC_URI[sha256sum] = "7f795268efd343ff0498786acb35097564390d40b1b6158daf1b4f742b522b07"
--- 
-1.9.1
+--Apple-Mail=_826624CC-2648-4B4D-8DCF-E0E4ED794135
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On May 6, 2015, at 2:38 PM, Igor Santos <igor.santos@aker.com.br> wrote:
+> 
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install -m 755 ${B}/ctags ${D}${bindir}/
+> +    install -d ${D}${mandir}/man1/
+> +    install -m 644 ${B}/ctags.1 ${D}${mandir}/man1/
+> +}
+
+you could just bundle whole function into two lines
+
+install -Dm 0755 ${B}/ctags ${D}${bindir}/ctags
+install -Dm 0644 ${B}/ctags.1 ${D}${mandir}/man1/ctags.1
+
+--Apple-Mail=_826624CC-2648-4B4D-8DCF-E0E4ED794135
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlVLBhwACgkQuwUzVZGdMxQT1gCeKmsvOZaE49orOBxVOwJK8iwg
+F+IAn1nCBb3Ysjp3LplZp50byU1YWaV/
+=MdNj
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_826624CC-2648-4B4D-8DCF-E0E4ED794135--
