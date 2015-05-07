@@ -1,19 +1,19 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BC61173F6F
+	by mail.openembedded.org (Postfix) with ESMTP id D925073F72
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  7 May 2015 21:38:53 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP; 07 May 2015 14:38:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,386,1427785200"; d="scan'208";a="568026462"
+X-IronPort-AV: E=Sophos;i="5.13,386,1427785200"; d="scan'208";a="568026463"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
 	by orsmga003.jf.intel.com with ESMTP; 07 May 2015 14:38:53 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 May 2015 21:38:54 +0000
-Message-Id: <ee0edd3ff715775da7d7d265d0c56ea7e70ea6b6.1431034430.git.anibal.limon@linux.intel.com>
+Date: Thu,  7 May 2015 21:38:55 +0000
+Message-Id: <ab790cfdd94936b7ca07db6a83309372328d6cc8.1431034430.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1431034430.git.anibal.limon@linux.intel.com>
 References: <cover.1431034430.git.anibal.limon@linux.intel.com>
@@ -21,7 +21,7 @@ In-Reply-To: <cover.1431034430.git.anibal.limon@linux.intel.com>
 References: <cover.1431034430.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: richard.purdie@liuxfoundation.org
-Subject: [PATCHv2 3/4] license: Split visit_string in LicenseVisitor
+Subject: [PATCHv2 4/4] license: Add support for handle INCOMPATIBLE_LICENSE in manifest creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,48 +38,171 @@ X-List-Received-Date: Thu, 07 May 2015 21:38:55 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Create get_elements and visit_elements in LicenseVisitor based
-on visit_string this allow to do modifications on elements before
-parsing with AST.
+When INCOMPATIBLE_LICENSE's is specified it need to be removed from
+license.manifest and also avoid copy to target image.
+
+Add ManifestVisitor that walk the license string searching for
+INCOMPATIBLE_LICENSE's if found remove it.
+
+[YOCTO #6765]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oe/license.py | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ meta/classes/license.bbclass | 29 +++++++++++++++--
+ meta/lib/oe/license.py       | 77 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+), 3 deletions(-)
 
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 780b9d5..54ab123 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -29,6 +29,10 @@ python license_create_manifest() {
+     import re
+     import oe.packagedata
+ 
++    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
++    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
++
+     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
+     if build_images_from_feeds == "1":
+         return 0
+@@ -52,6 +56,18 @@ python license_create_manifest() {
+                         d.getVar('IMAGE_NAME', True), 'license.manifest')
+     with open(license_manifest, "w") as license_file:
+         for pkg in sorted(pkg_dic):
++            if bad_licenses:
++                try:
++                    (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
++                        oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
++                        bad_licenses, canonical_license, d)
++                except oe.license.LicenseError as exc:
++                    bb.fatal('%s: %s' % (d.getVar('P', True), exc))
++            else:
++                pkg_dic[pkg]["LICENSES"] = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
++                pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ', pkg_dic[pkg]["LICENSES"])
++                pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
++
+             license_file.write("PACKAGE NAME: %s\n" % pkg)
+             license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
+             license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
+@@ -63,9 +79,7 @@ python license_create_manifest() {
+             if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
+                 continue
+ 
+-            licenses = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
+-            licenses = re.sub('  *', ' ', licenses)
+-            for lic in licenses.split():
++            for lic in pkg_dic[pkg]["LICENSES"]:
+                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+                                         pkg_dic[pkg]["PN"], "generic_%s" % 
+                                         re.sub('\+', '', lic))
+@@ -101,11 +115,20 @@ python license_create_manifest() {
+                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
+ 
+                     if re.match("^generic_.*$", lic):
++                        generic_lic = re.search("^generic_(.*)$", lic).group(1)
++                        if oe.license.license_ok(canonical_license(d,
++                            generic_lic), bad_licenses) == False:
++                            continue
++
+                         if not os.path.exists(rootfs_license):
+                             os.link(pkg_license, rootfs_license)
+ 
+                         os.symlink(os.path.join('..', lic), pkg_rootfs_license)
+                     else:
++                        if oe.license.license_ok(canonical_license(d,
++                            lic), bad_licenses) == False:
++                            continue
++
+                         os.link(pkg_license, pkg_rootfs_license)
+ }
+ 
 diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index bc146a28..254279d 100644
+index 254279d..f0f661c 100644
 --- a/meta/lib/oe/license.py
 +++ b/meta/lib/oe/license.py
-@@ -44,8 +44,8 @@ license_operator = re.compile('([' + license_operator_chars + '])')
- license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
- 
- class LicenseVisitor(ast.NodeVisitor):
--    """Syntax tree visitor which can accept OpenEmbedded license strings"""
--    def visit_string(self, licensestr):
-+    """Get elements based on OpenEmbedded license strings"""
-+    def get_elements(self, licensestr):
-         new_elements = []
-         elements = filter(lambda x: x.strip(), license_operator.split(licensestr))
-         for pos, element in enumerate(elements):
-@@ -57,7 +57,16 @@ class LicenseVisitor(ast.NodeVisitor):
-                 raise InvalidLicense(element)
-             new_elements.append(element)
- 
--        self.visit(ast.parse(' '.join(new_elements)))
-+        return new_elements
+@@ -138,3 +138,80 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+         return False, excluded
+     else:
+         return True, included
 +
-+    """Syntax tree visitor which can accept elements previously generated with
-+    OpenEmbedded license string"""
-+    def visit_elements(self, elements):
-+        self.visit(ast.parse(' '.join(elements)))
++class ManifestVisitor(LicenseVisitor):
++    """Walk license tree (parsed from a string) removing the incompatible
++    licenses specified"""
++    def __init__(self, dont_want_licenses, canonical_license, d):
++        self._dont_want_licenses = dont_want_licenses
++        self._canonical_license = canonical_license
++        self._d = d
++        self._operators = []
 +
-+    """Syntax tree visitor which can accept OpenEmbedded license strings"""
-+    def visit_string(self, licensestr):
-+        self.visit_elements(self.get_elements(licensestr))
- 
- class FlattenVisitor(LicenseVisitor):
-     """Flatten a license tree (parsed from a string) by selecting one of each
++        self.licenses = []
++        self.licensestr = ''
++
++        LicenseVisitor.__init__(self)
++
++    def visit(self, node):
++        if isinstance(node, ast.Str):
++            lic = node.s
++
++            if license_ok(self._canonical_license(self._d, lic),
++                    self._dont_want_licenses) == True:
++                if self._operators:
++                    ops = []
++                    for op in self._operators:
++                        if op == '[':
++                            ops.append(op)
++                        elif op == ']':
++                            ops.append(op)
++                        else:
++                            if not ops:
++                                ops.append(op)
++                            elif ops[-1] in ['[', ']']:
++                                ops.append(op)
++                            else:
++                                ops[-1] = op 
++
++                    for op in ops:
++                        if op == '[' or op == ']':
++                            self.licensestr += op
++                        elif self.licenses:
++                            self.licensestr += ' ' + op + ' '
++
++                    self._operators = []
++
++                self.licensestr += lic
++                self.licenses.append(lic)
++        elif isinstance(node, ast.BitAnd):
++            self._operators.append("&")
++        elif isinstance(node, ast.BitOr):
++            self._operators.append("|")
++        elif isinstance(node, ast.List):
++            self._operators.append("[")
++        elif isinstance(node, ast.Load):
++            self.licensestr += "]"
++
++        self.generic_visit(node)
++
++def manifest_licenses(licensestr, dont_want_licenses, canonical_license, d):
++    """Given a license string and dont_want_licenses list,
++       return license string filtered and a list of licenses"""
++    manifest = ManifestVisitor(dont_want_licenses, canonical_license, d)
++
++    try:
++        elements = manifest.get_elements(licensestr)
++
++        # Replace '()' to '[]' for handle in ast as List and Load types.
++        elements = ['[' if e == '(' else e for e in elements]
++        elements = [']' if e == ')' else e for e in elements]
++
++        manifest.visit_elements(elements)
++    except SyntaxError as exc:
++        raise LicenseSyntaxError(licensestr, exc)
++
++    # Replace '[]' to '()' for output correct license.
++    manifest.licensestr = manifest.licensestr.replace('[', '(').replace(']', ')')
++
++    return (manifest.licensestr, manifest.licenses)
 -- 
 1.8.4.5
 
