@@ -1,36 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DDEA72A2D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A54C60138
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 15:12:42 +0000 (UTC)
-Received: by qgfi89 with SMTP id i89so22287049qgf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 May 2015 08:12:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vM3gvbRKJqZGTfi839HoQGxOUHneSNl2lZJXf6QRqrY=;
-	b=FEoewQwEwYjt90z2bmwXgGA3zT2XAJOMakSiT71E1cmNHg6vSV5QJpKPPnkPTnL1A2
-	beqKcza8SCJin5HfpuOm0HFYBs4L4Q+JOUSJZgBYwa7q2qkcUjbNBakMGyjunkMI6SUS
-	wBm5rNdlpaoXFqK1GztFjqwuZsnOfLCs9gO8IRZjh71lEigUnCN5Tnl0BjGONz6Nh9V3
-	N8aV/CrNCeLXBBhF4W1/rEqFyZ7AP8yurjAPiTfVuoSlZs/Lq7+Vb8fFnX8lYxm1Gd2S
-	qrio4FT7UJLyc1sGR4yWe110yLqLblqc5atxrjdgusmtmz/xqgnpM+b91tjEavwp3lRp
-	cK3Q==
-X-Gm-Message-State: ALoCoQk8SVcPNQ85QXDBSQYIT+2QrTdmNxKrWI1hAGbAmFqfdc1hBCrS/5c7Zog+oS0bZeGYfY2F
-X-Received: by 10.55.50.20 with SMTP id y20mr9562202qky.58.1431011563577; Thu,
-	07 May 2015 08:12:43 -0700 (PDT)
+	Thu,  7 May 2015 15:33:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t47FXJs7002966
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 May 2015 08:33:19 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 7 May 2015 08:33:19 -0700
+Message-ID: <554B85BE.5040800@windriver.com>
+Date: Thu, 7 May 2015 11:33:18 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 7 May 2015 08:12:23 -0700 (PDT)
-In-Reply-To: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
-References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 May 2015 16:12:23 +0100
-Message-ID: <CAJTo0LbMVTFqMxXC=6Dukia50oAkko5Rc16zA9T7pGTgzYVhww@mail.gmail.com>
-To: Igor Santos <igor.santos@aker.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Add ctags and cscope
+To: Martin Jansa <martin.jansa@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1430443583.git.bruce.ashfield@windriver.com>	<1430521154.18360.28.camel@linuxfoundation.org>	<55440C90.5060605@windriver.com>	<20150502081346.GD2366@jama>	<55458D0D.6070904@windriver.com>	<20150506144241.GA2067@jama>	<554A2C1C.5040304@windriver.com>	<20150506153325.GB2067@jama>	<1430927086.8074.65.camel@linuxfoundation.org>	<20150506160708.GD2067@jama>	<554A536C.5060608@windriver.com>	<1430947966.8074.108.camel@linuxfoundation.org>
+	<CA+chaQfarqYbkkfZyCpFfNm9qLXkOPf4HAnnmygDmBAVYt3BXw@mail.gmail.com>
+In-Reply-To: <CA+chaQfarqYbkkfZyCpFfNm9qLXkOPf4HAnnmygDmBAVYt3BXw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 15:12:44 -0000
-Content-Type: multipart/alternative; boundary=001a11471392eab55005157f571b
+X-List-Received-Date: Thu, 07 May 2015 15:33:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11471392eab55005157f571b
-Content-Type: text/plain; charset=UTF-8
+On 2015-05-06 06:49 PM, Martin Jansa wrote:
+> I use tmpfs in most of my builds, so in most cases when I see the error
+> from the build, tmpfs is already gone (purged by next build executed on
+> the same sever).
 
-On 6 May 2015 at 22:38, Igor Santos <igor.santos@aker.com.br> wrote:
+ross just found something like this in one of his local builds .. I'm
+pretty sure I see the race.
 
-> Hi, these series add ctags and cscope to the devtools.
-> It's interesting to add these tools to the stable branches.
+Fix coming shortly, and then the bigger changes I was mentioning before
+as well.
+
+Cheers,
+
+Bruce
+
+>
+> On Wed, May 6, 2015 at 11:32 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org
+> <mailto:richard.purdie@linuxfoundation.org>> wrote:
+>
+>     On Wed, 2015-05-06 at 13:46 -0400, Bruce Ashfield wrote:
+>     > On 2015-05-06 12:07 PM, Martin Jansa wrote:
+>     > > I've used master-next week or two ago (mostly to test bluez4 and python3
+>     > > changes) and soon after that dropped all linux-yocto related changes
+>     > > from it assuming that it's indeed cause for the issues I'm seeing, but
+>     > > it's not and it's still failing with master as well (and my
+>     > > jenkins/world builds are just small portion of my builds executed
+>     > > elsewhere where I see similar issues).
+>     >
+>     > Richard: How can we sort out the differences between the build
+>     > environment that Martin uses versus what the autobuilder is showing?
+>     >
+>     > There's nothing particularly complex happening during that build,
+>     > it's a checkout and generation of a config.
+>     >
+>     > I'm unable to reproduce any of the failures, and neither is the
+>     > autobuilder.
+>
+>     This is a tough one and I'm struggling a little. We could try looking at
+>     the tmp/stamps/qemux86-poky-linux/linux-yocto/* files (sigdata in
+>     particular) as well as
+>     tmp/work/qemux86-poky-linux/linux-yocto/*/temp/log.task_order
+>
+>     Martin, would you be able to share the above somewhere? I'm hoping this
+>     would give us a clue as to what the difference is between the builds and
+>     allow us to reproduce the problem.
+>
+>     Cheers,
+>
+>     Richard
+>
+>
 >
 
-Why should these be in oe-core instead of another layer such as meta-oe?
 
-Ross
-
---001a11471392eab55005157f571b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 May 2015 at 22:38, Igor Santos <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:igor.santos@aker.com.br" target=3D"_blank">igor.santos@aker.com.br</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1od" class=3D"=
-a3s" style=3D"overflow:hidden">Hi, these series add ctags and cscope to the=
- devtools.<br>
-It&#39;s interesting to add these tools to the stable branches.<br></div></=
-blockquote></div><br>Why should these be in oe-core instead of another laye=
-r such as meta-oe?</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
-
---001a11471392eab55005157f571b--
