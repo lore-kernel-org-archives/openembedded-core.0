@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1478E72A85
+	by mail.openembedded.org (Postfix) with ESMTP id 1380E60138
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 13:52:39 +0000 (UTC)
+	Thu,  7 May 2015 13:52:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 May 2015 06:52:40 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 May 2015 06:52:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,384,1427785200"; d="scan'208";a="725330214"
+X-IronPort-AV: E=Sophos;i="5.13,384,1427785200"; d="scan'208";a="725330184"
 Received: from jlbuthle-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.24.56])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2015 06:52:39 -0700
+	by orsmga002.jf.intel.com with ESMTP; 07 May 2015 06:52:38 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 May 2015 14:52:23 +0100
-Message-Id: <aceb2bfaf2cff0ea156956c1051d82c560468bc1.1431006684.git.paul.eggleton@linux.intel.com>
+Date: Thu,  7 May 2015 14:52:22 +0100
+Message-Id: <cover.1431006684.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1431006684.git.paul.eggleton@linux.intel.com>
-References: <cover.1431006684.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1431006684.git.paul.eggleton@linux.intel.com>
-References: <cover.1431006684.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/3] oe-selftest: devtool: fix broken URL in test_devtool_add_fetch
+Subject: [PATCH 0/3] oe-selftest fixes for devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +30,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 07 May 2015 13:52:42 -0000
 
-I already had the file fetched from some previous work and thus it
-didn't attempt to download the invalid URL when I tested it earlier.
+Fix a couple of regressions in the oe-selftest tests for devtool (one 
+caused by me, the other caused by the recent PN change in gcc-source),
+plus one more improvement to how we deal with tap devices in the test
+for "devtool deploy-target".
 
-Part of the fix for [YOCTO #7729].
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 52d5ab7fcea7028ff1d10b3e2416c0179128ba71:
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 1a506d9..2af6114 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -175,7 +175,7 @@ class DevtoolTests(oeSelfTest):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
-         testver = '0.23'
--        url = 'https://pypi.python.org/packages/source/J/MarkupSafe/MarkupSafe-%s.tar.gz' % testver
-+        url = 'https://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-%s.tar.gz' % testver
-         testrecipe = 'python-markupsafe'
-         srcdir = os.path.join(tempdir, testrecipe)
-         # Test devtool add
+  bluez: update to 5.30 (2015-05-07 13:14:39 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-selftests
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-selftests
+
+Paul Eggleton (3):
+  oe-selftest: devtool: fix broken URL in test_devtool_add_fetch
+  devtool: fix for rename of gcc-source
+  oe-selftest: devtool: add a proper test to see if tap devices exist
+
+ meta/lib/oeqa/selftest/devtool.py | 22 ++++++++++++++++++++--
+ scripts/lib/devtool/standard.py   |  2 +-
+ 2 files changed, 21 insertions(+), 3 deletions(-)
+
 -- 
 2.1.0
 
