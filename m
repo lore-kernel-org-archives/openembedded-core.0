@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 554E760138
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DDEA72A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 14:34:54 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so244976906wid.0
+	Thu,  7 May 2015 15:12:42 +0000 (UTC)
+Received: by qgfi89 with SMTP id i89so22287049qgf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 May 2015 07:34:55 -0700 (PDT)
+	Thu, 07 May 2015 08:12:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GI+Jni/kSmox+VRMAyB+rYJtV9u46/dRsJrFGpXS3rw=;
-	b=YaG8iiFOQamZO6g3/k4Z1ldsvKnF8OIgOKrg099/CENIH3L9wuOsWN/GDT5g8DywrR
-	dYp8C8YpSnxLIwr5VjgfS/gAX5gh+nEb+DjX2BdhWrRVG7SDsVzGfQ/PNVrwNYSNynxq
-	5j4L3XLutv6trHcB75bHWmFAZOB+eh/TApRqBTfVNbgCH+jnsk7v3MSzvFSkvDSaNG4D
-	g1ugu4d0MT8n1xtLhr3KDXttXUHJrpcmFBin+exCp2KjOtAlYI8OdmUVLmc/VhfZAvsa
-	r/jRlvgmZ/8JSmGeAhMBzJhqQYOOyDHokdl6IM+gdw6FX9iBFH7cCAMLn7evVCxkX8Ff
-	B0Bw==
-X-Gm-Message-State: ALoCoQkqWByxUEWX+bKuhQQvxF2dInQ/GH49eUmBOdOWH3RgQa5FcLdjEfW7KHP9wfJv01ncxA/y
-X-Received: by 10.180.94.168 with SMTP id dd8mr7162365wib.76.1431009294345;
-	Thu, 07 May 2015 07:34:54 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id ei8sm3735221wjd.32.2015.05.07.07.34.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 May 2015 07:34:53 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 May 2015 15:30:53 +0100
-Message-Id: <1431009054-29889-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/2] bind: update libxml2 detection patch
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vM3gvbRKJqZGTfi839HoQGxOUHneSNl2lZJXf6QRqrY=;
+	b=FEoewQwEwYjt90z2bmwXgGA3zT2XAJOMakSiT71E1cmNHg6vSV5QJpKPPnkPTnL1A2
+	beqKcza8SCJin5HfpuOm0HFYBs4L4Q+JOUSJZgBYwa7q2qkcUjbNBakMGyjunkMI6SUS
+	wBm5rNdlpaoXFqK1GztFjqwuZsnOfLCs9gO8IRZjh71lEigUnCN5Tnl0BjGONz6Nh9V3
+	N8aV/CrNCeLXBBhF4W1/rEqFyZ7AP8yurjAPiTfVuoSlZs/Lq7+Vb8fFnX8lYxm1Gd2S
+	qrio4FT7UJLyc1sGR4yWe110yLqLblqc5atxrjdgusmtmz/xqgnpM+b91tjEavwp3lRp
+	cK3Q==
+X-Gm-Message-State: ALoCoQk8SVcPNQ85QXDBSQYIT+2QrTdmNxKrWI1hAGbAmFqfdc1hBCrS/5c7Zog+oS0bZeGYfY2F
+X-Received: by 10.55.50.20 with SMTP id y20mr9562202qky.58.1431011563577; Thu,
+	07 May 2015 08:12:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Thu, 7 May 2015 08:12:23 -0700 (PDT)
+In-Reply-To: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 May 2015 16:12:23 +0100
+Message-ID: <CAJTo0LbMVTFqMxXC=6Dukia50oAkko5Rc16zA9T7pGTgzYVhww@mail.gmail.com>
+To: Igor Santos <igor.santos@aker.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Add ctags and cscope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,136 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 14:34:56 -0000
+X-List-Received-Date: Thu, 07 May 2015 15:12:44 -0000
+Content-Type: multipart/alternative; boundary=001a11471392eab55005157f571b
 
-Refresh the libxml2 detection patch to directly call pkg-config instead of
-attempting to use xml2-config, which will always return an error in OE.
+--001a11471392eab55005157f571b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...0001-build-use-pkg-config-to-find-libxml2.patch | 42 ++++++++++++++++++++++
- ...d-crosscripts-search-path-for-xml2-config.patch | 35 ------------------
- meta/recipes-connectivity/bind/bind_9.10.2.bb      |  7 ++--
- 3 files changed, 45 insertions(+), 39 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch
+On 6 May 2015 at 22:38, Igor Santos <igor.santos@aker.com.br> wrote:
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch b/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
-new file mode 100644
-index 0000000..cb5251d
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
-@@ -0,0 +1,42 @@
-+xml2-config is disabled, so change the configure script to use pkgconfig to find
-+libxml2.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+---
-+ configure.in | 18 +++---------------
-+ 1 file changed, 3 insertions(+), 15 deletions(-)
-+
-+diff --git a/configure.in b/configure.in
-+index d566e1c..c9ef3a6 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -2102,21 +2102,9 @@ case "$use_libxml2" in
-+ 		DST_LIBXML2_INC=""
-+ 		;;
-+ 	auto|yes)
-+-		case X`(xml2-config --version) 2>/dev/null` in
-+-		X2.[[6789]].*)
-+-			libxml2_libs=`xml2-config --libs`
-+-			libxml2_cflags=`xml2-config --cflags`
-+-			;;
-+-		*)
-+-			libxml2_libs=
-+-			libxml2_cflags=
-+-			;;
-+-		esac
-+-		;;
-+-	*)
-+-		if test -f "$use_libxml2/bin/xml2-config" ; then
-+-			libxml2_libs=`$use_libxml2/bin/xml2-config --libs`
-+-			libxml2_cflags=`$use_libxml2/bin/xml2-config --cflags`
-++		if pkg-config --exists libxml-2.0 ; then
-++			libxml2_libs=`pkg-config libxml-2.0 --libs`
-++			libxml2_cflags=`pkg-config libxml-2.0 --cflags`
-+ 		fi
-+ 		;;
-+ esac
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch b/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch
-deleted file mode 100644
-index d24276c..0000000
---- a/meta/recipes-connectivity/bind/bind/bind-add-crosscripts-search-path-for-xml2-config.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 8fa549fe5390875d56f75e20d364394cd5ccf388 Mon Sep 17 00:00:00 2001
--From: Joe MacDonald <joe_macdonald@mentor.com>
--Date: Mon, 3 Nov 2014 21:52:02 -0500
--Subject: [PATCH] bind: add crosscripts search path for xml2-config
--
--The configure script was testing xml2-config from bin but in openembedded
--bin folder is not copied to sysroot so the test was failing. Added another 
--condition to test libxml-2.0.pc which is present in lib folder. Used pkg-config
--to get libs and cflags information.
--
--Upstream-Status: Inappropriate [ openembedded specific ]
--
--Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
--Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-----
-- configure.in | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/configure.in b/configure.in
--index 3d04f4c..6032f67 100644
----- a/configure.in
--+++ b/configure.in
--@@ -1433,6 +1433,9 @@ case "$use_libxml2" in
-- 		if test -f "$use_libxml2/bin/xml2-config" ; then
-- 			libxml2_libs=`$use_libxml2/bin/xml2-config --libs`
-- 			libxml2_cflags=`$use_libxml2/bin/xml2-config --cflags`
--+		elif test -f "$use_libxml2/$base_libdir/pkgconfig/libxml-2.0.pc" ; then
--+			libxml2_libs=`pkg-config libxml-2.0 --libs`
--+			libxml2_cflags=`pkg-config libxml-2.0 --cflags`
-- 		fi
-- 		;;
-- esac
---- 
--1.9.1
--
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2.bb b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-index 21be397..c5bc242 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-@@ -16,9 +16,9 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://named.service \
-            file://bind9 \
-            file://init.d-add-support-for-read-only-rootfs.patch \
--           file://bind-add-crosscripts-search-path-for-xml2-config.patch \
-            file://bind-confgen-build-unix.o-once.patch \
--	   "
-+           file://0001-build-use-pkg-config-to-find-libxml2.patch \
-+           "
- 
- SRC_URI[md5sum] = "dca7a9967947bffa98547fca6130fc04"
- SRC_URI[sha256sum] = "6f9bb7908aa45c1edfa391e356fc0afc1ded175386cdefb6cf9e1289f7457a98"
-@@ -34,8 +34,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
- inherit autotools-brokensep update-rc.d systemd useradd pkgconfig
- 
- PACKAGECONFIG ?= "libxml2"
--
--PACKAGECONFIG[libxml2] = "--with-libxml2=${STAGING_LIBDIR}/..,--with-libxml2=no,libxml2"
-+PACKAGECONFIG[libxml2] = "--with-libxml2,--without-libxml2,libxml2"
- 
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
--- 
-2.1.4
+> Hi, these series add ctags and cscope to the devtools.
+> It's interesting to add these tools to the stable branches.
+>
 
+Why should these be in oe-core instead of another layer such as meta-oe?
 
+Ross
+
+--001a11471392eab55005157f571b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 May 2015 at 22:38, Igor Santos <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:igor.santos@aker.com.br" target=3D"_blank">igor.santos@aker.com.br</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1od" class=3D"=
+a3s" style=3D"overflow:hidden">Hi, these series add ctags and cscope to the=
+ devtools.<br>
+It&#39;s interesting to add these tools to the stable branches.<br></div></=
+blockquote></div><br>Why should these be in oe-core instead of another laye=
+r such as meta-oe?</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
+
+--001a11471392eab55005157f571b--
