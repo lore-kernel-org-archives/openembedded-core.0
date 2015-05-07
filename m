@@ -1,40 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B6D273DB5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B175473EF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 06:47:53 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so32805642pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 May 2015 23:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=sU4Ka9XW3dKg5zsfX1me4CN6BgqnHonzTKRroG9U7ag=;
-	b=PPbu+Yvp+5kFdRHNiDkdPnETAWVy/wc1OHviWcO4AHRfMGzOzKK5uwKYFbRyUDwCPX
-	3rlFIToa8SlBSDC/m8yvBNaS1ANuHtMnskLM5x+FHJCbRw1L2gWd7IO4UBhV0GFy46Tw
-	p5NbMFC+W+TUFSusb6i4f6OcF87NRIOhdKsAgmUW6PGwdps8oZDpJfE5coemBvebXgc3
-	WNmOL25Bv5OiXG7PF0a9PnBOVGK4vUrcB7H/AbxqQwBwZR4rz7xuQpG7A4Z/beW/Qij4
-	dhmA/gxqi96FB6dIkSg9uhktF7rh3zELu1fhC9MhaSLslWAkXhIkmVkiRzeqbC3mk/vC
-	kd7w==
-X-Received: by 10.66.119.136 with SMTP id ku8mr4410503pab.29.1430981274988;
-	Wed, 06 May 2015 23:47:54 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:2019:32dd:e815:cffd?
-	([2601:9:3580:84c:2019:32dd:e815:cffd])
-	by mx.google.com with ESMTPSA id td3sm1011028pab.46.2015.05.06.23.47.54
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 06 May 2015 23:47:54 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1430899916.8074.20.camel@linuxfoundation.org>
-Date: Wed, 6 May 2015 23:47:47 -0700
-Message-Id: <000AAC87-CE74-45DC-A006-D4704D8841D8@gmail.com>
+	Thu,  7 May 2015 06:53:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t476rOf6018892; Thu, 7 May 2015 07:53:24 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fAmefpPKb9Mi; Thu,  7 May 2015 07:53:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t476rAak018889
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 7 May 2015 07:53:22 +0100
+Message-ID: <1430981590.8074.127.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 07 May 2015 07:53:10 +0100
+In-Reply-To: <000AAC87-CE74-45DC-A006-D4704D8841D8@gmail.com>
 References: <f19629f2963bbec46e41a35626a11a64fc4a0c6d.1430895556.git.raj.khem@gmail.com>
 	<4ffe99f25368e8b65df327fb9120ebca1c29e925.1430895556.git.raj.khem@gmail.com>
 	<1430899916.8074.20.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2098)
+	<000AAC87-CE74-45DC-A006-D4704D8841D8@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 5/6] gcc-cross: Pass EXTRA_OECONF_GCC_FLOAT to configure
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,52 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 06:47:54 -0000
-X-Groupsio-MsgNum: 65233
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_9B85CF5D-FAAE-4E67-B3C8-4A189499540B";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 07 May 2015 06:53:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---Apple-Mail=_9B85CF5D-FAAE-4E67-B3C8-4A189499540B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+On Wed, 2015-05-06 at 23:47 -0700, Khem Raj wrote:
+> > On May 6, 2015, at 1:11 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > But we build gcc-cross-arm once. This will cause it to rebuild depending
+> > on which machine you target? Worse, it likely will now do this for all
+> > architectures, not just arm.
+> 
+> only when float ABI changes which may be common across a subset of architectures.
+> 
+> although, I think its going to become a severe usability issue. Look
+> at the archives there are so many issues reported in various forums which end up exactly to this problem, since users expect
+> that once they installed the SDK it works out of box for the default architecture which is not
+> the case. It just seems wrong build optimization to make it common per arch it if we can’t have user expectations met.
+
+To be honest I haven't seen that many reports of the problem. We do ship
+an environment file and in that file we have the options gcc needs to
+work, the sysroot, the other cflags and the float abi. Unless we go back
+to a setup of hardcoding the cflags into gcc and have a gcc per set of
+cflags, this isn't going to work since it solves part of the problem but
+not all of it.
+
+Our other alternative is to wrap gcc with a script (preferred in PATH)
+which ensures the right cflags are present. I'd obviously prefer not to
+do that but it is an option if we believe people can't cope with the
+environment script.
+
+Cheers,
+
+Richard
 
 
-> On May 6, 2015, at 1:11 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> But we build gcc-cross-arm once. This will cause it to rebuild =
-depending
-> on which machine you target? Worse, it likely will now do this for all
-> architectures, not just arm.
 
-only when float ABI changes which may be common across a subset of =
-architectures.
-
-although, I think its going to become a severe usability issue. Look
-at the archives there are so many issues reported in various forums =
-which end up exactly to this problem, since users expect
-that once they installed the SDK it works out of box for the default =
-architecture which is not
-the case. It just seems wrong build optimization to make it common per =
-arch it if we can=E2=80=99t have user expectations met.
-
-
---Apple-Mail=_9B85CF5D-FAAE-4E67-B3C8-4A189499540B
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVLCpkACgkQuwUzVZGdMxSEUACeJaqXWWrSuy71Lfr87/kRwdTq
-wSMAnjVvfqn2cG7CDCEgbRBIBrNKeQWM
-=HdG6
------END PGP SIGNATURE-----
-
---Apple-Mail=_9B85CF5D-FAAE-4E67-B3C8-4A189499540B--
