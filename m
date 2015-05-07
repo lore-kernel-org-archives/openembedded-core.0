@@ -1,24 +1,38 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DB27972A2D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A12656081A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 19:55:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t47JtRJj025555
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  7 May 2015 21:20:12 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so50457604pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 May 2015 12:55:27 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 7 May 2015 12:55:26 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 May 2015 12:55:26 -0700
-Message-ID: <1431028526-7544-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Thu, 07 May 2015 14:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=NyQSzblfjVyA8wT2359LRG8A4wi3GKwZ9dk4AJJNSec=;
+	b=tNEFBaSZRVSxStMS/krITERE3KNDjOceFi9ILd+4OUxvRD26xn9j/0Ip7ib/kjC4to
+	rcHcb1n+oL1bN5zhuOiYQTnCKPlbmgSDhcUGKkRwjPaOJxcXMzGX0oCbUWVI1JEC9jDt
+	OppTN20I8Il4osfeXwcWI3a1/Ucy4/CoQ2S6EhUw3SpMuAw9FjaO9UQfcmszMqkyRwug
+	H8dxv2k16zitf5MrWGJchrPgESvbOjWDIeI3Vax3IfI2gSpSFzhJqzuT+XguqfLCRms/
+	XpEKHCSVT5HKtTJh/TNxK9VWhHrM1S3c1HrEcYCh2jz7/UA1CUtQAwMcB/iN+L4agVGq
+	V6jA==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] distro_features_check: add any of test
+X-Received: by 10.70.128.9 with SMTP id nk9mr1042917pdb.58.1431033613902; Thu,
+	07 May 2015 14:20:13 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Thu, 7 May 2015 14:20:13 -0700 (PDT)
+In-Reply-To: <1430948328-17891-3-git-send-email-igor.santos@aker.com.br>
+References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+	<1430948328-17891-3-git-send-email-igor.santos@aker.com.br>
+Date: Thu, 7 May 2015 18:20:13 -0300
+X-Google-Sender-Auth: Zl3ZKh1sPzsz_2jdau0Cg8Pyyns
+Message-ID: <CAP9ODKrwdcH9F-=nkCSNiuEutQDmBcCi0uvP1hbggQM1PHOwDw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Igor Santos <igor.santos@aker.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] cscope: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 19:55:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 May 2015 21:20:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add a test for distro features including one or more
-items in a list.  This is useful when, for example, we
-need either x11 or directfb as a feature.
+On Wed, May 6, 2015 at 6:38 PM, Igor Santos <igor.santos@aker.com.br> wrote:
+> Cscope is an interactive, screen-oriented tool that allows the user to
+> browse through C source files for specified elements of code.
+>
+> Signed-off-by: Igor Santos <igor.santos@aker.com.br>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/classes/distro_features_check.bbclass |   13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+meta-oe please.
 
-diff --git a/meta/classes/distro_features_check.bbclass b/meta/classes/distro_features_check.bbclass
-index 1f1d6fb..7e91dbc 100644
---- a/meta/classes/distro_features_check.bbclass
-+++ b/meta/classes/distro_features_check.bbclass
-@@ -1,5 +1,7 @@
- # Allow checking of required and conflicting DISTRO_FEATURES
- #
-+# ANY_OF_DISTRO_FEATURES:   ensure at least one item on this list is included
-+#                           in DISTRO_FEATURES.
- # REQUIRED_DISTRO_FEATURES: ensure every item on this list is included
- #                           in DISTRO_FEATURES.
- # CONFLICT_DISTRO_FEATURES: ensure no item in this list is included in
-@@ -8,10 +10,18 @@
- # Copyright 2013 (C) O.S. Systems Software LTDA.
- 
- python () {
-+    # Assume at least one var is set.
-+    distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-+
-+    any_of_distro_features = d.getVar('ANY_OF_DISTRO_FEATURES', True)
-+    if any_of_distro_features:
-+        any_of_distro_features = any_of_distro_features.split()
-+        if set.isdisjoint(set(any_of_distro_features),set(distro_features)):
-+            raise bb.parse.SkipPackage("one of '%s' needs to be in DISTRO_FEATURES" % any_of_distro_features)
-+
-     required_distro_features = d.getVar('REQUIRED_DISTRO_FEATURES', True)
-     if required_distro_features:
-         required_distro_features = required_distro_features.split()
--        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-         for f in required_distro_features:
-             if f in distro_features:
-                 continue
-@@ -21,7 +31,6 @@ python () {
-     conflict_distro_features = d.getVar('CONFLICT_DISTRO_FEATURES', True)
-     if conflict_distro_features:
-         conflict_distro_features = conflict_distro_features.split()
--        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-         for f in conflict_distro_features:
-             if f in distro_features:
-                 raise bb.parse.SkipPackage("conflicting distro feature '%s' (in DISTRO_FEATURES)" % f)
+Igor, generally speaking, you shouldn't add new recipes to OE-Core
+except if there is a very good reason to do so.
+
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
