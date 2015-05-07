@@ -1,23 +1,27 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 85F3F73F27
+	by mail.openembedded.org (Postfix) with ESMTP id A24D773F5D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 21:38:52 +0000 (UTC)
+	Thu,  7 May 2015 21:38:53 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 07 May 2015 14:38:53 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 07 May 2015 14:38:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,386,1427785200"; d="scan'208";a="568026459"
+X-IronPort-AV: E=Sophos;i="5.13,386,1427785200"; d="scan'208";a="568026461"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
 	by orsmga003.jf.intel.com with ESMTP; 07 May 2015 14:38:53 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 May 2015 21:38:51 +0000
-Message-Id: <cover.1431034430.git.anibal.limon@linux.intel.com>
+Date: Thu,  7 May 2015 21:38:53 +0000
+Message-Id: <96e4fe79011105c09ef7764fea2eada3e85acbf9.1431034430.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1431034430.git.anibal.limon@linux.intel.com>
+References: <cover.1431034430.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1431034430.git.anibal.limon@linux.intel.com>
+References: <cover.1431034430.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: richard.purdie@liuxfoundation.org
-Subject: [PATCHv2 0/4] Add support to handle INCOMPATIBLE_LICENSE
+Subject: [PATCHv2 2/4] license_class: Generalize license_ok function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +38,85 @@ X-List-Received-Date: Thu, 07 May 2015 21:38:55 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The next changes are to add support for handle INCOMPATIBLE_LICENSE in 
-manifest creation, in order to do it the license_create_manifest was 
-reimplemented in python and also added some tweaks for save disk space
-during build.
+Add dont_want_licenses as parameter to license_ok function and move it
+to oe.license module in order to use in other modules.
 
-This patchset v2 fixes an issue when try to handle () into ManifestVisitor
-for more info see next patches,
-	license: Split visit_string in LicenseVisitor
-	license: Add support for handle INCOMPATIBLE_LICENSE in manifest
-    creation
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/license.bbclass | 21 ++++-----------------
+ meta/lib/oe/license.py       | 14 ++++++++++++++
+ 2 files changed, 18 insertions(+), 17 deletions(-)
 
-The following changes since commit 4a711028c709d4bb1421e1637ae3fb0ac404fb45:
-
-  oe-selftest: devtool: add a proper test to see if tap devices exist (2015-05-07 14:59:43 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib alimon/license-v2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/license-v2
-
-Aníbal Limón (4):
-  license_class: Reimplemented manifest creation in python
-  license_class: Generalize license_ok function
-  license: Split visit_string in LicenseVisitor
-  license: Add support for handle INCOMPATIBLE_LICENSE in manifest    
-    creation
-
- meta/classes/license.bbclass | 205 +++++++++++++++++++++++--------------------
- meta/lib/oe/license.py       | 106 +++++++++++++++++++++-
- 2 files changed, 211 insertions(+), 100 deletions(-)
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 975867d..780b9d5 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -341,36 +341,23 @@ def incompatible_license(d, dont_want_licenses, package=None):
+     take into consideration 'or' operand.  dont_want_licenses should be passed
+     as canonical (SPDX) names.
+     """
+-    import re
+     import oe.license
+-    from fnmatch import fnmatchcase as fnmatch
+     license = d.getVar("LICENSE_%s" % package, True) if package else None
+     if not license:
+         license = d.getVar('LICENSE', True)
+ 
+-    def license_ok(license):
+-        for dwl in dont_want_licenses:
+-            # If you want to exclude license named generically 'X', we
+-            # surely want to exclude 'X+' as well.  In consequence, we
+-            # will exclude a trailing '+' character from LICENSE in
+-            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
+-            lic = license
+-            if not re.search('\+$', dwl):
+-                lic = re.sub('\+', '', license)
+-            if fnmatch(lic, dwl):
+-                return False
+-        return True
+-
+     # Handles an "or" or two license sets provided by
+     # flattened_licenses(), pick one that works if possible.
+     def choose_lic_set(a, b):
+-        return a if all(license_ok(lic) for lic in a) else b
++        return a if all(oe.license.license_ok(lic, dont_want_licenses) \
++		 for lic in a) else b
+ 
+     try:
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+-    return any(not license_ok(canonical_license(d, l)) for l in licenses)
++    return any(not oe.license.license_ok(canonical_license(d, l), \
++		dont_want_licenses) for l in licenses)
+ 
+ def check_license_flags(d):
+     """
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 31ca15b..bc146a28 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -5,6 +5,20 @@ import ast
+ import re
+ from fnmatch import fnmatchcase as fnmatch
+ 
++def license_ok(license, dont_want_licenses):
++    """ Return False if License exist in dont_want_licenses else True """
++    for dwl in dont_want_licenses:
++        # If you want to exclude license named generically 'X', we
++        # surely want to exclude 'X+' as well.  In consequence, we
++        # will exclude a trailing '+' character from LICENSE in
++        # case INCOMPATIBLE_LICENSE is not a 'X+' license.
++        lic = license
++        if not re.search('\+$', dwl):
++            lic = re.sub('\+', '', license)
++        if fnmatch(lic, dwl):
++            return False
++    return True
++
+ class LicenseError(Exception):
+     pass
+ 
 -- 
 1.8.4.5
 
