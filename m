@@ -1,28 +1,33 @@
 Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F0CB573DB5
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1181473F57
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 16:41:03 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 07 May 2015 09:41:05 -0700
+	Thu,  7 May 2015 16:41:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 07 May 2015 09:41:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,384,1427785200"; d="scan'208";a="725425080"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2015 09:41:04 -0700
+X-IronPort-AV: E=Sophos;i="5.13,384,1427785200"; d="scan'208";a="567884861"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by orsmga003.jf.intel.com with ESMTP; 07 May 2015 09:41:12 -0700
+Received: from orsmsx157.amr.corp.intel.com (10.22.240.23) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:12 -0700
 Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:04 -0700
+	ORSMSX157.amr.corp.intel.com (10.22.240.23) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:12 -0700
 Received: from localhost.localdomain (10.218.98.31) by
 	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:40:51 -0700
+	(TLS) id 14.3.224.2; Thu, 7 May 2015 09:41:05 -0700
 From: Bruno Bottazzini <bruno.bottazzini@intel.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 May 2015 13:40:37 -0300
-Message-ID: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
+Date: Thu, 7 May 2015 13:40:38 -0300
+Message-ID: <1431016840-26287-2-git-send-email-bruno.bottazzini@intel.com>
 X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
+References: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.218.98.31]
-Subject: [PATCH V3 0/3] systemd: split modules into packages
+Subject: [PATCH V3 1/3] dbus: split tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +40,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 16:41:04 -0000
+X-List-Received-Date: Thu, 07 May 2015 16:41:12 -0000
 Content-Type: text/plain
 
-Differences from V2:
-- Installing default features with "PACKAGECONFIG" instead of using
-  "DISTRO_FEATURES" as Anders, Leandro and Otavio suggested.
-- Rebase with master
+From: Gustavo Sverzut Barbieri <gustavo.barbieri@intel.com>
 
-Differences from V1:
-- Making sure that we don't change default configuration as Anders and
-  Otavio suggested.
-- Changing EXTRA_OECONF flags to use it with PAKAGECONFIG as Anders pointed
-  in the review.
-- New patch that verifies if journal-flush.service exists.
-  It may not exists depending on package configuration that the users want to
-  be installed or removed.
+Most tools are not required if one is launching a simple daemon.
+The user will be able to exclude dbus-tool and save some space in his
+build
 
-Bruno Bottazzini (2):
-  systemd: Verify if journal-flush.service exists.
-  systemd: split modules into packages
+Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Gustavo Sverzut Barbieri (1):
-  dbus: split tools package.
-
- meta/recipes-core/dbus/dbus.inc          |    9 +-
- meta/recipes-core/systemd/systemd_219.bb | 1070 ++++++++++++++++++++++++++----
- 2 files changed, 951 insertions(+), 128 deletions(-)
-
---
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index fb5d017..58dd728 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -39,7 +39,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-tools"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -47,6 +47,7 @@ OLDPKGNAME_class-nativesdk = ""
+ # for compatibility
+ RPROVIDES_${PN} = "${OLDPKGNAME}"
+ RREPLACES_${PN} += "${OLDPKGNAME}"
++RRECOMMENDS_${PN}_class-native = ""
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+@@ -64,6 +65,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
++FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
++                      ${bindir}/dbus-cleanup-sockets \
++                      ${bindir}/dbus-monitor \
++                      ${bindir}/dbus-launch \
++                      ${bindir}/dbus-run-session"
++RRECOMMENDS_${PN} = "${PN}-tools"
+ 
+ pkg_postinst_dbus() {
+ 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+-- 
 2.4.0
 
 
