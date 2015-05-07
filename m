@@ -1,30 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A54C60138
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 327446AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 May 2015 15:33:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t47FXJs7002966
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 May 2015 08:33:19 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 7 May 2015 08:33:19 -0700
-Message-ID: <554B85BE.5040800@windriver.com>
-Date: Thu, 7 May 2015 11:33:18 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Thu,  7 May 2015 16:30:00 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so44398711pab.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 May 2015 09:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=VydB7Y7q1kccBf+y6WFoWV48Krfr+D5Ug2js1tCk2eg=;
+	b=qPZiLdCoXoCyTx8ouYoCdfE7b8CiGh6H2jOZ58S+FmAuZUy8MVLaFj8WwxK860KZlT
+	IxzZYm6GTQiUuw30qWtd0AZQsKhZjpqpvdjT95jlQYPs3fhhFWiU0Xd9rxb4NsJbNaJM
+	IS86Annv+4ksBBOq3jQKEzDNswQ0iMTPikYGmKwSSiCVucFS/Zi+Mw0v+wQBbCHmrMbO
+	GJvqhXv3/AFPjDWZAH70TQgTy/rFvGfjzyy+Yqe4vT9pHeovmuDplKvYJhr3LlgJxm2o
+	5CNRSByXf2kXrBPxGc1SH17x3SdDhPfXOY7n22CwiYVCdh70es0mKKPxOM+yxPy+tLnl
+	cFjg==
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1430443583.git.bruce.ashfield@windriver.com>	<1430521154.18360.28.camel@linuxfoundation.org>	<55440C90.5060605@windriver.com>	<20150502081346.GD2366@jama>	<55458D0D.6070904@windriver.com>	<20150506144241.GA2067@jama>	<554A2C1C.5040304@windriver.com>	<20150506153325.GB2067@jama>	<1430927086.8074.65.camel@linuxfoundation.org>	<20150506160708.GD2067@jama>	<554A536C.5060608@windriver.com>	<1430947966.8074.108.camel@linuxfoundation.org>
-	<CA+chaQfarqYbkkfZyCpFfNm9qLXkOPf4HAnnmygDmBAVYt3BXw@mail.gmail.com>
-In-Reply-To: <CA+chaQfarqYbkkfZyCpFfNm9qLXkOPf4HAnnmygDmBAVYt3BXw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+X-Received: by 10.70.38.225 with SMTP id j1mr7662200pdk.14.1431016202052; Thu,
+	07 May 2015 09:30:02 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Thu, 7 May 2015 09:30:01 -0700 (PDT)
+In-Reply-To: <CAJTo0LbMVTFqMxXC=6Dukia50oAkko5Rc16zA9T7pGTgzYVhww@mail.gmail.com>
+References: <1430948328-17891-1-git-send-email-igor.santos@aker.com.br>
+	<CAJTo0LbMVTFqMxXC=6Dukia50oAkko5Rc16zA9T7pGTgzYVhww@mail.gmail.com>
+Date: Thu, 7 May 2015 13:30:01 -0300
+X-Google-Sender-Auth: W4SaWET1fFJbbGOJRi1dpAzoi3g
+Message-ID: <CAP9ODKoPPykye0Jip83AKdQ8hvn+p8Pupb7g0pY2ZaRHeSqBnA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Add ctags and cscope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 May 2015 15:33:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 May 2015 16:30:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2015-05-06 06:49 PM, Martin Jansa wrote:
-> I use tmpfs in most of my builds, so in most cases when I see the error
-> from the build, tmpfs is already gone (purged by next build executed on
-> the same sever).
+On Thu, May 7, 2015 at 12:12 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 6 May 2015 at 22:38, Igor Santos <igor.santos@aker.com.br> wrote:
+>>
+>> Hi, these series add ctags and cscope to the devtools.
+>> It's interesting to add these tools to the stable branches.
+>
+>
+> Why should these be in oe-core instead of another layer such as meta-oe?
 
-ross just found something like this in one of his local builds .. I'm
-pretty sure I see the race.
+meta-oe seems to be the right place for it.
 
-Fix coming shortly, and then the bigger changes I was mentioning before
-as well.
-
-Cheers,
-
-Bruce
-
->
-> On Wed, May 6, 2015 at 11:32 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org
-> <mailto:richard.purdie@linuxfoundation.org>> wrote:
->
->     On Wed, 2015-05-06 at 13:46 -0400, Bruce Ashfield wrote:
->     > On 2015-05-06 12:07 PM, Martin Jansa wrote:
->     > > I've used master-next week or two ago (mostly to test bluez4 and python3
->     > > changes) and soon after that dropped all linux-yocto related changes
->     > > from it assuming that it's indeed cause for the issues I'm seeing, but
->     > > it's not and it's still failing with master as well (and my
->     > > jenkins/world builds are just small portion of my builds executed
->     > > elsewhere where I see similar issues).
->     >
->     > Richard: How can we sort out the differences between the build
->     > environment that Martin uses versus what the autobuilder is showing?
->     >
->     > There's nothing particularly complex happening during that build,
->     > it's a checkout and generation of a config.
->     >
->     > I'm unable to reproduce any of the failures, and neither is the
->     > autobuilder.
->
->     This is a tough one and I'm struggling a little. We could try looking at
->     the tmp/stamps/qemux86-poky-linux/linux-yocto/* files (sigdata in
->     particular) as well as
->     tmp/work/qemux86-poky-linux/linux-yocto/*/temp/log.task_order
->
->     Martin, would you be able to share the above somewhere? I'm hoping this
->     would give us a clue as to what the difference is between the builds and
->     allow us to reproduce the problem.
->
->     Cheers,
->
->     Richard
->
->
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
