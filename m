@@ -1,27 +1,27 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 842D260034
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 061BD60034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 09:01:13 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="91867163"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 08 May 2015 16:57:19 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t488xspc014484
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 May 2015 16:59:54 +0800
-Received: from localhost.localdomain (10.167.226.25) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 8 May 2015 17:01:14 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 8 May 2015 17:01:14 +0800
-Message-ID: <1431075674-1688-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri,  8 May 2015 09:32:42 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 08 May 2015 02:32:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,390,1427785200"; d="scan'208";a="568278975"
+Received: from kreynold-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.28.13])
+	by orsmga003.jf.intel.com with ESMTP; 08 May 2015 02:32:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Fri, 08 May 2015 10:32:41 +0100
+Message-ID: <2100752.ocFVfOC089@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
+In-Reply-To: <c8ffc58be15eb07a95d84ec02e2895bb6828e1bf.1430726210.git.Qi.Chen@windriver.com>
+References: <cover.1430726210.git.Qi.Chen@windriver.com>
+	<c8ffc58be15eb07a95d84ec02e2895bb6828e1bf.1430726210.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.25]
-Subject: [PATCH] glibc_2.21.bb: Fix LSB bugs #3033
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 2/2] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +34,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 09:01:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 08 May 2015 09:32:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Bug 3033 - T.c_iflag and T.tcgetattr fail when using pseudo ttys (on some systems).
-https://lsbbugs.linuxfoundation.org/show_bug.cgi?id=3033
+Hi Qi,
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- .../glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch | 69 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.21.bb              |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
+On Monday 04 May 2015 15:59:30 Chen Qi wrote:
+> Copy the contents of local.conf under TOPDIR into the final generated
+> local.conf. In this way, custom settings are also made into the final
+> local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
+> 
+> Before this change, installing extensible SDK would usually report failure
+> when preparing the build system if the user has custom configuration for
+> DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
+> local.conf also don't get built correctly.
+> 
+> This patch solves the above problem.
+> 
+> A blacklist mechanism is also introduced so that we can blacklist variables
+> that should not be copied into the final local.conf file. Currently, the
+> blacklist contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR',
+> 'BASE_WORKDIR' and 'DEPLOY_DIR'. What these variables have in common is
+> that they are set in bitbake.conf using '?=' or '??='.
+> 
+> This list of course doesn't cover every possible setting allowed in
+> local.conf. And it's possible that some setting in local.conf would still
+> result in failure when preparing build system at installation time of
+> extensible SDK. The point is that we want to make sure that reasonable
+> settings like PACKAGECONFIG, DISTRO_FEATURES, IMAGE_INSTALL, etc, don't
+> result in failure which would very much depress the users of extensible
+> SDK.
+> 
+> [YOCTO #7616]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass index 2fc4c11..f08ba86 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
+> ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
+> 
+>  SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
+> +SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR
+> BASE_WORKDIR DEPLOY_DIR"
+> 
+>  SDK_TARGETS ?= "${PN}"
+>  OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+> @@ -114,6 +115,25 @@ python copy_buildsystem () {
+>          f.write('# this configuration provides, it is strongly suggested
+> that you set\n') f.write('# up a proper instance of the full build system
+> and use that instead.\n\n')
+> 
+> +        # Copy configurations from the current local.conf
+> +        builddir = d.getVar('TOPDIR', True)
+> +        with open(builddir + '/conf/local.conf', 'r') as lf:
+> +            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST',
+> True).split() +            skip = False
+> +            for line in lf:
+> +                line = line.lstrip()
+> +                if line.startswith('#'):
+> +                    continue
+> +                for varname in varblacklist:
+> +                    if line.startswith(varname):
+> +                        skip = True
+> +                        break
+> +                if not skip:
+> +                    f.write(line)
+> +                skip = False
+> +        f.write('\n')
+> +
+> +        # Configurations in local.conf which are specific for extensible
+> SDK f.write('INHERIT += "%s"\n\n' % 'uninative')
+>          f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
 
-diff --git a/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-new file mode 100644
-index 0000000..df0e61d
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-@@ -0,0 +1,69 @@
-+From 9022ee975265b65f59782ea92b59eccc95774a88 Mon Sep 17 00:00:00 2001
-+From: Li xin <lixin.fnst@cn.fujitsu.com>
-+Date: Fri, 8 May 2015 13:51:30 +0900
-+Subject: [PATCH] tcsetattr.c: Fix LSB NG Cases
-+
-+/tset/POSIX.os/devclass/tcgetattr/T.tcgetattr 1 2
-+/tset/POSIX.os/devclass/c_iflag/T.c_iflag 6 7 8 9
-+
-+This patch is from Fedora.
-+
-+Upstream-Status: pending.
-+
-+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-+---
-+ sysdeps/unix/sysv/linux/tcsetattr.c | 32 +++++++++++++++++++++++++++++++-
-+ 1 file changed, 31 insertions(+), 1 deletion(-)
-+
-+diff --git a/sysdeps/unix/sysv/linux/tcsetattr.c b/sysdeps/unix/sysv/linux/tcsetattr.c
-+index d7afc63..7cb2c61 100644
-+--- a/sysdeps/unix/sysv/linux/tcsetattr.c
-++++ b/sysdeps/unix/sysv/linux/tcsetattr.c
-+@@ -48,6 +48,7 @@ tcsetattr (fd, optional_actions, termios_p)
-+ {
-+   struct __kernel_termios k_termios;
-+   unsigned long int cmd;
-++  int retval;
-+ 
-+   switch (optional_actions)
-+     {
-+@@ -79,6 +80,35 @@ tcsetattr (fd, optional_actions, termios_p)
-+   memcpy (&k_termios.c_cc[0], &termios_p->c_cc[0],
-+ 	  __KERNEL_NCCS * sizeof (cc_t));
-+ 
-+-  return INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
-++  retval = INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
-++
-++  if (retval == 0 && cmd == TCSETS)
-++    {
-++      /* The Linux kernel has a bug which silently ignore the invalid
-++        c_cflag on pty. We have to check it here. */
-++      int save = errno;
-++      retval = INLINE_SYSCALL (ioctl, 3, fd, TCGETS, &k_termios);
-++      if (retval)
-++       {
-++         /* We cannot verify if the setting is ok. We don't return
-++            an error (?). */
-++         __set_errno (save);
-++         retval = 0;
-++       }
-++      else if ((termios_p->c_cflag & (PARENB | CREAD))
-++              != (k_termios.c_cflag & (PARENB | CREAD))
-++              || ((termios_p->c_cflag & CSIZE)
-++                  && ((termios_p->c_cflag & CSIZE)
-++                      != (k_termios.c_cflag & CSIZE))))
-++       {
-++         /* It looks like the Linux kernel silently changed the
-++            PARENB/CREAD/CSIZE bits in c_cflag. Report it as an
-++            error. */
-++         __set_errno (EINVAL);
-++         retval = -1;
-++       }
-++    }
-++
-++  return retval;
-+ }
-+ libc_hidden_def (tcsetattr)
-+-- 
-+1.8.4.2
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 58a9601..a061b08 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -27,6 +27,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
-            file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
-            file://elf-Makefile-fix-a-typo.patch \
-            ${EGLIBCPATCHES} \
-+           file://tcsetattr.c-Fix-LSB-NG-Cases.patch \
-           "
- EGLIBCPATCHES = "\
-            file://timezone-re-written-tzselect-as-posix-sh.patch \
+All you've done since v1 is extend the blacklist - I was hoping for something 
+generic that stops inappropriate paths bleeding into the SDK configuration. Can 
+you please add some code to handle that?
+
+Thanks,
+Paul
+
 -- 
-1.8.4.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
