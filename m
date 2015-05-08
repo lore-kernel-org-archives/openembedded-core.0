@@ -1,26 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 88E7873CDC
+	by mail.openembedded.org (Postfix) with ESMTP id A916873EFD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 May 2015 20:41:28 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga102.jf.intel.com with ESMTP; 08 May 2015 13:41:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,393,1427785200"; d="scan'208";a="491228628"
+X-IronPort-AV: E=Sophos;i="5.13,393,1427785200"; d="scan'208";a="491228624"
 Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
 	([10.23.219.52])
 	by FMSMGA003.fm.intel.com with ESMTP; 08 May 2015 13:41:29 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 May 2015 20:41:30 +0000
-Message-Id: <ee0edd3ff715775da7d7d265d0c56ea7e70ea6b6.1431117450.git.anibal.limon@linux.intel.com>
+Date: Fri,  8 May 2015 20:41:29 +0000
+Message-Id: <96e4fe79011105c09ef7764fea2eada3e85acbf9.1431117450.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1431117450.git.anibal.limon@linux.intel.com>
 References: <cover.1431117450.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1431117450.git.anibal.limon@linux.intel.com>
 References: <cover.1431117450.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 3/5] license: Split visit_string in LicenseVisitor
+Subject: [PATCHv3 2/5] license_class: Generalize license_ok function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 20:41:28 -0000
+X-List-Received-Date: Fri, 08 May 2015 20:41:29 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Create get_elements and visit_elements in LicenseVisitor based
-on visit_string this allow to do modifications on elements before
-parsing with AST.
+Add dont_want_licenses as parameter to license_ok function and move it
+to oe.license module in order to use in other modules.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oe/license.py | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ meta/classes/license.bbclass | 21 ++++-----------------
+ meta/lib/oe/license.py       | 14 ++++++++++++++
+ 2 files changed, 18 insertions(+), 17 deletions(-)
 
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 975867d..780b9d5 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -341,36 +341,23 @@ def incompatible_license(d, dont_want_licenses, package=None):
+     take into consideration 'or' operand.  dont_want_licenses should be passed
+     as canonical (SPDX) names.
+     """
+-    import re
+     import oe.license
+-    from fnmatch import fnmatchcase as fnmatch
+     license = d.getVar("LICENSE_%s" % package, True) if package else None
+     if not license:
+         license = d.getVar('LICENSE', True)
+ 
+-    def license_ok(license):
+-        for dwl in dont_want_licenses:
+-            # If you want to exclude license named generically 'X', we
+-            # surely want to exclude 'X+' as well.  In consequence, we
+-            # will exclude a trailing '+' character from LICENSE in
+-            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
+-            lic = license
+-            if not re.search('\+$', dwl):
+-                lic = re.sub('\+', '', license)
+-            if fnmatch(lic, dwl):
+-                return False
+-        return True
+-
+     # Handles an "or" or two license sets provided by
+     # flattened_licenses(), pick one that works if possible.
+     def choose_lic_set(a, b):
+-        return a if all(license_ok(lic) for lic in a) else b
++        return a if all(oe.license.license_ok(lic, dont_want_licenses) \
++		 for lic in a) else b
+ 
+     try:
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+-    return any(not license_ok(canonical_license(d, l)) for l in licenses)
++    return any(not oe.license.license_ok(canonical_license(d, l), \
++		dont_want_licenses) for l in licenses)
+ 
+ def check_license_flags(d):
+     """
 diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index bc146a28..254279d 100644
+index 31ca15b..bc146a28 100644
 --- a/meta/lib/oe/license.py
 +++ b/meta/lib/oe/license.py
-@@ -44,8 +44,8 @@ license_operator = re.compile('([' + license_operator_chars + '])')
- license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
+@@ -5,6 +5,20 @@ import ast
+ import re
+ from fnmatch import fnmatchcase as fnmatch
  
- class LicenseVisitor(ast.NodeVisitor):
--    """Syntax tree visitor which can accept OpenEmbedded license strings"""
--    def visit_string(self, licensestr):
-+    """Get elements based on OpenEmbedded license strings"""
-+    def get_elements(self, licensestr):
-         new_elements = []
-         elements = filter(lambda x: x.strip(), license_operator.split(licensestr))
-         for pos, element in enumerate(elements):
-@@ -57,7 +57,16 @@ class LicenseVisitor(ast.NodeVisitor):
-                 raise InvalidLicense(element)
-             new_elements.append(element)
- 
--        self.visit(ast.parse(' '.join(new_elements)))
-+        return new_elements
++def license_ok(license, dont_want_licenses):
++    """ Return False if License exist in dont_want_licenses else True """
++    for dwl in dont_want_licenses:
++        # If you want to exclude license named generically 'X', we
++        # surely want to exclude 'X+' as well.  In consequence, we
++        # will exclude a trailing '+' character from LICENSE in
++        # case INCOMPATIBLE_LICENSE is not a 'X+' license.
++        lic = license
++        if not re.search('\+$', dwl):
++            lic = re.sub('\+', '', license)
++        if fnmatch(lic, dwl):
++            return False
++    return True
 +
-+    """Syntax tree visitor which can accept elements previously generated with
-+    OpenEmbedded license string"""
-+    def visit_elements(self, elements):
-+        self.visit(ast.parse(' '.join(elements)))
-+
-+    """Syntax tree visitor which can accept OpenEmbedded license strings"""
-+    def visit_string(self, licensestr):
-+        self.visit_elements(self.get_elements(licensestr))
+ class LicenseError(Exception):
+     pass
  
- class FlattenVisitor(LicenseVisitor):
-     """Flatten a license tree (parsed from a string) by selecting one of each
 -- 
 1.8.4.5
 
