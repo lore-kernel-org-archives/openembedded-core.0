@@ -1,40 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 72A706081A
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mail-vn0-f50.google.com (mail-vn0-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 373E560034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 16:26:18 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so89540606pdb.0
+	Fri,  8 May 2015 17:30:15 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so5880373vnb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 09:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=f9wwPhP6/IunzJCowrYY1Kg/aZNIv1yAZKPHp3uFXWE=;
-	b=elPZCplY5tK02utfAmSkbmmJUGYv1IZ7ihnkZJpfO48GTyygbbe7Ud5b0YvvEtKv8J
-	PRKhPg9UEUmI1/O0GasmCJSJbe8KuMuI2wR4n9vitVZ6UFennAD9caHlUTK1bLzWaNqt
-	9Zt+XI1fGvNwGpGCBWcKoX76RcLO4st6YC58mGL+b/A4C1wMugjS1YhjORqjuzqEO/Py
-	9pM/eyCYkV28VbOEJWE3H+/mgGsz1k25vP0y2Ys3vXRgBETg788hWbsuq7kBnQD4Y+JD
-	EsEaeiVmlKhX03/2tx98+4bJUZcVh0Q6SkSifRuMD7x3uDMk0CWLp5qnZcSsgc7sT0ie
-	Q53Q==
-X-Received: by 10.70.102.132 with SMTP id fo4mr7790740pdb.31.1431102320077;
-	Fri, 08 May 2015 09:25:20 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85])
-	by mx.google.com with ESMTPSA id j14sm5653336pbq.29.2015.05.08.09.25.18
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 08 May 2015 09:25:19 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1431095308-17934-1-git-send-email-haris.okanovic@ni.com>
-Date: Fri, 8 May 2015 09:25:18 -0700
-Message-Id: <F7042414-7582-4E9D-AF7A-95A15FD07C74@gmail.com>
-References: <1431095308-17934-1-git-send-email-haris.okanovic@ni.com>
-To: Haris Okanovic <haris.okanovic@ni.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: Ken Sharp <ken.sharp@ni.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] glibc: CVE-2015-1472: wscanf allocates too little memory
+	Fri, 08 May 2015 10:30:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=/JUXylXOZyO8IzSjAEVWy0bdyzL/B72Bt2Ya/cQOrlM=;
+	b=PeSbG2yz6hGrA8u9UuLGZK+Wt411a9gg9G0k8OLweNdk8jLACnj72ST6SS0ZUiyv0s
+	/WRt+1FHmekShpgNkqd8ZsO4mKTyMAuRIsv7S9mN6B4xir2acqyyhFBStENtfscBPklk
+	p/2gGLg3O7qnkdqbz1VAXm1g7kYjlBgUXp360zEoQt3OhSgNu2YB4uB2lnJJ3IdMQNrI
+	7Bb0hGSVMTIZZS/mqVSITWe/dYwrGmQjr6KV1JtP+YrSq0KfFSyky3ynp3lpPXbzS7PU
+	7MFldsxCVvoCb8omXgFWUDptJx+3CWzjeYfB+dd2Djgddm3en3mZjWjNxj/QAENTxESz
+	9Mjw==
+X-Gm-Message-State: ALoCoQmHMel1b2ZKuW5n1Hnzv0yoSOPF3WlH2mOFJdZ0oQLUE5veIz65+t7Y3OcMNc17Jc9cudpa
+MIME-Version: 1.0
+X-Received: by 10.52.32.34 with SMTP id f2mr3713223vdi.11.1431106216653; Fri,
+	08 May 2015 10:30:16 -0700 (PDT)
+Received: by 10.52.231.33 with HTTP; Fri, 8 May 2015 10:30:16 -0700 (PDT)
+In-Reply-To: <a7f0f31023f0f267d0d7b3ff7f6e99d56b88841b.1430923708.git.anibal.limon@linux.intel.com>
+References: <cover.1430923708.git.anibal.limon@linux.intel.com>
+	<a7f0f31023f0f267d0d7b3ff7f6e99d56b88841b.1430923708.git.anibal.limon@linux.intel.com>
+Date: Fri, 8 May 2015 18:30:16 +0100
+Message-ID: <CAPhnLPDnUyLb1U=EpE-yV8rgGh+amVddjNDzbExWGgD0TNmOQg@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] license_class: Reimplemented manifest creation in python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,279 +46,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 16:26:18 -0000
-X-Groupsio-MsgNum: 65305
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_94157083-D411-4280-92A9-01C196956EA0";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_94157083-D411-4280-92A9-01C196956EA0
+X-List-Received-Date: Fri, 08 May 2015 17:30:16 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-this is ok
-
-> On May 8, 2015, at 7:28 AM, Haris Okanovic <haris.okanovic@ni.com> =
-wrote:
->=20
-> Backport Paul Pluzhnikov's glibc patch for CVE-2015-1472:
->=20
-> Under certain conditions wscanf can allocate too little memory for the
-> to-be-scanned arguments and overflow the allocated buffer.  The
-> implementation now correctly computes the required buffer size when
-> using malloc.
->=20
-> https://sourceware.org/bugzilla/show_bug.cgi?id=3D16618
->=20
-> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-> Signed-off-by: Ken Sharp <ken.sharp@ni.com>
-> Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
+On 6 May 2015 at 15:52, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.co=
+m> wrote:
+> Reimplemented license_manifest_create from shell to python for
+> INCOMPATIBLE_LICENSE handle using oe.license module.
+>
+> Optimizations are made to avoid license copy now uses a hardlink
+> and symbolic link this helps to save space during build.
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
 > ---
-> Natinst-CAR-ID: 518552
-> Natinst-ReviewBoard-ID: 96712
-> ---
-> ...5-1472-wscanf-allocates-too-little-memory.patch | 127 =
-+++++++++++++++++++++
-> meta/recipes-core/glibc/glibc_2.20.bb              |   1 +
-> 2 files changed, 128 insertions(+)
-> create mode 100644 =
-meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-me=
-mory.patch
->=20
-> diff --git =
-a/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-=
-memory.patch =
-b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-=
-memory.patch
-> new file mode 100644
-> index 0000000..4ffd609
-> --- /dev/null
-> +++ =
-b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-=
-memory.patch
-> @@ -0,0 +1,127 @@
-> +=46rom 5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06 Mon Sep 17 00:00:00 =
-2001
-> +From: Paul Pluzhnikov <ppluzhnikov@google.com>
-> +Date: Fri, 6 Feb 2015 00:30:42 -0500
-> +Subject: [PATCH] CVE-2015-1472: wscanf allocates too little memory
+>  meta/classes/license.bbclass | 163 ++++++++++++++++++++++---------------=
+------
+>  1 file changed, 82 insertions(+), 81 deletions(-)
+>
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index d9409a9..975867d 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -25,87 +25,88 @@ python write_package_manifest() {
+>          'w+').write(image_list_installed_packages(d))
+>  }
+>
+> -license_create_manifest() {
+> -        # Test if BUILD_IMAGES_FROM_FEEDS is defined in env
+> -        if [ -n "${BUILD_IMAGES_FROM_FEEDS}" ]; then
+> -          exit 0
+> -        fi
+> -
+> -       INSTALLED_PKGS=3D`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.=
+manifest`
+> -       LICENSE_MANIFEST=3D"${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.ma=
+nifest"
+> -       # remove existing license.manifest file
+> -       if [ -f ${LICENSE_MANIFEST} ]; then
+> -               rm ${LICENSE_MANIFEST}
+> -       fi
+> -       touch ${LICENSE_MANIFEST}
+> -       for pkg in ${INSTALLED_PKGS}; do
+> -               filename=3D`ls ${PKGDATA_DIR}/runtime-reverse/${pkg}| hea=
+d -1`
+> -               pkged_pn=3D"$(sed -n 's/^PN: //p' ${filename})"
+> -
+> -               # check to see if the package name exists in the manifest=
+. if so, bail.
+> -               if grep -q "^PACKAGE NAME: ${pkg}" ${LICENSE_MANIFEST}; t=
+hen
+> -                       continue
+> -               fi
+> -
+> -               pkged_pv=3D"$(sed -n 's/^PV: //p' ${filename})"
+> -               pkged_name=3D"$(basename $(readlink ${filename}))"
+> -               pkged_lic=3D"$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LIC=
+ENSE_${pkged_name}: //; p }" ${filename})"
+> -               pkged_size=3D"$(sed -n "/^PKGSIZE_${pkged_name}: /{ s/^PK=
+GSIZE_${pkged_name}: //; p }" ${filename})"
+> -               if [ -z "${pkged_lic}" ]; then
+> -                       # fallback checking value of LICENSE
+> -                       pkged_lic=3D"$(sed -n "/^LICENSE: /{ s/^LICENSE: =
+//; p }" ${filename})"
+> -               fi
+> -
+> -               echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+> -               echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST=
+}
+> -               echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+> -               echo "LICENSE:" ${pkged_lic} >> ${LICENSE_MANIFEST}
+> -               echo "" >> ${LICENSE_MANIFEST}
+> -
+> -               # If the package doesn't contain any file, that is, its s=
+ize is 0, the license
+> -               # isn't relevant as far as the final image is concerned. =
+So doing license check
+> -               # doesn't make much sense, skip it.
+> -               if [ "$pkged_size" =3D "0" ]; then
+> -                       continue
+> -               fi
+> -
+> -               lics=3D"$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | sed "=
+s/  */ /g" )"
+> -               for lic in ${lics}; do
+> -                       # to reference a license file trim trailing + sym=
+bol
+> -                       if ! [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/gener=
+ic_${lic%+}" ]; then
+> -                               bbwarn "The license listed ${lic} was not=
+ in the licenses collected for ${pkged_pn}"
+> -                       fi
+> -               done
+> -       done
+> -
+> -       # Two options here:
+> -       # - Just copy the manifest
+> -       # - Copy the manifest and the license directories
+> -       # With both options set we see a .5 M increase in core-image-mini=
+mal
+> -       if [ "${COPY_LIC_MANIFEST}" =3D "1" ]; then
+> -               mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/
+> -               cp ${LICENSE_MANIFEST} ${IMAGE_ROOTFS}/usr/share/common-l=
+icenses/license.manifest
+> -               if [ "${COPY_LIC_DIRS}" =3D "1" ]; then
+> -                       for pkg in ${INSTALLED_PKGS}; do
+> -                               mkdir -p ${IMAGE_ROOTFS}/usr/share/common=
+-licenses/${pkg}
+> -                               pkged_pn=3D"$(oe-pkgdata-util -p ${PKGDAT=
+A_DIR} lookup-recipe ${pkg})"
+> -                               for lic in `ls ${LICENSE_DIRECTORY}/${pkg=
+ed_pn}`; do
+> -                                       # Really don't need to copy the g=
+enerics as they're
+> -                                       # represented in the manifest and=
+ in the actual pkg licenses
+> -                                       # Doing so would make your image =
+quite a bit larger
+> -                                       if [ "${lic#generic_}" =3D "${lic=
+}" ]; then
+> -                                               cp ${LICENSE_DIRECTORY}/$=
+{pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
+> -                                       else
+> -                                               if [ ! -f ${IMAGE_ROOTFS}=
+/usr/share/common-licenses/${lic} ]; then
+> -                                                       cp ${LICENSE_DIRE=
+CTORY}/${pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
+> -                                               fi
+> -                                               ln -sf ../${lic} ${IMAGE_=
+ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
+> -                                       fi
+> -                               done
+> -                       done
+> -               fi
+> -       fi
+> -
+> +python license_create_manifest() {
+> +    import re
+> +    import oe.packagedata
 > +
-> +BZ #16618
+> +    build_images_from_feeds =3D d.getVar('BUILD_IMAGES_FROM_FEEDS', True=
+)
+> +    if build_images_from_feeds =3D=3D "1":
+> +        return 0
 > +
-> +Under certain conditions wscanf can allocate too little memory for =
-the
-> +to-be-scanned arguments and overflow the allocated buffer.  The
-> +implementation now correctly computes the required buffer size when
-> +using malloc.
+> +    pkg_dic =3D {}
+> +    package_manifest =3D os.path.join(d.getVar('LICENSE_DIRECTORY', True=
+),
+> +                        d.getVar('IMAGE_NAME', True), 'package.manifest'=
+)
+
+Why aren't you using [image|sdk]_list_installed_packages to get the
+package list here?
+
+> +    with open(package_manifest, "r") as package_file:
+> +        pkg_list =3D package_file.read().split()
+> +        for pkg in pkg_list:
+> +            pkg_info =3D os.path.join(d.getVar('PKGDATA_DIR', True),
+> +                                    'runtime-reverse', pkg)
+> +            pkg_name =3D os.path.basename(os.readlink(pkg_info))
 > +
-> +A regression test was added to tst-sscanf.
+> +            pkg_dic[pkg_name] =3D oe.packagedata.read_pkgdatafile(pkg_in=
+fo)
+> +            if not "LICENSE" in pkg_dic[pkg_name].keys():
+> +                pkg_lic_name =3D "LICENSE_" + pkg_name
+> +                pkg_dic[pkg_name]["LICENSE"] =3D pkg_dic[pkg_name][pkg_l=
+ic_name]
 > +
-> +Upstream-Status: Backport
-> +https://sourceware.org/bugzilla/show_bug.cgi?id=3D16618
-> +---
-> + stdio-common/tst-sscanf.c | 33 +++++++++++++++++++++++++++++++++
-> + stdio-common/vfscanf.c    | 12 ++++++------
-> + 2 files changed, 39 insertions(+), 6 deletions(-)
+> +    license_manifest =3D os.path.join(d.getVar('LICENSE_DIRECTORY', True=
+),
+> +                        d.getVar('IMAGE_NAME', True), 'license.manifest'=
+)
+> +    with open(license_manifest, "w") as license_file:
+> +        for pkg in sorted(pkg_dic):
+> +            license_file.write("PACKAGE NAME: %s\n" % pkg)
+> +            license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["P=
+V"])
+> +            license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
+> +            license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE=
+"])
 > +
-> +diff --git a/stdio-common/tst-sscanf.c b/stdio-common/tst-sscanf.c
-> +index =
-aece3f2f290088b2c08441cf85f2b915a61b9789..8a2eb9e39c4752a30941753d7f0325c2=
-aa352fd1 100644
-> +--- a/stdio-common/tst-sscanf.c
-> ++++ b/stdio-common/tst-sscanf.c
-> +@@ -226,12 +226,45 @@ main (void)
-> + 	  result =3D 1;
-> + 	}
-> +       else if (ret =3D=3D 2 && c !=3D double_tests2[i].residual)
-> + 	{
-> + 	  printf ("double_tests2[%d] stopped at '%c' !=3D '%c'\n",
-> + 		  i, c, double_tests2[i].residual);
-> + 	  result =3D 1;
-> + 	}
-> +     }
+> +            # If the package doesn't contain any file, that is, its size=
+ is 0, the license
+> +            # isn't relevant as far as the final image is concerned. So =
+doing license check
+> +            # doesn't make much sense, skip it.
+> +            if pkg_dic[pkg]["PKGSIZE_%s" % pkg] =3D=3D "0":
+> +                continue
 > +
-> ++  /* BZ #16618
-> ++     The test will segfault during SSCANF if the buffer overflow
-> ++     is not fixed.  The size of `s` is such that it forces the use
-> ++     of malloc internally and this triggers the incorrect =
-computation.
-> ++     Thus the value for SIZE is arbitrariy high enough that malloc
-> ++     is used.  */
-> ++  {
-> ++#define SIZE 131072
-> ++    CHAR *s =3D malloc ((SIZE + 1) * sizeof (*s));
-> ++    if (s =3D=3D NULL)
-> ++      abort ();
-> ++    for (size_t i =3D 0; i < SIZE; i++)
-> ++      s[i] =3D L('0');
-> ++    s[SIZE] =3D L('\0');
-> ++    int i =3D 42;
-> ++    /* Scan multi-digit zero into `i`.  */
-> ++    if (SSCANF (s, L("%d"), &i) !=3D 1)
-> ++      {
-> ++	printf ("FAIL: bug16618: SSCANF did not read one input =
-item.\n");
-> ++	result =3D 1;
-> ++      }
-> ++    if (i !=3D 0)
-> ++      {
-> ++	printf ("FAIL: bug16618: Value of `i` was not zero as =
-expected.\n");
-> ++	result =3D 1;
-> ++      }
-> ++    free (s);
-> ++    if (result !=3D 1)
-> ++      printf ("PASS: bug16618: Did not crash.\n");
-> ++#undef SIZE
-> ++  }
-> ++
-> ++
-> +   return result;
-> + }
-> +diff --git a/stdio-common/vfscanf.c b/stdio-common/vfscanf.c
-> +index =
-cd129a81dee57e5e06ccb0e676e0de3fd52469ca..0e204e7b326d848716222f40b5b82b82=
-56ed1b77 100644
-> +--- a/stdio-common/vfscanf.c
-> ++++ b/stdio-common/vfscanf.c
-> +@@ -265,42 +265,42 @@ _IO_vfscanf_internal (_IO_FILE *s, const char =
-*format, _IO_va_list argptr,
-> +   CHAR_T *wp =3D NULL;		/* Workspace.  */
-> +   size_t wpmax =3D 0;		/* Maximal size of workspace.  =
-*/
-> +   size_t wpsize;		/* Currently used bytes in workspace.  =
-*/
-> +   bool use_malloc =3D false;
-> + #define ADDW(Ch)							 =
-   \
-> +   do									=
-    \
-> +     {									=
-    \
-> +       if (__glibc_unlikely (wpsize =3D=3D wpmax))				=
-      \
-> + 	{								 =
-   \
-> + 	  CHAR_T *old =3D wp;						 =
-   \
-> +-	  size_t newsize =3D (UCHAR_MAX + 1 > 2 * wpmax			 =
-   \
-> +-			    ? UCHAR_MAX + 1 : 2 * wpmax);		 =
-   \
-> +-	  if (use_malloc || !__libc_use_alloca (newsize))		 =
-   \
-> ++	  bool fits =3D __glibc_likely (wpmax <=3D SIZE_MAX / sizeof =
-(CHAR_T) / 2); \
-> ++	  size_t wpneed =3D MAX (UCHAR_MAX + 1, 2 * wpmax);		 =
-   \
-> ++	  size_t newsize =3D fits ? wpneed * sizeof (CHAR_T) : SIZE_MAX;	=
-    \
-> ++	  if (!__libc_use_alloca (newsize))				 =
-   \
-> + 	    {								 =
-   \
-> + 	      wp =3D realloc (use_malloc ? wp : NULL, newsize);		 =
-   \
-> + 	      if (wp =3D=3D NULL)						=
-    \
-> + 		{							 =
-   \
-> + 		  if (use_malloc)					 =
-   \
-> + 		    free (old);						 =
-   \
-> + 		  done =3D EOF;						 =
-   \
-> + 		  goto errout;						 =
-   \
-> + 		}							 =
-   \
-> + 	      if (! use_malloc)						 =
-   \
-> + 		MEMCPY (wp, old, wpsize);				 =
-   \
-> +-	      wpmax =3D newsize;						=
-    \
-> ++	      wpmax =3D wpneed;						 =
-   \
-> + 	      use_malloc =3D true;					 =
-   \
-> + 	    }								 =
-   \
-> + 	  else								 =
-   \
-> + 	    {								 =
-   \
-> + 	      size_t s =3D wpmax * sizeof (CHAR_T);			 =
-   \
-> +-	      wp =3D (CHAR_T *) extend_alloca (wp, s,			 =
-   \
-> +-					     newsize * sizeof (CHAR_T)); =
-   \
-> ++	      wp =3D (CHAR_T *) extend_alloca (wp, s, newsize);		 =
-   \
-> + 	      wpmax =3D s / sizeof (CHAR_T);				 =
-   \
-> + 	      if (old !=3D NULL)						=
-    \
-> + 		MEMCPY (wp, old, wpsize);				 =
-   \
-> + 	    }								 =
-   \
-> + 	}								 =
-   \
-> +       wp[wpsize++] =3D (Ch);						=
-    \
-> +     }									=
-    \
-> +   while (0)
+> +            licenses =3D re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
+> +            licenses =3D re.sub('  *', ' ', licenses)
+> +            for lic in licenses.split():
+> +                lic_file =3D os.path.join(d.getVar('LICENSE_DIRECTORY', =
+True),
+> +                                        pkg_dic[pkg]["PN"], "generic_%s"=
+ %
+> +                                        re.sub('\+', '', lic))
+> +                if not os.path.exists(lic_file):
+> +                   bb.warn("The license listed %s was not in the "\
+> +                            "licenses collected for recipe %s"
+> +                            % (lic, pkg_dic[pkg]["PN"]))
 > +
-> + #ifdef __va_copy
-> +--
-> +2.2.2
+> +    # Two options here:
+> +    # - Just copy the manifest
+> +    # - Copy the manifest and the license directories
+> +    # With both options set we see a .5 M increase in core-image-minimal
+> +    copy_lic_manifest =3D d.getVar('COPY_LIC_MANIFEST', True)
+> +    copy_lic_dirs =3D d.getVar('COPY_LIC_DIRS', True)
+> +    if copy_lic_manifest =3D=3D "1":
+> +        rootfs_license_dir =3D os.path.join(d.getVar('IMAGE_ROOTFS', 'Tr=
+ue'),
+> +                                'usr', 'share', 'common-licenses')
+> +        os.makedirs(rootfs_license_dir)
+> +        rootfs_license_manifest =3D os.path.join(rootfs_license_dir,
+> +                                                'license.manifest')
+> +        os.link(license_manifest, rootfs_license_manifest)
 > +
-> diff --git a/meta/recipes-core/glibc/glibc_2.20.bb =
-b/meta/recipes-core/glibc/glibc_2.20.bb
-> index 3277f7a..e3427dd 100644
-> --- a/meta/recipes-core/glibc/glibc_2.20.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.20.bb
-> @@ -46,6 +46,7 @@ CVEPATCHES =3D "\
->         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch =
-\
->         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch =
-\
->         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-> +        file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch =
-\
->     "
-> LIC_FILES_CHKSUM =3D =
-"file://LICENSES;md5=3De9a558e243b36d3209f380deb394b213 \
->       file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> +        if copy_lic_dirs =3D=3D "1":
+> +            for pkg in sorted(pkg_dic):
+> +                pkg_rootfs_license_dir =3D os.path.join(rootfs_license_d=
+ir, pkg)
+> +                os.makedirs(pkg_rootfs_license_dir)
+> +                pkg_license_dir =3D os.path.join(d.getVar('LICENSE_DIREC=
+TORY', True),
+> +                                            pkg_dic[pkg]["PN"])
+> +                licenses =3D os.listdir(pkg_license_dir)
+> +                for lic in licenses:
+> +                    rootfs_license =3D os.path.join(rootfs_license_dir, =
+lic)
+> +                    pkg_license =3D os.path.join(pkg_license_dir, lic)
+> +                    pkg_rootfs_license =3D os.path.join(pkg_rootfs_licen=
+se_dir, lic)
+> +
+> +                    if re.match("^generic_.*$", lic):
+> +                        if not os.path.exists(rootfs_license):
+> +                            os.link(pkg_license, rootfs_license)
+> +
+> +                        os.symlink(os.path.join('..', lic), pkg_rootfs_l=
+icense)
+> +                    else:
+> +                        os.link(pkg_license, pkg_rootfs_license)
+>  }
+>
+>  python do_populate_lic() {
 > --
-> 2.2.2
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 1.8.4.5
+>
 
 
---Apple-Mail=_94157083-D411-4280-92A9-01C196956EA0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+--=20
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
-iEYEARECAAYFAlVM424ACgkQuwUzVZGdMxRIAACeLUAE6BeFKrS0q3x0CcgicNui
-wUkAn3mXhiZGbNrXLe9o4X7aa/pMxgkm
-=7ODT
------END PGP SIGNATURE-----
-
---Apple-Mail=_94157083-D411-4280-92A9-01C196956EA0--
