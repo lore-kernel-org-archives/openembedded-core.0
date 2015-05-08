@@ -1,24 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 182F473C81
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 842D260034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 08:07:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4887Tv2027310
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  8 May 2015 09:01:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="91867163"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 08 May 2015 16:57:19 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t488xspc014484
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 May 2015 01:07:29 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Fri, 8 May 2015 01:07:29 -0700
-From: <rongqing.li@windriver.com>
+	Fri, 8 May 2015 16:59:54 +0800
+Received: from localhost.localdomain (10.167.226.25) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 8 May 2015 17:01:14 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 8 May 2015 16:03:14 +0800
-Message-ID: <1431072194-18536-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Fri, 8 May 2015 17:01:14 +0800
+Message-ID: <1431075674-1688-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] sqlite3: upgrade to 3.8.10
+X-Originating-IP: [10.167.226.25]
+Subject: [PATCH] glibc_2.21.bb: Fix LSB bugs #3033
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +34,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 08:07:31 -0000
+X-List-Received-Date: Fri, 08 May 2015 09:01:19 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+Bug 3033 - T.c_iflag and T.tcgetattr fail when using pseudo ttys (on some systems).
+https://lsbbugs.linuxfoundation.org/show_bug.cgi?id=3033
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- .../sqlite/files/0001-Add-the-dependence.patch     | 24 ++++++++++++++++++++++
- .../{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb}    |  8 +++++---
- 2 files changed, 29 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/sqlite/files/0001-Add-the-dependence.patch
- rename meta/recipes-support/sqlite/{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb} (65%)
+ .../glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch | 69 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb              |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
 
-diff --git a/meta/recipes-support/sqlite/files/0001-Add-the-dependence.patch b/meta/recipes-support/sqlite/files/0001-Add-the-dependence.patch
+diff --git a/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
 new file mode 100644
-index 0000000..dc86a3f
+index 0000000..df0e61d
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/0001-Add-the-dependence.patch
-@@ -0,0 +1,24 @@
-+[PATCH] Add the dependence for sqlite3 on libsqlite3
++++ b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
+@@ -0,0 +1,69 @@
++From 9022ee975265b65f59782ea92b59eccc95774a88 Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Fri, 8 May 2015 13:51:30 +0900
++Subject: [PATCH] tcsetattr.c: Fix LSB NG Cases
 +
-+Upstream-Status: Pending
++/tset/POSIX.os/devclass/tcgetattr/T.tcgetattr 1 2
++/tset/POSIX.os/devclass/c_iflag/T.c_iflag 6 7 8 9
 +
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
++This patch is from Fedora.
++
++Upstream-Status: pending.
++
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 +---
-+ Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
++ sysdeps/unix/sysv/linux/tcsetattr.c | 32 +++++++++++++++++++++++++++++++-
++ 1 file changed, 31 insertions(+), 1 deletion(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 88bc23d..a1cdb2a 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -8,6 +8,7 @@ libsqlite3_la_LDFLAGS = -no-undefined -version-info 8:6:8
-+ bin_PROGRAMS = sqlite3
-+ sqlite3_SOURCES = shell.c sqlite3.h
-+ sqlite3_LDADD = sqlite3.$(OBJEXT) @READLINE_LIBS@
-++sqlite3_DEPENDENCIES = $(top_builddir)/libsqlite3.la
++diff --git a/sysdeps/unix/sysv/linux/tcsetattr.c b/sysdeps/unix/sysv/linux/tcsetattr.c
++index d7afc63..7cb2c61 100644
++--- a/sysdeps/unix/sysv/linux/tcsetattr.c
+++++ b/sysdeps/unix/sysv/linux/tcsetattr.c
++@@ -48,6 +48,7 @@ tcsetattr (fd, optional_actions, termios_p)
++ {
++   struct __kernel_termios k_termios;
++   unsigned long int cmd;
+++  int retval;
 + 
-+ include_HEADERS = sqlite3.h sqlite3ext.h
++   switch (optional_actions)
++     {
++@@ -79,6 +80,35 @@ tcsetattr (fd, optional_actions, termios_p)
++   memcpy (&k_termios.c_cc[0], &termios_p->c_cc[0],
++ 	  __KERNEL_NCCS * sizeof (cc_t));
 + 
++-  return INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
+++  retval = INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
+++
+++  if (retval == 0 && cmd == TCSETS)
+++    {
+++      /* The Linux kernel has a bug which silently ignore the invalid
+++        c_cflag on pty. We have to check it here. */
+++      int save = errno;
+++      retval = INLINE_SYSCALL (ioctl, 3, fd, TCGETS, &k_termios);
+++      if (retval)
+++       {
+++         /* We cannot verify if the setting is ok. We don't return
+++            an error (?). */
+++         __set_errno (save);
+++         retval = 0;
+++       }
+++      else if ((termios_p->c_cflag & (PARENB | CREAD))
+++              != (k_termios.c_cflag & (PARENB | CREAD))
+++              || ((termios_p->c_cflag & CSIZE)
+++                  && ((termios_p->c_cflag & CSIZE)
+++                      != (k_termios.c_cflag & CSIZE))))
+++       {
+++         /* It looks like the Linux kernel silently changed the
+++            PARENB/CREAD/CSIZE bits in c_cflag. Report it as an
+++            error. */
+++         __set_errno (EINVAL);
+++         retval = -1;
+++       }
+++    }
+++
+++  return retval;
++ }
++ libc_hidden_def (tcsetattr)
 +-- 
-+1.9.1
++1.8.4.2
 +
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
-similarity index 65%
-rename from meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
-index 4c73d30..51f41ea 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
-@@ -8,10 +8,12 @@ def sqlite_download_version(d):
- 
- PE = "3"
- SQLITE_PV = "${@sqlite_download_version(d)}"
--SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2015/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://0001-Add-the-dependence.patch \
-+"
- 
--SRC_URI[md5sum] = "33bb8db0038317ce1b0480ca1185c7ba"
--SRC_URI[sha256sum] = "86370f139405fdfe03334fd618171a74e50f589f17ccbe5933361ed1f58359ec"
-+SRC_URI[md5sum] = "04d0311ef70818e8d914c1dc383eddff"
-+SRC_URI[sha256sum] = "c4b8f9eefbdf0b9bef2044bdc3510c8a3f3b0ddb0489661fb433034187f5a428"
- 
- S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
- 
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 58a9601..a061b08 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -27,6 +27,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
+            file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
+            file://elf-Makefile-fix-a-typo.patch \
+            ${EGLIBCPATCHES} \
++           file://tcsetattr.c-Fix-LSB-NG-Cases.patch \
+           "
+ EGLIBCPATCHES = "\
+            file://timezone-re-written-tzselect-as-posix-sh.patch \
 -- 
-1.9.1
+1.8.4.2
 
 
