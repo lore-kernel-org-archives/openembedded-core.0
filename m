@@ -1,37 +1,36 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6495373C7E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B6A4073C81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 13:36:02 +0000 (UTC)
-Received: by lagv1 with SMTP id v1so52834635lag.3
+	Fri,  8 May 2015 13:47:45 +0000 (UTC)
+Received: by qku63 with SMTP id 63so48073037qku.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 06:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z+xi7fsU57MEjxOuzrNPCYnER6ubLb0h5fUgb8++gyo=;
-	b=K5ORuUJawC15nV1qmRYbgSbfgKcFo4VZLXYeTXuLTy0DhrH9Gd1rpsbIFVZw/HAy7f
-	ctzp+i2Dg13/fPYROgwaiCncqpR+5H/rQBm/1u5tEjH01mhf65XTG/ONOmLbMkEa0dvF
-	7n/MT4ywkI7OqD7n9fcfZuU5cDx3ivVY/wmiajEwHNgsf1LrLEpdlLoqjbmDzUgNFIpU
-	TfJk2B9uVltV2C9rfJrp+7f5m4s8j1PXLVFNDs89gOtmsD5mOpN4yeNds1lV0T+BG/Wh
-	HBNJVKund61sMwmyXKZ7sRETQPLEs7GfTaVm4scTLItwOiz9YyZOqjRqPI+VU/IbcLz7
-	n5tA==
-X-Received: by 10.112.77.234 with SMTP id v10mr2876210lbw.119.1431092163134;
-	Fri, 08 May 2015 06:36:03 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by mx.google.com with ESMTPSA id gn6sm1176864lbc.28.2015.05.08.06.36.02
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 May 2015 06:36:02 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>,
-	Ross Burton <ross.burton@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Date: Fri,  8 May 2015 15:36:01 +0200
-Message-Id: <1431092161-2500-1-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] xserver-xorg: Make xinerama selectable via PACKAGECONFIG
+	Fri, 08 May 2015 06:47:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OY28K8MPzCVjlAydf9ICoe7yBtkhKrkTT94J4zAjDeI=;
+	b=Y/7bD1wj1LO4+JOuKgb0h0XIEpNBe1VCmGGLoJFsVojB5EDQ/0qmqEPoPkmSa/8kgS
+	A1gI6/bbe9hUW83W0BO/KYUaPbmwKRCZMKKdFxBSZCGWlbRpLDZ/DE32SemyfqvG4CQt
+	a5lpkjghRB8wMLW7+ThFfTYm9ZEhMd/7eDfTvEupIQcVwfGkLf66byZNt6MH2SthR2qQ
+	yVO9cyMg9ZUH3FfmyqaEpGg8/ds6s7fTmIn6eFPInuLArtWRWaJkwmQZ3i+CHV5L/Kns
+	oRB6kFTtZp9q7fwTZZLDyz8ORERMz72GPX/36uSTr3Fjh30LztCbSXOfmm1xY2MdrYqI
+	7wfQ==
+X-Gm-Message-State: ALoCoQmHH7coop0mgdJE3PhZFi6uKyhyKgsXJ0Smk4QkL0L1fitYlwDjbvYI5TjDDKOPkjzdszSm
+X-Received: by 10.140.88.35 with SMTP id s32mr4871767qgd.59.1431092866605;
+	Fri, 08 May 2015 06:47:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 8 May 2015 06:47:26 -0700 (PDT)
+In-Reply-To: <1431085154-22103-1-git-send-email-ricardo.ribalda@gmail.com>
+References: <1431085154-22103-1-git-send-email-ricardo.ribalda@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 May 2015 14:47:26 +0100
+Message-ID: <CAJTo0LZuKZnX8Qv-g-2X=inu4t7rU8sQvV5NGutRo19nwEuVMw@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Make tests selectable via variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 13:36:03 -0000
+X-List-Received-Date: Fri, 08 May 2015 13:47:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c11d02f47b580515924542
 
-If xinerara can be selected via PACKAGECONFIG, xserver-xorg recipe can
-be easier modified via bbappend.
+--001a11c11d02f47b580515924542
+Content-Type: text/plain; charset=UTF-8
 
-xinerama is needed by the fglrx driver (from AMD).
+On 8 May 2015 at 12:39, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+wrote:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
+>  GSTREAMER_1_DEBUG ?= "--disable-debug"
+> +GSTREAMER_1_CHECK ?= "--disable-check"
+>  EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
+> -                --disable-dependency-tracking --disable-check \
+> +                --disable-dependency-tracking ${GSTREAMER_1_CHECK} \
+>
 
-v2: Fix by Ross Burton <ross.burton@intel.com>
- Add missing xineramaproto dep
+Seems like a PACKAGECONFIG is a neater solution, can you use that and also
+change _DEBUG to use PACKAGECONFIG too?
 
+Ross
 
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--001a11c11d02f47b580515924542
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index f0da488412d5..30299c2921ff 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -101,7 +101,6 @@ FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
- EXTRA_OECONF += "--with-fop=no \
-                  --with-pic \
-                  --disable-static \
--                 --disable-xinerama \
-                  --disable-record \
-                  --disable-dmx \
-                  --disable-xnest \
-@@ -128,6 +127,7 @@ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
- PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
-+PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xineramaproto"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
--- 
-2.1.4
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 May 2015 at 12:39, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@g=
+mail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":17i" class=3D"a3s" style=3D"overflow:hidden">=C2=A0GSTREAMER_1_DEBUG ?=
+=3D &quot;--disable-debug&quot;<br>
++GSTREAMER_1_CHECK ?=3D &quot;--disable-check&quot;<br>
+=C2=A0EXTRA_OECONF =3D &quot;--disable-docbook --disable-gtk-doc \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-dependen=
+cy-tracking --disable-check \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-dependen=
+cy-tracking ${GSTREAMER_1_CHECK} \</div></blockquote></div><br>Seems like a=
+ PACKAGECONFIG is a neater solution, can you use that and also change _DEBU=
+G to use PACKAGECONFIG too?</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
 
-
+--001a11c11d02f47b580515924542--
