@@ -1,26 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D89F973F63
+Return-Path: <joaohf@gmail.com>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3450765C97
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 03:36:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t483aIvx028683
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 May 2015 20:36:18 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 7 May 2015 20:36:18 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 7 May 2015 23:36:13 -0400
-Message-ID: <17b65966a5cf7324c3a2e7ecfebd724c293c6227.1431055930.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1431055930.git.bruce.ashfield@windriver.com>
-References: <cover.1431055930.git.bruce.ashfield@windriver.com>
+	Fri,  8 May 2015 04:05:06 +0000 (UTC)
+Received: by qcyk17 with SMTP id k17so31897450qcy.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 May 2015 21:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type; bh=3QBR4T7nHHvrO0lWL3ZydpfEYU6TWuqwQhd5PbvWPrw=;
+	b=HpYb+FmHfxmtOSHUdrpnYOxWD2pOSj0Gd/wFbiu7w3u7E86yFjdGFZMaaWpPcuGrAD
+	N++cAaRZwr2xHmzsqc6kKgnDevp9X/LMduwd4I+luP+s/iYfGEwxwJlKly5Lf28deJrV
+	BH1oFllVviiCp5sFcqogV9MxarwqbxCWs8O8nix6ZLFSpGBzUGVkLu6oQzH6otRFucca
+	2uNSM5T4EKgFLmjXBxx1g74zmrHJQrSNd641+AyzjBRr98h1A2cV3zjbzlnr6tYG0iFC
+	yjEirbcTUl3ffVzJ574bFtsak71anV1lhVLUFIDW8gW9bRzFiKsXH0iGO/hRetNpqz3F
+	CcJw==
+X-Received: by 10.55.21.166 with SMTP id 38mr4030650qkv.88.1431057907569;
+	Thu, 07 May 2015 21:05:07 -0700 (PDT)
+Received: from [192.168.0.16] ([187.106.6.68])
+	by mx.google.com with ESMTPSA id 189sm2854360qhh.31.2015.05.07.21.05.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 May 2015 21:05:06 -0700 (PDT)
+Message-ID: <554C35F0.5000306@gmail.com>
+Date: Fri, 08 May 2015 01:05:04 -0300
+From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] linux-yocto/3.14: fix qemumips build error
+To: openembedded-core@lists.openembedded.org
+Subject: Dropping bash and update-alternatives-opkg dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +44,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 03:36:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 08 May 2015 04:05:09 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080500080102030800050302"
 
-Updating the SRCREVs to import the following fix:
-
-    mips: define cpu_has_saa in common features include
-
-    To avoid build failures such as the following on non-cavium
-    platforms:
-
-     | arch/mips/include/asm/atomic.h: In function 'atomic_add':
-     | arch/mips/include/asm/atomic.h:52:6: error: 'cpu_has_saa'
-     | undeclared (first use in this function)
-     |   if (cpu_has_saa) {
-     |       ^
-
-    We define a disabled cpu_has_saa unless the machine specific feature
-    overrides define a value.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++++--------
- 3 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 23e1688daeda..86b31738b609 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,8 +3,8 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "91dc6afcecd47c08e7e13e674d8d7e9dcede5aca"
--SRCREV_machine_qemuppc ?= "2655b44cfe839f6f9ba15b061e1b4d386d5821f6"
-+SRCREV_machine ?= "0c641a6c0e38137364535b99e43657a0cbc07cd4"
-+SRCREV_machine_qemuppc ?= "cfc4e296efcaa84358c9ab1cdeee6ce7c378436f"
- SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 1d999650611c..d0b71c4859b1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.14.36"
- KMETA = "meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "2a2be8720802fae73fbdf1da37f61d7843332ba3"
-+SRCREV_machine ?= "b991a586470900e3de824f5ea75653aa2150594d"
- SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index fa433b61c821..d4ea55a2398e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "90f1033d72d422b4e4a8125f68cd1623d6788870"
--SRCREV_machine_qemuarm64 ?= "2a2be8720802fae73fbdf1da37f61d7843332ba3"
--SRCREV_machine_qemumips ?= "bc927927f774c9d12f6c4689dbfba9f5578d0b62"
--SRCREV_machine_qemuppc ?= "e4dfdbf1a059e0edb1be677973f8e2c73e012c8a"
--SRCREV_machine_qemux86 ?= "594bfbce3133d75d9aa569883bdeaed15eeadc8f"
--SRCREV_machine_qemux86-64 ?= "2a2be8720802fae73fbdf1da37f61d7843332ba3"
--SRCREV_machine_qemumips64 ?= "ea8b5406c6ec027d0475146ac84f24eb34196b78"
--SRCREV_machine ?= "2a2be8720802fae73fbdf1da37f61d7843332ba3"
-+SRCREV_machine_qemuarm ?= "e4f91293908648d495b4f9735768633569e39b9f"
-+SRCREV_machine_qemuarm64 ?= "b991a586470900e3de824f5ea75653aa2150594d"
-+SRCREV_machine_qemumips ?= "6623389731309b0ac591736d5b438de833f195c7"
-+SRCREV_machine_qemuppc ?= "3217fbcd002914fba4914d2e61dabb378081fd25"
-+SRCREV_machine_qemux86 ?= "8794bd6a473199b2baa7a405d44cdbfa5351b60b"
-+SRCREV_machine_qemux86-64 ?= "b991a586470900e3de824f5ea75653aa2150594d"
-+SRCREV_machine_qemumips64 ?= "6649ef219b3bf6da1678547b9da376367520e80a"
-+SRCREV_machine ?= "b991a586470900e3de824f5ea75653aa2150594d"
- SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
--- 
-2.1.0
+--------------080500080102030800050302
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+Hi,
+
+I am using meta-erlang (https://github.com/joaohf/meta-erlang) to build 
+a so called erlang-embedded image. The file 
+tmp/deploy/images/wandboard-dual/erlang-embedded-image-minimal-wandboard-dual.manifest 
+tells:
+
+base-files wandboard_dual 3.0.14
+bash cortexa9hf-vfp-neon 4.3
+erlang cortexa9hf-vfp-neon 17.5
+erlang-erts cortexa9hf-vfp-neon 17.5
+erlang-kernel cortexa9hf-vfp-neon 17.5
+erlang-sasl cortexa9hf-vfp-neon 17.5
+erlang-stdlib cortexa9hf-vfp-neon 17.5
+erlang-tools cortexa9hf-vfp-neon 17.5
+erlinit cortexa9hf-vfp-neon 0.6.0+git0+0a3b5c4c5b
+libc6 cortexa9hf-vfp-neon 2.21
+libtinfo5 cortexa9hf-vfp-neon 5.9
+libz1 cortexa9hf-vfp-neon 1.2.8
+ncurses-terminfo-base cortexa9hf-vfp-neon 5.9yy.
+packagegroup-erlang-embedded all 1.0
+packagegroup-erlang-embedded-erlang all 1.0
+packagegroup-erlang-embedded-initscripts all 1.0
+update-alternatives-opkg cortexa9hf-vfp-neon 0.1.8+git0+53274f0875
+
+I've tried using poky and poky-tiny but I unable to figure out how to 
+drop bash and update-alternatives-opkg.
+
+This image provides erlinit that calls erlang VM and this is all that I 
+need to run my application.
+
+I think that postinstall scripts are responsible by depend of bash 
+package. But I don't know how to remove this dependency.
+
+Any suggestion?
+
+Thanks.
+
+
+--------------080500080102030800050302
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    Hi,<br>
+    <br>
+    I am using meta-erlang (<a class="moz-txt-link-freetext" href="https://github.com/joaohf/meta-erlang">https://github.com/joaohf/meta-erlang</a>) to
+    build a so called erlang-embedded image. The file
+tmp/deploy/images/wandboard-dual/erlang-embedded-image-minimal-wandboard-dual.manifest
+    tells:<br>
+    <br>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <span style="color: rgb(51, 51, 51); font-family: arial, sans-serif;
+      font-size: 13px; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: 17px;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 1;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline
+      !important; float: none; background-color: rgb(255, 255, 255);"></span>base-files
+    wandboard_dual 3.0.14<br>
+    bash cortexa9hf-vfp-neon 4.3<br>
+    erlang cortexa9hf-vfp-neon 17.5<br>
+    erlang-erts cortexa9hf-vfp-neon 17.5<br>
+    erlang-kernel cortexa9hf-vfp-neon 17.5<br>
+    erlang-sasl cortexa9hf-vfp-neon 17.5<br>
+    erlang-stdlib cortexa9hf-vfp-neon 17.5<br>
+    erlang-tools cortexa9hf-vfp-neon 17.5<br>
+    erlinit cortexa9hf-vfp-neon 0.6.0+git0+0a3b5c4c5b<br>
+    libc6 cortexa9hf-vfp-neon 2.21<br>
+    libtinfo5 cortexa9hf-vfp-neon 5.9<br>
+    libz1 cortexa9hf-vfp-neon 1.2.8<br>
+    ncurses-terminfo-base cortexa9hf-vfp-neon 5.9yy.<br>
+    packagegroup-erlang-embedded all 1.0<br>
+    packagegroup-erlang-embedded-erlang all 1.0<br>
+    packagegroup-erlang-embedded-initscripts all 1.0<br>
+    update-alternatives-opkg cortexa9hf-vfp-neon 0.1.8+git0+53274f0875<br>
+    <br>
+    I've tried using poky and poky-tiny but I unable to figure out how
+    to drop bash and update-alternatives-opkg.<br>
+    <br>
+    This image provides erlinit that calls erlang VM and this is all
+    that I need to run my application.<br>
+    <br>
+    I think that postinstall scripts are responsible by depend of bash
+    package. But I don't know how to remove this dependency.<br>
+    <br>
+    Any suggestion?<br>
+    <br>
+    Thanks.<br>
+    <br>
+  </body>
+</html>
+
+--------------080500080102030800050302--
