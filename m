@@ -1,31 +1,33 @@
 Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id DE53460138
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 11EEB72E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 14:28:46 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t48ESlnL029556 for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 May 2015 09:28:47 -0500
+	Fri,  8 May 2015 14:28:58 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t48ESxO5032562 for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 May 2015 09:28:59 -0500
 Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015050809284751-1099842 ;
-	Fri, 8 May 2015 09:28:47 -0500 
+	with ESMTP id 2015050809285993-1099845 ;
+	Fri, 8 May 2015 09:28:59 -0500 
 From: Haris Okanovic <haris.okanovic@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 8 May 2015 09:28:27 -0500
-Message-Id: <1431095308-17934-1-git-send-email-haris.okanovic@ni.com>
+Date: Fri, 8 May 2015 09:28:28 -0500
+Message-Id: <1431095308-17934-2-git-send-email-haris.okanovic@ni.com>
 X-Mailer: git-send-email 2.2.2
+In-Reply-To: <1431095308-17934-1-git-send-email-haris.okanovic@ni.com>
+References: <1431095308-17934-1-git-send-email-haris.okanovic@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 05/08/2015 09:28:47 AM,
+	8.5.3FP6|November 21, 2013) at 05/08/2015 09:28:59 AM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 05/08/2015 09:28:47 AM,
-	Serialize complete at 05/08/2015 09:28:47 AM
+	8.5.3FP6|November 21, 2013) at 05/08/2015 09:29:00 AM,
+	Serialize complete at 05/08/2015 09:29:00 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2015-05-08_05:, , signatures=0
 Cc: Ken Sharp <ken.sharp@ni.com>
-Subject: [PATCH 1/2] glibc: CVE-2015-1472: wscanf allocates too little memory
+Subject: [PATCH 2/2] glibc: CVE-2015-1781: resolv/nss_dns/dns-host.c buffer overflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,171 +40,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 14:28:48 -0000
+X-List-Received-Date: Fri, 08 May 2015 14:28:59 -0000
 
-Backport Paul Pluzhnikov's glibc patch for CVE-2015-1472:
+Backport Arjun Shankar's patch for CVE-2015-1781:
 
-Under certain conditions wscanf can allocate too little memory for the
-to-be-scanned arguments and overflow the allocated buffer.  The
-implementation now correctly computes the required buffer size when
-using malloc.
+A buffer overflow flaw was found in the way glibc's gethostbyname_r() and
+other related functions computed the size of a buffer when passed a
+misaligned buffer as input. An attacker able to make an application call
+any of these functions with a misaligned buffer could use this flaw to
+crash the application or, potentially, execute arbitrary code with the
+permissions of the user running the application.
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=16618
+https://sourceware.org/bugzilla/show_bug.cgi?id=18287
 
 Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
 Signed-off-by: Ken Sharp <ken.sharp@ni.com>
 Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
 ---
-Natinst-CAR-ID: 518552
+Natinst-CAR-ID: 525428
 Natinst-ReviewBoard-ID: 96712
 ---
- ...5-1472-wscanf-allocates-too-little-memory.patch | 127 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.20.bb              |   1 +
- 2 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+ ...81-resolv-nss_dns-dns-host.c-buffer-overf.patch | 43 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.20.bb              |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch b/meta/recipes-core/glibc/glibc/CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch
 new file mode 100644
-index 0000000..4ffd609
+index 0000000..c02fa12
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
-@@ -0,0 +1,127 @@
-+From 5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06 Mon Sep 17 00:00:00 2001
-+From: Paul Pluzhnikov <ppluzhnikov@google.com>
-+Date: Fri, 6 Feb 2015 00:30:42 -0500
-+Subject: [PATCH] CVE-2015-1472: wscanf allocates too little memory
-+
-+BZ #16618
-+
-+Under certain conditions wscanf can allocate too little memory for the
-+to-be-scanned arguments and overflow the allocated buffer.  The
-+implementation now correctly computes the required buffer size when
-+using malloc.
-+
-+A regression test was added to tst-sscanf.
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch
+@@ -0,0 +1,43 @@
++From 2959eda9272a033863c271aff62095abd01bd4e3 Mon Sep 17 00:00:00 2001
++From: Arjun Shankar <arjun.is@lostca.se>
++Date: Tue, 21 Apr 2015 14:06:31 +0200
++Subject: [PATCH] CVE-2015-1781: resolv/nss_dns/dns-host.c buffer overflow
++ [BZ#18287]
 +
 +Upstream-Status: Backport
-+https://sourceware.org/bugzilla/show_bug.cgi?id=16618
++https://sourceware.org/bugzilla/show_bug.cgi?id=18287
 +---
-+ stdio-common/tst-sscanf.c | 33 +++++++++++++++++++++++++++++++++
-+ stdio-common/vfscanf.c    | 12 ++++++------
-+ 2 files changed, 39 insertions(+), 6 deletions(-)
++ resolv/nss_dns/dns-host.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/stdio-common/tst-sscanf.c b/stdio-common/tst-sscanf.c
-+index aece3f2f290088b2c08441cf85f2b915a61b9789..8a2eb9e39c4752a30941753d7f0325c2aa352fd1 100644
-+--- a/stdio-common/tst-sscanf.c
-++++ b/stdio-common/tst-sscanf.c
-+@@ -226,12 +226,45 @@ main (void)
-+ 	  result = 1;
-+ 	}
-+       else if (ret == 2 && c != double_tests2[i].residual)
-+ 	{
-+ 	  printf ("double_tests2[%d] stopped at '%c' != '%c'\n",
-+ 		  i, c, double_tests2[i].residual);
-+ 	  result = 1;
-+ 	}
++diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
++index b16b0ddf110907a0086b86612e544d3dc75182b8..d8c55791591750567f00e616e5d7b378dec934a0 100644
++--- a/resolv/nss_dns/dns-host.c
+++++ b/resolv/nss_dns/dns-host.c
++@@ -608,21 +608,22 @@ getanswer_r (const querybuf *answer, int anslen, const char *qname, int qtype,
++   int n, ancount, qdcount;
++   int haveanswer, had_error;
++   char *bp, **ap, **hap;
++   char tbuf[MAXDNAME];
++   const char *tname;
++   int (*name_ok) (const char *);
++   u_char packtmp[NS_MAXCDNAME];
++   int have_to_map = 0;
++   uintptr_t pad = -(uintptr_t) buffer % __alignof__ (struct host_data);
++   buffer += pad;
++-  if (__glibc_unlikely (buflen < sizeof (struct host_data) + pad))
+++  buflen = buflen > pad ? buflen - pad : 0;
+++  if (__glibc_unlikely (buflen < sizeof (struct host_data)))
++     {
++       /* The buffer is too small.  */
++     too_small:
++       *errnop = ERANGE;
++       *h_errnop = NETDB_INTERNAL;
++       return NSS_STATUS_TRYAGAIN;
 +     }
-+ 
-++  /* BZ #16618
-++     The test will segfault during SSCANF if the buffer overflow
-++     is not fixed.  The size of `s` is such that it forces the use
-++     of malloc internally and this triggers the incorrect computation.
-++     Thus the value for SIZE is arbitrariy high enough that malloc
-++     is used.  */
-++  {
-++#define SIZE 131072
-++    CHAR *s = malloc ((SIZE + 1) * sizeof (*s));
-++    if (s == NULL)
-++      abort ();
-++    for (size_t i = 0; i < SIZE; i++)
-++      s[i] = L('0');
-++    s[SIZE] = L('\0');
-++    int i = 42;
-++    /* Scan multi-digit zero into `i`.  */
-++    if (SSCANF (s, L("%d"), &i) != 1)
-++      {
-++	printf ("FAIL: bug16618: SSCANF did not read one input item.\n");
-++	result = 1;
-++      }
-++    if (i != 0)
-++      {
-++	printf ("FAIL: bug16618: Value of `i` was not zero as expected.\n");
-++	result = 1;
-++      }
-++    free (s);
-++    if (result != 1)
-++      printf ("PASS: bug16618: Did not crash.\n");
-++#undef SIZE
-++  }
-++
-++
-+   return result;
-+ }
-+diff --git a/stdio-common/vfscanf.c b/stdio-common/vfscanf.c
-+index cd129a81dee57e5e06ccb0e676e0de3fd52469ca..0e204e7b326d848716222f40b5b82b8256ed1b77 100644
-+--- a/stdio-common/vfscanf.c
-++++ b/stdio-common/vfscanf.c
-+@@ -265,42 +265,42 @@ _IO_vfscanf_internal (_IO_FILE *s, const char *format, _IO_va_list argptr,
-+   CHAR_T *wp = NULL;		/* Workspace.  */
-+   size_t wpmax = 0;		/* Maximal size of workspace.  */
-+   size_t wpsize;		/* Currently used bytes in workspace.  */
-+   bool use_malloc = false;
-+ #define ADDW(Ch)							    \
-+   do									    \
-+     {									    \
-+       if (__glibc_unlikely (wpsize == wpmax))				      \
-+ 	{								    \
-+ 	  CHAR_T *old = wp;						    \
-+-	  size_t newsize = (UCHAR_MAX + 1 > 2 * wpmax			    \
-+-			    ? UCHAR_MAX + 1 : 2 * wpmax);		    \
-+-	  if (use_malloc || !__libc_use_alloca (newsize))		    \
-++	  bool fits = __glibc_likely (wpmax <= SIZE_MAX / sizeof (CHAR_T) / 2); \
-++	  size_t wpneed = MAX (UCHAR_MAX + 1, 2 * wpmax);		    \
-++	  size_t newsize = fits ? wpneed * sizeof (CHAR_T) : SIZE_MAX;	    \
-++	  if (!__libc_use_alloca (newsize))				    \
-+ 	    {								    \
-+ 	      wp = realloc (use_malloc ? wp : NULL, newsize);		    \
-+ 	      if (wp == NULL)						    \
-+ 		{							    \
-+ 		  if (use_malloc)					    \
-+ 		    free (old);						    \
-+ 		  done = EOF;						    \
-+ 		  goto errout;						    \
-+ 		}							    \
-+ 	      if (! use_malloc)						    \
-+ 		MEMCPY (wp, old, wpsize);				    \
-+-	      wpmax = newsize;						    \
-++	      wpmax = wpneed;						    \
-+ 	      use_malloc = true;					    \
-+ 	    }								    \
-+ 	  else								    \
-+ 	    {								    \
-+ 	      size_t s = wpmax * sizeof (CHAR_T);			    \
-+-	      wp = (CHAR_T *) extend_alloca (wp, s,			    \
-+-					     newsize * sizeof (CHAR_T));    \
-++	      wp = (CHAR_T *) extend_alloca (wp, s, newsize);		    \
-+ 	      wpmax = s / sizeof (CHAR_T);				    \
-+ 	      if (old != NULL)						    \
-+ 		MEMCPY (wp, old, wpsize);				    \
-+ 	    }								    \
-+ 	}								    \
-+       wp[wpsize++] = (Ch);						    \
-+     }									    \
-+   while (0)
-+ 
-+ #ifdef __va_copy
++   host_data = (struct host_data *) buffer;
++   linebuflen = buflen - sizeof (struct host_data);
++   if (buflen - sizeof (struct host_data) != linebuflen)
 +-- 
 +2.2.2
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index 3277f7a..e3427dd 100644
+index e3427dd..ba62fc3 100644
 --- a/meta/recipes-core/glibc/glibc_2.20.bb
 +++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -46,6 +46,7 @@ CVEPATCHES = "\
-         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
+@@ -47,6 +47,7 @@ CVEPATCHES = "\
          file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
          file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-+        file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
+         file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
++        file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
      "
  LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
        file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
