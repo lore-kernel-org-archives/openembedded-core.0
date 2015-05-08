@@ -1,41 +1,36 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 344B960034
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B7CDC6AC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 15:04:16 +0000 (UTC)
-Received: by lbbuc2 with SMTP id uc2so55080166lbb.2
+	Fri,  8 May 2015 15:23:02 +0000 (UTC)
+Received: by qcbgu10 with SMTP id gu10so38588799qcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 08:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=fENKihup/kERmY9DRSiffA4DwoUebwLmpkGEdm3I4SY=;
-	b=IMWtygOIIJNec9WVAvP6YI4uLu3gP2orNmKRyCAClutQeGzj0ZTiERp1QlmYpBySkg
-	TOu99NnniyHPm32MGGaxM5+bkXwuDIYhHt/BOHLqQVmN9fQdysLdbxkQ9luYgBaBh5Ba
-	f8zV7+9nvfMkKDQxJuZP0qEpDaE+MHU746+F1ZKy6+sFqyL3cWV7x29gwrHegXkEl5c0
-	gXrWFd2cDoiusZA5RJJZCRT1bi20n1R4qqV4lTfsuQdiEkF+Wcfgj8HD0QSAu00Ixmop
-	er4XZhy6tUEWi6J3FXP1Ry+QxCuLqaHiLcJa7VBpgWcbFUn9KRaVspUZTcFDtfc7wmef
-	g+IA==
-X-Received: by 10.112.83.135 with SMTP id q7mr3265494lby.13.1431097457353;
-	Fri, 08 May 2015 08:04:17 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by mx.google.com with ESMTPSA id n10sm1224002laa.40.2015.05.08.08.04.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 May 2015 08:04:16 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Robert Yang <liezhi.yang@windriver.com>,
-	Cristian Iorga <cristian.iorga@intel.com>,
-	Carlos Rafael Giani <dv@pseudoterminal.org>,
-	Ross Burton <ross.burton@intel.com>
-Date: Fri,  8 May 2015 17:04:14 +0200
-Message-Id: <1431097454-28641-2-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1431097454-28641-1-git-send-email-ricardo.ribalda@gmail.com>
-References: <1431097454-28641-1-git-send-email-ricardo.ribalda@gmail.com>
-Subject: [PATCH 2/2] gstreamer1.0: Make check selectable via PACKAGECONFIG
+	Fri, 08 May 2015 08:23:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=zTEZNp2jFrm3DacKmGb1mDdBHxcMDBnhhibzm5EnSXU=;
+	b=kYK03ln2z7cwBAK5XwggqUEA6i8J5gIXTL01hWlkbuzdWT061BBJfZxMqA8ZA+0hS4
+	6Dhzx0A5sokIGYtr6Yu+wB1L2uMISp//7oJGZB6cA3pNdv4jVTqYKzgQ1BfhGCV2jovr
+	Fhrw/79BIxSsuIcHyCuTgZeqOcEpgXZpZnsDCwgCyKoRIxOyklIVV98sZ+x4OIQuuc59
+	GB+9qaTjr7+9+pbfZTnkM2B8F4ioL29993xkOWAeHZ7CCPJOlJJgmNkKEtRj4kO90H4W
+	4z9DltaOHGxBJtqz6dUO84NOpYfHMhTy0A7so7PGKzTlmyshqT9zvNVWNQxq7k6NQRff
+	JzdQ==
+X-Gm-Message-State: ALoCoQmDpWVhqWay+epxuny9jiEWlS9XvDl+K9ebSeBqM0hvzwOLeTVdyVP7NJ5y1zs6wHSDgbGh
+X-Received: by 10.55.50.20 with SMTP id y20mr9289192qky.58.1431098584007; Fri,
+	08 May 2015 08:23:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 8 May 2015 08:22:43 -0700 (PDT)
+In-Reply-To: <1431072194-18536-1-git-send-email-rongqing.li@windriver.com>
+References: <1431072194-18536-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 May 2015 16:22:43 +0100
+Message-ID: <CAJTo0LZbj-_zAbwDa_+U8ecwWKZfKd2T+z+U_3vuM=km2aZfUg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sqlite3: upgrade to 3.8.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 15:04:22 -0000
+X-List-Received-Date: Fri, 08 May 2015 15:23:05 -0000
+Content-Type: multipart/alternative; boundary=001a11471392bd18470515939a90
 
-This way, this configuration can be easily changed via .bbappend file
-without having to re-define the whole EXTRA_OECONF.
+--001a11471392bd18470515939a90
+Content-Type: text/plain; charset=UTF-8
 
-With --disable-check  libgstcheck is not build.
+On 8 May 2015 at 09:03, <rongqing.li@windriver.com> wrote:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> ++sqlite3_DEPENDENCIES = $(top_builddir)/libsqlite3.la
+>
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index 17a0d7f839c4..be8aa8f9cbb7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -10,9 +10,10 @@ DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
- inherit autotools pkgconfig gettext
- 
- PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
-+PACKAGECONFIG[check] = "--enable-check,--disable-check"
- 
- EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
--                --disable-dependency-tracking --disable-check \
-+                --disable-dependency-tracking \
-                 --disable-examples --disable-tests \
-                 --disable-valgrind \
-                 "
--- 
-2.1.4
+packages/corei7-64-poky-linux/sqlite3/sqlite3: RDEPENDS: removed all items
+"libsqlite3 (['>= 3.8.7.4'])"
+packages/corei7-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 66704
+to 833776 (+1149%)
 
+Looks like means that the sqlite3 binary is statically linking to the
+library instead of dynamically linking.
 
+Ross
+
+--001a11471392bd18470515939a90
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 May 2015 at 09:03,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing.l=
+i@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
+yle:solid;padding-left:1ex"><div id=3D":1c3" class=3D"" style=3D"overflow:h=
+idden">++sqlite3_DEPENDENCIES =3D $(top_builddir)/<a href=3D"http://libsqli=
+te3.la" target=3D"_blank">libsqlite3.la</a><br></div></blockquote></div><br=
+><div class=3D"gmail_extra">packages/corei7-64-poky-linux/sqlite3/sqlite3: =
+RDEPENDS: removed all items &quot;libsqlite3 ([&#39;&gt;=3D 3.8.7.4&#39;])&=
+quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/sqlite3=
+/sqlite3: PKGSIZE changed from 66704 to 833776 (+1149%)<br></div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Looks like means that=
+ the sqlite3 binary is statically linking to the library instead of dynamic=
+ally linking.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div></div>
+
+--001a11471392bd18470515939a90--
