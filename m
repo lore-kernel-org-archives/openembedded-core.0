@@ -1,36 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B6A4073C81
+Return-Path: <philippe.coval@open.eurogiciel.org>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D69C60138
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 13:47:45 +0000 (UTC)
-Received: by qku63 with SMTP id 63so48073037qku.3
+	Fri,  8 May 2015 13:56:45 +0000 (UTC)
+Received: by wgiu9 with SMTP id u9so73317176wgi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 06:47:46 -0700 (PDT)
+	Fri, 08 May 2015 06:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=open.eurogiciel.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=KZeh+mS7eEwWM7ZRUxPfwx1vdm4r+QkeS7VWt/0k6ik=;
+	b=UcXG+DgkEYoKiv6aDX3SfsuAmhSUGBJ8cxUdKynDYgkvpr6im+ki2zyRaa81q8bGsG
+	mlp197Je68pMj+Jh/MxFQV4PSZ4WU7TtqJm7MecOWWAV/DGBsyhPQTxY4SxsW7yPRl49
+	JMdsMKElCM0yJvsiF3lN1fHjZSqEeVvRfomhQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=OY28K8MPzCVjlAydf9ICoe7yBtkhKrkTT94J4zAjDeI=;
-	b=Y/7bD1wj1LO4+JOuKgb0h0XIEpNBe1VCmGGLoJFsVojB5EDQ/0qmqEPoPkmSa/8kgS
-	A1gI6/bbe9hUW83W0BO/KYUaPbmwKRCZMKKdFxBSZCGWlbRpLDZ/DE32SemyfqvG4CQt
-	a5lpkjghRB8wMLW7+ThFfTYm9ZEhMd/7eDfTvEupIQcVwfGkLf66byZNt6MH2SthR2qQ
-	yVO9cyMg9ZUH3FfmyqaEpGg8/ds6s7fTmIn6eFPInuLArtWRWaJkwmQZ3i+CHV5L/Kns
-	oRB6kFTtZp9q7fwTZZLDyz8ORERMz72GPX/36uSTr3Fjh30LztCbSXOfmm1xY2MdrYqI
-	7wfQ==
-X-Gm-Message-State: ALoCoQmHH7coop0mgdJE3PhZFi6uKyhyKgsXJ0Smk4QkL0L1fitYlwDjbvYI5TjDDKOPkjzdszSm
-X-Received: by 10.140.88.35 with SMTP id s32mr4871767qgd.59.1431092866605;
-	Fri, 08 May 2015 06:47:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 8 May 2015 06:47:26 -0700 (PDT)
-In-Reply-To: <1431085154-22103-1-git-send-email-ricardo.ribalda@gmail.com>
-References: <1431085154-22103-1-git-send-email-ricardo.ribalda@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 May 2015 14:47:26 +0100
-Message-ID: <CAJTo0LZuKZnX8Qv-g-2X=inu4t7rU8sQvV5NGutRo19nwEuVMw@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Make tests selectable via variable
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KZeh+mS7eEwWM7ZRUxPfwx1vdm4r+QkeS7VWt/0k6ik=;
+	b=RQrwQpcUfYHbRmKAh84MsqQCBKuWzO+rzwR9B/blUJAtCOdnpkrRJXe6Vw1jKtta+9
+	eQ8thLRNTDgFqXNXGs0JqTHy7GD8wY0VHJ2faU+IB7mL12o6zb9RVHpmEPzKsp+CNUkE
+	IMhKqLRxB64xzPLz4vbBpAHYZqVF3GiE82udtbjEbPPao6+sPul1EI9qCUTiN1PsfUTq
+	dGGu8mQFMtwG6zcmCH8IiLplQB4R9pgpew7YxevsSeH7MvRQI6PKg1R6azu72iyPLLzO
+	IwPFv1Mo5OKv9n790cYD6eX3nBm2/CmpwXCmTLYEkWI2CxVZVmQYUabsCle5QkIhRSKs
+	P93Q==
+X-Gm-Message-State: ALoCoQkPvthFbAAD9Dfm8Csn6WrYhtD9HbL3W9js6OWz42RMGrdODURbIYK0OntiT4roHA2VX7wy
+X-Received: by 10.194.61.133 with SMTP id p5mr7792918wjr.132.1431093406876;
+	Fri, 08 May 2015 06:56:46 -0700 (PDT)
+Received: from pcl ([82.236.136.171])
+	by mx.google.com with ESMTPSA id l3sm9508513wib.11.2015.05.08.06.56.45
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 08 May 2015 06:56:46 -0700 (PDT)
+Received: from pcoval by pcl with local (Exim 4.82)
+	(envelope-from <philippe.coval@open.eurogiciel.org>)
+	id 1Yqilf-00024M-En; Fri, 08 May 2015 15:56:43 +0200
+From: Philippe Coval <philippe.coval@open.eurogiciel.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 May 2015 15:56:40 +0200
+Message-Id: <1431093400-7922-1-git-send-email-philippe.coval@open.eurogiciel.org>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] weston-init: support system's configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 13:47:45 -0000
-Content-Type: multipart/alternative; boundary=001a11c11d02f47b580515924542
+X-List-Received-Date: Fri, 08 May 2015 13:56:46 -0000
 
---001a11c11d02f47b580515924542
-Content-Type: text/plain; charset=UTF-8
+Look for OPTARGS variable in /etc/default/weston
+and set it as weston's service default options.
 
-On 8 May 2015 at 12:39, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-wrote:
+This can be used to force system's supported backend.
 
->  GSTREAMER_1_DEBUG ?= "--disable-debug"
-> +GSTREAMER_1_CHECK ?= "--disable-check"
->  EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
-> -                --disable-dependency-tracking --disable-check \
-> +                --disable-dependency-tracking ${GSTREAMER_1_CHECK} \
->
+Change-Id: I0562c9326df5b46226093199873ef58d77aeae75
+Signed-off-by: Philippe Coval <philippe.coval@open.eurogiciel.org>
+---
+ meta/recipes-graphics/wayland/weston-init/init | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Seems like a PACKAGECONFIG is a neater solution, can you use that and also
-change _DEBUG to use PACKAGECONFIG too?
+diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
+index 8e662e0..2e938f4 100644
+--- a/meta/recipes-graphics/wayland/weston-init/init
++++ b/meta/recipes-graphics/wayland/weston-init/init
+@@ -8,6 +8,10 @@
+ # Default-Stop:      0 1 6
+ ### END INIT INFO
+ 
++if test -e /etc/default/weston ; then
++        . /etc/default/weston
++fi
++
+ killproc() {
+         pid=`/bin/pidof $1`
+         [ "$pid" != "" ] && kill $pid
+@@ -34,7 +38,7 @@ case "$1" in
+                 chmod 0700 $XDG_RUNTIME_DIR
+         fi
+ 
+-        openvt -s weston
++        openvt -s weston -- $OPTARGS
+   ;;
+ 
+   stop)
+-- 
+1.9.1
 
-Ross
 
---001a11c11d02f47b580515924542
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 May 2015 at 12:39, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@g=
-mail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":17i" class=3D"a3s" style=3D"overflow:hidden">=C2=A0GSTREAMER_1_DEBUG ?=
-=3D &quot;--disable-debug&quot;<br>
-+GSTREAMER_1_CHECK ?=3D &quot;--disable-check&quot;<br>
-=C2=A0EXTRA_OECONF =3D &quot;--disable-docbook --disable-gtk-doc \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-dependen=
-cy-tracking --disable-check \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-dependen=
-cy-tracking ${GSTREAMER_1_CHECK} \</div></blockquote></div><br>Seems like a=
- PACKAGECONFIG is a neater solution, can you use that and also change _DEBU=
-G to use PACKAGECONFIG too?</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
-
---001a11c11d02f47b580515924542--
