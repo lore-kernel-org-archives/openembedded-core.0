@@ -1,29 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2390373C7E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9317A73C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 12:47:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 08 May 2015 05:47:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,390,1427785200"; d="scan'208";a="691933481"
-Received: from kreynold-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.28.13])
-	by orsmga001.jf.intel.com with ESMTP; 08 May 2015 05:47:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 08 May 2015 13:47:28 +0100
-Message-ID: <2360040.qkyfHW9XAD@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.6 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.6; x86_64; ; )
-In-Reply-To: <CAP9ODKonoGJRGBZdLdZgt8EG+sn79fH_zCy9RgwJpkVEP3Lf2Q@mail.gmail.com>
-References: <554C98F7.5090005@dresearch-fe.de>
-	<2224585.tBn3dhReiF@peggleto-mobl.ger.corp.intel.com>
-	<CAP9ODKonoGJRGBZdLdZgt8EG+sn79fH_zCy9RgwJpkVEP3Lf2Q@mail.gmail.com>
+	Fri,  8 May 2015 13:17:37 +0000 (UTC)
+Received: by qcbgu10 with SMTP id gu10so36635961qcb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 May 2015 06:17:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=If/0cyOpZjKbL5Kd7ZRLqnsu55wCmdi1w81hLO38URA=;
+	b=T7fAb/9kiOzbZt/oLcOTgVeuoTjcS1DTPL7SZeSXbbOWbhGVQ18xjaDbUnyYbTENoa
+	izzP4R6CbBlj3qDWieO4+yD7q5vqYAfygkFPXk+GtT3NZA1hylVSFiv4GQjqwf3J4uOY
+	k9uA5SGifvsoUgE3e9joVB6gYHmVFuSCqpJFvLotlFa8UPw0qMuzdG2a8FSjS5EvmaXG
+	wR5swBZJKgWssHvZ+xaCzzb2x1QrKwjy6P7ndbbfw3k4JtEcvjwu+vdmKp/y0b+W2jO8
+	/e+XMG6OazU4rBUI4IE5r8GSOdvmCOocXO7YAjJUES0gjmiLLezo5LtAvA7IvqBnoBjm
+	MSYg==
+X-Gm-Message-State: ALoCoQkcZncvNsyeHekVA1gkptEDflqtFw/Lk+mhz5VYNM2IFTSD4UBJzxCobGEmU3onkU44Zlc2
+X-Received: by 10.229.110.10 with SMTP id l10mr4990300qcp.5.1431091058297;
+	Fri, 08 May 2015 06:17:38 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: WARNING: The license listed CLOSED was not in the licenses collected for foo
+Received: by 10.140.102.231 with HTTP; Fri, 8 May 2015 06:17:17 -0700 (PDT)
+In-Reply-To: <1431082927-30249-1-git-send-email-ricardo.ribalda@gmail.com>
+References: <1431082927-30249-1-git-send-email-ricardo.ribalda@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 May 2015 14:17:17 +0100
+Message-ID: <CAJTo0LaEoJYHXWTe-ojF=z6QnkFBDwtzS2cBxhH6FtYMg3_A=g@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-xorg: Make xinerama selectable via PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 12:47:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 08 May 2015 13:17:38 -0000
+Content-Type: multipart/alternative; boundary=001a11344c842c09f0051591da8a
 
-On Friday 08 May 2015 09:40:48 Otavio Salvador wrote:
-> On Fri, May 8, 2015 at 9:39 AM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Friday 08 May 2015 13:07:35 Steffen Sledz wrote:
-> >> Since switching from dizzy to fido we've some warnings related to some of
-> >> our own closed source packages.
-> >> 
-> >> WARNING: log_check: There is a warn message in the logfile
-> >> WARNING: log_check: Matched keyword: [WARNING:]
-> >> WARNING: log_check: WARNING: The license listed CLOSED was not in the
-> >> licenses collected for foo
-> >> 
-> >> The recipes contain lines like this one:
-> >> 
-> >> LICENSE = "CLOSED"
-> >> 
-> >> How should we fix the recipe to avoid the warning?
-> > 
-> > I think the part of the code that produces this warning probably should be
-> > ignoring the CLOSED value. Can I ask you to please file a bug? Feel free
-> > to add me on CC.
-> 
-> You can use proprietary.
+--001a11344c842c09f0051591da8a
+Content-Type: text/plain; charset=UTF-8
 
-If you mean "Proprietary", yes there is a common license file for that but then 
-I believe you will get an error if LIC_FILES_CHKSUM is not set in the recipe.
+On 8 May 2015 at 12:02, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+wrote:
 
-Cheers,
-Paul
+> +PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama"
+>
 
--- 
+You'll need to add the dependency on xineramaproto here too.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--001a11344c842c09f0051591da8a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 May 2015 at 12:02, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@g=
+mail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":23t" class=3D"a3s" style=3D"overflow:hidden">+PACKAGECONFIG[xinerama] =
+=3D &quot;--enable-xinerama,--disable-xinerama&quot;<br></div></blockquote>=
+</div><br>You&#39;ll need to add the dependency on xineramaproto here too.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
+
+--001a11344c842c09f0051591da8a--
