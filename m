@@ -1,41 +1,36 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BBEF60034
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3613 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 08 May 2015 20:29:36 UTC
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id EDAA060034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 19:45:23 +0000 (UTC)
-Received: by pabtp1 with SMTP id tp1so57718076pab.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 12:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=dG8Y1lSehTH5/TnzCuO4Cpx3GHBttSwkzWb14cMVbDQ=;
-	b=Mzp2zFbLAludD2IqDu7lel8MtAUhfS41hAfzSjFb4O2OmyJRAHvHiANSY5tp3xD6B2
-	xbjQcuDF5SSa86TqMN7UDuTeMtBkb1VLRCR6BqNLlhEwbn8Z2HE6QeI/Y5ONlEph82Oz
-	HKOow3cny/G0pCEXjV6cx/7XR649kvscyoO9LKVTBCiWg2YYtxTjDIQnIaMSbVZ/IIcs
-	3qkt7kv2y5NOpgC0uXNDQN7U74zhe1zjP088V1AggUnBuc7IJmGWkPiHhWR3sPjZGWMC
-	4u3BhTuvfOqz9pjeyLM9vbXkpk4JPOJxRluUIKz91O6ResXTqdP9lJ/Zw0sutMe/sK2T
-	yIJw==
-X-Received: by 10.70.88.170 with SMTP id bh10mr1150225pdb.62.1431114325010;
-	Fri, 08 May 2015 12:45:25 -0700 (PDT)
-Received: from ?IPv6:2601:c:a700:3ba7:3156:7dfd:b20c:fb83?
-	([2601:c:a700:3ba7:3156:7dfd:b20c:fb83])
-	by mx.google.com with ESMTPSA id sc1sm5996768pac.36.2015.05.08.12.45.23
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 May 2015 12:45:23 -0700 (PDT)
-Message-ID: <554D1251.20604@gmail.com>
-Date: Fri, 08 May 2015 12:45:21 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: Haris Okanovic <haris.okanovic@ni.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1431040791-6559-1-git-send-email-haris.okanovic@ni.com>
-	<554CDA9A.9050204@ni.com>
-In-Reply-To: <554CDA9A.9050204@ni.com>
-Subject: Re: [PATCH 1/2] glibc: CVE-2015-1472: wscanf allocates too little memory
+	Fri,  8 May 2015 20:29:36 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.31.169]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NO100CERQ45G9D0@vms173025.mailsrvcs.net>; Fri,
+	08 May 2015 14:29:03 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=B/MOC1ok c=1 sm=1 tr=0	a=fMO+sUsoiA3cqMJ/JkSOnA==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=h1PgugrvaO0A:10	a=ZlTRuoGXRrrgFMxl9ycA:9
+	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id B7DF920140; Fri,
+	8 May 2015 15:28:52 -0400 (EDT)
+Date: Fri, 08 May 2015 15:28:52 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Message-id: <20150508192852.GJ5885@denix.org>
+References: <20150501160602.GA5885@denix.org>
+	<CAAQYJAvpGUdZyAzOay+VuDz+tdZF72ny0bgDfkTFomCFbVrMhQ@mail.gmail.com>
+	<554A67AB.1000800@dresearch-fe.de> <20150506233137.GH5885@denix.org>
+MIME-version: 1.0
+In-reply-to: <20150506233137.GH5885@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg_install_pkg: Package <name> md5sum mismatch. Either the opkg or the package index are corrupt.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 19:45:25 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 May 2015 20:29:37 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Haris,
+On Wed, May 06, 2015 at 07:31:37PM -0400, Denys Dmytriyenko wrote:
+> On Wed, May 06, 2015 at 09:12:43PM +0200, Steffen Sledz wrote:
+> > Am 02.05.2015 um 23:55 schrieb Andrea Adami:
+> > > On Fri, May 1, 2015 at 6:06 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> > >> Has anyone ever seen this message during <image>.do_rootfs task?
+> > >>
+> > >> Collected errors:
+> > >>  * opkg_install_pkg: Package <package> md5sum mismatch. Either the opkg or the package index are corrupt. Try 'opkg update'.
+> > >>  * opkg_install_cmd: Cannot install package <package>.
+> > >>
+> > >> We started seeing it on random packages inside the <image> few weeks ago on
+> > >> different machines. At the time we had switched to bitbake 1.26. But even
+> > >> trying different bitbake versions still occasionally caused the same error, so
+> > >> the culprit is still unknwon. Using oe-core/daisy for now.
+> > >>
+> > >> Any comments or suggestions to where start looking would be appreciated!
+> > > 
+> > > yes, I have seen this during multimachine builds.
+> > > My TMPDIR is on tmpfs in ram so everytime I reboot it is re-populated
+> > > from sstate.
+> > > ...
+> > 
+> > We have the same problem here. Also with packages from the "all" feed in a 
+> > multimachine build environment. But it does not seem related to 
+> > packagegroups.
+> > 
+> > I've a hypothesis but was not able to validate or falsify it till now: Given 
+> > a recipe which does only use file:// type SRC_URI. If i change something in 
+> > these sources and do not update PR the prserv/hashing mechanism detects the 
+> > changes a builds a new package. But this package has the same version info 
+> > as the one before. So for opkg there's no need to update it's "package 
+> > database".
+> 
+> After fixing few of our own goofs in packagegroups, I still saw this issue 
+> with some real packages like weston-init. It went away after it got rebuilt 
+> due to the dependencies, but I'll keep an eye on it and report if it comes 
+> back...
 
-thanks. I will stage this on my dizzy next branch.
+Ok, so on the second day it failed again on weston-init and couple of our own 
+packages. They are all marked as allarch, but it seems they get re-packaged 
+for some reason for different machines in multi-machine build - the timestamp 
+of the ipk package changed, while nothing else in the recipe or its data has 
+changed. There's nothing obvious in weston-init I can see that would trigger 
+it. And in the logs I see that do_package_write_ipk_setscene being triggered - 
+I'm trying to figure out why... Any pointers?
 
-please include [Dizzy/fido] in the subject line if a patch meant for a 
-specific release. it will help route patches.
-regards,
-Armin
-
-On 05/08/2015 08:47 AM, Haris Okanovic wrote:
-> On 05/07/2015 06:19 PM, Haris Okanovic wrote:
->> Backport Paul Pluzhnikov's glibc patch for CVE-2015-1472:
->>
->> Under certain conditions wscanf can allocate too little memory for the
->> to-be-scanned arguments and overflow the allocated buffer.  The
->> implementation now correctly computes the required buffer size when
->> using malloc.
->>
->> https://sourceware.org/bugzilla/show_bug.cgi?id=16618
->>
->> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
->> Signed-off-by: Ken Sharp <ken.sharp@ni.com>
->> Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
->> ---
->
-> Note that this patch is to apply to the Dizzy branch of
-> openembedded-core (glibc 2.20). It might cleanly apply to other branches
-> also using glibc 2.20, but I've only tested with Dizzy.
->
-> CVE-2015-1472 is fixed in glibc 2.21 and later.
->
-> Thanks,
-> Haris
+-- 
+Denys
 
