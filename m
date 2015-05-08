@@ -1,38 +1,38 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 047A360034
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC8E73C81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 May 2015 11:07:36 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so23332661wid.0
+	Fri,  8 May 2015 11:39:15 +0000 (UTC)
+Received: by lbcga7 with SMTP id ga7so51245088lbc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 May 2015 04:07:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=LkEikE467DlpRN8C9tSuIXT8ceu98pcBwSKFH5IKbCQ=;
-	b=isqf2BlxliuqNLGn7tNDz/xFKooGrCi7/LbHU2+ybB0Y/kZCQu2t82MKRhG2VwGWet
-	vWVyJCPrrJONAe+LhIZSDOdtrUrrFj275sgbf1aCMDgXE5TymVZ+1G313tRTv6HO+gZS
-	lNQ3Rb9zc947WnLdmMVRrudsdPVp8nuh06qLD/PthF3Ks2pFoD0refl+NGlJwzkgB01n
-	VNGwsUQkNIPVKbuX8ITxTgRnp02B3R03FjuAsq2Ois8D4zhPRUtvwU1ERm8yZbDfMB21
-	lebDRz2b6oh9gqYeZaSvPhcH9uYE7lfmApKnxAfCjMXCeB0yP/bgevctOgsAypJdHSq6
-	Ne8g==
-X-Gm-Message-State: ALoCoQmovDNyvkUObSwvYW0StgKGmxgaX+Si9GSgxNJWOD2hKzBLzNFSke9yHGKv3qwG2YW60mOE
-X-Received: by 10.180.8.34 with SMTP id o2mr5231223wia.18.1431083256917;
-	Fri, 08 May 2015 04:07:36 -0700 (PDT)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id vz8sm7849739wjc.27.2015.05.08.04.07.35
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 May 2015 04:07:36 -0700 (PDT)
-Message-ID: <554C98F7.5090005@dresearch-fe.de>
-Date: Fri, 08 May 2015 13:07:35 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: WARNING: The license listed CLOSED was not in the licenses collected for foo
+	Fri, 08 May 2015 04:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=+VEF6DYWlWKX9xP2R8JmmFA41MVMglXTWXjrYGXpHKU=;
+	b=aP9DKArMZQyI6P8D7Ji+PppgdrvtJrhs21BnJ11fmqIWrwBfJAYmgvqNoaXvGkg6J4
+	GMJFlbkl2LEBXSXSatWBbwN5ToGY4hBgFFb2AFWdlIoPbVHT3SYOWwOC/LD7/TyWDTLe
+	NZ12MiD5OCBCs9eMqITC8d0+CDQHD2eDy/tZAIsg55hW3W5dHqwe3QyQr7Bq81dm3fAK
+	ii97o2hdOMoioW2kIEI2Fyn6sDg2Du584o6moWEo2rCIe/rVF0hbKdXfNLgtjHZy/1qJ
+	xjps/17VIb54e5hag9WX++fKCjbsWkkBf57OjLBozQVWjjsiQCnqnxF7mSe/P0Qugz8m
+	MhFQ==
+X-Received: by 10.112.77.103 with SMTP id r7mr809877lbw.63.1431085156192;
+	Fri, 08 May 2015 04:39:16 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by mx.google.com with ESMTPSA id vs8sm1105150lbb.39.2015.05.08.04.39.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 08 May 2015 04:39:15 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Robert Yang <liezhi.yang@windriver.com>,
+	Cristian Iorga <cristian.iorga@intel.com>,
+	Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Fri,  8 May 2015 13:39:14 +0200
+Message-Id: <1431085154-22103-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gstreamer1.0: Make tests selectable via variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 May 2015 11:07:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 May 2015 11:39:22 -0000
 
-Since switching from dizzy to fido we've some warnings related to some of our own closed source packages.
+This way, this configuration can be easily changed via .bbappend file
+without having to re-define the whole EXTRA_OECONF.
 
-WARNING: log_check: There is a warn message in the logfile
-WARNING: log_check: Matched keyword: [WARNING:]
-WARNING: log_check: WARNING: The license listed CLOSED was not in the licenses collected for foo
+With --disable-check  libgstcheck is not build.
 
-The recipes contain lines like this one:
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-LICENSE = "CLOSED"
-
-How should we fix the recipe to avoid the warning?
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index a01c33ce5ff9..f689617243e1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -10,8 +10,9 @@ DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
+ inherit autotools pkgconfig gettext
+ 
+ GSTREAMER_1_DEBUG ?= "--disable-debug"
++GSTREAMER_1_CHECK ?= "--disable-check"
+ EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
+-                --disable-dependency-tracking --disable-check \
++                --disable-dependency-tracking ${GSTREAMER_1_CHECK} \
+                 --disable-examples --disable-tests \
+                 --disable-valgrind ${GSTREAMER_1_DEBUG} \
+                 "
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+2.1.4
+
 
