@@ -1,30 +1,31 @@
-Return-Path: <vm.rod25@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C810960043
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D9C0460043
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 May 2015 17:45:24 +0000 (UTC)
-Received: by iedfl3 with SMTP id fl3so105627656ied.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 May 2015 10:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=7V/Uq3ufVLG4YjgRkNwCHZTKh5y8O7LI4nSMbTLgHoc=;
-	b=YCz1bhrrfvH6D5KU3fTvVJpcqCNah2saJGbEOcv9/9cShU82FvnbRZ0H+PuPaa5xC5
-	ug3Wm0iqo5mi+PH/4WDzRcTZQBC4rzOc5ECQJf7LY/174xVIWYbGcQonbscXyXngSzXV
-	daJmHA4FZoo2cHGd7nQ7ypq+oFYy7/LzE9hKkjuAbpWbntJChwzMfUwsdqpCbBoBxLNg
-	LN9UlyMF8/I/j3AUsfZGE9Qt3rHlu8YO4KoTjnNGyxAt9SzkwxFFpLWVTrMn3jRdlFtf
-	7SEwDvnyM2MkELp0oaRkcBa6pNGGcPPpGqCqlFcuC+gM+XLwXwqNtpzUGEtBmxx499L3
-	gbWA==
-MIME-Version: 1.0
-X-Received: by 10.50.27.67 with SMTP id r3mr8756809igg.15.1431279925562; Sun,
-	10 May 2015 10:45:25 -0700 (PDT)
-Received: by 10.50.141.228 with HTTP; Sun, 10 May 2015 10:45:25 -0700 (PDT)
-Date: Sun, 10 May 2015 12:45:25 -0500
-Message-ID: <CAK5mtezaxuFqxY+3eRinmydRgntZSKoyo_v8ih-rwkVu1L+HcQ@mail.gmail.com>
-From: Victor Rodriguez <vm.rod25@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: MPICH not producing mpirun
+	Sun, 10 May 2015 22:07:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4AM7aAr014873; Sun, 10 May 2015 23:07:36 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xhUakwJlkAiv; Sun, 10 May 2015 23:07:36 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4AM33MJ014791
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 10 May 2015 23:07:31 +0100
+Message-ID: <1431295383.30971.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 10 May 2015 23:03:03 +0100
+In-Reply-To: <CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: fix build issue with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,69 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 May 2015 17:45:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 10 May 2015 22:07:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-HI team
+On Sun, 2015-05-10 at 09:15 -0700, Khem Raj wrote:
+> On Sun, May 10, 2015 at 7:28 AM, Armin Kuster <akuster808@gmail.com> wrote:
+> > | tset.o:(.debug_loc+0xe8): undefined reference to `.LCL0'
+> > | tset.o:(.debug_loc+0xf7): undefined reference to `.LCL0'
+> >
+> > thanks Khem
+> >
+> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> > ---
+> >  meta/recipes-devtools/rpm/rpm_5.4.14.bb | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> > index 03a24f0..22b111a 100644
+> > --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> > +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> > @@ -110,6 +110,9 @@ inherit autotools gettext
+> >
+> >  acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
+> >
+> > +FULL_OPTIMIZATION_powerpc_remove = "-O2"
+> > +FULL_OPTIMIZATION_append_powerpc = " -Os "
+> > +
+> 
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=741d3bf91144973d26de647039fa60b87a09edf1
+> fixes same issue for libx11
+> 
+> I am wondering if we should make this change in some common config
+> metadata file to list all recipes that need this workaround
+> untill gcc is fixed for it may be arch-powerpc.inc, since then it will
+> be easy to remember to unbolt them once gcc is fixed.
 
-I am building core-image-minimal but it is not generating the binaries
-as expected.
+I like the idea of a common include to handle this a lot better.
 
-The mpich bin rpm should be something like:
+FWIW, I tried gcc 5 on the autobuilder. The results were 141 failures so
+far:
 
-/usr/bin/hydra_nameserver
-/usr/bin/hydra_persist
-/usr/bin/hydra_pmi_proxy
-/usr/bin/mpic++
-/usr/bin/mpicc
-/usr/bin/mpichversion
-/usr/bin/mpicxx
-/usr/bin/mpiexec
-/usr/bin/mpiexec.hydra
-/usr/bin/mpif77
-/usr/bin/mpif90
-/usr/bin/mpifort
-/usr/bin/mpirun
-/usr/bin/mpivars
-/usr/bin/parkill
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150
 
-But instead is generating :
+Cheers,
 
-/usr
-/usr/bin
-/usr/bin/mpic++
-/usr/bin/mpicc
-/usr/bin/mpichversion
-/usr/bin/mpicxx
-/usr/bin/mpiexec
-/usr/bin/mpivars
-/usr/bin/parkill
-/usr/lib
-/usr/lib/libmpi.so.12
-/usr/lib/libmpi.so.12.0.1
-/usr/lib/libmpicxx.so.12
-/usr/lib/libmpicxx.so.12.0.1
-/usr/lib/libtvmpich.so.12
-/usr/lib/libtvmpich.so.12.0.1
+Richard
 
-The problems seems to be on the extra oeconf:
-
-EXTRA_OECONF = "--enable-debuginfo \
-                 --enable-fast \
-                 --with-pm=gforker  \
-                 --disable-rpath \
-                 --disable-fortran \
-                 --enable-cxx"
-
-It should not have anyone. But when I try to remove the disable
-fortran it complains .The weird part is that in my host machine there
-is no problem and the mpirun is generated.
-
-Any clue why this is happening or how I can disable all the extra_oeconfigs ?
-
-All help is more than welcome
-
-Best regards
-
-Victor Rodriguez
 
