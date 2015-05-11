@@ -1,35 +1,53 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D9E4160601
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 08D5F6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 03:07:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="91953396"
-Received: from localhost (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 May 2015 11:03:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t4B35q7X008522;
-	Mon, 11 May 2015 11:05:52 +0800
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Mon, 11 May 2015 11:07:19 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] glibc_2.21.bb: Fix LSB bugs #3033
-Thread-Index: AQHQiasrKGJ3ZL8n90e9uPR4z1e3g512GQpQ
-Date: Mon, 11 May 2015 03:07:18 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E8739014E7@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <1431075674-1688-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<6B7ABF87-0779-417E-88C3-C1FA1C96393E@gmail.com>
-In-Reply-To: <6B7ABF87-0779-417E-88C3-C1FA1C96393E@gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.25]
+	Mon, 11 May 2015 06:06:16 +0000 (UTC)
+Received: by laat2 with SMTP id t2so86025814laa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 May 2015 23:06:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=7llHqsbPYmkTgK7wlptAhZ5G67CA4gkpvkjoJpOsVqM=;
+	b=jDEVHLs7fteH2sI/G0QOzmPkjKsauBX2JJBTkABgszFSkQAlTReGg84swnqt4Bk8cV
+	g/dWCXJp/clQ3wOx8Z8TGMIylZspVrrzcpUTrvDn4uA/1R9S56ohuNQPR4DzGkbV3LcW
+	hqfwM2Ww3pgHLITw7taEy138hVDLZosnHXcbayHMDw7g/EKabBkIQ9TX5UjqdNpZ2UfU
+	uYy01v0RCSJQ1SCOAejqs3kH3E2p+fRAKgXa8cDFP75PB/mMGUlKeEo9leqF5rrMTYwS
+	Cw/GbLnInX75r4Q/fDFliFcdJPPqXOHPqlrvjWh0tOZZGOZhwaNQnMdQJp4r4uUG0kng
+	H5bw==
+X-Gm-Message-State: ALoCoQkOg61EV1FKY2/nACoBCa+fV2k+37FkLDj/y0HJCUkeVQnAwALjK/FaAI6E2SIv8hvyOz+z
+X-Received: by 10.112.126.136 with SMTP id my8mr6840101lbb.18.1431324377069;
+	Sun, 10 May 2015 23:06:17 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id 4sm2819105lai.36.2015.05.10.23.06.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 10 May 2015 23:06:16 -0700 (PDT)
+Date: Mon, 11 May 2015 08:06:14 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+Message-ID: <20150511060614.GA13549@ad.chargestorm.se>
+Mail-Followup-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>,
+	Andreas Oberritter <obi@opendreambox.org>,
+	openembedded-core@lists.openembedded.org
+References: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
+	<1431016840-26287-4-git-send-email-bruno.bottazzini@intel.com>
+	<554BB5F2.8090004@opendreambox.org>
+	<1431038749.29137.15.camel@bottazzini-ThinkPad-T430>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc_2.21.bb: Fix LSB bugs #3033
+In-Reply-To: <1431038749.29137.15.camel@bottazzini-ThinkPad-T430>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,143 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 03:07:23 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 May 2015 06:06:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+* Bottazzini, Bruno <bruno.bottazzini@intel.com> [150508 00:46]:
 
-> -----Original Message-----
-> From: Khem Raj [mailto:raj.khem@gmail.com]
-> Sent: Saturday, May 09, 2015 12:21 AM
-> To: Li, Xin/=1B$BM{=1B(B =1B$B6U=1B(B
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] glibc_2.21.bb: Fix LSB bugs #3033
->=20
->=20
-> This patch is ok. However two questions
-> 1. what kernel version do you see it on and is kernel piece fixed too or =
-is not
-> required 2. Has this been submitted to glibc ?
->=20
+> On Qui, 2015-05-07 at 20:58 +0200, Andreas Oberritter wrote:
+> > On 07.05.2015 18:40, Bruno Bottazzini wrote:
+> > > +                   vconsole \
+> > > +                   update \
+> > > +                   timesyncd \
+> > > +                   rfkill \
+> > > +                   quota \
+> > > +                   fuse \
+> > > +                   firstboot \
+> > > +                   dbus \
+> > > +                   binfmt \
+> > > +                   backlight \
+> > > +                   ask-password \
 
-I see it on the kernel version 3.14.28 and the kernel piece is not fixed.
-also I have not send the patch to glibc.
+> > I think it may be better to sort this quite long list alphabetically.
+
+> > Are these options already enabled today? 
+
+> Yes, it is enabled. 
+
+> This is the default packages enabled in the current recipe.
+
+> > Because of the new
+> > packageconfig entries, I would have expected changes to EXTRA_OECONF and
+> > DEPENDS, which I don't see in your patch.
+
+> Some packages does not have EXTRA_OECONF.
+
+> You can see what this recipe DEPENDS by looking at ${PN}-services-base.
+
+What Andreas is asking about, is e.g. for the kmod PACKAGECONFIG:
+
+> > > +PACKAGECONFIG[kmod] = "--enable-kmod,--disable-kmod,kmod"
+
+Here, if kmod is enabled in PACKAGECONFIG, kmod (the 3rd parameter),
+will be added to DEPENDS. Thus, you should remove kmod from the static
+DEPENDS (as now it's dynamically added using PACKAGECONFIGS).
+
+The same is likely true for a number of the other PACKAGECONFIGs that
+you're adding (which, by the way is a _good_ thing to add).
 
 Cheers,
+Anders
 
-Li xin
-
-> > Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> > ---
-> > .../glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch | 69 +++++++++++++++=
-+++++++
-> > meta/recipes-core/glibc/glibc_2.21.bb              |  1 +
-> > 2 files changed, 70 insertions(+)
-> > create mode 100644
-> > meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-> >
-> > diff --git
-> > a/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-> > b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-> > new file mode 100644
-> > index 0000000..df0e61d
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/tcsetattr.c-Fix-LSB-NG-Cases.patch
-> > @@ -0,0 +1,69 @@
-> > +From 9022ee975265b65f59782ea92b59eccc95774a88 Mon Sep 17 00:00:00
-> > +2001
-> > +From: Li xin <lixin.fnst@cn.fujitsu.com>
-> > +Date: Fri, 8 May 2015 13:51:30 +0900
-> > +Subject: [PATCH] tcsetattr.c: Fix LSB NG Cases
-> > +
-> > +/tset/POSIX.os/devclass/tcgetattr/T.tcgetattr 1 2
-> > +/tset/POSIX.os/devclass/c_iflag/T.c_iflag 6 7 8 9
-> > +
-> > +This patch is from Fedora.
-> > +
-> > +Upstream-Status: pending.
-> > +
-> > +Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> > +---
-> > + sysdeps/unix/sysv/linux/tcsetattr.c | 32
-> > ++++++++++++++++++++++++++++++++-
-> > + 1 file changed, 31 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/sysdeps/unix/sysv/linux/tcsetattr.c
-> > +b/sysdeps/unix/sysv/linux/tcsetattr.c
-> > +index d7afc63..7cb2c61 100644
-> > +--- a/sysdeps/unix/sysv/linux/tcsetattr.c
-> > ++++ b/sysdeps/unix/sysv/linux/tcsetattr.c
-> > +@@ -48,6 +48,7 @@ tcsetattr (fd, optional_actions, termios_p)  {
-> > +   struct __kernel_termios k_termios;
-> > +   unsigned long int cmd;
-> > ++  int retval;
-> > +
-> > +   switch (optional_actions)
-> > +     {
-> > +@@ -79,6 +80,35 @@ tcsetattr (fd, optional_actions, termios_p)
-> > +   memcpy (&k_termios.c_cc[0], &termios_p->c_cc[0],
-> > + 	  __KERNEL_NCCS * sizeof (cc_t));
-> > +
-> > +-  return INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
-> > ++  retval =3D INLINE_SYSCALL (ioctl, 3, fd, cmd, &k_termios);
-> > ++
-> > ++  if (retval =3D=3D 0 && cmd =3D=3D TCSETS)
-> > ++    {
-> > ++      /* The Linux kernel has a bug which silently ignore the invalid
-> > ++        c_cflag on pty. We have to check it here. */
-> > ++      int save =3D errno;
-> > ++      retval =3D INLINE_SYSCALL (ioctl, 3, fd, TCGETS, &k_termios);
-> > ++      if (retval)
-> > ++       {
-> > ++         /* We cannot verify if the setting is ok. We don't return
-> > ++            an error (?). */
-> > ++         __set_errno (save);
-> > ++         retval =3D 0;
-> > ++       }
-> > ++      else if ((termios_p->c_cflag & (PARENB | CREAD))
-> > ++              !=3D (k_termios.c_cflag & (PARENB | CREAD))
-> > ++              || ((termios_p->c_cflag & CSIZE)
-> > ++                  && ((termios_p->c_cflag & CSIZE)
-> > ++                      !=3D (k_termios.c_cflag & CSIZE))))
-> > ++       {
-> > ++         /* It looks like the Linux kernel silently changed the
-> > ++            PARENB/CREAD/CSIZE bits in c_cflag. Report it as an
-> > ++            error. */
-> > ++         __set_errno (EINVAL);
-> > ++         retval =3D -1;
-> > ++       }
-> > ++    }
-> > ++
-> > ++  return retval;
-> > + }
-> > + libc_hidden_def (tcsetattr)
-> > +--
-> > +1.8.4.2
-> > +
-> > diff --git a/meta/recipes-core/glibc/glibc_2.21.bb
-> > b/meta/recipes-core/glibc/glibc_2.21.bb
-> > index 58a9601..a061b08 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.21.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.21.bb
-> > @@ -27,6 +27,7 @@ SRC_URI =3D
-> "git://sourceware.org/git/glibc.git;branch=3D${BRANCH} \
-> >            file://0001-yes-within-the-path-sets-wrong-config-variables.=
-patch \
-> >            file://elf-Makefile-fix-a-typo.patch \
-> >            ${EGLIBCPATCHES} \
-> > +           file://tcsetattr.c-Fix-LSB-NG-Cases.patch \
-> >           "
-> > EGLIBCPATCHES =3D "\
-> >            file://timezone-re-written-tzselect-as-posix-sh.patch \
-> > --
-> > 1.8.4.2
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
