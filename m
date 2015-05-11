@@ -1,53 +1,37 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0123.outbound.protection.outlook.com [65.55.169.123])
-	by mail.openembedded.org (Postfix) with ESMTP id 04D7F6013D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 979646013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 15:46:26 +0000 (UTC)
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com (25.160.113.12) by
-	BN3PR0501MB1092.namprd05.prod.outlook.com (25.160.113.139) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.160.19; Mon, 11 May 2015 15:46:26 +0000
-Received: from BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) by
-	BN3PR0501MB1090.namprd05.prod.outlook.com ([25.160.113.12]) with
-	mapi id 15.01.0160.009; Mon, 11 May 2015 15:46:26 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Thread-Topic: [OE-core] [PATCH 00/70] Proposed changes for fido
-Thread-Index: AQHQi8YxfjT5UyP0vk2NI6IG2I3yup12tURQgAArl4CAAAqOoA==
-Date: Mon, 11 May 2015 15:46:26 +0000
-Message-ID: <BN3PR0501MB10903E487EB8EF0EB8D3D03EBBDB0@BN3PR0501MB1090.namprd05.prod.outlook.com>
-References: <cover.1431326066.git.joshua.lock@collabora.co.uk>
-	<BN3PR0501MB1090244F8445D0795045EC21BBDB0@BN3PR0501MB1090.namprd05.prod.outlook.com>
-	<1431356851.3086.12.camel@collabora.co.uk>
-In-Reply-To: <1431356851.3086.12.camel@collabora.co.uk>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: collabora.co.uk; dkim=none (message not signed)
-	header.d=none;
-x-originating-ip: [98.100.91.242]
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0501MB1092;
-x-microsoft-antispam-prvs: <BN3PR0501MB109207E5675061E38C15E01FBBDB0@BN3PR0501MB1092.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR0501MB1092; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0501MB1092; 
-x-forefront-prvs: 05739BA1B5
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(377454003)(24454002)(377424004)(51704005)(164054003)(87936001)(102836002)(122556002)(19580405001)(62966003)(77156002)(2656002)(5001960100002)(15975445007)(110136002)(189998001)(40100003)(19580395003)(99286002)(1720100001)(92566002)(66066001)(33656002)(2950100001)(54356999)(76176999)(46102003)(2900100001)(106116001)(50986999)(86362001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0501MB1092;
-	H:BN3PR0501MB1090.namprd05.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
+	Mon, 11 May 2015 15:47:30 +0000 (UTC)
+Received: by igbpi8 with SMTP id pi8so74586348igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 May 2015 08:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=tXYNHFCtC3ksNJZ69K7mEg8gUZ5vDmaeCbnRb2ACGXE=;
+	b=gWAMv0UdZZ0WmEO2CnM9yx3icnSJFtGp5PZS2uKR/rSi0SPet7sCXNwzDTbqMwtwcP
+	1vI1MoJ07e7O9rNQmLbwstHhTUmgFwGmd7l1fbbePo8cSe6832Vyc1fmSJZ+cWxEsijY
+	j5JPv4qvwgxCiQ4oFZfzy34ZKIfGemWtmk8gEiDTBEzSEmbNfd9qHrxaUlrDaWdhTB9W
+	PyRjtWI4ZZnlmIQJhiFjMk4TyhVvS/WMqYKlL5092cT8SFNRSzgPZdF9QpP9FElBrlqG
+	vs71082sN2R5Nxj+dHAIYP7KJzLu0Ho/kJTM2HaD0f5Jaf8YEsLbu1fJYp3IvmsGJWY3
+	bR9A==
+X-Received: by 10.42.164.7 with SMTP id e7mr11386388icy.70.1431359252110; Mon,
+	11 May 2015 08:47:32 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2015 15:46:26.4277 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0501MB1092
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.50.112.34 with HTTP; Mon, 11 May 2015 08:47:01 -0700 (PDT)
+In-Reply-To: <1431295383.30971.25.camel@linuxfoundation.org>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
+	<1431295383.30971.25.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 11 May 2015 08:47:01 -0700
+Message-ID: <CAMKF1sriNnycqHYmhayqaGs2pD8mKAzrd5YLBVrZei4cYW7TNQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/70] Proposed changes for fido
+Subject: Re: [PATCH] rpm: fix build issue with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 15:46:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 11 May 2015 15:47:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Sm9zaHVhLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEpvc2h1YSBM
-b2NrIFttYWlsdG86am9zaHVhLmxvY2tAY29sbGFib3JhLmNvLnVrXQ0KPiBTZW50OiBNb25kYXks
-IE1heSAxMSwgMjAxNSAxMTowOCBBTQ0KPiBUbzogQnJ5YW4gRXZlbnNvbg0KPiBDYzogb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtQQVRDSCAwMC83MF0gUHJvcG9zZWQgY2hhbmdlcyBmb3IgZmlkbw0KPiANCj4gSGkgQnJ5
-YW4sDQo+IA0KPiBPbiBNb24sIDIwMTUtMDUtMTEgYXQgMTI6NDAgKzAwMDAsIEJyeWFuIEV2ZW5z
-b24gd3JvdGU6DQo+ID4gPiBCcnlhbiBFdmVuc29uICgxKToNCj4gPiA+ICAgdXRpbC1saW51eDog
-QWRkIGxhc3RiIHRvIGFsdGVybmF0aXZlcw0KPiA+DQo+ID4gVGhlcmUgaXMgYSByZWZpbmVkIHZl
-cnNpb24gb2YgdGhpcyBwYXRjaCBhdmFpbGFibGUgdGhhdCB3YXMgc3VibWl0dGVkDQo+ID4gdG8g
-dGhlIG1haWxpbmcgbGlzdCBoZXJlOg0KPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE1DQo+ID4gLUFwcmlsLzEwNDEzMi5odG1s
-LiAgSXQgdXNlcyBQQUNLQUdFQ09ORklHIHRvIHJlbW92ZSBsYXN0LCBsYXN0YiBhbmQNCj4gPiB0
-aGUgbWFuIHBhZ2VzIGZvciBsYXN0IGFuZCBsYXN0YiBmcm9tIHRoZSB1dGlsLWxpbnV4IGJ1aWxk
-IGlmICdsYXN0Jw0KPiA+IGlzIG5vdCBpbiBQQUNLQUdFQ09ORklHLiAgSXQgYWxzbyBhZGRzICds
-YXN0JyB0byBQQUNLQUdFQ09ORklHIGJ5DQo+ID4gZGVmYXVsdCB3aGljaCBtaW1pY3MgcHJldmlv
-dXMgYmVoYXZpb3IuICBJJ20gc3RpbGwgYSBsaXR0bGUgdW5jbGVhciBvbg0KPiA+IHRoZSBwYXRj
-aCBhcHByb3ZhbCBwcm9jZXNzLCBzbyBJIGFzc3VtZSB0aGUgdXBkYXRlZCBwYXRjaCB3b3VsZCBu
-ZWVkDQo+ID4gdG8gYmUgYWNjZXB0ZWQgaW50byBtYXN0ZXIgYmVmb3JlIGJlaW5nIGJhY2twb3J0
-ZWQgaW50byBmaWRvPw0KPiANCj4gVW5sZXNzIHRoZSBwYXRjaCBpcyBzcGVjaWZpYyB0byB0aGUg
-c3RhYmxlIGJyYW5jaCB3ZSBvbmx5IHB1bGwgaW4gY2hhbmdlcyBpbnRvIGENCj4gc3RhYmxlIGJy
-YW5jaCBvbmNlIHRoZXkgaGF2ZSBiZWVuIHJldmlld2VkIGFuZCBhY2NlcHRlZCBpbnRvIHRoZSBt
-YXN0ZXINCj4gYnJhbmNoLg0KPiANCj4gSXMgdGhpcyBjaGFuZ2UgdmFsdWFibGUgd2l0aG91dCB0
-aGUgcmVmaW5lZCBwYXRjaD8gT3Igc2hvdWxkIEkgcHVsbCBpdCB1bnRpbCBJIGNhbg0KPiBtZXJn
-ZSBib3RoPw0KDQpJdCBkb2VzIGhhdmUgdmFsdWUgYXMgaXQgc3RhbmRzLiAgSXQgZml4ZXMgc29t
-ZSB1cGdyYWRlIGNhc2VzIEkgd2FzIHNlZWluZyB3aGljaCB3YXMgZm9yY2luZyBtZSB0byBydW4g
-b3BrZyB3aXRoICItLWZvcmNlLW92ZXJ3cml0ZSIgc2V0LiAgVGhlIHJlZmluZWQgcGF0Y2ggcmVt
-b3ZlcyBsYXN0IGFuZCBsYXN0YiBmcm9tIHV0aWwtbGludXggaWYgc29tZW9uZSBkb2VzIG5vdCB3
-YW50IGl0IHRoZXJlOyBnb29kIHRvIGRvIGJ1dCBub3QgYXMgY3JpdGljYWwgYXMgZml4aW5nIGEg
-cGFja2FnZSBtYW5hZ2VtZW50IGlzc3VlLiAgU28gaW4gbXkgb3BpbmlvbiBpdCdkIGJlIHdvcnRo
-IG1lcmdpbmcgdGhlIHByb3Bvc2VkIHBhdGNoIGludG8gZmlkby4NCg0KSWYgdGhlcmUgaXMgc29t
-ZXRoaW5nIG1vcmUgdGhhdCBJIG5lZWQgdG8gZG8gdG8gZ2V0IG15IHVwZGF0ZWQgcGF0Y2ggdG8g
-bWFzdGVyPw0KDQpUaGFua3MsDQpCcnlhbg0KDQo+IA0KPiBUaGFua3MsDQo+IA0KPiBKb3NodWEN
-Cg==
+On Sun, May 10, 2015 at 3:03 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I like the idea of a common include to handle this a lot better.
+>
+> FWIW, I tried gcc 5 on the autobuilder. The results were 141 failures so
+> far:
+>
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150
+>
+
+linux-yocto 3.14 needs to backport
+https://patchwork.ozlabs.org/patch/403787/ for all relvant branches
+
+For some ppc recipes failing with undefined .LCx smbols we need to not use -O2
+mips64 is new havent tried and tested those yet
+
+> Cheers,
+>
+> Richard
 
