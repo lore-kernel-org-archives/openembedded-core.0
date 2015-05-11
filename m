@@ -1,58 +1,36 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx6-out12.antispamcloud.com (mx6-out12.antispamcloud.com
-	[95.211.2.203])
-	by mail.openembedded.org (Postfix) with ESMTP id 6855673F92
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B9856013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 09:39:34 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1YrkBE-0004JX-1T; Mon, 11 May 2015 11:39:33 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 11 May 2015 11:39:56 +0200
-Message-ID: <555078C6.8060504@topic.nl>
-Date: Mon, 11 May 2015 11:39:18 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 11 May 2015 10:55:22 +0000 (UTC)
+Received: by qku63 with SMTP id 63so83615635qku.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 May 2015 03:55:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cDyToObP+9q021BPGttpccY6JUg69dJ+uet2qvHmvfw=;
+	b=J5skZW4p8BopGUnON/T4HPuBad/oig9o/hfpT4NgpxwZTpPiz9SMLWfqhvQVApKRV6
+	jBt2SvfGNH1crnzFrt+2yFqz4Ls+gOyE5VBuWo8PkLStiIVxFdMorz17yFK7zhGTOmtf
+	dwEuw/fBR6u/bUFNU1iCujrwjhocbryiItTNtN6tywLqeRsg7PghI4FsOvmAoLQsNACe
+	Y4Y6zocw8yaH9VbAQpHQoHf1U+bM3SqP0Os+iD+t3Wi/jUs04OkIuFQFyOQpWniQKwTA
+	jkGZerx21BA7I+0s5DqvJPDUwIQz0B/wwuLpU3eWPXgBwVvzuZQFPEZ5OEkRKRIqzHKz
+	0mGQ==
+X-Gm-Message-State: ALoCoQnheup2R7w2qKBTgrkmGCg/ZvEQef+j3/Kh8Csd/ejMkZc2PXp2aVxXfiieYRoNIJRbub1/
+X-Received: by 10.140.216.5 with SMTP id m5mr13152674qhb.52.1431341723534;
+	Mon, 11 May 2015 03:55:23 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <554C98F7.5090005@dresearch-fe.de> <55505221.7030002@topic.nl>
-	<55506F1F.2010100@topic.nl>
-	<3739437.GgmXEBs0pQ@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <3739437.GgmXEBs0pQ@peggleto-mobl.ger.corp.intel.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw2qn2YSnBaxCIAHbc091Tc1/63A71K+jqMokMNyfk/ad6zUhnDUpwAEsjGnc8y38ChhW
-	DHFYc6XC0Haiqey5b0Mem3nkaZsJp+9zNJIzCkmTgXL9qeKKSbhrpb+MxK8KTsoRCHWk1Bdz6Hse
-	hols1KpTxt8FK0syZM78Ip6XMJKSfL5junl+tCQpHoIobEB6qRxwEiTVJqDh0qKoKsXx5lloNsmI
-	4zkZpjdC8gHubQGDdouipYwvlCdK/kDYpLB7T4vduhfZSzngB36Mec7tIi+5wToVUfL2hBxUuJV4
-	Ohp2YP6FGNtYJtETLuTCxSz05FVf1j1twZRpZmNePd8yD6I6Ybr/niDNrurllrQAWzPoUXGuwfRo
-	HqMy2rdpD/o7aL1SnB0ZCWCwMAM8t66oUbA7gjbBVOyhsORmDMrIe9fEUK+dxh2q6zh2e9Okajud
-	8n+PMPiZjKSjZ1VNR7yvyldknRDjH7QY7Fm+gQ0M40rBZ/1pGTzmZ0qF0Y/hB/T9Bi4yXI38RNP4
-	PjTJnPO/3my57IUNtZsmYlZe2TrEPH/IrGySGi76i1XI3JQnDkzKf09fZ1Xwxex+WCZ5ozYSk2IB
-	IkUL/j1Y48GvmeURQjjEXMxXxDbOxcvksZxP4sFbpkqcLUIH/vDKOylcRAj4cYjEfO0bMqOtAx3x
-	ZnuhrzR5+fqc2NN0cYZYS6gAxA6h/Q==
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.05)
-X-Recommended-Action: accept
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: WARNING: The license listed CLOSED was not in the licenses collected for foo
+Received: by 10.140.102.231 with HTTP; Mon, 11 May 2015 03:55:03 -0700 (PDT)
+In-Reply-To: <1431124779-28516-1-git-send-email-juro.bystricky@intel.com>
+References: <1431124779-28516-1-git-send-email-juro.bystricky@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 May 2015 11:55:03 +0100
+Message-ID: <CAJTo0Lb4sfifeBx_T+a=acfk9TjRfVNaCqp+KngUccPKS609LA@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add support for VirtualBox VDI images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,88 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 09:39:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 11 May 2015 10:55:25 -0000
+Content-Type: multipart/alternative; boundary=001a11354e68fbdd960515cc36d9
+
+--001a11354e68fbdd960515cc36d9
+Content-Type: text/plain; charset=UTF-8
+
+Thanks Juro,
+
+On 8 May 2015 at 23:39, Juro Bystricky <juro.bystricky@intel.com> wrote:
+
+> Yocto does not support VirtualBox sparse image VDI file format.
+> This could be achieved by the attached patch. The support mimics
+> the VMDK support for VMware. The only subtle difference is that
+> qemu-native has be be built with uuid enabled, as VDI images
+> need a valid UUID in order to be recognized by VirtualBox.
+>
+> [YOCTO #7374]
+>
+
+This needs to be split up into logical patches.  For example one to enable
+UUID into Qemu, one to add the new image type, another to update the checks.
+
+Ross
+
+--001a11354e68fbdd960515cc36d9
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 11-05-15 11:36, Paul Eggleton wrote:
-> At a guess, maybe do_populate_lic didn't re-execute for this recipe. Does=
- it
-> still happen if you bitbake -c cleansstate the recipe and try again?
+<div dir=3D"ltr"><div class=3D"gmail_extra">Thanks Juro,</div><div class=3D=
+"gmail_extra"><br><div class=3D"gmail_quote">On 8 May 2015 at 23:39, Juro B=
+ystricky <span dir=3D"ltr">&lt;<a href=3D"mailto:juro.bystricky@intel.com" =
+target=3D"_blank">juro.bystricky@intel.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div id=3D":2bx" class=3D"a3s" style=3D"overflow:hi=
+dden">Yocto does not support VirtualBox sparse image VDI file format.<br>
+This could be achieved by the attached patch. The support mimics<br>
+the VMDK support for VMware. The only subtle difference is that<br>
+qemu-native has be be built with uuid enabled, as VDI images<br>
+need a valid UUID in order to be recognized by VirtualBox.<br>
+<br>
+[YOCTO #7374]</div></blockquote></div><br>This needs to be split up into lo=
+gical patches.=C2=A0 For example one to enable UUID into Qemu, one to add t=
+he new image type, another to update the checks.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Yes, it even complains about this on a completely fresh build.
-
->
-> Cheers,
-> Paul
->
-> On Monday 11 May 2015 10:58:07 Mike Looijmans wrote:
->> Hmm, I cannot figure it out... I have in a recipe:
->>
->> LICENSE =3D "internal"
->> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcf85de037de7ae12cc2d0059741fd=
-bae"
->>
->> Then in my layer.conf:
->>
->> LICENSE_PATH +=3D "${LAYERDIR}/licenses"
->>
->> I have a file called "internal" in that path. Still, I get:
->>
->> WARNING: log_check: WARNING: The license listed internal was not in the
->> licenses collected for ...
->>
->> What am I missing still then? What does the warning mean? I thought I go=
-t
->> everything right, but either the licensing rules have changed or I never=
- got
->> it right in the first place and a check was added to make me aware of th=
-at.
->> On 11-05-15 08:54, Mike Looijmans wrote:
->>> What is one expected to do when one justs wants to add the missing lice=
-nse
->>> to the "licenses collected for ..."?
->>>
->>> I'm a bit spoiled now, most OE messages explain what it expects me to d=
-o
->>> to
->>> fix the problem.
->>
->> Kind regards,
->>
->> Mike Looijmans
->> System Expert
->>
->> TOPIC Embedded Products
->> Eindhovenseweg 32-C, NL-5683 KH Best
->> Postbus 440, NL-5680 AK Best
->> Telefoon: +31 (0) 499 33 69 79
->> Telefax: +31 (0) 499 33 69 70
->> E-mail: mike.looijmans@topicproducts.com
->> Website: www.topicproducts.com
->>
->> Please consider the environment before printing this e-mail
->
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
-
+--001a11354e68fbdd960515cc36d9--
