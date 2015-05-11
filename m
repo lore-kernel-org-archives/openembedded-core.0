@@ -1,20 +1,21 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 83D7B73FE5
+	by mail.openembedded.org (Postfix) with ESMTP id 4DE5573FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 15:07:23 +0000 (UTC)
+	Mon, 11 May 2015 15:07:34 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id A1298601477
-Message-ID: <1431356839.3086.11.camel@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id 59DF2601507
+Message-ID: <1431356851.3086.12.camel@collabora.co.uk>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 11 May 2015 16:07:19 +0100
-In-Reply-To: <55506D9B.7080501@windriver.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Mon, 11 May 2015 16:07:31 +0100
+In-Reply-To: <BN3PR0501MB1090244F8445D0795045EC21BBDB0@BN3PR0501MB1090.namprd05.prod.outlook.com>
 References: <cover.1431326066.git.joshua.lock@collabora.co.uk>
-	<55506D9B.7080501@windriver.com>
+	<BN3PR0501MB1090244F8445D0795045EC21BBDB0@BN3PR0501MB1090.namprd05.prod.outlook.com>
 X-Mailer: Evolution 3.16.1 (3.16.1-1.fc22) 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/70] Proposed changes for fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -28,28 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 15:07:25 -0000
+X-List-Received-Date: Mon, 11 May 2015 15:07:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Robert,
+Hi Bryan,
 
-On Mon, 2015-05-11 at 16:51 +0800, Robert Yang wrote:
-> On 05/11/2015 04:40 PM, Joshua Lock wrote:
-> > Robert Yang (5):
-> >    pcmciautils: fix for parallel build
-> >    aspell: inherit binconfig-disabled
-> >    cracklib: add python support back
+On Mon, 2015-05-11 at 12:40 +0000, Bryan Evenson wrote:
+> > Bryan Evenson (1):
+> >   util-linux: Add lastb to alternatives
 > 
-> Hi Joshua,
-> 
-> I'm leaning to not backport "cracklib: add python support back" since
-> it is more likely a function enabled rather than a bug fix.
+> There is a refined version of this patch available that was 
+> submitted to the mailing list here: 
+> http://lists.openembedded.org/pipermail/openembedded-core/2015
+> -April/104132.html.  It uses PACKAGECONFIG to remove last, lastb and 
+> the man pages for last and lastb from the util-linux build if 'last' 
+> is not in PACKAGECONFIG.  It also adds 'last' to PACKAGECONFIG by 
+> default which mimics previous behavior.  I'm still a little unclear 
+> on the patch approval process, so I assume the updated patch would 
+> need to be accepted into master before being backported into fido?
 
-I see that python-cracklib has been disabled for some time (since
-before dizzy), I will drop this patch from my tree.
+Unless the patch is specific to the stable branch we only pull in
+changes into a stable branch once they have been reviewed and accepted
+into the master branch.
 
-Thanks for your review.
+Is this change valuable without the refined patch? Or should I pull it
+until I can merge both?
+
+Thanks,
 
 Joshua
 
