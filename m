@@ -1,34 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E806013D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7A360043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 15:54:28 +0000 (UTC)
-Received: by iepj10 with SMTP id j10so108006880iep.0
+	Mon, 11 May 2015 16:17:17 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so113592660pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 08:54:28 -0700 (PDT)
+	Mon, 11 May 2015 09:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=kqZ8CSulsLTe8Rq1hkcONoa/CdpboLVHHrar5CgYRVk=;
-	b=zhMWZzosBjSRz1M0xAYlsEWFrRA0cu7Ekxchrnnx8dnioJQrxVtA3N7Sdmyt9usowR
-	rYDKPC4v364v2wPRYnLR/gJT0/pACNH1q6bdHkkVBbqzhZxjW0cZU5skn8C+jIBRxrLG
-	0oQ/8hxmhEtze7wYUcj9dhTU02OnpiGLdeXKcaKyhjue9/+W9OLQ/FRNWTj/cEZhpLc6
-	TRsv/76K+bbDM0+hVoxAYfLstwcCD9fApPCvRBmlQDN4YCqdz687QvZNDMLIwtdn612D
-	avLZ12s0VA0WxN5gkSPb2YQ5jdmsB4W2L4dU5JhWpouMDVYBjktP1b5hI+lvVrfJr0HK
-	ZVrQ==
-X-Received: by 10.50.117.35 with SMTP id kb3mr13915095igb.13.1431359666547;
-	Mon, 11 May 2015 08:54:26 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=SgEhCZyB3STjcMg0ZhJ550rD9Cyc/teezfKrnihMpK4=;
+	b=OU8ZOMBVr80REMLhE14HAgfd6mWkxQwrqanTxrvCIdFlcSNxrU4vqpHOreqM8iVnG5
+	kyKEehzEQPM1mGpJLg7HZpE+9ACj52saipyb54vvNQOjHOuBNa//nP66yfiVw++VR3Ln
+	Jc8EP9mvujoy/xSZTTnIee7zzHLOzpvQjURHlSQV95xTKb3+57OF/jimOTeo3CDrjcTA
+	DtX9hL3wQ9u7fi7PM7F8IHoCK/AG11+AUW6g6XYoUXn6fx7zn4Rr6KjC68ff0q1NDSxU
+	b/MUpkvdIubslmVzCeocA/O+PAluVeM7kLPmyjQB6v+M9Q9zE4ZMnFtQWjPHX+MBS49M
+	DoIw==
+X-Received: by 10.68.92.5 with SMTP id ci5mr20111271pbb.109.1431361038439;
+	Mon, 11 May 2015 09:17:18 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:d9ea:b13c:f1c:2b5d?
+	([2601:c:a700:3ba7:d9ea:b13c:f1c:2b5d])
+	by mx.google.com with ESMTPSA id d3sm13524721pbu.93.2015.05.11.09.17.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 May 2015 09:17:17 -0700 (PDT)
+Message-ID: <5550D60B.9050707@gmail.com>
+Date: Mon, 11 May 2015 09:17:15 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Received: by 10.50.112.34 with HTTP; Mon, 11 May 2015 08:53:56 -0700 (PDT)
-In-Reply-To: <1431350446.30971.56.camel@linuxfoundation.org>
-References: <1431350446.30971.56.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 May 2015 08:53:56 -0700
-Message-ID: <CAMKF1sptEocAHMM98RwUzsUUuE4a+3c1Y72E1wmfGzua-G8hdQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: linux-yocto and gcc 5.x
+To: Khem Raj <raj.khem@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
+	<1431295383.30971.25.camel@linuxfoundation.org>
+	<CAMKF1sriNnycqHYmhayqaGs2pD8mKAzrd5YLBVrZei4cYW7TNQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sriNnycqHYmhayqaGs2pD8mKAzrd5YLBVrZei4cYW7TNQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: fix build issue with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 15:54:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 May 2015 16:17:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 11, 2015 at 6:20 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+
+
+On 05/11/2015 08:47 AM, Khem Raj wrote:
+> On Sun, May 10, 2015 at 3:03 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> I like the idea of a common include to handle this a lot better.
+>>
+>> FWIW, I tried gcc 5 on the autobuilder. The results were 141 failures so
+>> far:
+>>
+>> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150
+>>
 >
-> One of the things we're looking at in 1.9 is gcc 5.x support by default.
-> One of the areas this has significant impact is on the kernels,
-> linux-yocto in particular. I'm starting to see a potential problem here
-> since the kernels don't appear to work well with gcc 5.x:
+> linux-yocto 3.14 needs to backport
+> https://patchwork.ozlabs.org/patch/403787/ for all relvant branches
 >
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150&order_by=RECIPE
+> For some ppc recipes failing with undefined .LCx smbols we need to not use -O2
+> mips64 is new havent tried and tested those yet
+
+arm64 kernel build failed don't recall how many packages.
+
+- armin
 >
-
-as mentioned in another thread. linux-yocto needs to backport
-https://patchwork.ozlabs.org/patch/403787/
-to beging with. I have 3.8 running on beaglebone white but thats not linux-yocto
-
-https://github.com/koenkooi/meta-beagleboard/commit/07e27c22e707e26f3f321f51999c4f6a294b5b18
-https://github.com/koenkooi/meta-beagleboard/commit/765e7f35af7e4358573868389d4ea144eacd6b7a
-
-there is a patch or two in there that needs to go upstream into kernel
-as well but I havent bothered yet.
-
-I was not able to boot linux yocto 3.19 few weeks ago on any of
-emulators when build with gcc5
-rootfs did not have any issues.
-
-I also have 3.10 compiling and booting on another Arm platform
-
-
-> (this is a test build I ran just to see how bad things were).
->
-> Are we going to be in a position to get 5.x support backported into 3.14
-> (and maybe 3.10)? Or was we going to have to wait for later versions?
->
-> Cheers,
+>> Cheers,
+>>
+>> Richard
 
