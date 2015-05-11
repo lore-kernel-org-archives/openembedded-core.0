@@ -1,53 +1,26 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 08D5F6013D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 22CA972D72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 06:06:16 +0000 (UTC)
-Received: by laat2 with SMTP id t2so86025814laa.1
+	Mon, 11 May 2015 06:08:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4B68lFG003150
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 May 2015 23:06:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=7llHqsbPYmkTgK7wlptAhZ5G67CA4gkpvkjoJpOsVqM=;
-	b=jDEVHLs7fteH2sI/G0QOzmPkjKsauBX2JJBTkABgszFSkQAlTReGg84swnqt4Bk8cV
-	g/dWCXJp/clQ3wOx8Z8TGMIylZspVrrzcpUTrvDn4uA/1R9S56ohuNQPR4DzGkbV3LcW
-	hqfwM2Ww3pgHLITw7taEy138hVDLZosnHXcbayHMDw7g/EKabBkIQ9TX5UjqdNpZ2UfU
-	uYy01v0RCSJQ1SCOAejqs3kH3E2p+fRAKgXa8cDFP75PB/mMGUlKeEo9leqF5rrMTYwS
-	Cw/GbLnInX75r4Q/fDFliFcdJPPqXOHPqlrvjWh0tOZZGOZhwaNQnMdQJp4r4uUG0kng
-	H5bw==
-X-Gm-Message-State: ALoCoQkOg61EV1FKY2/nACoBCa+fV2k+37FkLDj/y0HJCUkeVQnAwALjK/FaAI6E2SIv8hvyOz+z
-X-Received: by 10.112.126.136 with SMTP id my8mr6840101lbb.18.1431324377069;
-	Sun, 10 May 2015 23:06:17 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id 4sm2819105lai.36.2015.05.10.23.06.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 May 2015 23:06:16 -0700 (PDT)
-Date: Mon, 11 May 2015 08:06:14 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-Message-ID: <20150511060614.GA13549@ad.chargestorm.se>
-Mail-Followup-To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>,
-	Andreas Oberritter <obi@opendreambox.org>,
-	openembedded-core@lists.openembedded.org
-References: <1431016840-26287-1-git-send-email-bruno.bottazzini@intel.com>
-	<1431016840-26287-4-git-send-email-bruno.bottazzini@intel.com>
-	<554BB5F2.8090004@opendreambox.org>
-	<1431038749.29137.15.camel@bottazzini-ThinkPad-T430>
+	Sun, 10 May 2015 23:08:47 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Sun, 10 May 2015 23:08:46 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 10 May 2015 23:08:35 -0700
+Message-ID: <bc821025ab812f67e5055ffda1f309ddc511d898.1431324180.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1431324180.git.liezhi.yang@windriver.com>
+References: <cover.1431324180.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1431038749.29137.15.camel@bottazzini-ThinkPad-T430>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] systemd: split modules into packages
+Subject: [PATCH 02/12] gtk+/cairo: enable x11 or directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 06:06:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 11 May 2015 06:08:46 -0000
+Content-Type: text/plain
 
-* Bottazzini, Bruno <bruno.bottazzini@intel.com> [150508 00:46]:
+The gtk+2 requires whether x11 or directfb to build, so we need enable
+either of them. The cairo can be built without x11 or directfb, but gtk+
+requires cairo, so enable x11 or directfb for cairo, too.
 
-> On Qui, 2015-05-07 at 20:58 +0200, Andreas Oberritter wrote:
-> > On 07.05.2015 18:40, Bruno Bottazzini wrote:
-> > > +                   vconsole \
-> > > +                   update \
-> > > +                   timesyncd \
-> > > +                   rfkill \
-> > > +                   quota \
-> > > +                   fuse \
-> > > +                   firstboot \
-> > > +                   dbus \
-> > > +                   binfmt \
-> > > +                   backlight \
-> > > +                   ask-password \
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-gnome/gtk+/gtk+.inc      |    5 ++---
+ meta/recipes-graphics/cairo/cairo.inc |    7 +++++--
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-> > I think it may be better to sort this quite long list alphabetically.
-
-> > Are these options already enabled today? 
-
-> Yes, it is enabled. 
-
-> This is the default packages enabled in the current recipe.
-
-> > Because of the new
-> > packageconfig entries, I would have expected changes to EXTRA_OECONF and
-> > DEPENDS, which I don't see in your patch.
-
-> Some packages does not have EXTRA_OECONF.
-
-> You can see what this recipe DEPENDS by looking at ${PN}-services-base.
-
-What Andreas is asking about, is e.g. for the kmod PACKAGECONFIG:
-
-> > > +PACKAGECONFIG[kmod] = "--enable-kmod,--disable-kmod,kmod"
-
-Here, if kmod is enabled in PACKAGECONFIG, kmod (the 3rd parameter),
-will be added to DEPENDS. Thus, you should remove kmod from the static
-DEPENDS (as now it's dynamically added using PACKAGECONFIGS).
-
-The same is likely true for a number of the other PACKAGECONFIGs that
-you're adding (which, by the way is a _good_ thing to add).
-
-Cheers,
-Anders
-
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 1c0558c..fcfb86f 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -14,9 +14,8 @@ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender
+ DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
+  cairo gdk-pixbuf"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-"
++# Requires x11 or directfb
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
+ 
+ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
+ # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index 98add5a..f1aca9b 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -17,8 +17,11 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
++# Build cairo-xlib or cairo-directfb for gtk+
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
++# No directfb-native, so set PACKAGECONFIG to null when no x11
++PACKAGECONFIG_class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++
+ PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
+ PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.7.9.5
+
 
