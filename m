@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B34C973FBE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9689373CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 08:32:04 +0000 (UTC)
+	Mon, 11 May 2015 08:32:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4B8W3ob004461
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4B8W3VC001766
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 01:32:05 -0700 (PDT)
+	Mon, 11 May 2015 01:32:03 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 11 May 2015 01:32:04 -0700
+	Mon, 11 May 2015 01:32:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 01:32:01 -0700
-Message-ID: <39b8684e8b63f00702f4e7caed0f4a7ab4e74775.1431333085.git.liezhi.yang@windriver.com>
+Date: Mon, 11 May 2015 01:31:59 -0700
+Message-ID: <18b295b324e4834e88f21b4de422269f01ce5f27.1431333085.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1431333085.git.liezhi.yang@windriver.com>
 References: <cover.1431333085.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] strace: add PACKAGECONFIG for bluez
+Subject: [PATCH 1/3] socat: fix for parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 08:32:06 -0000
+X-List-Received-Date: Mon, 11 May 2015 08:32:07 -0000
 Content-Type: text/plain
 
 Fixed:
-net.c:65:34: fatal error: bluetooth/bluetooth.h: No such file or directory
- # include <bluetooth/bluetooth.h>
-                                  ^
-compilation terminated.
+vsnprintf_r.o: file not recognized: File truncated
+collect2: error: ld returned 3 exit status
+Makefile:122: recipe for target 'filan' failed
 
-And use "??=" rather than "?=" for PACKAGECONFIG.
+Let filan depend on vsnprintf_r.o and snprinterr.o to fix the issue.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/strace/strace_4.10.bb |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../socat/Makefile.in-fix-for-parallel-build.patch |   35 ++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.3.0.bb   |    1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
 
-diff --git a/meta/recipes-devtools/strace/strace_4.10.bb b/meta/recipes-devtools/strace/strace_4.10.bb
-index 07a1076..20b7e3d 100644
---- a/meta/recipes-devtools/strace/strace_4.10.bb
-+++ b/meta/recipes-devtools/strace/strace_4.10.bb
-@@ -17,14 +17,18 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
- SRC_URI[md5sum] = "107a5be455493861189e9b57a3a51912"
- SRC_URI[sha256sum] = "e6180d866ef9e76586b96e2ece2bfeeb3aa23f5cc88153f76e9caedd65e40ee2"
+diff --git a/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch b/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
+new file mode 100644
+index 0000000..aa4db65
+--- /dev/null
++++ b/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
+@@ -0,0 +1,35 @@
++From c6f0080b55679b6e8b5d332d6e05fdcbda1e4064 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Mon, 4 May 2015 00:58:47 -0700
++Subject: [PATCH] Makefile.in: fix for parallel build
++
++Fixed:
++vsnprintf_r.o: file not recognized: File truncated
++collect2: error: ld returned 3 exit status
++Makefile:122: recipe for target 'filan' failed
++
++Let filan depend on vsnprintf_r.o and snprinterr.o to fix the issue.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ Makefile.in |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index f2a6edb..88b784b 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -118,7 +118,7 @@ PROCAN_OBJS=procan_main.o procan.o procan-cdefs.o hostan.o error.o sycls.o sysut
++ procan: $(PROCAN_OBJS)
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(PROCAN_OBJS) $(CLIBS)
++ 
++-filan: filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o
+++filan: filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o $(CLIBS)
++ 
++ libxio.a: $(XIOOBJS) $(UTLOBJS)
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.0.bb b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
+index 8923f41..b58e0a7 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.3.0.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
--inherit autotools ptest
-+inherit autotools ptest bluetooth
- RDEPENDS_${PN}-ptest += "make coreutils grep gawk"
  
--PACKAGECONFIG_class-target ?= "libaio ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-+PACKAGECONFIG_class-target ??= "\
-+    libaio ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-+"
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
++           file://Makefile.in-fix-for-parallel-build.patch \
+ "
  
- PACKAGECONFIG[libaio] = "--enable-aio,--disable-aio,libaio"
- PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
- PACKAGECONFIG[libunwind] = "--with-libunwind, --without-libunwind, libunwind"
-+PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
- 
- TESTDIR = "tests"
- 
+ SRC_URI[md5sum] = "b607edb65bc6c57f4a43f06247504274"
 -- 
 1.7.9.5
 
