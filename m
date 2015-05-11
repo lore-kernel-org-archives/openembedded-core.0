@@ -1,24 +1,26 @@
 Return-Path: <Dmitry_Eremin@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4800673EFD
+	by mail.openembedded.org (Postfix) with ESMTP id D037873EFD
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 May 2015 19:52:57 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
 	helo=SVR-IES-FEM-01.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1Yrtl4-0005wy-Mf from Dmitry_Eremin@mentor.com 
+	id 1Yrtl5-0005wy-8P from Dmitry_Eremin@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 May 2015 12:52:58 -0700
+	Mon, 11 May 2015 12:52:59 -0700
 Received: from fangorn.rup.mentorg.com (137.202.0.76) by
 	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Mon, 11 May 2015 20:52:57 +0100
+	Server (TLS) id 14.3.224.2; Mon, 11 May 2015 20:52:58 +0100
 From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 22:52:54 +0300
-Message-ID: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
+Date: Mon, 11 May 2015 22:52:55 +0300
+Message-ID: <1431373976-20993-2-git-send-email-dmitry_eremin@mentor.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
+References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
 MIME-Version: 1.0
-Subject: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+Subject: [RESEND][PATCH 2/3] scripts/runqemu: factor out some qemuarm configuration options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +36,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 May 2015 19:52:57 -0000
 Content-Type: text/plain
 
-Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
-little to run necessary applications. Add a new arm configuration based
-on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
+In preparation of adding qemuarma9 support to runqemu scripts, factor
+out some qemuarm-related options to be handled in a more generic way.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 ---
- meta/conf/machine/qemuarma9.conf | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/conf/machine/qemuarma9.conf
+ scripts/runqemu-internal | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/qemuarma9.conf b/meta/conf/machine/qemuarma9.conf
-new file mode 100644
-index 0000000..119d172
---- /dev/null
-+++ b/meta/conf/machine/qemuarma9.conf
-@@ -0,0 +1,11 @@
-+#@TYPE: Machine
-+#@NAME: arm_versatile_cortexa9
-+#@DESCRIPTION: arm_versatile_cortexa9
-+
-+require conf/machine/include/qemu.inc
-+require conf/machine/include/tune-cortexa9.inc
-+
-+KERNEL_IMAGETYPE = "zImage"
-+KERNEL_DEVICETREE = "vexpress-v2p-ca9.dtb"
-+
-+SERIAL_CONSOLE = "115200 ttyAMA0"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index bc2a355..f17bb05 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -124,6 +124,10 @@ if [ "$SLIRP_ENABLED" = "yes" ]; then
+         QEMU_NETWORK_CMD=""
+         DROOT="/dev/vda"
+         ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
++    elif [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
++        QEMU_NETWORK_CMD=""
++        DROOT="/dev/sda"
++        ROOTFS_OPTIONS="-hda $ROOTFS"
+     else
+         QEMU_NETWORK_CMD=""
+         DROOT="/dev/hda"
+@@ -267,6 +271,11 @@ else
+             DROOT="/dev/hda"
+             ROOTFS_OPTIONS="-hda $ROOTFS"
+         fi
++        if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
++            QEMU_NETWORK_CMD="-net nic,vlan=0 $QEMU_TAP_CMD"
++            DROOT="/dev/sda"
++            ROOTFS_OPTIONS="-hda $ROOTFS"
++        fi
+         if [ "$MACHINE" = "qemuarm64" ]; then
+             QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
+             DROOT="/dev/vda"
+@@ -359,8 +368,8 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
+     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
+-        KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
++        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
 -- 
 2.1.4
 
