@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D2373FAB
+	by mail.openembedded.org (Postfix) with ESMTP id B313273FB2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 08:32:02 +0000 (UTC)
+	Mon, 11 May 2015 08:32:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4B8W3oZ004461
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4B8W2Mg004458
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 01:32:03 -0700 (PDT)
+	Mon, 11 May 2015 01:32:02 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 11 May 2015 01:32:03 -0700
+	Mon, 11 May 2015 01:32:01 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 01:32:00 -0700
-Message-ID: <d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
+Date: Mon, 11 May 2015 01:31:58 -0700
+Message-ID: <cover.1431333085.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1431333085.git.liezhi.yang@windriver.com>
-References: <cover.1431333085.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] xserver-xorg: disable xwayland
+Subject: [PATCH 0/3] 3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +34,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 May 2015 08:32:05 -0000
 Content-Type: text/plain
 
-The default is auto, we can disable it rather than depend on wayland or
-add a PACKAGECONFIG since they are two display servers.
+The following changes since commit 7ffe10df73cc20d10fcd41b121074445273bd60e:
 
-Fixed do_compile error:
-hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file or directory
- #include <wayland-client.h>
-                            ^
-compilation terminated.
+  license_class: license_create_manifest improvment (2015-05-09 22:26:02 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+
+Robert Yang (3):
+  socat: fix for parallel build
+  xserver-xorg: disable xwayland
+  strace: add PACKAGECONFIG for bluez
+
+ .../socat/Makefile.in-fix-for-parallel-build.patch |   35 ++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.3.0.bb   |    1 +
+ meta/recipes-devtools/strace/strace_4.10.bb        |    8 +++--
  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- 1 file changed, 1 insertion(+)
+ 4 files changed, 43 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 30299c2..512266c 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -104,6 +104,7 @@ EXTRA_OECONF += "--with-fop=no \
-                  --disable-record \
-                  --disable-dmx \
-                  --disable-xnest \
-+                 --disable-xwayland \
-                  --enable-xvfb \
-                  --enable-composite \
-                  --without-dtrace \
 -- 
 1.7.9.5
 
