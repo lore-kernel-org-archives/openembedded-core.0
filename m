@@ -1,23 +1,23 @@
-Return-Path: <pb@pbcl.net>
-X-Greylist: delayed 301 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 11 May 2015 22:09:22 UTC
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id AD00C6013D
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8325E60043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 22:09:22 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=h006.home.private)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1YrvoD-0002SR-4q; Tue, 12 May 2015 00:04:21 +0200
-Message-ID: <1431381853.3920.17.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>
-Date: Mon, 11 May 2015 23:04:13 +0100
-In-Reply-To: <1431367371-7716-2-git-send-email-bruno.bottazzini@intel.com>
+	Mon, 11 May 2015 22:25:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 11 May 2015 15:24:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,411,1427785200"; d="scan'208";a="492288715"
+Received: from bottazzini-thinkpad-t430 (HELO [10.218.98.23]) ([10.218.98.23])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 May 2015 15:24:52 -0700
+Message-ID: <1431383081.3137.4.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Mon, 11 May 2015 19:24:41 -0300
+In-Reply-To: <1431381853.3920.17.camel@pbcl.net>
 References: <1431367371-7716-1-git-send-email-bruno.bottazzini@intel.com>
 	<1431367371-7716-2-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
+	<1431381853.3920.17.camel@pbcl.net>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V4 1/3] dbus: split tools package.
@@ -33,16 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 22:09:22 -0000
+X-List-Received-Date: Mon, 11 May 2015 22:25:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-05-11 at 15:02 -0300, Bruno Bottazzini wrote:
-> +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
+On Seg, 2015-05-11 at 23:04 +0100, Phil Blundell wrote:
+> On Mon, 2015-05-11 at 15:02 -0300, Bruno Bottazzini wrote:
+> > +FILES_${PN}-tools += "${bindir}/dbus-uuidgen \
+> 
+Hello Phil,
 
-Doesn't the dbus startup script use dbus-uuidgen?
+It is a post-install script of a Dbus package.
 
-p.
+Best Regards,
+
+Bruno Bottazzini
+
+
+> Doesn't the dbus startup script use dbus-uuidgen?
+> 
+> p.
+> 
+> 
 
 
 
