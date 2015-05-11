@@ -1,26 +1,36 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 64DA473FE7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 19:52:58 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Yrtl5-0005wy-QQ from Dmitry_Eremin@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 May 2015 12:53:00 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Mon, 11 May 2015 20:52:58 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 22:52:56 +0300
-Message-ID: <1431373976-20993-3-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-MIME-Version: 1.0
-Subject: [RESEND][PATCH 3/3] scripts/runqemu: add qemuarma9 support
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 80BE86013D;
+	Mon, 11 May 2015 20:14:36 +0000 (UTC)
+Received: from gandalf.denix.org ([108.28.31.169]) by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NO700DN0C7WOU00@vms173023.mailsrvcs.net>; Mon,
+	11 May 2015 15:14:20 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=JbALdvP9 c=1 sm=1 tr=0	a=fMO+sUsoiA3cqMJ/JkSOnA==:117
+	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=h1PgugrvaO0A:10	a=FcKxyJYLlGsT2hAwRO8A:9
+	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id E7DE9200EB; Mon,
+	11 May 2015 16:14:19 -0400 (EDT)
+Date: Mon, 11 May 2015 16:14:19 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-id: <20150511201419.GA20022@denix.org>
+References: <20150501160602.GA5885@denix.org>
+	<CAAQYJAvpGUdZyAzOay+VuDz+tdZF72ny0bgDfkTFomCFbVrMhQ@mail.gmail.com>
+	<554A67AB.1000800@dresearch-fe.de> <20150506233137.GH5885@denix.org>
+	<20150508192852.GJ5885@denix.org> <20150508210907.GK5885@denix.org>
+	<1431160561.8074.345.camel@linuxfoundation.org>
+	<20150511062615.GE2400@jama>
+MIME-version: 1.0
+In-reply-to: <20150511062615.GE2400@jama>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg_install_pkg: Package <name> md5sum mismatch. Either the opkg or the package index are corrupt.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,151 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 19:52:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 May 2015 20:14:42 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Support new qemuarma9 machine type. It mostly reuses existing qemuarm
-setup, but the virtio-based network and disk devices.
+On Mon, May 11, 2015 at 08:26:15AM +0200, Martin Jansa wrote:
+> On Sat, May 09, 2015 at 09:36:01AM +0100, Richard Purdie wrote:
+> > On Fri, 2015-05-08 at 17:09 -0400, Denys Dmytriyenko wrote:
+> > > weston-init RDEPENDS on weston and kbd.
+> > > 
+> > > $ bitbake-diffsigs 1.0-r0.do_package_write_ipk.sigdata.eb3921bfc9623056f7ffaef4be8549ab 1.0-r0.do_package_write_ipk.sigdata.90c2978497847912cd64f66039927f7d 
+> > > Hash for dependent task waylandweston_1.6.0.bb.do_packagedata changed from 551b3b5ac7b3c41bfced58b88db2d824 to f3eb9cd1861c186382e47f90e82e3295
+> > > Hash for dependent task kbdkbd_2.0.1.bb.do_packagedata changed from 53a5dc88b80dc5ab559fbecd14277650 to 950fbc7fe3c33564e781743f2c260670
+> > > 
+> > > Then, comparing signatures for weston, for exaple, gives all the changes 
+> > > caused by different DEFAULTTUNEs, TUNE_FEATURES and ARMPKGARCH - obviously, 
+> > > since one machine is cortexa8, while another is cortexa9.
+> > > 
+> > > But why would an allarch package even care about machine tunes in dependant 
+> > > packages, when it only RDEPENDS on them?
+> > 
+> > If A DEPENDS on B and B changes, the package name may change (thanks to
+> > debian.bbclass) so A has to repackage. Very very annoying but
+> > technically correct :/.
+> > 
+> > > And how should I fix this? Thanks.
+> > 
+> > See SIGGEN_EXCLUDERECIPES_ABISAFE in layer.conf of OE-Core. You probably
+> > need to add weston-init to the list.
+> 
+> IIRC this won't help, he would need to add weston and kbd to
+> SIGGEN_EXCLUDERECIPES_ABISAFE which will exclude it from signature of
+> all other recipes as well.
+> 
+> Maybe you meant SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.
+> 
+> SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += "\
+>   weston-init->weston \
+>   weston-init->kbd \
+> "
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
----
- scripts/runqemu          |  9 ++++++---
- scripts/runqemu-internal | 35 +++++++++++++++++++++++++++++++----
- 2 files changed, 37 insertions(+), 7 deletions(-)
+Thanks, Martin & Richard,
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 84ece4d..87834f9 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -108,7 +108,7 @@ process_filename() {
- while true; do
-     arg=${1}
-     case "$arg" in
--        "qemux86" | "qemux86-64" | "qemuarm" | "qemuarm64" | "qemumips" | "qemumipsel" | \
-+        "qemux86" | "qemux86-64" | "qemuarm" | "qemuarma9" | "qemuarm64" | "qemumips" | "qemumipsel" | \
-         "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
-             [ -z "$MACHINE" ] && MACHINE=$arg || \
-                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
-@@ -232,13 +232,13 @@ fi
- 
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarma9\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
-         fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarma9\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
-@@ -304,6 +304,9 @@ QEMUX86_64_DEFAULT_FSTYPE=ext4
- QEMUARM_DEFAULT_KERNEL=zImage-qemuarm.bin
- QEMUARM_DEFAULT_FSTYPE=ext4
- 
-+QEMUARMA9_DEFAULT_KERNEL=zImage-qemuarma9.bin
-+QEMUARMA9_DEFAULT_FSTYPE=ext4
-+
- QEMUARM64_DEFAULT_KERNEL=Image-qemuarm64.bin
- QEMUARM64_DEFAULT_FSTYPE=ext4
- 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f17bb05..a70c2cc 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -50,6 +50,9 @@ else
-         "qemuarm")
-             mem_size=128
-             ;;
-+        "qemuarma9")
-+            mem_size=512
-+            ;;
-         "qemuarm64")
-             mem_size=512
-             ;;
-@@ -128,6 +131,11 @@ if [ "$SLIRP_ENABLED" = "yes" ]; then
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/sda"
-         ROOTFS_OPTIONS="-hda $ROOTFS"
-+    elif [ "$MACHINE" = "qemuarma9" ]; then
-+        QEMU_UI_OPTIONS="-nographic"
-+        QEMU_NETWORK_CMD=""
-+        DROOT="/dev/vda"
-+        ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS -device virtio-blk-device,drive=disk0"
-     else
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/hda"
-@@ -276,6 +284,11 @@ else
-             DROOT="/dev/sda"
-             ROOTFS_OPTIONS="-hda $ROOTFS"
-         fi
-+        if [ "$MACHINE" = "qemuarma9" ]; then
-+            QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
-+            DROOT="/dev/vda"
-+            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS -device virtio-blk-device,drive=disk0"
-+        fi
-         if [ "$MACHINE" = "qemuarm64" ]; then
-             QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
-             DROOT="/dev/vda"
-@@ -284,7 +297,7 @@ else
- 
-         KERNCMDLINE="mem=$QEMU_MEMORY"
-         QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
--        if [ $MACHINE = 'qemuarm64' ]; then
-+        if [ $MACHINE = 'qemuarm64' -o $MACHINE = 'qemuarma9' ]; then
-             QEMU_UI_OPTIONS="-nographic"
-         fi
- 
-@@ -308,6 +321,7 @@ case "$MACHINE" in
-     "qemuppc") ;;
-     "qemuarmv6") ;;
-     "qemuarmv7") ;;
-+    "qemuarma9") ;;
-     "qemux86") ;;
-     "qemux86-64") ;;
-     "qemuzynq") ;;
-@@ -361,14 +375,23 @@ if [ "$FSTYPE" = "nfs" ]; then
-     NFSRUNNING="true"
- fi
- 
--if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
-+if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" -o "$MACHINE" = "qemuarma9" ]; then
-     QEMU=qemu-system-arm
--    MACHINE_SUBTYPE=versatilepb
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        MACHINE_SUBTYPE="vexpress-a9"
-+    else
-+        MACHINE_SUBTYPE="versatilepb"
-+    fi
-     export QEMU_AUDIO_DRV="none"
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        TTYCONSOLE=""
-+    else
-+        TTYCONSOLE="console=tty"
-+    fi
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
--        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-+        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 $TTYCONSOLE $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-@@ -386,6 +409,10 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     if [ "$MACHINE" = "qemuarmv7" ]; then
-         QEMUOPTIONS="$QEMUOPTIONS -cpu cortex-a8"
-     fi
-+    if [ "$MACHINE" = "qemuarma9" ]; then
-+        DTB="`dirname $KERNEL`/`basename $KERNEL -$MACHINE.bin`-vexpress-v2p-ca9.dtb"
-+        QEMUOPTIONS="-dtb $DTB $QEMUOPTIONS -cpu cortex-a9"
-+    fi
- fi
- 
- if [ "$MACHINE" = "qemuarm64" ]; then
+I can confirm that SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS seems to work in my local 
+tests, while SIGGEN_EXCLUDERECIPES_ABISAFE doesn't.
+
 -- 
-2.1.4
-
+Denys
 
