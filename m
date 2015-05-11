@@ -1,37 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 069616013D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E4A06013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 11:23:07 +0000 (UTC)
-Received: by qgdy78 with SMTP id y78so65728028qgd.0
+	Mon, 11 May 2015 11:26:57 +0000 (UTC)
+Received: by qkx62 with SMTP id 62so84107843qkx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 04:23:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=O1D3nC1R2U8zSblaUaHrNMX+io48lY2CnQgpifsrGsg=;
-	b=m50gJz5cFEZwOFUR/TUiuck0TaCMiJEm7+7ajWIClsC3wEhJzG+rB3/HwsKN0l1avN
-	t4xU7JTDdPQg0nD7ejwWr36e8lnIUqw58JjTxiXfxB5A/y0T9IlQMfDQEgwj84j8oRl3
-	gP3JcWCeS+7YR0PpvJ6E2AqljD8yTpJ/Q5ZNbFawVg5KQLQ/K7ndBOilNAEmg8D99mwl
-	4ThDVsQER9kUtyBTaLQJr0hDu4kztvBGAREqRFgGwr5GEphFo1O4Tpp19n2rNFmHCHLQ
-	fEU+JHYPSVykjoo71+Jkd+mftyJWsvesVjiS8TyIydkmnOR0Fu3YYvcIe8y+XJNyycuO
-	fCwA==
-X-Gm-Message-State: ALoCoQmub6eGBl/frraAjzb4LXUouIylxgb2ZHcHkiewzMGjsWVo8MOanXwmQLOcbBd/qRZPMidi
-X-Received: by 10.229.24.4 with SMTP id t4mr13224199qcb.12.1431343388626; Mon,
-	11 May 2015 04:23:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 11 May 2015 04:22:48 -0700 (PDT)
-In-Reply-To: <d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
-References: <cover.1431333085.git.liezhi.yang@windriver.com>
-	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 May 2015 12:22:48 +0100
-Message-ID: <CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
+	Mon, 11 May 2015 04:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=NhozIqb3PhmDyFvkUiLemVsmJdczahBxwBzeQH7X02Y=;
+	b=ONtkV30zHWXELfRwnR+cLAXo5umd/fgDAoJT04XIeObOVzMX2u0TYGoMnrl3A+hS7t
+	D8zZFk2XqmggePretyXw3ww4DhUGn/pKLZ4D+vyNj1AKaDK74CJIFjNGDRvTYRXJNk2w
+	ZHExcyAiepvXAy2bT2BHxMilrqIvWz3jJ9CtAfSRnpLniohGHd7zLYuaXw1hxTkFDzej
+	zmnoF8j2X/EhCzkz901M8iu+++vYpcvw5UnhEAzy7BoblZx7CHOVzh6BKozjb4oR/q+j
+	82zAowbo97N+ZkoSqTE9OmFBxdJJuaBsRbRwk/B4TxmTxe50eVpdN6cLzN0+HVePf1TH
+	ms+w==
+X-Received: by 10.55.43.220 with SMTP id r89mr20553270qkr.27.1431343619134;
+	Mon, 11 May 2015 04:26:59 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.100.224.72])
+	by mx.google.com with ESMTPSA id
+	b137sm10284964qhc.18.2015.05.11.04.26.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 May 2015 04:26:57 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 076321CE97B00; Mon, 11 May 2015 08:26:54 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 May 2015 08:26:47 -0300
+Message-Id: <1431343607-2820-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] gstreamer1.0-plugins-bad: Move EGL requirement for Wayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 11:23:08 -0000
-Content-Type: multipart/alternative; boundary=001a1133c12e3b295a0515cc9ab1
+X-List-Received-Date: Mon, 11 May 2015 11:27:01 -0000
 
---001a1133c12e3b295a0515cc9ab1
-Content-Type: text/plain; charset=UTF-8
+The EGL is used by the Wayland backend. When building using Software
+Rendering and without Wayland support the EGL backend is not available
+so we should not require EGL for GLES2 support.
 
-On 11 May 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com> wrote:
+This fixes following build error:
 
-> The default is auto, we can disable it rather than depend on wayland or
-> add a PACKAGECONFIG since they are two display servers.
->
-> Fixed do_compile error:
-> hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file
-> or directory
->  #include <wayland-client.h>
->
+,----
+| ...
+| checking for bcm_host_init in -lbcm_host... no
+| checking for WAYLAND_EGL... no
+| configure: error: Could not find the required EGL libraries
+| Configure failed. The contents of all config.log files follows to aid debugging
+| ERROR: oe_runconf failed
+`----
 
-And XWayland is the migration path from a pure X world to a pure Wayland
-world.  Please add this as a PACKAGECONFIG.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index e2752af..84a0a58 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -27,7 +27,7 @@ PACKAGECONFIG ??= " \
+ # dash = Dynamic Adaptive Streaming over HTTP
+ PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
+ PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
+-PACKAGECONFIG[gles2]           = "--enable-gles2 --enable-egl,--disable-gles2 --disable-egl,virtual/libgles2 virtual/egl"
++PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
+ PACKAGECONFIG[opengl]          = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
+ PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
+ PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
+@@ -37,7 +37,7 @@ PACKAGECONFIG[mpg123]          = "--enable-mpg123,--disable-mpg123,mpg123"
+ PACKAGECONFIG[opus]            = "--enable-opus,--disable-opus,libopus"
+ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
+ PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
+-PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland"
++PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland virtual/egl"
+ PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 udev"
+ PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
+ PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
+-- 
+2.1.4
 
---001a1133c12e3b295a0515cc9ab1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 May 2015 at 09:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":mm" class=
-=3D"a3s" style=3D"overflow:hidden">The default is auto, we can disable it r=
-ather than depend on wayland or<br>
-add a PACKAGECONFIG since they are two display servers.<br>
-<br>
-Fixed do_compile error:<br>
-hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file o=
-r directory<br>
-=C2=A0#include &lt;wayland-client.h&gt;</div></blockquote><div><br></div><d=
-iv>And XWayland is the migration path from a pure X world to a pure Wayland=
- world.=C2=A0 Please add this as a PACKAGECONFIG.</div><div><br>Ross=C2=A0<=
-/div></div></div></div>
-
---001a1133c12e3b295a0515cc9ab1--
