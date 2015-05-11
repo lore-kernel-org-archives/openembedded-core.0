@@ -1,44 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 057B56013D;
-	Mon, 11 May 2015 06:25:43 +0000 (UTC)
-Received: by wgbhc8 with SMTP id hc8so17825887wgb.2;
-	Sun, 10 May 2015 23:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=P87Vuu2+N2YaWtmnAtkbwwwokOiU8c+DF9v9asizjhw=;
-	b=pttQmMHoY0H2r2iHuOgEYSNRf3rWtHAJIkfK82BnIq6Aw56oYeQ+GkMsNfPz0AxbHu
-	2H0vxLBqLLlH77/rNC5T31VXFT5EgszPCN3sgpIeRRHGGYaNQM6hL9zvhwJeV7PVkJ4P
-	LnxpXE93ow1sEa0NPUn23n87ei5BsW4D3VoqO1NvvpI4eYUKLiBAUTfXGeLmHJWCtGRi
-	UGbbo7hwgsUWRlOk2MeAgFCLVui3zdA9ViYdIs3pEojDoyMDDqZYG/5zEJAGk+bsGHvJ
-	1AQjisDCI78+8MMRZxx8HegoIXvu+6gRazApfvYs1BRPZQj2Iwp1G00c6QEej8kmXUb9
-	Rnbg==
-X-Received: by 10.194.23.197 with SMTP id o5mr17463990wjf.75.1431325544607;
-	Sun, 10 May 2015 23:25:44 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	di9sm11590888wib.16.2015.05.10.23.25.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 May 2015 23:25:43 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 11 May 2015 08:26:15 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150511062615.GE2400@jama>
-References: <20150501160602.GA5885@denix.org>
-	<CAAQYJAvpGUdZyAzOay+VuDz+tdZF72ny0bgDfkTFomCFbVrMhQ@mail.gmail.com>
-	<554A67AB.1000800@dresearch-fe.de>
-	<20150506233137.GH5885@denix.org> <20150508192852.GJ5885@denix.org>
-	<20150508210907.GK5885@denix.org>
-	<1431160561.8074.345.camel@linuxfoundation.org>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3BAD6013D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 May 2015 06:48:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4B6mFU4012025
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 May 2015 23:48:15 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Sun, 10 May 2015 23:48:15 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 10 May 2015 23:48:14 -0700
+Message-ID: <9a0b0f81e35b996735eb798539aa91646a6ee914.1431326848.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1431326848.git.liezhi.yang@windriver.com>
+References: <cover.1431326848.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1431160561.8074.345.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg_install_pkg: Package <name> md5sum mismatch. Either the opkg or the package index are corrupt.
+Subject: [PATCH 2/3] apr: 1.5.1 -> 1.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,53 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 06:25:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 May 2015 06:48:16 -0000
+Content-Type: text/plain
 
-On Sat, May 09, 2015 at 09:36:01AM +0100, Richard Purdie wrote:
-> On Fri, 2015-05-08 at 17:09 -0400, Denys Dmytriyenko wrote:
-> > weston-init RDEPENDS on weston and kbd.
-> >=20
-> > $ bitbake-diffsigs 1.0-r0.do_package_write_ipk.sigdata.eb3921bfc9623056=
-f7ffaef4be8549ab 1.0-r0.do_package_write_ipk.sigdata.90c2978497847912cd64f6=
-6039927f7d=20
-> > Hash for dependent task waylandweston_1.6.0.bb.do_packagedata changed f=
-rom 551b3b5ac7b3c41bfced58b88db2d824 to f3eb9cd1861c186382e47f90e82e3295
-> > Hash for dependent task kbdkbd_2.0.1.bb.do_packagedata changed from 53a=
-5dc88b80dc5ab559fbecd14277650 to 950fbc7fe3c33564e781743f2c260670
-> >=20
-> > Then, comparing signatures for weston, for exaple, gives all the change=
-s=20
-> > caused by different DEFAULTTUNEs, TUNE_FEATURES and ARMPKGARCH - obviou=
-sly,=20
-> > since one machine is cortexa8, while another is cortexa9.
-> >=20
-> > But why would an allarch package even care about machine tunes in depen=
-dant=20
-> > packages, when it only RDEPENDS on them?
->=20
-> If A DEPENDS on B and B changes, the package name may change (thanks to
-> debian.bbclass) so A has to repackage. Very very annoying but
-> technically correct :/.
->=20
-> > And how should I fix this? Thanks.
->=20
-> See SIGGEN_EXCLUDERECIPES_ABISAFE in layer.conf of OE-Core. You probably
-> need to add weston-init to the list.
+Updated upgrade-and-fix-1.5.1.patch.
 
-IIRC this won't help, he would need to add weston and kbd to
-SIGGEN_EXCLUDERECIPES_ABISAFE which will exclude it from signature of
-all other recipes as well.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../apr/apr/upgrade-and-fix-1.5.1.patch            |   11 ++++-------
+ .../apr/{apr_1.5.1.bb => apr_1.5.2.bb}             |    4 ++--
+ 2 files changed, 6 insertions(+), 9 deletions(-)
+ rename meta/recipes-support/apr/{apr_1.5.1.bb => apr_1.5.2.bb} (95%)
 
-Maybe you meant SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.
+diff --git a/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch b/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
+index 4bca384..9569645 100644
+--- a/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
++++ b/meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch
+@@ -16,7 +16,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 2 insertions(+), 8 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index 6f99733..5fe028f 100644
++index a2a5194..5fe028f 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -46,7 +46,6 @@ LT_VERSION = @LT_VERSION@
+@@ -31,11 +31,11 @@ index 6f99733..5fe028f 100644
+  etags:
+  	etags `find . -name '*.[ch]'`
+  
+--make_tools_dir:
++-OBJECTS_gen_test_char = tools/gen_test_char.lo $(LOCAL_LIBS)
++-tools/gen_test_char.lo: tools/gen_test_char.c
+ -	$(APR_MKDIR) tools
++-	$(LT_COMPILE)
+ -
+--OBJECTS_gen_test_char = tools/gen_test_char.lo $(LOCAL_LIBS)
+--tools/gen_test_char.lo: make_tools_dir
+ -tools/gen_test_char@EXEEXT@: $(OBJECTS_gen_test_char)
+ -	$(LINK_PROG) $(OBJECTS_gen_test_char) $(ALL_LIBS)
+ +tools/gen_test_char@EXEEXT@: tools/gen_test_char.c
+@@ -43,6 +43,3 @@ index 6f99733..5fe028f 100644
+  
+  include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@
+  	$(APR_MKDIR) include/private
+--- 
+-1.8.1.2
+-
+diff --git a/meta/recipes-support/apr/apr_1.5.1.bb b/meta/recipes-support/apr/apr_1.5.2.bb
+similarity index 95%
+rename from meta/recipes-support/apr/apr_1.5.1.bb
+rename to meta/recipes-support/apr/apr_1.5.2.bb
+index 985ef67..aac6276 100644
+--- a/meta/recipes-support/apr/apr_1.5.1.bb
++++ b/meta/recipes-support/apr/apr_1.5.2.bb
+@@ -17,8 +17,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://upgrade-and-fix-1.5.1.patch \
+ "
+ 
+-SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
+-SRC_URI[sha256sum] = "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
++SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
++SRC_URI[sha256sum] = "7d03ed29c22a7152be45b8e50431063736df9e1daa1ddf93f6a547ba7a28f67a"
+ 
+ inherit autotools-brokensep lib_package binconfig multilib_header ptest
+ 
+-- 
+1.7.9.5
 
-SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS +=3D "\
-  weston-init->weston \
-  weston-init->kbd \
-"
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
