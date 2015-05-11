@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A0B73F5B
+	by mail.openembedded.org (Postfix) with ESMTP id 471D773CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 06:08:45 +0000 (UTC)
+	Mon, 11 May 2015 06:08:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4B68kXm008551
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4B68m1w008557
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 May 2015 23:08:46 -0700 (PDT)
+	Sun, 10 May 2015 23:08:48 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Sun, 10 May 2015 23:08:45 -0700
+	Sun, 10 May 2015 23:08:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 10 May 2015 23:08:34 -0700
-Message-ID: <3ddde8beb48b241be45a7ee1c66e3599886ed76f.1431324180.git.liezhi.yang@windriver.com>
+Date: Sun, 10 May 2015 23:08:38 -0700
+Message-ID: <84a0731e7204cfb400610c3abc871894b7a03a39.1431324180.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1431324180.git.liezhi.yang@windriver.com>
 References: <cover.1431324180.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/12] mesa: fix do_install_append
+Subject: [PATCH 05/12] libsdl: depends on libglu when x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 May 2015 06:08:47 -0000
 Content-Type: text/plain
 
-"ifdef MESA_EGL_NO_X11_HEADERS" -> "if defined(MESA_EGL_NO_X11_HEADERS)"
+Let it depend on libglu when x11 rather than opengl, since libglu can't
+be built without x11.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/mesa/mesa_10.5.4.bb |    2 +-
- meta/recipes-graphics/mesa/mesa_git.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa_10.5.4.bb b/meta/recipes-graphics/mesa/mesa_10.5.4.bb
-index 150c664..03c9ecf 100644
---- a/meta/recipes-graphics/mesa/mesa_10.5.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.5.4.bb
-@@ -9,6 +9,6 @@ SRC_URI[sha256sum] = "b51e723f3a20d842c88a92d809435b229fc4744ca0dbec0317d9d4a3ac
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-     fi
- }
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index 0260617..8f70f67 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -17,6 +17,6 @@ inherit pythonnative
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-     fi
- }
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index 266bd42..06490aa 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -13,8 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ PROVIDES = "virtual/libsdl"
+ 
+ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender libglu', '', d)} \
+            tslib"
+ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ 
 -- 
 1.7.9.5
 
