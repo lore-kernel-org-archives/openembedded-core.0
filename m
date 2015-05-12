@@ -1,37 +1,23 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E9D047402D
+Return-Path: <george.l.musat@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EE267402E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 15:03:30 +0000 (UTC)
-Received: by pabsx10 with SMTP id sx10so15279373pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 08:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=m8lfJAd2OpiW4tlmukJ9R/kJmZJXdXQdHMmxMLmxNGA=;
-	b=aHB4oBjpZLRFSekb9Mj+h/XdIVVi2P5O3ZrLUVf14+/F3h8rCJFckMR2XRc35UIkzL
-	fg2vUodZWZOb39CN7mtLsa5l724D/cxfjqMfgjgTSxYkJ7opJZeHHJ60VxahGSMro4QU
-	3EthoTaG/Rva8YCUDSMzXK/LLawuu13WMHYPlq9CSlxdvXblD3/EiAkmFOoCu2H3E5em
-	teER6L/e/o5poz761n+QIRkMUR6bJK0uCQlqnD+08hTps4PhKAlhe/orZbYnCn7pgqwJ
-	q5uRnhRdWfAbYdfkyRqkmGGn0M8qPIh0c6LAv3BY1nPqwZzAOuYh9jp1dFd0AjT8BDPC
-	Xqtg==
-MIME-Version: 1.0
-X-Received: by 10.67.4.161 with SMTP id cf1mr6238432pad.35.1431443011475; Tue,
-	12 May 2015 08:03:31 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Tue, 12 May 2015 08:03:31 -0700 (PDT)
-In-Reply-To: <1431442688-5860-1-git-send-email-mario@ossystems.com.br>
-References: <1431442688-5860-1-git-send-email-mario@ossystems.com.br>
-Date: Tue, 12 May 2015 12:03:31 -0300
-X-Google-Sender-Auth: BZ1-PS2URzC90KV4LGslMphPiZc
-Message-ID: <CAP9ODKqWDj0cq9_O43eOn-_vnH+MnMb-mOCd3rhpTE1fW_f4Dg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mario Domenech Goulart <mario@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] README: add "Contributing" section
+	Tue, 12 May 2015 15:03:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 May 2015 08:02:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,415,1427785200"; d="scan'208";a="709020163"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 12 May 2015 08:02:45 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 0B6E96A408D;
+	Tue, 12 May 2015 08:02:15 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 May 2015 18:00:06 +0300
+Message-Id: <1431442806-11829-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/utils: Fixed a problem with get_bb_var not returning right variable.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 15:03:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 May 2015 15:03:42 -0000
 
-On Tue, May 12, 2015 at 11:58 AM, Mario Domenech Goulart
-<mario@ossystems.com.br> wrote:
-> Tips on how to submit patches.
->
-> Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
+It searches using regex now and should be more accurate.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/utils/commands.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index bc1dbb1..663e4e7 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -16,6 +16,7 @@ import threading
+ import logging
+ from oeqa.utils import CommandError
+ from oeqa.utils import ftools
++import re
+ 
+ class Command(object):
+     def __init__(self, command, bg=False, timeout=None, data=None, **options):
+@@ -139,11 +140,11 @@ def get_bb_var(var, target=None, postconfig=None):
+     bbenv = get_bb_env(target, postconfig=postconfig)
+     lastline = None
+     for line in bbenv.splitlines():
+-        if line.startswith(var + "=") or line.startswith("export " + var + "="):
++        if re.search("^(export )?%s=" % var, line):
+             val = line.split('=')[1]
+             val = val.strip('\"')
+             break
+-        elif line.startswith("unset " + var):
++        elif re.match("unset %s$" % var, line):
+             # Handle [unexport] variables
+             if lastline.startswith('#   "'):
+                 val = lastline.split('\"')[1]
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
