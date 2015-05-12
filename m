@@ -1,26 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C7026013D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E9D047402D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:58:57 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 12 May 2015 07:58:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,415,1427785200"; d="scan'208";a="709017822"
-Received: from jrmenon-mobl4.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.252.200.222])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2015 07:58:47 -0700
-Message-ID: <55521527.6020509@linux.intel.com>
-Date: Tue, 12 May 2015 07:58:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Tue, 12 May 2015 15:03:30 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so15279373pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 May 2015 08:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=m8lfJAd2OpiW4tlmukJ9R/kJmZJXdXQdHMmxMLmxNGA=;
+	b=aHB4oBjpZLRFSekb9Mj+h/XdIVVi2P5O3ZrLUVf14+/F3h8rCJFckMR2XRc35UIkzL
+	fg2vUodZWZOb39CN7mtLsa5l724D/cxfjqMfgjgTSxYkJ7opJZeHHJ60VxahGSMro4QU
+	3EthoTaG/Rva8YCUDSMzXK/LLawuu13WMHYPlq9CSlxdvXblD3/EiAkmFOoCu2H3E5em
+	teER6L/e/o5poz761n+QIRkMUR6bJK0uCQlqnD+08hTps4PhKAlhe/orZbYnCn7pgqwJ
+	q5uRnhRdWfAbYdfkyRqkmGGn0M8qPIh0c6LAv3BY1nPqwZzAOuYh9jp1dFd0AjT8BDPC
+	Xqtg==
 MIME-Version: 1.0
-To: Jens Rottmann <Jens.Rottmann@ADLINKtech.com>
-References: <5540CCFD.1050604@ADLINKtech.com> <5551DA96.2090006@ADLINKtech.com>
-In-Reply-To: <5551DA96.2090006@ADLINKtech.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2nd resend] powertop: Fix build for !uclibc - kindly respond
+X-Received: by 10.67.4.161 with SMTP id cf1mr6238432pad.35.1431443011475; Tue,
+	12 May 2015 08:03:31 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Tue, 12 May 2015 08:03:31 -0700 (PDT)
+In-Reply-To: <1431442688-5860-1-git-send-email-mario@ossystems.com.br>
+References: <1431442688-5860-1-git-send-email-mario@ossystems.com.br>
+Date: Tue, 12 May 2015 12:03:31 -0300
+X-Google-Sender-Auth: BZ1-PS2URzC90KV4LGslMphPiZc
+Message-ID: <CAP9ODKqWDj0cq9_O43eOn-_vnH+MnMb-mOCd3rhpTE1fW_f4Dg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mario Domenech Goulart <mario@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] README: add "Contributing" section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:58:58 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 May 2015 15:03:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, May 12, 2015 at 11:58 AM, Mario Domenech Goulart
+<mario@ossystems.com.br> wrote:
+> Tips on how to submit patches.
+>
+> Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
 
-I am working on getting a 1.6.3 release finalized, this will be pulled 
-into that release and it should be going to QA this week.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Sau!
-
-
-On 05/12/2015 03:48 AM, Jens Rottmann wrote:
-> From: Martin Jansa <martin.jansa@gmail.com>
-> Date: Thu, 18 Dec 2014 15:54:14 +0100
-> Subject: powertop: Fix build for !uclibc
->
-> * EXTRA_LDFLAGS isn't defined for !uclibc and configure fails
->    when it reads it unexpanded, see config.log snippet:
->
->    configure:4177: checking whether the C compiler works
->    configure:4199: i586-oe-linux-gcc  -m32 -march=i586 --sysroot=/OE/sysroots/qemux86  -O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed ${EXTRA_LDFLAGS} conftest.c  >&5
->    i586-oe-linux-gcc: error: ${EXTRA_LDFLAGS}: No such file or directory
->    configure:4203: $? = 1
->    configure:4241: result: no
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> Backported from OpenEmbedded Dizzy branch, commit
-> c8f9b5c9a8e5179c2013f25decd6a5483df9c716.
->
-> Signed-off-by: Jens Rottmann <Jens.Rottmann@ADLINKtech.com>
-> ---
->
-> Hi Saul,
->
-> as I said, attached patch was taken/ported from OE-Core Dizzy, commit c8f9b5c9a8e5179c2013f25decd6a5483df9c716.
->
-> Please apply it to OE-Core _Daisy_ branch, which is affected, too.
->
-> Is there anything else I should do, any additional information I need to provide, anything I did wrong? Kindly respond.
->
-> Thanks & best regards,
-> Jens
->
-> diff --git a/meta/recipes-kernel/powertop/powertop_2.5.bb b/met/recipes-kernel/powertop/powertop_2.5.bb
-> index f37d7a7..84cca25 100644
-> --- a/meta/recipes-kernel/powertop/powertop_2.5.bb
-> +++ b/meta/recipes-kernel/powertop/powertop_2.5.bb
-> @@ -14,8 +14,9 @@ SRC_URI[sha256sum] = "8b2c08a555d79e1c428863470c41cb023971d74ba4801d80a05e35adee
->   inherit autotools gettext
->
->   # we need to explicitly link with libintl in uClibc systems
-> -LDFLAGS += "${EXTRA_LDFLAGS}"
-> +EXTRA_LDFLAGS ?= ""
->   EXTRA_LDFLAGS_libc-uclibc = "-lintl"
-> +LDFLAGS += "${EXTRA_LDFLAGS}"
->
->   # we do not want libncursesw if we can
->   do_configure_prepend() {
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
