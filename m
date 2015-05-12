@@ -1,24 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6745473F5B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 566AA73F5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:42:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C7gfJ4020356
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 00:42:41 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 12 May 2015 00:42:41 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 May 2015 15:38:09 +0800
-Message-ID: <1431416289-617-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 12 May 2015 08:40:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 12 May 2015 01:40:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,413,1427785200"; d="scan'208";a="693532392"
+Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
+	by orsmga001.jf.intel.com with ESMTP; 12 May 2015 01:40:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 12 May 2015 09:40:25 +0100
+Message-ID: <2300208.Wa25vWO7Bf@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <CAJ86T=VeT9qXjvPJo0Gb+HefkMZhaD7C6PQxUBoZoZbBy6NUmw@mail.gmail.com>
+References: <cover.1424877305.git.cristian.iorga@intel.com>
+	<84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
+	<CAJ86T=VeT9qXjvPJo0Gb+HefkMZhaD7C6PQxUBoZoZbBy6NUmw@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] elfutils: Disable the unnecessary check in iconv.m4
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,83 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 07:42:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 May 2015 08:40:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Roy Li <rongqing.li@windriver.com>
+Hi Andre,
 
-Disable the test "Test against HP-UX 11.11 bug: No converter from EUC-JP
-to UTF-8 is provided" since we don't support HP-UX and if the euc-jp is
-not installed on the host, the dependence will be built without iconv
-support and will cause guild-native building fail.
+On Monday 11 May 2015 17:34:45 Andre McCurdy wrote:
+> On Wed, Feb 25, 2015 at 7:15 AM, Cristian Iorga
+> 
+> <cristian.iorga@intel.com> wrote:
+> > oe.utils.both_contain() just does a find() on the value
+> > rather than splitting the value and then looking in the
+> > list of split items. The result is that if you add a
+> > feature to MACHINE_FEATURES that itself has a substring
+> > that matches one of the values looked for when building
+> > COMBINED_FEATURES, you end up with an incomprehensible
+> > error (here with "ext2i" in MACHINE_FEATURES):
+> > 
+> > ERROR: Nothing RPROVIDES 'packagegroup-base-ext2'
+> > (but /home/balister/src/oe-core/oe-core/meta/recipes-core/
+> > /packagegroups/packagegroup-base.bb RDEPENDS on or otherwise requires it)
+> 
+> This change seems to break COMBINED_FEATURES.
+> 
+> $ bitbake -e packagegroup-base | grep '^COMBINED_FEATURES='
+> 
+> dizzy:
+>   COMBINED_FEATURES="alsa         "
+> 
+> fido:
+>   COMBINED_FEATURES="set(['alsa'])         "
 
-The patch is similar as 0470bd7a9658d3[libunistring: remove the test to
-convert euc-jp in configure]
+Yes it did, unfortunately. There was a follow-up fix in master:
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../0001-remove-the-unneed-checking.patch          | 38 ++++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.161.bb   |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
+  http://cgit.openembedded.org/openembedded-core/commit/?id=c4ca9dbd4191fcff08e75035e3d276490ed80b05
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
-new file mode 100644
-index 0000000..5be92d7
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
-@@ -0,0 +1,38 @@
-+Disable the test to convert euc-jp
-+
-+Remove the test "Test against HP-UX 11.11 bug:
-+No converter from EUC-JP to UTF-8 is provided"
-+since we don't support HP-UX and if the euc-jp is not
-+installed on the host, the dependence will be built without
-+iconv support and will cause guild-native building fail.
-+
-+Upstream-Status: Inappropriate [OE specific]
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ m4/iconv.m4 | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/m4/iconv.m4 b/m4/iconv.m4
-+index a503646..299f1eb 100644
-+--- a/m4/iconv.m4
-++++ b/m4/iconv.m4
-+@@ -159,6 +159,7 @@ int main ()
-+       }
-+   }
-+ #endif
-++#if 0
-+   /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
-+      provided.  */
-+   if (/* Try standardized names.  */
-+@@ -170,6 +171,7 @@ int main ()
-+       /* Try HP-UX names.  */
-+       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
-+     result |= 16;
-++#endif
-+   return result;
-+ }]])],
-+         [am_cv_func_iconv_works=yes],
-+-- 
-+2.0.1
-+
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.161.bb b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-index e111b34..70a3c16 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
-@@ -17,6 +17,7 @@ SRC_URI += "\
-         file://fixheadercheck.patch \
-         file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
-         file://0001-libelf-Fix-dir-traversal-vuln-in-ar-extraction.patch \
-+        file://0001-remove-the-unneed-checking.patch \
- "
- 
- # pick the patch from debian
+This is included in Joshua's pending backport changeset for fido.
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
