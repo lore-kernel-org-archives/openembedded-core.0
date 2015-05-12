@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5527073EFD
+	by mail.openembedded.org (Postfix) with ESMTP id 5436A73FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 02:13:54 +0000 (UTC)
+	Tue, 12 May 2015 02:13:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2DuKv017989
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2Dtkx017986
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 19:13:56 -0700 (PDT)
+	Mon, 11 May 2015 19:13:55 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 11 May 2015 19:13:55 -0700
+	Mon, 11 May 2015 19:13:54 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 19:13:54 -0700
-Message-ID: <37d60010ba7e3f90761dc8d7a83c66eda3382481.1431396786.git.liezhi.yang@windriver.com>
+Date: Mon, 11 May 2015 19:13:52 -0700
+Message-ID: <cover.1431396786.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1431396786.git.liezhi.yang@windriver.com>
-References: <cover.1431396786.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] lttng-tools: separate B and S
+Subject: [PATCH 0/2] Fix B !=S for bind and lttng-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 02:13:55 -0000
+X-List-Received-Date: Tue, 12 May 2015 02:13:58 -0000
 Content-Type: text/plain
 
-It works well with autotools now.
+The following changes since commit 7ffe10df73cc20d10fcd41b121074445273bd60e:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  license_class: license_create_manifest improvment (2015-05-09 22:26:02 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/bs
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bs
+
+Robert Yang (2):
+  bind: separate B and S
+  lttng-tools: separate B and S
+
+ meta/recipes-connectivity/bind/bind_9.10.2.bb  |    6 ++++--
  meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-index 8cc4220..d1c6293 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-@@ -31,7 +31,9 @@ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.6 \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools-brokensep ptest pkgconfig useradd
-+inherit autotools ptest pkgconfig useradd
-+
-+PR = "r1"
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "tracing"
 -- 
 1.7.9.5
 
