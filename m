@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D007973EFD
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5527073EFD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 May 2015 02:13:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2DtC4024664
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2DuKv017989
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 19:13:55 -0700 (PDT)
+	Mon, 11 May 2015 19:13:56 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Mon, 11 May 2015 19:13:55 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 May 2015 19:13:53 -0700
-Message-ID: <ca5a7eca9f9930928d14e1eaf0af9a1d57a9169f.1431396786.git.liezhi.yang@windriver.com>
+Date: Mon, 11 May 2015 19:13:54 -0700
+Message-ID: <37d60010ba7e3f90761dc8d7a83c66eda3382481.1431396786.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1431396786.git.liezhi.yang@windriver.com>
 References: <cover.1431396786.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] bind: separate B and S
+Subject: [PATCH 2/2] lttng-tools: separate B and S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 12 May 2015 02:13:55 -0000
 Content-Type: text/plain
 
-Fix B != S and separate them.
+It works well with autotools now.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/bind/bind_9.10.2.bb |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2.bb b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-index 539f63e..1dc15a9 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-@@ -31,7 +31,9 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
-                  --sysconfdir=${sysconfdir}/bind \
-                  --with-openssl=${STAGING_LIBDIR}/.. \
-                "
--inherit autotools-brokensep update-rc.d systemd useradd pkgconfig
-+inherit autotools update-rc.d systemd useradd pkgconfig
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
+index 8cc4220..d1c6293 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
+@@ -31,7 +31,9 @@ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.6 \
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools-brokensep ptest pkgconfig useradd
++inherit autotools ptest pkgconfig useradd
 +
 +PR = "r1"
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[httpstats] = "--with-libxml2,--without-libxml2,libxml2"
-@@ -58,7 +60,7 @@ do_install_prepend() {
- 	# clean host path in isc-config.sh before the hardlink created
- 	# by "make install":
- 	#   bind9-config -> isc-config.sh
--	sed -i -e "s,${STAGING_LIBDIR},${libdir}," ${S}/isc-config.sh
-+	sed -i -e "s,${STAGING_LIBDIR},${libdir}," ${B}/isc-config.sh
- }
- 
- do_install_append() {
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "tracing"
 -- 
 1.7.9.5
 
