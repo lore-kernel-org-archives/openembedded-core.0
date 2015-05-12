@@ -1,37 +1,35 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 626B073EFD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C8BF73EFD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 May 2015 23:29:02 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 11 May 2015 16:28:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,411,1427785200"; 
-	d="scan'208,217";a="724325144"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by fmsmga002.fm.intel.com with ESMTP; 11 May 2015 16:28:45 -0700
-Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
-	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 11 May 2015 16:28:45 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.224]) by
-	ORSMSX111.amr.corp.intel.com ([169.254.11.85]) with mapi id
-	14.03.0224.002; Mon, 11 May 2015 16:28:45 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [PATCH] Add support for VirtualBox VDI images
-Thread-Index: AQHQid/5GeN2AFApB0GfMskkDxnLC513E3aAgABcPGA=
-Date: Mon, 11 May 2015 23:28:44 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B610199363@ORSMSX109.amr.corp.intel.com>
-References: <1431124779-28516-1-git-send-email-juro.bystricky@intel.com>
-	<CAJTo0Lb4sfifeBx_T+a=acfk9TjRfVNaCqp+KngUccPKS609LA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb4sfifeBx_T+a=acfk9TjRfVNaCqp+KngUccPKS609LA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+	Tue, 12 May 2015 00:24:54 +0000 (UTC)
+Received: by igbsb11 with SMTP id sb11so87774189igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 May 2015 17:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=TjGhE0bjH4zQkCxa5M85qOXx/yerSpphzukpyKyhaBM=;
+	b=G2Ljm/uhhO1VV1oki+U4vY7I5FmYldqB6jWzD+Qya16hzkbge6T8G6AglGv/9gUy+B
+	oNqWJ8I5WCZdAzyxabxfKhnQIrKMjWZlNwMPSpM9F3jwKZ2CVFgOgzV69p513WYiJlHR
+	Ah/0jjQCOP6xVAqgaf5OdOhxXXGuMr9AqUvlFK+ysHnnzqVYx/edGNbr6R7duww1D4xS
+	EPw8dZc1wafu84mN0AZ2KoPv2GxSNroadAosKJmfInY3U2vQ2JJj0/Eo/mGEXOuGJCin
+	fUv4k9BTN175wKXGMV/ngUUGVHis0gFJ/swiNK6xTwZLVELZ1HznO2zYMoWxGvN/GhII
+	baJA==
+X-Received: by 10.50.23.105 with SMTP id l9mr17932087igf.13.1431390296211;
+	Mon, 11 May 2015 17:24:56 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add support for VirtualBox VDI images
+Received: by 10.50.112.34 with HTTP; Mon, 11 May 2015 17:24:25 -0700 (PDT)
+In-Reply-To: <5551395B.60503@gmail.com>
+References: <1431363297.30971.76.camel@linuxfoundation.org>
+	<5551395B.60503@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 11 May 2015 17:24:25 -0700
+Message-ID: <CAMKF1srBkzXSiVyo27LbF0TYb6AjxB_Z++no3QyJ9VJwJHFFWw@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc5: Add PR65779 patch to fix powerpc compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,122 +42,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 May 2015 23:29:04 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B610199363ORSMSX109amrcor_"
+X-List-Received-Date: Tue, 12 May 2015 00:24:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_6E51916E4A1F32428260031F4C7CD2B610199363ORSMSX109amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Mon, May 11, 2015 at 4:20 PM, akuster808 <akuster808@gmail.com> wrote:
+>
+>
+> On 05/11/2015 09:54 AM, Richard Purdie wrote:
+>>
+>> This fixes compile issues on powerpc with gcc 5 which show up with
+>> errors like:
+>>
+>> | make[2]: Entering directory
+>> '/media/build1/poky/build/tmp/work/ppc7400-poky-linux/xprop/1_1.2.2-r0/build'
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/media/build1/poky/build/tmp/sysroots/qemuppc -Wall
+>> -Wpointer-arith -Wmissing-declarations -Wformat=2 -Wstrict-prototypes
+>> -Wmissing-prototypes -Wnested-externs -Wbad-function-cast
+>> -Wold-style-definition -Wdeclaration-after-statement -Wunused
+>> -Wuninitialized -Wshadow -Wmissing-noreturn -Wmissing-format-attribute
+>> -Wredundant-decls -Wlogical-op -Werror=implicit -Werror=nonnull
+>> -Werror=init-self -Werror=main -Werror=missing-braces -Werror=sequence-point
+>> -Werror=return-type -Werror=trigraphs -Werror=array-bounds
+>> -Werror=write-strings -Werror=address -Werror=int-to-pointer-cast
+>> -Werror=pointer-to-int-cast -fno-strict-aliasing  -O2 -pipe -g
+>> -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -o xprop dsimple.o clientwin.o xprop.o -lX11
+>> | /media/build1/poky/build/tmp/sysroots/qemuppc/usr/lib/../lib/libX11.so:
+>> undefined reference to `.LCL2'
+>> | collect2: error: ld returned 1 exit status
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+>
+> Acked-by: Armin Kuster <Akuster808@gmail.com>
+>
+>
+> this fixes all but one package(lzop) failure on qemuppc base yocto world
+> build.
+>
 
-T0ssIG5vIHByb2JsZW0uDQpTYXVsIGFsc28gc3VnZ2VzdGVkIG1lcmdpbmcgaW1hZ2Utdm1kayBh
-bmQgaW1hZ2UtdmRpIGNsYXNzZXMgaW50byBvbmUgY2xhc3MsDQpzb21ldGhpbmcgbGlrZSBpbWFn
-ZS12bS5iYmNsYXNzLiBJdCBpcyBhIGJpdCBtb3JlIGludmFzaXZlICh3aWxsIG1vZGlmeSB0aGUg
-ZXhpc3Rpbmcgdm1kaw0KYmJjbGFzcykgLCBidXQgaXQgc2hvdWxkIGJlIGEgY2xlYW5lciBpbXBs
-ZW1lbnRhdGlvbiBvdmVyYWxsLg0KDQpKdXJvDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
-OnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IE1vbmRheSwgTWF5IDExLCAyMDE1IDM6NTUg
-QU0NClRvOiBCeXN0cmlja3ksIEp1cm8NCkNjOiBPRS1jb3JlOyBTYXVsIFdvbGQNClN1YmplY3Q6
-IFJlOiBbUEFUQ0hdIEFkZCBzdXBwb3J0IGZvciBWaXJ0dWFsQm94IFZESSBpbWFnZXMNCg0KVGhh
-bmtzIEp1cm8sDQoNCk9uIDggTWF5IDIwMTUgYXQgMjM6MzksIEp1cm8gQnlzdHJpY2t5IDxqdXJv
-LmJ5c3RyaWNreUBpbnRlbC5jb208bWFpbHRvOmp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4+IHdy
-b3RlOg0KWW9jdG8gZG9lcyBub3Qgc3VwcG9ydCBWaXJ0dWFsQm94IHNwYXJzZSBpbWFnZSBWREkg
-ZmlsZSBmb3JtYXQuDQpUaGlzIGNvdWxkIGJlIGFjaGlldmVkIGJ5IHRoZSBhdHRhY2hlZCBwYXRj
-aC4gVGhlIHN1cHBvcnQgbWltaWNzDQp0aGUgVk1ESyBzdXBwb3J0IGZvciBWTXdhcmUuIFRoZSBv
-bmx5IHN1YnRsZSBkaWZmZXJlbmNlIGlzIHRoYXQNCnFlbXUtbmF0aXZlIGhhcyBiZSBiZSBidWls
-dCB3aXRoIHV1aWQgZW5hYmxlZCwgYXMgVkRJIGltYWdlcw0KbmVlZCBhIHZhbGlkIFVVSUQgaW4g
-b3JkZXIgdG8gYmUgcmVjb2duaXplZCBieSBWaXJ0dWFsQm94Lg0KDQpbWU9DVE8gIzczNzRdDQoN
-ClRoaXMgbmVlZHMgdG8gYmUgc3BsaXQgdXAgaW50byBsb2dpY2FsIHBhdGNoZXMuICBGb3IgZXhh
-bXBsZSBvbmUgdG8gZW5hYmxlIFVVSUQgaW50byBRZW11LCBvbmUgdG8gYWRkIHRoZSBuZXcgaW1h
-Z2UgdHlwZSwgYW5vdGhlciB0byB1cGRhdGUgdGhlIGNoZWNrcy4NCg0KUm9zcw0K
+I am fine witj this patch for now, since we are mostly build testing,
+we have to keep in mind
+its a codegen bug and can bite us at runtime. I am just hoping for an
+update to this patch and that will eliminate
+that doubt.
 
---_000_6E51916E4A1F32428260031F4C7CD2B610199363ORSMSX109amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+>
+>
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-5.1.inc
+>> b/meta/recipes-devtools/gcc/gcc-5.1.inc
+>> index db4c795..305736b 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-5.1.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-5.1.inc
+>> @@ -68,6 +68,7 @@ SRC_URI = "\
+>>
+>> file://0034-Don-t-search-host-directory-during-relink-if-inst_pr.patch \
+>>
+>> file://0035-Dont-link-the-plugins-with-libgomp-explicitly.patch \
+>>
+>> file://0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>> +           file://0037-pr65779.patch \
+>>             "
+>>
+>>   #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${SNAP}"
+>> diff --git a/meta/recipes-devtools/gcc/gcc-5.1/0037-pr65779.patch
+>> b/meta/recipes-devtools/gcc/gcc-5.1/0037-pr65779.patch
+>> new file mode 100644
+>> index 0000000..1424673
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc-5.1/0037-pr65779.patch
+>> @@ -0,0 +1,173 @@
+>> +List-Id: <gcc-patches.gcc.gnu.org>
+>> +List-Archive: <http://gcc.gnu.org/ml/gcc-patches/>
+>> +List-Post: <mailto:gcc-patches at gcc dot gnu dot org>
+>> +List-Help: <mailto:gcc-patches-help at gcc dot gnu dot org>
+>> +Date: Mon, 20 Apr 2015 12:40:49 +0930
+>> +From: Alan Modra <amodra at gmail dot com>
+>> +To: gcc-patches at gcc dot gnu dot org
+>> +Subject: [Patch] pr65779 - [5/6 Regression] undefined local symbol on
+>> powerpc
+>> +
+>> +This patch removes bogus debug info left around by shrink-wrapping,
+>> +which on some powerpc targets with just the right register allocation
+>> +led to assembly errors.
+>> +
+>> +Bootstrapped and regression tested powerpc64-linux and x86_64-linux.
+>> +
+>> +https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65779
+>> +
+>> +gcc/
+>> +       PR debug/65779
+>> +       * shrink-wrap.c (insn_uses_reg): New function.
+>> +       (move_insn_for_shrink_wrap): Remove debug insns using regs set
+>> +       by the moved insn.
+>> +gcc/testsuite/
+>> +       * gcc.dg/pr65779.c: New.
+>> +
+>> +Upstream-Status: Pending (from mailing list, not merged yet)
+>> +
+>> +Index: a/gcc/shrink-wrap.c
+>> +===================================================================
+>> +--- a/gcc/shrink-wrap.c.orig
+>> ++++ b/gcc/shrink-wrap.c
+>> +@@ -182,6 +182,21 @@ live_edge_for_reg (basic_block bb, int r
+>> +   return live_edge;
+>> + }
+>> +
+>> ++static bool
+>> ++insn_uses_reg (rtx_insn *insn, unsigned int regno, unsigned int
+>> end_regno)
+>> ++{
+>> ++  df_ref use;
+>> ++
+>> ++  FOR_EACH_INSN_USE (use, insn)
+>> ++    {
+>> ++      rtx reg = DF_REF_REG (use);
+>> ++
+>> ++      if (REG_P (reg) && REGNO (reg) >= regno && REGNO (reg) <
+>> end_regno)
+>> ++      return true;
+>> ++    }
+>> ++  return false;
+>> ++}
+>> ++
+>> + /* Try to move INSN from BB to a successor.  Return true on success.
+>> +    USES and DEFS are the set of registers that are used and defined
+>> +    after INSN in BB.  SPLIT_P indicates whether a live edge from BB
+>> +@@ -340,10 +355,15 @@ move_insn_for_shrink_wrap (basic_block b
+>> +       *split_p = true;
+>> +     }
+>> +
+>> ++  vec<basic_block> live_bbs;
+>> ++  if (MAY_HAVE_DEBUG_INSNS)
+>> ++    live_bbs.create (5);
+>> +   /* At this point we are committed to moving INSN, but let's try to
+>> +      move it as far as we can.  */
+>> +   do
+>> +     {
+>> ++      if (MAY_HAVE_DEBUG_INSNS)
+>> ++      live_bbs.safe_push (bb);
+>> +       live_out = df_get_live_out (bb);
+>> +       live_in = df_get_live_in (next_block);
+>> +       bb = next_block;
+>> +@@ -426,6 +446,34 @@ move_insn_for_shrink_wrap (basic_block b
+>> +       SET_REGNO_REG_SET (bb_uses, i);
+>> +     }
+>> +
+>> ++  /* Remove debug insns using regs set by the insn we are moving.  */
+>> ++  if (MAY_HAVE_DEBUG_INSNS)
+>> ++    {
+>> ++      while (!live_bbs.is_empty ())
+>> ++      {
+>> ++        rtx_insn *dinsn;
+>> ++        basic_block tmp_bb = live_bbs.pop ();
+>> ++
+>> ++        FOR_BB_INSNS_REVERSE (tmp_bb, dinsn)
+>> ++          {
+>> ++            if (dinsn == insn)
+>> ++              break;
+>> ++            if (DEBUG_INSN_P (dinsn)
+>> ++                && insn_uses_reg (dinsn, dregno, end_dregno))
+>> ++              {
+>> ++                if (*split_p)
+>> ++                  /* If split, then we will be moving insn into a
+>> ++                     newly created block immediately after the entry
+>> ++                     block.  Move the debug info there too.  */
+>> ++                  emit_debug_insn_after (PATTERN (dinsn), bb_note (bb));
+>> ++                delete_insn (dinsn);
+>> ++                break;
+>> ++              }
+>> ++          }
+>> ++      }
+>> ++      live_bbs.release ();
+>> ++    }
+>> ++
+>> +   emit_insn_after (PATTERN (insn), bb_note (bb));
+>> +   delete_insn (insn);
+>> +   return true;
+>> +Index: b/gcc/testsuite/gcc.dg/pr65779.c
+>> +===================================================================
+>> +--- /dev/null
+>> ++++ b/gcc/testsuite/gcc.dg/pr65779.c
+>> +@@ -0,0 +1,64 @@
+>> ++/* { dg-do run } */
+>> ++/* { dg-options "-O2 -g" } */
+>> ++/* { dg-additional-options "-mrelocatable" { target powerpc-*-rtems* } }
+>> */
+>> ++
+>> ++unsigned long __attribute__ ((noinline))
+>> ++adler32 (unsigned long adler, unsigned char *buf, unsigned int len)
+>> ++{
+>> ++  unsigned long s1 = adler & 0xffff;
+>> ++  unsigned long s2 = (adler >> 16) & 0xffff;
+>> ++  int k;
+>> ++
+>> ++  if (buf == 0)
+>> ++    return 1L;
+>> ++
+>> ++  while (len > 0)
+>> ++    {
+>> ++      k = len < 5552 ? len : 5552;
+>> ++      len -= k;
+>> ++      while (k >= 16)
+>> ++      {
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        s1 += *buf++; s2 += s1;
+>> ++        k -= 16;
+>> ++      }
+>> ++      if (k != 0)
+>> ++      do
+>> ++        {
+>> ++          s1 += *buf++; s2 += s1;
+>> ++        } while (--k);
+>> ++      s1 &= 0xffffffffUL;
+>> ++      s2 &= 0xffffffffUL;
+>> ++      s1 %= 65521L;
+>> ++      s2 %= 65521L;
+>> ++    }
+>> ++  return (s2 << 16) | s1;
+>> ++}
+>> ++
+>> ++unsigned char buf[] = { 0, 1, 2, 3, 4, 5, 6, 7,
+>> ++                      8, 9, 10, 11, 12, 13, 14, 15,
+>> ++                      0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+>> ++                      0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
+>> ++                      0x55, 0xaa };
+>> ++int
+>> ++main ()
+>> ++{
+>> ++  unsigned long x = adler32 (0, buf, sizeof buf);
+>> ++  if (x != 0x640409efUL)
+>> ++    __builtin_abort ();
+>> ++  return 0;
+>> ++}
+>>
+>>
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEu
-MGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24x
-DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
-bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
-bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
-OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
-ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBs
-aW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+T0ssIG5v
-IHByb2JsZW0uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlNhdWwgYWxzbyBzdWdnZXN0ZWQgbWVyZ2luZyBp
-bWFnZS12bWRrIGFuZCBpbWFnZS12ZGkgY2xhc3NlcyBpbnRvIG9uZSBjbGFzcyw8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
-IzFGNDk3RCI+c29tZXRoaW5nIGxpa2UgaW1hZ2Utdm0uYmJjbGFzcy4gSXQgaXMgYSBiaXQgbW9y
-ZSBpbnZhc2l2ZSAod2lsbCBtb2RpZnkgdGhlIGV4aXN0aW5nIHZtZGs8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
-RCI+YmJjbGFzcykgLCBidXQgaXQgc2hvdWxkIGJlIGEgY2xlYW5lciBpbXBsZW1lbnRhdGlvbiBv
-dmVyYWxsLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SnVybzxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-Zjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxl
-PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBp
-biAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
-c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxi
-cj4NCjxiPlNlbnQ6PC9iPiBNb25kYXksIE1heSAxMSwgMjAxNSAzOjU1IEFNPGJyPg0KPGI+VG86
-PC9iPiBCeXN0cmlja3ksIEp1cm88YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU7IFNhdWwgV29sZDxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW1BBVENIXSBBZGQgc3VwcG9ydCBmb3IgVmlydHVhbEJv
-eCBWREkgaW1hZ2VzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5UaGFua3MgSnVybyw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPk9uIDggTWF5IDIwMTUgYXQgMjM6MzksIEp1cm8gQnlzdHJpY2t5
-ICZsdDs8YSBocmVmPSJtYWlsdG86anVyby5ieXN0cmlja3lAaW50ZWwuY29tIiB0YXJnZXQ9Il9i
-bGFuayI+anVyby5ieXN0cmlja3lAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48
-L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0ND
-Q0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21h
-cmdpbi10b3A6NS4wcHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxk
-aXYgaWQ9IjoyYngiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+WW9jdG8gZG9lcyBub3Qgc3VwcG9y
-dCBWaXJ0dWFsQm94IHNwYXJzZSBpbWFnZSBWREkgZmlsZSBmb3JtYXQuPGJyPg0KVGhpcyBjb3Vs
-ZCBiZSBhY2hpZXZlZCBieSB0aGUgYXR0YWNoZWQgcGF0Y2guIFRoZSBzdXBwb3J0IG1pbWljczxi
-cj4NCnRoZSBWTURLIHN1cHBvcnQgZm9yIFZNd2FyZS4gVGhlIG9ubHkgc3VidGxlIGRpZmZlcmVu
-Y2UgaXMgdGhhdDxicj4NCnFlbXUtbmF0aXZlIGhhcyBiZSBiZSBidWlsdCB3aXRoIHV1aWQgZW5h
-YmxlZCwgYXMgVkRJIGltYWdlczxicj4NCm5lZWQgYSB2YWxpZCBVVUlEIGluIG9yZGVyIHRvIGJl
-IHJlY29nbml6ZWQgYnkgVmlydHVhbEJveC48YnI+DQo8YnI+DQpbWU9DVE8gIzczNzRdPG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PGJyPg0KVGhpcyBuZWVkcyB0byBiZSBzcGxpdCB1cCBpbnRvIGxvZ2ljYWwgcGF0Y2hl
-cy4mbmJzcDsgRm9yIGV4YW1wbGUgb25lIHRvIGVuYWJsZSBVVUlEIGludG8gUWVtdSwgb25lIHRv
-IGFkZCB0aGUgbmV3IGltYWdlIHR5cGUsIGFub3RoZXIgdG8gdXBkYXRlIHRoZSBjaGVja3MuPG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0K
-PC9odG1sPg0K
-
---_000_6E51916E4A1F32428260031F4C7CD2B610199363ORSMSX109amrcor_--
