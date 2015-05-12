@@ -1,26 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 435D474030
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5211373F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 08:58:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4C8wqCf008470
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 May 2015 09:12:41 +0000 (UTC)
+Received: by laat2 with SMTP id t2so742057laa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 01:58:52 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 12 May 2015 01:58:51 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 May 2015 01:58:50 -0700
-Message-ID: <15f8326018e6ffd2fe3ff553e76563ce8b7e9948.1431421106.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1431421106.git.liezhi.yang@windriver.com>
-References: <cover.1431421106.git.liezhi.yang@windriver.com>
+	Tue, 12 May 2015 02:12:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=WrV62Apl8oufZ9b4VKzCQ+er87UV4XsubpBuoxXbXJM=;
+	b=JJ2B3roq3vYJFmN45R74rQkgeLMllMVBI8GN+WlJ01yeOhlwIJFCtOW0wdT/R5Wcrm
+	WTzURWNkS/NG/ag8rgHVqZHKbssavEOT3r6lUqG1dQdNaQEINCNPnj40YIxt1Cjx+nrm
+	Kjddh3fy1bbgKE8EUZhDSeFdLQkeTJBjfGzZYAIqDGrYEKruiWIWGChjuvwBHrhQN7En
+	yJHoCs8w+nA2AqcPb3AYuNu5elzLcEH2dztXL2HkucEhKN3onpBuFHjOP21tRRzHWpnq
+	8MD2iEMPbdr5ocOYLIEQfEP4x03L6qZ1pVI9gAC3Vl2W3SP8I+qFy78o+4msB8yW4+cq
+	1m8Q==
+X-Gm-Message-State: ALoCoQlvainN/doEu1Sio3br40i9QCSTky9sZWzzLUwx5wHhOwVvOsb1JakQlrHyJyWs4iwiWmd+
+X-Received: by 10.112.17.68 with SMTP id m4mr11430369lbd.10.1431421961928;
+	Tue, 12 May 2015 02:12:41 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id do6sm3651153lac.19.2015.05.12.02.12.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 May 2015 02:12:41 -0700 (PDT)
+Date: Tue, 12 May 2015 11:12:38 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Message-ID: <20150512091238.GA8861@ad.chargestorm.se>
+Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1431367371-7716-1-git-send-email-bruno.bottazzini@intel.com>
+	<1431367371-7716-4-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] stat: fix SRC_URI
+In-Reply-To: <1431367371-7716-4-git-send-email-bruno.bottazzini@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V4 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 08:58:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 May 2015 09:12:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The old SRC_URI is redirected to the new one, fixed:
-WARNING: Failed to fetch URL ftp://metalab.unc.edu/pub/Linux/utils/file/stat-3.3.tar.gz, attempting MIRRORS if available
+* Bruno Bottazzini <bruno.bottazzini@intel.com> [150511 20:03]:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-extended/stat/stat_3.3.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> index 6ed4fe0..e83601f 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -19,7 +19,18 @@ PROVIDES = "udev"
 
-diff --git a/meta/recipes-extended/stat/stat_3.3.bb b/meta/recipes-extended/stat/stat_3.3.bb
-index 6754fb8..8a19b3b 100644
---- a/meta/recipes-extended/stat/stat_3.3.bb
-+++ b/meta/recipes-extended/stat/stat_3.3.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=39886b077fd072e876e5c4c16310b631 \
-                     file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--SRC_URI = "ftp://metalab.unc.edu/pub/Linux/utils/file/stat-${PV}.tar.gz \
-+SRC_URI = "http://www.ibiblio.org/pub/Linux/utils/file/${BP}.tar.gz \
-            file://fix-error-return.patch"
- 
- SRC_URI[md5sum] = "37e247e8e400ad9205f1b0500b728fd3"
+>  PE = "1"
+
+> -DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
+> +DEPENDS = "intltool-native \
+> +           gperf-native \
+> +           readline \
+> +           libcgroup \
+> +           libcap \
+> +           qemu-native \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'dbus', '', d)} \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'kmod', 'kmod', '', d)} \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'docbook-sgml-dtd-4.1-native', '', d)} \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'acl', '', d)} \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'glib', 'glib-2.0', '', d)} \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'blkid', 'util-linux', '', d)}"
+
+These lines should be removed. The 3rd parameter in the PACKAGECONFIG[]
+definitions below, do automatically get added to DEPENDS if the
+respective PACKAGECONFIG is enabled. Thus, you don't need to check for
+it yourself in DEPENDS.
+
+Cheers,
+Anders
+
 -- 
-1.7.9.5
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
