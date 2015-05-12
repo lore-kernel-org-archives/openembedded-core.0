@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E04B73FE5
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EB1673D16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:26:02 +0000 (UTC)
-Received: by qcvo8 with SMTP id o8so5107773qcv.0
+	Tue, 12 May 2015 14:36:56 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so14931655pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:26:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xHJ/QHp5hjUmTh8qs95C4HvbV9YPC7qKjR7fKduAqao=;
-	b=DfgsSj3NkVXxMsGfgvobjWgbFFYOWBYZQXIjIY4MePzkqNUnOoY/B80P7LNUk2F1U+
-	XhFtxUo+pbJ4mOwb6OsMDM3N9ephdOBwEghXPPP4lbXofQo3PZqtAzrjtOXY6VGB1dvn
-	7ytew5wwi4Bgmqnd+aRl+2rIj5M83oKRNu0KAzU1ninuLKfRpgMTcraXUeUcsizwisF1
-	w1vWVAOIxLozJkgX1qqbd9gaHxNMRSFqRZASHWiFT9VdSA+yV+LuU044XFRe8xjsflyH
-	gMAjdBqHtFoULy4te8Rqy+Okd2QT7LWWTMibJbtwinZpFWqTDj7tP/egcFKsUsqnZ/Jl
-	SWtw==
-X-Gm-Message-State: ALoCoQnzpHOeLCFE/KT3jHmKlTN959+k/Jdzoh/KkKEi4edYgoEIQl7+2WqlwhoyZOD1HWCo3rMk
-X-Received: by 10.55.23.16 with SMTP id i16mr33712039qkh.14.1431440763724;
-	Tue, 12 May 2015 07:26:03 -0700 (PDT)
+	Tue, 12 May 2015 07:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=KH6lyoo6BL+L3A/sUvPjTNWIxLW5Y5D7zDv/RMT7JJU=;
+	b=tRGhJD3LSAVxG1SzGxTE4B7OqT+MUutLAWzQqd+zWCjTACtudc1J1YHKsWwb0ZlZH3
+	zMAPxKtXgAByqZ30Nf1quW81BpF79oZz9u7kgWAY3MDYqyRxmE3PHIJEbvQNgxCp4CYW
+	ZcIOtpcWulv+2s+YPoESPFdm81Qk7do5VuHrA0qEBqIhPlOQps1orjol+3QTsbmTDT5k
+	JsjrhYUWCUU+eurKfwsjCv7fBWXdLvtqoEj91adj5ikY2FUIJlU+T21Nc1xuTd75FC6P
+	k2WYZx9d9ltplSWPJi0lVi24PUITAE/j2aLP93iJuIbL3Te6XasAzXj/cOsFw9LEBxbv
+	UYiA==
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:25:43 -0700 (PDT)
-In-Reply-To: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 May 2015 15:25:43 +0100
-Message-ID: <CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+X-Received: by 10.68.108.65 with SMTP id hi1mr28542440pbb.129.1431441418333;
+	Tue, 12 May 2015 07:36:58 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Tue, 12 May 2015 07:36:58 -0700 (PDT)
+In-Reply-To: <1431439420-5500-1-git-send-email-mario@ossystems.com.br>
+References: <1431439420-5500-1-git-send-email-mario@ossystems.com.br>
+Date: Tue, 12 May 2015 11:36:58 -0300
+X-Google-Sender-Auth: HdpbhtMOqtNybTFQIInc7VhIBXk
+Message-ID: <CAP9ODKpKk4sxPHPVZFyhzuSzg_yRHwA8ev6SN0mHfgV58C_cBw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mario Domenech Goulart <mario@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] native.bbclass: avoid unintended substring replacement when setting PROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:26:08 -0000
-Content-Type: multipart/alternative; boundary=001a1146f4ba3d33a60515e3463c
-
---001a1146f4ba3d33a60515e3463c
+X-List-Received-Date: Tue, 12 May 2015 14:36:58 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-wrote:
-
-> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
-> little to run necessary applications. Add a new arm configuration based
-> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
+On Tue, May 12, 2015 at 11:03 AM, Mario Domenech Goulart
+<mario@ossystems.com.br> wrote:
+> The way native_virtclass_handler was implemented leaded to
+> unintended substring replacements when setting PROVIDES for
+> native providers, in case the original PROVIDES value contains
+> providees with common substrings.
 >
+> Here's a practical case where the old behavior was problematic:
+> the oracle-jse-jdk-x86-64 recipe provides both virtual/java and
+> virtual/javac:
+>
+> Before:
+>
+> $ bitbake -e oracle-jse-jdk-x86-64-native | grep ^PROVIDES=
+> PROVIDES="oracle-jse-jdk-x86-64-native  virtual/java-native virtual/java-nativec"
+>
+> After:
+>
+> $ bitbake -e oracle-jse-jdk-x86-64-native | grep ^PROVIDES=
+> PROVIDES="oracle-jse-jdk-x86-64-native virtual/java-native virtual/javac-native"
+>
+> Change-Id: I8186992dae58e37c2a2364586360ff9b7da9198f
+> Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
 
-Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
-Why not just change the qemuarm machine to use the A9?
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a1146f4ba3d33a60515e3463c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:dmitry_eremin@mentor.com" target=3D"_blank">dmitry_eremin@men=
-tor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:87" class=3D"a3s" style=3D"overflow:hidden">Currently qemuarm is limited t=
-o 256 Mb of RAM. Sometimes this is too<br>
-little to run necessary applications. Add a new arm configuration based<br>
-on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.<br></=
-div></blockquote><div><br></div><div>Not sure I&#39;m keen on oe-core havin=
-g two almost-identical qemuarm machines.=C2=A0 Why not just change the qemu=
-arm machine to use the A9?</div><div><br></div><div>Ross=C2=A0<br></div></d=
-iv></div></div>
-
---001a1146f4ba3d33a60515e3463c--
