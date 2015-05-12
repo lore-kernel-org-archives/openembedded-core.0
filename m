@@ -1,22 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5904C73FDA
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ADAD7402E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 19:02:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 12 May 2015 12:02:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,416,1427785200"; d="scan'208";a="724841139"
-Received: from jrmenon-mobl4.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.252.200.222])
-	by fmsmga002.fm.intel.com with ESMTP; 12 May 2015 12:02:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 12 May 2015 12:02:46 -0700
-Message-Id: <1431457366-24611-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [master/fido][PATCH] lttng-modules: Update to stable version 2.6.1
+	Tue, 12 May 2015 19:32:05 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lmTm40tXXz3hhp1;
+	Tue, 12 May 2015 21:32:03 +0200 (CEST)
+X-Auth-Info: 3b934JnNuxMtWuZj2k/mlmUzqicZeLjAnVQOXEZk4iQ=
+Received: from chi.localnet (host-82-135-33-74.customer.m-online.net
+	[82.135.33.74])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lmTm311BBzvdWV; 
+	Tue, 12 May 2015 21:32:03 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Tue, 12 May 2015 21:27:30 +0200
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1430239116-7671-1-git-send-email-marex@denx.de>
+	<55521E66.4090908@windriver.com>
+	<2038782.k0jOjIWbIe@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2038782.k0jOjIWbIe@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Message-Id: <201505122127.30772.marex@denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,102 +37,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 19:02:47 -0000
+X-List-Received-Date: Tue, 12 May 2015 19:32:06 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-This fixes a build issue with the 3.19.5 kernel where the regmap prototypes
-have changed. The patch is rebased do to changes in the new version of the
-Makefile.
+On Tuesday, May 12, 2015 at 06:18:15 PM, Paul Eggleton wrote:
+> On Tuesday 12 May 2015 11:38:14 Bruce Ashfield wrote:
+> > On 2015-05-12 10:15 AM, Paul Eggleton wrote:
+> > > On Monday 04 May 2015 23:41:47 Marek Vasut wrote:
+> > >> On Tuesday, April 28, 2015 at 11:16:17 PM, Marek Vasut wrote:
+> > >>> On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
+> > >>>> On 2015-04-28 12:38 PM, Marek Vasut wrote:
+> > >>>>> Pull the uImage image format generation from kernel.bbclass into
+> > >>>>> a separate kernel-uimage.bbclass. The recipes which now need to
+> > >>>>> generate an uImage will have to inherit kernel-uimage instead of
+> > >>>>> kernel class.
+> > >>>>> 
+> > >>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+> > >>>>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > >>>>> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> > >>>>> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > >>>>> Cc: Ross Burton <ross.burton@intel.com>
+> > >>>>> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > >>>>> ---
+> > >>>>> 
+> > >>>>>    meta/classes/kernel-uimage.bbclass | 48
+> > >>>>>    +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass
+> > >>>>>    
+> > >>>>>    | 55 +++++++------------------------------- 2 files changed, 58
+> > >>>>>    
+> > >>>>>    insertions(+), 45 deletions(-)
+> > >>>>>    create mode 100644 meta/classes/kernel-uimage.bbclass
+> > >>>>> 
+> > >>>>> NOTE: The "inherit kernel-uimage" in kernel.bbclass should be
+> > >>>>> changed to
+> > >>>>> 
+> > >>>>>         something like "inherit
+> > >>>>>         kernel-${@d.getVar("KERNEL_IMAGETYPE", True).lower()}" but
+> > >>>>>         the problem is that I only want to perform the inheritance
+> > >>>>>         for uimage and fitimage, the other image types don't need
+> > >>>>>         to inherit any additional special stuff. Paul suggested I
+> > >>>>>         can do "inherit <empty here>". This would at least let me
+> > >>>>>         implement a python function which returns either
+> > >>>>>         "kernel-uimage", "kernel-fitimage" or "" and based on
+> > >>>>>         that, I could inherit the particular image type specifics
+> > >>>>>         into kernel.bbclass.
+> > >>>>>         What I don't know how to implement well is this function
+> > >>>>>         which returns those three strings based on the
+> > >>>>>         KERNEL_IMAGETYPE. What
+> > >>>>>         I would like to avoid is encoding those strings explicitly
+> > >>>>>         into
+> > >>>>>         the function, since that would force each new kernel image
+> > >>>>>         format to also edit this function in kernel.bbclass .
+> > >>>>>         Apparently, checking whether class exists and inheriting it
+> > >>>>>         only if it does is also not a simple task.
+> > >>>> 
+> > >>>> Agreed that this would be better. It would remove a lot of the
+> > >>>> checks in the other tasks for the image type.
+> > >>> 
+> > >>> Hi!
+> > >>> 
+> > >>> Yes, that's indeed true. All the image type checks would disappear
+> > >>> from kernel-uimage and kernel-fitimage bbclasses.
+> > >>> 
+> > >>>> I'm not aware of the exact details on how to make this work, but
+> > >>>> hopefully others have the foo.
+> > >> 
+> > >> Any ideas please ?
+> > > 
+> > > To me this is about how we wish to structure these classes. That's not
+> > > my call, but to enumerate the options - unless I'm missing something
+> > > we have to choose between:
+> > > 
+> > > 1) Hardcode uimage/fitimage. Hard to extend.
+> > > 
+> > > 2) inherit kernel-<type> and just insist that a class for every image
+> > > type exists. Ugly and kernel-*.bbclass already exists.
+> > > 
+> > > 3) Try to search for a kernel-<type> class and inherit it if one is
+> > > found. AFAIK we don't do this kind of thing anywhere else so this
+> > > doesn't seem right to me.
+> > > 
+> > > 4) Establish some other mechanism for registering kernel image type
+> > > classes
+> > > (KERNEL_CLASSES ?). Not sure if we want to do this but it is at least a
+> > > common mechanism elsewhere in the system.
+> > 
+> > I wasn't familiar with an option like this, but if we can do something
+> > for the kernel classes that follows the existing patterns .. it makes
+> > a lot of sense. I really don't want to invent something new here either.
+> > 
+> > So something along the lines of the way that image.bbclass works with
+> > the IMAGE_CLASSES ?
+> 
+> Indeed, that's what I was referring to.
 
-[YOCTO #7737]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch | 31 +++++++++++++---------
- ...tng-modules_2.6.0.bb => lttng-modules_2.6.1.bb} |  2 +-
- 2 files changed, 19 insertions(+), 14 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.6.0.bb => lttng-modules_2.6.1.bb} (96%)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-index bbfa38a..ccc6c54 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-@@ -7,41 +7,46 @@ build and install lttng-modules, we do this replacement for
- it as-is.
- 
- Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-+[sgw - rebased for 2.6.1]
-+Signed-off-by: Saul wold <sgw@linux.intel.com>
- 
- Index: git/Makefile
- ===================================================================
- --- git.orig/Makefile
- +++ git/Makefile
--@@ -62,19 +62,19 @@ obj-m += lib/
-+@@ -68,19 +68,19 @@ obj-m += lib/
-  endif # CONFIG_TRACEPOINTS
-  
-  else # KERNELRELEASE
- -	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-+-	PWD := $(shell pwd)
-+-	CFLAGS = $(EXTCFLAGS)
-+-
- +	KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
-- 	PWD := $(shell pwd)
-- 	CFLAGS = $(EXTCFLAGS)
-- 
-++ 	PWD := $(shell pwd)
-++ 	CFLAGS = $(EXTCFLAGS)
-++ 
-  default:
---	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
--+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
-+-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
-  
-  modules_install:
---	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
--+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
-+-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
-++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
-  
-  clean:
---	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
--+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
-+-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) clean
-++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
-  
-  %.i: %.c
---	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
--+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) $@
-+-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) $@
-++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) $@
-  endif # KERNELRELEASE
- Index: git/probes/Makefile
- ===================================================================
- --- git.orig/probes/Makefile
- +++ git/probes/Makefile
--@@ -231,18 +231,18 @@ endif
-+@@ -267,18 +267,18 @@ endif
-  endif
-  
-  else
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
-similarity index 96%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
-index 4cf01ca..9c08e9c 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
-@@ -11,7 +11,7 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
- 
- inherit module
- 
--SRCREV = "1b2a5429de815c95643df2eadf91253909708728"
-+SRCREV = "62080b2248fd8ec4111ffc379d0bc5eaf0a5c16d"
- 
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
- 
--- 
-2.1.0
-
+Doesn't that mean it would be possible for kernel.bbclass to inherit multiple
+classes -- for example kernel-uimage.bbclass and kernel-fitimage.bbclass -- at
+the same time ? Won't that make it impossible to remove the kernel type checks
+in kernel-uimage.bbclass ? But maybe having those checks in place is the right
+thing to do since there might be a target building both fitImage and uImage at
+the same time?
 
