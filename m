@@ -1,31 +1,44 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DDCC73D16
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3965773FC8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 15:38:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4CFcF9p027617
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 May 2015 08:38:16 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 12 May 2015 08:38:15 -0700
-Message-ID: <55521E66.4090908@windriver.com>
-Date: Tue, 12 May 2015 11:38:14 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1430239116-7671-1-git-send-email-marex@denx.de>
-	<201504282316.17774.marex@denx.de>
-	<201505042341.47651.marex@denx.de>
-	<59645923.jaN1ZMuDDz@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <59645923.jaN1ZMuDDz@peggleto-mobl.ger.corp.intel.com>
-Cc: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
+	Tue, 12 May 2015 16:03:53 +0000 (UTC)
+Received: by pdbqa5 with SMTP id qa5so17928955pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 May 2015 09:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=YKa7A8+ZfA9gjcE2sk6yp/RUtABtAyZ+41BPuvK9+mQ=;
+	b=NRt5tC00j++/aYeLNPOuW7pmP8BO11iuDvVQBVwcplIdTtOHJsB+Ro9EnCEwLRmt8v
+	SO4AVXZVVrBHOmaOf4nkkXPUaHMBbX+Qh7Uu+Fbn0N697G9ZvV+onrS0qDPiCoVxQ60G
+	hPTTgb5AsdmIMal25f+4vfu5WXA0RCP2ZgweLYBWNo5G4o19MIHggC8t/qG4AoeBPgyK
+	08dAuJ7F5f1YRyShkIgYQmm9LMnPTs+/lxcvZhJVckvmv4wUXJ4ewfaLEWLUSgN1Rtp0
+	NMjLutiXpHwRPnrRD4ADYaNegWYNJsO0kXDPpnt5oGNLpIQiwJDEfjetDyTGvq1Ce0mA
+	exmg==
+X-Received: by 10.70.131.33 with SMTP id oj1mr29103732pdb.3.1431446634529;
+	Tue, 12 May 2015 09:03:54 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:ccd0:4222:99ed:8bcf?
+	([2601:9:3580:84c:ccd0:4222:99ed:8bcf])
+	by mx.google.com with ESMTPSA id
+	ap9sm16740221pad.42.2015.05.12.09.03.52
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 12 May 2015 09:03:53 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1431415680.30971.114.camel@linuxfoundation.org>
+Date: Tue, 12 May 2015 09:03:41 -0700
+Message-Id: <538BB22D-9434-4BF4-B1F7-37C6B2919949@gmail.com>
+References: <1431363297.30971.76.camel@linuxfoundation.org>
+	<5551395B.60503@gmail.com>
+	<CAMKF1srBkzXSiVyo27LbF0TYb6AjxB_Z++no3QyJ9VJwJHFFWw@mail.gmail.com>
+	<1431415680.30971.114.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc5: Add PR65779 patch to fix powerpc compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,98 +51,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 15:38:21 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 12 May 2015 16:03:55 -0000
+X-Groupsio-MsgNum: 65457
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F014F3DD-31EB-460F-8CC6-72F27A1C3A49";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_F014F3DD-31EB-460F-8CC6-72F27A1C3A49
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On May 12, 2015, at 12:28 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Mon, 2015-05-11 at 17:24 -0700, Khem Raj wrote:
+>> On Mon, May 11, 2015 at 4:20 PM, akuster808 <akuster808@gmail.com> =
+wrote:
+>>>=20
+>>>=20
+>>> On 05/11/2015 09:54 AM, Richard Purdie wrote:
+>>>>=20
+>>>> This fixes compile issues on powerpc with gcc 5 which show up with
+>>>> errors like:
+>>>>=20
+>>>> | make[2]: Entering directory
+>>>> =
+'/media/build1/poky/build/tmp/work/ppc7400-poky-linux/xprop/1_1.2.2-r0/bui=
+ld'
+>>>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=3D7400
+>>>> --sysroot=3D/media/build1/poky/build/tmp/sysroots/qemuppc -Wall
+>>>> -Wpointer-arith -Wmissing-declarations -Wformat=3D2 =
+-Wstrict-prototypes
+>>>> -Wmissing-prototypes -Wnested-externs -Wbad-function-cast
+>>>> -Wold-style-definition -Wdeclaration-after-statement -Wunused
+>>>> -Wuninitialized -Wshadow -Wmissing-noreturn =
+-Wmissing-format-attribute
+>>>> -Wredundant-decls -Wlogical-op -Werror=3Dimplicit -Werror=3Dnonnull
+>>>> -Werror=3Dinit-self -Werror=3Dmain -Werror=3Dmissing-braces =
+-Werror=3Dsequence-point
+>>>> -Werror=3Dreturn-type -Werror=3Dtrigraphs -Werror=3Darray-bounds
+>>>> -Werror=3Dwrite-strings -Werror=3Daddress =
+-Werror=3Dint-to-pointer-cast
+>>>> -Werror=3Dpointer-to-int-cast -fno-strict-aliasing  -O2 -pipe -g
+>>>> -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=3Dgnu =
+-Wl,--as-needed
+>>>> -o xprop dsimple.o clientwin.o xprop.o -lX11
+>>>> | =
+/media/build1/poky/build/tmp/sysroots/qemuppc/usr/lib/../lib/libX11.so:
+>>>> undefined reference to `.LCL2'
+>>>> | collect2: error: ld returned 1 exit status
+>>>>=20
+>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>=20
+>>>=20
+>>> Acked-by: Armin Kuster <Akuster808@gmail.com>
+>>>=20
+>>>=20
+>>> this fixes all but one package(lzop) failure on qemuppc base yocto =
+world
+>>> build.
+>>>=20
+>>=20
+>> I am fine witj this patch for now, since we are mostly build testing,
+>> we have to keep in mind
+>> its a codegen bug and can bite us at runtime. I am just hoping for an
+>> update to this patch and that will eliminate
+>> that doubt.
+>=20
+> Agreed, an update upstream would obviously help. FWIW the automated
+> runtime tests did look reasonable on the autobuilder apart from:
+>=20
+> core-image-sato-sdk has a problem with the C++ toolchain not finding
+> limits (all arches).
+>=20
+
+hmm thats interesting. Can you point to an error for more details ?
+
+> qemuarm is not booting (minimal, sato or sato-sdk).
+
+yes I have had problems with linux-yocto on emulator too.
+
+>=20
+> However these issues were present before the patch so I don't think =
+its
+> related.
+
+right
+
+>=20
+> Since the failures list is better with the patch I'll merge it until
+> something better comes along.
+
+thats OK
+
+
+--Apple-Mail=_F014F3DD-31EB-460F-8CC6-72F27A1C3A49
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On 2015-05-12 10:15 AM, Paul Eggleton wrote:
-> On Monday 04 May 2015 23:41:47 Marek Vasut wrote:
->> On Tuesday, April 28, 2015 at 11:16:17 PM, Marek Vasut wrote:
->>> On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
->>>> On 2015-04-28 12:38 PM, Marek Vasut wrote:
->>>>> Pull the uImage image format generation from kernel.bbclass into
->>>>> a separate kernel-uimage.bbclass. The recipes which now need to
->>>>> generate an uImage will have to inherit kernel-uimage instead of
->>>>> kernel class.
->>>>>
->>>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>> Cc: Koen Kooi <koen@dominion.thruhere.net>
->>>>> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
->>>>> Cc: Ross Burton <ross.burton@intel.com>
->>>>> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>> ---
->>>>>
->>>>>    meta/classes/kernel-uimage.bbclass | 48
->>>>>    +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass
->>>>>
->>>>>    | 55 +++++++------------------------------- 2 files changed, 58
->>>>>
->>>>>    insertions(+), 45 deletions(-)
->>>>>    create mode 100644 meta/classes/kernel-uimage.bbclass
->>>>>
->>>>> NOTE: The "inherit kernel-uimage" in kernel.bbclass should be changed
->>>>> to
->>>>>
->>>>>         something like "inherit kernel-${@d.getVar("KERNEL_IMAGETYPE",
->>>>>         True).lower()}" but the problem is that I only want to perform
->>>>>         the inheritance for uimage and fitimage, the other image types
->>>>>         don't need to inherit any additional special stuff.
->>>>>         Paul suggested I can do "inherit <empty here>". This would at
->>>>>         least let me implement a python function which returns either
->>>>>         "kernel-uimage", "kernel-fitimage" or "" and based on that, I
->>>>>         could inherit the particular image type specifics into
->>>>>         kernel.bbclass.
->>>>>         What I don't know how to implement well is this function which
->>>>>         returns those three strings based on the KERNEL_IMAGETYPE. What
->>>>>         I would like to avoid is encoding those strings explicitly into
->>>>>         the function, since that would force each new kernel image
->>>>>         format to also edit this function in kernel.bbclass .
->>>>>         Apparently, checking whether class exists and inheriting it
->>>>>         only if it does is also not a simple task.
->>>>
->>>> Agreed that this would be better. It would remove a lot of the checks
->>>> in the other tasks for the image type.
->>>
->>> Hi!
->>>
->>> Yes, that's indeed true. All the image type checks would disappear from
->>> kernel-uimage and kernel-fitimage bbclasses.
->>>
->>>> I'm not aware of the exact details on how to make this work, but
->>>> hopefully others have the foo.
->>
->> Any ideas please ?
->
-> To me this is about how we wish to structure these classes. That's not my
-> call, but to enumerate the options - unless I'm missing something we have to
-> choose between:
->
-> 1) Hardcode uimage/fitimage. Hard to extend.
->
-> 2) inherit kernel-<type> and just insist that a class for every image type
-> exists. Ugly and kernel-*.bbclass already exists.
->
-> 3) Try to search for a kernel-<type> class and inherit it if one is found.
-> AFAIK we don't do this kind of thing anywhere else so this doesn't seem right
-> to me.
->
-> 4) Establish some other mechanism for registering kernel image type classes
-> (KERNEL_CLASSES ?). Not sure if we want to do this but it is at least a common
-> mechanism elsewhere in the system.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-I wasn't familiar with an option like this, but if we can do something
-for the kernel classes that follows the existing patterns .. it makes
-a lot of sense. I really don't want to invent something new here either.
+iEYEARECAAYFAlVSJGcACgkQuwUzVZGdMxSV1QCbBLDQM2fWRgiNHqrk/kb3wwDp
+yZMAoJDC4mATPWg9XP0Wwna/M/brwinY
+=yheS
+-----END PGP SIGNATURE-----
 
-So something along the lines of the way that image.bbclass works with
-the IMAGE_CLASSES ?
-
-Bruce
-
->
-> Cheers,
-> Paul
->
-
-
+--Apple-Mail=_F014F3DD-31EB-460F-8CC6-72F27A1C3A49--
