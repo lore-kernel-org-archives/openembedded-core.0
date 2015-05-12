@@ -1,40 +1,27 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 02A6C73FDA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id EF03473FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 15:15:13 +0000 (UTC)
-Received: by qgeb100 with SMTP id b100so5765341qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 08:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=I0rHkygP+hQk2Xyx5tHxMjPBQzPuhwn2t+j4oKoPz4o=;
-	b=y/lKeF05c+8qWvElEKyzUcg18iK3/0/26bIHoKJWEMwUvTRZno1DMW3LaH+kAL+2L2
-	x/hWFKlXgZ1WTC5Z81GbZ25XMQq5oVpHUxlm0z751q0RMexeBBHNACCBgqOWH89i70tV
-	ekci4kf5V9mnO1WfgPlSLNVodPEMNj/6rOwEgopHRZpnnor7XHC28sGerxw9Ei4OX6TD
-	Y+JbwML/2v/7xGCPqKk24QAGoiT6AtobhmM4swxG5a1IgJ2CP5dW0moeg+nHukL5uvos
-	yFfDCgXeGj6gANKlgqE8lHfRYFrPWSWfZKmeFwP9f8TvNPCulQlFJ/TTdm4rcM5qtgUI
-	lLGA==
+	Tue, 12 May 2015 15:20:40 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 12 May 2015 08:20:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,415,1427785200"; d="scan'208";a="570165189"
+Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
+	by orsmga003.jf.intel.com with ESMTP; 12 May 2015 08:20:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Tue, 12 May 2015 16:20:37 +0100
+Message-ID: <4904789.A7T5g0hHDe@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <1431350231-29495-12-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1431350231-29495-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1431350231-29495-12-git-send-email-markus.lehtonen@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.140.202.4 with SMTP id x4mr21441541qha.27.1431443714841;
-	Tue, 12 May 2015 08:15:14 -0700 (PDT)
-Received: by 10.96.203.231 with HTTP; Tue, 12 May 2015 08:15:14 -0700 (PDT)
-In-Reply-To: <CAP9ODKocHho1K+zDbnEVsM5Lq_wFhJD59cD6o0c2R_99oZrmjQ@mail.gmail.com>
-References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
-	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
-	<1431295383.30971.25.camel@linuxfoundation.org>
-	<1431414393.30971.109.camel@linuxfoundation.org>
-	<CAP9ODKocHho1K+zDbnEVsM5Lq_wFhJD59cD6o0c2R_99oZrmjQ@mail.gmail.com>
-Date: Tue, 12 May 2015 09:15:14 -0600
-Message-ID: <CACS+7ZRfedi6ZQwVP8MMa1WeymJ4Df6kQ6V9Lvow1qWZN+ynFw@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Richard Schmitt <richard.schmitt@freescale.com>
-Subject: Re: [PATCH] rpm: fix build issue with gcc5
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 11/11] devtool: deploy plugin: wrap long lines in code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +34,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 15:15:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 May 2015 15:20:43 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 12 May 2015 at 08:57, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Tue, May 12, 2015 at 4:06 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Sun, 2015-05-10 at 23:03 +0100, Richard Purdie wrote:
-> ...
->> Otavio: Could you see what our options are with meta-fsl-ppc and
->> metafsl-arm?
->
-> Yes. I foresee some challenges especially the old kernels.
->
-> fsl-arm has 2.6.35 for some platforms and fsl-ppc has 3.12.
->
-> I am adding FSL people to also take a look on these failures.
+On Monday 11 May 2015 16:17:11 Markus Lehtonen wrote:
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  scripts/lib/devtool/deploy.py | 99
+> +++++++++++++++++++++++++++++++------------ 1 file changed, 72
+> insertions(+), 27 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+> index 078c74b..f6ae433 100644
+> --- a/scripts/lib/devtool/deploy.py
+> +++ b/scripts/lib/devtool/deploy.py
+> @@ -45,17 +45,23 @@ def deploy(args, config, basepath, workspace):
+>      deploy_dir = os.path.join(basepath, 'target_deploy', args.target)
+>      deploy_file = os.path.join(deploy_dir, args.recipename + '.list')
+> 
+> -    stdout, _ = exec_build_env_command(config.init_path, basepath, 'bitbake
+> -e %s' % args.recipename, shell=True) +    stdout, _ =
+> exec_build_env_command(config.init_path, basepath, +                       
+>                'bitbake -e %s' % args.recipename, +                        
+>               shell=True)
+>      recipe_outdir = re.search(r'^D="(.*)"', stdout, re.MULTILINE).group(1)
+>      if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+> -        logger.error('No files to deploy - have you built the %s recipe? If
+> so, the install step has not installed any files.' % args.recipename) +    
+>    logger.error('No files to deploy - have you built the %s recipe? If ' + 
+>                    'so, the install step has not installed any files.' % + 
+>                    args.recipename)
+>          return -1
+> 
+>      if args.dry_run:
+> -        print('Files to be deployed for %s on target %s:' %
+> (args.recipename, args.target)) +        print('Files to be deployed for %s
+> on target %s:' %
+> +              (args.recipename, args.target))
+>          for root, _, files in os.walk(recipe_outdir):
+>              for fn in files:
+> -                print('  %s' % os.path.join(destdir, os.path.relpath(root,
+> recipe_outdir), fn)) +                print('  %s' % os.path.join(
+> +                        destdir, os.path.relpath(root, recipe_outdir), fn))
+> return 0
+> 
+>      if os.path.exists(deploy_file):
+> @@ -65,12 +71,16 @@ def deploy(args, config, basepath, workspace):
+> 
+>      extraoptions = ''
+>      if args.no_host_check:
+> -        extraoptions += '-o UserKnownHostsFile=/dev/null -o
+> StrictHostKeyChecking=no' +        extraoptions += '-o
+> UserKnownHostsFile=/dev/null'
+> +        extraoptions += ' -o StrictHostKeyChecking=no'
+>      if not args.show_status:
+>          extraoptions += ' -q'
+> -    ret = subprocess.call('scp -r %s %s/* %s:%s' % (extraoptions,
+> recipe_outdir, args.target, destdir), shell=True) +    ret =
+> subprocess.call('scp -r %s %s/* %s:%s' %
+> +                          (extraoptions, recipe_outdir, args.target,
+> destdir), +                          shell=True)
+>      if ret != 0:
+> -        logger.error('Deploy failed - rerun with -s to get a complete error
+> message') +        logger.error('Deploy failed - rerun with -s to get a
+> complete error ' +                     'message')
+>          return ret
+> 
+>      logger.info('Successfully deployed %s' % recipe_outdir)
+> @@ -81,7 +91,8 @@ def deploy(args, config, basepath, workspace):
+>      files_list = []
+>      for root, _, files in os.walk(recipe_outdir):
+>          for filename in files:
+> -            filename = os.path.relpath(os.path.join(root, filename),
+> recipe_outdir) +            filename = os.path.relpath(os.path.join(root,
+> filename), +                                       recipe_outdir)
+>              files_list.append(os.path.join(destdir, filename))
+> 
+>      with open(deploy_file, 'w') as fobj:
+> @@ -91,13 +102,15 @@ def deploy(args, config, basepath, workspace):
+> 
+>  def undeploy(args, config, basepath, workspace):
+>      """Entry point for the devtool 'undeploy' subcommand"""
+> -    deploy_file = os.path.join(basepath, 'target_deploy', args.target,
+> args.recipename + '.list') +    deploy_file = os.path.join(basepath,
+> 'target_deploy', args.target, +                              
+> args.recipename + '.list')
+>      if not os.path.exists(deploy_file):
+>          logger.error('%s has not been deployed' % args.recipename)
+>          return -1
+> 
+>      if args.dry_run:
+> -        print('Previously deployed files to be un-deployed for %s on target
+> %s:' % (args.recipename, args.target)) +        print('Previously deployed
+> files to be un-deployed for %s on target ' +              '%s:' %
+> (args.recipename, args.target))
+>          with open(deploy_file, 'r') as f:
+>              for line in f:
+>                  print('  %s' % line.rstrip())
+> @@ -105,39 +118,71 @@ def undeploy(args, config, basepath, workspace):
+> 
+>      extraoptions = ''
+>      if args.no_host_check:
+> -        extraoptions += '-o UserKnownHostsFile=/dev/null -o
+> StrictHostKeyChecking=no' +        extraoptions += '-o
+> UserKnownHostsFile=/dev/null '
+> +        extraoptions += ' -o StrictHostKeyChecking=no'
+>      if not args.show_status:
+>          extraoptions += ' -q'
+> 
+> -    ret = subprocess.call("scp %s %s %s:/tmp" % (extraoptions, deploy_file,
+> args.target), shell=True) +    ret = subprocess.call("scp %s %s %s:/tmp" %
+> +                          (extraoptions, deploy_file, args.target),
+> shell=True) if ret != 0:
+> -        logger.error('Failed to copy file list to %s - rerun with -s to get
+> a complete error message' % args.target) +        logger.error('Failed to
+> copy file list to %s - rerun with -s to get a ' +                    
+> 'complete error message' % args.target)
+>          return -1
+> 
+> -    ret = subprocess.call("ssh %s %s 'xargs -n1 rm -f </tmp/%s'" %
+> (extraoptions, args.target, os.path.basename(deploy_file)), shell=True) +  
+>  ret = subprocess.call(
+> +            "ssh %s %s 'xargs -n1 rm -f </tmp/%s'" %
+> +            (extraoptions, args.target, os.path.basename(deploy_file)),
+> +            shell=True)
+>      if ret == 0:
+>          logger.info('Successfully undeployed %s' % args.recipename)
+>          os.remove(deploy_file)
+>      else:
+> -        logger.error('Undeploy failed - rerun with -s to get a complete
+> error message') +        logger.error('Undeploy failed - rerun with -s to
+> get a complete error ' +                     'message')
+> 
+>      return ret
+> 
+> 
+>  def register_commands(subparsers, context):
+>      """Register devtool subcommands from the deploy plugin"""
+> -    parser_deploy = subparsers.add_parser('deploy-target', help='Deploy
+> recipe output files to live target machine') -   
+> parser_deploy.add_argument('recipename', help='Recipe to deploy') -   
+> parser_deploy.add_argument('target', help='Live target machine running an
+> ssh server: user@hostname[:destdir]') -    parser_deploy.add_argument('-c',
+> '--no-host-check', help='Disable ssh host key checking',
+> action='store_true') -    parser_deploy.add_argument('-s', '--show-status',
+> help='Show progress/status output', action='store_true') -   
+> parser_deploy.add_argument('-n', '--dry-run', help='List files to be
+> deployed only', action='store_true') +    parser_deploy =
+> subparsers.add_parser(
+> +            'deploy-target',
+> +            help='Deploy recipe output files to live target machine')
+> +    parser_deploy.add_argument(
+> +            'recipename',
+> +            help='Recipe to deploy')
+> +    parser_deploy.add_argument(
+> +            'target',
+> +            help='Live target machine running an ssh server: '
+> +                 'user@hostname[:destdir]')
+> +    parser_deploy.add_argument(
+> +            '-c', '--no-host-check',
+> +            help='Disable ssh host key checking', action='store_true')
+> +    parser_deploy.add_argument(
+> +            '-s', '--show-status',
+> +            help='Show progress/status output', action='store_true')
+> +    parser_deploy.add_argument(
+> +            '-n', '--dry-run',
+> +            help='List files to be deployed only', action='store_true')
+>      parser_deploy.set_defaults(func=deploy)
+> 
+> -    parser_undeploy = subparsers.add_parser('undeploy-target',
+> help='Undeploy recipe output files in live target machine') -   
+> parser_undeploy.add_argument('recipename', help='Recipe to undeploy') -   
+> parser_undeploy.add_argument('target', help='Live target machine running an
+> ssh server: user@hostname') -    parser_undeploy.add_argument('-c',
+> '--no-host-check', help='Disable ssh host key checking',
+> action='store_true') -    parser_undeploy.add_argument('-s',
+> '--show-status', help='Show progress/status output', action='store_true') -
+>    parser_undeploy.add_argument('-n', '--dry-run', help='List files to be
+> undeployed only', action='store_true') +    parser_undeploy =
+> subparsers.add_parser(
+> +            'undeploy-target',
+> +            help='Undeploy recipe output files in live target machine')
+> +    parser_undeploy.add_argument(
+> +            'recipename',
+> +            help='Recipe to undeploy')
+> +    parser_undeploy.add_argument(
+> +            'target',
+> +            help='Live target machine running an ssh server:
+> user@hostname') +    parser_undeploy.add_argument(
+> +            '-c', '--no-host-check',
+> +            help='Disable ssh host key checking', action='store_true')
+> +    parser_undeploy.add_argument(
+> +            '-s', '--show-status',
+> +            help='Show progress/status output', action='store_true')
+> +    parser_undeploy.add_argument(
+> +            '-n', '--dry-run',
+> +            help='List files to be undeployed only', action='store_true')
+>      parser_undeploy.set_defaults(func=undeploy)
 
-I found one simple hack is to set the C standard to gnu89 for kernel
-builds. I just added
+I have to be honest and say I don't find that all of these line wrapping 
+changes improve readability. Maybe I am biased because I use a fairly large 
+editing window - what's your editing setup?
 
-KERNEL_CC_append = " -std=gnu89"
+Cheers,
+Paul
 
-to my local.conf and my wandboard kernel built and booted. Haven't
-tried the PPC kernels yet, though.
+-- 
 
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Paul Eggleton
+Intel Open Source Technology Centre
 
