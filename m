@@ -1,26 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DDC573F4E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5904C73FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 18:01:16 +0000 (UTC)
+	Tue, 12 May 2015 19:02:46 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 May 2015 11:01:18 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 12 May 2015 12:02:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,416,1427785200"; d="scan'208";a="724809544"
-Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
-	by fmsmga002.fm.intel.com with ESMTP; 12 May 2015 11:01:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Tue, 12 May 2015 19:01:16 +0100
-Message-ID: <1883118.cJJW02ZV6v@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] devtool: improve handling of local source files
+X-IronPort-AV: E=Sophos;i="5.13,416,1427785200"; d="scan'208";a="724841139"
+Received: from jrmenon-mobl4.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.200.222])
+	by fmsmga002.fm.intel.com with ESMTP; 12 May 2015 12:02:47 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 12 May 2015 12:02:46 -0700
+Message-Id: <1431457366-24611-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [master/fido][PATCH] lttng-modules: Update to stable version 2.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +29,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 18:01:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 May 2015 19:02:47 -0000
 
-Hi Markus,
+This fixes a build issue with the 3.19.5 kernel where the regmap prototypes
+have changed. The patch is rebased do to changes in the new version of the
+Makefile.
 
-On Thursday 30 April 2015 12:16:06 Markus Lehtonen wrote:
-> This patchset tries to improve handling of local source files (i.e. file://
-> in SRC_URI). First, it improves packages for which S=WORKDIR (that possibly
-> only have local sources. Second, it makes local sources available in the
-> srctree for all packages.
-> 
-> See yocto bug #7602
+[YOCTO #7737]
 
-I've finally looked at these, apologies for the delay. Some comments:
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch | 31 +++++++++++++---------
+ ...tng-modules_2.6.0.bb => lttng-modules_2.6.1.bb} |  2 +-
+ 2 files changed, 19 insertions(+), 14 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.6.0.bb => lttng-modules_2.6.1.bb} (96%)
 
-* I don't think we really want the local files to become part of the git 
-repository by default - they shouldn't be committed. Once users have finished 
-with devtool, we want them to be able to push the source tree to their own 
-repo and point to that within the recipe, whilst keeping the local files next 
-to the recipe. 
-
-* This implies that new files added to the local files dir when we do devtool 
-update-recipe should not be added as a patch, they should be copied next to 
-the recipe and added to SRC_URI. I'm more than happy for us to implement this 
-separately as a follow-up (i.e. we could start by not handling adding files to 
-the local files directory at all.)
-
-* The local-files directory needs to be named specific to OE - "oe-local-files" 
-would be ideal. If we could have one place in the code where this was defined 
-that would be ideal as well (maybe at some point we'd allow it to be 
-configured).
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+index bbfa38a..ccc6c54 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
++++ b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+@@ -7,41 +7,46 @@ build and install lttng-modules, we do this replacement for
+ it as-is.
+ 
+ Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
++[sgw - rebased for 2.6.1]
++Signed-off-by: Saul wold <sgw@linux.intel.com>
+ 
+ Index: git/Makefile
+ ===================================================================
+ --- git.orig/Makefile
+ +++ git/Makefile
+-@@ -62,19 +62,19 @@ obj-m += lib/
++@@ -68,19 +68,19 @@ obj-m += lib/
+  endif # CONFIG_TRACEPOINTS
+  
+  else # KERNELRELEASE
+ -	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
++-	PWD := $(shell pwd)
++-	CFLAGS = $(EXTCFLAGS)
++-
+ +	KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+- 	PWD := $(shell pwd)
+- 	CFLAGS = $(EXTCFLAGS)
+- 
+++ 	PWD := $(shell pwd)
+++ 	CFLAGS = $(EXTCFLAGS)
+++ 
+  default:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
++-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
+  
+  modules_install:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
++-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
+  
+  clean:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
++-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
+  
+  %.i: %.c
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) $@
++-	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) $@
+++	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) $@
+  endif # KERNELRELEASE
+ Index: git/probes/Makefile
+ ===================================================================
+ --- git.orig/probes/Makefile
+ +++ git/probes/Makefile
+-@@ -231,18 +231,18 @@ endif
++@@ -267,18 +267,18 @@ endif
+  endif
+  
+  else
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
+similarity index 96%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
+index 4cf01ca..9c08e9c 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.6.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
+@@ -11,7 +11,7 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
+ 
+ inherit module
+ 
+-SRCREV = "1b2a5429de815c95643df2eadf91253909708728"
++SRCREV = "62080b2248fd8ec4111ffc379d0bc5eaf0a5c16d"
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
+ 
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
