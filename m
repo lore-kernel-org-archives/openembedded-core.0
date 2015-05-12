@@ -1,41 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA8373FE4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A78D74028
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:47:44 +0000 (UTC)
-Received: by widdi4 with SMTP id di4so157441332wid.0
+	Tue, 12 May 2015 14:54:23 +0000 (UTC)
+Received: by qcyk17 with SMTP id k17so5653193qcy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=0Ey9/zpnGUy9lxOL9SOVkg01VWuPe2HZ0JdcDHDYpCU=;
-	b=EN7y2h5jEHhWaskR0StdHc/SkghDz317bGZ5a7FziLQFZB34zn1I9efl2qJ7I0flIE
-	jcDfa74LctTtoxdiV0YcVyCeSZe69f74/WF5VVxHd64KJkY0/Xcc6et3VVN5tas1kbHj
-	U3nUvmwd7XwqeECB6xY4+e2e2tqmm7t0z0B1CsNqM4V19q5XAAkCJvhD7fL+KMD+dAdZ
-	+f4WZ2FjOSRBkrUskLigYZ2z2hJWWIMOEJtYzoGPgVV2btfg0/hxmYKNmJEC4Wc57dpe
-	KrQDZZwThLf54oORba6m7AKV5MSoYvKrCur2prMh9uW7t+AG2w44Do4LbrLPh5jX5dMi
-	0LmA==
-X-Received: by 10.194.62.132 with SMTP id y4mr31028926wjr.91.1431442065088;
-	Tue, 12 May 2015 07:47:45 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id js3sm28100088wjc.5.2015.05.12.07.47.44
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 May 2015 07:47:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 12 May 2015 16:47:49 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150512144749.GD2714@jama>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>
+	Tue, 12 May 2015 07:54:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WU1QX0Pn8Noo0eIciNJ0FHq5IVdVj6Iydd/dFsxtLrE=;
+	b=S/2zgBkXXUmfe2Aez8o/FTwVEwqwGUPr1N4JBbXpm+sLEhtcY/PZXkhfRVH9zSjIhs
+	+N53xqqzu4BOu4Xics6s/Bwy7PuSWkxPNxpiDzkb1Z9AFFgQLVl6TRoirk5K2NpjaLhY
+	GHDdChtUT/8fO1I6aN32zkD9/o2jnDGQxwohsfRMuSP1wsCeP7eNhb1LypjI6c814BCe
+	2etcjbPHQLC1a8c9lLiWWmseMwErfh0FTBiMQmtmJuaf9Tpe2cGZKZLhAGUAn6VXfb3y
+	2/ppYEBCD0S0AQFr0VDMsd7QAfPgpBoqS9XLxDyKf6lO9C3lklIX+WVSQnO4JeIbLykj
+	hKyg==
+X-Gm-Message-State: ALoCoQm/Jfk9Z4Na0wmtpFGTaL1FfgDsibFgxrgqAgEEK0MOvHqEzo7RQkAUfQtMqXgsGWyT/kGX
+X-Received: by 10.140.235.77 with SMTP id g74mr21534163qhc.64.1431442464757;
+	Tue, 12 May 2015 07:54:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:54:04 -0700 (PDT)
+In-Reply-To: <5551DA96.2090006@ADLINKtech.com>
+References: <5540CCFD.1050604@ADLINKtech.com> <5551DA96.2090006@ADLINKtech.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 May 2015 15:54:04 +0100
+Message-ID: <CAJTo0LbFN9Dh0uf5s3mBJ_yVybYdLF_w5eqiJvpvnx4WgrhQAg@mail.gmail.com>
+To: Jens Rottmann <Jens.Rottmann@adlinktech.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+Subject: Re: [PATCH 2nd resend] powertop: Fix build for !uclibc - kindly respond
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,30 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:47:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 May 2015 14:54:25 -0000
+Content-Type: multipart/alternative; boundary=001a11354a00a1068a0515e3ab2d
+
+--001a11354a00a1068a0515e3ab2d
+Content-Type: text/plain; charset=UTF-8
+
+On 12 May 2015 at 11:48, Jens Rottmann <Jens.Rottmann@adlinktech.com> wrote:
+
+> Is there anything else I should do, any additional information I need to
+> provide, anything I did wrong? Kindly respond.
+>
+
+If a patch is for a release branch, it's best to add eg [daisy] to the
+subject line so that it gets noticed.
+
+Ross
+
+--001a11354a00a1068a0515e3ab2d
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
-> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.co=
-m>
-> wrote:
->=20
-> > Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
-> > little to run necessary applications. Add a new arm configuration based
-> > on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
-> >
->=20
-> Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
-> Why not just change the qemuarm machine to use the A9?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 May 2015 at 11:48, Jens Rottmann <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:Jens.Rottmann@adlinktech.com" target=3D"_blank">Jens.Rottmann@adlinktec=
+h.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4=
+qq" class=3D"a3s" style=3D"overflow:hidden">Is there anything else I should=
+ do, any additional information I need to provide, anything I did wrong? Ki=
+ndly respond.<br></div></blockquote></div><br>If a patch is for a release b=
+ranch, it&#39;s best to add eg [daisy] to the subject line so that it gets =
+noticed.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-Then we should officially drop thumb1 support, because current qemuarm
-builds are quite broken when thumb is enabled and dropping current
-qemuarm or replacing it with A9 variant will prevent oe-core to be
-testable on autobuilder. See
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7717
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
+--001a11354a00a1068a0515e3ab2d--
