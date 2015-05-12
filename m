@@ -1,50 +1,27 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 5211373F4E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA2F73F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 09:12:41 +0000 (UTC)
-Received: by laat2 with SMTP id t2so742057laa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 02:12:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=WrV62Apl8oufZ9b4VKzCQ+er87UV4XsubpBuoxXbXJM=;
-	b=JJ2B3roq3vYJFmN45R74rQkgeLMllMVBI8GN+WlJ01yeOhlwIJFCtOW0wdT/R5Wcrm
-	WTzURWNkS/NG/ag8rgHVqZHKbssavEOT3r6lUqG1dQdNaQEINCNPnj40YIxt1Cjx+nrm
-	Kjddh3fy1bbgKE8EUZhDSeFdLQkeTJBjfGzZYAIqDGrYEKruiWIWGChjuvwBHrhQN7En
-	yJHoCs8w+nA2AqcPb3AYuNu5elzLcEH2dztXL2HkucEhKN3onpBuFHjOP21tRRzHWpnq
-	8MD2iEMPbdr5ocOYLIEQfEP4x03L6qZ1pVI9gAC3Vl2W3SP8I+qFy78o+4msB8yW4+cq
-	1m8Q==
-X-Gm-Message-State: ALoCoQlvainN/doEu1Sio3br40i9QCSTky9sZWzzLUwx5wHhOwVvOsb1JakQlrHyJyWs4iwiWmd+
-X-Received: by 10.112.17.68 with SMTP id m4mr11430369lbd.10.1431421961928;
-	Tue, 12 May 2015 02:12:41 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id do6sm3651153lac.19.2015.05.12.02.12.41
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 May 2015 02:12:41 -0700 (PDT)
-Date: Tue, 12 May 2015 11:12:38 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>
-Message-ID: <20150512091238.GA8861@ad.chargestorm.se>
-Mail-Followup-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1431367371-7716-1-git-send-email-bruno.bottazzini@intel.com>
-	<1431367371-7716-4-git-send-email-bruno.bottazzini@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1431367371-7716-4-git-send-email-bruno.bottazzini@intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V4 3/3] systemd: split modules into packages
+	Tue, 12 May 2015 12:03:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4CC34as032358; Tue, 12 May 2015 13:03:04 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bmS970gb35w9; Tue, 12 May 2015 13:03:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4CC2nBo032351
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 12 May 2015 13:03:00 +0100
+Message-ID: <1431432169.30971.126.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, Khem Raj
+	<raj.khem@gmail.com>
+Date: Tue, 12 May 2015 13:02:49 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] gcc5: Add back g++ sysroot patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 09:12:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 May 2015 12:03:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Bruno Bottazzini <bruno.bottazzini@intel.com> [150511 20:03]:
+Without this, g++/c++ compilation doesn't work on target due to missing
+header files. Automated sanity tests fail. Add back the gcc4 patch to
+address this.
 
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6ed4fe0..e83601f 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -19,7 +19,18 @@ PROVIDES = "udev"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
->  PE = "1"
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1.inc b/meta/recipes-devtools/gcc/gcc-5.1.inc
+index 305736b..1d64f9e 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.1.inc
+@@ -69,6 +69,7 @@ SRC_URI = "\
+            file://0035-Dont-link-the-plugins-with-libgomp-explicitly.patch \
+            file://0036-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+            file://0037-pr65779.patch \
++           file://0038-fix-g++-sysroot.patch \
+           "
+ 
+ #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${SNAP}"
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1/0038-fix-g++-sysroot.patch b/meta/recipes-devtools/gcc/gcc-5.1/0038-fix-g++-sysroot.patch
+new file mode 100644
+index 0000000..f024dd5
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.1/0038-fix-g++-sysroot.patch
+@@ -0,0 +1,44 @@
++Portions of
++
++http://www.mail-archive.com/gcc-patches@gcc.gnu.org/msg26013.html
++
++are not upstreamed yet. So lets keep missing pieces.
++
++Upstream-Status: Pending
++
++Without this, compiling something simple like #include <limits> on target
++with c++ test.cpp fails unable to find the header. strace shows it looking in
++usr/include/xxxx rather than /usr/include/xxxx
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: gcc-4.8.1/gcc/configure.ac
++===================================================================
++--- gcc-4.8.1.orig/gcc/configure.ac	2013-07-15 15:55:49.488399132 -0700
+++++ gcc-4.8.1/gcc/configure.ac	2013-07-15 16:02:31.772406679 -0700
++@@ -148,7 +148,9 @@
++ if test "${with_sysroot+set}" = set; then
++   gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
++   if test "${gcc_gxx_without_sysroot}"; then
++-    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    if test x${with_sysroot} != x/; then
+++      gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    fi
++     gcc_gxx_include_dir_add_sysroot=1
++   fi
++ fi
++Index: gcc-4.8.1/gcc/configure
++===================================================================
++--- gcc-4.8.1.orig/gcc/configure	2013-07-15 15:55:49.472399132 -0700
+++++ gcc-4.8.1/gcc/configure	2013-07-15 16:02:31.780406680 -0700
++@@ -3325,7 +3325,9 @@
++ if test "${with_sysroot+set}" = set; then
++   gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
++   if test "${gcc_gxx_without_sysroot}"; then
++-    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    if test x${with_sysroot} != x/; then
+++      gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    fi
++     gcc_gxx_include_dir_add_sysroot=1
++   fi
++ fi
 
-> -DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
-> +DEPENDS = "intltool-native \
-> +           gperf-native \
-> +           readline \
-> +           libcgroup \
-> +           libcap \
-> +           qemu-native \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'dbus', '', d)} \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'kmod', 'kmod', '', d)} \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'docbook-sgml-dtd-4.1-native', '', d)} \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'acl', '', d)} \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'glib', 'glib-2.0', '', d)} \
-> +           ${@bb.utils.contains('PACKAGECONFIG', 'blkid', 'util-linux', '', d)}"
 
-These lines should be removed. The 3rd parameter in the PACKAGECONFIG[]
-definitions below, do automatically get added to DEPENDS if the
-respective PACKAGECONFIG is enabled. Thus, you don't need to check for
-it yourself in DEPENDS.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
