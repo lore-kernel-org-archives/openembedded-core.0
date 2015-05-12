@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8497460138
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6745473F5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:28:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4C7SC5Z013969; Tue, 12 May 2015 08:28:12 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fz0QVRuJSi89; Tue, 12 May 2015 08:28:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4C7S02v013960
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 May 2015 08:28:11 +0100
-Message-ID: <1431415680.30971.114.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 May 2015 08:28:00 +0100
-In-Reply-To: <CAMKF1srBkzXSiVyo27LbF0TYb6AjxB_Z++no3QyJ9VJwJHFFWw@mail.gmail.com>
-References: <1431363297.30971.76.camel@linuxfoundation.org>
-	<5551395B.60503@gmail.com>
-	<CAMKF1srBkzXSiVyo27LbF0TYb6AjxB_Z++no3QyJ9VJwJHFFWw@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc5: Add PR65779 patch to fix powerpc compile issues
+	Tue, 12 May 2015 07:42:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C7gfJ4020356
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 May 2015 00:42:41 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 12 May 2015 00:42:41 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 May 2015 15:38:09 +0800
+Message-ID: <1431416289-617-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] elfutils: Disable the unnecessary check in iconv.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 07:28:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 May 2015 07:42:41 -0000
+Content-Type: text/plain
 
-On Mon, 2015-05-11 at 17:24 -0700, Khem Raj wrote:
-> On Mon, May 11, 2015 at 4:20 PM, akuster808 <akuster808@gmail.com> wrote:
-> >
-> >
-> > On 05/11/2015 09:54 AM, Richard Purdie wrote:
-> >>
-> >> This fixes compile issues on powerpc with gcc 5 which show up with
-> >> errors like:
-> >>
-> >> | make[2]: Entering directory
-> >> '/media/build1/poky/build/tmp/work/ppc7400-poky-linux/xprop/1_1.2.2-r0/build'
-> >> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
-> >> --sysroot=/media/build1/poky/build/tmp/sysroots/qemuppc -Wall
-> >> -Wpointer-arith -Wmissing-declarations -Wformat=2 -Wstrict-prototypes
-> >> -Wmissing-prototypes -Wnested-externs -Wbad-function-cast
-> >> -Wold-style-definition -Wdeclaration-after-statement -Wunused
-> >> -Wuninitialized -Wshadow -Wmissing-noreturn -Wmissing-format-attribute
-> >> -Wredundant-decls -Wlogical-op -Werror=implicit -Werror=nonnull
-> >> -Werror=init-self -Werror=main -Werror=missing-braces -Werror=sequence-point
-> >> -Werror=return-type -Werror=trigraphs -Werror=array-bounds
-> >> -Werror=write-strings -Werror=address -Werror=int-to-pointer-cast
-> >> -Werror=pointer-to-int-cast -fno-strict-aliasing  -O2 -pipe -g
-> >> -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> >> -o xprop dsimple.o clientwin.o xprop.o -lX11
-> >> | /media/build1/poky/build/tmp/sysroots/qemuppc/usr/lib/../lib/libX11.so:
-> >> undefined reference to `.LCL2'
-> >> | collect2: error: ld returned 1 exit status
-> >>
-> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> >
-> > Acked-by: Armin Kuster <Akuster808@gmail.com>
-> >
-> >
-> > this fixes all but one package(lzop) failure on qemuppc base yocto world
-> > build.
-> >
-> 
-> I am fine witj this patch for now, since we are mostly build testing,
-> we have to keep in mind
-> its a codegen bug and can bite us at runtime. I am just hoping for an
-> update to this patch and that will eliminate
-> that doubt.
+From: Roy Li <rongqing.li@windriver.com>
 
-Agreed, an update upstream would obviously help. FWIW the automated
-runtime tests did look reasonable on the autobuilder apart from:
+Disable the test "Test against HP-UX 11.11 bug: No converter from EUC-JP
+to UTF-8 is provided" since we don't support HP-UX and if the euc-jp is
+not installed on the host, the dependence will be built without iconv
+support and will cause guild-native building fail.
 
-core-image-sato-sdk has a problem with the C++ toolchain not finding
-limits (all arches).
+The patch is similar as 0470bd7a9658d3[libunistring: remove the test to
+convert euc-jp in configure]
 
-qemuarm is not booting (minimal, sato or sato-sdk).
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../0001-remove-the-unneed-checking.patch          | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.161.bb   |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
 
-However these issues were present before the patch so I don't think its
-related.
-
-Since the failures list is better with the patch I'll merge it until
-something better comes along.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
+new file mode 100644
+index 0000000..5be92d7
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.161/0001-remove-the-unneed-checking.patch
+@@ -0,0 +1,38 @@
++Disable the test to convert euc-jp
++
++Remove the test "Test against HP-UX 11.11 bug:
++No converter from EUC-JP to UTF-8 is provided"
++since we don't support HP-UX and if the euc-jp is not
++installed on the host, the dependence will be built without
++iconv support and will cause guild-native building fail.
++
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ m4/iconv.m4 | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/m4/iconv.m4 b/m4/iconv.m4
++index a503646..299f1eb 100644
++--- a/m4/iconv.m4
+++++ b/m4/iconv.m4
++@@ -159,6 +159,7 @@ int main ()
++       }
++   }
++ #endif
+++#if 0
++   /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
++      provided.  */
++   if (/* Try standardized names.  */
++@@ -170,6 +171,7 @@ int main ()
++       /* Try HP-UX names.  */
++       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
++     result |= 16;
+++#endif
++   return result;
++ }]])],
++         [am_cv_func_iconv_works=yes],
++-- 
++2.0.1
++
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.161.bb b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
+index e111b34..70a3c16 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.161.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.161.bb
+@@ -17,6 +17,7 @@ SRC_URI += "\
+         file://fixheadercheck.patch \
+         file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
+         file://0001-libelf-Fix-dir-traversal-vuln-in-ar-extraction.patch \
++        file://0001-remove-the-unneed-checking.patch \
+ "
+ 
+ # pick the patch from debian
+-- 
+1.9.1
 
 
