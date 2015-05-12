@@ -1,44 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B2A0374028
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AED373FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 16:11:12 +0000 (UTC)
-Received: by pdbqd1 with SMTP id qd1so18114919pdb.2
+	Tue, 12 May 2015 16:17:45 +0000 (UTC)
+Received: by pabsx10 with SMTP id sx10so17775258pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 09:11:13 -0700 (PDT)
+	Tue, 12 May 2015 09:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=f50QraH3ePaXp+wXCGgbrmV8vuT0JWBQ12yl/YTS2Ao=;
-	b=dEXKI5aU5xqyjvashgWxRZl6nIj74gC5AAf+EMsuWRiBRODp++7q3teZSGJO61F9h+
-	AcweIFBQP+XWXL1Yjo9kfpg2u3nUlVPz64GynylLPk9mdbI7aLaUvuZdytNKhFkChNWR
-	VWBZKTBu8HcScce55CvKSzjyw4n3HniVC02qH/dKXrOYEaZp5EHNZlR2PJz8jzsUjqBT
-	UEht/23Ecf2PJYRI1xQbdpAy8FSaMZ8deHHKQYgSS+ntf3D/PnLNsI8OPBImjEjcNm21
-	lnVFgJxliGNgk1pXg7hX6ZJ/SY4j2H2hItJs34LyYqHaTUrT6lViWLbHc0xAEAgfywn5
-	dZ3g==
-X-Received: by 10.68.233.71 with SMTP id tu7mr29538244pbc.14.1431447073896;
-	Tue, 12 May 2015 09:11:13 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:ccd0:4222:99ed:8bcf?
-	([2601:9:3580:84c:ccd0:4222:99ed:8bcf])
-	by mx.google.com with ESMTPSA id
-	fk4sm16643803pbb.80.2015.05.12.09.11.12
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 May 2015 09:11:12 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAP9ODKocHho1K+zDbnEVsM5Lq_wFhJD59cD6o0c2R_99oZrmjQ@mail.gmail.com>
-Date: Tue, 12 May 2015 09:11:11 -0700
-Message-Id: <DEB17712-9E30-4E5E-9591-88D8C90D1A01@gmail.com>
-References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
-	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
-	<1431295383.30971.25.camel@linuxfoundation.org>
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=Yptk/gzrMQuYPjHIULQI35xknHxpN5L2celsNFX9OGo=;
+	b=UoNNLrr1jZai3MTCem1FsHfbZ5dLxCdflafuiaUB6PIR1aLXGXqQrt9qxTjo/HIW1a
+	KWonNKvWakTaCw8BHa/CPgvHlDtwaihbSE2PU43zgjkkAqpZJeGm0uXDjwuvhNy2sJ7F
+	1X5DlSsXYApwhzlhEv9KhCfvJehLXcPdtbj3MKuZ4udk2s1xzLCsHh+72JrFa1nDuQwY
+	NQIi4OoUNJdslrXlk93PT6/f6HjzPARPNuh18IaU6mIwmWLBMxV/AX6ttcW6KDdDrNbb
+	gOZN5hwj0fyqfBlYKH8iDIAtgWifTy16VsTnZAh90d5o4pZkht/y6s27HWodjKbEx1Du
+	C2mA==
+X-Received: by 10.66.141.202 with SMTP id rq10mr30041495pab.64.1431447467491; 
+	Tue, 12 May 2015 09:17:47 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:7c79:332d:8dea:73b5?
+	([2601:c:a700:3ba7:7c79:332d:8dea:73b5])
+	by mx.google.com with ESMTPSA id v7sm16688243pde.81.2015.05.12.09.17.45
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 May 2015 09:17:46 -0700 (PDT)
+Message-ID: <555227A8.8040309@gmail.com>
+Date: Tue, 12 May 2015 09:17:44 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Khem Raj <raj.khem@gmail.com>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>	<1431295383.30971.25.camel@linuxfoundation.org>
 	<1431414393.30971.109.camel@linuxfoundation.org>
-	<CAP9ODKocHho1K+zDbnEVsM5Lq_wFhJD59cD6o0c2R_99oZrmjQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Mailer: Apple Mail (2.2098)
-Cc: Richard Schmitt <richard.schmitt@freescale.com>,
+In-Reply-To: <1431414393.30971.109.camel@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] rpm: fix build issue with gcc5
@@ -54,60 +51,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 16:11:13 -0000
-X-Groupsio-MsgNum: 65460
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FA444A6E-AA68-4532-9247-9DDCD763783A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_FA444A6E-AA68-4532-9247-9DDCD763783A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On May 12, 2015, at 7:57 AM, Otavio Salvador <otavio@ossystems.com.br> =
-wrote:
->=20
-> On Tue, May 12, 2015 at 4:06 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Sun, 2015-05-10 at 23:03 +0100, Richard Purdie wrote:
-> ...
->> Otavio: Could you see what our options are with meta-fsl-ppc and
->> metafsl-arm?
->=20
-> Yes. I foresee some challenges especially the old kernels.
->=20
-> fsl-arm has 2.6.35 for some platforms and fsl-ppc has 3.12.
-
-Most of gcc5 issues are already addressed in kernel upstream so it might =
-be that you need few back ports.
-but going back to 2.6.x might be daunting. There might be a lot to deal =
-with
-
->=20
-> I am adding FSL people to also take a look on these failures.
->=20
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
-
---Apple-Mail=_FA444A6E-AA68-4532-9247-9DDCD763783A
+X-List-Received-Date: Tue, 12 May 2015 16:17:46 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlVSJh8ACgkQuwUzVZGdMxQ3fACdFMtOS8++bm/0B8aQ+6Q7dR3S
-MUsAn38PENBozgEO1V0+jDBVBKpg5DtJ
-=13Cp
------END PGP SIGNATURE-----
 
---Apple-Mail=_FA444A6E-AA68-4532-9247-9DDCD763783A--
+On 05/12/2015 12:06 AM, Richard Purdie wrote:
+> On Sun, 2015-05-10 at 23:03 +0100, Richard Purdie wrote:
+>> On Sun, 2015-05-10 at 09:15 -0700, Khem Raj wrote:
+>>> On Sun, May 10, 2015 at 7:28 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>>>> | tset.o:(.debug_loc+0xe8): undefined reference to `.LCL0'
+>>>> | tset.o:(.debug_loc+0xf7): undefined reference to `.LCL0'
+>>>>
+>>>> thanks Khem
+>>>>
+>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>>> ---
+>>>>   meta/recipes-devtools/rpm/rpm_5.4.14.bb | 3 +++
+>>>>   1 file changed, 3 insertions(+)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>>>> index 03a24f0..22b111a 100644
+>>>> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>>>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>>>> @@ -110,6 +110,9 @@ inherit autotools gettext
+>>>>
+>>>>   acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
+>>>>
+>>>> +FULL_OPTIMIZATION_powerpc_remove = "-O2"
+>>>> +FULL_OPTIMIZATION_append_powerpc = " -Os "
+>>>> +
+>>>
+>>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=741d3bf91144973d26de647039fa60b87a09edf1
+>>> fixes same issue for libx11
+>>>
+>>> I am wondering if we should make this change in some common config
+>>> metadata file to list all recipes that need this workaround
+>>> untill gcc is fixed for it may be arch-powerpc.inc, since then it will
+>>> be easy to remember to unbolt them once gcc is fixed.
+>>
+>> I like the idea of a common include to handle this a lot better.
+>>
+>> FWIW, I tried gcc 5 on the autobuilder. The results were 141 failures so
+>> far:
+>>
+>> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150
+>
+> With the gcc patch I've posted applied:
+>
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=5fd0b7c163f4f3312bea9bd3246a6bd67a8da594&limit=100
+>
+> so down to 57 errors. There are a few themes:
+>
+> * linux-yocto 3.14 gcc5 issues
+> * meta-fsl-ppc and metafsl-arm gcc5 issues, particularly kernel
+> * poky-lsb issues with the security flags and gcc5
+> * x32 failed with a race of some kind in glibc, suspect transient
+> * gcc-target has a packaging issue which fails builds (have patch)
+>
+> The good news is that the various ppc issues are fixed including the rpm
+> one from this series.
+>
+
+Have you tried arm64?
+
+kernel did not build ( as of last week) and I have not yet tried the 
+kernel patches Khem pointed out.
+
+- armin
+
+> Ross: The backports we were looking at are for warnings, not errors on
+> the most part.
+>
+> Otavio: Could you see what our options are with meta-fsl-ppc and
+> metafsl-arm?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
