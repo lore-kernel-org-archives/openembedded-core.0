@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 3713B73F4E
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2200B7402B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:20:40 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so6416356qkg.1
+	Tue, 12 May 2015 14:21:19 +0000 (UTC)
+Received: by qcvo8 with SMTP id o8so5016146qcv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:20:42 -0700 (PDT)
+	Tue, 12 May 2015 07:21:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=yo5c/EmjROkFjU0tMkOyeaYHeV5UlIvgVFc3R0H+g/8=;
-	b=ZZI+5u7V7OgNgo3C/y0PO03HaaIfV3GTq6ArtigbiF1ukEzqnJzNucNt/lyg42kwrp
-	Psq2GN+W/W1kakK+6jMzd7hcZT0llRmdjgdfco1Wdc+q0Aolj2zQhJ2MYi3EbTWWdr/E
-	TZxSgHn9wdxq4PrDF8CA/tjLSsCXS849GyJvEBwxsQqJg3leCK1ejomqzW0uKhmnzDR3
-	xgUbRSCOWXACn5C7INyspV86usuqhvKEaKm4U51+Sh3726ovFb6ASm11hWeK4TadOyA2
-	qFiffFupzWEqfUaduORPI2vrtVcWmv6O21k6Alq44qeqMQliHwANv+nc3agJCTm1GUeD
-	7Fug==
-X-Gm-Message-State: ALoCoQlVVfdNwfxAW2grbwIH/54SqUMdLrvsMLnFoyhJk2Cd/UzV9WsoVSasoh+i/Yrj07xIMRms
-X-Received: by 10.55.23.16 with SMTP id i16mr33655691qkh.14.1431440442062;
-	Tue, 12 May 2015 07:20:42 -0700 (PDT)
+	bh=WOguHsA+Q3p0eS5xcg7xFX7lC7P6zi+nuMDAJGefUVI=;
+	b=UWzDxVZYdukFL+DTNbzpP7sLq+Kqf/v7ykpHfMUnpA84U1icn8E9IZDURRkB5Bef6w
+	utEbjA3VTOhcjxOzXEfFYgX2WdEBu/mXxrRqY96dDwvXBR6Uba7wIc9j8pXGv0iud8ui
+	LjO1hMcc8OXNUjIaJtcdc9v2oofKp4ot3FC1egRTVURaCwZBzIVH7cGFx6W7dFurOohv
+	bmHHjAtHl/TsAYqTG2+zUKqh3MeafiH/25ZV+RcolM1ksv03c1+Sl+dvyCyMTnC/7qEE
+	846n4+QjMnVJzUIaKiJL6TZJsN0xIk+pMSHvPXr9YFIgWnCPl4EPxgxlRJYTUsA4OkMF
+	tGHQ==
+X-Gm-Message-State: ALoCoQlx59IwMgW82GtCNbQlnhug4B/5Z3TwxHjI/zbAGbJqEyYJFHP76I3nGGYKz3NRdxuLMRnq
+X-Received: by 10.140.235.77 with SMTP id g74mr21328261qhc.64.1431440481138;
+	Tue, 12 May 2015 07:21:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:20:21 -0700 (PDT)
-In-Reply-To: <1431373895-32411-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1431373895-32411-1-git-send-email-dmitry_eremin@mentor.com>
+Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:21:00 -0700 (PDT)
+In-Reply-To: <55516887.5080908@windriver.com>
+References: <cover.1431333085.git.liezhi.yang@windriver.com>
+	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+	<55516887.5080908@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 May 2015 15:20:21 +0100
-Message-ID: <CAJTo0Lb-FN8QKyO5W17z6r4FoTsLF-TETgVhEWnHUDmftrG2+g@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Date: Tue, 12 May 2015 15:21:00 +0100
+Message-ID: <CAJTo0LYsOyP27CHxMvy87fgU=+YhMREtfbodMSv4o+C4jgh1_g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd.bbclass: drop has_exactly_one_service setting
+Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:20:43 -0000
-Content-Type: multipart/alternative; boundary=001a1146f4ba110ccf0515e33335
+X-List-Received-Date: Tue, 12 May 2015 14:21:21 -0000
+Content-Type: multipart/alternative; boundary=001a11354a0065517d0515e335d4
 
---001a1146f4ba110ccf0515e33335
+--001a11354a0065517d0515e335d4
 Content-Type: text/plain; charset=UTF-8
 
-On 11 May 2015 at 20:51, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-wrote:
+On 12 May 2015 at 03:42, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> The has_exactly_one_service variable was used in now deleted code. Drop
-> this part to make code cleaner.
+> Thanks, updated it in the repo:
 >
 
-Really thought I fixed this a few months ago... obviously not!
+Please check with a clean sysroot:
+
+| checking for XWAYLANDMODULES... no
+| checking whether to build Xwayland DDX... yes
+| configure: error: Xwayland build explicitly requested, but required
+modules not found.
 
 Ross
 
---001a1146f4ba110ccf0515e33335
+--001a11354a0065517d0515e335d4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 May 2015 at 20:51, Dmitry Eremin-Solenikov <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:dmitry_eremin@mentor.com" target=3D"_blank">dmitry_eremin@men=
-tor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:435" class=3D"a3s" style=3D"overflow:hidden">The has_exactly_one_service v=
-ariable was used in now deleted code. Drop<br>
-this part to make code cleaner.<br></div></blockquote></div><br>Really thou=
-ght I fixed this a few months ago... obviously not!</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 12 May 2015 at 03:42, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
+rder-left-style:solid;padding-left:1ex"><div id=3D":4xj" class=3D"" style=
+=3D"overflow:hidden">Thanks, updated it in the repo:<br></div></blockquote>=
+</div><div class=3D"gmail_extra"><br></div>Please check with a clean sysroo=
+t:</div><div class=3D"gmail_extra"><br><div class=3D"gmail_extra">| checkin=
+g for XWAYLANDMODULES... no</div><div class=3D"gmail_extra">| checking whet=
+her to build Xwayland DDX... yes</div><div class=3D"gmail_extra">| configur=
+e: error: Xwayland build explicitly requested, but required modules not fou=
+nd.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div></div>
 
---001a1146f4ba110ccf0515e33335--
+--001a11354a0065517d0515e335d4--
