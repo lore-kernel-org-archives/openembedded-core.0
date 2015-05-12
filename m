@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 86E7073F4E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3713B73F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:15:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 12 May 2015 07:15:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,415,1427785200"; d="scan'208";a="708996580"
-Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2015 07:15:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 May 2015 15:15:45 +0100
-Message-ID: <59645923.jaN1ZMuDDz@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <201505042341.47651.marex@denx.de>
-References: <1430239116-7671-1-git-send-email-marex@denx.de>
-	<201504282316.17774.marex@denx.de>
-	<201505042341.47651.marex@denx.de>
+	Tue, 12 May 2015 14:20:40 +0000 (UTC)
+Received: by qkgx75 with SMTP id x75so6416356qkg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 May 2015 07:20:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=yo5c/EmjROkFjU0tMkOyeaYHeV5UlIvgVFc3R0H+g/8=;
+	b=ZZI+5u7V7OgNgo3C/y0PO03HaaIfV3GTq6ArtigbiF1ukEzqnJzNucNt/lyg42kwrp
+	Psq2GN+W/W1kakK+6jMzd7hcZT0llRmdjgdfco1Wdc+q0Aolj2zQhJ2MYi3EbTWWdr/E
+	TZxSgHn9wdxq4PrDF8CA/tjLSsCXS849GyJvEBwxsQqJg3leCK1ejomqzW0uKhmnzDR3
+	xgUbRSCOWXACn5C7INyspV86usuqhvKEaKm4U51+Sh3726ovFb6ASm11hWeK4TadOyA2
+	qFiffFupzWEqfUaduORPI2vrtVcWmv6O21k6Alq44qeqMQliHwANv+nc3agJCTm1GUeD
+	7Fug==
+X-Gm-Message-State: ALoCoQlVVfdNwfxAW2grbwIH/54SqUMdLrvsMLnFoyhJk2Cd/UzV9WsoVSasoh+i/Yrj07xIMRms
+X-Received: by 10.55.23.16 with SMTP id i16mr33655691qkh.14.1431440442062;
+	Tue, 12 May 2015 07:20:42 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
+Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:20:21 -0700 (PDT)
+In-Reply-To: <1431373895-32411-1-git-send-email-dmitry_eremin@mentor.com>
+References: <1431373895-32411-1-git-send-email-dmitry_eremin@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 May 2015 15:20:21 +0100
+Message-ID: <CAJTo0Lb-FN8QKyO5W17z6r4FoTsLF-TETgVhEWnHUDmftrG2+g@mail.gmail.com>
+To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd.bbclass: drop has_exactly_one_service setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,90 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:15:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 May 2015 14:20:43 -0000
+Content-Type: multipart/alternative; boundary=001a1146f4ba110ccf0515e33335
 
-On Monday 04 May 2015 23:41:47 Marek Vasut wrote:
-> On Tuesday, April 28, 2015 at 11:16:17 PM, Marek Vasut wrote:
-> > On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
-> > > On 2015-04-28 12:38 PM, Marek Vasut wrote:
-> > > > Pull the uImage image format generation from kernel.bbclass into
-> > > > a separate kernel-uimage.bbclass. The recipes which now need to
-> > > > generate an uImage will have to inherit kernel-uimage instead of
-> > > > kernel class.
-> > > > 
-> > > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Cc: Koen Kooi <koen@dominion.thruhere.net>
-> > > > Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > > > Cc: Ross Burton <ross.burton@intel.com>
-> > > > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > > > ---
-> > > > 
-> > > >   meta/classes/kernel-uimage.bbclass | 48
-> > > >   +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass
-> > > >   
-> > > >   | 55 +++++++------------------------------- 2 files changed, 58
-> > > >   
-> > > >   insertions(+), 45 deletions(-)
-> > > >   create mode 100644 meta/classes/kernel-uimage.bbclass
-> > > > 
-> > > > NOTE: The "inherit kernel-uimage" in kernel.bbclass should be changed
-> > > > to
-> > > > 
-> > > >        something like "inherit kernel-${@d.getVar("KERNEL_IMAGETYPE",
-> > > >        True).lower()}" but the problem is that I only want to perform
-> > > >        the inheritance for uimage and fitimage, the other image types
-> > > >        don't need to inherit any additional special stuff.
-> > > >        Paul suggested I can do "inherit <empty here>". This would at
-> > > >        least let me implement a python function which returns either
-> > > >        "kernel-uimage", "kernel-fitimage" or "" and based on that, I
-> > > >        could inherit the particular image type specifics into
-> > > >        kernel.bbclass.
-> > > >        What I don't know how to implement well is this function which
-> > > >        returns those three strings based on the KERNEL_IMAGETYPE. What
-> > > >        I would like to avoid is encoding those strings explicitly into
-> > > >        the function, since that would force each new kernel image
-> > > >        format to also edit this function in kernel.bbclass .
-> > > >        Apparently, checking whether class exists and inheriting it
-> > > >        only if it does is also not a simple task.
-> > > 
-> > > Agreed that this would be better. It would remove a lot of the checks
-> > > in the other tasks for the image type.
-> > 
-> > Hi!
-> > 
-> > Yes, that's indeed true. All the image type checks would disappear from
-> > kernel-uimage and kernel-fitimage bbclasses.
-> > 
-> > > I'm not aware of the exact details on how to make this work, but
-> > > hopefully others have the foo.
-> 
-> Any ideas please ?
+--001a1146f4ba110ccf0515e33335
+Content-Type: text/plain; charset=UTF-8
 
-To me this is about how we wish to structure these classes. That's not my 
-call, but to enumerate the options - unless I'm missing something we have to 
-choose between:
+On 11 May 2015 at 20:51, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+wrote:
 
-1) Hardcode uimage/fitimage. Hard to extend.
+> The has_exactly_one_service variable was used in now deleted code. Drop
+> this part to make code cleaner.
+>
 
-2) inherit kernel-<type> and just insist that a class for every image type 
-exists. Ugly and kernel-*.bbclass already exists.
+Really thought I fixed this a few months ago... obviously not!
 
-3) Try to search for a kernel-<type> class and inherit it if one is found. 
-AFAIK we don't do this kind of thing anywhere else so this doesn't seem right 
-to me.
+Ross
 
-4) Establish some other mechanism for registering kernel image type classes 
-(KERNEL_CLASSES ?). Not sure if we want to do this but it is at least a common 
-mechanism elsewhere in the system.
+--001a1146f4ba110ccf0515e33335
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Paul
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 May 2015 at 20:51, Dmitry Eremin-Solenikov <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:dmitry_eremin@mentor.com" target=3D"_blank">dmitry_eremin@men=
+tor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:435" class=3D"a3s" style=3D"overflow:hidden">The has_exactly_one_service v=
+ariable was used in now deleted code. Drop<br>
+this part to make code cleaner.<br></div></blockquote></div><br>Really thou=
+ght I fixed this a few months ago... obviously not!</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--001a1146f4ba110ccf0515e33335--
