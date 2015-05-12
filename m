@@ -1,36 +1,28 @@
-Return-Path: <mario.goulart@gmail.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 855506013D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 86E7073F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:03:54 +0000 (UTC)
-Received: by qkgy4 with SMTP id y4so5971363qkg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=dwB4VVWMB9cPl3IHAuFcQJ13oc9k6Ca/X0XdDvwxrgA=;
-	b=GT79qXhVxpgXjzeFV19LZC+m0VBPJ7vsk3JFyt5r32LZopn/7Cqxrgol0HpzyzsRxj
-	cycpTAqMPop7URlZY+/JvdQc60U4kdHi6I6GjemmSRnURjpNKUkVAOLaqvgCbHhQ867E
-	X63nG+/eYLVmchBmtnwAm066ETvjoA2wljAq7AA6voIx3isviARnUXaC/ADFbHagK4oh
-	S6Zclp0R5yeJhNUvlLzLt4h8Vwh/iMDuszKzgi+aQ72w3SQiZgbDm+JrTyaowmr2jyeS
-	p8ev1HX6t2ROSW66TeibenU5VVYSy2XA8I223O5taqaRJYGLnIbKi/WUoGpcVus15X9D
-	/MYA==
-X-Received: by 10.55.25.34 with SMTP id k34mr33331990qkh.12.1431439435816;
-	Tue, 12 May 2015 07:03:55 -0700 (PDT)
-Received: from mario.lab.ossystems.com.br ([177.100.224.72])
-	by mx.google.com with ESMTPSA id 93sm13249989qkx.38.2015.05.12.07.03.54
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 May 2015 07:03:55 -0700 (PDT)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
+	Tue, 12 May 2015 14:15:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 12 May 2015 07:15:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,415,1427785200"; d="scan'208";a="708996580"
+Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
+	by fmsmga001.fm.intel.com with ESMTP; 12 May 2015 07:15:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 May 2015 11:03:40 -0300
-Message-Id: <1431439420-5500-1-git-send-email-mario@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-Organization: O.S. Systems Software LTDA.
-Cc: Mario Domenech Goulart <mario@ossystems.com.br>
-Subject: [PATCH] native.bbclass: avoid unintended substring replacement when setting PROVIDES
+Date: Tue, 12 May 2015 15:15:45 +0100
+Message-ID: <59645923.jaN1ZMuDDz@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <201505042341.47651.marex@denx.de>
+References: <1430239116-7671-1-git-send-email-marex@denx.de>
+	<201504282316.17774.marex@denx.de>
+	<201505042341.47651.marex@denx.de>
+MIME-Version: 1.0
+Cc: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 4/8] kernel: Pull uImage generation into separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,54 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:03:56 -0000
+X-List-Received-Date: Tue, 12 May 2015 14:15:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The way native_virtclass_handler was implemented leaded to
-unintended substring replacements when setting PROVIDES for
-native providers, in case the original PROVIDES value contains
-providees with common substrings.
+On Monday 04 May 2015 23:41:47 Marek Vasut wrote:
+> On Tuesday, April 28, 2015 at 11:16:17 PM, Marek Vasut wrote:
+> > On Tuesday, April 28, 2015 at 08:44:54 PM, Bruce Ashfield wrote:
+> > > On 2015-04-28 12:38 PM, Marek Vasut wrote:
+> > > > Pull the uImage image format generation from kernel.bbclass into
+> > > > a separate kernel-uimage.bbclass. The recipes which now need to
+> > > > generate an uImage will have to inherit kernel-uimage instead of
+> > > > kernel class.
+> > > > 
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > Cc: Koen Kooi <koen@dominion.thruhere.net>
+> > > > Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > > > Cc: Ross Burton <ross.burton@intel.com>
+> > > > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > > > ---
+> > > > 
+> > > >   meta/classes/kernel-uimage.bbclass | 48
+> > > >   +++++++++++++++++++++++++++++++++ meta/classes/kernel.bbclass
+> > > >   
+> > > >   | 55 +++++++------------------------------- 2 files changed, 58
+> > > >   
+> > > >   insertions(+), 45 deletions(-)
+> > > >   create mode 100644 meta/classes/kernel-uimage.bbclass
+> > > > 
+> > > > NOTE: The "inherit kernel-uimage" in kernel.bbclass should be changed
+> > > > to
+> > > > 
+> > > >        something like "inherit kernel-${@d.getVar("KERNEL_IMAGETYPE",
+> > > >        True).lower()}" but the problem is that I only want to perform
+> > > >        the inheritance for uimage and fitimage, the other image types
+> > > >        don't need to inherit any additional special stuff.
+> > > >        Paul suggested I can do "inherit <empty here>". This would at
+> > > >        least let me implement a python function which returns either
+> > > >        "kernel-uimage", "kernel-fitimage" or "" and based on that, I
+> > > >        could inherit the particular image type specifics into
+> > > >        kernel.bbclass.
+> > > >        What I don't know how to implement well is this function which
+> > > >        returns those three strings based on the KERNEL_IMAGETYPE. What
+> > > >        I would like to avoid is encoding those strings explicitly into
+> > > >        the function, since that would force each new kernel image
+> > > >        format to also edit this function in kernel.bbclass .
+> > > >        Apparently, checking whether class exists and inheriting it
+> > > >        only if it does is also not a simple task.
+> > > 
+> > > Agreed that this would be better. It would remove a lot of the checks
+> > > in the other tasks for the image type.
+> > 
+> > Hi!
+> > 
+> > Yes, that's indeed true. All the image type checks would disappear from
+> > kernel-uimage and kernel-fitimage bbclasses.
+> > 
+> > > I'm not aware of the exact details on how to make this work, but
+> > > hopefully others have the foo.
+> 
+> Any ideas please ?
 
-Here's a practical case where the old behavior was problematic:
-the oracle-jse-jdk-x86-64 recipe provides both virtual/java and
-virtual/javac:
+To me this is about how we wish to structure these classes. That's not my 
+call, but to enumerate the options - unless I'm missing something we have to 
+choose between:
 
-Before:
+1) Hardcode uimage/fitimage. Hard to extend.
 
-$ bitbake -e oracle-jse-jdk-x86-64-native | grep ^PROVIDES=
-PROVIDES="oracle-jse-jdk-x86-64-native  virtual/java-native virtual/java-nativec"
+2) inherit kernel-<type> and just insist that a class for every image type 
+exists. Ugly and kernel-*.bbclass already exists.
 
-After:
+3) Try to search for a kernel-<type> class and inherit it if one is found. 
+AFAIK we don't do this kind of thing anywhere else so this doesn't seem right 
+to me.
 
-$ bitbake -e oracle-jse-jdk-x86-64-native | grep ^PROVIDES=
-PROVIDES="oracle-jse-jdk-x86-64-native virtual/java-native virtual/javac-native"
+4) Establish some other mechanism for registering kernel image type classes 
+(KERNEL_CLASSES ?). Not sure if we want to do this but it is at least a common 
+mechanism elsewhere in the system.
 
-Change-Id: I8186992dae58e37c2a2364586360ff9b7da9198f
-Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
----
- meta/classes/native.bbclass |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 5ca5c95..1f8139b 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -151,12 +151,13 @@ python native_virtclass_handler () {
-         map_dependencies("RREPLACES", e.data, pkg)
- 
-     provides = e.data.getVar("PROVIDES", True)
-+    nprovides = []
-     for prov in provides.split():
-         if prov.find(pn) != -1:
-             continue
-         if not prov.endswith("-native"):
--            provides = provides.replace(prov, prov + "-native")
--    e.data.setVar("PROVIDES", provides)
-+            nprovides.append(prov.replace(prov, prov + "-native"))
-+    e.data.setVar("PROVIDES", ' '.join(nprovides))
- 
-     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
- }
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
