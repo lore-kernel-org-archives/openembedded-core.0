@@ -1,29 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A019673EFD
+	by mail.openembedded.org (Postfix) with ESMTP id 4AD7773EFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 02:27:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2RElC018098
+	Tue, 12 May 2015 02:42:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2gHOu018199
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 May 2015 19:27:14 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 11 May 2015 19:27:13 -0700
-Message-ID: <55516500.6090503@windriver.com>
-Date: Tue, 12 May 2015 10:27:12 +0800
+	Mon, 11 May 2015 19:42:17 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 11 May 2015 19:42:16 -0700
+Message-ID: <55516887.5080908@windriver.com>
+Date: Tue, 12 May 2015 10:42:15 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1431396786.git.liezhi.yang@windriver.com>	<37d60010ba7e3f90761dc8d7a83c66eda3382481.1431396786.git.liezhi.yang@windriver.com>
-	<CAMKF1sp5zzO2Se9099oHQw8Sa1M=aVYxi3=pGPOX0AsLj_hfpQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sp5zzO2Se9099oHQw8Sa1M=aVYxi3=pGPOX0AsLj_hfpQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] lttng-tools: separate B and S
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1431333085.git.liezhi.yang@windriver.com>
+	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,67 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 02:27:16 -0000
+X-List-Received-Date: Tue, 12 May 2015 02:42:20 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 05/12/2015 10:18 AM, Khem Raj wrote:
+On 05/11/2015 07:22 PM, Burton, Ross wrote:
 >
-> On May 11, 2015 7:14 PM, "Robert Yang" <liezhi.yang@windriver.com
+> On 11 May 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com
 > <mailto:liezhi.yang@windriver.com>> wrote:
->  >
->  > It works well with autotools now.
->  >
->  > Signed-off-by: Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>>
->  > ---
->  >  meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb <http://lttng-tools_2.6.0.bb>
-> |    4 +++-
->  >  1 file changed, 3 insertions(+), 1 deletion(-)
->  >
->  > diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> <http://lttng-tools_2.6.0.bb> b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> <http://lttng-tools_2.6.0.bb>
->  > index 8cc4220..d1c6293 100644
->  > --- a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> <http://lttng-tools_2.6.0.bb>
->  > +++ b/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> <http://lttng-tools_2.6.0.bb>
->  > @@ -31,7 +31,9 @@ SRC_URI =
-> "git://git.lttng.org/lttng-tools.git;branch=stable-2.6
-> <http://git.lttng.org/lttng-tools.git;branch=stable-2.6> \
->  >
->  >  S = "${WORKDIR}/git"
->  >
->  > -inherit autotools-brokensep ptest pkgconfig useradd
->  > +inherit autotools ptest pkgconfig useradd
->  > +
->  > +PR = "r1"
 >
-> Why bump pr
+>     The default is auto, we can disable it rather than depend on wayland or
+>     add a PACKAGECONFIG since they are two display servers.
+>
+>     Fixed do_compile error:
+>     hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file or
+>     directory
+>       #include <wayland-client.h>
+>
+>
+> And XWayland is the migration path from a pure X world to a pure Wayland world.
+> Please add this as a PACKAGECONFIG.
 
-We always need bump pr when change autotools-brokensep to autotools
-to avoid the errors like:
+Thanks, updated it in the repo:
 
-configure: error: source directory already configured; run "make distclean" 
-there first
-Configure failed. The contents of all config.log files follows to aid debugging
+   git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc 
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 30299c2..f3b2453 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -115,7 +115,9 @@ EXTRA_OECONF += "--with-fop=no \
+                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+  "
+
+-PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
+dri2 glx', '', d)}"
++PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
+dri2 glx', '', d)} \
++                   ${@bb.utils.contains("DISTRO_FEATURES", "wayland", 
+"xwayland", "", d)} \
++"
+
+  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa 
+xf86driproto"
+@@ -128,6 +130,7 @@ PACKAGECONFIG[xshmfence] = 
+"--enable-xshmfence,--disable-xshmfence,libxshmfence"
+  PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native 
+docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+  PACKAGECONFIG[systemd-logind] = 
+"--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+  PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xineramaproto"
++PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,wayland"
+
+  do_install_append () {
+         # Its assumed base-files creates this for us
 
 // Robert
 
->  >
->  >  USERADD_PACKAGES = "${PN}"
->  >  GROUPADD_PARAM_${PN} = "tracing"
->  > --
->  > 1.7.9.5
->  >
->  > --
->  > _______________________________________________
->  > Openembedded-core mailing list
->  > Openembedded-core@lists.openembedded.org
-> <mailto:Openembedded-core@lists.openembedded.org>
->  > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
+> Ross
 
