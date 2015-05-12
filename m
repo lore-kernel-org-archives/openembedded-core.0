@@ -1,29 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD7773EFD
+	by mail.openembedded.org (Postfix) with ESMTP id 0CEF273EFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 02:42:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2gHOu018199
+	Tue, 12 May 2015 02:51:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4C2pN5R018271
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 May 2015 19:42:17 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 11 May 2015 19:42:16 -0700
-Message-ID: <55516887.5080908@windriver.com>
-Date: Tue, 12 May 2015 10:42:15 +0800
+	Mon, 11 May 2015 19:51:23 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 11 May 2015 19:51:22 -0700
+Message-ID: <55516AA9.2050003@windriver.com>
+Date: Tue, 12 May 2015 10:51:21 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1431333085.git.liezhi.yang@windriver.com>
-	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
-	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+References: <cover.1431324180.git.liezhi.yang@windriver.com>
+	<0cbcafec984ec2146a0e4ff1800b95f7f3c67e02.1431324180.git.liezhi.yang@windriver.com>
+	<CAJTo0LYZj2hottHmqHUDFH80Y+6Q-0fbtYLZepe86AdtZ33z5g@mail.gmail.com>
+In-Reply-To: <CAJTo0LYZj2hottHmqHUDFH80Y+6Q-0fbtYLZepe86AdtZ33z5g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
+Subject: Re: [PATCH 10/12] packagegroup-core-qt: add x11 to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,64 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 02:42:20 -0000
+X-List-Received-Date: Tue, 12 May 2015 02:51:26 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 05/11/2015 07:22 PM, Burton, Ross wrote:
+On 05/11/2015 07:43 PM, Burton, Ross wrote:
 >
-> On 11 May 2015 at 09:32, Robert Yang <liezhi.yang@windriver.com
+> On 11 May 2015 at 07:08, Robert Yang <liezhi.yang@windriver.com
 > <mailto:liezhi.yang@windriver.com>> wrote:
 >
->     The default is auto, we can disable it rather than depend on wayland or
->     add a PACKAGECONFIG since they are two display servers.
->
->     Fixed do_compile error:
->     hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file or
->     directory
->       #include <wayland-client.h>
+>     +# The quicky and fotowall requires x11 in DISTRO_FEATURES
+>     +REQUIRED_DISTRO_FEATURES = "x11"
 >
 >
-> And XWayland is the migration path from a pure X world to a pure Wayland world.
-> Please add this as a PACKAGECONFIG.
+> As this is a helper packagegroup, would it make sense to have these as optional
+> dependencies based on DISTRO_FEATURES instead?
 
-Thanks, updated it in the repo:
+Hi Ross,
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+The packagegroup-core-qt RDEPENDS on 3 packages:
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc 
-b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 30299c2..f3b2453 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -115,7 +115,9 @@ EXTRA_OECONF += "--with-fop=no \
-                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
-  "
+QTDEMOS ?= "quicky ${COMMERCIAL_QT} fotowall"
 
--PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
-dri2 glx', '', d)}"
-+PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
-dri2 glx', '', d)} \
-+                   ${@bb.utils.contains("DISTRO_FEATURES", "wayland", 
-"xwayland", "", d)} \
-+"
-
-  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
-  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa 
-xf86driproto"
-@@ -128,6 +130,7 @@ PACKAGECONFIG[xshmfence] = 
-"--enable-xshmfence,--disable-xshmfence,libxshmfence"
-  PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native 
-docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-  PACKAGECONFIG[systemd-logind] = 
-"--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
-  PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xineramaproto"
-+PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,wayland"
-
-  do_install_append () {
-         # Its assumed base-files creates this for us
+Both quicky and fotowall requires x11. The COMMERCIAL_QT(such as qmmp)
+requires commercial license, I think that it also requires x11 (I will
+fix it in other patches). Use optional dependencies based on
+DISTRO_FEATURES for packagegroup-core-qt would make it rdepends on nothing,
+so I didn't use that.
 
 // Robert
 
