@@ -1,37 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5917173F4E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DDC573F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 18:00:01 +0000 (UTC)
-Received: by oiko83 with SMTP id o83so12469200oik.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 11:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ONv+xxZkBWmb7Fx/luEn0r9scSczL/qDxhh6Fak7yHI=;
-	b=R3uKerGTqRzmQmfo/9O0HhC2IYxfCmzA2/wAPR/5I32Ed4Rlzpx4BhKLbXwv2KEnos
-	IiWTCbVIQ+XDMl//CAN1SyR0PnijzcNIJOH1kBBIILqf+ZiplU09qGQythG4+UrbY0s6
-	ZUPzQeJlE1jX8FWGVKoalgs1+0CGt9pyNeZlFrAHlI1Faz0p2o4AavvpcFo1xBBCXlhl
-	MVBSBIkIF9F/lYK7oupdxAmt89eP/Zg5km3WtT6VFEKSz6tsKl/pSpqqrJ/zVEh8Jchm
-	L95SF9l6mDQfLRyZ2GmJ5AlobbflrQMGWivFPe7X+uSuzE11LhEGkbSwEWj+alwU3cL0
-	bfMw==
+	Tue, 12 May 2015 18:01:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 May 2015 11:01:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,416,1427785200"; d="scan'208";a="724809544"
+Received: from dpassaue-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.14.139])
+	by fmsmga002.fm.intel.com with ESMTP; 12 May 2015 11:01:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Tue, 12 May 2015 19:01:16 +0100
+Message-ID: <1883118.cJJW02ZV6v@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.5-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.202.94.215 with SMTP id s206mr12331952oib.15.1431453602339; 
-	Tue, 12 May 2015 11:00:02 -0700 (PDT)
-Received: by 10.202.102.13 with HTTP; Tue, 12 May 2015 11:00:02 -0700 (PDT)
-In-Reply-To: <2300208.Wa25vWO7Bf@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1424877305.git.cristian.iorga@intel.com>
-	<84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
-	<CAJ86T=VeT9qXjvPJo0Gb+HefkMZhaD7C6PQxUBoZoZbBy6NUmw@mail.gmail.com>
-	<2300208.Wa25vWO7Bf@peggleto-mobl.ger.corp.intel.com>
-Date: Tue, 12 May 2015 11:00:02 -0700
-Message-ID: <CAJ86T=WZXQfxGuuAfovUfuUegAZyOGuHaoTe3SORzxxkTvV4zA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] devtool: improve handling of local source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 18:00:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 May 2015 18:01:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, May 12, 2015 at 1:40 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Andre,
->
-> On Monday 11 May 2015 17:34:45 Andre McCurdy wrote:
->> On Wed, Feb 25, 2015 at 7:15 AM, Cristian Iorga
->>
->> <cristian.iorga@intel.com> wrote:
->> > oe.utils.both_contain() just does a find() on the value
->> > rather than splitting the value and then looking in the
->> > list of split items. The result is that if you add a
->> > feature to MACHINE_FEATURES that itself has a substring
->> > that matches one of the values looked for when building
->> > COMBINED_FEATURES, you end up with an incomprehensible
->> > error (here with "ext2i" in MACHINE_FEATURES):
->> >
->> > ERROR: Nothing RPROVIDES 'packagegroup-base-ext2'
->> > (but /home/balister/src/oe-core/oe-core/meta/recipes-core/
->> > /packagegroups/packagegroup-base.bb RDEPENDS on or otherwise requires it)
->>
->> This change seems to break COMBINED_FEATURES.
->>
->> $ bitbake -e packagegroup-base | grep '^COMBINED_FEATURES='
->>
->> dizzy:
->>   COMBINED_FEATURES="alsa         "
->>
->> fido:
->>   COMBINED_FEATURES="set(['alsa'])         "
->
-> Yes it did, unfortunately. There was a follow-up fix in master:
->
->   http://cgit.openembedded.org/openembedded-core/commit/?id=c4ca9dbd4191fcff08e75035e3d276490ed80b05
->
-> This is included in Joshua's pending backport changeset for fido.
+Hi Markus,
 
-I see it now. Thanks Paul.
+On Thursday 30 April 2015 12:16:06 Markus Lehtonen wrote:
+> This patchset tries to improve handling of local source files (i.e. file://
+> in SRC_URI). First, it improves packages for which S=WORKDIR (that possibly
+> only have local sources. Second, it makes local sources available in the
+> srctree for all packages.
+> 
+> See yocto bug #7602
 
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+I've finally looked at these, apologies for the delay. Some comments:
+
+* I don't think we really want the local files to become part of the git 
+repository by default - they shouldn't be committed. Once users have finished 
+with devtool, we want them to be able to push the source tree to their own 
+repo and point to that within the recipe, whilst keeping the local files next 
+to the recipe. 
+
+* This implies that new files added to the local files dir when we do devtool 
+update-recipe should not be added as a patch, they should be copied next to 
+the recipe and added to SRC_URI. I'm more than happy for us to implement this 
+separately as a follow-up (i.e. we could start by not handling adding files to 
+the local files directory at all.)
+
+* The local-files directory needs to be named specific to OE - "oe-local-files" 
+would be ideal. If we could have one place in the code where this was defined 
+that would be ideal as well (maybe at some point we'd allow it to be 
+configured).
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
