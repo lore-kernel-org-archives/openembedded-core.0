@@ -1,41 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C29273FDA
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5917173F4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 16:19:11 +0000 (UTC)
-Received: by pabsx10 with SMTP id sx10so17821381pab.3
+	Tue, 12 May 2015 18:00:01 +0000 (UTC)
+Received: by oiko83 with SMTP id o83so12469200oik.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 09:19:12 -0700 (PDT)
+	Tue, 12 May 2015 11:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=LGjGPyuP52e6zBCFHMOQut6gWjUL6pG4eGWYh5fDlbg=;
-	b=sH79ZdVUy/owLzql+/Zq75Jpp040BFj+cV2dBcu9Fw+QtVF0TQUPB/zI5c/+38YFPs
-	pRSzyJhhkx5pufEaxbO3gq9YbFDPS1ngdf0mdTKa0oTdqzj/f5UB0uycjuM9p++k8u75
-	SOlJtmN90B5Z5WZW9UplswPkMSx1/JjPALOWtsAmQOhcxi3WLJsJiY7fN9tkaeIAjQnd
-	1P+5pXd9idtoeFIJYeiYS8ObgZ7YLLcx7VxPsLBL8MA4+1RpiF77uQCKwQOyFrUjdl0t
-	w3nCjU1buXD/UEdWU/hTDxzx11dAA4zrlx23qznYvFcXDr1gVZrqgKJlR7/nHkm4/dBM
-	PCQQ==
-X-Received: by 10.70.46.74 with SMTP id t10mr15162938pdm.118.1431447552657;
-	Tue, 12 May 2015 09:19:12 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by mx.google.com with ESMTPSA id
-	lc14sm16758100pab.33.2015.05.12.09.19.11
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 May 2015 09:19:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <3030d69a4aa172f6af394a142075414bba95e61d.1431411478.git.Qi.Chen@windriver.com>
-Date: Tue, 12 May 2015 09:19:05 -0700
-Message-Id: <6BA6B5A3-7785-4130-AE6E-42436EF2D8A3@gmail.com>
-References: <cover.1431411478.git.Qi.Chen@windriver.com>
-	<3030d69a4aa172f6af394a142075414bba95e61d.1431411478.git.Qi.Chen@windriver.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 1/2] populate_sdk_ext: install the latest buildtools-tarball
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ONv+xxZkBWmb7Fx/luEn0r9scSczL/qDxhh6Fak7yHI=;
+	b=R3uKerGTqRzmQmfo/9O0HhC2IYxfCmzA2/wAPR/5I32Ed4Rlzpx4BhKLbXwv2KEnos
+	IiWTCbVIQ+XDMl//CAN1SyR0PnijzcNIJOH1kBBIILqf+ZiplU09qGQythG4+UrbY0s6
+	ZUPzQeJlE1jX8FWGVKoalgs1+0CGt9pyNeZlFrAHlI1Faz0p2o4AavvpcFo1xBBCXlhl
+	MVBSBIkIF9F/lYK7oupdxAmt89eP/Zg5km3WtT6VFEKSz6tsKl/pSpqqrJ/zVEh8Jchm
+	L95SF9l6mDQfLRyZ2GmJ5AlobbflrQMGWivFPe7X+uSuzE11LhEGkbSwEWj+alwU3cL0
+	bfMw==
+MIME-Version: 1.0
+X-Received: by 10.202.94.215 with SMTP id s206mr12331952oib.15.1431453602339; 
+	Tue, 12 May 2015 11:00:02 -0700 (PDT)
+Received: by 10.202.102.13 with HTTP; Tue, 12 May 2015 11:00:02 -0700 (PDT)
+In-Reply-To: <2300208.Wa25vWO7Bf@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1424877305.git.cristian.iorga@intel.com>
+	<84f2bc2ad049dd54b4bc62f8810de014ff223f6b.1424877305.git.cristian.iorga@intel.com>
+	<CAJ86T=VeT9qXjvPJo0Gb+HefkMZhaD7C6PQxUBoZoZbBy6NUmw@mail.gmail.com>
+	<2300208.Wa25vWO7Bf@peggleto-mobl.ger.corp.intel.com>
+Date: Tue, 12 May 2015 11:00:02 -0700
+Message-ID: <CAJ86T=WZXQfxGuuAfovUfuUegAZyOGuHaoTe3SORzxxkTvV4zA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] meta/lib/oe/utils.py: properly implement both_contain()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,47 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 16:19:11 -0000
-X-Groupsio-MsgNum: 65463
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0E001CFF-2975-4E1D-8C42-E0B510A67E8A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 12 May 2015 18:00:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_0E001CFF-2975-4E1D-8C42-E0B510A67E8A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Tue, May 12, 2015 at 1:40 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi Andre,
+>
+> On Monday 11 May 2015 17:34:45 Andre McCurdy wrote:
+>> On Wed, Feb 25, 2015 at 7:15 AM, Cristian Iorga
+>>
+>> <cristian.iorga@intel.com> wrote:
+>> > oe.utils.both_contain() just does a find() on the value
+>> > rather than splitting the value and then looking in the
+>> > list of split items. The result is that if you add a
+>> > feature to MACHINE_FEATURES that itself has a substring
+>> > that matches one of the values looked for when building
+>> > COMBINED_FEATURES, you end up with an incomprehensible
+>> > error (here with "ext2i" in MACHINE_FEATURES):
+>> >
+>> > ERROR: Nothing RPROVIDES 'packagegroup-base-ext2'
+>> > (but /home/balister/src/oe-core/oe-core/meta/recipes-core/
+>> > /packagegroups/packagegroup-base.bb RDEPENDS on or otherwise requires it)
+>>
+>> This change seems to break COMBINED_FEATURES.
+>>
+>> $ bitbake -e packagegroup-base | grep '^COMBINED_FEATURES='
+>>
+>> dizzy:
+>>   COMBINED_FEATURES="alsa         "
+>>
+>> fido:
+>>   COMBINED_FEATURES="set(['alsa'])         "
+>
+> Yes it did, unfortunately. There was a follow-up fix in master:
+>
+>   http://cgit.openembedded.org/openembedded-core/commit/?id=c4ca9dbd4191fcff08e75035e3d276490ed80b05
+>
+> This is included in Joshua's pending backport changeset for fido.
 
+I see it now. Thanks Paul.
 
-> On May 11, 2015, at 11:19 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->=20
-> -	install =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
-GARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh =
-${SDK_OUTPUT}/${SDKPATH}
-> +	# find latest buildtools-tarball and install it
-> +	buildtools_path=3D`ls -t1 =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
-GARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
-> +	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
->=20
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
-why not create a symink instead of poking using wild chars
-
---Apple-Mail=_0E001CFF-2975-4E1D-8C42-E0B510A67E8A
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVSJ/4ACgkQuwUzVZGdMxQZtgCdFqGhozmbP6kbTxomGVYkmRR2
-JL8AnihQ3aB/hoewZGX3vsTV56Lbxne1
-=LNyR
------END PGP SIGNATURE-----
-
---Apple-Mail=_0E001CFF-2975-4E1D-8C42-E0B510A67E8A--
