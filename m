@@ -1,39 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2200B7402B
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E04B73FE5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 14:21:19 +0000 (UTC)
-Received: by qcvo8 with SMTP id o8so5016146qcv.0
+	Tue, 12 May 2015 14:26:02 +0000 (UTC)
+Received: by qcvo8 with SMTP id o8so5107773qcv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 07:21:21 -0700 (PDT)
+	Tue, 12 May 2015 07:26:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=WOguHsA+Q3p0eS5xcg7xFX7lC7P6zi+nuMDAJGefUVI=;
-	b=UWzDxVZYdukFL+DTNbzpP7sLq+Kqf/v7ykpHfMUnpA84U1icn8E9IZDURRkB5Bef6w
-	utEbjA3VTOhcjxOzXEfFYgX2WdEBu/mXxrRqY96dDwvXBR6Uba7wIc9j8pXGv0iud8ui
-	LjO1hMcc8OXNUjIaJtcdc9v2oofKp4ot3FC1egRTVURaCwZBzIVH7cGFx6W7dFurOohv
-	bmHHjAtHl/TsAYqTG2+zUKqh3MeafiH/25ZV+RcolM1ksv03c1+Sl+dvyCyMTnC/7qEE
-	846n4+QjMnVJzUIaKiJL6TZJsN0xIk+pMSHvPXr9YFIgWnCPl4EPxgxlRJYTUsA4OkMF
-	tGHQ==
-X-Gm-Message-State: ALoCoQlx59IwMgW82GtCNbQlnhug4B/5Z3TwxHjI/zbAGbJqEyYJFHP76I3nGGYKz3NRdxuLMRnq
-X-Received: by 10.140.235.77 with SMTP id g74mr21328261qhc.64.1431440481138;
-	Tue, 12 May 2015 07:21:21 -0700 (PDT)
+	bh=xHJ/QHp5hjUmTh8qs95C4HvbV9YPC7qKjR7fKduAqao=;
+	b=DfgsSj3NkVXxMsGfgvobjWgbFFYOWBYZQXIjIY4MePzkqNUnOoY/B80P7LNUk2F1U+
+	XhFtxUo+pbJ4mOwb6OsMDM3N9ephdOBwEghXPPP4lbXofQo3PZqtAzrjtOXY6VGB1dvn
+	7ytew5wwi4Bgmqnd+aRl+2rIj5M83oKRNu0KAzU1ninuLKfRpgMTcraXUeUcsizwisF1
+	w1vWVAOIxLozJkgX1qqbd9gaHxNMRSFqRZASHWiFT9VdSA+yV+LuU044XFRe8xjsflyH
+	gMAjdBqHtFoULy4te8Rqy+Okd2QT7LWWTMibJbtwinZpFWqTDj7tP/egcFKsUsqnZ/Jl
+	SWtw==
+X-Gm-Message-State: ALoCoQnzpHOeLCFE/KT3jHmKlTN959+k/Jdzoh/KkKEi4edYgoEIQl7+2WqlwhoyZOD1HWCo3rMk
+X-Received: by 10.55.23.16 with SMTP id i16mr33712039qkh.14.1431440763724;
+	Tue, 12 May 2015 07:26:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:21:00 -0700 (PDT)
-In-Reply-To: <55516887.5080908@windriver.com>
-References: <cover.1431333085.git.liezhi.yang@windriver.com>
-	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
-	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
-	<55516887.5080908@windriver.com>
+Received: by 10.140.102.231 with HTTP; Tue, 12 May 2015 07:25:43 -0700 (PDT)
+In-Reply-To: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
+References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 May 2015 15:21:00 +0100
-Message-ID: <CAJTo0LYsOyP27CHxMvy87fgU=+YhMREtfbodMSv4o+C4jgh1_g@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 12 May 2015 15:25:43 +0100
+Message-ID: <CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>
+To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
+Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 May 2015 14:21:21 -0000
-Content-Type: multipart/alternative; boundary=001a11354a0065517d0515e335d4
+X-List-Received-Date: Tue, 12 May 2015 14:26:08 -0000
+Content-Type: multipart/alternative; boundary=001a1146f4ba3d33a60515e3463c
 
---001a11354a0065517d0515e335d4
+--001a1146f4ba3d33a60515e3463c
 Content-Type: text/plain; charset=UTF-8
 
-On 12 May 2015 at 03:42, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+wrote:
 
-> Thanks, updated it in the repo:
+> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
+> little to run necessary applications. Add a new arm configuration based
+> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
 >
 
-Please check with a clean sysroot:
-
-| checking for XWAYLANDMODULES... no
-| checking whether to build Xwayland DDX... yes
-| configure: error: Xwayland build explicitly requested, but required
-modules not found.
+Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
+Why not just change the qemuarm machine to use the A9?
 
 Ross
 
---001a11354a0065517d0515e335d4
+--001a1146f4ba3d33a60515e3463c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 May 2015 at 03:42, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
-rder-left-style:solid;padding-left:1ex"><div id=3D":4xj" class=3D"" style=
-=3D"overflow:hidden">Thanks, updated it in the repo:<br></div></blockquote>=
-</div><div class=3D"gmail_extra"><br></div>Please check with a clean sysroo=
-t:</div><div class=3D"gmail_extra"><br><div class=3D"gmail_extra">| checkin=
-g for XWAYLANDMODULES... no</div><div class=3D"gmail_extra">| checking whet=
-her to build Xwayland DDX... yes</div><div class=3D"gmail_extra">| configur=
-e: error: Xwayland build explicitly requested, but required modules not fou=
-nd.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div></div>
+On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:dmitry_eremin@mentor.com" target=3D"_blank">dmitry_eremin@men=
+tor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:87" class=3D"a3s" style=3D"overflow:hidden">Currently qemuarm is limited t=
+o 256 Mb of RAM. Sometimes this is too<br>
+little to run necessary applications. Add a new arm configuration based<br>
+on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.<br></=
+div></blockquote><div><br></div><div>Not sure I&#39;m keen on oe-core havin=
+g two almost-identical qemuarm machines.=C2=A0 Why not just change the qemu=
+arm machine to use the A9?</div><div><br></div><div>Ross=C2=A0<br></div></d=
+iv></div></div>
 
---001a11354a0065517d0515e335d4--
+--001a1146f4ba3d33a60515e3463c--
