@@ -1,30 +1,41 @@
-Return-Path: <jatedev@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6669773FF0;
-	Wed, 13 May 2015 22:47:09 +0000 (UTC)
-Received: by pdbqd1 with SMTP id qd1so64986261pdb.2;
-	Wed, 13 May 2015 15:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=GdDRLLgSYlwISYp1nVmZjnyWY1uLAcK9RHwQnvaHfCs=;
-	b=e4MbqZ4W+rR6Kuz1BVOS9oUHLCC/yawjS58LnGn9/IIYa92AppI5eApDE2zPVpmECx
-	xOmxhag72DAcr0i2ooZOTBv58ss5Iwy7B1CGvx1g1JM74yItvXKR/LwG57S8tDWOY5Uq
-	wpHtPKlq2Q453OhO7/UwdNyjXpYXwUnnrMtVlz67+yBKPFSt/6nzu49g2jCbiP2ya4qb
-	2B8dbrnWU3ke1n0YiJhO0dZjQ8mPQl8Su+QSUL4yY8sw5LZd2507lOMYlvA6uiLsllDP
-	ATsTI+70PGqWq0d4O7TCq3qjVGTfjKLYbLpsTQwcyHdSWjzM1qyl5xK9mySKmO3L2zNr
-	EaZQ==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C20C7408D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 May 2015 23:39:18 +0000 (UTC)
+Received: by qkgx75 with SMTP id x75so39600396qkg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 May 2015 16:39:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vePAro0lbuu0hWDbSRNQemX0Rq9SpAtThnz7e8RXbYs=;
+	b=OarIR4lTiy8kZlX/S2q+1Qa0x7r/dWUFIfhoHD0adVo+A+NICCWIKFEpRQ9ShRuwvd
+	BGkEfbejT8HvseaoZwMKD4Qz0EGWZ+fbXvvd9Rqk0mvN657vRFE46l35APgjbMLWbCuv
+	UAFy99BHG5WbyRARxnABYJ7ObrUioRbpBSXXKMbv/DnrfZKANS/R2RJseWLa3nOP4Ibe
+	g1RxdQXw/O9o/KY++rhWh4tfZnmYnLphLLmMVtiNvnY7dKSoZL2BafSi4HyVnSqsfSkL
+	znUNV/LWE08vxMc5CLOwoyJnIVh/e81EDy1bQEZBNwV9/ztJp1OQ92RDmavSydToY7ux
+	NPPA==
+X-Gm-Message-State: ALoCoQk2iK8j1QOZ0UYPYDqCO+wyNB7/CBvdjYF/IdkxEwh6iXw86ehvHroGINZZWDy9gt4rv6Ig
+X-Received: by 10.140.235.77 with SMTP id g74mr1978811qhc.64.1431560359731;
+	Wed, 13 May 2015 16:39:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.68.65.12 with SMTP id t12mr2169240pbs.118.1431557231591;
-	Wed, 13 May 2015 15:47:11 -0700 (PDT)
-Received: by 10.66.142.201 with HTTP; Wed, 13 May 2015 15:47:11 -0700 (PDT)
-Date: Wed, 13 May 2015 18:47:11 -0400
-Message-ID: <CAPphmgY46h8ajbqL66rynRf2-u28a0duxPFV3MqPjb_iB_RvaA@mail.gmail.com>
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: openembedded-core@lists.openembedded.org, 
-	bitbake-devel@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v2][2/2] image.bbclass/rootfs.py: use PREFERRED_RPROVIDER to select package
+Received: by 10.140.102.231 with HTTP; Wed, 13 May 2015 16:38:59 -0700 (PDT)
+In-Reply-To: <5552A982.3090100@windriver.com>
+References: <cover.1431333085.git.liezhi.yang@windriver.com>
+	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+	<55516887.5080908@windriver.com>
+	<CAJTo0LYsOyP27CHxMvy87fgU=+YhMREtfbodMSv4o+C4jgh1_g@mail.gmail.com>
+	<5552A982.3090100@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 May 2015 00:38:59 +0100
+Message-ID: <CAJTo0LZTnpZ6jkWO1aQFSVK54g=0wOaSLUFUVkwcu2iqbjXTFw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,124 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 22:47:10 -0000
-Content-Type: multipart/alternative; boundary=001a113802ba43c8420515fe64f5
+X-List-Received-Date: Wed, 13 May 2015 23:39:19 -0000
+Content-Type: multipart/alternative; boundary=001a11354a00b7a1ba0515ff1e44
 
---001a113802ba43c8420515fe64f5
+--001a11354a00b7a1ba0515ff1e44
 Content-Type: text/plain; charset=UTF-8
 
-The following changes since commit 55bd8d189f647443b28f988ccfc9eebffaec84d1:
+On 13 May 2015 at 02:31, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-  providers.py: Add PREFERRED_RPROVIDER (2015-05-13 11:29:52 -0400)
+> I've updated it in the repo:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+>
 
-are available in the git repository at:
+Actually looked at the build output this time...  we should have each
+xserver in a separate package really, so can the xwayland binary go into an
+xwayland package?  We don't really want to force the xwayland binary (and
+extra dependencies) on everyone's X11-based images just because wayland is
+a default distro feature.
 
-  git://github.com/jatedev/poky.git preferred-provider-runtime-2
+Ross
 
-for you to fetch changes up to 832a47ff79a06a797ddd39db86c792a43cdf0865:
-
-  image.bbclass/rootfs.py: use PREFERRED_RPROVIDER to select package
-(2015-05-13 12:24:02 -0400)
-
-----------------------------------------------------------------
-Jate Sujjavanich (1):
-      image.bbclass/rootfs.py: use PREFERRED_RPROVIDER to select package
-
- meta/classes/image.bbclass |   14 ++++++++++++++
- meta/lib/oe/rootfs.py      |    2 +-
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 01f8b3f..80484d6 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -283,6 +283,20 @@ python rootfs_process_ignore() {
- }
- do_rootfs[prefuncs] += "rootfs_process_ignore"
-
-+python rootfs_process_preferred_rproviders() {
-+    inst_pkgs = d.getVar("PACKAGE_INSTALL", True).split()
-+    pref_pkgs = list()
-+    for pkg in inst_pkgs:
-+        prefervar = d.getVar("PREFERRED_RPROVIDER_%s" % pkg, True)
-+        if prefervar:
-+            inst_pkgs.remove(pkg)
-+            pref_pkgs.append(prefervar)
-+            bb.note("Selecting %s to provide %s due to
-PREFERRED_RPROVIDER" % (prefervar, pkg))
-+    inst_pkgs.extend(pref_pkgs)
-+    d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
-+}
-+do_rootfs[prefuncs] += "rootfs_process_preferred_rproviders"
-+
- # We have to delay the runtime_mapping_rename until just before rootfs runs
- # otherwise, the multilib renaming could step in and squash any fixups that
- # may have occurred.
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 6fb749f..4bad7ef 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -393,7 +393,7 @@ class RpmRootfs(Rootfs):
-         pass
-
-     def _log_check_error(self):
--        r = re.compile('(unpacking of archive failed|Cannot find
-package|exit 1|ERR|Fail)')
-+        r = re.compile('(unpacking of archive failed|Cannot find
-package|exit 1|ERR(?!ED_RPROVIDER)|Fail)')
-         log_path = self.d.expand("${T}/log.do_rootfs")
-         with open(log_path, 'r') as log:
-             found_error = 0
-
---001a113802ba43c8420515fe64f5
+--001a11354a00b7a1ba0515ff1e44
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">The following changes since commit 55bd8d189f647443b28f988=
-ccfc9eebffaec84d1:<br><br>=C2=A0 providers.py: Add PREFERRED_RPROVIDER (201=
-5-05-13 11:29:52 -0400)<br><br>are available in the git repository at:<br><=
-br>=C2=A0 git://<a href=3D"http://github.com/jatedev/poky.git">github.com/j=
-atedev/poky.git</a> preferred-provider-runtime-2<br><br>for you to fetch ch=
-anges up to 832a47ff79a06a797ddd39db86c792a43cdf0865:<br><br>=C2=A0 image.b=
-bclass/rootfs.py: use PREFERRED_RPROVIDER to select package (2015-05-13 12:=
-24:02 -0400)<br><br>-------------------------------------------------------=
----------<br>Jate Sujjavanich (1):<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 image.=
-bbclass/rootfs.py: use PREFERRED_RPROVIDER to select package<br><br>=C2=A0m=
-eta/classes/image.bbclass |=C2=A0=C2=A0 14 ++++++++++++++<br>=C2=A0meta/lib=
-/oe/rootfs.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-<br>=C2=
-=A02 files changed, 15 insertions(+), 1 deletion(-)<br><br>diff --git a/met=
-a/classes/image.bbclass b/meta/classes/image.bbclass<br>index 01f8b3f..8048=
-4d6 100644<br>--- a/meta/classes/image.bbclass<br>+++ b/meta/classes/image.=
-bbclass<br>@@ -283,6 +283,20 @@ python rootfs_process_ignore() {<br>=C2=A0}=
-<br>=C2=A0do_rootfs[prefuncs] +=3D &quot;rootfs_process_ignore&quot;<br><br=
->+python rootfs_process_preferred_rproviders() {<br>+=C2=A0=C2=A0=C2=A0 ins=
-t_pkgs =3D d.getVar(&quot;PACKAGE_INSTALL&quot;, True).split()<br>+=C2=A0=
-=C2=A0=C2=A0 pref_pkgs =3D list()<br>+=C2=A0=C2=A0=C2=A0 for pkg in inst_pk=
-gs:<br>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 prefervar =3D d.getVar(&=
-quot;PREFERRED_RPROVIDER_%s&quot; % pkg, True)<br>+=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if prefervar:<br>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inst_pkgs.remove(pkg)<br>+=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pref_pkgs.append(prefervar=
-)<br>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb=
-.note(&quot;Selecting %s to provide %s due to PREFERRED_RPROVIDER&quot; % (=
-prefervar, pkg))<br>+=C2=A0=C2=A0=C2=A0 inst_pkgs.extend(pref_pkgs)<br>+=C2=
-=A0=C2=A0=C2=A0 d.setVar(&quot;PACKAGE_INSTALL&quot;, &#39; &#39;.join(inst=
-_pkgs))<br>+}<br>+do_rootfs[prefuncs] +=3D &quot;rootfs_process_preferred_r=
-providers&quot;<br>+<br>=C2=A0# We have to delay the runtime_mapping_rename=
- until just before rootfs runs<br>=C2=A0# otherwise, the multilib renaming =
-could step in and squash any fixups that<br>=C2=A0# may have occurred.<br>d=
-iff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py<br>index 6fb749f.=
-.4bad7ef 100644<br>--- a/meta/lib/oe/rootfs.py<br>+++ b/meta/lib/oe/rootfs.=
-py<br>@@ -393,7 +393,7 @@ class RpmRootfs(Rootfs):<br>=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass<br><br>=C2=A0=C2=A0=C2=A0=C2=A0 def _log_c=
-heck_error(self):<br>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D re.c=
-ompile(&#39;(unpacking of archive failed|Cannot find package|exit 1|ERR|Fai=
-l)&#39;)<br>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D re.compile(&#=
-39;(unpacking of archive failed|Cannot find package|exit 1|ERR(?!ED_RPROVID=
-ER)|Fail)&#39;)<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 log_pat=
-h =3D self.d.expand(&quot;${T}/log.do_rootfs&quot;)<br>=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with open(log_path, &#39;r&#39;) as log:<br>=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fo=
-und_error =3D 0<br><br></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 May 2015 at 02:31, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ye" class=
+=3D"a3s" style=3D"overflow:hidden">I&#39;ve updated it in the repo:<span cl=
+ass=3D""><br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
+ib" target=3D"_blank">git.openembedded.org/openembedded-core-contrib</a> rb=
+t/3fixes<br></span></div></blockquote></div><br>Actually looked at the buil=
+d output this time... =C2=A0we should have each xserver in a separate packa=
+ge really, so can the xwayland binary go into an xwayland package?=C2=A0 We=
+ don&#39;t really want to force the xwayland binary (and extra dependencies=
+) on everyone&#39;s X11-based images just because wayland is a default dist=
+ro feature.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
 
---001a113802ba43c8420515fe64f5--
+--001a11354a00b7a1ba0515ff1e44--
