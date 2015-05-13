@@ -1,29 +1,33 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1796074069
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A78773F47
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 14:25:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4DEPJiW021982
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 May 2015 07:25:19 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 13 May 2015 07:25:19 -0700
-Message-ID: <55535ECE.4040605@windriver.com>
-Date: Wed, 13 May 2015 10:25:18 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1431350446.30971.56.camel@linuxfoundation.org>
-	<5552FFAD.4070306@windriver.com>
-In-Reply-To: <5552FFAD.4070306@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: linux-yocto and gcc 5.x
+	Wed, 13 May 2015 15:44:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4DFihMc023367; Wed, 13 May 2015 16:44:43 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qO0oWKYHDWlY; Wed, 13 May 2015 16:44:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4DFiS1E023364
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 13 May 2015 16:44:39 +0100
+Message-ID: <1431531868.30971.175.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>, "Ashfield, Bruce"
+	<Bruce.Ashfield@windriver.com>
+Date: Wed, 13 May 2015 16:44:28 +0100
+In-Reply-To: <1431513222.30971.163.camel@linuxfoundation.org>
+References: <5549B621.4060008@topic.nl>
+	<1430915731.8074.34.camel@linuxfoundation.org>
+	<5551972F.9070202@topic.nl>
+	<1431513222.30971.163.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Changing external kernel module results in rebuild of whole kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 14:25:20 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 13 May 2015 15:44:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I'll do an explicit round of gcc5 support in master for the
-kernels we have there in the not to distant future. To throw
-the switch for gcc5, we'll obviously want all the architectures
-to build and boot.
+On Wed, 2015-05-13 at 11:33 +0100, Richard Purdie wrote:
+> On Tue, 2015-05-12 at 08:01 +0200, Mike Looijmans wrote:
+> > As things are now, I'd much prefer the "taring up and then extracting a large 
+> > (GB) sized sstate object" option, since that at least worked correctly.
+> 
+> Sorry for the delayed reply, I didn't understand exactly what was
+> happening without looking at a build. By far the easiest "fix" right now
+> is:
+> 
+> RM_WORK_EXCLUDE += "<my kernel recipe PN>"
+> 
+> This won't cost that much diskspace and should avoid the problem you're
+> seeing.
+> 
+> The problem is module.bbclass has a DEPENDS on virtual/kernel which
+> means it depends on <kernel>:do_populate_sysroot. As well as triggering
+> the unpack to repopulate the shared work area for the kernel, this means
+> it will cause the thing to effectively repackage.
+> 
+> There are various ideas coming to mind:
+> 
+> * We could drop virtual/kernel from DEPENDS which would shorten the
+> kernel dependency chain by removing populate_sysroot from the equation.
+> 
+> * We could change the task dependencies of populate_sysroot in
+> kernel.bbclass so that it doesn't depend on do_install (it doesn't
+> handle files any more now anyway).
+> 
+> * We could figure out why populate_sysroot from sstate isn't good enough
+> for bitbake and change the sstate code to use sstate more heavily. If I
+> remember rightly, we currently rerun all a task's tasks rather than pull
+> it half from sstate and half not.
+> 
+> None of these jumps out at me as an easy or necessarily desirable fix.
 
-To keep things practical, I'll start from the -dev kernel, then
-back to the LTSI kernels we still have in master.
+I do have some patches:
 
-In the meantime, if anyone has patches, sending them to the linux-yocto
-mailing list is appreciated. Since everyone has eyes and ears
-on different lists it makes the effort that much easier if we collect
-changes in advance on a single list.
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=c4aed2ba7ae74e54a4ae8ac7aeda291704bde82a
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=7a20f175c0a1cdec208471e5f7ff5f560f0b609e
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=c5f3cdca3e16d90c4e5bbb3abe5e136b8025f1a4
 
-Bruce
+What I've noticed is that rm_work does not remove the data from
+shared-work. What it does do is remove the stamp file which causes all
+the tasks to rerun even if the data was there. The above patches make
+"do_shared_work" a semi sstate task, one which is never generated into
+the sstate feed but does have the right stamp functionality. This
+basically stops kernel modules from rerunning kernel tasks even with
+rm_work.
 
-On 2015-05-13 03:39 AM, Robert Yang wrote:
->
-> I think that I met another problem when MACHINE = qemuarm64 with gcc5:
-> linux-yocto_3.19.bb:
->
-> /tmp/ccWk2lM2.s: Assembler messages:
-> /tmp/ccWk2lM2.s:42: Error: .err encountered
-> /tmp/ccWk2lM2.s:43: Error: .err encountered
-> /tmp/ccWk2lM2.s:44: Error: .err encountered
-> /tmp/ccWk2lM2.s:103: Error: .err encountered
-> /tmp/ccWk2lM2.s:104: Error: .err encountered
-> /tmp/ccWk2lM2.s:105: Error: .err encountered
-> make[3]: *** [arch/arm64/kernel/psci.o] Error 1
-> make[3]: *** Waiting for unfinished jobs....
->    CC      mm/mmzone.o
->    CC      mm/vmstat.o
->    CC      mm/backing-dev.o
->    CC      net/socket.o
-> make[2]: *** [arch/arm64/kernel] Error 2
-> make[2]: *** Waiting for unfinished jobs....
->
-> // Robert
->
-> On 05/11/2015 09:20 PM, Richard Purdie wrote:
->> Hi Bruce,
->>
->> One of the things we're looking at in 1.9 is gcc 5.x support by default.
->> One of the areas this has significant impact is on the kernels,
->> linux-yocto in particular. I'm starting to see a potential problem here
->> since the kernels don't appear to work well with gcc 5.x:
->>
->> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1426e31f0bcd19f066931d2ecbdec3752b14e88e&limit=150&order_by=RECIPE
->>
->>
->> (this is a test build I ran just to see how bad things were).
->>
->> Are we going to be in a position to get 5.x support backported into 3.14
->> (and maybe 3.10)? Or was we going to have to wait for later versions?
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
+Whether these patches are a good idea, I'm less sure.
+
+Bruce: You might want to look at the module.bbclass changes in the first
+patch. I think there is some duplication between module and module-base
+I need to remove.
+
+Cheers,
+
+Richard
+
+
 
 
