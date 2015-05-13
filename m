@@ -1,34 +1,30 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id ABD7F73FF0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 22:41:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id B83C93154572;
-	Thu, 14 May 2015 00:41:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id aFJPqm2iOLBu; Thu, 14 May 2015 00:41:19 +0200 (CEST)
-Received: from [172.22.22.61] (55d46642.access.ecotel.net [85.212.102.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 70223315456B;
-	Thu, 14 May 2015 00:41:19 +0200 (CEST)
-Message-ID: <5553D30E.9010201@opendreambox.org>
-Date: Thu, 14 May 2015 00:41:18 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+Return-Path: <jatedev@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B115874059;
+	Wed, 13 May 2015 22:47:03 +0000 (UTC)
+Received: by pabtp1 with SMTP id tp1so64094556pab.2;
+	Wed, 13 May 2015 15:47:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=5N4kzDZC1TRe54/gXpGtJ2LN8ksQhOmZujPsisu9OTk=;
+	b=S0JcucBfg+sLre7W05bIWgXIbGvXkzbRGl/zYp7kEj7UP7jUKayssCzZodCiKYpnci
+	kxK/+nTCv4OB0BtQwmPUoqkNNglBWDMRJGn2kEj/g2HfFVu9QtxPi40fOmn7LriP3635
+	zPynft4V1Vz/sgpZ+fAA1LblOsf9bm7MLkZYyY+s0yr3g8ptqsNsRqfu5kxQyb2dnuf7
+	Y2gicljvuOCJcONqrCAWYHKUxMALapHCeISiYJi9WgSgTUsy9cW8dAs6J2AaOC+bkqrm
+	X6WGpYDdJZI2a/K83yO9V9pK9siyluepTW+YvwuxNAsyiXZImSGwoR1h5dpPX01H/Zy2
+	bLrg==
 MIME-Version: 1.0
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>, 
+X-Received: by 10.70.95.131 with SMTP id dk3mr2212845pdb.44.1431557224440;
+	Wed, 13 May 2015 15:47:04 -0700 (PDT)
+Received: by 10.66.142.201 with HTTP; Wed, 13 May 2015 15:47:04 -0700 (PDT)
+Date: Wed, 13 May 2015 18:47:04 -0400
+Message-ID: <CAPphmgZ=za2uinJsgrT2nom1rYeKFOnbE-Nr+BndXV+wf6spnw@mail.gmail.com>
+From: Jate Sujjavanich <jatedev@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	bitbake-devel@lists.openembedded.org, 
 	openembedded-core@lists.openembedded.org
-References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>
-	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
-In-Reply-To: <1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
-Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
+Subject: [PATCH v2][0/2] Yocto Bug #6149
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,82 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 22:41:30 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 May 2015 22:47:09 -0000
+Content-Type: multipart/alternative; boundary=001a11c2ddc6d6a7130515fe637b
 
-Hello Bruno,
+--001a11c2ddc6d6a7130515fe637b
+Content-Type: text/plain; charset=UTF-8
 
-On 13.05.2015 23:51, Bruno Bottazzini wrote:
-> +########################################################################
-> +# Aggregation of Split Packages
-> +########################################################################
-> +PACKAGES =+ "${PN}-services-base"
-> +SUMMARY_${PN}-services-base = "Base services aggregation"
-> +ALLOW_EMPTY_${PN}-services-base = "1"
-> +RDEPENDS_${PN}-services-base = " \
+Richard,
 
-I think it would be better to use RRECOMMENDS, in order to support
-BAD_RECOMMENDATIONS per image. This would also remove the need to use
-bb.utils.contains, because unavailable recommended packages get ignored
-by the package managers.
+This version uses PREFERRED_RPROVIDER instead of PREFERRED_PROVIDER to
+reduce confusion.
 
-Besides that, I wonder whether ${PN}-services would be a better name,
-because the -base suffix suggests that it contained only the most
-important services.
+These patches add PREFERRED_RPROVIDER which specifies a preferred runtime
+provider for a package when multiple RPROVIDER's are available.
 
-Btw., sorry for commenting late again, but it's quite a big patch.
-
-Regards,
-Andreas
-
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'ask-password', '${PN}-services-ask-password', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'backlight', '${PN}-services-backlight', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-services-binfmt', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${PN}-services-dbus', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'firstboot', '${PN}-services-firstboot', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'fuse', '${PN}-services-fuse', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'quota', '${PN}-services-quota', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'rfkill', '${PN}-services-rfkill', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '${PN}-services-timesyncd', '', d)}  \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'update', '${PN}-services-update', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'vconsole', '${PN}-services-vconsole', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'filesystems', '${PN}-generators-filesystems', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'preset', '${PN}-preset', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'fsck', '${PN}-services-fsck', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'journal', '${PN}-services-journal', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'modules-load', '${PN}-services-modules-load', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'randomseed', '${PN}-services-randomseed', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'sleep', '${PN}-services-sleep', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysctl', '${PN}-services-sysctl', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysusers', '${PN}-services-sysusers', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'tmpfiles', '${PN}-services-tmpfiles', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'udev', '${PN}-services-udev', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'tools', '${PN}-tools', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'bash', '${PN}-bash', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'initramfs', '${PN}-initramfs', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'kernel-install', '${PN}-kernel-install', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'rpm-macros', '${PN}-rpm-macros', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'zsh', '${PN}-zsh', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'bootchart', '${PN}-services-bootchart', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'debug', '${PN}-services-debug', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'machined', '${PN}-services-machined', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'nspawn', '${PN}-services-nspawn', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysvcompat', '${PN}-services-sysvcompat', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-generators-getty', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-services-getty', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'ldconfig', '${PN}-services-ldconfig', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-hostnamed', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-localed', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-logind', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-timedated', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PN}-pam', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-services-networkd', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-networkd', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-journal-gatewayd', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', '${PN}-services-cryptsetup', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'gudev', 'udev-dbg', '', d)} \
-> +        ${@bb.utils.contains('PACKAGECONFIG', 'x11', '${PN}-services-multi-seat-x', '', d)} \
-> +"
+It selects the preferred recipe to build and installs the preferred
+RPROVIDER during image generation.
 
 
+Jate
+
+--001a11c2ddc6d6a7130515fe637b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Richard,<br></div><div><br></div><div>This version us=
+es PREFERRED_RPROVIDER instead of PREFERRED_PROVIDER to reduce confusion.<b=
+r></div><div><br>These patches add PREFERRED_RPROVIDER which specifies a pr=
+eferred runtime provider for a package when multiple RPROVIDER&#39;s are av=
+ailable.<br><br></div><div>It selects the preferred recipe to build and ins=
+talls the preferred RPROVIDER during image generation.<br><br></div><div><b=
+r></div><div>Jate<br></div></div>
+
+--001a11c2ddc6d6a7130515fe637b--
