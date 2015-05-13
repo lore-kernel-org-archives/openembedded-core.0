@@ -1,43 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 86EDB74000
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1625C73FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 15:59:04 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so55765028pdb.0
+	Wed, 13 May 2015 16:29:16 +0000 (UTC)
+Received: by widdi4 with SMTP id di4so62782273wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 08:59:06 -0700 (PDT)
+	Wed, 13 May 2015 09:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=2JimYinbhCC8DlCpFMtE6aEWJolMyVFcCv6xo6qH7GI=;
-	b=fCaKqzKbKh1InrDLHROyI+D8CWKgUSDWQh1En8wqFp2Q5E8VhfGa3zyfFRNZCo4IfV
-	XXnJKei8qWy8HzGtAGXsfAoT+fLwURJcHSuCk1Lj6XjmQVzcqalWWGGuSuUzC7NHX8lY
-	Nf0/JFjWRcqCZzzKJNEFZrKsVl/wUOX98FtrJs4ZpVcOljKWEGf4MThjE/jcdtCjW2tS
-	9shS6PTNQtRRpKIycqHLr21D3ZjD3SNf219hURAmBwkDvcfQgV1/EqALTIGw8DNNMeqy
-	aYilQsiKjIDqBY/45zF6ctFz/LDqrvI0k4Zoz7iKK8saVzwyKGEAKEnqeGVaO7pSjwj0
-	j6Uw==
-X-Received: by 10.68.210.46 with SMTP id mr14mr38567432pbc.73.1431532746292;
-	Wed, 13 May 2015 08:59:06 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by mx.google.com with ESMTPSA id
-	pj8sm19760743pdb.20.2015.05.13.08.59.05
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 May 2015 08:59:05 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <2966110.d7Dh0pOibD@peggleto-mobl.ger.corp.intel.com>
-Date: Wed, 13 May 2015 08:59:00 -0700
-Message-Id: <DC766CA9-69D5-467F-AA03-914478EEB140@gmail.com>
-References: <cover.1431411478.git.Qi.Chen@windriver.com>
-	<187E6A9D-C952-418F-81BE-76D2E08AFDC3@gmail.com>
-	<5552B696.8010100@windriver.com>
-	<2966110.d7Dh0pOibD@peggleto-mobl.ger.corp.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.2098)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=xAwJnpTHUXpCLPspSSwRH6Pklve4LWH0dvZ97YWXlyc=;
+	b=XMjfHx3somVneKg8lLMaH8c31sA9aaqaX1VpPB/osyMZJC5W5w+Cmu2H+052qqgsZ8
+	ucm4St3wTLnAdY8sEfiBqLg/dNU3cC/tQDXHUHwxDw6TSD25Ga1BAYLiZp0nfhlhc9MS
+	y6LsoFqKXihNme/vHyljxYRMOgmSZKCEUPs3EGM9TQyRgAB0Vvjv6GXFCVORWH2QcDLh
+	srU8Dx3I6iwITobV0BOli5WhTquadnx0sDTJ7pDjXAZ6SavMHuh8SOeU9cxF+Wtetd99
+	ZsxqBHwlqWzJZkJE8NKksIWkDmVvcVFqWekCoPXg8kKRWkBrnSX9qdZtuvqHWf5072uV
+	aojA==
+X-Received: by 10.194.184.202 with SMTP id ew10mr42184645wjc.23.1431534557670; 
+	Wed, 13 May 2015 09:29:17 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	a18sm33749915wja.46.2015.05.13.09.29.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 May 2015 09:29:16 -0700 (PDT)
+From: martin.jansa@gmail.com
+X-Google-Original-From: Martin.Jansa@gmail.com
+Date: Wed, 13 May 2015 18:29:26 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20150513162926.GC2411@jama>
+References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150506153933.GC2067@jama>
+	<6547454A-72E1-4FA6-A58D-51FFBFC96CF9@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <6547454A-72E1-4FA6-A58D-51FFBFC96CF9@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 1/2] populate_sdk_ext: install the latest buildtools-tarball
+Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,106 +50,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 15:59:07 -0000
-X-Groupsio-MsgNum: 65502
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_69961351-D454-4BB4-9F9C-433807BF99D4";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_69961351-D454-4BB4-9F9C-433807BF99D4
+X-List-Received-Date: Wed, 13 May 2015 16:29:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-
-> On May 13, 2015, at 4:03 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
+On Wed, May 06, 2015 at 11:37:44PM -0700, Khem Raj wrote:
 >=20
-> On Wednesday 13 May 2015 10:27:34 ChenQi wrote:
->> On 05/13/2015 09:56 AM, Khem Raj wrote:
->>>> On May 12, 2015, at 6:45 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->>>>=20
->>>> On 05/13/2015 12:19 AM, Khem Raj wrote:
->>>>>> On May 11, 2015, at 11:19 PM, Chen Qi <Qi.Chen@windriver.com> =
-wrote:
->>>>>>=20
->>>>>> -	install
->>>>>> =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUN
->>>>>> E_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh
->>>>>> ${SDK_OUTPUT}/${SDKPATH} +	# find latest buildtools-tarball =
-and
->>>>>> install it
->>>>>> +	buildtools_path=3D`ls -t1
->>>>>> =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUN
->>>>>> E_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1` +
-> install
->>>>>> $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
->>>>>=20
->>>>> why not create a symink instead of poking using wild chars
->>>>=20
->>>> Because it's simpler.
->>>=20
->>> what happens if I touch an older installer ?
->>=20
->> Hi Khem,
->>=20
->> I make this patch to avoid installing a non-existent =
-buildools-tarball.
->> If we touch an old buildtools-tarball, the installation would still
->> succeed. The touched one is installed.
->> What would lead to a potential problem is the following situation.
->> The user built buildtools-tarball, after one day, he modified key =
-part
->> of buildtools-tarball recipe, rebuilt it, and then he deliberately
->> touched the old one, and then he built an ext SDK.
->> I don't think that's a situation we need to take care of.
->> But if you insist that we should, you can suggest a reasonable =
-symlink
->> name and I would make a new patch.
+> > On May 6, 2015, at 8:39 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >=20
+> > On Fri, May 01, 2015 at 07:47:42PM +0200, Martin Jansa wrote:
+> >> From: Andre McCurdy <armccurdy@gmail.com>
+> >>=20
+> >> As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
+> >> has been renamed to "--enable-llvm-shared-libs".
+> >>=20
+> >>  http://www.mesa3d.org/relnotes/10.2.html
+> >=20
+> > Be aware that this correctly enables gallium-llvm, but then
+> > gbm_gallium_drm can fail to find LLVM libs:
+> >=20
+> > ld: cannot find -lLLVMMCJIT
+> > | collect2: error: ld returned 1 exit status
+> > | make[3]: *** [gbm_gallium_drm.la] Error 1
+> >=20
+> > at least in some configurations, I'm looking what's the difference in
+> > builds I'm seeing failing.
 >=20
-> Honestly I don't see this is as being a problem we need to handle - =
-who is
-> going to touch this file during normal usage? Builds failing under the
-> conditions described is a much more pressing issue at this point.
->=20
+> is LLVM_CONFIG set to point to valid llvm-config ?
 
-It has caused issues when we used such an approach for other artifacts
-and debugging it was hard since we lost trackability with wildcads I was =
-just sharing the experience. Ofcource
-the issue at hand is always pressing thats why we are fixing it.
+Yes, but the libraries weren't staged by llvm3.3
 
-> It could be that we should re-visit whether using buildtools-tarball =
-rather
-> than having its contents be part of the native portion of the SDK is =
-the right
-> approach. I'm not sure that we need to do that just at this moment =
-though.
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+sysroots/qemux86/usr/bin/crossscripts/llvm-config --libs
+-lLLVMTableGen -lLLVMDebugInfo -lLLVMOption -lLLVMX86Disassembler
+-lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter
+-lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils
+-lLLVMIRReader -lLLVMAsmParser -lLLVMMCDisassembler -lLLVMMCParser
+-lLLVMInstrumentation -lLLVMArchive -lLLVMBitReader -lLLVMInterpreter
+-lLLVMipo -lLLVMVectorize -lLLVMLinker -lLLVMBitWriter -lLLVMMCJIT
+-lLLVMJIT -lLLVMCodeGen -lLLVMObjCARCOpts -lLLVMScalarOpts
+-lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa -lLLVMAnalysis
+-lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC
+-lLLVMObject -lLLVMCore -lLLVMSupport
 
+Maybe the LLVM_COMPONENTS passed from mesa configure are a bit wider
+now:
 
---Apple-Mail=_69961351-D454-4BB4-9F9C-433807BF99D4
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+sysroots/qemux86/usr/bin/crossscripts/llvm-config --libs engine
+bitwriter
+-lLLVMBitWriter -lLLVMX86Disassembler -lLLVMX86AsmParser
+-lLLVMX86CodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMMCParser
+-lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMJIT
+-lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMCodeGen -lLLVMObjCARCOpts
+-lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa
+-lLLVMAnalysis -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore
+-lLLVMSupport
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+sysroots/qemux86/usr/bin/crossscripts/llvm-config --libs engine
+bitwriter
+-lLLVMBitWriter -lLLVMX86Disassembler -lLLVMX86AsmParser
+-lLLVMX86CodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMMCParser
+-lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMJIT
+-lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMCodeGen -lLLVMObjCARCOpts
+-lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa
+-lLLVMAnalysis -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore
+-lLLVMSupport
 
-iEYEARECAAYFAlVTdMgACgkQuwUzVZGdMxR0JwCfTMIY24yKo0ozlDCQCeSU2VRU
-jGkAniU3XJFsz/o4Zoy/dtdLDTiBcP6n
-=H/m7
------END PGP SIGNATURE-----
+sysroots/qemux86/usr/bin/crossscripts/llvm-config --ldflags
+-L<myprefix>/sysroots/qemux86/usr/lib/llvm3.3
+-lz -lpthread -lrt -ldl -lm
 
---Apple-Mail=_69961351-D454-4BB4-9F9C-433807BF99D4--
+sysroot only has these:
+/sysroots/qemux86/usr/lib/libLLVM-3.3.so
+/sysroots/qemux86/usr/lib/llvm3.3/libLTO.so
+/sysroots/qemux86/usr/lib/llvm3.3/LLVMHello.so
+/sysroots/qemux86/usr/lib/llvm3.3/BugpointPasses.so
+/sysroots/qemux86/usr/lib/llvm3.3/libprofile_rt.so
+/sysroots/qemux86/usr/lib/llvm3.3/libLLVM-3.3.so
+/sysroots/qemux86/usr/lib/llvm3.3/
+/sysroots/qemux86/usr/lib/
+
+static libs were built:
+=2E./../../llvm3.3/3.3-r0/llvm-3.3.build/Release/lib/libLLVMJIT.a
+=2E./../../llvm3.3/3.3-r0/image/usr/lib/llvm3.3/libLLVMJIT.a
+=2E./../../llvm3.3/3.3-r0/package/usr/lib/llvm3.3/libLLVMJIT.a
+but not staged.
+
+I don't see anything obvious in log.do_configure, most suspicious part
+is:
+
+llvm3.3/3.3-r0/llvm-3.3.src/configure: line 1990: -O2: command not found
+llvm3.3/3.3-r0/llvm-3.3.src/configure: line 1991: -O2: command not found
+
+caused by:
+${CFLAGS=3D}
+${CXXFLAGS=3D}
+
+in configure script
+
+I'll try to downgrade mesa to see what was different there.
+
+Regards,
+
