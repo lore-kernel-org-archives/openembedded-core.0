@@ -1,41 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 74E6E73FE4
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8460173FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 01:56:23 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so34424267pdb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 18:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=PItvEdWERdQ/fvYnEnLVhQU976yMPrdbgu8dPJbgESE=;
-	b=IJmIlEACSjjWyu7qQ5XyKw+gMrMiLb1z/YWXKoAW6vP2jGWILr40E36p5X6R9iygQV
-	c7g0xk0Ec2WlArsBqKQr766tbn7wkalORyFwxVt9CLfDzAmD+t0rVXTsGZ5z/WFD+FxT
-	MgleKPAACkr5GwwFV31ymmj2NVpDAedEDkWuvYo2Mq3JpAa2AbYIPpGBd5kJOq8R/gOD
-	/aAnRJcNQCkXiTRF9W2N/o2VTGE2Br2t7FN5vj3nmxwOicrYE+4dAKz5Mhb5EIZyp8vo
-	3F7GlE1fhL59v7oP+BW3XjqENcpvYj8/Fk0j0rdTgoNiJNUkzquGL7wP+elZ+dO+6eM2
-	PyxA==
-X-Received: by 10.66.62.201 with SMTP id a9mr33158642pas.101.1431482184615;
-	Tue, 12 May 2015 18:56:24 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:c57f:6cbc:3003:2f0a?
-	([2601:9:3580:84c:c57f:6cbc:3003:2f0a])
-	by mx.google.com with ESMTPSA id pc9sm17505847pdb.6.2015.05.12.18.56.23
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 May 2015 18:56:23 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5552ACB3.8060805@windriver.com>
-Date: Tue, 12 May 2015 18:56:18 -0700
-Message-Id: <187E6A9D-C952-418F-81BE-76D2E08AFDC3@gmail.com>
+	Wed, 13 May 2015 02:27:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4D2RZWk003972
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 May 2015 19:27:35 -0700 (PDT)
+Received: from [128.224.163.153] (128.224.163.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 12 May 2015 19:27:34 -0700
+Message-ID: <5552B696.8010100@windriver.com>
+Date: Wed, 13 May 2015 10:27:34 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1431411478.git.Qi.Chen@windriver.com>
 	<3030d69a4aa172f6af394a142075414bba95e61d.1431411478.git.Qi.Chen@windriver.com>
 	<6BA6B5A3-7785-4130-AE6E-42436EF2D8A3@gmail.com>
 	<5552ACB3.8060805@windriver.com>
-To: ChenQi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.2098)
+	<187E6A9D-C952-418F-81BE-76D2E08AFDC3@gmail.com>
+In-Reply-To: <187E6A9D-C952-418F-81BE-76D2E08AFDC3@gmail.com>
+X-Originating-IP: [128.224.163.153]
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V3 1/2] populate_sdk_ext: install the latest buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,57 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 01:56:23 -0000
-X-Groupsio-MsgNum: 65479
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
-
-
-> On May 12, 2015, at 6:45 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->=20
-> On 05/13/2015 12:19 AM, Khem Raj wrote:
->>> On May 11, 2015, at 11:19 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->>>=20
->>> -	install =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
-GARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh =
-${SDK_OUTPUT}/${SDKPATH}
->>> +	# find latest buildtools-tarball and install it
->>> +	buildtools_path=3D`ls -t1 =
-${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
-GARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
->>> +	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
->>>=20
->> why not create a symink instead of poking using wild chars
->=20
-> Because it's simpler.
-
-what happens if I touch an older installer ?
-
->=20
-> //Chen Qi
-
-
---Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9
+X-List-Received-Date: Wed, 13 May 2015 02:27:35 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On 05/13/2015 09:56 AM, Khem Raj wrote:
+>> On May 12, 2015, at 6:45 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>
+>> On 05/13/2015 12:19 AM, Khem Raj wrote:
+>>>> On May 11, 2015, at 11:19 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>>
+>>>> -	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
+>>>> +	# find latest buildtools-tarball and install it
+>>>> +	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
+>>>> +	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+>>>>
+>>> why not create a symink instead of poking using wild chars
+>> Because it's simpler.
+> what happens if I touch an older installer ?
 
-iEYEARECAAYFAlVSr0YACgkQuwUzVZGdMxQ5jQCfVldjdVyFCmJsiO2IlOlJFy7/
-UBoAnjkuNM7Of1p7hEJtaRoDjxCwEr8h
-=N71I
------END PGP SIGNATURE-----
+Hi Khem,
 
---Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9--
+I make this patch to avoid installing a non-existent buildools-tarball.
+If we touch an old buildtools-tarball, the installation would still 
+succeed. The touched one is installed.
+What would lead to a potential problem is the following situation.
+The user built buildtools-tarball, after one day, he modified key part 
+of buildtools-tarball recipe, rebuilt it, and then he deliberately 
+touched the old one, and then he built an ext SDK.
+I don't think that's a situation we need to take care of.
+But if you insist that we should, you can suggest a reasonable symlink 
+name and I would make a new patch.
+
+Best Regards,
+Chen Qi
+
+>
+>> //Chen Qi
+
+
