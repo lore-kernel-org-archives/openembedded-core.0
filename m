@@ -1,29 +1,32 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 135776013D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3391873DA5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 20:20:53 +0000 (UTC)
-Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0224.002; Wed, 13 May 2015 22:20:52 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: opkg and gpg signed ipk packages
-Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8A==
-Date: Wed, 13 May 2015 20:20:51 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
-	<20150507200911.GA19158@bang.betafive.co.uk>
-	<3230301C09DEF9499B442BBE162C5E48258EEECD@sestoex09.enea.se>
-	<20150508162311.GA20977@bang.betafive.co.uk>
-In-Reply-To: <20150508162311.GA20977@bang.betafive.co.uk>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
+	Wed, 13 May 2015 20:37:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4DKb8s9012625
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 May 2015 13:37:08 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 13 May 2015 13:37:07 -0700
+Message-ID: <5553B5F3.6010907@windriver.com>
+Date: Wed, 13 May 2015 16:37:07 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Subject: Re: opkg and gpg signed ipk packages
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Mike Looijmans
+	<mike.looijmans@topic.nl>
+References: <5549B621.4060008@topic.nl>	
+	<1430915731.8074.34.camel@linuxfoundation.org>
+	<5551972F.9070202@topic.nl>	
+	<1431513222.30971.163.camel@linuxfoundation.org>
+	<1431531868.30971.175.camel@linuxfoundation.org>
+In-Reply-To: <1431531868.30971.175.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Changing external kernel module results in rebuild of whole kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +39,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 20:20:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 May 2015 20:37:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi=20
-> SHA256 is also supported. In OpenEmbedded, use the PACKAGECONFIG
-> 'sha256' then ensure that your Packages file contains a 'SHA256sum: ...' =
-line
-> for each package.
+On 2015-05-13 11:44 AM, Richard Purdie wrote:
+> On Wed, 2015-05-13 at 11:33 +0100, Richard Purdie wrote:
+>> On Tue, 2015-05-12 at 08:01 +0200, Mike Looijmans wrote:
+>>> As things are now, I'd much prefer the "taring up and then extracting a large
+>>> (GB) sized sstate object" option, since that at least worked correctly.
+>>
+>> Sorry for the delayed reply, I didn't understand exactly what was
+>> happening without looking at a build. By far the easiest "fix" right now
+>> is:
+>>
+>> RM_WORK_EXCLUDE += "<my kernel recipe PN>"
+>>
+>> This won't cost that much diskspace and should avoid the problem you're
+>> seeing.
+>>
+>> The problem is module.bbclass has a DEPENDS on virtual/kernel which
+>> means it depends on <kernel>:do_populate_sysroot. As well as triggering
+>> the unpack to repopulate the shared work area for the kernel, this means
+>> it will cause the thing to effectively repackage.
+>>
+>> There are various ideas coming to mind:
+>>
+>> * We could drop virtual/kernel from DEPENDS which would shorten the
+>> kernel dependency chain by removing populate_sysroot from the equation.
+>>
+>> * We could change the task dependencies of populate_sysroot in
+>> kernel.bbclass so that it doesn't depend on do_install (it doesn't
+>> handle files any more now anyway).
+>>
+>> * We could figure out why populate_sysroot from sstate isn't good enough
+>> for bitbake and change the sstate code to use sstate more heavily. If I
+>> remember rightly, we currently rerun all a task's tasks rather than pull
+>> it half from sstate and half not.
+>>
+>> None of these jumps out at me as an easy or necessarily desirable fix.
+>
+> I do have some patches:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=c4aed2ba7ae74e54a4ae8ac7aeda291704bde82a
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=7a20f175c0a1cdec208471e5f7ff5f560f0b609e
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=c5f3cdca3e16d90c4e5bbb3abe5e136b8025f1a4
+>
+> What I've noticed is that rm_work does not remove the data from
+> shared-work. What it does do is remove the stamp file which causes all
+> the tasks to rerun even if the data was there. The above patches make
+> "do_shared_work" a semi sstate task, one which is never generated into
+> the sstate feed but does have the right stamp functionality. This
+> basically stops kernel modules from rerunning kernel tasks even with
+> rm_work.
+>
+> Whether these patches are a good idea, I'm less sure.
+>
+> Bruce: You might want to look at the module.bbclass changes in the first
+> patch. I think there is some duplication between module and module-base
+> I need to remove.
 
-Does anyone know where do I specify this PACKAGECONFIG configuration? I wan=
-t all ipk packages to be checksummed using sha256 (in the Packages file tha=
-t describes the ipk  packages). The default seems to be md5:
 
-tmp/deploy/ipk/ppce500v2/Packages
-Package: acl-dbg
-Version: 2.2.52-r0
-Recommends: libc6-dbg, libattr-dbg, libacl-dbg
-Section: devel
-Architecture: ppce500v2
-Maintainer: Poky <poky@yoctoproject.org>
-MD5Sum: 0903a158d6c7acc825bf7e71b255d7fc     <<<<<
+I looked at the series, and it looks sane to me. Nice to move that
+dependency to a common location, rather than requiring and end module
+recipe (like lttng to get it correct).
 
-Thanks
-//Sona
+For the overlap, I assume you were talking about them both now
+having the do_configure[depends] += "virtual/kernel:do_shared_workdir" ?
+
+Since module inherits module base, looks like that can be shuffled down
+to the lowest class. It's also a bit odd (to my eyes) that module.bbclass
+has the do_make_scripts dependency, while module-base.bbclass has the
+actual routines ..
+
+Definitely from sorting out that looks to be in order.
+
+Bruce
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
 
