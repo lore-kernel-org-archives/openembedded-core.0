@@ -1,24 +1,43 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 04CF87403A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E6E73FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 01:46:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4D1kGIK003726
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 May 2015 01:56:23 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so34424267pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 May 2015 18:46:17 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 12 May 2015 18:46:16 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 May 2015 09:41:42 +0800
-Message-ID: <1431481302-16455-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] unzip: Security Advisory -CVE-2014-9636 and CVE-2015-1315
+	Tue, 12 May 2015 18:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=PItvEdWERdQ/fvYnEnLVhQU976yMPrdbgu8dPJbgESE=;
+	b=IJmIlEACSjjWyu7qQ5XyKw+gMrMiLb1z/YWXKoAW6vP2jGWILr40E36p5X6R9iygQV
+	c7g0xk0Ec2WlArsBqKQr766tbn7wkalORyFwxVt9CLfDzAmD+t0rVXTsGZ5z/WFD+FxT
+	MgleKPAACkr5GwwFV31ymmj2NVpDAedEDkWuvYo2Mq3JpAa2AbYIPpGBd5kJOq8R/gOD
+	/aAnRJcNQCkXiTRF9W2N/o2VTGE2Br2t7FN5vj3nmxwOicrYE+4dAKz5Mhb5EIZyp8vo
+	3F7GlE1fhL59v7oP+BW3XjqENcpvYj8/Fk0j0rdTgoNiJNUkzquGL7wP+elZ+dO+6eM2
+	PyxA==
+X-Received: by 10.66.62.201 with SMTP id a9mr33158642pas.101.1431482184615;
+	Tue, 12 May 2015 18:56:24 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:c57f:6cbc:3003:2f0a?
+	([2601:9:3580:84c:c57f:6cbc:3003:2f0a])
+	by mx.google.com with ESMTPSA id pc9sm17505847pdb.6.2015.05.12.18.56.23
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 12 May 2015 18:56:23 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <5552ACB3.8060805@windriver.com>
+Date: Tue, 12 May 2015 18:56:18 -0700
+Message-Id: <187E6A9D-C952-418F-81BE-76D2E08AFDC3@gmail.com>
+References: <cover.1431411478.git.Qi.Chen@windriver.com>
+	<3030d69a4aa172f6af394a142075414bba95e61d.1431411478.git.Qi.Chen@windriver.com>
+	<6BA6B5A3-7785-4130-AE6E-42436EF2D8A3@gmail.com>
+	<5552ACB3.8060805@windriver.com>
+To: ChenQi <Qi.Chen@windriver.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 1/2] populate_sdk_ext: install the latest buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,510 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 01:46:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 May 2015 01:56:23 -0000
+X-Groupsio-MsgNum: 65479
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Roy Li <rongqing.li@windriver.com>
-
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9636
-
-unzip 6.0 allows remote attackers to cause a denial of service
-(out-of-bounds read or write and crash) via an extra field with
-an uncompressed size smaller than the compressed field size in a
-zip archive that advertises STORED method compression.
-
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1315
-
-Buffer overflow in the charset_to_intern function in unix/unix.c in
-Info-Zip UnZip 6.10b allows remote attackers to execute arbitrary code
-via a crafted string, as demonstrated by converting a string from CP866
-to UTF-8.
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch  | 402 +++++++++++++++++++++
- .../unzip/unzip/unzip-6.0_overflow3.diff           |  45 +++
- meta/recipes-extended/unzip/unzip_6.0.bb           |   5 +-
- 3 files changed, 451 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/unzip-6.0_overflow3.diff
-
-diff --git a/meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch b/meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch
-new file mode 100644
-index 0000000..9ba3c1d
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch
-@@ -0,0 +1,402 @@
-+From: Giovanni Scafora <giovanni.archlinux.org>
-+Subject: unzip files encoded with non-latin, non-unicode file names
-+Last-Update: 2015-02-11
-+
-+Upstream-Status: Backport
-+
-+Updated 2015-02-11 by Marc Deslauriers <marc.deslauriers@canonical.com>
-+to fix buffer overflow in charset_to_intern()
-+
-+Signed-off-by: Marc Deslauriers <marc.deslauriers@canonical.com>
-+
-+Index: unzip-6.0/unix/unix.c
-+===================================================================
-+--- unzip-6.0.orig/unix/unix.c	2015-02-11 08:46:43.675324290 -0500
-++++ unzip-6.0/unix/unix.c	2015-02-11 09:18:04.902081319 -0500
-+@@ -30,6 +30,9 @@
-+ #define UNZIP_INTERNAL
-+ #include "unzip.h"
-+ 
-++#include <iconv.h>
-++#include <langinfo.h>
-++
-+ #ifdef SCO_XENIX
-+ #  define SYSNDIR
-+ #else  /* SCO Unix, AIX, DNIX, TI SysV, Coherent 4.x, ... */
-+@@ -1874,3 +1877,102 @@
-+     }
-+ }
-+ #endif /* QLZIP */
-++
-++
-++typedef struct {
-++    char *local_charset;
-++    char *archive_charset;
-++} CHARSET_MAP;
-++
-++/* A mapping of local <-> archive charsets used by default to convert filenames
-++ * of DOS/Windows Zip archives. Currently very basic. */
-++static CHARSET_MAP dos_charset_map[] = {
-++    { "ANSI_X3.4-1968", "CP850" },
-++    { "ISO-8859-1", "CP850" },
-++    { "CP1252", "CP850" },
-++    { "UTF-8", "CP866" },
-++    { "KOI8-R", "CP866" },
-++    { "KOI8-U", "CP866" },
-++    { "ISO-8859-5", "CP866" }
-++};
-++
-++char OEM_CP[MAX_CP_NAME] = "";
-++char ISO_CP[MAX_CP_NAME] = "";
-++
-++/* Try to guess the default value of OEM_CP based on the current locale.
-++ * ISO_CP is left alone for now. */
-++void init_conversion_charsets()
-++{
-++    const char *local_charset;
-++    int i;
-++
-++    /* Make a guess only if OEM_CP not already set. */ 
-++    if(*OEM_CP == '\0') {
-++    	local_charset = nl_langinfo(CODESET);
-++    	for(i = 0; i < sizeof(dos_charset_map)/sizeof(CHARSET_MAP); i++)
-++    		if(!strcasecmp(local_charset, dos_charset_map[i].local_charset)) {
-++    			strncpy(OEM_CP, dos_charset_map[i].archive_charset,
-++    					sizeof(OEM_CP));
-++    			break;
-++    		}
-++    }
-++}
-++
-++/* Convert a string from one encoding to the current locale using iconv().
-++ * Be as non-intrusive as possible. If error is encountered during covertion
-++ * just leave the string intact. */
-++static void charset_to_intern(char *string, char *from_charset)
-++{
-++    iconv_t cd;
-++    char *s,*d, *buf;
-++    size_t slen, dlen, buflen;
-++    const char *local_charset;
-++
-++    if(*from_charset == '\0')
-++    	return;
-++
-++    buf = NULL;
-++    local_charset = nl_langinfo(CODESET);
-++
-++    if((cd = iconv_open(local_charset, from_charset)) == (iconv_t)-1)
-++        return;
-++
-++    slen = strlen(string);
-++    s = string;
-++
-++    /*  Make sure OUTBUFSIZ + 1 never ends up smaller than FILNAMSIZ
-++     *  as this function also gets called with G.outbuf in fileio.c
-++     */
-++    buflen = FILNAMSIZ;
-++    if (OUTBUFSIZ + 1 < FILNAMSIZ)
-++    {
-++        buflen = OUTBUFSIZ + 1;
-++    }
-++
-++    d = buf = malloc(buflen);
-++    if(!d)
-++    	goto cleanup;
-++
-++    bzero(buf,buflen);
-++    dlen = buflen - 1;
-++
-++    if(iconv(cd, &s, &slen, &d, &dlen) == (size_t)-1)
-++    	goto cleanup;
-++    strncpy(string, buf, buflen);
-++
-++    cleanup:
-++    free(buf);
-++    iconv_close(cd);
-++}
-++
-++/* Convert a string from OEM_CP to the current locale charset. */
-++inline void oem_intern(char *string)
-++{
-++    charset_to_intern(string, OEM_CP);
-++}
-++
-++/* Convert a string from ISO_CP to the current locale charset. */
-++inline void iso_intern(char *string)
-++{
-++    charset_to_intern(string, ISO_CP);
-++}
-+Index: unzip-6.0/unix/unxcfg.h
-+===================================================================
-+--- unzip-6.0.orig/unix/unxcfg.h	2015-02-11 08:46:43.675324290 -0500
-++++ unzip-6.0/unix/unxcfg.h	2015-02-11 08:46:43.671324260 -0500
-+@@ -228,4 +228,30 @@
-+ /* wild_dir, dirname, wildname, matchname[], dirnamelen, have_dirname, */
-+ /*    and notfirstcall are used by do_wild().                          */
-+ 
-++
-++#define MAX_CP_NAME 25 
-++   
-++#ifdef SETLOCALE
-++#  undef SETLOCALE
-++#endif
-++#define SETLOCALE(category, locale) setlocale(category, locale)
-++#include <locale.h>
-++   
-++#ifdef _ISO_INTERN
-++#  undef _ISO_INTERN
-++#endif
-++#define _ISO_INTERN(str1) iso_intern(str1)
-++
-++#ifdef _OEM_INTERN
-++#  undef _OEM_INTERN
-++#endif
-++#ifndef IZ_OEM2ISO_ARRAY
-++#  define IZ_OEM2ISO_ARRAY
-++#endif
-++#define _OEM_INTERN(str1) oem_intern(str1)
-++
-++void iso_intern(char *);
-++void oem_intern(char *);
-++void init_conversion_charsets(void);
-++   
-+ #endif /* !__unxcfg_h */
-+Index: unzip-6.0/unzip.c
-+===================================================================
-+--- unzip-6.0.orig/unzip.c	2015-02-11 08:46:43.675324290 -0500
-++++ unzip-6.0/unzip.c	2015-02-11 08:46:43.675324290 -0500
-+@@ -327,11 +327,21 @@
-+   -2  just filenames but allow -h/-t/-z  -l  long Unix \"ls -l\" format\n\
-+                                          -v  verbose, multi-page format\n";
-+ 
-++#ifndef UNIX
-+ static ZCONST char Far ZipInfoUsageLine3[] = "miscellaneous options:\n\
-+   -h  print header line       -t  print totals for listed files or for all\n\
-+   -z  print zipfile comment   -T  print file times in sortable decimal format\
-+ \n  -C  be case-insensitive   %s\
-+   -x  exclude filenames that follow from listing\n";
-++#else /* UNIX */
-++static ZCONST char Far ZipInfoUsageLine3[] = "miscellaneous options:\n\
-++  -h  print header line       -t  print totals for listed files or for all\n\
-++  -z  print zipfile comment  %c-T%c print file times in sortable decimal format\
-++\n %c-C%c be case-insensitive   %s\
-++  -x  exclude filenames that follow from listing\n\
-++  -O CHARSET  specify a character encoding for DOS, Windows and OS/2 archives\n\
-++  -I CHARSET  specify a character encoding for UNIX and other archives\n";
-++#endif /* !UNIX */
-+ #ifdef MORE
-+    static ZCONST char Far ZipInfoUsageLine4[] =
-+      "  -M  page output through built-in \"more\"\n";
-+@@ -664,6 +674,17 @@
-+   -U  use escapes for all non-ASCII Unicode  -UU ignore any Unicode fields\n\
-+   -C  match filenames case-insensitively     -L  make (some) names \
-+ lowercase\n %-42s  -V  retain VMS version numbers\n%s";
-++#elif (defined UNIX)
-++static ZCONST char Far UnzipUsageLine4[] = "\
-++modifiers:\n\
-++  -n  never overwrite existing files         -q  quiet mode (-qq => quieter)\n\
-++  -o  overwrite files WITHOUT prompting      -a  auto-convert any text files\n\
-++  -j  junk paths (do not make directories)   -aa treat ALL files as text\n\
-++  -U  use escapes for all non-ASCII Unicode  -UU ignore any Unicode fields\n\
-++  -C  match filenames case-insensitively     -L  make (some) names \
-++lowercase\n %-42s  -V  retain VMS version numbers\n%s\
-++  -O CHARSET  specify a character encoding for DOS, Windows and OS/2 archives\n\
-++  -I CHARSET  specify a character encoding for UNIX and other archives\n\n";
-+ #else /* !VMS */
-+ static ZCONST char Far UnzipUsageLine4[] = "\
-+ modifiers:\n\
-+@@ -802,6 +823,10 @@
-+ #endif /* UNICODE_SUPPORT */
-+ 
-+ 
-++#ifdef UNIX
-++    init_conversion_charsets();
-++#endif
-++
-+ #if (defined(__IBMC__) && defined(__DEBUG_ALLOC__))
-+     extern void DebugMalloc(void);
-+ 
-+@@ -1335,6 +1360,11 @@
-+     argc = *pargc;
-+     argv = *pargv;
-+ 
-++#ifdef UNIX
-++    extern char OEM_CP[MAX_CP_NAME];
-++    extern char ISO_CP[MAX_CP_NAME];
-++#endif
-++    
-+     while (++argv, (--argc > 0 && *argv != NULL && **argv == '-')) {
-+         s = *argv + 1;
-+         while ((c = *s++) != 0) {    /* "!= 0":  prevent Turbo C warning */
-+@@ -1516,6 +1546,35 @@
-+                     }
-+                     break;
-+ #endif  /* MACOS */
-++#ifdef UNIX
-++    			case ('I'):
-++                    if (negative) {
-++                        Info(slide, 0x401, ((char *)slide,
-++                          "error:  encodings can't be negated"));
-++                        return(PK_PARAM);
-++    				} else {
-++    					if(*s) { /* Handle the -Icharset case */
-++    						/* Assume that charsets can't start with a dash to spot arguments misuse */
-++    						if(*s == '-') { 
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						strncpy(ISO_CP, s, sizeof(ISO_CP));
-++    					} else { /* -I charset */
-++    						++argv;
-++    						if(!(--argc > 0 && *argv != NULL && **argv != '-')) {
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						s = *argv;
-++    						strncpy(ISO_CP, s, sizeof(ISO_CP));
-++    					}
-++    					while(*(++s)); /* No params straight after charset name */
-++    				}
-++    				break;
-++#endif /* ?UNIX */
-+                 case ('j'):    /* junk pathnames/directory structure */
-+                     if (negative)
-+                         uO.jflag = FALSE, negative = 0;
-+@@ -1591,6 +1650,35 @@
-+                     } else
-+                         ++uO.overwrite_all;
-+                     break;
-++#ifdef UNIX
-++    			case ('O'):
-++                    if (negative) {
-++                        Info(slide, 0x401, ((char *)slide,
-++                          "error:  encodings can't be negated"));
-++                        return(PK_PARAM);
-++    				} else {
-++    					if(*s) { /* Handle the -Ocharset case */
-++    						/* Assume that charsets can't start with a dash to spot arguments misuse */
-++    						if(*s == '-') { 
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						strncpy(OEM_CP, s, sizeof(OEM_CP));
-++    					} else { /* -O charset */
-++    						++argv;
-++    						if(!(--argc > 0 && *argv != NULL && **argv != '-')) {
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -O argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						s = *argv;
-++    						strncpy(OEM_CP, s, sizeof(OEM_CP));
-++    					}
-++    					while(*(++s)); /* No params straight after charset name */
-++    				}
-++    				break;
-++#endif /* ?UNIX */
-+                 case ('p'):    /* pipes:  extract to stdout, no messages */
-+                     if (negative) {
-+                         uO.cflag = FALSE;
-+Index: unzip-6.0/unzpriv.h
-+===================================================================
-+--- unzip-6.0.orig/unzpriv.h	2015-02-11 08:46:43.675324290 -0500
-++++ unzip-6.0/unzpriv.h	2015-02-11 08:46:43.675324290 -0500
-+@@ -3008,7 +3008,7 @@
-+          !(((islochdr) || (isuxatt)) && \
-+            ((hostver) == 25 || (hostver) == 26 || (hostver) == 40))) || \
-+         (hostnum) == FS_HPFS_ || \
-+-        ((hostnum) == FS_NTFS_ && (hostver) == 50)) { \
-++        ((hostnum) == FS_NTFS_ /* && (hostver) == 50 */ )) { \
-+         _OEM_INTERN((string)); \
-+     } else { \
-+         _ISO_INTERN((string)); \
-+Index: unzip-6.0/zipinfo.c
-+===================================================================
-+--- unzip-6.0.orig/zipinfo.c	2015-02-11 08:46:43.675324290 -0500
-++++ unzip-6.0/zipinfo.c	2015-02-11 08:46:43.675324290 -0500
-+@@ -457,6 +457,10 @@
-+     int    tflag_slm=TRUE, tflag_2v=FALSE;
-+     int    explicit_h=FALSE, explicit_t=FALSE;
-+ 
-++#ifdef UNIX
-++    extern char OEM_CP[MAX_CP_NAME];
-++    extern char ISO_CP[MAX_CP_NAME];
-++#endif
-+ 
-+ #ifdef MACOS
-+     uO.lflag = LFLAG;         /* reset default on each call */
-+@@ -501,6 +505,35 @@
-+                             uO.lflag = 0;
-+                     }
-+                     break;
-++#ifdef UNIX
-++    			case ('I'):
-++                    if (negative) {
-++                        Info(slide, 0x401, ((char *)slide,
-++                          "error:  encodings can't be negated"));
-++                        return(PK_PARAM);
-++    				} else {
-++    					if(*s) { /* Handle the -Icharset case */
-++    						/* Assume that charsets can't start with a dash to spot arguments misuse */
-++    						if(*s == '-') { 
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						strncpy(ISO_CP, s, sizeof(ISO_CP));
-++    					} else { /* -I charset */
-++    						++argv;
-++    						if(!(--argc > 0 && *argv != NULL && **argv != '-')) {
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						s = *argv;
-++    						strncpy(ISO_CP, s, sizeof(ISO_CP));
-++    					}
-++    					while(*(++s)); /* No params straight after charset name */
-++    				}
-++    				break;
-++#endif /* ?UNIX */
-+                 case 'l':      /* longer form of "ls -l" type listing */
-+                     if (negative)
-+                         uO.lflag = -2, negative = 0;
-+@@ -521,6 +554,35 @@
-+                         G.M_flag = TRUE;
-+                     break;
-+ #endif
-++#ifdef UNIX
-++    			case ('O'):
-++                    if (negative) {
-++                        Info(slide, 0x401, ((char *)slide,
-++                          "error:  encodings can't be negated"));
-++                        return(PK_PARAM);
-++    				} else {
-++    					if(*s) { /* Handle the -Ocharset case */
-++    						/* Assume that charsets can't start with a dash to spot arguments misuse */
-++    						if(*s == '-') { 
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -I argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						strncpy(OEM_CP, s, sizeof(OEM_CP));
-++    					} else { /* -O charset */
-++    						++argv;
-++    						if(!(--argc > 0 && *argv != NULL && **argv != '-')) {
-++    	                        Info(slide, 0x401, ((char *)slide,
-++        		                  "error:  a valid character encoding should follow the -O argument"));
-++    	                        return(PK_PARAM); 
-++    						}
-++    						s = *argv;
-++    						strncpy(OEM_CP, s, sizeof(OEM_CP));
-++    					}
-++    					while(*(++s)); /* No params straight after charset name */
-++    				}
-++    				break;
-++#endif /* ?UNIX */
-+                 case 's':      /* default:  shorter "ls -l" type listing */
-+                     if (negative)
-+                         uO.lflag = -2, negative = 0;
-diff --git a/meta/recipes-extended/unzip/unzip/unzip-6.0_overflow3.diff b/meta/recipes-extended/unzip/unzip/unzip-6.0_overflow3.diff
-new file mode 100644
-index 0000000..0a0bfbb
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/unzip-6.0_overflow3.diff
-@@ -0,0 +1,45 @@
-+From 190040ebfcf5395a6ccedede2cc9343d34f0a108 Mon Sep 17 00:00:00 2001
-+From: mancha <mancha1 AT zoho DOT com>
-+Date: Wed, 11 Feb 2015
-+Subject: Info-ZIP UnZip buffer overflow
-+
-+Upstream-Status: Backport
-+
-+By carefully crafting a corrupt ZIP archive with "extra fields" that
-+purport to have compressed blocks larger than the corresponding
-+uncompressed blocks in STORED no-compression mode, an attacker can
-+trigger a heap overflow that can result in application crash or
-+possibly have other unspecified impact.
-+
-+This patch ensures that when extra fields use STORED mode, the
-+"compressed" and uncompressed block sizes match.
-+
-+Signed-off-by: mancha <mancha1 AT zoho DOT com>
-+---
-+ extract.c |    8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+--- a/extract.c
-++++ b/extract.c
-+@@ -2217,6 +2217,7 @@ static int test_compr_eb(__G__ eb, eb_si
-+     ulg eb_ucsize;
-+     uch *eb_ucptr;
-+     int r;
-++    ush method;
-+ 
-+     if (compr_offset < 4)                /* field is not compressed: */
-+         return PK_OK;                    /* do nothing and signal OK */
-+@@ -2226,6 +2227,13 @@ static int test_compr_eb(__G__ eb, eb_si
-+          eb_size <= (compr_offset + EB_CMPRHEADLEN)))
-+         return IZ_EF_TRUNC;               /* no compressed data! */
-+ 
-++    method = makeword(eb + (EB_HEADSIZE + compr_offset));
-++    if ((method == STORED) &&
-++        (eb_size - compr_offset - EB_CMPRHEADLEN != eb_ucsize))
-++	return PK_ERR;			  /* compressed & uncompressed
-++					   * should match in STORED
-++					   * method */
-++
-+     if (
-+ #ifdef INT_16BIT
-+         (((ulg)(extent)eb_ucsize) != eb_ucsize) ||
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index e203c06..5060d35 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -8,7 +8,10 @@ PR = "r5"
- 
- SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
- 	file://avoid-strip.patch \
--	file://define-ldflags.patch"
-+	file://define-ldflags.patch \
-+	file://06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch \
-+	file://unzip-6.0_overflow3.diff \
-+"
- 
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
- SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
--- 
-1.9.1
+--Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=windows-1252
 
 
+> On May 12, 2015, at 6:45 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+>=20
+> On 05/13/2015 12:19 AM, Khem Raj wrote:
+>>> On May 11, 2015, at 11:19 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>=20
+>>> -	install =
+${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
+GARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh =
+${SDK_OUTPUT}/${SDKPATH}
+>>> +	# find latest buildtools-tarball and install it
+>>> +	buildtools_path=3D`ls -t1 =
+${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK=
+GARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
+>>> +	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+>>>=20
+>> why not create a symink instead of poking using wild chars
+>=20
+> Because it's simpler.
+
+what happens if I touch an older installer ?
+
+>=20
+> //Chen Qi
+
+
+--Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlVSr0YACgkQuwUzVZGdMxQ5jQCfVldjdVyFCmJsiO2IlOlJFy7/
+UBoAnjkuNM7Of1p7hEJtaRoDjxCwEr8h
+=N71I
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C336900B-1FE5-4456-B78E-A5223F50DCB9--
