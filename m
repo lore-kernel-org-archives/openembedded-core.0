@@ -1,30 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DD41C6AD0D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 982306013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 14:20:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4EEKgwN004051 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 15:20:42 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F5I_1cT_Nc7b
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 15:20:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4EEKUW1004019
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 15:20:41 +0100
-Message-ID: <1431613230.18723.0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 May 2015 15:20:30 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: base: Avoid find race
+	Thu, 14 May 2015 14:37:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4EEbTTt014302
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 May 2015 07:37:30 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 14 May 2015 07:37:29 -0700
+Message-ID: <5554B329.2090708@windriver.com>
+Date: Thu, 14 May 2015 10:37:29 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>	
+	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>	
+	<20150512144749.GD2714@jama>	
+	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
+	<1431611197.30971.212.camel@linuxfoundation.org>
+In-Reply-To: <1431611197.30971.212.camel@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +39,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 14:20:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 May 2015 14:37:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-In a similar way to http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=aa1438b56f30515f9c31b306decef7f562dda81f
-and http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=527b28c10955daf0387597020d69593ce24bcaa4
-there is a find race in base.bbclass.
+On 2015-05-14 09:46 AM, Richard Purdie wrote:
+> On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
+>> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>> On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
+>>>> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+>>>> wrote:
+>>>>
+>>>>> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
+>>>>> little to run necessary applications. Add a new arm configuration based
+>>>>> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
+>>>>>
+>>>>
+>>>> Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
+>>>> Why not just change the qemuarm machine to use the A9?
+>>>
+>>> Then we should officially drop thumb1 support, because current qemuarm
+>>> builds are quite broken when thumb is enabled and dropping current
+>>> qemuarm or replacing it with A9 variant will prevent oe-core to be
+>>> testable on autobuilder. See
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+>>
+>> +1 for updating qemuarm to an ARMv7 CPU.
+>
+> One thing I did notice about the new proposed arm machine was the lack
+> of graphics support. We really do need a machine with graphics. If we
+> could get a machine which had graphics and more memory that would be
+> much more attractive to switch to.
+>
+> This also has implications on the kernel support (cc Bruce).
 
-For recipes with PACKAGES_remove = "${PN}", the find which removes
-.la files can race against deletion of other directories in WORKDIR
-e.g.:
+I've been using the qemuarma9 machine in some different contexts for
+a while now, and in fact, there's a BSP definition in linux-yocto
+already for it.
 
-find: '/home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7/sstate-build-populate_lic': No such file or directory
-| WARNING: /home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7/temp/run.do_configure.6558:1 exit 1 from
-| find /home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7 -name \*.la -delete
+So from that point of view, the kernel impacts are understood.
 
-Fix the race in the same way.
+But not only does the qemuarma9 lack graphics, it also has issues
+with disk and USB, so generally it isn't as usable as the arm926
+qemu variant.
 
-[YOCTO #7522]
+There are other options that have newer CPUs, or just changing the
+cpu .. but a wholesale switch to the "qemuarma9" machine tends to
+bring some new challenges.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Bruce
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 0e4b068..99b512b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -269,7 +269,7 @@ base_do_configure() {
- 			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
- 				oe_runmake clean
- 			fi
--			find ${B} -name \*.la -delete
-+			find ${B} -ignore_readdir_race -name \*.la -delete
- 		fi
- 	fi
- 	if [ -n "${CONFIGURESTAMPFILE}" ]; then
-
+>
+>> As for dropping thumb1 support that's probably fine too - although
+>> technically (if someone really did want to keep thumb1 support alive)
+>> I guess nothing prevents testing thumb1 binaries on an ARMv7 CPU?
+>
+> Just guessing but they might work in some cases an a v7 CPU but fail on
+> older ones due to alignment constraints?
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
