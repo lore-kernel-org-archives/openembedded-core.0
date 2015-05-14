@@ -1,29 +1,25 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 892796013D
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 71E1E6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 15:43:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 14 May 2015 08:42:45 -0700
+	Thu, 14 May 2015 16:49:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 May 2015 09:49:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,429,1427785200"; d="scan'208";a="493610793"
-Received: from aehernan-devstation.zpn.intel.com (HELO [10.219.4.79])
-	([10.219.4.79])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 May 2015 08:42:44 -0700
-Message-ID: <5554C274.5050202@linux.intel.com>
-Date: Thu, 14 May 2015 10:42:44 -0500
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,430,1427785200"; d="scan'208";a="729253320"
+Received: from bitbang.jf.intel.com ([10.7.201.37])
+	by orsmga002.jf.intel.com with ESMTP; 14 May 2015 09:49:50 -0700
+Message-ID: <5554D22E.8080900@linux.intel.com>
+Date: Thu, 14 May 2015 09:49:50 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1431443215.git.alejandro.hernandez@linux.intel.com>	
-	<62f3e62e0a2145d32fd75530b6f2aeba00dc1bc4.1431443215.git.alejandro.hernandez@linux.intel.com>	
-	<20150512223017.GG2714@jama> <55528041.8020901@linux.intel.com>
-	<1431600879.30971.211.camel@linuxfoundation.org>
-In-Reply-To: <1431600879.30971.211.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python3: Upgrade from 3.4.2 to 3.4.3
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1431569867.git.Qi.Chen@windriver.com>
+	<630a1e0551f0431f8d513f979198ee752653a5e3.1431569867.git.Qi.Chen@windriver.com>
+In-Reply-To: <630a1e0551f0431f8d513f979198ee752653a5e3.1431569867.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH V2 1/1] populate_sdk_ext: set noexec flag for some tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 15:43:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 14 May 2015 16:49:51 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 14/05/15 05:54, Richard Purdie wrote:
-> On Tue, 2015-05-12 at 17:35 -0500, Alejandro Hernandez wrote:
->> On 12/05/15 17:30, Martin Jansa wrote:
->>> On Tue, May 12, 2015 at 03:09:50PM +0000, Alejandro Hernandez wrote:
->>>> Modifies:
->>>> python3-native_3.4.2.bb -> python3-native_3.4.3.bb: Updates checksums, LICENSE did not change,
->>>> dates were updated.
->>>> python3_3.4.2.bb -> python3_3.4.3.bb: Updates checksums, LICENSE did not change,
->>>> dates were updated.
->>>> generate-manifest-3.4.py: fixes asyncio and net-tools.
->>>> python-3.4-manifest.inc: fixes asyncio and net-tools.
->>>> This upgrade contains a fix for CVE-2014-9365.
->>> There is still that textrel issue I've reported earlier:
->>> python3-3.4.2: ELF binary '/home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/python3/3.4.2-r1.0/packages-split/python3-audio/usr/lib/python3.4/lib-dynload/ossaudiodev.cpython-34m.so' has relocations in .text [textrel]
->> [...]
->>> IIRC you've already sent some patch to fix it, do you know what's the status of it, if it was applied or not (why?)?
->> Oh nice, I had not seen your patch, I was aware the issue still existed
->> but I upgraded first,  mainly to include the CVE fix and I was just
->> gonna start to work on that issue, no I don't know what the status of it
->> is, RP was probably waiting for the Autobuilder issues to be fixed, but
->> now they are, so it'll probably be applied soon.
-> I think there is some misunderstanding here. I don't think there is a
-> patch to fix the textrel issues as yet. If there is, someone needs to
-> point me at it as I can't find it.
+On 05/13/2015 07:19 PM, Chen Qi wrote:
+> For the SDK, what we are interested in is the sysroot part. So the
+> only useful task is do_populate_sysroot. Other tasks like do_package
+> don't need to run. So mark them as 'noexec' for SDK.
 >
-> Cheers,
+> This would result in two benefits:
+> 1) The size of extensible SDK is larged reduced. For example, extensible
+>     SDK for core-image-minimal is reduced from 1.8G to 793M.
+> 2) The installation time is reduced as a lot of tasks are not run.
 >
-> Richard
-Oh, my bad, apparently I read that wrong, I have NOT sent any patch to 
-fix the textrel issues yet.
+> [YOCTO #7590]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+> index dc2c58e..6c265b8 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -141,8 +141,18 @@ python copy_buildsystem () {
+>       sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
+>       oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
+>
+> +    # Mark tasks to be 'noexec' for the SDK as we only need the sysroot part
+> +    base_class_path = os.path.join(baseoutpath, core_meta_subdir, 'classes', 'base.bbclass')
+
+Qi, I don't like the idea of modifying the source that is copied into the sdk. 
+Also, this will continue to persist if the user ever wants to start generating 
+images.
+
+Ideally, we would only modify the behavior while setting up the sdk. And then 
+the behavior afterward would remain as when using a regular bitbake workspace.
+
+> +    if os.path.exists(base_class_path):
+> +        with open(base_class_path, 'a') as f:
+> +            noexec_tasks = ['do_package', 'do_packagedata', 'do_package_qa', 'do_package_write_rpm',
+> +                            'do_package_write_ipk', 'do_package_write_deb', 'do_deploy', 'do_populate_lic',
+> +                            'do_rootfs']
+> +            for t in noexec_tasks:
+> +                f.write('%s[noexec] = "1"\n' % t)
+> +
+>       # Filter the locked signatures file to just the sstate tasks we are interested in
+> -    allowed_tasks = ['do_populate_lic', 'do_populate_sysroot', 'do_packagedata', 'do_package_write_ipk', 'do_package_write_rpm', 'do_package_write_deb', 'do_package_qa', 'do_deploy']
+> +    allowed_tasks = ['do_populate_sysroot']
+>       excluded_targets = d.getVar('SDK_TARGETS', True)
+>       lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
+>       oe.copy_buildsystem.prune_lockedsigs(allowed_tasks,
+>
+
 
