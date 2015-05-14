@@ -1,32 +1,21 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 982306013D
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4704A6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 14:37:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4EEbTTt014302
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 May 2015 07:37:30 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 14 May 2015 07:37:29 -0700
-Message-ID: <5554B329.2090708@windriver.com>
-Date: Thu, 14 May 2015 10:37:29 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
-	<armccurdy@gmail.com>, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>	
-	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>	
-	<20150512144749.GD2714@jama>	
-	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
-	<1431611197.30971.212.camel@linuxfoundation.org>
-In-Reply-To: <1431611197.30971.212.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+	Thu, 14 May 2015 15:09:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 14 May 2015 08:08:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,429,1427785200"; d="scan'208";a="729196205"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga002.jf.intel.com with ESMTP; 14 May 2015 08:08:15 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 May 2015 07:03:34 +0000
+Message-Id: <1431587014-30450-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] useradd.bbclass: Remove base-passwd dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,68 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 14:37:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 May 2015 15:09:45 -0000
 
-On 2015-05-14 09:46 AM, Richard Purdie wrote:
-> On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
->> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>> On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
->>>> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
->>>> wrote:
->>>>
->>>>> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
->>>>> little to run necessary applications. Add a new arm configuration based
->>>>> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
->>>>>
->>>>
->>>> Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
->>>> Why not just change the qemuarm machine to use the A9?
->>>
->>> Then we should officially drop thumb1 support, because current qemuarm
->>> builds are quite broken when thumb is enabled and dropping current
->>> qemuarm or replacing it with A9 variant will prevent oe-core to be
->>> testable on autobuilder. See
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
->>
->> +1 for updating qemuarm to an ARMv7 CPU.
->
-> One thing I did notice about the new proposed arm machine was the lack
-> of graphics support. We really do need a machine with graphics. If we
-> could get a machine which had graphics and more memory that would be
-> much more attractive to switch to.
->
-> This also has implications on the kernel support (cc Bruce).
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-I've been using the qemuarma9 machine in some different contexts for
-a while now, and in fact, there's a BSP definition in linux-yocto
-already for it.
+shadow-sysroot (another useradd dependency) recipe already includes
+base-passwd dependency, so removing it from useradd class.
 
-So from that point of view, the kernel impacts are understood.
+This fixes the compilation issue observed when a recipe depends
+on another where the latter inherits from useradd as in the
+following scenario:
 
-But not only does the qemuarma9 lack graphics, it also has issues
-with disk and USB, so generally it isn't as usable as the arm926
-qemu variant.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7724#c0
 
-There are other options that have newer CPUs, or just changing the
-cpu .. but a wholesale switch to the "qemuarma9" machine tends to
-bring some new challenges.
+[Yocto #7724]
 
-Bruce
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/classes/useradd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
->> As for dropping thumb1 support that's probably fine too - although
->> technically (if someone really did want to keep thumb1 support alive)
->> I guess nothing prevents testing thumb1 binaries on an ARMv7 CPU?
->
-> Just guessing but they might work in some cases an a v7 CPU but fail on
-> older ones due to alignment constraints?
->
-> Cheers,
->
-> Richard
->
->
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index e443f84..eb82b00 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -4,7 +4,7 @@ inherit useradd_base
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append = "${USERADDDEPENDS}"
+-USERADDDEPENDS = " base-files base-passwd shadow-native shadow-sysroot shadow"
++USERADDDEPENDS = " base-files shadow-native shadow-sysroot shadow"
+ USERADDDEPENDS_class-cross = ""
+ USERADDDEPENDS_class-native = ""
+ USERADDDEPENDS_class-nativesdk = ""
+-- 
+1.8.4.5
 
 
