@@ -1,30 +1,30 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3E4346AD0D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DD41C6AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 14:15:40 +0000 (UTC)
-Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0224.002; Thu, 14 May 2015 16:15:37 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] opkg and gpg signed ipk packages
-Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyA=
-Date: Thu, 14 May 2015 14:15:35 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
-	<20150508162311.GA20977@bang.betafive.co.uk>
-	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
-	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: opkg and gpg signed ipk packages
+	Thu, 14 May 2015 14:20:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4EEKgwN004051 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 May 2015 15:20:42 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id F5I_1cT_Nc7b
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 May 2015 15:20:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4EEKUW1004019
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 May 2015 15:20:41 +0100
+Message-ID: <1431613230.18723.0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 May 2015 15:20:30 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: base: Avoid find race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 14:15:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 May 2015 14:20:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+In a similar way to http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=aa1438b56f30515f9c31b306decef7f562dda81f
+and http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=527b28c10955daf0387597020d69593ce24bcaa4
+there is a find race in base.bbclass.
+
+For recipes with PACKAGES_remove = "${PN}", the find which removes
+.la files can race against deletion of other directories in WORKDIR
+e.g.:
+
+find: '/home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7/sstate-build-populate_lic': No such file or directory
+| WARNING: /home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7/temp/run.do_configure.6558:1 exit 1 from
+| find /home/autobuilder/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0-r7 -name \*.la -delete
+
+Fix the race in the same way.
+
+[YOCTO #7522]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0e4b068..99b512b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -269,7 +269,7 @@ base_do_configure() {
+ 			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
+ 				oe_runmake clean
+ 			fi
+-			find ${B} -name \*.la -delete
++			find ${B} -ignore_readdir_race -name \*.la -delete
+ 		fi
+ 	fi
+ 	if [ -n "${CONFIGURESTAMPFILE}" ]; then
 
 
-> I'm guessing you would want something like this in your custom distro con=
-fig
-> (or local.conf if you must):
->=20
-> PACKAGECONFIG_append_pn-opkg =3D " sha256"
-> PACKAGECONFIG_append_pn-opkg-native =3D " sha256"
-
-Thanks Paul, it looks like this should be the configuration but I have trie=
-d this and didn't help. =20
-
-I try to find out some info about "Packages" file, how it is generated, whe=
-re this checksum is computed, etc ... =20
-
-I see in the opkg.py how the content of the "Packages" file is generated bu=
-t I don't understand how this file is generated.
-=20
-./build-p2020/tmp/sysroots/x86_64-linux/usr/bin/opkg.py
-
-  if self.md5: out =3D out + "MD5Sum: %s\n" % (self.md5)
-
-
-//Sona
-
-hashval =3D bb.utils.md5_file(f)
 
