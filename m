@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A669C73F5C
+Return-Path: <changhyeok.bae@lge.com>
+X-Greylist: delayed 899 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 14 May 2015 03:04:59 UTC
+Received: from lgemrelse7q.lge.com (LGEMRELSE7Q.lge.com [156.147.1.151])
+	by mail.openembedded.org (Postfix) with ESMTP id C790074030
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 02:19:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4E2J2ll014002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 May 2015 19:19:02 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.153) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 13 May 2015 19:19:01 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 May 2015 10:19:03 +0800
-Message-ID: <630a1e0551f0431f8d513f979198ee752653a5e3.1431569867.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1431569867.git.Qi.Chen@windriver.com>
-References: <cover.1431569867.git.Qi.Chen@windriver.com>
+	Thu, 14 May 2015 03:04:59 +0000 (UTC)
+Received: from unknown (HELO CHBae0915) (10.177.222.197)
+	by 156.147.1.151 with ESMTP; 14 May 2015 11:49:28 +0900
+X-Original-SENDERIP: 10.177.222.197
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: "Changhyeok Bae" <changhyeok.bae@lge.com>
+To: "'OE-core'" <openembedded-core@lists.openembedded.org>
+References: <20150312143521.GD2338@jama> <5501D4CA.2090209@r-finger.com>
+In-Reply-To: <5501D4CA.2090209@r-finger.com>
+Date: Thu, 14 May 2015 11:50:00 +0900
+Message-ID: <08f401d08df0$aba9be00$02fd3a00$@lge.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] populate_sdk_ext: set noexec flag for some tasks
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNnnpp5FA=
+Subject: Re: meta-gir issues and maintenance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 02:19:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 May 2015 03:05:03 -0000
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Language: ko
 
-For the SDK, what we are interested in is the sysroot part. So the
-only useful task is do_populate_sysroot. Other tasks like do_package
-don't need to run. So mark them as 'noexec' for SDK.
+Hi Tomas,
 
-This would result in two benefits:
-1) The size of extensible SDK is larged reduced. For example, extensible
-   SDK for core-image-minimal is reduced from 1.8G to 793M.
-2) The installation time is reduced as a lot of tasks are not run.
+I'm Changhyeok and working with Martin Jansa.
+Actually I'm using meta-gir layer. So can I take over meta-gir layer?
 
-[YOCTO #7590]
+Thanks
+Changhyeok
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org
+[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Tomas
+Frydrych
+Sent: Friday, March 13, 2015 3:03 AM
+To: OE-core
+Subject: Re: [OE-core] meta-gir issues and maintenance
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index dc2c58e..6c265b8 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -141,8 +141,18 @@ python copy_buildsystem () {
-     sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
-     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
- 
-+    # Mark tasks to be 'noexec' for the SDK as we only need the sysroot part
-+    base_class_path = os.path.join(baseoutpath, core_meta_subdir, 'classes', 'base.bbclass')
-+    if os.path.exists(base_class_path):
-+        with open(base_class_path, 'a') as f:
-+            noexec_tasks = ['do_package', 'do_packagedata', 'do_package_qa', 'do_package_write_rpm',
-+                            'do_package_write_ipk', 'do_package_write_deb', 'do_deploy', 'do_populate_lic',
-+                            'do_rootfs']
-+            for t in noexec_tasks:
-+                f.write('%s[noexec] = "1"\n' % t)
-+
-     # Filter the locked signatures file to just the sstate tasks we are interested in
--    allowed_tasks = ['do_populate_lic', 'do_populate_sysroot', 'do_packagedata', 'do_package_write_ipk', 'do_package_write_rpm', 'do_package_write_deb', 'do_package_qa', 'do_deploy']
-+    allowed_tasks = ['do_populate_sysroot']
-     excluded_targets = d.getVar('SDK_TARGETS', True)
-     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
-     oe.copy_buildsystem.prune_lockedsigs(allowed_tasks,
--- 
-1.9.1
+Martin,
 
+On 12/03/15 14:35, Martin Jansa wrote:
+> I was trying to use meta-gir in Dizzy release and found out that last 
+> commit in this layer is 16 months ago and many .bbappends no longer 
+> match with their recipes.
+> 
+> Was this layer superseded by something else or you just didn't have 
+> time to update it for newer Yocto releases?
+
+Unfortunately, life has been getting in the way of working on this layer (as
+well as meta-guacamayo), and it is not going to change in the foreseeable
+future. :-( It's a pity, as the gir stuff is useful/necessary for things
+like python bindings to gobject and related.
+If someone wanted to take over, it would make sense to move the repo
+somewhere more central (yocto, oe) as well.
+
+Tomas
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
 
