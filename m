@@ -1,22 +1,25 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B57246013D
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E47073EF8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 12:31:33 +0000 (UTC)
+	Thu, 14 May 2015 12:31:35 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lnXKx1XzBz3hjRL;
-	Thu, 14 May 2015 14:31:33 +0200 (CEST)
-X-Auth-Info: mJGZFiG5Q5EAbod5r3PmmDAzo7FfgiuQx5Lg2wSt8Os=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lnXKy1WlDz3hhlB;
+	Thu, 14 May 2015 14:31:34 +0200 (CEST)
+X-Auth-Info: pQUbIhyu/ZfCpSq89Oo1RMKFQmTxGKSqbIq91iupWqs=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3lnXKw6DhdzvdWR;
-	Thu, 14 May 2015 14:31:32 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3lnXKx5jbkzvdWR;
+	Thu, 14 May 2015 14:31:33 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2015 14:31:05 +0200
-Message-Id: <1431606674-5173-1-git-send-email-marex@denx.de>
+Date: Thu, 14 May 2015 14:31:07 +0200
+Message-Id: <1431606674-5173-3-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 0/9] Add basic fitImage support
+In-Reply-To: <1431606674-5173-1-git-send-email-marex@denx.de>
+References: <1431606674-5173-1-git-send-email-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>, Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 2/9] kernel: Rework do_uboot_mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 12:31:35 -0000
+X-List-Received-Date: Thu, 14 May 2015 12:31:36 -0000
 
-This series cleans up the code in kernel.bbclass and
-separates out the uImage generation. The 7th patch
-in this series then adds support for generation of the
-advanced successor of the uImage, the fitImage.
+Rework the function so part it's internals can be re-used by fitImage
+image type. The name of the temporary file , linux.bin , is recycled
+a little more as it's now used for both the case where it is gzip
+compressed and where it is not. This should be fine, since the file
+is temporary and removed after the uImage was created anyway.
 
-This series adds only very rudimentary support for
-generation of fitImage. The advanced features might
-be added in subsequent patches.
+There is no functional change here.
 
-I would also like to thank Richard for explaining to
-me how to properly do the implementation and I hope
-this series is at least close to that.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel.bbclass | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
-Marek Vasut (9):
-  kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
-  kernel: Rework do_uboot_mkimage
-  kernel: Pull out the linux.bin generation
-  kernel: Pull uImage generation into separate class
-  kernel: Separate out uboot_prep_kimage
-  kernel: Build DTBs early
-  kernel: Add basic fitImage support
-  kernel: Build uImage only when really needed
-  doc: Document new KERNEL_CLASSES variable
-
- documentation/ref-manual/ref-variables.xml |  18 +++
- meta/classes/kernel-fitimage.bbclass       | 234 +++++++++++++++++++++++++++++
- meta/classes/kernel-uboot.bbclass          |  21 +++
- meta/classes/kernel-uimage.bbclass         |  36 +++++
- meta/classes/kernel.bbclass                |  52 +++----
- meta/conf/documentation.conf               |   1 +
- meta/recipes-kernel/linux/linux-dtb.inc    |  14 +-
- 7 files changed, 343 insertions(+), 33 deletions(-)
- create mode 100644 meta/classes/kernel-fitimage.bbclass
- create mode 100644 meta/classes/kernel-uboot.bbclass
- create mode 100644 meta/classes/kernel-uimage.bbclass
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 75bfd76..e85e73b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -435,22 +435,32 @@ MODULE_TARBALL_DEPLOY ?= "1"
+ do_uboot_mkimage() {
+ 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
+ 		if test "x${KEEPUIMAGE}" != "xyes" ; then
++			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
++				vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
++				linux_suffix=""
++				linux_comp="none"
++			else
++				vmlinux_path="vmlinux"
++				linux_suffix=".gz"
++				linux_comp="gzip"
++			fi
++
++			${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
++
++			if [ "${linux_comp}" != "none" ] ; then
++				rm -f linux.bin
++				gzip -9 linux.bin
++				mv -f "linux.bin${linux_suffix}" linux.bin
++			fi
++
+ 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+ 				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+ 					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
+ 			fi
+-			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+-				${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
+-				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
+-				rm -f linux.bin
+-			else
+-				${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
+-				rm -f linux.bin.gz
+-				gzip -9 linux.bin
+-				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
+-				rm -f linux.bin.gz
+-			fi
++
++			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
++			rm -f linux.bin
+ 		fi
+ 	fi
+ }
 -- 
 2.1.4
 
