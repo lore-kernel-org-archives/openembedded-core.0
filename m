@@ -1,25 +1,23 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C3A17413C
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 8BEFE7416A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 12:31:37 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lnXL01HVbz3hjRS;
-	Thu, 14 May 2015 14:31:36 +0200 (CEST)
-X-Auth-Info: B4r2qAhQF34Hn7vgg3757C2gwkUJjseidHhKKaLAyYg=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3lnXKz5QF1zvhTq;
-	Thu, 14 May 2015 14:31:35 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2015 14:31:11 +0200
-Message-Id: <1431606674-5173-7-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1431606674-5173-1-git-send-email-marex@denx.de>
-References: <1431606674-5173-1-git-send-email-marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 6/9] kernel: Build DTBs early
+	Thu, 14 May 2015 12:31:56 +0000 (UTC)
+Received: (qmail 14580 invoked by uid 1003); 14 May 2015 12:31:57 -0000
+Received: from unknown (HELO ?192.168.11.121?)
+	(philip@opensdr.com@108.44.122.151)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	14 May 2015 12:31:57 -0000
+Message-ID: <555495BC.402@balister.org>
+Date: Thu, 14 May 2015 08:31:56 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: meta-oe and oe-core mirror repos going away at the end of June
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +30,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 12:31:37 -0000
+X-List-Received-Date: Thu, 14 May 2015 12:31:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Pull out the compilation of the DTB blobs right after the kernel's
-own do_compile function finishes. This makes them available just in
-time for the kernel image construction functions.
+For several "years", we have maintained two copies of the
+openembedded-core and meta-openembedded repositories on github. At OEDAM
+we decided it is time to go ahead and remove the repos with the old
+names oe-core and meta-oe to lower the confusion level about what is in
+these repos.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Ross Burton <ross.burton@intel.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-dtb.inc | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Please update build scripts and git config files with the current names,
+openemebdded-core and meta-openembedded.
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 6b8f1a5..ee3a5e1 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -5,6 +5,18 @@ python __anonymous () {
-     d.appendVar("PACKAGES", " kernel-devicetree")
- }
- 
-+do_compile_append() {
-+	if test -n "${KERNEL_DEVICETREE}"; then
-+		for DTB in ${KERNEL_DEVICETREE}; do
-+			if echo ${DTB} | grep -q '/dts/'; then
-+				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-+			fi
-+			oe_runmake ${DTB}
-+		done
-+	fi
-+}
-+
- do_install_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
- 		for DTB in ${KERNEL_DEVICETREE}; do
-@@ -13,10 +25,8 @@ do_install_append() {
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
- 			DTB_BASE_NAME=`basename ${DTB} .dtb`
--			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
--			oe_runmake ${DTB}
- 			if [ ! -e "${DTB_PATH}" ]; then
- 				DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
- 			fi
--- 
-2.1.4
+Thanks,
 
+Philip
 
