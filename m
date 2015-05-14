@@ -1,25 +1,25 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 955BE7408F
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 1258D7408F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 12:31:36 +0000 (UTC)
+	Thu, 14 May 2015 12:31:37 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3lnXL14bBDz3hhlM;
-	Thu, 14 May 2015 14:31:37 +0200 (CEST)
-X-Auth-Info: tT3xkHRHrytWaHYNDlSup+b455ZZRc+ip+6yyyZJtMI=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lnXKy4vd2z3hjR3;
+	Thu, 14 May 2015 14:31:34 +0200 (CEST)
+X-Auth-Info: aBnbpbPDvYwYHZ2OG6MZ3OXqZ0GHMh0GR/z7ehAUdps=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3lnXL11VmjzvdWR;
-	Thu, 14 May 2015 14:31:37 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3lnXKy22jHzvhTg;
+	Thu, 14 May 2015 14:31:34 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2015 14:31:14 +0200
-Message-Id: <1431606674-5173-10-git-send-email-marex@denx.de>
+Date: Thu, 14 May 2015 14:31:08 +0200
+Message-Id: <1431606674-5173-4-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1431606674-5173-1-git-send-email-marex@denx.de>
 References: <1431606674-5173-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>, Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 9/9] doc: Document new KERNEL_CLASSES variable
+Subject: [PATCH 3/9] kernel: Pull out the linux.bin generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,8 +34,8 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 14 May 2015 12:31:37 -0000
 
-Document the KERNEL_CLASSES variable, which is used to register
-support for various kernel image types.
+Pull the generation of linux.bin image, which is then packed into uImage,
+into a separate function. No functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -44,51 +44,63 @@ Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Ross Burton <ross.burton@intel.com>
 Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
- meta/conf/documentation.conf               |  1 +
- 2 files changed, 19 insertions(+)
+ meta/classes/kernel.bbclass | 40 +++++++++++++++++++++++-----------------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index ee5cbc2..2349207 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -6025,6 +6025,24 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-             </glossdef>
-         </glossentry>
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e85e73b..2895e5e 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -432,26 +432,32 @@ MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+ MODULE_TARBALL_DEPLOY ?= "1"
  
-+        <glossentry id='var-KERNEL_CLASSES'><glossterm>KERNEL_CLASSES</glossterm>
-+            <info>
-+                KERNEL_CLASSES[doc] = "A list of classes defining kernel image types that kernel class should inherit."
-+            </info>
-+            <glossdef>
-+                <para role="glossdeffirst">
-+<!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
-+		    A list of classes defining kernel image types that
-+		    kernel class should inherit. You typically append this
-+		    variable to enable extended image types. An example is
-+		    the "kernel-fitimage", which enables fitImage support
-+		    and resides in meta/classes/kernel-fitimage.bbclass .
-+		    Custom kernel image types can be registered with the
-+		    kernel class using this variable.
-+                </para>
-+            </glossdef>
-+        </glossentry>
++uboot_prep_kimage() {
++	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
++		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
++		linux_suffix=""
++		linux_comp="none"
++	else
++		vmlinux_path="vmlinux"
++		linux_suffix=".gz"
++		linux_comp="gzip"
++	fi
 +
-         <glossentry id='var-KERNEL_EXTRA_ARGS'><glossterm>KERNEL_EXTRA_ARGS</glossterm>
-             <info>
-                 KERNEL_EXTRA_ARGS[doc] = "Specifies additional make command-line arguments the OpenEmbedded build system passes on when compiling the kernel."
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 3a918e8..d55276b 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -241,6 +241,7 @@ IPK_FEED_URIS[doc] = "List of ipkg feed records to put into generated image."
- KARCH[doc] = "Defines the kernel architecture used when assembling the configuration. You define the KARCH variable in the BSP Descriptions."
- KBRANCH[doc] = "A regular expression used by the build process to explicitly identify the kernel branch that is validated, patched and configured during a build."
- KBRANCH_DEFAULT[doc] = "Defines the Linux kernel source repository's default branch used to build the Linux kernel. Unless you specify otherwise, the variable initializes to 'master'."
-+KERNEL_CLASSES[doc] = "A list of classes defining kernel image types that kernel class should inherit."
- KERNEL_EXTRA_ARGS[doc] = "Specifies additional make command-line arguments the OpenEmbedded build system passes on when compiling the kernel."
- KERNEL_FEATURES[doc] = "Includes additional metadata from the Yocto Project kernel Git repository. The metadata you add through this variable includes config fragments and features descriptions."
- KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set by the machine configuration files and defaults to 'zImage'."
++	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
++
++	if [ "${linux_comp}" != "none" ] ; then
++		rm -f linux.bin
++		gzip -9 linux.bin
++		mv -f "linux.bin${linux_suffix}" linux.bin
++	fi
++
++	echo "${linux_comp}"
++}
++
+ do_uboot_mkimage() {
+ 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
+ 		if test "x${KEEPUIMAGE}" != "xyes" ; then
+-			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+-				vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+-				linux_suffix=""
+-				linux_comp="none"
+-			else
+-				vmlinux_path="vmlinux"
+-				linux_suffix=".gz"
+-				linux_comp="gzip"
+-			fi
+-
+-			${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
+-
+-			if [ "${linux_comp}" != "none" ] ; then
+-				rm -f linux.bin
+-				gzip -9 linux.bin
+-				mv -f "linux.bin${linux_suffix}" linux.bin
+-			fi
++			uboot_prep_kimage
+ 
+ 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
 -- 
 2.1.4
 
