@@ -1,24 +1,33 @@
-Return-Path: <changhyeok.bae@lge.com>
-X-Greylist: delayed 899 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 14 May 2015 03:04:59 UTC
-Received: from lgemrelse7q.lge.com (LGEMRELSE7Q.lge.com [156.147.1.151])
-	by mail.openembedded.org (Postfix) with ESMTP id C790074030
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F40F7226D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 03:04:59 +0000 (UTC)
-Received: from unknown (HELO CHBae0915) (10.177.222.197)
-	by 156.147.1.151 with ESMTP; 14 May 2015 11:49:28 +0900
-X-Original-SENDERIP: 10.177.222.197
-X-Original-MAILFROM: changhyeok.bae@lge.com
-From: "Changhyeok Bae" <changhyeok.bae@lge.com>
-To: "'OE-core'" <openembedded-core@lists.openembedded.org>
-References: <20150312143521.GD2338@jama> <5501D4CA.2090209@r-finger.com>
-In-Reply-To: <5501D4CA.2090209@r-finger.com>
-Date: Thu, 14 May 2015 11:50:00 +0900
-Message-ID: <08f401d08df0$aba9be00$02fd3a00$@lge.com>
+	Thu, 14 May 2015 07:02:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4E72Vdn021680
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 May 2015 00:02:32 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 14 May 2015 00:02:31 -0700
+Message-ID: <55544886.4040206@windriver.com>
+Date: Thu, 14 May 2015 15:02:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNnnpp5FA=
-Subject: Re: meta-gir issues and maintenance
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1431333085.git.liezhi.yang@windriver.com>
+	<d81cfb100f102438213c54a72c1f412323a80dd2.1431333085.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ40TNQ4NiFKChiYikMsyKN3hUyZ9GjhezVeEtSQqSeVQ@mail.gmail.com>
+	<55516887.5080908@windriver.com>
+	<CAJTo0LYsOyP27CHxMvy87fgU=+YhMREtfbodMSv4o+C4jgh1_g@mail.gmail.com>
+	<5552A982.3090100@windriver.com>
+	<CAJTo0LZTnpZ6jkWO1aQFSVK54g=0wOaSLUFUVkwcu2iqbjXTFw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZTnpZ6jkWO1aQFSVK54g=0wOaSLUFUVkwcu2iqbjXTFw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] xserver-xorg: disable xwayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +40,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 03:05:03 -0000
-Content-Type: text/plain;
-	charset="us-ascii"
+X-List-Received-Date: Thu, 14 May 2015 07:02:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Language: ko
 
-Hi Tomas,
 
-I'm Changhyeok and working with Martin Jansa.
-Actually I'm using meta-gir layer. So can I take over meta-gir layer?
 
-Thanks
-Changhyeok
+On 05/14/2015 07:38 AM, Burton, Ross wrote:
+>
+> On 13 May 2015 at 02:31, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     I've updated it in the repo:
+>
+>        git://git.openembedded.org/openembedded-core-contrib
+>     <http://git.openembedded.org/openembedded-core-contrib> rbt/3fixes
+>
+>
+> Actually looked at the build output this time...  we should have each xserver in
+> a separate package really, so can the xwayland binary go into an xwayland
+> package?  We don't really want to force the xwayland binary (and extra
+> dependencies) on everyone's X11-based images just because wayland is a default
+> distro feature.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org
-[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Tomas
-Frydrych
-Sent: Friday, March 13, 2015 3:03 AM
-To: OE-core
-Subject: Re: [OE-core] meta-gir issues and maintenance
+Sounds good, updated in the repo:
 
-Martin,
+   git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
 
-On 12/03/15 14:35, Martin Jansa wrote:
-> I was trying to use meta-gir in Dizzy release and found out that last 
-> commit in this layer is 16 months ago and many .bbappends no longer 
-> match with their recipes.
-> 
-> Was this layer superseded by something else or you just didn't have 
-> time to update it for newer Yocto releases?
 
-Unfortunately, life has been getting in the way of working on this layer (as
-well as meta-guacamayo), and it is not going to change in the foreseeable
-future. :-( It's a pity, as the gir stuff is useful/necessary for things
-like python bindings to gobject and related.
-If someone wanted to take over, it would make sense to move the repo
-somewhere more central (yocto, oe) as well.
 
-Tomas
+commit 913aba210698327a099fd2c43af63fba3545d868
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Mon May 11 00:12:01 2015 -0700
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+     xserver-xorg: add PACKAGECONFIG for wayland and add xserver-xorg-xwayland
 
-This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
+     Fixed do_compile error:
+     hw/xwayland/xwayland.h:36:28: fatal error: wayland-client.h: No such file 
+or directory
+      #include <wayland-client.h>
+                                 ^
+     compilation terminated.
+
+     Conditionally add xserver-xorg-xwayland pkg which contains
+     /usr/bin/Xwayland.
+
+     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc 
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 30299c2..ee5041f 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -62,7 +62,9 @@ PACKAGES =+ "${PN}-security-policy \
+               ${PN}-module-exa \
+               ${PN}-module-xaa \
+               ${PN}-module-libxf1bpp \
+-             ${PN}-module-libxf4bpp"
++             ${PN}-module-libxf4bpp \
++             ${@bb.utils.contains("DISTRO_FEATURES", "wayland", 
+"${PN}-xwayland", "", d)} \
++"
+
+  RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb 
+xserver-xf86-config xkbcomp"
+  RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+@@ -97,6 +99,7 @@ FILES_${PN}-module-exa = "${libdir}/xorg/modules/libexa.so"
+  FILES_${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
+  FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
+  FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
++FILES_${PN}-xwayland = "${bindir}/Xwayland"
+
+  EXTRA_OECONF += "--with-fop=no \
+                   --with-pic \
+@@ -115,7 +118,9 @@ EXTRA_OECONF += "--with-fop=no \
+                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+  "
+
+-PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
+dri2 glx', '', d)}"
++PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri 
+dri2 glx', '', d)} \
++                   ${@bb.utils.contains("DISTRO_FEATURES", "wayland", 
+"xwayland", "", d)} \
++"
+
+  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa 
+xf86driproto"
+@@ -128,6 +133,7 @@ PACKAGECONFIG[xshmfence] = 
+"--enable-xshmfence,--disable-xshmfence,libxshmfence"
+  PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native 
+docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+  PACKAGECONFIG[systemd-logind] = 
+"--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+  PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xineramaproto"
++PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,wayland libepoxy"
+
+  do_install_append () {
+         # Its assumed base-files creates this for us
+
+// Robert
+
+>
+> Ross
 
