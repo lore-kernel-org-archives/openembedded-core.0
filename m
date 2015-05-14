@@ -1,33 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 605BC6AD0D
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3E4346AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 13:46:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4EDks7q001715; Thu, 14 May 2015 14:46:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xnUyMz3Gqmqs; Thu, 14 May 2015 14:46:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4EDkcuZ001703
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 14 May 2015 14:46:50 +0100
-Message-ID: <1431611197.30971.212.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, Dmitry Eremin-Solenikov
-	<dmitry_eremin@mentor.com>
-Date: Thu, 14 May 2015 14:46:37 +0100
-In-Reply-To: <CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>
-	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>
-	<20150512144749.GD2714@jama>
-	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+	Thu, 14 May 2015 14:15:40 +0000 (UTC)
+Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0224.002; Thu, 14 May 2015 16:15:37 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] opkg and gpg signed ipk packages
+Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyA=
+Date: Thu, 14 May 2015 14:15:35 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
+	<20150508162311.GA20977@bang.betafive.co.uk>
+	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
+	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: opkg and gpg signed ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,49 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 13:46:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
-> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
-> >> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-> >> wrote:
-> >>
-> >> > Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
-> >> > little to run necessary applications. Add a new arm configuration based
-> >> > on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
-> >> >
-> >>
-> >> Not sure I'm keen on oe-core having two almost-identical qemuarm machines.
-> >> Why not just change the qemuarm machine to use the A9?
-> >
-> > Then we should officially drop thumb1 support, because current qemuarm
-> > builds are quite broken when thumb is enabled and dropping current
-> > qemuarm or replacing it with A9 variant will prevent oe-core to be
-> > testable on autobuilder. See
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
-> 
-> +1 for updating qemuarm to an ARMv7 CPU.
-
-One thing I did notice about the new proposed arm machine was the lack
-of graphics support. We really do need a machine with graphics. If we
-could get a machine which had graphics and more memory that would be
-much more attractive to switch to.
-
-This also has implications on the kernel support (cc Bruce).
-
-> As for dropping thumb1 support that's probably fine too - although
-> technically (if someone really did want to keep thumb1 support alive)
-> I guess nothing prevents testing thumb1 binaries on an ARMv7 CPU?
-
-Just guessing but they might work in some cases an a v7 CPU but fail on
-older ones due to alignment constraints?
-
-Cheers,
-
-Richard
+X-List-Received-Date: Thu, 14 May 2015 14:15:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
+> I'm guessing you would want something like this in your custom distro con=
+fig
+> (or local.conf if you must):
+>=20
+> PACKAGECONFIG_append_pn-opkg =3D " sha256"
+> PACKAGECONFIG_append_pn-opkg-native =3D " sha256"
+
+Thanks Paul, it looks like this should be the configuration but I have trie=
+d this and didn't help. =20
+
+I try to find out some info about "Packages" file, how it is generated, whe=
+re this checksum is computed, etc ... =20
+
+I see in the opkg.py how the content of the "Packages" file is generated bu=
+t I don't understand how this file is generated.
+=20
+./build-p2020/tmp/sysroots/x86_64-linux/usr/bin/opkg.py
+
+  if self.md5: out =3D out + "MD5Sum: %s\n" % (self.md5)
+
+
+//Sona
+
+hashval =3D bb.utils.md5_file(f)
 
