@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AD09A7415A
+	by mail.openembedded.org (Postfix) with ESMTP id B545373DA5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 17:45:56 +0000 (UTC)
+	Thu, 14 May 2015 17:45:57 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 May 2015 10:45:59 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 May 2015 10:46:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,430,1427785200"; d="scan'208";a="694963944"
+X-IronPort-AV: E=Sophos;i="5.13,430,1427785200"; d="scan'208";a="694963952"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.30.48])
-	by orsmga001.jf.intel.com with ESMTP; 14 May 2015 10:45:58 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 May 2015 10:45:59 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2015 18:45:10 +0100
-Message-Id: <be5b4101d6cfc222def87cabf67ff512ad6c5286.1431625238.git.paul.eggleton@linux.intel.com>
+Date: Thu, 14 May 2015 18:45:11 +0100
+Message-Id: <32557d45e705a03c37af97461111d878ac8ca289.1431625238.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1431625238.git.paul.eggleton@linux.intel.com>
 References: <cover.1431625238.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1431625238.git.paul.eggleton@linux.intel.com>
 References: <cover.1431625238.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/9] lib/oe/recipeutils: add a parse_recipe_simple() function
+Subject: [PATCH 8/9] devtool: deploy-target: use tinfoil instead of bitbake -e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 17:45:56 -0000
+X-List-Received-Date: Thu, 14 May 2015 17:45:57 -0000
 
-Add a function that simply parses a recipe by name and optionally the
-bbappends that apply to it. (Note that if you're using tinfoil you need
-to have initialised it with config_only=False so that it can map the
-recipe name to a recipe file.)
+Using tinfoil here is quicker and tidier than shelling out to
+bitbake -e and interpreting its output.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ scripts/lib/devtool/deploy.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 19d97b6..0689fb0 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -44,13 +44,36 @@ def get_unavailable_reasons(cooker, pn):
-     return taskdata.get_reasons(pn)
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 078c74b..92a3cb4 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -19,7 +19,7 @@
+ import os
+ import subprocess
+ import logging
+-from devtool import exec_build_env_command
++from devtool import exec_build_env_command, setup_tinfoil
  
+ logger = logging.getLogger('devtool')
  
--def parse_recipe(fn, appends, d):
--    """Parse an individual recipe"""
-+def parse_recipe(fn, appendfiles, d):
-+    """
-+    Parse an individual recipe file, optionally with a list of
-+    bbappend files.
-+    """
-     import bb.cache
--    envdata = bb.cache.Cache.loadDataFull(fn, appends, d)
-+    envdata = bb.cache.Cache.loadDataFull(fn, appendfiles, d)
-     return envdata
+@@ -31,6 +31,7 @@ def plugin_init(pluginlist):
+ def deploy(args, config, basepath, workspace):
+     """Entry point for the devtool 'deploy' subcommand"""
+     import re
++    import oe.recipeutils
  
+     if not args.recipename in workspace:
+         logger.error("no recipe named %s in your workspace" % args.recipename)
+@@ -45,8 +46,13 @@ def deploy(args, config, basepath, workspace):
+     deploy_dir = os.path.join(basepath, 'target_deploy', args.target)
+     deploy_file = os.path.join(deploy_dir, args.recipename + '.list')
  
-+def parse_recipe_simple(cooker, pn, d, appends=True):
-+    """
-+    Parse a recipe and optionally all bbappends that apply to it
-+    in the current configuration.
-+    """
-+    import bb.providers
-+
-+    recipefile = pn_to_recipe(cooker, pn)
-+    if not recipefile:
-+        skipreasons = get_unavailable_reasons(cooker, pn)
-+        # We may as well re-use bb.providers.NoProvider here
-+        if skipreasons:
-+            raise bb.providers.NoProvider(skipreasons)
-+        else:
-+            raise bb.providers.NoProvider('Unable to find any recipe file matching %s' % pn)
-+    if appends:
-+        appendfiles = cooker.collection.get_file_appends(recipefile)
-+    return parse_recipe(recipefile, appendfiles, d)
-+
-+
- def get_var_files(fn, varlist, d):
-     """Find the file in which each of a list of variables is set.
-     Note: requires variable history to be enabled when parsing.
+-    stdout, _ = exec_build_env_command(config.init_path, basepath, 'bitbake -e %s' % args.recipename, shell=True)
+-    recipe_outdir = re.search(r'^D="(.*)"', stdout, re.MULTILINE).group(1)
++    tinfoil = setup_tinfoil()
++    try:
++        rd = oe.recipeutils.parse_recipe_simple(tinfoil.cooker, args.recipename, tinfoil.config_data)
++    except Exception as e:
++        logger.error('Exception parsing recipe %s: %s' % (args.recipename, e))
++        return 2
++    recipe_outdir = rd.getVar('D', True)
+     if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+         logger.error('No files to deploy - have you built the %s recipe? If so, the install step has not installed any files.' % args.recipename)
+         return -1
 -- 
 2.1.0
 
