@@ -1,23 +1,37 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 8BEFE7416A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id BC95B6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 12:31:56 +0000 (UTC)
-Received: (qmail 14580 invoked by uid 1003); 14 May 2015 12:31:57 -0000
-Received: from unknown (HELO ?192.168.11.121?)
-	(philip@opensdr.com@108.44.122.151)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	14 May 2015 12:31:57 -0000
-Message-ID: <555495BC.402@balister.org>
-Date: Thu, 14 May 2015 08:31:56 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Thu, 14 May 2015 13:29:48 +0000 (UTC)
+Received: by pacwv17 with SMTP id wv17so86088307pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 May 2015 06:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=HeaxNdkV9LQv3+7JN8S5GV/XldU/EntC9DLFmfVcXQ0=;
+	b=VJhdPATHMV7My9aFmUCOJgY6Fpy/DwcoVkROBWklu/CVj4vskjJAN/gc3sADF3CXBI
+	TBPLmOrU96u970GC7zVBOCNGwUTTrGEwkZDK4VXahVzGyIlkYv6LQeOsyNug0YJ56Miu
+	PKGh+pKs1ZyomF0knz57SAoDy6YW64yj8UJe1chR5yolq15LpzYuPbpydcmATYJ4BSdK
+	NcEqcFZit0OJ5XmP2xSqT9Xd7dPappzNSyMpP5JyOIZdDzNNXI+2wZLA67kvt0iQQrcL
+	kRrcqJ0Z44x86apLoaeBCIX7l42NVtlX2xPWCUubst+Xdc4epHAUIntEH7+Up2zCgEDl
+	txIQ==
 MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: meta-oe and oe-core mirror repos going away at the end of June
+X-Received: by 10.68.226.4 with SMTP id ro4mr8302049pbc.108.1431610189213;
+	Thu, 14 May 2015 06:29:49 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Thu, 14 May 2015 06:29:49 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb8ZD_X-X5mxF9XQ5TROUJh1hYQYQV5xwn1WuZmzTSwMg@mail.gmail.com>
+References: <1431343607-2820-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0Lb8ZD_X-X5mxF9XQ5TROUJh1hYQYQV5xwn1WuZmzTSwMg@mail.gmail.com>
+Date: Thu, 14 May 2015 10:29:49 -0300
+X-Google-Sender-Auth: ubOd5LmizQC7C2RB9f8mX3zwJy8
+Message-ID: <CAP9ODKp0AL6Lf0_+dyC2UUuXNuNQnhi-h5WfAw=i5jyK4KVV3w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: Move EGL requirement for Wayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,20 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 12:31:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 May 2015 13:29:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-For several "years", we have maintained two copies of the
-openembedded-core and meta-openembedded repositories on github. At OEDAM
-we decided it is time to go ahead and remove the repos with the old
-names oe-core and meta-oe to lower the confusion level about what is in
-these repos.
+On Thu, May 14, 2015 at 7:33 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 11 May 2015 at 12:26, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>
+>> The EGL is used by the Wayland backend. When building using Software
+>> Rendering and without Wayland support the EGL backend is not available
+>> so we should not require EGL for GLES2 support.
+>
+> I think we should make the PACKAGECONFIG block be more explicit, and add a
+> separate [egl] that is required to be enabled if you also enable a feature
+> that depends on it (such as gles or wayland).
 
-Please update build scripts and git config files with the current names,
-openemebdded-core and meta-openembedded.
+I did this initially and ended with the patch I sent. The reason is
+because the EGL is Wayland specific so I see no reason to split it.
 
-Thanks,
-
-Philip
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
