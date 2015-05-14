@@ -1,40 +1,33 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C48973F5C
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 602757408F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 11:39:47 +0000 (UTC)
-Received: by wgin8 with SMTP id n8so72394933wgi.0
+	Thu, 14 May 2015 11:41:12 +0000 (UTC)
+Received: by wgbhc8 with SMTP id hc8so38730178wgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 04:39:48 -0700 (PDT)
+	Thu, 14 May 2015 04:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=mBDm3yXAN+KiYu45jMakQAsxv8Z2Z/mjjgnfQ48vT8s=;
-	b=nTrX6JLiJyxw+wi1Nc2nVE+YtI1ylbdarAC9O+y8u2xjp6ehr2hVPcLAoViKXKEfF6
-	eI0smQzALPjMmVTQZxgBjbqJZBhLFnZqABYbq4sJjF/qlMUFLB0OxsGZOcpRn9cOMPkw
-	PFleAqPTwc17t8+8X4XEUGMsLgPt/k0F6edcMU0bzFmQnU6tnKLVXbKP0J7TNIne15DH
-	BlvYrsqPlzjH8V8VB/0fM6MF/uX40ZQNR54ZFGIfatMO9P2ijY2YHx6aWSU/Zf1rbgsa
-	Zk+7Ix+Wz7ziL4srLOtsZF6e1EEDpPR5sl5vdcxJBhl02hc17wYVfIoq31C/kOEGJt4f
-	dfqg==
-X-Received: by 10.194.24.70 with SMTP id s6mr7360803wjf.25.1431603588655;
-	Thu, 14 May 2015 04:39:48 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=h2uPD/LLr/7uY2XBJIPvcfm+ieZAmzAbjWlolRi0SM8=;
+	b=eaanfG7/ol1kEOTj5C/VK3aN2x3Oc6ZrLEeSKB6C4tDJ6CrOQkmnV3pkP93IekrEpY
+	SO9AwLujJW4suAg8tIgX1GMtRxje5SUzf0DhKFwOJuEIYwzTZvIuM5HEEMjKdN/W3ddk
+	Yh49fEFlbnqrZFLBs4HMJVZ2Iga2O//iK4FlCn1rEGUcdE1LSUzFwR3U9NHRbq92SHHK
+	gHBZc/Wd1FroftKALPXKlNzZS+ZVAqNegY6u1lMydBuyJ3tguNwRRSLPpW5kpeve5VRR
+	VBK0HORhkbvS8zZoXnnj6vFBE6p/8LctgNNCNFnMdDgctif48v6M2nXWJV9IJbfNspGs
+	cGxQ==
+X-Received: by 10.194.78.49 with SMTP id y17mr7312012wjw.131.1431603673123;
+	Thu, 14 May 2015 04:41:13 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id u3sm37754330wjq.36.2015.05.14.04.39.47
+	by mx.google.com with ESMTPSA id k2sm12870911wif.3.2015.05.14.04.41.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 May 2015 04:39:48 -0700 (PDT)
+	Thu, 14 May 2015 04:41:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 14 May 2015 13:40:02 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150514114002.GA2402@jama>
-References: <1431520254-31607-1-git-send-email-Martin.Jansa@gmail.com>
-	<1431600497.30971.208.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1431600497.30971.208.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable thumb where it fails for qemuarm
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 May 2015 13:41:26 +0200
+Message-Id: <1431603686-28783-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] boost: properly fix do_boostconfig re-execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 11:39:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 May 2015 11:41:12 -0000
 
-On Thu, May 14, 2015 at 11:48:17AM +0100, Richard Purdie wrote:
-> On Wed, 2015-05-13 at 14:30 +0200, Martin Jansa wrote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/recipes-devtools/gcc/gcc_4.9.bb               | 23 ++++++++++++++=
-++++++++
-> >  meta/recipes-devtools/guile/guile_2.0.11.bb        | 19 ++++++++++++++=
-++++
-> >  meta/recipes-devtools/opensp/opensp_1.5.2.bb       |  5 +++++
-> >  meta/recipes-extended/mailx/mailx_12.5.bb          |  4 ++++
-> >  .../gstreamer/gstreamer1.0-libav_1.4.5.bb          |  9 +++++++++
-> >  meta/recipes-support/libunwind/libunwind_1.1.bb    |  6 ++++++
-> >  6 files changed, 66 insertions(+)
->=20
-> As mentioned on the bug relating to this, I think we should create an
-> include file which sets the values as needed for these recipes rather
-> than adding the quite long comments to the recipes themselves. This is
-> similar to what we do where we know there are security flags issues for
-> example.
+* it was partially fixed in:
+  commit 291e20a51544c640d07767d1dc32d762f4370f41
+  Author: Venkata ramana gollamudi <ramana.gollamudi@huawei.com>
+  Date:   Fri Apr 13 11:42:46 2012 +0000
+  Subject: boost: fix re-execution of task
 
-Is it OK, to put overrides for recipes in other layers to .inc file in
-oe-core? If yes then I agree and will convert this into .inc file in
-conf/machine/include/ (included by default for thumb1 machine tunes)
+  but with disadvantage that when CXX or *FLAGS variables were changed
+  it was continuing to use old values
+* just remove the line before appending it with current values to fix
+  that
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/boost/boost.inc | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 7628e37..d95d281 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -60,7 +60,7 @@ RRECOMMENDS_${PN}_class-native = ""
+ ALLOW_EMPTY_${PN} = "1"
+ 
+ # to avoid GNU_HASH QA errors added LDFLAGS to ARCH; a little bit dirty but at least it works
+-TARGET_CC_ARCH += " ${LDFLAGS}" 
++TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+ # Oh yippee, a new build system, it's sooo cooool I could eat my own
+ # foot.  inlining=on lets the compiler choose, I think.  At least this
+@@ -143,11 +143,9 @@ do_boostconfig() {
+ 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
+ 
+ 	# D2194:Fixing the failure of "error: duplicate initialization of gcc with the following parameters" during compilation.
+-	if ! grep -qe "^using gcc : 4.3.1" ${S}/tools/build/example/user-config.jam 
+-	then
+-		echo 'using gcc : 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" <linkflags>"${LDFLAGS}" ;' >> ${S}/tools/build/example/user-config.jam
+-	fi	
+-
++	sed -i "/^using gcc : 4.3.1/d" ${S}/tools/build/example/user-config.jam
++	sed -i "/^using python : ${PYTHON_BASEVERSION}"/d ${S}/tools/build/example/user-config.jam
++	echo 'using gcc : 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" <linkflags>"${LDFLAGS}" ;' >> ${S}/tools/build/example/user-config.jam
+ 	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${S}/tools/build/example/user-config.jam
+ 
+ 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
+-- 
+2.4.0
+
 
