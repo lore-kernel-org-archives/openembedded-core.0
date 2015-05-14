@@ -1,21 +1,29 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4704A6013D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 99EA36013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 15:09:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 14 May 2015 08:08:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,429,1427785200"; d="scan'208";a="729196205"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by orsmga002.jf.intel.com with ESMTP; 14 May 2015 08:08:15 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2015 07:03:34 +0000
-Message-Id: <1431587014-30450-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] useradd.bbclass: Remove base-passwd dependency
+	Thu, 14 May 2015 15:16:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4EFFu4M023728
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 May 2015 08:15:56 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 14 May 2015 08:15:56 -0700
+Message-ID: <5554BC2B.8070906@windriver.com>
+Date: Thu, 14 May 2015 11:15:55 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Marek Vasut <marex@denx.de>, <openembedded-core@lists.openembedded.org>
+References: <1431606674-5173-1-git-send-email-marex@denx.de>
+	<1431606674-5173-2-git-send-email-marex@denx.de>
+In-Reply-To: <1431606674-5173-2-git-send-email-marex@denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/9] kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 15:09:45 -0000
+X-List-Received-Date: Thu, 14 May 2015 15:16:07 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+The series looks good to me.
 
-shadow-sysroot (another useradd dependency) recipe already includes
-base-passwd dependency, so removing it from useradd class.
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-This fixes the compilation issue observed when a recipe depends
-on another where the latter inherits from useradd as in the
-following scenario:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7724#c0
-
-[Yocto #7724]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/classes/useradd.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index e443f84..eb82b00 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -4,7 +4,7 @@ inherit useradd_base
- # target sysroot, and shadow -native and -sysroot provide the utilities
- # and support files needed to add and modify user and group accounts
- DEPENDS_append = "${USERADDDEPENDS}"
--USERADDDEPENDS = " base-files base-passwd shadow-native shadow-sysroot shadow"
-+USERADDDEPENDS = " base-files shadow-native shadow-sysroot shadow"
- USERADDDEPENDS_class-cross = ""
- USERADDDEPENDS_class-native = ""
- USERADDDEPENDS_class-nativesdk = ""
--- 
-1.8.4.5
+On 2015-05-14 08:31 AM, Marek Vasut wrote:
+> Remove the lambda function setting KERNEL_IMAGETYPE_FOR_MAKE and instead
+> set it in the anonymous python function. This also allows us to handle
+> image types which are not supported directly by kernel, but require some
+> other kernel target to be built. This is the case for example with the
+> fitImage, which is the uImage successor.
+>
+> There is no functional change.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Cc: Ross Burton <ross.burton@intel.com>
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   meta/classes/kernel.bbclass | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 125ed88..75bfd76 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -17,12 +17,16 @@ INITRAMFS_TASK ?= ""
+>   INITRAMFS_IMAGE_BUNDLE ?= ""
+>
+>   python __anonymous () {
+> +    import re
+> +
+>       kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+>       if kerneltype == 'uImage':
+>           depends = d.getVar("DEPENDS", True)
+>           depends = "%s u-boot-mkimage-native" % depends
+>           d.setVar("DEPENDS", depends)
+>
+> +    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
+> +
+>       image = d.getVar('INITRAMFS_IMAGE', True)
+>       if image:
+>           d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
+> @@ -104,8 +108,6 @@ KERNEL_ALT_IMAGETYPE ??= ""
+>   # they are staged.
+>   KERNEL_SRC_PATH = "/usr/src/kernel"
+>
+> -KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+> -
+>   copy_initramfs() {
+>   	echo "Copying initramfs into ./usr ..."
+>   	# In case the directory is not created yet from the first pass compile:
+>
 
 
