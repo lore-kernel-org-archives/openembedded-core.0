@@ -1,26 +1,35 @@
-Return-Path: <Shan.Hai@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 82E187402F
+Return-Path: <Dmitry_Eremin@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id D24F474071
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 05:29:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4F5TlgJ006212
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 22:29:47 -0700 (PDT)
-Received: from localhost.localdomain (128.224.153.43) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 14 May 2015 22:29:47 -0700
-From: Shan Hai <shan.hai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 May 2015 13:29:43 +0800
-Message-ID: <1431667783-27190-2-git-send-email-shan.hai@windriver.com>
-X-Mailer: git-send-email 1.7.0.5
-In-Reply-To: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
-References: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
+	Fri, 15 May 2015 07:18:17 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Yt9sv-0006g8-Q3 from Dmitry_Eremin@mentor.com ;
+	Fri, 15 May 2015 00:18:18 -0700
+Received: from [137.202.140.150] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Fri, 15 May 2015 08:18:16 +0100
+Message-ID: <55559DB6.3000600@mentor.com>
+Date: Fri, 15 May 2015 10:18:14 +0300
+From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: add runuser PAM config files
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Andre McCurdy <armccurdy@gmail.com>
+References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>	
+	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>	
+	<20150512144749.GD2714@jama>	
+	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
+	<1431611197.30971.212.camel@linuxfoundation.org>
+	<5554B329.2090708@windriver.com>
+In-Reply-To: <5554B329.2090708@windriver.com>
+X-Originating-IP: [137.202.0.76]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 05:29:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 May 2015 07:18:17 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The runuser command fails with below error message, add proper PAM
-config files to fix the problem. The config files are borrowed from
-CentOS 7.0 release.
+On 05/14/2015 05:37 PM, Bruce Ashfield wrote:
+> On 2015-05-14 09:46 AM, Richard Purdie wrote:
+>> On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
+>>> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa
+>>> <martin.jansa@gmail.com> wrote:
+>>>> On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
+>>>>> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov
+>>>>> <dmitry_eremin@mentor.com>
+>>>>> wrote:
+>>>>>
+>>>>>> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
+>>>>>> little to run necessary applications. Add a new arm configuration
+>>>>>> based
+>>>>>> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
+>>>>>>
+>>>>>
+>>>>> Not sure I'm keen on oe-core having two almost-identical qemuarm
+>>>>> machines.
+>>>>> Why not just change the qemuarm machine to use the A9?
+>>>>
+>>>> Then we should officially drop thumb1 support, because current qemuarm
+>>>> builds are quite broken when thumb is enabled and dropping current
+>>>> qemuarm or replacing it with A9 variant will prevent oe-core to be
+>>>> testable on autobuilder. See
+>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+>>>
+>>> +1 for updating qemuarm to an ARMv7 CPU.
+>>
+>> One thing I did notice about the new proposed arm machine was the lack
+>> of graphics support. We really do need a machine with graphics. If we
+>> could get a machine which had graphics and more memory that would be
+>> much more attractive to switch to.
+>>
+>> This also has implications on the kernel support (cc Bruce).
+>
+> I've been using the qemuarma9 machine in some different contexts for
+> a while now, and in fact, there's a BSP definition in linux-yocto
+> already for it.
+>
+> So from that point of view, the kernel impacts are understood.
+>
+> But not only does the qemuarma9 lack graphics, it also has issues
+> with disk and USB, so generally it isn't as usable as the arm926
+> qemu variant.
 
-runuser: Failure setting user credentials
+I ended up enabling virtio to get disc working in qemuarma9. Such setup 
+is used in provided runqemu patches. However I did not include a patch 
+to linux-yocto recipe/git tree.
 
-Signed-off-by: Shan Hai <shan.hai@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc            | 6 ++++++
- meta/recipes-core/util-linux/util-linux/runuser-l.pamd | 4 ++++
- meta/recipes-core/util-linux/util-linux/runuser.pamd   | 5 +++++
- meta/recipes-core/util-linux/util-linux_2.26.1.bb      | 2 ++
- 4 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/runuser-l.pamd
- create mode 100644 meta/recipes-core/util-linux/util-linux/runuser.pamd
+>
+> There are other options that have newer CPUs, or just changing the
+> cpu .. but a wholesale switch to the "qemuarma9" machine tends to
+> bring some new challenges.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 60309a5..0098fc4 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -163,6 +163,12 @@ do_install () {
- 	echo 'MOUNTALL="-t nonfs,nosmbfs,noncpfs"' > ${D}${sysconfdir}/default/mountall
- 
- 	rm -f ${D}${bindir}/chkdupexe
-+
-+	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
-+		install -d ${D}${sysconfdir}/pam.d
-+		install -m 0644 ${WORKDIR}/runuser.pamd ${D}${sysconfdir}/pam.d/runuser
-+		install -m 0644 ${WORKDIR}/runuser-l.pamd ${D}${sysconfdir}/pam.d/runuser-l
-+	fi
- }
- 
- # reset and nologin causes a conflict with ncurses-native and shadow-native
-diff --git a/meta/recipes-core/util-linux/util-linux/runuser-l.pamd b/meta/recipes-core/util-linux/util-linux/runuser-l.pamd
-new file mode 100644
-index 0000000..fa1e4d8
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/runuser-l.pamd
-@@ -0,0 +1,4 @@
-+#%PAM-1.0
-+auth		include		runuser
-+session		optional	pam_keyinit.so force revoke
-+session		include		runuser
-diff --git a/meta/recipes-core/util-linux/util-linux/runuser.pamd b/meta/recipes-core/util-linux/util-linux/runuser.pamd
-new file mode 100644
-index 0000000..37f0e84
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/runuser.pamd
-@@ -0,0 +1,5 @@
-+#%PAM-1.0
-+auth		sufficient	pam_rootok.so
-+session		optional	pam_keyinit.so revoke
-+session		required	pam_limits.so
-+session		required	pam_unix.so
-diff --git a/meta/recipes-core/util-linux/util-linux_2.26.1.bb b/meta/recipes-core/util-linux/util-linux_2.26.1.bb
-index 58bc90d..2938e0b 100644
---- a/meta/recipes-core/util-linux/util-linux_2.26.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.26.1.bb
-@@ -14,6 +14,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://configure-sbindir.patch \
-             file://fix-parallel-build.patch \
-             ${OLDHOST} \
-+            file://runuser.pamd \
-+            file://runuser-l.pamd \
- "
- SRC_URI[md5sum] = "2308850946766677f3fabe0685e85de8"
- SRC_URI[sha256sum] = "22dc1c957262e2cbdfb4d524a63d5cd4f219d3ac9b5eab570fc771076799bb6e"
+Yes, that is why in the patches I proposed qemuarma9 as an alternative 
+(rather then a replacement) to plain qemuarm.
+
 -- 
-1.8.5.2.233.g932f7e4
-
+With best wishes
+Dmitry
 
