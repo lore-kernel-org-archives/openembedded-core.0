@@ -1,40 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 257F974187
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC937416A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 16:44:06 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so42846540wic.0
+	Fri, 15 May 2015 16:45:55 +0000 (UTC)
+Received: by pdfh10 with SMTP id h10so17295936pdf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 09:44:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=+TEr+7Rp8RE171eM0WOG5NoMYFkDYfmIchgjviZo4lM=;
-	b=Hh8nmqVWE/3Vw8sXUr6kt9B0nZY/K/aC7nmTYyQ40hHiA86G/QTNDHO/UjT2UJVOC1
-	9lQrb2zSP/50AskJHWpmNNRDMXwQX6XY1Mm3SbV2DaInFtztWv58hTMZr42DXF7JrrvH
-	0XqTkeS7HtAc7uJxKfs5RaBNDhZr8WI0YlOw5jraB2Mp4vyfqkLoODwyNEXznioQBhJB
-	AB5tS1FaFWTEXGeXeCPhO7ZXp+cqIHo/OxtzK62buyxQxlpf46wcFgfBlvMhVbo4kQtk
-	TkiJBNP1TBzjNekG4MNghzKIkpO6USxib8t1U0yLQA6rShp1rzTJqEG86BuzW/xalFTN
-	UQBQ==
-X-Gm-Message-State: ALoCoQnvs7ctVFPxG3YrDDTcSIvXX2eZ+2T69wuwQpXxCHchjqJw95WpP6gNgr3eQJxTk7si5mli
-X-Received: by 10.194.95.132 with SMTP id dk4mr20505821wjb.88.1431708247115;
-	Fri, 15 May 2015 09:44:07 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id ha4sm4081168wib.0.2015.05.15.09.44.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 May 2015 09:44:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 May 2015 17:39:51 +0100
-Message-Id: <1431707991-16826-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1431707991-16826-1-git-send-email-ross.burton@intel.com>
-References: <1431707991-16826-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] automake: simplify perl location forcing logic
+	Fri, 15 May 2015 09:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=QV/CellHJLevBfWTepopkDkB0ECbJFJ7PKUciPj9M9o=;
+	b=IfQK7YKHhAZVfn/MIG9zksMzVX91OaHuNSCv+sri6FDNeFhOsKGjdSndlmKAk9t+O5
+	F7y8j0Y9klrjN78SfGrH+GTbik1a/2EJb/rVZLHFwdHh3hxn4hBMMXM8PkCVS5Qh67Zc
+	YL2T37HW0q1g/9479SjHBvGX47npiDqUx07OqN+9ftvnREXlJzJD8nJYWm7ALoWxZ74C
+	ki7macn+wOo4/pFV4nwBEWyTfbstKQuySbasAO5aZqxmrptyAAJ/UkP7Aj52cqAyE3Zn
+	SGi62zrxiheXsh9H+ls33NTkO4sk2O+6+WDzTDQpdYIkaux9FB2xLFzb/Cf188UMOF38
+	xZtA==
+X-Received: by 10.66.160.71 with SMTP id xi7mr19719470pab.19.1431708356696;
+	Fri, 15 May 2015 09:45:56 -0700 (PDT)
+Received: from ?IPv6:2601:c:a700:3ba7:f0a2:acf0:8681:7abc?
+	([2601:c:a700:3ba7:f0a2:acf0:8681:7abc])
+	by mx.google.com with ESMTPSA id el6sm2355313pdb.93.2015.05.15.09.45.54
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 May 2015 09:45:55 -0700 (PDT)
+Message-ID: <555622C1.8070204@gmail.com>
+Date: Fri, 15 May 2015 09:45:53 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>	<1431295383.30971.25.camel@linuxfoundation.org>	<1431414393.30971.109.camel@linuxfoundation.org>	<1431686433.18723.22.camel@linuxfoundation.org>
+	<CAMKF1spbCyde8wGJgu=GgR14M4g4qSbzLob3rbadhUNPw8_g=Q@mail.gmail.com>
+In-Reply-To: <CAMKF1spbCyde8wGJgu=GgR14M4g4qSbzLob3rbadhUNPw8_g=Q@mail.gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: fix build issue with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,43 +51,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 16:44:11 -0000
+X-List-Received-Date: Fri, 15 May 2015 16:45:56 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Instead of letting configure find the host's perl and then use a complicated sed
-to replace it at install time, simply pre-seed the configure logic with the path
-we want to use.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/automake/automake_1.15.bb | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index d5b6e9e..c33dc22 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -25,18 +25,10 @@ SRC_URI += " file://python-libdir.patch \
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
- SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
- 
-+CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
-+
- do_install_append () {
-     install -d ${D}${datadir}
--
--    # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
--    # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
--    for i in aclocal aclocal-${NAMEVER} automake automake-${NAMEVER}; do
--        if [ -f ${D}${bindir}/$i ]; then
--            sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/perl,' \
--            -e 's,exec .*/bin/perl \(.*\) exec .*/bin/perl \(.*\),exec ${USRBINPATH}/perl \1 exec ${USRBINPATH}/perl \2,' \
--            ${D}${bindir}/$i
--        fi
--    done
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.1.4
+On 05/15/2015 09:25 AM, Khem Raj wrote:
+> On Fri, May 15, 2015 at 3:40 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Tue, 2015-05-12 at 08:06 +0100, Richard Purdie wrote:
+>>> With the gcc patch I've posted applied:
+>>>
+>>> http://errors.yoctoproject.org/Errors/Search/?items=10&query=5fd0b7c163f4f3312bea9bd3246a6bd67a8da594&limit=100
+>>>
+>>> so down to 57 errors. There are a few themes:
+>>>
+>>> * linux-yocto 3.14 gcc5 issues
+>>> * meta-fsl-ppc and metafsl-arm gcc5 issues, particularly kernel
+>>> * poky-lsb issues with the security flags and gcc5
+>>> * x32 failed with a race of some kind in glibc, suspect transient
+>>> * gcc-target has a packaging issue which fails builds (have patch)
+>>>
+>>> The good news is that the various ppc issues are fixed including the rpm
+>>> one from this series.
+>>
+>> Latest run:
+>>
+>> http://errors.yoctoproject.org/Errors/Search/?items=10&query=a2fbb1b6b6e564b3f9d40550c0b408978f420039&limit=100
+>>
+>> with 37 errors.
+>>
+>> * linux-yocto 3.14 gcc5 issues
+>
+> I guess there are patches around which I pointed out in last email
+> which should be ported
 
+I believe they would be:
+
+bebf56a kasan: enable instrumentation of global variables
+5631b8f compiler/gcc4+: Remove inaccurate comment about 'asm goto' 
+miscompiles
+71458cf kernel: add support for gcc 5
+
+just for completeness.
+
+I will give it a shot this weekend.
+
+- armin
+>
+>> * meta-fsl-ppc and meta-fsl-arm gcc5 issues, particularly kernel
+>
+> same as above mostly.
+>
+>> * poky-lsb issues with the security flags and gcc5 (elfutils,
+>>    coreutils, iptables, openssl on edgerouter)
+>
+> Those are something need fixing per package. I will look into some of
+> those. x86-64 issues are w.r.t one particular relocation
+>
+>> * qemuarm doesn't boot
+>
+> I have booted several arm machines ( bbb, overo tegra ST ) using
+> kernels ranging from 3.8 to 3.14, I believe its linux-yocto issue most
+> probably.
+>
+>> * u-boot with beaglebone
+>
+> This needs patches like this one
+> http://patchwork.openembedded.org/patch/92425/
+>
+>>
+>> linux-yocto 3.14 is the next thing we need to clean up to have the most
+>> impact, qemuarm not booting is the most worrying.
+>>
+>
+> agreed.
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
 
