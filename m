@@ -1,31 +1,34 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [119.145.14.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F47772207
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DA3CC73DA5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 10:38:55 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml433-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg03-dlp.huawei.com (MOS 4.4.3-GA FastPath queued)
-	with ESMTP id BGB94311; Fri, 15 May 2015 18:38:55 +0800 (CST)
-Received: from Patch-Test.huawei (10.107.197.245) by
-	szxeml433-hub.china.huawei.com (10.82.67.210) with Microsoft SMTP
-	Server id 14.3.158.1; Fri, 15 May 2015 18:38:51 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 May 2015 10:35:09 +0000
-Message-ID: <1431686109-616-2-git-send-email-zhengjunling@huawei.com>
-X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <1431686109-616-1-git-send-email-zhengjunling@huawei.com>
-References: <1431686109-616-1-git-send-email-zhengjunling@huawei.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.107.197.245]
-X-CFilter-Loop: Reflected
-X-Mirapoint-Virus-RAPID-Raw: score=unknown(0),
-	refid=str=0001.0A020204.5555CCBF.00AE, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0, ip=0.0.0.0,
-	so=2013-05-26 15:14:31, dmn=2013-03-21 17:37:32
-X-Mirapoint-Loop-Id: a1c0104322a3a6c2685f5a3a6179a44e
-Subject: [PATCH 2/2] automake: set perl location only for target
+	Fri, 15 May 2015 10:40:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4FAeHhT023611; Fri, 15 May 2015 11:40:46 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id UTotxMhff80D; Fri, 15 May 2015 11:40:46 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4FAeX26023638
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 15 May 2015 11:40:44 +0100
+Message-ID: <1431686433.18723.22.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 May 2015 11:40:33 +0100
+In-Reply-To: <1431414393.30971.109.camel@linuxfoundation.org>
+References: <1431268136-6968-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spdFnLWipG86g52MGfTEohRkketU6qCj+cTQcJC-o2rCQ@mail.gmail.com>
+	<1431295383.30971.25.camel@linuxfoundation.org>
+	<1431414393.30971.109.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: fix build issue with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 10:38:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 May 2015 10:40:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We should only fix perl location to /usr/bin/perl for target. It seems
-to be more appropriate that the perl used by native and nativesdk class
-of automake depends on build host environment.
+On Tue, 2015-05-12 at 08:06 +0100, Richard Purdie wrote:
+> With the gcc patch I've posted applied:
+> 
+> http://errors.yoctoproject.org/Errors/Search/?items=10&query=5fd0b7c163f4f3312bea9bd3246a6bd67a8da594&limit=100
+> 
+> so down to 57 errors. There are a few themes:
+> 
+> * linux-yocto 3.14 gcc5 issues
+> * meta-fsl-ppc and metafsl-arm gcc5 issues, particularly kernel
+> * poky-lsb issues with the security flags and gcc5
+> * x32 failed with a race of some kind in glibc, suspect transient
+> * gcc-target has a packaging issue which fails builds (have patch)
+> 
+> The good news is that the various ppc issues are fixed including the rpm
+> one from this series.
 
-Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
----
- meta/recipes-devtools/automake/automake_1.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Latest run:
 
-diff --git a/meta/recipes-devtools/automake/automake_1.15.bb b/meta/recipes-devtools/automake/automake_1.15.bb
-index d5b6e9e..1963ab0 100644
---- a/meta/recipes-devtools/automake/automake_1.15.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.bb
-@@ -25,7 +25,7 @@ SRC_URI += " file://python-libdir.patch \
- SRC_URI[md5sum] = "716946a105ca228ab545fc37a70df3a3"
- SRC_URI[sha256sum] = "7946e945a96e28152ba5a6beb0625ca715c6e32ac55f2e353ef54def0c8ed924"
- 
--do_install_append () {
-+do_install_append_class-target() {
-     install -d ${D}${datadir}
- 
-     # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
--- 
-1.8.3.4
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=a2fbb1b6b6e564b3f9d40550c0b408978f420039&limit=100
+
+with 37 errors. 
+
+* linux-yocto 3.14 gcc5 issues
+* meta-fsl-ppc and meta-fsl-arm gcc5 issues, particularly kernel
+* poky-lsb issues with the security flags and gcc5 (elfutils, 
+  coreutils, iptables, openssl on edgerouter)
+* qemuarm doesn't boot
+* u-boot with beaglebone
+
+linux-yocto 3.14 is the next thing we need to clean up to have the most
+impact, qemuarm not booting is the most worrying.
+
+Cheers,
+
+Richard
+
+
 
 
