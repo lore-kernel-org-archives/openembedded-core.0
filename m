@@ -1,35 +1,37 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 399F8609B2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id ED0F572207
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 15:50:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 1E05A3154634
+	Fri, 15 May 2015 16:01:38 +0000 (UTC)
+Received: by qgfa7 with SMTP id a7so5959488qgf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 17:50:37 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id muqiyky3qcE3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 17:50:34 +0200 (CEST)
-Received: from [172.22.22.61] (55d41029.access.ecotel.net [85.212.16.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id E610131545FE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 17:50:33 +0200 (CEST)
-Message-ID: <555615C9.3030503@opendreambox.org>
-Date: Fri, 15 May 2015 17:50:33 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Fri, 15 May 2015 09:01:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=yzNESBrue4CqGAqn4kBldTLLPr1epGx2sHAqjCg5p/8=;
+	b=g9Up/2CCFtktNbUx1US1ms28ebW5O9eWq/+eB9rFETf811uO3GmlQmFPhtUUU+v8nZ
+	TVtTrItBwgwdxLeNLxpBJOvEJRtn/i7KrKrY1R0ul/hLntrRem8rfCTy7bHHl6yd7bBA
+	+URFjKznWKGvapfK9T5v3VjuXskvBA/M2uuvHVVNDEa0EOHfZ2nORtFij2dkRUqFwUmC
+	t6LPSj3FX4uNdnWOq4QUnOViILVgsR001x6/uU7sXfSmRCdvrNVsX45Va5I4+fLdK7pN
+	tYYxQ/SE5PES9+0DRuEhFBDd89dTUP9pDz5k/vgk49xUQGQEc9le1dB5UK9nUHVWktzR
+	BgAA==
+X-Gm-Message-State: ALoCoQnm74CBD+7lhHAzE4NTLIb40iLfADdRzb7R/pjEIeaqMaFpPqfApgJcV1Hlpr4E3SpT3xpy
+X-Received: by 10.55.50.20 with SMTP id y20mr22189361qky.58.1431705698859;
+	Fri, 15 May 2015 09:01:38 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.140.102.231 with HTTP; Fri, 15 May 2015 09:01:18 -0700 (PDT)
+In-Reply-To: <555615C9.3030503@opendreambox.org>
 References: <cover.1431696945.git.joshua.lock@collabora.co.uk>
 	<a77975067764b47f3e9cf28b3de7ecfbfe5b2342.1431696945.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <a77975067764b47f3e9cf28b3de7ecfbfe5b2342.1431696945.git.joshua.lock@collabora.co.uk>
+	<555615C9.3030503@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 15 May 2015 17:01:18 +0100
+Message-ID: <CAJTo0LaeNkOW8a=s-q57WnP6z+WfCe9u8G+m5arWFfU-N0Lemw@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] cairo: make xlib and libxcb dependencies explicit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,86 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 15:50:37 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 May 2015 16:01:41 -0000
+Content-Type: multipart/alternative; boundary=001a114713929a91e7051620f5c2
 
-Hi Joshua,
+--001a114713929a91e7051620f5c2
+Content-Type: text/plain; charset=UTF-8
 
-On 15.05.2015 15:37, Joshua Lock wrote:
-> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> ---
->  meta/recipes-graphics/cairo/cairo.inc | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-> index 98add5a..1e45318 100644
-> --- a/meta/recipes-graphics/cairo/cairo.inc
-> +++ b/meta/recipes-graphics/cairo/cairo.inc
-> @@ -17,9 +17,11 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
->  X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
->  DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
->  
-> -PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
->             ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-> -PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
-> +
-> +PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
-> +PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+On 15 May 2015 at 16:50, Andreas Oberritter <obi@opendreambox.org> wrote:
 
-your patch adds a dependency on xcb by default, which you didn't
-mention.
+> your patch adds a dependency on xcb by default, which you didn't
+> mention.
+>
 
-Cairo has more floating dependencies. I have a similar but more
-complete patch which I haven't tested on master yet. See below.
+Considering libx11 depends on xcb, this is in practise enabled by default.
 
-Regards,
-Andreas
+I'll take Josh's patch, but extending Cairo's detection would be good.  I'm
+not sure I agree with splitting the X11 packageconfigs to finely - in
+practise everyone using libx11 will want shm/render enabled too.
 
-From 1a1057b89c7c7d5ebd7087ac9a2cba98bb183ec0 Mon Sep 17 00:00:00 2001
-From: Andreas Oberritter <obi@opendreambox.org>
-Date: Fri, 27 Mar 2015 23:23:01 +0100
-Subject: [PATCH] cairo: improve packageconfig options
+Ross
 
-Fixes floating dependencies on various x11 libs and directfb.
+--001a114713929a91e7051620f5c2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-graphics/cairo/cairo.inc | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 May 2015 at 16:50, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8s" class=
+=3D"a3s" style=3D"overflow:hidden">your patch adds a dependency on xcb by d=
+efault, which you didn&#39;t<br>
+mention.<br></div></blockquote></div><br>Considering libx11 depends on xcb,=
+ this is in practise enabled by default.</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">I&#39;ll take Josh&#39;s patch, but exte=
+nding Cairo&#39;s detection would be good.=C2=A0 I&#39;m not sure I agree w=
+ith splitting the X11 packageconfigs to finely - in practise everyone using=
+ libx11 will want shm/render enabled too.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index cd37559..fd217e6 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -10,16 +10,19 @@ HOMEPAGE = "http://cairographics.org"
- BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
- LICENSE = "MPL-1 & LGPLv2.1"
--X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
- DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xlib-xrender', '', d)} \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
--PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
--PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
--PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
-+PACKAGECONFIG[directfb] = "--enable-directfb,--disable-directfb,directfb"
- PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
- PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
-+PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
-+PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-+PACKAGECONFIG[xcb-shm] = "--enable-xcb-shm,--disable-xcb-shm,libxcb"
-+PACKAGECONFIG[xlib-xcb] = "--enable-xlib-xcb,--disable-xlib-xcb,virtual/libx11"
-+PACKAGECONFIG[xlib] = "--enable-xlib,--disable-xlib,virtual/libx11 libxext"
-+PACKAGECONFIG[xlib-xrender] = "--enable-xlib-xrender,--disable-xlib-xrender,libxrender"
- 
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--- 
-1.9.1
-
-
-
+--001a114713929a91e7051620f5c2--
