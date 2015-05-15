@@ -1,38 +1,34 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D24F474071
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A94E6AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 07:18:17 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Yt9sv-0006g8-Q3 from Dmitry_Eremin@mentor.com ;
-	Fri, 15 May 2015 00:18:18 -0700
-Received: from [137.202.140.150] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Fri, 15 May 2015 08:18:16 +0100
-Message-ID: <55559DB6.3000600@mentor.com>
-Date: Fri, 15 May 2015 10:18:14 +0300
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.6.0
+	Fri, 15 May 2015 08:39:07 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 15 May 2015 01:39:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,433,1427785200"; d="scan'208";a="729633839"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 15 May 2015 01:39:08 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 05FD66A4005;
+	Fri, 15 May 2015 01:38:37 -0700 (PDT)
+Date: Fri, 15 May 2015 09:45:36 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Message-ID: <20150515064536.GA23106@linux.intel.com>
+References: <1431112634-16635-1-git-send-email-alexandre.belloni@free-electrons.com>
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Andre McCurdy <armccurdy@gmail.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>	
-	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>	
-	<20150512144749.GD2714@jama>	
-	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
-	<1431611197.30971.212.camel@linuxfoundation.org>
-	<5554B329.2090708@windriver.com>
-In-Reply-To: <5554B329.2090708@windriver.com>
-X-Originating-IP: [137.202.0.76]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+In-Reply-To: <1431112634-16635-1-git-send-email-alexandre.belloni@free-electrons.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] wic: remove intermediate partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -42,68 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 07:18:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 May 2015 08:39:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/14/2015 05:37 PM, Bruce Ashfield wrote:
-> On 2015-05-14 09:46 AM, Richard Purdie wrote:
->> On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
->>> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa
->>> <martin.jansa@gmail.com> wrote:
->>>> On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
->>>>> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov
->>>>> <dmitry_eremin@mentor.com>
->>>>> wrote:
->>>>>
->>>>>> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
->>>>>> little to run necessary applications. Add a new arm configuration
->>>>>> based
->>>>>> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of RAM.
->>>>>>
->>>>>
->>>>> Not sure I'm keen on oe-core having two almost-identical qemuarm
->>>>> machines.
->>>>> Why not just change the qemuarm machine to use the A9?
->>>>
->>>> Then we should officially drop thumb1 support, because current qemuarm
->>>> builds are quite broken when thumb is enabled and dropping current
->>>> qemuarm or replacing it with A9 variant will prevent oe-core to be
->>>> testable on autobuilder. See
->>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
->>>
->>> +1 for updating qemuarm to an ARMv7 CPU.
->>
->> One thing I did notice about the new proposed arm machine was the lack
->> of graphics support. We really do need a machine with graphics. If we
->> could get a machine which had graphics and more memory that would be
->> much more attractive to switch to.
->>
->> This also has implications on the kernel support (cc Bruce).
->
-> I've been using the qemuarma9 machine in some different contexts for
-> a while now, and in fact, there's a BSP definition in linux-yocto
-> already for it.
->
-> So from that point of view, the kernel impacts are understood.
->
-> But not only does the qemuarma9 lack graphics, it also has issues
-> with disk and USB, so generally it isn't as usable as the arm926
-> qemu variant.
+Hi Alexandre,
 
-I ended up enabling virtio to get disc working in qemuarma9. Such setup 
-is used in provided runqemu patches. However I did not include a patch 
-to linux-yocto recipe/git tree.
+Thank you for the patch! Sorry for delayed review. I was on vacation.
 
->
-> There are other options that have newer CPUs, or just changing the
-> cpu .. but a wholesale switch to the "qemuarma9" machine tends to
-> bring some new challenges.
+Acked-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-Yes, that is why in the patches I proposed qemuarma9 as an alternative 
-(rather then a replacement) to plain qemuarm.
+On Fri, May 08, 2015 at 09:17:14PM +0200, Alexandre Belloni wrote:
+> Remove intermediate partitions that may have been created by a previous
+> wic invocation. Those partitions are causing issues on some systems. In
+> particular vfat partition creation is hanging on mcopy execution on
+> Fedora.
+> 
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+> ---
+> 
+> Changes in v2:
+>  - use os.remove instead of executing rm directly.
+> 
+>  scripts/lib/wic/kickstart/custom_commands/partition.py | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+> index ff906010b8bf..e864076c992d 100644
+> --- a/scripts/lib/wic/kickstart/custom_commands/partition.py
+> +++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+> @@ -230,6 +230,7 @@ class Wic_PartData(Mic_PartData):
+>          image_rootfs = rootfs_dir
+>          rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+>  
+> +        os.remove(rootfs)
+>          du_cmd = "du -ks %s" % image_rootfs
+>          out = exec_cmd(du_cmd)
+>          actual_rootfs_size = int(out.split()[0])
+> @@ -281,6 +282,7 @@ class Wic_PartData(Mic_PartData):
+>          image_rootfs = rootfs_dir
+>          rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+>  
+> +        os.remove(rootfs)
+>          du_cmd = "du -ks %s" % image_rootfs
+>          out = exec_cmd(du_cmd)
+>          actual_rootfs_size = int(out.split()[0])
+> @@ -325,6 +327,7 @@ class Wic_PartData(Mic_PartData):
+>          image_rootfs = rootfs_dir
+>          rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+>  
+> +        os.remove(rootfs)
+>          du_cmd = "du -bks %s" % image_rootfs
+>          out = exec_cmd(du_cmd)
+>          blocks = int(out.split()[0])
+> @@ -377,6 +380,7 @@ class Wic_PartData(Mic_PartData):
+>          image_rootfs = rootfs_dir
+>          rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+>  
+> +        os.remove(rootfs)
+>          squashfs_cmd = "mksquashfs %s %s -noappend" % \
+>                         (image_rootfs, rootfs)
+>          exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
+> @@ -415,6 +419,7 @@ class Wic_PartData(Mic_PartData):
+>          """
+>          fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+>  
+> +        os.remove(fs)
+>          dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+>              (fs, self.size)
+>          exec_cmd(dd_cmd)
+> @@ -442,6 +447,7 @@ class Wic_PartData(Mic_PartData):
+>          """
+>          fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+>  
+> +        os.remove(fs)
+>          dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+>              (fs, self.size)
+>          exec_cmd(dd_cmd)
+> @@ -466,6 +472,7 @@ class Wic_PartData(Mic_PartData):
+>          Prepare an empty vfat partition.
+>          """
+>          fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> +        os.remove(fs)
+>  
+>          blocks = self.size
+>  
+> @@ -492,6 +499,7 @@ class Wic_PartData(Mic_PartData):
+>                        "Proceeding as requested." % self.mountpoint)
+>  
+>          fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> +        os.remove(fs)
+>  
+>          # it is not possible to create a squashfs without source data,
+>          # thus prepare an empty temp dir that is used as source
+> -- 
+> 2.1.4
+> 
 
 -- 
-With best wishes
-Dmitry
+--
+Regards,
+Ed
 
