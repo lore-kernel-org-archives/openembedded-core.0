@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 78D6174053
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D44974153
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 19:56:24 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so46358302wic.0
+	Fri, 15 May 2015 19:59:46 +0000 (UTC)
+Received: by qkgx75 with SMTP id x75so77645631qkg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 12:56:25 -0700 (PDT)
+	Fri, 15 May 2015 12:59:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=yKEMFCnxelTyR9r76Rqj8Ao6JNOluva/D2i5lcJCaBM=;
-	b=gZGNmJZCkumvKziNkVhF0E7rNz9Fy4KdU4M90SenCuz4BrLpZQsmrnkTDC2qaA9Mwp
-	E/WvgNLu6M3E0SqLXR9U3OVy1iXnbCg8HV+etYyMLPbdExYj89tYPFyRS3fcUm3cOyVO
-	fFPkLzMfXAwrMAGvMzS+odnblYVZEmbqWvpTto358EovAh/kTvJ5eCzy1MbA9XkAa+ew
-	FkP83/VbYzbfHk5lKwHGjuxSrASf210QJw0OWJG4FtKuiSjtv9ffYu9Na4/mqOCHckt4
-	9OMcZIJ7RnYMTjoay+8TGM/TKBfEXbPNvHSb8X4i/7owU/6pNgd14qPkqIcVcU2URD5z
-	xXVQ==
-X-Gm-Message-State: ALoCoQmlfDzpHOPHef/MwUOe7nDO63yEnaxvh9+3MEC1+x4kL7hflV7cupK7ZIjT7GWcdl1FL1k9
-X-Received: by 10.180.98.195 with SMTP id ek3mr398525wib.57.1431719784879;
-	Fri, 15 May 2015 12:56:24 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id df1sm4762275wib.12.2015.05.15.12.56.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 May 2015 12:56:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 May 2015 20:52:10 +0100
-Message-Id: <1431719530-18179-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] Revert "libsdl: depends on libglu when x11"
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9K/SetIWZekdfJxTWljIuuw2fAN9+fr/f5EYUpiXbog=;
+	b=YqaAs6A67On3NnxKkMUl+g9jJ0MZNFZFsgElLXPsHYpnjjjRhCPl9T9D9aliVPwh7r
+	0BdSWmmJUo9FM40pnpM45fi0SbjcbCnl7lHyHly7edLO/KYThz1NS1/X4wMt40cXu9Ox
+	t0Bv4fCHXqRAAY08mw37KHQI7muEwhLzT1XOTNh35f0ouyHpX/ubBT7nrzp/Y9x6yGOq
+	dr6afxxsHzpV2reQwhmFVEiiuv3w3u1QL6VEoS5XfViWl22zFJj9bORyhv8P+fRzPWgP
+	mKQzV0pS1OPw6raBUUGSd1xleAxjXWIGEOGQaFzwm1/n+FJaORNH8KmjTG4q5ZBLRtBG
+	vs6g==
+X-Gm-Message-State: ALoCoQm32YCnCLIpNBmAdWejvtn+u6xHtKBN/No/umys5zvNCnGRdZHvCZ0QoYOuDo9/rTH/Y4RP
+X-Received: by 10.55.43.130 with SMTP id r2mr14655934qkr.14.1431719988049;
+	Fri, 15 May 2015 12:59:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 15 May 2015 12:59:27 -0700 (PDT)
+In-Reply-To: <84a0731e7204cfb400610c3abc871894b7a03a39.1431324180.git.liezhi.yang@windriver.com>
+References: <cover.1431324180.git.liezhi.yang@windriver.com>
+	<84a0731e7204cfb400610c3abc871894b7a03a39.1431324180.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 15 May 2015 20:59:27 +0100
+Message-ID: <CAJTo0LZNd142tRVh36yatiRxhwHdVwDYC4pVv_V1xNbebtmmSQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/12] libsdl: depends on libglu when x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 19:56:24 -0000
+X-List-Received-Date: Fri, 15 May 2015 19:59:47 -0000
+Content-Type: multipart/alternative; boundary=001a1147afb04e4c6d0516244925
 
-This patch was incorrect, GLU depends on GLX (and so X) but you can build SDL
-with X11 and without GL.
+--001a1147afb04e4c6d0516244925
+Content-Type: text/plain; charset=UTF-8
 
-This reverts commit f744f0b18c22daf8bdab837ba8096760b1ce00b8.
+On 11 May 2015 at 07:08, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Let it depend on libglu when x11 rather than opengl, since libglu can't
+> be built without x11.
+>
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index 06490aa..266bd42 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -13,8 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
- PROVIDES = "virtual/libsdl"
- 
- DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender libglu', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
-            tslib"
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
- 
--- 
-2.1.4
+But you can build libsdl with X11 enabled and OpenGL disabled, which then
+refuses to build as libsdl depends on libglu depends on virtual/opengl
+which refuses to build.
 
+I've just sent a revert for this, but was there a problem this was
+attempting to fix?
 
+Ross
+
+--001a1147afb04e4c6d0516244925
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 May 2015 at 07:08, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8p2" clas=
+s=3D"a3s" style=3D"overflow:hidden">Let it depend on libglu when x11 rather=
+ than opengl, since libglu can&#39;t<br>
+be built without x11.</div></blockquote></div><br>But you can build libsdl =
+with X11 enabled and OpenGL disabled, which then refuses to build as libsdl=
+ depends on libglu depends on virtual/opengl which refuses to build.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;ve jus=
+t sent a revert for this, but was there a problem this was attempting to fi=
+x?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
+
+--001a1147afb04e4c6d0516244925--
