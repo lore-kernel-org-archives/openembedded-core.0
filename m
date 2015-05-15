@@ -1,38 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 87D5A72207
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 241B073FC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 20:39:51 +0000 (UTC)
-Received: by qcyk17 with SMTP id k17so46586806qcy.1
+	Fri, 15 May 2015 02:06:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4F26lNK004886
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 May 2015 13:39:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Rsu1Rnv6zGopxl/1DtGJM9L/ZNGQQnWfxEmEqU5fAbA=;
-	b=XSZL2QIzM2i0eSiU2g3puPMTsonjH1dBnLn9/O5jUH6mUeDHkAA09eybRf6sRYGZrx
-	VQg0ix26IT0Jx0AGR3a1WJ435wKdXeviYLv7MFt/TJdYjgOlaStky4zAYjC0Td7j2/rM
-	OypyRqES/c7ilXzX4m75V7hpobmaYQH5dWPCCYxeT5DCpEqOiLzAH8Y9s2sNF95DERUn
-	az3fmzmQF9xhidANChGKooBe/iwHB2tRr5kwqByuvI7ts1xLLvDPuS5cBMDQCER+sqsR
-	VNzEolO6WqkuUQTj0syZdBNBeV46KpxUvM+/iYtxDlauScEnokOSi+Mt8pzFQPxS5eZs
-	K0eg==
-X-Gm-Message-State: ALoCoQneW9BTpAroU59QVqa8+4QQNtPaocsbJPCLrn3+PVobFH4cfIDNZ6KNo3Oo9TEETKHc/NGC
-X-Received: by 10.140.235.77 with SMTP id g74mr8549755qhc.64.1431635992662;
-	Thu, 14 May 2015 13:39:52 -0700 (PDT)
+	Thu, 14 May 2015 19:06:47 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 14 May 2015 19:06:47 -0700
+Message-ID: <555554B6.2070300@windriver.com>
+Date: Fri, 15 May 2015 10:06:46 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 14 May 2015 13:39:32 -0700 (PDT)
-In-Reply-To: <554CDB2B.2090607@ni.com>
-References: <1431040791-6559-1-git-send-email-haris.okanovic@ni.com>
-	<1431040791-6559-2-git-send-email-haris.okanovic@ni.com>
-	<554CDB2B.2090607@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 May 2015 21:39:32 +0100
-Message-ID: <CAJTo0LbsWDv9ncSn85zjGB3Avx+WfmDVg=TYHQAKQwEmPRCE9w@mail.gmail.com>
-To: Haris Okanovic <haris.okanovic@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] glibc: CVE-2015-1781: resolv/nss_dns/dns-host.c buffer overflow
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1431324180.git.liezhi.yang@windriver.com>
+	<bc821025ab812f67e5055ffda1f309ddc511d898.1431324180.git.liezhi.yang@windriver.com>
+In-Reply-To: <bc821025ab812f67e5055ffda1f309ddc511d898.1431324180.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 02/12] gtk+/cairo: enable x11 or directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 May 2015 20:39:52 -0000
-Content-Type: multipart/alternative; boundary=001a11354a00ca66e0051610bab3
+X-List-Received-Date: Fri, 15 May 2015 02:06:52 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11354a00ca66e0051610bab3
-Content-Type: text/plain; charset=UTF-8
 
-On 8 May 2015 at 16:50, Haris Okanovic <haris.okanovic@ni.com> wrote:
+Hello,
 
-> Note that this patch is to apply to the Dizzy branch of openembedded-core (
-> glibc 2.20). It might cleanly apply to other branches also using glibc
-> 2.20, but I've only tested with Dizzy.
+Other patches have been merged except this one, any comments on it, please ?
+
+// Robert
+
+On 05/11/2015 02:08 PM, Robert Yang wrote:
+> The gtk+2 requires whether x11 or directfb to build, so we need enable
+> either of them. The cairo can be built without x11 or directfb, but gtk+
+> requires cairo, so enable x11 or directfb for cairo, too.
 >
-> CVE-2015-1781 is fixed in glibc 2.22 and later.
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-gnome/gtk+/gtk+.inc      |    5 ++---
+>   meta/recipes-graphics/cairo/cairo.inc |    7 +++++--
+>   2 files changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+> index 1c0558c..fcfb86f 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+.inc
+> +++ b/meta/recipes-gnome/gtk+/gtk+.inc
+> @@ -14,9 +14,8 @@ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender
+>   DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
+>    cairo gdk-pixbuf"
+>
+> -PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+> -           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+> -"
+> +# Requires x11 or directfb
+> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
+>
+>   PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
+>   # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+> diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+> index 98add5a..f1aca9b 100644
+> --- a/meta/recipes-graphics/cairo/cairo.inc
+> +++ b/meta/recipes-graphics/cairo/cairo.inc
+> @@ -17,8 +17,11 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
+>   X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+>   DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+>
+> -PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+> -           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
+> +# Build cairo-xlib or cairo-directfb for gtk+
+> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
+> +# No directfb-native, so set PACKAGECONFIG to null when no x11
+> +PACKAGECONFIG_class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+> +
+>   PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
+>   PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+>   PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
 >
 
-Will you be able to port this to master which is currently glibc 2.21?
-
-Ross
-
---001a11354a00ca66e0051610bab3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 May 2015 at 16:50, Haris Okanovic <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:haris.okanovic@ni.com" target=3D"_blank">haris.okanovic@ni.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7s0" class=3D"a=
-3s" style=3D"overflow:hidden">Note that this patch is to apply to the Dizzy=
- branch of openembedded-core (<span class=3D"il">glibc</span> 2.20). It mig=
-ht cleanly apply to other branches also using <span class=3D"il">glibc</spa=
-n> 2.20, but I&#39;ve only tested with Dizzy.<br>
-<br>
-CVE-2015-1781 is fixed in <span class=3D"il">glibc</span> 2.22 and later.<b=
-r></div></blockquote></div><br>Will you be able to port this to master whic=
-h is currently glibc 2.21?</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
-
---001a11354a00ca66e0051610bab3--
