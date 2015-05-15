@@ -1,38 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A6CE7412A
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id B711A7416A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 20:00:51 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so77667598qkg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 13:00:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=muDT8r45ZniqpObyy3R0Dusdgm9UhkWk6NRJD68/T3I=;
-	b=UT9stZ6miaSY4lLWTCL0pq6wywmCWaghN11KUI0EXqTLRkXdEXK4oNhjKRRISwAch4
-	75tdkRoHW2XKodR5P5VUFmOc5SAvVp1XkQlTCDpVySu/Vu95zYSEESLBQm0rPqG0ztS0
-	RIU9bUeLuwEU5LVmHRjGSt1587qJj9By4MjWlaVXp1G9K3+ApZItkxHMc1Ib7z2UUaVi
-	6wk2NSwVgWaLcR/2/mkh1PcJCeC5WVYHt2nmDR13jRtIIw/W2M2KJXuV9CvytTI56wE0
-	tSfxQMNi/Fbx3eiNxofKlFHQvBJY4ot7/IMnkctqRZzmlEjpUJmUYvqXjfog3Fkcn0B5
-	CJhA==
-X-Gm-Message-State: ALoCoQnCEX4wpegauGp1OKNBX0lvgDaJuMHj2J13MCOwa59Vr2QrvmzcnDsWB/E9Sj/w3GETIzNI
-X-Received: by 10.140.216.5 with SMTP id m5mr15317368qhb.52.1431720052640;
-	Fri, 15 May 2015 13:00:52 -0700 (PDT)
+	Fri, 15 May 2015 21:29:08 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t4FLT7CS016266; Fri, 15 May 2015 16:29:07 -0500
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2015051516290790-1563416 ;
+	Fri, 15 May 2015 16:29:07 -0500 
+Message-ID: <55566523.5060100@ni.com>
+Date: Fri, 15 May 2015 16:29:07 -0500
+From: Haris Okanovic <haris.okanovic@ni.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 15 May 2015 13:00:32 -0700 (PDT)
-In-Reply-To: <CAJTo0LZNd142tRVh36yatiRxhwHdVwDYC4pVv_V1xNbebtmmSQ@mail.gmail.com>
-References: <cover.1431324180.git.liezhi.yang@windriver.com>
-	<84a0731e7204cfb400610c3abc871894b7a03a39.1431324180.git.liezhi.yang@windriver.com>
-	<CAJTo0LZNd142tRVh36yatiRxhwHdVwDYC4pVv_V1xNbebtmmSQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 15 May 2015 21:00:32 +0100
-Message-ID: <CAJTo0LbvnOannviRAbfJbVnYcqS=h14kjX5VGAYWX5x0qPi3Fg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1431040791-6559-1-git-send-email-haris.okanovic@ni.com>
+	<1431040791-6559-2-git-send-email-haris.okanovic@ni.com>
+	<554CDB2B.2090607@ni.com>
+	<CAJTo0LbsWDv9ncSn85zjGB3Avx+WfmDVg=TYHQAKQwEmPRCE9w@mail.gmail.com>
+In-Reply-To: <CAJTo0LbsWDv9ncSn85zjGB3Avx+WfmDVg=TYHQAKQwEmPRCE9w@mail.gmail.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 05/15/2015 04:29:07 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 05/15/2015 04:29:08 PM,
+	Serialize complete at 05/15/2015 04:29:08 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-05-15_05:, , signatures=0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/12] libsdl: depends on libglu when x11
+Subject: Re: [PATCH 2/2] glibc: CVE-2015-1781: resolv/nss_dns/dns-host.c buffer overflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,38 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 20:00:53 -0000
-Content-Type: multipart/alternative; boundary=001a11354e682807eb0516244df5
+X-List-Received-Date: Fri, 15 May 2015 21:29:09 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
 
---001a11354e682807eb0516244df5
-Content-Type: text/plain; charset=UTF-8
+On 05/14/2015 03:39 PM, Burton, Ross wrote:
+> Will you be able to port this to master which is currently glibc 2.21?
 
-On 15 May 2015 at 20:59, Burton, Ross <ross.burton@intel.com> wrote:
+Sure. I'll post a second patch to oe-core for master (glibc 2.21) once I 
+test it out. It'll be the same .patch file for glibc's source, but a 
+different change in the bb recipe.
 
-> I've just sent a revert for this, but was there a problem this was
-> attempting to fix?
->
+The original patch I sent earlier still applies to other branches that 
+use glibc 2.20. E.g. Dizzy.
 
-Just realised - opengl enabled and x11 disabled in DISTRO_FEATURES.  I
-guess you need to make the GL support depend on opengl *and* x11.  Tested
-patches for all combinations of those features welcome :)
+Haris
 
-Ross
-
---001a11354e682807eb0516244df5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 May 2015 at 20:59, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">I=
-&#39;ve just sent a revert for this, but was there a problem this was attem=
-pting to fix?</div></blockquote><div><br></div><div>Just realised - opengl =
-enabled and x11 disabled in DISTRO_FEATURES.=C2=A0 I guess you need to make=
- the GL support depend on opengl *and* x11.=C2=A0 Tested patches for all co=
-mbinations of those features welcome :)</div><div><br></div><div>Ross=C2=A0=
-</div></div></div></div>
-
---001a11354e682807eb0516244df5--
