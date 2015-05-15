@@ -1,33 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EB08965C9C
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 399F8609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 14:38:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4FEcKpC013128
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 15 May 2015 07:38:20 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 15 May 2015 07:38:20 -0700
-Message-ID: <555604DB.3020603@windriver.com>
-Date: Fri, 15 May 2015 10:38:19 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Fri, 15 May 2015 15:50:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 1E05A3154634
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 May 2015 17:50:37 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id muqiyky3qcE3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 May 2015 17:50:34 +0200 (CEST)
+Received: from [172.22.22.61] (55d41029.access.ecotel.net [85.212.16.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id E610131545FE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 May 2015 17:50:33 +0200 (CEST)
+Message-ID: <555615C9.3030503@opendreambox.org>
+Date: Fri, 15 May 2015 17:50:33 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Andre McCurdy <armccurdy@gmail.com>
-References: <1431373976-20993-1-git-send-email-dmitry_eremin@mentor.com>	
-	<CAJTo0LZUd4bcbfTL+TbtiXOU1wc9ZaFGP0mTM_Y0hVMb1eMqWg@mail.gmail.com>	
-	<20150512144749.GD2714@jama>	
-	<CAJ86T=X08DRhpZjH8Ge0vjXXuk1dfa2RbXiDarNX153-oE1Cmw@mail.gmail.com>
-	<1431611197.30971.212.camel@linuxfoundation.org>
-	<5554B329.2090708@windriver.com> <55559DB6.3000600@mentor.com>
-In-Reply-To: <55559DB6.3000600@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND][PATCH 1/3] meta: add new qemuarma9 machine definition
+To: openembedded-core@lists.openembedded.org
+References: <cover.1431696945.git.joshua.lock@collabora.co.uk>
+	<a77975067764b47f3e9cf28b3de7ecfbfe5b2342.1431696945.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <a77975067764b47f3e9cf28b3de7ecfbfe5b2342.1431696945.git.joshua.lock@collabora.co.uk>
+Subject: Re: [PATCH 1/1] cairo: make xlib and libxcb dependencies explicit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,80 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 May 2015 14:38:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 15 May 2015 15:50:37 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 2015-05-15 03:18 AM, Dmitry Eremin-Solenikov wrote:
-> On 05/14/2015 05:37 PM, Bruce Ashfield wrote:
->> On 2015-05-14 09:46 AM, Richard Purdie wrote:
->>> On Wed, 2015-05-13 at 18:17 -0700, Andre McCurdy wrote:
->>>> On Tue, May 12, 2015 at 7:47 AM, Martin Jansa
->>>> <martin.jansa@gmail.com> wrote:
->>>>> On Tue, May 12, 2015 at 03:25:43PM +0100, Burton, Ross wrote:
->>>>>> On 11 May 2015 at 20:52, Dmitry Eremin-Solenikov
->>>>>> <dmitry_eremin@mentor.com>
->>>>>> wrote:
->>>>>>
->>>>>>> Currently qemuarm is limited to 256 Mb of RAM. Sometimes this is too
->>>>>>> little to run necessary applications. Add a new arm configuration
->>>>>>> based
->>>>>>> on Versatile Express board, Cortex-A9 CPU, allowing up to 1Gb of
->>>>>>> RAM.
->>>>>>>
->>>>>>
->>>>>> Not sure I'm keen on oe-core having two almost-identical qemuarm
->>>>>> machines.
->>>>>> Why not just change the qemuarm machine to use the A9?
->>>>>
->>>>> Then we should officially drop thumb1 support, because current qemuarm
->>>>> builds are quite broken when thumb is enabled and dropping current
->>>>> qemuarm or replacing it with A9 variant will prevent oe-core to be
->>>>> testable on autobuilder. See
->>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
->>>>
->>>> +1 for updating qemuarm to an ARMv7 CPU.
->>>
->>> One thing I did notice about the new proposed arm machine was the lack
->>> of graphics support. We really do need a machine with graphics. If we
->>> could get a machine which had graphics and more memory that would be
->>> much more attractive to switch to.
->>>
->>> This also has implications on the kernel support (cc Bruce).
->>
->> I've been using the qemuarma9 machine in some different contexts for
->> a while now, and in fact, there's a BSP definition in linux-yocto
->> already for it.
->>
->> So from that point of view, the kernel impacts are understood.
->>
->> But not only does the qemuarma9 lack graphics, it also has issues
->> with disk and USB, so generally it isn't as usable as the arm926
->> qemu variant.
->
-> I ended up enabling virtio to get disc working in qemuarma9. Such setup
-> is used in provided runqemu patches. However I did not include a patch
-> to linux-yocto recipe/git tree.
+Hi Joshua,
 
-Interesting. That didn't work all that well when I tried, but that was
-over a year ago. The solution was to use SD card images here, but they
-have limitations as well.
+On 15.05.2015 15:37, Joshua Lock wrote:
+> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+> ---
+>  meta/recipes-graphics/cairo/cairo.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+> index 98add5a..1e45318 100644
+> --- a/meta/recipes-graphics/cairo/cairo.inc
+> +++ b/meta/recipes-graphics/cairo/cairo.inc
+> @@ -17,9 +17,11 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
+>  X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+>  DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+>  
+> -PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+>             ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
+> -PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
+> +
+> +PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+> +PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
 
->
->>
->> There are other options that have newer CPUs, or just changing the
->> cpu .. but a wholesale switch to the "qemuarma9" machine tends to
->> bring some new challenges.
->
-> Yes, that is why in the patches I proposed qemuarma9 as an alternative
-> (rather then a replacement) to plain qemuarm.
+your patch adds a dependency on xcb by default, which you didn't
+mention.
 
-Agreed (and I got that part), but my counter argument is that there are
-other machines to chose from and it is better to find one that meets all
-the needs, versus maintaining two.
+Cairo has more floating dependencies. I have a similar but more
+complete patch which I haven't tested on master yet. See below.
 
-Bruce
+Regards,
+Andreas
 
->
+From 1a1057b89c7c7d5ebd7087ac9a2cba98bb183ec0 Mon Sep 17 00:00:00 2001
+From: Andreas Oberritter <obi@opendreambox.org>
+Date: Fri, 27 Mar 2015 23:23:01 +0100
+Subject: [PATCH] cairo: improve packageconfig options
+
+Fixes floating dependencies on various x11 libs and directfb.
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-graphics/cairo/cairo.inc | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index cd37559..fd217e6 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -10,16 +10,19 @@ HOMEPAGE = "http://cairographics.org"
+ BUGTRACKER = "http://bugs.freedesktop.org"
+ SECTION = "libs"
+ LICENSE = "MPL-1 & LGPLv2.1"
+-X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xlib-xrender', '', d)} \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
+-PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
+-PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+-PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
++PACKAGECONFIG[directfb] = "--enable-directfb,--disable-directfb,directfb"
+ PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+ PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
++PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
++PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
++PACKAGECONFIG[xcb-shm] = "--enable-xcb-shm,--disable-xcb-shm,libxcb"
++PACKAGECONFIG[xlib-xcb] = "--enable-xlib-xcb,--disable-xlib-xcb,virtual/libx11"
++PACKAGECONFIG[xlib] = "--enable-xlib,--disable-xlib,virtual/libx11 libxext"
++PACKAGECONFIG[xlib-xrender] = "--enable-xlib-xrender,--disable-xlib-xrender,libxrender"
+ 
+ #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
+ require cairo-fpu.inc
+-- 
+1.9.1
+
 
 
