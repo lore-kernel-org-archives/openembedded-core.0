@@ -1,33 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6A765C9C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D613473D7E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 May 2015 04:58:51 +0000 (UTC)
-Received: by wgkx2 with SMTP id x2so14154122wgk.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 May 2015 21:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=4UEgH1a397DWe2DQgUqBAe+UUkqVK95yVHYOT1WkNcs=;
-	b=zhL1bu4SWFvuo1JFrE9/C4560n8aA8UlKyn+koGgqx1WppySIFy7/HwCzZsvIYPMUP
-	grarTVxaf8Irjdhkfnoh8XaoI+tB7z0fWt6aPs3wxiEk5bTW1rtcJep1VDnEBQUg8t5u
-	Eiv5SiSDscsyLjoKOHgznEJejP7BELo8UBrtLdCqefrxGJdRtxT3jdE0D+i1opp6PmRu
-	HVmOcf4f+dXSnMWJJKLNPBRTbyKeWFsw3Uel+L21Kgbl+ZUymLREhD/u3yxFMhZAzPjV
-	pE7VzUYa83tzQli3IbBKqDWkTBu11fbX/YFI9dYC8xWFQ+k8ONedElthJ+IQlBr4dBu9
-	uXsA==
-X-Received: by 10.180.85.161 with SMTP id i1mr3221553wiz.45.1431752332402;
-	Fri, 15 May 2015 21:58:52 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id v3sm1170474wix.8.2015.05.15.21.58.51
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 May 2015 21:58:51 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 May 2015 06:59:15 +0200
-Message-Id: <1431752355-17659-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [dizzy][PATCH] e2fsprogs: install populate-extfs.sh
+	Sat, 16 May 2015 21:34:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4GLYQnC010164; Sat, 16 May 2015 22:34:26 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FredhS_WwhgG; Sat, 16 May 2015 22:34:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4GLYA0t010161
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 16 May 2015 22:34:22 +0100
+Message-ID: <1431812050.4956.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Sat, 16 May 2015 22:34:10 +0100
+In-Reply-To: <55555B65.80600@windriver.com>
+References: <55555B65.80600@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Add something like bitbake -cmenuconfig <recipe> ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 May 2015 04:58:52 -0000
+X-List-Received-Date: Sat, 16 May 2015 21:34:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Fri, 2015-05-15 at 10:35 +0800, Robert Yang wrote:
+> Hello,
+> 
+> Is is useful/possible if we add something like bitbake <recipe> -cmenuconfig,
+> just like kernel's make menuconfig ?
+> 
+> We can use the menuconfig to config the vars such as MACHINE, DL_DIR,
+> DISTRO_FEATURES, MACHINE_FEATURES and all the variables which are
+> configurable, I think that this would help the newbie a lot.
+> 
+> I think that we can add a menuconfig.bbclass (or other names) to do this,
+> and I'd like to work on it.
 
-* install populate-extfs.sh from contrib, be aware that in order
-  to use it you need to set DEBUGFS shell variable, otherwise it will
-  try to use debugfs from relative path which is almost always
-  incorrect:
-    CONTRIB_DIR=$(dirname $(readlink -f $0))
-    DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
+Why would you want to specify a <recipe> when configuring MACHINE? I
+understand why you're thinking this but it isn't well thought out and in
+this form would confuse users more than help them.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I don't think the system will even parse without a valid MACHINE, let
+alone execute tasks.
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 70ccdfd..95c612c 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -54,6 +54,8 @@ do_install () {
- 	oe_multilib_header ext2fs/ext2_types.h
- 	install -d ${D}${base_bindir}
- 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
-+
-+	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
- }
- 
- do_install_append_class-target() {
--- 
-2.4.0
+Cheers,
+
+Richard
 
 
