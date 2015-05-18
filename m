@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D34E65C9C
+	by mail.openembedded.org (Postfix) with ESMTP id 9F9A574053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 15:15:13 +0000 (UTC)
+	Mon, 18 May 2015 15:15:15 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga101.fm.intel.com with ESMTP; 18 May 2015 08:15:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,453,1427785200"; d="scan'208";a="731190744"
+X-IronPort-AV: E=Sophos;i="5.13,453,1427785200"; d="scan'208";a="731190754"
 Received: from jmcmill1-mobl3.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.0.158])
 	by orsmga002.jf.intel.com with ESMTP; 18 May 2015 08:15:15 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 16:15:03 +0100
-Message-Id: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+Date: Mon, 18 May 2015 16:15:04 +0100
+Message-Id: <b8b806a0726b2a357f2de9742ac4615ff03595d0.1431961859.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/5] devtool / recipetool bbappend support
+In-Reply-To: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+References: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+References: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/5] devtool / recipetool: ensure bb.note() gets printed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +34,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 18 May 2015 15:15:15 -0000
 
-Add support for creating/updating bbappends in both devtool (within the
-update-recipe subcommand) and in recipetool (with a new appendfile
-subcommand), as well as some related tidy-ups.
+Most of the time when bb.note() gets called we want to see the output,
+so ensure the level is set appropriately depending on the command line
+options instead of being fixed at warning. (We don't want to see the
+notes for fetch/unpack/patch though as they are too verbose).
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/devtool/__init__.py | 2 +-
+ scripts/lib/devtool/standard.py | 7 +++++++
+ scripts/recipetool              | 2 +-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
-The following changes since commit aa2e02a4f78d87bd466bbf92ca57147066c5367f:
-
-  README: add "Contributing" section (2015-05-16 22:37:15 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool-bbappends
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-bbappends
-
-Paul Eggleton (5):
-  devtool / recipetool: ensure bb.note() gets printed
-  lib/oe/patch: use with open() for all file operations
-  oe-selftest: move recipetool tests to their own module
-  recipetool: add appendfile subcommand
-  devtool: update-recipe: add option to write changes to bbappend
-
- .../recipes-test/recipetool/files/add-file.patch   |   8 +
- meta-selftest/recipes-test/recipetool/files/file1  |   2 +
- .../recipes-test/recipetool/files/installscript.sh |   3 +
- .../recipetool/files/selftest-replaceme-inst-func  |   1 +
- .../files/selftest-replaceme-inst-globfile         |   1 +
- .../files/selftest-replaceme-inst-todir-globfile   |   1 +
- .../recipetool/files/selftest-replaceme-orig       |   1 +
- .../files/selftest-replaceme-src-globfile          |   1 +
- .../recipetool/files/selftest-replaceme-todir      |   1 +
- .../recipetool/files/subdir/fileinsubdir           |   1 +
- .../recipetool/selftest-recipetool-appendfile.bb   |  42 +++
- meta/lib/oe/patch.py                               | 103 ++++--
- meta/lib/oe/recipeutils.py                         | 328 ++++++++++++++++++-
- meta/lib/oeqa/selftest/devtool.py                  | 283 ++++++++++++----
- meta/lib/oeqa/selftest/recipetool.py               | 364 +++++++++++++++++++++
- meta/lib/oeqa/utils/commands.py                    |  11 +
- scripts/lib/devtool/__init__.py                    |   2 +-
- scripts/lib/devtool/standard.py                    | 155 ++++++---
- scripts/lib/recipetool/append.py                   | 360 ++++++++++++++++++++
- scripts/recipetool                                 |   8 +-
- 20 files changed, 1548 insertions(+), 128 deletions(-)
- create mode 100644 meta-selftest/recipes-test/recipetool/files/add-file.patch
- create mode 100644 meta-selftest/recipes-test/recipetool/files/file1
- create mode 100644 meta-selftest/recipes-test/recipetool/files/installscript.sh
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-func
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-globfile
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-todir-globfile
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-orig
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-src-globfile
- create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-todir
- create mode 100644 meta-selftest/recipes-test/recipetool/files/subdir/fileinsubdir
- create mode 100644 meta-selftest/recipes-test/recipetool/selftest-recipetool-appendfile.bb
- create mode 100644 meta/lib/oeqa/selftest/recipetool.py
- create mode 100644 scripts/lib/recipetool/append.py
-
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 5a06c78..9ec1ef6 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -85,6 +85,6 @@ def setup_tinfoil():
+     import bb.tinfoil
+     tinfoil = bb.tinfoil.Tinfoil()
+     tinfoil.prepare(False)
+-    tinfoil.logger.setLevel(logging.WARNING)
++    tinfoil.logger.setLevel(logger.getEffectiveLevel())
+     return tinfoil
+ 
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 61c0df9..122121a 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -245,6 +245,11 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+     bb.utils.mkdirhier(srctree)
+     os.rmdir(srctree)
+ 
++    # We don't want notes to be printed, they are too verbose
++    origlevel = bb.logger.getEffectiveLevel()
++    if logger.getEffectiveLevel() > logging.DEBUG:
++        bb.logger.setLevel(logging.WARNING)
++
+     initial_rev = None
+     tempdir = tempfile.mkdtemp(prefix='devtool')
+     try:
+@@ -349,6 +354,8 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+         shutil.move(srcsubdir, srctree)
+         logger.info('Source tree extracted to %s' % srctree)
+     finally:
++        bb.logger.setLevel(origlevel)
++
+         if keep_temp:
+             logger.info('Preserving temporary directory %s' % tempdir)
+         else:
+diff --git a/scripts/recipetool b/scripts/recipetool
+index 2cfa763..b7d3ee8 100755
+--- a/scripts/recipetool
++++ b/scripts/recipetool
+@@ -40,7 +40,7 @@ def tinfoil_init():
+     for plugin in plugins:
+         if hasattr(plugin, 'tinfoil_init'):
+             plugin.tinfoil_init(tinfoil)
+-    tinfoil.logger.setLevel(logging.WARNING)
++    tinfoil.logger.setLevel(logger.getEffectiveLevel())
+ 
+ def main():
+ 
 -- 
 2.1.0
 
