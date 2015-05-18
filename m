@@ -1,28 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 597F873FC8
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EB375609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 08:45:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2015 01:45:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,452,1427785200"; d="scan'208";a="711770204"
-Received: from jmcmill1-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.0.158])
-	by fmsmga001.fm.intel.com with ESMTP; 18 May 2015 01:45:07 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 18 May 2015 09:45:06 +0100
-Message-ID: <2117516.tkUI32xNOp@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <555945F2.9020708@windriver.com>
-References: <55555B65.80600@windriver.com>
-	<1431812050.4956.5.camel@linuxfoundation.org>
-	<555945F2.9020708@windriver.com>
+	Mon, 18 May 2015 09:00:01 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so45379551pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 May 2015 02:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=k2Du1ycCxKR/Rtqz+cZ945Pupt337XbwN1x4t+GpsHU=;
+	b=y2WxIppGL+qgDmDiXvszjiNnT7msAB4xEkrnaVXSBRXmjXMPIJ+LtxmaaP/c5P7Z66
+	1ni7kNGPJEF1M8RsWiEhUQaWVKsBeJXW32O+XL3zGxP0If0kXK8xUeUiDZmKE6gSl8KQ
+	h1qajmg6Tijc7gVyOo84E0z2+krNNxc/SWvVQ68OlsCvgsRbdTSu+yEaaqE0TRZcc96j
+	VVStUssJf0uQzR8A/B4a1IEYP/uGa5GkiWGEIiNDclM9p1TAV4mmSvb2bfXuOzL0Q2uK
+	sji0SzkNvuvMHsrPRXQZSOR0OVw9LnOxqNh2VEE/f4331aCYujCBmsZ8nkBKQC0jA/wn
+	X0aw==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] Add something like bitbake -cmenuconfig <recipe> ?
+X-Received: by 10.68.57.170 with SMTP id j10mr25489791pbq.150.1431939602680;
+	Mon, 18 May 2015 02:00:02 -0700 (PDT)
+Received: by 10.70.54.3 with HTTP; Mon, 18 May 2015 02:00:02 -0700 (PDT)
+In-Reply-To: <20150518080138.GD9407@jama>
+References: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
+	<20150518080138.GD9407@jama>
+Date: Mon, 18 May 2015 11:00:02 +0200
+Message-ID: <CALbNGRReeZHBXDo2C4tRTHfdCwSfS5QxpKdGWpsZJbgAGGCYdw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: trouble related to oe-core update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 08:45:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 May 2015 09:00:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Robert,
+On Mon, May 18, 2015 at 10:01 AM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> On Mon, May 18, 2015 at 09:46:03AM +0200, Andreas M=C3=BCller wrote:
+>> Hi,
+>
+> Hi,
+>
+>> have seen that a while ago but had no time to take care.
+>>
+>> Since oe-core commit
+>>
+>> commit 3e760031f91fb87c3e2f62b77a117eb41164f259
+>> Author: Martin Jansa <martin.jansa@gmail.com>
+>> Date:   Wed Feb 18 15:40:35 2015 +0100
+>>
+>>     feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb=
+ suffix
+>>
+>> I get
+>>
+>> ERROR:  OE-core's config sanity checker detected a potential misconfigur=
+ation.
+>>     Either fix the cause of this error or at your own risk disable the
+>> checker (see sanity.conf).
+>>     Following is the list of potential problems / advisories:
+>>
+>>     Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
+>> (cortexa9t2hf-vfp-neon).
+>>
+>> I don't understand this fully but it seems that
+>> fsl-dynamic-packagearch.bbclass would add this pkg arch but this never
+>> happens because sanity.bbclass is executed first and interrupts
+>> parsing. What I don't understand: Am I the only one having this issue
+>>o
+> I'm not using meta-fsl*, butdo you have this patch in your setup?
+> http://patches.openembedded.org/patch/90989/
+> it was discussed off-list a while ago and this change looks like result
+> of that discussion.
+>
+Have meta-fsl-arm current master in my layers. This contains a similar patc=
+h:
 
-On Monday 18 May 2015 09:52:50 Robert Yang wrote:
-> On 05/17/2015 05:34 AM, Richard Purdie wrote:
-> > On Fri, 2015-05-15 at 10:35 +0800, Robert Yang wrote:
-> >> Is is useful/possible if we add something like bitbake <recipe>
-> >> -cmenuconfig, just like kernel's make menuconfig ?
-> >> 
-> >> We can use the menuconfig to config the vars such as MACHINE, DL_DIR,
-> >> DISTRO_FEATURES, MACHINE_FEATURES and all the variables which are
-> >> configurable, I think that this would help the newbie a lot.
-> >> 
-> >> I think that we can add a menuconfig.bbclass (or other names) to do this,
-> >> and I'd like to work on it.
-> > 
-> > Why would you want to specify a <recipe> when configuring MACHINE? I
-> > understand why you're thinking this but it isn't well thought out and in
-> > this form would confuse users more than help them.
-> > 
-> > I don't think the system will even parse without a valid MACHINE, let
-> > alone execute tasks.
-> 
-> I meant that we need something to help configure the build easier, it
-> can generate something like local.conf.append, not configure the recipe.
-> 
-> The example "bitbake <recipe> -cmenuconfig" wasn't right enough, it's
-> just a rough thought, we can use the current default local.conf
-> (MACHINE = qemux86) to make system parse.
-> 
-> The problem is that we have many bbclasses in oe-core, a lot of them
-> has specify configurations, and also a lot of vars in the conf file such
-> as bitbake.conf, it's not easy to know how and what to config, especially,
-> for newbies. The "bitbake -cmenuconfig" maybe not a good idea, I think that
-> we need something to help config the build (generate local.conf) easier,
-> do you have any suggestions, please ?
+commit bfe01a0ebde407086f4a7710ea165c6beff310d7
+Author: Max Krummenacher <max.oss.09@gmail.com>
+Date:   Mon Mar 30 23:49:32 2015 +0200
 
-This is likely the direction we will be going in with the Toaster web UI - 
-with a web-based tool we can present a much friendlier interface and have the 
-chance to link to other information, for example we can link to the 
-appropriate manual section for individual variables (and in future error 
-messages, classes, etc.), analyse the output of the build, manage multiple 
-sets of configuration, etc. These are things that would be difficult to do 
-practically from the command line.
+    fsl-dynamic-packagearch: add all MACHINE_SOCARCH feeds
 
-Cheers,
-Paul
+Have rebased the mentionioned patch -> same result.
 
--- 
+My problem seems to be that sanity.bbclass bails out before code in
+fsl-dynamic-packagearch.bbclass is executed (and would fix). Playing
+around with layer priorities / order of layers nothing changed
+situation.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Andreas
 
