@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 08ECE60962
+	by mail.openembedded.org (Postfix) with ESMTP id 18AA765D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 23:28:42 +0000 (UTC)
+	Mon, 18 May 2015 23:28:41 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP; 18 May 2015 16:28:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,455,1427785200"; d="scan'208";a="712140369"
+X-IronPort-AV: E=Sophos;i="5.13,455,1427785200"; d="scan'208";a="712140368"
 Received: from ihoshino-mobl.amr.corp.intel.com (HELO
 	swold-mobl.amr.corp.intel.com) ([10.255.86.199])
-	by fmsmga001.fm.intel.com with ESMTP; 18 May 2015 16:28:43 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2015 16:28:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Mon, 18 May 2015 16:28:38 -0700
-Message-Id: <1431991720-19892-4-git-send-email-sgw@linux.intel.com>
+Date: Mon, 18 May 2015 16:28:37 -0700
+Message-Id: <1431991720-19892-3-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1431991720-19892-1-git-send-email-sgw@linux.intel.com>
 References: <1431991720-19892-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 3/5] libinitscripts: Upgrade to 9.63
+Subject: [PATCH 2/5] libksba: Upgrade to 1.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +35,28 @@ X-List-Received-Date: Mon, 18 May 2015 23:28:42 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../lsb/{lsbinitscripts_9.61.bb => lsbinitscripts_9.63.bb}          | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.61.bb => lsbinitscripts_9.63.bb} (80%)
+ meta/recipes-support/libksba/{libksba_1.3.2.bb => libksba_1.3.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libksba/{libksba_1.3.2.bb => libksba_1.3.3.bb} (86%)
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.61.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.63.bb
-similarity index 80%
-rename from meta/recipes-extended/lsb/lsbinitscripts_9.61.bb
-rename to meta/recipes-extended/lsb/lsbinitscripts_9.63.bb
-index 65eb9f4..b955464 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.61.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.63.bb
-@@ -6,12 +6,12 @@ DEPENDS = "popt glib-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+diff --git a/meta/recipes-support/libksba/libksba_1.3.2.bb b/meta/recipes-support/libksba/libksba_1.3.3.bb
+similarity index 86%
+rename from meta/recipes-support/libksba/libksba_1.3.2.bb
+rename to meta/recipes-support/libksba/libksba_1.3.3.bb
+index cce08c3..bc21164 100644
+--- a/meta/recipes-support/libksba/libksba_1.3.2.bb
++++ b/meta/recipes-support/libksba/libksba_1.3.3.bb
+@@ -16,8 +16,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://ksba-add-pkgconfig-support.patch"
  
- S="${WORKDIR}/initscripts-${PV}"
--SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.61.tar.bz2/892006be882b41f680109cb7336949d1/initscripts-9.61.tar.bz2 \
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.63.tar.bz2/1ae0f15e54a904ac30185548d43daa1c/initscripts-9.63.tar.bz2 \
-            file://functions.patch \
-           " 
+-SRC_URI[md5sum] = "c3c9a66e22d87fe3ae59865250b8a09c"
+-SRC_URI[sha256sum] = "eb95537955dfc2845690a4cc3836074fa6d0a2c2ca2cbf1759364d3bd9868406"
++SRC_URI[md5sum] = "a5dd3c57fca254935f5cf8db26e39065"
++SRC_URI[sha256sum] = "0c7f5ffe34d0414f6951d9880a46fcc2985c487f7c36369b9f11ad41131c7786"
  
--SRC_URI[md5sum] = "892006be882b41f680109cb7336949d1"
--SRC_URI[sha256sum] = "fb090d3fc48adbc0bb5835090e7eb5f1aa7e33d39537523d017a604527a59653"
-+SRC_URI[md5sum] = "1ae0f15e54a904ac30185548d43daa1c"
-+SRC_URI[sha256sum] = "39474c3a83e2e03077e27bf9418a4296651c421cf0ba7672e67fe2e3567b36e1"
- 
- inherit update-alternatives
- 
+ do_configure_prepend () {
+ 	# Else these could be used in preference to those in aclocal-copy
 -- 
 2.1.0
 
