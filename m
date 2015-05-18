@@ -1,40 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 07014609B2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F9F3609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 11:55:56 +0000 (UTC)
-Received: by padbw4 with SMTP id bw4so149319264pad.0
+	Mon, 18 May 2015 12:02:45 +0000 (UTC)
+Received: by wicmc15 with SMTP id mc15so87405492wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 04:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=2Jtg/9/Gm6WIEpuXviuQt9RwS0OTOxNI0rk9Pr4d9fk=;
-	b=qiZYyMLmiXSY68+a2Qi9mOUvs4fHjFfsrA0tQQI5Jhjb8Y7UeO8FG4TjvW6yDC07BS
-	onXQw9mrHatnB/3uJsgWG67F88vYL3HbVQTEmoMECH05a5poQagC4/u02wqOic5Wh9sW
-	jHIYrSE5Kb8FChi+TiVOTGPRH3ylF0GxsIHbtAIDhCQCVY9ybAHooB3GwcWxzJcaDtYM
-	RCslPpEQU/ouzr+ldcyzfnDiQbgYQX5xS2n3axYw8MoLnhXibZ7YmZqUfvTs/CsE+cbZ
-	V/OOfzWJknWPydrqCiRekf6EmVpGVxNmjqKvxtac2Bwk2BRSSVNpU6et8tmI+DipUjZ1
-	RGjA==
+	Mon, 18 May 2015 05:02:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-type:content-transfer-encoding;
+	bh=EXKeUDw589UHEk2T/5OD/LQElx4kRkXSmCrw3img2x8=;
+	b=Ri9geru2UwRYHGlavFBHFNYY6RUVHXHtZIcyPb9l4rxADqpw0Aig4ow62JOfXP0oRa
+	Ze/M4JnG33CU5gWai39B0+WHAX1F8JHLubZhzKXzpfZhCUls1jyaXo7/A+ej9u26Uq6F
+	qCByTg0BlU0hJv2FXZrPHaAz6V/5Kj1s7OGQxiyCvIixncMpc6JuD3HTnjOpa4NDaSba
+	RdTRrU+D05nQ+njD7P5eRd8mIEhJf0UQ/Jf+fEe1RdLjBupP2c971KRkikOcPgK6RE4b
+	NUr0txsrhYhUU12iezube61gzQFMgLsKXnHKG1B+hmUnwBsXf0DuHK52/lSvLco9Lwd0
+	ZpuA==
+X-Gm-Message-State: ALoCoQmvQStzvf0eC5D3RxMuMlXoIfyQiMpU5ZH1RPUbAsvOMr2hktYxc7wcbNfUBzSOlUs8lp0N
+X-Received: by 10.180.20.200 with SMTP id p8mr20890375wie.78.1431950566092;
+	Mon, 18 May 2015 05:02:46 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	ju2sm12143954wid.12.2015.05.18.05.02.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 May 2015 05:02:44 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2015 12:58:30 +0100
+Message-Id: <1431950310-2276-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Received: by 10.66.165.67 with SMTP id yw3mr43430438pab.95.1431950158095;
-	Mon, 18 May 2015 04:55:58 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Mon, 18 May 2015 04:55:58 -0700 (PDT)
-In-Reply-To: <CALbNGRReeZHBXDo2C4tRTHfdCwSfS5QxpKdGWpsZJbgAGGCYdw@mail.gmail.com>
-References: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
-	<20150518080138.GD9407@jama>
-	<CALbNGRReeZHBXDo2C4tRTHfdCwSfS5QxpKdGWpsZJbgAGGCYdw@mail.gmail.com>
-Date: Mon, 18 May 2015 08:55:58 -0300
-X-Google-Sender-Auth: hB3D79kBkwAz_lLZ8xFqvRBsGdw
-Message-ID: <CAP9ODKqpnGVrBNh9PekyZJJBzRnjs9mfELM3afHTmT=0UDEegw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: trouble related to oe-core update
+Subject: [PATCH] xkeyboard-config: remove GPLv3 files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +46,1085 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 11:55:58 -0000
+X-List-Received-Date: Mon, 18 May 2015 12:02:49 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2015 at 6:00 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Mon, May 18, 2015 at 10:01 AM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
->> On Mon, May 18, 2015 at 09:46:03AM +0200, Andreas M=C3=BCller wrote:
->>> Hi,
->>
->> Hi,
->>
->>> have seen that a while ago but had no time to take care.
->>>
->>> Since oe-core commit
->>>
->>> commit 3e760031f91fb87c3e2f62b77a117eb41164f259
->>> Author: Martin Jansa <martin.jansa@gmail.com>
->>> Date:   Wed Feb 18 15:40:35 2015 +0100
->>>
->>>     feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thum=
-b suffix
->>>
->>> I get
->>>
->>> ERROR:  OE-core's config sanity checker detected a potential misconfigu=
-ration.
->>>     Either fix the cause of this error or at your own risk disable the
->>> checker (see sanity.conf).
->>>     Following is the list of potential problems / advisories:
->>>
->>>     Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
->>> (cortexa9t2hf-vfp-neon).
->>>
->>> I don't understand this fully but it seems that
->>> fsl-dynamic-packagearch.bbclass would add this pkg arch but this never
->>> happens because sanity.bbclass is executed first and interrupts
->>> parsing. What I don't understand: Am I the only one having this issue
->>>o
->> I'm not using meta-fsl*, butdo you have this patch in your setup?
->> http://patches.openembedded.org/patch/90989/
->> it was discussed off-list a while ago and this change looks like result
->> of that discussion.
->>
-> Have meta-fsl-arm current master in my layers. This contains a similar pa=
-tch:
->
-> commit bfe01a0ebde407086f4a7710ea165c6beff310d7
-> Author: Max Krummenacher <max.oss.09@gmail.com>
-> Date:   Mon Mar 30 23:49:32 2015 +0200
->
->     fsl-dynamic-packagearch: add all MACHINE_SOCARCH feeds
->
-> Have rebased the mentionioned patch -> same result.
->
-> My problem seems to be that sanity.bbclass bails out before code in
-> fsl-dynamic-packagearch.bbclass is executed (and would fix). Playing
-> around with layer priorities / order of layers nothing changed
-> situation.
+xkeyboard-config is intended to be MIT licensed, so backport a patch from
+upstream to relicense one file and temporarily delete another.
 
-What board are you using?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../0001-Remove-GPLv3-content.patch                | 1043 ++++++++++++++++++++
+ .../xorg-lib/xkeyboard-config_2.13.bb              |    4 +-
+ 2 files changed, 1046 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch b/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch
+new file mode 100644
+index 0000000..d291cfc
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch
+@@ -0,0 +1,1043 @@
++Remove GPLv3 content so the package remains MIT licensed.
++
++symbols/eu has been relicensed upstream.
++Remove symbols/ph until that is relicensed upstream.
++
++Upstream-Status; Inappropriate
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++---
++ symbols/eu |   1 -
++ symbols/ph | 996 -------------------------------------------------------------
++ 2 files changed, 997 deletions(-)
++ delete mode 100644 symbols/ph
++
++diff --git a/symbols/eu b/symbols/eu
++index 0a4d31a..5b767f1 100644
++--- a/symbols/eu
+++++ b/symbols/eu
++@@ -1,6 +1,5 @@
++ // Based on <http://eurkey.steffen.bruentjen.eu/>
++ // Copyright: Copyright 2012 Steffen Bruentjen (eurkey (at) steffen dot bruentjen dot de)
++-// License: GPLv3 <http://www.gnu.org/licenses/gpl-3.0.html>
++ // modified by Christoph Roeper <spam (at) roeper dot biz> (use firstName to mail)
++ 
++ default  partial alphanumeric_keys modifier_keys 
++diff --git a/symbols/ph b/symbols/ph
++deleted file mode 100644
++index 6b3defa..0000000
++--- a/symbols/ph
+++++ /dev/null
++@@ -1,996 +0,0 @@
++-////////////////////////////////////////////////////////////////////////////////
++-// Philippines National Keyboard Layout v1.0.0 (2010-10-23)                   //
++-// http://laibcoms.com/sandbox/the-philippines-national-keyboard-layout       //
++-//                                                                            //
++-// License: GNU/GPLv3                                                         //
++-//                                                                            //
++-// Loosely based on ISO/IEC 9995-3:2009                                       //
++-//	* glyphs that are not used in Philippine Languages and                //
++-//		Philippine English were not included                          //
++-//	* Additions/Changes that are not part of ISO/IEC 9995-3:2009          //
++-//		were added                                                    //
++-//                                                                            //
++-// http://en.wikipedia.org/wiki/ISO/IEC_9995                                  //
++-// http://www.fileformat.info/info/unicode/char/20B1/index.htm                //
++-//                                                                            //
++-// By: Ubuntu Philippines LoCo Team                                           //
++-// Site: http://ubuntu-ph.org                                                 //
++-//                                                                            //
++-// Project Contact: JC John Sese Cuneta / 謝施洗 / ᜑᜓᜏᜈ᜔ ᜃᜓᜈᜒᜆ                                    //
++-// XMPP/Jabber: jcjohn.sesecuneta@talkr.im                                    //
++-// Email: jcjohn.sesecuneta@laibcoms.com                                      //
++-////////////////////////////////////////////////////////////////////////////////
++-
++-// QWERTY (Latin) version
++-// http://en.wikipedia.org/wiki/QWERTY
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │ ~ ̃◌ │ ! ¡ │ @ ¤ │ # £ │ $ € │ % ° │ ^ ̂◌ │ & ← │ * → │ ( ↑ │ ) ↓ │ _ ◌͠  │ + ∓ ┃ ⌫ Bak ┃
++-// │ ` ̀◌ │ 1 ¹ │ 2 ² │ 3 ³ │ 4 ¼ │ 5 ½ │ 6 ¾ │ 7 ⅛ │ 8 ⅜ │ 9 ⅝ │ 0 ⅞ │ - ¬ │ = ± ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃ Q   │ W   │ E Œ │ R ¶ │ T   │ Y   │ U   │ I İ │ O Ø │ P   │ {   │ }   │ | Ə │
++-// ┃Tab ↹  ┃ q   │ w   │ e œ │ r ® │ t ™ │ y ¥ │ u   │ i ı │ o ø │ p ₱ │ [   │ ]   │ \ ə │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ A Æ │ S   │ D   │ F ª │ G   │ H   │ J   │ K   │ L   │ :   │ " ̋◌ ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ a æ │ s § │ d   │ f   │ g   │ h   │ j   │ k   │ l   │ ;   │ ' ́◌ ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃   ¦ │ Z » │ X · │ C ¢ │ V ‘ │ B ’ │ N Ñ │ M º │ < ̨◌ │ > ␣ │ ? ¿ ┃           ┃
++-// ┃Shift ⇧┃     │ z « │ x × │ c © │ v “ │ b ” │ n ñ │ m µ │ , ̧◌ │ . … │ / ÷ ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-default  partial alphanumeric_keys
++-xkb_symbols "basic" {
++-
++-    name[Group1]= "Filipino";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	U0060,		U007E,		U0300,		U0303		] }; // ` ~ ̀◌ ̃◌ (combining grave accent) (combining tilde)
++-	key <AE01> { [	U0031,		U0021,		U00B9,		U00A1		] }; // 1 ! ¹ ¡
++-	key <AE02> { [	U0032,		U0040,		U00B2,		U00A4		] }; // 2 @ ² ¤
++-	key <AE03> { [	U0033,		U0023,		U00B3,		U00A3		] }; // 3 # ³ £
++-	key <AE04> { [	U0034,		U0024,		U00BC,		U20AC		] }; // 4 $ ¼ €
++-	key <AE05> { [	U0035,		U0025,		U00BD,		U00B0		] }; // 5 % ½ °
++-    // E row; Numerals row, right side
++-	key <AE06> { [	U0036,		U005E,		U00BE,		U0302		] }; // 6 ^ ¾ ̂◌ (combining circumflex accent)
++-	key <AE07> { [	U0037,		U0026,		U215B,		U2190		] }; // 7 & ⅛ ←
++-	key <AE08> { [	U0038,		U002A,		U215C,		U2192		] }; // 8 * ⅜ →
++-	key <AE09> { [	U0039,		U0028,		U215D,		U2191		] }; // 9 ( ⅝ ↑
++-	key <AE10> { [	U0030,		U0029,		U215E,		U2193		] }; // 0 ) ⅞ ↓
++-	key <AE11> { [	U002D,		U005F,		U00AC,		U0360		] }; // - _ ¬ ◌͠
++-	key <AE12> { [	U003D,		U002B,		U00B1,		U2213		] }; // = + ± ∓
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	U0071,		U0051,		VoidSymbol,	VoidSymbol	] }; // q Q
++-	key <AD02> { [	U0077,		U0057,		VoidSymbol,	VoidSymbol	] }; // w W
++-	key <AD03> { [	U0065,		U0045,		U0153,		U0152		] }; // e E œ Œ
++-	key <AD04> { [	U0072,		U0052,		U00AE,		U00B6		] }; // r R ® ¶
++-	key <AD05> { [	U0074,		U0054,		U2122,		VoidSymbol	] }; // t T ™
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	U0079,		U0059,		U00A5,		VoidSymbol	] }; // y Y ¥
++-	key <AD07> { [	U0075,		U0055,		VoidSymbol,	VoidSymbol	] }; // u U
++-	key <AD08> { [	U0069,		U0049,		U0131,		U0130		] }; // i I ı İ
++-	key <AD09> { [	U006F,		U004F,		U00F8,		U00D8		] }; // o O ø Ø
++-	key <AD10> { [	U0070,		U0050,		U20B1,		VoidSymbol	] }; // p P ₱
++-	key <AD11> { [	U005B,		U007B,		VoidSymbol,	VoidSymbol	] }; // [ {
++-	key <AD12> { [	U005D,		U007D,		VoidSymbol,	VoidSymbol	] }; // ] }
++-	key <BKSL> { [	U005C,		U007C,		U0259,		U018F		] }; // \ | ə Ə
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U0061,		U0041,		U00E6,		U00C6		] }; // a A æ Æ
++-	key <AC02> { [	U0073,		U0053,		U00A7,		VoidSymbol	] }; // s S §
++-	key <AC03> { [	U0064,		U0044,		VoidSymbol,	VoidSymbol	] }; // d D 
++-	key <AC04> { [	U0066,		U0046,		VoidSymbol,	U00AA		] }; // f F   ª
++-	key <AC05> { [	U0067,		U0047,		VoidSymbol,	VoidSymbol	] }; // g G
++-    // C row; Home row, right side
++-	key <AC06> { [	U0068,		U0048,		VoidSymbol,	VoidSymbol	] }; // h H
++-	key <AC07> { [	U006A,		U004A,		VoidSymbol,	VoidSymbol	] }; // j J
++-	key <AC08> { [	U006B,		U004B,		VoidSymbol,	VoidSymbol	] }; // k K
++-	key <AC09> { [	U006C,		U004C,		VoidSymbol,	VoidSymbol	] }; // l L
++-	key <AC10> { [	U003B,		U003A,		VoidSymbol,	VoidSymbol	] }; // ; :
++-	key <AC11> { [	U0027,		U0022,		U0301,		U030B		] }; // ' " ́◌ ̋◌ (combining acute accent) (combining double-acute accent)
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	U00A6		] }; //       ¦
++-	key <AB01> { [	U007A,		U005A,		U00AB,		U00BB		] }; // z Z « »
++-	key <AB02> { [	U0078,		U0058,		U00D7,		U00B7		] }; // x X × ·
++-	key <AB03> { [	U0063,		U0043,		U00A9,		U00A2		] }; // c C © ¢
++-	key <AB04> { [	U0076,		U0056,		U201C,		U2018		] }; // v V “ ‘
++-	key <AB05> { [	U0062,		U0042,		U201D,		U2019		] }; // b B ” ’
++-    // B row; Lower row, right side
++-	key <AB06> { [	U006E,		U004E,		U00F1,		U00D1		] }; // n N ñ Ñ
++-	key <AB07> { [	U006D,		U004D,		U00B5,		U00BA		] }; // m M µ º
++-	key <AB08> { [	U002C,		U003C,		U0327,		U0328		] }; // , < ̧◌ ̨◌ (combining cedilla) (combining ogonek)
++-	key <AB09> { [	U002E,		U003E,		U2026,		U2423		] }; // . > … ␣
++-	key <AB10> { [	U002F,		U003F,		U00F7,		U00BF		] }; // / ? ÷ ¿
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// QWERTY (Baybayin) version
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │ ᜁ     │     │     │     │ ᜂ      │ ᜁ     │ ᜂ      │     │     │     │     │
++-// ┃Tab ↹  ┃     │ ᜏ     │ ◌ᜒ      │ ᜍ    │ ᜆ     │ ᜌ     │ ◌ᜓ      │ ◌ᜒ      │ ◌ᜓ      │ ᜉ     │     │     │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃     │     │     │     │     │     │     │     │     │     │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ ᜀ     │ ᜐ     │ ᜇ    │     │ ᜄ     │ ᜑ     │     │ ᜃ     │ ᜎ    │     │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │ ᜅ     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │     │ ᜊ     │ ᜈ     │ ᜋ    │ ᜵          │ ᜶         │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space                     ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space                     ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "qwerty-bay" {
++-
++-    name[Group1]= "Filipino (QWERTY Baybayin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // E row; Numerals row, right side
++-	key <AE06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE12> { [	U1714,		U1714,		VoidSymbol,	VoidSymbol	] }; // ◌᜔ (virama) ◌᜔ (virama)
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD02> { [	U170F,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜏ (Wa)
++-	key <AD03> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AD04> { [	U170D,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜍ (Ra)
++-	key <AD05> { [	U1706,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜆ (Ta)
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	U170C,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜌ (Ya)
++-	key <AD07> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AD08> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AD09> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AD10> { [	U1709,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜉ (Pa)
++-	key <AD11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD12> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <BKSL> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-     // C row; Home row, left side
++-	key <AC01> { [	U1700,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜀ (A)
++-	key <AC02> { [	U1710,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜐ (Sa)
++-	key <AC03> { [	U1707,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜇ (Da)
++-	key <AC04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AC05> { [	U1704,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜄ (Ga)
++-    // C row; Home row, right side
++-	key <AC06> { [	U1711,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜑ (Ha)
++-	key <AC07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AC08> { [	U1703,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜃ (Ka)
++-	key <AC09> { [	U170E,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜎ (La)
++-	key <AC10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AC11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB05> { [	U170A,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜊ (Ba)
++-    // B row; Lower row, right side
++-	key <AB06> { [	U1708,		U1705,		VoidSymbol,	VoidSymbol	] }; // ᜈ (Na) ᜅ (Nga)
++-	key <AB07> { [	U170B,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜋ (Ma)
++-	key <AB08> { [	U1735,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜵ (comma)
++-	key <AB09> { [	U1736,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜶ (period)
++-	key <AB10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Capewell-Dvorak (Latin) version
++-// http://www.michaelcapewell.com/projects/keyboard/index.htm#The_Capewell-Dvorak_Layout
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │ ~ ̃◌ │ ! ¡ │ @ ¤ │ # £ │ $ € │ % ° │ ^ ̂◌ │ & → │ * → │ ( ↑ │ ) ↓ │ {   │ }   ┃ ⌫ Bak ┃
++-// │ ` ̀◌ │ 1 ¹ │ 2 ² │ 3 ³ │ 4 ¼ │ 5 ½ │ 6 ¾ │ 7 ⅛ │ 8 ⅜ │ 9 ⅝ │ 0 ⅞ │ [   │ ]   ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃ " ̋◌ │ < ̨◌ │ > ␣ │ P   │ Y   │ Q   │ F ª │ G   │ R ¶ │ K   │ ? ¿ │ + ∓ │ | Ə │
++-// ┃Tab ↹  ┃ ' ́◌ │ , ̧◌ │ . … │ p ₱ │ y ¥ │ q   │ f   │ g   │ r ® │ k   │ / ÷ │ = ± │ \ ə │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ O Ø │ A Æ │ E Œ │ I İ │ U   │ D   │ H   │ T   │ N Ñ │ S   │ _ ◌͠  ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ o ø │ a æ │ e œ │ i ı │ u   │ d   │ h   │ t ™ │ n ñ │ s § │ - ¬ ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃   ¦ │ Z » │ X · │ C ¢ │ V ‘ │ J   │ L   │ M º │ W   │ B ’ │ :   ┃           ┃
++-// ┃Shift ⇧┃     │ z « │ x × │ c © │ v “ │ j   │ l   │ m µ │ w   │ b ” │ ;   ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "capewell-dvorak" {
++-
++-    name[Group1]= "Filipino (Capewell-Dvorak Latin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	U0060,		U007E,		U0300,		U0303		] }; // ` ~ ̀◌ ̃◌ (combining grave accent) (combining tilde)
++-	key <AE01> { [	U0031,		U0021,		U00B9,		U00A1		] }; // 1 ! ¹ ¡
++-	key <AE02> { [	U0032,		U0040,		U00B2,		U00A4		] }; // 2 @ ² ¤
++-	key <AE03> { [	U0033,		U0023,		U00B3,		U00A3		] }; // 3 # ³ £
++-	key <AE04> { [	U0034,		U0024,		U00BC,		U20AC		] }; // 4 $ ¼ €
++-	key <AE05> { [	U0035,		U0025,		U00BD,		U00B0		] }; // 5 % ½ °
++-    // E row; Numerals row, right side
++-	key <AE06> { [	U0036,		U005E,		U00BE,		U0302		] }; // 6 ^ ¾ ̂◌ (combining circumflex accent)
++-	key <AE07> { [	U0037,		U0026,		U215B,		U2190		] }; // 7 & ⅛ ←
++-	key <AE08> { [	U0038,		U002A,		U215C,		U2192		] }; // 8 * ⅜ →
++-	key <AE09> { [	U0039,		U0028,		U215D,		U2191		] }; // 9 ( ⅝ ↑
++-	key <AE10> { [	U0030,		U0029,		U215E,		U2193		] }; // 0 ) ⅞ ↓
++-	key <AE11> { [	U005B,		U007B,		VoidSymbol,	VoidSymbol	] }; // [ {
++-	key <AE12> { [	U005D,		U007D,		VoidSymbol,	VoidSymbol	] }; // ] }
++-
++-    // D row; Upper row, left side
++-	key <AD01> { [	U0027,		U0022,		U0301,		U030B		] }; // ' " ́◌ ̋◌ (combining acute accent) (combining double-acute accent)
++-	key <AD02> { [	U002C,		U003C,		U0327,		U0328		] }; // , < ̧◌ ̨◌ (combining cedilla) (combining ogonek)
++-	key <AD03> { [	U002E,		U003E,		U2026,		U2423		] }; // . > … ␣
++-	key <AD04> { [	U0070,		U0050,		U20B1,		VoidSymbol	] }; // p P ₱
++-	key <AD05> { [	U0079,		U0059,		U00A5,		VoidSymbol	] }; // y Y ¥
++-    // D row; Upper row, right side
++-	key <AD06> { [	U0071,		U0051,		VoidSymbol,	VoidSymbol	] }; // q Q
++-	key <AD07> { [	U0066,		U0046,		VoidSymbol,	U00AA		] }; // f F   ª
++-	key <AD08> { [	U0067,		U0047,		VoidSymbol,	VoidSymbol	] }; // g G
++-	key <AD09> { [	U0072,		U0052,		U00AE,		U00B6		] }; // r R ® ¶
++-	key <AD10> { [	U006B,		U004B,		VoidSymbol,	VoidSymbol	] }; // k K
++-	key <AD11> { [	U002F,		U003F,		U00F7,		U00BF		] }; // / ? ÷ ¿
++-	key <AD12> { [	U003D,		U002B,		U00B1,		U2213		] }; // = + ± ∓
++-	key <BKSL> { [	U005C,		U007C,		U0259,		U018F		] }; // \ | ə Ə
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U006F,		U004F,		U00F8,		U00D8		] }; // o O ø Ø
++-	key <AC02> { [	U0061,		U0041,		U00E6,		U00C6		] }; // a A æ Æ
++-	key <AC03> { [	U0065,		U0045,		U0153,		U0152		] }; // e E œ Œ
++-	key <AC04> { [	U0069,		U0049,		U0131,		U0130		] }; // i I ı İ
++-	key <AC05> { [	U0075,		U0055,		VoidSymbol,	VoidSymbol	] }; // u U
++-    // C row; Home row, right side
++-	key <AC06> { [	U0064,		U0044,		VoidSymbol,	VoidSymbol	] }; // d D
++-	key <AC07> { [	U0068,		U0048,		VoidSymbol,	VoidSymbol	] }; // h H
++-	key <AC08> { [	U0074,		U0054,		U2122,		VoidSymbol	] }; // t T ™
++-	key <AC09> { [	U006E,		U004E,		U00F1,		U00D1		] }; // n N ñ Ñ
++-	key <AC10> { [	U0073,		U0053,		U00A7,		VoidSymbol	] }; // s S §
++-	key <AC11> { [	U002D,		U005F,		U00AC,		U0360		] }; // - _ ¬ ◌͠
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	U00A6		] }; //       ¦
++-	key <AB01> { [	U007A,		U005A,		U00AB,		U00BB		] }; // z Z « »
++-	key <AB02> { [	U0078,		U0058,		U00D7,		U00B7		] }; // x X × ·
++-	key <AB03> { [	U0063,		U0043,		U00A9,		U00A2		] }; // c C © ¢
++-	key <AB04> { [	U0076,		U0056,		U201C,		U2018		] }; // v V “ ‘
++-	key <AB05> { [	U006A,		U004A,		VoidSymbol,	VoidSymbol	] }; // j J
++-    // B row; Lower row, right side
++-	key <AB06> { [	U006C,		U004C,		VoidSymbol,	VoidSymbol	] }; // l L
++-	key <AB07> { [	U006D,		U004D,		U00B5,		U00BA		] }; // m M µ º
++-	key <AB08> { [	U0077,		U0057,		VoidSymbol,	VoidSymbol	] }; // w W
++-	key <AB09> { [	U0062,		U0042,		U201D,		U2019		] }; // b B ” ’
++-	key <AB10> { [	U003B,		U003A,		VoidSymbol,	VoidSymbol	] }; // ; :
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Capewell-Dvorak (Baybayin) version
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      │     │
++-// ┃Tab ↹  ┃     │ ᜵          │ ᜶         │ ᜉ     │ ᜌ    │     │     │ ᜄ     │ ᜍ     │ ᜃ     │     │ ◌᜔      │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ ᜂ       │     │ ᜁ    │ ᜁ     │ ᜂ      │     │     │     │ ᜅ     │     │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ ◌ᜓ      │ ᜀ     │ ◌ᜒ      │ ◌ᜒ      │ ◌ᜓ      │ ᜇ    │ ᜑ     │ ᜆ     │ ᜈ     │ ᜐ    │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │     │     │ ᜎ     │ ᜋ     │ ᜏ    │ ᜊ     │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space                     ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space                     ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "capewell-dvorak-bay" {
++-
++-    name[Group1]= "Filipino (Capewell-Dvorak Baybayin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // E row; Numerals row, right side
++-	key <AE06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE12> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD02> { [	U1735,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜵ (comma)
++-	key <AD03> { [	U1736,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜶ (period)
++-	key <AD04> { [	U1709,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜉ (Pa)
++-	key <AD05> { [	U170C,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜌ (Ya)
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD08> { [	U1704,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜄ (Ga)
++-	key <AD09> { [	U170D,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜍ (Ra)
++-	key <AD10> { [	U1703,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜃ (Ka)
++-	key <AD11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD12> { [	U1714,		U1714,		VoidSymbol,	VoidSymbol	] }; // ◌᜔ (virama) ◌᜔ (virama)
++-	key <BKSL> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-     // C row; Home row, left side
++-	key <AC01> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC02> { [	U1700,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜀ (A)
++-	key <AC03> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC04> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC05> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-    // C row; Home row, right side
++-	key <AC06> { [	U1707,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜇ (Da)
++-	key <AC07> { [	U1711,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜑ (Ha)
++-	key <AC08> { [	U1706,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜆ (Ta)
++-	key <AC09> { [	U1708,		U1705,		VoidSymbol,	VoidSymbol	] }; // ᜈ (Na) ᜅ (Nga)
++-	key <AC10> { [	U1710,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜐ (Sa)
++-	key <AC11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // B row; Lower row, right side
++-	key <AB06> { [	U170E,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜎ (La)
++-	key <AB07> { [	U170B,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜋ (Ma)
++-	key <AB08> { [	U170F,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜏ (Wa)
++-	key <AB09> { [	U170A,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜊ (Ba)
++-	key <AB10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Capewell-QWERF 2006 (Latin) version
++-// http://www.michaelcapewell.com/projects/keyboard/index.htm#The_QWERF_Layout
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │ ~ ̃◌ │ ! ¡ │ @ ¤ │ # £ │ $ € │ % ° │ ^ ̂◌ │ & → │ * → │ ( ↑ │ ) ↓ │ _ ◌͠  │ + ∓ ┃ ⌫ Bak ┃
++-// │ ` ̀◌ │ 1 ¹ │ 2 ² │ 3 ³ │ 4 ¼ │ 5 ½ │ 6 ¾ │ 7 ⅛ │ 8 ⅜ │ 9 ⅝ │ 0 ⅞ │ - ¬ │ = ± ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃ Q   │ W   │ E Œ │ R ¶ │ F ª │ J   │ Y   │ K   │ L   │ :   │ {   │ }   │ | Ə │
++-// ┃Tab ↹  ┃ q   │ w   │ e œ │ r ® │ f   │ j   │ y ¥ │ k   │ l   │ ;   │ [   │ ]   │ \ ə │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ A Æ │ S   │ D   │ T   │ G   │ H   │ U   │ I İ │ O Ø │ P   │ " ̋◌ ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ a æ │ s § │ d   │ t ™ │ g   │ h   │ u   │ i ı │ o ø │ p ₱ │ ' ́◌ ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃   ¦ │ Z » │ X · │ C ¢ │ V ‘ │ B ’ │ N Ñ │ M º │ < ̨◌ │ > ␣ │ ? ¿ ┃           ┃
++-// ┃Shift ⇧┃     │ z « │ x × │ c © │ v “ │ b ” │ n ñ │ m µ │ , ̧◌ │ . … │ / ÷ ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "capewell-qwerf2k6" {
++-
++-    name[Group1]= "Filipino (Capewell-QWERF 2006 Latin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	U0060,		U007E,		U0300,		U0303		] }; // ` ~ ̀◌ ̃◌ (combining grave accent) (combining tilde)
++-	key <AE01> { [	U0031,		U0021,		U00B9,		U00A1		] }; // 1 ! ¹ ¡
++-	key <AE02> { [	U0032,		U0040,		U00B2,		U00A4		] }; // 2 @ ² ¤
++-	key <AE03> { [	U0033,		U0023,		U00B3,		U00A3		] }; // 3 # ³ £
++-	key <AE04> { [	U0034,		U0024,		U00BC,		U20AC		] }; // 4 $ ¼ €
++-	key <AE05> { [	U0035,		U0025,		U00BD,		U00B0		] }; // 5 % ½ °
++-    // E row; Numerals row, right side
++-	key <AE06> { [	U0036,		U005E,		U00BE,		U0302		] }; // 6 ^ ¾ ̂◌ (combining circumflex accent)
++-	key <AE07> { [	U0037,		U0026,		U215B,		U2190		] }; // 7 & ⅛ ←
++-	key <AE08> { [	U0038,		U002A,		U215C,		U2192		] }; // 8 * ⅜ →
++-	key <AE09> { [	U0039,		U0028,		U215D,		U2191		] }; // 9 ( ⅝ ↑
++-	key <AE10> { [	U0030,		U0029,		U215E,		U2193		] }; // 0 ) ⅞ ↓
++-	key <AE11> { [	U002D,		U005F,		U00AC,		U0360		] }; // - _ ¬ ◌͠
++-	key <AE12> { [	U003D,		U002B,		U00B1,		U2213		] }; // = + ± ∓
++-
++-    // D row; Upper row, left side
++-	key <AD01> { [	U0071,		U0051,		VoidSymbol,	VoidSymbol	] }; // q Q
++-	key <AD02> { [	U0077,		U0057,		VoidSymbol,	VoidSymbol	] }; // w W
++-	key <AD03> { [	U0065,		U0045,		U0153,		U0152		] }; // e E œ Œ
++-	key <AD04> { [	U0072,		U0052,		U00AE,		U00B6		] }; // r R ® ¶
++-	key <AD05> { [	U0066,		U0046,		VoidSymbol,	U00AA		] }; // f F   ª
++-    // D row; Upper row, right side
++-	key <AD06> { [	U006A,		U004A,		VoidSymbol,	VoidSymbol	] }; // j J
++-	key <AD07> { [	U0079,		U0059,		U00A5,		VoidSymbol	] }; // y Y ¥
++-	key <AD08> { [	U006B,		U004B,		VoidSymbol,	VoidSymbol	] }; // k K
++-	key <AD09> { [	U006C,		U004C,		VoidSymbol,	VoidSymbol	] }; // l L
++-	key <AD10> { [	U003B,		U003A,		VoidSymbol,	VoidSymbol	] }; // ; :
++-	key <AD11> { [	U005B,		U007B,		VoidSymbol,	VoidSymbol	] }; // [ {
++-	key <AD12> { [	U005D,		U007D,		VoidSymbol,	VoidSymbol	] }; // ] }
++-	key <BKSL> { [	U005C,		U007C,		U0259,		U018F		] }; // \ | ə Ə
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U0061,		U0041,		U00E6,		U00C6		] }; // a A æ Æ
++-	key <AC02> { [	U0073,		U0053,		U00A7,		VoidSymbol	] }; // s S §
++-	key <AC03> { [	U0064,		U0044,		VoidSymbol,	VoidSymbol	] }; // d D
++-	key <AC04> { [	U0074,		U0054,		U2122,		VoidSymbol	] }; // t T ™
++-	key <AC05> { [	U0067,		U0047,		VoidSymbol,	VoidSymbol	] }; // g G
++-    // C row; Home row, right side
++-	key <AC06> { [	U0068,		U0048,		VoidSymbol,	VoidSymbol	] }; // h H
++-	key <AC07> { [	U0075,		U0055,		VoidSymbol,	VoidSymbol	] }; // u U
++-	key <AC08> { [	U0069,		U0049,		U0131,		U0130		] }; // i I ı İ
++-	key <AC09> { [	U006F,		U004F,		U00F8,		U00D8		] }; // o O ø Ø
++-	key <AC10> { [	U0070,		U0050,		U20B1,		VoidSymbol	] }; // p P ₱
++-	key <AC11> { [	U0027,		U0022,		U0301,		U030B		] }; // ' " ́◌ ̋◌ (combining acute accent) (combining double-acute accent)
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	U00A6		] }; //       ¦
++-	key <AB01> { [	U007A,		U005A,		U00AB,		U00BB		] }; // z Z « »
++-	key <AB02> { [	U0078,		U0058,		U00D7,		U00B7		] }; // x X × ·
++-	key <AB03> { [	U0063,		U0043,		U00A9,		U00A2		] }; // c C © ¢
++-	key <AB04> { [	U0076,		U0056,		U201C,		U2018		] }; // v V “ ‘
++-	key <AB05> { [	U0062,		U0042,		U201D,		U2019		] }; // b B ” ’
++-    // B row; Lower row, right side
++-	key <AB06> { [	U006E,		U004E,		U00F1,		U00D1		] }; // n N ñ Ñ
++-	key <AB07> { [	U006D,		U004D,		U00B5,		U00BA		] }; // m M µ º
++-	key <AB08> { [	U002C,		U003C,		U0327,		U0328		] }; // , < ̧◌ ̨◌ (combining cedilla) (combining ogonek)
++-	key <AB09> { [	U002E,		U003E,		U2026,		U2423		] }; // . > … ␣
++-	key <AB10> { [	U002F,		U003F,		U00F7,		U00BF		] }; // / ? ÷ ¿
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Capewell-QWERF 2006 (Baybayin) version
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │ ᜁ     │     │     │     │     │     │     │     │     │     │     │
++-// ┃Tab ↹  ┃     │ ᜏ     │ ◌ᜒ      │ ᜍ     │     │     │ ᜌ    │ ᜃ     │ ᜎ     │     │     │     │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃     │     │     │     │     │     │ ᜂ      │ ᜁ     │ ᜂ       │     │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ ᜀ     │ ᜐ     │ ᜇ    │ ᜆ     │ ᜄ     │ ᜑ     │ ◌ᜓ     │ ◌ᜒ      │ ◌ᜓ      │ ᜉ     │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │ ᜅ     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │     │ ᜊ     │ ᜈ     │ ᜋ    │ ᜵          │ ᜶         │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space                     ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space                     ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "capewell-qwerf2k6-bay" {
++-
++-    name[Group1]= "Filipino (Capewell-QWERF 2006 Baybayin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // E row; Numerals row, right side
++-	key <AE06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE12> { [	U1714,		U1714,		VoidSymbol,	VoidSymbol	] }; // ◌᜔ (virama) ◌᜔ (virama)
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD02> { [	U170F,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜏ (Wa)
++-	key <AD03> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AD04> { [	U170D,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜍ (Ra)
++-	key <AD05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD07> { [	U170C,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜌ (Ya)
++-	key <AD08> { [	U1703,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜃ (Ka)
++-	key <AD09> { [	U170E,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜎ (La)
++-	key <AD10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD12> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <BKSL> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-     // C row; Home row, left side
++-	key <AC01> { [	U1700,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜀ (A)
++-	key <AC02> { [	U1710,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜐ (Sa)
++-	key <AC03> { [	U1707,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜇ (Da)
++-	key <AC04> { [	U1706,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜆ (Ta)
++-	key <AC05> { [	U1704,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜄ (Ga)
++-    // C row; Home row, right side
++-	key <AC06> { [	U1711,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜑ (Ha)
++-	key <AC07> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC08> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC09> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC10> { [	U1709,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜉ (Pa)
++-	key <AC11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB05> { [	U170A,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜊ (Ba)
++-    // B row; Lower row, right side
++-	key <AB06> { [	U1708,		U1705,		VoidSymbol,	VoidSymbol	] }; // ᜈ (Na) ᜅ (Nga)
++-	key <AB07> { [	U170B,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜋ (Ma)
++-	key <AB08> { [	U1735,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜵ (comma)
++-	key <AB09> { [	U1736,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜶ (period)
++-	key <AB10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Colemak (Latin) version
++-// http://colemak.com
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │ ~ ̃◌ │ ! ¡ │ @ ¤ │ # £ │ $ € │ % ° │ ^ ̂◌ │ & → │ * → │ ( ↑ │ ) ↓ │ _ ◌͠  │ + ∓ ┃ ⌫ Bak ┃
++-// │ ` ̀◌ │ 1 ¹ │ 2 ² │ 3 ³ │ 4 ¼ │ 5 ½ │ 6 ¾ │ 7 ⅛ │ 8 ⅜ │ 9 ⅝ │ 0 ⅞ │ - ¬ │ = ± ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃ Q   │ W   │ F ª │ P   │ G   │ J   │ L   │ U   │ Y   │ :   │ {   │ }   │ | Ə │
++-// ┃Tab ↹  ┃ q   │ w   │ f   │ p ₱ │ g   │ j   │ l   │ u   │ y ¥ │ ;   │ [   │ ]   │ \ ə │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ A Æ │ R ¶ │ S   │ T   │ D   │ H   │ N Ñ │ E Œ │ I İ │ O Ø │ " ̋◌ ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ a æ │ r ® │ s § │ t ™ │ d   │ h   │ n ñ │ e œ │ i ı │ o ø │ ' ́◌ ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃   ¦ │ Z » │ X · │ C ¢ │ V ‘ │ B ’ │ K   │ M º │ < ̨◌ │ > ␣ │ ? ¿ ┃           ┃
++-// ┃Shift ⇧┃     │ z « │ x × │ c © │ v “ │ b ” │ k   │ m µ │ , ̧◌ │ . … │ / ÷ ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "colemak" {
++-
++-    name[Group1]= "Filipino (Colemak Latin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	U0060,		U007E,		U0300,		U0303		] }; // ` ~ ̀◌ ̃◌ (combining grave accent) (combining tilde)
++-	key <AE01> { [	U0031,		U0021,		U00B9,		U00A1		] }; // 1 ! ¹ ¡
++-	key <AE02> { [	U0032,		U0040,		U00B2,		U00A4		] }; // 2 @ ² ¤
++-	key <AE03> { [	U0033,		U0023,		U00B3,		U00A3		] }; // 3 # ³ £
++-	key <AE04> { [	U0034,		U0024,		U00BC,		U20AC		] }; // 4 $ ¼ €
++-	key <AE05> { [	U0035,		U0025,		U00BD,		U00B0		] }; // 5 % ½ °
++-    // E row; Numerals row, right side
++-	key <AE06> { [	U0036,		U005E,		U00BE,		U0302		] }; // 6 ^ ¾ ̂◌ (combining circumflex accent)
++-	key <AE07> { [	U0037,		U0026,		U215B,		U2190		] }; // 7 & ⅛ ←
++-	key <AE08> { [	U0038,		U002A,		U215C,		U2192		] }; // 8 * ⅜ →
++-	key <AE09> { [	U0039,		U0028,		U215D,		U2191		] }; // 9 ( ⅝ ↑
++-	key <AE10> { [	U0030,		U0029,		U215E,		U2193		] }; // 0 ) ⅞ ↓
++-	key <AE11> { [	U002D,		U005F,		U00AC,		U0360		] }; // - _ ¬ ◌͠
++-	key <AE12> { [	U003D,		U002B,		U00B1,		U2213		] }; // = + ± ∓
++-
++-    // D row; Upper row, left side
++-	key <AD01> { [	U0071,		U0051,		VoidSymbol,	VoidSymbol	] }; // q Q
++-	key <AD02> { [	U0077,		U0057,		VoidSymbol,	VoidSymbol	] }; // w W
++-	key <AD03> { [	U0066,		U0046,		VoidSymbol,	U00AA		] }; // f F   ª
++-	key <AD04> { [	U0070,		U0050,		U20B1,		VoidSymbol	] }; // p P ₱
++-	key <AD05> { [	U0067,		U0047,		VoidSymbol,	VoidSymbol	] }; // g G
++-   // D row; Upper row, right side
++-	key <AD06> { [	U006A,		U004A,		VoidSymbol,	VoidSymbol	] }; // j J
++-	key <AD07> { [	U006C,		U004C,		VoidSymbol,	VoidSymbol	] }; // l L
++-	key <AD08> { [	U0075,		U0055,		VoidSymbol,	VoidSymbol	] }; // u U
++-	key <AD09> { [	U0079,		U0059,		U00A5,		VoidSymbol	] }; // y Y ¥
++-	key <AD10> { [	U003B,		U003A,		VoidSymbol,	VoidSymbol	] }; // ; :
++-	key <AD11> { [	U005B,		U007B,		VoidSymbol,	VoidSymbol	] }; // [ {
++-	key <AD12> { [	U005D,		U007D,		VoidSymbol,	VoidSymbol	] }; // ] }
++-	key <BKSL> { [	U005C,		U007C,		U0259,		U018F		] }; // \ | ə Ə
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U0061,		U0041,		U00E6,		U00C6		] }; // a A æ Æ
++-	key <AC02> { [	U0072,		U0052,		U00AE,		U00B6		] }; // r R ® ¶
++-	key <AC03> { [	U0073,		U0053,		U00A7,		VoidSymbol	] }; // s S §
++-	key <AC04> { [	U0074,		U0054,		U2122,		VoidSymbol	] }; // t T ™
++-	key <AC05> { [	U0064,		U0044,		VoidSymbol,	VoidSymbol	] }; // d D
++-    // C row; Home row, right side
++-	key <AC06> { [	U0068,		U0048,		VoidSymbol,	VoidSymbol	] }; // h H
++-	key <AC07> { [	U006E,		U004E,		U00F1,		U00D1		] }; // n N ñ Ñ
++-	key <AC08> { [	U0065,		U0045,		U0153,		U0152		] }; // e E œ Œ
++-	key <AC09> { [	U0069,		U0049,		U0131,		U0130		] }; // i I ı İ
++-	key <AC10> { [	U006F,		U004F,		U00F8,		U00D8		] }; // o O ø Ø
++-	key <AC11> { [	U0027,		U0022,		U0301,		U030B		] }; // ' " ́◌ ̋◌ (combining acute accent) (combining double-acute accent)
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	U00A6		] }; //       ¦
++-	key <AB01> { [	U007A,		U005A,		U00AB,		U00BB		] }; // z Z « »
++-	key <AB02> { [	U0078,		U0058,		U00D7,		U00B7		] }; // x X × ·
++-	key <AB03> { [	U0063,		U0043,		U00A9,		U00A2		] }; // c C © ¢
++-	key <AB04> { [	U0076,		U0056,		U201C,		U2018		] }; // v V “ ‘
++-	key <AB05> { [	U0062,		U0042,		U201D,		U2019		] }; // b B ” ’
++-    // B row; Lower row, right side
++-	key <AB06> { [	U006B,		U004B,		VoidSymbol,	VoidSymbol	] }; // k K
++-	key <AB07> { [	U006D,		U004D,		U00B5,		U00BA		] }; // m M µ º
++-	key <AB08> { [	U002C,		U003C,		U0327,		U0328		] }; // , < ̧◌ ̨◌ (combining cedilla) (combining ogonek)
++-	key <AB09> { [	U002E,		U003E,		U2026,		U2423		] }; // . > … ␣
++-	key <AB10> { [	U002F,		U003F,		U00F7,		U00BF		] }; // / ? ÷ ¿
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Colemak (Baybayin) version
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │     │     │     │     │     │ ᜂ      │     │     │     │     │     │
++-// ┃Tab ↹  ┃     │ ᜏ     │     │ ᜉ     │ ᜄ    │     │ ᜎ     │ ◌ᜓ      │ ᜌ     │     │     │     │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃     │     │     │     │     │     │ ᜅ     │ ᜁ     │ ᜁ    │ ᜂ       │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ ᜀ     │ ᜍ     │ ᜐ    │ ᜆ     │ ᜇ     │ ᜑ    │ ᜈ     │ ◌ᜒ      │ ◌ᜒ      │ ◌ᜓ      │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │     │ ᜊ     │ ᜃ     │ ᜋ    │ ᜵          │ ᜶         │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space                     ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space                     ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "colemak-bay" {
++-
++-    name[Group1]= "Filipino (Colemak Baybayin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // E row; Numerals row, right side
++-	key <AE06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE12> { [	U1714,		U1714,		VoidSymbol,	VoidSymbol	] }; // ◌᜔ (virama) ◌᜔ (virama)
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD02> { [	U170F,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜏ (Wa)
++-	key <AD03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD04> { [	U1709,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜉ (Pa)
++-	key <AD05> { [	U1704,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜄ (Ga)
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD07> { [	U170E,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜎ (La)
++-	key <AD08> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AD09> { [	U170C,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜌ (Ya)
++-	key <AD10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD12> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <BKSL> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-     // C row; Home row, left side
++-	key <AC01> { [	U1700,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜀ (A)
++-	key <AC02> { [	U170D,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜍ (Ra)
++-	key <AC03> { [	U1710,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜐ (Sa)
++-	key <AC04> { [	U1706,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜆ (Ta)
++-	key <AC05> { [	U1707,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜇ (Da)
++-    // C row; Home row, right side
++-	key <AC06> { [	U1711,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜑ (Ha)
++-	key <AC07> { [	U1708,		U1705,		VoidSymbol,	VoidSymbol	] }; // ᜈ (Na) ᜅ (Nga)
++-	key <AC08> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC09> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC10> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB05> { [	U170A,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜊ (Ba)
++-    // B row; Lower row, right side
++-	key <AB06> { [	U1703,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜃ (Ka)
++-	key <AB07> { [	U170B,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜋ (Ma)
++-	key <AB08> { [	U1735,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜵ (comma)
++-	key <AB09> { [	U1736,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜶ (period)
++-	key <AB10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Dvorak Simplified (Latin) version
++-// http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │ ~ ̃◌ │ ! ¡ │ @ ¤ │ # £ │ $ € │ % ° │ ^ ̂◌ │ & → │ * → │ ( ↑ │ ) ↓ │ {   │ }   ┃ ⌫ Bak ┃
++-// │ ` ̀◌ │ 1 ¹ │ 2 ² │ 3 ³ │ 4 ¼ │ 5 ½ │ 6 ¾ │ 7 ⅛ │ 8 ⅜ │ 9 ⅝ │ 0 ⅞ │ [   │ ]   ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃ " ̋◌ │ < ̨◌ │ > ␣ │ P   │ Y   │ F ª │ G   │ C ¢ │ R ¶ │ L   │ ? ¿ │ + ∓ │ | Ə │
++-// ┃Tab ↹  ┃ ' ́◌ │ , ̧◌ │ . … │ p ₱ │ y ¥ │ f   │ g   │ c © │ r ® │ l   │ / ÷ │ = ± │ \ ə │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃ A Æ │ O Ø │ E Œ │ U   │ I İ │ D   │ H   │ T   │ N Ñ │ S   │ _ ◌͠  ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ a æ │ o ø │ e œ │ u   │ i ı │ d   │ h   │ t ™ │ n ñ │ s § │ - ¬ ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃   ¦ │ :   │ Q   │ J   │ K   │ X · │ B ’ │ M º │ W   │ V ‘ │ Z » ┃           ┃
++-// ┃Shift ⇧┃     │ ;   │ q   │ j   │ k   │ x × │ b ” │ m µ │ w   │ v “ │ z « ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "dvorak" {
++-
++-    name[Group1]= "Filipino (Dvorak Latin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	U0060,		U007E,		U0300,		U0303		] }; // ` ~ ̀◌ ̃◌ (combining grave accent) (combining tilde)
++-	key <AE01> { [	U0031,		U0021,		U00B9,		U00A1		] }; // 1 ! ¹ ¡
++-	key <AE02> { [	U0032,		U0040,		U00B2,		U00A4		] }; // 2 @ ² ¤
++-	key <AE03> { [	U0033,		U0023,		U00B3,		U00A3		] }; // 3 # ³ £
++-	key <AE04> { [	U0034,		U0024,		U00BC,		U20AC		] }; // 4 $ ¼ €
++-	key <AE05> { [	U0035,		U0025,		U00BD,		U00B0		] }; // 5 % ½ °
++-    // E row; Numerals row, right side
++-	key <AE06> { [	U0036,		U005E,		U00BE,		U0302		] }; // 6 ^ ¾ ̂◌ (combining circumflex accent)
++-	key <AE07> { [	U0037,		U0026,		U215B,		U2190		] }; // 7 & ⅛ ←
++-	key <AE08> { [	U0038,		U002A,		U215C,		U2192		] }; // 8 * ⅜ →
++-	key <AE09> { [	U0039,		U0028,		U215D,		U2191		] }; // 9 ( ⅝ ↑
++-	key <AE10> { [	U0030,		U0029,		U215E,		U2193		] }; // 0 ) ⅞ ↓
++-	key <AE11> { [	U005B,		U007B,		VoidSymbol,	VoidSymbol	] }; // [ {
++-	key <AE12> { [	U005D,		U007D,		VoidSymbol,	VoidSymbol	] }; // ] }
++-
++-    // D row; Upper row, left side
++-	key <AD01> { [	U0027,		U0022,		U0301,		U030B		] }; // ' " ́◌ ̋◌ (combining acute accent) (combining double-acute accent)
++-	key <AD02> { [	U002C,		U003C,		U0327,		U0328		] }; // , < ̧◌ ̨◌ (combining cedilla) (combining ogonek)
++-	key <AD03> { [	U002E,		U003E,		U2026,		U2423		] }; // . > … ␣
++-	key <AD04> { [	U0070,		U0050,		U20B1,		VoidSymbol	] }; // p P ₱
++-	key <AD05> { [	U0079,		U0059,		U00A5,		VoidSymbol	] }; // y Y ¥
++-    // D row; Upper row, right side
++-	key <AD06> { [	U0066,		U0046,		VoidSymbol,	U00AA		] }; // f F   ª
++-	key <AD07> { [	U0067,		U0047,		VoidSymbol,	VoidSymbol	] }; // g G
++-	key <AD08> { [	U0063,		U0043,		U00A9,		U00A2		] }; // c C © ¢
++-	key <AD09> { [	U0072,		U0052,		U00AE,		U00B6		] }; // r R ® ¶
++-	key <AD10> { [	U006C,		U004C,		VoidSymbol,	VoidSymbol	] }; // l L
++-	key <AD11> { [	U002F,		U003F,		U00F7,		U00BF		] }; // / ? ÷ ¿
++-	key <AD12> { [	U003D,		U002B,		U00B1,		U2213		] }; // = + ± ∓
++-	key <BKSL> { [	U005C,		U007C,		U0259,		U018F		] }; // \ | ə Ə
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U0061,		U0041,		U00E6,		U00C6		] }; // a A æ Æ
++-	key <AC02> { [	U006F,		U004F,		U00F8,		U00D8		] }; // o O ø Ø
++-	key <AC03> { [	U0065,		U0045,		U0153,		U0152		] }; // e E œ Œ
++-	key <AC04> { [	U0075,		U0055,		VoidSymbol,	VoidSymbol	] }; // u U
++-	key <AC05> { [	U0069,		U0049,		U0131,		U0130		] }; // i I ı İ
++-    // C row; Home row, right side
++-	key <AC06> { [	U0064,		U0044,		VoidSymbol,	VoidSymbol	] }; // d D
++-	key <AC07> { [	U0068,		U0048,		VoidSymbol,	VoidSymbol	] }; // h H
++-	key <AC08> { [	U0074,		U0054,		U2122,		VoidSymbol	] }; // t T ™
++-	key <AC09> { [	U006E,		U004E,		U00F1,		U00D1		] }; // n N ñ Ñ
++-	key <AC10> { [	U0073,		U0053,		U00A7,		VoidSymbol	] }; // s S §
++-	key <AC11> { [	U002D,		U005F,		U00AC,		U0360		] }; // - _ ¬ ◌͠
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	U00A6		] }; //       ¦
++-	key <AB01> { [	U003B,		U003A,		VoidSymbol,	VoidSymbol	] }; // ; :
++-	key <AB02> { [	U0071,		U0051,		VoidSymbol,	VoidSymbol	] }; // q Q
++-	key <AB03> { [	U006A,		U004A,		VoidSymbol,	VoidSymbol	] }; // j J
++-	key <AB04> { [	U006B,		U004B,		VoidSymbol,	VoidSymbol	] }; // k K
++-	key <AB05> { [	U0078,		U0058,		U00D7,		U00B7		] }; // x X × ·
++-    // B row; Lower row, right side
++-	key <AB06> { [	U0062,		U0042,		U201D,		U2019		] }; // b B ” ’
++-	key <AB07> { [	U006D,		U004D,		U00B5,		U00BA		] }; // m M µ º
++-	key <AB08> { [	U0077,		U0057,		VoidSymbol,	VoidSymbol	] }; // w W
++-	key <AB09> { [	U0076,		U0056,		U201C,		U2018		] }; // v V “ ‘
++-	key <AB10> { [	U007A,		U005A,		U00AB,		U00BB		] }; // z Z « »
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-// Dvorak Simplified (Baybayin) version
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     │ ◌᜔      │     │
++-// ┃Tab ↹  ┃     │ ᜵          │ ᜶         │ ᜉ    │ ᜌ     │     │ ᜄ     │     │ ᜍ     │ ᜎ    │     │ ◌᜔       │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃     │ ᜂ      │ ᜁ     │ ᜂ       │ ᜁ    │     │     │     │ ᜅ     │     │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃ ᜀ     │ ◌ᜓ      │ ◌ᜒ      │ ◌ᜓ      │ ◌ᜒ      │ ᜇ     │ ᜑ    │ ᜆ     │ ᜈ     │ ᜐ     │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │ ᜃ     │     │ ᜊ     │ ᜋ    │ ᜏ     │     │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space                     ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space                     ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++-partial alphanumeric_keys
++-xkb_symbols "dvorak-bay" {
++-
++-    name[Group1]= "Filipino (Dvorak Baybayin)";
++-
++-//	ISO grouping:	|--------- Group1 ---------|	|--------- Group2 ---------|
++-//			Level1		Level2		Level3		Level4
++-//			Base		Shift		AltGr		AltGr+Shift
++-
++-    // E row; Numerals row, left side
++-	key <TLDE> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE04> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // E row; Numerals row, right side
++-	key <AE06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE07> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AE12> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // D row; QWERTY row, left side
++-	key <AD01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD02> { [	U1735,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜵ (comma)
++-	key <AD03> { [	U1736,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜶ (period)
++-	key <AD04> { [	U1709,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜉ (Pa)
++-	key <AD05> { [	U170C,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜌ (Ya)
++-    // D row; QWERTY row, right side
++-	key <AD06> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD07> { [	U1704,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜄ (Ga)
++-	key <AD08> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD09> { [	U170D,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜍ (Ra)
++-	key <AD10> { [	U170E,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜎ (La)
++-	key <AD11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AD12> { [	U1714,		U1714,		VoidSymbol,	VoidSymbol	] }; // ◌᜔ (virama) ◌᜔ (virama)
++-	key <BKSL> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // C row; Home row, left side
++-	key <AC01> { [	U1700,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜀ (A)
++-	key <AC02> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC03> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-	key <AC04> { [	U1713,		U1702,		VoidSymbol,	VoidSymbol	] }; // ◌ᜓ (o/u) ᜂ (O/U)
++-	key <AC05> { [	U1712,		U1701,		VoidSymbol,	VoidSymbol	] }; // ◌ᜒ (e/i) ᜁ (E/I)
++-    // C row; Home row, right side
++-	key <AC06> { [	U1707,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜇ (Da)
++-	key <AC07> { [	U1711,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜑ (Ha)
++-	key <AC08> { [	U1706,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜆ (Ta)
++-	key <AC09> { [	U1708,		U1705,		VoidSymbol,	VoidSymbol	] }; // ᜈ (Na) ᜅ (Nga)
++-	key <AC10> { [	U1710,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜐ (Sa)
++-	key <AC11> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // B row; Lower row, left side
++-	key <AB00> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB01> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB02> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB03> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB04> { [	U1703,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜃ (Ka)
++-	key <AB05> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-    // B row; Lower row, right side
++-	key <AB06> { [	U170A,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜊ (Ba)
++-	key <AB07> { [	U170B,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜋ (Ma)
++-	key <AB08> { [	U170F,		VoidSymbol,	VoidSymbol,	VoidSymbol	] }; // ᜏ (Wa)
++-	key <AB09> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-	key <AB10> { [	VoidSymbol,	VoidSymbol,	VoidSymbol,	VoidSymbol	] }; //
++-
++-    // A row
++-	key <AA03> { [	U0020,		U0020,		U0020,		U0020		] }; // (space) (space) (space) (space)
++-
++-    include "level3(ralt_switch)"
++-};
++-
++-
++-//
++-// ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━┓
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ ⌫ Bak ┃
++-// │     │     │     │     │     │     │     │     │     │     │     │     │     ┃ Space ┃
++-// ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┯━━━━━┩
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     │     │     │
++-// ┃Tab ↹  ┃     │     │     │     │     │     │     │     │     │     │     │     │     │
++-// ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┲━━━━┷━━━━━┪
++-// ┃        ┃     │     │     │     │     │     │     │     │     │     │     ┃ Enter    ┃
++-// ┃Caps ⇬  ┃     │     │     │     │     │     │     │     │     │     │     ┃   ⏎      ┃
++-// ┣━━━━━━━┳┹────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┬┴────┲┻━━━━━━━━━━┫
++-// ┃       ┃     │     │     │     │     │     │     │     │     │     │     ┃           ┃
++-// ┃Shift ⇧┃     │     │     │     │     │     │     │     │     │     │     ┃Shift ⇧    ┃
++-// ┣━━━━━━━╋━━━━━┷━┳━━━┷━━━┱─┴─────┴─────┴─────┴─────┴───┲━┷━━━━━╈━━━━━┷━┳━━━┻━━━┳━━━━━━━┫
++-// ┃       ┃Win    ┃       ┃ ␣ Space             Space ␣ ┃       ┃Win    ┃       ┃       ┃
++-// ┃Ctrl   ┃Super  ┃Alt    ┃ ␣ Space             Space ␣ ┃AltGr ⇮┃Meta   ┃Menu   ┃Ctrl   ┃
++-// ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹─────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
++-//
++diff --git a/symbols/Makefile.am b/symbols/Makefile.am
++index 77ec0ff..01d56c6 100644
++--- a/symbols/Makefile.am
+++++ b/symbols/Makefile.am
++@@ -25,7 +25,7 @@ ma mao md me \
++ mk ml mm \
++ mn mt mv \
++ ng nl no np \
++-pc ph pk pl pt \
+++pc pk pl pt \
++ ro rs ru \
++ se si sk sn \
++ sy th \
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
+index 7df25c4..55b78c5 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
+@@ -12,7 +12,9 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-confi
+ LICENSE = "MIT & MIT-style & GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+ 
+-SRC_URI="${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
++SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2 \
++           file://0001-Remove-GPLv3-content.patch \
++           "
+ SRC_URI[md5sum] = "a415775ca8ecf4dfafc9488b8cbd7114"
+ SRC_URI[sha256sum] = "7b5be9f2b9a30102512b15308aec55f7f54289df24ac21de82ebb4bf145f9fce"
+ 
+-- 
+2.1.4
+
 
