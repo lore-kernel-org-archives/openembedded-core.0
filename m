@@ -1,34 +1,38 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 763E260125;
-	Mon, 18 May 2015 21:57:32 +0000 (UTC)
-Received: by igbhj9 with SMTP id hj9so18546853igb.1;
-	Mon, 18 May 2015 14:57:34 -0700 (PDT)
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E244260138
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 May 2015 22:23:53 +0000 (UTC)
+Received: by qgde91 with SMTP id e91so29928613qgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 May 2015 15:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=pUuT8UAGoMR+OrBFyWJLOq9lFarexc/HPPasToaW8qc=;
-	b=km9caFDguvAyz3DmDqo56wxuDVTEkBYW74bgOTzchrA7raLyFSEGLLiY5Pxpy+eQAQ
-	OltrD6LwAQG8JHVhwvepG6e/h5mLdtqh1D1XNyvcpnAdrF6UvnEf0rmRhTs6Mc4EdmMM
-	MDCbYDWxT1VuCTZNlzpsNadktVfs87f7JjPHyLUJx33OXY1h0GOL6wrroeqk4f8Qzbmb
-	QfUCuz3iQOVM//IAgQmul4k4ztwEGbtP8hEp/kYNYjd75oUfYpO9gn49lkTLEPaVWHC2
-	a3c5bgRr862dB/sbD5AX2jDuA7+Zd9BV2b3a9rhD8B4h6Ko7JjE4N7W3fOvcEQIGR2Tg
-	+H+g==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=KcIovSs2JvVXTysbnGtjQYNbt7YxGcLaF6sxYMgOktA=;
+	b=SbxEb0sPplD/eQ3zit5lQcpN3gb7r7DngBufC4VqJObWaKJIFNxg8FuDSs2Xvte1un
+	PEuhuP4qb7Ic9FpS7c9SPKiW/8EoXfLaIHGWRuGZd0KhgLrCBK5QkLD4l97uMcuGe/kX
+	kUkGkCdMrQ8KiislSYFRVuVHutWcE0PSskrYiM7pt5zUuyX2ZEd5xgpixSJOVMH3pK4i
+	weiQxphLs7S2qoi/kjm1i+S6gy7iMV+4qqWcWo6kBlLbT/G5PjdkX0VmpfsJjJOZITGU
+	ivU6LeAazr4EBYcLc7zsM0sMwNDRoQhcE107btIPBvSC9T+BfrKtjMIAaD6y9o3ynkYQ
+	vj7Q==
+X-Received: by 10.140.237.68 with SMTP id i65mr5177900qhc.42.1431987834139;
+	Mon, 18 May 2015 15:23:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.43.59.80 with SMTP id wn16mr278689icb.40.1431986254052; Mon,
-	18 May 2015 14:57:34 -0700 (PDT)
-Received: by 10.64.233.66 with HTTP; Mon, 18 May 2015 14:57:33 -0700 (PDT)
-In-Reply-To: <20150504222711.GD5885@denix.org>
-References: <20150504222711.GD5885@denix.org>
-Date: Tue, 19 May 2015 00:57:33 +0300
-Message-ID: <CALT56yOCD5Qp4PmqsR_K9zOXSeMbQ5mo8K2FSVvdUvhNFVJ5mA@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-members <openembedded-members@lists.openembedded.org>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Sender: kergoth@gmail.com
+Received: by 10.140.108.117 with HTTP; Mon, 18 May 2015 15:23:33 -0700 (PDT)
+In-Reply-To: <1431979698-29379-2-git-send-email-ldnunes@ossystems.com.br>
+References: <1431979698-29379-1-git-send-email-ldnunes@ossystems.com.br>
+	<1431979698-29379-2-git-send-email-ldnunes@ossystems.com.br>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 18 May 2015 15:23:33 -0700
+X-Google-Sender-Auth: anDPk3oxz__kEhcRsAuFKoGFv_A
+Message-ID: <CABcZANk3s=5CAK+qQ2JySrzXsy2na0SBQv8E3N_m2Ei1bcOk+Q@mail.gmail.com>
+To: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded e.V. membership status announcement
+Subject: Re: [PATCH 2/2] cleanup-workdir: wait for bitbake instances to finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,45 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 21:57:33 -0000
+X-List-Received-Date: Mon, 18 May 2015 22:23:55 -0000
+Content-Type: multipart/alternative; boundary=001a1135d7462d39dc051662a618
+
+--001a1135d7462d39dc051662a618
 Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On Mon, May 18, 2015 at 1:08 PM, Lucas Dutra Nunes <ldnunes@ossystems.com.br
+> wrote:
 
-2015-05-05 1:27 GMT+03:00 Denys Dmytriyenko <denis@denix.org>:
-> All,
+> bitbake uses a lock file on the build dir, "bitbake.lock", to prevent it
+> from running before an instance has exited. And sometimes the
+> cleanup-workdir script can call bibake too many times, too fast, before
+> the lock has been released.
 >
-> In accordance with OpenEmbedded e.V. statutes, members that were absent from
-> two or more consecutive annual General Assembly meetings and didn't have
-> anyone representing them by proxy, forfeit their active membership status and
-> can no longer vote in any OE e.V. election. Thus, the current up-to-date
-> membership roster is one of the blocking items for any election process.
+> By simply waiting that the lock has been released solves this problem.
 >
-> After collating the attendance records and all gathered proxy forms from past
-> years GA meetings, the Board of Directors came up with the following list of
-> inactive members - see below.
->
-> Realizing, that some people may still be active in other capacities in the
-> OpenEmbedded e.V. organization, or just wish to renew their active status, the
-> Board of Directors would like to open up a two-week period for inactive
-> members to state their intent to become active, after which we should be able
-> to vote for reinstating them back.
->
-> The Board will make an effort to contact inactive members directly by email,
-> or please feel free to reply to this announcement with your intent. Thanks.
->
-> The list of e.V. members to become inactive, based on GA attendance:
+> Signed-off-by: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
 
-[skipped a list with my name in it]
 
-While I'm an active user and sporadically active contributor to OE,
-I'm not a frequent visitor to the conferences, where GA take place :(
-I tried using proxies for GA attendance, but it did not work for
-various reasons. So I'm OK with being listed as an 'inactive' member.
-Hoping that I will be able to become formally 'active' again, if I
-become active wrt. e.V in real life.
-
+The fact that the bitbake UI can exit before the lock has been released is
+a bug. Not being able to assume bitbake is done by the time the bitbake
+command exits is not ideal, no one should have to block directly o the lock
+like this.
 -- 
-With best wishes
-Dmitry
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1135d7462d39dc051662a618
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, May 18, 2015 at 1:08 PM, Lucas Dutra Nunes <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:ldnunes@ossystems.com.br" target=3D"_blank">ldnunes@ossyste=
+ms.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
+ass=3D"il">bitbake</span> uses a lock file on the build dir, &quot;<span cl=
+ass=3D"il">bitbake</span>.lock&quot;, to prevent it<br>
+from running before an instance has exited. And sometimes the<br>
+cleanup-workdir script can call bibake too many times, too fast, before<br>
+the lock has been released.<br>
+<br>
+By simply waiting that the lock has been released solves this problem.<br>
+<br>
+Signed-off-by: Lucas Dutra Nunes &lt;<a href=3D"mailto:ldnunes@ossystems.co=
+m.br">ldnunes@ossystems.com.br</a>&gt;</blockquote></div><br>The fact that =
+the bitbake UI can exit before the lock has been released is a bug. Not bei=
+ng able to assume bitbake is done by the time the bitbake command exits is =
+not ideal, no one should have to block directly o the lock like this.<br>--=
+ <br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergot=
+h dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Ts=
+lib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a1135d7462d39dc051662a618--
