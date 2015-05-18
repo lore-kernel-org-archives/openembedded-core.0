@@ -1,39 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F9F3609B2
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DE9B6AC17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 12:02:45 +0000 (UTC)
-Received: by wicmc15 with SMTP id mc15so87405492wic.1
+	Mon, 18 May 2015 12:03:50 +0000 (UTC)
+Received: by wibt6 with SMTP id t6so66845462wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 05:02:46 -0700 (PDT)
+	Mon, 18 May 2015 05:03:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-type:content-transfer-encoding;
-	bh=EXKeUDw589UHEk2T/5OD/LQElx4kRkXSmCrw3img2x8=;
-	b=Ri9geru2UwRYHGlavFBHFNYY6RUVHXHtZIcyPb9l4rxADqpw0Aig4ow62JOfXP0oRa
-	Ze/M4JnG33CU5gWai39B0+WHAX1F8JHLubZhzKXzpfZhCUls1jyaXo7/A+ej9u26Uq6F
-	qCByTg0BlU0hJv2FXZrPHaAz6V/5Kj1s7OGQxiyCvIixncMpc6JuD3HTnjOpa4NDaSba
-	RdTRrU+D05nQ+njD7P5eRd8mIEhJf0UQ/Jf+fEe1RdLjBupP2c971KRkikOcPgK6RE4b
-	NUr0txsrhYhUU12iezube61gzQFMgLsKXnHKG1B+hmUnwBsXf0DuHK52/lSvLco9Lwd0
-	ZpuA==
-X-Gm-Message-State: ALoCoQmvQStzvf0eC5D3RxMuMlXoIfyQiMpU5ZH1RPUbAsvOMr2hktYxc7wcbNfUBzSOlUs8lp0N
-X-Received: by 10.180.20.200 with SMTP id p8mr20890375wie.78.1431950566092;
-	Mon, 18 May 2015 05:02:46 -0700 (PDT)
+	bh=ctuVvEkIgxeuqyqp0MeVAZASpJrYvs7KYt6IVOW1dY8=;
+	b=Ve+ctjWQ7dY6HqQfZId/MIKJoHioWUcQmdqoTcL/1XM2C8V1SRA9YJeqwSQKf5nnIU
+	oSu5pp56wTgSOGacX10MhcsYS3dX8ukVdycn+3rnKvRHZd8SbpALEoGk/suPLt82b2NE
+	CVFg+kh798NLp7jx9XCRkjcZwf7YMSqYC9OZK7o+GNRF3U942n/JyuZ+4Fvsk3Vy1Do5
+	FsclUnNVCdE3miVQjpEaiZeWZajFA6mR+KVf3X8jXwn4mTWJmskgP7nrA1zTE/tW4Lku
+	euYmeCuwXweAr+wP4b6CStiAnF6Uxr71f5NHQ+XS5CEZlCrful11QI6R8TGBv/o6O5lp
+	7iwA==
+X-Gm-Message-State: ALoCoQmObupKxd/5q7+lF5Tu612o4P57MWC4NFCn/bV7S2mptFqeQeUtJw/7+6tjrO2FV1yuu8yl
+X-Received: by 10.194.59.46 with SMTP id w14mr43979613wjq.106.1431950631264;
+	Mon, 18 May 2015 05:03:51 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	ju2sm12143954wid.12.2015.05.18.05.02.43
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id k2sm12164993wix.4.2015.05.18.05.03.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 May 2015 05:02:44 -0700 (PDT)
+	Mon, 18 May 2015 05:03:50 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 12:58:30 +0100
-Message-Id: <1431950310-2276-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 18 May 2015 12:59:36 +0100
+Message-Id: <1431950376-2636-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH] xkeyboard-config: remove GPLv3 files
+Subject: [PATCH][V2] xkeyboard-config: remove GPLv3 files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,7 +46,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 12:02:49 -0000
+X-List-Received-Date: Mon, 18 May 2015 12:03:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -56,8 +56,8 @@ upstream to relicense one file and temporarily delete another.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
  .../0001-Remove-GPLv3-content.patch                | 1043 ++++++++++++++++++++
- .../xorg-lib/xkeyboard-config_2.13.bb              |    4 +-
- 2 files changed, 1046 insertions(+), 1 deletion(-)
+ .../xorg-lib/xkeyboard-config_2.13.bb              |    6 +-
+ 2 files changed, 1047 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch
 
 diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch b/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-Remove-GPLv3-content.patch
@@ -1110,11 +1110,15 @@ index 0000000..d291cfc
 +2.1.4
 +
 diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
-index 7df25c4..55b78c5 100644
+index 7df25c4..668a37a 100644
 --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
 +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.13.bb
-@@ -12,7 +12,9 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-confi
- LICENSE = "MIT & MIT-style & GPLv3"
+@@ -9,10 +9,12 @@ systems."
+ HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig"
+ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config"
+ 
+-LICENSE = "MIT & MIT-style & GPLv3"
++LICENSE = "MIT & MIT-style"
  LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
  
 -SRC_URI="${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
