@@ -1,31 +1,21 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DA63673DA5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D34E65C9C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 14:42:43 +0000 (UTC)
-Received: by iepj10 with SMTP id j10so23952205iep.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 07:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=gYfhwN+Pfw5e3iUNM0iMoTY/RAQHep/dDHDsK5nzBlU=;
-	b=Qt0zvvoKUZK0AhzwZ7KR8FEtTokOd4TbO7O44qS9EydoPVDIKSqfu0VN5UezUie1/c
-	728H3/1YDmTabdgQchfWyUETeIzaWgT//+cYjHhokJVAt6XRZytnqFhNCj2wy66zATM+
-	dXDlVMTzALS3/F1Lgl9w1k78cwMER9leGLixuyEBNmn5rm1nF6azhiySFQwautc3hnld
-	SWS9tiV2Qqb6cqhxan0VxEnGUA9RZtDrAcf7jHPiPyGKP5DAYfppLr4Syzi3nLpisLRg
-	uZx4Skcekx2/ks21bFnLDxmmXdAq85jICBI5SsFWet6ZgoHRKW557dsX5n/mhGAz6aOx
-	zBnA==
-MIME-Version: 1.0
-X-Received: by 10.107.5.210 with SMTP id 201mr30174707iof.57.1431960164905;
-	Mon, 18 May 2015 07:42:44 -0700 (PDT)
-Received: by 10.64.233.66 with HTTP; Mon, 18 May 2015 07:42:44 -0700 (PDT)
-Date: Mon, 18 May 2015 17:42:44 +0300
-Message-ID: <CALT56yMUTwHc5Z5c_x+V0EqMdpgqMnyu=6y3=UARJ9eCuHswDw@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Cortex-A9 vs Thumb configuration
+	Mon, 18 May 2015 15:15:13 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 18 May 2015 08:15:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,453,1427785200"; d="scan'208";a="731190744"
+Received: from jmcmill1-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.0.158])
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2015 08:15:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2015 16:15:03 +0100
+Message-Id: <cover.1431961859.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/5] devtool / recipetool bbappend support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +28,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 14:42:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 May 2015 15:15:15 -0000
 
-Hello,
+Add support for creating/updating bbappends in both devtool (within the
+update-recipe subcommand) and in recipetool (with a new appendfile
+subcommand), as well as some related tidy-ups.
 
-I was hit by one of changes in the package arch/tune/etc. naming. I'm
-building an image
-for the qemuarma9 (well, the error will be applicable to any
-ARMv7-based machine).
 
-After enabling ARM_INSTRUCTION_SET="thumb" in the config, I received
-the following
-error:
+The following changes since commit aa2e02a4f78d87bd466bbf92ca57147066c5367f:
 
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-    Either fix the cause of this error or at your own risk disable the
-checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
+  README: add "Contributing" section (2015-05-16 22:37:15 +0100)
 
-    Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-(armv7at2-vfp-neon).
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-bbappends
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-bbappends
+
+Paul Eggleton (5):
+  devtool / recipetool: ensure bb.note() gets printed
+  lib/oe/patch: use with open() for all file operations
+  oe-selftest: move recipetool tests to their own module
+  recipetool: add appendfile subcommand
+  devtool: update-recipe: add option to write changes to bbappend
+
+ .../recipes-test/recipetool/files/add-file.patch   |   8 +
+ meta-selftest/recipes-test/recipetool/files/file1  |   2 +
+ .../recipes-test/recipetool/files/installscript.sh |   3 +
+ .../recipetool/files/selftest-replaceme-inst-func  |   1 +
+ .../files/selftest-replaceme-inst-globfile         |   1 +
+ .../files/selftest-replaceme-inst-todir-globfile   |   1 +
+ .../recipetool/files/selftest-replaceme-orig       |   1 +
+ .../files/selftest-replaceme-src-globfile          |   1 +
+ .../recipetool/files/selftest-replaceme-todir      |   1 +
+ .../recipetool/files/subdir/fileinsubdir           |   1 +
+ .../recipetool/selftest-recipetool-appendfile.bb   |  42 +++
+ meta/lib/oe/patch.py                               | 103 ++++--
+ meta/lib/oe/recipeutils.py                         | 328 ++++++++++++++++++-
+ meta/lib/oeqa/selftest/devtool.py                  | 283 ++++++++++++----
+ meta/lib/oeqa/selftest/recipetool.py               | 364 +++++++++++++++++++++
+ meta/lib/oeqa/utils/commands.py                    |  11 +
+ scripts/lib/devtool/__init__.py                    |   2 +-
+ scripts/lib/devtool/standard.py                    | 155 ++++++---
+ scripts/lib/recipetool/append.py                   | 360 ++++++++++++++++++++
+ scripts/recipetool                                 |   8 +-
+ 20 files changed, 1548 insertions(+), 128 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/add-file.patch
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/file1
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/installscript.sh
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-func
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-globfile
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-inst-todir-globfile
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-orig
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-src-globfile
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/selftest-replaceme-todir
+ create mode 100644 meta-selftest/recipes-test/recipetool/files/subdir/fileinsubdir
+ create mode 100644 meta-selftest/recipes-test/recipetool/selftest-recipetool-appendfile.bb
+ create mode 100644 meta/lib/oeqa/selftest/recipetool.py
+ create mode 100644 scripts/lib/recipetool/append.py
 
 -- 
-With best wishes
-Dmitry
+2.1.0
+
 
