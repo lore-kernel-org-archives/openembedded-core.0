@@ -1,40 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C7EB26AC28
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 08C5E608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 16:50:05 +0000 (UTC)
-Received: by wicnf17 with SMTP id nf17so76483838wic.1
+	Mon, 18 May 2015 16:50:08 +0000 (UTC)
+Received: by wibt6 with SMTP id t6so76530112wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 09:50:06 -0700 (PDT)
+	Mon, 18 May 2015 09:50:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=honn6aKetxaY7uVvhG5PlabkOjkskd9tSFBIgN3w/xw=;
-	b=FDvB9G/o1cwxkQQNLHW6NSNb4NY3a4hbVROelrlxXUkrCJxlAYicUulo5BlIalmz8n
-	VeI0NO1lCZ83RwcmbP+9OFML0hTB/NQ2t2HmZ3CP3SgerSC71sOjCvS+bWuXKdQ28IcB
-	T8JP1YoMwDya9p/M6krf2IHc3a4vX+54uWXhjAJq+WIVInGTp393w8FJIAMQHVsiSThl
-	F4wNHXoqwn/Zf+MdtTYlpylOiSYypThljrRSwIjGahKTS7+jCYcEjaUi6saIUzrcdh5Y
-	+f1qOWPOQhW4XY4bGERN5TzcyqtzhdXtuW46o+LAWXRNz1BaT19zVbfESCHmrVq1DNAE
-	Q0qA==
-X-Gm-Message-State: ALoCoQmvQhE7WJfyeCXZ1VJ/OYiSQtpx/tCrEURAPDJl6TXZgKBNnPrBulrHbtlf4eeC+r7hHSKa
-X-Received: by 10.180.74.10 with SMTP id p10mr15196150wiv.3.1431967805968;
-	Mon, 18 May 2015 09:50:05 -0700 (PDT)
+	bh=d1nfYbvkpNnJ20qS9Y7+wlSV9DuRRBEyjPP6O7NGu3k=;
+	b=MwIcd/MFpGR+nJHiI4NAJ9YX3u0pablX5t87Ix9e6tSuev5DjHm90Iu8MCy+IdANJX
+	6WaGsDO9IUIYKkMWndVE7YxZk6vRgq+Xlr+EiaVmvE7TkI0dE5RS0aMxvm7IW0AEMKug
+	gpL+KQUQAdTggILHsQyMom7w0eY7Jmk/7WHGftcb3S32/TbEnsuM8wBRH1zIAPIrVWij
+	f+vB2UQmI+7eNhapahmMo/6tlQAvGoCMsLCQ6vqFg3qP/HSfmyRZ65m8vWFwV23NlAP3
+	zISokuBP3OEWRrla9e2JdzFRhUte7OETHt0nw/jbWB45m3xEwISGNFHf5bssw5sPSW4U
+	aaqQ==
+X-Gm-Message-State: ALoCoQmAwKLbYdaaOxBFV9ynDIGPeVUqX8Wl37zttolwxLCM5YC3xz9bPU2ZGD/QqaQF7lmDIIVZ
+X-Received: by 10.180.219.42 with SMTP id pl10mr23909589wic.70.1431967809718; 
+	Mon, 18 May 2015 09:50:09 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id y7sm17725705wjw.16.2015.05.18.09.50.04
+	by mx.google.com with ESMTPSA id y7sm17725705wjw.16.2015.05.18.09.50.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 May 2015 09:50:05 -0700 (PDT)
+	Mon, 18 May 2015 09:50:09 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 17:45:28 +0100
-Message-Id: <1431967531-25163-10-git-send-email-ross.burton@intel.com>
+Date: Mon, 18 May 2015 17:45:31 +0100
+Message-Id: <1431967531-25163-13-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1431967531-25163-1-git-send-email-ross.burton@intel.com>
 References: <1431967531-25163-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 10/13] libxshmfence: upgrade to 1.2
+Subject: [PATCH 13/13] libxx86vm: upgrade to 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 16:50:08 -0000
+X-List-Received-Date: Mon, 18 May 2015 16:50:09 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-lib/{libxshmfence_1.1.bb => libxshmfence_1.2.bb}             | 4 ++--
+ .../xorg-lib/{libxxf86vm_1.1.3.bb => libxxf86vm_1.1.4.bb}             | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.1.bb => libxshmfence_1.2.bb} (75%)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86vm_1.1.3.bb => libxxf86vm_1.1.4.bb} (77%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
-index 7dff0d4..ae34b1f 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
-@@ -13,5 +13,5 @@ DEPENDS += "virtual/libx11"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+index e276a76..35f87d2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+@@ -16,5 +16,5 @@ PE = "1"
  
- BBCLASSEXTEND = "native nativesdk"
+ XORG_PN = "libXxf86vm"
  
--SRC_URI[md5sum] = "2dd10448c1166e71a176206a8dfabe6d"
--SRC_URI[sha256sum] = "dbc2db2925ca9f216fd1e9c63d0974db9f4d49aaf5877ffb606d2d8d7e58cebe"
-+SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
-+SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
+-SRC_URI[md5sum] = "e46f6ee4f4567349a3189044fe1bb712"
+-SRC_URI[sha256sum] = "da5e86c32ee2069b9e6d820e4c2e4242d4877cb155a2b2fbf2675a1480ec37b8"
++SRC_URI[md5sum] = "298b8fff82df17304dfdb5fe4066fe3a"
++SRC_URI[sha256sum] = "afee27f93c5f31c0ad582852c0fb36d50e4de7cd585fcf655e278a633d85cd57"
 -- 
 2.1.4
 
