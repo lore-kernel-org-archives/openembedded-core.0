@@ -1,38 +1,28 @@
-Return-Path: <adraszik@digisoft.tv>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3785472207
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 597F873FC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 08:06:08 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so82831058wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 01:06:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=CtbgtLYA8EN+OhBNUygxB+eHz6e5qXPKEY7YWrwrrDM=;
-	b=H+5MNC1VDl6TvnUGhvx6CBR5iQcG//TufvkK/ab5RwJXWn9ZsI1D4bsCoikRu8hvJF
-	JsPAm8hRqAfjnEEoQBi2lJKhnqYwZpcaDPmPXOCR1YZ3vCnA/Lm1p/qREoVKYFdNXB8T
-	Uu6+1TkXxmpW063rgvMwsB5+8Vm0eWKy7aTWRF1XAaZe8wEcmqJE8fVsnZHpH0mRJw2c
-	esEduFbTIpjsyTfwOXS2N82VeqZfuEsXVTHASQ5Y1j11OkWJGowyF3Qxcc6KFn7d8Y8I
-	XTZHkjEPnZHGv1rTOcGCsJbGbOle94qDZFm6Xzo5iK0naTFQwbrshG8xPhlw5gDK+B5A
-	7eFA==
-X-Gm-Message-State: ALoCoQn0gejWjj2entGC9wHSbCJwEYUkzYk4fNq3D+P7eTGVzMEN7l9M/wkfXCybudkocnd9FQxw
-X-Received: by 10.180.87.199 with SMTP id ba7mr20132451wib.81.1431936369783;
-	Mon, 18 May 2015 01:06:09 -0700 (PDT)
-Received: from i22.digisoft.tv ([212.17.57.102])
-	by mx.google.com with ESMTPSA id n1sm11194300wix.0.2015.05.18.01.06.08
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 May 2015 01:06:09 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@digisoft.tv>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 09:06:01 +0100
-Message-Id: <1431936361-10394-2-git-send-email-adraszik@digisoft.tv>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1431936361-10394-1-git-send-email-adraszik@digisoft.tv>
-References: <1431936361-10394-1-git-send-email-adraszik@digisoft.tv>
-Subject: [PATCH] icu-native: fix hard paths in native icu
+	Mon, 18 May 2015 08:45:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2015 01:45:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,452,1427785200"; d="scan'208";a="711770204"
+Received: from jmcmill1-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.0.158])
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2015 01:45:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 18 May 2015 09:45:06 +0100
+Message-ID: <2117516.tkUI32xNOp@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <555945F2.9020708@windriver.com>
+References: <55555B65.80600@windriver.com>
+	<1431812050.4956.5.camel@linuxfoundation.org>
+	<555945F2.9020708@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] Add something like bitbake -cmenuconfig <recipe> ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 08:06:11 -0000
+X-List-Received-Date: Mon, 18 May 2015 08:45:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The icu recipe installs icu-native twice, once in the usual location,
-and once for cross builds into the path given by --with-cross-build.
+Hi Robert,
 
-This latter path is not included in the list of paths recognised by
-chrpath.bbclass, hence the binaries in there retain the rpath as used
-during compilation. This causes the package to not be relocateable
-from sstate
-[YOCTO #6851]
+On Monday 18 May 2015 09:52:50 Robert Yang wrote:
+> On 05/17/2015 05:34 AM, Richard Purdie wrote:
+> > On Fri, 2015-05-15 at 10:35 +0800, Robert Yang wrote:
+> >> Is is useful/possible if we add something like bitbake <recipe>
+> >> -cmenuconfig, just like kernel's make menuconfig ?
+> >> 
+> >> We can use the menuconfig to config the vars such as MACHINE, DL_DIR,
+> >> DISTRO_FEATURES, MACHINE_FEATURES and all the variables which are
+> >> configurable, I think that this would help the newbie a lot.
+> >> 
+> >> I think that we can add a menuconfig.bbclass (or other names) to do this,
+> >> and I'd like to work on it.
+> > 
+> > Why would you want to specify a <recipe> when configuring MACHINE? I
+> > understand why you're thinking this but it isn't well thought out and in
+> > this form would confuse users more than help them.
+> > 
+> > I don't think the system will even parse without a valid MACHINE, let
+> > alone execute tasks.
+> 
+> I meant that we need something to help configure the build easier, it
+> can generate something like local.conf.append, not configure the recipe.
+> 
+> The example "bitbake <recipe> -cmenuconfig" wasn't right enough, it's
+> just a rough thought, we can use the current default local.conf
+> (MACHINE = qemux86) to make system parse.
+> 
+> The problem is that we have many bbclasses in oe-core, a lot of them
+> has specify configurations, and also a lot of vars in the conf file such
+> as bitbake.conf, it's not easy to know how and what to config, especially,
+> for newbies. The "bitbake -cmenuconfig" maybe not a good idea, I think that
+> we need something to help config the build (generate local.conf) easier,
+> do you have any suggestions, please ?
 
-We use the infrastructure that is in place already, and simply set
-PREPROCESS_RELOCATE_DIRS as necessary, and things start to work.
----
- meta/recipes-support/icu/icu.inc | 1 +
- 1 file changed, 1 insertion(+)
+This is likely the direction we will be going in with the Toaster web UI - 
+with a web-based tool we can present a much friendlier interface and have the 
+chance to link to other information, for example we can link to the 
+appropriate manual section for individual variables (and in future error 
+messages, classes, etc.), analyse the output of the build, manage multiple 
+sets of configuration, etc. These are things that would be difficult to do 
+practically from the command line.
 
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index f4254b5..cc6f222 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -26,6 +26,7 @@ EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
- EXTRA_OECONF_class-native = ""
- EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
- 
-+PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
- do_install_append_class-native() {
- 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
- 	cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
