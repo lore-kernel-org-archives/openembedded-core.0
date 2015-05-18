@@ -1,42 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 135FE6AB99
+Return-Path: <adraszik@digisoft.tv>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 36A8C65C9C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 08:01:11 +0000 (UTC)
-Received: by wicmc15 with SMTP id mc15so82731073wic.1
+	Mon, 18 May 2015 08:06:07 +0000 (UTC)
+Received: by wibt6 with SMTP id t6so59745979wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 01:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=q/6tuL2FRjbSgU6x6Ljc8zATfjVWqptUZZRLH22d0lE=;
-	b=Y6jejK8Wsz0lttbtg9TkGxQq0NvjovuuFHO5UWA9UCWRDjiTT3VAqdsDWafrhXNtFr
-	pRUKcOfE8hUtKp1m2nXcrSujNSpyMBaubmAWjoS/LUPrqkFUlx/y3brWGZ5kuxH50LIK
-	fPZziAfNIza5fSSkiuIqpGhNv6NEpbOtlVG++wHDAgyy5IyNDsydKYs4q+sN1NxVF7OB
-	TV+SinDdw258Pmak8uSXyPWxHmguIFoFiV3WBUHeiP6hvxkhaMnXQbPrzWKytwvSnMdF
-	BVUCy7iAl0WuqgWVWr57YL/9SiBuWOAj8Y9pUWWcKD0F+fpW1cadigiUo9c7F4vw9wQb
-	Pt3Q==
-X-Received: by 10.180.188.100 with SMTP id fz4mr17606601wic.91.1431936072452; 
-	Mon, 18 May 2015 01:01:12 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id js3sm15602675wjc.5.2015.05.18.01.01.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 May 2015 01:01:11 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 18 May 2015 10:01:38 +0200
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20150518080138.GD9407@jama>
-References: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
+	Mon, 18 May 2015 01:06:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-type:content-transfer-encoding;
+	bh=I6vLBeoJrO+I68ZwjBhGt6DzsD3nZ4lCKyJeomZNA04=;
+	b=JTST4hJLmnnZ9nz9PoCAdOnNbJtsE6u4EipH0/4b7vdmITDEXUUtSfGp66iWILAwfJ
+	IsjkAsx5lh4j7jsyaNW2mBEkv4N7FsIeZ2NAveHQiiAo0jwfaZjCQqZQuEQRuaykhwnX
+	oS2zZyucZLSNnEZx59NA2cwZVCLQV5pst3IDwQAB626JjOuBKZ8JwB6uFpVdv1R8x5Gy
+	TE5jcr8VobMps7yHDpO4WeB3yLv//IGXXZ6XKBEXHkZvhdrLTsZm/pxj5c32Dg58jH8N
+	EsFtfzE978+P64lMXsPQauvsb310eP3+Yu3gokcgcMgxnsKFlaYLXDA9LKMUpIvsvS7a
+	vmOw==
+X-Gm-Message-State: ALoCoQlzufcoMYOQee1BrS4TP1a5g5+S/SXoBZ9RX7JBnd7tHPXj9J4DAxLLSKfdbojz/py73BkO
+X-Received: by 10.180.219.42 with SMTP id pl10mr19859936wic.70.1431936368796; 
+	Mon, 18 May 2015 01:06:08 -0700 (PDT)
+Received: from i22.digisoft.tv ([212.17.57.102])
+	by mx.google.com with ESMTPSA id n1sm11194300wix.0.2015.05.18.01.06.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 May 2015 01:06:08 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@digisoft.tv>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2015 09:06:00 +0100
+Message-Id: <1431936361-10394-1-git-send-email-adraszik@digisoft.tv>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: trouble related to oe-core update
+Subject: [PATCH 0/1] icu-native: not relocatable via sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 08:01:12 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 May 2015 08:06:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2015 at 09:46:03AM +0200, Andreas M=FCller wrote:
-> Hi,
 
-Hi,
+The icu recipe installs icu-native twice, once in the usual location,
+and once for cross builds into the path given by --with-cross-build.
 
-> have seen that a while ago but had no time to take care.
->=20
-> Since oe-core commit
->=20
-> commit 3e760031f91fb87c3e2f62b77a117eb41164f259
-> Author: Martin Jansa <martin.jansa@gmail.com>
-> Date:   Wed Feb 18 15:40:35 2015 +0100
->=20
->     feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb =
-suffix
->=20
-> I get
->=20
-> ERROR:  OE-core's config sanity checker detected a potential misconfigura=
-tion.
->     Either fix the cause of this error or at your own risk disable the
-> checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
->=20
->     Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-> (cortexa9t2hf-vfp-neon).
->=20
-> I don't understand this fully but it seems that
-> fsl-dynamic-packagearch.bbclass would add this pkg arch but this never
-> happens because sanity.bbclass is executed first and interrupts
-> parsing. What I don't understand: Am I the only one having this issue
->o
-I'm not using meta-fsl*, butdo you have this patch in your setup?
-http://patches.openembedded.org/patch/90989/
-it was discussed off-list a while ago and this change looks like result
-of that discussion.
+This latter path is not included in the list of paths recognised by
+chrpath.bbclass, hence the binaries in there retain the rpath as used
+during compilation. This causes the package to not be relocateable
+from sstate.
+[YOCTO #6851]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+Please note that the attached change alone doesn't cause the sstate
+signature to become invalid, hence bitbake will use an existing
+archive from sstate (which still has the old rpaths).
+Not sure what's missing to force a signature change here, other than
+doing a -c cleansstate
+
+Also, in the patch, I did try using ${STAGING_ICU_DIR_NATIVE} instead
+of open-coding ${datadir}/${BPN}/${PV}, originally, but that didn't
+work, as at the time chrpath.bbclass was running, this translated
+into .../usr/lib instead of .../usr/share (as it should and does
+during all the other tasks). I didn't find the reason for that.
+
+
+Cheers,
+Andre' 
 
