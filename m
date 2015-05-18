@@ -1,33 +1,36 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C7430609B2
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B0A2A6AB99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 07:46:02 +0000 (UTC)
-Received: by pdbnk13 with SMTP id nk13so42937435pdb.1
+	Mon, 18 May 2015 08:00:22 +0000 (UTC)
+Received: by pdea3 with SMTP id a3so137834301pde.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 00:46:03 -0700 (PDT)
+	Mon, 18 May 2015 01:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=a0XTXbpvRR4ROutXDvfC9uehZYIiw8epzuSNHMY8R3M=;
-	b=Oj4ynkd0excjZgEikgSaih6WcMmESYJeF/4xSU5ThyFo5sssAaBw/CMTaucXNOyFGa
-	wPjSEFf4FBcJ6UohnnCKMsEO3gHVHwPWEpRCWkx1gqsB8ltM3tTKTJITdDc702Vr/BP0
-	glnZQTPgqky+3xP+iF2CgLcio0rEkKBY9cuGcPdDV+YvmPIfFgplmaVKJPCBWNmtEihN
-	InUtRbNegMTPURJgedDAWoK9EXxTnz4I2HXEg9xG9HtRzd2vaExEYu3s6nfx6A/wDcB0
-	87SDkQFXp7KDqXYBs0rErVvH132XzayR6jN7Ta0mBbyJGVfqEwm0u/AQa76/cPowOJJX
-	PzZg==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=fgLmurrAEGByxU6ZxAgRMaZ9FYVpATyP8tmQKERhQ88=;
+	b=tmrLHNbwqPBcA+4j/1EDzKByAqADspeavqPBEK2ZmXFYXvbZYtvvmykjd24Nxvj/E8
+	n0HOGOFRmE9fry85fZ5/LdJUy0uLQiiZ9LWS1sASE7PbG6YHeeKBWU9bekD7JtSy36tD
+	PvE/LJARl3n8pwzJle5ag7HfFLg1HNFgpBlhe1vN0N7hFiTCp90LsOUL+8uO4q54yF/C
+	PnTJIeHYeXVcMab7w9fuFN1FO/jTyewIXt5Z7t8oidqqeKBbKPx/gU10BeL7WBOcltkr
+	9TCOA/1KiMMkKnea4VZyE3YRH8vFrSjEmqWDX2hpmw7STilZ1sNnysKUiMKrSmY0diLN
+	jxhA==
 MIME-Version: 1.0
-X-Received: by 10.68.57.170 with SMTP id j10mr25027684pbq.150.1431935163339;
-	Mon, 18 May 2015 00:46:03 -0700 (PDT)
-Received: by 10.70.54.3 with HTTP; Mon, 18 May 2015 00:46:03 -0700 (PDT)
-Date: Mon, 18 May 2015 09:46:03 +0200
-Message-ID: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
+X-Received: by 10.68.205.67 with SMTP id le3mr42475315pbc.94.1431936024430;
+	Mon, 18 May 2015 01:00:24 -0700 (PDT)
+Received: by 10.70.54.3 with HTTP; Mon, 18 May 2015 01:00:24 -0700 (PDT)
+In-Reply-To: <08f401d08df0$aba9be00$02fd3a00$@lge.com>
+References: <20150312143521.GD2338@jama> <5501D4CA.2090209@r-finger.com>
+	<08f401d08df0$aba9be00$02fd3a00$@lge.com>
+Date: Mon, 18 May 2015 10:00:24 +0200
+Message-ID: <CALbNGRReufGQXfR3eYqQKN6CRwhcEk5-EaeTfctenBdWeoYm_w@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: trouble related to oe-core update
+To: Changhyeok Bae <changhyeok.bae@lge.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-gir issues and maintenance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,38 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 07:46:02 -0000
+X-List-Received-Date: Mon, 18 May 2015 08:00:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
-
-have seen that a while ago but had no time to take care.
-
-Since oe-core commit
-
-commit 3e760031f91fb87c3e2f62b77a117eb41164f259
-Author: Martin Jansa <martin.jansa@gmail.com>
-Date:   Wed Feb 18 15:40:35 2015 +0100
-
-    feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb suffix
-
-I get
-
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-    Either fix the cause of this error or at your own risk disable the
-checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-(cortexa9t2hf-vfp-neon).
-
-I don't understand this fully but it seems that
-fsl-dynamic-packagearch.bbclass would add this pkg arch but this never
-happens because sanity.bbclass is executed first and interrupts
-parsing. What I don't understand: Am I the only one having this issue
-and if yes - what makes my configuration special.
-
-Help - please :)
+On Thu, May 14, 2015 at 4:50 AM, Changhyeok Bae <changhyeok.bae@lge.com> wrote:
+> Hi Tomas,
+>
+> I'm Changhyeok and working with Martin Jansa.
+> Actually I'm using meta-gir layer. So can I take over meta-gir layer?
+>
+> Thanks
+> Changhyeok
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Tomas
+> Frydrych
+> Sent: Friday, March 13, 2015 3:03 AM
+> To: OE-core
+> Subject: Re: [OE-core] meta-gir issues and maintenance
+>
+> Martin,
+>
+> On 12/03/15 14:35, Martin Jansa wrote:
+>> I was trying to use meta-gir in Dizzy release and found out that last
+>> commit in this layer is 16 months ago and many .bbappends no longer
+>> match with their recipes.
+>>
+>> Was this layer superseded by something else or you just didn't have
+>> time to update it for newer Yocto releases?
+>
+> Unfortunately, life has been getting in the way of working on this layer (as
+> well as meta-guacamayo), and it is not going to change in the foreseeable
+> future. :-( It's a pity, as the gir stuff is useful/necessary for things
+> like python bindings to gobject and related.
+> If someone wanted to take over, it would make sense to move the repo
+> somewhere more central (yocto, oe) as well.
+>
+> Tomas
+>
+I would appreciate to have the gintrospection more central - this
+would give us a chance to get the gtk stuff out of stone age..
 
 Andreas
 
