@@ -1,22 +1,34 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F155600B3
+Return-Path: <lucas.dutra.nunes@gmail.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id F0F5360124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 19:17:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 18 May 2015 12:17:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,454,1427785200"; d="scan'208";a="696738730"
-Received: from yctb03.ostc.intel.com (HELO yctb03.otcr.jf.intel.com)
-	([10.23.219.52])
-	by orsmga001.jf.intel.com with ESMTP; 18 May 2015 12:17:52 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Mon, 18 May 2015 20:08:30 +0000 (UTC)
+Received: by qkai132 with SMTP id i132so50583296qka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 May 2015 13:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=HSh9aSXLq4fT9bnhocaTOECPeP8MiYcMpDZOVg5CaVg=;
+	b=qhkg/wORltLWzyEp3P+qlR5YUWwrvdDmdrCXq4GLxJG2USB0J8wXQtR47cZ5jpjTXi
+	/rq3k49DWqULghDWKUG26auIx3UWZwtjG1NuDX+TMpzI7S8QljOBD38ff4FEvLtXKa3J
+	IIQoZxvb6mGOaFy3yTnszuegftRY8ft4MuL8hz2vXGjCerMCFb8avQm/qnJC6qr2u/4l
+	n0y4f4gZmuUnutQqy+T5pLP1OG+PoASFUDLMa8+zEZvTcRMRnFysNFg+rwnMldPwR+Zw
+	XNzhfgbS44GPDhRxk2QwinqYpMwtNRciKVGUfAfaz9VdJ16jna/Q0y30jfbqsu3jIlLZ
+	244A==
+X-Received: by 10.140.51.106 with SMTP id t97mr31118662qga.44.1431979711113;
+	Mon, 18 May 2015 13:08:31 -0700 (PDT)
+Received: from ldnunes.lab.ossystems.com.br ([177.100.224.72])
+	by mx.google.com with ESMTPSA id 33sm1654018qkq.41.2015.05.18.13.08.28
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 May 2015 13:08:29 -0700 (PDT)
+Sender: Lucas Nunes <lucas.dutra.nunes@gmail.com>
+From: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 19:17:32 +0000
-Message-Id: <1431976652-15590-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-MIME-Version: 1.0
-Subject: [FIDO][PATCH] license_class: Add explicity avoid of CLOSED license in validations
+Date: Mon, 18 May 2015 17:08:17 -0300
+Message-Id: <1431979698-29379-1-git-send-email-ldnunes@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] cleanup-workdir: add a method for getting the build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 19:17:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 May 2015 20:08:32 -0000
 
-The CLOSED license isn't a generic license it is a set and can
-be any closed source license.
-
-[YOCTO #7752]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
 ---
- meta/classes/license.bbclass | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ scripts/cleanup-workdir | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 73a0e97..fdc1170 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -71,6 +71,11 @@ license_create_manifest() {
+diff --git a/scripts/cleanup-workdir b/scripts/cleanup-workdir
+index a7f5a3a..bf37f90 100755
+--- a/scripts/cleanup-workdir
++++ b/scripts/cleanup-workdir
+@@ -64,6 +64,9 @@ def get_cur_arch_dirs(workdir, arch_dirs):
+         m = re.match(pattern, output)
+         arch_dirs.append(m.group(1))
  
- 		lics="$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | sed "s/  */ /g" )"
- 		for lic in ${lics}; do
-+			# add explicity avoid of CLOSED license because isn't generic
-+			if [ "$lic" = "CLOSED" ]; then
-+				continue
-+			fi
++def get_build_dir():
++    return run_command('echo $BUILDDIR').strip()
 +
- 			# to reference a license file trim trailing + symbol
- 			if ! [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
- 				bbwarn "The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
-@@ -242,8 +247,10 @@ def find_license_files(d):
+ def main():
+     global parser
+     parser = optparse.OptionParser(
+@@ -77,7 +80,7 @@ will be deleted. Be CAUTIOUS.""")
  
-             lic_files_paths.append(("generic_" + license_type, os.path.join(license_source, spdx_generic)))
-         else:
--            # And here is where we warn people that their licenses are lousy
--            bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
-+            # Add explicity avoid of CLOSED license because this isn't generic
-+            if license_type != 'CLOSED':
-+                # And here is where we warn people that their licenses are lousy
-+                bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
-             pass
+     options, args = parser.parse_args(sys.argv)
  
-     if not generic_directory:
+-    builddir = run_command('echo $BUILDDIR').strip()
++    builddir = get_build_dir()
+     if len(builddir) == 0:
+         err_quit("Please source file \"oe-init-build-env\" first.\n")
+ 
 -- 
-1.8.4.5
+2.1.4
 
 
