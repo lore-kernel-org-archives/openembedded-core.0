@@ -1,39 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id F192E60138
+Return-Path: <psidhu@gateworks.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CFB2360125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 22:26:56 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so166775762pdb.0
+	Mon, 18 May 2015 23:05:55 +0000 (UTC)
+Received: by wibt6 with SMTP id t6so1346245wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 15:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=NbreiIPGbE6OQHgE/rjDUocf5KoAqd+D5PocvZ/I47c=;
-	b=KFZuRehSDeF+TBsJMv82tKdJZGE2VNUHjHmBVvjNwUsvEXZFjzA6PSh3qI7yRM49Az
-	KK53KdxcPcL7ao+P/C4Rkm10tZvdQpKqb/F/WwJJtu3yAe+qC4lMclcff8RHlwib8rTc
-	6MIvngISyhWxXgPkYgW4Og9Np20VQULsG/TEPuBYqfsjpyhhSy99mtF6Z9P2XVl0UEvy
-	ip+C4LG6we4yXP4l1I4Iik17XvOn0RXaNqV9L0JbvMiBofp/YZIrtMlpD7QVC3nvEpmD
-	RB5Usdh6kNQXhY75UoDhsh/xwJlA8ssVx0mJM7AOgVG6/vCgeyJZLrcM6s1IRzQTWPXE
-	Oj2Q==
+	Mon, 18 May 2015 16:05:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=V7IYQ03HexnNBLmsAH2gv0i3U9Tc9MqN0oypZTTqbRs=;
+	b=Vv2yT1/6CIj7WNcCjU95ywSqqqPOvHddOJzS5ucF/rTOoWRmVGR2gXNa6WRaL8JKME
+	LUll9X4kF6sW2WSCIX0FM24xtNM4xeuNI+PKznkcbvE7BE7cXJQaPZ3gDrdBfIOw8FmB
+	hVKVcUlgVfBnBsOgzxONoXOCA0E75bJsD5a2j2ZUffJcvVT7jM7PROlI9ODoML2kWI9t
+	ujbDS302kQuEEdNaNCXnckKyOzKXhXvIjRxwHBzQulgNMmH1XfgxC9NnoWKahDPnLQNe
+	mxwx1qpqL5eBNXztWDFnzO+1XTRwjnAAKumGjFoz9w64wHcBduMwqeBAelj+X5iXfRl0
+	mNSg==
+X-Gm-Message-State: ALoCoQlMVA4N/+xOq3yNylV3+XygkXCfNj8OZqh4ShEkRanXtCVL2dv8zPo03jDNffTUkEyFC6mR
+X-Received: by 10.180.84.168 with SMTP id a8mr26428756wiz.40.1431990357060;
+	Mon, 18 May 2015 16:05:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.66.233.132 with SMTP id tw4mr47823386pac.80.1431988017863;
-	Mon, 18 May 2015 15:26:57 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Mon, 18 May 2015 15:26:57 -0700 (PDT)
-In-Reply-To: <CABcZANk3s=5CAK+qQ2JySrzXsy2na0SBQv8E3N_m2Ei1bcOk+Q@mail.gmail.com>
-References: <1431979698-29379-1-git-send-email-ldnunes@ossystems.com.br>
-	<1431979698-29379-2-git-send-email-ldnunes@ossystems.com.br>
-	<CABcZANk3s=5CAK+qQ2JySrzXsy2na0SBQv8E3N_m2Ei1bcOk+Q@mail.gmail.com>
-Date: Mon, 18 May 2015 19:26:57 -0300
-X-Google-Sender-Auth: ZW_juNYsrfbSGTMd1-nKbfJlYes
-Message-ID: <CAP9ODKoHQiPV5nYJbDPi9afxfagoxZzwvLbhDvD68O06yP1m2g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.194.58.70 with HTTP; Mon, 18 May 2015 16:05:26 -0700 (PDT)
+In-Reply-To: <1429921386-17007-2-git-send-email-psidhu@gateworks.com>
+References: <1429921386-17007-1-git-send-email-psidhu@gateworks.com>
+	<1429921386-17007-2-git-send-email-psidhu@gateworks.com>
+From: Pushpal Sidhu <psidhu@gateworks.com>
+Date: Mon, 18 May 2015 16:05:26 -0700
+Message-ID: <CAD1M060jUQOR4XQZvNTtkZyscV3O-+e5D5mdEiN=5UXNErDwLg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cleanup-workdir: wait for bitbake instances to finish
+Subject: Re: [PATCH] image_types.bbclass: add support for multiple ubi sizes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +46,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 22:26:58 -0000
+X-List-Received-Date: Mon, 18 May 2015 23:05:57 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 18, 2015 at 7:23 PM, Christopher Larson <clarson@kergoth.com> wrote:
->
->
-> On Mon, May 18, 2015 at 1:08 PM, Lucas Dutra Nunes <ldnunes@ossystems.com.br> wrote:
->>
->> bitbake uses a lock file on the build dir, "bitbake.lock", to prevent it
->> from running before an instance has exited. And sometimes the
->> cleanup-workdir script can call bibake too many times, too fast, before
->> the lock has been released.
->>
->> By simply waiting that the lock has been released solves this problem.
->>
->> Signed-off-by: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
->
->
-> The fact that the bitbake UI can exit before the lock has been released is a bug. Not being able to assume bitbake is done by the time the bitbake command exits is not ideal, no one should have to block directly o the lock like this.
+Richard,
 
-Agreed so you would prefer this to be fixed there?
+Can I get some feedback/consumption on this?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+- Pushpal
+
+On Fri, Apr 24, 2015 at 5:23 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+> Add new FSTYPE called 'multiubi'. This new type has the ability to
+> create multple ubi's, something that's extremely useful on boards that
+> can include varying flash sizes (e.g. 256MB vs 2GB).
+>
+> Because we don't want to reuse code, I extracted the mkfs and ubinize
+> commands out to a new function that will handle the creation of both
+> multiple ubi's, as well as the 'ubi' FSTYPE (so as not to break current
+> boards).
+>
+> Due to the single processes nature of the OE when doing it's
+> 'create_image', this new multiubi_mkfs function also creates it's own
+> symlinks as well as cleans up it's own cfg file.
+>
+> Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
+> ---
+>  meta/classes/image_types.bbclass | 55 +++++++++++++++++++++++++++++++---------
+>  1 file changed, 43 insertions(+), 12 deletions(-)
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 72c7337..b250dbd 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -97,18 +97,48 @@ IMAGE_TYPEDEP_elf = "cpio.gz"
+>
+>  UBI_VOLNAME ?= "${MACHINE}-rootfs"
+>
+> -IMAGE_CMD_ubi () {
+> -       echo \[ubifs\] > ubinize.cfg
+> -       echo mode=ubi >> ubinize.cfg
+> -       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs >> ubinize.cfg
+> -       echo vol_id=0 >> ubinize.cfg
+> -       echo vol_type=dynamic >> ubinize.cfg
+> -       echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
+> -       echo vol_flags=autoresize >> ubinize.cfg
+> -       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}
+> -       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
+> +multiubi_mkfs() {
+> +       local mkubifs_args="$1"
+> +       local ubinize_args="$2"
+> +       local vname="_$3"
+> +
+> +       echo \[ubifs\] > ubinize${vname}.cfg
+> +       echo mode=ubi >> ubinize${vname}.cfg
+> +       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs >> ubinize${vname}.cfg
+> +       echo vol_id=0 >> ubinize${vname}.cfg
+> +       echo vol_type=dynamic >> ubinize${vname}.cfg
+> +       echo vol_name=${UBI_VOLNAME} >> ubinize${vname}.cfg
+> +       echo vol_flags=autoresize >> ubinize${vname}.cfg
+> +       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs ${mkubifs_args}
+> +       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubi ${ubinize_args} ubinize${vname}.cfg
+> +
+> +       # Cleanup cfg file
+> +       mv ubinize${vname}.cfg ${DEPLOY_DIR_IMAGE}/
+> +
+> +       # Create own symlink
+> +       cd ${DEPLOY_DIR_IMAGE}
+> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubifs ]; then
+> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubifs \
+> +               ${IMAGE_LINK_NAME}${vname}.ubifs
+> +       fi
+> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubi ]; then
+> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubi \
+> +               ${IMAGE_LINK_NAME}${vname}.ubi
+> +       fi
+> +       cd -
+> +}
+> +
+> +IMAGE_CMD_multiubi () {
+> +       # Split MKUBIFS_ARGS_<name> and UBINIZE_ARGS_<name>
+> +       for name in ${MULTIUBI_BUILD}; do
+> +               eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
+> +               eval local ubinize_args=\"\$UBINIZE_ARGS_${name}\"
+> +
+> +               multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
+> +       done
+>  }
+> -IMAGE_TYPEDEP_ubi = "ubifs"
+> +
+> +IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAME}""
+>
+>  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+>
+> @@ -139,6 +169,7 @@ IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+>  IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+>  IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+> +IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+>
+>  # This variable is available to request which values are suitable for IMAGE_FSTYPES
+>  IMAGE_TYPES = " \
+> @@ -151,7 +182,7 @@ IMAGE_TYPES = " \
+>      iso \
+>      hddimg \
+>      squashfs squashfs-xz squashfs-lzo \
+> -    ubi ubifs \
+> +    ubi ubifs multiubi \
+>      tar tar.gz tar.bz2 tar.xz tar.lz4 \
+>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+>      vmdk \
+> --
+> 2.3.5
+>
 
