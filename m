@@ -1,39 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E00F607BB
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 08FA765C7D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 16:50:03 +0000 (UTC)
-Received: by wgbgq6 with SMTP id gq6so21356098wgb.3
+	Mon, 18 May 2015 16:50:06 +0000 (UTC)
+Received: by wgjc11 with SMTP id c11so34083298wgj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 09:50:04 -0700 (PDT)
+	Mon, 18 May 2015 09:50:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=+u4E8ohZ3FdCYE8fHtOCvHuE06hdIo7sqZ54MDqwxgY=;
-	b=nIohMUzR34sCJ7LS+127VmGr/MZDthvpzAkJZgwOMq83nytr+vTjNMljf+iSQmP25P
-	FViiZhvjb3Vvi1mFPXWgz37AwJyMO0LQtoidzxNFUM3NR5t5o0vAbVdzMmgwZuprl17u
-	+9wlUmf0CAKzZBi/CNp8rIDlrMxhZdi2uh9nAl7JxuplSz08/KBpgNDMbyfDsqnmbRWG
-	F1Lx5FvSbNU7C5NA/HLqLOrPEzVoWDwcVPTcne9lsmYzQbrKbHz/7tCs+SULdWzrzf9H
-	12p7eQsNdCH2R15qg73z6pPel0AG0o1tVZnRk4rtg7bEdFInmmBEIJqZGkWz4RSfBULk
-	fh3A==
-X-Gm-Message-State: ALoCoQkIT4v02oRtmphF2RSRP6zU/v1iZqaYBBNWJRWoMqD/LKsTFRKqM8a/SBRNCTbhnIqS8CvK
-X-Received: by 10.194.216.230 with SMTP id ot6mr46874333wjc.68.1431967804767; 
-	Mon, 18 May 2015 09:50:04 -0700 (PDT)
+	bh=1bhn1lHW57CM2h6z0h0fFWqge91WNJbgYp8BmySee0I=;
+	b=YcK1Yk00VTEHWW4agZDihnNCx30s4pYxOWWiCU/8VBV3cg5N+O3pOSOh9l9ZNDNKHu
+	We3uurU1JvGPrr13Z/mTUX7ZjnHsj8qYITbXNM8kfrkq90gG87lAGZYuzkfU5yak/APw
+	oWH85cGsgzjadq0tn5Fc0HX5LoBDNjM8mVc0TUYWrxNoPmTPzSzbLxaHlM0whJjgUweq
+	BQWkfEgY/co/9+SfhlIhwblX6V1qv0tvSpe63SXz/WKyS+VYJabAO8irHcCh2b8wycxh
+	9Q0Z/xgCwbZPXC/Q0gWRHdsvlOpFb5XIP5wGwQQNc9aHVJhrOBqLFMHPFSu1XGCzQ3Ek
+	/TNg==
+X-Gm-Message-State: ALoCoQkERldWpNh3MosqortgkWmeWhgyNOUDaW8T0g90+ThQlz9uW2zwhRNovh3ulvPQusnNXcSS
+X-Received: by 10.194.61.171 with SMTP id q11mr40420591wjr.110.1431967807182; 
+	Mon, 18 May 2015 09:50:07 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id y7sm17725705wjw.16.2015.05.18.09.50.03
+	by mx.google.com with ESMTPSA id y7sm17725705wjw.16.2015.05.18.09.50.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 May 2015 09:50:04 -0700 (PDT)
+	Mon, 18 May 2015 09:50:06 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 May 2015 17:45:27 +0100
-Message-Id: <1431967531-25163-9-git-send-email-ross.burton@intel.com>
+Date: Mon, 18 May 2015 17:45:29 +0100
+Message-Id: <1431967531-25163-11-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1431967531-25163-1-git-send-email-ross.burton@intel.com>
 References: <1431967531-25163-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 09/13] libxrender: upgrade to 0.9.9
+Subject: [PATCH 11/13] libxt: upgrade to 1.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 16:50:05 -0000
+X-List-Received-Date: Mon, 18 May 2015 16:50:06 -0000
+
+Remove the custom compile logic as upstream now detects cross-compilation and
+uses CC_FOR_BUILD.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-lib/{libxrender_0.9.8.bb => libxrender_0.9.9.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxrender_0.9.8.bb => libxrender_0.9.9.bb} (82%)
+ .../xorg-lib/{libxt_1.1.4.bb => libxt_1.1.5.bb}           | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxt_1.1.4.bb => libxt_1.1.5.bb} (66%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrender_0.9.8.bb b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-lib/libxrender_0.9.8.bb
-rename to meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-index abd7767..9fde040 100644
---- a/meta/recipes-graphics/xorg-lib/libxrender_0.9.8.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-@@ -19,5 +19,5 @@ XORG_PN = "libXrender"
+diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
+similarity index 66%
+rename from meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb
+rename to meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
+index 9c1aaa4..c1ed0bb 100644
+--- a/meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
+@@ -29,16 +29,5 @@ BBCLASSEXTEND = "native"
  
- BBCLASSEXTEND = "native nativesdk"
+ EXTRA_OECONF += "--disable-xkb"
  
--SRC_URI[md5sum] = "2bd9a15fcf64d216e63b8d129e4f1f1c"
--SRC_URI[sha256sum] = "1d14b02f0060aec5d90dfdcf16a996f17002e515292906ed26e3dcbba0f4fc62"
-+SRC_URI[md5sum] = "5db92962b124ca3a8147daae4adbd622"
-+SRC_URI[sha256sum] = "fc2fe57980a14092426dffcd1f2d9de0987b9d40adea663bd70d6342c0e9be1a"
+-do_compile() {
+-	(
+-		unset CC LD CXX CCLD CFLAGS
+-		oe_runmake -C util 'XT_CFLAGS=' 'CC=${BUILD_CC}' 'LD=${BUILD_LD}' 'CXX=${BUILD_CXX}' 'CCLD=${BUILD_CCLD}' 'CFLAGS=-D_GNU_SOURCE -I${STAGING_INCDIR_NATIVE} ${BUILD_CFLAGS}' 'LDFLAGS=${BUILD_LDFLAGS}' 'CXXFLAGS=${BUILD_CXXFLAGS}' 'CPPFLAGS=${BUILD_CPPFLAGS}' makestrs
+-	)
+-	if [ "$?" != "0" ]; then
+-		exit 1
+-	fi
+-	oe_runmake
+-}
+-
+-SRC_URI[md5sum] = "03149823ae57bb02d0cec90d5b97d56c"
+-SRC_URI[sha256sum] = "843a97a988f5654872682a4120486d987d853a71651515472f55519ffae2dd57"
++SRC_URI[md5sum] = "8f5b5576fbabba29a05f3ca2226f74d3"
++SRC_URI[sha256sum] = "46eeb6be780211fdd98c5109286618f6707712235fdd19df4ce1e6954f349f1a"
 -- 
 2.1.4
 
