@@ -1,39 +1,22 @@
-Return-Path: <psidhu@gateworks.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CFB2360125
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BA9DB60962
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 23:05:55 +0000 (UTC)
-Received: by wibt6 with SMTP id t6so1346245wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 16:05:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=V7IYQ03HexnNBLmsAH2gv0i3U9Tc9MqN0oypZTTqbRs=;
-	b=Vv2yT1/6CIj7WNcCjU95ywSqqqPOvHddOJzS5ucF/rTOoWRmVGR2gXNa6WRaL8JKME
-	LUll9X4kF6sW2WSCIX0FM24xtNM4xeuNI+PKznkcbvE7BE7cXJQaPZ3gDrdBfIOw8FmB
-	hVKVcUlgVfBnBsOgzxONoXOCA0E75bJsD5a2j2ZUffJcvVT7jM7PROlI9ODoML2kWI9t
-	ujbDS302kQuEEdNaNCXnckKyOzKXhXvIjRxwHBzQulgNMmH1XfgxC9NnoWKahDPnLQNe
-	mxwx1qpqL5eBNXztWDFnzO+1XTRwjnAAKumGjFoz9w64wHcBduMwqeBAelj+X5iXfRl0
-	mNSg==
-X-Gm-Message-State: ALoCoQlMVA4N/+xOq3yNylV3+XygkXCfNj8OZqh4ShEkRanXtCVL2dv8zPo03jDNffTUkEyFC6mR
-X-Received: by 10.180.84.168 with SMTP id a8mr26428756wiz.40.1431990357060;
-	Mon, 18 May 2015 16:05:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.194.58.70 with HTTP; Mon, 18 May 2015 16:05:26 -0700 (PDT)
-In-Reply-To: <1429921386-17007-2-git-send-email-psidhu@gateworks.com>
-References: <1429921386-17007-1-git-send-email-psidhu@gateworks.com>
-	<1429921386-17007-2-git-send-email-psidhu@gateworks.com>
-From: Pushpal Sidhu <psidhu@gateworks.com>
-Date: Mon, 18 May 2015 16:05:26 -0700
-Message-ID: <CAD1M060jUQOR4XQZvNTtkZyscV3O-+e5D5mdEiN=5UXNErDwLg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: add support for multiple ubi sizes
+	Mon, 18 May 2015 23:28:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 18 May 2015 16:28:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,455,1427785200"; d="scan'208";a="712140366"
+Received: from ihoshino-mobl.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.255.86.199])
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2015 16:28:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 18 May 2015 16:28:35 -0700
+Message-Id: <1431991720-19892-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/5] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,116 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 May 2015 23:05:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 May 2015 23:28:41 -0000
 
-Richard,
+Ross, Richard:
 
-Can I get some feedback/consumption on this?
+Here is a set of updates to core support libraries and lsbinitscripts, 
+I tested these packages by building and running webkit and midori which
+are dependant on those libraries on hardware targets
 
-- Pushpal
+Thanks
+   Sau!
 
-On Fri, Apr 24, 2015 at 5:23 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
-> Add new FSTYPE called 'multiubi'. This new type has the ability to
-> create multple ubi's, something that's extremely useful on boards that
-> can include varying flash sizes (e.g. 256MB vs 2GB).
->
-> Because we don't want to reuse code, I extracted the mkfs and ubinize
-> commands out to a new function that will handle the creation of both
-> multiple ubi's, as well as the 'ubi' FSTYPE (so as not to break current
-> boards).
->
-> Due to the single processes nature of the OE when doing it's
-> 'create_image', this new multiubi_mkfs function also creates it's own
-> symlinks as well as cleans up it's own cfg file.
->
-> Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
-> ---
->  meta/classes/image_types.bbclass | 55 +++++++++++++++++++++++++++++++---------
->  1 file changed, 43 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 72c7337..b250dbd 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -97,18 +97,48 @@ IMAGE_TYPEDEP_elf = "cpio.gz"
->
->  UBI_VOLNAME ?= "${MACHINE}-rootfs"
->
-> -IMAGE_CMD_ubi () {
-> -       echo \[ubifs\] > ubinize.cfg
-> -       echo mode=ubi >> ubinize.cfg
-> -       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs >> ubinize.cfg
-> -       echo vol_id=0 >> ubinize.cfg
-> -       echo vol_type=dynamic >> ubinize.cfg
-> -       echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
-> -       echo vol_flags=autoresize >> ubinize.cfg
-> -       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}
-> -       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
-> +multiubi_mkfs() {
-> +       local mkubifs_args="$1"
-> +       local ubinize_args="$2"
-> +       local vname="_$3"
-> +
-> +       echo \[ubifs\] > ubinize${vname}.cfg
-> +       echo mode=ubi >> ubinize${vname}.cfg
-> +       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs >> ubinize${vname}.cfg
-> +       echo vol_id=0 >> ubinize${vname}.cfg
-> +       echo vol_type=dynamic >> ubinize${vname}.cfg
-> +       echo vol_name=${UBI_VOLNAME} >> ubinize${vname}.cfg
-> +       echo vol_flags=autoresize >> ubinize${vname}.cfg
-> +       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs ${mkubifs_args}
-> +       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubi ${ubinize_args} ubinize${vname}.cfg
-> +
-> +       # Cleanup cfg file
-> +       mv ubinize${vname}.cfg ${DEPLOY_DIR_IMAGE}/
-> +
-> +       # Create own symlink
-> +       cd ${DEPLOY_DIR_IMAGE}
-> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubifs ]; then
-> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubifs \
-> +               ${IMAGE_LINK_NAME}${vname}.ubifs
-> +       fi
-> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubi ]; then
-> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubi \
-> +               ${IMAGE_LINK_NAME}${vname}.ubi
-> +       fi
-> +       cd -
-> +}
-> +
-> +IMAGE_CMD_multiubi () {
-> +       # Split MKUBIFS_ARGS_<name> and UBINIZE_ARGS_<name>
-> +       for name in ${MULTIUBI_BUILD}; do
-> +               eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
-> +               eval local ubinize_args=\"\$UBINIZE_ARGS_${name}\"
-> +
-> +               multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
-> +       done
->  }
-> -IMAGE_TYPEDEP_ubi = "ubifs"
-> +
-> +IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAME}""
->
->  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
->
-> @@ -139,6 +169,7 @@ IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
->  IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->  IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
-> +IMAGE_DEPENDS_multiubi = "mtd-utils-native"
->
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
->  IMAGE_TYPES = " \
-> @@ -151,7 +182,7 @@ IMAGE_TYPES = " \
->      iso \
->      hddimg \
->      squashfs squashfs-xz squashfs-lzo \
-> -    ubi ubifs \
-> +    ubi ubifs multiubi \
->      tar tar.gz tar.bz2 tar.xz tar.lz4 \
->      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
->      vmdk \
-> --
-> 2.3.5
->
+
+Saul Wold (5):
+  libidn: Upgrade to 1.30
+  libksba: Upgrade to 1.3.3
+  libinitscripts: Upgrade to 9.63
+  msmtp: Upgrade to 1.6.2
+  liburcu: Upgrade to 0.8.7
+
+ .../recipes-extended/libidn/{libidn_1.29.bb => libidn_1.30.bb} | 10 +++++-----
+ .../lsb/{lsbinitscripts_9.61.bb => lsbinitscripts_9.63.bb}     |  6 +++---
+ meta/recipes-extended/msmtp/{msmtp_1.6.1.bb => msmtp_1.6.2.bb} |  4 ++--
+ .../libksba/{libksba_1.3.2.bb => libksba_1.3.3.bb}             |  4 ++--
+ .../liburcu/{liburcu_0.8.6.bb => liburcu_0.8.7.bb}             |  4 ++--
+ 5 files changed, 14 insertions(+), 14 deletions(-)
+ rename meta/recipes-extended/libidn/{libidn_1.29.bb => libidn_1.30.bb} (75%)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.61.bb => lsbinitscripts_9.63.bb} (80%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.6.1.bb => msmtp_1.6.2.bb} (86%)
+ rename meta/recipes-support/libksba/{libksba_1.3.2.bb => libksba_1.3.3.bb} (86%)
+ rename meta/recipes-support/liburcu/{liburcu_0.8.6.bb => liburcu_0.8.7.bb} (83%)
+
+-- 
+2.1.0
+
 
