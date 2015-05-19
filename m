@@ -1,20 +1,32 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EF1D60125
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id EB535600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 11:05:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5D694601A4D
-Message-ID: <555B190F.1070300@collabora.co.uk>
-Date: Tue, 19 May 2015 12:05:51 +0100
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Tue, 19 May 2015 11:47:49 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0224.002; Tue, 19 May 2015 13:47:46 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: 'Paul Eggleton' <paul.eggleton@linux.intel.com>, 'Paul Barker'
+	<paul@paulbarker.me.uk>, Maxin John <Maxin.John@enea.com>
+Thread-Topic: [OE-core] opkg and gpg signed ipk packages
+Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyCAB70BcA==
+Date: Tue, 19 May 2015 11:47:45 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
+	<20150508162311.GA20977@bang.betafive.co.uk>
+	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
+	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
+	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: Re: [fido][PATCH] e2fsprogs: install populate-extfs.sh
+Cc: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: opkg and gpg signed ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,47 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 11:05:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 May 2015 11:47:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Martin,
 
-I've queued this in my fido-next branch on openembedded-core-contrib.
-
-Regards,
-
-Joshua
-
-On 16/05/15 05:58, Martin Jansa wrote:
-> From: Martin Jansa <martin.jansa@gmail.com>
->
-> * install populate-extfs.sh from contrib, be aware that in order
->    to use it you need to set DEBUGFS shell variable, otherwise it will
->    try to use debugfs from relative path which is almost always
->    incorrect:
->      CONTRIB_DIR=$(dirname $(readlink -f $0))
->      DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> index 66065bc..abc959f 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> @@ -54,6 +54,8 @@ do_install () {
->   	oe_multilib_header ext2fs/ext2_types.h
->   	install -d ${D}${base_bindir}
->   	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
-> +
-> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
->   }
->
->   do_install_append_class-target() {
+> > I'm guessing you would want something like this in your custom distro
+> > config (or local.conf if you must):
+> >
+> > PACKAGECONFIG_append_pn-opkg =3D " sha256"
+> > PACKAGECONFIG_append_pn-opkg-native =3D " sha256"
 >
 
+Thanks a lot guys for your help, this is now working :)
+There is support for sha256 in opkg but not in the opkg-utils.=20
+opkg-utils (opkg.py) just uses md5 as default option. I changed=20
+=20
+opkg.py:
+........
+        # compute the MD5.
+        if not self.fn:
+            self.md5 =3D 'Unknown'
+        else:
+            f =3D open(self.fn, "rb")
+            sum =3D hashlib.md5()=20
+to
+            sum =3D hashlib.sha256()
+
+and now I get checksum sha256 in the "Packages" file:
+
+SHA256Sum: 6be1fb5b9dab3de5848fd578d515d05adc5c6cd3b0009f8c1b13ab1250cee594
+
+Do you think this patch would be of interest for someone?=20
+
+//Sona
 
