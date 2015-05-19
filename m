@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE03E60168
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BA4B860168
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 08:29:18 +0000 (UTC)
+	Tue, 19 May 2015 08:29:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4J8TJOG004468
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4J8TKVP025190
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 01:29:19 -0700 (PDT)
+	Tue, 19 May 2015 01:29:20 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.153) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 19 May 2015 01:29:18 -0700
+	14.3.224.2; Tue, 19 May 2015 01:29:19 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 May 2015 16:29:28 +0800
-Message-ID: <cover.1432024013.git.Qi.Chen@windriver.com>
+Date: Tue, 19 May 2015 16:29:29 +0800
+Message-ID: <971f18fc4a97344769e54313a78898f86f520a7e.1432024013.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1432024013.git.Qi.Chen@windriver.com>
+References: <cover.1432024013.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] buildstats-summary: add eventmask
+Subject: [PATCH 1/1] buildstats-summary: add eventmask
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,22 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 19 May 2015 08:29:19 -0000
 Content-Type: text/plain
 
-The following changes since commit 7ffe10df73cc20d10fcd41b121074445273bd60e:
+Add eventmask for buildstats_summary handler.
 
-  license_class: license_create_manifest improvment (2015-05-09 22:26:02 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/buildstats-summary
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/buildstats-summary
-
-Chen Qi (1):
-  buildstats-summary: add eventmask
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/classes/buildstats-summary.bbclass | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/buildstats-summary.bbclass
+index c8fbb2f..7bd528e 100644
+--- a/meta/classes/buildstats-summary.bbclass
++++ b/meta/classes/buildstats-summary.bbclass
+@@ -37,3 +37,4 @@ python buildstats_summary () {
+             bb.note("  {0}: {1}% sstate reuse ({2} setscene, {3} scratch)".format(t, 100*len(sstate)/(len(sstate)+len(no_sstate)), len(sstate), len(no_sstate)))
+ }
+ addhandler buildstats_summary
++buildstats_summary[eventmask] = "bb.event.BuildCompleted"
 -- 
 1.9.1
 
