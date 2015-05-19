@@ -1,34 +1,28 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FD9460168
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C47370338
 	for <openembedded-core@openembedded.org>;
-	Tue, 19 May 2015 15:35:01 +0000 (UTC)
-Received: by oica37 with SMTP id a37so13934298oic.0
-	for <openembedded-core@openembedded.org>;
-	Tue, 19 May 2015 08:35:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xyrt+rD4XHG0EnoZ4+k5F942/2AqZ5EaG7LfxkdF4AY=;
-	b=f4acSHM4YRXiLpsysCmxDCKa0L3C+j0VcIrS/9JHStPq2/zCpcxg8/NJkvrJuhD2zL
-	9h5PC90AnbDfq4dmkSeYutoWZcMVcnN5+OTC8KEH8peFN361i2MwjjzQwwVyRALg+zNi
-	6F5fh47STPC8NXN+DAPI6/6H2DOuXtaCzh5dkSzf2jcDsm1Q56rKe1YxZ/miuFKQyFH6
-	z3t0TVOdgNq3OwOatSB9wdxs7txyqgAY8CSoIPQOLebRmKNyymHuiES+Jj2NCyHsKBKn
-	i0nazxk4pMwnzhOGmJ6MAUkaSQBbdQTSDj2BLmv3bCZwKFBcvFPgVhL3/PjcHEOyBCU2
-	7o/g==
-X-Gm-Message-State: ALoCoQkVr9fQ1QTmXPUTtdbunTfC74NHYCn+Gfn0Qtg1w1XvwY2ggrr2CRvCkLrBu5kl2sRQsNzM
-X-Received: by 10.60.40.163 with SMTP id y3mr24585328oek.34.1432049703076;
-	Tue, 19 May 2015 08:35:03 -0700 (PDT)
+	Tue, 19 May 2015 15:43:47 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id B7C09F811E6; Tue, 19 May 2015 09:43:48 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4D81CF811E3;
+	Tue, 19 May 2015 09:43:48 -0600 (MDT)
+Message-ID: <555B5A3F.2070103@mlbassoc.com>
+Date: Tue, 19 May 2015 09:43:59 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.76.37.200 with HTTP; Tue, 19 May 2015 08:34:42 -0700 (PDT)
-In-Reply-To: <555B53AB.2010804@mlbassoc.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 References: <555B53AB.2010804@mlbassoc.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 19 May 2015 17:34:42 +0200
-Message-ID: <CAP71WjyCqH34ULgHUmGx4S6bx0fm4gu2dNnOiLmZUZ0mQ4oM8A@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
+	<CAP71WjyCqH34ULgHUmGx4S6bx0fm4gu2dNnOiLmZUZ0mQ4oM8A@mail.gmail.com>
+In-Reply-To: <CAP71WjyCqH34ULgHUmGx4S6bx0fm4gu2dNnOiLmZUZ0mQ4oM8A@mail.gmail.com>
 Cc: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
 Subject: Re: media player (gtk-play)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,26 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 15:35:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 19 May 2015 15:43:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 19, 2015 at 5:15 PM, Gary Thomas <gary@mlbassoc.com> wrote:
-> Do you know if there is a way to tell gtk-play what gstreamer
-> back-end(s) to use?  In particular, for my i.MX6 board, it is
-> not choosing the video plugin I think it should and it would be
-> nice to test if it does the right thing if the correct plugin
-> is used.
+On 2015-05-19 09:34, Nicolas Dechesne wrote:
+> On Tue, May 19, 2015 at 5:15 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>> Do you know if there is a way to tell gtk-play what gstreamer
+>> back-end(s) to use?  In particular, for my i.MX6 board, it is
+>> not choosing the video plugin I think it should and it would be
+>> nice to test if it does the right thing if the correct plugin
+>> is used.
+>
+> by video plugin, you mean the decoder or the video sink?
+>
+> if it's the sink:
+>
+> gst-play --videosink <foo> --audiosink <bar>
 
-by video plugin, you mean the decoder or the video sink?
+This is what I'm looking for except I need to send these to gtk-play,
+the GUI front-end.
 
-if it's the sink:
+>
+> if it's the decoder, you can't choose on the command line, the
+> application will just rely on playbin, so you need to configure your
+> plugins (and their priorities) so that playbin would pick the most
+> appropriate plugin.
+>
+> cheers.
+>
 
-gst-play --videosink <foo> --audiosink <bar>
-
-if it's the decoder, you can't choose on the command line, the
-application will just rely on playbin, so you need to configure your
-plugins (and their priorities) so that playbin would pick the most
-appropriate plugin.
-
-cheers.
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
