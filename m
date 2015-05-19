@@ -1,41 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B642160962
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AAE060125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 01:16:45 +0000 (UTC)
-Received: by pacwv17 with SMTP id wv17so460738pac.2
+	Tue, 19 May 2015 01:39:51 +0000 (UTC)
+Received: by pabts4 with SMTP id ts4so1079107pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 18:16:46 -0700 (PDT)
+	Mon, 18 May 2015 18:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=SQ8WYYCo3ptEeR2JjqCCWQb5KyqVnogm1pwg8t7vs5o=;
-	b=T3QznQ9jDvKDJLSJQGjQ1DAUuZNU/dVn6YlElXFZeVgIJOh3xxZOgG9caMeTVeuuTm
-	Wo9ytxm83K2bzIU9749pJyGnaJSJ+m5nZ8Wfq2tVrfO5PVNqRSHn3tkj7CrfcQwTrgCI
-	maJhbDsB5Cd7UOk+BoUbBn5gpYaUC/Rwfh6l7N7etnmMLMDsqW0yI8Yu+LMpKjX1THTo
-	i/kQGy2daWTsG+uYc/Ye/JUEP54QurXnlu/IIAu1op9s1zOQshQ49trJI+OTyJMbGd4k
-	rTskwuC63SqSRF7/SrllyE8r4OfsWRqbp7zCnakoKobVSOTadkEWQTu5SygvFRU4R9Vo
-	nvwQ==
-X-Received: by 10.70.95.228 with SMTP id dn4mr49178285pdb.89.1431998206331;
-	Mon, 18 May 2015 18:16:46 -0700 (PDT)
+	bh=S2fxeVfrMM4Ts7vtz/vcjWUQ0hl+AY53m7QtU9pDers=;
+	b=hBb9am9cNvlCNw1/l1XKpzOrBZ9VoB7YNasl1NCOtTS52oFoyxR14g5sI2ibbst3NA
+	uevfsrBW4R12fDL3lp8zd24GPHx/xmCMHvEEoaG62nzOa+HEFssintZA2sW5VL4CQ9a9
+	tmpAEvKw2IiV9QR8eiCon+YK/D87oh2MJz+z+1qN6sDXiuLxfZcC6lbpIBQoZAe5kbtv
+	lC+KdI72KjZqQYSIy5mY1YPRKvzKhwwymrtYvj6RpXGDVrLfumYnQyqSlb/pJj7PSpdK
+	n1bMOkuJrrJqv5YtQ1TQjZIoSwW/eEeg7Lb0qXk7QsvS8+5MEDoYs0y5KbyUq2+EnQiN
+	C3wQ==
+X-Received: by 10.66.249.101 with SMTP id yt5mr48980072pac.116.1431999593097; 
+	Mon, 18 May 2015 18:39:53 -0700 (PDT)
 Received: from ?IPv6:2601:9:3580:84c:d1bd:ca93:84da:dce8?
 	([2601:9:3580:84c:d1bd:ca93:84da:dce8])
 	by mx.google.com with ESMTPSA id
-	oj10sm11241620pdb.38.2015.05.18.18.16.45
+	kr9sm11243149pbc.34.2015.05.18.18.39.52
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 18 May 2015 18:16:45 -0700 (PDT)
+	Mon, 18 May 2015 18:39:52 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
 X-Pgp-Agent: GPGMail 2.5b6
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CADcoSRSsOAGBBLzQxYcDwat-DizoWXuiPzPwPnqO5FutWsc8bQ@mail.gmail.com>
-Date: Mon, 18 May 2015 18:16:38 -0700
-Message-Id: <733D687B-6363-4793-9B74-F0D20D769ED4@gmail.com>
-References: <CADcoSRSsOAGBBLzQxYcDwat-DizoWXuiPzPwPnqO5FutWsc8bQ@mail.gmail.com>
-To: mirgu <mmirgu@gmail.com>
+In-Reply-To: <268bc2f75252f5da7609501fe931810528ffa405.1431591045.git.liezhi.yang@windriver.com>
+Date: Mon, 18 May 2015 18:39:51 -0700
+Message-Id: <B085B186-562A-4004-8561-ABF22CC2F530@gmail.com>
+References: <cover.1431591045.git.liezhi.yang@windriver.com>
+	<268bc2f75252f5da7609501fe931810528ffa405.1431591045.git.liezhi.yang@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 X-Mailer: Apple Mail (2.2098)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: BITRATE E2 extension
+Subject: Re: [PATCH 1/1] gcc-5: fix installed-vs-shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,69 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 01:16:45 -0000
-X-Groupsio-MsgNum: 65689
+X-List-Received-Date: Tue, 19 May 2015 01:39:52 -0000
+X-Groupsio-MsgNum: 65690
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832";
+	boundary="Apple-Mail=_A5FFDD02-1547-4689-89C6-A78BA2F6CE61";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD"
-
---Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD
+--Apple-Mail=_A5FFDD02-1547-4689-89C6-A78BA2F6CE61
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On May 12, 2015, at 11:28 PM, mirgu <mmirgu@gmail.com> wrote:
+> On May 14, 2015, at 1:11 AM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
 >=20
-> Hello,
+> gcc-5.1.0: gcc: Files/directories were installed but not shipped in =
+any package:
+>  /usr/bin/i586-poky-linux-gcov-tool
 >=20
-> I would like to ask you about this plugin "Package: =
-enigma2-plugin-extensions-bitrate". I have a STB Golden Interstar Xpeed =
-LX3 and installed this plugin. I tried it in every accessible Enigma2 =
-for LX3 and in none of them did not functioned it.
-> Could you help me please.
 
-if you add more details to what errors you see and any additional =
-information, you might have some folks who could catch your line
-of thought. Otherwise, its pretty difficult unless someone ran into your =
-issue and can relate to it.
+this is ok
+
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-target.inc |    8 ++++++--
+> 1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc =
+b/meta/recipes-devtools/gcc/gcc-target.inc
+> index e348517..5d31446 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -83,8 +83,12 @@ FILES_cpp =3D "\
+>     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1"
+> FILES_cpp-symlinks =3D "${bindir}/cpp"
+>=20
+> -FILES_gcov =3D "${bindir}/${TARGET_PREFIX}gcov"
+> -FILES_gcov-symlinks =3D "${bindir}/gcov"
+> +FILES_gcov =3D "${bindir}/${TARGET_PREFIX}gcov \
+> +    ${bindir}/${TARGET_PREFIX}gcov-tool \
+> +"
+> +FILES_gcov-symlinks =3D "${bindir}/gcov \
+> +    ${bindir}/gcov-tool \
+> +"
+>=20
+> FILES_g++ =3D "\
+>     ${bindir}/${TARGET_PREFIX}g++ \
+> --
+> 1.7.9.5
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On May 12, 2015, at 11:28 PM, mirgu &lt;<a =
-href=3D"mailto:mmirgu@gmail.com" class=3D"">mmirgu@gmail.com</a>&gt; =
-wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><div =
-dir=3D"ltr" class=3D""><span style=3D"font-size:12.8000001907349px" =
-class=3D"">Hello,</span><div style=3D"font-size:12.8000001907349px" =
-class=3D""><br class=3D""></div><div =
-style=3D"font-size:12.8000001907349px" class=3D"">I would like to ask =
-you about this plugin "Package: enigma2-plugin-extensions-bitrate". I =
-have a STB Golden Interstar Xpeed LX3 and installed this plugin. I tried =
-it in every accessible Enigma2 for LX3 and in none of them did not =
-functioned it.</div><div style=3D"font-size:12.8000001907349px" =
-class=3D"">Could you help me =
-please.</div></div></div></blockquote><div><br class=3D""></div><div>if =
-you add more details to what errors you see and any additional =
-information, you might have some folks who could catch your =
-line</div><div>of thought. Otherwise, its pretty difficult unless =
-someone ran into your issue and can relate to it.</div><div><br =
-class=3D""></div></div></body></html>=
-
---Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD--
-
---Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832
+--Apple-Mail=_A5FFDD02-1547-4689-89C6-A78BA2F6CE61
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -121,9 +117,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlVajvwACgkQuwUzVZGdMxROXQCgkFlrslSe7k3Jz+HBkIGF5QZ5
-MmMAn2NiZ5gJtk00/dxrGF8mxa3UTCu7
-=oL8l
+iEYEARECAAYFAlValGcACgkQuwUzVZGdMxSNWQCgg5RRTzR5S04x2btlg3MR31ho
+mFIAn2/qnhA9sTC0BIJVet3b0+3TnOJs
+=qHbs
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832--
+--Apple-Mail=_A5FFDD02-1547-4689-89C6-A78BA2F6CE61--
