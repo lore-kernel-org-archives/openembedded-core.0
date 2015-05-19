@@ -1,38 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 80BC2601DF
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E4EF5601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 14:42:56 +0000 (UTC)
-Received: by qkgv12 with SMTP id v12so11068969qkg.0
+	Tue, 19 May 2015 14:49:06 +0000 (UTC)
+Received: by qgew3 with SMTP id w3so8350677qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 07:42:56 -0700 (PDT)
+	Tue, 19 May 2015 07:49:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Unx5DvyZUH3T98s6GbYEakgMJlPpxh4S/FTQf7s55w0=;
-	b=jxi+mw7T42xd9eMkgR4K0AV1DUG6xjMABnEDe082o3vTDMFgrGN5opqaNWfogXcGst
-	kaT/7xaUrP7MuSCqJiOYeZcQtIDb/WRsRyEElUbUtLoi44loISQc3VqQuIVVsmR37BLI
-	sshrNts44KmtSyyrU7zBmcyHb7gDUt3YUhI+Uy8GTxc0ONRFgWMUIlI4wTJ9NHAcN1cc
-	hsuF4tyV6UrqYwfo3NcUZsH/eOIh+pmzt0XLM1PiD+/w2AE0g2UGwMuAMtOXCmS7MoJb
-	hVguwDtBN7T1DMNIb5TBXUesOhfTa0msL3CHoJaydcbW57WjnSMLkAo1UwvIF+7lDnTw
-	5IFw==
-X-Gm-Message-State: ALoCoQkigYP0Kq8CUy5iiQ/VCvBcIHqdRqR67XOnUXgbEmZOfWEu+eXfq5FnRu4gwHdFJvicws/J
-X-Received: by 10.140.88.35 with SMTP id s32mr35638064qgd.59.1432046576630;
-	Tue, 19 May 2015 07:42:56 -0700 (PDT)
+	bh=ROOe7QQf3IYyfkTfUTbZLylSzrRUB9vA/LQU44eQ/Io=;
+	b=g3lqPt9DxmrMAhZcWTtqxDaXblwTJWV0yvH3t9opMotzN0MNimdxw8amaHSN87Gq2R
+	t/OafuHUaYALLWGF4HhJJrVd5PD9wxbg5m9pmBmJyre3oiO6FIBZvQDT7PLRLNJRF4Mr
+	XN9rIdoExLmHk6/OueH3qJLHMJKfSNtkFhrSamyUyYlMpdyWcRhU5Qr2pxlAoRF8rPdz
+	gnXUwz69Rv0YGFXDGrWeOccMPCFTPehX2c9mGWVSkX0rCQPZ2vLr/zABFtUbGWJkWhRS
+	Js6l5SNa5sk+qx5YAh2c5cDu9BdbeW7j1v78o+hjJo0Ah8Qclz6T5Y3VPKdRKuOe/WaZ
+	sQPw==
+X-Gm-Message-State: ALoCoQlEQH7tRthOlNN3hIfhmdn9onfqb0uwujAsol/xd/wcMOSfx3xbXsklRFVo1utqdjOI8Omv
+X-Received: by 10.55.20.10 with SMTP id e10mr60603743qkh.36.1432046946433;
+	Tue, 19 May 2015 07:49:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 19 May 2015 07:42:36 -0700 (PDT)
-In-Reply-To: <CAJTo0LYgeSkvr+U1OZG70PvH-OXY9suxkK=7wHM4ecOY8jbKCQ@mail.gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 19 May 2015 07:48:46 -0700 (PDT)
+In-Reply-To: <1431952843-25139-4-git-send-email-tanu.kaskinen@linux.intel.com>
 References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
-	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
-	<CAJTo0LYgeSkvr+U1OZG70PvH-OXY9suxkK=7wHM4ecOY8jbKCQ@mail.gmail.com>
+	<1431952843-25139-4-git-send-email-tanu.kaskinen@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 May 2015 15:42:36 +0100
-Message-ID: <CAJTo0Lbf1chJC0WqbwHFVomgc6r2i_kxsEnzXv3uN6M9sOvzmg@mail.gmail.com>
+Date: Tue, 19 May 2015 15:48:46 +0100
+Message-ID: <CAJTo0LaGWvY58_ffJDkALxdY1nUNShUP30O-t7Bi+jec6qjUmQ@mail.gmail.com>
 To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
+Subject: Re: [PATCH 3/5] pulseaudio: move client.conf to a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,66 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 14:42:57 -0000
-Content-Type: multipart/alternative; boundary=001a11c11d028093670516705357
+X-List-Received-Date: Tue, 19 May 2015 14:49:07 -0000
+Content-Type: multipart/alternative; boundary=001a1137de328b4bc8051670697d
 
---001a11c11d028093670516705357
+--001a1137de328b4bc8051670697d
 Content-Type: text/plain; charset=UTF-8
 
-On 19 May 2015 at 15:31, Burton, Ross <ross.burton@intel.com> wrote:
+On 18 May 2015 at 13:40, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+wrote:
 
-> On 18 May 2015 at 13:40, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-> wrote:
->
->> +# The resampler plugins create some symlinks, which have to be added to
->> FILES
->> +# manually, since do_split_packages() rejects symlinks. The symlinks
->> also cause
->> +# QA errors, but those errors are false positives, so we disable the QA
->> checks.
->>
->
-> Not true, there's an allow_symlink (default False) option to
-> do_split_packages, so this can be cleaned up.
->
-> Assuming that those symlinks are versioning (and so pointless for loadable
-> modules), a neater fix might be to patch in libtool -avoid-version.
+> +REDPENDS_libpulse += "pulseaudio-client-conf"
 >
 
-Investigate *before* sending, Ross.
-
-Just pass allow_links=True to do_split_packages() and all of this can be
-deleted.
+Typo, RDEPENDS.
 
 Ross
 
---001a11c11d028093670516705357
+--001a1137de328b4bc8051670697d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 May 2015 at 15:31, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"><=
-div class=3D"gmail_quote"><span class=3D"">On 18 May 2015 at 13:40, Tanu Ka=
-skinen <span dir=3D"ltr">&lt;<a href=3D"mailto:tanu.kaskinen@linux.intel.co=
-m" target=3D"_blank">tanu.kaskinen@linux.intel.com</a>&gt;</span> wrote:<br=
-></span><span class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overf=
-low:hidden">+# The resampler plugins create some symlinks, which have to be=
- added to FILES<br>
-+# manually, since do_split_packages() rejects symlinks. The symlinks also =
-cause<br>
-+# QA errors, but those errors are false positives, so we disable the QA ch=
-ecks.<br></div></blockquote></span></div><br>Not true, there&#39;s an allow=
-_symlink (default False) option to do_split_packages, so this can be cleane=
-d up.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Assuming that those symlinks are versioning (and so pointless for loadable =
-modules), a neater fix might be to patch in libtool -avoid-version.</div></=
-blockquote></div><br>Investigate *before* sending, Ross.</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">Just pass allow_links=3D=
-True to do_split_packages() and all of this can be deleted.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 18 May 2015 at 13:40, Tanu Kaskinen <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:tanu.kaskinen@linux.intel.com" target=3D"_blank">tanu.kaskinen@linux.in=
+tel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:7se" class=3D"a3s" style=3D"overflow:hidden">+REDPENDS_libpulse +=3D &quot=
+;pulseaudio-client-conf&quot;<br></div></blockquote></div><br>Typo, RDEPEND=
+S.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
 
---001a11c11d028093670516705357--
+--001a1137de328b4bc8051670697d--
