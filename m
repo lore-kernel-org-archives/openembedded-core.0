@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A05F601E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 65D41601E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 14:23:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4JENeVL015095
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 19 May 2015 14:27:56 +0000 (UTC)
+Received: by qcblr10 with SMTP id lr10so7280963qcb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 07:23:40 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 19 May 2015 07:23:40 -0700
-Message-ID: <555B476B.9040400@windriver.com>
-Date: Tue, 19 May 2015 09:23:39 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Tue, 19 May 2015 07:27:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tVgUidZfQNAgnW3axUY5/1DTctXVUcwMp+RIWJzYijc=;
+	b=fKaL/ssSk00ya3n3R7ydc1LzEoDdxSz2KAp7sknAVsPeD0jhZZKV5PGdDIawD6iIBR
+	md9jq+r9heFlmAmd915p/+nAbAhhxAVOkFcfxmtRdemGSUo6g/9niO91QI1RT2hEe03m
+	2wPc4EakRvKqXDRlrKyew9pXTjcrb/p7M0mt9fouWtXQHWOms/AmpC4SL7LK2rJ4sm0P
+	sgwPEFHGsQS3xxN+vREzG4JA5sbpCAqZWR8m41gKL4T6d0PAzvyRsqN4bebBx3nWcFg7
+	tWsoyGVp/OhNxJCtcZcgWddwppRMytWR8PXuDqBxw1jTrvOhAVZra0DqjwpmPQfhuCro
+	d2Uw==
+X-Gm-Message-State: ALoCoQm4wRz74oXZDiyNTIF/Ylsqk2bzi+fADYUFlzc0s7a9op/NdC9hEt6HYlgeaBxC49rtuK1s
+X-Received: by 10.55.40.18 with SMTP id o18mr508160qkh.58.1432045677967; Tue,
+	19 May 2015 07:27:57 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>	<20150508162311.GA20977@bang.betafive.co.uk>	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
-	<CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
-Subject: Re: opkg and gpg signed ipk packages
+Received: by 10.140.102.231 with HTTP; Tue, 19 May 2015 07:27:36 -0700 (PDT)
+In-Reply-To: <1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
+References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
+	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 May 2015 15:27:36 +0100
+Message-ID: <CAJTo0LacJyy9q9NOH5UAW3gihD-uDpAWRiru5mkbpNLrUCPepg@mail.gmail.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 14:23:40 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 May 2015 14:27:58 -0000
+Content-Type: multipart/alternative; boundary=001a11440fb8f013e60516701d59
 
-On 5/19/15 7:01 AM, Otavio Salvador wrote:
-> On Tue, May 19, 2015 at 8:47 AM, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
->>
->>>> I'm guessing you would want something like this in your custom distro
->>>> config (or local.conf if you must):
->>>>
->>>> PACKAGECONFIG_append_pn-opkg = " sha256"
->>>> PACKAGECONFIG_append_pn-opkg-native = " sha256"
->>>
->>
->> Thanks a lot guys for your help, this is now working :)
->> There is support for sha256 in opkg but not in the opkg-utils.
->> opkg-utils (opkg.py) just uses md5 as default option. I changed
->>
->> opkg.py:
->> ........
->>         # compute the MD5.
->>         if not self.fn:
->>             self.md5 = 'Unknown'
->>         else:
->>             f = open(self.fn, "rb")
->>             sum = hashlib.md5()
->> to
->>             sum = hashlib.sha256()
->>
->> and now I get checksum sha256 in the "Packages" file:
->>
->> SHA256Sum: 6be1fb5b9dab3de5848fd578d515d05adc5c6cd3b0009f8c1b13ab1250cee594
->>
->> Do you think this patch would be of interest for someone?
-> 
-> Yes but it would be good to make it choosable at distro level.
+--001a11440fb8f013e60516701d59
+Content-Type: text/plain; charset=UTF-8
 
-I agree.. and RPM(5) has the ability to switch the default checksum from MD5 to
-others as well.  So a global distro setting would make sense.  (I don't know how
-the deb package manager is configured.)
+On 18 May 2015 at 13:40, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+wrote:
 
-Let me know if we come up with a distribution level switch (or if we just want
-to make the policy be sha256, as it's definitely better then MD5) and I can help
-make the RPM configuration change as well.
+> When PulseAudio is installed, alsa-plugins is needed to provide
+> compatibility for ALSA applications.
+>
+> The dependencies are set up so that pulseaudio-server depends on
+> alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends
+> on the PulseAudio plugins. This should make the ALSA->PulseAudio
+> compatibility configuration work out of the box, while leaving the
+> PulseAudio specific configuration out on systems that don't have
+> pulseaudio-server installed.
+>
 
---Mark
+What layer did this recipe originally come from?
 
+Ross
+
+--001a11440fb8f013e60516701d59
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 May 2015 at 13:40, Tanu Kaskinen <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:tanu.kaskinen@linux.intel.com" target=3D"_blank">tanu.kaskinen@linux.in=
+tel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:9in" class=3D"a3s" style=3D"overflow:hidden">When PulseAudio is installed,=
+ alsa-plugins is needed to provide<br>
+compatibility for ALSA applications.<br>
+<br>
+The dependencies are set up so that pulseaudio-server depends on<br>
+alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends<br>
+on the PulseAudio plugins. This should make the ALSA-&gt;PulseAudio<br>
+compatibility configuration work out of the box, while leaving the<br>
+PulseAudio specific configuration out on systems that don&#39;t have<br>
+pulseaudio-server installed.</div></blockquote></div><br>What layer did thi=
+s recipe originally come from?</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">Ross</div></div>
+
+--001a11440fb8f013e60516701d59--
