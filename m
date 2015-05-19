@@ -1,27 +1,41 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D33D46E6CC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B642160962
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 01:13:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4J1DVsO021887
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 19 May 2015 01:16:45 +0000 (UTC)
+Received: by pacwv17 with SMTP id wv17so460738pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 18:13:31 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 18 May 2015 18:13:30 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 May 2015 09:08:14 +0800
-Message-ID: <7dfa7bda72262c9e998f4b37e2fe69d80d930858.1431997609.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1431997609.git.kai.kang@windriver.com>
-References: <cover.1431997609.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 4/4] gst-ffmpeg: fix CVEs
+	Mon, 18 May 2015 18:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=SQ8WYYCo3ptEeR2JjqCCWQb5KyqVnogm1pwg8t7vs5o=;
+	b=T3QznQ9jDvKDJLSJQGjQ1DAUuZNU/dVn6YlElXFZeVgIJOh3xxZOgG9caMeTVeuuTm
+	Wo9ytxm83K2bzIU9749pJyGnaJSJ+m5nZ8Wfq2tVrfO5PVNqRSHn3tkj7CrfcQwTrgCI
+	maJhbDsB5Cd7UOk+BoUbBn5gpYaUC/Rwfh6l7N7etnmMLMDsqW0yI8Yu+LMpKjX1THTo
+	i/kQGy2daWTsG+uYc/Ye/JUEP54QurXnlu/IIAu1op9s1zOQshQ49trJI+OTyJMbGd4k
+	rTskwuC63SqSRF7/SrllyE8r4OfsWRqbp7zCnakoKobVSOTadkEWQTu5SygvFRU4R9Vo
+	nvwQ==
+X-Received: by 10.70.95.228 with SMTP id dn4mr49178285pdb.89.1431998206331;
+	Mon, 18 May 2015 18:16:46 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:d1bd:ca93:84da:dce8?
+	([2601:9:3580:84c:d1bd:ca93:84da:dce8])
+	by mx.google.com with ESMTPSA id
+	oj10sm11241620pdb.38.2015.05.18.18.16.45
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 18 May 2015 18:16:45 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CADcoSRSsOAGBBLzQxYcDwat-DizoWXuiPzPwPnqO5FutWsc8bQ@mail.gmail.com>
+Date: Mon, 18 May 2015 18:16:38 -0700
+Message-Id: <733D687B-6363-4793-9B74-F0D20D769ED4@gmail.com>
+References: <CADcoSRSsOAGBBLzQxYcDwat-DizoWXuiPzPwPnqO5FutWsc8bQ@mail.gmail.com>
+To: mirgu <mmirgu@gmail.com>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: BITRATE E2 extension
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,172 +48,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 01:13:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 May 2015 01:16:45 -0000
+X-Groupsio-MsgNum: 65689
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Backport patches to fix CVEs: CVE-2014-7933, CVE-2014-9318 and
-CVE-2014-9603.
+--Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD"
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../gst-ffmpeg-fix-CVE-2014-7933.patch             | 38 ++++++++++++++++++++
- .../gst-ffmpeg-fix-CVE-2014-9318.patch             | 37 +++++++++++++++++++
- .../gst-ffmpeg-fix-CVE-2014-9603.patch             | 41 ++++++++++++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |  3 ++
- 4 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-7933.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9318.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9603.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-7933.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-7933.patch
-new file mode 100644
-index 0000000..3c537c7
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-7933.patch
-@@ -0,0 +1,38 @@
-+From 2266b8bc3370856d874334ba62b337ce4f1eb255 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Wed, 13 May 2015 16:46:06 +0800
-+Subject: [PATCH 2/2] gst-ffmpeg: fix CVE-2014-7933
-+
-+Upstream-Status: Backport
-+
-+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=33301f00
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ gst-libs/ext/libav/libavformat/matroskadec.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/gst-libs/ext/libav/libavformat/matroskadec.c b/gst-libs/ext/libav/libavformat/matroskadec.c
-+index 59dce4f..e5f5fc1 100644
-+--- a/gst-libs/ext/libav/libavformat/matroskadec.c
-++++ b/gst-libs/ext/libav/libavformat/matroskadec.c
-+@@ -1916,7 +1916,7 @@ static int matroska_read_seek(AVFormatContext *s, int stream_index,
-+                               int64_t timestamp, int flags)
-+ {
-+     MatroskaDemuxContext *matroska = s->priv_data;
-+-    MatroskaTrack *tracks = matroska->tracks.elem;
-++    MatroskaTrack *tracks = NULL;
-+     AVStream *st = s->streams[stream_index];
-+     int i, index, index_sub, index_min;
-+ 
-+@@ -1939,6 +1939,7 @@ static int matroska_read_seek(AVFormatContext *s, int stream_index,
-+         return 0;
-+ 
-+     index_min = index;
-++    tracks = matroska->tracks.elem;
-+     for (i=0; i < matroska->tracks.nb_elem; i++) {
-+         tracks[i].audio.pkt_cnt = 0;
-+         tracks[i].audio.sub_packet_cnt = 0;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9318.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9318.patch
-new file mode 100644
-index 0000000..0553cee
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9318.patch
-@@ -0,0 +1,37 @@
-+From 0d3a3b9f8907625b361420d48fe05716859620ff Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Wed, 26 Nov 2014 18:56:39 +0100
-+Subject: [PATCH] avcodec/rawdec: Check the return code of
-+ avpicture_get_size()
-+
-+(Upstream commit 1d3a3b9f8907625b361420d48fe05716859620ff)
-+
-+Fixes out of array access
-+Fixes: asan_heap-oob_22388d0_3435_cov_3297128910_small_roll5_FlashCine1.cine
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+Signed-off-by: Yue Tao <yue.tao@windriver.com>
-+---
-+ libavcodec/rawdec.c |    3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/libavcodec/rawdec.c b/libavcodec/rawdec.c
-+index 28792a1..647dfa9 100644
-+--- a/gst-libs/ext/libav/libavcodec/rawdec.c
-++++ b/gst-libs/ext/libav/libavcodec/rawdec.c
-+@@ -87,6 +87,9 @@ static av_cold int raw_init_decoder(AVCodecContext *avctx)
-+ 
-+     ff_set_systematic_pal2(context->palette, avctx->pix_fmt);
-+     context->length = avpicture_get_size(avctx->pix_fmt, avctx->width, avctx->height);
-++    if (context->length < 0)
-++        return context->length;
-++
-+     if((avctx->bits_per_coded_sample == 4 || avctx->bits_per_coded_sample == 2) &&
-+        avctx->pix_fmt==PIX_FMT_PAL8 &&
-+        (!avctx->codec_tag || avctx->codec_tag == MKTAG('r','a','w',' '))){
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9603.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9603.patch
-new file mode 100644
-index 0000000..5dda4cc
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-fix-CVE-2014-9603.patch
-@@ -0,0 +1,41 @@
-+From dc68faf8339a885bc55fabe5b01f1de4f8f3782c Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Wed, 13 May 2015 16:30:53 +0800
-+Subject: [PATCH 1/2] gst-ffmpeg: fix CVE-2014-9603
-+
-+Upstream-Status: Backport
-+
-+Upstream is version 2.x and vmdav.c is splitted into 2 files vmdaudio.c
-+and vmdvideo.c. Becuase source code changes, just partly backport commit which
-+is applicable to version 0.10.13 to fix CVE-2014-9603.
-+
-+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=3030fb7e0d41836f8add6399e9a7c7b740b48bfd
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ gst-libs/ext/libav/libavcodec/vmdav.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/gst-libs/ext/libav/libavcodec/vmdav.c b/gst-libs/ext/libav/libavcodec/vmdav.c
-+index d258252..ba88ad8 100644
-+--- a/gst-libs/ext/libav/libavcodec/vmdav.c
-++++ b/gst-libs/ext/libav/libavcodec/vmdav.c
-+@@ -294,10 +294,13 @@ static void vmd_decode(VmdVideoContext *s)
-+                     len = *pb++;
-+                     if (len & 0x80) {
-+                         len = (len & 0x7F) + 1;
-+-                        if (*pb++ == 0xFF)
-++                        if (*pb++ == 0xFF) {
-+                             len = rle_unpack(pb, &dp[ofs], len, frame_width - ofs);
-+-                        else
-++                        } else {
-++                            if (ofs + len > frame_width)
-++                                return;
-+                             memcpy(&dp[ofs], pb, len);
-++                        }
-+                         pb += len;
-+                         ofs += len;
-+                     } else {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index b5c838f..b7d008e 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -57,6 +57,9 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-avcodec-smc-fix-off-by-1-error.patch \
-            file://0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch \
-            file://libav-9.patch \
-+           file://gst-ffmpeg-fix-CVE-2014-7933.patch \
-+           file://gst-ffmpeg-fix-CVE-2014-9318.patch \
-+           file://gst-ffmpeg-fix-CVE-2014-9603.patch \
- "
- 
- SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
--- 
-1.9.1
+--Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On May 12, 2015, at 11:28 PM, mirgu <mmirgu@gmail.com> wrote:
+>=20
+> Hello,
+>=20
+> I would like to ask you about this plugin "Package: =
+enigma2-plugin-extensions-bitrate". I have a STB Golden Interstar Xpeed =
+LX3 and installed this plugin. I tried it in every accessible Enigma2 =
+for LX3 and in none of them did not functioned it.
+> Could you help me please.
+
+if you add more details to what errors you see and any additional =
+information, you might have some folks who could catch your line
+of thought. Otherwise, its pretty difficult unless someone ran into your =
+issue and can relate to it.
+
+
+--Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On May 12, 2015, at 11:28 PM, mirgu &lt;<a =
+href=3D"mailto:mmirgu@gmail.com" class=3D"">mmirgu@gmail.com</a>&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><div =
+dir=3D"ltr" class=3D""><span style=3D"font-size:12.8000001907349px" =
+class=3D"">Hello,</span><div style=3D"font-size:12.8000001907349px" =
+class=3D""><br class=3D""></div><div =
+style=3D"font-size:12.8000001907349px" class=3D"">I would like to ask =
+you about this plugin "Package: enigma2-plugin-extensions-bitrate". I =
+have a STB Golden Interstar Xpeed LX3 and installed this plugin. I tried =
+it in every accessible Enigma2 for LX3 and in none of them did not =
+functioned it.</div><div style=3D"font-size:12.8000001907349px" =
+class=3D"">Could you help me =
+please.</div></div></div></blockquote><div><br class=3D""></div><div>if =
+you add more details to what errors you see and any additional =
+information, you might have some folks who could catch your =
+line</div><div>of thought. Otherwise, its pretty difficult unless =
+someone ran into your issue and can relate to it.</div><div><br =
+class=3D""></div></div></body></html>=
+
+--Apple-Mail=_D4510EA6-5E9E-4AC7-BBC0-9674AA5C53FD--
+
+--Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlVajvwACgkQuwUzVZGdMxROXQCgkFlrslSe7k3Jz+HBkIGF5QZ5
+MmMAn2NiZ5gJtk00/dxrGF8mxa3UTCu7
+=oL8l
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_B94962FD-1E28-46BA-A9BA-6357A2C59832--
