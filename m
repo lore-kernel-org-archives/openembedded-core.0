@@ -1,30 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 112FF607BB
+	by mail.openembedded.org (Postfix) with ESMTP id 19013607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 10:48:08 +0000 (UTC)
+	Tue, 19 May 2015 10:50:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4JAm86a008051; Tue, 19 May 2015 11:48:08 +0100
+	t4JAo8fs008219; Tue, 19 May 2015 11:50:26 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id w6KDaw5-O87b; Tue, 19 May 2015 11:48:08 +0100 (BST)
+	with LMTP id jJIwnt7yvpAU; Tue, 19 May 2015 11:50:26 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4JAls0S008009
+	t4JAoDcX008233
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 19 May 2015 11:48:06 +0100
-Message-ID: <1432032474.32616.25.camel@linuxfoundation.org>
+	Tue, 19 May 2015 11:50:24 +0100
+Message-ID: <1432032613.32616.26.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Tue, 19 May 2015 11:47:54 +0100
-In-Reply-To: <971f18fc4a97344769e54313a78898f86f520a7e.1432024013.git.Qi.Chen@windriver.com>
-References: <cover.1432024013.git.Qi.Chen@windriver.com>
-	<971f18fc4a97344769e54313a78898f86f520a7e.1432024013.git.Qi.Chen@windriver.com>
+To: rongqing.li@windriver.com
+Date: Tue, 19 May 2015 11:50:13 +0100
+In-Reply-To: <1432016139-20019-1-git-send-email-rongqing.li@windriver.com>
+References: <1432016139-20019-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] buildstats-summary: add eventmask
+Subject: Re: [PATCH][V2] sqlite3: upgrade to 3.8.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,16 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 10:48:09 -0000
+X-List-Received-Date: Tue, 19 May 2015 10:50:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-05-19 at 16:29 +0800, Chen Qi wrote:
-> Add eventmask for buildstats_summary handler.
+On Tue, 2015-05-19 at 14:15 +0800, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+> 
+> upgrade to include CVE fixes
 
-Why?
+No mention of the additional patch?
 
-This says what you've done but not why we need this...
+> 
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>  .../files/0001-using-the-dynamic-library.patch     | 28 ++++++++++++++++++++++
+>  .../{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb}    |  8 ++++---
+>  2 files changed, 33 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+>  rename meta/recipes-support/sqlite/{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb} (64%)
+> 
+> diff --git a/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+> new file mode 100644
+> index 0000000..5818aa2
+> --- /dev/null
+> +++ b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+> @@ -0,0 +1,28 @@
+> +[PATCH] using the dynamic library
+> +
+> +Upstream-Status:  Inappropriate [configuration] 
+> +
+> +using the dynamic library, not link statically
+
+This says what you've done but not why? Why do we need to do this?
 
 Cheers,
 
