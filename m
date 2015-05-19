@@ -1,28 +1,43 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B8B9601DF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0268260125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 11:55:52 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 29F57F811E3; Tue, 19 May 2015 05:55:54 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id C2FDDF811E2;
-	Tue, 19 May 2015 05:55:53 -0600 (MDT)
-Message-ID: <555B24D4.6070101@mlbassoc.com>
-Date: Tue, 19 May 2015 05:56:04 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Tue, 19 May 2015 12:01:08 +0000 (UTC)
+Received: by pabru16 with SMTP id ru16so21466582pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 May 2015 05:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Zm6fxNojlLmtwPoIA/TXk+kXZuDnJ55QdFg3RdLr30M=;
+	b=wCD/HsDCC1Fwf8+VMAzW2lZ7rMPm9mrrXxM1Z/hdqDqmKcOOyR4/tL6D303iLm5Nqh
+	zfhj+UTUleVzXVdFzrqZzNeIrzzH/viwbsdvoJ73H8hVkIVvxx0Yaihvd2AR1GExbl1o
+	jvR6vxM33eSH4V5aZolV/ASD0rV+akoZtiBFHHJUbArIKDyw9aoOEBx9F/rqyDXLDYjl
+	9AsO0Omdy7Y/KDZ8Jka0qsbctDX+wNN+Bg2JOkZWhCO+LfT+g/5j6VoNbKaNO4EzlhXc
+	EpPyHpDLTJam9vSjIe2Mwj8bKJO05prKD8kW4GxlvjCIFxHJnkFvuzeraJS/0m/7sBrp
+	4lSw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>	<20150508162311.GA20977@bang.betafive.co.uk>	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+X-Received: by 10.70.50.71 with SMTP id a7mr42030307pdo.14.1432036869569; Tue,
+	19 May 2015 05:01:09 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Tue, 19 May 2015 05:01:09 -0700 (PDT)
 In-Reply-To: <3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
+	<20150508162311.GA20977@bang.betafive.co.uk>
+	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
+	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
+	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+Date: Tue, 19 May 2015 09:01:09 -0300
+X-Google-Sender-Auth: F7uyVgY-1Ry3Wwm_C4mhGjjTWOI
+Message-ID: <CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Maxin John <Maxin.John@enea.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: opkg and gpg signed ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,17 +51,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 11:55:53 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 May 2015 12:01:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2015-05-19 05:47, Sona Sarmadi wrote:
+On Tue, May 19, 2015 at 8:47 AM, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
 >
->>> I'm guessing you would want something like this in your custom distro
->>> config (or local.conf if you must):
->>>
->>> PACKAGECONFIG_append_pn-opkg = " sha256"
->>> PACKAGECONFIG_append_pn-opkg-native = " sha256"
+>> > I'm guessing you would want something like this in your custom distro
+>> > config (or local.conf if you must):
+>> >
+>> > PACKAGECONFIG_append_pn-opkg = " sha256"
+>> > PACKAGECONFIG_append_pn-opkg-native = " sha256"
 >>
 >
 > Thanks a lot guys for your help, this is now working :)
@@ -55,14 +69,14 @@ On 2015-05-19 05:47, Sona Sarmadi wrote:
 >
 > opkg.py:
 > ........
->          # compute the MD5.
->          if not self.fn:
->              self.md5 = 'Unknown'
->          else:
->              f = open(self.fn, "rb")
->              sum = hashlib.md5()
+>         # compute the MD5.
+>         if not self.fn:
+>             self.md5 = 'Unknown'
+>         else:
+>             f = open(self.fn, "rb")
+>             sum = hashlib.md5()
 > to
->              sum = hashlib.sha256()
+>             sum = hashlib.sha256()
 >
 > and now I get checksum sha256 in the "Packages" file:
 >
@@ -70,12 +84,11 @@ On 2015-05-19 05:47, Sona Sarmadi wrote:
 >
 > Do you think this patch would be of interest for someone?
 
-Yes, including everything you found that needs to be set up to
-support these checksums.
+Yes but it would be good to make it choosable at distro level.
+
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
