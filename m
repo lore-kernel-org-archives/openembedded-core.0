@@ -1,39 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 549D560168
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D3839601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 13:40:57 +0000 (UTC)
-Received: by qgew3 with SMTP id w3so7100336qge.2
+	Tue, 19 May 2015 14:03:48 +0000 (UTC)
+Received: by qget53 with SMTP id t53so7476011qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 06:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=xwew8z6IvdxdMTQa5WNLieC42q+UsUwlIkfBYNYc4rY=;
-	b=WaZ7lQHOPT1d74DDciyszULVxw6aDCHB6uX86d8QXzV28Q72uOBzWmAAPugk0E9Pxz
-	XzylZ4rrFz7ZPYqmjOuxg0+ucnF1XNLwTCeWb2YNIDc/340QidN+L7K0j7wlW4QfqoEx
-	i/4ssBrZJfH0ZBQJEfu2504Rhtkkcu8d2NcmwhLlipa5xAioYllq+34+ea0UhQiRs5lF
-	OKur6LLmpITA5CPGRuJJCw1Con3Iqzv3lIlzNGFNP4awzKNXnAJlCurg5zIIFpSPNO6k
-	Ku/ZtZ19GG6OjQ5ljjzxKFym0LKwtFqRzG7dIUvHqqzBwcMHuK/8LMwo1yNj0Py1EXCu
-	2Qfw==
-X-Received: by 10.55.51.129 with SMTP id z123mr58192676qkz.102.1432042858834; 
-	Tue, 19 May 2015 06:40:58 -0700 (PDT)
+	Tue, 19 May 2015 07:03:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4T02aW5zfRxjObIvDux6C/fRBa/TNLoh6Dt4ftAB5II=;
+	b=KoH4HfIqIXwuQy94KFbrq1Y42QifPdtmhdtR4f2gIIEZhU+UttYMeGpsrSBZIvCzIh
+	s5R3Bo08HRWSIV3eg2IDLvKvKfrJfKpMKxeXJBezVkD7fRH4yGhjhzZ+bzUX3so3gIy/
+	9Vaw6b7MAoc9gP5Fzo68v0Yx06FIFxiCMg/490NZefTVpZPnDRvDt1JRCltv+udWeyLa
+	FAFsjq2Xr1fdIEYzw30Cb6/EDZRjZKdVIU87gcLIJNWkB6XEdiAvGKbskSQu8RIBEbML
+	levxu+q7MWOFNaXxsNUtprFCZHUSYeNmX7H/2SKg6l9xThjVVLeXa7lfbW35PfFG4yIi
+	nN3Q==
+X-Gm-Message-State: ALoCoQnNuRl/1wzRd6RI3hFT/s/Uky/inJmeYi5XOVb12zgSkT38VOQy9kEUO1OMbkoLrURi1rMd
+X-Received: by 10.140.133.199 with SMTP id 190mr15399729qhf.17.1432044229419; 
+	Tue, 19 May 2015 07:03:49 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.117 with HTTP; Tue, 19 May 2015 06:40:32 -0700 (PDT)
-In-Reply-To: <1432032474.32616.25.camel@linuxfoundation.org>
-References: <cover.1432024013.git.Qi.Chen@windriver.com>
-	<971f18fc4a97344769e54313a78898f86f520a7e.1432024013.git.Qi.Chen@windriver.com>
-	<1432032474.32616.25.camel@linuxfoundation.org>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 19 May 2015 06:40:32 -0700
-X-Google-Sender-Auth: a_VuE9OYA-5n4pelP87QvgCX9V8
-Message-ID: <CABcZAN=Ky_TKqC8y3ecYh7Mf_SkQYJ0UUvDXMHnQCKZBpW+1KA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildstats-summary: add eventmask
+Received: by 10.140.102.231 with HTTP; Tue, 19 May 2015 07:03:29 -0700 (PDT)
+In-Reply-To: <1431957520-14510-7-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1431957520-14510-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1431957520-14510-7-git-send-email-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 May 2015 15:03:29 +0100
+Message-ID: <CAJTo0LZoWN0upkf4kE_Lcb51OTW-zWMJo+dSiMymNDFaiKNoOg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] gstreamer: remove 0.10 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 13:41:00 -0000
-Content-Type: multipart/alternative; boundary=001a1149013ee76f7305166f7500
+X-List-Received-Date: Tue, 19 May 2015 14:03:56 -0000
+Content-Type: multipart/alternative; boundary=001a1135339098fb5b05166fc7c1
 
---001a1149013ee76f7305166f7500
+--001a1135339098fb5b05166fc7c1
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2015 at 3:47 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On 18 May 2015 at 14:58, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> On Tue, 2015-05-19 at 16:29 +0800, Chen Qi wrote:
-> > Add eventmask for buildstats_summary handler.
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/
+> gst-meta-base_0.10.bb
 >
-> Why?
->
-> This says what you've done but not why we need this...
->
-> Cheers,
->
-> Richard
 
+This recipe provides the gst-meta-audio and gst-meta-video packages that
+the testapps packagegroup depends on (meta/recipes-core/packagegroups/
+packagegroup-core-tools-testapps.bb).
 
-Also, this adds the eventmask, but doesn=E2=80=99t remove the then-redundan=
-t
-isinstance() on the event object.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I never liked those packagegroups as they were an arbitrary and mostly
+useless subset of plugins.  Please remove those lines from the testapps
+packagegroup: gst-player already recommends the metapackages for
+base/good/bad/ugly so test images will have the full set of plugins anyway.
 
---001a1149013ee76f7305166f7500
+Ross
+
+--001a1135339098fb5b05166fc7c1
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, May 19, 2015 at 3:47 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><span class=3D"">On Tue, 2015-05-19 at 16:29 +0800, Chen Qi wrote:<=
-br>
-&gt; Add eventmask for buildstats_summary handler.<br>
-<br>
-</span>Why?<br>
-<br>
-This says what you&#39;ve done but not why we need this...<br>
-<br>
-Cheers,<br>
-<br>
-Richard</blockquote></div><br>Also, this adds the eventmask, but doesn=E2=
-=80=99t remove the then-redundant isinstance() on the event object.<br>-- <=
-br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth =
-dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tsli=
-b<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+On 18 May 2015 at 14:58, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
+vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-col=
+or:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":a=
+2a" class=3D"" style=3D"overflow:hidden">=C2=A0delete mode 100644 meta/reci=
+pes-multimedia/gstreamer/<a href=3D"http://gst-meta-base_0.10.bb" target=3D=
+"_blank">gst-meta-base_0.10.bb</a><br></div></blockquote></div><br>This rec=
+ipe provides the gst-meta-audio and gst-meta-video packages that the testap=
+ps packagegroup depends on (meta/recipes-core/packagegroups/<a href=3D"http=
+://packagegroup-core-tools-testapps.bb">packagegroup-core-tools-testapps.bb=
+</a>).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>I never liked those packagegroups as they were an arbitrary and mostly use=
+less subset of plugins.=C2=A0 Please remove those lines from the testapps p=
+ackagegroup: gst-player already recommends the metapackages for base/good/b=
+ad/ugly so test images will have the full set of plugins anyway.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1149013ee76f7305166f7500--
+--001a1135339098fb5b05166fc7c1--
