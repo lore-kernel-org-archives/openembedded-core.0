@@ -1,31 +1,28 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id EB535600B3
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B8B9601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 11:47:49 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0224.002; Tue, 19 May 2015 13:47:46 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: 'Paul Eggleton' <paul.eggleton@linux.intel.com>, 'Paul Barker'
-	<paul@paulbarker.me.uk>, Maxin John <Maxin.John@enea.com>
-Thread-Topic: [OE-core] opkg and gpg signed ipk packages
-Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyCAB70BcA==
-Date: Tue, 19 May 2015 11:47:45 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
-	<20150508162311.GA20977@bang.betafive.co.uk>
-	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
-	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
-	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Tue, 19 May 2015 11:55:52 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 29F57F811E3; Tue, 19 May 2015 05:55:54 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id C2FDDF811E2;
+	Tue, 19 May 2015 05:55:53 -0600 (MDT)
+Message-ID: <555B24D4.6070101@mlbassoc.com>
+Date: Tue, 19 May 2015 05:56:04 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Cc: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>	<20150508162311.GA20977@bang.betafive.co.uk>	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
 Subject: Re: opkg and gpg signed ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,39 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 11:47:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 May 2015 11:55:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-> > I'm guessing you would want something like this in your custom distro
-> > config (or local.conf if you must):
-> >
-> > PACKAGECONFIG_append_pn-opkg =3D " sha256"
-> > PACKAGECONFIG_append_pn-opkg-native =3D " sha256"
+On 2015-05-19 05:47, Sona Sarmadi wrote:
 >
+>>> I'm guessing you would want something like this in your custom distro
+>>> config (or local.conf if you must):
+>>>
+>>> PACKAGECONFIG_append_pn-opkg = " sha256"
+>>> PACKAGECONFIG_append_pn-opkg-native = " sha256"
+>>
+>
+> Thanks a lot guys for your help, this is now working :)
+> There is support for sha256 in opkg but not in the opkg-utils.
+> opkg-utils (opkg.py) just uses md5 as default option. I changed
+>
+> opkg.py:
+> ........
+>          # compute the MD5.
+>          if not self.fn:
+>              self.md5 = 'Unknown'
+>          else:
+>              f = open(self.fn, "rb")
+>              sum = hashlib.md5()
+> to
+>              sum = hashlib.sha256()
+>
+> and now I get checksum sha256 in the "Packages" file:
+>
+> SHA256Sum: 6be1fb5b9dab3de5848fd578d515d05adc5c6cd3b0009f8c1b13ab1250cee594
+>
+> Do you think this patch would be of interest for someone?
 
-Thanks a lot guys for your help, this is now working :)
-There is support for sha256 in opkg but not in the opkg-utils.=20
-opkg-utils (opkg.py) just uses md5 as default option. I changed=20
-=20
-opkg.py:
-........
-        # compute the MD5.
-        if not self.fn:
-            self.md5 =3D 'Unknown'
-        else:
-            f =3D open(self.fn, "rb")
-            sum =3D hashlib.md5()=20
-to
-            sum =3D hashlib.sha256()
+Yes, including everything you found that needs to be set up to
+support these checksums.
 
-and now I get checksum sha256 in the "Packages" file:
-
-SHA256Sum: 6be1fb5b9dab3de5848fd578d515d05adc5c6cd3b0009f8c1b13ab1250cee594
-
-Do you think this patch would be of interest for someone?=20
-
-//Sona
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
