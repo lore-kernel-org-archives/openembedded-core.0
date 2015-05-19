@@ -1,56 +1,24 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 992E3601DF
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7333F601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 04:53:08 +0000 (UTC)
-Received: by lagv1 with SMTP id v1so5302221lag.3
+	Tue, 19 May 2015 06:20:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4J6KfPO013176
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 21:53:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:organization:user-agent;
-	bh=BQ6uobsIgeNjC/xFtMZOJr5ODf/zHUf7YfOPHn37nBg=;
-	b=HdKFW3mJjgMbdL7zds6S76y7iJBAJ85/rk8yy9MG7QTZLbl7njte8pmlV1ThHo3h6E
-	MlF8JYXU2JGGZTHkwXmrURdyurdWO3XoytREEMVjy+KhjNZWYHnSxkMtx24pW/oEKLrS
-	wrlw8QDUb+CI7tpumH1ti4HId232dOB0wu2PqV/sI+yWag9K4VCHUMf023rDpYW1C8wl
-	Gz+NWJzznVqHNX8HkpImd1+P1fY6e6yPS+q0pOH/x0TTWXpsLuoMmdgLH3CVx1PNbJmf
-	xo2OXtDVzL1PS9k4Oq5dTNNGTKOwnHOLvpekA0Vkim2femmb5uLscxNciCzYK5Vnxuq8
-	kNWw==
-X-Gm-Message-State: ALoCoQnC1T+f21nxZwjDZy87YoHQpMWF/cssBbjKP5Rs2zwoAwKlytixLFrkhtigIxuT4Ze2S+Ux
-X-Received: by 10.112.154.138 with SMTP id vo10mr20028708lbb.68.1432011188656; 
-	Mon, 18 May 2015 21:53:08 -0700 (PDT)
-Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
-	[83.209.191.235])
-	by mx.google.com with ESMTPSA id p7sm3211792lae.47.2015.05.18.21.53.07
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 May 2015 21:53:07 -0700 (PDT)
-Date: Tue, 19 May 2015 06:53:06 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20150519045306.GA6886@ad.chargestorm.se>
-Mail-Followup-To: Otavio Salvador <otavio@ossystems.com.br>,
-	Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1431979698-29379-1-git-send-email-ldnunes@ossystems.com.br>
-	<1431979698-29379-2-git-send-email-ldnunes@ossystems.com.br>
-	<CABcZANk3s=5CAK+qQ2JySrzXsy2na0SBQv8E3N_m2Ei1bcOk+Q@mail.gmail.com>
-	<CAP9ODKoHQiPV5nYJbDPi9afxfagoxZzwvLbhDvD68O06yP1m2g@mail.gmail.com>
+	Mon, 18 May 2015 23:20:41 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 18 May 2015 23:20:40 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 May 2015 14:15:39 +0800
+Message-ID: <1432016139-20019-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoHQiPV5nYJbDPi9afxfagoxZzwvLbhDvD68O06yP1m2g@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cleanup-workdir: wait for bitbake instances to finish
+Subject: [PATCH][V2] sqlite3: upgrade to 3.8.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,37 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 04:53:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 May 2015 06:20:40 -0000
+Content-Type: text/plain
 
-* Otavio Salvador <otavio@ossystems.com.br> [150519 00:27]:
+From: Roy Li <rongqing.li@windriver.com>
 
-> On Mon, May 18, 2015 at 7:23 PM, Christopher Larson <clarson@kergoth.com> wrote:
+upgrade to include CVE fixes
 
-> > On Mon, May 18, 2015 at 1:08 PM, Lucas Dutra Nunes <ldnunes@ossystems.com.br> wrote:
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../files/0001-using-the-dynamic-library.patch     | 28 ++++++++++++++++++++++
+ .../{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb}    |  8 ++++---
+ 2 files changed, 33 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+ rename meta/recipes-support/sqlite/{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb} (64%)
 
-> >> bitbake uses a lock file on the build dir, "bitbake.lock", to prevent it
-> >> from running before an instance has exited. And sometimes the
-> >> cleanup-workdir script can call bibake too many times, too fast, before
-> >> the lock has been released.
-
-> >> By simply waiting that the lock has been released solves this problem.
-
-> >> Signed-off-by: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
-
-> > The fact that the bitbake UI can exit before the lock has been
-> > released is a bug. Not being able to assume bitbake is done by the
-> > time the bitbake command exits is not ideal, no one should have to
-> > block directly o the lock like this.
-
-> Agreed so you would prefer this to be fixed there?
-
-Sure, that would benefit everyone, not just this use-case.
-
-Cheers,
-Anders
+diff --git a/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+new file mode 100644
+index 0000000..5818aa2
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+@@ -0,0 +1,28 @@
++[PATCH] using the dynamic library
++
++Upstream-Status:  Inappropriate [configuration] 
++
++using the dynamic library, not link statically
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile.am | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 88bc23d..fe50f20 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -7,7 +7,8 @@ libsqlite3_la_LDFLAGS = -no-undefined -version-info 8:6:8
++ 
++ bin_PROGRAMS = sqlite3
++ sqlite3_SOURCES = shell.c sqlite3.h
++-sqlite3_LDADD = sqlite3.$(OBJEXT) @READLINE_LIBS@
+++sqlite3_LDADD = @READLINE_LIBS@ libsqlite3.la
+++
++ 
++ include_HEADERS = sqlite3.h sqlite3ext.h
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+similarity index 64%
+rename from meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+index 4c73d30..d7f72d9 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+@@ -8,10 +8,12 @@ def sqlite_download_version(d):
+ 
+ PE = "3"
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+-SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2015/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++           file://0001-using-the-dynamic-library.patch \
++"
+ 
+-SRC_URI[md5sum] = "33bb8db0038317ce1b0480ca1185c7ba"
+-SRC_URI[sha256sum] = "86370f139405fdfe03334fd618171a74e50f589f17ccbe5933361ed1f58359ec"
++SRC_URI[md5sum] = "04d0311ef70818e8d914c1dc383eddff"
++SRC_URI[sha256sum] = "c4b8f9eefbdf0b9bef2044bdc3510c8a3f3b0ddb0489661fb433034187f5a428"
+ 
+ S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.9.1
+
 
