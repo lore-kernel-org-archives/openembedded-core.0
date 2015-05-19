@@ -1,44 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0268260125
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 666F8600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 12:01:08 +0000 (UTC)
-Received: by pabru16 with SMTP id ru16so21466582pab.1
+	Tue, 19 May 2015 12:32:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4JCW2tr029942
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 05:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Zm6fxNojlLmtwPoIA/TXk+kXZuDnJ55QdFg3RdLr30M=;
-	b=wCD/HsDCC1Fwf8+VMAzW2lZ7rMPm9mrrXxM1Z/hdqDqmKcOOyR4/tL6D303iLm5Nqh
-	zfhj+UTUleVzXVdFzrqZzNeIrzzH/viwbsdvoJ73H8hVkIVvxx0Yaihvd2AR1GExbl1o
-	jvR6vxM33eSH4V5aZolV/ASD0rV+akoZtiBFHHJUbArIKDyw9aoOEBx9F/rqyDXLDYjl
-	9AsO0Omdy7Y/KDZ8Jka0qsbctDX+wNN+Bg2JOkZWhCO+LfT+g/5j6VoNbKaNO4EzlhXc
-	EpPyHpDLTJam9vSjIe2Mwj8bKJO05prKD8kW4GxlvjCIFxHJnkFvuzeraJS/0m/7sBrp
-	4lSw==
+	Tue, 19 May 2015 05:32:02 -0700 (PDT)
+Received: from LRQ.corp.ad.wrs.com (128.224.162.136) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 19 May 2015 05:32:02 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 May 2015 20:32:01 +0800
+Message-ID: <1432038721-22139-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Received: by 10.70.50.71 with SMTP id a7mr42030307pdo.14.1432036869569; Tue,
-	19 May 2015 05:01:09 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Tue, 19 May 2015 05:01:09 -0700 (PDT)
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
-	<20150508162311.GA20977@bang.betafive.co.uk>
-	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
-	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
-	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
-Date: Tue, 19 May 2015 09:01:09 -0300
-X-Google-Sender-Auth: F7uyVgY-1Ry3Wwm_C4mhGjjTWOI
-Message-ID: <CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maxin John <Maxin.John@enea.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: opkg and gpg signed ipk packages
+Subject: [PATCH][v3] sqlite3: upgrade to 3.8.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,44 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 12:01:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 19 May 2015 12:32:05 -0000
+Content-Type: text/plain
 
-On Tue, May 19, 2015 at 8:47 AM, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
->
->> > I'm guessing you would want something like this in your custom distro
->> > config (or local.conf if you must):
->> >
->> > PACKAGECONFIG_append_pn-opkg = " sha256"
->> > PACKAGECONFIG_append_pn-opkg-native = " sha256"
->>
->
-> Thanks a lot guys for your help, this is now working :)
-> There is support for sha256 in opkg but not in the opkg-utils.
-> opkg-utils (opkg.py) just uses md5 as default option. I changed
->
-> opkg.py:
-> ........
->         # compute the MD5.
->         if not self.fn:
->             self.md5 = 'Unknown'
->         else:
->             f = open(self.fn, "rb")
->             sum = hashlib.md5()
-> to
->             sum = hashlib.sha256()
->
-> and now I get checksum sha256 in the "Packages" file:
->
-> SHA256Sum: 6be1fb5b9dab3de5848fd578d515d05adc5c6cd3b0009f8c1b13ab1250cee594
->
-> Do you think this patch would be of interest for someone?
+From: Roy Li <rongqing.li@windriver.com>
 
-Yes but it would be good to make it choosable at distro level.
+upgrade to include CVE fixes:
+    CVE-2015-3414
+    CVE-2015-3415
+    CVE-2015-3416
 
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../files/0001-using-the-dynamic-library.patch     | 30 ++++++++++++++++++++++
+ .../{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb}    |  8 +++---
+ 2 files changed, 35 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+ rename meta/recipes-support/sqlite/{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb} (64%)
 
+diff --git a/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+new file mode 100644
+index 0000000..e3bfd5f
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+@@ -0,0 +1,30 @@
++[PATCH] using the dynamic library
++
++Upstream-Status:  Inappropriate [configuration]
++
++building statically-linked sqlite3 failed since sqlite3.o is generated in 
++different dir, even if link successes, the size of sqlite3 is become larger,
++so use the dynamic link, ref: http://patchwork.openembedded.org/patch/93293/
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile.am | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 88bc23d..fe50f20 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -7,7 +7,8 @@ libsqlite3_la_LDFLAGS = -no-undefined -version-info 8:6:8
++ 
++ bin_PROGRAMS = sqlite3
++ sqlite3_SOURCES = shell.c sqlite3.h
++-sqlite3_LDADD = sqlite3.$(OBJEXT) @READLINE_LIBS@
+++sqlite3_LDADD = @READLINE_LIBS@ libsqlite3.la
+++
++ 
++ include_HEADERS = sqlite3.h sqlite3ext.h
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+similarity index 64%
+rename from meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+index 4c73d30..d7f72d9 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.8.7.4.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.8.10.0.bb
+@@ -8,10 +8,12 @@ def sqlite_download_version(d):
+ 
+ PE = "3"
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+-SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2015/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++           file://0001-using-the-dynamic-library.patch \
++"
+ 
+-SRC_URI[md5sum] = "33bb8db0038317ce1b0480ca1185c7ba"
+-SRC_URI[sha256sum] = "86370f139405fdfe03334fd618171a74e50f589f17ccbe5933361ed1f58359ec"
++SRC_URI[md5sum] = "04d0311ef70818e8d914c1dc383eddff"
++SRC_URI[sha256sum] = "c4b8f9eefbdf0b9bef2044bdc3510c8a3f3b0ddb0489661fb433034187f5a428"
+ 
+ S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
