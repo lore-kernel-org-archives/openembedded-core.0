@@ -1,29 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 19013607BB
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EF1D60125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 10:50:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4JAo8fs008219; Tue, 19 May 2015 11:50:26 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jJIwnt7yvpAU; Tue, 19 May 2015 11:50:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4JAoDcX008233
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 19 May 2015 11:50:24 +0100
-Message-ID: <1432032613.32616.26.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rongqing.li@windriver.com
-Date: Tue, 19 May 2015 11:50:13 +0100
-In-Reply-To: <1432016139-20019-1-git-send-email-rongqing.li@windriver.com>
-References: <1432016139-20019-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][V2] sqlite3: upgrade to 3.8.10
+	Tue, 19 May 2015 11:05:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 5D694601A4D
+Message-ID: <555B190F.1070300@collabora.co.uk>
+Date: Tue, 19 May 2015 12:05:51 +0100
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: Re: [fido][PATCH] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 10:50:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 May 2015 11:05:54 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-05-19 at 14:15 +0800, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
-> 
-> upgrade to include CVE fixes
+Thanks Martin,
 
-No mention of the additional patch?
+I've queued this in my fido-next branch on openembedded-core-contrib.
 
-> 
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Regards,
+
+Joshua
+
+On 16/05/15 05:58, Martin Jansa wrote:
+> From: Martin Jansa <martin.jansa@gmail.com>
+>
+> * install populate-extfs.sh from contrib, be aware that in order
+>    to use it you need to set DEBUGFS shell variable, otherwise it will
+>    try to use debugfs from relative path which is almost always
+>    incorrect:
+>      CONTRIB_DIR=$(dirname $(readlink -f $0))
+>      DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../files/0001-using-the-dynamic-library.patch     | 28 ++++++++++++++++++++++
->  .../{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb}    |  8 ++++---
->  2 files changed, 33 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
->  rename meta/recipes-support/sqlite/{sqlite3_3.8.7.4.bb => sqlite3_3.8.10.0.bb} (64%)
-> 
-> diff --git a/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
-> new file mode 100644
-> index 0000000..5818aa2
-> --- /dev/null
-> +++ b/meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
-> @@ -0,0 +1,28 @@
-> +[PATCH] using the dynamic library
+>   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> index 66065bc..abc959f 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> @@ -54,6 +54,8 @@ do_install () {
+>   	oe_multilib_header ext2fs/ext2_types.h
+>   	install -d ${D}${base_bindir}
+>   	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
 > +
-> +Upstream-Status:  Inappropriate [configuration] 
-> +
-> +using the dynamic library, not link statically
-
-This says what you've done but not why? Why do we need to do this?
-
-Cheers,
-
-Richard
+> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+>   }
+>
+>   do_install_append_class-target() {
+>
 
 
