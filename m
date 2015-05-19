@@ -1,43 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 82A3660ADD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id F184260ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 01:45:46 +0000 (UTC)
-Received: by pabru16 with SMTP id ru16so1369113pab.1
+	Tue, 19 May 2015 01:49:54 +0000 (UTC)
+Received: by pdbnk13 with SMTP id nk13so1569397pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 18:45:47 -0700 (PDT)
+	Mon, 18 May 2015 18:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=R/9xrKIEKZ3xo0VT63YKediprwQkQrXZwY81duoHWdI=;
-	b=ZISGKzMDUHZdEuMj8DY9CGN0dEyLYo6TXmNix+f00sIE7yHSvhyJu2bU/OiT9ZvfaA
-	jwkkhjARsZ0rm4fWPKS9wYdIJmmvqjdBLQ0mz9I+z575Jb8c+vQAdSHDe+14EpNDP/no
-	Wy6Y1A0m6H7ZoV+vfgblJMGYtPfwYI/g97UfqtbuIImSL3VWx8lx5jk1iGHRXVLiokNY
-	CmYyb920ARp1uYGG20MscbmeLrukrPcn2ZFb0bA1NTG45LmdpsvTpCPELOgUiD3eeNW9
-	U4u69Ds7uFQrXYYlzcv1jQy4K/aewh9BxOOaHINRCvDJGx/89r5d+AbzPrOUSi4J596c
-	JA+g==
-X-Received: by 10.66.242.138 with SMTP id wq10mr49402607pac.143.1431999947672; 
-	Mon, 18 May 2015 18:45:47 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:d1bd:ca93:84da:dce8?
-	([2601:9:3580:84c:d1bd:ca93:84da:dce8])
-	by mx.google.com with ESMTPSA id
-	dv3sm11230473pbb.91.2015.05.18.18.45.45
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 18 May 2015 18:45:45 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAP9ODKp0AL6Lf0_+dyC2UUuXNuNQnhi-h5WfAw=i5jyK4KVV3w@mail.gmail.com>
-Date: Mon, 18 May 2015 18:45:41 -0700
-Message-Id: <DC98E333-F523-4FD6-AC3F-71CDB54F3739@gmail.com>
-References: <1431343607-2820-1-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0Lb8ZD_X-X5mxF9XQ5TROUJh1hYQYQV5xwn1WuZmzTSwMg@mail.gmail.com>
-	<CAP9ODKp0AL6Lf0_+dyC2UUuXNuNQnhi-h5WfAw=i5jyK4KVV3w@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Mailer: Apple Mail (2.2098)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: Move EGL requirement for Wayland
+	h=from:to:subject:date:message-id;
+	bh=CCYaPRpuIbEBdXnMXHMFuq/K+LaQYKOhXbcIWMW292E=;
+	b=ylm7A3G0Ep2UVxO+h+rcgBxRg4Uw63H6gsev31sHEfyEyGr2oaX0q8x84IJAcGbeBZ
+	+3uK5PLBBsds3alK8dHjiEH+zNJTTB3Jraa4y6WL1qDWvk++hfegSUHyQHRTAfxNk5XP
+	bkFshsiB/7q6qB4mj1i6w8VNGFYcyIAaLzZ8noiKlgj16gnxSUGmjKBqAHa7PQ9updRl
+	e3tPVTknGfTETx3tZgU7JQSbUZxC7ThyNyi6KRibcT6c0HykE105gq6xI3nFhM4YNM3b
+	tevuYe8KbwIS64hgX32Ayy5OJh7S/1AUly4/ihPihZ3N2WEyMbb1YRvkxy5oA54ASQ9W
+	ULGA==
+X-Received: by 10.70.16.229 with SMTP id j5mr41382612pdd.66.1432000195983;
+	Mon, 18 May 2015 18:49:55 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	cy5sm11269242pdb.85.2015.05.18.18.49.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 May 2015 18:49:54 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 May 2015 18:49:50 -0700
+Message-Id: <1432000190-5601-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] pinentry: package update to 9.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,59 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 01:45:54 -0000
-X-Groupsio-MsgNum: 65691
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_253EE5D8-C2CF-44DF-B2D9-50E52D80216A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 19 May 2015 01:49:55 -0000
 
---Apple-Mail=_253EE5D8-C2CF-44DF-B2D9-50E52D80216A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+added a few more PACKAGECONIG options.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../pinentry/{pinentry_0.9.1.bb => pinentry_0.9.2.bb}             | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry_0.9.1.bb => pinentry_0.9.2.bb} (72%)
+
+diff --git a/meta/recipes-support/pinentry/pinentry_0.9.1.bb b/meta/recipes-support/pinentry/pinentry_0.9.2.bb
+similarity index 72%
+rename from meta/recipes-support/pinentry/pinentry_0.9.1.bb
+rename to meta/recipes-support/pinentry/pinentry_0.9.2.bb
+index 08588dd..c836ca4 100644
+--- a/meta/recipes-support/pinentry/pinentry_0.9.1.bb
++++ b/meta/recipes-support/pinentry/pinentry_0.9.2.bb
+@@ -12,8 +12,8 @@ inherit autotools
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "d224d031130aedb44b05164cb04ed88b"
+-SRC_URI[sha256sum] = "9cd08e856b395df3adc7124170b53f77c6d5c8bf88e899e818648ec70d3e9695"
++SRC_URI[md5sum] = "f51d454f921111b5156a2291cbf70278"
++SRC_URI[sha256sum] = "fd8bc1592ceb22bb492b07cb29b1b140bb882c859e6503b974254c0a4b4134d1"
+ 
+ EXTRA_OECONF = "--disable-rpath \
+ 		        --disable-dependency-tracking \
+@@ -24,4 +24,8 @@ PACKAGECONFIG ??= "ncurses libcap"
+ PACKAGECONFIG[ncurses] = "--enable-ncurses  --with-ncurses-include-dir=${STAGING_INCDIR}, --disable-ncurses, ncurses"
+ PACKAGECONFIG[libcap] = "--with-libcap, --without-libcap, libcap"
+ PACKAGECONFIG[qt4] = "--enable-pinentry-qt4, --disable-pinentry-qt4, qt4-x11"
++PACKAGECONFIG[qt4_clipboard] = "--enable-pinentry-qt4-clipboard --enable-pinentry-qt4, --disable-pinentry-qt4-clipboard, qt4-x11"
+ PACKAGECONFIG[gtk2] = "--enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0"
++
++#To use libsecret, add meta-gnome
++PACKAGECONFIG[secret] = "--enable-libsecret, --disable-libsecret, libsecret"
+-- 
+2.3.5
 
 
-> On May 14, 2015, at 6:29 AM, Otavio Salvador <otavio@ossystems.com.br> =
-wrote:
->=20
-> On Thu, May 14, 2015 at 7:33 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->>=20
->> On 11 May 2015 at 12:26, Otavio Salvador <otavio@ossystems.com.br> =
-wrote:
->>>=20
->>> The EGL is used by the Wayland backend. When building using Software
->>> Rendering and without Wayland support the EGL backend is not =
-available
->>> so we should not require EGL for GLES2 support.
->>=20
->> I think we should make the PACKAGECONFIG block be more explicit, and =
-add a
->> separate [egl] that is required to be enabled if you also enable a =
-feature
->> that depends on it (such as gles or wayland).
->=20
-> I did this initially and ended with the patch I sent. The reason is
-> because the EGL is Wayland specific so I see no reason to split it.
-
-egl is not wayland specific, unless you are using it in different =
-context
-
-
---Apple-Mail=_253EE5D8-C2CF-44DF-B2D9-50E52D80216A
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlValcgACgkQuwUzVZGdMxQ5/QCcCBMX9+qVmWrw4WJ8BmxupcXc
-eOkAnin/8JnaqCkmupjLnAuEPFh84msJ
-=pSR3
------END PGP SIGNATURE-----
-
---Apple-Mail=_253EE5D8-C2CF-44DF-B2D9-50E52D80216A--
