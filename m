@@ -1,29 +1,28 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D55860168
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 15:07:01 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 19 May 2015 08:06:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,458,1427785200"; d="scan'208";a="495568707"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.29.132])
-	([10.252.29.132])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 May 2015 08:06:04 -0700
-Message-ID: <1432047964.1403.7.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 May 2015 18:06:04 +0300
-In-Reply-To: <CAJTo0Lbf1chJC0WqbwHFVomgc6r2i_kxsEnzXv3uN6M9sOvzmg@mail.gmail.com>
-References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
-	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
-	<CAJTo0LYgeSkvr+U1OZG70PvH-OXY9suxkK=7wHM4ecOY8jbKCQ@mail.gmail.com>
-	<CAJTo0Lbf1chJC0WqbwHFVomgc6r2i_kxsEnzXv3uN6M9sOvzmg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
+Return-Path: <gary@mlbassoc.com>
+X-Greylist: delayed 483 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 19 May 2015 15:23:46 UTC
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CD2D601DF
+	for <openembedded-core@openembedded.org>;
+	Tue, 19 May 2015 15:23:46 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 7AF30F811E3; Tue, 19 May 2015 09:15:44 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 1E630F811E3;
+	Tue, 19 May 2015 09:15:44 -0600 (MDT)
+Message-ID: <555B53AB.2010804@mlbassoc.com>
+Date: Tue, 19 May 2015 09:15:55 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
+Subject: media player (gtk-play)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 15:07:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 May 2015 15:23:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-05-19 at 15:42 +0100, Burton, Ross wrote:
-> 
-> On 19 May 2015 at 15:31, Burton, Ross <ross.burton@intel.com> wrote:
->         On 18 May 2015 at 13:40, Tanu Kaskinen
->         <tanu.kaskinen@linux.intel.com> wrote:
->                 +# The resampler plugins create some symlinks, which
->                 have to be added to FILES
->                 +# manually, since do_split_packages() rejects
->                 symlinks. The symlinks also cause
->                 +# QA errors, but those errors are false positives, so
->                 we disable the QA checks.
->                 
->         
->         Not true, there's an allow_symlink (default False) option to
->         do_split_packages, so this can be cleaned up.
->         
->         
->         Assuming that those symlinks are versioning (and so pointless
->         for loadable modules), a neater fix might be to patch in
->         libtool -avoid-version.
-> 
-> Investigate *before* sending, Ross.
-> 
-> 
-> Just pass allow_links=True to do_split_packages() and all of this can
-> be deleted.
+Ross,
 
-Thanks, I'll do that.
+Do you know if there is a way to tell gtk-play what gstreamer
+back-end(s) to use?  In particular, for my i.MX6 board, it is
+not choosing the video plugin I think it should and it would be
+nice to test if it does the right thing if the correct plugin
+is used.
 
 -- 
-Tanu
-
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
