@@ -1,50 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D1DF960962
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 992E3601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 03:54:25 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so5579485pdb.0
+	Tue, 19 May 2015 04:53:08 +0000 (UTC)
+Received: by lagv1 with SMTP id v1so5302221lag.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 May 2015 20:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=W2kL4ggW912Yu2wTaztAY2G8TnOTYG9H9xMbBd/lFJ0=;
-	b=SOByG/+Azfj4m1i9E7feZ37l930EZMpg/9+2Jxa9LwUGH9ml64KWBGrQwJ5Uytb6bt
-	+QCNjr+xeYlUgwvt/vjJoA7pOfI2Tg0xX1ZCG4dQQ6rjoF0T39TVEdnA5JJahUvQfZny
-	B2Xd11SNh1xUOkFHHFpDjnhphCq4cNzaWxUfxkHi6R9lt0/Z+fWIbhxoCcnqW2sO3n+e
-	B5vt3NrNk2L3ZhX/uRs5Xq1tirhWK3xbPvDmZzLoNLm+v4S/nBx4X0LnoAu4CvPzseou
-	tMTFF1hOXWh4tlOS9wbqWwa5oZuiTDRc/Aoo+yrO81OaSsgadrP51rPm+fqxQUSx8Zbj
-	ZhCQ==
-X-Received: by 10.70.95.228 with SMTP id dn4mr50180374pdb.89.1432007666913;
-	Mon, 18 May 2015 20:54:26 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:6195:1fa1:395:1fff?
-	([2601:9:3580:84c:6195:1fa1:395:1fff])
-	by mx.google.com with ESMTPSA id
-	ol3sm11442032pbb.70.2015.05.18.20.54.25
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 18 May 2015 20:54:25 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAP9ODKo3MhRR_2OW4Xgg6GMkdV-ykD3AvrRRQU9n0pF1xqh4rQ@mail.gmail.com>
-Date: Mon, 18 May 2015 20:54:20 -0700
-Message-Id: <59DAE1C4-3DB3-44B8-A036-927EBD67C212@gmail.com>
-References: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
-	<20150518080138.GD9407@jama>
-	<CALbNGRReeZHBXDo2C4tRTHfdCwSfS5QxpKdGWpsZJbgAGGCYdw@mail.gmail.com>
-	<CAP9ODKqpnGVrBNh9PekyZJJBzRnjs9mfELM3afHTmT=0UDEegw@mail.gmail.com>
-	<CALbNGRSnxG0ZmFH2sAFL0B3uEy3mi97t30fSnn2JCSyFLr9Pdg@mail.gmail.com>
-	<CAP9ODKp1-e6oiv6oKUJ5aTPjYMBJL9YtF+16Gt=cooC+4LEdYw@mail.gmail.com>
-	<CALbNGRQPU2ToHpwcD6GA+TOz4zS2sJV8dXgbZsufn=9Pg-Pn3Q@mail.gmail.com>
-	<CAP9ODKo3MhRR_2OW4Xgg6GMkdV-ykD3AvrRRQU9n0pF1xqh4rQ@mail.gmail.com>
+	Mon, 18 May 2015 21:53:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:in-reply-to:organization:user-agent;
+	bh=BQ6uobsIgeNjC/xFtMZOJr5ODf/zHUf7YfOPHn37nBg=;
+	b=HdKFW3mJjgMbdL7zds6S76y7iJBAJ85/rk8yy9MG7QTZLbl7njte8pmlV1ThHo3h6E
+	MlF8JYXU2JGGZTHkwXmrURdyurdWO3XoytREEMVjy+KhjNZWYHnSxkMtx24pW/oEKLrS
+	wrlw8QDUb+CI7tpumH1ti4HId232dOB0wu2PqV/sI+yWag9K4VCHUMf023rDpYW1C8wl
+	Gz+NWJzznVqHNX8HkpImd1+P1fY6e6yPS+q0pOH/x0TTWXpsLuoMmdgLH3CVx1PNbJmf
+	xo2OXtDVzL1PS9k4Oq5dTNNGTKOwnHOLvpekA0Vkim2femmb5uLscxNciCzYK5Vnxuq8
+	kNWw==
+X-Gm-Message-State: ALoCoQnC1T+f21nxZwjDZy87YoHQpMWF/cssBbjKP5Rs2zwoAwKlytixLFrkhtigIxuT4Ze2S+Ux
+X-Received: by 10.112.154.138 with SMTP id vo10mr20028708lbb.68.1432011188656; 
+	Mon, 18 May 2015 21:53:08 -0700 (PDT)
+Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
+	[83.209.191.235])
+	by mx.google.com with ESMTPSA id p7sm3211792lae.47.2015.05.18.21.53.07
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 May 2015 21:53:07 -0700 (PDT)
+Date: Tue, 19 May 2015 06:53:06 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: Otavio Salvador <otavio@ossystems.com.br>
-X-Mailer: Apple Mail (2.2098)
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+Message-ID: <20150519045306.GA6886@ad.chargestorm.se>
+Mail-Followup-To: Otavio Salvador <otavio@ossystems.com.br>,
+	Christopher Larson <clarson@kergoth.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: trouble related to oe-core update
+References: <1431979698-29379-1-git-send-email-ldnunes@ossystems.com.br>
+	<1431979698-29379-2-git-send-email-ldnunes@ossystems.com.br>
+	<CABcZANk3s=5CAK+qQ2JySrzXsy2na0SBQv8E3N_m2Ei1bcOk+Q@mail.gmail.com>
+	<CAP9ODKoHQiPV5nYJbDPi9afxfagoxZzwvLbhDvD68O06yP1m2g@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKoHQiPV5nYJbDPi9afxfagoxZzwvLbhDvD68O06yP1m2g@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] cleanup-workdir: wait for bitbake instances to finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,81 +63,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 May 2015 03:54:26 -0000
-X-Groupsio-MsgNum: 65698
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1AD4329F-C95E-4C21-A198-10C5C1E37613";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 19 May 2015 04:53:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Apple-Mail=_1AD4329F-C95E-4C21-A198-10C5C1E37613
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+* Otavio Salvador <otavio@ossystems.com.br> [150519 00:27]:
 
+> On Mon, May 18, 2015 at 7:23 PM, Christopher Larson <clarson@kergoth.com> wrote:
 
-> On May 18, 2015, at 6:12 AM, Otavio Salvador <otavio@ossystems.com.br> =
-wrote:
->=20
-> On Mon, May 18, 2015 at 10:08 AM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
->> On Mon, May 18, 2015 at 2:50 PM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
-> ...
->> overestimate please. Still what about angstrom + imx6qsabresd?
->=20
-> No clue. I personally don't use Angstrom and I don't know what the
-> distro does. You can instrument the class code to see if you find
-> something useful and I can assist in how to address the issue. I just
-> don't have enough time to debug this myself.
+> > On Mon, May 18, 2015 at 1:08 PM, Lucas Dutra Nunes <ldnunes@ossystems.com.br> wrote:
 
-It has nothing to do with Angstrom, I checked meta-fsl-arm and here it =
-goes
+> >> bitbake uses a lock file on the build dir, "bitbake.lock", to prevent it
+> >> from running before an instance has exited. And sometimes the
+> >> cleanup-workdir script can call bibake too many times, too fast, before
+> >> the lock has been released.
 
-conf/machine/imx6qsabresd.conf
-=E2=80=A6.
-SOC_FAMILY =3D "mx6:mx6q=E2=80=9D
-=E2=80=A6
+> >> By simply waiting that the lock has been released solves this problem.
 
-Then
+> >> Signed-off-by: Lucas Dutra Nunes <ldnunes@ossystems.com.br>
 
-conf/machine/include/imx-base.inc
+> > The fact that the bitbake UI can exit before the lock has been
+> > released is a bug. Not being able to assume bitbake is done by the
+> > time the bitbake command exits is not ideal, no one should have to
+> > block directly o the lock like this.
 
-=E2=80=A6.
-# Float-Point setting
-# handled by software
-# DEFAULTTUNE_mx6 ?=3D "cortexa9-neon"
-# handled by hardware
-DEFAULTTUNE_mx6 ?=3D "cortexa9hf-neon=E2=80=9D
-=E2=80=A6.
+> Agreed so you would prefer this to be fixed there?
 
-Here you are saying all mx6 machines which don=E2=80=99t choose their =
-DEFAULTTUNE are not thumb capable
-and hence =E2=80=98thumb=E2=80=99 does not get into TUNE_FEATURES
+Sure, that would benefit everyone, not just this use-case.
 
-IMO changing defaults for mx6 to use cortexa9t2hf-vfp-neon would be most =
-close to h/w capabilities.
+Cheers,
+Anders
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
-and when we say my default instruction set is thumb then it errors out. =
-Ofcours one could argue
-that message could have been better but atleast it did not do the wrong =
-thing
-
-
-
---Apple-Mail=_1AD4329F-C95E-4C21-A198-10C5C1E37613
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVas/AACgkQuwUzVZGdMxQ7ewCfRpjESivryj04L4ck450cWtPN
-CVcAn18wSLU0GyCV98CvfwUFDobEyZbf
-=7L1D
------END PGP SIGNATURE-----
-
---Apple-Mail=_1AD4329F-C95E-4C21-A198-10C5C1E37613--
