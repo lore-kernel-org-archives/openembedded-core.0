@@ -1,39 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EECF46ABB3
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vn0-f49.google.com (mail-vn0-f49.google.com
+	[209.85.216.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED766ABB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 14:54:21 +0000 (UTC)
-Received: by qgfa63 with SMTP id a63so5105384qgf.0
+	Wed, 20 May 2015 14:58:27 +0000 (UTC)
+Received: by vnbf129 with SMTP id f129so3732252vnb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 07:54:22 -0700 (PDT)
+	Wed, 20 May 2015 07:58:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TtzyRX+HygOtbLKnwQvLW1F5j3MulqjdU9kZO/wJD4g=;
-	b=PlmNkBhZtbuL0sthL6MyeYcv6YHhFM7uLt6+GimnyRrWALTLM02kh9GdQe/aaabpm3
-	n1M6bG/zSfxPQ/yxPGrF0Cw6VJpgwWBw2tUg7tWz/1YQbS4jsdakmN7m3wr8nVP6yNeu
-	8DfLcVNlA6PKPagyAMmp/mpXYjCuFRtoHrd9mNsG7InSB/FcUdxTE5R4rvOP4YO5HGc6
-	NbRoXuq8NzUdP3CP1PrVrQS5tpSskMZG+Kpzjs/6PpkmmcUsjolc00nTlGqA0EllR8lC
-	6HvOjrdh1jP456H0MHFTQ5GKD87VaGcycUgWuHS+Kw+/vsPBB6RBdWG1+VvnONbdSyXv
-	g6xg==
-X-Gm-Message-State: ALoCoQkFZQMoOqIfYssPBc7R0mre+4kYfcBwqup4Ein0LTIp3ajRw74SN/q6kOi3Ou99iOJfbJ10
-X-Received: by 10.55.40.18 with SMTP id o18mr13055422qkh.58.1432133662168;
-	Wed, 20 May 2015 07:54:22 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=2In3cd7S/hisaLWET6I2WBqBcJrXxcWlQ4u/vS/OKfs=;
+	b=cR5JeAde3XUfaW2AfazaPjDakQV7dxdoS3UOWf+p43YEx7KLsJqKiJEf3GnjvHTJNm
+	jc2cITVV+iBTJttbtd+98OJhd2THauE+buXOAofs0tuwYEC03Sh7XpS3bAYqS3nBZRv/
+	061V/mkcW/p5xYVTI9aUBlVWbH4knN6LJn/ypc3ASFqHcWJLABw+SIuWqQuUhaR3F29w
+	XFXs0R53zcbRsynB3hGOE7R6TDhOkm0HRRStVLYIuYhXh12BLBzDF+aQ7oRIxgLiDT+2
+	3s3q/lfl15EaBdzHOONt8/CXJ0tZsmXsxYqmdzEcihL+u5nb7FijEr4sJRjv2r8m9r8R
+	4p6g==
+X-Gm-Message-State: ALoCoQkEhhz5X07F1NNxTxLJRTz5GeUAyBZLBJrk1EZMjoxYdjUp3UGnOy1Y/49lhpNFBAV1KR5G
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 07:54:01 -0700 (PDT)
-In-Reply-To: <CAOMwXhP-fdD2SjRrOFNR-aS7Caa30sxiC-Js_Jr8B5_+Q8uHow@mail.gmail.com>
+X-Received: by 10.52.7.33 with SMTP id g1mr34483121vda.83.1432133908210; Wed,
+	20 May 2015 07:58:28 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.53.6.12 with HTTP; Wed, 20 May 2015 07:58:28 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb5owzy0iq6xojbr6a20_VKm4JidZO=H48hLdqnSx5Udw@mail.gmail.com>
 References: <CAOMwXhNUPtaJfKHDuHPWoioyD2Sp8Abb_++Tdp3NAYN7-TGUcg@mail.gmail.com>
 	<CAC1BbcQ0L1ujZA_NvXx1hmUBq1gt9gC7tMHRwNLkNvmPGYZWaA@mail.gmail.com>
 	<CAC1BbcTOPBRO_3GjhSQdzQ35Y=BGAh1ntYdqK2tk8E09Hvni7g@mail.gmail.com>
 	<CAOMwXhNB-5w2ywAe6anARY0Kp+osPRmu6KnoiOpfTJ6G0WCCnQ@mail.gmail.com>
 	<CAJTo0La5BpGRQEnNb34ZtV5-Po2dELjcN2mcy_Dn_e-c7=SWXg@mail.gmail.com>
 	<CAOMwXhP-fdD2SjRrOFNR-aS7Caa30sxiC-Js_Jr8B5_+Q8uHow@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 May 2015 15:54:01 +0100
-Message-ID: <CAJTo0Lb5owzy0iq6xojbr6a20_VKm4JidZO=H48hLdqnSx5Udw@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
+	<CAJTo0Lb5owzy0iq6xojbr6a20_VKm4JidZO=H48hLdqnSx5Udw@mail.gmail.com>
+Date: Wed, 20 May 2015 15:58:28 +0100
+X-Google-Sender-Auth: chfZ5lSYZjXlqJUwV-f8CD2guzo
+Message-ID: <CAOMwXhOG9=fraTJfnuoWUY=e6ZwATRCKHOmUvTerz7m+08T_sg@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: busybox: passwd: applet not found
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,46 +51,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 14:54:26 -0000
-Content-Type: multipart/alternative; boundary=001a11440fb8346a670516849ac2
-
---001a11440fb8346a670516849ac2
+X-List-Received-Date: Wed, 20 May 2015 14:58:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 May 2015 at 15:50, Laszlo Papp <lpapp@kde.org> wrote:
-
-> Currently, I do not see any simple way without #ifdef jungle in the
-> code around to it. It is not nice.
+On Wed, May 20, 2015 at 3:54 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 20 May 2015 at 15:50, Laszlo Papp <lpapp@kde.org> wrote:
+>>
+>> Currently, I do not see any simple way without #ifdef jungle in the
+>> code around to it. It is not nice.
+>
+>
+> Looking at the busybox recipe reveals this:
+>
+> # Whether to split the suid apps into a seperate binary
+> BUSYBOX_SPLIT_SUID ?= "1"
+>
+> Just remember that the suid apps were being split out for good security
+> reasons.  There's no need for sed to have suid rights!
 
-Looking at the busybox recipe reveals this:
+I will not argue about security measure improvements as I agree about
+them with you. However, I will debate the way this security measure is
+implemented. It is distraction from the desktop world where you can
+also use busybox and many use. Now, all of a sudden, we have to handle
+them differently in code and scripts.
 
-# Whether to split the suid apps into a seperate binary
-BUSYBOX_SPLIT_SUID ?= "1"
+I think a less intrusive approach to implement this could have been
+(and probably still not late) is to fix the rights underneath and not
+by such wrappers. Such wrappers will introduce this disruption which
+is not strictly needed. Well, you could say that if desktop
+distributions also implement it like this, then there is no
+disruption, but I think that is never going to happen if busybox
+itself does not enforce it.
 
-Just remember that the suid apps were being split out for good security
-reasons.  There's no need for sed to have suid rights!
+I think this is not a good implementation for security to remain
+consistent with the rest of the world. Could it be please reconsidered
+towards another solutions?
 
-Ross
+It is also good if one call tell me how to solve this differentiation
+between desktop and Yocto without further code.
 
---001a11440fb8346a670516849ac2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 May 2015 at 15:50, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;pa=
-dding-left:1ex"><div id=3D":r3" class=3D"" style=3D"overflow:hidden">Curren=
-tly, I do not see any simple way without #ifdef jungle in the<br>
-code around to it. It is not nice.<br></div></blockquote></div><br>Looking =
-at the busybox recipe reveals this:</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra"><div class=3D"gmail_extra"># Whether to split=
- the suid apps into a seperate binary</div><div class=3D"gmail_extra">BUSYB=
-OX_SPLIT_SUID ?=3D &quot;1&quot;</div><div><br></div><div>Just remember tha=
-t the suid apps were being split out for good security reasons.=C2=A0 There=
-&#39;s no need for sed to have suid rights!</div><div><br></div><div>Ross</=
-div></div></div>
-
---001a11440fb8346a670516849ac2--
