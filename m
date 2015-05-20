@@ -1,26 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CDDA56ABB3
+	by mail.openembedded.org (Postfix) with ESMTP id 36DDB6AC20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 12:05:16 +0000 (UTC)
+	Wed, 20 May 2015 12:05:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4KC5GgN004851; Wed, 20 May 2015 13:05:16 +0100
+	t4KC5gpr004906; Wed, 20 May 2015 13:05:42 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QZNB4ixiGf3X; Wed, 20 May 2015 13:05:16 +0100 (BST)
+	with LMTP id LIWPWarITK8H; Wed, 20 May 2015 13:05:42 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4KC53QX004826
+	t4KC5VLY004880
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 20 May 2015 13:05:15 +0100
-Message-ID: <1432123503.28910.55.camel@linuxfoundation.org>
+	Wed, 20 May 2015 13:05:42 +0100
+Message-ID: <1432123531.28910.56.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 May 2015 13:05:03 +0100
+To: ChenQi <Qi.Chen@windriver.com>
+Date: Wed, 20 May 2015 13:05:31 +0100
+In-Reply-To: <555C2326.90207@windriver.com>
+References: <1431595911.30971.189.camel@linuxfoundation.org>
+	<555C2326.90207@windriver.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] sstate: Add handling of do_shared_workdir task
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel/rm_work: Improve interaction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 12:05:22 -0000
+X-List-Received-Date: Wed, 20 May 2015 12:05:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Changing TMPDIR and rebuilding an image was resulting in rebuilds of
-kernels due to dependencies on the shared_workdir task. If installed
-from sstate, nothing needs this task so add it to the whitelisted
-task patterns.
+On Wed, 2015-05-20 at 14:01 +0800, ChenQi wrote:
+> I've observed a side effect of this patch.
+> The problem is sstate reuse.
+> 
+> Steps to reproduce:
+> 1) bitbake core-image-minimal
+> 2) Change TMPDIR in local.conf
+>       TMPDIR = "${TOPDIR}/tmp-test"
+> 3) bitbake core-image-minimal
+> 
+> In theory, sstate objects are all reused in step 3. But currently the 
+> do_populate_sysroot sstate object of the kernel is not reused. In 
+> addition, other kernel tasks like do_fetch, do_patch, do_compile, etc, 
+> are rerun.
 
-After this change, the kernel does not rebuild when a new TMPDIR and
-hot sstate cache is used.
+Well spotted, I've sent a patch out for this.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ccf2ea7..9e04388 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -867,6 +867,9 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-             # Target populate_sysroot need their dependencies
-             return False
- 
-+        if taskdependees[task][1] == 'do_shared_workdir':
-+            continue
-+
-         # This is due to the [depends] in useradd.bbclass complicating matters
-         # The logic *is* reversed here due to the way hard setscene dependencies are injected
-         if taskdependees[task][1] == 'do_package' and taskdependees[dep][0].endswith(('shadow-native', 'shadow-sysroot', 'base-passwd', 'pseudo-native')) and taskdependees[dep][1] == 'do_populate_sysroot':
-
+Richard
 
 
