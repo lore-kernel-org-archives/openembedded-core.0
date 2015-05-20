@@ -1,30 +1,29 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-vn0-f46.google.com (mail-vn0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CC42C6AC15
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id B1FBD60168
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 15:02:10 +0000 (UTC)
-Received: by vnbf129 with SMTP id f129so3741463vnb.1
+	Wed, 20 May 2015 15:07:49 +0000 (UTC)
+Received: by qkgw4 with SMTP id w4so33552024qkg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 08:02:11 -0700 (PDT)
+	Wed, 20 May 2015 08:07:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=SZrok9mhU8dA7FaxrrYvSyNRlNIm+2mUlyjE1/BybAw=;
-	b=QUJUSTLJ8womj2iLHuN4O/JtbrJT6VdjBVrSpAliUJ0LpIYI113+XIjsa30j/hXknX
-	SIwGmqn6oYVqa5OHiiIR67o6VqHqEmdOydlYuBcnN08R2Sy0xAQQwy7Z5kil12vjOmjf
-	ljCDscuOvwx5VnqLOz9KmmSRDc0wS7A8DvZbhT1mlAR3ZoV6KaC8wAVCWnTBeyLngomI
-	2mtzP7jouLcU7STBIXYqKf1yCTWk7s+BLkaFvohteMYMg6iGs1LKySymWO+hWUVkXeh3
-	CW176unwmWLYTcvJ4ZxzZUEU7zFkIZeDXLhAd1LvfDA2y3m0uJXVy5/F9Fhd3mI7cC6e
-	Nd2w==
-X-Gm-Message-State: ALoCoQkw1iUWmpasJw2+GUmqt+DMYqlTMXKYjUpM0eTkk02jUbqChf1sONfOY4/D+5VBUCXdBYNp
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=z2uTgtm+Cb9DNjfQCNC7HzAD3VN+I3zVn3NR74Uni0U=;
+	b=KIwjyX06oxQRWAWVVmIKwJDm8DJT72bdV2FkfAON3szPm86cnUgFZzq9zR+bv7IMP6
+	aYS0OEWIkqDQT1k9FaNWYszGl2k1SfZbTMzMbrAVV2H005J8TKhGfakWXWxUS0PPGK9p
+	uMtAwvEhoPTLz6hZuQTGoce46yRV0w9WyKHdqCkpOY2nNUlev/nPYIQQ3jPXI+IL/Cag
+	EpuapkCofsVimzsDaUN6+kkMDSPKdza3E0R8/nvU2piJalaX1kAUIrl8Jxn8S/vboaO8
+	Mcjow5Xa9eziyooGQ2rSxohqQV3NcIwxKy7lWaWytIQeLpQ9pG3kWsaacj5MJgw5lBxf
+	gwyQ==
+X-Gm-Message-State: ALoCoQlirq28k1lTOglIbDSUoef4NW7rZItCddgDicCJgJYj78vcMUm/ROU6b+32yP6OwIpc6Gec
+X-Received: by 10.140.235.77 with SMTP id g74mr46586347qhc.64.1432134470423;
+	Wed, 20 May 2015 08:07:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.52.180.102 with SMTP id dn6mr34212050vdc.17.1432134131733;
-	Wed, 20 May 2015 08:02:11 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.53.6.12 with HTTP; Wed, 20 May 2015 08:02:11 -0700 (PDT)
-In-Reply-To: <CAOMwXhOG9=fraTJfnuoWUY=e6ZwATRCKHOmUvTerz7m+08T_sg@mail.gmail.com>
+Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 08:07:30 -0700 (PDT)
+In-Reply-To: <CAOMwXhMWtUxfdN_+dy-vYOVtQvL8sknTDxyAbfcygML2idYJsA@mail.gmail.com>
 References: <CAOMwXhNUPtaJfKHDuHPWoioyD2Sp8Abb_++Tdp3NAYN7-TGUcg@mail.gmail.com>
 	<CAC1BbcQ0L1ujZA_NvXx1hmUBq1gt9gC7tMHRwNLkNvmPGYZWaA@mail.gmail.com>
 	<CAC1BbcTOPBRO_3GjhSQdzQ35Y=BGAh1ntYdqK2tk8E09Hvni7g@mail.gmail.com>
@@ -33,11 +32,11 @@ References: <CAOMwXhNUPtaJfKHDuHPWoioyD2Sp8Abb_++Tdp3NAYN7-TGUcg@mail.gmail.com>
 	<CAOMwXhP-fdD2SjRrOFNR-aS7Caa30sxiC-Js_Jr8B5_+Q8uHow@mail.gmail.com>
 	<CAJTo0Lb5owzy0iq6xojbr6a20_VKm4JidZO=H48hLdqnSx5Udw@mail.gmail.com>
 	<CAOMwXhOG9=fraTJfnuoWUY=e6ZwATRCKHOmUvTerz7m+08T_sg@mail.gmail.com>
-Date: Wed, 20 May 2015 16:02:11 +0100
-X-Google-Sender-Auth: Jzfq3caS_3ocQUZskaY-toG29tM
-Message-ID: <CAOMwXhMWtUxfdN_+dy-vYOVtQvL8sknTDxyAbfcygML2idYJsA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAOMwXhMWtUxfdN_+dy-vYOVtQvL8sknTDxyAbfcygML2idYJsA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 May 2015 16:07:30 +0100
+Message-ID: <CAJTo0LbAzuA6m6bvZG5oOhqwGKavxh=enywV4MzoHmONAOYUTA@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: busybox: passwd: applet not found
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,53 +51,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 15:02:12 -0000
+X-List-Received-Date: Wed, 20 May 2015 15:07:50 -0000
+Content-Type: multipart/alternative; boundary=001a11354a00616b6c051684caa4
+
+--001a11354a00616b6c051684caa4
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, May 20, 2015 at 3:58 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> On Wed, May 20, 2015 at 3:54 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 20 May 2015 at 15:50, Laszlo Papp <lpapp@kde.org> wrote:
->>>
->>> Currently, I do not see any simple way without #ifdef jungle in the
->>> code around to it. It is not nice.
->>
->>
->> Looking at the busybox recipe reveals this:
->>
->> # Whether to split the suid apps into a seperate binary
->> BUSYBOX_SPLIT_SUID ?= "1"
->>
->> Just remember that the suid apps were being split out for good security
->> reasons.  There's no need for sed to have suid rights!
->
-> I will not argue about security measure improvements as I agree about
-> them with you. However, I will debate the way this security measure is
-> implemented. It is distraction from the desktop world where you can
-> also use busybox and many use. Now, all of a sudden, we have to handle
-> them differently in code and scripts.
->
-> I think a less intrusive approach to implement this could have been
-> (and probably still not late) is to fix the rights underneath and not
-> by such wrappers. Such wrappers will introduce this disruption which
-> is not strictly needed. Well, you could say that if desktop
-> distributions also implement it like this, then there is no
-> disruption, but I think that is never going to happen if busybox
-> itself does not enforce it.
->
-> I think this is not a good implementation for security to remain
-> consistent with the rest of the world. Could it be please reconsidered
-> towards another solutions?
->
-> It is also good if one call tell me how to solve this differentiation
-> between desktop and Yocto without further code.
+On 20 May 2015 at 16:02, Laszlo Papp <lpapp@kde.org> wrote:
 
-On a second thought: is even worse now than that, our code has to
-handle _three_ different scenarios:
+> On a second thought: is even worse now than that, our code has to
+> handle _three_ different scenarios:
+>
+> 1) Desktop.
+> 2) Embedded without Yocto or embedded with old Yocto.
+> 3) Embedded with new Yocto.
+>
+> I do not get excited about this.
+>
 
-1) Desktop.
-2) Embedded without Yocto or embedded with old Yocto.
-3) Embedded with new Yocto.
+Do as the documentation says in your distro and you have one scenario.
 
-I do not get excited about this.
+Ross
 
+--001a11354a00616b6c051684caa4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 May 2015 at 16:02, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:<br><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><div id=3D":bt" class=3D"a3s" style=3D"overfl=
+ow:hidden">On a second thought: is even worse now than that, our code has t=
+o<br>
+handle _three_ different scenarios:<br>
+<br>
+1) Desktop.<br>
+2) Embedded without Yocto or embedded with old Yocto.<br>
+3) Embedded with new Yocto.<br>
+<br>
+I do not get excited about this.</div></blockquote><div><br></div><div>Do a=
+s the documentation says in your distro and you have one scenario.</div><di=
+v><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a11354a00616b6c051684caa4--
