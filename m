@@ -1,24 +1,24 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 750D9601E3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 06:45:30 +0000 (UTC)
-Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
-	by mail.kapsi.fi with esmtps (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1Yuxkx-0000wJ-CZ; Wed, 20 May 2015 09:45:31 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.80)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1Yuxkx-0002Rw-6d; Wed, 20 May 2015 09:45:31 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 May 2015 09:45:29 +0300
-Message-Id: <1432104329-6352-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 1.7.10.4
-X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH] buildhistory: set commit user name and email for the new git repo
+Return-Path: <Chuang.Dong@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 174A1601E3
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 07:37:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4K7b2QI010778
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 00:37:02 -0700 (PDT)
+Received: from pek-lpd-susbld.wrs.com (128.224.153.80) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 20 May 2015 00:37:02 -0700
+From: Chuang Dong <Chuang.Dong@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 20 May 2015 15:37:00 +0800
+Message-ID: <1432107420-36311-1-git-send-email-Chuang.Dong@windriver.com>
+X-Mailer: git-send-email 1.8.5.2.233.g932f7e4
+MIME-Version: 1.0
+Subject: [PATCH] e2fsprogs: add expansion of mkdir_p to configure.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 06:45:30 -0000
+X-List-Received-Date: Wed, 20 May 2015 07:37:02 -0000
+Content-Type: text/plain
 
-git commit needs a user name and email even if --author is set. In most
-cases users have ~/.gitconfig but in some cases the build user account
-does not have these set which breaks the build.
+add 0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch
+which fix a bug that macro @mkdir_p@ can't be substituted and modify
+e2fsprogs_1.42.9.bb to add this patch
 
-Change-Id: Idd35df626332756ba5bd61d9273c76c7e63ed3f9
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Upstream-Status: Pending
+
+Signed-off-by: Chuang Dong <Chuang.Dong@windriver.com>
 ---
- meta/classes/buildhistory.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ ...-add-expansion-of-mkdir_p-to-configure.in.patch | 32 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 211dcf1..dbd27b0 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -14,7 +14,9 @@ BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}
- BUILDHISTORY_DIR_SDK = "${BUILDHISTORY_DIR}/sdk/${SDK_NAME}/${IMAGE_BASENAME}"
- BUILDHISTORY_IMAGE_FILES ?= "/etc/passwd /etc/group"
- BUILDHISTORY_COMMIT ?= "0"
--BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
-+BUILDHISTORY_COMMIT_USER_NAME ?= "buildhistory"
-+BUILDHISTORY_COMMIT_USER_EMAIL ?= "<buildhistory@${DISTRO}>"
-+BUILDHISTORY_COMMIT_AUTHOR ?= "${BUILDHISTORY_COMMIT_USER_NAME} ${BUILDHISTORY_COMMIT_USER_EMAIL}"
- BUILDHISTORY_PUSH_REPO ?= ""
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch
+new file mode 100644
+index 0000000..fa62f4d
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch
+@@ -0,0 +1,32 @@
++From 94868938a7e4728019640356b3919c7ddd0b91d4 Mon Sep 17 00:00:00 2001
++From: Chuang Dong <Chuang.Dong@windriver.com>
++Date: Wed, 20 May 2015 14:15:27 +0800
++Subject: [PATCH] e2fsprogs: add expansion of mkdir_p to configure.in
++
++the macro named @mkdir_p@ that can't be substituted, which in  the file
++Makefile(/build/e2fsprogs/build/po), @mkdir_p@ equal to @MKDIR_P@ which has
++been substituted. So, add a command in original code of e2fsprogs could
++substitute @mkdir_p@
++
++Upstream-Status: Pending
++
++Signed-off-by: Chuang Dong <Chuang.Dong@windriver.com>
++---
++ configure.in | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/configure.in b/configure.in
++index 6f39cc9..f895531 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -6,6 +6,7 @@ AH_BOTTOM([#include "dirpaths.h"])
++ MCONFIG=./MCONFIG
++ AC_SUBST_FILE(MCONFIG)
++ BINARY_TYPE=bin
+++AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
++ dnl
++ dnl This is to figure out the version number and the date....
++ dnl
++-- 
++1.8.5.2.233.g932f7e4
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index b354088..4ce1ba8 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -22,6 +22,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://cache_inode.patch \
+             file://CVE-2015-0247.patch \
+             file://0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch \
++            file://0001-e2fsprogs-add-expansion-of-mkdir_p-to-configure.in.patch \
+ "
  
- SSTATEPOSTINSTFUNCS_append = " buildhistory_emit_pkghistory"
-@@ -586,6 +588,11 @@ END
- 		HOSTNAME=`hostname 2>/dev/null || echo unknown`
- 		CMDLINE="${@buildhistory_get_cmdline(d)}"
- 		if [ "$repostatus" != "" ] ; then
-+			# git commit needs this setup, done every time before
-+			# commit to support name and email changes via
-+			# bitbake configuration
-+			git config user.name "${BUILDHISTORY_COMMIT_USER_NAME}"
-+			git config user.email "${BUILDHISTORY_COMMIT_USER_EMAIL}"
- 			git add -A .
- 			# porcelain output looks like "?? packages/foo/bar"
- 			# Ensure we commit metadata-revs with the first commit
+ SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
 -- 
-2.1.4
+1.8.5.2.233.g932f7e4
 
 
