@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 35CFB607BB
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 767DA6AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 19:06:16 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so165694706wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 12:06:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sZw4MyOiSqtaa7KS+bBszZTepbVAWhay+p5Aci7pAjs=;
-	b=UkwhG/Rvm6vPhiJjsbMCHuwr/n4b09jgyRbplfAYHNmo57lfZlbruaW1r8PW6oSFkE
-	WlRG9J2YomcnnLeGVgmBwS8J0AonYvKMXp5nUD9zt1i8rz1yclrrKtoaqh8azPSJVxz3
-	ZA2DANvBdPITihmY5bwlGAhwqp+4C6JWZsA1XNwUKZH4mKKh78tskR0wQGlMoRmwf25o
-	dmLtyXBRmgouPQRW9GPSD1Xl3EhHiDVjZrUPfI4PZ+decr+cITRv9fRDjp3+njlslxob
-	FWsxmCZuuDZiFzXl2mQTmaBJHg2sCGvtjU4ipWmDKlnfwNQpTtBLr9uh6SOjsDhpX0wl
-	qEJw==
-X-Gm-Message-State: ALoCoQlRBqrZIqTsQn40qOP4uyiMBzR55vDjhHBvitu3kBJ9YEogGkce+2gbTr66Gvw+TUYOPXpO
-X-Received: by 10.180.7.133 with SMTP id j5mr44993412wia.84.1432148777616;
-	Wed, 20 May 2015 12:06:17 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	ew10sm4876430wic.22.2015.05.20.12.06.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 May 2015 12:06:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 20 May 2015 19:10:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 20 May 2015 12:10:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,465,1427785200"; d="scan'208";a="496212259"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 12:10:45 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 May 2015 20:01:59 +0100
-Message-Id: <1432148519-27431-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 20 May 2015 22:09:22 +0300
+Message-Id: <cover.1432147061.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] zlib: clean up base_libdir symlink
+Subject: [PATCH 0/2] xserver-xorg upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 19:06:17 -0000
+X-List-Received-Date: Wed, 20 May 2015 19:10:45 -0000
 
-libz.so symbolic link created in ${libdir} is
-../../${base_libdir}/libz.so.1.2.8.  This doesn't work if base_libdir or libdir
-is changed, so use oe.path.relative to construct the correct path at build time.
+The last commit does three things:
+ * removes xf86-video-modesetting recipe
+ * upgrades xserver-xorg (which now includes modesetting driver)
+ * updates OELAYOUT_ABI (to avoid sanity check freaking out from the
+   previous two)
+The combination seems logically atomic to me but let me know if I should
+divide it into separate commits instead.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/zlib/zlib_1.2.8.bb | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Also, I'm not totally familiar with the tmp/sysroots/ layout so would
+appreciate advice on the sanity.bbclass changes.
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.8.bb
-index ca0ba3f..9470adb 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
-@@ -6,7 +6,6 @@ SECTION = "libs"
- LICENSE = "Zlib"
- LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b73844a0c494fd"
- 
--
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.xz \
-            file://remove.ldconfig.call.patch \
-            file://Makefile-runtests.patch \
-@@ -45,16 +44,15 @@ do_install_ptest() {
- 	install ${B}/minigzipsh ${D}${PTEST_PATH}
- }
- 
--# We move zlib shared libraries for target builds to avoid
--# qa warnings.
--#
-+# Move zlib shared libraries for target builds to $base_libdir so the library
-+# can be used in early boot before $prefix is mounted.
- do_install_append_class-target() {
- 	if [ ${base_libdir} != ${libdir} ]
- 	then
- 		mkdir -p ${D}/${base_libdir}
- 		mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
--		tmp=`readlink ${D}/${libdir}/libz.so`
--		ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
-+		libname=`readlink ${D}/${libdir}/libz.so`
-+		ln -sf ${@oe.path.relative("${libdir}", "${base_libdir}")}/$libname ${D}${libdir}/libz.so
- 	fi
- }
- 
+First commit fixes a sanity.bbclass bug that would be triggered by the
+actual patch.
+
+I've tested the ABI upgrade to the best of my ability (including wiping
+tmp/, building an image from master, then building this branch). 
+
+The following changes since commit 16caaabfcc678b03a0cd88aaeac15f9b8d1c3dad:
+
+  bitbake: bitbake-user-manual-customization.xsl: Pointing to mirrors for XSL files. (2015-05-19 22:09:36 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xorg
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xorg
+
+Jussi Kukkonen (2):
+  sanity.bbclass: import subprocess in correct function
+  xserver-xorg: Upgrade 1.16.3 -> 1.17.1 (OELAYOUT_ABI change)
+
+ meta-yocto/conf/distro/poky.conf                   |   2 +-
+ meta/classes/sanity.bbclass                        |  10 +-
+ meta/conf/abi_version.conf                         |   2 +-
+ .../xorg-driver/xf86-video-modesetting_0.9.0.bb    |   8 --
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   9 +-
+ ...Check-strings-length-against-request-size.patch | 145 ---------------------
+ ...wap-XkbSetGeometry-data-in-the-input-buff.patch | 109 ----------------
+ .../Fix-subwindow-in-Xi-emulated-events.patch      |  41 ------
+ .../xserver-xorg/xshmfence-option.patch            |  57 --------
+ ...erver-xorg_1.16.3.bb => xserver-xorg_1.17.1.bb} |   8 +-
+ 10 files changed, 19 insertions(+), 372 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.9.0.bb
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-Check-strings-length-against-request-size.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-Don-t-swap-XkbSetGeometry-data-in-the-input-buff.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/Fix-subwindow-in-Xi-emulated-events.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xshmfence-option.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.16.3.bb => xserver-xorg_1.17.1.bb} (74%)
+
 -- 
 2.1.4
 
