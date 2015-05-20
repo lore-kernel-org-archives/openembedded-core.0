@@ -1,26 +1,28 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 67E9872B33
+	by mail.openembedded.org (Postfix) with ESMTP id 2348E6AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 02:21:36 +0000 (UTC)
+	Wed, 20 May 2015 06:01:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4K2LbTb008548
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 May 2015 19:21:38 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.153) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 19 May 2015 19:21:37 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 May 2015 10:21:48 +0800
-Message-ID: <2ec9d6e9df15ecea7011cf1d9e9e452b56150846.1432088441.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1432088441.git.Qi.Chen@windriver.com>
-References: <cover.1432088441.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4K60xZ4009874
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 May 2015 23:00:59 -0700 (PDT)
+Received: from [128.224.163.153] (128.224.163.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 19 May 2015 23:00:59 -0700
+Message-ID: <555C2326.90207@windriver.com>
+Date: Wed, 20 May 2015 14:01:10 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] buildstats-summary: add eventmask
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1431595911.30971.189.camel@linuxfoundation.org>
+In-Reply-To: <1431595911.30971.189.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.163.153]
+Subject: Re: [PATCH] kernel/rm_work: Improve interaction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +35,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 02:21:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 May 2015 06:01:01 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add eventmask 'bb.event.BuildCompleted' for buildstats_summary handler to avoid
-running the codes in the handler everytime there's an event.
+Hi Richard,
 
-The codes in buildstats_summary only need to run for bb.event.BuildCompleted.
-So add this event mask.
+I've observed a side effect of this patch.
+The problem is sstate reuse.
 
-Also, we remove the redundant isinstance() statement in the handler.
+Steps to reproduce:
+1) bitbake core-image-minimal
+2) Change TMPDIR in local.conf
+      TMPDIR = "${TOPDIR}/tmp-test"
+3) bitbake core-image-minimal
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/buildstats-summary.bbclass | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+In theory, sstate objects are all reused in step 3. But currently the 
+do_populate_sysroot sstate object of the kernel is not reused. In 
+addition, other kernel tasks like do_fetch, do_patch, do_compile, etc, 
+are rerun.
 
-diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/buildstats-summary.bbclass
-index c8fbb2f..05ead9f 100644
---- a/meta/classes/buildstats-summary.bbclass
-+++ b/meta/classes/buildstats-summary.bbclass
-@@ -1,8 +1,5 @@
- # Summarize sstate usage at the end of the build
- python buildstats_summary () {
--    if not isinstance(e, bb.event.BuildCompleted):
--        return
--
-     import collections
-     import os.path
- 
-@@ -37,3 +34,4 @@ python buildstats_summary () {
-             bb.note("  {0}: {1}% sstate reuse ({2} setscene, {3} scratch)".format(t, 100*len(sstate)/(len(sstate)+len(no_sstate)), len(sstate), len(no_sstate)))
- }
- addhandler buildstats_summary
-+buildstats_summary[eventmask] = "bb.event.BuildCompleted"
--- 
-1.9.1
+Best Regards,
+Chen Qi
+
+On 05/14/2015 05:31 PM, Richard Purdie wrote:
+> The do_shared_workdir task does leave behind the necessary information in
+> shared-work after it completes. We don't make this a "full" sstate task
+> however since that means tarring up and copying what is usually a large
+> amount of data which would be better extracted straight from the original
+> SCM.
+>
+> The issue with rm_work occurs since it removes the do_shared_workdir stamp
+> meaning subsequent builds will add it back if they need to touch any kernel
+> modules for example. This ends up triggering a near enough complete kernerl
+> rebuild since if configure reruns, populate_sysroot has to rerun.
+>
+> This change promotes the task to have a "setscene" variant but it doesn't use
+> any of the sstate class lifting to generate the sstate file. The sstate function
+> will therefore never get called since the sstate object will never exist.
+>
+> We can add the task to the list of tasks rm_work promotes to a setscene variant
+> and unwanted rebuilds of the kernel should be avoided.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 74092e9..54725ba 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -235,6 +235,11 @@ kernel_do_install() {
+>   do_install[prefuncs] += "package_get_auto_pr"
+>   
+>   addtask shared_workdir after do_compile before do_compile_kernelmodules
+> +addtask shared_workdir_setscene
+> +
+> +do_shared_workdir_setscene () {
+> +	exit 1
+> +}
+>   
+>   emit_depmod_pkgdata() {
+>   	# Stash data for depmod
+> diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+> index e68d02a..5e9efc1 100644
+> --- a/meta/classes/rm_work.bbclass
+> +++ b/meta/classes/rm_work.bbclass
+> @@ -49,7 +49,7 @@ do_rm_work () {
+>       cd `dirname ${STAMP}`
+>       for i in `basename ${STAMP}`*
+>       do
+> -        for j in ${SSTATETASKS}
+> +        for j in ${SSTATETASKS} do_shared_workdir
+>           do
+>               case $i in
+>               *do_setscene*)
+>
+>
 
 
