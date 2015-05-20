@@ -1,40 +1,38 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-vn0-f43.google.com (mail-vn0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B5606AC15
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DD5A73223
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 14:42:15 +0000 (UTC)
-Received: by vnbg62 with SMTP id g62so3688445vnb.8
+	Wed, 20 May 2015 14:42:38 +0000 (UTC)
+Received: by qget53 with SMTP id t53so24441073qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 07:42:16 -0700 (PDT)
+	Wed, 20 May 2015 07:42:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=63+UPy/8sBb0wx8tSiwTZJo36AO0729K9X0zISYSKf0=;
-	b=XPZX60g32upXHQLaT8vAY8ds4eVpxQ9MaxSda5Tl6Jg6zb8OTNVvQ4vHniQEAyBmD+
-	V9h10Pxb4faA26BHMPjMK/RbxQGuENFOSpgpY/XDtgyh6/Z4g/nqy6wzWpNj0y+tmfUC
-	9wMSIUJfkxF0AELBEnqSvmNnTO26cHoZE36+X4/8xqeoqn8cNJWz3eso4fXrVwhjkfeD
-	I6zNH54cwbvmbfqQYnqZ+XfUFPQGngP3ZI8LTe4hm33ZjP7wupw+6NSe+93xReiEgTLi
-	oT1T7PHtdtlYB4mF/7vDXvLsS6kJoH0ID6XQj0hzSFh528IPmmeMk1c64ZfLzttBNOv4
-	wtOA==
-X-Gm-Message-State: ALoCoQmwvmu28KUDdH1fJMk0z4rp1I+r8jpDndNQdxAYQEK2EH94jfOHNvg//5e325uPqyyOAnty
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=t7ZdO52LKDxaMwtNtgKsxkNZMetfF092WM9TpTIPJ4s=;
+	b=YB0xErUy5cfdKH80SdRp6iYF5K0dXQmvZpaVIR+Tpi4tiMa10rWhBOjCM5yRbmTt++
+	msdi7aysBdsFSj4Lvb/jDTxArZVFddcjhrcpot7pHlRmmky1IYXe21QxBjRR4qWziOM0
+	LSL4J3ms3++nwcPAQedlY0ua35Lq5s9QWw3eemIalc+VwwTsgMqwfQSniMnSvVgoZWFr
+	7XPRAT1DXL1hGRmksS+o5MbQKE3DH9B1Mrt+kavUD/Dp7hBGWQXHZ/dz7q69Kp3f5isg
+	7PHX3/gdeGLEXVea5ZAZ2yEANYrwgUGUsq1tN0pL6EWFA3ANeYd3uNFdglAly6aJ7fZL
+	fKyg==
+X-Gm-Message-State: ALoCoQlN2+DR5LfrLkGuRextgxWej6fwZtsnaivs6bCukkX1EL4QL3WbACsZfEusWUZO4G9Q/FJI
+X-Received: by 10.140.133.199 with SMTP id 190mr23552777qhf.17.1432132960054; 
+	Wed, 20 May 2015 07:42:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.52.100.103 with SMTP id ex7mr33890503vdb.71.1432132936406;
-	Wed, 20 May 2015 07:42:16 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.53.6.12 with HTTP; Wed, 20 May 2015 07:42:16 -0700 (PDT)
-In-Reply-To: <CAC1BbcTOPBRO_3GjhSQdzQ35Y=BGAh1ntYdqK2tk8E09Hvni7g@mail.gmail.com>
-References: <CAOMwXhNUPtaJfKHDuHPWoioyD2Sp8Abb_++Tdp3NAYN7-TGUcg@mail.gmail.com>
-	<CAC1BbcQ0L1ujZA_NvXx1hmUBq1gt9gC7tMHRwNLkNvmPGYZWaA@mail.gmail.com>
-	<CAC1BbcTOPBRO_3GjhSQdzQ35Y=BGAh1ntYdqK2tk8E09Hvni7g@mail.gmail.com>
-Date: Wed, 20 May 2015 15:42:16 +0100
-X-Google-Sender-Auth: INol85yvVcY24ShSX_UN2e7OuZw
-Message-ID: <CAOMwXhNB-5w2ywAe6anARY0Kp+osPRmu6KnoiOpfTJ6G0WCCnQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: busybox: passwd: applet not found
+Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 07:42:19 -0700 (PDT)
+In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
+References: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 May 2015 15:42:19 +0100
+Message-ID: <CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
+To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] zlib: minor symbolic link issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 14:42:16 -0000
+X-List-Received-Date: Wed, 20 May 2015 14:42:43 -0000
+Content-Type: multipart/alternative; boundary=001a113533905b03f50516847004
+
+--001a113533905b03f50516847004
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, May 20, 2015 at 3:05 PM, Bernhard Reutner-Fischer
-<rep.dot.nop@gmail.com> wrote:
-> On 20 May 2015 at 15:48, Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
->> On 20 May 2015 at 13:55, Laszlo Papp <lpapp@kde.org> wrote:
->>> Hi,
->>>
->>> I am a bit confused why busybox passwd does not work with daisy. It
->>> used to work with dylan. When I try to use "busybox passwd", I am
->>> getting the following output:
->>>
->>>     passwd: applet not found
->>
->> is the password applet built?
->> Check your busybox .config.
->> Is passwd listed when you invoke plain busybox and have the help-text
->> printing turned on?
->>
->> Sometimes code around bsearch is miscompiled but this should not be
->> the case for your setup, i suppose.
+On 20 May 2015 at 10:47, Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+wrote:
+
+> Just tell me if something is wrong, I can provide a v2 patch.
 >
-> ah, the great suid / nosuid split ?
-> try /bin/busybox.suid passwd instead, the default /bin/busybox
-> supposedly points to the .nosuid binary.
 
-Now that just breaks all the code that our software is using. Why did
-this binary incompatible change sneak in, and especially: why without
-any note in the migration guide? Furthermore, is there a way to
-reverse this? I really would like to avoid rewriting my code just
-because some other people think it is a cool change. Or is this change
-absolutely necessary?
+No, it just slipped through the cracks.
 
+That regex looked a bit obscure, and there's a Python function we provide
+that uses the Python standard library to do the same thing, so I ended up
+with this locally:
+
+# Move zlib shared libraries for target builds to $base_libdir so the
+library
+# can be used in early boot before $prefix is mounted.
+do_install_append_class-target() {
+if [ ${base_libdir} != ${libdir} ]
+then
+mkdir -p ${D}/${base_libdir}
+mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
+libname=`readlink ${D}/${libdir}/libz.so`
+ln -sf ${@oe.path.relative("${libdir}", "${base_libdir}")}/$libname
+${D}${libdir}/libz.so
+fi
+}
+
+Do you have any objections to this form instead?  I'm also thinking we
+should rationalise the duplicated logic into a single implementation in
+meta/classes/utils.bbclass...
+
+Ross
+
+--001a113533905b03f50516847004
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 May 2015 at 10:47, Matthieu CRAPET <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:Matthieu.CRAPET@ingenico.com" target=3D"_blank">Matthieu.CRAPET@ingen=
+ico.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,2=
+04,204);border-left-style:solid;padding-left:1ex"><div style=3D"overflow:hi=
+dden">Just tell me if something is wrong, I can provide a v2 patch.<br></di=
+v></blockquote></div><br>No, it just slipped through the cracks.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">That regex looke=
+d a bit obscure, and there&#39;s a Python function we provide that uses the=
+ Python standard library to do the same thing, so I ended up with this loca=
+lly:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><=
+div class=3D"gmail_extra"># Move zlib shared libraries for target builds to=
+ $base_libdir so the library</div><div class=3D"gmail_extra"># can be used =
+in early boot before $prefix is mounted.</div><div class=3D"gmail_extra">do=
+_install_append_class-target() {</div><div class=3D"gmail_extra"><span clas=
+s=3D"" style=3D"white-space:pre">	</span>if [ ${base_libdir} !=3D ${libdir}=
+ ]</div><div class=3D"gmail_extra"><span class=3D"" style=3D"white-space:pr=
+e">	</span>then</div><div class=3D"gmail_extra"><span class=3D"" style=3D"w=
+hite-space:pre">		</span>mkdir -p ${D}/${base_libdir}</div><div class=3D"gm=
+ail_extra"><span class=3D"" style=3D"white-space:pre">		</span>mv ${D}/${li=
+bdir}/libz.so.* ${D}/${base_libdir}</div><div class=3D"gmail_extra"><span c=
+lass=3D"" style=3D"white-space:pre">		</span>libname=3D`readlink ${D}/${lib=
+dir}/libz.so`</div><div class=3D"gmail_extra"><span class=3D"" style=3D"whi=
+te-space:pre">		</span>ln -sf ${@oe.path.relative(&quot;${libdir}&quot;, &q=
+uot;${base_libdir}&quot;)}/$libname ${D}${libdir}/libz.so</div><div class=
+=3D"gmail_extra"><span class=3D"" style=3D"white-space:pre">	</span>fi</div=
+><div class=3D"gmail_extra">}</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Do you have any objections to this form instead?=C2=
+=A0 I&#39;m also thinking we should rationalise the duplicated logic into a=
+ single implementation in meta/classes/utils.bbclass...</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--001a113533905b03f50516847004--
