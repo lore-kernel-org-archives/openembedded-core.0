@@ -1,32 +1,35 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AB9C601E0
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id C14D5601E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 09:47:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,464,1427752800"; d="scan'208";a="76352637"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 20 May 2015 11:47:45 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.3.210.2; Wed, 20 May 2015 11:47:45 +0200
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.65]) by
-	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
-	14.03.0210.002; Wed, 20 May 2015 11:47:44 +0200
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] zlib: minor symbolic link issue
-Thread-Index: AQHQhwuIerBnmf4VUEaQVGRGV5HCIp2EtZZg
-Date: Wed, 20 May 2015 09:47:44 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
-References: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
-In-Reply-To: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
-Accept-Language: fr-FR, en-US
+	Wed, 20 May 2015 10:44:41 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0224.002; Wed, 20 May 2015 12:44:40 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: Mark Hatle <mark.hatle@windriver.com>, 'Otavio Salvador'
+	<otavio@ossystems.com.br>, Gary Thomas <gary@mlbassoc.com>
+Thread-Topic: [OE-core] opkg and gpg signed ipk packages
+Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyCAB70BcP//6amAgAAn0ICAAV4y8A==
+Date: Wed, 20 May 2015 10:44:39 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E482599C78F@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
+	<20150508162311.GA20977@bang.betafive.co.uk>
+	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
+	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
+	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
+	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
+	<CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
+	<555B476B.9040400@windriver.com>
+In-Reply-To: <555B476B.9040400@windriver.com>
+Accept-Language: sv-SE, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Subject: Re: [PATCH] zlib: minor symbolic link issue
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: opkg and gpg signed ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,64 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 09:47:48 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Wed, 20 May 2015 10:44:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+> >> Do you think this patch would be of interest for someone?
+> >
+> > Yes but it would be good to make it choosable at distro level.
 
-Just tell me if something is wrong, I can provide a v2 patch.
-
-Regards,
-Matthieu
-
-
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
-d-core-bounces@lists.openembedded.org] De la part de Matthieu Crapet
-Envoy=E9=A0: mardi 5 mai 2015 10:14
-=C0=A0: openembedded-core@lists.openembedded.org
-Objet=A0: [OE-core] [PATCH] zlib: minor symbolic link issue
-
-libz.so symbolic link created in ${libdir} is ../..//lib/libz.so.1.2.8 Make=
- it cleaner and generic (idea comes from libcgroup recipe).
-
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/recipes-core/zlib/zlib_1.2.8.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/=
-zlib_1.2.8.bb
-index ca0ba3f..5e11f23 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
-@@ -6,7 +6,6 @@ SECTION =3D "libs"
- LICENSE =3D "Zlib"
- LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D4;endline=3D23;md5=3Dfde61=
-2df1e5933c428b73844a0c494fd"
+Opkg has support for 'sha256' but opkg-utils only supports md5.=20
+We could pass the sha256 option to opkg-utils (like other parameters such a=
+s Maintainer),=20
+and make it configurable. We just need to figure out how to pass this optio=
+n to opkg-utils.
 =20
--
- SRC_URI =3D "http://www.zlib.net/${BPN}-${PV}.tar.xz \
-            file://remove.ldconfig.call.patch \
-            file://Makefile-runtests.patch \ @@ -54,7 +53,8 @@ do_install_a=
-ppend_class-target() {
- 		mkdir -p ${D}/${base_libdir}
- 		mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
- 		tmp=3D`readlink ${D}/${libdir}/libz.so`
--		ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
-+		rel_lib_prefix=3D`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
-+		ln -sf ${rel_lib_prefix}${base_libdir}/$tmp ${D}/${libdir}/libz.so
- 	fi
- }
-=20
---
-1.9.1
+Since MD5 is not very secure, wouldn't it be better to use sha256 as defaul=
+t?=20
+Or is there any specific reason that someone would want MD5 to be kept as t=
+he
+default (due to e.g. performance, backwards compatibility .. ?). =20
+It takes longer time to compute a sha256 checksum compared to md5 but=20
+sha256 is more secure & reliable.=20
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Any way it would be good to have this optional (sha256 or md5).=20
+
+> I agree.. and RPM(5) has the ability to switch the default checksum from =
+MD5
+> to others as well.  So a global distro setting would make sense.  (I don'=
+t know
+> how the deb package manager is configured.)
+>=20
+> Let me know if we come up with a distribution level switch (or if we just=
+ want
+> to make the policy be sha256, as it's definitely better then MD5) and I c=
+an
+> help make the RPM configuration change as well.
+
+I think a configuration at high level would be good to use for all PMS, to =
+choose MD5 or sha256.=20
+
+conf/local.conf:
+# Package Management configuration
+PACKAGE_CLASSES ?=3D "package_ipk"
+Or
+PACKAGE_CLASSES ?=3D "package_rpm"
+
+PACKAGE_CHECKSUM ?=3D "sha256"   <<< something like this
+Or=20
+PACKAGE_CHECKSUM ?=3D "md5"
+
+//Sona
+
+
+
 
