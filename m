@@ -1,36 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CF6B56AC01
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 15:14:28 +0000 (UTC)
-Received: by qctt3 with SMTP id t3so24829811qct.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 08:14:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=aVlos8T2ShHeEuySU63HS+hIOhRJpech/h83ej+osBE=;
-	b=BnK+2VSSBiwZLMxbHcwSQu4KC6gbFhWh14I+o9SVCRE2DqeYv8i/sJz2ryaYRjRYvt
-	ci4wgl4V4QUdPYVxDLhctG83prz3sUC3NgxLeZeteq+Jqtlsx9iz0fHWObOv6jwZKgXS
-	DmkApzn5ApktSm/gmFpT3BALsZbWeY9fJx/ev4d9xdqB+lyf8fuDFOIGY564j6I+Jzxf
-	bvfyvS4b5ApMJlWVYS76oKPAFHg0QxBVeaIZLKTXY+YeBqGpOVLkdpQM0v1TNvQYGb2a
-	Mx6DEN5Whq1fLtWjezFG28MUZGCd0hDVxdrTUyJwOOEOolgkogDIDQcpzl2fNszNJZC3
-	FAdg==
-X-Gm-Message-State: ALoCoQkaxitsLNLQIEDb5zTQj/u0D1DtLRka63AHLVxJn+rVaOVNU0ApmgzJuk22qiqHBh4u1DHN
-X-Received: by 10.55.40.18 with SMTP id o18mr13314260qkh.58.1432134868959;
-	Wed, 20 May 2015 08:14:28 -0700 (PDT)
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D18960168
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 15:17:20 +0000 (UTC)
+Received: by lagr1 with SMTP id r1so78617284lag.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 08:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=eMEjChL779fNl6lwhjtzeKaBsNUPYzgcHvKEnLb+F94=;
+	b=KoGaCwQCKPdPVAiJDX4shPvWB0cMvrN33gwjHMnugTkOhMG2Ngqq7q46oXXYoaXYg5
+	kHv0yKlIVgwvIDB/bNme6BwboS+TqYYZnk3He80W4NsY9xsKLhrt6niIGbKcXspKQrwZ
+	CIlXaj9BzdROiiV+PmoYdDuHYFJ42QRlkmXQ6eueTiTXVGPFdKwYb9OX4xqAxJ4eubvL
+	uR7MQ3keSpybmIdQrfZM9Z7zhufSheoyUlupJt5HFXI4sAGrvuWUq10Jy46khzudZfOO
+	vPfsVcA0DmElQn9NiENWLOoOMjtj/iOSakBib6ZYUFGXn9AconZPkdHumru5AOYpFrfE
+	2CTA==
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 08:14:08 -0700 (PDT)
-In-Reply-To: <1432107420-36311-1-git-send-email-Chuang.Dong@windriver.com>
-References: <1432107420-36311-1-git-send-email-Chuang.Dong@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 May 2015 16:14:08 +0100
-Message-ID: <CAJTo0La74Xcj0rJZWjUvL_b3WsgNQ7zOE1iC6EUG5yxrpW9+hA@mail.gmail.com>
-To: Chuang Dong <Chuang.Dong@windriver.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: add expansion of mkdir_p to configure.in
+X-Received: by 10.152.234.139 with SMTP id ue11mr26448120lac.28.1432135040982; 
+	Wed, 20 May 2015 08:17:20 -0700 (PDT)
+Received: by 10.152.90.230 with HTTP; Wed, 20 May 2015 08:17:20 -0700 (PDT)
+In-Reply-To: <CAOMwXhNkjpH-jQS=c0RkPyGVQ4D3JCXAyRmrWckr3XcYwf9jgA@mail.gmail.com>
+References: <CAOMwXhNUPtaJfKHDuHPWoioyD2Sp8Abb_++Tdp3NAYN7-TGUcg@mail.gmail.com>
+	<CAC1BbcQ0L1ujZA_NvXx1hmUBq1gt9gC7tMHRwNLkNvmPGYZWaA@mail.gmail.com>
+	<CAC1BbcTOPBRO_3GjhSQdzQ35Y=BGAh1ntYdqK2tk8E09Hvni7g@mail.gmail.com>
+	<CAOMwXhNB-5w2ywAe6anARY0Kp+osPRmu6KnoiOpfTJ6G0WCCnQ@mail.gmail.com>
+	<CAJTo0La5BpGRQEnNb34ZtV5-Po2dELjcN2mcy_Dn_e-c7=SWXg@mail.gmail.com>
+	<CAOMwXhP-fdD2SjRrOFNR-aS7Caa30sxiC-Js_Jr8B5_+Q8uHow@mail.gmail.com>
+	<CAJTo0Lb5owzy0iq6xojbr6a20_VKm4JidZO=H48hLdqnSx5Udw@mail.gmail.com>
+	<CAOMwXhOG9=fraTJfnuoWUY=e6ZwATRCKHOmUvTerz7m+08T_sg@mail.gmail.com>
+	<CAOMwXhMWtUxfdN_+dy-vYOVtQvL8sknTDxyAbfcygML2idYJsA@mail.gmail.com>
+	<CAJTo0LbAzuA6m6bvZG5oOhqwGKavxh=enywV4MzoHmONAOYUTA@mail.gmail.com>
+	<CAOMwXhNkjpH-jQS=c0RkPyGVQ4D3JCXAyRmrWckr3XcYwf9jgA@mail.gmail.com>
+Date: Wed, 20 May 2015 17:17:20 +0200
+Message-ID: <CAC1BbcTWajWUmkPAvjOT_WPhR3z1EhU0QKfcc3Y7Z4F7cARc0Q@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: busybox: passwd: applet not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +51,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 15:14:30 -0000
-Content-Type: multipart/alternative; boundary=001a11440fb8228df0051684e20c
-
---001a11440fb8228df0051684e20c
+X-List-Received-Date: Wed, 20 May 2015 15:17:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 May 2015 at 08:37, Chuang Dong <Chuang.Dong@windriver.com> wrote:
-
-> ++AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
+On 20 May 2015 at 17:09, Laszlo Papp <lpapp@kde.org> wrote:
+> On Wed, May 20, 2015 at 4:07 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On 20 May 2015 at 16:02, Laszlo Papp <lpapp@kde.org> wrote:
+>>>
+>>> On a second thought: is even worse now than that, our code has to
+>>> handle _three_ different scenarios:
+>>>
+>>> 1) Desktop.
+>>> 2) Embedded without Yocto or embedded with old Yocto.
+>>> 3) Embedded with new Yocto.
+>>>
+>>> I do not get excited about this.
+>>
+>>
+>> Do as the documentation says in your distro and you have one scenario.
 >
+> That means compromising security. I am now looking for the ideal case
+> in the future. What is wrong about dropping the privileges in busybox
+> for undedicated processes without creating this separation?
+>
+> That would combine the convenience with security, wouldn't it?
 
-If the recipe is using mkdir_p then the configure.ac should be calling
-AM_PROG_MKDIR_P, surely.  It's not, and I've verified that adding it causes
-the variables to be defined correctly.
+We already do that. Since June 2002. version 0.60.4
 
-Ross
-
---001a11440fb8228df0051684e20c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 May 2015 at 08:37, Chuang Dong <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:Chuang.Dong@windriver.com" target=3D"_blank">Chuang.Dong@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":44" class=
-=3D"a3s" style=3D"overflow:hidden">++AC_SUBST([mkdir_p], [&#39;$(MKDIR_P)&#=
-39;])<br></div></blockquote></div><br>If the recipe is using mkdir_p then t=
-he <a href=3D"http://configure.ac">configure.ac</a> should be calling AM_PR=
-OG_MKDIR_P, surely.=C2=A0 It&#39;s not, and I&#39;ve verified that adding i=
-t causes the variables to be defined correctly.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11440fb8228df0051684e20c--
