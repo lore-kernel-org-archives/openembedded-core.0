@@ -1,35 +1,28 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id C14D5601E3
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 274F2601E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 10:44:41 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0224.002; Wed, 20 May 2015 12:44:40 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Mark Hatle <mark.hatle@windriver.com>, 'Otavio Salvador'
-	<otavio@ossystems.com.br>, Gary Thomas <gary@mlbassoc.com>
-Thread-Topic: [OE-core] opkg and gpg signed ipk packages
-Thread-Index: AQHQiQF1GoctQW/hYkC8XY65YpEcWJ1xw3SQgABfj4CAAdOP8IAHG78AgABqdyCAB70BcP//6amAgAAn0ICAAV4y8A==
-Date: Wed, 20 May 2015 10:44:39 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E482599C78F@SESTOEX04.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48258ED362@sestoex09.enea.se>
-	<20150508162311.GA20977@bang.betafive.co.uk>
-	<3230301C09DEF9499B442BBE162C5E48258F1A57@sestoex09.enea.se>
-	<2514335.muUPAEFR2j@peggleto-mobl.ger.corp.intel.com>
-	<3230301C09DEF9499B442BBE162C5E48258F21ED@sestoex09.enea.se>
-	<3230301C09DEF9499B442BBE162C5E482599AC00@SESTOEX04.enea.se>
-	<CAP9ODKoZrbZdx5xuGZASmUL_1X6uoXpu_Hnz4+3RX58AMEn0NQ@mail.gmail.com>
-	<555B476B.9040400@windriver.com>
-In-Reply-To: <555B476B.9040400@windriver.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: opkg and gpg signed ipk packages
+	Wed, 20 May 2015 11:27:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 20 May 2015 04:27:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="496015064"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.2.251])
+	([10.252.2.251])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 04:27:09 -0700
+Message-ID: <1432121229.3930.4.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 May 2015 14:27:09 +0300
+In-Reply-To: <CAJTo0LYu+bbDe+ybzfKcZ-xk-=YAaTNX7enkVyAvdwOubNm7Pw@mail.gmail.com>
+References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
+	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
+	<CAJTo0LYu+bbDe+ybzfKcZ-xk-=YAaTNX7enkVyAvdwOubNm7Pw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,58 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 10:44:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 May 2015 11:27:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> >> Do you think this patch would be of interest for someone?
-> >
-> > Yes but it would be good to make it choosable at distro level.
+On Wed, 2015-05-20 at 10:00 +0100, Burton, Ross wrote:
+> 
+> On 18 May 2015 at 13:40, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+> wrote:
+>         When PulseAudio is installed, alsa-plugins is needed to
+>         provide
+>         compatibility for ALSA applications.
+>         
+>         The dependencies are set up so that pulseaudio-server depends
+>         on
+>         alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf
+>         depends
+>         on the PulseAudio plugins. This should make the
+>         ALSA->PulseAudio
+>         compatibility configuration work out of the box, while leaving
+>         the
+>         PulseAudio specific configuration out on systems that don't
+>         have
+>         pulseaudio-server installed.
+> 
+>  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for alsa-plugins-dev:
+>  * alsa-plugins (= 1.0.29-r0) * 
+>  * opkg_install_cmd: Cannot install package alsa-plugins-dev.
 
-Opkg has support for 'sha256' but opkg-utils only supports md5.=20
-We could pass the sha256 option to opkg-utils (like other parameters such a=
-s Maintainer),=20
-and make it configurable. We just need to figure out how to pass this optio=
-n to opkg-utils.
-=20
-Since MD5 is not very secure, wouldn't it be better to use sha256 as defaul=
-t?=20
-Or is there any specific reason that someone would want MD5 to be kept as t=
-he
-default (due to e.g. performance, backwards compatibility .. ?). =20
-It takes longer time to compute a sha256 checksum compared to md5 but=20
-sha256 is more secure & reliable.=20
+Oops! In the future, when adding any new packages, I probably should try
+building images with those packages installed.
 
-Any way it would be good to have this optional (sha256 or md5).=20
+> There's a default RDEPENDS_${PN}-dev = ${PN}, but as alsa-plugins
+> doesn't exist that isn't very useful.  Then again shipping the .la
+> files for the loadable modules isn't very useful either (Linux doesn't
+> need them to load modules, and nothing will link against them).  
+> 
+> 
+> So, instead of:
+> 
+> 
+> +FILES_${PN}-dev += "${libdir}/alsa-lib/*.la"
+> 
+> 
+> 
+> we should just delete the .la files in the do_install_append().
 
-> I agree.. and RPM(5) has the ability to switch the default checksum from =
-MD5
-> to others as well.  So a global distro setting would make sense.  (I don'=
-t know
-> how the deb package manager is configured.)
->=20
-> Let me know if we come up with a distribution level switch (or if we just=
- want
-> to make the policy be sha256, as it's definitely better then MD5) and I c=
-an
-> help make the RPM configuration change as well.
+Right, the -dev package is obviously pointless in this case. I could
+have realized that just by thinking a bit more while writing the
+recipe...
 
-I think a configuration at high level would be good to use for all PMS, to =
-choose MD5 or sha256.=20
-
-conf/local.conf:
-# Package Management configuration
-PACKAGE_CLASSES ?=3D "package_ipk"
-Or
-PACKAGE_CLASSES ?=3D "package_rpm"
-
-PACKAGE_CHECKSUM ?=3D "sha256"   <<< something like this
-Or=20
-PACKAGE_CHECKSUM ?=3D "md5"
-
-//Sona
-
-
+-- 
+Tanu
 
 
