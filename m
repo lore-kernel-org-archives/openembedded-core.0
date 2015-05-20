@@ -1,28 +1,20 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 274F2601E3
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EFB3D601E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 11:27:09 +0000 (UTC)
+	Wed, 20 May 2015 11:27:31 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 20 May 2015 04:27:12 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 May 2015 04:27:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="496015064"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.2.251])
-	([10.252.2.251])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 04:27:09 -0700
-Message-ID: <1432121229.3930.4.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 May 2015 14:27:09 +0300
-In-Reply-To: <CAJTo0LYu+bbDe+ybzfKcZ-xk-=YAaTNX7enkVyAvdwOubNm7Pw@mail.gmail.com>
-References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
-	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
-	<CAJTo0LYu+bbDe+ybzfKcZ-xk-=YAaTNX7enkVyAvdwOubNm7Pw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
+X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="496015191"
+Received: from murphy.fi.intel.com ([10.237.72.120])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 04:27:31 -0700
+From: Ismo Puustinen <ismo.puustinen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 May 2015 14:27:04 +0300
+Message-Id: <1432121224-10371-1-git-send-email-ismo.puustinen@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] combo-layer: modified to generate better commit messages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,58 +27,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 11:27:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 May 2015 11:27:34 -0000
 
-On Wed, 2015-05-20 at 10:00 +0100, Burton, Ross wrote:
-> 
-> On 18 May 2015 at 13:40, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-> wrote:
->         When PulseAudio is installed, alsa-plugins is needed to
->         provide
->         compatibility for ALSA applications.
->         
->         The dependencies are set up so that pulseaudio-server depends
->         on
->         alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf
->         depends
->         on the PulseAudio plugins. This should make the
->         ALSA->PulseAudio
->         compatibility configuration work out of the box, while leaving
->         the
->         PulseAudio specific configuration out on systems that don't
->         have
->         pulseaudio-server installed.
-> 
->  * satisfy_dependencies_for: Cannot satisfy the following dependencies
-> for alsa-plugins-dev:
->  * alsa-plugins (= 1.0.29-r0) * 
->  * opkg_install_cmd: Cannot install package alsa-plugins-dev.
+This patch includes support for a global section in combo-layer.conf
+called [combo-layer-settings]. Supported in this section is key
+"commit_msg"; its value is the template for the git commit message
+that updates the last_revision. The template can include substitution
+for the updated component list: ${components}. The substituted value
+will either be a comma-separated list of components or "all components",
+if combo-layer was invoked without component list argument.
 
-Oops! In the future, when adding any new packages, I probably should try
-building images with those packages installed.
+If the key is not present, the old default value is used for the commit
+message.
 
-> There's a default RDEPENDS_${PN}-dev = ${PN}, but as alsa-plugins
-> doesn't exist that isn't very useful.  Then again shipping the .la
-> files for the loadable modules isn't very useful either (Linux doesn't
-> need them to load modules, and nothing will link against them).  
-> 
-> 
-> So, instead of:
-> 
-> 
-> +FILES_${PN}-dev += "${libdir}/alsa-lib/*.la"
-> 
-> 
-> 
-> we should just delete the .la files in the do_install_append().
+Configuration file example:
 
-Right, the -dev package is obviously pointless in this case. I could
-have realized that just by thinking a bit more while writing the
-recipe...
+[combo-layer-settings]
+commit_msg = pulled in the latest changes for ${components}.
 
+Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
+---
+ scripts/combo-layer | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 19d64e6..cbb20a2 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -26,6 +26,7 @@ import logging
+ import subprocess
+ import ConfigParser
+ import re
++from string import Template
+ 
+ __version__ = "0.2.1"
+ 
+@@ -69,15 +70,27 @@ class Configuration(object):
+                 else:
+                     self.repos[repo][name] = value
+ 
++        def readglobalsection(parser, section):
++            for (name, value) in parser.items(section):
++                if name == "commit_msg":
++                    self.commit_msg_template = value
++
+         logger.debug("Loading config file %s" % self.conffile)
+         self.parser = ConfigParser.ConfigParser()
+         with open(self.conffile) as f:
+             self.parser.readfp(f)
+ 
++        # initialize default values
++        self.commit_msg_template = "Automatic commit to update last_revision"
++
+         self.repos = {}
+         for repo in self.parser.sections():
+-            self.repos[repo] = {}
+-            readsection(self.parser, repo, repo)
++            if repo == "combo-layer-settings":
++                # special handling for global settings
++                readglobalsection(self.parser, repo)
++            else:
++                self.repos[repo] = {}
++                readsection(self.parser, repo, repo)
+ 
+         # Load local configuration, if available
+         self.localconffile = None
+@@ -438,7 +451,21 @@ def action_update(conf, args):
+     if output:
+         logger.info("Committing updated configuration file")
+         if output.lstrip().startswith("M"):
+-            runcmd('git commit -m "Automatic commit to update last_revision" %s' % relpath)
++
++            # create the "components" string
++            component_str = "all components"
++            if len(components) > 0:
++                # otherwise tell which components were actually changed
++                component_str = ", ".join(components)
++
++            # expand the template with known values
++            template = Template(conf.commit_msg_template)
++            raw_msg = template.substitute(components = component_str)
++
++            # sanitize the string before using it in command line
++            msg = raw_msg.replace('"', '\\"')
++
++            runcmd('git commit -m "%s" %s' % (msg, relpath))
+ 
+ def apply_patchlist(conf, repos):
+     """
 -- 
-Tanu
+2.1.0
 
 
