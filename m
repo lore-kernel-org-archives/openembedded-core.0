@@ -1,28 +1,20 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E486D601E3
+Return-Path: <florian.boor@kernelconcepts.de>
+X-Greylist: delayed 2434 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 May 2015 12:31:30 UTC
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 61B90600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 12:13:44 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 20 May 2015 05:13:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="496032952"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.2.251])
-	([10.252.2.251])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 05:13:42 -0700
-Message-ID: <1432124022.3930.9.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 20 May 2015 15:13:42 +0300
-In-Reply-To: <1432123669.28910.57.camel@linuxfoundation.org>
-References: <1431952843-25139-1-git-send-email-tanu.kaskinen@linux.intel.com>
-	<1431952843-25139-2-git-send-email-tanu.kaskinen@linux.intel.com>
-	<1432123669.28910.57.camel@linuxfoundation.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] alsa-plugins: initial recipe
+	Wed, 20 May 2015 12:31:30 +0000 (UTC)
+Received: from [192.168.2.34] (helo=yoda.kc.loc)
+	by mail.kernelconcepts.de with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.72) (envelope-from <florian.boor@kernelconcepts.de>)
+	id 1Yv2Vt-0004PM-8D; Wed, 20 May 2015 13:50:17 +0200
+From: Florian Boor <florian.boor@kernelconcepts.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 May 2015 13:49:43 +0200
+Message-Id: <1432122583-24497-1-git-send-email-florian.boor@kernelconcepts.de>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gtk-engines: Allow gtk-engines package to be empty in order to make the -dev package installable.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 12:13:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 May 2015 12:31:30 -0000
 
-On Wed, 2015-05-20 at 13:07 +0100, Richard Purdie wrote:
-> On Mon, 2015-05-18 at 15:40 +0300, Tanu Kaskinen wrote:
-> > When PulseAudio is installed, alsa-plugins is needed to provide
-> > compatibility for ALSA applications.
-> > 
-> > The dependencies are set up so that pulseaudio-server depends on
-> > alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends
-> > on the PulseAudio plugins. This should make the ALSA->PulseAudio
-> > compatibility configuration work out of the box, while leaving the
-> > PulseAudio specific configuration out on systems that don't have
-> > pulseaudio-server installed.
-> > 
-> > Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-> > ---
-> >  .../recipes-multimedia/alsa/alsa-plugins_1.0.29.bb | 81 ++++++++++++++++++++++
-> >  meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  5 ++
-> >  2 files changed, 86 insertions(+)
-> >  create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
-> 
-> Running this through the autobuilder revealed:
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/303/steps/BuildImages/logs/stdio
-> which I'm guessing comes from this patch but I haven't bisected.
+---
+ meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Yep, Ross already complained about the same thing. A fix is forthcoming.
-
+diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+index 33b6afe..9c52193 100644
+--- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
++++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ SECTION = "x11/base"
+ DEPENDS = "intltool-native gtk+"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ PACKAGES += "${PN}-schemas"
+ PACKAGES_DYNAMIC += "^gtk-engine-.* ^gtk-theme-.*"
+@@ -29,6 +29,8 @@ FILES_${PN}-schemas = "${datadir}/gtk-engines/*.xml"
+ 
+ CFLAGS_prepend = "-DHAVE_ANIMATION "
+ 
++ALLOW_EMPTY_${PN} = "1"
++
+ inherit gnomebase
+ 
+ python populate_packages_prepend() {
 -- 
-Tanu
+2.1.4
 
 
