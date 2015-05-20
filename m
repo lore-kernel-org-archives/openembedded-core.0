@@ -1,20 +1,23 @@
-Return-Path: <florian.boor@kernelconcepts.de>
-X-Greylist: delayed 2434 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 May 2015 12:31:30 UTC
-Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B90600B3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B5582600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 12:31:30 +0000 (UTC)
-Received: from [192.168.2.34] (helo=yoda.kc.loc)
-	by mail.kernelconcepts.de with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.72) (envelope-from <florian.boor@kernelconcepts.de>)
-	id 1Yv2Vt-0004PM-8D; Wed, 20 May 2015 13:50:17 +0200
-From: Florian Boor <florian.boor@kernelconcepts.de>
+	Wed, 20 May 2015 12:34:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 20 May 2015 05:33:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="713054887"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 20 May 2015 05:33:55 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 5D88D6A408F;
+	Wed, 20 May 2015 05:33:23 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 May 2015 13:49:43 +0200
-Message-Id: <1432122583-24497-1-git-send-email-florian.boor@kernelconcepts.de>
+Date: Wed, 20 May 2015 13:40:18 +0300
+Message-Id: <1432118418-24634-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] gtk-engines: Allow gtk-engines package to be empty in order to make the -dev package installable.
+Subject: [PATCH] rootfs.py: Improve rpm log_check_regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,34 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 12:31:30 -0000
+X-List-Received-Date: Wed, 20 May 2015 12:34:06 -0000
 
+Current regex can cause false negatives if paths in bitbake log files
+contain "ERR" or "Fail". do_rootfs fails with return code 1 in
+this case.
+
+Improved regexp is based on error messages produced by rpm.
+Those are found by analyzing rpm source code.
+
+[YOCTO #7789]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb | 4 +++-
+ meta/lib/oe/rootfs.py | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-index 33b6afe..9c52193 100644
---- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- SECTION = "x11/base"
- DEPENDS = "intltool-native gtk+"
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 6fb749f..ce23b23 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -295,7 +295,9 @@ class Rootfs(object):
+ class RpmRootfs(Rootfs):
+     def __init__(self, d, manifest_dir):
+         super(RpmRootfs, self).__init__(d)
+-        self.log_check_regex = '(unpacking of archive failed|Cannot find package|exit 1|ERR|Fail)'
++        self.log_check_regex = '(unpacking of archive failed|Cannot find package'\
++                               '|exit 1|ERROR: |Error: |Error |ERROR '\
++                               '|Failed |Failed: |Failed$|Failed\(\d+\):)'
+         self.manifest = RpmManifest(d, manifest_dir)
  
--PR = "r3"
-+PR = "r4"
- 
- PACKAGES += "${PN}-schemas"
- PACKAGES_DYNAMIC += "^gtk-engine-.* ^gtk-theme-.*"
-@@ -29,6 +29,8 @@ FILES_${PN}-schemas = "${datadir}/gtk-engines/*.xml"
- 
- CFLAGS_prepend = "-DHAVE_ANIMATION "
- 
-+ALLOW_EMPTY_${PN} = "1"
-+
- inherit gnomebase
- 
- python populate_packages_prepend() {
+         self.pm = RpmPM(d,
 -- 
 2.1.4
 
