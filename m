@@ -1,41 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4433A601E0
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3F3601E0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 13:32:28 +0000 (UTC)
-Received: by qgfa63 with SMTP id a63so3749145qgf.0
+	Wed, 20 May 2015 13:46:00 +0000 (UTC)
+Received: by padbw4 with SMTP id bw4so67838235pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 06:32:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NRpS2y8QZoZNQpVhZVtMteRjyk0YpDdPWX+gzlV4B4Y=;
-	b=c+DjvcR3nROrCpH9Kjcv3RQF6/rtDF1q2Yp2TId/0z4cQZ1YIwxK1bYLjZxrnW1Er6
-	zSg3xob+N1MI073TYWDqtW/woVDwICGfmCOlMXD7UADhOwQfY9YpCdaidfVkzwTRiZ9/
-	3ERe8bzmBlie3IdPhZY4F5SsxyPxvUivwS+zFiDOMtN9r15jmMMDAOHF8bdHBTzanFie
-	9pM4nixLEP+jLZJkqIIfKDXRc5+wqQAXGXqjWTZih544Y6JBlhbc4dq4G4aH09LHzZhA
-	5MB/OQIKedbN2ZQ80S/8yo/+boLf2XY8TLmOuUysuLEh8IIFMo2sF6+7HwNXGNUbKE9q
-	kiiA==
-X-Gm-Message-State: ALoCoQnNtycsXzLqms1E9qSRQK4Bq/p2FdZVxacP9jMUlknzIGf9y9BQ/UR8OziYFdDUWTqKnjP+
-X-Received: by 10.55.43.130 with SMTP id r2mr62011024qkr.14.1432128749660;
-	Wed, 20 May 2015 06:32:29 -0700 (PDT)
+	Wed, 20 May 2015 06:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=tNVoEtNCdnUFS/n+Eau8QHMjvY1Ige0FOfPjpfL+kUw=;
+	b=v0ZU2uMY2vOeh1hMdw+y2O+0naI5GrHVTfKzKNJLdAEFQKF+1Sx8qMZaJbd354eEoS
+	RlmUrGv30Env/9fnv7Hf8csVg44FZDlzvVm8qP9KyWiz5PPqcWamZwQOt/iBoTrGg4HI
+	s17WY0VgYHoDRH3+4Qq7c1ta+z3fb5IV0vDCACulYa2eLf1X6VM/v/a6w1SsMUp9E4+o
+	nmGdhRAPPeZoJjAK1zsp3OJLTtkDjlmfjD6QVNjdrFPP1ihvk/V+3+YklcPnXqNvKQGk
+	YB7rGqW8By+gZp+nyB7hMi0Gsdr37i3axQoZlJroKWyJHkx+dsrIGlCAQOX5/TiJQmh4
+	voBQ==
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 06:32:09 -0700 (PDT)
-In-Reply-To: <555C8BAC.7090603@kernelconcepts.de>
-References: <1432122583-24497-1-git-send-email-florian.boor@kernelconcepts.de>
-	<CAJTo0LbOKfUpUyor7AczZyffp7gQruYy3hYMqz+ewGxZzRc+mQ@mail.gmail.com>
-	<555C896A.8020107@kernelconcepts.de>
-	<CAP9ODKo7H5T3Thb+1SW9hGwkzxEbTzYJr2=fLraqje67ssHRpw@mail.gmail.com>
-	<555C8BAC.7090603@kernelconcepts.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 May 2015 14:32:09 +0100
-Message-ID: <CAJTo0LYM_V=Ee5hzfhvK0OW224yZ7+TG+6iuQkk5WKxYHmJQeQ@mail.gmail.com>
-To: Florian Boor <florian.boor@kernelconcepts.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gtk-engines: Allow gtk-engines package to be empty in order to make the -dev package installable.
+X-Received: by 10.66.101.9 with SMTP id fc9mr63046759pab.37.1432129561398;
+	Wed, 20 May 2015 06:46:01 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.70.34.109 with HTTP; Wed, 20 May 2015 06:46:01 -0700 (PDT)
+In-Reply-To: <CALbNGRSeZ7CZtbJd2U6iGu+ARgT3hi9CdC5xO7iwwipk89D=4A@mail.gmail.com>
+References: <CALbNGRRq94M86hm=0y8ZR7+5RXDMCJkXPxGREzAOjNQLerNkPw@mail.gmail.com>
+	<20150518080138.GD9407@jama>
+	<CALbNGRReeZHBXDo2C4tRTHfdCwSfS5QxpKdGWpsZJbgAGGCYdw@mail.gmail.com>
+	<CAP9ODKqpnGVrBNh9PekyZJJBzRnjs9mfELM3afHTmT=0UDEegw@mail.gmail.com>
+	<CALbNGRSnxG0ZmFH2sAFL0B3uEy3mi97t30fSnn2JCSyFLr9Pdg@mail.gmail.com>
+	<CAP9ODKp1-e6oiv6oKUJ5aTPjYMBJL9YtF+16Gt=cooC+4LEdYw@mail.gmail.com>
+	<CALbNGRQPU2ToHpwcD6GA+TOz4zS2sJV8dXgbZsufn=9Pg-Pn3Q@mail.gmail.com>
+	<CAP9ODKo3MhRR_2OW4Xgg6GMkdV-ykD3AvrRRQU9n0pF1xqh4rQ@mail.gmail.com>
+	<59DAE1C4-3DB3-44B8-A036-927EBD67C212@gmail.com>
+	<CALbNGRTA-rPDinuWqDzdRK=jmY6wYJ_Li_NGCkoO52G-t+U1+A@mail.gmail.com>
+	<CALbNGRSeZ7CZtbJd2U6iGu+ARgT3hi9CdC5xO7iwwipk89D=4A@mail.gmail.com>
+Date: Wed, 20 May 2015 10:46:01 -0300
+X-Google-Sender-Auth: 1zWTIf5BSXfD2UZF2LPYUPvvMwo
+Message-ID: <CAP9ODKr9ntS+W8DZuSXrN_V_sg-=CVAHCESULeUdUNki2jSMGg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: trouble related to oe-core update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,42 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 13:32:31 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb0657ee605168375c3
-
---001a1147afb0657ee605168375c3
+X-List-Received-Date: Wed, 20 May 2015 13:46:00 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 20 May 2015 at 14:27, Florian Boor <florian.boor@kernelconcepts.de>
-wrote:
-
-> > No. You should rely on PR Service for this. Drop the PR bump as it is
-> > pointless here.
->
-> oh PR Service - if we can rely on it in this case I agree.
-
-
-If you care about upgrade paths then the PR service is far more reliable
-than explicit PR bumps.
-
-Ross
-
---001a1147afb0657ee605168375c3
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 May 2015 at 14:27, Florian Boor <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:florian.boor@kernelconcepts.de" target=3D"_blank">florian.boor@kernelcon=
-cepts.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
-ass=3D"">&gt; No. You should rely on PR Service for this. Drop the PR bump =
-as it is<br>
-&gt; pointless here.<br>
-<br>
-</span>oh PR Service - if we can rely on it in this case I agree.</blockquo=
-te></div><br>If you care about upgrade paths then the PR service is far mor=
-e reliable than explicit PR bumps.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+On Wed, May 20, 2015 at 5:34 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Tue, May 19, 2015 at 10:54 AM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+> Would like to get a solution for this and see 2 ways to go in imx-base.in=
+c:
+>
+> 1. allow thumb:
+> <snip>
+> # Float-Point setting
+> # handled by software
+> # DEFAULTTUNE_mx6 ?=3D "cortexa9t-neon"
+> # handled by hardware
+> DEFAULTTUNE_mx6 ?=3D "cortexa9thf-neon"
+> </snip>
+>
+> 2. if thumb2 is not allowed (why?):
+> <snip>
+> # Float-Point setting
+> # handled by software
+> # DEFAULTTUNE_mx6 ?=3D "cortexa9-neon"
+> # handled by hardware
+> DEFAULTTUNE_mx6 ?=3D "cortexa9hf-neon"
+> ARM_INSTRUCTION_SET =3D "arm"
+> </snip>
+>
+> Opinions?
 
---001a1147afb0657ee605168375c3--
+OE-Core does not seem to enable thumb2 by default so I don't think we
+ought to change the default here. However I do agree in extend the
+comment and provide an example so it is easier for people to do this
+when needed.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
