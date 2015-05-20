@@ -1,20 +1,36 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB3D601E3
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id AB7FB600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 11:27:31 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 20 May 2015 04:27:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,464,1427785200"; d="scan'208";a="496015191"
-Received: from murphy.fi.intel.com ([10.237.72.120])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 May 2015 04:27:31 -0700
-From: Ismo Puustinen <ismo.puustinen@intel.com>
+	Wed, 20 May 2015 11:48:27 +0000 (UTC)
+Received: by igbpi8 with SMTP id pi8so99900071igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 04:48:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=h1R/cxJbmBK4lB7y4/rB0tcHS/WsCHepjeJrM6lSfRw=;
+	b=XW96pN6YRNbcW8A9khZyZarbuZ9eFn4P7aJEQ9yXOlVrEq4rZb0FP8Fk7beLxwaQtR
+	l7WzHvARU8BgsB4hDV7/1xz+zisDk/a0IzJKx6sQySacrMoGCo7HAaxm83BA6EEW7iKW
+	tPvIWuME+Q+mHvMGOf4uE+b7yXrG7rxPi6UcTUg0HRpQN+JEpMzNAyIir+M2AGUpoOXa
+	iMPRleoLJTZ0bGj1/qX5hxq9foldCrRT5op1xHchYHxfGOWGnd+MAKT5Ry0cwvtFFR3q
+	TZgdYV6L5Esun1HtHaG7mRrnP9eofqgImwoUarDpGTmNe8Dqpe85WlH3fgdTWFZpnZSK
+	oIMA==
+X-Gm-Message-State: ALoCoQmxsGkusGDhA44tZsGpfElHECTWuwNghyN7B23tJuXVKuEiF9SjMJrAimBqKgsnnpOjXGr+
+X-Received: by 10.107.165.206 with SMTP id o197mr26313336ioe.56.1432122508596; 
+	Wed, 20 May 2015 04:48:28 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p57A56B24.dip0.t-ipconnect.de.
+	[87.165.107.36])
+	by mx.google.com with ESMTPSA id o15sm1416373igw.11.2015.05.20.04.48.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 May 2015 04:48:27 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 May 2015 14:27:04 +0300
-Message-Id: <1432121224-10371-1-git-send-email-ismo.puustinen@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] combo-layer: modified to generate better commit messages.
+Date: Wed, 20 May 2015 13:48:19 +0200
+Message-Id: <cover.1432122320.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] combo-layer sanity_check fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,95 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 11:27:34 -0000
+X-List-Received-Date: Wed, 20 May 2015 11:48:30 -0000
 
-This patch includes support for a global section in combo-layer.conf
-called [combo-layer-settings]. Supported in this section is key
-"commit_msg"; its value is the template for the git commit message
-that updates the last_revision. The template can include substitution
-for the updated component list: ${components}. The substituted value
-will either be a comma-separated list of components or "all components",
-if combo-layer was invoked without component list argument.
+The following changes since commit c0f0b6e6ef1edc0a9f9e1ceffb1cdbbef2e409c6:
 
-If the key is not present, the old default value is used for the commit
-message.
+  glibc: CVE-2015-1781: resolv/nss_dns/dns-host.c buffer overflow (2015-05-16 22:37:21 +0100)
 
-Configuration file example:
+are available in the git repository at:
 
-[combo-layer-settings]
-commit_msg = pulled in the latest changes for ${components}.
+  git://github.com/pohly/openembedded-core master
+  https://github.com/pohly/openembedded-core/tree/master
 
-Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
----
- scripts/combo-layer | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+Patrick Ohly (1):
+  combo-layer: handle unset dest_dir in sanity_check()
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 19d64e6..cbb20a2 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -26,6 +26,7 @@ import logging
- import subprocess
- import ConfigParser
- import re
-+from string import Template
- 
- __version__ = "0.2.1"
- 
-@@ -69,15 +70,27 @@ class Configuration(object):
-                 else:
-                     self.repos[repo][name] = value
- 
-+        def readglobalsection(parser, section):
-+            for (name, value) in parser.items(section):
-+                if name == "commit_msg":
-+                    self.commit_msg_template = value
-+
-         logger.debug("Loading config file %s" % self.conffile)
-         self.parser = ConfigParser.ConfigParser()
-         with open(self.conffile) as f:
-             self.parser.readfp(f)
- 
-+        # initialize default values
-+        self.commit_msg_template = "Automatic commit to update last_revision"
-+
-         self.repos = {}
-         for repo in self.parser.sections():
--            self.repos[repo] = {}
--            readsection(self.parser, repo, repo)
-+            if repo == "combo-layer-settings":
-+                # special handling for global settings
-+                readglobalsection(self.parser, repo)
-+            else:
-+                self.repos[repo] = {}
-+                readsection(self.parser, repo, repo)
- 
-         # Load local configuration, if available
-         self.localconffile = None
-@@ -438,7 +451,21 @@ def action_update(conf, args):
-     if output:
-         logger.info("Committing updated configuration file")
-         if output.lstrip().startswith("M"):
--            runcmd('git commit -m "Automatic commit to update last_revision" %s' % relpath)
-+
-+            # create the "components" string
-+            component_str = "all components"
-+            if len(components) > 0:
-+                # otherwise tell which components were actually changed
-+                component_str = ", ".join(components)
-+
-+            # expand the template with known values
-+            template = Template(conf.commit_msg_template)
-+            raw_msg = template.substitute(components = component_str)
-+
-+            # sanitize the string before using it in command line
-+            msg = raw_msg.replace('"', '\\"')
-+
-+            runcmd('git commit -m "%s" %s' % (msg, relpath))
- 
- def apply_patchlist(conf, repos):
-     """
+ scripts/combo-layer | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
 -- 
-2.1.0
+2.1.4
 
 
