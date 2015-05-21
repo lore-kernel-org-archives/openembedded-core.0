@@ -1,21 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 94967607BB
+	by mail.openembedded.org (Postfix) with ESMTP id CAB4173223
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 16:16:06 +0000 (UTC)
+	Thu, 21 May 2015 16:16:07 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga101.fm.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,470,1427785200"; d="scan'208";a="733176204"
+X-IronPort-AV: E=Sophos;i="5.13,470,1427785200"; d="scan'208";a="733176208"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
 	([10.23.219.47])
 	by orsmga002.jf.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 May 2015 09:15:34 +0000
-Message-Id: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
+Date: Thu, 21 May 2015 09:15:37 +0000
+Message-Id: <08e1326f2da93780f39d97def138dd43319f014e.1432199284.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/5] python3: Several fixes, compilation of modules, runtime issues, and two new recipes
+In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
+In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 3/5] python3-io: Fixes compilation of python3 ssl module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +34,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 21 May 2015 16:16:08 -0000
 
-Adds python3-pip recipe, upgrades python3-distribute to python3-setuptools
-to keep up to date with upstream, fixes runtime issues for these modules and
-for python3 in general.
+During python3 compilation, the module ssl was being skippped due to
+the fact that the compilation script couldnt find the required files,
+this patch fixes setup.py so it looks for the files in the correct
+directory, hence fixing its compilation and installation.
 
-The following changes since commit 62f3e62e0a2145d32fd75530b6f2aeba00dc1bc4:
+[YOCTO #7768]
 
-  python3: Upgrade from 3.4.2 to 3.4.3 (2015-05-12 10:44:53 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib hsalejandro/py3-pip-recipe
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/py3-pip-recipe
-
-Alejandro Hernandez (5):
-  python3: fix pyconfig.h installation on target
-  python3: Fix distutils import error
-  python3-io: Fixes compilation of python3 ssl module
-  python3-distribute: Upgrade to python3-setuptools 15.2
-  python3-pip: Adds recipe for python3-pip
-
- meta/classes/setuptools3.bbclass                   |  2 +-
- .../python/python-3.4-manifest.inc                 |  2 +-
- meta/recipes-devtools/python/python3-pip_6.1.1.bb  | 40 ++++++++++++++++++++++
- ...ribute_0.6.32.bb => python3-setuptools_15.2.bb} | 40 ++++++++++++----------
- .../python/python3/fix_ssl_include_dir.patch       | 29 ++++++++++++++++
- meta/recipes-devtools/python/python3_3.4.3.bb      |  2 +-
- scripts/contrib/python/generate-manifest-3.4.py    |  2 +-
- 7 files changed, 95 insertions(+), 22 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-pip_6.1.1.bb
- rename meta/recipes-devtools/python/{python3-distribute_0.6.32.bb => python3-setuptools_15.2.bb} (53%)
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ .../python/python3/fix_ssl_include_dir.patch       | 29 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
+ 2 files changed, 30 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
 
+diff --git a/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch b/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
+new file mode 100644
+index 0000000..01ee9da
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
+@@ -0,0 +1,29 @@
++Index: Python-3.4.3/setup.py
++===================================================================
++--- Python-3.4.3.orig/setup.py
+++++ Python-3.4.3/setup.py
++@@ -726,10 +726,9 @@ class PyBuildExt(build_ext):
++         exts.append( Extension('_socket', ['socketmodule.c'],
++                                depends = ['socketmodule.h']) )
++         # Detect SSL support for the socket module (via _ssl)
++-        search_for_ssl_incs_in = [
++-                              '/usr/local/ssl/include',
++-                              '/usr/contrib/ssl/include/'
++-                             ]
+++        search_for_ssl_incs_in = []
+++        for dir in [os.getenv("STAGING_INCDIR")]:
+++                search_for_ssl_incs_in.append(dir)
++         ssl_incs = find_file('openssl/ssl.h', inc_dirs,
++                              search_for_ssl_incs_in
++                              )
++@@ -739,9 +738,7 @@ class PyBuildExt(build_ext):
++             if krb5_h:
++                 ssl_incs += krb5_h
++         ssl_libs = find_library_file(self.compiler, 'ssl',lib_dirs,
++-                                     ['/usr/local/ssl/lib',
++-                                      '/usr/contrib/ssl/lib/'
++-                                     ] )
+++                                     [os.getenv("STAGING_LIBDIR")])
++ 
++         if (ssl_incs is not None and
++             ssl_libs is not None):
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index 120b594..f7f68cb 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -36,6 +36,7 @@ SRC_URI += "\
+             file://python3-setup.py-no-host-headers-libs.patch \
+             file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
+             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
++            file://fix_ssl_include_dir.patch \
+            "
+ SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
+ SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
 -- 
 1.8.4.5
 
