@@ -1,33 +1,33 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 124A36C6F9
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A966C6F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 11:23:55 +0000 (UTC)
-Received: by wghq2 with SMTP id q2so82271022wgh.1
+	Thu, 21 May 2015 11:24:20 +0000 (UTC)
+Received: by wgbgq6 with SMTP id gq6so82321244wgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 04:23:56 -0700 (PDT)
+	Thu, 21 May 2015 04:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
 	bh=rq4M/yvLo43/lzKGrTVX50ZL7KbN0dMvOCPDx4dfszI=;
-	b=Ti1P+vTNAVwwATkvuevtGb1VVqqe3ugwDWongiz1kvOxRuCtfSMFy8V3Y1RC8IuMaL
-	N2ltux8e1b3X33Nm4vn+zfKwApZ15swTyNVc5e3wP1Du/LjJ8SAVELxBke7C/3DasgIV
-	wZo4KXAszgSORD/itUKjPPbNika+vUnprBXWW0I/uzaRqlYLecW5eScBuVuVRrPjqu7E
-	yVMUj7mFUG1F+0OTnTDxTp2WP+yifs9v/K3qgLdCBWf08/S1zMzBwCUAGm9uFVBqa2U1
-	vfOekNU4GOR843fYiDPloMAT5FqFEw+7JKMRmLn4BJnp1VnDHw8L7QtCmBfvQ9goudOX
-	GVow==
-X-Received: by 10.194.7.97 with SMTP id i1mr4468645wja.107.1432207436249;
-	Thu, 21 May 2015 04:23:56 -0700 (PDT)
+	b=AUsOjhWC9vEpjwmJaZ3IJJ+ToncvhjVfchgOTZK32Lit++7jeS3Yt13dGbTTGGIjiR
+	7blS691bOVHT15W24KJUPloWukyyjsc1k+QqfTgS09FM6g+Dl8Ncd1fm8ePqB4zbgZsd
+	N7MKs4/Y504kXhR53dnzCrseK/MpTm+AwvYSu7/m4y51qHVKPV3M6deB2bKngbn9c+nB
+	dcb8qPTV3dCuV9NSCCMyEh7wE6vh2PauDqMWVEV893+auNA3p6KUzgwxhlEOG0Zkq78k
+	todpWHVdjabL8juuNjfMeaQQ/f/Z9LoXQ1uBUF5VKw1K2GEDpLiCqC9A3gr9DzvMlUig
+	hNmQ==
+X-Received: by 10.180.74.102 with SMTP id s6mr49271956wiv.37.1432207461837;
+	Thu, 21 May 2015 04:24:21 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id d13sm1010645wjs.20.2015.05.21.04.23.55
+	by mx.google.com with ESMTPSA id g5sm31634021wjq.6.2015.05.21.04.24.20
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 May 2015 04:23:55 -0700 (PDT)
+	Thu, 21 May 2015 04:24:20 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 May 2015 13:24:11 +0200
-Message-Id: <1432207451-32310-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 21 May 2015 13:24:36 +0200
+Message-Id: <1432207476-32627-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.4.1
-Subject: [dizzy][PATCH] squashfs-tools: build and install unsquashfs as well
+Subject: [fido][PATCH] squashfs-tools: build and install unsquashfs as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 11:23:56 -0000
+X-List-Received-Date: Thu, 21 May 2015 11:24:21 -0000
 
 * it's useful for debugging corrupt squashfs images from mksquashfs
 
