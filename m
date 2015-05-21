@@ -1,25 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E554673231
+	by mail.openembedded.org (Postfix) with ESMTP id EC37D73BE8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 21 May 2015 16:16:07 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga101.fm.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,470,1427785200"; d="scan'208";a="733176210"
+X-IronPort-AV: E=Sophos;i="5.13,470,1427785200"; d="scan'208";a="733176206"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
 	([10.23.219.47])
 	by orsmga002.jf.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 May 2015 09:15:38 +0000
-Message-Id: <ba1bfb4332910bd53dd08bfa81e8c240dbc1e617.1432199284.git.alejandro.hernandez@linux.intel.com>
+Date: Thu, 21 May 2015 09:15:36 +0000
+Message-Id: <d7c5d6c81a376795f7c8321695f81b73b94f4d6c.1432199284.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 4/5] python3-distribute: Upgrade to python3-setuptools 15.2
+Subject: [PATCH 2/5] python3: Fix distutils import error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,105 +34,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 21 May 2015 16:16:08 -0000
 
-python3-distribute was merged back to python3-setuptools in 2013,
-and it is no longer being maintained, this upgrade also provides
-functionality that will be needed for python3-pip.
+The patch 12-distutils-prefix-is-inside-staging-area.patch is used
+to fix problems when trying to get some environmental variables
+but it is only necessary for python3-native, on python3-core it
+causes an error when importing distutils since env variables of
+the likes of HOST_SYS and such do not exist on target, this removes
+the patch from python3-core so distutils can be imported correctly.
 
-[YOCTO #7763]
+[YOCTO #7766]
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/classes/setuptools3.bbclass                   |  2 +-
- ...ribute_0.6.32.bb => python3-setuptools_15.2.bb} | 40 ++++++++++++----------
- 2 files changed, 23 insertions(+), 19 deletions(-)
- rename meta/recipes-devtools/python/{python3-distribute_0.6.32.bb => python3-setuptools_15.2.bb} (53%)
+ meta/recipes-devtools/python/python3_3.4.3.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/setuptools3.bbclass b/meta/classes/setuptools3.bbclass
-index 40c18c8..de6dd94 100644
---- a/meta/classes/setuptools3.bbclass
-+++ b/meta/classes/setuptools3.bbclass
-@@ -1,6 +1,6 @@
- inherit distutils3
- 
--DEPENDS += "python3-distribute-native"
-+DEPENDS += "python3-setuptools-native"
- 
- DISTUTILS_INSTALL_ARGS = "--root=${D} \
-     --prefix=${prefix} \
-diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-setuptools_15.2.bb
-similarity index 53%
-rename from meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-rename to meta/recipes-devtools/python/python3-setuptools_15.2.bb
-index 0ef3a87..97058c1 100644
---- a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_15.2.bb
-@@ -1,28 +1,21 @@
- SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
--HOMEPAGE = "http://packages.python.org/distribute"
-+HOMEPAGE = "http://packages.python.org/setuptools"
- SECTION = "devel/python"
- LICENSE = "PSF"
--LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
- 
--SRCNAME = "distribute"
--PR = "ml5"
-+SRCNAME = "setuptools"
- DEPENDS += "python3"
- DEPENDS_class-native += "python3-native"
- 
- SRC_URI = " \
--  http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+  http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
- "
--SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
--SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
-+SRC_URI[md5sum] = "a9028a9794fc7ae02320d32e2d7e12ee"
-+SRC_URI[sha256sum] = "381e78471fb0eff89c4b1a219e8739f48dd87c76ad2d3a790010ca3a62ee29a4"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
--#  http://python-distribute.org/distribute_setup.py 
--
--# force the selection of python3
--#PYTHON_BASEVERSION = "3.3"
--#PYTHON_MAJMIN = "3.3"
--
- inherit distutils3
- 
- DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-@@ -37,15 +30,26 @@ do_install_append() {
-     rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-     mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
-     echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
--    sed -i -e '1s|^#!.*python|#!/usr/bin/env python3|' \
--        ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
- }
- 
- RDEPENDS_${PN} = "\
-   python3-distutils \
-   python3-compression \
- "
--
--RPROVIDES_${PN} += "python3-setuptools"
--
-+RDEPENDS_${PN}_class-target = "\
-+  python3-ctypes \
-+  python3-distutils \
-+  python3-email \
-+  python3-importlib \
-+  python3-numbers \
-+  python3-compression \
-+  python3-shell \
-+  python3-subprocess \
-+  python3-textutils \
-+  python3-pkgutil \
-+  python3-threading \
-+  python3-misc \
-+  python3-unittest \
-+  python3-xml \
-+"
- BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index bee9e6f..120b594 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -7,7 +7,6 @@ PYTHON_BINABI= "${PYTHON_MAJMIN}m"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+-file://12-distutils-prefix-is-inside-staging-area.patch \
+ file://python-config.patch \
+ file://000-cross-compile.patch \
+ file://020-dont-compile-python-files.patch \
 -- 
 1.8.4.5
 
