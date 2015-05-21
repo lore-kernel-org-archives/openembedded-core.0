@@ -1,40 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id AF0B0609B2
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6666C6F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 10:32:46 +0000 (UTC)
-Received: by qkgx75 with SMTP id x75so49877398qkg.1
+	Thu, 21 May 2015 10:43:14 +0000 (UTC)
+Received: by qkx62 with SMTP id 62so3134455qkx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 03:32:47 -0700 (PDT)
+	Thu, 21 May 2015 03:43:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=qVUPspykZDDxcbDN5x4i+4/GoYKOJ+AXBtAzuexnGRU=;
-	b=Vy3eLrcWJV68NCU7GtPFmodkS40aNMHx/KyjV2h8xwWiU3nMofAkZgc5x6Dxg0wJak
-	HeuzOE6dm0X37Vwpl1WyxQ71pNymQxGOVaSiyEhNk7panxUV/r/baiJDdeWQ/sK49KCF
-	9LbqiKBO83g5ISq62hH2A2TVhxULZ1dmQW/I2/BN4njWG5/nFDwtMoMg0D/Ikguy76Sv
-	1ec8ZD/7FWqU2LcDKaeeKcCupAmCF5DsW5GAIQ0xrfVWeXdljsU5PuR2Y01cCse4g1A8
-	uMHfzCeZ4t7ZVUSNnRPdvxGDtFZXqIt6OzcTy7m6Eu/bNvvi3X2z8ITKJEwiLOdx1qi5
-	ieOA==
-X-Gm-Message-State: ALoCoQnkvHdz3k0A+KHLeYJLKL7xAkpEouHSaGChloqNdJzMrdak5chmNNXb3iMepUZClCHQpOsx
-X-Received: by 10.55.18.155 with SMTP id 27mr3273289qks.36.1432204367040; Thu,
-	21 May 2015 03:32:47 -0700 (PDT)
+	:message-id:subject:to:content-type;
+	bh=isqqHbMhXLIxlHGPpFZNK1quBnft2cW+YSP8pQWe3QQ=;
+	b=VycY4vFQJF5uvecuNpRpkRuhBLVm918gzUiP4URZks9NrIfkV96BLXok/C5UTuIfMR
+	p9/LmgeuXCaE9QEK7+IieU11B0xb7QePrvEUTLrCa0kqGMuQWYEsoJ3Iww1XOHLw1RpL
+	K5kAGklcQ4GgP8she6r/0PD0XHkpHlJlrx8tL1RxRVWKAWy0lQJtlLw6yPcKpxBwbZdg
+	Fp3bOkR2Kj5swIzGPAANErkTTVli9sgdtMede5AsBE76HwdaCC3Jj8JPvN2porlPzvrv
+	AFSjpnrpc7P1uCGGT8G+w35J2R2KQrK8vohl/YZ0U/OeAKCPNiNcrWmkQ60z1SrW1ux6
+	KIKQ==
+X-Gm-Message-State: ALoCoQkHK4ihweUceZAqW4rgv6r1tKm4x7zDt680ZNNxpnmVjkCnqZOZfj/X411O2Hwf8P4xxiHX
+X-Received: by 10.140.89.104 with SMTP id u95mr2574109qgd.15.1432204995814;
+	Thu, 21 May 2015 03:43:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 21 May 2015 03:32:26 -0700 (PDT)
-In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2@COSNADEXC13.usr.ingenico.loc>
-References: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
-	<CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
-	<8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2@COSNADEXC13.usr.ingenico.loc>
+Received: by 10.140.102.231 with HTTP; Thu, 21 May 2015 03:42:55 -0700 (PDT)
+In-Reply-To: <CAJTo0LbHVrLM=Wt++3ue-VQ3KFB42tGaJUwFRW_UHfBDXuqc_w@mail.gmail.com>
+References: <CAJTo0LbHVrLM=Wt++3ue-VQ3KFB42tGaJUwFRW_UHfBDXuqc_w@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 May 2015 11:32:26 +0100
-Message-ID: <CAJTo0LYqjGUif1071Uuy_c+Er0x=NOpk3jW-+_1ngNrbSKj8jg@mail.gmail.com>
-To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] zlib: minor symbolic link issue
+Date: Thu, 21 May 2015 11:42:55 +0100
+Message-ID: <CAJTo0Lbwf9KYYTxtAJCNbQ9=YU-PdBoYShg32ThL_GgkoGMobg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, 
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+Subject: Re: Moving GStreamer 0.10 to meta-multimedia
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 10:32:47 -0000
-Content-Type: multipart/alternative; boundary=001a114737968b26e205169510f8
+X-List-Received-Date: Thu, 21 May 2015 10:43:15 -0000
+Content-Type: multipart/alternative; boundary=001a11c135f6057e3505169536e6
 
---001a114737968b26e205169510f8
+--001a11c135f6057e3505169536e6
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 21 May 2015 at 08:31, Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-wrote:
+On 28 April 2015 at 20:54, Burton, Ross <ross.burton@intel.com> wrote:
 
-> I didn=E2=80=99t know such a function was existing. You can use it of cou=
-rse, it=E2=80=99s
-> much better.
->
-> I found the (obscure) regexp in libcgroup recipe, it could be updated too=
-.
->
->
->
-> Is it worth it I send a v2 patch ?
+> This is basically a heads-up that we're working on moving GStreamer 0.10
+> out of oe-core[1] and into meta-multimedia, where anyone who still needs
+> 0.10 can use and maintain them.
 >
 
-I already sent it, but thanks for the offer!
+FYI, they've now been removed from oe-core.
 
 Ross
 
---001a114737968b26e205169510f8
+--001a11c135f6057e3505169536e6
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 May 2015 at 08:31, Matthieu CRAPET <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:Matthieu.CRAPET@ingenico.com" target=3D"_blank">Matthieu.CRAPET@ingen=
-ico.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D=
-"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quo=
-t;Calibri&quot;,&quot;sans-serif&quot;;color:#1f497d">I didn=E2=80=99t know=
- such a function was existing. You can use it of course, it=E2=80=99s much =
-better.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-=
-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1f497d">I found th=
-e (obscure) regexp in libcgroup recipe, it could be updated too.<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-=
-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1f497d"><u></u>=C2=
-=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-=
-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1f497d">Is it wort=
-h it I send a v2 patch ?</span></p></blockquote></div><br>I already sent it=
-, but thanks for the offer!</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
+On 28 April 2015 at 20:54, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div>This is basically a h=
+eads-up that we&#39;re working on moving <span class=3D"il">GStreamer</span=
+> 0.10 out of oe-core[1] and into meta-multimedia, where anyone who still n=
+eeds 0.10 can use and maintain them.</div><div></div></blockquote></div><br=
+>FYI, they&#39;ve now been removed from oe-core.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114737968b26e205169510f8--
+--001a11c135f6057e3505169536e6--
