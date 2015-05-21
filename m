@@ -1,34 +1,21 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 107636AB99
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C8D4607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 07:31:01 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,467,1427752800"; d="scan'208,217";a="76474621"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 21 May 2015 09:31:02 +0200
-Received: from COSNADEXC11.usr.ingenico.loc (10.31.4.211) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.3.210.2; Thu, 21 May 2015 09:31:02 +0200
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.65]) by
-	COSNADEXC11.usr.ingenico.loc ([10.31.4.211]) with mapi id
-	14.03.0210.002; Thu, 21 May 2015 09:31:02 +0200
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] zlib: minor symbolic link issue
-Thread-Index: AQHQhwuIerBnmf4VUEaQVGRGV5HCIp2EtZZggAAxJICAATl4UA==
-Date: Thu, 21 May 2015 07:31:01 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2@COSNADEXC13.usr.ingenico.loc>
-References: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
-	<CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
-MIME-Version: 1.0
-Subject: Re: [PATCH] zlib: minor symbolic link issue
+	Thu, 21 May 2015 08:21:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 May 2015 01:21:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,467,1427785200"; d="scan'208";a="729483443"
+Received: from ipuustin-mobl.ger.corp.intel.com (HELO
+	ipuustin-mobl.fi.intel.com) ([10.237.68.151])
+	by fmsmga002.fm.intel.com with ESMTP; 21 May 2015 01:21:58 -0700
+From: Ismo Puustinen <ismo.puustinen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 May 2015 11:21:29 +0300
+Message-Id: <1432196500-13462-1-git-send-email-ismo.puustinen@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 00/11] Fix quotes in several recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,172 +28,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 07:31:10 -0000
-Content-Language: fr-FR
-Content-Type: multipart/alternative;
-	boundary="_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_"
+X-List-Received-Date: Thu, 21 May 2015 08:22:01 -0000
 
---_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+I recently wrote my own parser for BitBake recipes and ran it over the recipes
+in openembedded-core. I found a number of bugs in my parser, but I also saw some
+"patterns" in recipes which I thought were against the spec but still allowed by
+the BitBake parser.
 
-SGkgUm9zcywNCg0KSSBkaWRu4oCZdCBrbm93IHN1Y2ggYSBmdW5jdGlvbiB3YXMgZXhpc3Rpbmcu
-IFlvdSBjYW4gdXNlIGl0IG9mIGNvdXJzZSwgaXTigJlzIG11Y2ggYmV0dGVyLg0KSSBmb3VuZCB0
-aGUgKG9ic2N1cmUpIHJlZ2V4cCBpbiBsaWJjZ3JvdXAgcmVjaXBlLCBpdCBjb3VsZCBiZSB1cGRh
-dGVkIHRvby4NCg0KSXMgaXQgd29ydGggaXQgSSBzZW5kIGEgdjIgcGF0Y2ggPw0KDQpNYXR0aGll
-dQ0KDQoNCkRlIDogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
-RW52b3nDqSA6IG1lcmNyZWRpIDIwIG1haSAyMDE1IDE2OjQyDQrDgCA6IE1hdHRoaWV1IENSQVBF
-VA0KQ2MgOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpPYmpldCA6
-IFJlOiBbT0UtY29yZV0gW1BBVENIXSB6bGliOiBtaW5vciBzeW1ib2xpYyBsaW5rIGlzc3VlDQoN
-Cg0KT24gMjAgTWF5IDIwMTUgYXQgMTA6NDcsIE1hdHRoaWV1IENSQVBFVCA8TWF0dGhpZXUuQ1JB
-UEVUQGluZ2VuaWNvLmNvbTxtYWlsdG86TWF0dGhpZXUuQ1JBUEVUQGluZ2VuaWNvLmNvbT4+IHdy
-b3RlOg0KSnVzdCB0ZWxsIG1lIGlmIHNvbWV0aGluZyBpcyB3cm9uZywgSSBjYW4gcHJvdmlkZSBh
-IHYyIHBhdGNoLg0KDQpObywgaXQganVzdCBzbGlwcGVkIHRocm91Z2ggdGhlIGNyYWNrcy4NCg0K
-VGhhdCByZWdleCBsb29rZWQgYSBiaXQgb2JzY3VyZSwgYW5kIHRoZXJlJ3MgYSBQeXRob24gZnVu
-Y3Rpb24gd2UgcHJvdmlkZSB0aGF0IHVzZXMgdGhlIFB5dGhvbiBzdGFuZGFyZCBsaWJyYXJ5IHRv
-IGRvIHRoZSBzYW1lIHRoaW5nLCBzbyBJIGVuZGVkIHVwIHdpdGggdGhpcyBsb2NhbGx5Og0KDQoj
-IE1vdmUgemxpYiBzaGFyZWQgbGlicmFyaWVzIGZvciB0YXJnZXQgYnVpbGRzIHRvICRiYXNlX2xp
-YmRpciBzbyB0aGUgbGlicmFyeQ0KIyBjYW4gYmUgdXNlZCBpbiBlYXJseSBib290IGJlZm9yZSAk
-cHJlZml4IGlzIG1vdW50ZWQuDQpkb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10YXJnZXQoKSB7DQog
-ICAgICAgICAgICBpZiBbICR7YmFzZV9saWJkaXJ9ICE9ICR7bGliZGlyfSBdDQogICAgICAgICAg
-ICB0aGVuDQogICAgICAgICAgICAgICAgICAgICAgICBta2RpciAtcCAke0R9LyR7YmFzZV9saWJk
-aXJ9DQogICAgICAgICAgICAgICAgICAgICAgICBtdiAke0R9LyR7bGliZGlyfS9saWJ6LnNvLiog
-JHtEfS8ke2Jhc2VfbGliZGlyfQ0KICAgICAgICAgICAgICAgICAgICAgICAgbGlibmFtZT1gcmVh
-ZGxpbmsgJHtEfS8ke2xpYmRpcn0vbGliei5zb2ANCiAgICAgICAgICAgICAgICAgICAgICAgIGxu
-IC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCIke2xpYmRpcn08bWFpbHRvOiQlN2JAb2UucGF0aC5y
-ZWxhdGl2ZSglMjIkJTdibGliZGlyJTdkPiIsICIke2Jhc2VfbGliZGlyfSIpfS8kbGlibmFtZSAk
-e0R9JHtsaWJkaXJ9L2xpYnouc28NCiAgICAgICAgICAgIGZpDQp9DQoNCkRvIHlvdSBoYXZlIGFu
-eSBvYmplY3Rpb25zIHRvIHRoaXMgZm9ybSBpbnN0ZWFkPyAgSSdtIGFsc28gdGhpbmtpbmcgd2Ug
-c2hvdWxkIHJhdGlvbmFsaXNlIHRoZSBkdXBsaWNhdGVkIGxvZ2ljIGludG8gYSBzaW5nbGUgaW1w
-bGVtZW50YXRpb24gaW4gbWV0YS9jbGFzc2VzL3V0aWxzLmJiY2xhc3MuLi4NCg0KUm9zcw0K
+This patch series fixes quotes in variable values. Specifically, it disallows
+having unescaped double quotes inside a variable value that is surrounded by
+double quotes. This patch series in not critical in that sense that everything
+should work still the same way it used to. However, if the BitBake parser is
+ever made stricter or the BitBake User Manual written to have less ambiguity on
+the subject of the .bb file format, having these fixed will help in transition.
 
---_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Of course, it may be that I'm mistaken and the quoting around variable values is
+not even supposed to have a meaning in the variable definition, in which case
+the whole patch set can be disregarded.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
-LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
-LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
-eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJ
-bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6
-NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0
-O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48
-IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNw
-aWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHht
-bD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBk
-YXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0K
-PGJvZHkgbGFuZz0iRlIiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0i
-V29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5IaSBSb3NzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
-OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkg
-ZGlkbuKAmXQga25vdyBzdWNoIGEgZnVuY3Rpb24gd2FzIGV4aXN0aW5nLiBZb3UgY2FuIHVzZSBp
-dCBvZiBjb3Vyc2UsIGl04oCZcyBtdWNoIGJldHRlci48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
-b3Q7O2NvbG9yOiMxRjQ5N0QiPkkgZm91bmQgdGhlIChvYnNjdXJlKSByZWdleHAgaW4gbGliY2dy
-b3VwIHJlY2lwZSwgaXQgY291bGQgYmUgdXBkYXRlZCB0b28uPG86cD48L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
-O2NvbG9yOiMxRjQ5N0QiPklzIGl0IHdvcnRoIGl0IEkgc2VuZCBhIHYyIHBhdGNoID88bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+TWF0dGhpZXU8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
-cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkRlJm5ic3A7Ojwvc3Bh
-bj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFo
-b21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
-b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5FbnZvecOpJm5ic3A7OjwvYj4gbWVyY3Jl
-ZGkgMjAgbWFpIDIwMTUgMTY6NDI8YnI+DQo8Yj7DgCZuYnNwOzo8L2I+IE1hdHRoaWV1IENSQVBF
-VDxicj4NCjxiPkNjJm5ic3A7OjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzxicj4NCjxiPk9iamV0Jm5ic3A7OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHps
-aWI6IG1pbm9yIHN5bWJvbGljIGxpbmsgaXNzdWU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+T24gMjAgTWF5IDIwMTUgYXQgMTA6NDcsIE1hdHRoaWV1IENSQVBFVCAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOk1hdHRoaWV1LkNSQVBFVEBpbmdlbmljby5jb20iIHRhcmdldD0iX2Js
-YW5rIj5NYXR0aGlldS5DUkFQRVRAaW5nZW5pY28uY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286
-cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SnVzdCB0ZWxsIG1lIGlmIHNvbWV0
-aGluZyBpcyB3cm9uZywgSSBjYW4gcHJvdmlkZSBhIHYyIHBhdGNoLjxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCk5vLCBpdCBqdXN0IHNs
-aXBwZWQgdGhyb3VnaCB0aGUgY3JhY2tzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGF0IHJlZ2V4IGxvb2tlZCBhIGJpdCBvYnNjdXJlLCBh
-bmQgdGhlcmUncyBhIFB5dGhvbiBmdW5jdGlvbiB3ZSBwcm92aWRlIHRoYXQgdXNlcyB0aGUgUHl0
-aG9uIHN0YW5kYXJkIGxpYnJhcnkgdG8gZG8gdGhlIHNhbWUgdGhpbmcsIHNvIEkgZW5kZWQgdXAg
-d2l0aCB0aGlzIGxvY2FsbHk6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4jIE1vdmUgemxpYiBzaGFyZWQgbGlicmFyaWVzIGZvciB0
-YXJnZXQgYnVpbGRzIHRvICRiYXNlX2xpYmRpciBzbyB0aGUgbGlicmFyeTxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+IyBjYW4gYmUgdXNlZCBpbiBl
-YXJseSBib290IGJlZm9yZSAkcHJlZml4IGlzIG1vdW50ZWQuPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5kb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10
-YXJnZXQoKSB7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsgaWYgWyAke2Jhc2VfbGliZGlyfSAhPSAke2xpYmRpcn0gXTxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHRo
-ZW48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBta2RpciAtcCAke0R9LyR7YmFzZV9saWJkaXJ9PG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsgbXYgJHtEfS8ke2xpYmRpcn0vbGliei5zby4qICR7RH0vJHtiYXNlX2xp
-YmRpcn08bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBsaWJuYW1lPWByZWFkbGluayAke0R9LyR7bGliZGly
-fS9saWJ6LnNvYDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGxuIC1zZiA8YSBocmVmPSJtYWlsdG86JCU3
-YkBvZS5wYXRoLnJlbGF0aXZlKCUyMiQlN2JsaWJkaXIlN2QiPg0KJHtAb2UucGF0aC5yZWxhdGl2
-ZSgmcXVvdDske2xpYmRpcn08L2E+JnF1b3Q7LCAmcXVvdDske2Jhc2VfbGliZGlyfSZxdW90Oyl9
-LyRsaWJuYW1lICR7RH0ke2xpYmRpcn0vbGliei5zbzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGZpPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj59PG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkRvIHlvdSBoYXZlIGFueSBvYmplY3Rp
-b25zIHRvIHRoaXMgZm9ybSBpbnN0ZWFkPyZuYnNwOyBJJ20gYWxzbyB0aGlua2luZyB3ZSBzaG91
-bGQgcmF0aW9uYWxpc2UgdGhlIGR1cGxpY2F0ZWQgbG9naWMgaW50byBhIHNpbmdsZSBpbXBsZW1l
-bnRhdGlvbiBpbiBtZXRhL2NsYXNzZXMvdXRpbHMuYmJjbGFzcy4uLjxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
-DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+Ismo Puustinen (11):
+  flac: do not mix single and double quotes.
+  libxml-sax-perl: escape quotes and fix whitespace.
+  grub: do not mix single and double quotes.
+  foomatic-filters: escape quotes inside variable values.
+  libfile-checktree-perl: escape quotes inside variable values.
+  packagegroup-core-boot: do not mix single and double quotes.
+  libclass-isa-perl: escape quotes inside variable values.
+  packagegroup-core-tools-testapps: do not mix single and double quotes.
+  grub: do not mix single and double quotes.
+  gconf: do not mix single and double quotes.
+  packagegroup-core-lsb: do not mix single and double quotes.
 
---_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_--
+ meta/recipes-bsp/grub/grub_2.00.bb                             |  4 ++--
+ meta/recipes-bsp/grub/grub_git.bb                              |  4 ++--
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb      |  4 ++--
+ .../packagegroups/packagegroup-core-tools-testapps.bb          |  6 +++---
+ meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb      |  2 +-
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb   |  2 +-
+ meta/recipes-extended/perl/libxml-sax-perl_0.99.bb             |  4 ++--
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                        |  2 +-
+ meta/recipes-lsb4/perl/libclass-isa-perl_0.36.bb               |  2 +-
+ meta/recipes-lsb4/perl/libfile-checktree-perl_4.41.bb          |  6 +++---
+ meta/recipes-multimedia/flac/flac_1.3.1.bb                     | 10 +++++-----
+ 11 files changed, 23 insertions(+), 23 deletions(-)
+
+-- 
+2.1.0
+
+
