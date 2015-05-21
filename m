@@ -1,26 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AF150609B2
+	by mail.openembedded.org (Postfix) with ESMTP id 7CBE2600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 11:05:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 21 May 2015 04:05:45 -0700
+	Thu, 21 May 2015 11:08:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 May 2015 04:08:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,468,1427785200"; d="scan'208";a="496501326"
+X-IronPort-AV: E=Sophos;i="5.13,468,1427785200"; d="scan'208";a="713594565"
 Received: from lpobrien-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.1.32])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 May 2015 04:05:44 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2015 04:08:23 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Thu, 21 May 2015 12:05:43 +0100
-Message-ID: <2409378.FaPFWFNbiH@peggleto-mobl.ger.corp.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 May 2015 12:08:22 +0100
+Message-ID: <59677579.M5unJ8WNJB@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <1432195678-6715-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1432195678-6715-1-git-send-email-ed.bartosh@linux.intel.com>
+In-Reply-To: <f4ee80aed6d6c20ba6c01e92ec1495a5d20d6a58.1432122320.git.patrick.ohly@intel.com>
+References: <cover.1432122320.git.patrick.ohly@intel.com>
+	<f4ee80aed6d6c20ba6c01e92ec1495a5d20d6a58.1432122320.git.patrick.ohly@intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oe-selftest: Build wic runtime requirements and images before testing
+Subject: Re: [PATCH 1/1] combo-layer: handle unset dest_dir in sanity_check()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 11:05:47 -0000
+X-List-Received-Date: Thu, 21 May 2015 11:08:25 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Ed,
-
-On Thursday 21 May 2015 11:07:58 Ed Bartosh wrote:
-> Some native tools (syslinux, parted, mtools, etc) are required
-> by wic to produce images. Unit tests fail if the tools are
-> not available.
+On Wednesday 20 May 2015 13:48:20 Patrick Ohly wrote:
+> The previous "clean up dest_dir checking" patch (f8cdbe7497) improved
+> handling of empty dest_dir but made handling of unset dest_dir worse:
+> instead showing the "Option dest_dir is not defined for component ..."
+> error, it fails with a Python exception.
 > 
-> Baked tools and image-core-minimal used by wic before running tests.
+> Avoid that by providing a sane fallback for the unset case. With that
+> change, dest_dir is no longer strictly required, but the check for it
+> is kept to ensure that a combo-layer.conf also works with older
+> combo-layer versions.
 > 
-> [YOCTO #7730]
+> [Yocto #7773]
 > 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 > ---
->  meta/lib/oeqa/selftest/wic.py | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  scripts/combo-layer | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-> index c628b59..817685d 100644
-> --- a/meta/lib/oeqa/selftest/wic.py
-> +++ b/meta/lib/oeqa/selftest/wic.py
-> @@ -36,6 +36,12 @@ class Wic(oeSelfTest):
-> 
->      resultdir = "/var/tmp/wic/build/"
-> 
-> +    @classmethod
-> +    def setUpClass(cls):
-> +        """Build wic runtime dependencies and images used in the tests."""
-> +        runCmd('bitbake syslinux syslinux-native parted-native '
-> +               'dosfstools-native mtools-native core-image-minimal')
-> +
->      def setUp(self):
->          """This code is executed before each test method."""
->          rmtree(self.resultdir, ignore_errors=True)
+> diff --git a/scripts/combo-layer b/scripts/combo-layer
+> index b0b7c28..698d3e3 100755
+> --- a/scripts/combo-layer
+> +++ b/scripts/combo-layer
+> @@ -145,8 +145,10 @@ class Configuration(object):
+>                      msg = "%s\nOption %s is not defined for component %s"
+> %(msg, option, name) missing_options.append(option)
+>              # Sanitize dest_dir so that we do not have to deal with edge
+> cases -            # (empty string, double slashes) in the rest of the
+> code. -            dest_dir =
+> os.path.normpath(self.repos[name]["dest_dir"]) +            # (unset, empty
+> string, double slashes) in the rest of the code. +            # It not
+> being set will still be flagged as error because it is +            #
+> listed as required option above; that could be changed now. +           
+> dest_dir = os.path.normpath(self.repos[name].get("dest_dir", "."))
+> self.repos[name]["dest_dir"] = "." if not dest_dir else dest_dir if msg !=
+> "":
+>              logger.error("configuration file %s has the following error:
+> %s" % (self.conffile,msg))
 
-FYI there is a bitbake() function in meta/lib/oeqa/utils/commands.py that I'd 
-recomment using rather than runCmd() directly. Ultimately it ends up doing the 
-same thing, but at least it keeps the details of how bitbake is invoked 
-isolated from what your test needs to build.
+I suppose we might now tidy up the line that follows, but that's less critical 
+than fixing the behaviour that this patch does. Therefore:
+
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
 Cheers,
 Paul
