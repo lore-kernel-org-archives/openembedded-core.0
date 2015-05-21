@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id DBB4A6E5D0
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6316E5D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 19:42:49 +0000 (UTC)
-Received: by qgez61 with SMTP id z61so43514694qge.1
+	Thu, 21 May 2015 20:36:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4LKabEC014137
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 12:42:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=znEwUzHWWHRmNdSh0/G9ej7Y9fJ6iZ3BW9Rttc10myk=;
-	b=gr79kjOY9N72eXPJAZa9LYdBwxqELzjKljEN0+tmCBIDCyAgMZEumMkQC6JVoqwCyp
-	loTMckUvzda1ndZwEORWmcMEYUN+oezOtFsVBcLpRYECs9bS/wDQ6KP3O8iVx24ElvzK
-	vdczJ+DbUkIyBc7TBUExNEqCPOUD2vEixC7Yo7kDIxnc8LFvuFUCx0KAdfvKUnpJfx0o
-	wjVbKbE768Ck6EWBatW5NotPh6/X6OJ6yAX/Spz2xwJ7q3Ml4jYjqYlJpWAAqCszmhCi
-	pB10oi+U8GL5VbXBjDL/cMN2ZlIUBcuPN6ZFOy5sfoz84mtRkviq0iNLRtLw1S2Jmu7z
-	IoZA==
-X-Gm-Message-State: ALoCoQknzs9umjdHfyL0eMo4HslC8ToFqLOS0hGzhQRudcoLfCeAyvW2oGQTcb3QXN3PwwnXDHsY
-X-Received: by 10.55.43.130 with SMTP id r2mr10332670qkr.14.1432237370136;
-	Thu, 21 May 2015 12:42:50 -0700 (PDT)
+	Thu, 21 May 2015 13:36:37 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 21 May 2015 13:36:36 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 May 2015 15:36:34 -0500
+Message-ID: <cover.1432240437.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 2.3.1
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 21 May 2015 12:42:29 -0700 (PDT)
-In-Reply-To: <1432212136-26396-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1432212136-26396-1-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 May 2015 20:42:29 +0100
-Message-ID: <CAJTo0Lb_-dMwKOgbZzJyPHi3ZZyA65qSdGrY80KLkTjJQTQZMA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libepoxy: make buildable for x11-less environments / update to latest version
+Subject: [PATCH 0/1] Make "set -x" in postinst scripts not break rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 19:42:52 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb0ae6ea205169cbf13
+X-List-Received-Date: Thu, 21 May 2015 20:36:36 -0000
+Content-Type: text/plain
 
---001a1147afb0ae6ea205169cbf13
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I was trying to debug a postinstall script, so I added set -x, so rootfs
+creation broke. The issue is that set -x caused lines of code to be emitted
+in a place where the log file checker saw them. It's totally okay for
+a postinstall script to exit 1; that moves it into etc/rpm-postinsts, and
+then it runs on the target.
 
-On 21 May 2015 at 13:42, Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-wrote:
+So it shouldn't prevent rootfs creation from "succeeding". Solution: Don't
+process lines preceeded by a "+", because that's probably set -x output.
 
-> * Make glx part configurable by PACKAGECONFIG enabled by 'x11' distro
-> feature
-> * Major upstream enhancement is using pkgconfig for egl. This should make
->   those egl implementations happy that require compiler extra options for
-> their
->   egl headers.
->
+The following changes since commit fe7780a9bbbfa4dcbbe457618a0842e91a3c6a0e:
 
-\o/
+  libxdmcp: make libbsd usage deterministic (2015-05-21 10:48:41 +0100)
 
-Thanks!
+are available in the git repository at:
 
-Ross
+  git://git.yoctoproject.org/poky-contrib seebs/setminusx
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/setminusx
 
---001a1147afb0ae6ea205169cbf13
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Peter Seebach (1):
+  rootfs.py: Make set -x not break rootfs creation
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 May 2015 at 13:42, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@go=
-oglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":ng" class=3D"a3s" style=3D"overflow:hidden">* Make glx part configura=
-ble by PACKAGECONFIG enabled by &#39;x11&#39; distro feature<br>
-* Major upstream enhancement is using pkgconfig for egl. This should make<b=
-r>
-=C2=A0 those egl implementations happy that require compiler extra options =
-for their<br>
-=C2=A0 egl headers.</div></blockquote></div><br>\o/</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Thanks!</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+ meta/lib/oe/rootfs.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
---001a1147afb0ae6ea205169cbf13--
+-- 
+2.3.1
+
+
