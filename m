@@ -1,27 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93EFA6B0CB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A99D60168
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 00:43:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4L0hjFU021695
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 May 2015 04:41:18 +0000 (UTC)
+Received: by ieczm2 with SMTP id zm2so84656iec.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 17:43:46 -0700 (PDT)
-Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 20 May 2015 17:43:45 -0700
-Message-ID: <555D2A40.6010206@windriver.com>
-Date: Thu, 21 May 2015 08:43:44 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1431476040-29583-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1431476040-29583-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH][V3] mmc-utils: fix the building failure when DEBUG_BUILD is 1
+	Wed, 20 May 2015 21:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=nogzDXHiTfU9IhbyawbXPaNf0fF5tGREWMWJNchqhTM=;
+	b=meMQBnNY6MriqiV5vx2bU1vCXJfqxE+J1tkJWpG/fvHNVimtoLPqEnr/oVWFySL6lW
+	4AgblM7YghBW6uqCpcJZ5tudE3pXiTuDlbNH+kazYZxuAEgDCRqR8jYeZbx0YNv2dn53
+	BIQC+2uk+pI8YtfArmZZpoX+InA5yAP5H7QLosllea60iC6xNTDE4X7KqRXmsBkBRMsz
+	s+MQjgSq9NmOBuVywxesrQnXDNPNYQaBpC7O9s6XZxIL978egtcfnhllBwv0WTqe/Lom
+	dPXBZt/YmnrP4qpcqZ48t4ZgtqcKQ8P00OH4zbDumBEPRdfZwygmD1Ccm0igM2HHqbUK
+	KpbQ==
+X-Received: by 10.50.50.177 with SMTP id d17mr1511862igo.19.1432183279754;
+	Wed, 20 May 2015 21:41:19 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id v14sm334561igd.12.2015.05.20.21.41.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 May 2015 21:41:18 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 May 2015 21:41:07 -0700
+Message-Id: <1432183267-5952-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] toolchain-scripts.bbclass: fix quoting for CCACHE_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 00:43:45 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 May 2015 04:41:19 -0000
 
-ping
+Single quotes prevent expansion of $sdkpathnative$bindir.
 
--Roy
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
 
-On 2015年05月13日 08:14, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=2 which will lead
-> to building failure when DEBUG_BUILD is 1.
-> So Redefine AM_CFLAGS, input it from the environment to overrides
-> variable in makefile
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> index bdb4fed..d6d77d9 100644
-> --- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> +++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> @@ -11,6 +11,8 @@ PV = "0.1"
->   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${BRANCH} \
->              file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
->
-> +EXTRA_OEMAKE = 'AM_CFLAGS="-D_FILE_OFFSET_BITS=64"'
-> +
->   S = "${WORKDIR}/git"
->
->   do_install() {
->
+fido needs the fix too.
 
+ meta/classes/toolchain-scripts.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 670e93b..9918e2e 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -22,7 +22,7 @@ toolchain_create_sdk_env_script () {
+ 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+ 	done
+ 	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
+-	echo 'export CCACHE_PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
++	echo "export CCACHE_PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$CCACHE_PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
