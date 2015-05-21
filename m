@@ -1,27 +1,27 @@
-Return-Path: <changhyeok.bae@lge.com>
-Received: from lgeamrelo02.lge.com (lgeamrelo02.lge.com [156.147.1.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 975576B0CB
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 93EFA6B0CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 00:05:58 +0000 (UTC)
-Received: from unknown (HELO CHBae0915) (10.177.222.197)
-	by 156.147.1.126 with ESMTP; 21 May 2015 09:05:59 +0900
-X-Original-SENDERIP: 10.177.222.197
-X-Original-MAILFROM: changhyeok.bae@lge.com
-From: "Changhyeok Bae" <changhyeok.bae@lge.com>
-To: =?UTF-8?Q?'Andreas_M=C3=BCller'?= <schnitzeltony@googlemail.com>,
-	"'Burton, Ross'" <ross.burton@intel.com>,
-	"'OE-core'" <openembedded-core@lists.openembedded.org>,
-	"Tomas Frydrych" <tf+lists.yocto@r-finger.com>, <martin.jansa@gmail.com>
-References: <20150312143521.GD2338@jama>	<5501D4CA.2090209@r-finger.com>	<08f401d08df0$aba9be00$02fd3a00$@lge.com>	<CALbNGRReufGQXfR3eYqQKN6CRwhcEk5-EaeTfctenBdWeoYm_w@mail.gmail.com>	<CAJTo0La7EummgKK7-dp7oubo4XV_-yjn0WMbAysDJN4Btmah2A@mail.gmail.com>
-	<CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>
-In-Reply-To: <CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>
-Date: Thu, 21 May 2015 09:06:01 +0900
-Message-ID: <0ba801d09359$ec479130$c4d6b390$@lge.com>
+	Thu, 21 May 2015 00:43:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4L0hjFU021695
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 May 2015 17:43:46 -0700 (PDT)
+Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 20 May 2015 17:43:45 -0700
+Message-ID: <555D2A40.6010206@windriver.com>
+Date: Thu, 21 May 2015 08:43:44 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNAvfvmBMB68tUHQDnnVY9Am5MtZ+eQ28HYA==
-Cc: =?UTF-8?B?7J2066qF6rWs?= <myonggu.lee@lge.com>
-Subject: Re: meta-gir issues and maintenance
+To: <openembedded-core@lists.openembedded.org>
+References: <1431476040-29583-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1431476040-29583-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH][V3] mmc-utils: fix the building failure when DEBUG_BUILD is 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 00:06:00 -0000
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Language: ko
+X-List-Received-Date: Thu, 21 May 2015 00:43:45 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I forked meta-gir to https://github.com/locust2001/meta-gir and start =
-working from next week.
+ping
 
------Original Message-----
-From: Andreas M=C3=BCller [mailto:schnitzeltony@googlemail.com]=20
-Sent: Monday, May 18, 2015 8:46 PM
-To: Burton, Ross
-Cc: Changhyeok Bae; OE-core
-Subject: Re: [OE-core] meta-gir issues and maintenance
+-Roy
 
-On Mon, May 18, 2015 at 1:00 PM, Burton, Ross <ross.burton@intel.com> =
-wrote:
-> On 18 May 2015 at 09:00, Andreas M=C3=BCller =
-<schnitzeltony@googlemail.com>
-> wrote:
->>
->> I would appreciate to have the gintrospection more central - this=20
->> would give us a chance to get the gtk stuff out of stone age..
+On 2015年05月13日 08:14, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
+> AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=2 which will lead
+> to building failure when DEBUG_BUILD is 1.
+> So Redefine AM_CFLAGS, input it from the environment to overrides
+> variable in makefile
 >
-> Well, oe-core already has GTK+ 3, so we're "just" missing the bindings =
-
-> to Python and JavaScript.
-Sorry - I meant gnome not gtk.
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 ++
+>   1 file changed, 2 insertions(+)
 >
-> Changhyeok, you're welcome to fork meta-gir to your own repository and =
-
-> work on it independently.  If you can update it so that it works with=20
-> oe-core master then you're the new maintainer. :)
+> diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> index bdb4fed..d6d77d9 100644
+> --- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> +++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> @@ -11,6 +11,8 @@ PV = "0.1"
+>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${BRANCH} \
+>              file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
 >
-Andreas
+> +EXTRA_OEMAKE = 'AM_CFLAGS="-D_FILE_OFFSET_BITS=64"'
+> +
+>   S = "${WORKDIR}/git"
+>
+>   do_install() {
+>
 
-This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
