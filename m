@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 41D7B65D19
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C26265D19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 23:38:31 +0000 (UTC)
-Received: by qctt3 with SMTP id t3so1273990qct.1
+	Thu, 21 May 2015 23:47:35 +0000 (UTC)
+Received: by qcblr10 with SMTP id lr10so1358259qcb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 16:38:32 -0700 (PDT)
+	Thu, 21 May 2015 16:47:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=F1oF4JgmE4XuVeP+qg8ZCsl+bimXtmHmtI6UhxeIMBI=;
-	b=ggWMC6gIw4Dywyjk5+McYO5zrdEli5C+wU3Ccj3sHCJ+x7E3jpiO7weJN+d26oIJxB
-	erVVe/hyTODoUqOlJaxVJ7d6kD+ci6ABtqtidDGmE41iqsvS9TPUllpiK+1lojJn5g+u
-	0nAH9emnZvpUJKXCs+70oJ5E1pxR3nCko/XmFcIqa+BAuGo/ulsrl6zYpFE+k+SDmSvu
-	ndWa54VCBgUHhCnnb3stAhYfSeD2PG33TKsTY7BeGm1JvaBYxICFR+vuCvlRQ5FGzUVB
-	rIiAlET65teOpCuX4gotaiQJcUe2Iz7Bk3JEpEMAxeLOq44pPcjyLMryPvKniFoE5H8K
-	PG3w==
-X-Gm-Message-State: ALoCoQlhs4d4YWhtvTr+BjzlUho57p4UrOPPZcq2bcuWb+OvKeKm1FTWEqlPBoV3VLC1h8Y3zpci
-X-Received: by 10.55.43.130 with SMTP id r2mr12292115qkr.14.1432251512318;
-	Thu, 21 May 2015 16:38:32 -0700 (PDT)
+	bh=fqECU/+k03LWdGMh8l9rk3e57u2omE2aYveVJWMF0yw=;
+	b=dLHmk7cc0WmqgMPYbR8b1ieegByYOYxYTBgBHzkX2lWLI49NC168a/lA04hAVJCaTc
+	VOpNlFw8xlTENR7F5UGDAhoVWkcvrghCP5r5fUo6pPiQX2TJeSqdVP0AwIpNQK7inRei
+	3OooK9rcVJoUiQK9vphszCw0H2asTh4+nzTJrufT4Hw/SfYVXg2RcdxCfbPp3pA4oVlt
+	vrXT52nm8UbzHYCZ2xRRKauZkEyvKvAtj/is004Lt/y3xjk6z+Qi5GZVerdz+fOzkY4W
+	Tf13i7/QPXV0I57EHJ4FRAAjenRoN+Yi5YEpi4CD/LCT5Iy9QHPdB5kac4hOUJ94EjEk
+	ebeQ==
+X-Gm-Message-State: ALoCoQk/LMaZScc/WKE/+Iiep3pml6j2y5g+MSqpYVs3Ieab/L3/c9C+pIDpV4pOfH+HdCv4YAxu
+X-Received: by 10.55.40.18 with SMTP id o18mr12275394qkh.58.1432252056159;
+	Thu, 21 May 2015 16:47:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 21 May 2015 16:38:11 -0700 (PDT)
-In-Reply-To: <d2900c9f672ce2901dcc464f25434987189e5337.1432199284.git.alejandro.hernandez@linux.intel.com>
+Received: by 10.140.102.231 with HTTP; Thu, 21 May 2015 16:47:15 -0700 (PDT)
+In-Reply-To: <ba1bfb4332910bd53dd08bfa81e8c240dbc1e617.1432199284.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-	<d2900c9f672ce2901dcc464f25434987189e5337.1432199284.git.alejandro.hernandez@linux.intel.com>
+	<ba1bfb4332910bd53dd08bfa81e8c240dbc1e617.1432199284.git.alejandro.hernandez@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 May 2015 00:38:11 +0100
-Message-ID: <CAJTo0LYpzyy9gQ0-UZhCyQk=QnZHO3gqhJr_JAaHz3VYJGQzJQ@mail.gmail.com>
+Date: Fri, 22 May 2015 00:47:15 +0100
+Message-ID: <CAJTo0Lb+0izLpS5TOevHAa0QtzxnKzz60uzEGPfobp68v3t8Qw@mail.gmail.com>
 To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] python3-pip: Adds recipe for python3-pip
+Subject: Re: [PATCH 4/5] python3-distribute: Upgrade to python3-setuptools 15.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 23:38:36 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb09f01b90516a00a2a
+X-List-Received-Date: Thu, 21 May 2015 23:47:39 -0000
+Content-Type: multipart/alternative; boundary=001a11440fb80953990516a02b98
 
---001a1147afb09f01b90516a00a2a
+--001a11440fb80953990516a02b98
 Content-Type: text/plain; charset=UTF-8
 
 On 21 May 2015 at 10:15, Alejandro Hernandez <
 alejandro.hernandez@linux.intel.com> wrote:
 
-> PIP is installed by default since python 3.4, due to issues with the
-> autobuilders, its default installation had to be disabled, this creates
-> a recipe for it, it brings a lot of new dependencies so it is chosen not
-> to be installed by default along with python3-core.
+> python3-distribute was merged back to python3-setuptools in 2013,
+> and it is no longer being maintained, this upgrade also provides
+> functionality that will be needed for python3-pip.
+>
 
+ERROR: The recipe python3-setuptools is trying to install files into a
+shared area when those files already exist. Those files and their manifest
+location are:
 
-Missing dependencies?
+ /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/site.py
+ Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
+ /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/setuptools.pth
+ Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
+ /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/__pycache__/site.cpython-34.pyc
+ Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
 
-ERROR: Function failed: do_compile (log file is located at
-/data/poky-master/tmp/work/corei7-64-poky-linux/python3-pip/6.1.1-r0/temp/log.do_compile.7121)
-ERROR: Logfile of failure stored in:
-/data/poky-master/tmp/work/corei7-64-poky-linux/python3-pip/6.1.1-r0/temp/log.do_compile.7121
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| Traceback (most recent call last):
-|   File "setup.py", line 6, in <module>
-|     from setuptools import setup, find_packages
-| ImportError: No module named 'setuptools'
-| ERROR: python3 setup.py build_ext execution failed.
-| WARNING: exit code 1 from a shell command.
+Urgh, this again.  We either live with this and tell people to delete their
+tmp/, or bump the tmp ABI and provide a migration path.  Or improve bitbake
+to handle files moving between recipes in the sysroot and doing the right
+thing...
 
 Ross
 
---001a1147afb09f01b90516a00a2a
+--001a11440fb80953990516a02b98
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -85,28 +85,30 @@ On 21 May 2015 at 10:15, Alejandro Hernandez <span dir=3D"ltr">&lt;<a href=
 =3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandro=
 .hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
 ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-l=
-eft-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><span =
-class=3D"">PIP</span> is installed by default since python 3.4, due to issu=
-es with the<br>
-autobuilders, its default installation had to be disabled, this creates<br>
-a recipe for it, it brings a lot of new dependencies so it is chosen not<br=
->
-to be installed by default along with python3-core.</blockquote></div><br>M=
-issing dependencies?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: Function failed: do_comp=
-ile (log file is located at /data/poky-master/tmp/work/corei7-64-poky-linux=
-/python3-pip/6.1.1-r0/temp/log.do_compile.7121)</div><div class=3D"gmail_ex=
-tra">ERROR: Logfile of failure stored in: /data/poky-master/tmp/work/corei7=
--64-poky-linux/python3-pip/6.1.1-r0/temp/log.do_compile.7121</div><div clas=
-s=3D"gmail_extra">Log data follows:</div><div class=3D"gmail_extra">| DEBUG=
-: Executing shell function do_compile</div><div class=3D"gmail_extra">| Tra=
-ceback (most recent call last):</div><div class=3D"gmail_extra">| =C2=A0 Fi=
-le &quot;setup.py&quot;, line 6, in &lt;module&gt;</div><div class=3D"gmail=
-_extra">| =C2=A0 =C2=A0 from setuptools import setup, find_packages</div><d=
-iv class=3D"gmail_extra">| ImportError: No module named &#39;setuptools&#39=
-;</div><div class=3D"gmail_extra">| ERROR: python3 setup.py build_ext execu=
-tion failed.</div><div class=3D"gmail_extra">| WARNING: exit code 1 from a =
-shell command.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div></div>
+eft-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div i=
+d=3D":22y" class=3D"" style=3D"overflow:hidden">python3-distribute was merg=
+ed back to python3-setuptools in 2013,<br>
+and it is no longer being maintained, this upgrade also provides<br>
+functionality that will be needed for python3-<span class=3D"">pip</span>.<=
+/div></blockquote></div><br><div class=3D"gmail_extra">ERROR: The recipe py=
+thon3-setuptools is trying to install files into a shared area when those f=
+iles already exist. Those files and their manifest location are:</div><div =
+class=3D"gmail_extra">=C2=A0 =C2=A0/data/poky-master/tmp/sysroots/intel-cor=
+ei7-64/usr/lib/python3.4/site-packages/site.py</div><div class=3D"gmail_ext=
+ra">=C2=A0Matched in manifest-intel-corei7-64-python3-distribute.populate_s=
+ysroot</div><div class=3D"gmail_extra">=C2=A0/data/poky-master/tmp/sysroots=
+/intel-corei7-64/usr/lib/python3.4/site-packages/setuptools.pth</div><div c=
+lass=3D"gmail_extra">=C2=A0Matched in manifest-intel-corei7-64-python3-dist=
+ribute.populate_sysroot</div><div class=3D"gmail_extra">=C2=A0/data/poky-ma=
+ster/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/__pycache=
+__/site.cpython-34.pyc</div><div class=3D"gmail_extra">=C2=A0Matched in man=
+ifest-intel-corei7-64-python3-distribute.populate_sysroot</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Urgh, this again.=C2=
+=A0 We either live with this and tell people to delete their tmp/, or bump =
+the tmp ABI and provide a migration path.=C2=A0 Or improve bitbake to handl=
+e files moving between recipes in the sysroot and doing the right thing...<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><br></d=
+iv></div></div>
 
---001a1147afb09f01b90516a00a2a--
+--001a11440fb80953990516a02b98--
