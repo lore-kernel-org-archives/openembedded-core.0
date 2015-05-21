@@ -1,36 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F0B7601E0
+Return-Path: <changhyeok.bae@lge.com>
+Received: from lgeamrelo02.lge.com (lgeamrelo02.lge.com [156.147.1.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 975576B0CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 22:28:47 +0000 (UTC)
-Received: by qcir1 with SMTP id r1so30836862qci.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 May 2015 15:28:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=05kVKWiTHw7C4hK0hncZ5aqqQKAFN5XLWoriVuhtkOU=;
-	b=I2RneQnBptW+lT2TREHDqoHAi9QIIsMeZOjFNHKRNygKU+y/x+CR3pM1nuXJmSo89i
-	xBJtZxWdxxW00OO0fWalQf/7AkmaFfteoGzd2JOTPewS4CO/gOkUDI5P586wAvqrrx+V
-	qlSLCggNPJsU/uCFvZHUN/CLRNDHDnpaWoWfF+HUmtOY10vxNWoAb/t0xLuiPIl2rxnU
-	MCsz/BAtN8hXsF+RrICgae+Ei2xEHi9EnPxTQL64JlUsfmXp+zy/6dLUGY+plOeLi1Zw
-	7t2YO7jVPGibTkS7OsYnaT/snZlQw006OoSTBFDUzeNfoCcYjRtDFLAknAeyEPoWiQIi
-	caSw==
-X-Gm-Message-State: ALoCoQlG7Vg/LkdgTVk2nZ/5IEwUP7GK16naqy5CCJg9Obr4MoNe4iPjxzvXDoxdz3j30ZsUAG3A
-X-Received: by 10.55.20.10 with SMTP id e10mr77294514qkh.36.1432160928516;
-	Wed, 20 May 2015 15:28:48 -0700 (PDT)
+	Thu, 21 May 2015 00:05:58 +0000 (UTC)
+Received: from unknown (HELO CHBae0915) (10.177.222.197)
+	by 156.147.1.126 with ESMTP; 21 May 2015 09:05:59 +0900
+X-Original-SENDERIP: 10.177.222.197
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: "Changhyeok Bae" <changhyeok.bae@lge.com>
+To: =?UTF-8?Q?'Andreas_M=C3=BCller'?= <schnitzeltony@googlemail.com>,
+	"'Burton, Ross'" <ross.burton@intel.com>,
+	"'OE-core'" <openembedded-core@lists.openembedded.org>,
+	"Tomas Frydrych" <tf+lists.yocto@r-finger.com>, <martin.jansa@gmail.com>
+References: <20150312143521.GD2338@jama>	<5501D4CA.2090209@r-finger.com>	<08f401d08df0$aba9be00$02fd3a00$@lge.com>	<CALbNGRReufGQXfR3eYqQKN6CRwhcEk5-EaeTfctenBdWeoYm_w@mail.gmail.com>	<CAJTo0La7EummgKK7-dp7oubo4XV_-yjn0WMbAysDJN4Btmah2A@mail.gmail.com>
+	<CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>
+In-Reply-To: <CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>
+Date: Thu, 21 May 2015 09:06:01 +0900
+Message-ID: <0ba801d09359$ec479130$c4d6b390$@lge.com>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 20 May 2015 15:28:28 -0700 (PDT)
-In-Reply-To: <1431957520-14510-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1431957520-14510-1-git-send-email-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 May 2015 23:28:28 +0100
-Message-ID: <CAJTo0LaJddtsS52m0vo+RhRrcEY+uve_1nVXNTuqhCPWx4n3DA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Remove unsupported GStreamer 0.10
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNAvfvmBMB68tUHQDnnVY9Am5MtZ+eQ28HYA==
+Cc: =?UTF-8?B?7J2066qF6rWs?= <myonggu.lee@lge.com>
+Subject: Re: meta-gir issues and maintenance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,44 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 May 2015 22:28:49 -0000
-Content-Type: multipart/alternative; boundary=001a1137de3267ddf405168af3d5
-
---001a1137de3267ddf405168af3d5
-Content-Type: text/plain; charset=UTF-8
-
-On 18 May 2015 at 14:58, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> These patches remove the unsupported GStreamer 0.10 framework from
-> oe-core.
-> GStreamer 0.10 will still be available from meta-oe, but is no longer
-> recommended to use.
->
-
-Can you send a follow-up patch to poky@ to remove the deleted recipes from
-the tracking files in meta-yocto/conf/distro/*.inc?
-
-Thanks,
-Ross
-
---001a1137de3267ddf405168af3d5
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 21 May 2015 00:06:00 -0000
+Content-Type: text/plain;
+	charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Language: ko
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 May 2015 at 14:58, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
-vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div id=3D":3gg" class=3D"a3s" style=3D"overflow:hidden">These patches rem=
-ove the unsupported <span class=3D"il">GStreamer</span> 0.10 framework from=
- oe-core.<br>
-<span class=3D"il">GStreamer</span> 0.10 will still be available from meta-=
-oe, but is no longer recommended to use.<br></div></blockquote></div><br>Ca=
-n you send a follow-up patch to poky@ to remove the deleted recipes from th=
-e tracking files in meta-yocto/conf/distro/*.inc?</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Thanks,</div><div class=3D"gmai=
-l_extra">Ross</div></div>
+I forked meta-gir to https://github.com/locust2001/meta-gir and start =
+working from next week.
 
---001a1137de3267ddf405168af3d5--
+-----Original Message-----
+From: Andreas M=C3=BCller [mailto:schnitzeltony@googlemail.com]=20
+Sent: Monday, May 18, 2015 8:46 PM
+To: Burton, Ross
+Cc: Changhyeok Bae; OE-core
+Subject: Re: [OE-core] meta-gir issues and maintenance
+
+On Mon, May 18, 2015 at 1:00 PM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+> On 18 May 2015 at 09:00, Andreas M=C3=BCller =
+<schnitzeltony@googlemail.com>
+> wrote:
+>>
+>> I would appreciate to have the gintrospection more central - this=20
+>> would give us a chance to get the gtk stuff out of stone age..
+>
+>
+> Well, oe-core already has GTK+ 3, so we're "just" missing the bindings =
+
+> to Python and JavaScript.
+Sorry - I meant gnome not gtk.
+>
+> Changhyeok, you're welcome to fork meta-gir to your own repository and =
+
+> work on it independently.  If you can update it so that it works with=20
+> oe-core master then you're the new maintainer. :)
+>
+Andreas
+
+This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
+
