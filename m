@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 81986609B2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D266F728CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 19:09:00 +0000 (UTC)
+	Thu, 21 May 2015 19:08:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4LJ90I4010768
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4LJ8wtO025019
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 May 2015 12:09:00 -0700 (PDT)
+	Thu, 21 May 2015 12:08:58 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 21 May 2015 12:09:00 -0700
+	14.3.224.2; Thu, 21 May 2015 12:08:58 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 21 May 2015 15:08:53 -0400
-Message-ID: <8d68ee8847de2535cb31b5941da95adf4862e977.1432235097.git.bruce.ashfield@windriver.com>
+Date: Thu, 21 May 2015 15:08:50 -0400
+Message-ID: <cover.1432235097.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1432235097.git.bruce.ashfield@windriver.com>
-References: <cover.1432235097.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/7] linux-yocto-custom: clarify bbappend versus copy in comments
+Subject: [PATCH 0/7] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 19:09:00 -0000
+X-List-Received-Date: Thu, 21 May 2015 19:09:02 -0000
 Content-Type: text/plain
 
-The kernel development manual recommends making a copy of
-linux-yocto-custom, while the comments in the recipe talk about
-bbappends.
+Richard,
 
-To synchronize the two, we remove the bbappend references from the
-recipe and instead indicate that a copy should be updated.
+This pull request covers configuration and BSP fixes that I've been 
+gathering for 3.19 and 3.14.
 
-[YOCTO: #6925]
+There are two minor Yocto bug fixes as well:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+  linux-yocto-custom: clarify bbappend versus copy in comments
+  linux-yocto: drop suggestion of devshell for patch failures
 
-diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-index 05463c026304..e38af19f827b 100644
---- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -11,8 +11,8 @@
- #
- #   You must also provide a Linux kernel configuration. The most direct
- #   method is to copy your .config to files/defconfig in your layer,
--#   in the same directory as the bbappend and add file://defconfig to
--#   your SRC_URI.
-+#   in the same directory as the copy (and rename) of this recipe and
-+#   add file://defconfig to your SRC_URI.
- #
- #   To use the yocto kernel tooling to generate a BSP configuration
- #   using modular configuration fragments, see the yocto-bsp and
-@@ -52,14 +52,14 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
--# Override SRC_URI in a bbappend file to point at a different source
-+# Override SRC_URI in a copy of this recipe to point at a different source
- # tree if you do not want to build from Linus' tree.
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
- 
- LINUX_VERSION ?= "3.4"
- LINUX_VERSION_EXTENSION ?= "-custom"
- 
--# Override SRCREV to point to a different commit in a bbappend file to
-+# Override SRCREV to point to a different commit in a copy of this recipe
- # build a different release of the Linux kernel.
- # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
- SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
-@@ -67,6 +67,6 @@ SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--# Override COMPATIBLE_MACHINE to include your machine in a bbappend
-+# Override COMPATIBLE_MACHINE to include your machine in a copy of this recipe
- # file. Leaving it empty here ensures an early explicit build failure.
- COMPATIBLE_MACHINE = "(^$)"
+This doesn't contain the 3.14 or 3.19 gcc5 changes, since mips is 
+being problematic and the other changes are tied to that arch 
+getting sorted out.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 16caaabfcc678b03a0cd88aaeac15f9b8d1c3dad:
+
+  bitbake: bitbake-user-manual-customization.xsl: Pointing to mirrors for XSL files. (2015-05-19 22:09:36 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/3.14: cavium and configuration changes
+  linux-yocto/3.19: braswell DRM/i915 Graphics fixes
+  linux-yocto-custom: clarify bbappend versus copy in comments
+  linux-yocto: drop suggestion of devshell for patch failures
+  linux-yocto/3.19: Braswell DRM fixes
+  linux-yocto/3.19: CONFIG_ATA_BMDMA and gcc5 ARM64
+  linux-yocto/3.19: NFC config, Braswell fixes and axxia support
+
+ .../recipes-kernel/linux/linux-yocto-custom.bb         | 10 +++++-----
+ meta/classes/kernel-yocto.bbclass                      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb       |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb     |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb     |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb          | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb          | 18 +++++++++---------
+ 7 files changed, 31 insertions(+), 31 deletions(-)
+
 -- 
 2.1.0
 
