@@ -1,26 +1,35 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F146E6E5D0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A10FC65D19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 20:36:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4LKabgc011734
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 May 2015 21:55:40 +0000 (UTC)
+Received: by obfe9 with SMTP id e9so605672obf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 13:36:38 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 21 May 2015 13:36:37 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 May 2015 15:36:35 -0500
-Message-ID: <329b9e30b54b6b83f2564ea480807fa390e2fdf1.1432240437.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <cover.1432240437.git.peter.seebach@windriver.com>
-References: <cover.1432240437.git.peter.seebach@windriver.com>
+	Thu, 21 May 2015 14:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=XXSbJ7US/RdqXREzQ7eZnq5ldH0TNOO0Brh2mL6Q7vc=;
+	b=uBP6zY9NIb2dFvzVK3XL7PVx+P/C3gegOXHUnxjYhVwFREmyMnwdD49XYiiYRDNFGg
+	plvrr5loBZ+nTBUXv8RbIKhuCD1DyLbQPvXsp8LLddnxet007699UeDoYQaUdIZbMuvK
+	6/I5DR9moW9SLHdsPdkhkJvc01jOSm9e52lHsyM125LpnlCOO3T3RhpciJFzFi3cjaB3
+	3eKOkOThv976D3VUjJao1ltnLVvzQuaaYmlnJyiSj8DRGUZYUtHW5DYvsNwFn2HDQuo/
+	EvXS6tHh6lylEpA7qxZRK4Nxu2VUxhANHt2tZTMu0z8hRcsrxSH41tbPC6R87wlZvXOF
+	kqpg==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rootfs.py: Make set -x not break rootfs creation
+X-Received: by 10.202.81.201 with SMTP id f192mr3888961oib.29.1432245341202;
+	Thu, 21 May 2015 14:55:41 -0700 (PDT)
+Received: by 10.202.44.196 with HTTP; Thu, 21 May 2015 14:55:41 -0700 (PDT)
+In-Reply-To: <8d68ee8847de2535cb31b5941da95adf4862e977.1432235097.git.bruce.ashfield@windriver.com>
+References: <cover.1432235097.git.bruce.ashfield@windriver.com>
+	<8d68ee8847de2535cb31b5941da95adf4862e977.1432235097.git.bruce.ashfield@windriver.com>
+Date: Thu, 21 May 2015 14:55:41 -0700
+Message-ID: <CAJ86T=X9o3vCfuDx6V1_TJOMhObHVPX-NkpdcGgqijuvT8f7Uw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] linux-yocto-custom: clarify bbappend versus copy in comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +42,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 20:36:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 May 2015 21:55:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The rootfs logfile check errors out if it finds an "exit 1" in
-a log. But consider the shell idiom:
-	if ! $command; then exit 1; fi
-and consider a postinstall script with a "set -x" for debugging
-purposes (to get log output in /var/log/postinstall.log.)
+On Thu, May 21, 2015 at 12:08 PM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> The kernel development manual recommends making a copy of
+> linux-yocto-custom, while the comments in the recipe talk about
+> bbappends.
+>
+> To synchronize the two, we remove the bbappend references from the
+> recipe and instead indicate that a copy should be updated.
+>
+> [YOCTO: #6925]
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> index 05463c026304..e38af19f827b 100644
+> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> @@ -11,8 +11,8 @@
+>  #
+>  #   You must also provide a Linux kernel configuration. The most direct
+>  #   method is to copy your .config to files/defconfig in your layer,
+> -#   in the same directory as the bbappend and add file://defconfig to
+> -#   your SRC_URI.
+> +#   in the same directory as the copy (and rename) of this recipe and
+> +#   add file://defconfig to your SRC_URI.
+>  #
+>  #   To use the yocto kernel tooling to generate a BSP configuration
+>  #   using modular configuration fragments, see the yocto-bsp and
+> @@ -52,14 +52,14 @@
+>  inherit kernel
+>  require recipes-kernel/linux/linux-yocto.inc
+>
+> -# Override SRC_URI in a bbappend file to point at a different source
+> +# Override SRC_URI in a copy of this recipe to point at a different source
+>  # tree if you do not want to build from Linus' tree.
 
-Solution: Ignore lines prefixed with a +, because those show shell
-code even if a specific fragment won't be executed.
+Would "Update SRC_URI in your copy of this recipe..." make more sense here?
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/lib/oe/rootfs.py | 3 +++
- 1 file changed, 3 insertions(+)
+>  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
+>
+>  LINUX_VERSION ?= "3.4"
+>  LINUX_VERSION_EXTENSION ?= "-custom"
+>
+> -# Override SRCREV to point to a different commit in a bbappend file to
+> +# Override SRCREV to point to a different commit in a copy of this recipe
+>  # build a different release of the Linux kernel.
+>  # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 6fb749f..5d27d2f 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -401,6 +401,9 @@ class RpmRootfs(Rootfs):
-             for line in log.read().split('\n'):
-                 if 'log_check' in line:
-                     continue
-+                # sh -x may emit code which isn't actually executed
-+                if line.startswith('+'):
-+		    continue
- 
-                 m = r.search(line)
-                 if m:
--- 
-2.3.1
+Same comment, "Override" -> "Update" and "a copy" -> "your copy".
 
+Also, the word "to" seems to have gone missing from the end of the line.
+
+>  SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+> @@ -67,6 +67,6 @@ SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+>  PR = "r1"
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> -# Override COMPATIBLE_MACHINE to include your machine in a bbappend
+> +# Override COMPATIBLE_MACHINE to include your machine in a copy of this recipe
+>  # file. Leaving it empty here ensures an early explicit build failure.
+>  COMPATIBLE_MACHINE = "(^$)"
+> --
+> 2.1.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
