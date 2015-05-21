@@ -1,25 +1,26 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E9A57404A
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A0D1F609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 16:16:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,470,1427785200"; d="scan'208";a="733176211"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by orsmga002.jf.intel.com with ESMTP; 21 May 2015 09:16:08 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 May 2015 09:15:39 +0000
-Message-Id: <d2900c9f672ce2901dcc464f25434987189e5337.1432199284.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 5/5] python3-pip: Adds recipe for python3-pip
+	Thu, 21 May 2015 19:08:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4LJ8xGR010765
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 May 2015 12:08:59 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 21 May 2015 12:08:58 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 21 May 2015 15:08:51 -0400
+Message-ID: <ae15df46ef952ae4a0fcc2b2cfab8b8a82760cb6.1432235097.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1432235097.git.bruce.ashfield@windriver.com>
+References: <cover.1432235097.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/7] linux-yocto/3.14: cavium and configuration changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 16:16:08 -0000
+X-List-Received-Date: Thu, 21 May 2015 19:08:59 -0000
+Content-Type: text/plain
 
-PIP is installed by default since python 3.4, due to issues with the
-autobuilders, its default installation had to be disabled, this creates
-a recipe for it, it brings a lot of new dependencies so it is chosen not
-to be installed by default along with python3-core.
+Updating the 3.14 SRCREVs to integrate the latest round of cavium
+support patches, as well as configuration backports from 3.19.
 
-[YOCTO #7762]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-devtools/python/python3-pip_6.1.1.bb | 40 +++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pip_6.1.1.bb
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_6.1.1.bb b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
-new file mode 100644
-index 0000000..b8eebb8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
-@@ -0,0 +1,40 @@
-+SUMMARY = "The PyPA recommended tool for installing Python packages"
-+sHOMEPAGEsss = "https://pypi.python.org/pypi/pip"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=45665b53032c02b35e29ddab8e61fa91"
-+
-+SRCNAME = "pip"
-+DEPENDS += "python3"
-+
-+SRC_URI = " \
-+  http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+"
-+SRC_URI[md5sum] = "6b19e0a934d982a5a4b798e957cb6d45"
-+SRC_URI[sha256sum] = "89f3b626d225e08e7f20d85044afa40f612eb3284484169813dc2d0631f2a556"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit distutils3
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+
-+# Use setuptools site.py instead, avoid shared state issue
-+do_install_append() {
-+    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/site.py
-+    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/__pycache__/site.cpython-34.pyc
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python3-compile \
-+  python3-io \
-+  python3-json \
-+  python3-netserver \
-+  python3-setuptools \
-+  python3-unixadmin \
-+  python3-xmlrpc \
-+"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+index 86b31738b609..7da7f83b3ad0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+@@ -3,9 +3,9 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "0c641a6c0e38137364535b99e43657a0cbc07cd4"
+-SRCREV_machine_qemuppc ?= "cfc4e296efcaa84358c9ab1cdeee6ce7c378436f"
+-SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
++SRCREV_machine ?= "3428de71031ede23682dd0842b9cfc23ae465f39"
++SRCREV_machine_qemuppc ?= "32c44a56a8218c3349f50d8151a10252d5e85dd1"
++SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+index d0b71c4859b1..000f288fb3e1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+@@ -9,8 +9,8 @@ LINUX_VERSION ?= "3.14.36"
+ KMETA = "meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "b991a586470900e3de824f5ea75653aa2150594d"
+-SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
++SRCREV_machine ?= "bda175966009d5a94103559e6e6ae51279952f39"
++SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index d4ea55a2398e..c809d2e29f60 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
+ KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "e4f91293908648d495b4f9735768633569e39b9f"
+-SRCREV_machine_qemuarm64 ?= "b991a586470900e3de824f5ea75653aa2150594d"
+-SRCREV_machine_qemumips ?= "6623389731309b0ac591736d5b438de833f195c7"
+-SRCREV_machine_qemuppc ?= "3217fbcd002914fba4914d2e61dabb378081fd25"
+-SRCREV_machine_qemux86 ?= "8794bd6a473199b2baa7a405d44cdbfa5351b60b"
+-SRCREV_machine_qemux86-64 ?= "b991a586470900e3de824f5ea75653aa2150594d"
+-SRCREV_machine_qemumips64 ?= "6649ef219b3bf6da1678547b9da376367520e80a"
+-SRCREV_machine ?= "b991a586470900e3de824f5ea75653aa2150594d"
+-SRCREV_meta ?= "46df2668fa657162d11f96a6f1af138c562a03aa"
++SRCREV_machine_qemuarm ?= "dbd8e70653ffb6b63a1b8b7134813d3a93975ff5"
++SRCREV_machine_qemuarm64 ?= "bda175966009d5a94103559e6e6ae51279952f39"
++SRCREV_machine_qemumips ?= "b985d5039e5b14f5acac135a84f2d6541b531552"
++SRCREV_machine_qemuppc ?= "dbbdaf47fae37664ea30181b18a436b3d5401293"
++SRCREV_machine_qemux86 ?= "d3943ebf24457188669472c85d82ab32e2f95f6b"
++SRCREV_machine_qemux86-64 ?= "bda175966009d5a94103559e6e6ae51279952f39"
++SRCREV_machine_qemumips64 ?= "a594ff1fef248d72bf4ef929fa4497cf54a04500"
++SRCREV_machine ?= "bda175966009d5a94103559e6e6ae51279952f39"
++SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
 -- 
-1.8.4.5
+2.1.0
 
 
