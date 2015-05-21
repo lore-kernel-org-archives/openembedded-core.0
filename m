@@ -1,28 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DA15B65C64
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 107636AB99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 06:12:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.14.9) with ESMTPS id t4L6CjmW009439
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 May 2015 23:12:45 -0700 (PDT)
-Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 20 May 2015 23:12:44 -0700
-Message-ID: <555D775B.5030605@windriver.com>
-Date: Thu, 21 May 2015 14:12:43 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
+	Thu, 21 May 2015 07:31:01 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,467,1427752800"; d="scan'208,217";a="76474621"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 21 May 2015 09:31:02 +0200
+Received: from COSNADEXC11.usr.ingenico.loc (10.31.4.211) by
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	(TLS) id 14.3.210.2; Thu, 21 May 2015 09:31:02 +0200
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.65]) by
+	COSNADEXC11.usr.ingenico.loc ([10.31.4.211]) with mapi id
+	14.03.0210.002; Thu, 21 May 2015 09:31:02 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1431483786-32699-1-git-send-email-rongqing.li@windriver.com>
-	<555CB8DA.7090806@linux.intel.com>
-In-Reply-To: <555CB8DA.7090806@linux.intel.com>
-Subject: Re: [PATCH][Resend] apt: upgrade to 1.0.9.9
+Thread-Topic: [OE-core] [PATCH] zlib: minor symbolic link issue
+Thread-Index: AQHQhwuIerBnmf4VUEaQVGRGV5HCIp2EtZZggAAxJICAATl4UA==
+Date: Thu, 21 May 2015 07:31:01 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2@COSNADEXC13.usr.ingenico.loc>
+References: <1430813641-24223-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<8672BB614B4CCA40A6B3BDD6FD82050B0120D4B987@COSNADEXC13.usr.ingenico.loc>
+	<CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbG3evANWWUoR5kxU3JB=WJOPA8PW5sRhgMPTmuMw0KZg@mail.gmail.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
+MIME-Version: 1.0
+Subject: Re: [PATCH] zlib: minor symbolic link issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,665 +41,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 May 2015 06:12:46 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 May 2015 07:31:10 -0000
+Content-Language: fr-FR
+Content-Type: multipart/alternative;
+	boundary="_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_"
 
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+SGkgUm9zcywNCg0KSSBkaWRu4oCZdCBrbm93IHN1Y2ggYSBmdW5jdGlvbiB3YXMgZXhpc3Rpbmcu
+IFlvdSBjYW4gdXNlIGl0IG9mIGNvdXJzZSwgaXTigJlzIG11Y2ggYmV0dGVyLg0KSSBmb3VuZCB0
+aGUgKG9ic2N1cmUpIHJlZ2V4cCBpbiBsaWJjZ3JvdXAgcmVjaXBlLCBpdCBjb3VsZCBiZSB1cGRh
+dGVkIHRvby4NCg0KSXMgaXQgd29ydGggaXQgSSBzZW5kIGEgdjIgcGF0Y2ggPw0KDQpNYXR0aGll
+dQ0KDQoNCkRlIDogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
+RW52b3nDqSA6IG1lcmNyZWRpIDIwIG1haSAyMDE1IDE2OjQyDQrDgCA6IE1hdHRoaWV1IENSQVBF
+VA0KQ2MgOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpPYmpldCA6
+IFJlOiBbT0UtY29yZV0gW1BBVENIXSB6bGliOiBtaW5vciBzeW1ib2xpYyBsaW5rIGlzc3VlDQoN
+Cg0KT24gMjAgTWF5IDIwMTUgYXQgMTA6NDcsIE1hdHRoaWV1IENSQVBFVCA8TWF0dGhpZXUuQ1JB
+UEVUQGluZ2VuaWNvLmNvbTxtYWlsdG86TWF0dGhpZXUuQ1JBUEVUQGluZ2VuaWNvLmNvbT4+IHdy
+b3RlOg0KSnVzdCB0ZWxsIG1lIGlmIHNvbWV0aGluZyBpcyB3cm9uZywgSSBjYW4gcHJvdmlkZSBh
+IHYyIHBhdGNoLg0KDQpObywgaXQganVzdCBzbGlwcGVkIHRocm91Z2ggdGhlIGNyYWNrcy4NCg0K
+VGhhdCByZWdleCBsb29rZWQgYSBiaXQgb2JzY3VyZSwgYW5kIHRoZXJlJ3MgYSBQeXRob24gZnVu
+Y3Rpb24gd2UgcHJvdmlkZSB0aGF0IHVzZXMgdGhlIFB5dGhvbiBzdGFuZGFyZCBsaWJyYXJ5IHRv
+IGRvIHRoZSBzYW1lIHRoaW5nLCBzbyBJIGVuZGVkIHVwIHdpdGggdGhpcyBsb2NhbGx5Og0KDQoj
+IE1vdmUgemxpYiBzaGFyZWQgbGlicmFyaWVzIGZvciB0YXJnZXQgYnVpbGRzIHRvICRiYXNlX2xp
+YmRpciBzbyB0aGUgbGlicmFyeQ0KIyBjYW4gYmUgdXNlZCBpbiBlYXJseSBib290IGJlZm9yZSAk
+cHJlZml4IGlzIG1vdW50ZWQuDQpkb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10YXJnZXQoKSB7DQog
+ICAgICAgICAgICBpZiBbICR7YmFzZV9saWJkaXJ9ICE9ICR7bGliZGlyfSBdDQogICAgICAgICAg
+ICB0aGVuDQogICAgICAgICAgICAgICAgICAgICAgICBta2RpciAtcCAke0R9LyR7YmFzZV9saWJk
+aXJ9DQogICAgICAgICAgICAgICAgICAgICAgICBtdiAke0R9LyR7bGliZGlyfS9saWJ6LnNvLiog
+JHtEfS8ke2Jhc2VfbGliZGlyfQ0KICAgICAgICAgICAgICAgICAgICAgICAgbGlibmFtZT1gcmVh
+ZGxpbmsgJHtEfS8ke2xpYmRpcn0vbGliei5zb2ANCiAgICAgICAgICAgICAgICAgICAgICAgIGxu
+IC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCIke2xpYmRpcn08bWFpbHRvOiQlN2JAb2UucGF0aC5y
+ZWxhdGl2ZSglMjIkJTdibGliZGlyJTdkPiIsICIke2Jhc2VfbGliZGlyfSIpfS8kbGlibmFtZSAk
+e0R9JHtsaWJkaXJ9L2xpYnouc28NCiAgICAgICAgICAgIGZpDQp9DQoNCkRvIHlvdSBoYXZlIGFu
+eSBvYmplY3Rpb25zIHRvIHRoaXMgZm9ybSBpbnN0ZWFkPyAgSSdtIGFsc28gdGhpbmtpbmcgd2Ug
+c2hvdWxkIHJhdGlvbmFsaXNlIHRoZSBkdXBsaWNhdGVkIGxvZ2ljIGludG8gYSBzaW5nbGUgaW1w
+bGVtZW50YXRpb24gaW4gbWV0YS9jbGFzc2VzL3V0aWxzLmJiY2xhc3MuLi4NCg0KUm9zcw0K
 
-On 2015年05月21日 00:39, Aníbal Limón wrote:
-> Hi Roy,
->
-> When try to compile your upgrade using qemux86-64 fails with,
->
-> WARNING: QA Issue: apt rdepends on liblzma, but it isn't a build
-> dependency? [build-deps]
-> WARNING: QA Issue: /usr/bin/apt-cdrom_apt contained in package apt
-> requires libapt-private.so.0.0()(64bit), but no providers found in its
-> RDEPENDS [file-rdeps]
-> ERROR: Unable to update the package index files. Command
-> '['/home/alimon/repos/poky/build-x86-64/tmp/sysroots/x86_64-linux/usr/bin/apt-get',
-> 'update']' returned 127:
-> /home/alimon/repos/poky/build-x86-64/tmp/sysroots/x86_64-linux/usr/bin/apt-get:
-> symbol lookup error:
-> /home/alimon/repos/poky/build-x86-64/tmp/sysroots/x86_64-linux/usr/bin/apt-get:
-> undefined symbol: _Z11InitSignalsv
->
-> ERROR: Function failed: do_rootfs
-> ERROR: Logfile of failure stored in:
-> /home/alimon/repos/poky/build-x86-64/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0-r0/temp/log.do_rootfs.15118
->
-> ERROR: Task 7
-> (/home/alimon/repos/poky/meta/recipes-extended/images/core-image-full-cmdline.bb,
-> do_rootfs) failed with exit code '1
->
-> Regards,
->      alimon
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
+LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
+LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
+eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJ
+bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6
+NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0
+O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48
+IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNw
+aWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHht
+bD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBk
+YXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0K
+PGJvZHkgbGFuZz0iRlIiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0i
+V29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5IaSBSb3NzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
+OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkg
+ZGlkbuKAmXQga25vdyBzdWNoIGEgZnVuY3Rpb24gd2FzIGV4aXN0aW5nLiBZb3UgY2FuIHVzZSBp
+dCBvZiBjb3Vyc2UsIGl04oCZcyBtdWNoIGJldHRlci48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
+b3Q7O2NvbG9yOiMxRjQ5N0QiPkkgZm91bmQgdGhlIChvYnNjdXJlKSByZWdleHAgaW4gbGliY2dy
+b3VwIHJlY2lwZSwgaXQgY291bGQgYmUgdXBkYXRlZCB0b28uPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
+O2NvbG9yOiMxRjQ5N0QiPklzIGl0IHdvcnRoIGl0IEkgc2VuZCBhIHYyIHBhdGNoID88bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
+cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
+bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+TWF0dGhpZXU8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
+cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
+dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkRlJm5ic3A7Ojwvc3Bh
+bj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFo
+b21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5FbnZvecOpJm5ic3A7OjwvYj4gbWVyY3Jl
+ZGkgMjAgbWFpIDIwMTUgMTY6NDI8YnI+DQo8Yj7DgCZuYnNwOzo8L2I+IE1hdHRoaWV1IENSQVBF
+VDxicj4NCjxiPkNjJm5ic3A7OjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZzxicj4NCjxiPk9iamV0Jm5ic3A7OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHps
+aWI6IG1pbm9yIHN5bWJvbGljIGxpbmsgaXNzdWU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+T24gMjAgTWF5IDIwMTUgYXQgMTA6NDcsIE1hdHRoaWV1IENSQVBFVCAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOk1hdHRoaWV1LkNSQVBFVEBpbmdlbmljby5jb20iIHRhcmdldD0iX2Js
+YW5rIj5NYXR0aGlldS5DUkFQRVRAaW5nZW5pY28uY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286
+cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SnVzdCB0ZWxsIG1lIGlmIHNvbWV0
+aGluZyBpcyB3cm9uZywgSSBjYW4gcHJvdmlkZSBhIHYyIHBhdGNoLjxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCk5vLCBpdCBqdXN0IHNs
+aXBwZWQgdGhyb3VnaCB0aGUgY3JhY2tzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGF0IHJlZ2V4IGxvb2tlZCBhIGJpdCBvYnNjdXJlLCBh
+bmQgdGhlcmUncyBhIFB5dGhvbiBmdW5jdGlvbiB3ZSBwcm92aWRlIHRoYXQgdXNlcyB0aGUgUHl0
+aG9uIHN0YW5kYXJkIGxpYnJhcnkgdG8gZG8gdGhlIHNhbWUgdGhpbmcsIHNvIEkgZW5kZWQgdXAg
+d2l0aCB0aGlzIGxvY2FsbHk6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4jIE1vdmUgemxpYiBzaGFyZWQgbGlicmFyaWVzIGZvciB0
+YXJnZXQgYnVpbGRzIHRvICRiYXNlX2xpYmRpciBzbyB0aGUgbGlicmFyeTxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+IyBjYW4gYmUgdXNlZCBpbiBl
+YXJseSBib290IGJlZm9yZSAkcHJlZml4IGlzIG1vdW50ZWQuPG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5kb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10
+YXJnZXQoKSB7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsgaWYgWyAke2Jhc2VfbGliZGlyfSAhPSAke2xpYmRpcn0gXTxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHRo
+ZW48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBta2RpciAtcCAke0R9LyR7YmFzZV9saWJkaXJ9PG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsgbXYgJHtEfS8ke2xpYmRpcn0vbGliei5zby4qICR7RH0vJHtiYXNlX2xp
+YmRpcn08bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBsaWJuYW1lPWByZWFkbGluayAke0R9LyR7bGliZGly
+fS9saWJ6LnNvYDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGxuIC1zZiA8YSBocmVmPSJtYWlsdG86JCU3
+YkBvZS5wYXRoLnJlbGF0aXZlKCUyMiQlN2JsaWJkaXIlN2QiPg0KJHtAb2UucGF0aC5yZWxhdGl2
+ZSgmcXVvdDske2xpYmRpcn08L2E+JnF1b3Q7LCAmcXVvdDske2Jhc2VfbGliZGlyfSZxdW90Oyl9
+LyRsaWJuYW1lICR7RH0ke2xpYmRpcn0vbGliei5zbzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGZpPG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj59PG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkRvIHlvdSBoYXZlIGFueSBvYmplY3Rp
+b25zIHRvIHRoaXMgZm9ybSBpbnN0ZWFkPyZuYnNwOyBJJ20gYWxzbyB0aGlua2luZyB3ZSBzaG91
+bGQgcmF0aW9uYWxpc2UgdGhlIGR1cGxpY2F0ZWQgbG9naWMgaW50byBhIHNpbmdsZSBpbXBsZW1l
+bnRhdGlvbiBpbiBtZXRhL2NsYXNzZXMvdXRpbHMuYmJjbGFzcy4uLjxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-After 0.9.11, libapt-private.so* is installed into bin dir, and apt-get
-is using the host libapt-private.so*, and not from sysroot.
-
-I will install libapt-private.so* into /usr/lib/ of sysroot to fix this
-issue.
-
-ChangLog:
-- install libapt-private* into the apt binary
-
-
--Roy
-
->
-> On 12/05/15 21:23, rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> Upgrade to fix the several CVEs: CVE-2014-0488, CVE-2014-0490
->> Remove apt-0.9.9.4-CVE-2014-0478.patch, which was backport.
->> Romve no-ko-translation.patch, apt-1.0.9.9 has ko translation
->> Update use-host.patch no-curl.patch db_linking_hack.patch and
->> noconfigure.patch
->> Not build the test cases since it requires gtest
->>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->>   .../apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch    | 193
->> ---------------------
->>   .../apt/apt-0.9.9.4/no-ko-translation.patch        |  11 --
->>   .../disable-configure-in-makefile.patch            |   0
->>   .../apt/apt-1.0.9.9/disable-test.patch             |  58 +++++++
->>   .../fix-gcc-4.6-null-not-defined.patch             |   0
->>   .../{apt-0.9.9.4 => apt-1.0.9.9}/makerace.patch    |   0
->>   .../{apt-0.9.9.4 => apt-1.0.9.9}/no-nls-dpkg.patch |   0
->>   .../{apt-0.9.9.4 => apt-1.0.9.9}/noconfigure.patch |  17 +-
->>   .../apt/{apt-0.9.9.4 => apt-1.0.9.9}/nodoc.patch   |   0
->>   .../truncate-filename.patch                        |   0
->>   .../{apt-0.9.9.4 => apt-1.0.9.9}/use-host.patch    |   6 +-
->>   ...apt-native_0.9.9.4.bb => apt-native_1.0.9.9.bb} |   4 +-
->>   meta/recipes-devtools/apt/apt.inc                  |   5 +-
->>   .../apt/{apt_0.9.9.4.bb => apt_1.0.9.9.bb}         |   4 +-
->>   .../apt/files/db_linking_hack.patch                |   6 +-
->>   meta/recipes-devtools/apt/files/no-curl.patch      |   8 +-
->>   16 files changed, 83 insertions(+), 229 deletions(-)
->>   delete mode 100644
->> meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
->>   delete mode 100644
->> meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/disable-configure-in-makefile.patch (100%)
->>   create mode 100644
->> meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/fix-gcc-4.6-null-not-defined.patch (100%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/makerace.patch (100%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/no-nls-dpkg.patch (100%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/noconfigure.patch (54%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/nodoc.patch (100%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/truncate-filename.patch (100%)
->>   rename meta/recipes-devtools/apt/{apt-0.9.9.4 =>
->> apt-1.0.9.9}/use-host.patch (84%)
->>   rename meta/recipes-devtools/apt/{apt-native_0.9.9.4.bb =>
->> apt-native_1.0.9.9.bb} (55%)
->>   rename meta/recipes-devtools/apt/{apt_0.9.9.4.bb => apt_1.0.9.9.bb}
->> (74%)
->>
->> diff --git
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch b/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
->>
->> deleted file mode 100644
->> index 79a6897..0000000
->> ---
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
->> +++ /dev/null
->> @@ -1,193 +0,0 @@
->> -This patch comes from:
->> -https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=73;filename=apt_0.9.7.9%2Bdeb7u2.debdiff;att=1;bug=749795
->>
->> -
->> -Upstream-Status: Backport
->> -
->> -Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
->> -Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->> -
->> -diff -uarN apt-0.9.9.4-org/cmdline/apt-get.cc
->> apt-0.9.9.4/cmdline/apt-get.cc
->> ---- apt-0.9.9.4-org/cmdline/apt-get.cc    2014-08-29
->> 15:37:42.587156134 +0800
->> -+++ apt-0.9.9.4/cmdline/apt-get.cc    2014-08-29 15:51:16.672334086
->> +0800
->> -@@ -1046,25 +1046,8 @@
->> -    return true;
->> - }
->> -                                     /*}}}*/
->> --// CheckAuth - check if each download comes form a trusted source
->> /*{{{*/
->> --//
->> ---------------------------------------------------------------------
->> --/* */
->> --static bool CheckAuth(pkgAcquire& Fetcher)
->> -+static bool AuthPrompt(std::string UntrustedList, bool const
->> PromptUser)
->> - {
->> --   string UntrustedList;
->> --   for (pkgAcquire::ItemIterator I = Fetcher.ItemsBegin(); I <
->> Fetcher.ItemsEnd(); ++I)
->> --   {
->> --      if (!(*I)->IsTrusted())
->> --      {
->> --         UntrustedList += string((*I)->ShortDesc()) + " ";
->> --      }
->> --   }
->> --
->> --   if (UntrustedList == "")
->> --   {
->> --      return true;
->> --   }
->> --
->> -    ShowList(c2out,_("WARNING: The following packages cannot be
->> authenticated!"),UntrustedList,"");
->> -
->> -    if (_config->FindB("APT::Get::AllowUnauthenticated",false) == true)
->> -@@ -1073,6 +1056,9 @@
->> -       return true;
->> -    }
->> -
->> -+   if (PromptUser == false)
->> -+      return _error->Error(_("Some packages could not be
->> authenticated"));
->> -+
->> -    if (_config->FindI("quiet",0) < 2
->> -        && _config->FindB("APT::Get::Assume-Yes",false) == false)
->> -    {
->> -@@ -1090,6 +1076,28 @@
->> -    return _error->Error(_("There are problems and -y was used
->> without --force-yes"));
->> - }
->> -                                     /*}}}*/
->> -+// CheckAuth - check if each download comes form a trusted source
->> /*{{{*/
->> -+//
->> ---------------------------------------------------------------------
->> -+/* */
->> -+static bool CheckAuth(pkgAcquire& Fetcher, bool PromptUser=true)
->> -+{
->> -+   string UntrustedList;
->> -+   for (pkgAcquire::ItemIterator I = Fetcher.ItemsBegin(); I <
->> Fetcher.ItemsEnd(); ++I)
->> -+   {
->> -+      if (!(*I)->IsTrusted())
->> -+      {
->> -+         UntrustedList += string((*I)->ShortDesc()) + " ";
->> -+      }
->> -+   }
->> -+
->> -+   if (UntrustedList == "")
->> -+   {
->> -+      return true;
->> -+   }
->> -+
->> -+   return AuthPrompt(UntrustedList, PromptUser);
->> -+}
->> -+
->> - // InstallPackages - Actually download and install the
->> packages        /*{{{*/
->> - //
->> ---------------------------------------------------------------------
->> - /* This displays the informative messages describing what is going to
->> -@@ -2482,6 +2490,7 @@
->> -
->> -    // Load the requestd sources into the fetcher
->> -    unsigned J = 0;
->> -+   std::string UntrustedList;
->> -    for (const char **I = CmdL.FileList + 1; *I != 0; I++, J++)
->> -    {
->> -       string Src;
->> -@@ -2491,7 +2500,10 @@
->> -      delete[] Dsc;
->> -      return _error->Error(_("Unable to find a source package for
->> %s"),Src.c_str());
->> -       }
->> --
->> -+
->> -+      if (Last->Index().IsTrusted() == false)
->> -+         UntrustedList += Src + " ";
->> -+
->> -       string srec = Last->AsStr();
->> -       string::size_type pos = srec.find("\nVcs-");
->> -       while (pos != string::npos)
->> -@@ -2575,7 +2587,11 @@
->> -             Last->Index().SourceInfo(*Last,*I),Src);
->> -       }
->> -    }
->> --
->> -+
->> -+   // check authentication status of the source as well
->> -+   if (UntrustedList != "" && !AuthPrompt(UntrustedList, false))
->> -+      return false;
->> -+
->> -    // Display statistics
->> -    unsigned long long FetchBytes = Fetcher.FetchNeeded();
->> -    unsigned long long FetchPBytes = Fetcher.PartialPresent();
->> -diff -uarN apt-0.9.9.4-org/test/integration/framework
->> apt-0.9.9.4/test/integration/framework
->> ---- apt-0.9.9.4-org/test/integration/framework    2014-08-29
->> 15:37:42.623156154 +0800
->> -+++ apt-0.9.9.4/test/integration/framework    2014-08-29
->> 15:55:23.592197940 +0800
->> -@@ -151,7 +151,7 @@
->> -     mkdir rootdir aptarchive keys
->> -     cd rootdir
->> -     mkdir -p etc/apt/apt.conf.d etc/apt/sources.list.d
->> etc/apt/trusted.gpg.d etc/apt/preferences.d
->> --    mkdir -p var/cache var/lib var/log
->> -+    mkdir -p var/cache var/lib var/log tmp
->> -     mkdir -p var/lib/dpkg/info var/lib/dpkg/updates
->> var/lib/dpkg/triggers
->> -     touch var/lib/dpkg/available
->> -     mkdir -p usr/lib/apt
->> -@@ -910,3 +910,35 @@
->> -     local IGNORE
->> -     read IGNORE
->> - }
->> -+
->> -+testsuccess() {
->> -+    if [ "$1" = '--nomsg' ]; then
->> -+        shift
->> -+    else
->> -+        msgtest 'Test for successful execution of' "$*"
->> -+    fi
->> -+    local
->> OUTPUT="${TMPWORKINGDIRECTORY}/rootdir/tmp/testsuccess.output"
->> -+    if $@ >${OUTPUT} 2>&1; then
->> -+        msgpass
->> -+    else
->> -+        echo >&2
->> -+        cat >&2 $OUTPUT
->> -+        msgfail
->> -+    fi
->> -+}
->> -+
->> -+testfailure() {
->> -+    if [ "$1" = '--nomsg' ]; then
->> -+        shift
->> -+    else
->> -+        msgtest 'Test for failure in execution of' "$*"
->> -+    fi
->> -+    local
->> OUTPUT="${TMPWORKINGDIRECTORY}/rootdir/tmp/testfailure.output"
->> -+    if $@ >${OUTPUT} 2>&1; then
->> -+        echo >&2
->> -+        cat >&2 $OUTPUT
->> -+        msgfail
->> -+    else
->> -+        msgpass
->> -+    fi
->> -+}
->> -diff -uarN
->> apt-0.9.9.4-org/test/integration/test-apt-get-source-authenticated
->> apt-0.9.9.4/test/integration/test-apt-get-source-authenticated
->> ----
->> apt-0.9.9.4-org/test/integration/test-apt-get-source-authenticated
->> 1970-01-01 08:00:00.000000000 +0800
->> -+++ apt-0.9.9.4/test/integration/test-apt-get-source-authenticated
->> 2014-08-29 15:58:06.137156796 +0800
->> -@@ -0,0 +1,31 @@
->> -+#!/bin/sh
->> -+#
->> -+# Regression test for debian bug #749795. Ensure that we fail with
->> -+# a error if apt-get source foo will download a source that comes
->> -+# from a unauthenticated repository
->> -+#
->> -+set -e
->> -+
->> -+TESTDIR=$(readlink -f $(dirname $0))
->> -+. $TESTDIR/framework
->> -+
->> -+setupenvironment
->> -+configarchitecture "i386"
->> -+
->> -+# a "normal" package with source and binary
->> -+buildsimplenativepackage 'foo' 'all' '2.0'
->> -+
->> -+setupaptarchive --no-update
->> -+
->> -+APTARCHIVE=$(readlink -f ./aptarchive)
->> -+rm -f $APTARCHIVE/dists/unstable/*Release*
->> -+
->> -+# update without authenticated InRelease file
->> -+testsuccess aptget update
->> -+
->> -+# this all should fail
->> -+testfailure aptget install -y foo
->> -+testfailure aptget source foo
->> -+
->> -+# allow overriding the warning
->> -+testsuccess aptget source --allow-unauthenticated foo
->> diff --git
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
->> b/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
->> deleted file mode 100644
->> index 7aa408f..0000000
->> --- a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
->> +++ /dev/null
->> @@ -1,11 +0,0 @@
->> -Upstream-Status: Inappropriate [configuration]
->> -
->> ----
->> - po/LINGUAS |    2 +-
->> - 1 file changed, 1 insertion(+), 1 deletion(-)
->> -
->> ---- a/po/LINGUAS
->> -+++ b/po/LINGUAS
->> -@@ -1 +1 @@
->> --ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ko ku
->> lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
->> -+ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ku lt
->> mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
->> diff --git
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch
->>
->> similarity index 100%
->> rename from
->> meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch
->> rename to
->> meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch
->> diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
->> new file mode 100644
->> index 0000000..676795d
->> --- /dev/null
->> +++ b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
->> @@ -0,0 +1,58 @@
->> +[PATCH] disable test
->> +
->> +Upstream-Status: Inappropriate [configuration]
->> +
->> +test needs gtest package, so not build the test dir
->> +
->> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> +---
->> + Makefile     | 7 +++----
->> + configure.ac | 6 ------
->> + 2 files changed, 3 insertions(+), 10 deletions(-)
->> +
->> +diff --git a/Makefile b/Makefile
->> +index 5f5fb27..5070e96 100644
->> +--- a/Makefile
->> ++++ b/Makefile
->> +@@ -9,8 +9,8 @@ endif
->> + .PHONY: default
->> + default: startup all
->> +
->> +-.PHONY: headers library clean veryclean all binary program doc test
->> update-po
->> +-all headers library clean veryclean binary program doc manpages
->> docbook test update-po startup dirs:
->> ++.PHONY: headers library clean veryclean all binary program doc
->> update-po
->> ++all headers library clean veryclean binary program doc manpages
->> docbook update-po startup dirs:
->> +     $(MAKE) -C vendor $@
->> +     $(MAKE) -C apt-pkg $@
->> +     $(MAKE) -C apt-inst $@
->> +@@ -21,9 +21,8 @@ all headers library clean veryclean binary program
->> doc manpages docbook test upd
->> +     $(MAKE) -C dselect $@
->> + #    $(MAKE) -C doc $@
->> +     $(MAKE) -C po $@
->> +-    $(MAKE) -C test $@
->> +
->> +-all headers library clean veryclean binary program doc manpages
->> docbook test update-po: startup dirs
->> ++all headers library clean veryclean binary program doc manpages
->> docbook update-po: startup dirs
->> +
->> + dirs: startup
->> +
->> +diff --git a/configure.ac b/configure.ac
->> +index 5663aaf..b0f9564 100644
->> +--- a/configure.ac
->> ++++ b/configure.ac
->> +@@ -89,12 +89,6 @@ AC_CHECK_LIB(curl, curl_easy_init,
->> +      AC_MSG_ERROR([failed: I need CURL due https support]),
->> + )
->> +
->> +-AC_LANG_PUSH([C++])
->> +-AC_CHECK_HEADER(gtest/gtest.h,,
->> +-     AC_MSG_ERROR([failed: I need gtest to build tests]),
->> +-)
->> +-AC_LANG_POP([C++])
->> +-
->> +
->> + AC_SUBST(BDBLIB)
->> +
->> +--
->> +1.9.1
->> +
->> diff --git
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch
->>
->> similarity index 100%
->> rename from
->> meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch
->> rename to
->> meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch
->> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch
->> similarity index 100%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch
->> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch
->> similarity index 100%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch
->> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
->> similarity index 54%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
->> index 712d5e7..ebc6720 100644
->> --- a/meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
->> +++ b/meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
->> @@ -1,24 +1,25 @@
->>   Upstream-Status: Inappropriate [configuration]
->>   Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> -Index: apt-0.9.7.7/apt-pkg/packagemanager.cc
->> -===================================================================
->> ---- apt-0.9.7.7.orig/apt-pkg/packagemanager.cc
->> -+++ apt-0.9.7.7/apt-pkg/packagemanager.cc
->> -@@ -893,10 +893,12 @@ bool pkgPackageManager::SmartUnPack(PkgI
->> +
->> +diff --git a/apt-pkg/packagemanager.cc b/apt-pkg/packagemanager.cc
->> +index 249542c..0a1911f 100644
->> +--- a/apt-pkg/packagemanager.cc
->> ++++ b/apt-pkg/packagemanager.cc
->> +@@ -952,10 +952,12 @@ bool pkgPackageManager::SmartUnPack(PkgIterator
->> Pkg, bool const Immediate, int c
->>          return false;
->>       if (Immediate == true) {
->>   +#if 0
->>          // Perform immedate configuration of the package.
->>             if (SmartConfigure(Pkg, Depth + 1) == false)
->> -             _error->Warning(_("Could not perform immediate
->> configuration on '%s'. "
->> +             _error->Error(_("Could not perform immediate
->> configuration on '%s'. "
->>                   "Please see man 5 apt.conf under
->> APT::Immediate-Configure for details. (%d)"),Pkg.FullName().c_str(),2);
->>   +#endif
->>       }
->>       return true;
->> -@@ -986,6 +988,7 @@ pkgPackageManager::OrderResult pkgPackag
->> +@@ -1038,6 +1040,7 @@ pkgPackageManager::OrderResult
->> pkgPackageManager::OrderInstall()
->>          }
->>       }
->> @@ -26,7 +27,7 @@ Index: apt-0.9.7.7/apt-pkg/packagemanager.cc
->>       // Final run through the configure phase
->>       if (ConfigureAll() == false)
->>          return Failed;
->> -@@ -1000,6 +1003,7 @@ pkgPackageManager::OrderResult pkgPackag
->> +@@ -1052,6 +1055,7 @@ pkgPackageManager::OrderResult
->> pkgPackageManager::OrderInstall()
->>         return Failed;
->>          }
->>       }
->> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch
->> similarity index 100%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch
->> diff --git
->> a/meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch
->> similarity index 100%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch
->> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
->> b/meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
->> similarity index 84%
->> rename from meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
->> rename to meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
->> index 25caa3b..b30fcff 100644
->> --- a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
->> +++ b/meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
->> @@ -1,9 +1,9 @@
->>   Upstream-Status: Pending
->> -Index: apt-0.9.7.7/configure.in
->> +Index: apt-0.9.7.7/configure.ac
->>   ===================================================================
->> ---- apt-0.9.7.7.orig/configure.in
->> -+++ apt-0.9.7.7/configure.in
->> +--- apt-0.9.7.7.orig/configure.ac
->> ++++ apt-0.9.7.7/configure.ac
->>   @@ -112,7 +112,7 @@ dnl This is often the dpkg architecture
->>    dnl First check against the full canonical canoncial-system-type in
->> $target
->>    dnl and if that fails, just look for the cpu
->> diff --git a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
->> b/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
->> similarity index 55%
->> rename from meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
->> rename to meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
->> index d5934f9..cbaf25b 100644
->> --- a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
->> +++ b/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
->> @@ -3,7 +3,7 @@ require apt-native.inc
->>   SRC_URI += "file://noconfigure.patch \
->>               file://no-curl.patch"
->> -SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
->> -SRC_URI[sha256sum] =
->> "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
->> +SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
->> +SRC_URI[sha256sum] =
->> "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
->>   LIC_FILES_CHKSUM =
->> "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
->> diff --git a/meta/recipes-devtools/apt/apt.inc
->> b/meta/recipes-devtools/apt/apt.inc
->> index 321934b..04fcd65 100644
->> --- a/meta/recipes-devtools/apt/apt.inc
->> +++ b/meta/recipes-devtools/apt/apt.inc
->> @@ -2,8 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
->>   LICENSE = "GPLv2.0+"
->>   SECTION = "base"
->> -SRC_URI =
->> "http://snapshot.debian.org/archive/debian/20130726T154545Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.gz
->> \
->> -           file://no-ko-translation.patch \
->> +SRC_URI =
->> "http://snapshot.debian.org/archive/debian/20150428T221633Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz
->> \
->>              file://use-host.patch \
->>              file://makerace.patch \
->>              file://no-nls-dpkg.patch \
->> @@ -11,7 +10,7 @@ SRC_URI =
->> "http://snapshot.debian.org/archive/debian/20130726T154545Z/pool/main/
->>              file://truncate-filename.patch \
->>              file://nodoc.patch \
->>              file://disable-configure-in-makefile.patch \
->> -           file://apt-0.9.9.4-CVE-2014-0478.patch \
->> +           file://disable-test.patch \
->>              "
->>   inherit autotools gettext
->> diff --git a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
->> b/meta/recipes-devtools/apt/apt_1.0.9.9.bb
->> similarity index 74%
->> rename from meta/recipes-devtools/apt/apt_0.9.9.4.bb
->> rename to meta/recipes-devtools/apt/apt_1.0.9.9.bb
->> index 77cbff1..22e941f 100644
->> --- a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
->> +++ b/meta/recipes-devtools/apt/apt_1.0.9.9.bb
->> @@ -3,8 +3,8 @@ RDEPENDS_${PN} = "dpkg bash debianutils"
->>   LIC_FILES_CHKSUM =
->> "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
->>   require apt.inc
->> -SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
->> -SRC_URI[sha256sum] =
->> "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
->> +SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
->> +SRC_URI[sha256sum] =
->> "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
->>   require apt-package.inc
->> diff --git a/meta/recipes-devtools/apt/files/db_linking_hack.patch
->> b/meta/recipes-devtools/apt/files/db_linking_hack.patch
->> index d2246b3..a61d4b0 100644
->> --- a/meta/recipes-devtools/apt/files/db_linking_hack.patch
->> +++ b/meta/recipes-devtools/apt/files/db_linking_hack.patch
->> @@ -1,9 +1,9 @@
->>   Upstream-Status: Backport
->> -Index: apt-0.7.3/configure.in
->> +Index: apt-0.7.3/configure.ac
->>   ===================================================================
->> ---- apt-0.7.3.orig/configure.in    2007-07-01 10:38:45.000000000 +0000
->> -+++ apt-0.7.3/configure.in    2007-08-21 13:39:26.000000000 +0000
->> +--- apt-0.7.3.orig/configure.ac    2007-07-01 10:38:45.000000000 +0000
->> ++++ apt-0.7.3/configure.ac    2007-08-21 13:39:26.000000000 +0000
->>   @@ -67,8 +67,20 @@
->>          [AC_DEFINE(HAVE_BDB)
->>           BDBLIB="-ldb"
->> diff --git a/meta/recipes-devtools/apt/files/no-curl.patch
->> b/meta/recipes-devtools/apt/files/no-curl.patch
->> index 9fd3b3a..30238fa 100644
->> --- a/meta/recipes-devtools/apt/files/no-curl.patch
->> +++ b/meta/recipes-devtools/apt/files/no-curl.patch
->> @@ -5,8 +5,8 @@ Upstream-Status: Inappropriate [configuration]
->>    methods/makefile |    7 -------
->>    2 files changed, 13 deletions(-)
->> ---- a/configure.in
->> -+++ b/configure.in
->> +--- a/configure.ac
->> ++++ b/configure.ac
->>   @@ -86,12 +86,6 @@ AC_CHECK_HEADER(db.h,
->>    LIBS="$saveLIBS"
->> @@ -23,14 +23,14 @@ Upstream-Status: Inappropriate [configuration]
->>   --- a/methods/makefile
->>   +++ b/methods/makefile
->>   @@ -51,13 +51,6 @@ LIB_MAKES = apt-pkg/makefile
->> - SOURCE = http.cc http_main.cc rfc2553emu.cc connect.cc
->> + SOURCE = http.cc http_main.cc rfc2553emu.cc connect.cc server.cc
->>    include $(PROGRAM_H)
->>   -# The https method
->>   -PROGRAM=https
->>   -SLIBS = -lapt-pkg -lcurl $(INTLLIBS)
->>   -LIB_MAKES = apt-pkg/makefile
->> --SOURCE = https.cc
->> +-SOURCE = https.cc server.cc
->>   -include $(PROGRAM_H)
->>   -
->>    # The ftp method
->
->
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
-
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B0120D4C1B2COSNADEXC13us_--
