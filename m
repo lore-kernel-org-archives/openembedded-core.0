@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 16B3374227
+	by mail.openembedded.org (Postfix) with ESMTP id 4103C7422D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 13:26:46 +0000 (UTC)
+	Fri, 22 May 2015 13:26:49 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 22 May 2015 06:26:48 -0700
+	by orsmga101.jf.intel.com with ESMTP; 22 May 2015 06:26:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="730223244"
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="730223255"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga002.fm.intel.com with ESMTP; 22 May 2015 06:26:47 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 May 2015 06:26:49 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 16:26:52 +0300
-Message-Id: <aaca1a960fe5eb5a6080256d2e99915a8d0e508f.1432300539.git.jussi.kukkonen@intel.com>
+Date: Fri, 22 May 2015 16:26:53 +0300
+Message-Id: <36dcbe8cccc91111d5ff4679505e4ee15cbc7a06.1432300539.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <aaca1a960fe5eb5a6080256d2e99915a8d0e508f.1432300539.git.jussi.kukkonen@intel.com>
+References: <aaca1a960fe5eb5a6080256d2e99915a8d0e508f.1432300539.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1432300539.git.jussi.kukkonen@intel.com>
 References: <cover.1432300539.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] libpng12: Upgrade 1.2.52 -> 1.2.53
+Subject: [PATCH 2/2] libpng: Upgrade 1.6.16 -> 1.6.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +33,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 May 2015 13:26:49 -0000
 
-License file changes are not actual license changes.
+License files changes are not actual license changes.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../libpng/{libpng12_1.2.52.bb => libpng12_1.2.53.bb}             | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-lsb4/libpng/{libpng12_1.2.52.bb => libpng12_1.2.53.bb} (70%)
+ .../libpng/{libpng_1.6.16.bb => libpng_1.6.17.bb}             | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.16.bb => libpng_1.6.17.bb} (62%)
 
-diff --git a/meta/recipes-lsb4/libpng/libpng12_1.2.52.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.53.bb
-similarity index 70%
-rename from meta/recipes-lsb4/libpng/libpng12_1.2.52.bb
-rename to meta/recipes-lsb4/libpng/libpng12_1.2.53.bb
-index 5b67fe8..bf861a7 100644
---- a/meta/recipes-lsb4/libpng/libpng12_1.2.52.bb
-+++ b/meta/recipes-lsb4/libpng/libpng12_1.2.53.bb
-@@ -2,8 +2,8 @@ SUMMARY = "PNG image format decoding library"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.16.bb b/meta/recipes-multimedia/libpng/libpng_1.6.17.bb
+similarity index 62%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.16.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.17.bb
+index a8677e8..00e5808 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.16.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.17.bb
+@@ -2,17 +2,16 @@ SUMMARY = "PNG image format decoding library"
  HOMEPAGE = "http://www.libpng.org/"
  SECTION = "libs"
  LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4495b57387451782e5f34c2968c35ed0 \
--                    file://png.h;beginline=314;endline=428;md5=0c93e62d39955f2b879c056165cfad43"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=bd2a7a13355fcca92ad83bdf7e296011 \
-+                    file://png.h;beginline=322;endline=436;md5=caf9ee541234c663aeecdcfef2f79ae1"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=76dbddb73e547d9b3fa16909a98049c0 \
+-                    file://png.h;endline=15;md5=fd8f7ae7b090a168a9e023d0a5d68a3e \
+-                    file://png.h;beginline=229;endline=343;md5=44075eedf4763ada355d8f60ac3296c9"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b9b75399b72e4a8656cf3a6ddfc86d9a \
++                    file://png.h;endline=16;md5=cc9c2d1eafda17e1277a6f99a9fc29c4 \
++                    file://png.h;beginline=242;endline=356;md5=599316819d525dde2bfdf28fe3f323af"
  DEPENDS = "zlib"
+ LIBV = "16"
  
- PN = "libpng12"
-@@ -11,8 +11,8 @@ S = "${WORKDIR}/libpng-${PV}"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+           "
+-
+-SRC_URI[md5sum] = "23b7286b5d4a86de950fd2ffc5cac742"
+-SRC_URI[sha256sum] = "42f754df633e4e700544e5913cbe2fd4928bbfccdc07708a5cf84e59827fbe60"
++SRC_URI[md5sum] = "430a9b76b78533235cd4b9b26ce75c7e"
++SRC_URI[sha256sum] = "98507b55fbe5cd43c51981f2924e4671fd81fe35d52dc53357e20f2c77fa5dfd"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "49d5c71929bf69a172147c47b9309fbe"
--SRC_URI[sha256sum] = "d4fb0fbf14057ad6d0319034188fc2aecddb493da8e3031b7b072ed28f510ec0"
-+SRC_URI[md5sum] = "7d18a74e6fd2029aee76ccd00e00a9e6"
-+SRC_URI[sha256sum] = "b45e49f689e7451bd576569e6a344f7e0d11c02ecbb797f4da0e431526765c0a"
- 
- BINCONFIG_GLOB = "${PN}-config"
+ BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
  
 -- 
 2.1.4
