@@ -1,30 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D1194606E8
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C6D2C606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 09:23:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 22 May 2015 02:23:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,474,1427785200"; d="scan'208";a="698799456"
-Received: from gfois-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.27.18])
-	by orsmga001.jf.intel.com with ESMTP; 22 May 2015 02:23:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 May 2015 10:23:44 +0100
-Message-ID: <2515356.amYZ7kii2B@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <2890246.OI3iG2a5pW@peggleto-mobl.ger.corp.intel.com>
-References: <555ED05A.6050102@topic.nl>
-	<CAJTo0Lb5HwZdVn0CdTWshR1xsOmoMoujuMJWW6pbYxDTEA4DvQ@mail.gmail.com>
-	<2890246.OI3iG2a5pW@peggleto-mobl.ger.corp.intel.com>
+	Fri, 22 May 2015 09:26:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4M9QxZD012609
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 May 2015 02:26:59 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 22 May 2015 02:26:58 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 May 2015 17:21:43 +0800
+Message-ID: <1432286503-10891-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	Alexander Kanavin <alexander.kanavin@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: "packagegroup-core-qt4e" broken?
+Subject: [PATCH] gettext-minimal-native: Disable the unnecessary check in iconv.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 09:23:51 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 May 2015 09:26:59 -0000
+Content-Type: text/plain
 
-On Friday 22 May 2015 10:17:14 Paul Eggleton wrote:
-> On Friday 22 May 2015 09:56:32 Burton, Ross wrote:
-> > On 22 May 2015 at 07:44, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> > > When building (just for having something on my display)
-> > > "qt4e-demo-image",
-> > > 
-> > > it bailed out with the following error:
-> > >  * satisfy_dependencies_for: Cannot satisfy the following dependencies
-> > >  for
-> > > 
-> > > packagegroup-core-qt4e:
-> > >  *      qt4-embedded-plugin-phonon-backend-gstreamer *
-> > >  * opkg_install_cmd: Cannot install package packagegroup-core-qt4e.
-> > > 
-> > > I guess this is related to all the gstreamer changes lately?
-> > 
-> > I wonder how did the world build I did *yesterday* worked? :/
-> 
-> In order to see this you'd have to have actually installed this package into
-> an image, but then a world build ought to have included qt4e-demo-image
-> which should have included this, so I'm not sure either...
+From: Roy Li <rongqing.li@windriver.com>
 
-Oh wait, all images are excluded from world builds by way of 
-EXCLUDE_FROM_WORLD = "1" in image.bbclass, I forgot about that. I guess 
-there's your explanation.
+Disable the test "Test against HP-UX 11.11 bug: No converter from EUC-JP
+to UTF-8 is provided" since we don't support HP-UX and if the euc-jp is
+not installed on the host, the dependence will be built without iconv
+support and will cause guile-native building fail.
 
-Cheers,
-Paul
+The patch is similar as 0470bd7a9658d3[libunistring: remove the test to
+convert euc-jp in configure]
 
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...-PATCH-Disable-the-test-to-convert-euc-jp.patch | 38 ++++++++++++++++++++++
+ .../gettext/gettext-minimal-native_0.19.4.bb       |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.19.4/0001-PATCH-Disable-the-test-to-convert-euc-jp.patch
+
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.19.4/0001-PATCH-Disable-the-test-to-convert-euc-jp.patch b/meta/recipes-core/gettext/gettext-minimal-0.19.4/0001-PATCH-Disable-the-test-to-convert-euc-jp.patch
+new file mode 100644
+index 0000000..29ef2a5
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-minimal-0.19.4/0001-PATCH-Disable-the-test-to-convert-euc-jp.patch
+@@ -0,0 +1,38 @@
++[PATCH] Disable the test to convert euc-jp
++
++Remove the test "Test against HP-UX 11.11 bug:
++No converter from EUC-JP to UTF-8 is provided"
++since we don't support HP-UX and if the euc-jp is not
++installed on the host, the dependence will be built without
++iconv support and will cause guile-native building fail.
++
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ iconv.m4 | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/iconv.m4 b/iconv.m4
++index 4e37363..35f54bd 100644
++--- a/iconv.m4
+++++ b/iconv.m4
++@@ -165,6 +165,7 @@ AC_DEFUN([AM_ICONV_LINK],
++       }
++   }
++ #endif
+++#if 0
++   /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
++      provided.  */
++   if (/* Try standardized names.  */
++@@ -176,6 +177,7 @@ AC_DEFUN([AM_ICONV_LINK],
++       /* Try HP-UX names.  */
++       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
++     result |= 16;
+++#endif
++   return result;
++ ]])],
++           [am_cv_func_iconv_works=yes], ,
++-- 
++2.0.1
++
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.19.4.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.19.4.bb
+index ca97315..1d4a443 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.19.4.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.19.4.bb
+@@ -8,6 +8,7 @@ SRC_URI = "file://aclocal.tgz \
+            file://Makefile.in.in \
+            file://remove-potcdate.sin \
+            file://COPYING \
++           file://0001-PATCH-Disable-the-test-to-convert-euc-jp.patch \
+ "
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
