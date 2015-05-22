@@ -1,40 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CB6AF609B2
+Return-Path: <vomegaz@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E213970A7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 12:54:46 +0000 (UTC)
-Received: by qkdn188 with SMTP id n188so10510238qkd.2
+	Fri, 22 May 2015 13:02:41 +0000 (UTC)
+Received: by wicmx19 with SMTP id mx19so39840208wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 05:54:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	Fri, 22 May 2015 06:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=hnTG47rZP+TcIZLYjltz+IF5NiZ6zUUKsecPWiad6Rg=;
-	b=A5MD0/eHGS8eGUkKjkq1IymO6l+E3y/YvuJ8eI//QP9keMYZWyajAmY1N0VqnY3iNx
-	iHWWsXyLzan5pXB/25ZXKLxbAwDQcQ5GtzSE95RnkMwdpLL97nbgKwnAKTj7TPMohoOe
-	CmYRkRB8IRfFzUJoKoStZwmIolV23ABwnworIvOwZ36suSdpv1LFitJKLmWtgFtG/viR
-	RG15eIVNkC5vkFvjO3Zk6v4DRKKS8eBU46taNI702x7gGdPCNjTI48zVdmAyCf7iydVY
-	k+fNtRjfRD7XyhQu6A7GdYH2FmsN8swa9txc6fq2N3iz3dshweaCXIAkEVxR7omIFxIX
-	APpw==
-X-Gm-Message-State: ALoCoQmU8ubArx6fUyblSXDri5nr0LmLljzp+sZ1y70A26pIUEA6pHKbEtcxP9CW9ABNnj3dixV+
-X-Received: by 10.55.43.130 with SMTP id r2mr17690471qkr.14.1432299287065;
-	Fri, 22 May 2015 05:54:47 -0700 (PDT)
+	bh=5E0WigEjwa8gv63qSZFfbwPsgVXn5/Ow7i5sviDc2CI=;
+	b=WNYKhG4mzhwXnZMq4xLdLk69H7zgzsNFc1qcvpBGNJ73AXzezVDXbDMH5laVBlYLf9
+	qIrP2h1UgixE8p6jgVIEqNMms9oHeVVtC7Z7u8YKRPvOlXjQX59uVIkIwzOGOLvlkdNU
+	F4N9KbzN4jNoWPA2Fvbag70B2honM1giJN9PK7TeZZ4XeNksDypeyrSORz7/k1eBfYIO
+	1gLISiPvi6k4jAzYakhBnT/4p0pL/UWEEHLOSiarTIXtJQlysuM3QOjWWuks+jKB2XCM
+	Su9iUfBJ+2VznODSrizLkSyY8/7sIN6jo/ujtsAjYeE2RTC7Kf6uB/NX6MY1vw1eAYDK
+	WtaQ==
+X-Received: by 10.180.88.72 with SMTP id be8mr7438532wib.45.1432299762726;
+	Fri, 22 May 2015 06:02:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 22 May 2015 05:54:26 -0700 (PDT)
-In-Reply-To: <1432297083.4102.5.camel@workhorse.madison.systems>
-References: <1432294706-18789-1-git-send-email-ross.burton@intel.com>
-	<1432297083.4102.5.camel@workhorse.madison.systems>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 May 2015 13:54:26 +0100
-Message-ID: <CAJTo0LYKeXp-8BQWHM3biCbD=pb5DODS9vxFFYz0Pc+y4NvA+A@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] utils: add helper to perform the union of two string lists
+Sender: vomegaz@gmail.com
+Received: by 10.28.9.73 with HTTP; Fri, 22 May 2015 06:02:02 -0700 (PDT)
+In-Reply-To: <CAP9ODKprXP3_O41a7HAenLXPuJAGTOz0_1bF0xyud+vRvxJcRA@mail.gmail.com>
+References: <1432289348-5624-1-git-send-email-thomas.perrot@tupi.fr>
+	<CAP9ODKprXP3_O41a7HAenLXPuJAGTOz0_1bF0xyud+vRvxJcRA@mail.gmail.com>
+From: Thomas PERROT <thomas.perrot@tupi.fr>
+Date: Fri, 22 May 2015 15:02:02 +0200
+X-Google-Sender-Auth: VjPl6rPpc-Gz5jCnst3muM2hCt8
+Message-ID: <CAGXeWgkEspQ4aK4rXfabQvHCXa+B-KvgWzkL96d86PRisc+sdg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-serialgetty: Remove SERIAL_CONSOLE definition, because it depends of machine definition. Set it, here, can be make the value is not good.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: thomas.perrot@tupi.fr
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,36 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 12:54:48 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb037cd020516ab2ade
-
---001a1147afb037cd020516ab2ade
+X-List-Received-Date: Fri, 22 May 2015 13:02:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 May 2015 at 13:18, Matt Madison <matt@madison.systems> wrote:
+Hi Otavio,
 
-> This function is returning the intersection of the two sets, not the
-> union.  Maybe change the name and the comment here?
+If the machine layer definition is applied after meta-systemd also
+with a default setting operator instead an affectation, this var will
+be bad initialized. It's the case with meta-raspberrypi layer.
+
+
+On Fri, May 22, 2015 at 1:11 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Fri, May 22, 2015 at 7:09 AM, Thomas Perrot <thomas.perrot@tupi.fr> wrote:
+>> Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
 >
+> Nack! The setting here is the default if machine does not define it. I
+> see no benefit in dropping this.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Union, intersection, what's the difference really. ;)  V2 sent.
-
-Ross
-
---001a1147afb037cd020516ab2ade
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 May 2015 at 13:18, Matt Madison <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:matt@madison.systems" target=3D"_blank">matt@madison.systems</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8r5" class=3D"a3s"=
- style=3D"overflow:hidden">This function is returning the intersection of t=
-he two sets, not the<br>
-union.=C2=A0 Maybe change the name and the comment here?</div></blockquote>=
-<div>=C2=A0</div></div>Union, intersection, what&#39;s the difference reall=
-y. ;) =C2=A0V2 sent.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a1147afb037cd020516ab2ade--
