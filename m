@@ -1,23 +1,25 @@
 Return-Path: <tanu.kaskinen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E41EF70A7C
+	by mail.openembedded.org (Postfix) with ESMTP id DF5ED70A7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 14:15:54 +0000 (UTC)
+	Fri, 22 May 2015 14:15:59 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 07:15:56 -0700
+	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 07:16:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497061893"
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497061913"
 Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
 	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com) ([10.252.3.49])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 07:15:55 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 07:16:00 -0700
 From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 17:15:45 +0300
-Message-Id: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
+Date: Fri, 22 May 2015 17:15:46 +0300
+Message-Id: <3c86bb428c100af54cd623871571ff92afa060ed.1432303757.git.tanu.kaskinen@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
+References: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
 In-Reply-To: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
 References: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
-Subject: [PATCH v2 1/5] alsa-plugins: initial recipe
+Subject: [PATCH v2 2/5] pulseaudio: client-conf: Add allow-autospawn-for-root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,150 +32,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 14:15:55 -0000
+X-List-Received-Date: Fri, 22 May 2015 14:16:01 -0000
 
-When PulseAudio is installed, alsa-plugins is needed to provide
-compatibility for ALSA applications.
-
-The dependencies are set up so that pulseaudio-server depends on
-alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends
-on the PulseAudio plugins. This should make the ALSA->PulseAudio
-compatibility configuration work out of the box, while leaving the
-PulseAudio specific configuration out on systems that don't have
-pulseaudio-server installed.
-
-The alsa-plugins recipes in meta-guacamayo and meta-webos were used as
-references, but this recipe is not a straight copy of either.
+This is related to enabling PulseAudio in Sato images. Sato doesn't
+have regular users; the graphical session is run as root. PulseAudio
+disables autospawning for root, but in Sato that's not the desired
+behaviour. This patch allows autospawning to be enabled for root in
+systems where that makes sense.
 
 Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 ---
- .../recipes-multimedia/alsa/alsa-plugins_1.0.29.bb | 100 +++++++++++++++++++++
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   5 ++
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+ ...-client-conf-Add-allow-autospawn-for-root.patch | 92 ++++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
 new file mode 100644
-index 0000000..f1f1570
+index 0000000..d19eb7c
 --- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
-@@ -0,0 +1,100 @@
-+DESCRIPTION = "ALSA Plugins"
-+HOMEPAGE = "http://alsa-project.org"
-+SECTION = "multimedia"
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
+@@ -0,0 +1,92 @@
++From 1cb5647f76dc8cd7bacbce2a64fac9e6c2dc3b16 Mon Sep 17 00:00:00 2001
++From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
++Date: Tue, 28 Apr 2015 14:32:43 +0300
++Subject: [PATCH] client-conf: Add allow-autospawn-for-root
 +
-+# The primary license of alsa-plugins is LGPLv2.1.
-+#
-+# m4/attributes.m4 is licensed under GPLv2+. m4/attributes.m4 is part of the
-+# build system, and doesn't affect the licensing of the build result.
-+#
-+# The samplerate plugin source code is licensed under GPLv2+ to be consistent
-+# with the libsamplerate license.
-+LICENSE = "LGPLv2.1 & GPLv2+"
-+LIC_FILES_CHKSUM = "\
-+        file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-+        file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
-+        file://m4/attributes.m4;endline=33;md5=b25958da44c02231e3641f1bccef53eb \
-+        file://rate/rate_samplerate.c;endline=19;md5=f3d3ce0b189846a486517d97a854b276 \
-+"
++Usually autospawning for root is a bad idea, since it can easily
++interfere with other users' PulseAudio instances, but in embedded
++environments where only root exists, autospawning is fine.
 +
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "a66797b4471e3cbe96575207bfbe252c"
-+SRC_URI[sha256sum] = "325d85cac285f632b83e0191ae3f348bad03c1f007b937042f164abb81ea6532"
++Upstream-Status: Submitted [http://thread.gmane.org/gmane.comp.audio.pulseaudio.general/23549]
 +
-+DEPENDS += "alsa-lib"
++Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
++---
++ man/pulse-client.conf.5.xml.in | 9 +++++++++
++ src/pulse/client-conf.c        | 1 +
++ src/pulse/client-conf.h        | 1 +
++ src/pulse/client.conf.in       | 1 +
++ src/pulse/context.c            | 2 +-
++ 5 files changed, 13 insertions(+), 1 deletion(-)
 +
-+inherit autotools pkgconfig
++diff --git a/man/pulse-client.conf.5.xml.in b/man/pulse-client.conf.5.xml.in
++index 1002dbe..0058490 100644
++--- a/man/pulse-client.conf.5.xml.in
+++++ b/man/pulse-client.conf.5.xml.in
++@@ -71,6 +71,15 @@ License along with PulseAudio; if not, see <http://www.gnu.org/licenses/>.
++     </option>
++ 
++     <option>
+++      <p><opt>allow-autospawn-for-root=</opt> Allow autospawning also for root.
+++      Takes a boolean value, defaults to <opt>no</opt>. If the <opt>autospawn
+++      </opt> option is disabled, this option has no effect. Autospawning for
+++      root is disabled by default, because running PulseAudio as root will
+++      interfere with regular users' PulseAudio instances. This option should be
+++      enabled only in environments where there are no regular users at all.</p>
+++    </option>
+++
+++    <option>
++       <p><opt>daemon-binary=</opt> Path to the PulseAudio daemon to
++       run when autospawning. Defaults to a path configured at compile
++       time.</p>
++diff --git a/src/pulse/client-conf.c b/src/pulse/client-conf.c
++index 83331f8..0474583 100644
++--- a/src/pulse/client-conf.c
+++++ b/src/pulse/client-conf.c
++@@ -138,6 +138,7 @@ void pa_client_conf_load(pa_client_conf *c, bool load_from_x11, bool load_from_e
++         { "default-server",         pa_config_parse_string,   &c->default_server, NULL },
++         { "default-dbus-server",    pa_config_parse_string,   &c->default_dbus_server, NULL },
++         { "autospawn",              pa_config_parse_bool,     &c->autospawn, NULL },
+++        { "allow-autospawn-for-root", pa_config_parse_bool,   &c->allow_autospawn_for_root, NULL },
++         { "cookie-file",            pa_config_parse_string,   &c->cookie_file_from_client_conf, NULL },
++         { "disable-shm",            pa_config_parse_bool,     &c->disable_shm, NULL },
++         { "enable-shm",             pa_config_parse_not_bool, &c->disable_shm, NULL },
++diff --git a/src/pulse/client-conf.h b/src/pulse/client-conf.h
++index eac705a..131393a 100644
++--- a/src/pulse/client-conf.h
+++++ b/src/pulse/client-conf.h
++@@ -38,6 +38,7 @@ typedef struct pa_client_conf {
++     char *cookie_file_from_application;
++     char *cookie_file_from_client_conf;
++     bool autospawn, disable_shm, auto_connect_localhost, auto_connect_display;
+++    bool allow_autospawn_for_root;
++     size_t shm_size;
++ } pa_client_conf;
++ 
++diff --git a/src/pulse/client.conf.in b/src/pulse/client.conf.in
++index 26b7790..69830ef 100644
++--- a/src/pulse/client.conf.in
+++++ b/src/pulse/client.conf.in
++@@ -23,6 +23,7 @@
++ ; default-dbus-server =
++ 
++ ; autospawn = yes
+++; allow-autospawn-for-root = no
++ ; daemon-binary = @PA_BINARY@
++ ; extra-arguments = --log-target=syslog
++ 
++diff --git a/src/pulse/context.c b/src/pulse/context.c
++index 4bc445f..d6c3f6d 100644
++--- a/src/pulse/context.c
+++++ b/src/pulse/context.c
++@@ -976,7 +976,7 @@ int pa_context_connect(
++     if (!(flags & PA_CONTEXT_NOAUTOSPAWN) && c->conf->autospawn) {
++ 
++ #ifdef HAVE_GETUID
++-        if (getuid() == 0)
+++        if (!c->conf->allow_autospawn_for_root && getuid() == 0)
++             pa_log_debug("Not doing autospawn since we are root.");
++         else {
++             c->do_autospawn = true;
++-- 
++1.9.3
 +
-+PACKAGECONFIG ??= "\
-+        samplerate \
-+        speex \
-+        ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-+"
-+PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec,libav"
-+PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
-+PACKAGECONFIG[maemo-plugin] = "--enable-maemo-plugin,--disable-maemo-plugin"
-+PACKAGECONFIG[maemo-resource-manager] = "--enable-maemo-resource-manager,--disable-maemo-resource-manager,dbus"
-+PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
-+PACKAGECONFIG[samplerate] = "--enable-samplerate,--disable-samplerate,libsamplerate0"
-+PACKAGECONFIG[speex] = "--with-speex=lib,--with-speex=no,speex"
-+
-+PACKAGES += "alsa-plugins-pulseaudio-conf"
-+
-+PACKAGES_DYNAMIC = "^libasound-module-.*"
-+
-+do_install_append() {
-+	rm ${D}${libdir}/alsa-lib/*.la
-+
-+	# We use the example as is, so just drop the .example suffix.
-+	mv ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf.example ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf
-+}
-+
-+python populate_packages_prepend() {
-+    plugindir = bb.data.expand('${libdir}/alsa-lib/', d)
-+    do_split_packages(d, plugindir, '^libasound_module_(.*)\.so$', 'libasound-module-%s', 'Alsa plugin for %s', extra_depends='')
-+}
-+
-+# meta/conf/bitbake.conf sets ALLOW_EMPTY_${PN}-dev = "1", but we don't want an
-+# empty alsa-plugins-dev package. The empty package would depend on
-+# alsa-plugins, which is a package that doesn't exist.
-+ALLOW_EMPTY_${PN}-dev = "0"
-+
-+# The rate plugins create some symlinks. For example, the samplerate plugin
-+# creates these links to the main plugin file:
-+#
-+#   libasound_module_rate_samplerate_best.so
-+#   libasound_module_rate_samplerate_linear.so
-+#   libasound_module_rate_samplerate_medium.so
-+#   libasound_module_rate_samplerate_order.so
-+#
-+# The other rate plugins create similar links. We have to add the links to
-+# FILES manually, because do_split_packages() skips the links (which is good,
-+# because we wouldn't want do_split_packages() to create separate packages for
-+# the symlinks).
-+#
-+# The symlinks cause QA errors, because usually it's a bug if a non
-+# -dev/-dbg/-nativesdk package contains links to .so files, but in this case
-+# the errors are false positives, so we disable the QA checks.
-+FILES_libasound-module-rate-lavcrate += "${libdir}/alsa-lib/*rate_lavcrate_*.so"
-+FILES_libasound-module-rate-samplerate += "${libdir}/alsa-lib/*rate_samplerate_*.so"
-+FILES_libasound-module-rate-speexrate += "${libdir}/alsa-lib/*rate_speexrate_*.so"
-+INSANE_SKIP_libasound-module-rate-lavcrate = "dev-so"
-+INSANE_SKIP_libasound-module-rate-samplerate = "dev-so"
-+INSANE_SKIP_libasound-module-rate-speexrate = "dev-so"
-+
-+FILES_${PN}-dbg += "${libdir}/alsa-lib/.debug"
-+
-+# 50-pulseaudio.conf defines a device named "pulse" that applications can use
-+# if they explicitly want to use the PulseAudio plugin.
-+# 99-pulseaudio-default.conf configures the "default" device to use the
-+# PulseAudio plugin.
-+FILES_${PN}-pulseaudio-conf += "\
-+        ${datadir}/alsa/alsa.conf.d/50-pulseaudio.conf \
-+        ${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf \
-+"
-+
-+RDEPENDS_${PN}-pulseaudio-conf += "\
-+        libasound-module-conf-pulse \
-+        libasound-module-ctl-pulse \
-+        libasound-module-pcm-pulse \
-+"
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index d6ddc3b..30fe221 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -149,6 +149,11 @@ RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-role-cork \
-     pulseaudio-module-switch-on-port-available"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+index fb33c7c..465b224 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+@@ -2,6 +2,7 @@ require pulseaudio.inc
  
-+# If the server is installed, it's usually desirable to make ALSA applications
-+# use PulseAudio. alsa-plugins-pulseaudio-conf will install the configuration
-+# that makes the PulseAudio plugin the default ALSA device.
-+RDEPENDS_pulseaudio-server += "alsa-plugins-pulseaudio-conf"
-+
- RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
- RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
- 
+ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-padsp-Make-it-compile-on-musl.patch \
++           file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+            file://volatiles.04_pulse \
+ "
+ SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
 -- 
 1.9.3
 
