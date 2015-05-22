@@ -1,34 +1,58 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C80D606E8
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx6-out14.antispamcloud.com (mx6-out14.antispamcloud.com
+	[95.211.2.226])
+	by mail.openembedded.org (Postfix) with ESMTP id D29C8606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 10:09:19 +0000 (UTC)
-Received: by wichy4 with SMTP id hy4so41972696wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 03:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=O5nKvoURgPv+HqSjRV8+TK/iE0hl7e3FvGGCLhVc02w=;
-	b=GMq0VOLkqOb+urBEtH8594iCfU39ykLwLxYJrWZB6PB1RlNuCVbHLns+WNgQmiUzNS
-	HjVg4OSpXQ+2f+sb8N/1Tz8b5R1fN1E4QnkEds0lnSh/hQCXrS990qgSuwyHoQdRydXH
-	IKvCbuxpAf/cLQkT3rPRwMEbHhfE3dgxGmI0anXvpQ6CQqSV/epvsz1QLs9sGxeX3Gnh
-	joRu+YKbZ/JFp+kExAIQnmNRSb9sJhx6n/07cee1yIoU12bMufGyE34d60esrcAAPiql
-	QnuWkA1xsXdhrzxYZ4uIirwP3MB7NgG46U++tu5xPaCl9b6QnNrnxrinV8tEGkqfQvMr
-	LB1A==
-X-Received: by 10.180.102.74 with SMTP id fm10mr6038118wib.25.1432289360934;
-	Fri, 22 May 2015 03:09:20 -0700 (PDT)
-Received: from X220.tupi.fr ([37.164.121.82]) by mx.google.com with ESMTPSA id
-	ef10sm2384815wjd.49.2015.05.22.03.09.19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 May 2015 03:09:20 -0700 (PDT)
-Sender: Thomas PERROT <vomegaz@gmail.com>
-From: Thomas Perrot <thomas.perrot@tupi.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 12:09:08 +0200
-Message-Id: <1432289348-5624-1-git-send-email-thomas.perrot@tupi.fr>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] systemd-serialgetty: Remove SERIAL_CONSOLE definition, because it depends of machine definition. Set it, here, can be make the value is not good.
+	Fri, 22 May 2015 10:23:30 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1Yvk6q-0003sj-Ju; Fri, 22 May 2015 12:23:26 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 22 May 2015 12:23:50 +0200
+Message-ID: <555F0396.9050301@topic.nl>
+Date: Fri, 22 May 2015 12:23:18 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <555ED05A.6050102@topic.nl>
+	<1755674.4xNgi4jax3@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1755674.4xNgi4jax3@peggleto-mobl.ger.corp.intel.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw2qn2YSnBaxCIAHbc091Tc1/63A71K+jqMokMNyfk/ad6zUhnDUpwAEsjGnc8y38ChhW
+	DHFYc6XC0Haiqey5b0Mem3nkaZsJp+9zNJIzCkmTGjg7qdyjmJyrgO6VGJaEBWYMAlP/S0uOZZ5u
+	SV0IozCkULD3D9o2ji4xTpO1ZTT2vqc9829axIrTVK9o3d/PSFJdZokGpJN4kYetzRzRnHsSFXzM
+	m2XTvQmNQH/oH4XzXPWlFdaGOH191uXjgjQN/WMl8f7UBJCwFHD1l+nJkT+2UgOabFU9NyJNofKB
+	ZZD+xeXoXPNrvHANfwuozbVTkyTO15OucnIuY/sU0a+x4GQodjbmNMe6/QVY6xYzI88a7VYlOo4O
+	CtdHJmaiqBKojaJlSA7Ev4rQ3Oi9uJM0mPGCO5lJSNbvfxvjeYwTRdFTRyoeTCToQ4vh4+dF2R+A
+	So9nm9RCE2jP7GbfNEvsB8mqC77XzkoQxgRbGiq02d7WFCbM4KUuNWr4taaUSZPgc/Ld14/y82eb
+	PziYNS9mrGfA08GKnM0yMKbSH84z50uV5cnAvgrYcRjzbQGecw7Yt4PAgTtUp75uqlx0KezvZHU1
+	UoV292D/suXw3wufSdnrzHkfATGQrLEsGz/Salrk+OidX4Ts4xdG+C13IyWeZaLUK63NTxKilQsp
+	qDdGN4Ln+A5CAbD8n0gD8pG7zUI5+V5oWjmYZ1NRn5HvsGB+KIyQDf8/PGjzz3yA6N7Vy/TN
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: "packagegroup-core-qt4e" broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +65,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 10:09:20 -0000
+X-List-Received-Date: Fri, 22 May 2015 10:23:33 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
----
- meta/recipes-core/systemd/systemd-serialgetty.bb |    2 --
- 1 file changed, 2 deletions(-)
+=EF=BB=BFOn 22-05-15 10:38, Paul Eggleton wrote:
+> Hi Mike,
+>
+> On Friday 22 May 2015 08:44:42 Mike Looijmans wrote:
+>> When building (just for having something on my display) "qt4e-demo-image=
+",
+>> it bailed out with the following error:
+>>
+>>    * satisfy_dependencies_for: Cannot satisfy the following dependencies=
+ for
+>> packagegroup-core-qt4e:
+>>    * 	qt4-embedded-plugin-phonon-backend-gstreamer *
+>>    * opkg_install_cmd: Cannot install package packagegroup-core-qt4e.
+>>
+>> I guess this is related to all the gstreamer changes lately?
+>
+> I've just sent a fix for this, thanks for the report.
+>
+> Cheers,
+> Paul
+>
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 1c34d5c..06cb1b4 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -4,8 +4,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
- 
- PR = "r5"
- 
--SERIAL_CONSOLE ?= "115200 ttyS0"
--
- SRC_URI = "file://serial-getty@.service"
- 
- do_install() {
--- 
-1.7.10.4
+Strange thing was, after just manually removing that package line from the=
+=20
+packagegroup-core-qt4e recipe, do_rootfs kept failing with a checksum misma=
+tch=20
+on that package. I tried cleansstate and manually removing all traces of th=
+e=20
+recipe, but that didn't help, it would rebuild the ipk and then still fail =
+on=20
+the checksum. Only removing 'tmp' finally got rid of this failure.
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
