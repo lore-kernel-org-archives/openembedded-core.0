@@ -1,21 +1,21 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E4FE73232
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id CDAEF6B0CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 18:18:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 May 2015 11:18:59 -0700
+	Fri, 22 May 2015 18:52:11 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 22 May 2015 11:52:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,477,1427785200"; d="scan'208";a="733876633"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by orsmga002.jf.intel.com with ESMTP; 22 May 2015 11:18:59 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,477,1427785200"; d="scan'208";a="497168860"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
+	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com) ([10.252.3.49])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 11:52:04 -0700
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 11:18:27 +0000
-Message-Id: <1432293507-48944-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH v2] python3-pip: Adds recipe for python3-pip
+Date: Fri, 22 May 2015 21:51:51 +0300
+Message-Id: <cover.1432320274.git.tanu.kaskinen@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH v3 0/5] Enable PulseAudio in Sato images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,68 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 18:18:58 -0000
+X-List-Received-Date: Fri, 22 May 2015 18:52:11 -0000
 
-PIP is installed by default since python 3.4, due to issues with the
-autobuilders, its default installation had to be disabled, this creates
-a recipe for it, it brings a lot of new dependencies so it is chosen not
-to be installed by default along with python3-core.
+Changes in v3:
+  - Added alsa-plugins package, which depends on all the individual
+    plugin packages.
+  - Re-enabled the implicitly created alsa-plugins-dev package.
 
-[YOCTO #7762]
+The following changes since commit c78eb923c20533a1b9fbab462c809b2652fac425:
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-devtools/python/python3-pip_6.1.1.bb | 40 +++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pip_6.1.1.bb
+  xvinfo: upgrade to 1.1.3 (2015-05-21 10:48:48 +0100)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_6.1.1.bb b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
-new file mode 100644
-index 0000000..cc44036
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
-@@ -0,0 +1,40 @@
-+SUMMARY = "The PyPA recommended tool for installing Python packages"
-+sHOMEPAGEsss = "https://pypi.python.org/pypi/pip"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=45665b53032c02b35e29ddab8e61fa91"
-+
-+SRCNAME = "pip"
-+DEPENDS += "python3 python3-setuptools"
-+
-+SRC_URI = " \
-+  http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+"
-+SRC_URI[md5sum] = "6b19e0a934d982a5a4b798e957cb6d45"
-+SRC_URI[sha256sum] = "89f3b626d225e08e7f20d85044afa40f612eb3284484169813dc2d0631f2a556"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit distutils3
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+
-+# Use setuptools site.py instead, avoid shared state issue
-+do_install_append() {
-+    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/site.py
-+    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/__pycache__/site.cpython-34.pyc
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python3-compile \
-+  python3-io \
-+  python3-json \
-+  python3-netserver \
-+  python3-setuptools \
-+  python3-unixadmin \
-+  python3-xmlrpc \
-+"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib tanuk/sato-pulseaudio-v3
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sato-pulseaudio-v3
+
+Tanu Kaskinen (5):
+  alsa-plugins: initial recipe
+  pulseaudio: client-conf: Add allow-autospawn-for-root
+  pulseaudio: conf-parser: add support for .d directories
+  pulseaudio-client-conf-sato: initial recipe
+  packagegroup-core-x11-sato: add PulseAudio
+
+ .../recipes-multimedia/alsa/alsa-plugins_1.0.29.bb | 100 +++++++++++
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   5 +
+ ...-client-conf-Add-allow-autospawn-for-root.patch |  92 ++++++++++
+ ...onf-parser-add-support-for-.d-directories.patch | 196 +++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |   2 +
+ .../packagegroups/packagegroup-core-x11-sato.bb    |   2 +
+ .../pulseaudio-client-conf-sato/50-sato.conf       |   7 +
+ .../pulseaudio-client-conf-sato_1.bb               |  17 ++
+ 8 files changed, 421 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
+ create mode 100644 meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato/50-sato.conf
+ create mode 100644 meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
+
 -- 
-1.8.4.5
+1.9.3
 
 
