@@ -1,25 +1,25 @@
 Return-Path: <tanu.kaskinen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5ED70A7C
+	by mail.openembedded.org (Postfix) with ESMTP id 2861574221
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 14:15:59 +0000 (UTC)
+	Fri, 22 May 2015 14:16:02 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 07:16:01 -0700
+	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 07:16:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497061913"
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497061929"
 Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
 	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com) ([10.252.3.49])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 07:16:00 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 07:16:02 -0700
 From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 17:15:46 +0300
-Message-Id: <3c86bb428c100af54cd623871571ff92afa060ed.1432303757.git.tanu.kaskinen@linux.intel.com>
+Date: Fri, 22 May 2015 17:15:47 +0300
+Message-Id: <9de2b27e59a45cf5aa262598ec425b53b82ef6bb.1432303757.git.tanu.kaskinen@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
 References: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
 In-Reply-To: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
 References: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
-Subject: [PATCH v2 2/5] pulseaudio: client-conf: Add allow-autospawn-for-root
+Subject: [PATCH v2 3/5] pulseaudio: conf-parser: add support for .d directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,128 +32,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 14:16:01 -0000
+X-List-Received-Date: Fri, 22 May 2015 14:16:02 -0000
 
-This is related to enabling PulseAudio in Sato images. Sato doesn't
-have regular users; the graphical session is run as root. PulseAudio
-disables autospawning for root, but in Sato that's not the desired
-behaviour. This patch allows autospawning to be enabled for root in
-systems where that makes sense.
+Sato images should set allow-autospawn-for-root=true in
+/etc/pulse/client.conf, but in non-Sato images that option should be
+disabled by default. I first tried to have two packages that ship
+different versions of the client.conf file, but it turned out to be
+tricky to ensure that the package manager always chooses the package
+that provides the default version when the Sato package is not
+explicitly requested. This patch allows the Sato specific
+configuration to be installed in /etc/pulse/client.conf.d without
+replacing the default version of client.conf, which makes packaging
+much simpler.
 
 Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 ---
- ...-client-conf-Add-allow-autospawn-for-root.patch | 92 ++++++++++++++++++++++
- .../pulseaudio/pulseaudio_6.0.bb                   |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
+ ...onf-parser-add-support-for-.d-directories.patch | 196 +++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |   1 +
+ 2 files changed, 197 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
 new file mode 100644
-index 0000000..d19eb7c
+index 0000000..a9f1b2a
 --- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
-@@ -0,0 +1,92 @@
-+From 1cb5647f76dc8cd7bacbce2a64fac9e6c2dc3b16 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
+@@ -0,0 +1,196 @@
++From 8cb643bbf0a287d67794e680d26f49c503f31053 Mon Sep 17 00:00:00 2001
 +From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-+Date: Tue, 28 Apr 2015 14:32:43 +0300
-+Subject: [PATCH] client-conf: Add allow-autospawn-for-root
++Date: Thu, 21 May 2015 21:00:59 +0300
++Subject: [PATCH] conf-parser: add support for .d directories
 +
-+Usually autospawning for root is a bad idea, since it can easily
-+interfere with other users' PulseAudio instances, but in embedded
-+environments where only root exists, autospawning is fine.
++This allows a configuration scheme where prior to loading
++configuration from "somefile", the parser first loads configuration
++from files in directory "somefile.d". This feature is currently
++enabled only for client.conf and daemon.conf.
 +
-+Upstream-Status: Submitted [http://thread.gmane.org/gmane.comp.audio.pulseaudio.general/23549]
++This makes it easier to create configuration packages in distributions
++when there's need to have different configuration in different setups.
++For example, the graphical Sato environment in OpenEmbedded-core needs
++to set allow-autospawn-for-root=true in client.conf, but the default
++configuration in OpenEmbedded-core should not set that option. With
++this patch, I can create a Sato-specific package that simply installs
++50-sato.conf in /etc/pulse/client.conf.d without conflicting with the
++main client.conf file coming from a different package.
++
++Upstream-Status: Submitted [http://thread.gmane.org/gmane.comp.audio.pulseaudio.general/23592]
 +
 +Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 +---
-+ man/pulse-client.conf.5.xml.in | 9 +++++++++
-+ src/pulse/client-conf.c        | 1 +
-+ src/pulse/client-conf.h        | 1 +
-+ src/pulse/client.conf.in       | 1 +
-+ src/pulse/context.c            | 2 +-
-+ 5 files changed, 13 insertions(+), 1 deletion(-)
++ src/daemon/daemon-conf.c                |  2 +-
++ src/modules/alsa/alsa-mixer.c           |  4 ++--
++ src/modules/module-augment-properties.c |  2 +-
++ src/pulse/client-conf.c                 |  2 +-
++ src/pulsecore/conf-parser.c             | 42 +++++++++++++++++++++++++++++++--
++ src/pulsecore/conf-parser.h             |  8 ++++++-
++ 6 files changed, 52 insertions(+), 8 deletions(-)
 +
-+diff --git a/man/pulse-client.conf.5.xml.in b/man/pulse-client.conf.5.xml.in
-+index 1002dbe..0058490 100644
-+--- a/man/pulse-client.conf.5.xml.in
-++++ b/man/pulse-client.conf.5.xml.in
-+@@ -71,6 +71,15 @@ License along with PulseAudio; if not, see <http://www.gnu.org/licenses/>.
-+     </option>
++diff --git a/src/daemon/daemon-conf.c b/src/daemon/daemon-conf.c
++index 21a8edb..1332fc6 100644
++--- a/src/daemon/daemon-conf.c
+++++ b/src/daemon/daemon-conf.c
++@@ -617,7 +617,7 @@ int pa_daemon_conf_load(pa_daemon_conf *c, const char *filename) {
++     ci.default_channel_map_set = ci.default_sample_spec_set = false;
++     ci.conf = c;
 + 
-+     <option>
-++      <p><opt>allow-autospawn-for-root=</opt> Allow autospawning also for root.
-++      Takes a boolean value, defaults to <opt>no</opt>. If the <opt>autospawn
-++      </opt> option is disabled, this option has no effect. Autospawning for
-++      root is disabled by default, because running PulseAudio as root will
-++      interfere with regular users' PulseAudio instances. This option should be
-++      enabled only in environments where there are no regular users at all.</p>
-++    </option>
-++
-++    <option>
-+       <p><opt>daemon-binary=</opt> Path to the PulseAudio daemon to
-+       run when autospawning. Defaults to a path configured at compile
-+       time.</p>
++-    r = f ? pa_config_parse(c->config_file, f, table, NULL, NULL) : 0;
+++    r = f ? pa_config_parse(c->config_file, f, table, NULL, true, NULL) : 0;
++ 
++     if (r >= 0) {
++ 
++diff --git a/src/modules/alsa/alsa-mixer.c b/src/modules/alsa/alsa-mixer.c
++index 2314612..988b4fe 100644
++--- a/src/modules/alsa/alsa-mixer.c
+++++ b/src/modules/alsa/alsa-mixer.c
++@@ -2483,7 +2483,7 @@ pa_alsa_path* pa_alsa_path_new(const char *paths_dir, const char *fname, pa_alsa
++ 
++     fn = pa_maybe_prefix_path(fname, paths_dir);
++ 
++-    r = pa_config_parse(fn, NULL, items, p->proplist, p);
+++    r = pa_config_parse(fn, NULL, items, p->proplist, false, p);
++     pa_xfree(fn);
++ 
++     if (r < 0)
++@@ -4288,7 +4288,7 @@ pa_alsa_profile_set* pa_alsa_profile_set_new(const char *fname, const pa_channel
++                               pa_run_from_build_tree() ? PA_SRCDIR "/modules/alsa/mixer/profile-sets/" :
++                               PA_ALSA_PROFILE_SETS_DIR);
++ 
++-    r = pa_config_parse(fn, NULL, items, NULL, ps);
+++    r = pa_config_parse(fn, NULL, items, NULL, false, ps);
++     pa_xfree(fn);
++ 
++     if (r < 0)
++diff --git a/src/modules/module-augment-properties.c b/src/modules/module-augment-properties.c
++index 42b6fd9..541f0e7 100644
++--- a/src/modules/module-augment-properties.c
+++++ b/src/modules/module-augment-properties.c
++@@ -204,7 +204,7 @@ static void update_rule(struct rule *r) {
++     table[0].data = &r->application_name;
++     table[1].data = &r->icon_name;
++ 
++-    if (pa_config_parse(fn, NULL, table, NULL, r) < 0)
+++    if (pa_config_parse(fn, NULL, table, NULL, false, r) < 0)
++         pa_log_warn("Failed to parse .desktop file %s.", fn);
++ 
++     pa_xfree(fn);
 +diff --git a/src/pulse/client-conf.c b/src/pulse/client-conf.c
-+index 83331f8..0474583 100644
++index 83331f8..3c3384d 100644
 +--- a/src/pulse/client-conf.c
 ++++ b/src/pulse/client-conf.c
-+@@ -138,6 +138,7 @@ void pa_client_conf_load(pa_client_conf *c, bool load_from_x11, bool load_from_e
-+         { "default-server",         pa_config_parse_string,   &c->default_server, NULL },
-+         { "default-dbus-server",    pa_config_parse_string,   &c->default_dbus_server, NULL },
-+         { "autospawn",              pa_config_parse_bool,     &c->autospawn, NULL },
-++        { "allow-autospawn-for-root", pa_config_parse_bool,   &c->allow_autospawn_for_root, NULL },
-+         { "cookie-file",            pa_config_parse_string,   &c->cookie_file_from_client_conf, NULL },
-+         { "disable-shm",            pa_config_parse_bool,     &c->disable_shm, NULL },
-+         { "enable-shm",             pa_config_parse_not_bool, &c->disable_shm, NULL },
-+diff --git a/src/pulse/client-conf.h b/src/pulse/client-conf.h
-+index eac705a..131393a 100644
-+--- a/src/pulse/client-conf.h
-++++ b/src/pulse/client-conf.h
-+@@ -38,6 +38,7 @@ typedef struct pa_client_conf {
-+     char *cookie_file_from_application;
-+     char *cookie_file_from_client_conf;
-+     bool autospawn, disable_shm, auto_connect_localhost, auto_connect_display;
-++    bool allow_autospawn_for_root;
-+     size_t shm_size;
-+ } pa_client_conf;
++@@ -149,7 +149,7 @@ void pa_client_conf_load(pa_client_conf *c, bool load_from_x11, bool load_from_e
 + 
-+diff --git a/src/pulse/client.conf.in b/src/pulse/client.conf.in
-+index 26b7790..69830ef 100644
-+--- a/src/pulse/client.conf.in
-++++ b/src/pulse/client.conf.in
-+@@ -23,6 +23,7 @@
-+ ; default-dbus-server =
++     f = pa_open_config_file(DEFAULT_CLIENT_CONFIG_FILE, DEFAULT_CLIENT_CONFIG_FILE_USER, ENV_CLIENT_CONFIG_FILE, &fn);
++     if (f) {
++-        pa_config_parse(fn, f, table, NULL, NULL);
+++        pa_config_parse(fn, f, table, NULL, true, NULL);
++         pa_xfree(fn);
++         fclose(f);
++     }
++diff --git a/src/pulsecore/conf-parser.c b/src/pulsecore/conf-parser.c
++index 2dcd45a..d473232 100644
++--- a/src/pulsecore/conf-parser.c
+++++ b/src/pulsecore/conf-parser.c
++@@ -21,6 +21,7 @@
++ #include <config.h>
++ #endif
 + 
-+ ; autospawn = yes
-++; allow-autospawn-for-root = no
-+ ; daemon-binary = @PA_BINARY@
-+ ; extra-arguments = --log-target=syslog
+++#include <dirent.h>
++ #include <string.h>
++ #include <stdio.h>
++ #include <errno.h>
++@@ -103,7 +104,7 @@ static int parse_line(pa_config_parser_state *state) {
++             }
++         }
 + 
-+diff --git a/src/pulse/context.c b/src/pulse/context.c
-+index 4bc445f..d6c3f6d 100644
-+--- a/src/pulse/context.c
-++++ b/src/pulse/context.c
-+@@ -976,7 +976,7 @@ int pa_context_connect(
-+     if (!(flags & PA_CONTEXT_NOAUTOSPAWN) && c->conf->autospawn) {
++-        r = pa_config_parse(fn, NULL, state->item_table, state->proplist, state->userdata);
+++        r = pa_config_parse(fn, NULL, state->item_table, state->proplist, false, state->userdata);
++         pa_xfree(path);
++         return r;
++     }
++@@ -152,8 +153,13 @@ static int parse_line(pa_config_parser_state *state) {
++         return normal_assignment(state);
++ }
 + 
-+ #ifdef HAVE_GETUID
-+-        if (getuid() == 0)
-++        if (!c->conf->allow_autospawn_for_root && getuid() == 0)
-+             pa_log_debug("Not doing autospawn since we are root.");
-+         else {
-+             c->do_autospawn = true;
+++static int conf_filter(const struct dirent *entry) {
+++    return pa_endswith(entry->d_name, ".conf");
+++}
+++
++ /* Go through the file and parse each line */
++-int pa_config_parse(const char *filename, FILE *f, const pa_config_item *t, pa_proplist *proplist, void *userdata) {
+++int pa_config_parse(const char *filename, FILE *f, const pa_config_item *t, pa_proplist *proplist, bool use_dot_d,
+++                    void *userdata) {
++     int r = -1;
++     bool do_close = !f;
++     pa_config_parser_state state;
++@@ -163,6 +169,38 @@ int pa_config_parse(const char *filename, FILE *f, const pa_config_item *t, pa_p
++ 
++     pa_zero(state);
++ 
+++    if (use_dot_d) {
+++        char *dir_name;
+++        int n;
+++        struct dirent **entries = NULL;
+++
+++        dir_name = pa_sprintf_malloc("%s.d", filename);
+++
+++        n = scandir(dir_name, &entries, conf_filter, alphasort);
+++        if (n >= 0) {
+++            int i;
+++
+++            for (i = 0; i < n; i++) {
+++                char *filename2;
+++
+++                filename2 = pa_sprintf_malloc("%s" PA_PATH_SEP "%s", dir_name, entries[i]->d_name);
+++                pa_config_parse(filename2, NULL, t, proplist, false, userdata);
+++                pa_xfree(filename2);
+++
+++                free(entries[i]);
+++            }
+++
+++            free(entries);
+++        } else {
+++            if (errno == ENOENT)
+++                pa_log_debug("scandir(\"%s\") failed: %s", dir_name, pa_cstrerror(errno));
+++            else
+++                pa_log_warn("scandir(\"%s\") failed: %s", dir_name, pa_cstrerror(errno));
+++        }
+++
+++        pa_xfree(dir_name);
+++    }
+++
++     if (!f && !(f = pa_fopen_cloexec(filename, "r"))) {
++         if (errno == ENOENT) {
++             pa_log_debug("Failed to open configuration file '%s': %s", filename, pa_cstrerror(errno));
++diff --git a/src/pulsecore/conf-parser.h b/src/pulsecore/conf-parser.h
++index dbb6f5c..cc20d7d 100644
++--- a/src/pulsecore/conf-parser.h
+++++ b/src/pulsecore/conf-parser.h
++@@ -59,6 +59,11 @@ struct pa_config_parser_state {
++  * pa_config_items in *t that is terminated by an item where lvalue is
++  * NULL.
++  *
+++ * If use_dot_d is true, then before parsing the file named by the filename
+++ * argument, the function will parse all files ending with ".conf" in
+++ * alphabetical order from a directory whose name is filename + ".d", if such
+++ * directory exists.
+++ *
++  * Some configuration files may contain a Properties section, which
++  * is a bit special. Normally all accepted lvalues must be predefined
++  * in the pa_config_item table, but in the Properties section the
++@@ -68,7 +73,8 @@ struct pa_config_parser_state {
++  * properties, and those properties will be merged into the given
++  * proplist. If proplist is NULL, then sections named "Properties"
++  * are not allowed at all in the configuration file. */
++-int pa_config_parse(const char *filename, FILE *f, const pa_config_item *t, pa_proplist *proplist, void *userdata);
+++int pa_config_parse(const char *filename, FILE *f, const pa_config_item *t, pa_proplist *proplist, bool use_dot_d,
+++                    void *userdata);
++ 
++ /* Generic parsers for integers, size_t, booleans and strings */
++ int pa_config_parse_int(pa_config_parser_state *state);
 +-- 
 +1.9.3
 +
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-index fb33c7c..465b224 100644
+index 465b224..10969bd 100644
 --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-@@ -2,6 +2,7 @@ require pulseaudio.inc
- 
+@@ -3,6 +3,7 @@ require pulseaudio.inc
  SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
             file://0001-padsp-Make-it-compile-on-musl.patch \
-+           file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
++           file://0001-conf-parser-add-support-for-.d-directories.patch \
             file://volatiles.04_pulse \
  "
  SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
