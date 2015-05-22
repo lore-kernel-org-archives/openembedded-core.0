@@ -1,21 +1,27 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C043E601DF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C889670A7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 14:34:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 May 2015 07:34:52 -0700
+	Fri, 22 May 2015 14:44:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 22 May 2015 07:44:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="730261058"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 22 May 2015 07:34:52 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 06:29:25 +0000
-Message-Id: <1432276165-31516-1-git-send-email-mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] copyleft_filter.bbclass: Allow to filter on name
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497071872"
+Received: from cestaunt-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.15.40])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 07:44:25 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Date: Fri, 22 May 2015 15:44:24 +0100
+Message-ID: <2968009.Jcp0e3iZx0@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
+References: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
+	<bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,91 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 14:34:51 -0000
+X-List-Received-Date: Fri, 22 May 2015 14:44:27 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Friday 22 May 2015 17:15:45 Tanu Kaskinen wrote:
+> +# meta/conf/bitbake.conf sets ALLOW_EMPTY_${PN}-dev = "1", but we don't
+> want an 
+> +# empty alsa-plugins-dev package. The empty package would depend
+> on +# alsa-plugins, which is a package that doesn't exist.
+> +ALLOW_EMPTY_${PN}-dev = "0"
 
-The archiver uses a license based filter to provide the source code.
-This patch allows to search on name based on two new variables (SRC_INCLUDE_NAME,
-SRC_EXCLUDE_NAME). Both variables are empty by default.
-The filter by name has higher priority than the license filter.
+Wouldn't it make sense to actually have a pulseaudio-plugins package which 
+depends on all of the actual plugin packages? This way you would also avoid 
+the other issue we've seen in similar recipes where users try to add the main 
+package to their image, which the build system thinks will be produced, and 
+then get the "package not found in base feeds" error at do_rootfs time.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/archiver.bbclass        | 14 ++++++--------
- meta/classes/copyleft_filter.bbclass | 28 ++++++++++++++++++++++++++++
- 2 files changed, 34 insertions(+), 8 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index b598aa3..138c407 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -52,14 +52,12 @@ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
- python () {
-     pn = d.getVar('PN', True)
- 
--    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
--            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
--        included, reason = copyleft_should_include(d)
--        if not included:
--            bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
--            return
--        else:
--            bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
-+    included, reason = should_include_src(d)
-+    if not included:
-+        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
-+        return
-+    else:
-+        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
- 
-     ar_src = d.getVarFlag('ARCHIVER_MODE', 'src', True)
-     ar_dumpdata = d.getVarFlag('ARCHIVER_MODE', 'dumpdata', True)
-diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
-index 2c1d8f1..d5c3b59 100644
---- a/meta/classes/copyleft_filter.bbclass
-+++ b/meta/classes/copyleft_filter.bbclass
-@@ -25,6 +25,14 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
- COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
- COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
- 
-+SRC_INCLUDE_NAME ?= ''
-+SRC_INCLUDE_NAME[type] = 'list'
-+SRC_INCLUDE_NAME[doc] = 'Space separated list of recipe names to include'
-+
-+SRC_EXCLUDE_NAME ?= ''
-+SRC_EXCLUDE_NAME[type] = 'list'
-+SRC_EXCLUDE_NAME[doc] = 'Space separated list of recipe names to exclude'
-+
- def copyleft_recipe_type(d):
-     for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
-         if oe.utils.inherits(d, recipe_type):
-@@ -59,4 +67,24 @@ def copyleft_should_include(d):
-         else:
-             return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
- 
-+def should_include_src(d):
-+    """
-+    Determine if this recipe's source should be deployed
-+    """
-+    from fnmatch import fnmatchcase as fnmatch
-+
-+    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
-+            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
-+        is_included, reason = copyleft_should_include(d)
-+
-+    if any(fnmatch(d.getVar('PN', True), name) \
-+            for name in oe.data.typed_value('SRC_INCLUDE_NAME', d)):
-+        is_included, reason =  True, 'recipe included by name'
-+    if any(fnmatch(d.getVar('PN', True), name) \
-+            for name in oe.data.typed_value('SRC_EXCLUDE_NAME', d)):
-+        is_included, reason = False, 'recipe excluded by name'
-+
-+    if 'reason' not in locals():
-+        is_included, reason = False, 'recipe did not match any condition'
-+    return is_included, reason
- 
 -- 
-1.8.4.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
