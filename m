@@ -1,34 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 709D965D19
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD77A606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 00:11:17 +0000 (UTC)
-Received: by iebgx4 with SMTP id gx4so20475917ieb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 May 2015 17:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=vwVs3E0kiQL8Sox8VtP9mR7DlD6TqL6IrnS4bAbCXHo=;
-	b=D5F/eIteSKn7/4qSY3qv2mEpPxziG87KKIrWYjKsyZq6AjHq+1zh3DwwmQUNXOfR1Q
-	5hhsVWiWvik+G0xgAPZwixYexkJ68htcpW1k+xeVqPUUZanewzeNVy5GtIf2jw7zVve0
-	aJPCQtrOw91m/oFJ1oX4Sq/qdIo+ccPTHhqn55M2rbMEV1MUWynzwBVONBpe6To/dUK5
-	iuW946k0k6L3XXvvfj/uADRSwcDF36h1pOz4USXOST7SMqBNukeE6TCkseoppLFfC7zE
-	8/PgfoycKhGkImhuQHZFPsHGICqD7B85WjvbL+/pYo9Z2NfM8BVnJGoxYDI2fUpMahJp
-	gShw==
-X-Received: by 10.43.60.14 with SMTP id wq14mr6381128icb.60.1432253479257;
-	Thu, 21 May 2015 17:11:19 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id b2sm2427309igf.10.2015.05.21.17.11.18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 May 2015 17:11:18 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 May 2015 17:11:06 -0700
-Message-Id: <1432253466-9933-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gnutls: remove --with-libz-prefix configure option
+	Fri, 22 May 2015 00:59:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4M0xFWS022411
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 May 2015 17:59:15 -0700 (PDT)
+Received: from server.local (128.224.23.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 21 May 2015 17:59:15 -0700
+Message-ID: <555E7F62.8070107@windriver.com>
+Date: Thu, 21 May 2015 20:59:14 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1432235097.git.bruce.ashfield@windriver.com>	<8d68ee8847de2535cb31b5941da95adf4862e977.1432235097.git.bruce.ashfield@windriver.com>
+	<CAJ86T=X9o3vCfuDx6V1_TJOMhObHVPX-NkpdcGgqijuvT8f7Uw@mail.gmail.com>
+In-Reply-To: <CAJ86T=X9o3vCfuDx6V1_TJOMhObHVPX-NkpdcGgqijuvT8f7Uw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] linux-yocto-custom: clarify bbappend versus copy in comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 00:11:19 -0000
+X-List-Received-Date: Fri, 22 May 2015 00:59:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The default search path in sysroot is sufficient to find zlib, so the
---with-libz-prefix configure option seems to be unnecessary.
+On 2015-05-21 5:55 PM, Andre McCurdy wrote:
+> On Thu, May 21, 2015 at 12:08 PM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+>> The kernel development manual recommends making a copy of
+>> linux-yocto-custom, while the comments in the recipe talk about
+>> bbappends.
+>>
+>> To synchronize the two, we remove the bbappend references from the
+>> recipe and instead indicate that a copy should be updated.
+>>
+>> [YOCTO: #6925]
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>   meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 10 +++++-----
+>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> index 05463c026304..e38af19f827b 100644
+>> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> @@ -11,8 +11,8 @@
+>>   #
+>>   #   You must also provide a Linux kernel configuration. The most direct
+>>   #   method is to copy your .config to files/defconfig in your layer,
+>> -#   in the same directory as the bbappend and add file://defconfig to
+>> -#   your SRC_URI.
+>> +#   in the same directory as the copy (and rename) of this recipe and
+>> +#   add file://defconfig to your SRC_URI.
+>>   #
+>>   #   To use the yocto kernel tooling to generate a BSP configuration
+>>   #   using modular configuration fragments, see the yocto-bsp and
+>> @@ -52,14 +52,14 @@
+>>   inherit kernel
+>>   require recipes-kernel/linux/linux-yocto.inc
+>>
+>> -# Override SRC_URI in a bbappend file to point at a different source
+>> +# Override SRC_URI in a copy of this recipe to point at a different source
+>>   # tree if you do not want to build from Linus' tree.
+>
+> Would "Update SRC_URI in your copy of this recipe..." make more sense here?
 
-For target builds, relying on sysroot also prevents an absolute path
-from being hardcoded in the gnutls.pc pkg-config file.
+I avoided possessives on purpose, this could be one of many copies,
+most may not be 'yours'.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/gnutls/gnutls.inc | 1 -
- 1 file changed, 1 deletion(-)
+>
+>>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
+>>
+>>   LINUX_VERSION ?= "3.4"
+>>   LINUX_VERSION_EXTENSION ?= "-custom"
+>>
+>> -# Override SRCREV to point to a different commit in a bbappend file to
+>> +# Override SRCREV to point to a different commit in a copy of this recipe
+>>   # build a different release of the Linux kernel.
+>>   # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+>
+> Same comment, "Override" -> "Update" and "a copy" -> "your copy".
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 45fb529..87f275a 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -23,7 +23,6 @@ EXTRA_OECONF="--disable-rpath \
-               --with-included-libtasn1 \
-               --enable-local-libopts \
-               --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
--              --with-libz-prefix=${STAGING_DIR_HOST}${prefix} \
-               --disable-guile \
-               --disable-crywrap \
-               --without-p11-kit \
--- 
-1.9.1
+There's a default SRCREV in many configs, that's why I say override,
+but update works too.
+
+>
+> Also, the word "to" seems to have gone missing from the end of the line.
+
+Indeed. I'll add that back.
+
+Bruce
+
+>
+>>   SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+>> @@ -67,6 +67,6 @@ SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+>>   PR = "r1"
+>>   PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>> -# Override COMPATIBLE_MACHINE to include your machine in a bbappend
+>> +# Override COMPATIBLE_MACHINE to include your machine in a copy of this recipe
+>>   # file. Leaving it empty here ensures an early explicit build failure.
+>>   COMPATIBLE_MACHINE = "(^$)"
+>> --
+>> 2.1.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
