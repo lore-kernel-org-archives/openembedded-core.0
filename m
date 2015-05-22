@@ -1,29 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E134601DF
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C043E601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 14:32:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 22 May 2015 07:32:36 -0700
+	Fri, 22 May 2015 14:34:51 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 May 2015 07:34:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="698911745"
-Received: from cestaunt-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.15.40])
-	by orsmga001.jf.intel.com with ESMTP; 22 May 2015 07:32:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: thomas.perrot@tupi.fr
-Date: Fri, 22 May 2015 15:32:32 +0100
-Message-ID: <8187173.h5mEVg1DiL@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <CAGXeWgn1jDsCLAA-F8zvPCZ+qyGyfQtmbwe-AvF5kAuir6Z-8w@mail.gmail.com>
-References: <1432289348-5624-1-git-send-email-thomas.perrot@tupi.fr>
-	<4841436.ZzPOYoFhDl@peggleto-mobl.ger.corp.intel.com>
-	<CAGXeWgn1jDsCLAA-F8zvPCZ+qyGyfQtmbwe-AvF5kAuir6Z-8w@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-serialgetty: Remove SERIAL_CONSOLE definition, because it depends of machine definition. Set it, here, can be make the value is not good.
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="730261058"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga002.fm.intel.com with ESMTP; 22 May 2015 07:34:52 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 May 2015 06:29:25 +0000
+Message-Id: <1432276165-31516-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] copyleft_filter.bbclass: Allow to filter on name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +28,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 14:32:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 May 2015 14:34:51 -0000
 
-On Friday 22 May 2015 16:27:05 Thomas PERROT wrote:
-> On Fri, May 22, 2015 at 4:06 PM, Paul Eggleton <
-> paul.eggleton@linux.intel.com> wrote:
-> > On Friday 22 May 2015 15:58:58 Thomas PERROT wrote:
-> > > Sorry, I meant systemd-serialgetty.bb from meta instead of meta-systemd.
-> > > So replace "?=" by "??=" should be a better solution.
-> > 
-> > You still haven't described the actual problem, because what you did
-> > describe (the machine config being overridden by this) shouldn't be
-> > possible. Again, did  you check bitbake -e systemd-serialgetty | less ?
->
-> Attached the result of the command bitbake -e systemd-serialgetty
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-So from what you've just sent, the final value is "115200 ttyAMA0" which is the 
-value set by the machine config - so it seems like it's working as it should. 
-How are you determining that there is a problem?
+The archiver uses a license based filter to provide the source code.
+This patch allows to search on name based on two new variables (SRC_INCLUDE_NAME,
+SRC_EXCLUDE_NAME). Both variables are empty by default.
+The filter by name has higher priority than the license filter.
 
-Cheers,
-Paul
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/archiver.bbclass        | 14 ++++++--------
+ meta/classes/copyleft_filter.bbclass | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 8 deletions(-)
 
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index b598aa3..138c407 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -52,14 +52,12 @@ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
+ python () {
+     pn = d.getVar('PN', True)
+ 
+-    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
+-            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
+-        included, reason = copyleft_should_include(d)
+-        if not included:
+-            bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
+-            return
+-        else:
+-            bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
++    included, reason = should_include_src(d)
++    if not included:
++        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
++        return
++    else:
++        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
+ 
+     ar_src = d.getVarFlag('ARCHIVER_MODE', 'src', True)
+     ar_dumpdata = d.getVarFlag('ARCHIVER_MODE', 'dumpdata', True)
+diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
+index 2c1d8f1..d5c3b59 100644
+--- a/meta/classes/copyleft_filter.bbclass
++++ b/meta/classes/copyleft_filter.bbclass
+@@ -25,6 +25,14 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
+ 
++SRC_INCLUDE_NAME ?= ''
++SRC_INCLUDE_NAME[type] = 'list'
++SRC_INCLUDE_NAME[doc] = 'Space separated list of recipe names to include'
++
++SRC_EXCLUDE_NAME ?= ''
++SRC_EXCLUDE_NAME[type] = 'list'
++SRC_EXCLUDE_NAME[doc] = 'Space separated list of recipe names to exclude'
++
+ def copyleft_recipe_type(d):
+     for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+         if oe.utils.inherits(d, recipe_type):
+@@ -59,4 +67,24 @@ def copyleft_should_include(d):
+         else:
+             return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
+ 
++def should_include_src(d):
++    """
++    Determine if this recipe's source should be deployed
++    """
++    from fnmatch import fnmatchcase as fnmatch
++
++    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
++            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
++        is_included, reason = copyleft_should_include(d)
++
++    if any(fnmatch(d.getVar('PN', True), name) \
++            for name in oe.data.typed_value('SRC_INCLUDE_NAME', d)):
++        is_included, reason =  True, 'recipe included by name'
++    if any(fnmatch(d.getVar('PN', True), name) \
++            for name in oe.data.typed_value('SRC_EXCLUDE_NAME', d)):
++        is_included, reason = False, 'recipe excluded by name'
++
++    if 'reason' not in locals():
++        is_included, reason = False, 'recipe did not match any condition'
++    return is_included, reason
+ 
 -- 
+1.8.4.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
