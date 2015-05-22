@@ -1,23 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C54B17322D
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7359A73232
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 19:56:57 +0000 (UTC)
-Received: by iesa3 with SMTP id a3so38865830ies.2
+	Fri, 22 May 2015 19:56:58 +0000 (UTC)
+Received: by igbhj9 with SMTP id hj9so44954287igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 12:56:58 -0700 (PDT)
+	Fri, 22 May 2015 12:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hTdO7g57l5wTjvBkwV9ZyaEZXfhdyiqdGg5IrLnIPTo=;
-	b=Fu2Knz0+dyz9pTdtzD2zhB6BxhaVC7wAMU2FYfRM2FCPQ3HvHNN/SVLDBXTbUNlPWY
-	biSBi540g4T5VC/t88Y7P5pWMNpSqzPA4GDfM56dFPxftvTvCWPsUNQJ1JTmSneJrYHK
-	TRge97Z2B4iDXW+ATUNmgBxLHfhmIbxBX3dnTLTg8HlVhaeZaQIg/0DogxbSFyL3gPW0
-	x69kpVA9ajdSPwBuNze0XY0iR5ctd8NvCoAA66QU6yaihRIOk3OSzrm2gYJCAU/PJJiV
-	emDUQg/xvOHSZ1uK84PTT+Ay0aKGjf7QONtat/wV2am0V2MpsnQ0yuRefyCi1OgIgr1B
-	6EPA==
-X-Received: by 10.43.104.69 with SMTP id dl5mr11361710icc.94.1432324618713;
-	Fri, 22 May 2015 12:56:58 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=QMHHlQ6oG2Gq9Ap/cux3neWd3dLVnnG0ZC/a7sY+YG8=;
+	b=t+kT61ay6F2WXhC3kZEvpoj8y7c95ycX+OV+tIoKW0UMKiLwnkoOs5ATShkbJoI/ZW
+	NlQTL7VgVprIsA4sK6fg795g5OkaxOEqfxr2etW5oOvBnnDCF39OUAsFhOs/7pZ2YPp7
+	XDqFBjlBMyDxciPlED5WHsZjU6Fp3jam4E/XR0r/k73XHRYGkHR7n2pumd2sNdjTehDz
+	v2w3N9I21kmpjuwsxp6deKXhQxipnU1lkf/hMVFsqyKLyiQUFr3bx0oWEUY+OS0MRF/c
+	WYpAMci+PpBG2hF/aRpgJzyJAYRpKe32hGbHQ5whMnVJVXCWo2IxSG/fe3GxAeK6BZ6N
+	RQnA==
+X-Received: by 10.50.132.33 with SMTP id or1mr7999018igb.31.1432324619444;
+	Fri, 22 May 2015 12:56:59 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79]) by mx.google.com with ESMTPSA id
 	y124sm2508709iod.13.2015.05.22.12.56.58
@@ -25,12 +26,14 @@ Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	Fri, 22 May 2015 12:56:58 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 12:56:51 -0700
-Message-Id: <29648ea4a7ec6d1d02cca78e9268e1629ee20fe9.1432324432.git.raj.khem@gmail.com>
+Date: Fri, 22 May 2015 12:56:52 -0700
+Message-Id: <12b5a95ff9ea8e6f3ff82fa8a5426d195be128e3.1432324432.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <29648ea4a7ec6d1d02cca78e9268e1629ee20fe9.1432324432.git.raj.khem@gmail.com>
+References: <29648ea4a7ec6d1d02cca78e9268e1629ee20fe9.1432324432.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1432324432.git.raj.khem@gmail.com>
 References: <cover.1432324432.git.raj.khem@gmail.com>
-Subject: [PATCH 1/3] openssl: Fix build with gcc5 on mips64
+Subject: [PATCH 2/3] glibc: ignore for musl/uclibc but only for target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 19:56:59 -0000
+X-List-Received-Date: Fri, 22 May 2015 19:57:01 -0000
 
-Patch is submitted upstream as well
+we still need nativesdk  or native recipes for libc to come
+from glibc, but only be ignored for target recipes types
 
+Change-Id: Ibaf8114f2aef63f1eadf493b264e78cd928535a0
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ine-GCC_VERSION-macro-to-cover-upto-gcc-5.patch | 53 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
+ meta/recipes-core/glibc/glibc-collateral.inc | 3 +++
+ meta/recipes-core/glibc/glibc_2.21.bb        | 9 +++------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
-new file mode 100644
-index 0000000..46d1adf
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
-@@ -0,0 +1,53 @@
-+From 0aa68f7681a74f6ff80a80c5843bc35e5effffb9 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 22 May 2015 12:43:39 -0700
-+Subject: [PATCH] Define GCC_VERSION macro to cover upto gcc-5
-+
-+Current check is limited to gcc 4 with minor versions
-+but when we use gcc 5.1, then minor version check fails
-+with current setup and we end up with build errors like
-+
-+| In file included from bn_div.c:62:0:
-+| bn_div.c: In function 'BN_div':
-+| bn_lcl.h:311:9: error: impossible constraint in 'asm'
-+|          asm ("dmultu    %2,%3"          \
-+|          ^
-+| bn_div.c:402:13: note: in expansion of macro 'BN_UMULT_LOHI'
-+|              BN_UMULT_LOHI(t2l, t2h, d1, q);
-+|              ^
-+| <builtin>: recipe for target 'bn_div.o' failed
-+| make[2]: *** [bn_div.o] Error 1
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+---
-+Upstream-Status: [Submitted]
-+ crypto/bn/bn_lcl.h | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
-+index 196df7e..e801ba7 100644
-+--- a/crypto/bn/bn_lcl.h
-++++ b/crypto/bn/bn_lcl.h
-+@@ -118,6 +118,9 @@
-+ extern "C" {
-+ #endif
-+ 
-++#define GCC_VERSION (__GNUC__ * 10000 \
-++                     + __GNUC_MINOR__ * 100 \
-++                     + __GNUC_PATCHLEVEL__)
-+ /*-
-+  * Bignum consistency macros
-+  * There is one "API" macro, bn_fix_top(), for stripping leading zeroes from
-+@@ -443,7 +446,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
-+ #   endif
-+ #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
-+ #   if defined(__GNUC__) && __GNUC__>=2
-+-#    if __GNUC__>=4 && __GNUC_MINOR__>=4
-++#    if GCC_VERSION > 40400
-+                                      /* "h" constraint is no more since 4.4 */
-+ #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
-+ #     define BN_UMULT_LOHI(low,high,a,b) ({     \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-index 9a218be..c05be1f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-@@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://ptest-deps.patch \
-             file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-+            file://0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch \
-            "
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index f82db06..60655eb 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -17,3 +17,6 @@ do_compile[noexec] = "1"
  
- SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
+ do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
+ 
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++COMPATIBLE_HOST_libc-uclibc_class-target = "null"
++
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 0c28814..4b94cba 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -69,14 +69,11 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+ 
+ #
+-# We will skip parsing glibc when system C library selection is not glibc
++# We will skip parsing glibc when target system C library selection is not glibc
+ # this helps in easing out parsing for non-glibc system libraries
+ #
+-python __anonymous () {
+-    if d.getVar('TCLIBC', True) != "glibc":
+-        raise bb.parse.SkipPackage("incompatible with %s C library" %
+-                                   d.getVar('TCLIBC', True))
+-}
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++COMPATIBLE_HOST_libc-uclibc_class-target = "null"
+ 
+ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --without-cvs --disable-profile \
 -- 
 2.1.4
 
