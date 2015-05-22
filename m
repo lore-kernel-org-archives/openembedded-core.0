@@ -1,44 +1,34 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D9DF86AC95
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BE85D6AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 15:21:37 +0000 (UTC)
-Received: by wizk4 with SMTP id k4so51021823wiz.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 08:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KiHX5mSUqrAuViNusC5S6eUdi/P6mIuo5vzk0/sg2cc=;
-	b=OYumHvh1Ab4sJmNhMHIk5ymeg2A+fksUnPwVBcnZGI1qOS4bMgBkzlO0R5yDpbtBjV
-	evs/PnN92q8gnz5knUQscLPuO6uD7zPicjNwoazTPrJwbj+EAZztOrS5pV1yNVqvvgaA
-	0BGIO5KaxhNrf0HzoHAwLoDcrAZlJxLk3jUCMVslzZmNf6IjAaZJyDLl2qyArTjWoH/a
-	B/aSoGCqHznO1TP3sm/t1024y0q/cmr/WLJLucOJMzyowk8Vocb/zoPVSB+xIa6dxYhV
-	grlP7mTDnQw2Xm6rk1vKdUJ/lDD1gr4ZIb0ZpwU3NdSQ6iC6kGdMVFvQJed4T3CmYwJe
-	V0/g==
-X-Received: by 10.180.88.72 with SMTP id be8mr8775990wib.42.1432308098415;
-	Fri, 22 May 2015 08:21:38 -0700 (PDT)
-MIME-Version: 1.0
-Sender: vomegaz@gmail.com
-Received: by 10.28.9.73 with HTTP; Fri, 22 May 2015 08:20:57 -0700 (PDT)
-In-Reply-To: <8187173.h5mEVg1DiL@peggleto-mobl.ger.corp.intel.com>
-References: <1432289348-5624-1-git-send-email-thomas.perrot@tupi.fr>
-	<4841436.ZzPOYoFhDl@peggleto-mobl.ger.corp.intel.com>
-	<CAGXeWgn1jDsCLAA-F8zvPCZ+qyGyfQtmbwe-AvF5kAuir6Z-8w@mail.gmail.com>
-	<8187173.h5mEVg1DiL@peggleto-mobl.ger.corp.intel.com>
-From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Fri, 22 May 2015 17:20:57 +0200
-X-Google-Sender-Auth: 3BgrEq0b3kH4Rx84MmM_Au4vf-Q
-Message-ID: <CAGXeWgnekY_9WYPkFoiAgmFtvsTj7FOct9FQErFSbT6xEj3tcQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Fri, 22 May 2015 15:24:25 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 08:24:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,476,1427785200"; d="scan'208";a="497088496"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.3.49])
+	([10.252.3.49])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 08:24:25 -0700
+Message-ID: <1432308263.2882.17.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 May 2015 18:24:23 +0300
+In-Reply-To: <CAJTo0LZWra9U0Xj2fd-0oEL4=96GE9bYRJPNitd_BYjH2=TcSg@mail.gmail.com>
+References: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
+	<bbc0c5d2ae38edbfb1c0a5e0542a8f4ff99a256b.1432303757.git.tanu.kaskinen@linux.intel.com>
+	<2968009.Jcp0e3iZx0@peggleto-mobl.ger.corp.intel.com>
+	<1432306848.2882.16.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CAJTo0LZWra9U0Xj2fd-0oEL4=96GE9bYRJPNitd_BYjH2=TcSg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-serialgetty: Remove SERIAL_CONSOLE definition, because it depends of machine definition. Set it, here, can be make the value is not good.
+Subject: Re: [PATCH v2 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: thomas.perrot@tupi.fr
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -48,41 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 15:21:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 22 May 2015 15:24:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Ok, thank you for your help, so I should be a problem elsewhere.
+On Fri, 2015-05-22 at 16:18 +0100, Burton, Ross wrote:
+> 
+> On 22 May 2015 at 16:00, Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+> wrote:
+>         That sounds like a reasonable approach too. To avoid
+>         maintaining a list
+>         of all modules in the recipe, it would be good to script the
+>         dependencies:
+>         
+>         RDEPENDS_${PN} = "${@get_built_plugin_packages()}"
+>         
+>         I'm not experienced with bitbake scripting, so any pointers
+>         for
+>         implementing get_built_plugin_packages() would be helpful.
+> 
+> 
+> do_split_packages() returns a list of packages that it created,
+> gdk-pixbuf is a concise example.
 
-I thought that it was the problem because, I just replaced sysvinit by
-systemd on this build and serial console still terribly empty. I have
-checked if the serial device was well mounted and kernel cmdline was
-well formated. So I thought at an incompatibility between systemd and
-rpi recipes.
+Thanks a lot!
 
-On Fri, May 22, 2015 at 4:32 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Friday 22 May 2015 16:27:05 Thomas PERROT wrote:
->> On Fri, May 22, 2015 at 4:06 PM, Paul Eggleton <
->> paul.eggleton@linux.intel.com> wrote:
->> > On Friday 22 May 2015 15:58:58 Thomas PERROT wrote:
->> > > Sorry, I meant systemd-serialgetty.bb from meta instead of meta-systemd.
->> > > So replace "?=" by "??=" should be a better solution.
->> >
->> > You still haven't described the actual problem, because what you did
->> > describe (the machine config being overridden by this) shouldn't be
->> > possible. Again, did  you check bitbake -e systemd-serialgetty | less ?
->>
->> Attached the result of the command bitbake -e systemd-serialgetty
->
-> So from what you've just sent, the final value is "115200 ttyAMA0" which is the
-> value set by the machine config - so it seems like it's working as it should.
-> How are you determining that there is a problem?
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+-- 
+Tanu
+
+
 
