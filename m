@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9DC609B2
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id CA5CA70A7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 12:54:03 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so39631312wic.0
+	Fri, 22 May 2015 12:54:05 +0000 (UTC)
+Received: by wizk4 with SMTP id k4so46569927wiz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 05:54:04 -0700 (PDT)
+	Fri, 22 May 2015 05:54:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=nzmkMR2/EL0fvLsn86FrVb3bsboORvp6tB8DYcWv7HQ=;
-	b=YbSrwkuPOAXBYUx2tHCAFC4+Zjn5zrDlrMNV7QvyWgNkAbKin8Yn9hyLQwyp4AvSv9
-	wQNzBNOOSbaXnWDZ1PIEAu4OPKG5pEQg0Y0ifdnqDbfOPsF4ZahWXSo+ibZgiXIiL/cq
-	Khk1VJmb181VNC6zHrEHOmcSFrnseVt7JTaNn+XrtEVH8s+n2CN/zPKaNighTa6/WX2x
-	4DzqLlbFAGmBOmgepVKdmgQhrRpybaSOYFnarDrK/1TQEQf7HeyIdfcy6zPRPGm01DD5
-	YPK2AQ0MvcYf5fq+DVWhjkbUdAeiK6uP7VtHcJM83LTxVPMtUFMCcED6XDQ5OFtQn7eR
-	pi9w==
-X-Gm-Message-State: ALoCoQkrNVPa1X3cf6Rd9OOn/vxbQegiQzTAtTRNQVeQ5Hlu2BEAXjthdSdQev4RgOd6UtVeplCw
-X-Received: by 10.181.13.5 with SMTP id eu5mr7073745wid.37.1432299244249;
-	Fri, 22 May 2015 05:54:04 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=M2EvDNZyKaYZH9LwYWPUMOMrRperg+CiJxBO6tfdqkQ=;
+	b=SKuoWZBlnoMwRwHzkj2K72vUX3VGt078ylZvQC4jW1IogozVImbOWFJIjnisbTJXvb
+	Ai3ZMufVBvZLQ2qWjhB9eTfXpyEEAOM9ijKU8mHBL0UstIviuaaeh8btP3RL/2ch1zd3
+	8dHLTKvnBwQL0usPydUE7R7l0aRJuZ+tIgAetpgsElX3OWsZDQkdXiBupX+iD1v2mZN8
+	FBiPkLe7zEGKV9s1O0VmKJ+ZWjW8YSUyZi+x9M516d04sLLnBISwkhWj+0KAVvaixsSv
+	nimcsqGuNFRsq/fcONasveyZlpfITTImbV/HsfAM6+v+e427F/kujEUIlq4X9cyWcZw/
+	CiDQ==
+X-Gm-Message-State: ALoCoQnqJL74of6ETIXtxistb4XnUKe0sz0fkpniinZuSPOTiHg9kicECbxldG5BR+QNe8VNwpb9
+X-Received: by 10.180.231.41 with SMTP id td9mr7347878wic.69.1432299245403;
+	Fri, 22 May 2015 05:54:05 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id u9sm3057905wjx.15.2015.05.22.05.54.03
+	by mx.google.com with ESMTPSA id u9sm3057905wjx.15.2015.05.22.05.54.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 May 2015 05:54:03 -0700 (PDT)
+	Fri, 22 May 2015 05:54:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 13:49:40 +0100
-Message-Id: <1432298981-23473-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 22 May 2015 13:49:41 +0100
+Message-Id: <1432298981-23473-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][V2 1/2] utils: add helper to perform the intersection of two string lists
+In-Reply-To: <1432298981-23473-1-git-send-email-ross.burton@intel.com>
+References: <1432298981-23473-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH][V2 2/2] bitbake.conf: programatically generate COMBINED_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +49,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 May 2015 12:54:06 -0000
 
-Useful for e.g. generating a COMBINED_FEATURES list from DISTRO_FEATURES and
+Instead of hard-coding the set of features that can be considered in
+COMBINED_FEATURES, simply generate the intersection of DISTRO_FEATURES and
 MACHINE_FEATURES.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/utils.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/conf/bitbake.conf | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index b8224de..7173e10 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -55,6 +55,21 @@ def both_contain(variable1, variable2, checkvalue, d):
-     else:
-         return ""
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8653a7f..9c72044 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -735,17 +735,7 @@ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+ DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5"
+ MACHINE_FEATURES_BACKFILL = "rtc"
  
-+def set_intersect(variable1, variable2, d):
-+    """
-+    Expand both variables, interpret them as lists of strings, and return the
-+    intersection as a flattened string.
-+
-+    For example:
-+    s1 = "a b c"
-+    s2 = "b c d"
-+    s3 = set_intersect(s1, s2)
-+    => s3 = "b c"
-+    """
-+    val1 = set(d.getVar(variable1, True).split())
-+    val2 = set(d.getVar(variable2, True).split())
-+    return " ".join(val1 & val2)
-+
- def prune_suffix(var, suffixes, d):
-     # See if var ends with any of the suffixes listed and
-     # remove it if found
+-COMBINED_FEATURES = "\
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "alsa", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "bluetooth", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "ext2", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "vfat", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "irda", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "pcmcia", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "pci", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "usbgadget", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "usbhost", d)} \
+-    ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "wifi", d)}"
++COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
+ COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
+ 
+ SERIAL_CONSOLE ??= ""
 -- 
 2.1.4
 
