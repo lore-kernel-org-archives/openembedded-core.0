@@ -1,25 +1,23 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FAE374230
+	by mail.openembedded.org (Postfix) with ESMTP id 4A274742DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 15:26:57 +0000 (UTC)
+	Fri, 22 May 2015 15:26:58 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 22 May 2015 08:26:54 -0700
+	by orsmga102.jf.intel.com with ESMTP; 22 May 2015 08:26:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,476,1427785200"; d="scan'208";a="575483088"
+X-IronPort-AV: E=Sophos;i="5.13,476,1427785200"; d="scan'208";a="575483085"
 Received: from ihoshino-mobl.amr.corp.intel.com (HELO
 	swold-mobl.amr.corp.intel.com) ([10.255.86.199])
 	by orsmga003.jf.intel.com with ESMTP; 22 May 2015 08:26:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 08:26:48 -0700
-Message-Id: <0d17a51b8b0006b24678120f24c20cc49717ec80.1432308259.git.sgw@linux.intel.com>
+Date: Fri, 22 May 2015 08:26:46 -0700
+Message-Id: <282662bc963d23782bb7c09425fec988fd4b6a69.1432308259.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <282662bc963d23782bb7c09425fec988fd4b6a69.1432308259.git.sgw@linux.intel.com>
-References: <282662bc963d23782bb7c09425fec988fd4b6a69.1432308259.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1432308259.git.sgw@linux.intel.com>
 References: <cover.1432308259.git.sgw@linux.intel.com>
-Subject: [PATCH 3/3] npth: Upgrade to 1.2
+Subject: [PATCH 1/3] boost/bjam-native: Upgrade to 1.58.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +34,39 @@ X-List-Received-Date: Fri, 22 May 2015 15:26:58 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/npth/{npth_1.1.bb => npth_1.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/npth/{npth_1.1.bb => npth_1.2.bb} (79%)
+ .../boost/{bjam-native_1.57.0.bb => bjam-native_1.58.0.bb}            | 0
+ meta/recipes-support/boost/{boost-1.57.0.inc => boost-1.58.0.inc}     | 4 ++--
+ meta/recipes-support/boost/{boost_1.57.0.bb => boost_1.58.0.bb}       | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/boost/{bjam-native_1.57.0.bb => bjam-native_1.58.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost-1.57.0.inc => boost-1.58.0.inc} (83%)
+ rename meta/recipes-support/boost/{boost_1.57.0.bb => boost_1.58.0.bb} (100%)
 
-diff --git a/meta/recipes-support/npth/npth_1.1.bb b/meta/recipes-support/npth/npth_1.2.bb
-similarity index 79%
-rename from meta/recipes-support/npth/npth_1.1.bb
-rename to meta/recipes-support/npth/npth_1.2.bb
-index 72a194e..1b3962e 100644
---- a/meta/recipes-support/npth/npth_1.1.bb
-+++ b/meta/recipes-support/npth/npth_1.2.bb
-@@ -10,8 +10,8 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/npth/npth-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-           "
+diff --git a/meta/recipes-support/boost/bjam-native_1.57.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/bjam-native_1.57.0.bb
+rename to meta/recipes-support/boost/bjam-native_1.58.0.bb
+diff --git a/meta/recipes-support/boost/boost-1.57.0.inc b/meta/recipes-support/boost/boost-1.58.0.inc
+similarity index 83%
+rename from meta/recipes-support/boost/boost-1.57.0.inc
+rename to meta/recipes-support/boost/boost-1.58.0.inc
+index 809419d..0bae81b 100644
+--- a/meta/recipes-support/boost/boost-1.57.0.inc
++++ b/meta/recipes-support/boost/boost-1.58.0.inc
+@@ -13,7 +13,7 @@ BOOST_P = "boost_${BOOST_VER}"
  
--SRC_URI[md5sum] = "aaffc8ef3e955ab50a1905809f268a23"
--SRC_URI[sha256sum] = "896c561eb2ec8da35f11828fb04a3fbff12d41ff657c799056d7dc4a66e5df7f"
-+SRC_URI[md5sum] = "226bac7374b9466c6ec26b1c34dab844"
-+SRC_URI[sha256sum] = "6ddbdddb2cf49a4723f9d1ad6563c480d6760dcb63cb7726b8fc3bc2e1b6c08a"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
  
- BINCONFIG = "${bindir}/npth-config"
+-SRC_URI[md5sum] = "1be49befbdd9a5ce9def2983ba3e7b76"
+-SRC_URI[sha256sum] = "910c8c022a33ccec7f088bd65d4f14b466588dda94ba2124e78b8c57db264967"
++SRC_URI[md5sum] = "b8839650e61e9c1c0a89f371dd475546"
++SRC_URI[sha256sum] = "fdfc204fc33ec79c99b9a74944c3e54bd78be4f7f15e260c0e2700a36dc7d3e5"
  
+ S = "${WORKDIR}/${BOOST_P}"
+diff --git a/meta/recipes-support/boost/boost_1.57.0.bb b/meta/recipes-support/boost/boost_1.58.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/boost_1.57.0.bb
+rename to meta/recipes-support/boost/boost_1.58.0.bb
 -- 
 2.1.0
 
