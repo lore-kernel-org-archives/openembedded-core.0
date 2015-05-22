@@ -1,29 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E0983601DF
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EF083601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 14:07:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 22 May 2015 07:07:04 -0700
+	Fri, 22 May 2015 14:15:48 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 07:15:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="698901792"
-Received: from cestaunt-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.15.40])
-	by orsmga001.jf.intel.com with ESMTP; 22 May 2015 07:07:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: thomas.perrot@tupi.fr
-Date: Fri, 22 May 2015 15:06:57 +0100
-Message-ID: <4841436.ZzPOYoFhDl@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <CAGXeWgnZHt8TKxySy1TQbKBNVxYvyq0FB2A6Mt=KdAxnwvXn1g@mail.gmail.com>
-References: <1432289348-5624-1-git-send-email-thomas.perrot@tupi.fr>
-	<2176018.53hRFMtF2v@peggleto-mobl.ger.corp.intel.com>
-	<CAGXeWgnZHt8TKxySy1TQbKBNVxYvyq0FB2A6Mt=KdAxnwvXn1g@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-serialgetty: Remove SERIAL_CONSOLE definition, because it depends of machine definition. Set it, here, can be make the value is not good.
+X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="575450701"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
+	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com) ([10.252.3.49])
+	by orsmga003.jf.intel.com with ESMTP; 22 May 2015 07:15:48 -0700
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 May 2015 17:15:39 +0300
+Message-Id: <cover.1432303757.git.tanu.kaskinen@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Cc: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Subject: [PATCH v2 0/5] Enable PulseAudio in Sato images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +29,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 14:07:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 May 2015 14:15:49 -0000
 
-On Friday 22 May 2015 15:58:58 Thomas PERROT wrote:
-> Sorry, I meant systemd-serialgetty.bb from meta instead of meta-systemd.
-> So replace "?=" by "??=" should be a better solution.
+Changes in v2:
+  - Mention meta-guacamayo and meta-webos as sources in the
+    alsa-plugins patch commit message.
+  - Fixed a typo ("REDPENDS") in the pulseaudio recipe.
+  - Dropped file://${COREBASE}/LICENSE from LIC_FILES_CHKSUM in the
+    pulseaudio-client-conf-sato recipe.
+  - Inherit allarch in pulseaudio-client-conf-sato.
+  - Dropped the alsa-plugins-dev package.
+  - Added a pulseaudio patch for loading configuration fragments from
+    /etc/pulse/client.conf.d.
+  - Changed client.conf packaging so that the default version is
+    shipped in the libpulse package as before, and
+    pulseaudio-client-conf-sato installs the Sato specific
+    configuration in /etc/pulse/client.conf.d/50-sato.conf.
 
-You still haven't described the actual problem, because what you did describe 
-(the machine config being overridden by this) shouldn't be possible. Again, did 
-you check bitbake -e systemd-serialgetty | less ?
+The following changes since commit c78eb923c20533a1b9fbab462c809b2652fac425:
 
-Cheers,
-Paul
+  xvinfo: upgrade to 1.1.3 (2015-05-21 10:48:48 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib tanuk/sato-pulseaudio-v2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sato-pulseaudio-v2
+
+Tanu Kaskinen (5):
+  alsa-plugins: initial recipe
+  pulseaudio: client-conf: Add allow-autospawn-for-root
+  pulseaudio: conf-parser: add support for .d directories
+  pulseaudio-client-conf-sato: initial recipe
+  packagegroup-core-x11-sato: add PulseAudio
+
+ .../recipes-multimedia/alsa/alsa-plugins_1.0.29.bb | 100 +++++++++++
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   5 +
+ ...-client-conf-Add-allow-autospawn-for-root.patch |  92 ++++++++++
+ ...onf-parser-add-support-for-.d-directories.patch | 196 +++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |   2 +
+ .../packagegroups/packagegroup-core-x11-sato.bb    |   2 +
+ .../pulseaudio-client-conf-sato/50-sato.conf       |   7 +
+ .../pulseaudio-client-conf-sato_1.bb               |  17 ++
+ 8 files changed, 421 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-client-conf-Add-allow-autospawn-for-root.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-conf-parser-add-support-for-.d-directories.patch
+ create mode 100644 meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato/50-sato.conf
+ create mode 100644 meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
 
 -- 
+1.9.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
