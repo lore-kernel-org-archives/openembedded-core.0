@@ -1,29 +1,23 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D2416AC95
+Return-Path: <dave.lerner@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 27588742DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 15:36:23 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 08:36:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,476,1427785200"; 
-	d="scan'208,217";a="575487827"
-Received: from rrodrig1-mobl1.amr.corp.intel.com (HELO [10.252.254.238])
-	([10.252.254.238])
-	by orsmga003.jf.intel.com with ESMTP; 22 May 2015 08:36:22 -0700
-Message-ID: <555F4CF7.2030507@linux.intel.com>
-Date: Fri, 22 May 2015 10:36:23 -0500
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Fri, 22 May 2015 15:43:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4MFgxXQ024004
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 22 May 2015 08:42:59 -0700 (PDT)
+Received: from ord-dlerner-d8.wrs.com (172.25.36.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 22 May 2015 08:42:59 -0700
+From: Dave Lerner <dave.lerner@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, Saul Wold <sgw@linux.intel.com>
+Date: Fri, 22 May 2015 10:42:42 -0500
+Message-ID: <1432309362-3275-1-git-send-email-dave.lerner@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1432199284.git.alejandro.hernandez@linux.intel.com>
-	<ba1bfb4332910bd53dd08bfa81e8c240dbc1e617.1432199284.git.alejandro.hernandez@linux.intel.com>
-	<CAJTo0Lb+0izLpS5TOevHAa0QtzxnKzz60uzEGPfobp68v3t8Qw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb+0izLpS5TOevHAa0QtzxnKzz60uzEGPfobp68v3t8Qw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] python3-distribute: Upgrade to python3-setuptools 15.2
+Subject: [PATCH] valgrind: remove arm tests that don't compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,129 +30,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 15:36:23 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030003040206010109030200"
+X-List-Received-Date: Fri, 22 May 2015 15:43:09 -0000
+Content-Type: text/plain
 
---------------030003040206010109030200
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+[Yocto #7453]
+
+Corrects the original commit for the patch that removed ARM ptest CFLAGS
+settings. Since the flags could be set by a user, the flags should
+be kept in place during compilation.  By keeping the original up-stream
+CFLAGS for the tests, then additional tests successfully compile
+for all tested ARM tunings.
+
+However, there were still two tests listed below that did not compile
+for any beaglebone tuning that is valid for valgrind. With the updated
+patch, the set of excluded ARM ptests and their respective build
+failures are:
+  intdiv - fails for all beaglebone tunings with 2 errors:
+  {standard input}:(40 or 41): Error: selected processor does not
+       support Thumb mode `udiv r3,r9,r10'
+  {standard input}:(72 or 73): Error: selected processor does not
+       support Thumb mode `sdiv r3,r9,r10'
+
+  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
+  two ways:
+    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
+    without neon tuning fails with 3 errors:
+    {standard input}:33: Error: selected FPU does not support
+      instruction -- `vcvt.f32.s32 s15,s15,#1'
+    {standard input}:58: Error: selected FPU does not support
+      instruction -- `vcvt.f32.s32 s15,s15,#32'
+    {standard input}:136: Error: selected FPU does not support
+      instruction -- `vcvt.f32.u32 s15,s15,#1'
+
+After applying this commit, the valgrind ARM ptests compile without
+errors for tunings:
+  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
+where the tuning [option] was successfully compiled, both with
+and without the 'option', and in combination with all other options.
+
+Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+---
+ .../valgrind/remove-arm-variant-specific.patch     | 99 +++++++++++-----------
+ 1 file changed, 48 insertions(+), 51 deletions(-)
+
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+index f84bf9a..2319ab9 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+@@ -1,69 +1,66 @@
+-Remove tests that require thumb compiler flags
+-
+-Default compiler options for arm machines are incompatible with the
+-'-mthumb' compiler option imposed by the intdiv and lrt test
+-applications, so those two are removed from the ptest build.
++Remove arm tests that don't compile
+ 
+ Upstream-Status: Pending
+ 
++Corrects the original commit for the patch that removed ARM ptest CFLAGS
++settings. Since the flags could be set by a user, the flags should
++be kept in place during compilation.  By keeping the original up-stream
++CFLAGS for the tests, then additional tests successfully compile
++for all tested ARM tunings.
++
++However, there were still two tests listed below that did not compile
++for any beaglebone tuning that is valid for valgrind. With the updated
++patch, the set of excluded ARM ptests and their respective build
++failures are:
++  intdiv - fails for all beaglebone tunings with 2 errors:
++  {standard input}:(40 or 41): Error: selected processor does not
++       support Thumb mode `udiv r3,r9,r10'
++  {standard input}:(72 or 73): Error: selected processor does not
++       support Thumb mode `sdiv r3,r9,r10'
++
++  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
++  two ways:
++    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
++    without neon tuning fails with 3 errors:
++    {standard input}:33: Error: selected FPU does not support
++      instruction -- `vcvt.f32.s32 s15,s15,#1'
++    {standard input}:58: Error: selected FPU does not support
++      instruction -- `vcvt.f32.s32 s15,s15,#32'
++    {standard input}:136: Error: selected FPU does not support
++      instruction -- `vcvt.f32.u32 s15,s15,#1'
++
++After applying this commit, the valgrind ARM ptests compile without
++errors for tunings:
++  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
++where the tuning [option] was successfully compiled, both with
++and without the 'option', and in combination with all other options.
++
+ Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+ 
+-Index: valgrind-3.10.0/none/tests/arm/Makefile.am
++Index: valgrind-3.10.1/none/tests/arm/Makefile.am
+ ===================================================================
+---- valgrind-3.10.0.orig/none/tests/arm/Makefile.am
+-+++ valgrind-3.10.0/none/tests/arm/Makefile.am
+-@@ -17,15 +17,16 @@ EXTRA_DIST = \
++--- valgrind-3.10.1.orig/none/tests/arm/Makefile.am	2015-05-19 15:11:59.224842927 -0500
+++++ valgrind-3.10.1/none/tests/arm/Makefile.am	2015-05-19 15:14:20.808847028 -0500
++@@ -17,9 +17,13 @@
+  	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
+  	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
+  
+-+# For yocto:
+-+#  Only include tests that don't require Thumb.
+-+#  Only use CFLAGS passed in by the build system.
+-+# Some tests may fail, but all tests must compile.
+++# Remove the following tests which cause compiler errors for all tunings
+++#  available for beagle bone (see remove-arm-variant-specific.patch):
+++#	intdiv
+++#	vcvt_fixed_float_VFP
+++
+  check_PROGRAMS = \
+  	allexec \
+ -	intdiv \
+--	ldrt \
++ 	ldrt \
+  	ldrt_arm \
+  	neon128 \
+- 	neon64 \
++@@ -27,7 +31,6 @@
+  	v6intARM \
+--	v6intThumb \
++ 	v6intThumb \
+  	v6media \
+- 	vcvt_fixed_float_VFP \
++-	vcvt_fixed_float_VFP \
+  	vfp \
+-@@ -36,34 +37,3 @@ AM_CXXFLAGS  += @FLAG_M32@
+- AM_CCASFLAGS += @FLAG_M32@
++ 	vfpv4_fma
+  
+- allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
+--
+--# These two are specific to their ARM/Thumb respectively and so we
+--# hardwire -marm/-mthumb.  neon64 and neon128 are compilable on both,
+--# however, ask for them to be compiled on thumb, as that looks
+--# like that's going to be the more common use case.  They also
+--# need special helping w.r.t -mfpu and -mfloat-abi, though.
+--# Also force -O0 since -O takes hundreds of MB of memory 
+--# for v6intThumb.c.
+--v6intARM_CFLAGS   = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -marm
+--v6intThumb_CFLAGS = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
+--
+--v6media_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
+--
+--vfp_CFLAGS        = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+--			-mfpu=neon \
+--			-mthumb
+--
+--
+--neon128_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+--			-mfpu=neon \
+--			-mthumb
+--
+--neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+--			-mfpu=neon \
+--			-mthumb
+--
+--intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
+--ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
+--ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
+--
+--vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
+-- 
+1.9.1
 
 
-
-On 21/05/15 18:47, Burton, Ross wrote:
->
-> On 21 May 2015 at 10:15, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->     python3-distribute was merged back to python3-setuptools in 2013,
->     and it is no longer being maintained, this upgrade also provides
->     functionality that will be needed for python3-pip.
->
->
-> ERROR: The recipe python3-setuptools is trying to install files into a 
-> shared area when those files already exist. Those files and their 
-> manifest location are:
->  /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/site.py
->  Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
->  /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/setuptools.pth
->  Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
->  /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/__pycache__/site.cpython-34.pyc
->  Matched in manifest-intel-corei7-64-python3-distribute.populate_sysroot
->
-> Urgh, this again.  We either live with this and tell people to delete 
-> their tmp/, or bump the tmp ABI and provide a migration path.  Or 
-> improve bitbake to handle files moving between recipes in the sysroot 
-> and doing the right thing...
->
-> Ross
->
->
-I think this is because the package name is different, before it was 
-python3-distribute and now its python3-setuptools but they do install 
-the same files, so for this case in specific; a bitbake 
-python3-distribtue -c cleanall should be done befooore merging? so the 
-python3-distribute recipe actually exists or clean the /tmp manually.
-
-Alejandro
-
-
---------------030003040206010109030200
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 21/05/15 18:47, Burton, Ross wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0Lb+0izLpS5TOevHAa0QtzxnKzz60uzEGPfobp68v3t8Qw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 21 May 2015 at 10:15, Alejandro
-            Hernandez <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:alejandro.hernandez@linux.intel.com"
-                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id=":22y" class="" style="overflow:hidden">python3-distribute
-                was merged back to python3-setuptools in 2013,<br>
-                and it is no longer being maintained, this upgrade also
-                provides<br>
-                functionality that will be needed for python3-<span
-                  class="">pip</span>.</div>
-            </blockquote>
-          </div>
-          <br>
-          <div class="gmail_extra">ERROR: The recipe python3-setuptools
-            is trying to install files into a shared area when those
-            files already exist. Those files and their manifest location
-            are:</div>
-          <div class="gmail_extra"> 
- /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/site.py</div>
-          <div class="gmail_extra"> Matched in
-            manifest-intel-corei7-64-python3-distribute.populate_sysroot</div>
-          <div class="gmail_extra"> /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/setuptools.pth</div>
-          <div class="gmail_extra"> Matched in
-            manifest-intel-corei7-64-python3-distribute.populate_sysroot</div>
-          <div class="gmail_extra"> /data/poky-master/tmp/sysroots/intel-corei7-64/usr/lib/python3.4/site-packages/__pycache__/site.cpython-34.pyc</div>
-          <div class="gmail_extra"> Matched in
-            manifest-intel-corei7-64-python3-distribute.populate_sysroot</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Urgh, this again.  We either live
-            with this and tell people to delete their tmp/, or bump the
-            tmp ABI and provide a migration path.  Or improve bitbake to
-            handle files moving between recipes in the sysroot and doing
-            the right thing...</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra"><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I think this is because the package name is different, before it was
-    python3-distribute and now its python3-setuptools but they do
-    install the same files, so for this case in specific; a bitbake
-    python3-distribtue -c cleanall should be done befooore merging? so
-    the python3-distribute recipe actually exists or clean the /tmp
-    manually.<br>
-    <br>
-    Alejandro<br>
-    <br>
-  </body>
-</html>
-
---------------030003040206010109030200--
