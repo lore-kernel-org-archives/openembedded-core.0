@@ -1,29 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A2D3D73501
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CB6AF609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 12:54:10 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 22 May 2015 05:54:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,475,1427785200"; d="scan'208";a="497032504"
-Received: from cestaunt-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.15.40])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 05:54:10 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>,
-	Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 22 May 2015 13:54:09 +0100
-Message-ID: <1689615.oKpcRujCob@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <555F0396.9050301@topic.nl>
-References: <555ED05A.6050102@topic.nl>
-	<1755674.4xNgi4jax3@peggleto-mobl.ger.corp.intel.com>
-	<555F0396.9050301@topic.nl>
+	Fri, 22 May 2015 12:54:46 +0000 (UTC)
+Received: by qkdn188 with SMTP id n188so10510238qkd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 May 2015 05:54:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hnTG47rZP+TcIZLYjltz+IF5NiZ6zUUKsecPWiad6Rg=;
+	b=A5MD0/eHGS8eGUkKjkq1IymO6l+E3y/YvuJ8eI//QP9keMYZWyajAmY1N0VqnY3iNx
+	iHWWsXyLzan5pXB/25ZXKLxbAwDQcQ5GtzSE95RnkMwdpLL97nbgKwnAKTj7TPMohoOe
+	CmYRkRB8IRfFzUJoKoStZwmIolV23ABwnworIvOwZ36suSdpv1LFitJKLmWtgFtG/viR
+	RG15eIVNkC5vkFvjO3Zk6v4DRKKS8eBU46taNI702x7gGdPCNjTI48zVdmAyCf7iydVY
+	k+fNtRjfRD7XyhQu6A7GdYH2FmsN8swa9txc6fq2N3iz3dshweaCXIAkEVxR7omIFxIX
+	APpw==
+X-Gm-Message-State: ALoCoQmU8ubArx6fUyblSXDri5nr0LmLljzp+sZ1y70A26pIUEA6pHKbEtcxP9CW9ABNnj3dixV+
+X-Received: by 10.55.43.130 with SMTP id r2mr17690471qkr.14.1432299287065;
+	Fri, 22 May 2015 05:54:47 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: "packagegroup-core-qt4e" broken?
+Received: by 10.140.102.231 with HTTP; Fri, 22 May 2015 05:54:26 -0700 (PDT)
+In-Reply-To: <1432297083.4102.5.camel@workhorse.madison.systems>
+References: <1432294706-18789-1-git-send-email-ross.burton@intel.com>
+	<1432297083.4102.5.camel@workhorse.madison.systems>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 May 2015 13:54:26 +0100
+Message-ID: <CAJTo0LYKeXp-8BQWHM3biCbD=pb5DODS9vxFFYz0Pc+y4NvA+A@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] utils: add helper to perform the union of two string lists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 12:54:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 May 2015 12:54:48 -0000
+Content-Type: multipart/alternative; boundary=001a1147afb037cd020516ab2ade
 
-On Friday 22 May 2015 12:23:18 Mike Looijmans wrote:
-> On 22-05-15 10:38, Paul Eggleton wrote:
-> > Hi Mike,
-> > 
-> > On Friday 22 May 2015 08:44:42 Mike Looijmans wrote:
-> >> When building (just for having something on my display)
-> >> "qt4e-demo-image",
-> >> 
-> >> it bailed out with the following error:
-> >>    * satisfy_dependencies_for: Cannot satisfy the following dependencies
-> >>    for
-> >> 
-> >> packagegroup-core-qt4e:
-> >>    * 	qt4-embedded-plugin-phonon-backend-gstreamer *
-> >>    * opkg_install_cmd: Cannot install package packagegroup-core-qt4e.
-> >> 
-> >> I guess this is related to all the gstreamer changes lately?
-> > 
-> > I've just sent a fix for this, thanks for the report.
-> > 
-> > Cheers,
-> > Paul
-> 
-> Strange thing was, after just manually removing that package line from the
-> packagegroup-core-qt4e recipe, do_rootfs kept failing with a checksum
-> mismatch on that package. I tried cleansstate and manually removing all
-> traces of the recipe, but that didn't help, it would rebuild the ipk and
-> then still fail on the checksum. Only removing 'tmp' finally got rid of
-> this failure.
+--001a1147afb037cd020516ab2ade
+Content-Type: text/plain; charset=UTF-8
 
-To be honest I don't understand this issue but it seems to be going wrong for 
-some people lately. Paul is this something you know about?
+On 22 May 2015 at 13:18, Matt Madison <matt@madison.systems> wrote:
 
-Cheers,
-Paul
+> This function is returning the intersection of the two sets, not the
+> union.  Maybe change the name and the comment here?
+>
 
--- 
+Union, intersection, what's the difference really. ;)  V2 sent.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--001a1147afb037cd020516ab2ade
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 May 2015 at 13:18, Matt Madison <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:matt@madison.systems" target=3D"_blank">matt@madison.systems</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8r5" class=3D"a3s"=
+ style=3D"overflow:hidden">This function is returning the intersection of t=
+he two sets, not the<br>
+union.=C2=A0 Maybe change the name and the comment here?</div></blockquote>=
+<div>=C2=A0</div></div>Union, intersection, what&#39;s the difference reall=
+y. ;) =C2=A0V2 sent.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a1147afb037cd020516ab2ade--
