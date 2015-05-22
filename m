@@ -1,25 +1,27 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 641866AB99
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D3992609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 May 2015 08:37:15 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 22 May 2015 01:37:16 -0700
+	Fri, 22 May 2015 08:38:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 22 May 2015 01:38:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,474,1427785200"; d="scan'208";a="496945480"
+X-IronPort-AV: E=Sophos;i="5.13,474,1427785200"; d="scan'208";a="714124798"
 Received: from gfois-mobl2.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.27.18])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 May 2015 01:37:16 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 22 May 2015 01:38:08 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 May 2015 09:37:08 +0100
-Message-Id: <d4033cadab577972275ffc75c3351242eee90ced.1432283684.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1432283684.git.paul.eggleton@linux.intel.com>
-References: <cover.1432283684.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1432283684.git.paul.eggleton@linux.intel.com>
-References: <cover.1432283684.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] packagegroup-core-qt4e: make phonon-gstreamer plugin optional
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Fri, 22 May 2015 09:38:07 +0100
+Message-ID: <1755674.4xNgi4jax3@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <555ED05A.6050102@topic.nl>
+References: <555ED05A.6050102@topic.nl>
+MIME-Version: 1.0
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: "packagegroup-core-qt4e" broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 May 2015 08:37:15 -0000
+X-List-Received-Date: Fri, 22 May 2015 08:38:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Having disabled phonon by default in Qt4 we need to ensure this
-packagegroup is still buildable when it's not available.
+Hi Mike,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Friday 22 May 2015 08:44:42 Mike Looijmans wrote:
+> When building (just for having something on my display) "qt4e-demo-image",
+> it bailed out with the following error:
+> 
+>   * satisfy_dependencies_for: Cannot satisfy the following dependencies for
+> packagegroup-core-qt4e:
+>   * 	qt4-embedded-plugin-phonon-backend-gstreamer *
+>   * opkg_install_cmd: Cannot install package packagegroup-core-qt4e.
+> 
+> I guess this is related to all the gstreamer changes lately?
 
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-index d4f0fd1..eb5fa1f 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-+++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-@@ -36,7 +36,6 @@ RDEPENDS_${PN} = " \
- 	qt4-embedded-plugin-imageformat-svg \
- 	qt4-embedded-plugin-imageformat-tiff \
- 	qt4-embedded-plugin-mousedriver-tslib \
--	qt4-embedded-plugin-phonon-backend-gstreamer \
- 	qt4-embedded-plugin-script-dbus \
- 	qt4-embedded-plugin-sqldriver-sqlite \
- 	${TOUCH} \
-@@ -48,5 +47,6 @@ RDEPENDS_${PN} = " \
- 
- RRECOMMENDS_${PN} = " \
- 	libqt-embeddedxmlpatterns4 \
-+	qt4-embedded-plugin-phonon-backend-gstreamer \
- "
- 
+I've just sent a fix for this, thanks for the report.
+
+Cheers,
+Paul
+
 -- 
-2.1.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
