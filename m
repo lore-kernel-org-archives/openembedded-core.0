@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AB08C601DF
+	by mail.openembedded.org (Postfix) with ESMTP id 2FFBF600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 May 2015 07:16:39 +0000 (UTC)
+	Sun, 24 May 2015 06:26:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4N7FcAT013841; Sat, 23 May 2015 08:16:40 +0100
+	t4O6QC8k025611; Sun, 24 May 2015 07:26:12 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1m3Gtr9rrUVf; Sat, 23 May 2015 08:16:40 +0100 (BST)
+	with LMTP id fMDhvaCrTVdr; Sun, 24 May 2015 07:26:12 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4N7GO8l014067
+	t4O6PwNW025602
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 23 May 2015 08:16:35 +0100
-Message-ID: <1432365384.12832.53.camel@linuxfoundation.org>
+	Sun, 24 May 2015 07:26:10 +0100
+Message-ID: <1432448758.12832.67.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Sat, 23 May 2015 08:16:24 +0100
-In-Reply-To: <1432276145-31264-1-git-send-email-mike.looijmans@topic.nl>
-References: <1432276145-31264-1-git-send-email-mike.looijmans@topic.nl>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Date: Sun, 24 May 2015 07:25:58 +0100
+In-Reply-To: <e5260dbf168f3c51d9114e4c4cb1fca49abc83b1.1432320274.git.tanu.kaskinen@linux.intel.com>
+References: <cover.1432320274.git.tanu.kaskinen@linux.intel.com>
+	<e5260dbf168f3c51d9114e4c4cb1fca49abc83b1.1432320274.git.tanu.kaskinen@linux.intel.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/3] RFC: Integrating gitpkgv functionality
+Subject: Re: [PATCH v3 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 May 2015 07:16:41 -0000
+X-List-Received-Date: Sun, 24 May 2015 06:26:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-05-22 at 08:29 +0200, Mike Looijmans wrote:
-> Follow-up on the discussion here:
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100345.html
+On Fri, 2015-05-22 at 21:51 +0300, Tanu Kaskinen wrote:
+> When PulseAudio is installed, alsa-plugins is needed to provide
+> compatibility for ALSA applications.
 > 
-> This is an implementation of gitpkgv in OE-core. It modifies the fetcher
-> to optionally provide an incremental numbering scheme for GIT repositories.
+> The dependencies are set up so that pulseaudio-server depends on
+> alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends
+> on the PulseAudio plugins. This should make the ALSA->PulseAudio
+> compatibility configuration work out of the box, while leaving the
+> PulseAudio specific configuration out on systems that don't have
+> pulseaudio-server installed.
 > 
-> These three patches implement this, and provide the functionality in three stages.
-> 1 __init__.py: Allows fetchers to provide alternatives to formatting a version string.
-> 2 git.py: Implements such alternative formatting in gitpkgv style.
-> 3 bitbake.conf: Sets GITPKGV so that it becomes backwards compatible with gitpkgv.
+> The alsa-plugins recipes in meta-guacamayo and meta-webos were used as
+> references, but this recipe is not a straight copy of either.
 > 
-> v2: Rebased and added bitbake.conf patch to set GITPKGV
-> 
-> Mike Looijmans (3):
->   fetch2/__init__.py: Make get_srcrev output configurable
->   fetch2/git.py: Add gitpkgv_revision alternative version information
->   bitbake.conf: Set GITPKGV variable
+> Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 
-FWIW this looks quite neat to me, thanks!
+FWIW this new recipe failed on the autobuilder when it was tested in a
+multilib build:
+
+ERROR: QA Issue: lib32-alsa-plugins: Files/directories were installed
+but not shipped in any package:
+  /usr/lib32/alsa-lib/libasound_module_rate_speexrate_medium.so
+  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_order.so
+  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_medium.so
+  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_best.so
+  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_linear.so
+  /usr/lib32/alsa-lib/libasound_module_rate_speexrate_best.so
+Please set FILES such that these items are packaged. Alternatively if
+they are unneeded, avoid installing them or delete them within
+do_install. [installed-vs-shipped]
+
+I created a follow up patch:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=bd4f5e346550f961f7a1056661f9b9fefdc8fff6
+
+which fixed this and meant to merge it immediately after your commit
+however it looks like I squashed the patches accidentally. In comes down
+to the class extension code not being able to rewrite entries from
+PACKAGES_DYNAMIC.
 
 Cheers,
 
