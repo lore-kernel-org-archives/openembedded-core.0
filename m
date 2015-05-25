@@ -1,28 +1,23 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 377417066B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A810373231
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 May 2015 02:18:50 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="95677780"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 25 May 2015 10:23:18 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t4P2HM0F018459
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 May 2015 10:17:22 +0800
-Received: from localhost.localdomain (10.167.226.25) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 25 May 2015 10:18:49 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
+	Mon, 25 May 2015 05:07:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4P57MTc021936
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 24 May 2015 22:07:22 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Sun, 24 May 2015 22:07:21 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 May 2015 10:18:43 +0800
-Message-ID: <1432520323-2038-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+Date: Mon, 25 May 2015 13:01:54 +0800
+Message-ID: <1432530114-18270-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.25]
-Subject: [PATCH v2] grep: Fix LSB NG Cases for gplv2 version.
+Subject: [PATCH v3] apt: upgrade to 1.0.9.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,1395 +30,970 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 May 2015 02:18:53 -0000
+X-List-Received-Date: Mon, 25 May 2015 05:07:23 -0000
 Content-Type: text/plain
 
--/tset/LI18NUX2K.L1/utils/egrep-tp/T.egrep-tp 5
--/tset/LI18NUX2K.L1/utils/fgrep/T.fgrep 5
--/tset/LI18NUX2K.L1/utils/grep-tp/T.grep-tp 5
+From: Roy Li <rongqing.li@windriver.com>
 
-The LSB core test requires grep egrep and fgrep can
-perform pattern matching in searches without regard
-to case if -i option is specified.
+1. Upgrade to fix the several CVEs: CVE-2014-0488, CVE-2014-0490
+2. Remove apt-0.9.9.4-CVE-2014-0478.patch, which was backport.
+3. Romve no-ko-translation.patch, apt-1.0.9.9 has ko translation
+4. Update use-host.patch no-curl.patch db_linking_hack.patch and
+noconfigure.patch
+5. Not build the test cases since it requires gtest
+6. install libapt-private.so.* to libdir, otherwise this file is
+not installed into sysroot for native, and apt-get will use host's,
+and lead to fail
+7. Revert apt commit[a2a75ff45]"always run 'dpkg --configure -a'
+at the end of our dpkg callings" for native package, otherwise
+the postscript for these installed packages will be run, and fail
+since the rootfs dir is not considered
+8. Add lzma dependency by PACKAGECONFIG for target, and add xz
+dependency for native
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../grep-egrep-fgrep-Fix-LSB-NG-cases.patch        | 1342 ++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.5.1a.bb          |    4 +-
- 2 files changed, 1345 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep-egrep-fgrep-Fix-LSB-NG-cases.patch
+ .../apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch    | 193 -----------
+ .../apt/apt-0.9.9.4/no-ko-translation.patch        |  11 -
+ ...ys-run-dpkg-configure-a-at-the-end-of-our.patch | 378 +++++++++++++++++++++
+ .../disable-configure-in-makefile.patch            |   0
+ .../apt/apt-1.0.9.9/disable-test.patch             |  58 ++++
+ .../fix-gcc-4.6-null-not-defined.patch             |   0
+ .../{apt-0.9.9.4 => apt-1.0.9.9}/makerace.patch    |   0
+ .../{apt-0.9.9.4 => apt-1.0.9.9}/no-nls-dpkg.patch |   0
+ .../{apt-0.9.9.4 => apt-1.0.9.9}/noconfigure.patch |  17 +-
+ .../apt/{apt-0.9.9.4 => apt-1.0.9.9}/nodoc.patch   |   0
+ .../truncate-filename.patch                        |   0
+ .../{apt-0.9.9.4 => apt-1.0.9.9}/use-host.patch    |   6 +-
+ meta/recipes-devtools/apt/apt-native.inc           |   8 +-
+ ...apt-native_0.9.9.4.bb => apt-native_1.0.9.9.bb} |   4 +-
+ meta/recipes-devtools/apt/apt.inc                  |   7 +-
+ .../apt/{apt_0.9.9.4.bb => apt_1.0.9.9.bb}         |   5 +-
+ .../apt/files/db_linking_hack.patch                |   6 +-
+ meta/recipes-devtools/apt/files/no-curl.patch      |   8 +-
+ 18 files changed, 470 insertions(+), 231 deletions(-)
+ delete mode 100644 meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
+ delete mode 100644 meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
+ create mode 100644 meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/disable-configure-in-makefile.patch (100%)
+ create mode 100644 meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/fix-gcc-4.6-null-not-defined.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/makerace.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/no-nls-dpkg.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/noconfigure.patch (54%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/nodoc.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/truncate-filename.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-1.0.9.9}/use-host.patch (84%)
+ rename meta/recipes-devtools/apt/{apt-native_0.9.9.4.bb => apt-native_1.0.9.9.bb} (55%)
+ rename meta/recipes-devtools/apt/{apt_0.9.9.4.bb => apt_1.0.9.9.bb} (67%)
 
-diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep-egrep-fgrep-Fix-LSB-NG-cases.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep-egrep-fgrep-Fix-LSB-NG-cases.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch b/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
+deleted file mode 100644
+index 79a6897..0000000
+--- a/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
++++ /dev/null
+@@ -1,193 +0,0 @@
+-This patch comes from:
+-https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=73;filename=apt_0.9.7.9%2Bdeb7u2.debdiff;att=1;bug=749795
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+-
+-diff -uarN apt-0.9.9.4-org/cmdline/apt-get.cc apt-0.9.9.4/cmdline/apt-get.cc
+---- apt-0.9.9.4-org/cmdline/apt-get.cc	2014-08-29 15:37:42.587156134 +0800
+-+++ apt-0.9.9.4/cmdline/apt-get.cc	2014-08-29 15:51:16.672334086 +0800
+-@@ -1046,25 +1046,8 @@
+-    return true;
+- }
+- 									/*}}}*/
+--// CheckAuth - check if each download comes form a trusted source	/*{{{*/
+--// ---------------------------------------------------------------------
+--/* */
+--static bool CheckAuth(pkgAcquire& Fetcher)
+-+static bool AuthPrompt(std::string UntrustedList, bool const PromptUser)
+- {
+--   string UntrustedList;
+--   for (pkgAcquire::ItemIterator I = Fetcher.ItemsBegin(); I < Fetcher.ItemsEnd(); ++I)
+--   {
+--      if (!(*I)->IsTrusted())
+--      {
+--         UntrustedList += string((*I)->ShortDesc()) + " ";
+--      }
+--   }
+--
+--   if (UntrustedList == "")
+--   {
+--      return true;
+--   }
+--        
+-    ShowList(c2out,_("WARNING: The following packages cannot be authenticated!"),UntrustedList,"");
+- 
+-    if (_config->FindB("APT::Get::AllowUnauthenticated",false) == true)
+-@@ -1073,6 +1056,9 @@
+-       return true;
+-    }
+- 
+-+   if (PromptUser == false)
+-+      return _error->Error(_("Some packages could not be authenticated"));
+-+
+-    if (_config->FindI("quiet",0) < 2
+-        && _config->FindB("APT::Get::Assume-Yes",false) == false)
+-    {
+-@@ -1090,6 +1076,28 @@
+-    return _error->Error(_("There are problems and -y was used without --force-yes"));
+- }
+- 									/*}}}*/
+-+// CheckAuth - check if each download comes form a trusted source	/*{{{*/
+-+// ---------------------------------------------------------------------
+-+/* */
+-+static bool CheckAuth(pkgAcquire& Fetcher, bool PromptUser=true)
+-+{
+-+   string UntrustedList;
+-+   for (pkgAcquire::ItemIterator I = Fetcher.ItemsBegin(); I < Fetcher.ItemsEnd(); ++I)
+-+   {
+-+      if (!(*I)->IsTrusted())
+-+      {
+-+         UntrustedList += string((*I)->ShortDesc()) + " ";
+-+      }
+-+   }
+-+
+-+   if (UntrustedList == "")
+-+   {
+-+      return true;
+-+   }
+-+
+-+   return AuthPrompt(UntrustedList, PromptUser);
+-+}
+-+
+- // InstallPackages - Actually download and install the packages		/*{{{*/
+- // ---------------------------------------------------------------------
+- /* This displays the informative messages describing what is going to 
+-@@ -2482,6 +2490,7 @@
+- 
+-    // Load the requestd sources into the fetcher
+-    unsigned J = 0;
+-+   std::string UntrustedList;
+-    for (const char **I = CmdL.FileList + 1; *I != 0; I++, J++)
+-    {
+-       string Src;
+-@@ -2491,7 +2500,10 @@
+- 	 delete[] Dsc;
+- 	 return _error->Error(_("Unable to find a source package for %s"),Src.c_str());
+-       }
+--      
+-+     
+-+      if (Last->Index().IsTrusted() == false)
+-+         UntrustedList += Src + " ";
+-+ 
+-       string srec = Last->AsStr();
+-       string::size_type pos = srec.find("\nVcs-");
+-       while (pos != string::npos)
+-@@ -2575,7 +2587,11 @@
+- 			Last->Index().SourceInfo(*Last,*I),Src);
+-       }
+-    }
+--   
+-+
+-+   // check authentication status of the source as well
+-+   if (UntrustedList != "" && !AuthPrompt(UntrustedList, false))
+-+      return false;  
+-+ 
+-    // Display statistics
+-    unsigned long long FetchBytes = Fetcher.FetchNeeded();
+-    unsigned long long FetchPBytes = Fetcher.PartialPresent();
+-diff -uarN apt-0.9.9.4-org/test/integration/framework apt-0.9.9.4/test/integration/framework
+---- apt-0.9.9.4-org/test/integration/framework	2014-08-29 15:37:42.623156154 +0800
+-+++ apt-0.9.9.4/test/integration/framework	2014-08-29 15:55:23.592197940 +0800
+-@@ -151,7 +151,7 @@
+- 	mkdir rootdir aptarchive keys
+- 	cd rootdir
+- 	mkdir -p etc/apt/apt.conf.d etc/apt/sources.list.d etc/apt/trusted.gpg.d etc/apt/preferences.d
+--	mkdir -p var/cache var/lib var/log
+-+	mkdir -p var/cache var/lib var/log tmp
+- 	mkdir -p var/lib/dpkg/info var/lib/dpkg/updates var/lib/dpkg/triggers
+- 	touch var/lib/dpkg/available
+- 	mkdir -p usr/lib/apt
+-@@ -910,3 +910,35 @@
+- 	local IGNORE
+- 	read IGNORE
+- }
+-+
+-+testsuccess() {
+-+	if [ "$1" = '--nomsg' ]; then
+-+		shift
+-+	else
+-+		msgtest 'Test for successful execution of' "$*"
+-+	fi
+-+	local OUTPUT="${TMPWORKINGDIRECTORY}/rootdir/tmp/testsuccess.output"
+-+	if $@ >${OUTPUT} 2>&1; then
+-+		msgpass
+-+	else
+-+		echo >&2
+-+		cat >&2 $OUTPUT
+-+		msgfail
+-+	fi
+-+}
+-+
+-+testfailure() {
+-+	if [ "$1" = '--nomsg' ]; then
+-+		shift
+-+	else
+-+		msgtest 'Test for failure in execution of' "$*"
+-+	fi
+-+	local OUTPUT="${TMPWORKINGDIRECTORY}/rootdir/tmp/testfailure.output"
+-+	if $@ >${OUTPUT} 2>&1; then
+-+		echo >&2
+-+		cat >&2 $OUTPUT
+-+		msgfail
+-+	else
+-+		msgpass
+-+	fi
+-+}
+-diff -uarN apt-0.9.9.4-org/test/integration/test-apt-get-source-authenticated apt-0.9.9.4/test/integration/test-apt-get-source-authenticated
+---- apt-0.9.9.4-org/test/integration/test-apt-get-source-authenticated	1970-01-01 08:00:00.000000000 +0800
+-+++ apt-0.9.9.4/test/integration/test-apt-get-source-authenticated	2014-08-29 15:58:06.137156796 +0800
+-@@ -0,0 +1,31 @@
+-+#!/bin/sh
+-+#
+-+# Regression test for debian bug #749795. Ensure that we fail with
+-+# a error if apt-get source foo will download a source that comes
+-+# from a unauthenticated repository
+-+#
+-+set -e
+-+
+-+TESTDIR=$(readlink -f $(dirname $0))
+-+. $TESTDIR/framework
+-+
+-+setupenvironment
+-+configarchitecture "i386"
+-+
+-+# a "normal" package with source and binary
+-+buildsimplenativepackage 'foo' 'all' '2.0'
+-+
+-+setupaptarchive --no-update
+-+
+-+APTARCHIVE=$(readlink -f ./aptarchive)
+-+rm -f $APTARCHIVE/dists/unstable/*Release*
+-+
+-+# update without authenticated InRelease file
+-+testsuccess aptget update
+-+
+-+# this all should fail
+-+testfailure aptget install -y foo
+-+testfailure aptget source foo
+-+
+-+# allow overriding the warning
+-+testsuccess aptget source --allow-unauthenticated foo
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
+deleted file mode 100644
+index 7aa408f..0000000
+--- a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+----
+- po/LINGUAS |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+---- a/po/LINGUAS
+-+++ b/po/LINGUAS
+-@@ -1 +1 @@
+--ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ko ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
+-+ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
+diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
 new file mode 100644
-index 0000000..327ee56
+index 0000000..d33069b
 --- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.5.1a/grep-egrep-fgrep-Fix-LSB-NG-cases.patch
-@@ -0,0 +1,1342 @@
-+From c884dd12ec062569335702848fc5f29f436c28fa Mon Sep 17 00:00:00 2001
-+From: Li xin <lixin.fnst@cn.fujitsu.com>
-+Date: Mon, 25 May 2015 10:15:57 +0900
-+Subject: [PATCH] grep egrep fgrep: Fix LSB NG cases.
++++ b/meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+@@ -0,0 +1,378 @@
++From 106797f1c66fa578dad21fd9380bf9d576573dfd Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Fri, 22 May 2015 08:05:15 +0800
++Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
++ dpkg callings"
 +
-+The LSB core test requires grep egrep and fgrep can
-+perform pattern matching in searches without regard
-+to case if -i option is specified.
++Upstream-Status: Inappropriate [embedded specific]
 +
-+Upstream-Status: backport.
++This reverts commit a2a75ff4516f7609f4c55b42270abb8d08943c60, which
++always run 'dpkg --configure -a' at the end of our dpkg callings,
++but it does not work for cross-compile, since the rootfs dir can not
++be passed into dpkg, and lead to the below similar error:
++   -------
++   |mkdir: cannot create directory '/usr/lib/opkg': Permission denied
++   -------
 +
-+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
 +---
-+ lib/posix/regex.h |   4 +
-+ src/dfa.c         |  22 +-
-+ src/grep.c        |  96 ++++---
-+ src/search.c      | 833 +++++++++++++++++++++++++++++++++++++++++++++---------
-+ 4 files changed, 768 insertions(+), 187 deletions(-)
++ apt-pkg/deb/dpkgpm.cc                              |  9 +--
++ test/integration/framework                         | 25 ++++----
++ test/integration/test-apt-progress-fd              | 67 +++++++++----------
++ test/integration/test-apt-progress-fd-deb822       | 18 ++----
++ test/integration/test-apt-progress-fd-error        |  2 +-
++ ...est-bug-769609-triggers-still-pending-after-run | 75 ----------------------
++ .../test-no-fds-leaked-to-maintainer-scripts       |  6 +-
++ 7 files changed, 56 insertions(+), 146 deletions(-)
++ delete mode 100755 test/integration/test-bug-769609-triggers-still-pending-after-run
 +
-+diff --git a/lib/posix/regex.h b/lib/posix/regex.h
-+index 63c2fef..7bb2b0e 100644
-+--- a/lib/posix/regex.h
-++++ b/lib/posix/regex.h
-+@@ -109,6 +109,10 @@ typedef unsigned long int reg_syntax_t;
-+    If not set, \{, \}, {, and } are literals.  */
-+ #define RE_INTERVALS (RE_HAT_LISTS_NOT_NEWLINE << 1)
++diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
++index b187efb..f269764 100644
++--- a/apt-pkg/deb/dpkgpm.cc
+++++ b/apt-pkg/deb/dpkgpm.cc
++@@ -1049,12 +1049,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
++ 	 PackagesTotal++;
++       }
++    }
++-   /* one extra: We don't want the progress bar to reach 100%, especially not
++-      if we call dpkg --configure --pending and process a bunch of triggers
++-      while showing 100%. Also, spindown takes a while, so never reaching 100%
++-      is way more correct than reaching 100% while still doing stuff even if
++-      doing it this way is slightly bending the rules */
++-   ++PackagesTotal;
++ }
++                                                                         /*}}}*/
++ #if (APT_PKG_MAJOR >= 4 && APT_PKG_MINOR < 13)
++@@ -1294,8 +1288,9 @@ bool pkgDPkgPM::GoNoABIBreak(APT::Progress::PackageManager *progress)
 + 
-++/* If this bit is set, then ignore case when matching.
-++   If not set, then case is significant.  */
-++#define RE_ICASE (RE_INVALID_INTERVAL_ORD << 1)
-++
-+ /* If this bit is set, +, ? and | aren't recognized as operators.
-+    If not set, they are.  */
-+ #define RE_LIMITED_OPS (RE_INTERVALS << 1)
-+diff --git a/src/dfa.c b/src/dfa.c
-+index 590bfa7..27c876a 100644
-+--- a/src/dfa.c
-++++ b/src/dfa.c
-+@@ -414,7 +414,7 @@ update_mb_len_index (unsigned char const *p, int len)
++    // support subpressing of triggers processing for special
++    // cases like d-i that runs the triggers handling manually
+++   bool const SmartConf = (_config->Find("PackageManager::Configure", "all") != "all");
++    bool const TriggersPending = _config->FindB("DPkg::TriggersPending", false);
++-   if (_config->FindB("DPkg::ConfigurePending", true) == true)
+++   if (_config->FindB("DPkg::ConfigurePending", SmartConf) == true)
++       List.push_back(Item(Item::ConfigurePending, PkgIterator()));
 + 
-+ /* This function fetch a wide character, and update cur_mb_len,
-+    used only if the current locale is a multibyte environment.  */
-+-static wchar_t
-++static wint_t
-+ fetch_wc (char const *eoferr)
-+ {
-+   wchar_t wc;
-+@@ -423,7 +423,7 @@ fetch_wc (char const *eoferr)
-+       if (eoferr != 0)
-+ 	dfaerror (eoferr);
-+       else
-+-	return -1;
-++	return WEOF;
-+     }
-+ 
-+   cur_mb_len = mbrtowc(&wc, lexptr, lexleft, &mbs);
-+@@ -459,7 +459,7 @@ fetch_wc (char const *eoferr)
-+ static void
-+ parse_bracket_exp_mb ()
-+ {
-+-  wchar_t wc, wc1, wc2;
-++  wint_t wc, wc1, wc2;
-+ 
-+   /* Work area to build a mb_char_classes.  */
-+   struct mb_char_classes *work_mbc;
-+@@ -496,7 +496,7 @@ parse_bracket_exp_mb ()
-+     work_mbc->invert = 0;
-+   do
-+     {
-+-      wc1 = -1; /* mark wc1 is not initialized".  */
-++      wc1 = WEOF; /* mark wc1 is not initialized".  */
-+ 
-+       /* Note that if we're looking at some other [:...:] construct,
-+ 	 we just treat it as a bunch of ordinary characters.  We can do
-+@@ -586,7 +586,7 @@ parse_bracket_exp_mb ()
-+ 		      work_mbc->coll_elems[work_mbc->ncoll_elems++] = elem;
-+ 		    }
-+  		}
-+-	      wc = -1;
-++	      wc1 = wc = WEOF;
-+ 	    }
-+ 	  else
-+ 	    /* We treat '[' as a normal character here.  */
-+@@ -600,7 +600,7 @@ parse_bracket_exp_mb ()
-+ 	    wc = fetch_wc(("Unbalanced ["));
-+ 	}
-+ 
-+-      if (wc1 == -1)
-++      if (wc1 == WEOF)
-+ 	wc1 = fetch_wc(_("Unbalanced ["));
-+ 
-+       if (wc1 == L'-')
-+@@ -630,17 +630,17 @@ parse_bracket_exp_mb ()
-+ 	    }
-+ 	  REALLOC_IF_NECESSARY(work_mbc->range_sts, wchar_t,
-+ 			       range_sts_al, work_mbc->nranges + 1);
-+-	  work_mbc->range_sts[work_mbc->nranges] = wc;
-++	  work_mbc->range_sts[work_mbc->nranges] = (wchar_t)wc;
-+ 	  REALLOC_IF_NECESSARY(work_mbc->range_ends, wchar_t,
-+ 			       range_ends_al, work_mbc->nranges + 1);
-+-	  work_mbc->range_ends[work_mbc->nranges++] = wc2;
-++	  work_mbc->range_ends[work_mbc->nranges++] = (wchar_t)wc2;
-+ 	}
-+-      else if (wc != -1)
-++      else if (wc != WEOF)
-+ 	/* build normal characters.  */
-+ 	{
-+ 	  REALLOC_IF_NECESSARY(work_mbc->chars, wchar_t, chars_al,
-+ 			       work_mbc->nchars + 1);
-+-	  work_mbc->chars[work_mbc->nchars++] = wc;
-++	  work_mbc->chars[work_mbc->nchars++] = (wchar_t)wc;
-+ 	}
-+     }
-+   while ((wc = wc1) != L']');
-+@@ -2552,6 +2552,8 @@ match_mb_charset (struct dfa *d, int s, position pos, int index)
-+     }
-+ 
-+   /* match with a character?  */
-++  if (case_fold)
-++    wc = towlower (wc);
-+   for (i = 0; i<work_mbc->nchars; i++)
-+     {
-+       if (wc == work_mbc->chars[i])
-+diff --git a/src/grep.c b/src/grep.c
-+index 2fb2fac..3fd4b47 100644
-+--- a/src/grep.c
-++++ b/src/grep.c
-+@@ -30,6 +30,12 @@
-+ # include <sys/time.h>
-+ # include <sys/resource.h>
-+ #endif
-++#if defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H && defined HAVE_MBRTOWC
-++/* We can handle multibyte string.  */
-++# define MBS_SUPPORT
-++# include <wchar.h>
-++# include <wctype.h>
-++#endif
-+ #include <stdio.h>
-+ #include "system.h"
-+ #include "getopt.h"
-+@@ -255,19 +261,6 @@ reset (int fd, char const *file, struct stats *stats)
-+   bufbeg[-1] = eolbyte;
-+   bufdesc = fd;
-+ 
-+-  if (fstat (fd, &stats->stat) != 0)
-+-    {
-+-      error (0, errno, "fstat");
-+-      return 0;
-+-    }
-+-  if (directories == SKIP_DIRECTORIES && S_ISDIR (stats->stat.st_mode))
-+-    return 0;
-+-#ifndef DJGPP
-+-  if (devices == SKIP_DEVICES && (S_ISCHR(stats->stat.st_mode) || S_ISBLK(stats->stat.st_mode) || S_ISSOCK(stats->stat.st_mode)))
-+-#else
-+-  if (devices == SKIP_DEVICES && (S_ISCHR(stats->stat.st_mode) || S_ISBLK(stats->stat.st_mode)))
-+-#endif
-+-    return 0;
-+   if (S_ISREG (stats->stat.st_mode))
-+     {
-+       if (file)
-+@@ -558,33 +551,6 @@ prline (char const *beg, char const *lim, int sep)
-+     {
-+       size_t match_size;
-+       size_t match_offset;
-+-      if(match_icase)
-+-        {
-+-	  /* Yuck, this is tricky */
-+-          char *buf = (char*) xmalloc (lim - beg);
-+-	  char *ibeg = buf;
-+-	  char *ilim = ibeg + (lim - beg);
-+-	  int i;
-+-	  for (i = 0; i < lim - beg; i++)
-+-	    ibeg[i] = tolower (beg[i]);
-+-	  while ((match_offset = (*execute) (ibeg, ilim-ibeg, &match_size, 1))
-+-		 != (size_t) -1)
-+-	    {
-+-	      char const *b = beg + match_offset;
-+-	      if (b == lim)
-+-		break;
-+-	      fwrite (beg, sizeof (char), match_offset, stdout);
-+-	      printf ("\33[%sm", grep_color);
-+-	      fwrite (b, sizeof (char), match_size, stdout);
-+-	      fputs ("\33[00m", stdout);
-+-	      beg = b + match_size;
-+-	      ibeg = ibeg + match_offset + match_size;
-+-	    }
-+-	  fwrite (beg, 1, lim - beg, stdout);
-+-	  free (buf);
-+-	  lastout = lim;
-+-	  return;
-+-	}
-+       while (lim-beg && (match_offset = (*execute) (beg, lim - beg, &match_size, 1))
-+ 	     != (size_t) -1)
-+ 	{
-+@@ -601,6 +567,7 @@ prline (char const *beg, char const *lim, int sep)
-+ 	  fputs ("\33[00m", stdout);
-+ 	  beg = b + match_size;
-+ 	}
-++      fputs ("\33[K", stdout);
-+     }
-+   fwrite (beg, 1, lim - beg, stdout);
-+   if (ferror (stdout))
-+@@ -623,7 +590,7 @@ prpending (char const *lim)
-+       size_t match_size;
-+       --pending;
-+       if (outleft
-+-	  || (((*execute) (lastout, nl - lastout, &match_size, 0) == (size_t) -1)
-++	  || (((*execute) (lastout, nl + 1 - lastout, &match_size, 0) == (size_t) -1)
-+ 	      == !out_invert))
-+ 	prline (lastout, nl + 1, '-');
-+       else
-+@@ -895,6 +862,19 @@ grepfile (char const *file, struct stats *stats)
-+     }
-+   else
-+     {
-++      if (stat (file, &stats->stat) != 0)
-++        {
-++          suppressible_error (file, errno);
-++          return 1;
-++        }
-++      if (directories == SKIP_DIRECTORIES && S_ISDIR (stats->stat.st_mode))
-++        return 1;
-++#ifndef DJGPP
-++      if (devices == SKIP_DEVICES && (S_ISCHR(stats->stat.st_mode) || S_ISBLK(stats->stat.st_mode) || S_ISSOCK(stats->stat.st_mode) || S_ISFIFO(stats->stat.st_mode)))
-++#else
-++      if (devices == SKIP_DEVICES && (S_ISCHR(stats->stat.st_mode) || S_ISBLK(stats->stat.st_mode)))
-++#endif
-++        return 1;
-+       while ((desc = open (file, O_RDONLY)) < 0 && errno == EINTR)
-+ 	continue;
-+ 
-+@@ -1681,9 +1661,6 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))
-+ 	  out_invert ^= 1;
-+ 	  match_lines = match_words = 0;
-+ 	}
-+-      else
-+-	/* Strip trailing newline. */
-+-        --keycc;
-+     }
-+   else
-+     if (optind < argc)
-+@@ -1697,6 +1674,37 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))
-+   if (!install_matcher (matcher) && !install_matcher ("default"))
-+     abort ();
-+ 
-++#ifdef MBS_SUPPORT
-++  if (MB_CUR_MAX != 1 && match_icase)
-++    {
-++      wchar_t wc;
-++      mbstate_t cur_state, prev_state;
-++      int i, len = strlen(keys);
-++
-++      memset(&cur_state, 0, sizeof(mbstate_t));
-++      for (i = 0; i <= len ;)
-++	{
-++	  size_t mbclen;
-++	  mbclen = mbrtowc(&wc, keys + i, len - i, &cur_state);
-++	  if (mbclen == (size_t) -1 || mbclen == (size_t) -2 || mbclen == 0)
-++	    {
-++	      /* An invalid sequence, or a truncated multibyte character.
-++		 We treat it as a singlebyte character.  */
-++	      mbclen = 1;
-++	    }
-++	  else
-++	    {
-++	      if (iswupper((wint_t)wc))
-++		{
-++		  wc = towlower((wint_t)wc);
-++		  wcrtomb(keys + i, wc, &cur_state);
-++		}
-++	    }
-++	  i += mbclen;
-++	}
-++    }
-++#endif /* MBS_SUPPORT */
-++
-+   (*compile)(keys, keycc);
-+ 
-+   if ((argc - optind > 1 && !no_filenames) || with_filenames)
-+diff --git a/src/search.c b/src/search.c
-+index 7bd233f..3c6a485 100644
-+--- a/src/search.c
-++++ b/src/search.c
-+@@ -18,9 +18,13 @@
-+ 
-+ /* Written August 1992 by Mike Haertel. */
-+ 
-++#ifndef _GNU_SOURCE
-++# define _GNU_SOURCE 1
-++#endif
-+ #ifdef HAVE_CONFIG_H
-+ # include <config.h>
-+ #endif
-++#include <assert.h>
-+ #include <sys/types.h>
-+ #if defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H && defined HAVE_MBRTOWC
-+ /* We can handle multibyte string.  */
-+@@ -31,7 +35,7 @@
-+ 
-+ #include "system.h"
-+ #include "grep.h"
-+-#include "regex.h"
-++#include <regex.h>
-+ #include "dfa.h"
-+ #include "kwset.h"
-+ #include "error.h"
-+@@ -39,6 +43,9 @@
-+ #ifdef HAVE_LIBPCRE
-+ # include <pcre.h>
-+ #endif
-++#ifdef HAVE_LANGINFO_CODESET
-++# include <langinfo.h>
-++#endif
-+ 
-+ #define NCHAR (UCHAR_MAX + 1)
-+ 
-+@@ -70,9 +77,10 @@ static kwset_t kwset;
-+    call the regexp matcher at all. */
-+ static int kwset_exact_matches;
-+ 
-+-#if defined(MBS_SUPPORT)
-+-static char* check_multibyte_string PARAMS ((char const *buf, size_t size));
-+-#endif
-++/* UTF-8 encoding allows some optimizations that we can't otherwise
-++   assume in a multibyte encoding. */
-++static int using_utf8;
-++
-+ static void kwsinit PARAMS ((void));
-+ static void kwsmusts PARAMS ((void));
-+ static void Gcompile PARAMS ((char const *, size_t));
-+@@ -84,6 +92,15 @@ static void Pcompile PARAMS ((char const *, size_t ));
-+ static size_t Pexecute PARAMS ((char const *, size_t, size_t *, int));
-+ 
-+ void
-++check_utf8 (void)
-++{
-++#ifdef HAVE_LANGINFO_CODESET
-++  if (strcmp (nl_langinfo (CODESET), "UTF-8") == 0)
-++    using_utf8 = 1;
-++#endif
-++}
-++
-++void
-+ dfaerror (char const *mesg)
-+ {
-+   error (2, 0, mesg);
-+@@ -141,38 +158,6 @@ kwsmusts (void)
-+     }
++    // for the progress
++diff --git a/test/integration/framework b/test/integration/framework
++index 70ad381..00672ad 100644
++--- a/test/integration/framework
+++++ b/test/integration/framework
++@@ -1178,13 +1178,10 @@ testnopackage() {
++ 	fi
 + }
 + 
-+-#ifdef MBS_SUPPORT
-+-/* This function allocate the array which correspond to "buf".
-+-   Then this check multibyte string and mark on the positions which
-+-   are not singlebyte character nor the first byte of a multibyte
-+-   character.  Caller must free the array.  */
-+-static char*
-+-check_multibyte_string(char const *buf, size_t size)
-+-{
-+-  char *mb_properties = malloc(size);
-+-  mbstate_t cur_state;
-+-  int i;
-+-  memset(&cur_state, 0, sizeof(mbstate_t));
-+-  memset(mb_properties, 0, sizeof(char)*size);
-+-  for (i = 0; i < size ;)
-+-    {
-+-      size_t mbclen;
-+-      mbclen = mbrlen(buf + i, size - i, &cur_state);
-+-
-+-      if (mbclen == (size_t) -1 || mbclen == (size_t) -2 || mbclen == 0)
-+-	{
-+-	  /* An invalid sequence, or a truncated multibyte character.
-+-	     We treat it as a singlebyte character.  */
-+-	  mbclen = 1;
-+-	}
-+-      mb_properties[i] = mbclen;
-+-      i += mbclen;
-+-    }
-+-
-+-  return mb_properties;
++-testdpkgstatus() {
++-	local STATE="$1"
++-	local NR="$2"
++-	shift 2
++-	msgtest "Test that $NR package(s) are in state $STATE with" "dpkg -l $*"
++-	local PKGS="$(dpkg -l "$@" 2>/dev/null | grep "^${STATE}" | wc -l)"
++-	if [ "$PKGS" != $NR ]; then
+++testdpkginstalled() {
+++	msgtest "Test for correctly installed package(s) with" "dpkg -l $*"
+++	local PKGS="$(dpkg -l "$@" 2>/dev/null | grep '^i' | wc -l)"
+++	if [ "$PKGS" != $# ]; then
++ 		echo >&2 $PKGS
++ 		dpkg -l "$@" | grep '^[a-z]' >&2
++ 		msgfail
++@@ -1193,12 +1190,16 @@ testdpkgstatus() {
++ 	fi
++ }
++ 
++-testdpkginstalled() {
++-	testdpkgstatus 'ii' "$#" "$@"
 +-}
-+-#endif
 +-
-+ static void
-+ Gcompile (char const *pattern, size_t size)
-+ {
-+@@ -181,7 +166,8 @@ Gcompile (char const *pattern, size_t size)
-+   size_t total = size;
-+   char const *motif = pattern;
-+ 
-+-  re_set_syntax (RE_SYNTAX_GREP | RE_HAT_LISTS_NOT_NEWLINE);
-++  check_utf8 ();
-++  re_set_syntax (RE_SYNTAX_GREP | RE_HAT_LISTS_NOT_NEWLINE | (match_icase ? RE_ICASE : 0));
-+   dfasyntax (RE_SYNTAX_GREP | RE_HAT_LISTS_NOT_NEWLINE, match_icase, eolbyte);
-+ 
-+   /* For GNU regex compiler we have to pass the patterns separately to detect
-+@@ -218,6 +204,10 @@ Gcompile (char const *pattern, size_t size)
-+       motif = sep;
-+     } while (sep && total != 0);
-+ 
-++  /* Strip trailing newline. */
-++  if (size && pattern[size - 1] == '\n')
-++    size--;
-++
-+   /* In the match_words and match_lines cases, we use a different pattern
-+      for the DFA matcher that will quickly throw out cases that won't work.
-+      Then if DFA succeeds we do some hairy stuff using the regex matcher
-+@@ -233,7 +223,7 @@ Gcompile (char const *pattern, size_t size)
-+       static char const line_end[] = "\\)$";
-+       static char const word_beg[] = "\\(^\\|[^[:alnum:]_]\\)\\(";
-+       static char const word_end[] = "\\)\\([^[:alnum:]_]\\|$\\)";
-+-      char *n = malloc (sizeof word_beg - 1 + size + sizeof word_end);
-++      char *n = xmalloc (sizeof word_beg - 1 + size + sizeof word_end);
-+       size_t i;
-+       strcpy (n, match_lines ? line_beg : word_beg);
-+       i = strlen (n);
-+@@ -257,14 +247,15 @@ Ecompile (char const *pattern, size_t size)
-+   size_t total = size;
-+   char const *motif = pattern;
-+ 
-++  check_utf8 ();
-+   if (strcmp (matcher, "awk") == 0)
-+     {
-+-      re_set_syntax (RE_SYNTAX_AWK);
-++      re_set_syntax (RE_SYNTAX_AWK | (match_icase ? RE_ICASE : 0));
-+       dfasyntax (RE_SYNTAX_AWK, match_icase, eolbyte);
-+     }
-+   else
-+     {
-+-      re_set_syntax (RE_SYNTAX_POSIX_EGREP);
-++      re_set_syntax (RE_SYNTAX_POSIX_EGREP | (match_icase ? RE_ICASE : 0));
-+       dfasyntax (RE_SYNTAX_POSIX_EGREP, match_icase, eolbyte);
-+     }
-+ 
-+@@ -301,6 +292,10 @@ Ecompile (char const *pattern, size_t size)
-+       motif = sep;
-+     } while (sep && total != 0);
-+ 
-++  /* Strip trailing newline. */
-++  if (size && pattern[size - 1] == '\n')
-++    size--;
-++
-+   /* In the match_words and match_lines cases, we use a different pattern
-+      for the DFA matcher that will quickly throw out cases that won't work.
-+      Then if DFA succeeds we do some hairy stuff using the regex matcher
-+@@ -316,7 +311,7 @@ Ecompile (char const *pattern, size_t size)
-+       static char const line_end[] = ")$";
-+       static char const word_beg[] = "(^|[^[:alnum:]_])(";
-+       static char const word_end[] = ")([^[:alnum:]_]|$)";
-+-      char *n = malloc (sizeof word_beg - 1 + size + sizeof word_end);
-++      char *n = xmalloc (sizeof word_beg - 1 + size + sizeof word_end);
-+       size_t i;
-+       strcpy (n, match_lines ? line_beg : word_beg);
-+       i = strlen(n);
-+@@ -339,15 +334,34 @@ EGexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+   char eol = eolbyte;
-+   int backref, start, len;
-+   struct kwsmatch kwsm;
-+-  size_t i;
-++  size_t i, ret_val;
-++  static int use_dfa;
-++  static int use_dfa_checked = 0;
-+ #ifdef MBS_SUPPORT
-+-  char *mb_properties = NULL;
-++  int mb_cur_max = MB_CUR_MAX;
-++  mbstate_t mbs;
-++  memset (&mbs, '\0', sizeof (mbstate_t));
-+ #endif /* MBS_SUPPORT */
-+ 
-++  if (!use_dfa_checked)
-++    {
-++      char *grep_use_dfa = getenv ("GREP_USE_DFA");
-++      if (!grep_use_dfa)
-++	{
-+ #ifdef MBS_SUPPORT
-+-  if (MB_CUR_MAX > 1 && kwset)
-+-    mb_properties = check_multibyte_string(buf, size);
-++	  /* Turn off DFA when processing multibyte input. */
-++	  use_dfa = (MB_CUR_MAX == 1);
-++#else
-++	  use_dfa = 1;
-+ #endif /* MBS_SUPPORT */
-++	}
-++      else
-++	{
-++	  use_dfa = atoi (grep_use_dfa);
-++	}
-++
-++      use_dfa_checked = 1;
-++    }
-+ 
-+   buflim = buf + size;
-+ 
-+@@ -358,47 +372,120 @@ EGexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+ 	  if (kwset)
-+ 	    {
-+ 	      /* Find a possible match using the KWset matcher. */
-+-	      size_t offset = kwsexec (kwset, beg, buflim - beg, &kwsm);
-++#ifdef MBS_SUPPORT
-++	      size_t bytes_left = 0;
-++#endif /* MBS_SUPPORT */
-++	      size_t offset;
-++#ifdef MBS_SUPPORT
-++	      /* kwsexec doesn't work with match_icase and multibyte input. */
-++	      if (match_icase && mb_cur_max > 1)
-++		/* Avoid kwset */
-++		offset = 0;
-++	      else
-++#endif /* MBS_SUPPORT */
-++	      offset = kwsexec (kwset, beg, buflim - beg, &kwsm);
-+ 	      if (offset == (size_t) -1)
-+-		{
-++	        goto failure;
-+ #ifdef MBS_SUPPORT
-+-		  if (MB_CUR_MAX > 1)
-+-		    free(mb_properties);
-+-#endif
-+-		  return (size_t)-1;
-++	      if (mb_cur_max > 1 && !using_utf8)
-++		{
-++		  bytes_left = offset;
-++		  while (bytes_left)
-++		    {
-++		      size_t mlen = mbrlen (beg, bytes_left, &mbs);
-++		      if (mlen == (size_t) -1 || mlen == 0)
-++			{
-++			  /* Incomplete character: treat as single-byte. */
-++			  memset (&mbs, '\0', sizeof (mbstate_t));
-++			  beg++;
-++			  bytes_left--;
-++			  continue;
-++			}
-++
-++		      if (mlen == (size_t) -2)
-++			/* Offset points inside multibyte character:
-++			 * no good. */
-++			break;
-++
-++		      beg += mlen;
-++		      bytes_left -= mlen;
-++		    }
-+ 		}
-++	      else
-++#endif /* MBS_SUPPORT */
-+ 	      beg += offset;
-+ 	      /* Narrow down to the line containing the candidate, and
-+ 		 run it through DFA. */
-+ 	      end = memchr(beg, eol, buflim - beg);
-+ 	      end++;
-+ #ifdef MBS_SUPPORT
-+-	      if (MB_CUR_MAX > 1 && mb_properties[beg - buf] == 0)
-++	      if (mb_cur_max > 1 && bytes_left)
-+ 		continue;
-+-#endif
-++#endif /* MBS_SUPPORT */
-+ 	      while (beg > buf && beg[-1] != eol)
-+ 		--beg;
-+-	      if (kwsm.index < kwset_exact_matches)
-+-		goto success;
-+-	      if (dfaexec (&dfa, beg, end - beg, &backref) == (size_t) -1)
-++	      if (
-++#ifdef MBS_SUPPORT
-++		  !(match_icase && mb_cur_max > 1) &&
-++#endif /* MBS_SUPPORT */
-++		  (kwsm.index < kwset_exact_matches))
-++		goto success_in_beg_and_end;
-++	      if (use_dfa &&
-++		  dfaexec (&dfa, beg, end - beg, &backref) == (size_t) -1)
-+ 		continue;
-+ 	    }
-+ 	  else
-+ 	    {
-+ 	      /* No good fixed strings; start with DFA. */
-+-	      size_t offset = dfaexec (&dfa, beg, buflim - beg, &backref);
-++#ifdef MBS_SUPPORT
-++	      size_t bytes_left = 0;
-++#endif /* MBS_SUPPORT */
-++	      size_t offset = 0;
-++	      if (use_dfa)
-++		offset = dfaexec (&dfa, beg, buflim - beg, &backref);
-+ 	      if (offset == (size_t) -1)
-+ 		break;
-+ 	      /* Narrow down to the line we've found. */
-++#ifdef MBS_SUPPORT
-++	      if (mb_cur_max > 1 && !using_utf8)
-++		{
-++		  bytes_left = offset;
-++		  while (bytes_left)
-++		    {
-++		      size_t mlen = mbrlen (beg, bytes_left, &mbs);
-++		      if (mlen == (size_t) -1 || mlen == 0)
-++			{
-++			  /* Incomplete character: treat as single-byte. */
-++			  memset (&mbs, '\0', sizeof (mbstate_t));
-++			  beg++;
-++			  bytes_left--;
-++			  continue;
-++			}
-++
-++		      if (mlen == (size_t) -2)
-++			/* Offset points inside multibyte character:
-++			 * no good. */
-++			break;
-++
-++		      beg += mlen;
-++		      bytes_left -= mlen;
-++		    }
-++		}
-++	      else
-++#endif /* MBS_SUPPORT */
-+ 	      beg += offset;
-+ 	      end = memchr (beg, eol, buflim - beg);
-+ 	      end++;
-++#ifdef MBS_SUPPORT
-++	      if (mb_cur_max > 1 && bytes_left)
-++		continue;
-++#endif /* MBS_SUPPORT */
-+ 	      while (beg > buf && beg[-1] != eol)
-+ 		--beg;
-+ 	    }
-+ 	  /* Successful, no backreferences encountered! */
-+-	  if (!backref)
-+-	    goto success;
-++	  if (use_dfa && !backref)
-++	    goto success_in_beg_and_end;
-+ 	}
-+       else
-+ 	end = beg + size;
-+@@ -413,14 +500,11 @@ EGexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+ 				       end - beg - 1, &(patterns[i].regs))))
-+ 	    {
-+ 	      len = patterns[i].regs.end[0] - start;
-+-	      if (exact)
-+-		{
-+-		  *match_size = len;
-+-		  return start;
-+-		}
-++	      if (exact && !match_words)
-++	        goto success_in_start_and_len;
-+ 	      if ((!match_lines && !match_words)
-+ 		  || (match_lines && len == end - beg - 1))
-+-		goto success;
-++		goto success_in_beg_and_end;
-+ 	      /* If -w, check if the match aligns with word boundaries.
-+ 		 We do this iteratively because:
-+ 		 (a) the line may contain more than one occurence of the
-+@@ -431,10 +515,114 @@ EGexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+ 	      if (match_words)
-+ 		while (start >= 0)
-+ 		  {
-+-		    if ((start == 0 || !WCHAR ((unsigned char) beg[start - 1]))
-+-			&& (len == end - beg - 1
-+-			    || !WCHAR ((unsigned char) beg[start + len])))
-+-		      goto success;
-++		    int lword_match = 0;
-++		    if (start == 0)
-++		      lword_match = 1;
-++		    else
-++		      {
-++			assert (start > 0);
-++#ifdef MBS_SUPPORT
-++			if (mb_cur_max > 1)
-++			  {
-++			    const char *s;
-++			    size_t mr;
-++			    wchar_t pwc;
-++
-++			    /* Locate the start of the multibyte character
-++			       before the match position (== beg + start). */
-++			    if (using_utf8)
-++			      {
-++				/* UTF-8 is a special case: scan backwards
-++				   until we find a 7-bit character or a
-++				   lead byte. */
-++				s = beg + start - 1;
-++				while (s > buf
-++				       && (unsigned char) *s >= 0x80
-++				       && (unsigned char) *s <= 0xbf)
-++				  --s;
-++			      }
-++			    else
-++			      {
-++				/* Scan forwards to find the start of the
-++				   last complete character before the
-++				   match position.  */
-++				size_t bytes_left = start - 1;
-++				s = beg;
-++				while (bytes_left > 0)
-++				  {
-++				    mr = mbrlen (s, bytes_left, &mbs);
-++				    if (mr == (size_t) -1 || mr == 0)
-++				      {
-++					memset (&mbs, '\0', sizeof (mbs));
-++					s++;
-++					bytes_left--;
-++					continue;
-++				      }
-++				    if (mr == (size_t) -2)
-++				      {
-++					memset (&mbs, '\0', sizeof (mbs));
-++					break;
-++				      }
-++				    s += mr;
-++				    bytes_left -= mr;
-++				  }
-++			      }
-++			    mr = mbrtowc (&pwc, s, beg + start - s, &mbs);
-++			    if (mr == (size_t) -2 || mr == (size_t) -1 ||
-++				mr == 0)
-++			      {
-++				memset (&mbs, '\0', sizeof (mbstate_t));
-++				lword_match = 1;
-++			      }
-++			    else if (!(iswalnum (pwc) || pwc == L'_')
-++				     && mr == beg + start - s)
-++			      lword_match = 1;
-++			  }
-++			else
-++#endif /* MBS_SUPPORT */
-++			if (!WCHAR ((unsigned char) beg[start - 1]))
-++			  lword_match = 1;
-++		      }
-++
-++		    if (lword_match)
-++		      {
-++			int rword_match = 0;
-++			if (start + len == end - beg - 1)
-++			  rword_match = 1;
-++			else
-++			  {
-++#ifdef MBS_SUPPORT
-++			    if (mb_cur_max > 1)
-++			      {
-++				wchar_t nwc;
-++				int mr;
-++
-++				mr = mbtowc (&nwc, beg + start + len,
-++					     end - beg - start - len - 1);
-++				if (mr <= 0)
-++				  {
-++				    memset (&mbs, '\0', sizeof (mbstate_t));
-++				    rword_match = 1;
-++				  }
-++				else if (!iswalnum (nwc) && nwc != L'_')
-++				  rword_match = 1;
-++			      }
-++			    else
-++#endif /* MBS_SUPPORT */
-++			    if (!WCHAR ((unsigned char) beg[start + len]))
-++			      rword_match = 1;
-++			  }
-++
-++			if (rword_match)
-++			  {
-++			    if (!exact)
-++			      /* Returns the whole line. */
-++			      goto success_in_beg_and_end;
-++			    else
-++			      /* Returns just this word match. */
-++			      goto success_in_start_and_len;
-++			  }
-++		      }
-+ 		    if (len > 0)
-+ 		      {
-+ 			/* Try a shorter length anchored at the same place. */
-+@@ -461,26 +649,154 @@ EGexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+ 	    }
-+ 	} /* for Regex patterns.  */
-+     } /* for (beg = end ..) */
-+-#ifdef MBS_SUPPORT
-+-  if (MB_CUR_MAX > 1 && mb_properties)
-+-    free (mb_properties);
-+-#endif /* MBS_SUPPORT */
-++
-++ failure:
-+   return (size_t) -1;
-+ 
-+- success:
-+-#ifdef MBS_SUPPORT
-+-  if (MB_CUR_MAX > 1 && mb_properties)
-+-    free (mb_properties);
-+-#endif /* MBS_SUPPORT */
-+-  *match_size = end - beg;
-+-  return beg - buf;
-++ success_in_beg_and_end:
-++  len = end - beg;
-++  start = beg - buf;
-++  /* FALLTHROUGH */
-++
-++ success_in_start_and_len:
-++  *match_size = len;
-++  return start;
++ testdpkgnotinstalled() {
++-	testdpkgstatus 'ii' '0' "$@"
+++	msgtest "Test for correctly not-installed package(s) with" "dpkg -l $*"
+++	local PKGS="$(dpkg -l "$@" 2> /dev/null | grep '^i' | wc -l)"
+++	if [ "$PKGS" != 0 ]; then
+++		echo
+++		dpkg -l "$@" | grep '^[a-z]' >&2
+++		msgfail
+++	else
+++		msgpass
+++	fi
 + }
 + 
-++#ifdef MBS_SUPPORT
-++static int f_i_multibyte; /* whether we're using the new -Fi MB method */
-++static struct
-++{
-++  wchar_t **patterns;
-++  size_t count, maxlen;
-++  unsigned char *match;
-++} Fimb;
-++#endif
-++
-+ static void
-+ Fcompile (char const *pattern, size_t size)
-+ {
-++  int mb_cur_max = MB_CUR_MAX;
-+   char const *beg, *lim, *err;
++ testmarkedauto() {
++diff --git a/test/integration/test-apt-progress-fd b/test/integration/test-apt-progress-fd
++index 68cc043..d72e7e7 100755
++--- a/test/integration/test-apt-progress-fd
+++++ b/test/integration/test-apt-progress-fd
++@@ -19,14 +19,13 @@ testequal "dlstatus:1:0:Retrieving file 1 of 1
++ dlstatus:1:0:Retrieving file 1 of 1
++ pmstatus:dpkg-exec:0:Running dpkg
++ pmstatus:testing:0:Installing testing (amd64)
++-pmstatus:testing:16.6667:Preparing testing (amd64)
++-pmstatus:testing:33.3333:Unpacking testing (amd64)
++-pmstatus:testing:50:Preparing to configure testing (amd64)
++-pmstatus:dpkg-exec:50:Running dpkg
++-pmstatus:testing:50:Configuring testing (amd64)
++-pmstatus:testing:66.6667:Configuring testing (amd64)
++-pmstatus:testing:83.3333:Installed testing (amd64)
++-pmstatus:dpkg-exec:83.3333:Running dpkg" cat apt-progress.log
+++pmstatus:testing:20:Preparing testing (amd64)
+++pmstatus:testing:40:Unpacking testing (amd64)
+++pmstatus:testing:60:Preparing to configure testing (amd64)
+++pmstatus:dpkg-exec:60:Running dpkg
+++pmstatus:testing:60:Configuring testing (amd64)
+++pmstatus:testing:80:Configuring testing (amd64)
+++pmstatus:testing:100:Installed testing (amd64)" cat apt-progress.log
 + 
-++  check_utf8 ();
-++#ifdef MBS_SUPPORT
-++  /* Support -F -i for UTF-8 input. */
-++  if (match_icase && mb_cur_max > 1)
-++    {
-++      mbstate_t mbs;
-++      wchar_t *wcpattern = xmalloc ((size + 1) * sizeof (wchar_t));
-++      const char *patternend = pattern;
-++      size_t wcsize;
-++      kwset_t fimb_kwset = NULL;
-++      char *starts = NULL;
-++      wchar_t *wcbeg, *wclim;
-++      size_t allocated = 0;
-++
-++      memset (&mbs, '\0', sizeof (mbs));
-++# ifdef __GNU_LIBRARY__
-++      wcsize = mbsnrtowcs (wcpattern, &patternend, size, size, &mbs);
-++      if (patternend != pattern + size)
-++	wcsize = (size_t) -1;
-++# else
-++      {
-++	char *patterncopy = xmalloc (size + 1);
-++
-++	memcpy (patterncopy, pattern, size);
-++	patterncopy[size] = '\0';
-++	patternend = patterncopy;
-++	wcsize = mbsrtowcs (wcpattern, &patternend, size, &mbs);
-++	if (patternend != patterncopy + size)
-++	  wcsize = (size_t) -1;
-++	free (patterncopy);
-++      }
-++# endif
-++      if (wcsize + 2 <= 2)
-++	{
-++fimb_fail:
-++	  free (wcpattern);
-++	  free (starts);
-++	  if (fimb_kwset)
-++	    kwsfree (fimb_kwset);
-++	  free (Fimb.patterns);
-++	  Fimb.patterns = NULL;
-++	}
-++      else
-++	{
-++	  if (!(fimb_kwset = kwsalloc (NULL)))
-++	    error (2, 0, _("memory exhausted"));
-++
-++	  starts = xmalloc (mb_cur_max * 3);
-++	  wcbeg = wcpattern;
-++	  do
-++	    {
-++	      int i;
-++	      size_t wclen;
-++
-++	      if (Fimb.count >= allocated)
-++		{
-++		  if (allocated == 0)
-++		    allocated = 128;
-++		  else
-++		    allocated *= 2;
-++		  Fimb.patterns = xrealloc (Fimb.patterns,
-++					    sizeof (wchar_t *) * allocated);
-++		}
-++	      Fimb.patterns[Fimb.count++] = wcbeg;
-++	      for (wclim = wcbeg;
-++		   wclim < wcpattern + wcsize && *wclim != L'\n'; ++wclim)
-++		*wclim = towlower (*wclim);
-++	      *wclim = L'\0';
-++	      wclen = wclim - wcbeg;
-++	      if (wclen > Fimb.maxlen)
-++		Fimb.maxlen = wclen;
-++	      if (wclen > 3)
-++		wclen = 3;
-++	      if (wclen == 0)
-++		{
-++		  if ((err = kwsincr (fimb_kwset, "", 0)) != 0)
-++		    error (2, 0, err);
-++		}
-++	      else
-++		for (i = 0; i < (1 << wclen); i++)
-++		  {
-++		    char *p = starts;
-++		    int j, k;
-++
-++		    for (j = 0; j < wclen; ++j)
-++		      {
-++			wchar_t wc = wcbeg[j];
-++			if (i & (1 << j))
-++			  {
-++			    wc = towupper (wc);
-++			    if (wc == wcbeg[j])
-++			      continue;
-++			  }
-++			k = wctomb (p, wc);
-++			if (k <= 0)
-++			  goto fimb_fail;
-++			p += k;
-++		      }
-++		    if ((err = kwsincr (fimb_kwset, starts, p - starts)) != 0)
-++		      error (2, 0, err);
-++		  }
-++	      if (wclim < wcpattern + wcsize)
-++		++wclim;
-++	      wcbeg = wclim;
-++	    }
-++	  while (wcbeg < wcpattern + wcsize);
-++	  f_i_multibyte = 1;
-++	  kwset = fimb_kwset;
-++	  free (starts);
-++	  Fimb.match = xmalloc (Fimb.count);
-++	  if ((err = kwsprep (kwset)) != 0)
-++	    error (2, 0, err);
-++	  return;
-++	}
-++    }
-++#endif /* MBS_SUPPORT */
-++
-++
-+   kwsinit ();
-+   beg = pattern;
-+   do
-+@@ -499,6 +815,76 @@ Fcompile (char const *pattern, size_t size)
-+     error (2, 0, err);
-+ }
++ # upgrade
++ exec 3> apt-progress.log
++@@ -35,14 +34,13 @@ testequal "dlstatus:1:0:Retrieving file 1 of 1
++ dlstatus:1:0:Retrieving file 1 of 1
++ pmstatus:dpkg-exec:0:Running dpkg
++ pmstatus:testing:0:Installing testing (amd64)
++-pmstatus:testing:16.6667:Preparing testing (amd64)
++-pmstatus:testing:33.3333:Unpacking testing (amd64)
++-pmstatus:testing:50:Preparing to configure testing (amd64)
++-pmstatus:dpkg-exec:50:Running dpkg
++-pmstatus:testing:50:Configuring testing (amd64)
++-pmstatus:testing:66.6667:Configuring testing (amd64)
++-pmstatus:testing:83.3333:Installed testing (amd64)
++-pmstatus:dpkg-exec:83.3333:Running dpkg" cat apt-progress.log
+++pmstatus:testing:20:Preparing testing (amd64)
+++pmstatus:testing:40:Unpacking testing (amd64)
+++pmstatus:testing:60:Preparing to configure testing (amd64)
+++pmstatus:dpkg-exec:60:Running dpkg
+++pmstatus:testing:60:Configuring testing (amd64)
+++pmstatus:testing:80:Configuring testing (amd64)
+++pmstatus:testing:100:Installed testing (amd64)" cat apt-progress.log
 + 
-++#ifdef MBS_SUPPORT
-++static int
-++Fimbexec (const char *buf, size_t size, size_t *plen, int exact)
-++{
-++  size_t len, letter, i;
-++  int ret = -1;
-++  mbstate_t mbs;
-++  wchar_t wc;
-++  int patterns_left;
-++
-++  assert (match_icase && f_i_multibyte == 1);
-++  assert (MB_CUR_MAX > 1);
-++
-++  memset (&mbs, '\0', sizeof (mbs));
-++  memset (Fimb.match, '\1', Fimb.count);
-++  letter = len = 0;
-++  patterns_left = 1;
-++  while (patterns_left && len <= size)
-++    {
-++      size_t c;
-++
-++      patterns_left = 0;
-++      if (len < size)
-++	{
-++	  c = mbrtowc (&wc, buf + len, size - len, &mbs);
-++	  if (c + 2 <= 2)
-++	    return ret;
-++
-++	  wc = towlower (wc);
-++	}
-++      else
-++	{
-++	  c = 1;
-++	  wc = L'\0';
-++	}
-++
-++      for (i = 0; i < Fimb.count; i++)
-++	{
-++	  if (Fimb.match[i])
-++	    {
-++	      if (Fimb.patterns[i][letter] == L'\0')
-++		{
-++		  /* Found a match. */
-++		  *plen = len;
-++		  if (!exact && !match_words)
-++		    return 0;
-++		  else
-++		    {
-++		      /* For -w or exact look for longest match.  */
-++		      ret = 0;
-++		      Fimb.match[i] = '\0';
-++		      continue;
-++		    }
-++		}
-++
-++	      if (Fimb.patterns[i][letter] == wc)
-++		patterns_left = 1;
-++	      else
-++		Fimb.match[i] = '\0';
-++	    }
-++	}
-++
-++      len += c;
-++      letter++;
-++    }
-++
-++  return ret;
-++}
-++#endif /* MBS_SUPPORT */
-++
-+ static size_t
-+ Fexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+ {
-+@@ -506,88 +892,268 @@ Fexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+   register size_t len;
-+   char eol = eolbyte;
-+   struct kwsmatch kwsmatch;
-++  size_t ret_val;
-+ #ifdef MBS_SUPPORT
-+-  char *mb_properties;
-+-  if (MB_CUR_MAX > 1)
-+-    mb_properties = check_multibyte_string (buf, size);
-++  int mb_cur_max = MB_CUR_MAX;
-++  mbstate_t mbs;
-++  memset (&mbs, '\0', sizeof (mbstate_t));
-++  const char *last_char = NULL;
-+ #endif /* MBS_SUPPORT */
++ # reinstall
++ exec 3> apt-progress.log
++@@ -51,24 +49,22 @@ testequal "dlstatus:1:0:Retrieving file 1 of 1
++ dlstatus:1:0:Retrieving file 1 of 1
++ pmstatus:dpkg-exec:0:Running dpkg
++ pmstatus:testing:0:Installing testing (amd64)
++-pmstatus:testing:16.6667:Preparing testing (amd64)
++-pmstatus:testing:33.3333:Unpacking testing (amd64)
++-pmstatus:testing:50:Preparing to configure testing (amd64)
++-pmstatus:dpkg-exec:50:Running dpkg
++-pmstatus:testing:50:Configuring testing (amd64)
++-pmstatus:testing:66.6667:Configuring testing (amd64)
++-pmstatus:testing:83.3333:Installed testing (amd64)
++-pmstatus:dpkg-exec:83.3333:Running dpkg" cat apt-progress.log
+++pmstatus:testing:20:Preparing testing (amd64)
+++pmstatus:testing:40:Unpacking testing (amd64)
+++pmstatus:testing:60:Preparing to configure testing (amd64)
+++pmstatus:dpkg-exec:60:Running dpkg
+++pmstatus:testing:60:Configuring testing (amd64)
+++pmstatus:testing:80:Configuring testing (amd64)
+++pmstatus:testing:100:Installed testing (amd64)" cat apt-progress.log
 + 
-+-  for (beg = buf; beg <= buf + size; ++beg)
-++  for (beg = buf; beg < buf + size; ++beg)
-+     {
-+-      size_t offset = kwsexec (kwset, beg, buf + size - beg, &kwsmatch);
-++      size_t offset;
-++      offset = kwsexec (kwset, beg, buf + size - beg, &kwsmatch);
-++
-+       if (offset == (size_t) -1)
-+-	{
-++	goto failure;
-+ #ifdef MBS_SUPPORT
-+-	  if (MB_CUR_MAX > 1)
-+-	    free(mb_properties);
-+-#endif /* MBS_SUPPORT */
-+-	  return offset;
-++      if (mb_cur_max > 1 && !using_utf8)
-++	{
-++	  size_t bytes_left = offset;
-++	  while (bytes_left)
-++	    {
-++	      size_t mlen = mbrlen (beg, bytes_left, &mbs);
-++
-++	      last_char = beg;
-++	      if (mlen == (size_t) -1 || mlen == 0)
-++		{
-++		  /* Incomplete character: treat as single-byte. */
-++		  memset (&mbs, '\0', sizeof (mbstate_t));
-++		  beg++;
-++		  bytes_left--;
-++		  continue;
-++		}
-++
-++	      if (mlen == (size_t) -2)
-++		/* Offset points inside multibyte character: no good. */
-++		break;
-++
-++	      beg += mlen;
-++	      bytes_left -= mlen;
-++	    }
-++
-++	  if (bytes_left)
-++	    continue;
-+ 	}
-+-#ifdef MBS_SUPPORT
-+-      if (MB_CUR_MAX > 1 && mb_properties[offset+beg-buf] == 0)
-+-	continue; /* It is a part of multibyte character.  */
-++      else
-+ #endif /* MBS_SUPPORT */
-+       beg += offset;
-+-      len = kwsmatch.size[0];
-+-      if (exact)
-+-	{
-+-	  *match_size = len;
-+ #ifdef MBS_SUPPORT
-+-	  if (MB_CUR_MAX > 1)
-+-	    free (mb_properties);
-++      /* For f_i_multibyte, the string at beg now matches first 3 chars of
-++	 one of the search strings (less if there are shorter search strings).
-++	 See if this is a real match.  */
-++      if (f_i_multibyte
-++	  && Fimbexec (beg, buf + size - beg, &kwsmatch.size[0], exact))
-++	goto next_char;
-+ #endif /* MBS_SUPPORT */
-+-	  return beg - buf;
-+-	}
-++      len = kwsmatch.size[0];
-++      if (exact && !match_words)
-++	goto success_in_beg_and_len;
-+       if (match_lines)
-+ 	{
-+ 	  if (beg > buf && beg[-1] != eol)
-+-	    continue;
-++	    goto next_char;
-+ 	  if (beg + len < buf + size && beg[len] != eol)
-+-	    continue;
-++	    goto next_char;
-+ 	  goto success;
-+ 	}
-+       else if (match_words)
-+-	for (try = beg; len; )
-+-	  {
-+-	    if (try > buf && WCHAR((unsigned char) try[-1]))
-+-	      break;
-+-	    if (try + len < buf + size && WCHAR((unsigned char) try[len]))
-+-	      {
-+-		offset = kwsexec (kwset, beg, --len, &kwsmatch);
-+-		if (offset == (size_t) -1)
-+-		  {
-++	{
-++	  while (len)
-++	    {
-++	      int word_match = 0;
-++	      if (beg > buf)
-++		{
-+ #ifdef MBS_SUPPORT
-+-		    if (MB_CUR_MAX > 1)
-+-		      free (mb_properties);
-++		  if (mb_cur_max > 1)
-++		    {
-++		      const char *s;
-++		      int mr;
-++		      wchar_t pwc;
-++
-++		      if (using_utf8)
-++			{
-++			  s = beg - 1;
-++			  while (s > buf
-++				 && (unsigned char) *s >= 0x80
-++				 && (unsigned char) *s <= 0xbf)
-++			    --s;
-++			}
-++		      else
-++			s = last_char;
-++		      mr = mbtowc (&pwc, s, beg - s);
-++		      if (mr <= 0)
-++			memset (&mbs, '\0', sizeof (mbstate_t));
-++		      else if ((iswalnum (pwc) || pwc == L'_')
-++			       && mr == (int) (beg - s))
-++			goto next_char;
-++		    }
-++		  else
-+ #endif /* MBS_SUPPORT */
-+-		    return offset;
-+-		  }
-+-		try = beg + offset;
-+-		len = kwsmatch.size[0];
-+-	      }
-+-	    else
-+-	      goto success;
-+-	  }
-++		  if (WCHAR ((unsigned char) beg[-1]))
-++		    goto next_char;
-++		}
-++#ifdef MBS_SUPPORT
-++	      if (mb_cur_max > 1)
-++		{
-++		  wchar_t nwc;
-++		  int mr;
-++
-++		  mr = mbtowc (&nwc, beg + len, buf + size - beg - len);
-++		  if (mr <= 0)
-++		    {
-++		      memset (&mbs, '\0', sizeof (mbstate_t));
-++		      word_match = 1;
-++		    }
-++		  else if (!iswalnum (nwc) && nwc != L'_')
-++		    word_match = 1;
-++		}
-++	      else
-++#endif /* MBS_SUPPORT */
-++		if (beg + len >= buf + size || !WCHAR ((unsigned char) beg[len]))
-++		  word_match = 1;
-++	      if (word_match)
-++		{
-++		  if (!exact)
-++		    /* Returns the whole line now we know there's a word match. */
-++		    goto success;
-++		  else
-++		    /* Returns just this word match. */
-++		    goto success_in_beg_and_len;
-++		}
-++	      if (len > 0)
-++		{
-++		  /* Try a shorter length anchored at the same place. */
-++		  --len;
-++		  offset = kwsexec (kwset, beg, len, &kwsmatch);
-++
-++		  if (offset == -1)
-++		    goto next_char; /* Try a different anchor. */
-++#ifdef MBS_SUPPORT
-++		  if (mb_cur_max > 1 && !using_utf8)
-++		    {
-++		      size_t bytes_left = offset;
-++		      while (bytes_left)
-++			{
-++			  size_t mlen = mbrlen (beg, bytes_left, &mbs);
-++
-++			  last_char = beg;
-++			  if (mlen == (size_t) -1 || mlen == 0)
-++			    {
-++			      /* Incomplete character: treat as single-byte. */
-++			      memset (&mbs, '\0', sizeof (mbstate_t));
-++			      beg++;
-++			      bytes_left--;
-++			      continue;
-++			    }
-++
-++			  if (mlen == (size_t) -2)
-++			    {
-++			      /* Offset points inside multibyte character:
-++			       * no good. */
-++			      break;
-++			    }
-++
-++			  beg += mlen;
-++			  bytes_left -= mlen;
-++			}
-++
-++		      if (bytes_left)
-++			{
-++			  memset (&mbs, '\0', sizeof (mbstate_t));
-++			  goto next_char; /* Try a different anchor. */
-++			}
-++		    }
-++		  else
-++#endif /* MBS_SUPPORT */
-++		  beg += offset;
-++#ifdef MBS_SUPPORT
-++		  /* The string at beg now matches first 3 chars of one of
-++		     the search strings (less if there are shorter search
-++		     strings).  See if this is a real match.  */
-++		  if (f_i_multibyte
-++		      && Fimbexec (beg, len - offset, &kwsmatch.size[0],
-++				   exact))
-++		    goto next_char;
-++#endif /* MBS_SUPPORT */
-++		  len = kwsmatch.size[0];
-++		}
-++	    }
-++	}
-+       else
-+ 	goto success;
-+-    }
++ # and remove
++ exec 3> apt-progress.log
++ testsuccess aptget remove testing -y -o APT::Status-Fd=3
++ testequal "pmstatus:dpkg-exec:0:Running dpkg
++ pmstatus:testing:0:Removing testing (amd64)
++-pmstatus:testing:25:Preparing for removal of testing (amd64)
++-pmstatus:testing:50:Removing testing (amd64)
++-pmstatus:testing:75:Removed testing (amd64)
++-pmstatus:dpkg-exec:75:Running dpkg" cat apt-progress.log
+++pmstatus:testing:33.3333:Preparing for removal of testing (amd64)
+++pmstatus:testing:66.6667:Removing testing (amd64)
+++pmstatus:testing:100:Removed testing (amd64)" cat apt-progress.log
++ 
++ # install non-native and ensure we get proper progress info
++ exec 3> apt-progress.log
++@@ -79,13 +75,12 @@ testequal "dlstatus:1:0:Retrieving file 1 of 1
++ dlstatus:1:0:Retrieving file 1 of 1
++ pmstatus:dpkg-exec:0:Running dpkg
++ pmstatus:testing2:0:Installing testing2 (i386)
++-pmstatus:testing2:16.6667:Preparing testing2 (i386)
++-pmstatus:testing2:33.3333:Unpacking testing2 (i386)
++-pmstatus:testing2:50:Preparing to configure testing2 (i386)
++-pmstatus:dpkg-exec:50:Running dpkg
++-pmstatus:testing2:50:Configuring testing2 (i386)
++-pmstatus:testing2:66.6667:Configuring testing2 (i386)
++-pmstatus:testing2:83.3333:Installed testing2 (i386)
++-pmstatus:dpkg-exec:83.3333:Running dpkg" cat apt-progress.log
+++pmstatus:testing2:20:Preparing testing2 (i386)
+++pmstatus:testing2:40:Unpacking testing2 (i386)
+++pmstatus:testing2:60:Preparing to configure testing2 (i386)
+++pmstatus:dpkg-exec:60:Running dpkg
+++pmstatus:testing2:60:Configuring testing2 (i386)
+++pmstatus:testing2:80:Configuring testing2 (i386)
+++pmstatus:testing2:100:Installed testing2 (i386)" cat apt-progress.log
++ 
++ rm -f apt-progress*.log
++diff --git a/test/integration/test-apt-progress-fd-deb822 b/test/integration/test-apt-progress-fd-deb822
++index badc985..9d22794 100755
++--- a/test/integration/test-apt-progress-fd-deb822
+++++ b/test/integration/test-apt-progress-fd-deb822
++@@ -27,41 +27,37 @@ Message: Installing testing (amd64)
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 16.6667
+++Percent: 20
++ Message: Preparing testing (amd64)
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 33.3333
+++Percent: 40
++ Message: Unpacking testing (amd64)
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 50
+++Percent: 60
++ Message: Preparing to configure testing (amd64)
++ 
++ Status: progress
++-Percent: 50
+++Percent: 60
++ Message: Running dpkg
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 50
+++Percent: 60
++ Message: Configuring testing (amd64)
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 66.6667
+++Percent: 80
++ Message: Configuring testing (amd64)
++ 
++ Status: progress
++ Package: testing:amd64
++-Percent: 83.3333
+++Percent: 100
++ Message: Installed testing (amd64)
 +-
-++next_char:;
-+ #ifdef MBS_SUPPORT
-+-  if (MB_CUR_MAX > 1)
-+-    free (mb_properties);
-++      /* Advance to next character.  For MB_CUR_MAX == 1 case this is handled
-++	 by ++beg above.  */
-++      if (mb_cur_max > 1)
-++	{
-++	  if (using_utf8)
-++	    {
-++	      unsigned char c = *beg;
-++	      if (c >= 0xc2)
-++		{
-++		  if (c < 0xe0)
-++		    ++beg;
-++		  else if (c < 0xf0)
-++		    beg += 2;
-++		  else if (c < 0xf8)
-++		    beg += 3;
-++		  else if (c < 0xfc)
-++		    beg += 4;
-++		  else if (c < 0xfe)
-++		    beg += 5;
-++		}
-++	    }
-++	  else
-++	    {
-++	      size_t l = mbrlen (beg, buf + size - beg, &mbs);
-++
-++	      last_char = beg;
-++	      if (l + 2 >= 2)
-++		beg += l - 1;
-++	      else
-++		memset (&mbs, '\0', sizeof (mbstate_t));
-++	    }
-++	}
-+ #endif /* MBS_SUPPORT */
-++    }
-++
-++ failure:
-+   return -1;
++-Status: progress
++-Percent: 83.3333
++-Message: Running dpkg
++ " cat apt-progress.log
 + 
-+  success:
-++#ifdef MBS_SUPPORT
-++  if (mb_cur_max > 1 && !using_utf8)
-++    {
-++      end = beg + len;
-++      while (end < buf + size)
-++	{
-++	  size_t mlen = mbrlen (end, buf + size - end, &mbs);
-++	  if (mlen == (size_t) -1 || mlen == (size_t) -2 || mlen == 0)
-++	    {
-++	      memset (&mbs, '\0', sizeof (mbstate_t));
-++	      mlen = 1;
-++	    }
-++	  if (mlen == 1 && *end == eol)
-++	    break;
-++
-++	  end += mlen;
-++	}
-++    }
-++  else
-++#endif /* MBS_SUPPORT */
-+   end = memchr (beg + len, eol, (buf + size) - (beg + len));
-++
-+   end++;
-+   while (buf < beg && beg[-1] != eol)
-+     --beg;
-+-  *match_size = end - beg;
-+-#ifdef MBS_SUPPORT
-+-  if (MB_CUR_MAX > 1)
-+-    free (mb_properties);
-+-#endif /* MBS_SUPPORT */
-++  len = end - beg;
-++  /* FALLTHROUGH */
-++
-++ success_in_beg_and_len:
-++  *match_size = len;
-+   return beg - buf;
++ 
++diff --git a/test/integration/test-apt-progress-fd-error b/test/integration/test-apt-progress-fd-error
++index 6323007..a47095b 100755
++--- a/test/integration/test-apt-progress-fd-error
+++++ b/test/integration/test-apt-progress-fd-error
++@@ -18,7 +18,7 @@ setupaptarchive
++ exec 3> apt-progress.log
++ testfailure aptget install foo1 foo2 -y -o APT::Status-Fd=3
++ msgtest "Ensure correct error message"
++-if grep -q "aptarchive/pool/foo2_0.8.15_amd64.deb:36.3636:trying to overwrite '/usr/bin/file-conflict', which is also in package foo1 0.8.15" apt-progress.log; then
+++if grep -q "aptarchive/pool/foo2_0.8.15_amd64.deb:40:trying to overwrite '/usr/bin/file-conflict', which is also in package foo1 0.8.15" apt-progress.log; then
++ 	msgpass
++ else
++ 	cat apt-progress.log
++diff --git a/test/integration/test-bug-769609-triggers-still-pending-after-run b/test/integration/test-bug-769609-triggers-still-pending-after-run
++deleted file mode 100755
++index 146fa76..0000000
++--- a/test/integration/test-bug-769609-triggers-still-pending-after-run
+++++ /dev/null
++@@ -1,75 +0,0 @@
++-#!/bin/sh
++-set -e
++-
++-TESTDIR=$(readlink -f $(dirname $0))
++-. $TESTDIR/framework
++-
++-setupenvironment
++-configarchitecture 'amd64'
++-
++-msgtest 'Check if installed dpkg supports' 'noawait trigger'
++-if dpkg-checkbuilddeps -d 'dpkg (>= 1.16.1)' /dev/null; then
++-	msgpass
++-else
++-	msgskip 'dpkg version too old'
++-	exit 0
++-fi
++-configdpkgnoopchroot
++-
++-buildtriggerpackages() {
++-	local TYPE="$1"
++-	setupsimplenativepackage "triggerable-$TYPE" 'all' '1.0' 'unstable' "Depends: trigdepends-$TYPE"
++-	BUILDDIR="incoming/triggerable-${TYPE}-1.0"
++-	cat >${BUILDDIR}/debian/postinst <<EOF
++-#!/bin/sh
++-if [ "\$1" = 'triggered' ]; then
++-	ls -l /proc/self/fd/
++-fi
++-EOF
++-	echo "$TYPE /usr/share/doc" > ${BUILDDIR}/debian/triggers
++-	buildpackage "$BUILDDIR" 'unstable' 'main' 'native'
++-	rm -rf "$BUILDDIR"
++-	buildsimplenativepackage "trigdepends-$TYPE" 'all' '1.0' 'unstable'
++-}
++-
++-#buildtriggerpackages 'interest'
++-buildtriggerpackages 'interest-noawait'
++-buildsimplenativepackage "trigstuff" 'all' '1.0' 'unstable'
++-
++-setupaptarchive
++-
++-runtests() {
++-	local TYPE="$1"
++-	msgmsg 'Working with trigger type' "$TYPE"
++-	testsuccess aptget install triggerable-$TYPE -y
++-	cp rootdir/tmp/testsuccess.output terminal.output
++-	testsuccess grep '^REWRITE ' terminal.output
++-	testdpkginstalled triggerable-$TYPE trigdepends-$TYPE
++-
++-	testsuccess aptget install trigdepends-$TYPE -y --reinstall
++-	cp rootdir/tmp/testsuccess.output terminal.output
++-	testsuccess grep '^REWRITE ' terminal.output
++-	testsuccess grep ' root root ' terminal.output
++-	testdpkginstalled triggerable-$TYPE trigdepends-$TYPE
++-
++-	testsuccess aptget install trigstuff -y
++-	cp rootdir/tmp/testsuccess.output terminal.output
++-	testsuccess grep '^REWRITE ' terminal.output
++-	testsuccess grep ' root root ' terminal.output
++-	testdpkginstalled triggerable-$TYPE trigdepends-$TYPE trigstuff
++-
++-	testsuccess aptget purge trigstuff -y
++-	cp rootdir/tmp/testsuccess.output terminal.output
++-	testsuccess grep '^REWRITE ' terminal.output
++-	testsuccess grep ' root root ' terminal.output
++-	testdpkginstalled triggerable-$TYPE trigdepends-$TYPE
++-	testdpkgnotinstalled trigstuff
++-
++-	testsuccess aptget purge trigdepends-$TYPE -y
++-	cp rootdir/tmp/testsuccess.output terminal.output
++-	testfailure grep '^REWRITE ' terminal.output
++-	testfailure grep ' root root ' terminal.output
++-	testdpkgnotinstalled triggerable-$TYPE trigdepends-$TYPE
++-}
++-#runtests 'interest'
++-runtests 'interest-noawait'
++diff --git a/test/integration/test-no-fds-leaked-to-maintainer-scripts b/test/integration/test-no-fds-leaked-to-maintainer-scripts
++index 41c0570..d3960d7 100755
++--- a/test/integration/test-no-fds-leaked-to-maintainer-scripts
+++++ b/test/integration/test-no-fds-leaked-to-maintainer-scripts
++@@ -59,8 +59,7 @@ startup packages configure
++ configure $PKGNAME 1.0 <none>
++ status unpacked $PKGNAME 1.0
++ status half-configured $PKGNAME 1.0
++-status installed $PKGNAME 1.0
++-startup packages configure" cut -f 3- -d' ' rootdir/var/log/dpkg.log
+++status installed $PKGNAME 1.0" cut -f 3- -d' ' rootdir/var/log/dpkg.log
 + }
++ checkinstall
 + 
-+@@ -701,8 +1267,9 @@ Pexecute (char const *buf, size_t size, size_t *match_size, int exact)
-+       char eol = eolbyte;
-+       if (!exact)
-+ 	{
-+-	  end = memchr (end, eol, buflim - end);
-+-	  end++;
-++	  while (end < buflim)
-++	    if (*end++ == eol)
-++	      break;
-+ 	  while (buf < beg && beg[-1] != eol)
-+ 	    --beg;
-+ 	}
++@@ -85,8 +84,7 @@ status config-files $PKGNAME 1.0
++ status config-files $PKGNAME 1.0
++ status config-files $PKGNAME 1.0
++ status config-files $PKGNAME 1.0
++-status not-installed $PKGNAME <none>
++-startup packages configure" cut -f 3- -d' ' rootdir/var/log/dpkg.log
+++status not-installed $PKGNAME <none>" cut -f 3- -d' ' rootdir/var/log/dpkg.log
++ }
++ checkpurge
++ 
 +-- 
-+1.8.4.2
++2.1.4
 +
-diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
-index 178fc31..34d081b 100644
---- a/meta/recipes-extended/grep/grep_2.5.1a.bb
-+++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
-            file://Makevars \
-            file://grep-CVE-2012-5667.patch \
-            file://fix-for-texinfo-5.1.patch \
-+           file://grep-egrep-fgrep-Fix-LSB-NG-cases.patch \
-           "
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch
+diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
+new file mode 100644
+index 0000000..676795d
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
+@@ -0,0 +1,58 @@
++[PATCH] disable test
++
++Upstream-Status: Inappropriate [configuration]
++
++test needs gtest package, so not build the test dir
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile     | 7 +++----
++ configure.ac | 6 ------
++ 2 files changed, 3 insertions(+), 10 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 5f5fb27..5070e96 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -9,8 +9,8 @@ endif
++ .PHONY: default
++ default: startup all
++ 
++-.PHONY: headers library clean veryclean all binary program doc test update-po
++-all headers library clean veryclean binary program doc manpages docbook test update-po startup dirs:
+++.PHONY: headers library clean veryclean all binary program doc update-po
+++all headers library clean veryclean binary program doc manpages docbook update-po startup dirs:
++ 	$(MAKE) -C vendor $@
++ 	$(MAKE) -C apt-pkg $@
++ 	$(MAKE) -C apt-inst $@
++@@ -21,9 +21,8 @@ all headers library clean veryclean binary program doc manpages docbook test upd
++ 	$(MAKE) -C dselect $@
++ #	$(MAKE) -C doc $@
++ 	$(MAKE) -C po $@
++-	$(MAKE) -C test $@
++ 
++-all headers library clean veryclean binary program doc manpages docbook test update-po: startup dirs
+++all headers library clean veryclean binary program doc manpages docbook update-po: startup dirs
++ 
++ dirs: startup
++ 
++diff --git a/configure.ac b/configure.ac
++index 5663aaf..b0f9564 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -89,12 +89,6 @@ AC_CHECK_LIB(curl, curl_easy_init,
++      AC_MSG_ERROR([failed: I need CURL due https support]),
++ )
++ 
++-AC_LANG_PUSH([C++])
++-AC_CHECK_HEADER(gtest/gtest.h,,
++-     AC_MSG_ERROR([failed: I need gtest to build tests]),
++-)
++-AC_LANG_POP([C++])
++-
++ 
++ AC_SUBST(BDBLIB)
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
+similarity index 54%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
+index 712d5e7..ebc6720 100644
+--- a/meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
++++ b/meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
+@@ -1,24 +1,25 @@
+ Upstream-Status: Inappropriate [configuration]
+ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
  
- SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
-@@ -22,7 +23,8 @@ SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92b
+-Index: apt-0.9.7.7/apt-pkg/packagemanager.cc
+-===================================================================
+---- apt-0.9.7.7.orig/apt-pkg/packagemanager.cc
+-+++ apt-0.9.7.7/apt-pkg/packagemanager.cc
+-@@ -893,10 +893,12 @@ bool pkgPackageManager::SmartUnPack(PkgI
++
++diff --git a/apt-pkg/packagemanager.cc b/apt-pkg/packagemanager.cc
++index 249542c..0a1911f 100644
++--- a/apt-pkg/packagemanager.cc
+++++ b/apt-pkg/packagemanager.cc
++@@ -952,10 +952,12 @@ bool pkgPackageManager::SmartUnPack(PkgIterator Pkg, bool const Immediate, int c
+        return false;
+  
+     if (Immediate == true) {
+ +#if 0
+        // Perform immedate configuration of the package. 
+           if (SmartConfigure(Pkg, Depth + 1) == false)
+-             _error->Warning(_("Could not perform immediate configuration on '%s'. "
++             _error->Error(_("Could not perform immediate configuration on '%s'. "
+                 "Please see man 5 apt.conf under APT::Immediate-Configure for details. (%d)"),Pkg.FullName().c_str(),2);
+ +#endif
+     }
+     
+     return true;
+-@@ -986,6 +988,7 @@ pkgPackageManager::OrderResult pkgPackag
++@@ -1038,6 +1040,7 @@ pkgPackageManager::OrderResult pkgPackageManager::OrderInstall()
+        }
+     }
+  
+@@ -26,7 +27,7 @@ Index: apt-0.9.7.7/apt-pkg/packagemanager.cc
+     // Final run through the configure phase
+     if (ConfigureAll() == false)
+        return Failed;
+-@@ -1000,6 +1003,7 @@ pkgPackageManager::OrderResult pkgPackag
++@@ -1052,6 +1055,7 @@ pkgPackageManager::OrderResult pkgPackageManager::OrderInstall()
+  	 return Failed;
+        }
+     }
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch b/meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
+similarity index 84%
+rename from meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
+rename to meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
+index 25caa3b..b30fcff 100644
+--- a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
++++ b/meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
+@@ -1,9 +1,9 @@
+ Upstream-Status: Pending
  
- inherit autotools gettext texinfo
+-Index: apt-0.9.7.7/configure.in
++Index: apt-0.9.7.7/configure.ac
+ ===================================================================
+---- apt-0.9.7.7.orig/configure.in
+-+++ apt-0.9.7.7/configure.in
++--- apt-0.9.7.7.orig/configure.ac
+++++ apt-0.9.7.7/configure.ac
+ @@ -112,7 +112,7 @@ dnl This is often the dpkg architecture
+  dnl First check against the full canonical canoncial-system-type in $target
+  dnl and if that fails, just look for the cpu
+diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
+index fede869..c6e85b8 100644
+--- a/meta/recipes-devtools/apt/apt-native.inc
++++ b/meta/recipes-devtools/apt/apt-native.inc
+@@ -1,11 +1,13 @@
+ require apt.inc
+ inherit native
  
--EXTRA_OECONF = "--disable-perl-regexp"
-+EXTRA_OECONF = "--disable-perl-regexp \
-+                --without-included-regex"
+-DEPENDS += "dpkg-native gettext-native db-native curl-native"
++DEPENDS += "dpkg-native gettext-native db-native curl-native xz-native"
+ PACKAGES = ""
+ USE_NLS = "yes"
  
- CFLAGS += "-D PROTOTYPES"
- do_configure_prepend () {
+-SRC_URI += "file://db_linking_hack.patch"
++SRC_URI += "file://db_linking_hack.patch \
++            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \           
++"
+ 
+ python do_install () {
+     bb.build.exec_func('do_install_base', d)
+@@ -41,6 +43,8 @@ do_install_base () {
+ 	install -m 0755 bin/apt-extracttemplates ${D}${bindir}/
+ 	install -m 0755 bin/apt-ftparchive ${D}${bindir}/
+ 
++	oe_libinstall -so -C bin libapt-private ${D}${libdir}/
++
+ 	eval `cat environment.mak | grep ^GLIBC_VER | sed -e's, = ,=,'`
+ 	eval `cat environment.mak | grep ^LIBSTDCPP_VER | sed -e's, = ,=,'`
+ 	oe_libinstall -so -C bin libapt-pkg$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
+diff --git a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb b/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
+similarity index 55%
+rename from meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
+rename to meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
+index d5934f9..cbaf25b 100644
+--- a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
++++ b/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
+@@ -3,7 +3,7 @@ require apt-native.inc
+ SRC_URI += "file://noconfigure.patch \
+             file://no-curl.patch"
+ 
+-SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
+-SRC_URI[sha256sum] = "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
++SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
++SRC_URI[sha256sum] = "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 321934b..173b806 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -2,8 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
+ LICENSE = "GPLv2.0+"
+ SECTION = "base"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20130726T154545Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.gz \
+-           file://no-ko-translation.patch \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20150428T221633Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+            file://use-host.patch \
+            file://makerace.patch \
+            file://no-nls-dpkg.patch \
+@@ -11,12 +10,14 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20130726T154545Z/pool/main/
+            file://truncate-filename.patch \
+            file://nodoc.patch \
+            file://disable-configure-in-makefile.patch \
+-           file://apt-0.9.9.4-CVE-2014-0478.patch \
++           file://disable-test.patch \
+            "
+ 
+ inherit autotools gettext
+ 
+ EXTRA_AUTORECONF = "--exclude=autopoint,autoheader"
++PACKAGECONFIG ??= "lzma"
++PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
+ 
+ do_configure_prepend() {
+     rm -rf ${S}/buildlib/config.sub
+diff --git a/meta/recipes-devtools/apt/apt_0.9.9.4.bb b/meta/recipes-devtools/apt/apt_1.0.9.9.bb
+similarity index 67%
+rename from meta/recipes-devtools/apt/apt_0.9.9.4.bb
+rename to meta/recipes-devtools/apt/apt_1.0.9.9.bb
+index 77cbff1..34923ca 100644
+--- a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
++++ b/meta/recipes-devtools/apt/apt_1.0.9.9.bb
+@@ -3,8 +3,8 @@ RDEPENDS_${PN} = "dpkg bash debianutils"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ require apt.inc
+ 
+-SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
+-SRC_URI[sha256sum] = "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
++SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
++SRC_URI[sha256sum] = "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
+ 
+ require apt-package.inc
+ 
+@@ -15,4 +15,5 @@ do_install_append() {
+     #Write the correct apt-architecture to apt.conf
+     APT_CONF=${D}/etc/apt/apt.conf
+     echo 'APT::Architecture "${DPKG_ARCH}";' > ${APT_CONF}
++    oe_libinstall -so -C bin libapt-private ${D}${libdir}/
+ }
+diff --git a/meta/recipes-devtools/apt/files/db_linking_hack.patch b/meta/recipes-devtools/apt/files/db_linking_hack.patch
+index d2246b3..a61d4b0 100644
+--- a/meta/recipes-devtools/apt/files/db_linking_hack.patch
++++ b/meta/recipes-devtools/apt/files/db_linking_hack.patch
+@@ -1,9 +1,9 @@
+ Upstream-Status: Backport
+ 
+-Index: apt-0.7.3/configure.in
++Index: apt-0.7.3/configure.ac
+ ===================================================================
+---- apt-0.7.3.orig/configure.in	2007-07-01 10:38:45.000000000 +0000
+-+++ apt-0.7.3/configure.in	2007-08-21 13:39:26.000000000 +0000
++--- apt-0.7.3.orig/configure.ac	2007-07-01 10:38:45.000000000 +0000
+++++ apt-0.7.3/configure.ac	2007-08-21 13:39:26.000000000 +0000
+ @@ -67,8 +67,20 @@
+        [AC_DEFINE(HAVE_BDB)
+         BDBLIB="-ldb"
+diff --git a/meta/recipes-devtools/apt/files/no-curl.patch b/meta/recipes-devtools/apt/files/no-curl.patch
+index 9fd3b3a..30238fa 100644
+--- a/meta/recipes-devtools/apt/files/no-curl.patch
++++ b/meta/recipes-devtools/apt/files/no-curl.patch
+@@ -5,8 +5,8 @@ Upstream-Status: Inappropriate [configuration]
+  methods/makefile |    7 -------
+  2 files changed, 13 deletions(-)
+ 
+---- a/configure.in
+-+++ b/configure.in
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -86,12 +86,6 @@ AC_CHECK_HEADER(db.h,
+  
+  LIBS="$saveLIBS"
+@@ -23,14 +23,14 @@ Upstream-Status: Inappropriate [configuration]
+ --- a/methods/makefile
+ +++ b/methods/makefile
+ @@ -51,13 +51,6 @@ LIB_MAKES = apt-pkg/makefile
+- SOURCE = http.cc http_main.cc rfc2553emu.cc connect.cc
++ SOURCE = http.cc http_main.cc rfc2553emu.cc connect.cc server.cc
+  include $(PROGRAM_H)
+  
+ -# The https method
+ -PROGRAM=https
+ -SLIBS = -lapt-pkg -lcurl $(INTLLIBS)
+ -LIB_MAKES = apt-pkg/makefile
+--SOURCE = https.cc
++-SOURCE = https.cc server.cc
+ -include $(PROGRAM_H)
+ -
+  # The ftp method
 -- 
-1.8.4.2
+1.9.1
 
 
