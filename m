@@ -1,27 +1,31 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A4E077066B
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9D07066B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 May 2015 01:15:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4P1F1LF002440
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 May 2015 18:15:01 -0700 (PDT)
-Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Sun, 24 May 2015 18:15:01 -0700
-Message-ID: <55627794.2030206@windriver.com>
-Date: Mon, 25 May 2015 09:15:00 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Mon, 25 May 2015 01:33:34 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3lw1Cb5w2Bz3hj6g;
+	Mon, 25 May 2015 03:33:31 +0200 (CEST)
+X-Auth-Info: /D3kQvEOxoSTKJ6Y3aPW7+ISoIh6hu1eDe35qrHF3Bs=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3lw1Cb1DvZzvdWR; 
+	Mon, 25 May 2015 03:33:31 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 25 May 2015 03:33:30 +0200
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1431606674-5173-1-git-send-email-marex@denx.de>
+	<1431606674-5173-2-git-send-email-marex@denx.de>
+	<5554BC2B.8070906@windriver.com>
+In-Reply-To: <5554BC2B.8070906@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1432286162-1948-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1432286162-1948-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] openssl: drop the padlock_conf.patch
+Message-Id: <201505250333.30333.marex@denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/9] kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,197 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 May 2015 01:15:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 25 May 2015 01:33:39 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
+On Thursday, May 14, 2015 at 05:15:55 PM, Bruce Ashfield wrote:
+> The series looks good to me.
+> 
+> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
+Hi,
 
-On 2015年05月22日 17:16, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> padlock_conf.patch will enable the padlock engine by default,
-> but this engine does not work on some 32bit machine, and lead
-> to openssl unable to work
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+any chance this could get applied so it can get further testing in-tree
+please ?
 
-This commit message is not precise, I should rework it, but
-it has been merged, so I paste it to easy person to find
-more clue.
+Thank you!
 
-
-This issue is if padlock is enabled on 32bit machine, but
-machine has not this hardware, the openssl can not work.
-
-1. on 64bit machine linux (Ubuntu), both host and native are OK
-
-1.1 run the host's openssl
-
-lirq@LRQ:/work/wr/source/oe-core$ openssl engine -t
-(rsax) RSAX engine support
-      [ available ]
-(rdrand) Intel RDRAND engine
-      [ available ]
-(dynamic) Dynamic engine loading support
-      [ unavailable ]
-lirq@LRQ:/work/wr/source/oe-core$
-
-1.2 run native openssl
-
-intel$ bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/openssl engine -t
-(dynamic) Dynamic engine loading support
-      [ unavailable ]
-intel$
-
-
-2. on a 32bit machine(Ubuntu), host is oK, but native is not.
-2.1 run host openssl on 32bit machine
-
-rli2@yow-lpgbld-vm40$openssl engine -t
-(dynamic) Dynamic engine loading support
-      [ unavailable ]
-rli2@yow-lpgbld-vm40$
-
-2.2 run native openssl on 32bit machine, failed with below message.
-
-rli2@yow-lpgbld-vm40$./bitbake_build/tmp/sysroots/i686-linux/usr/bin/openssl 
-engine -t
-Error configuring OpenSSL
-3074004668:error:260BC066:engine routines:INT_ENGINE_CONFIGURE:engine 
-configuration error:eng_cnf.c:191:section=padlock_section, name=init, 
-value=1
-3074004668:error:0E07606D:configuration file routines:MODULE_RUN:module 
-initialization error:conf_mod.c:223:module=engines, 
-value=engine_section, retcode=-1
-rli2@yow-lpgbld-vm40$
-
-
-3. this leads to build openflow on a 32bit machine failure.
-
-since a C file should be generated by openssl, but it failed.
-
-3.1 go to source dir of openflow
-
-rli2@yow-lpgbld-vm40$pwd
-/home/nxadm/nx/yow-lpgbld-vm40.1/builds-2015-05-24-064042/x86-kvm-guest_world_bd_nosplit/build/openflow/git
-rli2@yow-lpgbld-vm40$
-
-3.2 use the native openssl, it failed.
-
-rli2@yow-lpgbld-vm40$/home/nxadm/nx/yow-lpgbld-vm40.1/builds-2015-05-24-064042/x86-kvm-guest_world_bd_nosplit/bitbake_build/tmp/sysroots/i686-linux/usr/bin/openssl 
-dhparam -C -in ./lib/dh1024.pem -noout
-Error configuring OpenSSL
-3073935036:error:260BC066:engine routines:INT_ENGINE_CONFIGURE:engine 
-configuration error:eng_cnf.c:191:section=padlock_section, name=init, 
-value=1
-3073935036:error:0E07606D:configuration file routines:MODULE_RUN:module 
-initialization error:conf_mod.c:223:module=engines, 
-value=engine_section, retcode=-1
-rli2@yow-lpgbld-vm40$
-
-3.3 use the host openssl which is working, since it does not enable padlock
-
-rli2@yow-lpgbld-vm40$openssl dhparam -C -in ./lib/dh1024.pem -noout
-#ifndef HEADER_DH_H
-#include <openssl/dh.h>
-#endif
-DH *get_dh1024()
-     {
-     static unsigned char dh1024_p[]={
-         0xF4,0x88,0xFD,0x58,0x4E,0x49,0xDB,0xCD,0x20,0xB4,0x9D,0xE4,
-         0x91,0x07,0x36,0x6B,0x33,0x6C,0x38,0x0D,0x45,0x1D,0x0F,0x7C,
-         0x88,0xB3,0x1C,0x7C,0x5B,0x2D,0x8E,0xF6,0xF3,0xC9,0x23,0xC0,
-         0x43,0xF0,0xA5,0x5B,0x18,0x8D,0x8E,0xBB,0x55,0x8C,0xB8,0x5D,
-         0x38,0xD3,0x34,0xFD,0x7C,0x17,0x57,0x43,0xA3,0x1D,0x18,0x6C,
-         0xDE,0x33,0x21,0x2C,0xB5,0x2A,0xFF,0x3C,0xE1,0xB1,0x29,0x40,
-         0x18,0x11,0x8D,0x7C,0x84,0xA7,0x0A,0x72,0xD6,0x86,0xC4,0x03,
-         0x19,0xC8,0x07,0x29,0x7A,0xCA,0x95,0x0C,0xD9,0x96,0x9F,0xAB,
-         0xD0,0x0A,0x50,0x9B,0x02,0x46,0xD3,0x08,0x3D,0x66,0xA4,0x5D,
-         0x41,0x9F,0x9C,0x7C,0xBD,0x89,0x4B,0x22,0x19,0x26,0xBA,0xAB,
-         0xA2,0x5E,0xC3,0x55,0xE9,0x2F,0x78,0xC7,
-         };
-     static unsigned char dh1024_g[]={
-         0x02,
-         };
-     DH *dh;
-
-     if ((dh=DH_new()) == NULL) return(NULL);
-     dh->p=BN_bin2bn(dh1024_p,sizeof(dh1024_p),NULL);
-     dh->g=BN_bin2bn(dh1024_g,sizeof(dh1024_g),NULL);
-     if ((dh->p == NULL) || (dh->g == NULL))
-         { DH_free(dh); return(NULL); }
-     return(dh);
-     }
-rli2@yow-lpgbld-vm40$
-
-4. openssl should be fixed, but I think dropping this patch is
-reasonable, since most machine has not this hardware, and
-if machine has this hw, I think the end-user should know
-how to enable
-
-
--Roy
-
-
-> ---
->   .../openssl/openssl/debian1.0.2/padlock_conf.patch | 31 ----------------------
->   .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 -
->   2 files changed, 32 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/openssl/openssl/debian1.0.2/padlock_conf.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/padlock_conf.patch b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/padlock_conf.patch
-> deleted file mode 100644
-> index 61dcf45..0000000
-> --- a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/padlock_conf.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -
-> -Upstream-Status: Backport [debian]
-> -
-> ---- openssl/apps/openssl.cnf.orig	2012-06-06 00:45:56.000000000 +0200
-> -+++ openssl/apps/openssl.cnf	2012-06-06 00:46:46.000000000 +0200
-> -@@ -19,6 +19,8 @@
-> - # (Alternatively, use a configuration file that has only
-> - # X.509v3 extensions in its main [= default] section.)
-> -
-> -+openssl_conf = openssl_def
-> -+
-> - [ new_oids ]
-> -
-> - # We can add new OIDs in here for use by 'ca', 'req' and 'ts'.
-> -@@ -348,3 +350,16 @@
-> - 				# (optional, default: no)
-> - ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
-> - 				# (optional, default: no)
-> -+
-> -+[openssl_def]
-> -+engines = engine_section
-> -+
-> -+[engine_section]
-> -+padlock = padlock_section
-> -+
-> -+[padlock_section]
-> -+soft_load=1
-> -+init=1
-> -+default_algorithms = ALL
-> -+dynamic_path=padlock
-> -+
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-> index 6cf8049..dd97ea8 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-> @@ -18,7 +18,6 @@ SRC_URI += "file://configure-targets.patch \
->               file://openssl-fix-link.patch \
->               file://debian1.0.2/block_diginotar.patch \
->               file://debian1.0.2/block_digicert_malaysia.patch \
-> -            file://debian1.0.2/padlock_conf.patch \
->               file://debian/ca.patch \
->               file://debian/c_rehash-compat.patch \
->               file://debian/debian-targets.patch \
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+Best regards,
+Marek Vasut
 
