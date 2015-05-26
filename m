@@ -1,41 +1,42 @@
 Return-Path: <mike.looijmans@topicproducts.com>
 Received: from mx6-out14.antispamcloud.com (mx6-out14.antispamcloud.com
 	[95.211.2.226])
-	by mail.openembedded.org (Postfix) with ESMTP id DCDC6737F4
+	by mail.openembedded.org (Postfix) with ESMTP id E702A7322D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 07:03:59 +0000 (UTC)
+	Tue, 26 May 2015 07:13:18 +0000 (UTC)
 Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
 	helo=TOP-EX01.TOPIC.LOCAL)
 	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
 	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1Yx8tv-0006iT-9O for openembedded-core@lists.openembedded.org;
-	Tue, 26 May 2015 09:03:57 +0200
+	id 1Yx937-0008O7-1T; Tue, 26 May 2015 09:13:19 +0200
 Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
 	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 26 May 2015 09:04:15 +0200
-Message-ID: <55641AD2.6040006@topic.nl>
-Date: Tue, 26 May 2015 09:03:46 +0200
+	Tue, 26 May 2015 09:13:45 +0200
+Message-ID: <55641D0C.5020408@topic.nl>
+Date: Tue, 26 May 2015 09:13:16 +0200
 From: Mike Looijmans <mike.looijmans@topic.nl>
 Organization: TOPIC
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <55641868.1080406@topic.nl>
-In-Reply-To: <55641868.1080406@topic.nl>
+	<CADkTA4NaTjRoydVSh63HB6QgvSnQis-z9RnaYZkT3Ng1cm1bWg@mail.gmail.com>
+In-Reply-To: <CADkTA4NaTjRoydVSh63HB6QgvSnQis-z9RnaYZkT3Ng1cm1bWg@mail.gmail.com>
 X-Originating-IP: [192.168.80.121]
 X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
 X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
 X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrJtmlGe8uDXaHve2+egwWfL8dwH2pZCeonLks
-	FEcu2qM8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OThywdm+G+OuTB
-	a63I3wwHWkCYl0PAtPLuCCRu2JEQGZMQ31MusX2Xci0Z8D9aucAtXl4nN7+GwpCp8XCZQDlq825t
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+	NXFr4uarw5QQPRw4IhVOMwzWXgsd365Fz/fbPx+t55bJJwV1f3ggm9sTnd4gnnvBfIIwsV2ywq8g
+	ejvs5mxBUzg3jVOf3vvmP3xMDswqyQ6mQ6XwvGLsuJVCkJk9TlVS86xgAgZafbHqj5fcgWKFi0cp
+	Vjs6qIvg/E0IoWeW6m7zZ2unNX2ZKF64I3KNSe1+si/hz4Rp1CG7X+t1TW39Ja77LGPpOwDOjyd3
+	oGE1tEOqXHYvZIk4yBUEDKaxNZhQ5w2b7VrnnPRMPeCzA4fvS0eXZ3J8iZshEWyJzIkwSFAW0Pw8
+	uiKeJ9eX2UhoCOjofuIFDReRUAFSU+YtS5ujHPpGDgHLmNg7cwe96RgJ9LTG/qMdWsI692PNDpgL
+	sd6Ddd/s7VM53o6ccHCldH+5aCvCLfmaIvz3uFL8N7VKh/CG+lj0Rj1mjuG3OyA90NHVTFoNkTji
+	gYIHzgrL8il3sV0dVRVXzjqRVYKU9W9tbmVXJBqdHHDmlFyaiSgCQQ1OadeU0o3KJDNLKZUH8kQv
+	CzH7IKj6sa/ualLqdVKZ7M4MLatihdWgAi1tftfjOchxjqEU2Rrq/h4D4HsdV7EXqt9Tb4r+2qWN
+	NMsEGomciMSNP+kQUAg0NcOuoWwNJV/UejZysXKtExgD/FVEY7v4laIdTJ8d+KC4ixWSYWIo3iDq
+	xvNn8MbZG8FV/fQARVcG5/WF9EqvuQ==
 X-Report-Abuse-To: spam@mx99.antispamcloud.com
 X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
 	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
@@ -47,8 +48,10 @@ X-Spampanel-Username: 88.159.208.100
 Authentication-Results: antispamcloud.com;
 	auth=pass smtp.auth=88.159.208.100@topic.nl
 X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Spampanel-Outgoing-Evidence: SB/global_tokens (0.00771043108187)
 X-Recommended-Action: accept
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: "bitbake -c menuconfig virtual/kernel" fails on ncurses dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,39 +65,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 07:04:01 -0000
+X-List-Received-Date: Tue, 26 May 2015 07:13:19 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 26-05-15 08:53, Mike Looijmans wrote:
-> I get this when running
-> bitbake -c menuconfig virtual/kernel
+=EF=BB=BFOn 26-05-15 09:02, Bruce Ashfield wrote:
+> On Tue, May 26, 2015 at 2:53 AM, Mike Looijmans <mike.looijmans@topic.nl>=
+ wrote:
+>> I get this when running
+>> bitbake -c menuconfig virtual/kernel
+>>
+>> scripts/kconfig/mconf.o: In function `show_help':
+>> mconf.c:(.text+0x884): undefined reference to `stdscr'
+>> scripts/kconfig/lxdialog/checklist.o: In function `print_arrows':
+>> checklist.c:(.text+0x2c): undefined reference to `wmove'
+>> checklist.c:(.text+0x4c): undefined reference to `acs_map'
+>> checklist.c:(.text+0x54): undefined reference to `waddch'
+>> checklist.c:(.text+0x66): undefined reference to `waddnstr'
+>> checklist.c:(.text+0x76): undefined reference to `wmove'
 >
-> scripts/kconfig/mconf.o: In function `show_help':
-> mconf.c:(.text+0x884): undefined reference to `stdscr'
-> scripts/kconfig/lxdialog/checklist.o: In function `print_arrows':
-> checklist.c:(.text+0x2c): undefined reference to `wmove'
-> checklist.c:(.text+0x4c): undefined reference to `acs_map'
-> checklist.c:(.text+0x54): undefined reference to `waddch'
-> checklist.c:(.text+0x66): undefined reference to `waddnstr'
-> checklist.c:(.text+0x76): undefined reference to `wmove'
+> This has popped up on and off for several years now, and we have a few bu=
+gzilla
+> entries that track it. The fix is never as simple as we would like.
 >
-> A bit of googling reveals that this is probably due to "ncurses" not bein=
-g
-> present.
+> The most recent version is here:
 >
-> I just can't figure out what the proper syntax for this dependency would =
-be.
-> menuconfig needs the "native" version, so it's not simply DEPENDS+=3Dncur=
-ses here.
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7609
+>
+> If you have more details about your enviroment, adding them to that bug w=
+ould
+> be idea.
+>
+> The problem with using the -native version, or the host, is that at times=
+ menu
+> config is rendered unusable. The fix isn't only in the dependencies, but =
+in the
+> way that menuconfig is build within the kernel environment.
+>
+> This older bug tracks the details of that:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3898
 
-Hmm strange, "kernel.bbclass" inherits "cml1.bbclass", which already states=
-:
-do_menuconfig[depends] +=3D "ncurses-native:do_populate_sysroot"
+I have an Ubuntu 14 system. The weird thing is, that I have several almost=
+=20
+identical machines, and some of them fail and some don't.
 
-And ncurses-native has indeed been built. But menuconfig still fails to lin=
-k.
+This one works fine:
+MACHINE=3Dtopic-miami-florida-med-xc7z030
 
+This one fails:
+MACHINE=3Dtopic-miami-florida-gen-xc7z030
+
+They all use the same kernel recipe, version, git tag, etc. These two even=
+=20
+share the very same defconfig. Their builds run within the same OE=20
+environment, so the native sysroot for both is the same too!
 
 
 Kind regards,
