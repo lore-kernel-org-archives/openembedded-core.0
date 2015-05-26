@@ -1,35 +1,22 @@
-Return-Path: <grant@hcubed.com>
-X-Greylist: delayed 2224 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 26 May 2015 13:09:40 UTC
-Received: from circini.lunarpages.com (circini.lunarpages.com [216.97.225.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C180970331
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+X-Greylist: delayed 490 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 26 May 2015 13:32:03 UTC
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 323266AC12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 13:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hcubed.com;
-	s=default; 
-	h=Message-ID:Subject:To:From:Date:Content-Transfer-Encoding:Content-Type:MIME-Version;
-	bh=FQgImR2lBblPh7+omrFimvu/HErZJGT+OaMt96eNVz0=; 
-	b=KsLt1vWRsyNIwtcn7srqZ9KW+KFmpFEDgMytwFWLUSI+/UglziGxjNLW21TsSOxSPG/tpcFXJeXcdrdEtDma6TOApihc5TsUD4zJdy0dp9wbcoSyWqNo290JV0laad/txPNhS/2OmpEBK2UzUwf5r5qwa2MCHv6QdLYJkeWVRq0=;
-Received: from localhost ([127.0.0.1]:35578 helo=circini.lunarpages.com)
-	by circini.lunarpages.com with esmtpa (Exim 4.82)
-	(envelope-from <grant@hcubed.com>)
-	id 1YxE25-00082S-Q9; Tue, 26 May 2015 05:32:33 -0700
-MIME-Version: 1.0
-Date: Tue, 26 May 2015 05:32:33 -0700
-From: grant@hcubed.com
+	Tue, 26 May 2015 13:32:03 +0000 (UTC)
+Received: from hulk.bmw-carit.intra (hulk.bmw-carit.intra [192.168.101.92])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 58D634FBFE;
+	Tue, 26 May 2015 15:17:46 +0200 (CEST)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <36f457602f1854379a8b3c75c36d9c14@hcubed.com>
-X-Sender: grant@hcubed.com
-User-Agent: Roundcube Webmail/1.0.1
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - circini.lunarpages.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - hcubed.com
-X-Get-Message-Sender-Via: circini.lunarpages.com: authenticated_id:
-	grant@hcubed.com
-Subject: Multi-Lib Address Sanitizer
+Date: Tue, 26 May 2015 15:23:21 +0200
+Message-Id: <1432646601-24221-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] boost: extend libraries with log and random
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,16 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 13:09:41 -0000
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 May 2015 13:32:04 -0000
 
-I have a need to have GCC's address sanitizer work in a 32-bit and a 
-64-bit environment. The current address sanitizer only produces the base 
-library. Does someone have patches that would allow the address 
-sanitizer to produce the libraries for both architectures?
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+---
+ meta/recipes-support/boost/boost.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-Grant Haidinyak
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index d95d281..cf4faca 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -11,7 +11,9 @@ BOOST_LIBS = "\
+ 	filesystem \
+ 	graph \
+ 	iostreams \
++	log \
+ 	program_options \
++	random \
+ 	regex \
+ 	serialization \
+ 	signals \
+-- 
+1.9.3
+
 
