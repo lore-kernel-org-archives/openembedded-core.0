@@ -1,36 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9098665D6E
+Return-Path: <prvs=58172eb16=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 592 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 26 May 2015 15:08:00 UTC
+Received: from esa2.bmw.c3s2.iphmx.com (esa2.bmw.c3s2.iphmx.com
+	[68.232.133.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 117556AC12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 14:46:51 +0000 (UTC)
-Received: by qgfa63 with SMTP id a63so63062831qgf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 07:46:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=HGOhgvnk3qpQhCXN3Xnaa3pEcZqp6G/9xfpghCuRIEE=;
-	b=WBzeQFOTfXhUPzfGG50uf8ip87E7aULI1TH+QMl6vfgI1FFDAP+P8fc7gmlUSCngca
-	9982x8iJS3rYKnAH8foyjlCbGgtM9buPF1L8tiz9ZvULR3aeXqGmQPopDH6X/NxgTv26
-	yveRqfo8okP2ruVjni/l2r6ayOZ0clEWaCQBFkdynLVFmQ+vBDT/YmCyq53fG6Y6Zq0Q
-	y4guI5ngukLx0eHyNkFl1DFzGEdks2htm+GMyVZ4dJRv819EhqhWX1C5jA+bBIHz6Yh5
-	rQHwxLMAYoRR+NqVIBMw8d90MdnX2SwzXA1uOC0NPezFAJa40ga8wHP5gtfRll5ZyBkh
-	/ibw==
-X-Gm-Message-State: ALoCoQk2bFOBQyw9149Z9eMJhBBWVbpSP7LrPTimCWfLDQHqJVXrQp+ZtIVi5c1Gs8W7vpFkCCI7
-X-Received: by 10.140.133.199 with SMTP id 190mr36152435qhf.17.1432651612109; 
-	Tue, 26 May 2015 07:46:52 -0700 (PDT)
+	Tue, 26 May 2015 15:08:00 +0000 (UTC)
+Authentication-Results: esa2.bmw.c3s2.iphmx.com;
+	dkim=neutral (message not signed) header.i=none
+Received-SPF: None (esa2.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	Mikko.Rapeli@bmw.de) identity=pra; client-ip=160.46.252.35;
+	receiver=esa2.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="Mikko.Rapeli@bmw.de"; x-conformance=sidf_compatible
+Received-SPF: None (esa2.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	Mikko.Rapeli@bmw.de) identity=mailfrom;
+	client-ip=160.46.252.35; receiver=esa2.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="Mikko.Rapeli@bmw.de"; x-conformance=sidf_compatible
+Received-SPF: None (esa2.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	postmaster@esagw3.muc) identity=helo;
+	client-ip=160.46.252.35; receiver=esa2.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="postmaster@esagw3.muc"; x-conformance=sidf_compatible
+X-IronPort-AV: E=Sophos;i="5.13,498,1427752800"; d="scan'208";a="44332287"
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35])
+	by esa2.bmw.c3s2.iphmx.com with ESMTP/TLS/DHE-RSA-CAMELLIA256-SHA;
+	26 May 2015 16:58:08 +0200
+Received: from unknown (HELO esabb6.muc) ([160.50.100.50])
+	by esagw3.muc with ESMTP/TLS/DHE-RSA-CAMELLIA256-SHA;
+	26 May 2015 16:58:04 +0200
+X-IronPort-AV: E=Sophos;i="5.13,498,1427752800"; 
+   d="scan'208";a="936051"
+Received: from smuch58b.muc (HELO SMUCH58B.europe.bmw.corp) ([160.46.137.108])
+	by esabb6.muc with ESMTP/TLS/AES128-SHA; 26 May 2015 16:58:04 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH58B.europe.bmw.corp ([160.46.137.108]) with mapi id 14.03.0224.002;
+	Tue, 26 May 2015 16:58:04 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] buildhistory: set commit user name and email for the
+	new git repo
+Thread-Index: AQHQksih4WI/vOwVykCmcGf7GX9A8Z2OQaKA
+Date: Tue, 26 May 2015 14:58:02 +0000
+Message-ID: <20150526145803.GD12838@loska>
+References: <1432104329-6352-1-git-send-email-mikko.rapeli@bmw.de>
+In-Reply-To: <1432104329-6352-1-git-send-email-mikko.rapeli@bmw.de>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 26 May 2015 07:46:31 -0700 (PDT)
-In-Reply-To: <1432344088-10846-1-git-send-email-armccurdy@gmail.com>
-References: <1432344088-10846-1-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 May 2015 15:46:31 +0100
-Message-ID: <CAJTo0LZmhhLMVRhHkpQxA0WGhhrA5CZ-G1VHrK31=XSzjiEmZQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnu-config: improve detection of perl setup errors
+Subject: Re: [PATCH] buildhistory: set commit user name and email for the new git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +67,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 14:46:52 -0000
-Content-Type: multipart/alternative; boundary=001a113533906d708d0516fd3202
-
---001a113533906d708d0516fd3202
-Content-Type: text/plain; charset=UTF-8
-
-On 23 May 2015 at 02:21, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> Warning: This patch causes building of some packages to fail if OE and
-> host perl versions differ, so should not be merged until those issues
-> are resolved. To reproduce the current issues:
->
->   - Use a host with perl 5.18 (e.g. Ubuntu 14.04)
->   - Apply this patch to oe-core master or fido
->   - bitbake -fc configure intltool
->
-
-Does this caveat apply to minor perl versions too?  This patch causes
-gcc-source to break when it runs gnu-configize on my Debian machine (perl
-5.20.2, OE has 5.20.0).
-
-Ross
-
---001a113533906d708d0516fd3202
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 26 May 2015 15:08:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <65729772A4C44F4FBE90A46B7FD4D187@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 May 2015 at 02:21, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":g91" class=3D"a3s" =
-style=3D"overflow:hidden">Warning: This patch causes building of some packa=
-ges to fail if OE and<br>
-host perl versions differ, so should not be merged until those issues<br>
-are resolved. To reproduce the current issues:<br>
-<br>
-=C2=A0 - Use a host with perl 5.18 (e.g. Ubuntu 14.04)<br>
-=C2=A0 - Apply this patch to oe-core master or fido<br>
-=C2=A0 - bitbake -fc configure intltool</div></blockquote></div><br>Does th=
-is caveat apply to minor perl versions too?=C2=A0 This patch causes gcc-sou=
-rce to break when it runs gnu-configize on my Debian machine (perl 5.20.2, =
-OE has 5.20.0).</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+Already fixed by merged commit:
 
---001a113533906d708d0516fd3202--
+http://git.openembedded.org/openembedded-core/commit/?id=3Df62255bfa6c5a322=
+c867b7c4ea5686ea7bfab3fe
+
+-Mikko=
+
