@@ -1,24 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B98B3606E8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AC60165C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 09:26:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4Q9QaoC004242
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 May 2015 10:41:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4QAftbw030416 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 May 2015 11:41:55 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Gjqz5vyReQs7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 02:26:36 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 26 May 2015 02:26:36 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 May 2015 17:21:03 +0800
-Message-ID: <1432632063-3342-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH][V2] ppp: Security Advisory - CVE-2015-3310
+	Tue, 26 May 2015 11:41:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t4QAffke030399
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 May 2015 11:41:52 +0100
+Message-ID: <1432636901.404.2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 May 2015 11:41:41 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] avahi: Fix key expansion variable masking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 09:26:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 May 2015 10:41:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+bitbake -b avahi_ -e | grep FILES_avahi=
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3310
+shows this code from http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=093149d22461a3a76980635bc46cdba1c7c0b181
+doesn't do what is expected. This is due to key expansion. Change to use ${PN}
+to avoid warnings with new versions of bitbake.
 
-Buffer overflow in the rc_mksid function in plugins/radius/util.c in
-Paul's PPP Package (ppp) 2.4.6 and earlier, when the PID for pppd is
-greater than 65535, allows remote attackers to cause a denial of
-service (crash) via a start accounting message to the RADIUS server.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-oe-core is using ppp 2.4.7, and this CVE say ppp 2.4.7 was not
-effected, but I found this buggy codes are same between 2.4.6 and
-2.4.7, and 2.4.7 should have this issue.
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../ppp/ppp/fix-CVE-2015-3310.patch                | 29 ++++++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-
-diff --git a/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-new file mode 100644
-index 0000000..b8ca204
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-@@ -0,0 +1,29 @@
-+ppp: Buffer overflow in radius plugin
-+
-+From: https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=5;bug=782450
-+
-+Upstream-Status: Backport
-+
-+On systems with more than 65535 processes running, pppd aborts when
-+sending a "start" accounting message to the RADIUS server because of a
-+buffer overflow in rc_mksid.
-+
-+The process id is used in rc_mksid to generate a pseudo-unique string,
-+assuming that the hex representation of the pid will be at most 4
-+characters (FFFF). __sprintf_chk(), used when compiling with
-+optimization levels greater than 0 and FORTIFY_SOURCE, detects the
-+buffer overflow and makes pppd crash.
-+
-+The following patch fixes the problem.
-+
-+--- ppp-2.4.6.orig/pppd/plugins/radius/util.c
-++++ ppp-2.4.6/pppd/plugins/radius/util.c
-+@@ -77,7 +77,7 @@ rc_mksid (void)
-+   static unsigned short int cnt = 0;
-+   sprintf (buf, "%08lX%04X%02hX",
-+ 	   (unsigned long int) time (NULL),
-+-	   (unsigned int) getpid (),
-++	   (unsigned int) getpid () % 65535,
-+ 	   cnt & 0xFF);
-+   cnt++;
-+   return buf;
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 4219d45..adc38e1 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://provider \
-            file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
-            file://ppp@.service \
-+           file://fix-CVE-2015-3310.patch \
- "
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index b060437..825197d 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -75,7 +75,7 @@ PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dn
  
- SRC_URI[md5sum] = "78818f40e6d33a1d1de68a1551f6595a"
--- 
-1.9.1
+ # As avahi doesn't put any files into PN, clear the files list to avoid problems
+ # if extra libraries appear.
+-FILES_avahi = ""
++FILES_${PN} = ""
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+                        ${sysconfdir}/dhcp/*/avahi-autoipd \
+
 
 
