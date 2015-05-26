@@ -1,28 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 159847324E
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 500F0606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 09:15:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2015 02:15:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,497,1427785200"; d="scan'208";a="731690588"
-Received: from leeshawn-mobl3.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.22.214])
-	by fmsmga002.fm.intel.com with ESMTP; 26 May 2015 02:15:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Randy Witt <randy.e.witt@intel.com>, Khem Raj <raj.khem@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 26 May 2015 10:15:45 +0100
-Message-ID: <2981463.2asXSZhTDk@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <5564081E.1050401@windriver.com>
-References: <cover.1427186518.git.Qi.Chen@windriver.com>
-	<5564081E.1050401@windriver.com>
+	Tue, 26 May 2015 09:24:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4Q9OnxR004032
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 May 2015 02:24:49 -0700 (PDT)
+Received: from [128.224.162.136] (128.224.162.136) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 26 May 2015 02:24:48 -0700
+Message-ID: <55643BDF.4040008@windriver.com>
+Date: Tue, 26 May 2015 17:24:47 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Support persistent /var/log
+To: <openembedded-core@lists.openembedded.org>
+References: <1432624893-1497-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1432624893-1497-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] ppp: Security Advisory - CVE-2015-3310
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +34,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 09:15:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 May 2015 09:24:50 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Randy, Khem, Otavio - this area was the subject of a discussion involving you 
-around the 1.8 release, if you could review this set and comment that would be 
-great.
+please drop it, there is a typos
 
-Thanks,
-Paul
+-R
 
-On Tuesday 26 May 2015 13:43:58 ChenQi wrote:
-> ping ....
-> 
-> *ANY* comment would be welcome, really ...
-> 
-> Thanks,
-> Chen Qi
-> 
-> On 03/24/2015 04:42 PM, Chen Qi wrote:
-> > The following changes since commit 
-d3fcfe346b3472170641d9194243c4bbe06b8585:
-> >    systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:13
-> >    +0000)> 
-> > are available in the git repository at:
-> >    git://git.openembedded.org/openembedded-core-contrib
-> >    ChenQi/persistent-var-log
-> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h
-> >    =ChenQi/persistent-var-log> 
-> > Chen Qi (4):
-> >    bitbake.conf: add VOLATILE_LOG_DIR variable
-> >    base-files: respect VOLATILE_LOG_DIR
-> >    initscripts: support persistent /var/log
-> >    package.bbclass: support persistent /var/log
-> >   
-> >   meta/classes/package.bbclass                       |  2 +-
-> >   meta/conf/bitbake.conf                             |  4 ++
-> >   meta/files/fs-perms-persistent-log.txt             | 66
-> >   ++++++++++++++++++++++
-> >   meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
-> >   .../initscripts/initscripts-1.0/volatiles          |  1 -
-> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
-> >   6 files changed, 76 insertions(+), 4 deletions(-)
-> >   create mode 100644 meta/files/fs-perms-persistent-log.txt
+On 2015年05月26日 15:21, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3310
+>
+> Buffer overflow in the rc_mksid function in plugins/radius/util.c in
+> Paul's PPP Package (ppp) 2.4.6 and earlier, when the PID for pppd is
+> greater than 65535, allows remote attackers to cause a denial of
+> service (crash) via a start accounting message to the RADIUS server.
+>
+> oe-core is using ppp 2.4.7, and this CVE say ppp 2.4.7 was not
+> effected, but I found this buggy codes are same between 2.4.6 and
+> 2.4.7, and 2.4.7 should have this issue.
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   .../ppp/ppp/fix-CVE-2015-3310.patch                | 29 ++++++++++++++++++++++
+>   meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
+>   2 files changed, 30 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
+>
+> diff --git a/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
+> new file mode 100644
+> index 0000000..b8ca204
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
+> @@ -0,0 +1,29 @@
+> +ppp: Buffer overflow in radius plugin
+> +
+> +From: https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=5;bug=782450
+> +
+> +Upstream-Statue: Backport
+> +
+> +On systems with more than 65535 processes running, pppd aborts when
+> +sending a "start" accounting message to the RADIUS server because of a
+> +buffer overflow in rc_mksid.
+> +
+> +The process id is used in rc_mksid to generate a pseudo-unique string,
+> +assuming that the hex representation of the pid will be at most 4
+> +characters (FFFF). __sprintf_chk(), used when compiling with
+> +optimization levels greater than 0 and FORTIFY_SOURCE, detects the
+> +buffer overflow and makes pppd crash.
+> +
+> +The following patch fixes the problem.
+> +
+> +--- ppp-2.4.6.orig/pppd/plugins/radius/util.c
+> ++++ ppp-2.4.6/pppd/plugins/radius/util.c
+> +@@ -77,7 +77,7 @@ rc_mksid (void)
+> +   static unsigned short int cnt = 0;
+> +   sprintf (buf, "%08lX%04X%02hX",
+> + 	   (unsigned long int) time (NULL),
+> +-	   (unsigned int) getpid (),
+> ++	   (unsigned int) getpid () % 65535,
+> + 	   cnt & 0xFF);
+> +   cnt++;
+> +   return buf;
+> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> index 4219d45..adc38e1 100644
+> --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> @@ -29,6 +29,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+>              file://provider \
+>              file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
+>              file://ppp@.service \
+> +           file://fix-CVE-2015-3310.patch \
+>   "
+>
+>   SRC_URI[md5sum] = "78818f40e6d33a1d1de68a1551f6595a"
+>
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Best Reagrds,
+Roy | RongQing Li
 
