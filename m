@@ -1,24 +1,56 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E528265C7E
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx6-out14.antispamcloud.com (mx6-out14.antispamcloud.com
+	[95.211.2.226])
+	by mail.openembedded.org (Postfix) with ESMTP id D5AF265C63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 07:27:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4Q7R5AB013815
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 00:27:06 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 26 May 2015 00:27:05 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 May 2015 15:21:33 +0800
-Message-ID: <1432624893-1497-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 26 May 2015 08:14:47 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1YxA0b-0002wM-Sx for openembedded-core@lists.openembedded.org;
+	Tue, 26 May 2015 10:14:48 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 26 May 2015 10:15:14 +0200
+Message-ID: <55642B75.8050909@topic.nl>
+Date: Tue, 26 May 2015 10:14:45 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH] ppp: Security Advisory - CVE-2015-3310
+To: <openembedded-core@lists.openembedded.org>
+References: <55641868.1080406@topic.nl>	<CADkTA4NaTjRoydVSh63HB6QgvSnQis-z9RnaYZkT3Ng1cm1bWg@mail.gmail.com>	<55641D0C.5020408@topic.nl>
+	<55642019.3060305@topic.nl>
+In-Reply-To: <55642019.3060305@topic.nl>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrbTlFV9sh/xsD6Ke4vE8xgE9M9jxgwXIOzt+J
+	aZLIuyk8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OThywdm+G+OuTB
+	a63I3wwHWkCYl0PAtPLuCCRu2JEQGZMQ31MusX2Xci0Z8D9aucAtXl4nN7+GwpCp8XCZQDlq825t
+	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: SB/global_tokens (0.00988369781215)
+X-Recommended-Action: accept
+Subject: Re: "bitbake -c menuconfig virtual/kernel" fails on ncurses dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +63,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 May 2015 07:27:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 May 2015 08:14:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: Roy Li <rongqing.li@windriver.com>
+=EF=BB=BFOn 26-05-15 09:26, Mike Looijmans wrote:
+> On 26-05-15 09:13, Mike Looijmans wrote:
+>> On 26-05-15 09:02, Bruce Ashfield wrote:
+>>> On Tue, May 26, 2015 at 2:53 AM, Mike Looijmans <mike.looijmans@topic.n=
+l>
+>>> wrote:
+>>>> I get this when running
+>>>> bitbake -c menuconfig virtual/kernel
+>>>>
+>>>> scripts/kconfig/mconf.o: In function `show_help':
+>>>> mconf.c:(.text+0x884): undefined reference to `stdscr'
+>>>> scripts/kconfig/lxdialog/checklist.o: In function `print_arrows':
+>>>> checklist.c:(.text+0x2c): undefined reference to `wmove'
+>>>> checklist.c:(.text+0x4c): undefined reference to `acs_map'
+>>>> checklist.c:(.text+0x54): undefined reference to `waddch'
+>>>> checklist.c:(.text+0x66): undefined reference to `waddnstr'
+>>>> checklist.c:(.text+0x76): undefined reference to `wmove'
+>>>
+>>> This has popped up on and off for several years now, and we have a few
+>>> bugzilla
+>>> entries that track it. The fix is never as simple as we would like.
+>>>
+>>> The most recent version is here:
+>>>
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7609
+>>>
+>>> If you have more details about your enviroment, adding them to that bug=
+ would
+>>> be idea.
+>>>
+>>> The problem with using the -native version, or the host, is that at tim=
+es menu
+>>> config is rendered unusable. The fix isn't only in the dependencies, bu=
+t in
+>>> the
+>>> way that menuconfig is build within the kernel environment.
+>>>
+>>> This older bug tracks the details of that:
+>>>
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3898
+>>
+>> I have an Ubuntu 14 system. The weird thing is, that I have several almo=
+st
+>> identical machines, and some of them fail and some don't.
+>>
+>> This one works fine:
+>> MACHINE=3Dtopic-miami-florida-med-xc7z030
+>>
+>> This one fails:
+>> MACHINE=3Dtopic-miami-florida-gen-xc7z030
+>>
+>> They all use the same kernel recipe, version, git tag, etc. These two ev=
+en
+>> share the very same defconfig. Their builds run within the same OE
+>> environment, so the native sysroot for both is the same too!
+>
+> I output "bitbake -c menuconfig virtual/kernel -e" for both machines into=
+ two
+> files, then did a find/replace "med" with "gen", and then looked the the
+> differences with meld. Both machines use the same environments all over, =
+only
+> differences are time stamps and task checksums.
+>
+> Next I'm gonna try the old "remove tmp" trick.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3310
+Removing tmp did not help either. Forcibly rebuilding ncurses-native also d=
+id=20
+not help.
 
-Buffer overflow in the rc_mksid function in plugins/radius/util.c in
-Paul's PPP Package (ppp) 2.4.6 and earlier, when the PID for pppd is
-greater than 65535, allows remote attackers to cause a denial of
-service (crash) via a start accounting message to the RADIUS server.
+I'm now trying a complete clean start with current master branches...
 
-oe-core is using ppp 2.4.7, and this CVE say ppp 2.4.7 was not
-effected, but I found this buggy codes are same between 2.4.6 and
-2.4.7, and 2.4.7 should have this issue.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../ppp/ppp/fix-CVE-2015-3310.patch                | 29 ++++++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-new file mode 100644
-index 0000000..b8ca204
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-@@ -0,0 +1,29 @@
-+ppp: Buffer overflow in radius plugin
-+
-+From: https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=5;bug=782450
-+
-+Upstream-Statue: Backport
-+
-+On systems with more than 65535 processes running, pppd aborts when
-+sending a "start" accounting message to the RADIUS server because of a
-+buffer overflow in rc_mksid.
-+
-+The process id is used in rc_mksid to generate a pseudo-unique string,
-+assuming that the hex representation of the pid will be at most 4
-+characters (FFFF). __sprintf_chk(), used when compiling with
-+optimization levels greater than 0 and FORTIFY_SOURCE, detects the
-+buffer overflow and makes pppd crash.
-+
-+The following patch fixes the problem.
-+
-+--- ppp-2.4.6.orig/pppd/plugins/radius/util.c
-++++ ppp-2.4.6/pppd/plugins/radius/util.c
-+@@ -77,7 +77,7 @@ rc_mksid (void)
-+   static unsigned short int cnt = 0;
-+   sprintf (buf, "%08lX%04X%02hX",
-+ 	   (unsigned long int) time (NULL),
-+-	   (unsigned int) getpid (),
-++	   (unsigned int) getpid () % 65535,
-+ 	   cnt & 0xFF);
-+   cnt++;
-+   return buf;
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 4219d45..adc38e1 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://provider \
-            file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
-            file://ppp@.service \
-+           file://fix-CVE-2015-3310.patch \
- "
- 
- SRC_URI[md5sum] = "78818f40e6d33a1d1de68a1551f6595a"
--- 
-1.9.1
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
