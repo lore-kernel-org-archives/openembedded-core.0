@@ -1,30 +1,35 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E660728CB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9024070331
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 01:59:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4R1xZj4027719
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 27 May 2015 02:28:01 +0000 (UTC)
+Received: by obbgf1 with SMTP id gf1so48006850obb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 18:59:35 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 26 May 2015 18:59:33 -0700
-Message-ID: <55652501.2080608@windriver.com>
-Date: Wed, 27 May 2015 09:59:29 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue, 26 May 2015 19:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=yd81cTyBhdXVtKYwMwH6h7C/88aoMqyqniA0jMlUDhw=;
+	b=rqpUJwMMXZbwJEN3rFq5EdZM0oBfLhjnu/immfbASyx04r5g9/1h776vWh5ht6ZJB9
+	0KoAoZXkVFwmr/pQ5B1mC9mODD5b7iw/pKoVU+0NVjTzlUrBBza4phgC2UDcGGOzX0FD
+	HF3IwDtV3TL9wLFPWQtt3OG79MBgZ+gLBhaZEs5yxkx9EsToZhCeRefCWfGAUGVI8uOi
+	ppB2NWVtVTdssYfS4y+nOkbzxfhmQUTjSONRlwjFi9zOdF2cFgbT1l3+nhvrTJ5ONPVm
+	xvJvn7N10CHdE6gZDrXNU6wZbh+MUIH4QploZreO8BTIax3A3T3TOlBPAT1HrtamLkRR
+	OxPg==
 MIME-Version: 1.0
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1432624313.git.kai.kang@windriver.com>
-	<5ba2d6f0817b422f4cfde4fac6554f2f9571411a.1432624313.git.kai.kang@windriver.com>
-	<55651CC8.5000402@windriver.com>
-In-Reply-To: <55651CC8.5000402@windriver.com>
-Subject: Re: [PATCH 2/2] libav: upgrade to 9.18
+X-Received: by 10.182.210.230 with SMTP id mx6mr24447418obc.64.1432693682432; 
+	Tue, 26 May 2015 19:28:02 -0700 (PDT)
+Received: by 10.202.44.23 with HTTP; Tue, 26 May 2015 19:28:02 -0700 (PDT)
+In-Reply-To: <55636AA6.5030800@linux.intel.com>
+References: <1432253466-9933-1-git-send-email-armccurdy@gmail.com>
+	<55636AA6.5030800@linux.intel.com>
+Date: Tue, 26 May 2015 19:28:02 -0700
+Message-ID: <CAJ86T=VJpjNd6so51mM=CmS17O-AWtppX8sK=_4+eEotfxrZhA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gnutls: remove --with-libz-prefix configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,229 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 01:59:35 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 27 May 2015 02:28:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2015年05月27日 09:24, Randy MacLeod wrote:
-> On 2015-05-26 03:14 AM, Kai Kang wrote:
->> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_PR and
->> backport patch to fix CVE-2014-9676.
->
-> We can keep that version if people want it but it's almost pretty old.
->
-> Version 11.3 is the latest branch.
->    Libav 11.3
->    https://libav.org/releases/libav-11.3.release
->
-> Oh and on the 11 branch, the CVE fix is in commit:
->
-> libav.git $ git branch --contains f6c82b34
-> * release/11
->
-> found by looking at your commit b3f0465, then finding a new
-> function seg_free_context and then:
-> $ git blame libavformat/segment.c | grep seg_free_context
->
->
-> There are some pacakges that depend on libav:
->    libav/libpostproc_git.bb
->    gstreamer
->    alsa-plugins
->
-> From:
-> $ grep -r libav meta/recipes* | grep DEPENDS | grep -v libavahi
-> meta/recipes-multimedia/libav/libpostproc_git.bb:DEPENDS = "libav"
->
->
-> $ grep -r libav meta/ | grep PACKAGECONFIG | grep libav
-> meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc:\
->    PACKAGECONFIG[libav] = "--with-system-libav,,libav"
-> meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb:\
->    PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec,libav"
->
->
-> I think the upgrade should be okay but please do test it.
+On Mon, May 25, 2015 at 11:32 AM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> Hi Andre,
 
-I'll  add recipe for serial 11. If the old version recipe is kept, I 
-suppose it is nesscessary to  update it to the latest version for serial 9.
+Hi An=C3=ADbal,
 
---Kai
+> This patch broke gnutls build on multilib,
+>
+> ERROR: QA Issue: gnutls: The compile log indicates that host include and/=
+or
+> library paths were used.
+>          Please check the log
+> '/home/alimon/repos/poky/build-x86-64-multilib/tmp/work/core2-64-poky-lin=
+ux/gnutls/3.3.14-r0/temp/log.do_compile'
+> for more information. [compile-host-path]
+> ERROR: QA run found fatal errors. Please consider fixing them.
+> ERROR: Function failed: do_package_qa
+> ERROR: Logfile of failure stored in:
+> /home/alimon/repos/poky/build-x86-64-multilib/tmp/work/core2-64-poky-linu=
+x/gnutls/3.3.14-r0/temp/log.do_package_qa.25738
+> ERROR: Task 2411
+> (/home/alimon/repos/poky/meta/recipes-support/gnutls/gnutls_3.3.14.bb,
+> do_package_qa) failed with exit code '1
 
+I'm not able to reproduce your error, but based on some googling it
+seems that issues cross compiling gnutls are not uncommon. Buildroot
+added the --with-libz-prefix configure option specifically to fix
+issues with configure finding the host's libz [1]. Chromium has a more
+complete fix, which patches configure.ac to find libz using
+PKG_CHECK_MODULES instead of AC_LIB_HAVE_LINKFLAGS [2].
+
+Since the original issue (absolute paths in gnutls.pc Libs.private) is
+fairly benign, I think the best solution right now is to revert back
+to using the --with-libz-prefix configure option in OE.
+
+ [1] http://lists.busybox.net/pipermail/buildroot/2014-February/088307.html
+ [2] https://chromium-review.googlesource.com/#/c/271661/2/net-libs/gnutls/=
+files/gnutls-2.12.23-cross-compile.patch
+
+
+> Kind regards,
+>     alimon
 >
-> ../Randy
 >
+> On 21/05/15 19:11, Andre McCurdy wrote:
 >>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> The default search path in sysroot is sufficient to find zlib, so the
+>> --with-libz-prefix configure option seems to be unnecessary.
+>>
+>> For target builds, relying on sysroot also prevents an absolute path
+>> from being hardcoded in the gnutls.pc pkg-config file.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 >> ---
->>   meta/recipes-multimedia/libav/libav.inc            |  2 -
->>   .../libav/libav/libav-fix-CVE-2014-9676.patch      | 98 
->> ++++++++++++++++++++++
->>   meta/recipes-multimedia/libav/libav_9.16.bb        |  4 -
->>   meta/recipes-multimedia/libav/libav_9.18.bb        |  6 ++
->>   4 files changed, 104 insertions(+), 6 deletions(-)
->>   create mode 100644 
->> meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->>   delete mode 100644 meta/recipes-multimedia/libav/libav_9.16.bb
->>   create mode 100644 meta/recipes-multimedia/libav/libav_9.18.bb
+>>   meta/recipes-support/gnutls/gnutls.inc | 1 -
+>>   1 file changed, 1 deletion(-)
 >>
->> diff --git a/meta/recipes-multimedia/libav/libav.inc 
->> b/meta/recipes-multimedia/libav/libav.inc
->> index cac836f..6ef273b 100644
->> --- a/meta/recipes-multimedia/libav/libav.inc
->> +++ b/meta/recipes-multimedia/libav/libav.inc
->> @@ -24,8 +24,6 @@ ARM_INSTRUCTION_SET = "arm"
->>
->>   DEPENDS = "alsa-lib zlib libogg yasm-native"
->>
->> -INC_PR = "r8"
->> -
->>   inherit autotools pkgconfig
->>
->>   B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
->> diff --git 
->> a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch 
->> b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->> new file mode 100644
->> index 0000000..1e31caa
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->> @@ -0,0 +1,98 @@
->> +Upstream-Status: Backport
->> +
->> +Backport patch to fix CVE-2014-9676.
->> +
->> +https://security-tracker.debian.org/tracker/CVE-2014-9676
->> +https://git.libav.org/?p=libav.git;a=commit;h=b3f04657368a32a9903406395f865e230b1de348 
->>
->> +
->> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> +---
->> +From b3f04657368a32a9903406395f865e230b1de348 Mon Sep 17 00:00:00 2001
->> +From: Luca Barbato <lu_zero@gentoo.org>
->> +Date: Mon, 5 Jan 2015 10:40:41 +0100
->> +Subject: [PATCH] segment: Fix the failure paths
->> +
->> +A failure in segment_end() or segment_start() would lead to freeing
->> +a dangling pointer and in general further calls to seg_write_packet()
->> +or to seg_write_trailer() would have the same faulty behaviour.
->> +
->> +CC: libav-stable@libav.org
->> +Reported-By: luodalongde@gmail.com
->> +---
->> + libavformat/segment.c | 32 ++++++++++++++++++++------------
->> + 1 file changed, 20 insertions(+), 12 deletions(-)
->> +
->> +diff --git a/libavformat/segment.c b/libavformat/segment.c
->> +index 52da6b9..bcfd1f9 100644
->> +--- a/libavformat/segment.c
->> ++++ b/libavformat/segment.c
->> +@@ -184,6 +184,13 @@ static void close_null_ctx(AVIOContext *pb)
->> +     av_free(pb);
->> + }
->> +
->> ++static void seg_free_context(SegmentContext *seg)
->> ++{
->> ++    avio_closep(&seg->pb);
->> ++    avformat_free_context(seg->avf);
->> ++    seg->avf = NULL;
->> ++}
->> ++
->> + static int seg_write_header(AVFormatContext *s)
->> + {
->> +     SegmentContext *seg = s->priv_data;
->> +@@ -265,12 +272,9 @@ static int seg_write_header(AVFormatContext *s)
->> +     }
->> +
->> + fail:
->> +-    if (ret) {
->> +-        if (seg->list)
->> +-            avio_close(seg->pb);
->> +-        if (seg->avf)
->> +-            avformat_free_context(seg->avf);
->> +-    }
->> ++    if (ret < 0)
->> ++        seg_free_context(seg);
->> ++
->> +     return ret;
->> + }
->> +
->> +@@ -282,6 +286,9 @@ static int seg_write_packet(AVFormatContext *s, 
->> AVPacket *pkt)
->> +     int64_t end_pts = seg->recording_time * seg->number;
->> +     int ret, can_split = 1;
->> +
->> ++    if (!oc)
->> ++        return AVERROR(EINVAL);
->> ++
->> +     if (seg->has_video) {
->> +         can_split = st->codec->codec_type == AVMEDIA_TYPE_VIDEO &&
->> +                     pkt->flags & AV_PKT_FLAG_KEY;
->> +@@ -322,11 +329,8 @@ static int seg_write_packet(AVFormatContext *s, 
->> AVPacket *pkt)
->> +     ret = ff_write_chained(oc, pkt->stream_index, pkt, s);
->> +
->> + fail:
->> +-    if (ret < 0) {
->> +-        if (seg->list)
->> +-            avio_close(seg->pb);
->> +-        avformat_free_context(oc);
->> +-    }
->> ++    if (ret < 0)
->> ++        seg_free_context(seg);
->> +
->> +     return ret;
->> + }
->> +@@ -335,7 +339,11 @@ static int seg_write_trailer(struct 
->> AVFormatContext *s)
->> + {
->> +     SegmentContext *seg = s->priv_data;
->> +     AVFormatContext *oc = seg->avf;
->> +-    int ret;
->> ++    int ret = 0;
->> ++
->> ++    if (!oc)
->> ++        goto fail;
->> ++
->> +     if (!seg->write_header_trailer) {
->> +         if ((ret = segment_end(oc, 0)) < 0)
->> +             goto fail;
->> +--
->> +2.4.1.314.g9532ead
->> +
->> diff --git a/meta/recipes-multimedia/libav/libav_9.16.bb 
->> b/meta/recipes-multimedia/libav/libav_9.16.bb
->> deleted file mode 100644
->> index 79ff3f8..0000000
->> --- a/meta/recipes-multimedia/libav/libav_9.16.bb
->> +++ /dev/null
->> @@ -1,4 +0,0 @@
->> -require libav.inc
->> -
->> -SRC_URI[md5sum] = "7b44b75cec24b8e7545e5029e76917e0"
->> -SRC_URI[sha256sum] = 
->> "ca846473b0b8ed8e3404c52e5e92df6d35cb5fa487eec498525de3ffda4367a0"
->> diff --git a/meta/recipes-multimedia/libav/libav_9.18.bb 
->> b/meta/recipes-multimedia/libav/libav_9.18.bb
->> new file mode 100644
->> index 0000000..210a649
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/libav/libav_9.18.bb
->> @@ -0,0 +1,6 @@
->> +require libav.inc
->> +
->> +SRC_URI[md5sum] = "75e838068a75fb88e1b4ea0546bc16f0"
->> +SRC_URI[sha256sum] = 
->> "0875e835da683eef1a7bac75e1884634194149d7479d1538ba9fbe1614d066d7"
->> +
->> +SRC_URI += "file://libav-fix-CVE-2014-9676.patch"
->>
+>> diff --git a/meta/recipes-support/gnutls/gnutls.inc
+>> b/meta/recipes-support/gnutls/gnutls.inc
+>> index 45fb529..87f275a 100644
+>> --- a/meta/recipes-support/gnutls/gnutls.inc
+>> +++ b/meta/recipes-support/gnutls/gnutls.inc
+>> @@ -23,7 +23,6 @@ EXTRA_OECONF=3D"--disable-rpath \
+>>                 --with-included-libtasn1 \
+>>                 --enable-local-libopts \
+>>                 --with-libpthread-prefix=3D${STAGING_DIR_HOST}${prefix} =
+\
+>> -              --with-libz-prefix=3D${STAGING_DIR_HOST}${prefix} \
+>>                 --disable-guile \
+>>                 --disable-crywrap \
+>>                 --without-p11-kit \
 >
 >
-
-
--- 
-Regards,
-Neil | Kai Kang
-
 
