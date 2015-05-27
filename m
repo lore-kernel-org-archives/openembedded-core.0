@@ -1,23 +1,35 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA2D6C6F9
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BD9674230
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 12:58:57 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 27 May 2015 05:58:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,505,1427785200"; d="scan'208";a="498893970"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 27 May 2015 05:58:58 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 5BFE46A4005;
-	Wed, 27 May 2015 05:58:25 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 May 2015 14:05:20 +0300
-Message-Id: <1432724720-7255-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: refactored processing of wic exceptions
+	Wed, 27 May 2015 14:30:34 +0000 (UTC)
+Received: by lbbuc2 with SMTP id uc2so8607329lbb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 May 2015 07:30:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=r6a9I3ahViaQCaZMcffLyoXQNNvhrGFTxkexJ1180bs=;
+	b=iTex/vmlzqv+pLMWL7vG/VPD3SH1kTWtJRCVVUlNdxCvY7awjj9qzN8nCUGO+jpV6P
+	0OeWZu0PMB7h1eYflNSXuy8ZY+kGzuhqpU+X0c9dXDc0b6NU4/ig8l1iAvEcb5kXxT9B
+	JA+aEugecfH+Q8M1IaBqi6s9hPGME0ult1tamPNRWvywTPwDYOSroSQUTytgpTusvChA
+	mJQEJTGgp9eySVDcKAcxrWBSMk5YC/+zT5Y/gpp66/QRnBq0BbOHj4/3zk+4iaAGdt36
+	83A83huzjByYd4uh/XZMPY+EGe/WjvPKRggxQCi9QDSkNDW2koveLehfLLAMmHiuenrf
+	8E/w==
+X-Received: by 10.152.43.37 with SMTP id t5mr27560974lal.96.1432737035197;
+	Wed, 27 May 2015 07:30:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.27.15 with HTTP; Wed, 27 May 2015 07:30:14 -0700 (PDT)
+In-Reply-To: <5564E473.4090400@linux.intel.com>
+References: <1432147458-28773-1-git-send-email-anibal.limon@linux.intel.com>
+	<5564E473.4090400@linux.intel.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 27 May 2015 16:30:14 +0200
+Message-ID: <CAPybu_26nd5Lshq552+gP-q+s5_JWfGgJeJ4movVF+_tqby31g@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] xserver-nodm: Support reboot from inside X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,95 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 12:58:58 -0000
+X-List-Received-Date: Wed, 27 May 2015 14:30:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-All wic exceptions are now inherited from new base exception
-class WicError. It makes them easy to maintain and catch.
+I tested the proposed change and works also fine.
 
-Processing of exceptions is done this way:
-    Known wic exceptions cause wic to print error message to stdout.
-    Unknown exceptions are not catched anymore and produce standard
-    python traceback.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/utils/errors.py | 34 ++++++++--------------------------
- scripts/wic                     | 11 +++++------
- 2 files changed, 13 insertions(+), 32 deletions(-)
+Thanks!
 
-diff --git a/scripts/lib/wic/utils/errors.py b/scripts/lib/wic/utils/errors.py
-index 9410311..d1b514d 100644
---- a/scripts/lib/wic/utils/errors.py
-+++ b/scripts/lib/wic/utils/errors.py
-@@ -16,32 +16,14 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
--class CreatorError(Exception):
--    """An exception base class for all imgcreate errors."""
--    keyword = '<creator>'
-+class WicError(Exception):
-+    pass
- 
--    def __init__(self, msg):
--        self.msg = msg
-+class CreatorError(WicError):
-+    pass
- 
--    def __str__(self):
--        if isinstance(self.msg, unicode):
--            self.msg = self.msg.encode('utf-8', 'ignore')
--        else:
--            self.msg = str(self.msg)
--        return self.keyword + self.msg
-+class Usage(WicError):
-+    pass
- 
--class Usage(CreatorError):
--    keyword = '<usage>'
--
--    def __str__(self):
--        if isinstance(self.msg, unicode):
--            self.msg = self.msg.encode('utf-8', 'ignore')
--        else:
--            self.msg = str(self.msg)
--        return self.keyword + self.msg + ', please use "--help" for more info'
--
--class KsError(CreatorError):
--    keyword = '<kickstart>'
--
--class ImageError(CreatorError):
--    keyword = '<mount>'
-+class ImageError(WicError):
-+    pass
-diff --git a/scripts/wic b/scripts/wic
-index 90b36c6..cf96859 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -53,6 +53,7 @@ else:
-     bitbake_main = None
- 
- from wic.utils.oe.misc import find_bitbake_env_lines, set_bitbake_env_lines
-+from wic.utils.errors import WicError
- from image import engine
- from image import help as hlp
- 
-@@ -309,10 +310,8 @@ def main(argv):
- 
- if __name__ == "__main__":
-     try:
--        ret = main(sys.argv[1:])
--    except Exception:
--        ret = 1
--        import traceback
--        traceback.print_exc()
--    sys.exit(ret)
-+        sys.exit(main(sys.argv[1:]))
-+    except WicError as err:
-+        print >> sys.stderr, "ERROR:", err
-+        sys.exit(1)
- 
--- 
-2.1.4
+On Tue, May 26, 2015 at 11:24 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> ping...
+>
+>
+> On 20/05/15 13:44, An=C3=ADbal Lim=C3=B3n wrote:
+>>
+>> From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>>
+>> If reboot was called from inside the Xserver there could happen a race
+>> condition where chvt would never end, and therefore the whole system was
+>> stalled.
+>>
+>> The user could not recover the system by ssh the machine or using the
+>> keyboard.
+>>
+>> Running chvt in background fixes the issue.
+>>
+>> Also move sleep 1s inside stop to give time for killproc xinit for
+>> fix issue when chvt 1 don't work because X server is still running.
+>>
+>> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+>> ---
+>>   meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm | 4 ++=
+--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git
+>> a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+>> b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+>> index 2e3e090..bfa0a8d 100755
+>> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+>> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+>> @@ -48,12 +48,12 @@ case "$1" in
+>>     stop)
+>>           echo "Stopping XServer"
+>>           killproc xinit
+>> -        chvt 1
+>> +        sleep 1
+>> +        chvt 1 &
+>>     ;;
+>>       restart)
+>>         $0 stop
+>> -        sleep 1
+>>           $0 start
+>>     ;;
+>>
+>
+>
 
+
+
+--=20
+Ricardo Ribalda
 
