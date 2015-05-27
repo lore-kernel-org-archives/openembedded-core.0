@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E0B74230
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C0207564A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 06:09:39 +0000 (UTC)
+	Wed, 27 May 2015 06:09:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4R69fJD012960
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4R69gbo029038
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 23:09:41 -0700 (PDT)
+	Tue, 26 May 2015 23:09:42 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 26 May 2015 23:09:40 -0700
+	14.3.224.2; Tue, 26 May 2015 23:09:41 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 May 2015 14:09:38 +0800
-Message-ID: <061547e2e995fd41cd68e5f3d00f94389dd92bd1.1432706896.git.Qi.Chen@windriver.com>
+Date: Wed, 27 May 2015 14:09:39 +0800
+Message-ID: <de9a7a991afa09fbb3994443ae4a0a8d354e5840.1432706896.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1432706896.git.Qi.Chen@windriver.com>
 References: <cover.1432706896.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] populate_sdk_ext: install the latest buildtools-tarball
+Subject: [PATCH 2/3] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 06:09:40 -0000
+X-List-Received-Date: Wed, 27 May 2015 06:09:41 -0000
 Content-Type: text/plain
 
-If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-core-image-minimal -c populate_sdk_ext', we would meet errors like below.
+Copy the contents of local.conf under TOPDIR into the final generated
+local.conf. In this way, custom settings are also made into the final
+local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
 
-| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
--1.8+snapshot-20150429.sh': No such file or directory
+Before this change, installing extensible SDK would usually report failure
+when preparing the build system if the user has custom configuration for
+DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in local.conf
+also don't get built correctly.
 
-The problem is that the output name for buildtools-tarball has ${DATE} in it.
-So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
-the above error appears.
+This patch solves the above problem.
 
-Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
-install_tools() function, we should find the latest buildtools-tarball based
-on the modification time and install it.
+A blacklist mechanism is also introduced so that we can blacklist variables that
+should not be copied into the final local.conf file. Currently, the blacklist
+contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR', 'BASE_WORKDIR' and
+'DEPLOY_DIR'. What these variables have in common is that they are set in
+bitbake.conf using '?=' or '??='.
 
-[YOCTO #7674]
+In addition, we check to avoid any setting that might lead to host path
+bleeding into SDK's configuration.
+
+[YOCTO #7616]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index dc2c58e..2fc4c11 100644
+index 2fc4c11..49ba26b 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -168,7 +168,9 @@ install_tools() {
- 	ln -sr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+@@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = " ${SDK_TARGETS}"
+ SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
  
--	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
-+	# find latest buildtools-tarball and install it
-+	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
-+	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+ SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
++SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR BASE_WORKDIR DEPLOY_DIR"
  
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
- }
+ SDK_TARGETS ?= "${PN}"
+ OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+@@ -114,6 +115,28 @@ python copy_buildsystem () {
+         f.write('# this configuration provides, it is strongly suggested that you set\n')
+         f.write('# up a proper instance of the full build system and use that instead.\n\n')
+ 
++        # Copy configurations from the current local.conf
++        builddir = d.getVar('TOPDIR', True)
++        with open(builddir + '/conf/local.conf', 'r') as lf:
++            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST', True).split()
++            skip = False
++            for line in lf:
++                line = line.lstrip()
++                if line.startswith('#'):
++                    continue
++                # avoid host path bleeding into SDK configuration
++                if line.find('"/') != -1:
++                    continue
++                for varname in varblacklist:
++                    if line.startswith(varname):
++                        skip = True
++                        break
++                if not skip:
++                    f.write(line)
++                skip = False
++        f.write('\n')
++
++        # Configurations in local.conf which are specific for extensible SDK
+         f.write('INHERIT += "%s"\n\n' % 'uninative')
+         f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
+ 
 -- 
 1.9.1
 
