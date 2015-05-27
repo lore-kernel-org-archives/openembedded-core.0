@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C98E74230
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 34E0B74230
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 May 2015 06:09:39 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4R69e06029035
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4R69fJD012960
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 23:09:40 -0700 (PDT)
+	Tue, 26 May 2015 23:09:41 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 26 May 2015 23:09:39 -0700
+	14.3.224.2; Tue, 26 May 2015 23:09:40 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 May 2015 14:09:37 +0800
-Message-ID: <cover.1432706896.git.Qi.Chen@windriver.com>
+Date: Wed, 27 May 2015 14:09:38 +0800
+Message-ID: <061547e2e995fd41cd68e5f3d00f94389dd92bd1.1432706896.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1432706896.git.Qi.Chen@windriver.com>
+References: <cover.1432706896.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Extensible SDK: 3 fixes
+Subject: [PATCH 1/3] populate_sdk_ext: install the latest buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 06:09:39 -0000
+X-List-Received-Date: Wed, 27 May 2015 06:09:40 -0000
 Content-Type: text/plain
 
-The first two have been sent before.
+If we do `bitbake buildtools-tarball' and then after one day do `bitbake
+core-image-minimal -c populate_sdk_ext', we would meet errors like below.
 
-The following changes since commit 7ffe10df73cc20d10fcd41b121074445273bd60e:
+| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
+poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
+-1.8+snapshot-20150429.sh': No such file or directory
 
-  license_class: license_create_manifest improvment (2015-05-09 22:26:02 +0100)
+The problem is that the output name for buildtools-tarball has ${DATE} in it.
+So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
+the above error appears.
 
-are available in the git repository at:
+Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
+install_tools() function, we should find the latest buildtools-tarball based
+on the modification time and install it.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/ext-sdk-3-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/ext-sdk-3-fixes
+[YOCTO #7674]
 
-Chen Qi (3):
-  populate_sdk_ext: install the latest buildtools-tarball
-  populate_sdk_ext: consider custom configuration in local.conf
-  copy_buildsystem: make sure bitbake directory is copied
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- meta/classes/populate_sdk_ext.bbclass | 27 ++++++++++++++++++++++++++-
- meta/lib/oe/copy_buildsystem.py       |  7 +++----
- 2 files changed, 29 insertions(+), 5 deletions(-)
-
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index dc2c58e..2fc4c11 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -168,7 +168,9 @@ install_tools() {
+ 	ln -sr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
+ 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+ 
+-	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
++	# find latest buildtools-tarball and install it
++	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
++	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+ 
+ 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
+ }
 -- 
 1.9.1
 
