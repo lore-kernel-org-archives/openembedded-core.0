@@ -1,26 +1,63 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DDC674230
+Return-Path: <prvs=582f76665=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 601 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 27 May 2015 07:02:15 UTC
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 12EE865D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 06:09:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t4R69hT6012963
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 May 2015 23:09:43 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 26 May 2015 23:09:43 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 May 2015 14:09:40 +0800
-Message-ID: <d7837aa39b66e2ffbc21a4dabfd84095e3c095a0.1432706896.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1432706896.git.Qi.Chen@windriver.com>
-References: <cover.1432706896.git.Qi.Chen@windriver.com>
+	Wed, 27 May 2015 07:02:15 +0000 (UTC)
+Authentication-Results: esa5.bmw.c3s2.iphmx.com;
+	dkim=neutral (message not signed) header.i=none
+Received-SPF: None (esa5.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	Mikko.Rapeli@bmw.de) identity=pra; client-ip=160.46.252.49;
+	receiver=esa5.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="Mikko.Rapeli@bmw.de"; x-conformance=sidf_compatible
+Received-SPF: None (esa5.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	Mikko.Rapeli@bmw.de) identity=mailfrom;
+	client-ip=160.46.252.49; receiver=esa5.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="Mikko.Rapeli@bmw.de"; x-conformance=sidf_compatible
+Received-SPF: None (esa5.bmw.c3s2.iphmx.com: no sender
+	authenticity information available from domain of
+	postmaster@esagw6.muc) identity=helo;
+	client-ip=160.46.252.49; receiver=esa5.bmw.c3s2.iphmx.com;
+	envelope-from="Mikko.Rapeli@bmw.de";
+	x-sender="postmaster@esagw6.muc"; x-conformance=sidf_compatible
+X-IronPort-AV: E=Sophos;i="5.13,502,1427752800"; 
+   d="scan'208";a="6408147"
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49])
+	by esa5.bmw.c3s2.iphmx.com with ESMTP/TLS/DHE-RSA-CAMELLIA256-SHA;
+	27 May 2015 08:52:15 +0200
+Received: from unknown (HELO esabb2.muc) ([160.50.100.34])
+	by esagw6.muc with ESMTP/TLS/DHE-RSA-CAMELLIA256-SHA;
+	27 May 2015 08:52:14 +0200
+X-IronPort-AV: E=Sophos;i="5.13,502,1427752800"; d="scan'208";a="11702354"
+Received: from smuch55a.muc (HELO SMUCH55A.europe.bmw.corp) ([160.46.137.111])
+	by esabb2.muc with ESMTP/TLS/AES128-SHA; 27 May 2015 08:52:14 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH55A.europe.bmw.corp ([160.46.137.111]) with mapi id 14.03.0224.002;
+	Wed, 27 May 2015 08:52:14 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] buildhistory: set commit user name and email
+	for the new git repo
+Thread-Index: AQHQksih4WI/vOwVykCmcGf7GX9A8Z2OQaKAgAAtDQCAAN2GgA==
+Date: Wed, 27 May 2015 06:52:13 +0000
+Message-ID: <20150527065209.GG12838@loska>
+References: <1432104329-6352-1-git-send-email-mikko.rapeli@bmw.de>
+	<20150526145803.GD12838@loska>
+	<14638698.5EJEmMHEkv@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <14638698.5EJEmMHEkv@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
 MIME-Version: 1.0
-Subject: [PATCH 3/3] copy_buildsystem: make sure bitbake directory is copied
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory: set commit user name and email for the new git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +70,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 06:09:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 May 2015 07:02:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <09D5FA816C56E84CBD226A190504046F@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-The previous code assumes that bitbake/ directory is under the core layer.
-This is the case for Yocto project. But users might clone oe-core and bitbake
-separately. So we use bb.__file__ to locate the bitbake directory to make sure
-it's copied into the extensible SDK.
+On Tue, May 26, 2015 at 06:39:18PM +0100, Paul Eggleton wrote:
+> Hi Mikko,
+>=20
+> On Tuesday 26 May 2015 14:58:02 Mikko.Rapeli@bmw.de wrote:
+> > Already fixed by merged commit:
+> >=20
+> > http://git.openembedded.org/openembedded-core/commit/?id=3Df62255bfa6c5=
+a322c86
+> > 7b7c4ea5686ea7bfab3fe
+> >=20
+> > -Mikko
+>=20
+> My apologies for basically duplicating your patch - by coincidence I was=
+=20
+> talking to our QA team about resolving what turned out to be the same iss=
+ue at=20
+> around the same time.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oe/copy_buildsystem.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+No problem. In my patch I set the git user.name and user.email every time
+to allow changing settings in local.conf without rebuilding from scratch
+but if that really becomes a problem then I'll send a new patch.
 
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index cf7fada..979578c 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -28,11 +28,10 @@ class BuildSystem(object):
-         layers.append(corebase)
- 
-         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
--
--        # bitbake belongs in corebase so make sure it goes there
--        if "bitbake" not in corebase_files:
--            corebase_files.append("bitbake")
-         corebase_files = [corebase + '/' +x for x in corebase_files]
-+        # Make sure bitbake goes in
-+        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
-+        corebase_files.append(bitbake_dir)
- 
-         for layer in layers:
-             layerconf = os.path.join(layer, 'conf', 'layer.conf')
--- 
-1.9.1
-
+-Mikko=
 
