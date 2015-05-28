@@ -1,34 +1,40 @@
-Return-Path: <jatedev@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ADD865D6E;
-	Wed, 27 May 2015 23:32:26 +0000 (UTC)
-Received: by pacwv17 with SMTP id wv17so8966256pac.2;
-	Wed, 27 May 2015 16:32:28 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B555E60670
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 May 2015 01:23:48 +0000 (UTC)
+Received: by pdea3 with SMTP id a3so29353417pde.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 May 2015 18:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=MBH/n8Dy4TFgVYtE7SyitQ7VVICr5oT5rpB62cfGQsA=;
-	b=kMdDrPuPBB6bptor+Shcg6bVF9W+IuaoqFUzTBhnGWyvL1/otsoyfxHfNkDhw7OzzU
-	f8bCqHNZA1NF/WQqCyzFeedsC4nVNKX9I/xM+oDzppZaK0Ai2pu/AJGvznvTL1GOxw3z
-	z9h9XLGmF+aFxdvw4Yw/OqJxnNTbN2hFn0sxcH1pNywnuqV9dAV4W8Z+LsT+4TykhyfS
-	bgVKOaSknVK9yT9gqapaxEFzHlUKVSCPV41xX1SvrwpKxGU4KSGVsw+3uNA1YwSqQkOE
-	vvIKIjzKozaqPuQWKXBypO1YxxpJJNA3q+d8gOXdu5qL7XhC7tFRh9fcqQj1M7aYavym
-	FNhw==
-MIME-Version: 1.0
-X-Received: by 10.66.157.71 with SMTP id wk7mr62388126pab.99.1432769547981;
-	Wed, 27 May 2015 16:32:27 -0700 (PDT)
-Received: by 10.67.4.33 with HTTP; Wed, 27 May 2015 16:32:27 -0700 (PDT)
-In-Reply-To: <1431596809.30971.197.camel@linuxfoundation.org>
-References: <CAPphmgY46h8ajbqL66rynRf2-u28a0duxPFV3MqPjb_iB_RvaA@mail.gmail.com>
-	<1431596809.30971.197.camel@linuxfoundation.org>
-Date: Wed, 27 May 2015 19:32:27 -0400
-Message-ID: <CAPphmgbAvRSAZ54BWW7K25_o-v-EnLZWDs-XTGdAEtLbqQQ0xg@mail.gmail.com>
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2][2/2] image.bbclass/rootfs.py: use PREFERRED_RPROVIDER to select package
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=CvUCa2+OEZAr+8syGk6/SA+T63YUbyAuHtq5AgRo0ZE=;
+	b=dQwutlyaAFF4gzupPWxMQ4tYn3mrEGHisIivdeFdniWAvrK/vtn+zs4Q2uW9o0WwIZ
+	uwYY0INe0fkbdQzQveSDGD4Kfq4q+gPsWzkS7syO3hpkbPl4zY5dIFXFuX1pWY9B5lXH
+	8iMywKsBc55Jc40HaGFZ3GXPTQPzsaaVHn9UORM4eMlO9muM9BoLmfnpLghGBMYlZ/wj
+	+ysIqWKr9vGl+MdvpPcbq/EvduB7ajUxH1+w7vkrgt/5k1ijhbdp7YJPvz4S38S9gAWW
+	wXG62X1XfHdUNOgfF8yThjchO6INm4TRyuzCpRonbV75jXgy6g7SCJ0lbSRirpPbFx6K
+	CXCg==
+X-Received: by 10.68.244.73 with SMTP id xe9mr496701pbc.98.1432776229582;
+	Wed, 27 May 2015 18:23:49 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:90eb:a06b:3186:ca08?
+	([2601:9:3580:84c:90eb:a06b:3186:ca08])
+	by mx.google.com with ESMTPSA id ue9sm397030pbc.78.2015.05.27.18.23.48
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 27 May 2015 18:23:48 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAOMwXhN1Ww=T_OJC8e-VtzM_OozOQUjCU7cF1-shUMZ_kVG4Xg@mail.gmail.com>
+Date: Wed, 27 May 2015 18:23:43 -0700
+Message-Id: <C54FEAEF-9A11-42DE-BF44-CD22BDA74425@gmail.com>
+References: <CAOMwXhN1Ww=T_OJC8e-VtzM_OozOQUjCU7cF1-shUMZ_kVG4Xg@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+X-Mailer: Apple Mail (2.2098)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Post USERADD_PARAM action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,164 +47,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 May 2015 23:32:29 -0000
-Content-Type: multipart/alternative; boundary=047d7bacc460f3d802051718a77c
+X-List-Received-Date: Thu, 28 May 2015 01:23:49 -0000
+X-Groupsio-MsgNum: 66064
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---047d7bacc460f3d802051718a77c
-Content-Type: text/plain; charset=UTF-8
-
-I have taken a look at the code, and there two places that I have found so
-far that contain the RPROVIDES_* for each package. One is the taskdata at
-the bitbake level, and the other is the pkgdata directory within the
-sysroot for the machine's build. The taskdata seems more readily accessible
-in memory. However, I've neither figured out a way to access it from the
-image recipe namespace, nor do I know if it's intended to be accessed at
-the recipe level. On the other hand, the pkgdata directory holds
-information about all built packages, and I've written some code derived
-from packageinfo.bbclass (used in hob) that loads all the package
-information into memory.
-
-For the case provided in bug 6149, the code could access the
-PREFERRED_PROVIDER for the missing sshd package, search the pkgdata, and
-then replace 'sshd' within PACKAGE_INSTALL with 'dropbear' as specified
-within RPROVIDES_dropbear = "ssh sshd".
-
-A problem is the inefficiency of parsing through the pkgdata files. Maybe a
-rewrite of IMAGE_INSTALL be done during the calculations taskdata.py
-instead, or maybe the name of the package rproviding the item needs to be
-saved and referred to during the image generation.
-
-
-- Jate
-
-
-On Thu, May 14, 2015 at 5:46 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2015-05-13 at 18:47 -0400, Jate Sujjavanich wrote:
-> > +python rootfs_process_preferred_rproviders() {
-> > +    inst_pkgs = d.getVar("PACKAGE_INSTALL", True).split()
-> > +    pref_pkgs = list()
-> > +    for pkg in inst_pkgs:
-> > +        prefervar = d.getVar("PREFERRED_RPROVIDER_%s" % pkg, True)
-> > +        if prefervar:
-> > +            inst_pkgs.remove(pkg)
-> > +            pref_pkgs.append(prefervar)
-> > +            bb.note("Selecting %s to provide %s due to
-> > PREFERRED_RPROVIDER" % (prefervar, pkg))
-> > +    inst_pkgs.extend(pref_pkgs)
-> > +    d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
-> > +}
-> > +do_rootfs[prefuncs] += "rootfs_process_preferred_rproviders"
-> > +
-> >  # We have to delay the runtime_mapping_rename until just before
-> > rootfs runs
-> >  # otherwise, the multilib renaming could step in and squash any
-> > fixups that
-> >  # may have occurred.
->
-> This kind of approach to the problem basically doesn't scale. Yes, it
-> will rewrite things in PACKAGE_INSTALL however if package A depends on
-> package B using one of these names, the mechanism will simply not work.
-> This will in turn generate a whole new world of bug reports with no way
-> to really fix the problems.
->
-> This is why we have other mechanisms for handling the runtime provider
-> names, usually through parametrisation with variables so that when you
-> rewrite an entry, *all* entries get rewritten and what the package
-> manager sees is consistent.
->
-> I would also note that in the past, bitbake once did have
-> PREFERRED_RPROVIDER support. We dropped it as it caused problems. I
-> suspect I would have written up some rationale for that when we did it
-> which would be in the list archives.
->
-> Cheers,
->
-> Richard
->
->
->
-
---047d7bacc460f3d802051718a77c
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div><div>I have taken a look at the code, and there two p=
-laces that I have found so far that contain the RPROVIDES_* for each packag=
-e. One is the taskdata at the bitbake level, and the other is the pkgdata d=
-irectory within the sysroot for the machine&#39;s build. The taskdata seems=
- more readily accessible in memory. However, I&#39;ve neither figured out a=
- way to access it from the image recipe namespace, nor do I know if it&#39;=
-s intended to be accessed at the recipe level. On the other hand, the pkgda=
-ta directory holds information about all built packages, and I&#39;ve writt=
-en some code derived from packageinfo.bbclass (used in hob) that loads all =
-the package information into memory.<br><br>For the case provided in bug 61=
-49, the code could access the PREFERRED_PROVIDER for the missing sshd packa=
-ge, search the pkgdata, and then replace &#39;sshd&#39; within PACKAGE_INST=
-ALL with &#39;dropbear&#39; as specified within RPROVIDES_dropbear =3D &quo=
-t;ssh sshd&quot;.<br><br></div>A problem is the inefficiency of parsing thr=
-ough the pkgdata files. Maybe a rewrite of IMAGE_INSTALL be done during the=
- calculations taskdata.py instead, or maybe the name of the package rprovid=
-ing the item needs to be saved and referred to during the image generation.=
-<br><br></div><br>- Jate<br><div><br></div></div><div class=3D"gmail_extra"=
-><br><div class=3D"gmail_quote">On Thu, May 14, 2015 at 5:46 AM, Richard Pu=
-rdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation=
-.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed, 2015-05-13=
- at 18:47 -0400, Jate Sujjavanich wrote:<br>
-&gt; +python rootfs_process_preferred_rproviders() {<br>
-&gt; +=C2=A0 =C2=A0 inst_pkgs =3D d.getVar(&quot;PACKAGE_INSTALL&quot;, Tru=
-e).split()<br>
-&gt; +=C2=A0 =C2=A0 pref_pkgs =3D list()<br>
-&gt; +=C2=A0 =C2=A0 for pkg in inst_pkgs:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 prefervar =3D d.getVar(&quot;PREFERRED_RP=
-ROVIDER_%s&quot; % pkg, True)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if prefervar:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inst_pkgs.remove(pkg)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pref_pkgs.append(prefervar)=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Selecting %s =
-to provide %s due to<br>
-&gt; PREFERRED_RPROVIDER&quot; % (prefervar, pkg))<br>
-&gt; +=C2=A0 =C2=A0 inst_pkgs.extend(pref_pkgs)<br>
-&gt; +=C2=A0 =C2=A0 d.setVar(&quot;PACKAGE_INSTALL&quot;, &#39; &#39;.join(=
-inst_pkgs))<br>
-&gt; +}<br>
-&gt; +do_rootfs[prefuncs] +=3D &quot;rootfs_process_preferred_rproviders&qu=
-ot;<br>
-&gt; +<br>
-&gt;=C2=A0 # We have to delay the runtime_mapping_rename until just before<=
-br>
-&gt; rootfs runs<br>
-&gt;=C2=A0 # otherwise, the multilib renaming could step in and squash any<=
-br>
-&gt; fixups that<br>
-&gt;=C2=A0 # may have occurred.<br>
-<br>
-</span>This kind of approach to the problem basically doesn&#39;t scale. Ye=
-s, it<br>
-will rewrite things in PACKAGE_INSTALL however if package A depends on<br>
-package B using one of these names, the mechanism will simply not work.<br>
-This will in turn generate a whole new world of bug reports with no way<br>
-to really fix the problems.<br>
-<br>
-This is why we have other mechanisms for handling the runtime provider<br>
-names, usually through parametrisation with variables so that when you<br>
-rewrite an entry, *all* entries get rewritten and what the package<br>
-manager sees is consistent.<br>
-<br>
-I would also note that in the past, bitbake once did have<br>
-PREFERRED_RPROVIDER support. We dropped it as it caused problems. I<br>
-suspect I would have written up some rationale for that when we did it<br>
-which would be in the list archives.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div><br></div>
 
---047d7bacc460f3d802051718a77c--
+> On May 22, 2015, at 4:37 AM, Laszlo Papp <lpapp@kde.org> wrote:
+>=20
+> Hi,
+>=20
+> is it possible to do some post action after useradd_param is executed?
+>=20
+> I would like to modify the created user's home directory, in this
+> special case the profile. I see that the useradd util has this on
+> desktop, but busybox does not have it, and very likely will not have
+> it, at least not in the near future anyway:
+>=20
+>       -k, --skel SKEL_DIR
+>           The skeleton directory, which contains files and
+> directories to be copied in the user's home directory, when the home
+> directory is created by useradd.
+>=20
+>           This option is only valid if the -m (or --create-home)
+> option is specified.
+>=20
+>           If this option is not set, the skeleton directory is
+> defined by the SKEL variable in /etc/default/useradd or, by default,
+> /etc/skel.
+>=20
+>           If possible, the ACLs and extended attributes are copied.
+>=20
+> I would like to do something like this with the created user's home =
+directory:
+>=20
+> echo PATH=3D/sbin:$PATH > /home/foo/.profile
+> chmod foo:foo /home/foo/.profile
+>=20
+> But then again, for this, I need to make sure that the user is already =
+created.
+>=20
+
+may be you can insert a custom task after useradd_sysroot ?
+
+> Ys, L.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlVmbiMACgkQuwUzVZGdMxSquwCfYeftKiZYjFNpX/RF1o9DqXgc
+dQUAnA1fPb1WL3tNeWNBc4sCEzVTIuk1
+=ioc+
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A--
