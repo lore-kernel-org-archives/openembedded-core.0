@@ -1,26 +1,27 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4468A75669
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 13:13:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 May 2015 06:12:51 -0700
+	by mail.openembedded.org (Postfix) with ESMTP id 8E11D6E5D0;
+	Thu, 28 May 2015 13:16:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 28 May 2015 06:15:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,513,1427785200"; d="scan'208";a="736738010"
+X-IronPort-AV: E=Sophos;i="5.13,513,1427785200"; d="scan'208";a="733097705"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.72.87])
 	([10.237.72.87])
-	by orsmga002.jf.intel.com with ESMTP; 28 May 2015 06:12:51 -0700
-Message-ID: <5566B1D5.9020800@linux.intel.com>
-Date: Thu, 28 May 2015 09:12:37 +0300
+	by fmsmga002.fm.intel.com with ESMTP; 28 May 2015 06:15:55 -0700
+Message-ID: <5566B28E.9080502@linux.intel.com>
+Date: Thu, 28 May 2015 09:15:42 +0300
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1432775689.git.kai.kang@windriver.com>
-	<0bbc0582db36c1fc63650e96b3eaef3561dd7494.1432775689.git.kai.kang@windriver.com>
-In-Reply-To: <0bbc0582db36c1fc63650e96b3eaef3561dd7494.1432775689.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 3/5] qt4: fix CVE issues
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <20150528084536.GB2383@jama>
+	<1978636.L3ktc4a7s3@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1978636.L3ktc4a7s3@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] State of bitbake world, Failed tasks 2015-05-27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,21 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 13:13:08 -0000
+X-List-Received-Date: Thu, 28 May 2015 13:16:46 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/28/2015 04:26 AM, Kai Kang wrote:
-> Backport patches to fix qt4 CVE issues:
+On 05/28/2015 01:04 PM, Paul Eggleton wrote:
+
 >
-> * CVE-2015-1858
-> * CVE-2015-1859
-> * CVE-2015-1860
+> This seems to be related to gstreamer 0.10 removal; though it's QtWebkit that's
+> failing rather than Phonon:
+>
+> | cd WebKit/qt/tests/ && /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/qmake2 -after              INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pro -spec /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/mkspecs/linux-g++ -after  INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib -o Makefile.WebKit
+> | WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+> | Project ERROR: Package gstreamer-app-0.10 not found
+> | make[1]: *** [WebCore/Makefile.WebKit] Error 2
+> | make[1]: *** Waiting for unfinished jobs....
+> | Project ERROR: Package gstreamer-app-0.10 not found
+> | make[1]: *** [WebKit/qt/Makefile.WebKit.QtWebKit] Error 2
+> | make[1]: Leaving directory `/home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source'
+> | make: *** [sub-webkit-make_default-ordered] Error 2
+> | ERROR: oe_runmake failed
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_compile (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/temp/log.do_compile.14903)
+>
+> Alex, can you take a look at this?
 
-Qt 4.8.7 is out and (I presume) it has all of those fixes. Why not 
-update to that version instead?
+I already did; it should be fixed by this patch:
 
+http://lists.openembedded.org/pipermail/openembedded-core/2015-May/105413.html
 
+Regards,
 Alex
 
 
