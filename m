@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 554817568E
+	by mail.openembedded.org (Postfix) with ESMTP id A2C49756F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 09:57:27 +0000 (UTC)
+	Thu, 28 May 2015 09:57:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vSfj007549
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vUNU007556
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 02:57:28 -0700 (PDT)
+	Thu, 28 May 2015 02:57:30 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 28 May 2015 02:57:28 -0700
+	Thu, 28 May 2015 02:57:29 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 May 2015 02:57:21 -0700
-Message-ID: <2bbf36fae34b4815d447ace766e603d06e2f5ddc.1432805258.git.liezhi.yang@windriver.com>
+Date: Thu, 28 May 2015 02:57:25 -0700
+Message-ID: <9267553a2f080dfb2fac0522df25346195b831fa.1432805258.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1432805258.git.liezhi.yang@windriver.com>
 References: <cover.1432805258.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/9] python-git: 1.0.0 -> 1.0.1
+Subject: [PATCH 7/9] btrfs-tools: 3.18.2 -> 4.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +36,82 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 28 May 2015 09:57:28 -0000
 Content-Type: text/plain
 
+* Updated fix-parallel.patch
+* inherit autotools-brokensep, the autotools doesn't work:
+  | make: *** No rule to make target `ctree.o', needed by `btrfs'.  Stop.
+
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{python-git_1.0.0.bb => python-git_1.0.1.bb}   |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-git_1.0.0.bb => python-git_1.0.1.bb} (85%)
+ .../btrfs-tools/btrfs-tools/fix-parallel.patch     |   16 ++++++++--------
+ .../btrfs-tools/btrfs-tools_git.bb                 |   16 +++++++++-------
+ 2 files changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-git_1.0.0.bb b/meta/recipes-devtools/python/python-git_1.0.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python-git_1.0.0.bb
-rename to meta/recipes-devtools/python/python-git_1.0.1.bb
-index eea1543..a78d7c8 100644
---- a/meta/recipes-devtools/python/python-git_1.0.0.bb
-+++ b/meta/recipes-devtools/python/python-git_1.0.1.bb
-@@ -11,8 +11,8 @@ DEPENDS = "python-gitdb"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+index 65c31a4..bbc53c6 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+@@ -11,20 +11,20 @@ Upstream-Status: Pending
  
- SRC_URI = "http://pypi.python.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ ---
+- Makefile |    2 +-
++ Makefile.in |    2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[md5sum] = "c3833aad16d5660436e284d597ec1bec"
--SRC_URI[sha256sum] = "c1b3e6fdd209040b6b1cb32ecbff989eeb2fb31b4e7078c3342d71ae8ef7352b"
-+SRC_URI[md5sum] = "4659644b42c41e5e5170c0cd83ed6422"
-+SRC_URI[sha256sum] = "9c88c17bbcae2a445ff64024ef13526224f70e35e38c33416be5ceb56ca7f760"
+-diff --git a/Makefile b/Makefile
+-index 9c69ada..30c6f06 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -118,7 +118,7 @@ else
+- 	AM_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
++diff --git a/Makefile.in b/Makefile.in
++index 860a390..8a6fbd7 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -142,7 +142,7 @@ else
++ 	check_echo = true
+  endif
+  
+ -%.o.d: %.c
+ +%.o.d: %.c version.h
+- 	$(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o) -MT $@ $(AM_CFLAGS) $(CFLAGS) $<
++ 	$(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o) -MT $@ $(CFLAGS) $<
+  
+  .c.o:
+ -- 
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+index d86075c..82403aa 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+@@ -12,19 +12,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+ DEPENDS = "util-linux attr e2fsprogs lzo acl"
  
- S = "${WORKDIR}/GitPython-${PV}"
+-SRCREV = "344599a7aefe23c7169ccdde3ad1b921bb60024c"
++SRCREV = "c061b303c08af7a58373908d0d77ef0f1161fd36"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://fix-parallel.patch \
+ "
  
+-S = "${WORKDIR}/git"
+-
+-PV = "3.18.2+git${SRCPV}"
++inherit autotools-brokensep pkgconfig
+ 
+-EXTRA_OEMAKE += "DISABLE_DOCUMENTATION=1"
++EXTRA_OECONF += "--disable-documentation"
+ 
+-do_install () {
+-	oe_runmake 'DESTDIR=${D}' install
++do_configure_prepend() {
++      sh autogen.sh
+ }
+ 
++S = "${WORKDIR}/git"
++
++PV = "4.0.1+git${SRCPV}"
++
+ BBCLASSEXTEND = "native"
 -- 
 1.7.9.5
 
