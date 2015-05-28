@@ -1,36 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E77527568F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 740887567D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 04:58:36 +0000 (UTC)
-Received: by igbjd9 with SMTP id jd9so15542030igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 21:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=XAVH5N24k9cn+8ZoUDZ1G9fTCHMCIy4VgCBaeVWL0uo=;
-	b=mEw/F+A+M7bvl0umnoC1p4eDxEPg2Xeuc6Cfz13MpgR5g/+lz2OkEUXYLlnEcWd6vI
-	nOCEDKBOUR6zWXgkQq60W4jJCuxvSmEHYWjmG0wNkUjTEXqD3+e9YHHbFMHlLWKHBLu9
-	ErZwJe4XklpRq2pmZPdDA0fa1kuA6Uo6Fidll5J/IrVaJ8m17kx9VG+232ehqvq13X38
-	4kO/EOFekDuHfovRj+HV8GpWxb5mFxUne7udFYXdAAEmoI9gU5OU92mJpBLjLU28caw2
-	oLmbFOUNU8EVjqT/hCZd9+3XjOcZgZbixFRW6RZKON3PKIxh6jz/9Tq7KMuzHA9tXVFF
-	ubeA==
-X-Received: by 10.50.23.105 with SMTP id l9mr42218232igf.13.1432789117895;
-	Wed, 27 May 2015 21:58:37 -0700 (PDT)
+	Thu, 28 May 2015 06:05:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S656xu014665
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 27 May 2015 23:05:07 -0700 (PDT)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 27 May 2015 23:05:06 -0700
+Message-ID: <5566B012.1040006@windriver.com>
+Date: Thu, 28 May 2015 14:05:06 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.50.112.34 with HTTP; Wed, 27 May 2015 21:58:07 -0700 (PDT)
-In-Reply-To: <12b5a95ff9ea8e6f3ff82fa8a5426d195be128e3.1432324432.git.raj.khem@gmail.com>
-References: <cover.1432324432.git.raj.khem@gmail.com>
-	<29648ea4a7ec6d1d02cca78e9268e1629ee20fe9.1432324432.git.raj.khem@gmail.com>
-	<12b5a95ff9ea8e6f3ff82fa8a5426d195be128e3.1432324432.git.raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 May 2015 21:58:07 -0700
-Message-ID: <CAMKF1sqKB3vAuEqYNtzjVO3PDL_wsSQyk-XR_QubPXud5dJ+Wg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Khem Raj <raj.khem@gmail.com>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+References: <cover.1427186518.git.Qi.Chen@windriver.com>
+	<5564081E.1050401@windriver.com>
+	<2981463.2asXSZhTDk@peggleto-mobl.ger.corp.intel.com>
+	<CAMKF1soUQf-mTLfAMDDDh=_vMDss6qu5UVF9QUK=BDOSod7jKQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soUQf-mTLfAMDDDh=_vMDss6qu5UVF9QUK=BDOSod7jKQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.211]
+Cc: Randy Witt <randy.e.witt@intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] glibc: ignore for musl/uclibc but only for target recipes
+Subject: Re: [PATCH 0/4] Support persistent /var/log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,56 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 04:58:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 May 2015 06:05:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
- any issues with this patch, why was it dropped from last pull request ?
+On 05/28/2015 12:55 PM, Khem Raj wrote:
+> On Tue, May 26, 2015 at 2:15 AM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+>> Randy, Khem, Otavio - this area was the subject of a discussion involving you
+>> around the 1.8 release, if you could review this set and comment that would be
+>> great.
+>
+> Looked at it but it didnt sound like it considered read only rootfs case at all.
 
-On Fri, May 22, 2015 at 12:56 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> we still need nativesdk  or native recipes for libc to come
-> from glibc, but only be ignored for target recipes types
+
+read-only rootfs and persistent /var/log are all custom configurations.
+If a user wants a read-only rootfs but a persistent /var/log, he'll need 
+to do more custom configurations like putting /var/ on a seperate 
+partition or something else.
+
+The purpose of this patch is to provide an easy way to user to keep 
+their logs between reboots.
+
+//Chen Qi
+
+>> Thanks,
+>> Paul
+>>
+>> On Tuesday 26 May 2015 13:43:58 ChenQi wrote:
+>>> ping ....
+>>>
+>>> *ANY* comment would be welcome, really ...
+>>>
+>>> Thanks,
+>>> Chen Qi
+>>>
+>>> On 03/24/2015 04:42 PM, Chen Qi wrote:
+>>>> The following changes since commit
+>> d3fcfe346b3472170641d9194243c4bbe06b8585:
+>>>>     systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:13
+>>>>     +0000)>
+>>>> are available in the git repository at:
+>>>>     git://git.openembedded.org/openembedded-core-contrib
+>>>>     ChenQi/persistent-var-log
+>>>>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h
+>>>>     =ChenQi/persistent-var-log>
+>>>> Chen Qi (4):
+>>>>     bitbake.conf: add VOLATILE_LOG_DIR variable
+>>>>     base-files: respect VOLATILE_LOG_DIR
+>>>>     initscripts: support persistent /var/log
+>>>>     package.bbclass: support persistent /var/log
+>>>>
+>>>>    meta/classes/package.bbclass                       |  2 +-
+>>>>    meta/conf/bitbake.conf                             |  4 ++
+>>>>    meta/files/fs-perms-persistent-log.txt             | 66
+>>>>    ++++++++++++++++++++++
+>>>>    meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
+>>>>    .../initscripts/initscripts-1.0/volatiles          |  1 -
+>>>>    meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
+>>>>    6 files changed, 76 insertions(+), 4 deletions(-)
+>>>>    create mode 100644 meta/files/fs-perms-persistent-log.txt
+>> --
+>>
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
 >
-> Change-Id: Ibaf8114f2aef63f1eadf493b264e78cd928535a0
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc-collateral.inc | 3 +++
->  meta/recipes-core/glibc/glibc_2.21.bb        | 9 +++------
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
-> index f82db06..60655eb 100644
-> --- a/meta/recipes-core/glibc/glibc-collateral.inc
-> +++ b/meta/recipes-core/glibc/glibc-collateral.inc
-> @@ -17,3 +17,6 @@ do_compile[noexec] = "1"
->
->  do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
->
-> +COMPATIBLE_HOST_libc-musl_class-target = "null"
-> +COMPATIBLE_HOST_libc-uclibc_class-target = "null"
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-> index 0c28814..4b94cba 100644
-> --- a/meta/recipes-core/glibc/glibc_2.21.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
-> @@ -69,14 +69,11 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
->  GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
->
->  #
-> -# We will skip parsing glibc when system C library selection is not glibc
-> +# We will skip parsing glibc when target system C library selection is not glibc
->  # this helps in easing out parsing for non-glibc system libraries
->  #
-> -python __anonymous () {
-> -    if d.getVar('TCLIBC', True) != "glibc":
-> -        raise bb.parse.SkipPackage("incompatible with %s C library" %
-> -                                   d.getVar('TCLIBC', True))
-> -}
-> +COMPATIBLE_HOST_libc-musl_class-target = "null"
-> +COMPATIBLE_HOST_libc-uclibc_class-target = "null"
->
->  EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
->                  --without-cvs --disable-profile \
-> --
-> 2.1.4
->
+
 
