@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C45473D6A;
-	Thu, 28 May 2015 10:04:57 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 28 May 2015 03:04:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,512,1427785200"; d="scan'208";a="578116322"
-Received: from ecurley-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.28.106])
-	by orsmga003.jf.intel.com with ESMTP; 28 May 2015 03:04:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@intel.com>
-Date: Thu, 28 May 2015 11:04:56 +0100
-Message-ID: <1978636.L3ktc4a7s3@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <20150528084536.GB2383@jama>
-References: <20150528084536.GB2383@jama>
+Return-Path: <florian.boor@kernelconcepts.de>
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 556E07568E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 May 2015 10:15:16 +0000 (UTC)
+Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>) id 1Yxupc-0003Vu-Tb
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 May 2015 12:14:33 +0200
+Message-ID: <5566EA64.5080600@kernelconcepts.de>
+Date: Thu, 28 May 2015 12:13:56 +0200
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] State of bitbake world, Failed tasks 2015-05-27
+To: openembedded-core@lists.openembedded.org
+References: <1432122583-24497-1-git-send-email-florian.boor@kernelconcepts.de>	<CAJTo0LbOKfUpUyor7AczZyffp7gQruYy3hYMqz+ewGxZzRc+mQ@mail.gmail.com>	<555C896A.8020107@kernelconcepts.de>	<CAP9ODKo7H5T3Thb+1SW9hGwkzxEbTzYJr2=fLraqje67ssHRpw@mail.gmail.com>	<555C8BAC.7090603@kernelconcepts.de>	<CAJTo0LYM_V=Ee5hzfhvK0OW224yZ7+TG+6iuQkk5WKxYHmJQeQ@mail.gmail.com>
+	<555C90A4.3000407@kernelconcepts.de>
+In-Reply-To: <555C90A4.3000407@kernelconcepts.de>
+Subject: Re: [PATCH] gtk-engines: Allow gtk-engines package to be empty in order to make the -dev package installable.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 10:05:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 28 May 2015 10:15:19 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Thursday 28 May 2015 10:45:36 Martin Jansa wrote:
-> This time without sstate-cache, so the list of QA issues should be
-> almost complete (except recipes which fail to build or their
-> dependencies failed to build)
-> 
-> http://www.openembedded.org/wiki/Bitbake_World_Status
-> 
-> == Failed tasks 2015-05-27 ==
-> 
-> INFO: jenkins-job.sh-1.3.1 Complete log available at
-> http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.20150528_084227.log
->...
-> === common-x86 (1) ===
->     * /openembedded-core/meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb, do_compile
+Hi,
 
-This seems to be related to gstreamer 0.10 removal; though it's QtWebkit that's
-failing rather than Phonon:
+On 20.05.2015 15:48, Florian Boor wrote:
+> ok great... then I'll change it to dropping the dependency of the -dev package
+> while I'm working on it anyway.
 
-| cd WebKit/qt/tests/ && /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/qmake2 -after              INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pro -spec /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/mkspecs/linux-g++ -after  INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib -o Makefile.WebKit
-| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
-| Project ERROR: Package gstreamer-app-0.10 not found
-| make[1]: *** [WebCore/Makefile.WebKit] Error 2
-| make[1]: *** Waiting for unfinished jobs....
-| Project ERROR: Package gstreamer-app-0.10 not found
-| make[1]: *** [WebKit/qt/Makefile.WebKit.QtWebKit] Error 2
-| make[1]: Leaving directory `/home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source'
-| make: *** [sub-webkit-make_default-ordered] Error 2
-| ERROR: oe_runmake failed
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_compile (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/temp/log.do_compile.14903)
+hrm strange... somehow my new patch did not make it to the list. Anyone an idea
+if it ended up in some filter?
 
-Alex, can you take a look at this?
+Greetings
 
-Thanks,
-Paul
+Florian
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
