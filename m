@@ -1,40 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 154A173D6A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 10:03:03 +0000 (UTC)
-Received: by wicmx19 with SMTP id mx19so140452339wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 03:03:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=CZJGXo8NKET7ADG8LSHHPZuUNShhLOKusnX+5EL+0LE=;
-	b=jQKHs45vtIMyq5A4tPXZoBm1fkPdcxZubPkm+Gi4/0MH+MC91QMlNPy3v/IKO+/B5Z
-	GduPdheYhObzw30grmKhJWi9uPs15Ys6zhA7VNcgXngZI3WoctLIESthz4+GcphxF/nr
-	X1l5XtOWzMykDRX86bCaJX+VOPOgk3cxrg+7lQygocnrKDxsHxrO4lgwBxOh5JUCLOsu
-	ONEs9NNlmJ58XT97+jMWQV+b39uQu2mjwaBbmPNJgbfFapVSB57Qqh0iTFwJp0cUC15D
-	unYyAgP7MQzkFfOm0RARHE9uTR1yUXta6LgFF96UmX53FTM51Eq2tr1ZDAgnE6YfufFn
-	78bg==
-X-Received: by 10.194.120.230 with SMTP id lf6mr3883448wjb.41.1432807383700;
-	Thu, 28 May 2015 03:03:03 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id n1sm3230725wix.0.2015.05.28.03.03.02
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 May 2015 03:03:02 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 28 May 2015 12:03:24 +0200
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20150528100324.GE2383@jama>
-References: <cover.1432805258.git.liezhi.yang@windriver.com>
-	<c2fa9a1b232082e573a4b5e4bb622af5bfe05b62.1432805258.git.liezhi.yang@windriver.com>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C45473D6A;
+	Thu, 28 May 2015 10:04:57 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 28 May 2015 03:04:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,512,1427785200"; d="scan'208";a="578116322"
+Received: from ecurley-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.28.106])
+	by orsmga003.jf.intel.com with ESMTP; 28 May 2015 03:04:57 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@intel.com>
+Date: Thu, 28 May 2015 11:04:56 +0100
+Message-ID: <1978636.L3ktc4a7s3@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <20150528084536.GB2383@jama>
+References: <20150528084536.GB2383@jama>
 MIME-Version: 1.0
-In-Reply-To: <c2fa9a1b232082e573a4b5e4bb622af5bfe05b62.1432805258.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 9/9] lttng-ust: 2.6.0 -> 2.6.1
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] State of bitbake world, Failed tasks 2015-05-27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,25 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 10:03:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 May 2015 10:05:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, May 28, 2015 at 02:57:27AM -0700, Robert Yang wrote:
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../{lttng-ust_2.6.0.bb => lttng-ust_2.6.1.bb}     |    0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename meta/recipes-kernel/lttng/{lttng-ust_2.6.0.bb => lttng-ust_2.6.1.bb} (100%)
+On Thursday 28 May 2015 10:45:36 Martin Jansa wrote:
+> This time without sstate-cache, so the list of QA issues should be
+> almost complete (except recipes which fail to build or their
+> dependencies failed to build)
 > 
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.6.1.bb
-> similarity index 100%
-> rename from meta/recipes-kernel/lttng/lttng-ust_2.6.0.bb
-> rename to meta/recipes-kernel/lttng/lttng-ust_2.6.1.bb
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+> 
+> == Failed tasks 2015-05-27 ==
+> 
+> INFO: jenkins-job.sh-1.3.1 Complete log available at
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.20150528_084227.log
+>...
+> === common-x86 (1) ===
+>     * /openembedded-core/meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb, do_compile
 
-No change in SRCREV? This looks like no-op rename. Please test your
-changes.
+This seems to be related to gstreamer 0.10 removal; though it's QtWebkit that's
+failing rather than Phonon:
+
+| cd WebKit/qt/tests/ && /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/qmake2 -after              INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pro -spec /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/mkspecs/linux-g++ -after  INCPATH+=/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/include/freetype2 LIBS+=-L/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86/usr/lib -o Makefile.WebKit
+| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):1: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| WARNING: (internal):3: Variable INCPATH is deprecated; use INCLUDEPATH instead.
+| Project ERROR: Package gstreamer-app-0.10 not found
+| make[1]: *** [WebCore/Makefile.WebKit] Error 2
+| make[1]: *** Waiting for unfinished jobs....
+| Project ERROR: Package gstreamer-app-0.10 not found
+| make[1]: *** [WebKit/qt/Makefile.WebKit.QtWebKit] Error 2
+| make[1]: Leaving directory `/home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source'
+| make: *** [sub-webkit-make_default-ordered] Error 2
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/i586-oe-linux/qt4-x11-free/4.8.6-r0/temp/log.do_compile.14903)
+
+Alex, can you take a look at this?
+
+Thanks,
+Paul
 
 -- 
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
