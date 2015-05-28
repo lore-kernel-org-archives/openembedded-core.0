@@ -1,37 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EBAF7568E
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ACA17568E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 04:53:57 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so103090920igb.0
+	Thu, 28 May 2015 04:55:48 +0000 (UTC)
+Received: by iepj10 with SMTP id j10so29844498iep.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 21:53:58 -0700 (PDT)
+	Wed, 27 May 2015 21:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=1yd30eW5oL0XE2NmLX6YJqcCAmWfYIny+8tqz5toWPo=;
-	b=cI+3Fbi+srlDZTpEBo05T6PQ45JNmwEMCaUMWnfpWFcgWkYEVna3oViaWtz+9T02tB
-	NOtpULLNjLyFV4/EambFhzagNVUP6hPfG696rArHdD4CNNH8EC+wMmkLKNH48Uvm4lWk
-	t49LL4NBzjyjZwMixyTjSOPqyBwT2tPm8Vz6f6JvUyI2161PkgLBzF8RSvZG128RnxUH
-	OhWlm7SLXZzTluHtFIp0JF1NSkWUpDHk7DWvMSxSnOecV/AemlPnXZfAYPvJM9bZrAuK
-	AbitIzFoZR+Y2zhThx/R4px0twfr04xIk+Jk1jqRTDYR1hm+iUFtrw55NClrA2cF08lN
-	RhOQ==
-X-Received: by 10.50.43.137 with SMTP id w9mr16469357igl.30.1432788838832;
-	Wed, 27 May 2015 21:53:58 -0700 (PDT)
+	bh=H32DNvtIjMESbO5Jz8tZt17n/9FQh0Z9WYo9aL/DJLk=;
+	b=ldRJG+leI2hs33BJuphEBWlmOQot1A8TD35Ybg5Pw6bWcAn62/zga1yccMAJmOTghb
+	xv1XiHJnoFNf5iuXidL8THgg/jjVb+gQyM8C9sMsR0FcrcnTvXXS+ixAA3Roy67k1Ub6
+	ceVCOKTlMO1ZmcjrguUIdARiA4HKCd01sY0M3qKCSIOfsAG1uj5HXeZHUCcSrQw3QPZw
+	0BoKPpN713YFJGDFvFp1rD1UsW5Lh0ggcYJCLtuBRf6Z8UFd+QxcDFAKXfEYt3FvfRLE
+	7g+AHv/cWm5Hy1rNbHrBi3UTeu/vcpNon+d5Jru3bscEm1pE8JMGq6zw2P/3nEOlsYlQ
+	CvqQ==
+X-Received: by 10.107.8.40 with SMTP id 40mr1145161ioi.38.1432788949348; Wed,
+	27 May 2015 21:55:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.112.34 with HTTP; Wed, 27 May 2015 21:53:28 -0700 (PDT)
-In-Reply-To: <2E240E9F-CA5F-46EF-B99E-CD5EEAAC7797@gmail.com>
-References: <cover.1432324432.git.raj.khem@gmail.com>
-	<29648ea4a7ec6d1d02cca78e9268e1629ee20fe9.1432324432.git.raj.khem@gmail.com>
-	<2E240E9F-CA5F-46EF-B99E-CD5EEAAC7797@gmail.com>
+Received: by 10.50.112.34 with HTTP; Wed, 27 May 2015 21:55:18 -0700 (PDT)
+In-Reply-To: <2981463.2asXSZhTDk@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1427186518.git.Qi.Chen@windriver.com>
+	<5564081E.1050401@windriver.com>
+	<2981463.2asXSZhTDk@peggleto-mobl.ger.corp.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 May 2015 21:53:28 -0700
-Message-ID: <CAMKF1soX9KMzPnrC0SdeVoF9X48MUjZ_8DHnH_NW4E06fTMgyw@mail.gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Wed, 27 May 2015 21:55:18 -0700
+Message-ID: <CAMKF1soUQf-mTLfAMDDDh=_vMDss6qu5UVF9QUK=BDOSod7jKQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Randy Witt <randy.e.witt@intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] openssl: Fix build with gcc5 on mips64
+Subject: Re: [PATCH 0/4] Support persistent /var/log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,85 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 04:54:01 -0000
+X-List-Received-Date: Thu, 28 May 2015 04:55:49 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 25, 2015 at 12:22 PM, Bernhard Reutner-Fischer
-<rep.dot.nop@gmail.com> wrote:
-> On May 22, 2015 9:56:51 PM GMT+02:00, Khem Raj <raj.khem@gmail.com> wrote:
->>Patch is submitted upstream as well
->>
->>Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>---
->>...ine-GCC_VERSION-macro-to-cover-upto-gcc-5.patch | 53
->>++++++++++++++++++++++
->> .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
->> 2 files changed, 54 insertions(+)
->>create mode 100644
->>meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
->>
->>diff --git
->>a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
->>b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
->>new file mode 100644
->>index 0000000..46d1adf
->>--- /dev/null
->>+++
->>b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
->>@@ -0,0 +1,53 @@
->>+From 0aa68f7681a74f6ff80a80c5843bc35e5effffb9 Mon Sep 17 00:00:00 2001
->>+From: Khem Raj <raj.khem@gmail.com>
->>+Date: Fri, 22 May 2015 12:43:39 -0700
->>+Subject: [PATCH] Define GCC_VERSION macro to cover upto gcc-5
->>+
->>+Current check is limited to gcc 4 with minor versions
->>+but when we use gcc 5.1, then minor version check fails
->>+with current setup and we end up with build errors like
->>+
->>+| In file included from bn_div.c:62:0:
->>+| bn_div.c: In function 'BN_div':
->>+| bn_lcl.h:311:9: error: impossible constraint in 'asm'
->>+|          asm ("dmultu    %2,%3"          \
->>+|          ^
->>+| bn_div.c:402:13: note: in expansion of macro 'BN_UMULT_LOHI'
->>+|              BN_UMULT_LOHI(t2l, t2h, d1, q);
->>+|              ^
->>+| <builtin>: recipe for target 'bn_div.o' failed
->>+| make[2]: *** [bn_div.o] Error 1
->>+
->>+Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>+
->>+---
->>+Upstream-Status: [Submitted]
->>+ crypto/bn/bn_lcl.h | 5 ++++-
->>+ 1 file changed, 4 insertions(+), 1 deletion(-)
->>+
->>+diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
->>+index 196df7e..e801ba7 100644
->>+--- a/crypto/bn/bn_lcl.h
->>++++ b/crypto/bn/bn_lcl.h
->>+@@ -118,6 +118,9 @@
->>+ extern "C" {
->>+ #endif
->>+
->>++#define GCC_VERSION (__GNUC__ * 10000 \
->>++                     + __GNUC_MINOR__ * 100 \
->>++                     + __GNUC_PATCHLEVEL__)
->>+ /*-
->>+  * Bignum consistency macros
->>+  * There is one "API" macro, bn_fix_top(), for stripping leading
->>zeroes from
->>+@@ -443,7 +446,7 @@ unsigned __int64 _umul128(unsigned __int64 a,
->>unsigned __int64 b,
->>+ #   endif
->>+ #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) ||
->>defined(SIXTY_FOUR_BIT_LONG))
->>+ #   if defined(__GNUC__) && __GNUC__>=2
->>+-#    if __GNUC__>=4 && __GNUC_MINOR__>=4
->>++#    if GCC_VERSION > 40400
->
-> Not that it would really matter nowadays, but this should likely be >=
+On Tue, May 26, 2015 at 2:15 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Randy, Khem, Otavio - this area was the subject of a discussion involving you
+> around the 1.8 release, if you could review this set and comment that would be
+> great.
 
-you are right, I have sent another patch which actually is a backport
-of what was applied upstream
+
+Looked at it but it didnt sound like it considered read only rootfs case at all.
+
+>
+> Thanks,
+> Paul
+>
+> On Tuesday 26 May 2015 13:43:58 ChenQi wrote:
+>> ping ....
+>>
+>> *ANY* comment would be welcome, really ...
+>>
+>> Thanks,
+>> Chen Qi
+>>
+>> On 03/24/2015 04:42 PM, Chen Qi wrote:
+>> > The following changes since commit
+> d3fcfe346b3472170641d9194243c4bbe06b8585:
+>> >    systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:13
+>> >    +0000)>
+>> > are available in the git repository at:
+>> >    git://git.openembedded.org/openembedded-core-contrib
+>> >    ChenQi/persistent-var-log
+>> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h
+>> >    =ChenQi/persistent-var-log>
+>> > Chen Qi (4):
+>> >    bitbake.conf: add VOLATILE_LOG_DIR variable
+>> >    base-files: respect VOLATILE_LOG_DIR
+>> >    initscripts: support persistent /var/log
+>> >    package.bbclass: support persistent /var/log
+>> >
+>> >   meta/classes/package.bbclass                       |  2 +-
+>> >   meta/conf/bitbake.conf                             |  4 ++
+>> >   meta/files/fs-perms-persistent-log.txt             | 66
+>> >   ++++++++++++++++++++++
+>> >   meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
+>> >   .../initscripts/initscripts-1.0/volatiles          |  1 -
+>> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
+>> >   6 files changed, 76 insertions(+), 4 deletions(-)
+>> >   create mode 100644 meta/files/fs-perms-persistent-log.txt
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
