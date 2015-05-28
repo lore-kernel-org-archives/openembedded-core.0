@@ -1,40 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B555E60670
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E38473223
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 01:23:48 +0000 (UTC)
-Received: by pdea3 with SMTP id a3so29353417pde.2
+	Thu, 28 May 2015 01:32:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S1W7wT015755
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 18:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=CvUCa2+OEZAr+8syGk6/SA+T63YUbyAuHtq5AgRo0ZE=;
-	b=dQwutlyaAFF4gzupPWxMQ4tYn3mrEGHisIivdeFdniWAvrK/vtn+zs4Q2uW9o0WwIZ
-	uwYY0INe0fkbdQzQveSDGD4Kfq4q+gPsWzkS7syO3hpkbPl4zY5dIFXFuX1pWY9B5lXH
-	8iMywKsBc55Jc40HaGFZ3GXPTQPzsaaVHn9UORM4eMlO9muM9BoLmfnpLghGBMYlZ/wj
-	+ysIqWKr9vGl+MdvpPcbq/EvduB7ajUxH1+w7vkrgt/5k1ijhbdp7YJPvz4S38S9gAWW
-	wXG62X1XfHdUNOgfF8yThjchO6INm4TRyuzCpRonbV75jXgy6g7SCJ0lbSRirpPbFx6K
-	CXCg==
-X-Received: by 10.68.244.73 with SMTP id xe9mr496701pbc.98.1432776229582;
-	Wed, 27 May 2015 18:23:49 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:90eb:a06b:3186:ca08?
-	([2601:9:3580:84c:90eb:a06b:3186:ca08])
-	by mx.google.com with ESMTPSA id ue9sm397030pbc.78.2015.05.27.18.23.48
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 May 2015 18:23:48 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAOMwXhN1Ww=T_OJC8e-VtzM_OozOQUjCU7cF1-shUMZ_kVG4Xg@mail.gmail.com>
-Date: Wed, 27 May 2015 18:23:43 -0700
-Message-Id: <C54FEAEF-9A11-42DE-BF44-CD22BDA74425@gmail.com>
-References: <CAOMwXhN1Ww=T_OJC8e-VtzM_OozOQUjCU7cF1-shUMZ_kVG4Xg@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-X-Mailer: Apple Mail (2.2098)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Post USERADD_PARAM action
+	Wed, 27 May 2015 18:32:07 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 27 May 2015 18:32:06 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <randy.macleod@windriver.com>
+Date: Thu, 28 May 2015 09:26:13 +0800
+Message-ID: <cover.1432775689.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] Fix CVE issues and add new libav recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,77 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 01:23:49 -0000
-X-Groupsio-MsgNum: 66064
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 28 May 2015 01:32:08 -0000
+Content-Type: text/plain
 
---Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+* Fix CVE issues for severial packages
+* Upgrade libav  9.61 --> 9.18
+* Add recipe for libav series 11
 
+Build world for x86-64 and qemuarm are fine except some textrel warnings for qemuarm.
+Should I open new defects that?
 
-> On May 22, 2015, at 4:37 AM, Laszlo Papp <lpapp@kde.org> wrote:
->=20
-> Hi,
->=20
-> is it possible to do some post action after useradd_param is executed?
->=20
-> I would like to modify the created user's home directory, in this
-> special case the profile. I see that the useradd util has this on
-> desktop, but busybox does not have it, and very likely will not have
-> it, at least not in the near future anyway:
->=20
->       -k, --skel SKEL_DIR
->           The skeleton directory, which contains files and
-> directories to be copied in the user's home directory, when the home
-> directory is created by useradd.
->=20
->           This option is only valid if the -m (or --create-home)
-> option is specified.
->=20
->           If this option is not set, the skeleton directory is
-> defined by the SKEL variable in /etc/default/useradd or, by default,
-> /etc/skel.
->=20
->           If possible, the ACLs and extended attributes are copied.
->=20
-> I would like to do something like this with the created user's home =
-directory:
->=20
-> echo PATH=3D/sbin:$PATH > /home/foo/.profile
-> chmod foo:foo /home/foo/.profile
->=20
-> But then again, for this, I need to make sure that the user is already =
-created.
->=20
+--Kai
 
-may be you can insert a custom task after useradd_sysroot ?
+The following changes since commit a431e5aa572358ba61cf3c9e501f830263bdcd3d:
 
-> Ys, L.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  bitbake: data: Make expandKeys deterministic (2015-05-27 17:48:06 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib kangkai/CVEs
+  http://git.yoctoproject.org/cgit.cgi//log/?h=kangkai/CVEs
+
+Kai Kang (5):
+  gpgme: fix CVE-2014-3564
+  grep: fix CVE-2015-1345
+  qt4: fix CVE issues
+  libav: upgrade to 9.18
+  libav: add recipe for 11 release series
+
+ .../grep/grep/grep-fix-CVE-2015-1345.patch         | 154 +++++++++++++++++++++
+ meta/recipes-extended/grep/grep_2.21.bb            |   3 +-
+ meta/recipes-multimedia/libav/libav.inc            |   2 -
+ .../libav/libav/libav-fix-CVE-2014-9676.patch      |  98 +++++++++++++
+ meta/recipes-multimedia/libav/libav_11.3.bb        |   4 +
+ meta/recipes-multimedia/libav/libav_9.16.bb        |   4 -
+ meta/recipes-multimedia/libav/libav_9.18.bb        |   6 +
+ meta/recipes-qt/qt4/qt4-4.8.6.inc                  |   2 +
+ ...Fixes-crash-in-bmp-and-ico-image-decoding.patch |  71 ++++++++++
+ .../0036-Fixes-crash-in-gif-image-decoder.patch    |  39 ++++++
+ .../gpgme-1.4.3/gpgme-fix-CVE-2014-3564.patch      |  56 ++++++++
+ meta/recipes-support/gpgme/gpgme_1.4.3.bb          |   4 +-
+ 12 files changed, 435 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-extended/grep/grep/grep-fix-CVE-2015-1345.patch
+ create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
+ create mode 100644 meta/recipes-multimedia/libav/libav_11.3.bb
+ delete mode 100644 meta/recipes-multimedia/libav/libav_9.16.bb
+ create mode 100644 meta/recipes-multimedia/libav/libav_9.18.bb
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0035-Fixes-crash-in-bmp-and-ico-image-decoding.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0036-Fixes-crash-in-gif-image-decoder.patch
+ create mode 100644 meta/recipes-support/gpgme/gpgme-1.4.3/gpgme-fix-CVE-2014-3564.patch
+
+-- 
+1.9.1
 
 
---Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVmbiMACgkQuwUzVZGdMxSquwCfYeftKiZYjFNpX/RF1o9DqXgc
-dQUAnA1fPb1WL3tNeWNBc4sCEzVTIuk1
-=ioc+
------END PGP SIGNATURE-----
-
---Apple-Mail=_B8025153-A5B6-4B47-87D1-C0611675001A--
