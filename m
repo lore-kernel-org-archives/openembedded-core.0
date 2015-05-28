@@ -1,30 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6819A7562E
+	by mail.openembedded.org (Postfix) with ESMTP id E3E5E737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 08:18:32 +0000 (UTC)
+	Thu, 28 May 2015 08:28:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S8IWd1021671
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S8Sqci023082
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 May 2015 01:18:32 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 28 May 2015 01:18:30 -0700
-Message-ID: <5566CF50.8090503@windriver.com>
-Date: Thu, 28 May 2015 16:18:24 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Thu, 28 May 2015 01:28:52 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 28 May 2015 01:28:52 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <otavio@ossystems.com.br>
+Date: Thu, 28 May 2015 16:23:04 +0800
+Message-ID: <1432801384-9123-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <cover.1432775689.git.kai.kang@windriver.com>
-	<274a045e16a1d3a0fad66f8727de7a04cc86e614.1432775689.git.kai.kang@windriver.com>
-	<CAHiDW_HYEW8+SYsLhbTLWpk1=z0XNvwYaGkBsEaSGi0Zk5Y4Ng@mail.gmail.com>
-In-Reply-To: <CAHiDW_HYEW8+SYsLhbTLWpk1=z0XNvwYaGkBsEaSGi0Zk5Y4Ng@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] alsa-tools: update makefile_no_gtk.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,203 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 08:18:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 May 2015 08:28:54 -0000
+Content-Type: text/plain
 
-On 2015年05月28日 15:14, Jussi Kukkonen wrote:
-> On 28 May 2015 at 04:26, Kai Kang <kai.kang@windriver.com> wrote:
->> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_PR and
->> backport patch to fix CVE-2014-9676.
-> I'm sorry I didn't ask this in the original discussion but... Is there
-> a good reason for keeping 9.x in oe-core if we're bringing in 11.x
-> (instead of either dropping 9.x or moving it to meta-oe)?
->
-> I haven't found the API changes between 9 and 11 to be so large that
-> they would warrant keeping two versions. Admittedly I'm not working
-> with libav on daily basis so I might have missed things.
+makefile_no_gtk.patch will be applied when no 'x11' in distro features.
+It fails to apply after update to version 1.0.29. Fix it.
 
-The original thought is just in case someone may want libav 9. According 
-to release log, series 11
-is
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-"Libav 11 is API-, but not ABI-compatible with the previous major
-release."
-
-So it is ok for us to use libav 11 as default. libav 9 recipe could be removed if no one opposes.
-
-Ref:
-https://libav.org/releases/libav-11.3.release
-
---Kai
-
-
->
-> Jussi
->
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-multimedia/libav/libav.inc            |  2 -
->>   .../libav/libav/libav-fix-CVE-2014-9676.patch      | 98 ++++++++++++++++++++++
->>   meta/recipes-multimedia/libav/libav_9.16.bb        |  4 -
->>   meta/recipes-multimedia/libav/libav_9.18.bb        |  6 ++
->>   4 files changed, 104 insertions(+), 6 deletions(-)
->>   create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->>   delete mode 100644 meta/recipes-multimedia/libav/libav_9.16.bb
->>   create mode 100644 meta/recipes-multimedia/libav/libav_9.18.bb
->>
->> diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
->> index cac836f..6ef273b 100644
->> --- a/meta/recipes-multimedia/libav/libav.inc
->> +++ b/meta/recipes-multimedia/libav/libav.inc
->> @@ -24,8 +24,6 @@ ARM_INSTRUCTION_SET = "arm"
->>
->>   DEPENDS = "alsa-lib zlib libogg yasm-native"
->>
->> -INC_PR = "r8"
->> -
->>   inherit autotools pkgconfig
->>
->>   B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
->> diff --git a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->> new file mode 100644
->> index 0000000..1e31caa
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
->> @@ -0,0 +1,98 @@
->> +Upstream-Status: Backport
->> +
->> +Backport patch to fix CVE-2014-9676.
->> +
->> +https://security-tracker.debian.org/tracker/CVE-2014-9676
->> +https://git.libav.org/?p=libav.git;a=commit;h=b3f04657368a32a9903406395f865e230b1de348
->> +
->> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> +---
->> +From b3f04657368a32a9903406395f865e230b1de348 Mon Sep 17 00:00:00 2001
->> +From: Luca Barbato <lu_zero@gentoo.org>
->> +Date: Mon, 5 Jan 2015 10:40:41 +0100
->> +Subject: [PATCH] segment: Fix the failure paths
->> +
->> +A failure in segment_end() or segment_start() would lead to freeing
->> +a dangling pointer and in general further calls to seg_write_packet()
->> +or to seg_write_trailer() would have the same faulty behaviour.
->> +
->> +CC: libav-stable@libav.org
->> +Reported-By: luodalongde@gmail.com
->> +---
->> + libavformat/segment.c | 32 ++++++++++++++++++++------------
->> + 1 file changed, 20 insertions(+), 12 deletions(-)
->> +
->> +diff --git a/libavformat/segment.c b/libavformat/segment.c
->> +index 52da6b9..bcfd1f9 100644
->> +--- a/libavformat/segment.c
->> ++++ b/libavformat/segment.c
->> +@@ -184,6 +184,13 @@ static void close_null_ctx(AVIOContext *pb)
->> +     av_free(pb);
->> + }
->> +
->> ++static void seg_free_context(SegmentContext *seg)
->> ++{
->> ++    avio_closep(&seg->pb);
->> ++    avformat_free_context(seg->avf);
->> ++    seg->avf = NULL;
->> ++}
->> ++
->> + static int seg_write_header(AVFormatContext *s)
->> + {
->> +     SegmentContext *seg = s->priv_data;
->> +@@ -265,12 +272,9 @@ static int seg_write_header(AVFormatContext *s)
->> +     }
->> +
->> + fail:
->> +-    if (ret) {
->> +-        if (seg->list)
->> +-            avio_close(seg->pb);
->> +-        if (seg->avf)
->> +-            avformat_free_context(seg->avf);
->> +-    }
->> ++    if (ret < 0)
->> ++        seg_free_context(seg);
->> ++
->> +     return ret;
->> + }
->> +
->> +@@ -282,6 +286,9 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
->> +     int64_t end_pts = seg->recording_time * seg->number;
->> +     int ret, can_split = 1;
->> +
->> ++    if (!oc)
->> ++        return AVERROR(EINVAL);
->> ++
->> +     if (seg->has_video) {
->> +         can_split = st->codec->codec_type == AVMEDIA_TYPE_VIDEO &&
->> +                     pkt->flags & AV_PKT_FLAG_KEY;
->> +@@ -322,11 +329,8 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
->> +     ret = ff_write_chained(oc, pkt->stream_index, pkt, s);
->> +
->> + fail:
->> +-    if (ret < 0) {
->> +-        if (seg->list)
->> +-            avio_close(seg->pb);
->> +-        avformat_free_context(oc);
->> +-    }
->> ++    if (ret < 0)
->> ++        seg_free_context(seg);
->> +
->> +     return ret;
->> + }
->> +@@ -335,7 +339,11 @@ static int seg_write_trailer(struct AVFormatContext *s)
->> + {
->> +     SegmentContext *seg = s->priv_data;
->> +     AVFormatContext *oc = seg->avf;
->> +-    int ret;
->> ++    int ret = 0;
->> ++
->> ++    if (!oc)
->> ++        goto fail;
->> ++
->> +     if (!seg->write_header_trailer) {
->> +         if ((ret = segment_end(oc, 0)) < 0)
->> +             goto fail;
->> +--
->> +2.4.1.314.g9532ead
->> +
->> diff --git a/meta/recipes-multimedia/libav/libav_9.16.bb b/meta/recipes-multimedia/libav/libav_9.16.bb
->> deleted file mode 100644
->> index 79ff3f8..0000000
->> --- a/meta/recipes-multimedia/libav/libav_9.16.bb
->> +++ /dev/null
->> @@ -1,4 +0,0 @@
->> -require libav.inc
->> -
->> -SRC_URI[md5sum] = "7b44b75cec24b8e7545e5029e76917e0"
->> -SRC_URI[sha256sum] = "ca846473b0b8ed8e3404c52e5e92df6d35cb5fa487eec498525de3ffda4367a0"
->> diff --git a/meta/recipes-multimedia/libav/libav_9.18.bb b/meta/recipes-multimedia/libav/libav_9.18.bb
->> new file mode 100644
->> index 0000000..210a649
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/libav/libav_9.18.bb
->> @@ -0,0 +1,6 @@
->> +require libav.inc
->> +
->> +SRC_URI[md5sum] = "75e838068a75fb88e1b4ea0546bc16f0"
->> +SRC_URI[sha256sum] = "0875e835da683eef1a7bac75e1884634194149d7479d1538ba9fbe1614d066d7"
->> +
->> +SRC_URI += "file://libav-fix-CVE-2014-9676.patch"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+index 2665726..c957609 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+@@ -5,21 +5,25 @@ Upstream-Status: Inappropriate [configuration]
+ Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ 
++Update patch for alsa-tools 1.0.29
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
+ diff --git a/Makefile b/Makefile
+ index 2457a1c..72346d9 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,9 +1,9 @@
+- VERSION = 1.0.27
++ VERSION = 1.0.29
+  TOP = .
+ -SUBDIRS = as10k1 envy24control \
+ -	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+ -	  us428control usx2yloader vxloader echomixer \
+--	  hwmixvolume hdajackretask hda-verb
++-	  hwmixvolume hdajackretask hda-verb hdajacksensetest
+ +SUBDIRS = as10k1 \
+ +	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
+ +	  us428control usx2yloader vxloader \
+-+	  hwmixvolume hda-verb
+++	  hwmixvolume hda-verb hdajacksensetest
+  
+  all:
+  	@for i in $(SUBDIRS); do \
 -- 
-Regards,
-Neil | Kai Kang
+1.9.1
 
 
