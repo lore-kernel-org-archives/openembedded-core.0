@@ -1,35 +1,38 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 740887567D
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E45207568F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 06:05:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S656xu014665
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 May 2015 23:05:07 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 27 May 2015 23:05:06 -0700
-Message-ID: <5566B012.1040006@windriver.com>
-Date: Thu, 28 May 2015 14:05:06 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Thu, 28 May 2015 07:14:55 +0000 (UTC)
+Received: by obbea2 with SMTP id ea2so26034681obb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 May 2015 00:14:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=E7TExmui6rWFrl039S1ah+u7ZpajmqLIzYIk94vgBDU=;
+	b=Bswk+YhhAw7vZtDdTXhn5nc1w1Eyhml5/ml5Sqw7LJ2AhXg2B+6Q5nhPcPab7BkzdF
+	DxuMny6q4T5geiKd61G88WqzscKvLzV5zymBkDT5DCjiSId/ofWrbjyI4oSPK5oPpO23
+	6kKkiSOhEmVk4jhLGm9dXhI9fO2rCJIN1d19JjCIVAvPUcwRChL5fyoBh+jf1N6NvKdV
+	7LQ+kl10+qxRYmSGzmHSci6dCmh5qlMXPNuIuYfIVgSSZFN4ABRV/vaxYF5fF/l4ovi2
+	VT/zqb4I6nFdQOA6yM0bW9e8dZWHQaXqp8pazsdjVm19G4Zq0QbODMa7Q0uLcTCuEtik
+	9w3Q==
+X-Gm-Message-State: ALoCoQl/yNEb9/gb5exTP290b2f8SbUpDpg9hVT1ykReDASV0SbfsWYNFSwVxJuGTPD6kX3aBEiR
+X-Received: by 10.202.76.68 with SMTP id z65mr1133643oia.54.1432797296574;
+	Thu, 28 May 2015 00:14:56 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-References: <cover.1427186518.git.Qi.Chen@windriver.com>
-	<5564081E.1050401@windriver.com>
-	<2981463.2asXSZhTDk@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1soUQf-mTLfAMDDDh=_vMDss6qu5UVF9QUK=BDOSod7jKQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soUQf-mTLfAMDDDh=_vMDss6qu5UVF9QUK=BDOSod7jKQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.211]
-Cc: Randy Witt <randy.e.witt@intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+Received: by 10.202.225.2 with HTTP; Thu, 28 May 2015 00:14:26 -0700 (PDT)
+In-Reply-To: <274a045e16a1d3a0fad66f8727de7a04cc86e614.1432775689.git.kai.kang@windriver.com>
+References: <cover.1432775689.git.kai.kang@windriver.com>
+	<274a045e16a1d3a0fad66f8727de7a04cc86e614.1432775689.git.kai.kang@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 28 May 2015 10:14:26 +0300
+Message-ID: <CAHiDW_HYEW8+SYsLhbTLWpk1=z0XNvwYaGkBsEaSGi0Zk5Y4Ng@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Support persistent /var/log
+Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,70 +45,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 06:05:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 May 2015 07:14:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/28/2015 12:55 PM, Khem Raj wrote:
-> On Tue, May 26, 2015 at 2:15 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->> Randy, Khem, Otavio - this area was the subject of a discussion involving you
->> around the 1.8 release, if you could review this set and comment that would be
->> great.
+On 28 May 2015 at 04:26, Kai Kang <kai.kang@windriver.com> wrote:
+> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_PR and
+> backport patch to fix CVE-2014-9676.
+
+I'm sorry I didn't ask this in the original discussion but... Is there
+a good reason for keeping 9.x in oe-core if we're bringing in 11.x
+(instead of either dropping 9.x or moving it to meta-oe)?
+
+I haven't found the API changes between 9 and 11 to be so large that
+they would warrant keeping two versions. Admittedly I'm not working
+with libav on daily basis so I might have missed things.
+
+Jussi
+
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-multimedia/libav/libav.inc            |  2 -
+>  .../libav/libav/libav-fix-CVE-2014-9676.patch      | 98 ++++++++++++++++++++++
+>  meta/recipes-multimedia/libav/libav_9.16.bb        |  4 -
+>  meta/recipes-multimedia/libav/libav_9.18.bb        |  6 ++
+>  4 files changed, 104 insertions(+), 6 deletions(-)
+>  create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
+>  delete mode 100644 meta/recipes-multimedia/libav/libav_9.16.bb
+>  create mode 100644 meta/recipes-multimedia/libav/libav_9.18.bb
 >
-> Looked at it but it didnt sound like it considered read only rootfs case at all.
-
-
-read-only rootfs and persistent /var/log are all custom configurations.
-If a user wants a read-only rootfs but a persistent /var/log, he'll need 
-to do more custom configurations like putting /var/ on a seperate 
-partition or something else.
-
-The purpose of this patch is to provide an easy way to user to keep 
-their logs between reboots.
-
-//Chen Qi
-
->> Thanks,
->> Paul
->>
->> On Tuesday 26 May 2015 13:43:58 ChenQi wrote:
->>> ping ....
->>>
->>> *ANY* comment would be welcome, really ...
->>>
->>> Thanks,
->>> Chen Qi
->>>
->>> On 03/24/2015 04:42 PM, Chen Qi wrote:
->>>> The following changes since commit
->> d3fcfe346b3472170641d9194243c4bbe06b8585:
->>>>     systemd: fix firmware path to match linux-firmware (2015-03-23 11:27:13
->>>>     +0000)>
->>>> are available in the git repository at:
->>>>     git://git.openembedded.org/openembedded-core-contrib
->>>>     ChenQi/persistent-var-log
->>>>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h
->>>>     =ChenQi/persistent-var-log>
->>>> Chen Qi (4):
->>>>     bitbake.conf: add VOLATILE_LOG_DIR variable
->>>>     base-files: respect VOLATILE_LOG_DIR
->>>>     initscripts: support persistent /var/log
->>>>     package.bbclass: support persistent /var/log
->>>>
->>>>    meta/classes/package.bbclass                       |  2 +-
->>>>    meta/conf/bitbake.conf                             |  4 ++
->>>>    meta/files/fs-perms-persistent-log.txt             | 66
->>>>    ++++++++++++++++++++++
->>>>    meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
->>>>    .../initscripts/initscripts-1.0/volatiles          |  1 -
->>>>    meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
->>>>    6 files changed, 76 insertions(+), 4 deletions(-)
->>>>    create mode 100644 meta/files/fs-perms-persistent-log.txt
->> --
->>
->> Paul Eggleton
->> Intel Open Source Technology Centre
+> diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+> index cac836f..6ef273b 100644
+> --- a/meta/recipes-multimedia/libav/libav.inc
+> +++ b/meta/recipes-multimedia/libav/libav.inc
+> @@ -24,8 +24,6 @@ ARM_INSTRUCTION_SET = "arm"
 >
-
+>  DEPENDS = "alsa-lib zlib libogg yasm-native"
+>
+> -INC_PR = "r8"
+> -
+>  inherit autotools pkgconfig
+>
+>  B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+> diff --git a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
+> new file mode 100644
+> index 0000000..1e31caa
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch
+> @@ -0,0 +1,98 @@
+> +Upstream-Status: Backport
+> +
+> +Backport patch to fix CVE-2014-9676.
+> +
+> +https://security-tracker.debian.org/tracker/CVE-2014-9676
+> +https://git.libav.org/?p=libav.git;a=commit;h=b3f04657368a32a9903406395f865e230b1de348
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> +From b3f04657368a32a9903406395f865e230b1de348 Mon Sep 17 00:00:00 2001
+> +From: Luca Barbato <lu_zero@gentoo.org>
+> +Date: Mon, 5 Jan 2015 10:40:41 +0100
+> +Subject: [PATCH] segment: Fix the failure paths
+> +
+> +A failure in segment_end() or segment_start() would lead to freeing
+> +a dangling pointer and in general further calls to seg_write_packet()
+> +or to seg_write_trailer() would have the same faulty behaviour.
+> +
+> +CC: libav-stable@libav.org
+> +Reported-By: luodalongde@gmail.com
+> +---
+> + libavformat/segment.c | 32 ++++++++++++++++++++------------
+> + 1 file changed, 20 insertions(+), 12 deletions(-)
+> +
+> +diff --git a/libavformat/segment.c b/libavformat/segment.c
+> +index 52da6b9..bcfd1f9 100644
+> +--- a/libavformat/segment.c
+> ++++ b/libavformat/segment.c
+> +@@ -184,6 +184,13 @@ static void close_null_ctx(AVIOContext *pb)
+> +     av_free(pb);
+> + }
+> +
+> ++static void seg_free_context(SegmentContext *seg)
+> ++{
+> ++    avio_closep(&seg->pb);
+> ++    avformat_free_context(seg->avf);
+> ++    seg->avf = NULL;
+> ++}
+> ++
+> + static int seg_write_header(AVFormatContext *s)
+> + {
+> +     SegmentContext *seg = s->priv_data;
+> +@@ -265,12 +272,9 @@ static int seg_write_header(AVFormatContext *s)
+> +     }
+> +
+> + fail:
+> +-    if (ret) {
+> +-        if (seg->list)
+> +-            avio_close(seg->pb);
+> +-        if (seg->avf)
+> +-            avformat_free_context(seg->avf);
+> +-    }
+> ++    if (ret < 0)
+> ++        seg_free_context(seg);
+> ++
+> +     return ret;
+> + }
+> +
+> +@@ -282,6 +286,9 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
+> +     int64_t end_pts = seg->recording_time * seg->number;
+> +     int ret, can_split = 1;
+> +
+> ++    if (!oc)
+> ++        return AVERROR(EINVAL);
+> ++
+> +     if (seg->has_video) {
+> +         can_split = st->codec->codec_type == AVMEDIA_TYPE_VIDEO &&
+> +                     pkt->flags & AV_PKT_FLAG_KEY;
+> +@@ -322,11 +329,8 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
+> +     ret = ff_write_chained(oc, pkt->stream_index, pkt, s);
+> +
+> + fail:
+> +-    if (ret < 0) {
+> +-        if (seg->list)
+> +-            avio_close(seg->pb);
+> +-        avformat_free_context(oc);
+> +-    }
+> ++    if (ret < 0)
+> ++        seg_free_context(seg);
+> +
+> +     return ret;
+> + }
+> +@@ -335,7 +339,11 @@ static int seg_write_trailer(struct AVFormatContext *s)
+> + {
+> +     SegmentContext *seg = s->priv_data;
+> +     AVFormatContext *oc = seg->avf;
+> +-    int ret;
+> ++    int ret = 0;
+> ++
+> ++    if (!oc)
+> ++        goto fail;
+> ++
+> +     if (!seg->write_header_trailer) {
+> +         if ((ret = segment_end(oc, 0)) < 0)
+> +             goto fail;
+> +--
+> +2.4.1.314.g9532ead
+> +
+> diff --git a/meta/recipes-multimedia/libav/libav_9.16.bb b/meta/recipes-multimedia/libav/libav_9.16.bb
+> deleted file mode 100644
+> index 79ff3f8..0000000
+> --- a/meta/recipes-multimedia/libav/libav_9.16.bb
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -require libav.inc
+> -
+> -SRC_URI[md5sum] = "7b44b75cec24b8e7545e5029e76917e0"
+> -SRC_URI[sha256sum] = "ca846473b0b8ed8e3404c52e5e92df6d35cb5fa487eec498525de3ffda4367a0"
+> diff --git a/meta/recipes-multimedia/libav/libav_9.18.bb b/meta/recipes-multimedia/libav/libav_9.18.bb
+> new file mode 100644
+> index 0000000..210a649
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/libav/libav_9.18.bb
+> @@ -0,0 +1,6 @@
+> +require libav.inc
+> +
+> +SRC_URI[md5sum] = "75e838068a75fb88e1b4ea0546bc16f0"
+> +SRC_URI[sha256sum] = "0875e835da683eef1a7bac75e1884634194149d7479d1538ba9fbe1614d066d7"
+> +
+> +SRC_URI += "file://libav-fix-CVE-2014-9676.patch"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
