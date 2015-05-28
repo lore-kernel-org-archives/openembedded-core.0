@@ -1,39 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 71A197568E
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 23C4B7568E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 04:49:09 +0000 (UTC)
-Received: by igbyr2 with SMTP id yr2so103033121igb.0
+	Thu, 28 May 2015 04:52:01 +0000 (UTC)
+Received: by igbjd9 with SMTP id jd9so15470726igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 May 2015 21:49:10 -0700 (PDT)
+	Wed, 27 May 2015 21:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=HJORQ8iyE9pQsbwrpSx0j897hvb0iykNwQiHCTyN5SQ=;
-	b=LFU0hPO0ndVA4DcKbu+hV7EgTHrSBPqN/lQ7rcOGHhZVQp2drSd8m9VGIBKtqmuFUD
-	l7DFP4RGEjLbejN6nEiQB/7FEA9GWy2Ew99vh5hCLxhk7epc8n6kFYhAF1gmwqgHDNc2
-	+Au/pWyskvmBxTkhhJGfnybWmZxzYzB0+W7e9Y4l2TIxHarVW4zxcenueiGAOGtgoawl
-	hOLktVJJeXOMh9rBp4KaHms51ecLNqSuJu49JS+NzFgZTmQCHHW/zzzCcHYBUs49xJc5
-	+TV+Dgjp+0vtcc+fvtKqLEvPtcfUV7Ge3ybsfaUCMjo+SMUDuF/4ZkdIwwbutvLjdDXm
-	z4Ww==
-X-Received: by 10.43.56.146 with SMTP id wc18mr7490186icb.24.1432788550271;
-	Wed, 27 May 2015 21:49:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.112.34 with HTTP; Wed, 27 May 2015 21:48:39 -0700 (PDT)
-In-Reply-To: <3ABA6702-FFD6-448B-99B2-5DD5723A3AD3@gmail.com>
-References: <cover.1432320274.git.tanu.kaskinen@linux.intel.com>
-	<e5260dbf168f3c51d9114e4c4cb1fca49abc83b1.1432320274.git.tanu.kaskinen@linux.intel.com>
-	<1432448758.12832.67.camel@linuxfoundation.org>
-	<3ABA6702-FFD6-448B-99B2-5DD5723A3AD3@gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=Vtx40e7G2ICVowRmUZj1V5cCtEOB/+rJnbzAOQ+uZHM=;
+	b=D6MY8qBwLvUX3cmFwcekbB1kOl0Y8fxRWeZZ2OVTzH79oCHpf1ny1wbM7x7GIy4K7L
+	9mb9T7WcTxZyUsqJ6Gdb5YqvjdxqbD5qETurO+ZKdG/U7x1qXk0A8oX+1a0ABugdFQYk
+	ZuhaHs55RoPjEGEM3gR73zwiwb96Oss0+/3uA//66npFaoDKYDSn0NiJi9vMu6xKUDI5
+	8OGLbHo3XN0Buv//RuPo3M4UMk2lSR1IhuGE3LAtjFBYpt00glIn2/MFmpFQZsMdQVge
+	Q42+l5jnV0mtls0I63FWWtyZUaRV7CMOpRrkRayipUZue86xFe7v6TQh+90CBLbvfSYQ
+	XTWg==
+X-Received: by 10.107.129.78 with SMTP id c75mr1106897iod.4.1432788722841;
+	Wed, 27 May 2015 21:52:02 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79])
+	by mx.google.com with ESMTPSA id j3sm1257488igx.21.2015.05.27.21.52.02
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 May 2015 21:52:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 May 2015 21:48:39 -0700
-Message-ID: <CAMKF1sqm97zeLZ5v70-BKW=+tPCn+w_bDibFkM2q6714kpABJg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/5] alsa-plugins: initial recipe
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 May 2015 21:51:55 -0700
+Message-Id: <1432788715-22140-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] openssl: Backport upstreamed version of patch to fix build on mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +41,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 04:49:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 May 2015 04:52:02 -0000
 
-On Wed, May 27, 2015 at 9:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On May 23, 2015, at 11:25 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Fri, 2015-05-22 at 21:51 +0300, Tanu Kaskinen wrote:
->>> When PulseAudio is installed, alsa-plugins is needed to provide
->>> compatibility for ALSA applications.
->>>
->>> The dependencies are set up so that pulseaudio-server depends on
->>> alsa-plugins-pulseaudio-conf, and alsa-plugins-pulseaudio-conf depends
->>> on the PulseAudio plugins. This should make the ALSA->PulseAudio
->>> compatibility configuration work out of the box, while leaving the
->>> PulseAudio specific configuration out on systems that don't have
->>> pulseaudio-server installed.
->>>
->>> The alsa-plugins recipes in meta-guacamayo and meta-webos were used as
->>> references, but this recipe is not a straight copy of either.
->>>
->>> Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
->>
->> FWIW this new recipe failed on the autobuilder when it was tested in a
->> multilib build:
->>
->> ERROR: QA Issue: lib32-alsa-plugins: Files/directories were installed
->> but not shipped in any package:
->>  /usr/lib32/alsa-lib/libasound_module_rate_speexrate_medium.so
->>  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_order.so
->>  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_medium.so
->>  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_best.so
->>  /usr/lib32/alsa-lib/libasound_module_rate_samplerate_linear.so
->>  /usr/lib32/alsa-lib/libasound_module_rate_speexrate_best.so
->> Please set FILES such that these items are packaged. Alternatively if
->> they are unneeded, avoid installing them or delete them within
->> do_install. [installed-vs-shipped]
->>
->> I created a follow up patch:
->>
->> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=bd4f5e346550f961f7a1056661f9b9fefdc8fff6
->>
->> which fixed this and meant to merge it immediately after your commit
->> however it looks like I squashed the patches accidentally. In comes down
->> to the class extension code not being able to rewrite entries from
->> PACKAGES_DYNAMIC.
->
->
-> There are more errors I am seeing, I wonder if they are parallel install issues
->
-> | mv: cannot stat '/home/kraj/work/rdk/build-b2120-h412-a9/tmp/work/cortexa9hf-vfp-neon-rdk-linux-gnueabi/alsa-plugins/1.0.29-r0/image/usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf.example': No such file or directory
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_install (log file is located at /home/kraj/work/rdk/build-b2120-h412-a9/tmp/work/cortexa9hf-vfp-neon-rdk-linux-gnueabi/alsa-plugins/1.0.29-r0/temp/log.do_install.30933)
-> ERROR: Task 4117 (/home/kraj/work/rdk/openembedded-core/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb, do_install) failed with exit code '1'
+Previous patch had a concern as well and this is a direct backport of
+the patch fixing the problem.
 
-I sent a patch to fix this but then there still are issues.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...ine-GCC_VERSION-macro-to-cover-upto-gcc-5.patch | 53 ----------------------
+ ...lcl.h-fix-MIPS-specific-gcc-version-check.patch | 30 ++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  2 +-
+ 3 files changed, 31 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
 
-WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
-libasound-module-conf-pulse, but it isn't a build dependency?
-[build-deps]
-WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
-libasound-module-ctl-pulse, but it isn't a build dependency?
-[build-deps]
-WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
-libasound-module-pcm-pulse, but it isn't a build dependency?
-[build-deps]
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
+deleted file mode 100644
+index 46d1adf..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 0aa68f7681a74f6ff80a80c5843bc35e5effffb9 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 22 May 2015 12:43:39 -0700
+-Subject: [PATCH] Define GCC_VERSION macro to cover upto gcc-5
+-
+-Current check is limited to gcc 4 with minor versions
+-but when we use gcc 5.1, then minor version check fails
+-with current setup and we end up with build errors like
+-
+-| In file included from bn_div.c:62:0:
+-| bn_div.c: In function 'BN_div':
+-| bn_lcl.h:311:9: error: impossible constraint in 'asm'
+-|          asm ("dmultu    %2,%3"          \
+-|          ^
+-| bn_div.c:402:13: note: in expansion of macro 'BN_UMULT_LOHI'
+-|              BN_UMULT_LOHI(t2l, t2h, d1, q);
+-|              ^
+-| <builtin>: recipe for target 'bn_div.o' failed
+-| make[2]: *** [bn_div.o] Error 1
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+-Upstream-Status: [Submitted]
+- crypto/bn/bn_lcl.h | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
+-index 196df7e..e801ba7 100644
+---- a/crypto/bn/bn_lcl.h
+-+++ b/crypto/bn/bn_lcl.h
+-@@ -118,6 +118,9 @@
+- extern "C" {
+- #endif
+- 
+-+#define GCC_VERSION (__GNUC__ * 10000 \
+-+                     + __GNUC_MINOR__ * 100 \
+-+                     + __GNUC_PATCHLEVEL__)
+- /*-
+-  * Bignum consistency macros
+-  * There is one "API" macro, bn_fix_top(), for stripping leading zeroes from
+-@@ -443,7 +446,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
+- #   endif
+- #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
+- #   if defined(__GNUC__) && __GNUC__>=2
+--#    if __GNUC__>=4 && __GNUC_MINOR__>=4
+-+#    if GCC_VERSION > 40400
+-                                      /* "h" constraint is no more since 4.4 */
+- #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
+- #     define BN_UMULT_LOHI(low,high,a,b) ({     \
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
+new file mode 100644
+index 0000000..7308f8f
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
+@@ -0,0 +1,30 @@
++From 60c268b21ac81cc6b1af5c5470282a613b96f6fd Mon Sep 17 00:00:00 2001
++From: Andy Polyakov <appro@openssl.org>
++Date: Mon, 25 May 2015 10:17:14 +0200
++Subject: [PATCH] bn/bn_lcl.h: fix MIPS-specific gcc version check.
++
++RT#3859
++
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++---
++Upstream-Status: Backport
++
++ crypto/bn/bn_lcl.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
++index 196df7e..b9d124a 100644
++--- a/crypto/bn/bn_lcl.h
+++++ b/crypto/bn/bn_lcl.h
++@@ -443,7 +443,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
++ #   endif
++ #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
++ #   if defined(__GNUC__) && __GNUC__>=2
++-#    if __GNUC__>=4 && __GNUC_MINOR__>=4
+++#    if __GNUC__>4 || (__GNUC__>=4 && __GNUC_MINOR__>=4)
++                                      /* "h" constraint is no more since 4.4 */
++ #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
++ #     define BN_UMULT_LOHI(low,high,a,b) ({     \
++-- 
++2.1.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+index 5e767c3..f4006f6 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+@@ -36,7 +36,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+-            file://0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch \
++            file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch \
+            "
+ 
+ SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
+-- 
+2.1.4
+
 
