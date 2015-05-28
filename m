@@ -1,24 +1,43 @@
-Return-Path: <florian.boor@kernelconcepts.de>
-Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 556E07568E
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id AAB2E75669
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 10:15:16 +0000 (UTC)
-Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
-	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>) id 1Yxupc-0003Vu-Tb
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 May 2015 12:14:33 +0200
-Message-ID: <5566EA64.5080600@kernelconcepts.de>
-Date: Thu, 28 May 2015 12:13:56 +0200
-From: Florian Boor <florian.boor@kernelconcepts.de>
+	Thu, 28 May 2015 10:30:27 +0000 (UTC)
+Received: by wgv5 with SMTP id 5so32355933wgv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 May 2015 03:30:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=zGEFHDaQzaE4k6hTQqvI2hfsCXaviebL1JYxsYmBPDU=;
+	b=mKgfPNmvdsW2sdKpnzO1TmSB/NzWtkKnTBAhr5Ii0Xl+7GEcsmzhENIM2XvhJeJyIC
+	XE8ptFsmRAij1vxxyczjiR1PrRZeX6s9ZlgdIj2FswZmaw8bst9pU6eMek2b0sRtuAYy
+	OPSrXZj1kcoMF3uRz8meu3pw/Gmr6BrcXuOwHwip/VYR2xvBcMCjHiOnKRFnlqAexTEu
+	rRQa6Jwx3ZQi3Tu7DI6o9OxzeYoks2WjzPhfXn9UCGibx6WNQTm62qoSuJfUTUuOlbWg
+	tbelW4KgOeweC8n0vuwW9SDlIUYCWd4nFWNTgTFB6zRg0BkSLIcQo1bDzBCKFHMTOsMX
+	yUKw==
+X-Gm-Message-State: ALoCoQmAI7iw96VxOcXaM9udPYEmPrKHErOI4pE4IBrCnxjXQ9zGt9EvbN9hsmgMok6+UFduYikk
+X-Received: by 10.194.83.70 with SMTP id o6mr4074861wjy.44.1432809028088;
+	Thu, 28 May 2015 03:30:28 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id w11sm2642237wjr.48.2015.05.28.03.30.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 May 2015 03:30:27 -0700 (PDT)
+Message-ID: <5566EE42.7070503@dresearch-fe.de>
+Date: Thu, 28 May 2015 12:30:26 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1432122583-24497-1-git-send-email-florian.boor@kernelconcepts.de>	<CAJTo0LbOKfUpUyor7AczZyffp7gQruYy3hYMqz+ewGxZzRc+mQ@mail.gmail.com>	<555C896A.8020107@kernelconcepts.de>	<CAP9ODKo7H5T3Thb+1SW9hGwkzxEbTzYJr2=fLraqje67ssHRpw@mail.gmail.com>	<555C8BAC.7090603@kernelconcepts.de>	<CAJTo0LYM_V=Ee5hzfhvK0OW224yZ7+TG+6iuQkk5WKxYHmJQeQ@mail.gmail.com>
-	<555C90A4.3000407@kernelconcepts.de>
-In-Reply-To: <555C90A4.3000407@kernelconcepts.de>
-Subject: Re: [PATCH] gtk-engines: Allow gtk-engines package to be empty in order to make the -dev package installable.
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5566E259.3000001@dresearch-fe.de>
+	<1432806496.404.103.camel@linuxfoundation.org>
+In-Reply-To: <1432806496.404.103.camel@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-qt5][fido] commit 699e1570e6 breaks build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +50,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 10:15:19 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 May 2015 10:30:31 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 28.05.2015 11:48, Richard Purdie wrote:
+> On Thu, 2015-05-28 at 11:39 +0200, Steffen Sledz wrote:
+>> Commit 699e1570e66cb28e4bfd0eb15d41f3af2bed5b62 (autotools: Fix find
+>> races on source directory) in fido branch of openembedded-core breaks
+>> build (do_configure) of qtbase-native from meta-qt5 fido branch. :(
+> 
+> I'm struggling to see exactly how this commit could result in this kind
+> of failure. How did you deduce that this was the problem?
 
-On 20.05.2015 15:48, Florian Boor wrote:
-> ok great... then I'll change it to dropping the dependency of the -dev package
-> while I'm working on it anyway.
+By trying step by step one commit (in openembedded-core) after another.
 
-hrm strange... somehow my new patch did not make it to the list. Anyone an idea
-if it ended up in some filter?
+> Is the problem not that qtbase-native doesn't rebuild cleanly if
+> configure is re-executed? Have you tried cleaning qtbase-native and
+> rebuilding it?
 
-Greetings
-
-Florian
+I're checked this. A clean build or a "bitbake -c cleansstate qtbase-native" avoids this problem.
 
 -- 
-The dream of yesterday                  Florian Boor
-is the hope of today                    Tel: +49 271-771091-15
-and the reality of tomorrow.            Fax: +49 271-771091-19
-[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
-                                        http://www.kernelconcepts.de/en
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
