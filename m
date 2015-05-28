@@ -1,25 +1,40 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E3E5E737F4
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id AB7F673223
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 08:28:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S8Sqci023082
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 May 2015 01:28:52 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 28 May 2015 01:28:52 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <otavio@ossystems.com.br>
-Date: Thu, 28 May 2015 16:23:04 +0800
-Message-ID: <1432801384-9123-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 28 May 2015 08:38:45 +0000 (UTC)
+Received: by obew15 with SMTP id w15so27499162obe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 May 2015 01:38:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=jrgYDlTsxeEuCqvKdbN9DxGuDHI1suHyrtn+/zmdDp8=;
+	b=btDlgeF2QXPy+yz56Jba4ChK8JPk+f4S4hjwW25xHIH79MK4Oub9tKwOAqSVrU2BPE
+	S8XUv2cIbjnMfXjP1cCV27SBdTrzLgT/7UxeSvKz25Of6sxN61j3jrGgUKAJ2Udzwbrs
+	PGeu5Pj2Lrzpj9/Lt5adI4oXFw6Ktf/6nYyPHTBe7IBhz49LoVwu9kHZVuyQkkhAtuP3
+	ZqBhOb83GHEFWAxrKSKIrBzMuTR5v7S6FiFq6WFK8iftANdXihEWClMZRzlZEHAhipAJ
+	6MYq8JqI8O7Ds7mIKpyYi4FQEd1fOteUxiYzCbjEf0+avSCtkWWS7NKYFdJCzD71l4Eg
+	WcsA==
+X-Gm-Message-State: ALoCoQleAu78y3sKRTwYErlB3CKxIxoG0bQYbKFjzU8aq3QQ/My41d743yWSXetGTLHXAUeTI08I
+X-Received: by 10.182.130.135 with SMTP id oe7mr1472712obb.78.1432802326370;
+	Thu, 28 May 2015 01:38:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] alsa-tools: update makefile_no_gtk.patch
+Received: by 10.202.225.2 with HTTP; Thu, 28 May 2015 01:38:16 -0700 (PDT)
+In-Reply-To: <5566CF50.8090503@windriver.com>
+References: <cover.1432775689.git.kai.kang@windriver.com>
+	<274a045e16a1d3a0fad66f8727de7a04cc86e614.1432775689.git.kai.kang@windriver.com>
+	<CAHiDW_HYEW8+SYsLhbTLWpk1=z0XNvwYaGkBsEaSGi0Zk5Y4Ng@mail.gmail.com>
+	<5566CF50.8090503@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 28 May 2015 11:38:16 +0300
+Message-ID: <CAHiDW_HHeHS1XOQuzaMGo-vXQ13wzAgg_zoEpsY8MmVfXpFw8g@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 May 2015 08:28:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 May 2015 08:38:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-makefile_no_gtk.patch will be applied when no 'x11' in distro features.
-It fails to apply after update to version 1.0.29. Fix it.
+On 28 May 2015 at 11:18, Kang Kai <Kai.Kang@windriver.com> wrote:
+> On 2015=E5=B9=B405=E6=9C=8828=E6=97=A5 15:14, Jussi Kukkonen wrote:
+>>
+>> On 28 May 2015 at 04:26, Kai Kang <kai.kang@windriver.com> wrote:
+>>>
+>>> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_PR and
+>>> backport patch to fix CVE-2014-9676.
+>>
+>> I'm sorry I didn't ask this in the original discussion but... Is there
+>> a good reason for keeping 9.x in oe-core if we're bringing in 11.x
+>> (instead of either dropping 9.x or moving it to meta-oe)?
+>>
+>> I haven't found the API changes between 9 and 11 to be so large that
+>> they would warrant keeping two versions. Admittedly I'm not working
+>> with libav on daily basis so I might have missed things.
+>
+>
+> The original thought is just in case someone may want libav 9. According =
+to
+> release log, series 11
+> is
+>
+> "Libav 11 is API-, but not ABI-compatible with the previous major
+> release."
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+For full disclosure, libav 10 is not API-compatible with 9: the
+differences aren't big but will certainly require changes in some
+applications. Still, I haven't seen anything that would necessitate
+keeping two versions.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-index 2665726..c957609 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-@@ -5,21 +5,25 @@ Upstream-Status: Inappropriate [configuration]
- Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
- Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
- 
-+Update patch for alsa-tools 1.0.29
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
- diff --git a/Makefile b/Makefile
- index 2457a1c..72346d9 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -1,9 +1,9 @@
-- VERSION = 1.0.27
-+ VERSION = 1.0.29
-  TOP = .
- -SUBDIRS = as10k1 envy24control \
- -	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
- -	  us428control usx2yloader vxloader echomixer \
---	  hwmixvolume hdajackretask hda-verb
-+-	  hwmixvolume hdajackretask hda-verb hdajacksensetest
- +SUBDIRS = as10k1 \
- +	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
- +	  us428control usx2yloader vxloader \
--+	  hwmixvolume hda-verb
-++	  hwmixvolume hda-verb hdajacksensetest
-  
-  all:
-  	@for i in $(SUBDIRS); do \
--- 
-1.9.1
+ - Jussi
 
+> So it is ok for us to use libav 11 as default. libav 9 recipe could be
+> removed if no one opposes.
 
