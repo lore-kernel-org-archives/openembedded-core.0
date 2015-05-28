@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0056C75714
+	by mail.openembedded.org (Postfix) with ESMTP id 004A9756F0
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 May 2015 09:57:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vSvj016905
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vTtM016908
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 02:57:28 -0700 (PDT)
+	Thu, 28 May 2015 02:57:29 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Thu, 28 May 2015 02:57:28 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 May 2015 02:57:20 -0700
-Message-ID: <a3f18321f37c2eefd94665973bcda5a0ad01d4a8.1432805258.git.liezhi.yang@windriver.com>
+Date: Thu, 28 May 2015 02:57:22 -0700
+Message-ID: <d3175aaaef968825c6ebc55143efef932bd18eff.1432805258.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1432805258.git.liezhi.yang@windriver.com>
 References: <cover.1432805258.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/9] git: 2.3.7 -> 2.4.2
+Subject: [PATCH 4/9] cracklib: 2.9.3 -> 2.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +38,28 @@ Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../git/{git_2.3.7.bb => git_2.4.2.bb}             |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_2.3.7.bb => git_2.4.2.bb} (41%)
+ .../{cracklib_2.9.3.bb => cracklib_2.9.4.bb}       |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/cracklib/{cracklib_2.9.3.bb => cracklib_2.9.4.bb} (91%)
 
-diff --git a/meta/recipes-devtools/git/git_2.3.7.bb b/meta/recipes-devtools/git/git_2.4.2.bb
-similarity index 41%
-rename from meta/recipes-devtools/git/git_2.3.7.bb
-rename to meta/recipes-devtools/git/git_2.4.2.bb
-index 61248c0..0bb92a2 100644
---- a/meta/recipes-devtools/git/git_2.3.7.bb
-+++ b/meta/recipes-devtools/git/git_2.4.2.bb
-@@ -1,9 +1,9 @@
- require git.inc
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.3.bb b/meta/recipes-extended/cracklib/cracklib_2.9.4.bb
+similarity index 91%
+rename from meta/recipes-extended/cracklib/cracklib_2.9.3.bb
+rename to meta/recipes-extended/cracklib/cracklib_2.9.4.bb
+index 51afc45..24730b8 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.3.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.4.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
  
--SRC_URI[tarball.md5sum] = "370cc33cc0a77a1242b95cc703228162"
--SRC_URI[tarball.sha256sum] = "250ebf19c758bcf848f23f42bc632282ba8828b8965a306ad006bfb36ac1499a"
--SRC_URI[manpages.md5sum] = "4c3b585c74bd937b80e04cba6db71da2"
--SRC_URI[manpages.sha256sum] = "079fcd6b8dad124960578fe91964a1185c99cdf024149ad50bde141600b21628"
-+SRC_URI[tarball.md5sum] = "80e127b1bde921479d1a6c3fa697e385"
-+SRC_URI[tarball.sha256sum] = "8edd564051fb776a41b4c475ed2d6105de82b674b8903a9efafe8a0633e4876e"
-+SRC_URI[manpages.md5sum] = "b52251e6f859a54bf5d5a3b7682fbfbf"
-+SRC_URI[manpages.sha256sum] = "114b22518dd71cc1a16018b0ff198a5ee1e6b2239381dfd6a6b9994f3da89661"
+-SRC_URI[md5sum] = "1e18ed9a593719af71b6440f16f91182"
+-SRC_URI[sha256sum] = "9c55afcdc01ae90aad0af0f9e4de0db9ba2fadf88cdf3a585a08a3530d25dba5"
++SRC_URI[md5sum] = "b31f7e3618cda7a2ac38588067275013"
++SRC_URI[sha256sum] = "f2a866b4b9808344228ea6d68b69e3ba9a8a99210e23dfd718d4b95c60be8958"
  
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+ inherit autotools gettext pythonnative python-dir
+ 
 -- 
 1.7.9.5
 
