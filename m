@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 003D2756D3
+	by mail.openembedded.org (Postfix) with ESMTP id 0056C75714
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 09:57:28 +0000 (UTC)
+	Thu, 28 May 2015 09:57:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vU3r016914
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t4S9vSvj016905
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 May 2015 02:57:30 -0700 (PDT)
+	Thu, 28 May 2015 02:57:28 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 28 May 2015 02:57:30 -0700
+	Thu, 28 May 2015 02:57:28 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 May 2015 02:57:26 -0700
-Message-ID: <82e41d2eb772758c3c8838e7e640b25031348b06.1432805258.git.liezhi.yang@windriver.com>
+Date: Thu, 28 May 2015 02:57:20 -0700
+Message-ID: <a3f18321f37c2eefd94665973bcda5a0ad01d4a8.1432805258.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1432805258.git.liezhi.yang@windriver.com>
 References: <cover.1432805258.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 8/9] nasm: 2.11.06 -> 2.11.08
+Subject: [PATCH 2/9] git: 2.3.7 -> 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +38,31 @@ Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../nasm/{nasm_2.11.06.bb => nasm_2.11.08.bb}      |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.11.06.bb => nasm_2.11.08.bb} (81%)
+ .../git/{git_2.3.7.bb => git_2.4.2.bb}             |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.3.7.bb => git_2.4.2.bb} (41%)
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.11.06.bb b/meta/recipes-devtools/nasm/nasm_2.11.08.bb
-similarity index 81%
-rename from meta/recipes-devtools/nasm/nasm_2.11.06.bb
-rename to meta/recipes-devtools/nasm/nasm_2.11.08.bb
-index 4a69a6a..e0724e6 100644
---- a/meta/recipes-devtools/nasm/nasm_2.11.06.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.11.08.bb
-@@ -6,8 +6,9 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+diff --git a/meta/recipes-devtools/git/git_2.3.7.bb b/meta/recipes-devtools/git/git_2.4.2.bb
+similarity index 41%
+rename from meta/recipes-devtools/git/git_2.3.7.bb
+rename to meta/recipes-devtools/git/git_2.4.2.bb
+index 61248c0..0bb92a2 100644
+--- a/meta/recipes-devtools/git/git_2.3.7.bb
++++ b/meta/recipes-devtools/git/git_2.4.2.bb
+@@ -1,9 +1,9 @@
+ require git.inc
  
+-SRC_URI[tarball.md5sum] = "370cc33cc0a77a1242b95cc703228162"
+-SRC_URI[tarball.sha256sum] = "250ebf19c758bcf848f23f42bc632282ba8828b8965a306ad006bfb36ac1499a"
+-SRC_URI[manpages.md5sum] = "4c3b585c74bd937b80e04cba6db71da2"
+-SRC_URI[manpages.sha256sum] = "079fcd6b8dad124960578fe91964a1185c99cdf024149ad50bde141600b21628"
++SRC_URI[tarball.md5sum] = "80e127b1bde921479d1a6c3fa697e385"
++SRC_URI[tarball.sha256sum] = "8edd564051fb776a41b4c475ed2d6105de82b674b8903a9efafe8a0633e4876e"
++SRC_URI[manpages.md5sum] = "b52251e6f859a54bf5d5a3b7682fbfbf"
++SRC_URI[manpages.sha256sum] = "114b22518dd71cc1a16018b0ff198a5ee1e6b2239381dfd6a6b9994f3da89661"
  
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--SRC_URI[md5sum] = "9d93e8df5f5c005567f47ed6ca3a93d4"
--SRC_URI[sha256sum] = "87b6d97d6981ca468f9dafda44cf1bb1ba122cec329d4d389af5db04fa0c3e6c"
-+
-+SRC_URI[md5sum] = "7aae5cb8e03fac48029c82a7470ab066"
-+SRC_URI[sha256sum] = "9da3a0291a0bdc06305b7ba194f1e2c2b55ae6f11210b4af43729868149d5445"
- 
- inherit autotools-brokensep
- 
+ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
 -- 
 1.7.9.5
 
