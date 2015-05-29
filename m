@@ -1,24 +1,40 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id CB227606E8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id CFDD0737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 22:24:40 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1YyShh-0006uY-9h; Sat, 30 May 2015 00:24:37 +0200
-Message-ID: <1432938270.2461.46.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 29 May 2015 23:24:30 +0100
-In-Reply-To: <1528283.0UTgDEqc8E@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1432775689.git.kai.kang@windriver.com>
-	<20150528084706.GC2383@jama> <5567C29C.3030307@windriver.com>
-	<1528283.0UTgDEqc8E@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
+	Fri, 29 May 2015 23:16:24 +0000 (UTC)
+Received: by pdbki1 with SMTP id ki1so63767126pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 May 2015 16:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:message-id
+	:references:to;
+	bh=Yqu0Ab+TfMWbSiordsg46zs108MR5ENma1TAhiHJtxw=;
+	b=ydt+m7/WY/X5iwhfhzEfapZ1Rw9n+Tz7cGa9vJ2c1Uft5qfxDwcxaYSXNtyx2TZELC
+	i4bv4oRk9aMia60eLyhbB3yOQ9gDILC+lMzf81Di/QlXbn/JNkqo08eaeaTAjZ7j1OXo
+	ITABiYwcpOIAqPPwjzd9UBJCNnhtGgO75n7AT+ozKnqp+UQhwCeyRQ41JZgdWi+bHmdx
+	dvacxx17UGh9GO578L2O1D7xXvers0AeNx0B8//A+A9HdMtPUjMQWR4OD0/IV+pZn9dv
+	f76B2IMNxsiGu5kSmYCfOQj7S0zxufAapltQ5yu/YOWlrVTcqCKHvqcMGHCUujrfdfjX
+	jIpg==
+X-Received: by 10.66.65.229 with SMTP id a5mr19282689pat.11.1432941385873;
+	Fri, 29 May 2015 16:16:25 -0700 (PDT)
+Received: from ?IPv6:2601:9:3580:84c:bdbe:55fb:fea4:46c3?
+	([2601:9:3580:84c:bdbe:55fb:fea4:46c3])
+	by mx.google.com with ESMTPSA id w6sm6686956pbt.3.2015.05.29.16.16.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 29 May 2015 16:16:25 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+X-Pgp-Agent: GPGMail 2.5b6
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <cover.1432920208.git.raj.khem@gmail.com>
+Date: Fri, 29 May 2015 16:16:23 -0700
+Message-Id: <96791C5F-9A7A-44C4-B2ED-C285C69DB5E5@gmail.com>
+References: <cover.1432920208.git.raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.2098)
+Subject: Re: [PATCH 0/6] gdb/binutils minor upgrades and misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +47,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 22:24:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 29 May 2015 23:16:25 -0000
+X-Groupsio-MsgNum: 66140
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A02A785D-C604-4BFA-A90E-048FB73C0709";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_A02A785D-C604-4BFA-A90E-048FB73C0709
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On May 29, 2015, at 10:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> This patchset has following
+>=20
+> gdb minor upgrade to 7.9.1
+>=20
+> binutils move to latest tip on 2.25 stable branch, it gets
+> the issue where copy relocations against protected symbols don't work
+> with bfd ld and gcc 5.0 on x86/x86-64 it could help with remaining =
+build problem
+> with gcc5 seen on x86/x86-64  this also helps musl based systems
+> which suffer from same issue with gcc-5. This patch needs some runtime
+> testing with gcc 4.9 though
+>=20
+> glibc patch is needed for non glibc libcs to be able to build in =
+OE-core
+> currently its broken for uclibc and musl
+>=20
+> Runqemu patch is required for newer versions of wayland/weston to work
+> after switching to libinput. I have tested it on weston/wayaland and =
+on
+> x11/gnome image it worked ok.
+>=20
+> alsa-plugins is a build break fix
+>=20
+> openssl is a refresh of the last patch as a upstream backport no =
+functional change
+
+I have added another patch which I forgot last time to fix alas-utils on =
+non-glibc case.
+
+
+--Apple-Mail=_A02A785D-C604-4BFA-A90E-048FB73C0709
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Fri, 2015-05-29 at 16:28 +0100, Paul Eggleton wrote:
-> Just for background, the reason I disabled the textrel check for x86 in 
-> libav.inc was that I was able to determine based on quick research that 
-> upstream deliberately doesn't enable -fPIC for x86 (32-bit) because apparently 
-> it doesn't really work there. I honestly didn't check what the situation was 
-> on 32-bit ARM; I probably should have done that at the time.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-PIC is particularly problematic on x86 because it ties up %ebx.  This
-represents 25% of the available general purpose registers which can
-cause a measurable performance loss because of increased spilling, and
-in the particular case of libav there is a lot of hand-written assembly
-in the codecs which expects to be able to clobber that register.  It
-certainly used to be the case that this code wouldn't compile at all
-under -fpic.
+iEYEARECAAYFAlVo80gACgkQuwUzVZGdMxShmACfZUbrTLscPU4DYyFbp2OF9881
+EvsAmwe7TPjxtLUB0abMMk+qrThcx6W2
+=fujT
+-----END PGP SIGNATURE-----
 
-The performance thing does apply to ARM as well but to a slightly lesser
-extent.  The second problem probably doesn't affect ARM at all.  But,
-personally, I would disable the textrel check and build without -fpic on
-all platforms.
-
-p.
-
-
-
+--Apple-Mail=_A02A785D-C604-4BFA-A90E-048FB73C0709--
