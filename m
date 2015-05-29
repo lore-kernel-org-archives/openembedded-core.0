@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BF71575762
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 36A8E75773
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 17:32:21 +0000 (UTC)
-Received: by ieczm2 with SMTP id zm2so68250034iec.1
+	Fri, 29 May 2015 17:32:22 +0000 (UTC)
+Received: by igbsb11 with SMTP id sb11so19914943igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 10:32:22 -0700 (PDT)
+	Fri, 29 May 2015 10:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Vtx40e7G2ICVowRmUZj1V5cCtEOB/+rJnbzAOQ+uZHM=;
-	b=cbuv2tDLuNFZbccpVk0bkYTu8f9ePhvLppfqaDwQ0h4983ddoBPWpzNGifCIsfZUzC
-	Bdm/pBITx7Q6HK5zKAfFIsekMElps5wfEZPtV41QhEYqsXN4yK0GrEjZbJMoLRXz7uPS
-	MCnGnRh01+IbG1q8vBmeQzx7fu2EG7cWxbn5cqZhXpp4LSU8R1wOEkxvubgSx7DJ3cVo
-	Rra7zWmmYNM5iurdkcXdNs3XefHw2LNDTZpz/wMyHjFB3WvTIYFHtO/Bk7PXi7JYmkp+
-	VH6Qu4+q2LGFM2S2a2TNTfVKwNt8wLa76xz6wHMr1rreyU3N8B7HoFirqcnzb2WJ2wMq
-	bsWQ==
-X-Received: by 10.50.6.76 with SMTP id y12mr5497287igy.31.1432920742585;
-	Fri, 29 May 2015 10:32:22 -0700 (PDT)
+	bh=o7bFJpayFb0DF6V70Em9R20vqTZKWE2HmUTVGnCtZFE=;
+	b=GmppX1z2obb8THtvMAdk3S0QEtzmfRnmdrFGCKps7GG2j4piCL6gFHyOnTAfIOY7EK
+	GiJBXQ9xnsqwg69Y4oECO/+KPTKXkUefpvvnaH67oWTTtlWZJyLmLtaIvDEfuaz7NXfm
+	L2qBqcWO1x0qJ2RnXskJmUwcaZWLUbG7R4rClx7uZtaEZZxec0naA63DsxO5xJqqiR01
+	cNtERFHcbcl4FwsTLkI/ixA3BJfzWdD4l+79x+qZa1DheFTZsv70ylAMUAKIiZgckalD
+	s+cULTGUuJZ077YAhxVRDLyg6wrxDZXlmEFwhtXd5brCKJNj2/g6TewNQQsmm6JJILje
+	E0jg==
+X-Received: by 10.50.117.35 with SMTP id kb3mr5495388igb.13.1432920744050;
+	Fri, 29 May 2015 10:32:24 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id n14sm4628876ion.5.2015.05.29.10.32.22
+	by mx.google.com with ESMTPSA id n14sm4628876ion.5.2015.05.29.10.32.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 May 2015 10:32:22 -0700 (PDT)
+	Fri, 29 May 2015 10:32:23 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 May 2015 10:32:13 -0700
-Message-Id: <b806b7d48773bdafeb75d4f5d3963c84fe3a1d77.1432920208.git.raj.khem@gmail.com>
+Date: Fri, 29 May 2015 10:32:16 -0700
+Message-Id: <8f5812fb8de77250d2274a5715ea6a108e11261d.1432920208.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <c4b8c7fca3efc2acfd4f73537395c29ff568e848.1432920208.git.raj.khem@gmail.com>
 References: <c4b8c7fca3efc2acfd4f73537395c29ff568e848.1432920208.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1432920208.git.raj.khem@gmail.com>
 References: <cover.1432920208.git.raj.khem@gmail.com>
-Subject: [PATCH 3/6] openssl: Backport upstreamed version of patch to fix build on mips64
+Subject: [PATCH 6/6] binutils: Update to tip of 2.25 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,128 +46,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 17:32:22 -0000
+X-List-Received-Date: Fri, 29 May 2015 17:32:24 -0000
 
-Previous patch had a concern as well and this is a direct backport of
-the patch fixing the problem.
+This update brings following patches
+
+749b1c7 Fix some PPC assembler errors.
+fe1e924 [AArch64][Backport] Remove Load/Store register (unscaled immediate) alias
+4e4d08c [AArch64][Backport] Don't always create new frag for .inst directive
+0381bf1 [AArch64][Backport] PR18270, fix handling of GOT entry for local symbol
+bb22a11 [AArch64][Backport]Improve PC-relative relocation check for shared library
+699dcf3 opcodes/
+e700dd4 Downgrade linker error on protected symbols in .dynbss to a warning
+13ccf8a Revert "Add extern_protected_data and set it for x86"
+b0356a6 Add support for the Samsung Exynos M1 processor.
+40dbf9d Add support for the Samsung Exynos M1 processor.
+2aa5937 Don't pass unadorned zeros to varargs functions
+12aca65 Relax PR 15228 protected visibility restriction
+b443789 [AArch64] Fix branch stubs for BE
+ab50ec0 Import fixes from mainline sources that address illegal memory access problems with the ELF targeted parts of the BFD library.
+a539f2c Import patches from the master sources which fix illegal memory accesses found by running the binutils on fuzzed binaries.
+a5ebc2c Fix build problem introduced by previous delta to coffgrok.c
+7a57494 Import fixes from mainline that address illegal memory accesses when working with COFF/PE based files.
+4f9583e Import fixes from trunk sources to correct invalid memory access issues with various binutils programs.
+304a2b6 Import fixes for invalid memory access issues in the binutils DWARF parser from the trunk sources.
+1dead8a Import security fixes for readelf from the master branch:
+3e3feb3 Limit multi-byte nop instructions to 10 bytes
+f12dd7b S/390: Disable relocation sort against code sections.
+846daac Fix ppc32 synthetic symbols when __tls_get_addr_opt stub is generated
+7235408 Tweak ppc32 tls_get_addr optimisation
+642fe3b PowerPC64 thread-safe stubs not needed for iplt
+2791b63 Use dynamic text relocs for protected vars
+cff59f0 PowerPC64 GOLD: complain on misaligned _DS relocs
+20951c8 Fix gold error: hidden symbol '...' is not defined locally
+7428be5 [AArch64][2.25] Backport support for Cortex-A72
+8093a8b [ARM][2.25] Backport support for Cortex-A72
+f7cf878 [ARM] Backport "Skip private symbol when doing objdump"
+031994d Add extern_protected_data and set it for x86
+
+Additionally rearranges the local patches in sequence
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ine-GCC_VERSION-macro-to-cover-upto-gcc-5.patch | 53 ----------------------
- ...lcl.h-fix-MIPS-specific-gcc-version-check.patch | 30 ++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  2 +-
- 3 files changed, 31 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
+ meta/recipes-devtools/binutils/binutils-2.25.inc                      | 4 ++--
+ ...REL32.patch => 0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/binutils/binutils/{0001-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch => 0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch} (100%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch b/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
-deleted file mode 100644
-index 46d1adf..0000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 0aa68f7681a74f6ff80a80c5843bc35e5effffb9 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 22 May 2015 12:43:39 -0700
--Subject: [PATCH] Define GCC_VERSION macro to cover upto gcc-5
--
--Current check is limited to gcc 4 with minor versions
--but when we use gcc 5.1, then minor version check fails
--with current setup and we end up with build errors like
--
--| In file included from bn_div.c:62:0:
--| bn_div.c: In function 'BN_div':
--| bn_lcl.h:311:9: error: impossible constraint in 'asm'
--|          asm ("dmultu    %2,%3"          \
--|          ^
--| bn_div.c:402:13: note: in expansion of macro 'BN_UMULT_LOHI'
--|              BN_UMULT_LOHI(t2l, t2h, d1, q);
--|              ^
--| <builtin>: recipe for target 'bn_div.o' failed
--| make[2]: *** [bn_div.o] Error 1
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
--Upstream-Status: [Submitted]
-- crypto/bn/bn_lcl.h | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
--index 196df7e..e801ba7 100644
----- a/crypto/bn/bn_lcl.h
--+++ b/crypto/bn/bn_lcl.h
--@@ -118,6 +118,9 @@
-- extern "C" {
-- #endif
-- 
--+#define GCC_VERSION (__GNUC__ * 10000 \
--+                     + __GNUC_MINOR__ * 100 \
--+                     + __GNUC_PATCHLEVEL__)
-- /*-
--  * Bignum consistency macros
--  * There is one "API" macro, bn_fix_top(), for stripping leading zeroes from
--@@ -443,7 +446,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
-- #   endif
-- #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
-- #   if defined(__GNUC__) && __GNUC__>=2
---#    if __GNUC__>=4 && __GNUC_MINOR__>=4
--+#    if GCC_VERSION > 40400
--                                      /* "h" constraint is no more since 4.4 */
-- #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
-- #     define BN_UMULT_LOHI(low,high,a,b) ({     \
---- 
--2.1.4
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
-new file mode 100644
-index 0000000..7308f8f
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
-@@ -0,0 +1,30 @@
-+From 60c268b21ac81cc6b1af5c5470282a613b96f6fd Mon Sep 17 00:00:00 2001
-+From: Andy Polyakov <appro@openssl.org>
-+Date: Mon, 25 May 2015 10:17:14 +0200
-+Subject: [PATCH] bn/bn_lcl.h: fix MIPS-specific gcc version check.
-+
-+RT#3859
-+
-+Reviewed-by: Tim Hudson <tjh@openssl.org>
-+---
-+Upstream-Status: Backport
-+
-+ crypto/bn/bn_lcl.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
-+index 196df7e..b9d124a 100644
-+--- a/crypto/bn/bn_lcl.h
-++++ b/crypto/bn/bn_lcl.h
-+@@ -443,7 +443,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
-+ #   endif
-+ #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
-+ #   if defined(__GNUC__) && __GNUC__>=2
-+-#    if __GNUC__>=4 && __GNUC_MINOR__>=4
-++#    if __GNUC__>4 || (__GNUC__>=4 && __GNUC_MINOR__>=4)
-+                                      /* "h" constraint is no more since 4.4 */
-+ #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
-+ #     define BN_UMULT_LOHI(low,high,a,b) ({     \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-index 5e767c3..f4006f6 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-@@ -36,7 +36,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://ptest-deps.patch \
-             file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
--            file://0001-Define-GCC_VERSION-macro-to-cover-upto-gcc-5.patch \
-+            file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch \
-            "
+diff --git a/meta/recipes-devtools/binutils/binutils-2.25.inc b/meta/recipes-devtools/binutils/binutils-2.25.inc
+index 269bcbb..c9a5fe0 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.25.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.25.inc
+@@ -16,7 +16,7 @@ def binutils_branch_version(d):
  
- SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
+ BINUPV = "${@binutils_branch_version(d)}"
+ 
+-SRCREV = "f2df1e49400f9e2d8d63a5d0fec9bf8c5c2b3342"
++SRCREV = "bff55dd20499331280c96697a25b48dd4d7b69e8"
+ SRC_URI = "\
+      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
+      file://0002-configure-widen-the-regexp-for-SH-architectures.patch \
+@@ -31,7 +31,7 @@ SRC_URI = "\
+      file://0011-Change-default-emulation-for-mips64-linux.patch \
+      file://0012-Add-XLP-instructions-support.patch \
+      file://0013-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
+-     file://0001-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch \
++     file://0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch \
+      "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch b/meta/recipes-devtools/binutils/binutils/0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch
+similarity index 100%
+rename from meta/recipes-devtools/binutils/binutils/0001-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch
+rename to meta/recipes-devtools/binutils/binutils/0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch
 -- 
 2.1.4
 
