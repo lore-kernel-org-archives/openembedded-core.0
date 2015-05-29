@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 331C4606E8
+Return-Path: <george.l.musat@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FB3E606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 11:11:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4TBBmct008318; Fri, 29 May 2015 12:11:48 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HZEd0c0P4ToE; Fri, 29 May 2015 12:11:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t4TBBYQD008296
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 29 May 2015 12:11:46 +0100
-Message-ID: <1432897894.404.134.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lei Maohui <leimaohui@cn.fujitsu.com>
-Date: Fri, 29 May 2015 12:11:34 +0100
-In-Reply-To: <1432892712-25356-3-git-send-email-leimaohui@cn.fujitsu.com>
-References: <1432892712-25356-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<1432892712-25356-3-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] licenses.conf:Modified parameters for new spdx.bbclass
+	Fri, 29 May 2015 11:29:53 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 29 May 2015 04:29:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,517,1427785200"; d="scan'208";a="578743524"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 29 May 2015 04:29:37 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 8DB256A4005;
+	Fri, 29 May 2015 04:29:03 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 May 2015 14:29:01 +0300
+Message-Id: <1432898941-1148-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/parselogs: Added another batch of errors to the whitelist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,128 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 11:11:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 May 2015 11:29:53 -0000
 
-On Fri, 2015-05-29 at 17:45 +0800, Lei Maohui wrote:
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/parselogs.py | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-There is no longer description of the changes here which makes it very
-hard to decide if you intended to change some of the things below. They
-don't all look to be related to the new class.
-
-> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-> ---
->  meta/conf/licenses.conf | 65 +++++++++++--------------------------------------
->  1 file changed, 14 insertions(+), 51 deletions(-)
-> 
-> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-> index 629916b..b732451 100644
-> --- a/meta/conf/licenses.conf
-> +++ b/meta/conf/licenses.conf
-> @@ -115,75 +115,38 @@ SPDXLICENSEMAP[SGIv1] = "SGI-1"
->  # LICENSE_PATH += "${COREBASE}/custom-licenses"
->  
->  # Set if you want the license.manifest copied to the image
-> -#COPY_LIC_MANIFEST = "1"
-> +COPY_LIC_MANIFEST = "1"
-
-Did you mean to change these defaults?
-
->  # If you want the pkg licenses copied over as well you must set
->  # both COPY_LIC_MANIFEST and COPY_LIC_DIRS
-> -#COPY_LIC_DIRS = "1"
-> +COPY_LIC_DIRS = "1"
->  
->  ## SPDX temporary directory
-> -SPDX_TEMP_DIR = "${WORKDIR}/spdx_temp"
-> -SPDX_MANIFEST_DIR = "/home/yocto/fossology_scans"
-> +SPDX_TEMP_DIR ?= "${WORKDIR}/spdx_temp"
-> +SPDX_MANIFEST_DIR ?= "/home/yocto/fossology_scans"
->  
->  ## SPDX Format info
-> -SPDX_VERSION = "SPDX-1.1"
-> +SPDX_VERSION = "SPDX-1.2"
->  DATA_LICENSE = "CC0-1.0"
-> +## If your fossylogy server is from 2.4.0 to 2.6.1,the LICENSELISTVERSION is 1.19
-> +## Reference to http://www.fossology.org/projects/fossology/wiki/Release_Notes
-> +LICENSELISTVERSION = "1.19"
-> +CREATOR_TOOL = "yocto+fossology-spdx"
->  
->  ## Fossology scan information
->  # You can set option to control if the copyright information will be skipped
->  # during the identification process.
->  #
->  # It is defined as [FOSS_COPYRIGHT] in ./meta/conf/licenses.conf.
-
-You've left this comment in but removed all the example variables?
-
-> -# FOSS_COPYRIGHT = "true"
-> -#   NO copyright will be processed. That means only license information will be
-> -#   identified and output to SPDX file
-> -# FOSS_COPYRIGHT = "false"
-> -#   Copyright will be identified and output to SPDX file along with license
-> -#   information. The process will take more time than not processing copyright
-> -#   information.
-> -#
-> -
-> -FOSS_NO_COPYRIGHT = "true"
->  
-> -# A option defined as[FOSS_RECURSIVE_UNPACK] in ./meta/conf/licenses.conf. is
-> -# used to control if FOSSology server need recursively unpack tar.gz file which
-> -# is sent from do_spdx task.
-> -#
-> -# FOSS_RECURSIVE_UNPACK = "false":
-> -#    FOSSology server does NOT recursively unpack. In the current release, this
-> -#    is the default choice because recursively unpack will not necessarily break
-> -#    down original compressed files.
-> -# FOSS_RECURSIVE_UNPACK = "true":
-> -#    FOSSology server recursively unpack components.
-> -#
-> -
-> -FOSS_RECURSIVE_UNPACK = "false"
-
-This is another removed option. Why?
-
-> -# An option defined as [FOSS_FULL_SPDX] in ./meta/conf/licenses.conf is used to
-> -# control what kind of SPDX output to get from the FOSSology server.
-> -#
-> -# FOSS_FULL_SPDX = "true":
-> -#   Tell FOSSology server to return full SPDX output, like if the program was
-> -#   run from the command line. This is needed in order to get license refs for
-> -#   the full package rather than individual files only.
-> -#
-> -# FOSS_FULL_SPDX = "false":
-> -#   Tell FOSSology to only process license information for files. All package
-> -#   license tags in the report will be "NOASSERTION"
-> -#
-> -
-> -FOSS_FULL_SPDX = "true"
-
-and more removed functionality?
-
-> -# FOSSologySPDX instance server. http://localhost/repo is the default
-> -# installation location for FOSSology.
-> -#
-> +# FOSSologySPDX instance server.
->  # For more information on FOSSologySPDX commandline:
->  #   https://github.com/spdx-tools/fossology-spdx/wiki/Fossology-SPDX-Web-API
-> -#
-> +# 
->  
-> -FOSS_BASE_URL = "http://localhost/repo/?mod=spdx_license_once"
-> -FOSS_SERVER = "${FOSS_BASE_URL}&fullSPDXFlag=${FOSS_FULL_SPDX}&noCopyright=${FOSS_NO_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
-> +# The following commnd is suit for the FOSSologySPDX instance server in localhost.
->  
-> -FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
-> +FOSS_SERVER ?= "http://127.0.0.1/repo/ --noproxy 127.0.0.1"
-> +FOSS_CURL_FLAGS ?= "-F "mod=spdx_license_once" -F "noCopyright=false" -F "jsonOutput=false" -F "fullSPDXFlag=true""
-
-This appears to hardcode some things which used to be configurable?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index e9ccd0c..9c1b822 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -18,6 +18,8 @@ common_errors = [
+     "can\'t disable ASPM",
+     "Failed to load module \"vesa\"",
+     "Failed to load module vesa",
++    "Failed to load module \"fbdev\"",
++    "Failed to load module fbdev",
+     "Failed to load module \"modesetting\"",
+     "Failed to load module modesetting",
+     "Failed to load module \"glx\"",
+@@ -26,7 +28,9 @@ common_errors = [
+     "_OSC failed (AE_NOT_FOUND); disabling ASPM",
+     "Open ACPI failed (/var/run/acpid.socket) (No such file or directory)",
+     "NX (Execute Disable) protection cannot be enabled: non-PAE kernel!",
+-    "hd.: possibly failed opcode"
++    "hd.: possibly failed opcode",
++    'NETLINK INITIALIZATION FAILED',
++    'kernel: Cannot find map file'
+     ]
+ 
+ x86_common = [
+@@ -63,7 +67,12 @@ ignore_errors = {
+         'mmci-pl18x: probe of fpga:0b failed with error -22',
+         'Failed to load module "glx"'
+         ] + common_errors,
+-    'emenlow' : x86_common,
++    'emenlow' : [
++        '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness'
++        ] + x86_common,
++    'core2_32' : [
++        '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness'
++        ] + x86_common,
+     'crownbay' : x86_common,
+     'genericx86' : x86_common,
+     'genericx86-64' : x86_common,
+@@ -72,13 +81,11 @@ ignore_errors = {
+         ] + common_errors,
+     'minnow' : [
+         'netlink init failed',
+-        'NETLINK INITIALIZATION FAILED',
+         ] + common_errors,
+     'jasperforest' : [
+         'Activated service \'org.bluez\' failed:',
+         'Unable to find NFC netlink family',
+         'netlink init failed',
+-        'NETLINK INITIALIZATION FAILED',
+         ] + common_errors,
+ }
+ 
+-- 
+2.1.4
 
 
