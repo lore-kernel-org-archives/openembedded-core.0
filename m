@@ -1,27 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4288375745
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F5A87563B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 15:28:08 +0000 (UTC)
+	Fri, 29 May 2015 15:31:01 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 29 May 2015 08:28:11 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 29 May 2015 08:31:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,517,1427785200"; d="scan'208";a="499941694"
-Received: from clarkeke-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.29.5])
-	by FMSMGA003.fm.intel.com with ESMTP; 29 May 2015 08:28:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Kang Kai <Kai.Kang@windriver.com>, Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 29 May 2015 16:28:07 +0100
-Message-ID: <1528283.0UTgDEqc8E@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <5567C29C.3030307@windriver.com>
-References: <cover.1432775689.git.kai.kang@windriver.com>
-	<20150528084706.GC2383@jama> <5567C29C.3030307@windriver.com>
+X-IronPort-AV: E=Sophos;i="5.13,517,1427785200"; 
+	d="scan'208,217";a="499943165"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 May 2015 08:31:02 -0700
+Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Fri, 29 May 2015 08:31:02 -0700
+Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
+	ORSMSX155.amr.corp.intel.com (10.22.240.21) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Fri, 29 May 2015 08:31:02 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.169]) by
+	FMSMSX114.amr.corp.intel.com ([10.18.116.8]) with mapi id
+	14.03.0224.002; Fri, 29 May 2015 08:31:01 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Status WW22
+Thread-Index: AdCaJHcCutV7+oswQWuMgXPHcQZVyA==
+Date: Fri, 29 May 2015 15:31:00 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E554F8A2F@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.108]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
+Subject: Yocto Project Status WW22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,137 +45,266 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 15:28:09 -0000
+X-List-Received-Date: Fri, 29 May 2015 15:31:02 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E554F8A2Ffmsmsx111amrcor_"
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E554F8A2Ffmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Friday 29 May 2015 09:36:28 Kang Kai wrote:
-> On 2015=E5=B9=B405=E6=9C=8828=E6=97=A5 16:47, Martin Jansa wrote:
-> > On Thu, May 28, 2015 at 04:18:24PM +0800, Kang Kai wrote:
-> >> On 2015=E5=B9=B405=E6=9C=8828=E6=97=A5 15:14, Jussi Kukkonen wrote=
-:
-> >>> On 28 May 2015 at 04:26, Kai Kang <kai.kang@windriver.com> wrote:=
+Current Dev Position: 1.9 Milestone 1 (M1)
+Next Deadline: M1 cut off of June 23rd
 
-> >>>> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_P=
-R and
-> >>>> backport patch to fix CVE-2014-9676.
-> >>>=20
-> >>> I'm sorry I didn't ask this in the original discussion but... Is =
-there
-> >>> a good reason for keeping 9.x in oe-core if we're bringing in 11.=
-x
-> >>> (instead of either dropping 9.x or moving it to meta-oe)?
-> >>>=20
-> >>> I haven't found the API changes between 9 and 11 to be so large t=
-hat
-> >>> they would warrant keeping two versions. Admittedly I'm not worki=
-ng
-> >>> with libav on daily basis so I might have missed things.
-> >>=20
-> >> The original thought is just in case someone may want libav 9. Acc=
-ording
-> >> to release log, series 11
-> >> is
-> >>=20
-> >> "Libav 11 is API-, but not ABI-compatible with the previous major
-> >> release."
-> >>=20
-> >> So it is ok for us to use libav 11 as default. libav 9 recipe coul=
-d be
-> >> removed if no one opposes.
-> >>=20
-> >> Ref:
-> >> https://libav.org/releases/libav-11.3.release
-> >=20
-> > Does libav-11 show the same textrel issues? If it's fixed there I'm=
- in
-> > favor of dropping libav-9.
-> >=20
-> > from last world build:
-> > gstreamer1.0-libav-1.4.5: ELF binary
-> > '/tmp/work/armv5e-oe-linux-gnueabi/gstreamer1.0-libav/1.4.5-r0/pack=
-ages-s
-> > plit/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has
-> > relocations in .text [textrel] gstreamer1.0-libav-1.4.5: ELF binary=
+Key Status/Updates:
+There is an RFC about removing bitbake's update_data datastore operation be=
+ing considered on the mailing list.
+YP 1.6.3 and has been released this week.  The 1.6.x series will now move t=
+o community support.
+Meta-Intel 3.0 has finished QA and will be released early next week.
 
-> > '/tmp/work/i586-oe-linux/gstreamer1.0-libav/1.4.5-r0/packages-split=
-/gstre
-> > amer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has relocations=
- in
-> > .text [textrel] libav-9.16: ELF binary
-> > '/tmp/work/armv5e-oe-linux-gnueabi/libav/9.16-r0/packages-split/lib=
-avcode
-> > c/usr/lib/libavcodec.so.54.35.0' has relocations in .text [textrel]=
+Key YP 1.9 Dates:
+M2 Cut off July 28, 2015
+1.9 Feature Freeze Date/M3 Cut off: Aug. 25, 2015
+M4 Cut off: Sept. 29, 2015
+1.9 M1 Release Target: Before July 10, 2015
+1.9 M2 Release Target: Before Aug. 14, 2015
+1.9 M3 Release Target: Before Sept. 11 2015
+1.9 final Release Target: Before Oct. 30, 2015
 
-> > libav-9.16: ELF binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavcodec/us=
-r/lib/
-> > libavcodec.so.54.35.0' has relocations in .text [textrel] libav-9.1=
-6: ELF
-> > binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavdevice/u=
-sr/lib
-> > /libavdevice.so.53.2.0' has relocations in .text [textrel] libav-9.=
-16: ELF
-> > binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavfilter/u=
-sr/lib
-> > /libavfilter.so.3.3.0' has relocations in .text [textrel] libav-9.1=
-6: ELF
-> > binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavformat/u=
-sr/lib
-> > /libavformat.so.54.20.4' has relocations in .text [textrel] libav-9=
-.16:
-> > ELF binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavresample=
-/usr/l
-> > ib/libavresample.so.1.0.1' has relocations in .text [textrel] libav=
--9.16:
-> > ELF binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavutil/usr=
-/lib/l
-> > ibavutil.so.52.3.0' has relocations in .text [textrel] libav-9.16: =
-ELF
-> > binary
-> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libswscale/us=
-r/lib/
-> > libswscale.so.2.1.1' has relocations in .text [textrel]
-> > libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary
-> > '/tmp/work/armv5te-oe-linux-gnueabi/libpostproc/52.3.0+gitAUTOINC+8=
-11db3b
-> > 957-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' ha=
-s
-> > relocations in .text [textrel] libpostproc-52.3.0+gitAUTOINC+811db3=
-b957:
-> > ELF binary
-> > '/tmp/work/i586-oe-linux/libpostproc/52.3.0+gitAUTOINC+811db3b957-r=
-0/pack
-> > ages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' has relocatio=
-ns in
-> > .text [textrel]
+
+Key Status Links for YP:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v1.9_Status
+
+https://wiki.yoctoproject.org/wiki/Yocto_1.9_Schedule
+
+https://wiki.yoctoproject.org/wiki/Yocto_1.9_Features
+
+[If anyone has suggestions for other information you'd like to see on this =
+weekly status update, let us know!]
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*   Work Telephone:          (503) 712-0534
+*    Cell:                                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E554F8A2Ffmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> No, the textrel issue is not fixed in version 11.3 either. It has an
-> configure option '--enable-pic' but seems doesn't work.
-> x86 has same warnings and it just skips the textrel check in the liba=
-v
-> recipe.
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p
+	{mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.5pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;;color:black">Current Dev Position: 1.9 Mil=
+estone 1 (M1)</span><span style=3D"font-size:12.0pt;font-family:&quot;Times=
+ New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.5pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;;color:black">Next Deadline: M1 cut off of =
+June 23rd</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New=
+ Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.5pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;;color:black">Key Status/Updates:</span><sp=
+an style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;=
+serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Th=
+ere is an RFC about removing bitbake&#8217;s update_data datastore operatio=
+n being considered on the mailing list.</span><span style=3D"font-size:12.0=
+pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP=
+ 1.6.3 and has been released this week. &nbsp;The 1.6.x series will now mov=
+e to community support.</span><span style=3D"font-size:12.0pt;font-family:&=
+quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Me=
+ta-Intel 3.0 has finished QA and will be released early next week.</span><s=
+pan style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot=
+;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.5pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;;color:black">Key YP 1.9 Dates:</span><span=
+ style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;se=
+rif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">M2=
+ Cut off July 28, 2015</span><span style=3D"font-size:12.0pt;font-family:&q=
+uot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.=
+9 Feature Freeze Date/M3 Cut off: Aug. 25, 2015</span><span style=3D"font-s=
+ize:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">M4=
+ Cut off: Sept. 29, 2015</span><span style=3D"font-size:12.0pt;font-family:=
+&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.=
+9 M1 Release Target: Before July 10, 2015</span><span style=3D"font-size:12=
+.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.=
+9 M2 Release Target: Before Aug. 14, 2015</span><span style=3D"font-size:12=
+.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.=
+9 M3 Release Target: Before Sept. 11 2015</span><span style=3D"font-size:12=
+.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
+11.5pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.=
+9 final Release Target: Before Oct. 30, 2015<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.5=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Key St=
+atus Links for YP:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Project_v1.9_Status"><span style=3D"font-size:11.5pt=
+;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v1.9_Status</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_1.9_Schedule"><span style=3D"font-size:11.5pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_=
+Schedule</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_1.9_Features"><span style=3D"font-size:11.5pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_=
+Features</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><br>
+<span style=3D"font-size:11.5pt;font-family:Consolas;color:black">[If anyon=
+e has suggestions for other information you&#8217;d like to see on this wee=
+kly status update, let us know!]</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
+span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
+rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
 
-Just for background, the reason I disabled the textrel check for x86 in=
-=20
-libav.inc was that I was able to determine based on quick research that=
-=20
-upstream deliberately doesn't enable -fPIC for x86 (32-bit) because app=
-arently=20
-it doesn't really work there. I honestly didn't check what the situatio=
-n was=20
-on 32-bit ARM; I probably should have done that at the time.
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E554F8A2Ffmsmsx111amrcor_--
