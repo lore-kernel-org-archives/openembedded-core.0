@@ -1,36 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B400975745
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4545575745
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 29 May 2015 17:32:20 +0000 (UTC)
-Received: by igbsb11 with SMTP id sb11so19914108igb.0
+Received: by igbhj9 with SMTP id hj9so20247089igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 10:32:21 -0700 (PDT)
+	Fri, 29 May 2015 10:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=QMHHlQ6oG2Gq9Ap/cux3neWd3dLVnnG0ZC/a7sY+YG8=;
-	b=HAKwJgEMa/7FRy6TJ1WJh+XeqM/PSExdOWgiDli1WhtGDn86gozS/VhZPYp553nBaz
-	Tot7q6HjaRm78gGjVhFvTg9uXwK22YvAkMXZ4qmUtm9+utZkV2WkOOnV2v2HcqEEXbjE
-	5mLhkPzyOfpyUn4bJB/HRPEHqwbXhSEe46b/7yg77HoOH7L3j8TwIt/NzYM6yTXlB41Z
-	/8OacJsoa5Q0dd9Ai7o79F6AKSboFZNLiZC2r2vdWeM8ZonDfIr0UWPwuxPG2qqTLnmA
-	tDiWt/VZQQud9k+wPPp9GxPo3BOuWs/U7yE/P3Xj851T3Zsnw8vlJbWyXqVtsHBtFMv2
-	p0wA==
-X-Received: by 10.50.102.68 with SMTP id fm4mr5456669igb.25.1432920741516;
-	Fri, 29 May 2015 10:32:21 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=q9FB2qbq4MswOE6mv47KY/hAzUA+mcXPUNa/KBsdc20=;
+	b=lb0IfcpJneWzfLkC5TSSRltSfqOdpGq6vd4ZmxZ1KjFYe01PhQlEnlYYSPJ+Caamtn
+	gp7BwXHmTTlWBkOOVFFWsu88X1DRMX71cGfeo5tm+pA9XivAbqKP66K+QJcMLQVkdSuA
+	RS/hk5muQCztAvbOPCKydlVVaBH81cZ20y/eS3mkZXv21xHKQ7uEXKwyoQxK/s/mY29r
+	XWypomA1wnZ4jsHgmF84Al1rK9eYiExNPCiogD1EEWJkAx3lD5qYinGoTGCACEPngCp5
+	deWraQyA3FA+fXft8JhIcvMihcoYLVAnthImUTFJRmsDQlGuUPTFuH5VM92UKOC0MrDP
+	ATSA==
+X-Received: by 10.50.114.70 with SMTP id je6mr5419497igb.43.1432920742076;
+	Fri, 29 May 2015 10:32:22 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id n14sm4628876ion.5.2015.05.29.10.32.20
+	by mx.google.com with ESMTPSA id n14sm4628876ion.5.2015.05.29.10.32.21
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Fri, 29 May 2015 10:32:21 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 May 2015 10:32:11 -0700
-Message-Id: <c4b8c7fca3efc2acfd4f73537395c29ff568e848.1432920208.git.raj.khem@gmail.com>
+Date: Fri, 29 May 2015 10:32:12 -0700
+Message-Id: <3f974765b746c7099d882c8700579760743e9426.1432920208.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <c4b8c7fca3efc2acfd4f73537395c29ff568e848.1432920208.git.raj.khem@gmail.com>
+References: <c4b8c7fca3efc2acfd4f73537395c29ff568e848.1432920208.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1432920208.git.raj.khem@gmail.com>
 References: <cover.1432920208.git.raj.khem@gmail.com>
-Subject: [PATCH 1/6] glibc: ignore for musl/uclibc but only for target recipes
+Subject: [PATCH 2/6] runqemu-internal: Replace wacom-tablet with tablet for usbdevice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 17:32:20 -0000
+X-List-Received-Date: Fri, 29 May 2015 17:32:21 -0000
 
-we still need nativesdk  or native recipes for libc to come
-from glibc, but only be ignored for target recipes types
+When booting weston-core-image with latest wayland/weston/libinput
+mouse/touchpad would not work on qemux86, this fixes the issue
 
-Change-Id: Ibaf8114f2aef63f1eadf493b264e78cd928535a0
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-collateral.inc | 3 +++
- meta/recipes-core/glibc/glibc_2.21.bb        | 9 +++------
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ scripts/runqemu-internal | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
-index f82db06..60655eb 100644
---- a/meta/recipes-core/glibc/glibc-collateral.inc
-+++ b/meta/recipes-core/glibc/glibc-collateral.inc
-@@ -17,3 +17,6 @@ do_compile[noexec] = "1"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index bc2a355..5282572 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -119,7 +119,7 @@ ORIG_STTY=$(stty -g)
+ if [ "$SLIRP_ENABLED" = "yes" ]; then
+     KERNEL_NETWORK_CMD="ip=dhcp"
+     QEMU_TAP_CMD=""
+-    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
++    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
+     if [ "$KVM_ACTIVE" = "yes" ]; then
+         QEMU_NETWORK_CMD=""
+         DROOT="/dev/vda"
+@@ -274,7 +274,7 @@ else
+         fi
  
- do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
- 
-+COMPATIBLE_HOST_libc-musl_class-target = "null"
-+COMPATIBLE_HOST_libc-uclibc_class-target = "null"
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 0c28814..4b94cba 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -69,14 +69,11 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
- GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
- 
- #
--# We will skip parsing glibc when system C library selection is not glibc
-+# We will skip parsing glibc when target system C library selection is not glibc
- # this helps in easing out parsing for non-glibc system libraries
- #
--python __anonymous () {
--    if d.getVar('TCLIBC', True) != "glibc":
--        raise bb.parse.SkipPackage("incompatible with %s C library" %
--                                   d.getVar('TCLIBC', True))
--}
-+COMPATIBLE_HOST_libc-musl_class-target = "null"
-+COMPATIBLE_HOST_libc-uclibc_class-target = "null"
- 
- EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --without-cvs --disable-profile \
+         KERNCMDLINE="mem=$QEMU_MEMORY"
+-        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
++        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
+         if [ $MACHINE = 'qemuarm64' ]; then
+             QEMU_UI_OPTIONS="-nographic"
+         fi
 -- 
 2.1.4
 
