@@ -1,40 +1,27 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 25FB1606E8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4288375745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 15:01:58 +0000 (UTC)
-Received: by obbea2 with SMTP id ea2so59315595obb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 May 2015 08:02:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lGqx8P2Fz8oD2jU+QXIMtYw89B3jYgz+xZ97AVJMixQ=;
-	b=Ub3vo89QPmD5UhzqQdlZXEr+W/JBOp33t86txu7vbdnrGrkybgiDbf9se/qxSU2hUj
-	DPnxfQLKzG4rPSCPZCYQYkk0g5TVVeWzUOyIw6K1ZtkMeVw8wwsf2SFrQdIxpe4OJB00
-	4kZgRhl2Z7xRFlEV/XhWkzYOGA6HDfzYUMHv3C+QovrMWs3rC+FUF5cLMFiGvKvTSYVc
-	g6cJs0v/9y868SFP+CcCIlssJrRTeQRDyZPjHHlTdT/PV05Kil4oQoBW1WJcPkkwuuLB
-	2v6Wr2iv2Pjcrop7GErBFZS+R8s86faw/ffGBow/VzldpXKdc8jCqNTbF96gUGo2Xhb8
-	6YMQ==
-X-Gm-Message-State: ALoCoQm0GtTlyFsVLjPUM7/dKHZ/cbQCgA+zRjtU9z7K/EGY3C/QZL/yJY6F8hAWQCzlDf5QNec/
-X-Received: by 10.202.57.137 with SMTP id g131mr6897844oia.122.1432911719936; 
-	Fri, 29 May 2015 08:01:59 -0700 (PDT)
+	Fri, 29 May 2015 15:28:08 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 29 May 2015 08:28:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,517,1427785200"; d="scan'208";a="499941694"
+Received: from clarkeke-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.29.5])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 May 2015 08:28:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Kang Kai <Kai.Kang@windriver.com>, Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 29 May 2015 16:28:07 +0100
+Message-ID: <1528283.0UTgDEqc8E@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/3.19.7-200.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <5567C29C.3030307@windriver.com>
+References: <cover.1432775689.git.kai.kang@windriver.com>
+	<20150528084706.GC2383@jama> <5567C29C.3030307@windriver.com>
 MIME-Version: 1.0
-Received: by 10.202.225.2 with HTTP; Fri, 29 May 2015 08:01:29 -0700 (PDT)
-In-Reply-To: <CAMKF1sqHevjfEVQUBA_SsRFz1Aku+n8Q9tNdCGei=Uvuwsh=9g@mail.gmail.com>
-References: <CANx9H-COq8yNzRKWhksM88QiuKFbCCfHKPUEtsqsqMjpGMnXVQ@mail.gmail.com>
-	<73D9548F-A53A-4223-B028-D116F8EDF929@gmail.com>
-	<CAHiDW_F3w8FTR7Z_AWOMfCJfMy9sMpQofRB9uDuHErReAMJZyQ@mail.gmail.com>
-	<CAMKF1sqHevjfEVQUBA_SsRFz1Aku+n8Q9tNdCGei=Uvuwsh=9g@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 29 May 2015 18:01:29 +0300
-Message-ID: <CAHiDW_EPNdW-cqbe7x_Uw5ThwJ72PjsxT44qjHED7JAR0-h-uw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][RFT] cogl/clutter/libinput/wayland/weston updates
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/5] libav: upgrade to 9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +34,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 May 2015 15:01:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 29 May 2015 15:28:09 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 28 May 2015 at 18:07, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thursday, May 28, 2015, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
->> On 28 April 2015 at 18:46, Khem Raj <raj.khem@gmail.com> wrote:
->> > I have had wayland/weston updates lying on my tree for some time now
->> >
->> >
->> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=eb52e9e6756641cd5b1ebbff0e82dcf6f1aa5c9b
->> >
->> > tried git versions too
->> >
->> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=992c13dcd4b79fe64f4f9b8122627f918257ccef
->> >
->> > There are problem with emulator with 1.7 and libinput I guess where the
->> > mouse does not work
->> > in qemux86 as well as qemux86-64, it works fine with 1.6, I have tested
->> > all
->> > versions 0.8 and newer of lib input
->> > for no success. That was the reason I did not propose those patches.
->>
->> I've been testing this and it looks like mouse does not work even on
->> our current version of weston on QEMU, _if_ it's using libinput.
->> Current Weston recipe happens to work because we default to "
->> --disable-libinput-backend".
+On Friday 29 May 2015 09:36:28 Kang Kai wrote:
+> On 2015=E5=B9=B405=E6=9C=8828=E6=97=A5 16:47, Martin Jansa wrote:
+> > On Thu, May 28, 2015 at 04:18:24PM +0800, Kang Kai wrote:
+> >> On 2015=E5=B9=B405=E6=9C=8828=E6=97=A5 15:14, Jussi Kukkonen wrote=
+:
+> >>> On 28 May 2015 at 04:26, Kai Kang <kai.kang@windriver.com> wrote:=
+
+> >>>> Upgrade libav from version 9.16 to 9.18. Remove unused var INC_P=
+R and
+> >>>> backport patch to fix CVE-2014-9676.
+> >>>=20
+> >>> I'm sorry I didn't ask this in the original discussion but... Is =
+there
+> >>> a good reason for keeping 9.x in oe-core if we're bringing in 11.=
+x
+> >>> (instead of either dropping 9.x or moving it to meta-oe)?
+> >>>=20
+> >>> I haven't found the API changes between 9 and 11 to be so large t=
+hat
+> >>> they would warrant keeping two versions. Admittedly I'm not worki=
+ng
+> >>> with libav on daily basis so I might have missed things.
+> >>=20
+> >> The original thought is just in case someone may want libav 9. Acc=
+ording
+> >> to release log, series 11
+> >> is
+> >>=20
+> >> "Libav 11 is API-, but not ABI-compatible with the previous major
+> >> release."
+> >>=20
+> >> So it is ok for us to use libav 11 as default. libav 9 recipe coul=
+d be
+> >> removed if no one opposes.
+> >>=20
+> >> Ref:
+> >> https://libav.org/releases/libav-11.3.release
+> >=20
+> > Does libav-11 show the same textrel issues? If it's fixed there I'm=
+ in
+> > favor of dropping libav-9.
+> >=20
+> > from last world build:
+> > gstreamer1.0-libav-1.4.5: ELF binary
+> > '/tmp/work/armv5e-oe-linux-gnueabi/gstreamer1.0-libav/1.4.5-r0/pack=
+ages-s
+> > plit/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has
+> > relocations in .text [textrel] gstreamer1.0-libav-1.4.5: ELF binary=
+
+> > '/tmp/work/i586-oe-linux/gstreamer1.0-libav/1.4.5-r0/packages-split=
+/gstre
+> > amer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has relocations=
+ in
+> > .text [textrel] libav-9.16: ELF binary
+> > '/tmp/work/armv5e-oe-linux-gnueabi/libav/9.16-r0/packages-split/lib=
+avcode
+> > c/usr/lib/libavcodec.so.54.35.0' has relocations in .text [textrel]=
+
+> > libav-9.16: ELF binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavcodec/us=
+r/lib/
+> > libavcodec.so.54.35.0' has relocations in .text [textrel] libav-9.1=
+6: ELF
+> > binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavdevice/u=
+sr/lib
+> > /libavdevice.so.53.2.0' has relocations in .text [textrel] libav-9.=
+16: ELF
+> > binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavfilter/u=
+sr/lib
+> > /libavfilter.so.3.3.0' has relocations in .text [textrel] libav-9.1=
+6: ELF
+> > binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavformat/u=
+sr/lib
+> > /libavformat.so.54.20.4' has relocations in .text [textrel] libav-9=
+.16:
+> > ELF binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavresample=
+/usr/l
+> > ib/libavresample.so.1.0.1' has relocations in .text [textrel] libav=
+-9.16:
+> > ELF binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libavutil/usr=
+/lib/l
+> > ibavutil.so.52.3.0' has relocations in .text [textrel] libav-9.16: =
+ELF
+> > binary
+> > '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-split/libswscale/us=
+r/lib/
+> > libswscale.so.2.1.1' has relocations in .text [textrel]
+> > libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary
+> > '/tmp/work/armv5te-oe-linux-gnueabi/libpostproc/52.3.0+gitAUTOINC+8=
+11db3b
+> > 957-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' ha=
+s
+> > relocations in .text [textrel] libpostproc-52.3.0+gitAUTOINC+811db3=
+b957:
+> > ELF binary
+> > '/tmp/work/i586-oe-linux/libpostproc/52.3.0+gitAUTOINC+811db3b957-r=
+0/pack
+> > ages-split/libpostproc/usr/lib/libpostproc.so.52.3.0' has relocatio=
+ns in
+> > .text [textrel]
 >
-> On my contrib branch I have a patch for runqemu script to not use tablet USB
-> device then it works. Also 1.8 release is coming out in couple of days the
-> patches on that branch are tracking that too. Please test it out
+> No, the textrel issue is not fixed in version 11.3 either. It has an
+> configure option '--enable-pic' but seems doesn't work.
+> x86 has same warnings and it just skips the textrel check in the liba=
+v
+> recipe.
 
-I've tested with weston 1.7: the runqemu patch does indeed fix the
-mouse problem (both with libinput 0.7 and 0.15). I think 1.7 is good
-to go (at least on i965 it certainly 'feels' much better and
-responsive), but if you feel like waiting for 1.8 that's fine too.
+Just for background, the reason I disabled the textrel check for x86 in=
+=20
+libav.inc was that I was able to determine based on quick research that=
+=20
+upstream deliberately doesn't enable -fPIC for x86 (32-bit) because app=
+arently=20
+it doesn't really work there. I honestly didn't check what the situatio=
+n was=20
+on 32-bit ARM; I probably should have done that at the time.
 
-As for cogl: On QEMU cogl seems to fail regardless of weston/wayland
-version, meaning anything using cogl fails to initialize EGL even on
-current master.
-On i965 everything cogl related seems to work on master, but the
-clutter examples segfault after upgrading cogl and clutter to most
-recent (Fedora 22 seems to have similar problems with clutter apps:
-e.g. https://bugzilla.redhat.com/show_bug.cgi?id=1210992). I'll
-continue looking at this but don't think it should prevent the wayland
-upgrades.
+Cheers,
+Paul
 
-Jussi
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
