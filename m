@@ -1,43 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DBBF73D8C
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp03.mail.online.nl (smtp03.mail.online.nl [194.134.25.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 818147562E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jun 2015 15:18:47 +0000 (UTC)
-Received: by qkhq76 with SMTP id q76so57036232qkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jun 2015 08:18:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=zrdY3XRRbRTn+6R0NE7U49wD2QJ1yZKbpBTE3iWwdYY=;
-	b=k2mYF3LvVA8Eba5qP+Bi5UwazoxALyuBfmoFV9hoGGTdvtir4HSl/7ROm+qqyv7do3
-	X5A7cyWmnjD7KIGSFyZMma10XNbW5OY9zT8gRWofGy6ZEsJln68lZ0Uve62C/8jUzZCc
-	cnygTGKB4NkcOn8Rm5PViSw/ZygX4bKfNQRlWQRqnmfDgv1aTwjhh1PGibR/A1iJ8OuD
-	bIioXfoJOb+uaWVNTsqOZtxNalQBpL6Y9mLF9nz6M8B3ZV90iCGWqG4YQ8v9/ZEE7vkl
-	/PcNWkQSdNaNs8soGghNcqPL6Yo6KfRvM5Tim5OoN0KqMDi8+mciTBUiyfuucvjljYiK
-	blGA==
-X-Received: by 10.55.20.17 with SMTP id e17mr38615435qkh.102.1433171929170;
-	Mon, 01 Jun 2015 08:18:49 -0700 (PDT)
+	Mon,  1 Jun 2015 16:43:56 +0000 (UTC)
+Received: from smtp03.mail.online.nl (localhost [127.0.0.1])
+	by smtp03.mail.online.nl (Postfix) with ESMTP id 500411C0036;
+	Mon,  1 Jun 2015 18:43:54 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp03.mail.online.nl (Postfix) with ESMTP;
+	Mon,  1 Jun 2015 18:43:52 +0200 (CEST)
+Message-ID: <556C8BC8.1090008@topic.nl>
+Date: Mon, 01 Jun 2015 18:43:52 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.117 with HTTP; Mon, 1 Jun 2015 08:18:28 -0700 (PDT)
-In-Reply-To: <555B0029.7030800@windriver.com>
-References: <55555B65.80600@windriver.com>
-	<3693019.ZXHb2MZYRx@peggleto-mobl.ger.corp.intel.com>
-	<555AE1AB.8070907@windriver.com>
-	<5994133.HlFem3UHYJ@peggleto-mobl.ger.corp.intel.com>
-	<555B0029.7030800@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 1 Jun 2015 08:18:28 -0700
-X-Google-Sender-Auth: HOtagXDiTDiV-HZWAZkQ0yUn_Qc
-Message-ID: <CABcZANky0-8eaermaSJwZLm+45x0Nn-_JgymBKN=oKv0r6b2ig@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Add something like bitbake -cmenuconfig <recipe>?
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1433145739.git.liezhi.yang@windriver.com>
+	<003c185314ba6424dfc6455c5148a63ff6daecc7.1433145739.git.liezhi.yang@windriver.com>
+In-Reply-To: <003c185314ba6424dfc6455c5148a63ff6daecc7.1433145739.git.liezhi.yang@windriver.com>
+X-Online-Scanned: by Cloudmark authority (on m7-zaas-prd-smtp03.m7zaas.local)
+Subject: Re: [PATCH 1/1] boost: fix build for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,95 +35,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jun 2015 15:18:50 -0000
-Content-Type: multipart/alternative; boundary=001a1144d268bd8c9a051776574a
+X-List-Received-Date: Mon, 01 Jun 2015 16:43:58 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1144d268bd8c9a051776574a
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Indeed, this fixes the build problems with boost. Didn't realize one had 
+to patch both bjam and boost.
 
-On Tue, May 19, 2015 at 2:19 AM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+Tested-By: Mike Looijmans <mike.looijmans@topic.nl>
 
+On 01-06-15 10:02, Robert Yang wrote:
+> Backport 2 patches to fix the build error on mips:
+> mips-poky-linux-g++: error: unrecognized command line option '-m32'
 >
->> As Chris was suggesting I'd rather we look at setting up a type
->> declaration
->> mechanism (possibly at the bitbake level?) and make use of that rather
->> than
->> creating something just for this UI where possible.
->>
+> https://github.com/boostorg/build/commit/c0634341d9ee2c02d3a55c91dafb988afc066c49
+> https://github.com/boostorg/build/commit/9576ca216cae888d7efb5da97c009c245c5ba567
 >
-> A type declaration mechanism also sounds good, but I'm afraid that
-> it would make a lot of changes embed in the bbclass or conf files,
-> but the build system itself doesn't need these changes, I'm not sure
-> whether it is worth or not, our aim is just make OE easier for newbies.
+> Apply the pacthes to both bjam-native and boost, so put the patches to
+> "files" dir.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-support/boost/boost-1.58.0.inc        |    5 ++-
+>   ...dded-gcc.jam-was-passing-the-options-m32-.patch |   33 ++++++++++++++++
+>   ...n-t-pass-m32-m64-where-it-s-not-supported.patch |   40 ++++++++++++++++++++
+>   3 files changed, 77 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
+>   create mode 100644 meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
+>
+> diff --git a/meta/recipes-support/boost/boost-1.58.0.inc b/meta/recipes-support/boost/boost-1.58.0.inc
+> index 0bae81b..b47d091 100644
+> --- a/meta/recipes-support/boost/boost-1.58.0.inc
+> +++ b/meta/recipes-support/boost/boost-1.58.0.inc
+> @@ -11,7 +11,10 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
+>   BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
+>   BOOST_P = "boost_${BOOST_VER}"
+>
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2 \
+> +           file://0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch \
+> +           file://0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch \
+> +"
+>
+>   SRC_URI[md5sum] = "b8839650e61e9c1c0a89f371dd475546"
+>   SRC_URI[sha256sum] = "fdfc204fc33ec79c99b9a74944c3e54bd78be4f7f15e260c0e2700a36dc7d3e5"
+> diff --git a/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch b/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
+> new file mode 100644
+> index 0000000..329b4c3
+> --- /dev/null
+> +++ b/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
+> @@ -0,0 +1,33 @@
+> +From 817aed0d755bf8c0ba4ef6a77d41538e50b571fd Mon Sep 17 00:00:00 2001
+> +From: claymore <carlosmf.pt@gmail.com>
+> +Date: Fri, 24 Apr 2015 02:28:47 +0100
+> +Subject: [PATCH 1/2] mips1 fix added gcc.jam was passing the options -m32 and
+> + -m64 to mips cross-compilers, when those do not use
+> + such options This modification solves it by adding mips
+> + as an exception
+> +
+> +Signed-off-by: Carlos M. Ferreira carlosmf.pt@gmail.com
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +
+> +---
+> + tools/build/src/tools/gcc.jam |    2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+> +index db04534..eff95ae 100644
+> +--- a/tools/build/src/tools/gcc.jam
+> ++++ b/tools/build/src/tools/gcc.jam
+> +@@ -451,7 +451,7 @@ rule setup-address-model ( targets * : sources * : properties * )
+> +         else
+> +         {
+> +             local arch = [ feature.get-values architecture : $(properties) ] ;
+> +-            if $(arch) != arm
+> ++            if $(arch) != arm && $(arch) != mips1
+> +             {
+> +                 if $(model) = 32
+> +                 {
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch b/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
+> new file mode 100644
+> index 0000000..ecf7e55
+> --- /dev/null
+> +++ b/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
+> @@ -0,0 +1,40 @@
+> +From f825634a56b119dfa9d712119a66279cc7635978 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?J=C3=B6rg=20Krause?= <joerg.krause@embedded.rocks>
+> +Date: Sat, 2 May 2015 14:24:02 +0200
+> +Subject: [PATCH 2/2] Don't pass -m32/-m64 where it's not supported.
+> +
+> +Only PowerPC, SPARC, and x86 do support the -m32 and -m64 compiler options [1].
+> +
+> +Rather then excluding all architectures not supporting these options as it is
+> +done in commit c0634341d9ee2c02d3a55c91dafb988afc066c49 [2], include all
+> +architectures that do support them.
+> +
+> +This will fix building Boost for the SuperH architecture with Buildroot [3].
+> +
+> +[1] https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
+> +[2] https://github.com/boostorg/build/commit/c0634341d9ee2c02d3a55c91dafb988afc066c49
+> +[3] http://autobuild.buildroot.net/results/ccd/ccd5c83963032ba49b1627b1dff39e34a9486943/build-end.log
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +
+> +---
+> + tools/build/src/tools/gcc.jam |    2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+> +index eff95ae..2f6af93 100644
+> +--- a/tools/build/src/tools/gcc.jam
+> ++++ b/tools/build/src/tools/gcc.jam
+> +@@ -451,7 +451,7 @@ rule setup-address-model ( targets * : sources * : properties * )
+> +         else
+> +         {
+> +             local arch = [ feature.get-values architecture : $(properties) ] ;
+> +-            if $(arch) != arm && $(arch) != mips1
+> ++            if $(arch) = power || $(arch) = sparc || $(arch) = x86
+> +             {
+> +                 if $(model) = 32
+> +                 {
+> +--
+> +1.7.9.5
+> +
+>
 
 
-That=E2=80=99s not correct. Typing is useful to check the validity of value=
-s as
-well as to simplify the creation of objects from strings in python code.
-It=E2=80=99s not exclusively for a UI, that just happens to be an additiona=
-l
-benefit of using it.
+-- 
+Mike Looijmans
 
-I also agree with Paul, the knowledge of what variables should be visible
-to the user in user interfaces should be held next to the variable
-definitions in appropriate places, not a separate config file. A flag makes
-a great deal of sense there. Specification of what variables we want the
-user to be able to edit in the UI is really just a way of specifying which
-variables are intended to be manipulated by the user, and this is valuable,
-as it=E2=80=99d help the user know which variables are e.g. internal artifa=
-cts of
-classes, not intended for them to modify. So while it=E2=80=99s used by a U=
-I, I
-don=E2=80=99t think that knowledge is specific to a UI either, necessarily.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1144d268bd8c9a051776574a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, May 19, 2015 at 2:19 AM, Robert Yang <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
-=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><br>
-As Chris was suggesting I&#39;d rather we look at setting up a type declara=
-tion<br>
-mechanism (possibly at the bitbake level?) and make use of that rather than=
-<br>
-creating something just for this UI where possible.<br>
-</blockquote>
-<br></span>
-A type declaration mechanism also sounds good, but I&#39;m afraid that<br>
-it would make a lot of changes embed in the bbclass or conf files,<br>
-but the build system itself doesn&#39;t need these changes, I&#39;m not sur=
-e<br>
-whether it is worth or not, our aim is just make OE easier for newbies.</bl=
-ockquote></div><br>That=E2=80=99s not correct. Typing is useful to check th=
-e validity of values as well as to simplify the creation of objects from st=
-rings in python code. It=E2=80=99s not exclusively for a UI, that just happ=
-ens to be an additional benefit of using it.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">I also agree with Paul, the knowledg=
-e of what variables should be visible to the user in user interfaces should=
- be held next to the variable definitions in appropriate places, not a sepa=
-rate config file. A flag makes a great deal of sense there. Specification o=
-f what variables we want the user to be able to edit in the UI is really ju=
-st a way of specifying which variables are intended to be manipulated by th=
-e user, and this is valuable, as it=E2=80=99d help the user know which vari=
-ables are e.g. internal artifacts of classes, not intended for them to modi=
-fy. So while it=E2=80=99s used by a UI, I don=E2=80=99t think that knowledg=
-e is specific to a UI either, necessarily.<br>-- <br><div class=3D"gmail_si=
-gnature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitB=
-ake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engi=
-neer, Mentor Graphics</div>
-</div></div>
-
---001a1144d268bd8c9a051776574a--
