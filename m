@@ -1,21 +1,34 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 13B5875685
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F7375681
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jun 2015 21:44:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Jun 2015 14:43:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,535,1427785200"; d="scan'208";a="735215456"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.168])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2015 14:43:56 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Mon,  1 Jun 2015 23:33:40 +0000 (UTC)
+Received: by igbhj9 with SMTP id hj9so74065280igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Jun 2015 16:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=SNYh2LiefzNrO1wGZVatEOfJzUWttaYUIRFiyF/7GmM=;
+	b=unXpe6YoivKtksVcsA8KiphplTeq2Q5RkLfkcsRluqhtufxprKP7Vk0f87O+P21xMX
+	KHLIHJJ4CwJCBmRzXhXmGnUJc7pNzTLPlZSV85w1tEp9paGu7obYmcivCzTQTIPRi0Uf
+	zF7vlbApcUfJpWrd+8RdsfhZr4wcB3xNmNSJyPIaGRYigjf8klMaCWY/AC1veBtvZ9Pc
+	wiDk9VORP1LNK/wh9tQCq4MHuBEVhjyJek3IowmlnoooL7WHevxqUOBMwb0XUjC2e4hJ
+	727EdpoqCcQbtkJEuBv22zez9h5iiXOCmfoNhAkSHS7zUbXA2yTYSb6Muz2XosBDPfIS
+	PtJQ==
+X-Received: by 10.43.34.205 with SMTP id st13mr31664137icb.4.1433201621302;
+	Mon, 01 Jun 2015 16:33:41 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id n14sm11439961ion.5.2015.06.01.16.33.40
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 01 Jun 2015 16:33:40 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jun 2015 16:45:25 -0500
-Message-Id: <1433195125-24124-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Mon,  1 Jun 2015 16:33:34 -0700
+Message-Id: <1433201614-12954-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] recipeutils: Add get_recipe_upstream_version and get_recipe_pv_without_srcpv functions
+Subject: [PATCH] glibc: remove duplicate --disable-nscd from EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,126 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jun 2015 21:44:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 01 Jun 2015 23:33:43 -0000
 
-The get_recipe_upstream_version functions tries to get the current
-version of recipe in upstream it uses bb.fetch2 latest_versionstring
-method also latest_revision when is SCM.
+An appropriate --enable-nscd or --disable-nscd option is added to
+EXTRA_OECONF based on the 'libc-inet-anl' DISTRO_FEATURES check.
 
-The get_recipe_pv_without_srcpv discards the SRCPV in SCM's recipe like
-git it returns a tuple with the version, prefix and suffix of a PV.
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oe/recipeutils.py | 96 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+ meta/recipes-core/glibc/glibc_2.21.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index f05b6c0..37efefb 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -626,3 +626,99 @@ def replace_dir_vars(path, d):
-         path = path.replace(dirpath, '${%s}' % dirvars[dirpath])
-     return path
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 0c28814..03c5461 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -87,7 +87,6 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --without-selinux \
+                 --enable-obsolete-rpc \
+                 --with-kconfig=${STAGING_BINDIR_NATIVE} \
+-                --disable-nscd \
+                 ${GLIBC_EXTRA_OECONF}"
  
-+def get_recipe_pv_without_srcpv(rd, uri_type):
-+    """
-+    Get PV without SRCPV common in SCM's for now only
-+    support git.
-+
-+    Returns tuple with pv, prefix and suffix.
-+    """
-+    pv = ''
-+    pfx = ''
-+    sfx = ''
-+
-+    if uri_type == 'git':
-+        rd_tmp = rd.createCopy()
-+
-+        rd_tmp.setVar('SRCPV', '')
-+        pv = rd_tmp.getVar('PV', True)
-+
-+        git_regex = re.compile("(?P<pfx>(v|))(?P<ver>((\d+[\.\-_]*)+))(?P<sfx>(\+|)(git|)(r|)(AUTOINC|)(\+|))(?P<rev>.*)")
-+        m = git_regex.match(pv)
-+
-+        if m:
-+            pv = m.group('ver')
-+            pfx = m.group('pfx')
-+            sfx = m.group('sfx')
-+    else:
-+        pv = rd.getVar('PV', True)
-+
-+    return (pv, pfx, sfx)
-+
-+def get_recipe_upstream_version(rd):
-+    """
-+        Get upstream version of recipe using bb.fetch2 methods with support for
-+        http, https, ftp and git.
-+
-+        bb.fetch2 exceptions can be raised,
-+            FetchError when don't have network access or upstream site don't response.
-+            NoMethodError when uri latest_versionstring method isn't implemented.
-+
-+        Returns a dictonary with version, type and datetime.
-+        Type can be A for Automatic, M for Manual and U for Unknown.
-+    """
-+    from bb.fetch2 import decodeurl
-+    from datetime import datetime
-+
-+    ru = {}
-+    ru['version'] = ''
-+    ru['type'] = 'U'
-+    ru['datetime'] = ''
-+
-+    # XXX: we suppose that the first entry points to the upstream sources
-+    src_uri = rd.getVar('SRC_URI', True).split()[0] 
-+    uri_type, _, _, _, _, _ =  decodeurl(src_uri)
-+
-+    pv = rd.getVar('PV', True)
-+
-+    manual_upstream_version = rd.getVar("RECIPE_UPSTREAM_VERSION", True)
-+    if manual_upstream_version:
-+        # manual tracking of upstream version.
-+        ru['version'] = manual_upstream_version
-+        ru['type'] = 'M'
-+
-+        manual_upstream_date = rd.getVar("CHECK_DATE", True)
-+        if manual_upstream_date:
-+            date = datetime.strptime(manual_upstream_date, "%b %d, %Y")
-+        else:
-+            date = datetime.now()
-+        ru['datetime'] = date
-+
-+    elif uri_type == "file":
-+        # files are always up-to-date
-+        ru['version'] =  pv
-+        ru['type'] = 'A'
-+        ru['datetime'] = datetime.now()
-+    else:
-+        ud = bb.fetch2.FetchData(src_uri, rd)
-+        pupver = ud.method.latest_versionstring(ud, rd)
-+
-+        if uri_type == 'git':
-+            (pv, pfx, sfx) = get_recipe_pv_without_srcpv(rd, uri_type)
-+
-+            latest_revision = ud.method.latest_revision(ud, rd, ud.names[0])
-+
-+            # if contains revision but not pupver use current pv
-+            if pupver == '' and latest_revision:
-+                pupver = pv
-+
-+            if pupver != '':
-+                pupver = pfx + pupver + sfx + latest_revision[:10]
-+
-+        if pupver != '':
-+            ru['version'] = pupver
-+            ru['type'] = 'A'
-+
-+        ru['datetime'] = datetime.now()
-+
-+    return ru
+ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
 -- 
 1.9.1
 
