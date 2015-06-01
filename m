@@ -1,37 +1,30 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 32534757B6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 50C9F75681
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jun 2015 20:17:38 +0000 (UTC)
-Received: by qkoo18 with SMTP id o18so90310434qko.1
+	Mon,  1 Jun 2015 21:13:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t51LDZNo007282 for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Jun 2015 22:13:35 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FYGaodOC77K0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jun 2015 13:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tO+r1oKBebvtD7kEaj4WVtV+8ZW7ZL1aX5E3NG4qkQ4=;
-	b=jlc30dBwpZ8Q4oJnJ7DjF59gbjTvkDD+sFS5YC7de2VU2Y6KBO7TPT4lE4LV7+8SCl
-	71zwE2UxQSuhh/NVa+C61gZpQdqFwRaoaW5Rt8gYItdKTFU/c7UPnoXSDDOlsBFnmH5+
-	56pxtFflFf8HAKwdoAY35akqrkJyT0qXTVK09oudCTXt23ydbRt2Jlw5RlBUg2njotLy
-	1J9G/M2M9mf34xdHitdlpcq0loSurTols5MMhJO9nA/cAK6XcRDytIM/ttu/AnfdJk/b
-	lwS1yefHg5O+UMVOPz3SGbyUQhS5E5Sv+u52SwdudJeFSD3SeafyuspAiQFPJ39+aobd
-	HGmQ==
-X-Received: by 10.55.48.73 with SMTP id w70mr41436322qkw.49.1433189859802;
-	Mon, 01 Jun 2015 13:17:39 -0700 (PDT)
-Received: from thuvia.localdomain (pool-71-171-14-73.ronkva.east.verizon.net.
-	[71.171.14.73])
-	by mx.google.com with ESMTPSA id 80sm5728122qhr.26.2015.06.01.13.17.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Jun 2015 13:17:39 -0700 (PDT)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jun 2015 16:17:22 -0400
-Message-Id: <1433189842-17654-2-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1433189842-17654-1-git-send-email-philip@balister.org>
-References: <1433189842-17654-1-git-send-email-philip@balister.org>
-Subject: [PATCH 2/2] packagegroup-core-tools-profile.bb: Remove oprofile.
+	Mon,  1 Jun 2015 22:13:35 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t51LDNST007277
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Jun 2015 22:13:35 +0100
+Message-ID: <1433193203.404.176.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Jun 2015 22:13:23 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] base: Fix license checksum rebuild problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jun 2015 20:17:40 -0000
+X-List-Received-Date: Mon, 01 Jun 2015 21:13:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Oprofile functions duplicate perf. Since perf is easier to use drop oprofile
-from the core-tools-profile package.
+"MACHINE=qemux86-64 bitbake init-ifupdown; MACHINE=genericx86-64 bitbake init-ifupdown"
+shows a rebuild when it would be expected. The reason is a LIC_FILES_CHKSUM which
+contains file://${WORKDIR}, an absolute path which doesn't exist in the first build
+but does in the second, causing a signature change and a rebuild.
 
-Also, the oprofile-ui package opens a port on the device. removing this
-package reduces a possible security issue for devices with profiling tools.
+Fix the problem by ignoring any file:// url which resolves since TMPDIR for
+license file dependency purposes.
 
-Signed-off-by: Philip Balister <philip@balister.org>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 3 ---
- 1 file changed, 3 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 6f4842f..80f5933 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -19,15 +19,12 @@ PROFILE_TOOLS_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'sys
- RRECOMMENDS_${PN} = "\
-     perf \
-     trace-cmd \
--    kernel-module-oprofile \
-     blktrace \
-     ${PROFILE_TOOLS_X} \
-     ${PROFILE_TOOLS_SYSTEMD} \
-     "
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 99b512b..7093a19 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -97,6 +97,7 @@ PATH_prepend = "${@extra_path_elements(d)}"
+ def get_lic_checksum_file_list(d):
+     filelist = []
+     lic_files = d.getVar("LIC_FILES_CHKSUM", True) or ''
++    tmpdir = d.getVar("TMPDIR", True)
  
- PROFILETOOLS = "\
--    oprofile \
--    oprofileui-server \
-     powertop \
-     latencytop \
-     "
--- 
-2.1.0
+     urls = lic_files.split()
+     for url in urls:
+@@ -105,6 +106,8 @@ def get_lic_checksum_file_list(d):
+         try:
+             path = bb.fetch.decodeurl(url)[2]
+             if path[0] == '/':
++                if path.startswith(tmpdir):
++                    continue
+                 filelist.append(path + ":" + str(os.path.exists(path)))
+         except bb.fetch.MalformedUrl:
+             raise bb.build.FuncFailed(d.getVar('PN', True) + ": LIC_FILES_CHKSUM contains an invalid URL: " + url)
+
 
 
