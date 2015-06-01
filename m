@@ -1,27 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 76E5D757A0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6648F755F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jun 2015 07:30:03 +0000 (UTC)
+	Mon,  1 Jun 2015 08:02:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t517U2kB018213
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Jun 2015 00:30:03 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 1 Jun 2015 00:30:02 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 1 Jun 2015 15:23:53 +0800
-Message-ID: <1433143433-528-2-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1433143433-528-1-git-send-email-kai.kang@windriver.com>
-References: <1433143433-528-1-git-send-email-kai.kang@windriver.com>
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5182gea009830
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Jun 2015 01:02:42 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 1 Jun 2015 01:02:42 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Jun 2015 01:02:41 -0700
+Message-ID: <cover.1433145739.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] alsa-tools: remove hdajacksensetest for framebuffer build
+Subject: [PATCH 0/1] boost: fix build for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jun 2015 07:30:04 -0000
+X-List-Received-Date: Mon, 01 Jun 2015 08:02:42 -0000
 Content-Type: text/plain
 
-Sub-component hdajacksensetest in alsa-tools requires library glib, so
-remove it when do framebuffer build.
+The following changes since commit 968973d55d4b33e1a929ed4cdf9387fcaba2d93f:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  qt4: unconditionally disable gstreamer 0.10 support in qt webkit (2015-05-30 22:25:12 +0100)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-index c957609..a580741 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-@@ -23,7 +23,7 @@ index 2457a1c..72346d9 100644
- +SUBDIRS = as10k1 \
- +	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
- +	  us428control usx2yloader vxloader \
--+	  hwmixvolume hda-verb hdajacksensetest
-++	  hwmixvolume hda-verb
-  
-  all:
-  	@for i in $(SUBDIRS); do \
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/boost
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/boost
+
+Robert Yang (1):
+  boost: fix build for mips
+
+ meta/recipes-support/boost/boost-1.58.0.inc        |    5 ++-
+ ...dded-gcc.jam-was-passing-the-options-m32-.patch |   33 ++++++++++++++++
+ ...n-t-pass-m32-m64-where-it-s-not-supported.patch |   40 ++++++++++++++++++++
+ 3 files changed, 77 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
+ create mode 100644 meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
+
 -- 
-1.9.1
+1.7.9.5
 
 
