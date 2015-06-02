@@ -1,20 +1,22 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C1E3757C4
+Return-Path: <amy.fong@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 336C5734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 19:54:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2015 12:54:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,541,1427785200"; d="scan'208";a="704149751"
-Received: from lsandov1-mobl-linux.zpn.intel.com ([10.219.4.60])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2015 12:54:18 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jun 2015 14:54:27 -0500
-Message-Id: <1433274867-5685-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] terminal.py: Allow devshell/menuconfig on recent gnome-terminal
+	Tue,  2 Jun 2015 20:42:04 +0000 (UTC)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t52Kg4jT028777
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Tue, 2 Jun 2015 13:42:05 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.84)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1Yzt0K-0008RS-Kg; Tue, 02 Jun 2015 16:41:44 -0400
+Date: Tue, 2 Jun 2015 16:41:44 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: openembedded-core@lists.openembedded.org, amy.fong@windriver.com
+Message-ID: <20150602204144.GA32409@windriver.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] External modules fail to load due to unknown symbols
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,48 +29,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 19:54:20 -0000
+X-List-Received-Date: Tue, 02 Jun 2015 20:42:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From da12fa5e6daca0c0b7bb15df030b1c79fbefa089 Mon Sep 17 00:00:00 2001
+From: Amy Fong <amy.fong@windriver.com>
+Date: Mon, 1 Jun 2015 13:16:20 -0400
+Subject: [PATCH] External modules fail to load due to unknown symbols
 
-Recent versions of gnome-terminal does not support non-UTF8 charset:
-https://bugzilla.gnome.org/show_bug.cgi?id=732127 as a result, devshell and
-menuconfig tasks silently hang  (error found on trace log of 'strace -f -v
--s 8192 -e write=2 bitbake -c devshell quilt-native': "Non UTF-8 locale
-(ANSI_X3.4-1968) is not supported!"). As a workaround, clearing the LC_ALL
-environment variable so it uses the locale. Once fixed on the gnome-terminal
-project, this should be removed.
+When building external kernel modules, a failure can happen
+when the module has dependencies on other kernel modules.
+In such cases, the build looks at Module.symvers to do
+symbol lookups of the other kernel modules that it depends on.
 
-Tested on gnome-terminal versions:
+Module.symvers gets copied by do_shared_workdir
+after do_compile and Module.symvers gets updated during
+do_compile_kernelmodules.
 
-       GNOME Terminal 3.4.1.1
-       GNOME Terminal 3.14.2 (Default on Ubuntu 15.04)
+do_compile_kernelmodules is modified to explicitly copy Module.symvers
+to the shared workdir.
 
-[YOCTO #7791]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/lib/oe/terminal.py |    6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/kernel.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 4f5c611..52a8913 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -57,6 +57,12 @@ class Gnome(XTerminal):
-     priority = 2
- 
-     def __init__(self, sh_cmd, title=None, env=None, d=None):
-+        # Recent versions of gnome-terminal does not support non-UTF8 charset:
-+        # https://bugzilla.gnome.org/show_bug.cgi?id=732127; as a workaround,
-+        # clearing the LC_ALL environment variable so it uses the locale.
-+        # Once fixed on the gnome-terminal project, this should be removed.
-+        if os.getenv('LC_ALL'): os.putenv('LC_ALL','')
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4f22cde..4a177b1 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -215,6 +215,14 @@ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
 +
-         # Check version
-         vernum = check_terminal_version("gnome-terminal")
-         if vernum and LooseVersion(vernum) >= '3.10':
++		# Module.symvers gets updated during the 
++		# building of the kernel modules. We need to
++		# update this in the shared workdir since some
++		# external kernel modules has a dependency on
++		# other kernel modules and will look at this
++		# file to do symbol lookups
++		cp Module.symvers ${STAGING_KERNEL_BUILDDIR}
+ 	else
+ 		bbnote "no modules to compile"
+ 	fi
 -- 
-1.7.10.4
+2.0.1
 
 
