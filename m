@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 627FA757CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D52C1757E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 14:48:55 +0000 (UTC)
+	Tue,  2 Jun 2015 14:48:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t52EmuU5010810
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t52EmuCe027750
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 2 Jun 2015 07:48:56 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Tue, 2 Jun 2015 07:48:56 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Jun 2015 07:48:53 -0700
-Message-ID: <5e37a85d107e8ef172d9c0ff60c90978cf408408.1433256486.git.liezhi.yang@windriver.com>
+Date: Tue, 2 Jun 2015 07:48:52 -0700
+Message-ID: <8703c6645221ab40d10054a946b53fcf046e6fc7.1433256486.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1433256486.git.liezhi.yang@windriver.com>
 References: <cover.1433256486.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/6] glib-2.0: 2.44.0 -> 2.44.1
+Subject: [PATCH 5/6] ethtool: 3.16 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,85 +36,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 02 Jun 2015 14:48:57 -0000
 Content-Type: text/plain
 
-Removed 0001-GListModel-roll-back-use-of-type-redefinition.patch since
-it is a backport patch.
+Removed ethtool-uint.patch since it is already in the source.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...tModel-roll-back-use-of-type-redefinition.patch |   42 --------------------
- .../{glib-2.0_2.44.0.bb => glib-2.0_2.44.1.bb}     |    5 +--
- 2 files changed, 2 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-GListModel-roll-back-use-of-type-redefinition.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.44.0.bb => glib-2.0_2.44.1.bb} (76%)
+ .../ethtool/ethtool/ethtool-uint.patch             |   50 --------------------
+ .../ethtool/{ethtool_3.16.bb => ethtool_4.0.bb}    |    5 +-
+ 2 files changed, 2 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-extended/ethtool/ethtool/ethtool-uint.patch
+ rename meta/recipes-extended/ethtool/{ethtool_3.16.bb => ethtool_4.0.bb} (85%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-GListModel-roll-back-use-of-type-redefinition.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-GListModel-roll-back-use-of-type-redefinition.patch
+diff --git a/meta/recipes-extended/ethtool/ethtool/ethtool-uint.patch b/meta/recipes-extended/ethtool/ethtool/ethtool-uint.patch
 deleted file mode 100644
-index 7d95743..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-GListModel-roll-back-use-of-type-redefinition.patch
+index bb96a18..0000000
+--- a/meta/recipes-extended/ethtool/ethtool/ethtool-uint.patch
 +++ /dev/null
-@@ -1,42 +0,0 @@
--From 4a292721bcf2943bfc05c6a1c859992f28e3efec Mon Sep 17 00:00:00 2001
--From: Ryan Lortie <desrt@desrt.ca>
--Date: Wed, 25 Mar 2015 09:29:49 -0400
--Subject: [PATCH] GListModel: roll back use of type redefinition
+@@ -1,50 +0,0 @@
+-Fix build with musl by using correct uint type names.
 -
--We declare the typedefs for GListModel and GListStore in giotypes.h, as
--a matter of convention.  This is not actually required, since the
--typedef is emitted as part of the G_DECLARE_* macros.
+-This patch is taken from Sabotage Linux, the license statement for patches and
+-build scripts in Sabotage Linux says:
 -
--The giotypes.h approach is only used to avoid cyclic dependencies
--between headers, which is not a problem in this case.
+-    To the extent possible under law, Christian Neukirchen has waived
+-    all copyright and related or neighboring rights to this work.
 -
--Type redefinition is a C11 feature, and although it was around in some
--compilers before then, gcc 4.2.1 (from 2007) is apparently still in wide
--use, being the default compiler for OpenBSD.
+-    http://creativecommons.org/publicdomain/zero/1.0/
 -
--Eventually, we will probably hit a case where we actually need to
--redefine a type, but since we're not there yet, let's back off a bit.
+-Therefore this should be good to include in OpenEmbedded.
 -
--Upstream-Status: Backport
+-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 -
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- gio/giotypes.h |    2 --
-- 1 file changed, 2 deletions(-)
+-Upstream-status: Pending
 -
--diff --git a/gio/giotypes.h b/gio/giotypes.h
--index 4342d47..53f8cc9 100644
----- a/gio/giotypes.h
--+++ b/gio/giotypes.h
--@@ -61,8 +61,6 @@ typedef struct _GPermission                   GPermission;
+-diff -u ethtool-3.14.org/internal.h ethtool-3.14/internal.h
+---- ethtool-3.14.org/internal.h
+-+++ ethtool-3.14/internal.h
+-@@ -7,6 +7,7 @@
+- #include "ethtool-config.h"
+- #endif
+- #include <stdio.h>
+-+#include <stdint.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #include <sys/types.h>
+-@@ -17,16 +18,16 @@
 - 
-- typedef struct _GMenuModel                    GMenuModel;
-- typedef struct _GNotification                 GNotification;
---typedef struct _GListModel                    GListModel;
---typedef struct _GListStore                    GListStore;
+- /* ethtool.h expects these to be defined by <linux/types.h> */
+- #ifndef HAVE_BE_TYPES
+--typedef __uint16_t __be16;
+--typedef __uint32_t __be32;
+-+typedef uint16_t __be16;
+-+typedef uint32_t __be32;
+- typedef unsigned long long __be64;
+- #endif
 - 
-- /**
--  * GDrive:
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-similarity index 76%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-index 227e1b4..8eaccfb 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.44.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-@@ -14,10 +14,9 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://uclibc.patch \
-            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
-            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
--           file://0001-GListModel-roll-back-use-of-type-redefinition.patch \
-           "
+- typedef unsigned long long u64;
+--typedef __uint32_t u32;
+--typedef __uint16_t u16;
+--typedef __uint8_t u8;
+--typedef __int32_t s32;
+-+typedef uint32_t u32;
+-+typedef uint16_t u16;
+-+typedef uint8_t u8;
+-+typedef int32_t s32;
+- 
+- #include "ethtool-copy.h"
+- #include "net_tstamp-copy.h"
+diff --git a/meta/recipes-extended/ethtool/ethtool_3.16.bb b/meta/recipes-extended/ethtool/ethtool_4.0.bb
+similarity index 85%
+rename from meta/recipes-extended/ethtool/ethtool_3.16.bb
+rename to meta/recipes-extended/ethtool/ethtool_4.0.bb
+index 92a0704..13f2b1c 100644
+--- a/meta/recipes-extended/ethtool/ethtool_3.16.bb
++++ b/meta/recipes-extended/ethtool/ethtool_4.0.bb
+@@ -9,11 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://run-ptest \
+            file://avoid_parallel_tests.patch \
+-           file://ethtool-uint.patch \
+            "
  
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+-SRC_URI[md5sum] = "3806bae34c153e2b9e2859e85c54788d"
+-SRC_URI[sha256sum] = "a6f1433824af7b390ed4e66dfc7cee047d6d1f56dbb8ceef9fe905d63aef5275"
++SRC_URI[md5sum] = "0a1c78787c7dcf077016ed86372a472f"
++SRC_URI[sha256sum] = "e200516727cc9583e8b63fd6e72f667f9ed41bb4f0577ff4803b60c64cfd1dbc"
  
--SRC_URI[md5sum] = "74cf7b4ea200b76e42a4c22c8daf0f93"
--SRC_URI[sha256sum] = "f2d362b106a08fa801770d41829a06fcfe287a00421018869eebf5efc796f5b9"
-+SRC_URI[md5sum] = "83efba4722a9674b97437d1d99af79db"
-+SRC_URI[sha256sum] = "8811deacaf8a503d0a9b701777ea079ca6a4277be10e3d730d2112735d5eca07"
+ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
 -- 
 1.7.9.5
 
