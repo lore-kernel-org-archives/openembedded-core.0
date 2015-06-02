@@ -1,26 +1,20 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D0A2757EE
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C1E3757C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 19:48:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2015 12:48:23 -0700
+	Tue,  2 Jun 2015 19:54:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2015 12:54:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,541,1427785200"; d="scan'208";a="719544799"
-Received: from krithika-mobl2.amr.corp.intel.com (HELO
-	alimon-ThinkPad-W540.amr.corp.intel.com) ([10.254.180.132])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2015 12:48:23 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,541,1427785200"; d="scan'208";a="704149751"
+Received: from lsandov1-mobl-linux.zpn.intel.com ([10.219.4.60])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2015 12:54:18 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jun 2015 14:49:48 -0500
-Message-Id: <44b06df5edf05c7527b28321eda7718a16a84e0f.1433274434.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1433274434.git.anibal.limon@linux.intel.com>
-References: <cover.1433274434.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1433274434.git.anibal.limon@linux.intel.com>
-References: <cover.1433274434.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] distrodata: Use Python CSV instead of did by hand
+Date: Tue,  2 Jun 2015 14:54:27 -0500
+Message-Id: <1433274867-5685-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] terminal.py: Allow devshell/menuconfig on recent gnome-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,229 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 19:48:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Jun 2015 19:54:20 -0000
 
-Fix CSV generation in distrodata class using Python CSV
-module before it some errors happen when read due to
-incorrect quoting/delimiters.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-[YOCTO #7777]
+Recent versions of gnome-terminal does not support non-UTF8 charset:
+https://bugzilla.gnome.org/show_bug.cgi?id=732127 as a result, devshell and
+menuconfig tasks silently hang  (error found on trace log of 'strace -f -v
+-s 8192 -e write=2 bitbake -c devshell quilt-native': "Non UTF-8 locale
+(ANSI_X3.4-1968) is not supported!"). As a workaround, clearing the LC_ALL
+environment variable so it uses the locale. Once fixed on the gnome-terminal
+project, this should be removed.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Tested on gnome-terminal versions:
+
+       GNOME Terminal 3.4.1.1
+       GNOME Terminal 3.14.2 (Default on Ubuntu 15.04)
+
+[YOCTO #7791]
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/classes/distrodata.bbclass | 125 ++++++++++++++++++++--------------------
- 1 file changed, 64 insertions(+), 61 deletions(-)
+ meta/lib/oe/terminal.py |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 092c372..0cefa7a 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -2,11 +2,16 @@ addhandler distro_eventhandler
- distro_eventhandler[eventmask] = "bb.event.BuildStarted"
- python distro_eventhandler() {
-     import oe.distro_check as dc
-+    import csv
-     logfile = dc.create_log_file(e.data, "distrodata.csv")
-+
-     lf = bb.utils.lockfile("%s.lock" % logfile)
--    f = open(logfile, "a")
--    f.write("Package,Description,Owner,License,VerMatch,Version,Upsteam,Reason,Recipe Status,Distro 1,Distro 2,Distro 3\n")
--    f.close()
-+    with open(logfile, "a") as f:
-+        writer = csv.writer(f)
-+        writer.writerow(['Package', 'Description', 'Owner', 'License', 
-+            'VerMatch', 'Version', 'Upsteam', 'Reason', 'Recipe Status',
-+            'Distro 1', 'Distro 2', 'Distro 3'])
-+        f.close()
-     bb.utils.unlockfile(lf)
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 4f5c611..52a8913 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -57,6 +57,12 @@ class Gnome(XTerminal):
+     priority = 2
  
-     return
-@@ -98,6 +103,7 @@ python do_distrodata_np() {
- addtask distrodata
- do_distrodata[nostamp] = "1"
- python do_distrodata() {
-+        import csv
-         logpath = d.getVar('LOG_DIR', True)
-         bb.utils.mkdirhier(logpath)
-         logfile = os.path.join(logpath, "distrodata.csv")
-@@ -176,14 +182,13 @@ python do_distrodata() {
-         result = dist_check.compare_in_distro_packages_list(distro_check_dir, localdata)
- 
-         lf = bb.utils.lockfile("%s.lock" % logfile)
--        f = open(logfile, "a")
--        f.write("%s,%s,%s,%s,%s,%s,%s,%s,%s" % \
--                  (pname, pdesc, maintainer, plicense, vermatch, pcurver, pupver, noupdate_reason, rstatus))
--        line = ""
--        for i in result:
--            line = line + "," + i
--        f.write(line + "\n")
--        f.close()
-+        with open(logfile, "a") as f:
-+            row = [pname, pdesc, maintainer, plicense, vermatch, pcurver, pupver, noupdate_reason, rstatus]
-+            row.extend(result)
+     def __init__(self, sh_cmd, title=None, env=None, d=None):
++        # Recent versions of gnome-terminal does not support non-UTF8 charset:
++        # https://bugzilla.gnome.org/show_bug.cgi?id=732127; as a workaround,
++        # clearing the LC_ALL environment variable so it uses the locale.
++        # Once fixed on the gnome-terminal project, this should be removed.
++        if os.getenv('LC_ALL'): os.putenv('LC_ALL','')
 +
-+            writer = csv.writer(f)
-+            writer.writerow(row)
-+            f.close()
-         bb.utils.unlockfile(lf)
- }
- 
-@@ -198,45 +203,33 @@ do_distrodataall() {
- addhandler checkpkg_eventhandler
- checkpkg_eventhandler[eventmask] = "bb.event.BuildStarted bb.event.BuildCompleted"
- python checkpkg_eventhandler() {
-+    import csv
-+
-     def parse_csv_file(filename):
-         package_dict = {}
--        fd = open(filename, "r")
--        lines = fd.read().rsplit("\n")
--        fd.close()
--
--        first_line = ''
--        index = 0
--        for line in lines:
--            #Skip the first line
--            if index == 0:
--                first_line = line
--                index += 1
--                continue
--            elif line == '':
--                continue
--            index += 1
--            package_name = line.rsplit("\t")[0]
--            if '-native' in package_name or 'nativesdk-' in package_name:
--                original_name = package_name.rsplit('-native')[0]
--                if original_name == '':
--                    original_name = package_name.rsplit('nativesdk-')[0]
--                if original_name in package_dict:
-+
-+        with open(filename, "r") as f:
-+            reader = csv.reader(f, delimiter='\t')
-+            for row in reader:
-+                pn = row[0]
-+
-+                if reader.line_num == 1:
-+                    header = row
-                     continue
--                else:
--                    package_dict[package_name] = line
--            else:
--                new_name = package_name + "-native"
--                if not(new_name in package_dict):
--                    new_name = 'nativesdk-' + package_name
--                if new_name in package_dict:
--                    del package_dict[new_name]
--                package_dict[package_name] = line
--
--        fd = open(filename, "w")
--        fd.write("%s\n"%first_line)
--        for el in package_dict:
--            fd.write(package_dict[el] + "\n")
--        fd.close()
-+
-+                if '-native' in pn or 'nativesdk-' in pn:
-+                    continue
-+
-+                if not pn in package_dict.keys():
-+                    package_dict[pn] = row
-+            f.close()
-+
-+        with open(filename, "w") as f:
-+            writer = csv.writer(f, delimiter='\t')
-+            writer.writerow(header)
-+            for pn in package_dict.keys():
-+                writer.writerow(package_dict[pn])
-+            f.close()
- 
-         del package_dict
- 
-@@ -245,9 +238,13 @@ python checkpkg_eventhandler() {
-         logfile = dc.create_log_file(e.data, "checkpkg.csv")
- 
-         lf = bb.utils.lockfile("%s.lock" % logfile)
--        f = open(logfile, "a")
--        f.write("Package\tVersion\tUpver\tLicense\tSection\tHome\tRelease\tDepends\tBugTracker\tPE\tDescription\tStatus\tTracking\tURI\tMAINTAINER\tNoUpReason\n")
--        f.close()
-+        with open(logfile, "a") as f:
-+            writer = csv.writer(f, delimiter='\t')
-+            headers = ['Package', 'Version', 'Upver', 'License', 'Section',
-+                'Home', 'Release', 'Depends', 'BugTracker', 'PE', 'Description',
-+                'Status', 'Tracking', 'URI', 'MAINTAINER', 'NoUpReason']
-+            writer.writerow(headers)
-+            f.close()
-         bb.utils.unlockfile(lf)
-     elif bb.event.getName(e) == "BuildCompleted":
-         import os
-@@ -263,6 +260,7 @@ addtask checkpkg
- do_checkpkg[nostamp] = "1"
- python do_checkpkg() {
-         localdata = bb.data.createCopy(d)
-+        import csv
-         import re
-         import tempfile
-         import subprocess
-@@ -375,10 +373,12 @@ python do_checkpkg() {
-         pdesc = "".join(pdesc.split("\t"))
-         no_upgr_reason = d.getVar('RECIPE_NO_UPDATE_REASON', True)
-         lf = bb.utils.lockfile("%s.lock" % logfile)
--        f = open(logfile, "a")
--        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % \
--                  (pname,pversion,pupver,plicense,psection, phome,prelease, pdepends,pbugtracker,ppe,pdesc,pstatus,pmver,psrcuri,maintainer, no_upgr_reason))
--        f.close()
-+        with open(logfile, "a") as f:
-+            writer = csv.writer(f, delimiter='\t')
-+            writer.writerow([pname, pversion, pupver, plicense, psection, phome, 
-+                prelease, pdepends, pbugtracker, ppe, pdesc, pstatus, pmver, 
-+                psrcuri, maintainer, no_upgr_reason])
-+            f.close()
-         bb.utils.unlockfile(lf)
- }
- 
-@@ -441,12 +441,14 @@ addhandler checklicense_eventhandler
- checklicense_eventhandler[eventmask] = "bb.event.BuildStarted"
- python checklicense_eventhandler() {
-     """initialize log files."""
-+    import csv
-     import oe.distro_check as dc
-     logfile = dc.create_log_file(e.data, "missinglicense.csv")
-     lf = bb.utils.lockfile("%s.lock" % logfile)
--    f = open(logfile, "a")
--    f.write("Package\tLicense\tMissingLicense\n")
--    f.close()
-+    with open(logfile, "a") as f:
-+        writer = csv.writer(f, delimiter='\t')
-+        writer.writerow(['Package', 'License', 'MissingLicense'])
-+        f.close()
-     bb.utils.unlockfile(lf)
-     return
- }
-@@ -454,6 +456,7 @@ python checklicense_eventhandler() {
- addtask checklicense
- do_checklicense[nostamp] = "1"
- python do_checklicense() {
-+    import csv
-     import shutil
-     logpath = d.getVar('LOG_DIR', True)
-     bb.utils.mkdirhier(logpath)
-@@ -466,10 +469,10 @@ python do_checklicense() {
-                           .replace(',', '').replace(" ", "").split("&"))):
-         if not os.path.isfile(os.path.join(generic_directory, license_type)):
-             lf = bb.utils.lockfile("%s.lock" % logfile)
--            f = open(logfile, "a")
--            f.write("%s\t%s\t%s\n" % \
--                (pn,license_types,license_type))
--            f.close()
-+            with open(logfile, "a") as f:
-+                writer = csv.writer(f, delimiter='\t')
-+                writer.writerow([pn, license_types, license_type])
-+                f.close()
-             bb.utils.unlockfile(lf)
-     return
- }
+         # Check version
+         vernum = check_terminal_version("gnome-terminal")
+         if vernum and LooseVersion(vernum) >= '3.10':
 -- 
-1.9.1
+1.7.10.4
 
 
