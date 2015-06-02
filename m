@@ -1,26 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D5367757EB
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D816756CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 14:48:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t52EmsOk027727
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Jun 2015 07:48:54 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 2 Jun 2015 07:48:54 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Jun 2015 07:48:48 -0700
-Message-ID: <87bf3bce34ee177a23c3b3a05647a7d83e1a0e9f.1433256486.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1433256486.git.liezhi.yang@windriver.com>
-References: <cover.1433256486.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/6] liberror-perl: 0.17023 -> 0.17024
+	Tue,  2 Jun 2015 15:55:44 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Jun 2015 08:55:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,540,1427785200"; d="scan'208";a="719405846"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2015 08:55:46 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 132D76A4005;
+	Tue,  2 Jun 2015 08:55:11 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Jun 2015 17:01:58 +0300
+Message-Id: <1433253725-14089-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH 0/7] wic: Fixed support of GPT partition table
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 14:48:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Jun 2015 15:55:47 -0000
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- ...or-perl_0.17023.bb => liberror-perl_0.17024.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/perl/{liberror-perl_0.17023.bb => liberror-perl_0.17024.bb} (83%)
+Hi,
 
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17023.bb b/meta/recipes-devtools/perl/liberror-perl_0.17024.bb
-similarity index 83%
-rename from meta/recipes-devtools/perl/liberror-perl_0.17023.bb
-rename to meta/recipes-devtools/perl/liberror-perl_0.17024.bb
-index 87684e1..6ae0e7e 100644
---- a/meta/recipes-devtools/perl/liberror-perl_0.17023.bb
-+++ b/meta/recipes-devtools/perl/liberror-perl_0.17024.bb
-@@ -13,8 +13,8 @@ DEPENDS += "perl"
- 
- SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "98524ffbd268013e00697a5826a83d37"
--SRC_URI[sha256sum] = "af48e19077d8837c6377d8a9ba2ce473c100caf5eeb7b53606c3f78a0e8b5d37"
-+SRC_URI[md5sum] = "7e3676a7fb14f65f568f12d4b40a2a72"
-+SRC_URI[sha256sum] = "074db7c783a67b0667eca64a4f6a0c3de94998afc92c01d6453163eb04b9150d"
- 
- S = "${WORKDIR}/Error-${PV}"
- 
--- 
-1.7.9.5
+This is a set of fixes for GPT partition table support in wic.
+Added new canned .wks and correspondent testcase were added to the codebase.
+
+Result direct-gpt core-minimal image was successfully booted on NUC.
+
+Ed Bartosh (7):
+  wic: set legacy_boot flag for gpt partitions
+  wic: check if part_type is set only for msdos partition table
+  wic: Add gpt to the list of supported partition table formats
+  wic: Use gptmbr.bin MBR for gpt partitions
+  wic: Make _ptable_format public
+  wic: create directdisk-gpt.wks
+  wic: Test creation of directdisk image with GPT table
+
+ meta/lib/oeqa/selftest/wic.py                       |  6 ++++++
+ scripts/lib/image/canned-wks/directdisk-gpt.wks     | 10 ++++++++++
+ scripts/lib/wic/imager/direct.py                    |  6 +++---
+ scripts/lib/wic/plugins/source/bootimg-efi.py       |  4 ++--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py    |  8 ++++++--
+ scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py | 12 ++++++++++--
+ scripts/lib/wic/utils/partitionedfs.py              |  4 ++--
+ 7 files changed, 39 insertions(+), 11 deletions(-)
+ create mode 100644 scripts/lib/image/canned-wks/directdisk-gpt.wks
+
+--
+Regards,
+Ed
 
 
