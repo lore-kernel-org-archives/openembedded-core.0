@@ -1,35 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ED4A757B5
+Return-Path: <changhyeok.bae@lge.com>
+Received: from lgeamrelo04.lge.com (lgeamrelo04.lge.com [156.147.1.127])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AAC5757E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 01:06:50 +0000 (UTC)
-Received: by pdbqa5 with SMTP id qa5so120362200pdb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jun 2015 18:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=VVsAIlGKAWZ7v/82pJsHeuMmHr+cJZy5D2k+kyx/GYY=;
-	b=e3VWgUwghuncLh6RBBXY9VhpfYL6RmPxDM6B2Z4HoBdRdfH8uX3ufOTn+Cs2JKMYYk
-	Q+TUw93dKfbri/pDaNznrj2jtknxev6ofQxW5UvDkqTUjwa3wMVUvTtoTQikG5tj3Koc
-	HeNcAxI8+skNY6j9HQbLZwjH4Pf3LFNd33m/+Z2q6TcggG4SF7ZPC7/AzSOzBm6NG0u3
-	5gWlnsWIQ/o9BnZlHRSQPwYoaYSKVVbV64Oh+s8i6rjYJgBiX3xqKc1Q0CI1FsvQgIjq
-	O/HgIJ4C1QKGdl1WCgNV1Xbe1FuM6F7Fm5Jep51rnklJqRD6R6s0okyxnywTanJaCR4G
-	LwWQ==
-X-Received: by 10.70.51.67 with SMTP id i3mr45393932pdo.145.1433207212007;
-	Mon, 01 Jun 2015 18:06:52 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id
-	ho10sm15507200pbc.27.2015.06.01.18.06.50
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 01 Jun 2015 18:06:51 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jun 2015 18:06:44 -0700
-Message-Id: <1433207204-20974-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] glibc: Fix __memcpy_chk on non-SSE2 CPUs
+	Tue,  2 Jun 2015 05:59:15 +0000 (UTC)
+Received: from unknown (HELO CHBae0915) (10.178.22.190)
+	by 156.147.1.127 with ESMTP; 2 Jun 2015 14:59:15 +0900
+X-Original-SENDERIP: 10.178.22.190
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: "Changhyeok Bae" <changhyeok.bae@lge.com>
+To: =?UTF-8?Q?'Jo=C3=A3o_Henrique_Ferreira_de_Freit?=
+	=?UTF-8?Q?as'?= <joaohf@gmail.com>
+References: <20150312143521.GD2338@jama>	<5501D4CA.2090209@r-finger.com>	<08f401d08df0$aba9be00$02fd3a00$@lge.com>	<CALbNGRReufGQXfR3eYqQKN6CRwhcEk5-EaeTfctenBdWeoYm_w@mail.gmail.com>	<CAJTo0La7EummgKK7-dp7oubo4XV_-yjn0WMbAysDJN4Btmah2A@mail.gmail.com>	<CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>	<0ba801d09359$ec479130$c4d6b390$@lge.com>
+	<556874C3.2050304@gmail.com>
+In-Reply-To: <556874C3.2050304@gmail.com>
+Date: Tue, 2 Jun 2015 14:59:21 +0900
+Message-ID: <02e101d09cf9$458099b0$d081cd10$@lge.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNAvfvmBMB68tUHQDnnVY9Am5MtZ8BvSizpQEGePGTnkCQvfA=
+Cc: =?UTF-8?B?7J2066qF6rWs?= <myonggu.lee@lge.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: meta-gir issues and maintenance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,78 +33,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 01:06:54 -0000
+X-List-Received-Date: Tue, 02 Jun 2015 05:59:17 -0000
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Language: ko
 
-Backport from upstream glibc:
+Hi, I changed forked repo to https://github.com/meta-gir/meta-gir and =
+changed some components matched with dizzy.
 
-  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=132a1328eccd20621b77f7810eebbeec0a1af187
+Please test again with latest version.
 
-Note that the fix is only required when glibc is built for i686/multiarch,
-so is not applicable in the default oe-core x86 configuration (which builds
-glibc for i586 and therefore does not include SSE2 optimised memcpy etc).
+Thanks
+Changhyeok
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- .../glibc/Fix-__memcpy_chk-on-non-SSE2-CPUs.patch  | 36 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.21.bb              |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/Fix-__memcpy_chk-on-non-SSE2-CPUs.patch
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org =
+[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of =
+Joao Henrique Ferreira de Freitas
+Sent: Friday, May 29, 2015 11:17 PM
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] meta-gir issues and maintenance
 
-diff --git a/meta/recipes-core/glibc/glibc/Fix-__memcpy_chk-on-non-SSE2-CPUs.patch b/meta/recipes-core/glibc/glibc/Fix-__memcpy_chk-on-non-SSE2-CPUs.patch
-new file mode 100644
-index 0000000..2e768bb
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/Fix-__memcpy_chk-on-non-SSE2-CPUs.patch
-@@ -0,0 +1,36 @@
-+From 132a1328eccd20621b77f7810eebbeec0a1af187 Mon Sep 17 00:00:00 2001
-+From: Evangelos Foutras <evangelos@foutrelis.com>
-+Date: Tue, 10 Feb 2015 03:22:58 +0000
-+Subject: [PATCH] Fix __memcpy_chk on non-SSE2 CPUs
-+
-+In commit 8b4416d, the 1: jump label in __mempcpy_chk was accidentally
-+moved.  This resulted in failures of mempcpy on CPU without SSE2.
-+
-+Upstream-Status: Backport
-+
-+  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=132a1328eccd20621b77f7810eebbeec0a1af187
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+
-+---
-+ sysdeps/i386/i686/multiarch/mempcpy_chk.S | 4 ++--
-+ 3 files changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/sysdeps/i386/i686/multiarch/mempcpy_chk.S b/sysdeps/i386/i686/multiarch/mempcpy_chk.S
-+index 207b648..b6fa202 100644
-+--- a/sysdeps/i386/i686/multiarch/mempcpy_chk.S
-++++ b/sysdeps/i386/i686/multiarch/mempcpy_chk.S
-+@@ -36,8 +36,8 @@ ENTRY(__mempcpy_chk)
-+ 	cmpl	$0, KIND_OFFSET+__cpu_features@GOTOFF(%ebx)
-+ 	jne	1f
-+ 	call	__init_cpu_features
-+-	leal	__mempcpy_chk_ia32@GOTOFF(%ebx), %eax
-+-1:	testl	$bit_SSE2, CPUID_OFFSET+index_SSE2+__cpu_features@GOTOFF(%ebx)
-++1:	leal	__mempcpy_chk_ia32@GOTOFF(%ebx), %eax
-++	testl	$bit_SSE2, CPUID_OFFSET+index_SSE2+__cpu_features@GOTOFF(%ebx)
-+ 	jz	2f
-+ 	leal	__mempcpy_chk_sse2_unaligned@GOTOFF(%ebx), %eax
-+ 	testl	$bit_Fast_Unaligned_Load, FEATURE_OFFSET+index_Fast_Unaligned_Load+__cpu_features@GOTOFF(%ebx)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
-index 03c5461..81b5a2b 100644
---- a/meta/recipes-core/glibc/glibc_2.21.bb
-+++ b/meta/recipes-core/glibc/glibc_2.21.bb
-@@ -27,6 +27,7 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
-            file://0001-yes-within-the-path-sets-wrong-config-variables.patch \
-            file://elf-Makefile-fix-a-typo.patch \
-            file://makesyscall.patch \
-+           file://Fix-__memcpy_chk-on-non-SSE2-CPUs.patch \
-            ${EGLIBCPATCHES} \
-            ${CVEPATCHES} \
-           "
--- 
-1.9.1
 
+Hi Changhyeok,
+
+Did you get this error when using meta-gir? In my case I am setting my =
+recipe to inherit the g-ir class.
+
+| checking for python script directory... (cached)
+${prefix}/lib/python2.7/site-packages
+| checking for python extension module directory... (cached)
+${exec_prefix}/lib/python2.7/site-packages
+| checking for python module thread... yes checking whether to enable=20
+| threading in pygobject... yes
+|=20
+/srv/yocto/build/fido/tmp/work/i586-poky-linux/python-pygobject/3.0.4-r0/=
+pygobject-3.0.4/configure:=20
+line 15892: ./libtool: No such file or directory
+| checking for i586-poky-linux-pkg-config...=20
+/srv/yocto/build/fido/tmp/sysroots/x86_64-linux/usr/bin/pkg-config
+| checking pkg-config is at least version 0.16... yes checking for GLIB=20
+| - version >=3D 2.24.0... cross compiling; assumed OK...
+| yes (version 2.42.1)
+| checking for ffi... checking for FFI... yes checking for GIO... yes=20
+| checking for GI... no
+| configure: error: Package requirements (glib-2.0 >=3D 2.24.0
+|     gobject-introspection-1.0 >=3D 1.29.0
+| ) were not met:
+|
+| No package 'gobject-introspection-1.0' found
+|
+| Consider adjusting the PKG_CONFIG_PATH environment variable if you=20
+| installed software in a non-standard prefix.
+|
+| Alternatively, you may set the environment variables GI_CFLAGS and=20
+| GI_LIBS to avoid the need to call pkg-config.
+| See the pkg-config man page for more details.
+| Configure failed. The contents of all config.log files follows to aid
+debugging
+| ERROR: oe_runconf failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_configure (log file is located at
+/srv/yocto/build/fido/tmp/work/i586-poky-linux/python-pygobject/3.0.4-r0/=
+temp/log.do_configure.13915)
+ERROR: Task 233
+(/home/joaohf/opensource/meta/meta-gir/meta-gir/recipes-gir/python-pygobj=
+ect/python-pygobject_3.0.4.bb,
+do_configure) failed with exit code '1'
+WARNING: QA Issue: libgirepository: configure was passed unrecognised
+options: --disable-schemas-install [unknown-configure-option]
+WARNING: QA Issue: g-ir-tools-native: configure was passed unrecognised
+options: --disable-schemas-install [unknown-configure-option]
+NOTE: Tasks Summary: Attempted 2578 tasks of which 2524 didn't need to =
+be rerun and 1 failed.
+Waiting for 0 running tasks to finish:
+
+Summary: 1 task failed:
+/home/joaohf/opensource/meta/meta-gir/meta-gir/recipes-gir/python-pygobje=
+ct/python-pygobject_3.0.4.bb,
+do_configure
+
+
+I am working to build mypaint (http://mypaint.intilinux.com/) which is=20
+hugely based on GI. Now I get lost.
+
+Thanks.
+
+On 20/05/2015 21:06, Changhyeok Bae wrote:
+> I forked meta-gir to https://github.com/locust2001/meta-gir and start =
+working from next week.
+>
+> -----Original Message-----
+> From: Andreas M=C3=BCller [mailto:schnitzeltony@googlemail.com]
+> Sent: Monday, May 18, 2015 8:46 PM
+> To: Burton, Ross
+> Cc: Changhyeok Bae; OE-core
+> Subject: Re: [OE-core] meta-gir issues and maintenance
+>
+> On Mon, May 18, 2015 at 1:00 PM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>> On 18 May 2015 at 09:00, Andreas M=C3=BCller =
+<schnitzeltony@googlemail.com>
+>> wrote:
+>>> I would appreciate to have the gintrospection more central - this
+>>> would give us a chance to get the gtk stuff out of stone age..
+>>
+>> Well, oe-core already has GTK+ 3, so we're "just" missing the =
+bindings
+>> to Python and JavaScript.
+> Sorry - I meant gnome not gtk.
+>> Changhyeok, you're welcome to fork meta-gir to your own repository =
+and
+>> work on it independently.  If you can update it so that it works with
+>> oe-core master then you're the new maintainer. :)
+>>
+> Andreas
+>
+> This email has been protected by YAC (Yet Another Cleaner) =
+http://www.yac.mx
+
+--=20
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
 
