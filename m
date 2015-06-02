@@ -1,27 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 97B6A756F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D475E73D88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 11:50:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t52BoTL5008935
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Jun 2015 04:50:29 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 2 Jun 2015 04:50:29 -0700
-Message-ID: <556D9883.5080803@windriver.com>
-Date: Tue, 2 Jun 2015 19:50:27 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue,  2 Jun 2015 12:23:25 +0000 (UTC)
+Received: by qgg60 with SMTP id 60so57844272qgg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Jun 2015 05:23:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DnJU4tJRPEtgi5tvQefU7JvyiU8TJseCMNBcTYXxS70=;
+	b=FS69ThxFGaA2QYyd4MxONz76Bd0+1brsodGC0z9TmB+3b3URJbhYMYyA6YRVuS1qUF
+	Vzl1y9mIH+pJ3mOgTdwWlom91VMJlXHXNiQt0lgEP7VRS6q+2GXwoKDcImyVeXQ41PZi
+	RQlZpdkAcSsBmmlfEHkZNyukvjBplagPkFGeXBxUDbPUF1+Il+tuZ0bwmB00WhCSvNNR
+	6e5YnRefMtXlL5eJK93VoSVtbsXE6xl/20OWz+8E2G/GL6xxtEy3/+QfpVM1JxW76Nj0
+	Xm15+QybCmANUBHmy2mMxcFOHMJbkHyA1oHIA596ygDm4somkpBa77qtuc4mICALga1E
+	RFBw==
+X-Gm-Message-State: ALoCoQnBg9TBzEJv7zruXumsO3U8COYo/4DFNEToTvvI3JupkNjnzocdDx3S4TcBjGvOu2+EsZsM
+X-Received: by 10.55.43.130 with SMTP id r2mr28448063qkr.14.1433247805751;
+	Tue, 02 Jun 2015 05:23:25 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 05:23:05 -0700 (PDT)
+In-Reply-To: <556D9883.5080803@windriver.com>
 References: <cover.1433137188.git.liezhi.yang@windriver.com>
 	<da6567b5a4f3e8de65f1c21dfc1ac9a8a52da84b.1433137188.git.liezhi.yang@windriver.com>
 	<CAJTo0LZCmxQgwTkjCgfnhxioQwS_1_D0cDnEr7mJ9r3OMBmiZA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZCmxQgwTkjCgfnhxioQwS_1_D0cDnEr7mJ9r3OMBmiZA@mail.gmail.com>
+	<556D9883.5080803@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Jun 2015 13:23:05 +0100
+Message-ID: <CAJTo0LZg85pRGOZ-ehYuOp2PtHEd+dDW2qfM6cLiMSud78FWiw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] btrfs-tools: 3.18.2 -> 4.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,50 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 11:50:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jun 2015 12:23:28 -0000
+Content-Type: multipart/alternative; boundary=001a1147afb0565add05178802ee
 
+--001a1147afb0565add05178802ee
+Content-Type: text/plain; charset=UTF-8
 
+On 2 June 2015 at 12:50, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-On 06/02/2015 06:30 PM, Burton, Ross wrote:
+> The patch I sent is a patch's patch, which means that this patch patches
+> fix-parallel.patch, after the patch is applied, the fix-parallel.patch is:
 >
-> On 1 June 2015 at 06:41, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     -       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
->     -MT $@ $(AM_CFLAGS) $(CFLAGS) >lt;
->     +       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
->     -MT $@ $(CFLAGS) >lt;
->
->
-> Pretty sure you don't mean to drop AM_CFLAGS there.
 
-Hi Ross,
+Yes, of course, sorry :)
 
-The patch I sent is a patch's patch, which means that this patch patches
-fix-parallel.patch, after the patch is applied, the fix-parallel.patch is:
+Ross
 
-diff --git a/Makefile.in b/Makefile.in
-index 860a390..8a6fbd7 100644
---- a/Makefile.in
-+++ b/Makefile.in
-@@ -142,7 +142,7 @@ else
-     check_echo = true
-  endif
+--001a1147afb0565add05178802ee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--%.o.d: %.c
-+%.o.d: %.c version.h
-     $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o) -MT $@ 
-$(CFLAGS) $<
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 June 2015 at 12:50, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":17u" clas=
+s=3D"a3s" style=3D"overflow:hidden">The patch I sent is a patch&#39;s patch=
+, which means that this patch patches<br>
+fix-parallel.patch, after the patch is applied, the fix-parallel.patch is:<=
+br></div></blockquote></div><br>Yes, of course, sorry :)</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-  .c.o:
-
-
-I think that there isn't anything wrong.
-
-// Robert
-
->
-> Ross
-
+--001a1147afb0565add05178802ee--
