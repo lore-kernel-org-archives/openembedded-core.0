@@ -1,26 +1,38 @@
-Return-Path: <changhyeok.bae@lge.com>
-Received: from lgeamrelo04.lge.com (lgeamrelo04.lge.com [156.147.1.127])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AAC5757E5
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BCFD757A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 05:59:15 +0000 (UTC)
-Received: from unknown (HELO CHBae0915) (10.178.22.190)
-	by 156.147.1.127 with ESMTP; 2 Jun 2015 14:59:15 +0900
-X-Original-SENDERIP: 10.178.22.190
-X-Original-MAILFROM: changhyeok.bae@lge.com
-From: "Changhyeok Bae" <changhyeok.bae@lge.com>
-To: =?UTF-8?Q?'Jo=C3=A3o_Henrique_Ferreira_de_Freit?=
-	=?UTF-8?Q?as'?= <joaohf@gmail.com>
-References: <20150312143521.GD2338@jama>	<5501D4CA.2090209@r-finger.com>	<08f401d08df0$aba9be00$02fd3a00$@lge.com>	<CALbNGRReufGQXfR3eYqQKN6CRwhcEk5-EaeTfctenBdWeoYm_w@mail.gmail.com>	<CAJTo0La7EummgKK7-dp7oubo4XV_-yjn0WMbAysDJN4Btmah2A@mail.gmail.com>	<CALbNGRQzOdn8mGX-8E+7f9RLttmnESqjBw86v2pV4KOJhxpEmQ@mail.gmail.com>	<0ba801d09359$ec479130$c4d6b390$@lge.com>
-	<556874C3.2050304@gmail.com>
-In-Reply-To: <556874C3.2050304@gmail.com>
-Date: Tue, 2 Jun 2015 14:59:21 +0900
-Message-ID: <02e101d09cf9$458099b0$d081cd10$@lge.com>
+	Tue,  2 Jun 2015 06:19:21 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
+   d="scan'208";a="96263305"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Jun 2015 14:23:44 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t526Hqr5004222;
+	Tue, 2 Jun 2015 14:17:52 +0800
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0181.006; Tue, 2 Jun 2015 14:19:23 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH v2 2/2] licenses.conf:Modified parameters for
+	new spdx.bbclass
+Thread-Index: AQHQmfRFqEwKg5SECUqr2L32sM3ZLp2SRm0AgAZp6VA=
+Date: Tue, 2 Jun 2015 06:19:28 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDB24165@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1432892712-25356-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<1432892712-25356-3-git-send-email-leimaohui@cn.fujitsu.com>
+	<1432897894.404.134.camel@linuxfoundation.org>
+In-Reply-To: <1432897894.404.134.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.26]
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQFJJzd33wMNl4fFEeoeYEhR/UHxBgHlFIsNAvfvmBMB68tUHQDnnVY9Am5MtZ8BvSizpQEGePGTnkCQvfA=
-Cc: =?UTF-8?B?7J2066qF6rWs?= <myonggu.lee@lge.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: meta-gir issues and maintenance
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] licenses.conf:Modified parameters for new spdx.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,131 +45,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 05:59:17 -0000
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Language: ko
+X-List-Received-Date: Tue, 02 Jun 2015 06:19:25 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi, I changed forked repo to https://github.com/meta-gir/meta-gir and =
-changed some components matched with dizzy.
-
-Please test again with latest version.
-
-Thanks
-Changhyeok
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of =
-Joao Henrique Ferreira de Freitas
-Sent: Friday, May 29, 2015 11:17 PM
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] meta-gir issues and maintenance
-
-
-Hi Changhyeok,
-
-Did you get this error when using meta-gir? In my case I am setting my =
-recipe to inherit the g-ir class.
-
-| checking for python script directory... (cached)
-${prefix}/lib/python2.7/site-packages
-| checking for python extension module directory... (cached)
-${exec_prefix}/lib/python2.7/site-packages
-| checking for python module thread... yes checking whether to enable=20
-| threading in pygobject... yes
-|=20
-/srv/yocto/build/fido/tmp/work/i586-poky-linux/python-pygobject/3.0.4-r0/=
-pygobject-3.0.4/configure:=20
-line 15892: ./libtool: No such file or directory
-| checking for i586-poky-linux-pkg-config...=20
-/srv/yocto/build/fido/tmp/sysroots/x86_64-linux/usr/bin/pkg-config
-| checking pkg-config is at least version 0.16... yes checking for GLIB=20
-| - version >=3D 2.24.0... cross compiling; assumed OK...
-| yes (version 2.42.1)
-| checking for ffi... checking for FFI... yes checking for GIO... yes=20
-| checking for GI... no
-| configure: error: Package requirements (glib-2.0 >=3D 2.24.0
-|     gobject-introspection-1.0 >=3D 1.29.0
-| ) were not met:
-|
-| No package 'gobject-introspection-1.0' found
-|
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you=20
-| installed software in a non-standard prefix.
-|
-| Alternatively, you may set the environment variables GI_CFLAGS and=20
-| GI_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-| Configure failed. The contents of all config.log files follows to aid
-debugging
-| ERROR: oe_runconf failed
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_configure (log file is located at
-/srv/yocto/build/fido/tmp/work/i586-poky-linux/python-pygobject/3.0.4-r0/=
-temp/log.do_configure.13915)
-ERROR: Task 233
-(/home/joaohf/opensource/meta/meta-gir/meta-gir/recipes-gir/python-pygobj=
-ect/python-pygobject_3.0.4.bb,
-do_configure) failed with exit code '1'
-WARNING: QA Issue: libgirepository: configure was passed unrecognised
-options: --disable-schemas-install [unknown-configure-option]
-WARNING: QA Issue: g-ir-tools-native: configure was passed unrecognised
-options: --disable-schemas-install [unknown-configure-option]
-NOTE: Tasks Summary: Attempted 2578 tasks of which 2524 didn't need to =
-be rerun and 1 failed.
-Waiting for 0 running tasks to finish:
-
-Summary: 1 task failed:
-/home/joaohf/opensource/meta/meta-gir/meta-gir/recipes-gir/python-pygobje=
-ct/python-pygobject_3.0.4.bb,
-do_configure
-
-
-I am working to build mypaint (http://mypaint.intilinux.com/) which is=20
-hugely based on GI. Now I get lost.
-
-Thanks.
-
-On 20/05/2015 21:06, Changhyeok Bae wrote:
-> I forked meta-gir to https://github.com/locust2001/meta-gir and start =
-working from next week.
->
-> -----Original Message-----
-> From: Andreas M=C3=BCller [mailto:schnitzeltony@googlemail.com]
-> Sent: Monday, May 18, 2015 8:46 PM
-> To: Burton, Ross
-> Cc: Changhyeok Bae; OE-core
-> Subject: Re: [OE-core] meta-gir issues and maintenance
->
-> On Mon, May 18, 2015 at 1:00 PM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->> On 18 May 2015 at 09:00, Andreas M=C3=BCller =
-<schnitzeltony@googlemail.com>
->> wrote:
->>> I would appreciate to have the gintrospection more central - this
->>> would give us a chance to get the gtk stuff out of stone age..
->>
->> Well, oe-core already has GTK+ 3, so we're "just" missing the =
-bindings
->> to Python and JavaScript.
-> Sorry - I meant gnome not gtk.
->> Changhyeok, you're welcome to fork meta-gir to your own repository =
-and
->> work on it independently.  If you can update it so that it works with
->> oe-core master then you're the new maintainer. :)
->>
-> Andreas
->
-> This email has been protected by YAC (Yet Another Cleaner) =
-http://www.yac.mx
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-This email has been protected by YAC (Yet Another Cleaner) http://www.yac.mx
+SGkgUmljaGFyZA0KDQo+ID4gK0NPUFlfTElDX01BTklGRVNUID0gIjEiDQo+IA0KPiBEaWQgeW91
+IG1lYW4gdG8gY2hhbmdlIHRoZXNlIGRlZmF1bHRzPw0KDQpTb3JyeSxpdCdzIG15IGZhdWx0LlRo
+aXMgb3B0aW9uIGlzIGZvciBsaWNlbnNlLmJiY2xhc3MsIHNob3VsZCBub3QgYmUgbW9kaWZpZWQu
+DQoNCj4gPiAgIyMgRm9zc29sb2d5IHNjYW4gaW5mb3JtYXRpb24NCj4gPiAgIyBZb3UgY2FuIHNl
+dCBvcHRpb24gdG8gY29udHJvbCBpZiB0aGUgY29weXJpZ2h0IGluZm9ybWF0aW9uIHdpbGwgYmUN
+Cj4gPiBza2lwcGVkICAjIGR1cmluZyB0aGUgaWRlbnRpZmljYXRpb24gcHJvY2Vzcy4NCj4gPiAg
+Iw0KPiA+ICAjIEl0IGlzIGRlZmluZWQgYXMgW0ZPU1NfQ09QWVJJR0hUXSBpbiAuL21ldGEvY29u
+Zi9saWNlbnNlcy5jb25mLg0KPiANCj4gWW91J3ZlIGxlZnQgdGhpcyBjb21tZW50IGluIGJ1dCBy
+ZW1vdmVkIGFsbCB0aGUgZXhhbXBsZSB2YXJpYWJsZXM/DQoNCkkgd2lsbCBtb2RpZmllZCB0aGlz
+IGNvbW1lbnQgZm9yIG5ldyBGT1NTX0NVUkxfRkxBR1MgdmFyaWFibGVzLg0KDQoNCj4gPiAtRk9T
+U19SRUNVUlNJVkVfVU5QQUNLID0gImZhbHNlIg0KPiANCj4gVGhpcyBpcyBhbm90aGVyIHJlbW92
+ZWQgb3B0aW9uLiBXaHk/DQo+ID4gLUZPU1NfRlVMTF9TUERYID0gInRydWUiDQo+IA0KPiBhbmQg
+bW9yZSByZW1vdmVkIGZ1bmN0aW9uYWxpdHk/DQo+ID4gK0ZPU1NfU0VSVkVSID89ICJodHRwOi8v
+MTI3LjAuMC4xL3JlcG8vIC0tbm9wcm94eSAxMjcuMC4wLjEiDQo+ID4gK0ZPU1NfQ1VSTF9GTEFH
+UyA/PSAiLUYgIm1vZD1zcGR4X2xpY2Vuc2Vfb25jZSIgLUYgIm5vQ29weXJpZ2h0PWZhbHNlIiAt
+Rg0KPiAianNvbk91dHB1dD1mYWxzZSIgLUYgImZ1bGxTUERYRmxhZz10cnVlIiINCj4gVGhpcyBh
+cHBlYXJzIHRvIGhhcmRjb2RlIHNvbWUgdGhpbmdzIHdoaWNoIHVzZWQgdG8gYmUgY29uZmlndXJh
+YmxlPw0KDQpJIHRoaW5rIGl0J3Mgbm8gbmVlZCB0byBtYWtlIHlvY3RvIHVzZXJzIGtub3cgZXZl
+cnkgb3B0aW9uIG9mIEZPU1NvbG9neS1zcGR4IGNvbW1hbmQgbGluZS4NCkl0IGlzIGEgZ29vZCB1
+c2VyIGV4cGVyaWVuY2UgdGhhdCB1c2VyIGNhbiBnZXQgYSBmdWxsIHNwZHggZmlsZSBvbmx5IHRv
+IGFkZCAiSU5IRVJJVCArPSAic3BkeCIgIi4NClNvIEkgdXNlIHRoZSB3aG9sZSBmb3Nzb2xvZ3kt
+c3BkeCBzdWdnZXN0cyBjb21tYW5kIGxpbmUgKGh0dHBzOi8vZ2l0aHViLmNvbS9zcGR4LXRvb2xz
+L2Zvc3NvbG9neS1zcGR4L3dpa2kvRm9zc29sb2d5LVNQRFgtV2ViLUFQSSApIGluc3RlYWQgb2Yg
+bWFrZSBldmVyeSBvcHRpb24gY29uZmlndXJhYmxlLg0KDQpDaGVlcnMgDQoNCkxlaQ0KDQoNCg0K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
+bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IEZyaWRheSwg
+TWF5IDI5LCAyMDE1IDc6MTIgUE0NCj4gVG86IExlaSwgTWFvaHVpDQo+IENjOiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
+W1BBVENIIHYyIDIvMl0gbGljZW5zZXMuY29uZjpNb2RpZmllZCBwYXJhbWV0ZXJzIGZvciBuZXcN
+Cj4gc3BkeC5iYmNsYXNzDQo+IA0KPiBPbiBGcmksIDIwMTUtMDUtMjkgYXQgMTc6NDUgKzA4MDAs
+IExlaSBNYW9odWkgd3JvdGU6DQo+IA0KPiBUaGVyZSBpcyBubyBsb25nZXIgZGVzY3JpcHRpb24g
+b2YgdGhlIGNoYW5nZXMgaGVyZSB3aGljaCBtYWtlcyBpdCB2ZXJ5IGhhcmQgdG8gZGVjaWRlIGlm
+DQo+IHlvdSBpbnRlbmRlZCB0byBjaGFuZ2Ugc29tZSBvZiB0aGUgdGhpbmdzIGJlbG93LiBUaGV5
+IGRvbid0IGFsbCBsb29rIHRvIGJlIHJlbGF0ZWQgdG8gdGhlDQo+IG5ldyBjbGFzcy4NCj4gDQo+
+ID4gU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0c3UuY29tPg0K
+PiA+IC0tLQ0KPiA+ICBtZXRhL2NvbmYvbGljZW5zZXMuY29uZiB8IDY1DQo+ID4gKysrKysrKysr
+KystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICAxIGZpbGUgY2hh
+bmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgNTEgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9jb25mL2xpY2Vuc2VzLmNvbmYgYi9tZXRhL2NvbmYvbGljZW5zZXMuY29uZiBp
+bmRleA0KPiA+IDYyOTkxNmIuLmI3MzI0NTEgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jb25mL2xp
+Y2Vuc2VzLmNvbmYNCj4gPiArKysgYi9tZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+IEBAIC0x
+MTUsNzUgKzExNSwzOCBAQCBTUERYTElDRU5TRU1BUFtTR0l2MV0gPSAiU0dJLTEiDQo+ID4gICMg
+TElDRU5TRV9QQVRIICs9ICIke0NPUkVCQVNFfS9jdXN0b20tbGljZW5zZXMiDQo+ID4NCj4gPiAg
+IyBTZXQgaWYgeW91IHdhbnQgdGhlIGxpY2Vuc2UubWFuaWZlc3QgY29waWVkIHRvIHRoZSBpbWFn
+ZQ0KPiA+IC0jQ09QWV9MSUNfTUFOSUZFU1QgPSAiMSINCj4gPiArQ09QWV9MSUNfTUFOSUZFU1Qg
+PSAiMSINCj4gDQo+IERpZCB5b3UgbWVhbiB0byBjaGFuZ2UgdGhlc2UgZGVmYXVsdHM/DQo+IA0K
+PiA+ICAjIElmIHlvdSB3YW50IHRoZSBwa2cgbGljZW5zZXMgY29waWVkIG92ZXIgYXMgd2VsbCB5
+b3UgbXVzdCBzZXQgICMNCj4gPiBib3RoIENPUFlfTElDX01BTklGRVNUIGFuZCBDT1BZX0xJQ19E
+SVJTIC0jQ09QWV9MSUNfRElSUyA9ICIxIg0KPiA+ICtDT1BZX0xJQ19ESVJTID0gIjEiDQo+ID4N
+Cj4gPiAgIyMgU1BEWCB0ZW1wb3JhcnkgZGlyZWN0b3J5DQo+ID4gLVNQRFhfVEVNUF9ESVIgPSAi
+JHtXT1JLRElSfS9zcGR4X3RlbXAiDQo+ID4gLVNQRFhfTUFOSUZFU1RfRElSID0gIi9ob21lL3lv
+Y3RvL2Zvc3NvbG9neV9zY2FucyINCj4gPiArU1BEWF9URU1QX0RJUiA/PSAiJHtXT1JLRElSfS9z
+cGR4X3RlbXAiDQo+ID4gK1NQRFhfTUFOSUZFU1RfRElSID89ICIvaG9tZS95b2N0by9mb3Nzb2xv
+Z3lfc2NhbnMiDQo+ID4NCj4gPiAgIyMgU1BEWCBGb3JtYXQgaW5mbw0KPiA+IC1TUERYX1ZFUlNJ
+T04gPSAiU1BEWC0xLjEiDQo+ID4gK1NQRFhfVkVSU0lPTiA9ICJTUERYLTEuMiINCj4gPiAgREFU
+QV9MSUNFTlNFID0gIkNDMC0xLjAiDQo+ID4gKyMjIElmIHlvdXIgZm9zc3lsb2d5IHNlcnZlciBp
+cyBmcm9tIDIuNC4wIHRvIDIuNi4xLHRoZQ0KPiA+ICtMSUNFTlNFTElTVFZFUlNJT04gaXMgMS4x
+OSAjIyBSZWZlcmVuY2UgdG8NCj4gPiAraHR0cDovL3d3dy5mb3Nzb2xvZ3kub3JnL3Byb2plY3Rz
+L2Zvc3NvbG9neS93aWtpL1JlbGVhc2VfTm90ZXMNCj4gPiArTElDRU5TRUxJU1RWRVJTSU9OID0g
+IjEuMTkiDQo+ID4gK0NSRUFUT1JfVE9PTCA9ICJ5b2N0bytmb3Nzb2xvZ3ktc3BkeCINCj4gPg0K
+PiA+ICAjIyBGb3Nzb2xvZ3kgc2NhbiBpbmZvcm1hdGlvbg0KPiA+ICAjIFlvdSBjYW4gc2V0IG9w
+dGlvbiB0byBjb250cm9sIGlmIHRoZSBjb3B5cmlnaHQgaW5mb3JtYXRpb24gd2lsbCBiZQ0KPiA+
+IHNraXBwZWQgICMgZHVyaW5nIHRoZSBpZGVudGlmaWNhdGlvbiBwcm9jZXNzLg0KPiA+ICAjDQo+
+ID4gICMgSXQgaXMgZGVmaW5lZCBhcyBbRk9TU19DT1BZUklHSFRdIGluIC4vbWV0YS9jb25mL2xp
+Y2Vuc2VzLmNvbmYuDQo+IA0KPiBZb3UndmUgbGVmdCB0aGlzIGNvbW1lbnQgaW4gYnV0IHJlbW92
+ZWQgYWxsIHRoZSBleGFtcGxlIHZhcmlhYmxlcz8NCj4gDQo+ID4gLSMgRk9TU19DT1BZUklHSFQg
+PSAidHJ1ZSINCj4gPiAtIyAgIE5PIGNvcHlyaWdodCB3aWxsIGJlIHByb2Nlc3NlZC4gVGhhdCBt
+ZWFucyBvbmx5IGxpY2Vuc2UgaW5mb3JtYXRpb24gd2lsbCBiZQ0KPiA+IC0jICAgaWRlbnRpZmll
+ZCBhbmQgb3V0cHV0IHRvIFNQRFggZmlsZQ0KPiA+IC0jIEZPU1NfQ09QWVJJR0hUID0gImZhbHNl
+Ig0KPiA+IC0jICAgQ29weXJpZ2h0IHdpbGwgYmUgaWRlbnRpZmllZCBhbmQgb3V0cHV0IHRvIFNQ
+RFggZmlsZSBhbG9uZyB3aXRoIGxpY2Vuc2UNCj4gPiAtIyAgIGluZm9ybWF0aW9uLiBUaGUgcHJv
+Y2VzcyB3aWxsIHRha2UgbW9yZSB0aW1lIHRoYW4gbm90IHByb2Nlc3NpbmcgY29weXJpZ2h0DQo+
+ID4gLSMgICBpbmZvcm1hdGlvbi4NCj4gPiAtIw0KPiA+IC0NCj4gPiAtRk9TU19OT19DT1BZUklH
+SFQgPSAidHJ1ZSINCj4gPg0KPiA+IC0jIEEgb3B0aW9uIGRlZmluZWQgYXNbRk9TU19SRUNVUlNJ
+VkVfVU5QQUNLXSBpbg0KPiA+IC4vbWV0YS9jb25mL2xpY2Vuc2VzLmNvbmYuIGlzIC0jIHVzZWQg
+dG8gY29udHJvbCBpZiBGT1NTb2xvZ3kgc2VydmVyDQo+ID4gbmVlZCByZWN1cnNpdmVseSB1bnBh
+Y2sgdGFyLmd6IGZpbGUgd2hpY2ggLSMgaXMgc2VudCBmcm9tIGRvX3NwZHggdGFzay4NCj4gPiAt
+Iw0KPiA+IC0jIEZPU1NfUkVDVVJTSVZFX1VOUEFDSyA9ICJmYWxzZSI6DQo+ID4gLSMgICAgRk9T
+U29sb2d5IHNlcnZlciBkb2VzIE5PVCByZWN1cnNpdmVseSB1bnBhY2suIEluIHRoZSBjdXJyZW50
+IHJlbGVhc2UsIHRoaXMNCj4gPiAtIyAgICBpcyB0aGUgZGVmYXVsdCBjaG9pY2UgYmVjYXVzZSBy
+ZWN1cnNpdmVseSB1bnBhY2sgd2lsbCBub3QgbmVjZXNzYXJpbHkgYnJlYWsNCj4gPiAtIyAgICBk
+b3duIG9yaWdpbmFsIGNvbXByZXNzZWQgZmlsZXMuDQo+ID4gLSMgRk9TU19SRUNVUlNJVkVfVU5Q
+QUNLID0gInRydWUiOg0KPiA+IC0jICAgIEZPU1NvbG9neSBzZXJ2ZXIgcmVjdXJzaXZlbHkgdW5w
+YWNrIGNvbXBvbmVudHMuDQo+ID4gLSMNCj4gPiAtDQo+ID4gLUZPU1NfUkVDVVJTSVZFX1VOUEFD
+SyA9ICJmYWxzZSINCj4gDQo+IFRoaXMgaXMgYW5vdGhlciByZW1vdmVkIG9wdGlvbi4gV2h5Pw0K
+PiANCj4gPiAtIyBBbiBvcHRpb24gZGVmaW5lZCBhcyBbRk9TU19GVUxMX1NQRFhdIGluIC4vbWV0
+YS9jb25mL2xpY2Vuc2VzLmNvbmYNCj4gPiBpcyB1c2VkIHRvIC0jIGNvbnRyb2wgd2hhdCBraW5k
+IG9mIFNQRFggb3V0cHV0IHRvIGdldCBmcm9tIHRoZSBGT1NTb2xvZ3kgc2VydmVyLg0KPiA+IC0j
+DQo+ID4gLSMgRk9TU19GVUxMX1NQRFggPSAidHJ1ZSI6DQo+ID4gLSMgICBUZWxsIEZPU1NvbG9n
+eSBzZXJ2ZXIgdG8gcmV0dXJuIGZ1bGwgU1BEWCBvdXRwdXQsIGxpa2UgaWYgdGhlIHByb2dyYW0g
+d2FzDQo+ID4gLSMgICBydW4gZnJvbSB0aGUgY29tbWFuZCBsaW5lLiBUaGlzIGlzIG5lZWRlZCBp
+biBvcmRlciB0byBnZXQgbGljZW5zZSByZWZzIGZvcg0KPiA+IC0jICAgdGhlIGZ1bGwgcGFja2Fn
+ZSByYXRoZXIgdGhhbiBpbmRpdmlkdWFsIGZpbGVzIG9ubHkuDQo+ID4gLSMNCj4gPiAtIyBGT1NT
+X0ZVTExfU1BEWCA9ICJmYWxzZSI6DQo+ID4gLSMgICBUZWxsIEZPU1NvbG9neSB0byBvbmx5IHBy
+b2Nlc3MgbGljZW5zZSBpbmZvcm1hdGlvbiBmb3IgZmlsZXMuIEFsbCBwYWNrYWdlDQo+ID4gLSMg
+ICBsaWNlbnNlIHRhZ3MgaW4gdGhlIHJlcG9ydCB3aWxsIGJlICJOT0FTU0VSVElPTiINCj4gPiAt
+Iw0KPiA+IC0NCj4gPiAtRk9TU19GVUxMX1NQRFggPSAidHJ1ZSINCj4gDQo+IGFuZCBtb3JlIHJl
+bW92ZWQgZnVuY3Rpb25hbGl0eT8NCj4gDQo+ID4gLSMgRk9TU29sb2d5U1BEWCBpbnN0YW5jZSBz
+ZXJ2ZXIuIGh0dHA6Ly9sb2NhbGhvc3QvcmVwbyBpcyB0aGUgZGVmYXVsdA0KPiA+IC0jIGluc3Rh
+bGxhdGlvbiBsb2NhdGlvbiBmb3IgRk9TU29sb2d5Lg0KPiA+IC0jDQo+ID4gKyMgRk9TU29sb2d5
+U1BEWCBpbnN0YW5jZSBzZXJ2ZXIuDQo+ID4gICMgRm9yIG1vcmUgaW5mb3JtYXRpb24gb24gRk9T
+U29sb2d5U1BEWCBjb21tYW5kbGluZToNCj4gPiAgIyAgIGh0dHBzOi8vZ2l0aHViLmNvbS9zcGR4
+LXRvb2xzL2Zvc3NvbG9neS1zcGR4L3dpa2kvRm9zc29sb2d5LVNQRFgtV2ViLUFQSQ0KPiA+IC0j
+DQo+ID4gKyMNCj4gPg0KPiA+IC1GT1NTX0JBU0VfVVJMID0gImh0dHA6Ly9sb2NhbGhvc3QvcmVw
+by8/bW9kPXNwZHhfbGljZW5zZV9vbmNlIg0KPiA+IC1GT1NTX1NFUlZFUiA9DQo+ICIke0ZPU1Nf
+QkFTRV9VUkx9JmZ1bGxTUERYRmxhZz0ke0ZPU1NfRlVMTF9TUERYfSZub0NvcHlyaWdodD0ke0ZP
+U1NfTg0KPiBPX0NPUFlSSUdIVH0mcmVjdXJzaXZlVW5wYWNrPSR7Rk9TU19SRUNVUlNJVkVfVU5Q
+QUNLfSINCj4gPiArIyBUaGUgZm9sbG93aW5nIGNvbW1uZCBpcyBzdWl0IGZvciB0aGUgRk9TU29s
+b2d5U1BEWCBpbnN0YW5jZSBzZXJ2ZXIgaW4gbG9jYWxob3N0Lg0KPiA+DQo+ID4gLUZPU1NfV0dF
+VF9GTEFHUyA9ICItcU8gLSAtLW5vLWNoZWNrLWNlcnRpZmljYXRlIC0tdGltZW91dD0wIg0KPiA+
+ICtGT1NTX1NFUlZFUiA/PSAiaHR0cDovLzEyNy4wLjAuMS9yZXBvLyAtLW5vcHJveHkgMTI3LjAu
+MC4xIg0KPiA+ICtGT1NTX0NVUkxfRkxBR1MgPz0gIi1GICJtb2Q9c3BkeF9saWNlbnNlX29uY2Ui
+IC1GICJub0NvcHlyaWdodD1mYWxzZSIgLUYNCj4gImpzb25PdXRwdXQ9ZmFsc2UiIC1GICJmdWxs
+U1BEWEZsYWc9dHJ1ZSIiDQo+IA0KPiBUaGlzIGFwcGVhcnMgdG8gaGFyZGNvZGUgc29tZSB0aGlu
+Z3Mgd2hpY2ggdXNlZCB0byBiZSBjb25maWd1cmFibGU/DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBS
+aWNoYXJkDQo+IA0KDQo=
 
