@@ -1,32 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 80A6D756CB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B6A756F0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 11:30:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t52BUnT5001438; Tue, 2 Jun 2015 12:30:49 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id p40TYanIPS6b; Tue,  2 Jun 2015 12:30:49 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t52BUag2001435
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 2 Jun 2015 12:30:47 +0100
-Message-ID: <1433244636.404.191.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Musat, George L" <george.l.musat@intel.com>
-Date: Tue, 02 Jun 2015 12:30:36 +0100
-In-Reply-To: <042E875E1B5D414CA9BB78B7D4FA691C2671384A@IRSMSX107.ger.corp.intel.com>
-References: <1432898941-1148-1-git-send-email-george.l.musat@intel.com>
-	<1433021213.404.150.camel@linuxfoundation.org>
-	<042E875E1B5D414CA9BB78B7D4FA691C2671384A@IRSMSX107.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/parselogs: Added another batch of errors to the whitelist.
+	Tue,  2 Jun 2015 11:50:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t52BoTL5008935
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Jun 2015 04:50:29 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 2 Jun 2015 04:50:29 -0700
+Message-ID: <556D9883.5080803@windriver.com>
+Date: Tue, 2 Jun 2015 19:50:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1433137188.git.liezhi.yang@windriver.com>
+	<da6567b5a4f3e8de65f1c21dfc1ac9a8a52da84b.1433137188.git.liezhi.yang@windriver.com>
+	<CAJTo0LZCmxQgwTkjCgfnhxioQwS_1_D0cDnEr7mJ9r3OMBmiZA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZCmxQgwTkjCgfnhxioQwS_1_D0cDnEr7mJ9r3OMBmiZA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] btrfs-tools: 3.18.2 -> 4.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,23 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 11:30:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Jun 2015 11:50:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-06-02 at 09:50 +0000, Musat, George L wrote:
-> Hi Richard,
-> 
-> Are you sure it's this patches fault for that? I only added some more
-> errors to the lists. Also I tested the patch locally and runs fine on
-> qemux86 master. For the Centos it looks like a network problem
-> occurred half way into the tests.
 
-I saw the same error locally, when I reverted the patch it went away so
-I'm pretty sure it was from this patch, yes.
 
-Cheers,
+On 06/02/2015 06:30 PM, Burton, Ross wrote:
+>
+> On 1 June 2015 at 06:41, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     -       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
+>     -MT $@ $(AM_CFLAGS) $(CFLAGS) >lt;
+>     +       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
+>     -MT $@ $(CFLAGS) >lt;
+>
+>
+> Pretty sure you don't mean to drop AM_CFLAGS there.
 
-Richard
+Hi Ross,
 
+The patch I sent is a patch's patch, which means that this patch patches
+fix-parallel.patch, after the patch is applied, the fix-parallel.patch is:
+
+diff --git a/Makefile.in b/Makefile.in
+index 860a390..8a6fbd7 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -142,7 +142,7 @@ else
+     check_echo = true
+  endif
+
+-%.o.d: %.c
++%.o.d: %.c version.h
+     $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o) -MT $@ 
+$(CFLAGS) $<
+
+  .c.o:
+
+
+I think that there isn't anything wrong.
+
+// Robert
+
+>
+> Ross
 
