@@ -1,26 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B2791757C7
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D1DF75723
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 09:06:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5296KG4004726
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Jun 2015 02:06:20 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 2 Jun 2015 02:06:20 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Jun 2015 02:06:19 -0700
-Message-ID: <47b67620bc14f8d8be1d8d3396ce45c8b6c68da9.1433235955.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1433235955.git.liezhi.yang@windriver.com>
-References: <cover.1433235955.git.liezhi.yang@windriver.com>
+	Tue,  2 Jun 2015 09:50:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2015 02:50:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,538,1427785200"; d="scan'208";a="580544618"
+Received: from irsmsx106.ger.corp.intel.com ([163.33.3.31])
+	by orsmga003.jf.intel.com with ESMTP; 02 Jun 2015 02:50:06 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.94]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.189]) with mapi id
+	14.03.0224.002; Tue, 2 Jun 2015 10:50:05 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] oeqa/parselogs: Added another batch of
+	errors to the whitelist.
+Thread-Index: AQHQmgLIqjW1fwJ/dk+G9nX+r3x6Up2U+eiAgAQDG2A=
+Date: Tue, 2 Jun 2015 09:50:03 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C2671384A@IRSMSX107.ger.corp.intel.com>
+References: <1432898941-1148-1-git-send-email-george.l.musat@intel.com>
+	<1433021213.404.150.camel@linuxfoundation.org>
+In-Reply-To: <1433021213.404.150.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] packagegroup-core-full-cmdline: remove lighttpd
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa/parselogs: Added another batch of errors to the whitelist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 09:06:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Jun 2015 09:50:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The packagegroup-core-full-cmdline-sys-services should not pull in
-lighttpd, move it to packagegroup-core-lsb since lsb needs it.
-
-[YOCTO #7086]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../packagegroup-core-full-cmdline.bb              |    1 -
- .../packagegroups/packagegroup-core-lsb.bb         |    1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-index ad3f240..1d7e608 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-@@ -150,7 +150,6 @@ RDEPENDS_packagegroup-core-full-cmdline-sys-services = "\
-     less \
-     libcap \
-     libevent \
--    lighttpd \
-     logrotate \
-     nfs-utils \
-     pciutils \
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 3d5075e..31b71e2 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -57,6 +57,7 @@ RDEPENDS_packagegroup-core-sys-extended = "\
-     dhcp-client \
-     gamin \
-     hdparm \
-+    lighttpd \
-     libaio \
-     lrzsz \
-     lzo \
--- 
-1.7.9.5
-
+SGkgUmljaGFyZCwNCg0KQXJlIHlvdSBzdXJlIGl0J3MgdGhpcyBwYXRjaGVzIGZhdWx0IGZvciB0
+aGF0PyBJIG9ubHkgYWRkZWQgc29tZSBtb3JlIGVycm9ycyB0byB0aGUgbGlzdHMuIEFsc28gSSB0
+ZXN0ZWQgdGhlIHBhdGNoIGxvY2FsbHkgYW5kIHJ1bnMgZmluZSBvbiBxZW11eDg2IG1hc3Rlci4g
+Rm9yIHRoZSBDZW50b3MgaXQgbG9va3MgbGlrZSBhIG5ldHdvcmsgcHJvYmxlbSBvY2N1cnJlZCBo
+YWxmIHdheSBpbnRvIHRoZSB0ZXN0cy4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZy
+b206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9u
+Lm9yZ10gDQpTZW50OiBTdW5kYXksIE1heSAzMSwgMjAxNSAxMjoyNyBBTQ0KVG86IE11c2F0LCBH
+ZW9yZ2UgTA0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBvZXFhL3BhcnNlbG9nczogQWRkZWQgYW5vdGhl
+ciBiYXRjaCBvZiBlcnJvcnMgdG8gdGhlIHdoaXRlbGlzdC4NCg0KT24gRnJpLCAyMDE1LTA1LTI5
+IGF0IDE0OjI5ICswMzAwLCBMdWNpYW4gTXVzYXQgd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IEx1
+Y2lhbiBNdXNhdCA8Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPg0KPiAtLS0NCj4gIG1ldGEvbGli
+L29lcWEvcnVudGltZS9wYXJzZWxvZ3MucHkgfCAxNSArKysrKysrKysrKy0tLS0NCj4gIDEgZmls
+ZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KDQpUaGlzIGFwcGVh
+cnMgdG8gYnJlYWtzIHRoaW5nczoNCmh0dHA6Ly9lcnJvcnMueW9jdG9wcm9qZWN0Lm9yZy9FcnJv
+cnMvU2VhcmNoL0FyZ3MvP2l0ZW1zPTEwJnF1ZXJ5PTNiYWI2MTI3NzU4ODU0NTQyZTA3ZWRhY2Fl
+Yjg0OWIzMGIwZGNhODYNCg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0K
 
