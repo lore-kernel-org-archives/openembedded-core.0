@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 265987564A
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id CECE17564A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 10:29:17 +0000 (UTC)
-Received: by qcej9 with SMTP id j9so14700566qce.1
+	Tue,  2 Jun 2015 10:31:11 +0000 (UTC)
+Received: by qczw4 with SMTP id w4so33236258qcz.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jun 2015 03:29:18 -0700 (PDT)
+	Tue, 02 Jun 2015 03:31:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=+whV0k4A4DeLQnAM3kghArjNBWRW79dRmuE6yPyr8dA=;
-	b=hLbL7J0tRqU0PtTgKfDE80Fesm63qol3Mp8IBz/Iv330K2fDeF396Z7HL6NgX7J+/D
-	FUTt1KxpoiRwXZfRvDog2Zbr7LXJxpvM4NPVpvWsuNOOuCG/mWYC3jky9gunp/URMqdq
-	A4Z5zzHN2Qd8vP8BTqaQIBTr9RQHQQ+ddep0kK5Y5QRFbgbZSGT9Yam2ol6gKY5Lp4G9
-	c7JhGk+v9UM/7JTu4+hXLou7FoNYLkWMV2SnkcA5POEAadTZiQA59lXd8k1J6k2Jk44O
-	kws2MRgi3D7gPEvN+X0CaiRDhYrwAGgn8GLThcOk1Qg93UwVx801VK23Rh1nBcKHM7iU
-	RsBg==
-X-Gm-Message-State: ALoCoQnNcNtWmg6aqXbgWP5baypdpj+G3/QItYo+DTYOG52IQuPYBf3fEqPZH5xJPo0AV3lRUOBH
-X-Received: by 10.140.235.19 with SMTP id g19mr28956602qhc.52.1433240958797;
-	Tue, 02 Jun 2015 03:29:18 -0700 (PDT)
+	bh=wbdCC74gmHc3Sh8NqBvTkqI1AvquS7PV40YgkhNU2rc=;
+	b=YPndxkq0bQ/dnffN8ajcewa59eD97AvkT+ZACsu8XBivN4DmEEhg5f0h8+jQh7vZKR
+	ueRFAHDHfwqqJoeS5DNuGpE/GEGANp+6UByVuym+F9R8mqHjwnyeK8HktRQ5xnauUqAb
+	m4HR2zcxNmVggIrB+P+UlUp9i2FJGSFgNDN8IEGS1B0FqIBIkOrZ4DVyq1nt981Ny1ab
+	nVBsFB4tOvDTHf4Vi0KdGksR8Rs3UANdthZcZVgkeuBlUqBIJEG4tdr7IXRhZwmkJO/T
+	hCJyUyfmVio5RhkP412MKwkAh/lVfvei+Nm2Dvz+2A38vd4rOlzw6rwys7UdfAfpGeWB
+	TuHg==
+X-Gm-Message-State: ALoCoQkdK3lRIeg1GfQJb8TqyUC1N0vMhwmEFh0J8vFxAph1PEotrkkiunTbrwGB8iJyMXPCG7LS
+X-Received: by 10.55.18.155 with SMTP id 27mr46475714qks.36.1433241072734;
+	Tue, 02 Jun 2015 03:31:12 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 03:28:58 -0700 (PDT)
-In-Reply-To: <1433143433-528-2-git-send-email-kai.kang@windriver.com>
-References: <1433143433-528-1-git-send-email-kai.kang@windriver.com>
-	<1433143433-528-2-git-send-email-kai.kang@windriver.com>
+Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 03:30:52 -0700 (PDT)
+In-Reply-To: <da6567b5a4f3e8de65f1c21dfc1ac9a8a52da84b.1433137188.git.liezhi.yang@windriver.com>
+References: <cover.1433137188.git.liezhi.yang@windriver.com>
+	<da6567b5a4f3e8de65f1c21dfc1ac9a8a52da84b.1433137188.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jun 2015 11:28:58 +0100
-Message-ID: <CAJTo0Lbj24HwbrH+YQpOgFbQi4q=jG52qv2Dse6bzVsvaWaX_A@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
+Date: Tue, 2 Jun 2015 11:30:52 +0100
+Message-ID: <CAJTo0LZCmxQgwTkjCgfnhxioQwS_1_D0cDnEr7mJ9r3OMBmiZA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-tools: remove hdajacksensetest for framebuffer build
+Subject: Re: [PATCH 1/1] btrfs-tools: 3.18.2 -> 4.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 10:29:21 -0000
-Content-Type: multipart/alternative; boundary=001a11376dac3a22700517866acb
+X-List-Received-Date: Tue, 02 Jun 2015 10:31:15 -0000
+Content-Type: multipart/alternative; boundary=001a1147379604a95a051786714e
 
---001a11376dac3a22700517866acb
+--001a1147379604a95a051786714e
 Content-Type: text/plain; charset=UTF-8
 
-On 1 June 2015 at 08:23, Kai Kang <kai.kang@windriver.com> wrote:
+On 1 June 2015 at 06:41, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> Sub-component hdajacksensetest in alsa-tools requires library glib, so
-> remove it when do framebuffer build.
+> -       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
+> -MT $@ $(AM_CFLAGS) $(CFLAGS) >lt;
+> +       $(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=.o) -MT $(@:.o.d=.static.o)
+> -MT $@ $(CFLAGS) >lt;
 >
 
-glib doesn't depend on X11, so just add glib-2.0 to DEPENDS instead.
+Pretty sure you don't mean to drop AM_CFLAGS there.
 
 Ross
 
---001a11376dac3a22700517866acb
+--001a1147379604a95a051786714e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 June 2015 at 08:23, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
-ai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1fm" class=3D"a3s"=
- style=3D"overflow:hidden">Sub-component hdajacksensetest in alsa-tools req=
-uires library glib, so<br>
-remove it when do framebuffer build.<br></div></blockquote></div><br>glib d=
-oesn&#39;t depend on X11, so just add glib-2.0 to DEPENDS instead.</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+On 1 June 2015 at 06:41, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"">-=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0$(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=3D.o) -MT $(@=
+:.o.d=3D.static.o) -MT $@ $(AM_CFLAGS) $(CFLAGS) &gt;lt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q)$(CC) -MM -MG -MF $@ -MT $(@:.o.d=3D.o) -MT=
+ $(@:.o.d=3D.static.o) -MT $@ $(CFLAGS) &gt;lt;</div></blockquote></div><br=
+>Pretty sure you don&#39;t mean to drop AM_CFLAGS there.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11376dac3a22700517866acb--
+--001a1147379604a95a051786714e--
