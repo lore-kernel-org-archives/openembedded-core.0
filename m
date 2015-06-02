@@ -1,25 +1,36 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 53555757B5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FA53756F0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 15:56:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2015 08:56:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,540,1427785200"; d="scan'208";a="704019189"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2015 08:56:05 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id E73D06A4005;
-	Tue,  2 Jun 2015 08:55:30 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jun 2015 17:02:05 +0300
-Message-Id: <1433253725-14089-8-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1433253725-14089-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1433253725-14089-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 7/7] wic: Test creation of directdisk image with GPT table
+	Tue,  2 Jun 2015 16:23:17 +0000 (UTC)
+Received: by qkoo18 with SMTP id o18so103909454qko.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Jun 2015 09:23:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=D8BdtFeVUDnBD52LtPfj5voS7jkheH60LsblIMvvGwU=;
+	b=NfufWXSg/DNOk+LWbiHe1GcPplEuSmS6KMbnXYdXKsCs9YjsmPLIJAuyx9wR5cNa2D
+	oudkCYuYljXefr7uiSlrFlCO+z2ViEDi+xLwIzfA4vAv816cpOK790L8P271QvHXp0fr
+	/IRO9pbH9hfPE7fm2tzfqCOdp3AK0LA/TR1E+6GU2C0+RxgHwAVbUFvVbrHCqAQWz9gN
+	6NlWJ98h4y3zHbOqPTawVeKcDnaUGIRGbFOl79lXojT5hohQcz7CxzgmnuObG5rgWOrW
+	zk9/JoU3g5UsQWRzdZzMrbP7sfCk+l8uEtT05v0RviTiMc9t3vQUEru9NxN3YBVuxrE7
+	XuRw==
+X-Gm-Message-State: ALoCoQlT4BAbzny2opBHdAyQGj4B21dTu9AFVnwliwuFC1gKnnFtHPM8khpf5lI82errzGV5cAyB
+X-Received: by 10.55.40.18 with SMTP id o18mr49775953qkh.58.1433262198093;
+	Tue, 02 Jun 2015 09:23:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 09:22:57 -0700 (PDT)
+In-Reply-To: <1432592959-11553-1-git-send-email-soren.brinkmann@xilinx.com>
+References: <1432592959-11553-1-git-send-email-soren.brinkmann@xilinx.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Jun 2015 17:22:57 +0100
+Message-ID: <CAJTo0LYwXZ2KsGay0Q0sRKbUUZXdCendjTXkCYdH5ycdkAtSYA@mail.gmail.com>
+To: Soren Brinkmann <soren.brinkmann@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] dosfstools: Add recipe for v3.0.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 15:56:03 -0000
+X-List-Received-Date: Tue, 02 Jun 2015 16:23:22 -0000
+Content-Type: multipart/alternative; boundary=001a11440fb83029ba05178b5c24
 
-Added new wic testcase to the sute - creation of directdisk-gpt
-image.
+--001a11440fb83029ba05178b5c24
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+On 25 May 2015 at 23:29, Soren Brinkmann <soren.brinkmann@xilinx.com> wrote=
+:
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index a2ce2cb..e97dd1d 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -73,3 +73,9 @@ class Wic(oeSelfTest):
-                                    "-r tmp/work/qemux86-poky-linux/"
-                                    "core-image-minimal/1.0-r0/rootfs").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+
-+    def test06_gpt_image(self):
-+        """Test creation of core-image-minimal with gpt table"""
-+        self.assertEqual(0, runCmd("wic create directdisk-gpt "
-+                                   "--image-name core-image-minimal").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
--- 
-2.1.4
+> +++ b/meta/recipes-devtools/dosfstools/dosfstools.inc
+> @@ -0,0 +1,8 @@
+> +# dosfstools OE build file
+> +# Copyright (C) 2015, S=C3=B6ren Brinkmann <soeren.brinkmann@gmail>  All
+> Rights Reserved
+> +# Released under the MIT license (see packages/COPYING)
+> +
+> +SUMMARY =3D "DOS FAT Filesystem Utilities"
+> +SECTION =3D "base"
+> +
+> +BBCLASSEXTEND =3D "native"
+>
 
+Is it really worth having a .inc file for three lines?  Also, the makefile
+still respects MANDIR so we should continue passing it in as dosfstools 2.x
+does.
 
+Ross
+
+--001a11440fb83029ba05178b5c24
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 May 2015 at 23:29, Soren Brinkmann <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:soren.brinkmann@xilinx.com" target=3D"_blank">soren.brinkmann@xilinx.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3uq=
+" class=3D"a3s" style=3D"overflow:hidden">+++ b/meta/recipes-devtools/<span=
+ class=3D"il">dosfstools</span>/<span class=3D"il">dosfstools</span>.inc<br=
+>
+@@ -0,0 +1,8 @@<br>
++# <span class=3D"il">dosfstools</span> OE build file<br>
++# Copyright (C) 2015, S=C3=B6ren Brinkmann &lt;soeren.brinkmann@gmail&gt;=
+=C2=A0 All Rights Reserved<br>
++# Released under the MIT license (see packages/COPYING)<br>
++<br>
++SUMMARY =3D &quot;DOS FAT Filesystem Utilities&quot;<br>
++SECTION =3D &quot;base&quot;<br>
++<br>
++BBCLASSEXTEND =3D &quot;native&quot;</div></blockquote></div><br>Is it rea=
+lly worth having a .inc file for three lines?=C2=A0 Also, the makefile stil=
+l respects MANDIR so we should continue passing it in as dosfstools 2.x doe=
+s.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
+
+--001a11440fb83029ba05178b5c24--
