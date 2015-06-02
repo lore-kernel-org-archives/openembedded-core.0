@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A72467564A
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 265987564A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 10:24:01 +0000 (UTC)
-Received: by qkhq76 with SMTP id q76so69589698qkh.2
+	Tue,  2 Jun 2015 10:29:17 +0000 (UTC)
+Received: by qcej9 with SMTP id j9so14700566qce.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jun 2015 03:24:03 -0700 (PDT)
+	Tue, 02 Jun 2015 03:29:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=ZKohZ1UvwNu4MZ0KqWx8mSZhaJ2PLsdVKIyf+xQ09eM=;
-	b=PIc5RXZHc7sPmcsAnh7iiRoJPL5mDHDC3laryCo5dzwPCB+4xo0aLTJ2fmiDOrOU0a
-	d86qoVkHyMpSDs+R+UiPo6SvGVXBHV/snlBqC3nQKTzSi7IP7KpYQ4BtT8LEiq4xYjQP
-	3y2Gbsz2iMc/e2lFipfY8pIT56KE3rbvi7ppEuDnl1GF5ZRM1L6elrDA/JxUxjGNdAkF
-	i/6sfIX+NLPDe2NMW9DHgKh8ZuWe++gCyin10akXmrQfCKIDaDLOvxDIquz+IHLrh3yr
-	QQtrS8KLnoqLAH8QZj/a78onVYknDXeY/PRazlNfpE4GiUenV3dC6u+Cp1C5u08uXU9t
-	f3gg==
-X-Gm-Message-State: ALoCoQkyBOimGpcEZiUmF4K4WzmT5FG6Lrgzs6pLNY5DDBSzOwYa35EKfs4L/pygbcIsLdIGuZwO
-X-Received: by 10.55.40.18 with SMTP id o18mr46225497qkh.58.1433240643195;
-	Tue, 02 Jun 2015 03:24:03 -0700 (PDT)
+	bh=+whV0k4A4DeLQnAM3kghArjNBWRW79dRmuE6yPyr8dA=;
+	b=hLbL7J0tRqU0PtTgKfDE80Fesm63qol3Mp8IBz/Iv330K2fDeF396Z7HL6NgX7J+/D
+	FUTt1KxpoiRwXZfRvDog2Zbr7LXJxpvM4NPVpvWsuNOOuCG/mWYC3jky9gunp/URMqdq
+	A4Z5zzHN2Qd8vP8BTqaQIBTr9RQHQQ+ddep0kK5Y5QRFbgbZSGT9Yam2ol6gKY5Lp4G9
+	c7JhGk+v9UM/7JTu4+hXLou7FoNYLkWMV2SnkcA5POEAadTZiQA59lXd8k1J6k2Jk44O
+	kws2MRgi3D7gPEvN+X0CaiRDhYrwAGgn8GLThcOk1Qg93UwVx801VK23Rh1nBcKHM7iU
+	RsBg==
+X-Gm-Message-State: ALoCoQnNcNtWmg6aqXbgWP5baypdpj+G3/QItYo+DTYOG52IQuPYBf3fEqPZH5xJPo0AV3lRUOBH
+X-Received: by 10.140.235.19 with SMTP id g19mr28956602qhc.52.1433240958797;
+	Tue, 02 Jun 2015 03:29:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 03:23:42 -0700 (PDT)
-In-Reply-To: <cover.1433167180.git.akuster808@gmail.com>
-References: <cover.1433167180.git.akuster808@gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 2 Jun 2015 03:28:58 -0700 (PDT)
+In-Reply-To: <1433143433-528-2-git-send-email-kai.kang@windriver.com>
+References: <1433143433-528-1-git-send-email-kai.kang@windriver.com>
+	<1433143433-528-2-git-send-email-kai.kang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jun 2015 11:23:42 +0100
-Message-ID: <CAJTo0LZHhxEYk2m4_gS_THgssWF9cVHGULprcrUEwoeQjk1C2Q@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+Date: Tue, 2 Jun 2015 11:28:58 +0100
+Message-ID: <CAJTo0Lbj24HwbrH+YQpOgFbQi4q=jG52qv2Dse6bzVsvaWaX_A@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Gnutls 3.4.1 update
+Subject: Re: [PATCH] alsa-tools: remove hdajacksensetest for framebuffer build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 10:24:05 -0000
-Content-Type: multipart/alternative; boundary=001a11440fb86a5d8605178657b3
+X-List-Received-Date: Tue, 02 Jun 2015 10:29:21 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac3a22700517866acb
 
---001a11440fb86a5d8605178657b3
+--001a11376dac3a22700517866acb
 Content-Type: text/plain; charset=UTF-8
 
-Hi Armin,
+On 1 June 2015 at 08:23, Kai Kang <kai.kang@windriver.com> wrote:
 
-On 1 June 2015 at 15:12, Armin Kuster <akuster808@gmail.com> wrote:
-
-> core-image-minimal builds but not sato or oe-core world. I am providing
-> this so those who want can test their apps with these changes.
+> Sub-component hdajacksensetest in alsa-tools requires library glib, so
+> remove it when do framebuffer build.
 >
 
-What's the scale of the breakage when building oe-core world?
+glib doesn't depend on X11, so just add glib-2.0 to DEPENDS instead.
 
 Ross
 
---001a11440fb86a5d8605178657b3
+--001a11376dac3a22700517866acb
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Armin,</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
-On 1 June 2015 at 15:12, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 June 2015 at 08:23, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
+ai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</sp=
 an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1h6" class=3D"a3s"=
- style=3D"overflow:hidden">core-image-minimal builds but not sato or oe-cor=
-e world. I am providing this so those who want can test their apps with the=
-se changes.<br></div></blockquote></div><br>What&#39;s the scale of the bre=
-akage when building oe-core world?</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1fm" class=3D"a3s"=
+ style=3D"overflow:hidden">Sub-component hdajacksensetest in alsa-tools req=
+uires library glib, so<br>
+remove it when do framebuffer build.<br></div></blockquote></div><br>glib d=
+oesn&#39;t depend on X11, so just add glib-2.0 to DEPENDS instead.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
---001a11440fb86a5d8605178657b3--
+--001a11376dac3a22700517866acb--
