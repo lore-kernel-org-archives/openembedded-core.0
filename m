@@ -1,36 +1,26 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 449A275681
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 06:11:57 +0000 (UTC)
-Received: by wgv5 with SMTP id 5so64019wgv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jun 2015 23:11:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hbwK2be8LhM2sj+WVFOhY7Csei7IOOgyTPCls+x37/g=;
-	b=gaLKUMuE1GVkjNaYY+NUG5jbo2KfKSqU6CB4GvJ9RzWYim/6BBzX/CGlPnTJMO0pOe
-	qqXnmON8/56glJKDV85bsYeWz09j0r+R22IkGHoNyi6VPUqSxxhKmt0SsgKEL9h9l8iG
-	xkObuLZ2pnPqjQSCG9h0qkkPTSIGIPNQ/33ISuiwK8a/WJJDj/N+hB84d04ysGXIw4iq
-	iJuobFn1bZyTvBezMVxKzO/3H5Vro961GNx8MEUocwATzfE8INUAuRhuIYaDHAOVkyA9
-	nwF5ahb9J448G9e4BbiTkD6jhshwAVmd4vAjzdL6iLPkCGeoU7DXQGIwDwAwiTZ9SBIa
-	P+3w==
-X-Gm-Message-State: ALoCoQn9OZ7qId/gavUHu+RrfgQnhF04uNJ72mThNydwxLDH5gwu4nPjBwmdYJZ1L28usDagV3+4
-X-Received: by 10.180.79.73 with SMTP id h9mr38073536wix.35.1433311918351;
-	Tue, 02 Jun 2015 23:11:58 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id
-	vz2sm20788305wjc.18.2015.06.02.23.11.57
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Jun 2015 23:11:57 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jun 2015 08:11:54 +0200
-Message-Id: <1433311914-15725-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] bootimg bbclass: don't hardcode 'bzImage' name
+Return-Path: <Chuang.Dong@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E94DF75762
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed,  3 Jun 2015 08:06:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t53865eP020006
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 3 Jun 2015 01:06:05 -0700 (PDT)
+Received: from [128.224.163.151] (128.224.163.151) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 3 Jun 2015 01:06:04 -0700
+Message-ID: <556EB568.30901@windriver.com>
+Date: Wed, 3 Jun 2015 16:06:00 +0800
+From: cdong <chuang.dong@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: <Openembedded-core@lists.openembedded.org>
+X-Originating-IP: [128.224.163.151]
+Subject: ltp: vma03 fix the alginment of page size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +33,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jun 2015 06:12:01 -0000
+X-List-Received-Date: Wed, 03 Jun 2015 08:06:08 -0000
+X-Groupsio-MsgNum: 66230
+Content-Type: multipart/mixed; boundary="------------080902020809080100010802"
 
-In the EFI case there are 2 more architectures besides x86(_64) that may use this class: aarch32, which tends to use 'zImage' and aarch64, which uses 'Image'. Instead of hardcoding those values like the luvOS fork does, use the proper variable.
+--------------080902020809080100010802
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+Hi,
+     This patch fix a vma03 bug,the info below detail it:
+
+     the offset which is parameter of mmap2() function doesn't align the
+     page size,but,this parameter is allowed multiple of the page size
+     as returned by sysconf(_SC_PAGE_SIZE),meanwhile offset * 4096 must be
+     a multiple of the system page size,so modify the input parameter
+     pgoff = (ULONG_MAX - 1)&(~((pgsz-1)>>12));
+
+     Regards
+     Chuang
+
+--------------080902020809080100010802
+Content-Type: text/x-patch;
+	name="0001-ltp-vma03-fix-the-alginment-of-page-size.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="0001-ltp-vma03-fix-the-alginment-of-page-size.patch"
+
+From 1685976a18cf9b4d255434731336a820578c7647 Mon Sep 17 00:00:00 2001
+From: Chuang Dong <chuang.dong@windriver.com>
+Date: Wed, 3 Jun 2015 15:53:30 +0800
+Subject: [PATCH] ltp: vma03 fix the alginment of page size
+
+the offset which is parameter of mmap2() function doesn't align the
+page size,but,this parameter is allowed multiple of the page size
+as returned by sysconf(_SC_PAGE_SIZE),meanwhile offset * 4096 must be
+a multiple of the system page size,so modify the input parameter
+pgoff = (ULONG_MAX - 1)&(~((pgsz-1)>>12));
+
+Upstream-Status: Submitted
+
+Signed-off-by: Chuang Dong <chuang.dong@windriver.com>
 ---
- meta/classes/bootimg.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ ...-ltp-vma03-fix-the-alginment-of-page-size.patch | 32 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20150119.bb          |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-vma03-fix-the-alginment-of-page-size.patch
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index b1c03ba..d248321 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -47,6 +47,8 @@ EFI = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
- EFI_PROVIDER ?= "grub-efi"
- EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
- 
-+KERNEL_IMAGETYPE ??= "bzImage"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-ltp-vma03-fix-the-alginment-of-page-size.patch b/meta/recipes-extended/ltp/ltp/0001-ltp-vma03-fix-the-alginment-of-page-size.patch
+new file mode 100644
+index 0000000..0e5678d
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-ltp-vma03-fix-the-alginment-of-page-size.patch
+@@ -0,0 +1,32 @@
++From dd53725b162707bd09db0dce5ae141c997042fa6 Mon Sep 17 00:00:00 2001
++From: Chuang Dong <chuang.dong@windriver.com>
++Date: Wed, 3 Jun 2015 15:44:35 +0800
++Subject: [PATCH] ltp: vma03 fix the alginment of page size
 +
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
- # contain "efi". This way legacy is supported by default if neither is
- # specified, maintaining the original behavior.
-@@ -66,8 +68,8 @@ populate() {
- 	DEST=$1
- 	install -d ${DEST}
++the offset which is parameter of mmap2() function doesn't align the
++page size,but,this parameter is allowed multiple of the page size
++as returned by sysconf(_SC_PAGE_SIZE),meanwhile offset * 4096 must be
++a multiple of the system page size,so modify the input parameter
++pgoff = (ULONG_MAX - 1)&(~((pgsz-1)>>12));
++
++Signed-off-by: Chuang Dong <chuang.dong@windriver.com>
++---
++ testcases/kernel/mem/vma/vma03.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testcases/kernel/mem/vma/vma03.c b/testcases/kernel/mem/vma/vma03.c
++index 270097b..72ac470 100644
++--- a/testcases/kernel/mem/vma/vma03.c
+++++ b/testcases/kernel/mem/vma/vma03.c
++@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
++ 		if (fd == -1)
++ 			tst_brkm(TBROK | TERRNO, NULL, "open %s", TESTFILE);
++ 
++-		pgoff = ULONG_MAX - 1;
+++		pgoff = (ULONG_MAX - 1)&(~((pgsz-1)>>12));
++ 		map = mmap2(NULL, pgsz, PROT_READ | PROT_WRITE, MAP_PRIVATE,
++ 			    fd, pgoff);
++ 		if (map == MAP_FAILED)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/ltp/ltp_20150119.bb b/meta/recipes-extended/ltp/ltp_20150119.bb
+index 90c5973..9c5c762 100644
+--- a/meta/recipes-extended/ltp/ltp_20150119.bb
++++ b/meta/recipes-extended/ltp/ltp_20150119.bb
+@@ -28,6 +28,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://make-setregid02-work.patch \
+     file://add-knob-for-numa.patch \
+     file://add-knob-for-tirpc.patch \
++    file://0001-ltp-vma03-fix-the-alginment-of-page-size.patch \
+ "
  
--	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage ${DEST}/vmlinuz
-+	# Install kernel, initrd, and rootfs.img in DEST for all loaders to use.
-+	install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} ${DEST}/vmlinuz
- 	
- 	# initrd is made of concatenation of multiple filesystem images
- 	if [ -n "${INITRD}" ]; then
+ S = "${WORKDIR}/git"
 -- 
-1.9.3
+1.9.1
 
 
+--------------080902020809080100010802--
