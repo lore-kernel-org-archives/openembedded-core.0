@@ -1,44 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id DE29A75733
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EF24B736BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 19:51:45 +0000 (UTC)
-Received: by qkoo18 with SMTP id o18so12154650qko.1
+	Wed,  3 Jun 2015 20:02:42 +0000 (UTC)
+Received: by obew15 with SMTP id w15so17013699obe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jun 2015 12:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=4Kj4375OOfRk9Hwi4TzCDpZEtNMd/H0CsTcUK5uHbWg=;
-	b=AB5t8LvEb84hRJX3iOVD5QhPxcZTRXEh2yA4aDXHl5QHd/0Ay8ZAEflJUMT1q3hXzH
-	YWDAgTwBYGI3bB4tJdHhQsLDRzi0q1nskJShbqNvY9G5pJo+f1fna3C+Dt+Ut8wzIX/M
-	pzxzrIlKEn+Rog+w9JcNrpXKyTIZP4rZPK5gEgahHDatJjVDgLFM2G7ml6COoCNh55eA
-	APgJc78yJYT/6r6xdXeyqPBvc9P/baVCyk3IeosBQY031SWzPXhBVvo5sgejMP9I3ltU
-	8ZMUKoe6YMJRhAwhPE2da4dFypBdzTf7Q13cg7TPlebcKQ/D467DMjiXbUUJqXB3tD3u
-	IEDQ==
-X-Received: by 10.55.17.79 with SMTP id b76mr62893872qkh.70.1433361106578;
-	Wed, 03 Jun 2015 12:51:46 -0700 (PDT)
-Received: from cacsvmo-14452.hsd1.ca.comcast.net
-	(c-24-130-225-169.hsd1.ca.comcast.net. [24.130.225.169])
-	by mx.google.com with ESMTPSA id l81sm974372qhl.24.2015.06.03.12.51.45
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 03 Jun 2015 12:51:45 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LafGz=hMpwRh7G6+NkRO8b=kB7vMjhVfXAC2OMS0EE==A@mail.gmail.com>
-Date: Wed, 3 Jun 2015 12:51:44 -0700
-Message-Id: <6EDDDC39-6F91-4B83-B1CD-2EBE287CF37D@gmail.com>
-References: <cover.1433349512.git.raj.khem@gmail.com>
-	<0d3de82d935f6408e5c04ff980a2b3fd4a9e4ac3.1433349512.git.raj.khem@gmail.com>
-	<CAJTo0LanFDJR+AteOHRQ5hNd0T9bMNAa+Z4b9xfZe2kdP+28aA@mail.gmail.com>
-	<CAMKF1spaRQoh1_uEFOOFN9fOwAwEdRXC8pqusSvzfVpPs9hU_A@mail.gmail.com>
-	<CAJTo0LafGz=hMpwRh7G6+NkRO8b=kB7vMjhVfXAC2OMS0EE==A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2098)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] wayland/weston/libinput: Upgrade to 1.6.0 -> 1.8.0
+	Wed, 03 Jun 2015 13:02:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=aOJEz+obwonHqzjHRjrav0ke+c1oG4fhmU9iXDdEF6w=;
+	b=FII07zY2+u3hv48a9svjKVmHlBGesayfHFVCEmIHyUOcBGzFM+L3NZlMA1zljPlEiN
+	saC/SUja3GzSjke7OqLWy/6WaMa5yoRd4Y1IhUHUrqeRv1pnvSB7H18RQQmVmyjY4c1a
+	aZ7N/QsWV37YNd7dLOaPIPVea1sg5hPxDfK3HIV/nWzaCZU9s13rLbg7Ny6k9Peoz+/H
+	FPi9KYOcB2KOZ2V9mNPYXs0yhLHPOL0evlhY7JMzZ7UonVUxJ2XNpz7aizC0bsde9zXa
+	2cLv8RSx6eFiqRdcPmKSihZ5kg+hHg45Vj07fXJLI6B8nJWqkpVTOGRSQXB4hIZNemLZ
+	ruxg==
+X-Gm-Message-State: ALoCoQnuMc2WoE7ercEpOYglUN44DG/KdqtwKQkC9yl+cloQ43Y+vRLa13d+tpcDWvYbstrJbskP
+X-Received: by 10.182.199.34 with SMTP id jh2mr29263531obc.48.1433361763264;
+	Wed, 03 Jun 2015 13:02:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.225.2 with HTTP; Wed, 3 Jun 2015 13:02:12 -0700 (PDT)
+In-Reply-To: <1433342867-4644-3-git-send-email-gary@mlbassoc.com>
+References: <1433342867-4644-1-git-send-email-gary@mlbassoc.com>
+	<1433342867-4644-3-git-send-email-gary@mlbassoc.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 3 Jun 2015 23:02:12 +0300
+Message-ID: <CAHiDW_EqV1eSoXAzhpV56iTycP57q-7M8NrMiZGwcST5W--1zg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gst-player: Remove obsolete patches (now in upstream)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,76 +45,464 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jun 2015 19:51:46 -0000
-X-Groupsio-MsgNum: 66282
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_76989FBC-8825-45C7-952C-13AEBB4E3D7E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 03 Jun 2015 20:02:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_76989FBC-8825-45C7-952C-13AEBB4E3D7E
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_A8A853FA-7E38-4A66-A596-AA1438DE45D6"
+On 3 June 2015 at 17:47, Gary Thomas <gary@mlbassoc.com> wrote:
+> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> ---
+>  ...error-signal-emission-for-missing-plugins.patch | 252 ---------------------
 
---Apple-Mail=_A8A853FA-7E38-4A66-A596-AA1438DE45D6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Are you sure upstream has something like this already? I've been
+meaning to do another version of
+https://github.com/sdroege/gst-player/pull/11 but haven't so far...
 
+ - Jussi
 
-> On Jun 3, 2015, at 11:56 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
-> Upgrading the Wayland protocol is independent from upgrading Weston.  =
-libinput can be upgraded independently of Weston.  They have an implied =
-ordering (wayland before weston, libinput before weston) but they're not =
-single unit.
->=20
+>  .../gstreamer/gst-player/Fix-pause-play.patch      | 107 ---------
+>  .../gstreamer/gst-player/filechooser.patch         |  54 -----
+>  3 files changed, 413 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch b/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
+> deleted file mode 100644
+> index 712d46d..0000000
+> --- a/meta/recipes-multimedia/gstreamer/gst-player/Add-error-signal-emission-for-missing-plugins.patch
+> +++ /dev/null
+> @@ -1,252 +0,0 @@
+> -From d64c7edb66f4a64ff49c4306cf77fd269b7079ab Mon Sep 17 00:00:00 2001
+> -From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> -Date: Mon, 16 Mar 2015 13:45:30 +0200
+> -Subject: [PATCH] Add error signal emission for missing plugins
+> -
+> -Add a missing plugins error signal to gst-player. Note that this error
+> -does not necessarily mean the playback has completely failed, but in
+> -practice the user experience will be bad (think, e.g. of a mp4 file
+> -where H.264 codec is missing: AAC playback still works...).
+> -
+> -Use the signal in gtk-play to show a infobar if plugins are missing.
+> -
+> -Submitted upstream at https://github.com/sdroege/gst-player/pull/11
+> -
+> -Upstream-Status: Submitted
+> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ----
+> - configure.ac               |  2 +-
+> - gtk/gtk-play.c             | 54 +++++++++++++++++++++++++++++++++++++++++++++-
+> - lib/gst/player/gstplayer.c | 22 +++++++++++++++++++
+> - lib/gst/player/gstplayer.h |  3 ++-
+> - 4 files changed, 78 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 90ab74c..6cdb4eb 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -53,7 +53,7 @@ AC_SUBST(LT_AGE)
+> - PKG_PROG_PKG_CONFIG
+> -
+> - PKG_CHECK_MODULES(GLIB, [glib-2.0 gobject-2.0])
+> --PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0 >= 1.4 gstreamer-video-1.0 >= 1.4])
+> -+PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0 >= 1.4 gstreamer-video-1.0 >= 1.4 gstreamer-pbutils-1.0])
+> -
+> - GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
+> - AC_SUBST(GLIB_PREFIX)
+> -diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
+> -index b92773b..e2b605a 100644
+> ---- a/gtk/gtk-play.c
+> -+++ b/gtk/gtk-play.c
+> -@@ -30,6 +30,8 @@ typedef struct
+> -   GtkWidget *prev_button, *next_button;
+> -   GtkWidget *seekbar;
+> -   GtkWidget *video_area;
+> -+  GtkWidget *info_label;
+> -+  GtkWidget *info_bar;
+> -   GtkWidget *volume_button;
+> -   gulong seekbar_value_changed_signal_id;
+> -   gboolean playing;
+> -@@ -141,6 +143,13 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
+> - }
+> -
+> - static void
+> -+clear_missing_plugins (GtkPlay * play)
+> -+{
+> -+  gtk_label_set_text (GTK_LABEL (play->info_label), "");
+> -+  gtk_widget_hide (play->info_bar);
+> -+}
+> -+
+> -+static void
+> - skip_prev_clicked_cb (GtkButton * button, GtkPlay * play)
+> - {
+> -   GList *prev;
+> -@@ -155,6 +164,7 @@ skip_prev_clicked_cb (GtkButton * button, GtkPlay * play)
+> -
+> -   gtk_widget_set_sensitive (play->next_button, TRUE);
+> -   gst_player_set_uri (play->player, prev->data);
+> -+  clear_missing_plugins (play);
+> -   gst_player_play (play->player);
+> -   set_title (play, prev->data);
+> -   gtk_widget_set_sensitive (play->prev_button, g_list_previous (prev) != NULL);
+> -@@ -175,6 +185,7 @@ skip_next_clicked_cb (GtkButton * button, GtkPlay * play)
+> -
+> -   gtk_widget_set_sensitive (play->prev_button, TRUE);
+> -   gst_player_set_uri (play->player, next->data);
+> -+  clear_missing_plugins (play);
+> -   gst_player_play (play->player);
+> -   set_title (play, next->data);
+> -   gtk_widget_set_sensitive (play->next_button, g_list_next (next) != NULL);
+> -@@ -193,10 +204,16 @@ volume_changed_cb (GtkScaleButton * button, gdouble value, GtkPlay * play)
+> -   gst_player_set_volume (play->player, value);
+> - }
+> -
+> -+void
+> -+info_bar_response_cb (GtkInfoBar * bar, gint response, GtkPlay * play)
+> -+{
+> -+  gtk_widget_hide (GTK_WIDGET (bar));
+> -+}
+> -+
+> - static void
+> - create_ui (GtkPlay * play)
+> - {
+> --  GtkWidget *controls, *main_hbox, *main_vbox;
+> -+  GtkWidget *controls, *main_hbox, *main_vbox, *info_bar, *content_area;
+> -
+> -   play->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+> -   g_signal_connect (G_OBJECT (play->window), "delete-event",
+> -@@ -208,6 +225,20 @@ create_ui (GtkPlay * play)
+> -   g_signal_connect (play->video_area, "realize",
+> -       G_CALLBACK (video_area_realize_cb), play);
+> -
+> -+  play->info_bar = gtk_info_bar_new ();
+> -+  gtk_info_bar_set_message_type (GTK_INFO_BAR (play->info_bar),
+> -+      GTK_MESSAGE_WARNING);
+> -+  //gtk_info_bar_set_show_close_button (GTK_INFO_BAR (play->info_bar),
+> -+  //    TRUE);
+> -+  gtk_widget_set_no_show_all (play->info_bar, TRUE);
+> -+  g_signal_connect (play->info_bar, "response",
+> -+      G_CALLBACK (info_bar_response_cb), play);
+> -+
+> -+  content_area = gtk_info_bar_get_content_area (GTK_INFO_BAR (play->info_bar));
+> -+  play->info_label = gtk_label_new ("");
+> -+  gtk_container_add (GTK_CONTAINER (content_area), play->info_label);
+> -+  gtk_widget_show (play->info_label);
+> -+
+> -   /* Unified play/pause button */
+> -   play->play_pause_button =
+> -       gtk_button_new_from_icon_name ("media-playback-pause",
+> -@@ -258,6 +289,7 @@ create_ui (GtkPlay * play)
+> -
+> -   main_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+> -   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox, TRUE, TRUE, 0);
+> -+  gtk_box_pack_start (GTK_BOX (main_vbox), play->info_bar, FALSE, FALSE, 0);
+> -   gtk_box_pack_start (GTK_BOX (main_vbox), controls, FALSE, FALSE, 0);
+> -   gtk_container_add (GTK_CONTAINER (play->window), main_vbox);
+> -
+> -@@ -322,6 +354,7 @@ eos_cb (GstPlayer * unused, GtkPlay * play)
+> -       gtk_widget_set_sensitive (play->next_button, g_list_next (next) != NULL);
+> -
+> -       gst_player_set_uri (play->player, next->data);
+> -+      clear_missing_plugins (play);
+> -       gst_player_play (play->player);
+> -       set_title (play, next->data);
+> -     } else {
+> -@@ -330,6 +363,24 @@ eos_cb (GstPlayer * unused, GtkPlay * play)
+> -   }
+> - }
+> -
+> -+static void
+> -+error_cb (GstPlayer * player, GError * err, GtkPlay * play)
+> -+{
+> -+  char *message;
+> -+
+> -+  if (g_error_matches (err, gst_player_error_quark (),
+> -+      GST_PLAYER_ERROR_MISSING_PLUGIN)) {
+> -+    // add message to end of any existing message: there may be
+> -+    // multiple missing plugins.
+> -+    message = g_strdup_printf ("%s%s. ",
+> -+        gtk_label_get_text (GTK_LABEL (play->info_label)), err->message);
+> -+    gtk_label_set_text (GTK_LABEL (play->info_label), message);
+> -+    g_free (message);
+> -+
+> -+    gtk_widget_show (play->info_bar);
+> -+  }
+> -+}
+> -+
+> - int
+> - main (gint argc, gchar ** argv)
+> - {
+> -@@ -422,6 +473,7 @@ main (gint argc, gchar ** argv)
+> -   g_signal_connect (play.player, "video-dimensions-changed",
+> -       G_CALLBACK (video_dimensions_changed_cb), &play);
+> -   g_signal_connect (play.player, "end-of-stream", G_CALLBACK (eos_cb), &play);
+> -+  g_signal_connect (play.player, "error", G_CALLBACK (error_cb), &play);
+> -
+> -   /* We have file(s) that need playing. */
+> -   set_title (&play, g_list_first (play.uris)->data);
+> -diff --git a/lib/gst/player/gstplayer.c b/lib/gst/player/gstplayer.c
+> -index bd682d9..78e7ba1 100644
+> ---- a/lib/gst/player/gstplayer.c
+> -+++ b/lib/gst/player/gstplayer.c
+> -@@ -47,6 +47,7 @@
+> -
+> - #include <gst/gst.h>
+> - #include <gst/video/video.h>
+> -+#include <gst/pbutils/missing-plugins.h>
+> -
+> - GST_DEBUG_CATEGORY_STATIC (gst_player_debug);
+> - #define GST_CAT_DEFAULT gst_player_debug
+> -@@ -238,6 +239,7 @@ gst_player_class_init (GstPlayerClass * klass)
+> -       g_signal_new ("video-dimensions-changed", G_TYPE_FROM_CLASS (klass),
+> -       G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS, 0, NULL,
+> -       NULL, NULL, G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+> -+
+> - }
+> -
+> - static void
+> -@@ -619,6 +621,21 @@ error_cb (GstBus * bus, GstMessage * msg, gpointer user_data)
+> -   g_mutex_unlock (&self->priv->lock);
+> - }
+> -
+> -+static void
+> -+element_cb (GstBus * bus, GstMessage * msg, gpointer user_data)
+> -+{
+> -+  GstPlayer *self = GST_PLAYER (user_data);
+> -+
+> -+  if (gst_is_missing_plugin_message (msg)) {
+> -+    gchar *desc;
+> -+
+> -+    desc = gst_missing_plugin_message_get_description (msg);
+> -+    emit_error (self, g_error_new (GST_PLAYER_ERROR,
+> -+        GST_PLAYER_ERROR_MISSING_PLUGIN, "Missing plugin '%s'", desc));
+> -+    g_free (desc);
+> -+  }
+> -+}
+> -+
+> - static gboolean
+> - eos_dispatch (gpointer user_data)
+> - {
+> -@@ -1059,6 +1076,8 @@ gst_player_main (gpointer data)
+> -       NULL, NULL);
+> -   g_source_attach (bus_source, self->priv->context);
+> -
+> -+  g_signal_connect (G_OBJECT (bus), "message::element",
+> -+      G_CALLBACK (element_cb), self);
+> -   g_signal_connect (G_OBJECT (bus), "message::error", G_CALLBACK (error_cb),
+> -       self);
+> -   g_signal_connect (G_OBJECT (bus), "message::eos", G_CALLBACK (eos_cb), self);
+> -@@ -1560,6 +1579,7 @@ gst_player_error_get_type (void)
+> -   static gsize id = 0;
+> -   static const GEnumValue values[] = {
+> -     {C_ENUM (GST_PLAYER_ERROR_FAILED), "GST_PLAYER_ERROR_FAILED", "failed"},
+> -+    {C_ENUM (GST_PLAYER_ERROR_MISSING_PLUGIN), "GST_PLAYER_ERROR_MISSING_PLUGIN", "missing-plugin"},
+> -     {0, NULL, NULL}
+> -   };
+> -
+> -@@ -1577,6 +1597,8 @@ gst_player_error_get_name (GstPlayerError error)
+> -   switch (error) {
+> -     case GST_PLAYER_ERROR_FAILED:
+> -       return "failed";
+> -+    case GST_PLAYER_ERROR_MISSING_PLUGIN:
+> -+      return "missing-plugin";
+> -   }
+> -
+> -   g_assert_not_reached ();
+> -diff --git a/lib/gst/player/gstplayer.h b/lib/gst/player/gstplayer.h
+> -index c438513..35fb5bb 100644
+> ---- a/lib/gst/player/gstplayer.h
+> -+++ b/lib/gst/player/gstplayer.h
+> -@@ -44,7 +44,8 @@ GType        gst_player_error_get_type                (void);
+> - #define      GST_TYPE_PLAYER_ERROR                    (gst_player_error_get_type ())
+> -
+> - typedef enum {
+> --  GST_PLAYER_ERROR_FAILED = 0
+> -+  GST_PLAYER_ERROR_FAILED = 0,
+> -+  GST_PLAYER_ERROR_MISSING_PLUGIN
+> - } GstPlayerError;
+> -
+> - const gchar *gst_player_error_get_name                (GstPlayerError error);
+> ---
+> -2.1.4
+> -
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch b/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
+> deleted file mode 100644
+> index 783c42a..0000000
+> --- a/meta/recipes-multimedia/gstreamer/gst-player/Fix-pause-play.patch
+> +++ /dev/null
+> @@ -1,107 +0,0 @@
+> -Fix pause/play
+> -
+> -The current player state is now notified via the state-changed signal,
+> -and in the GTK UI it was only used to keep track of the desired state.
+> -
+> -This is a backport of upstream commit 738479c7a0.
+> -
+> -Upstream-Status: Backport
+> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> -
+> ----
+> - gtk/gtk-play.c             |  8 ++++++--
+> - lib/gst/player/gstplayer.c | 12 ------------
+> - lib/gst/player/gstplayer.h |  2 --
+> - 3 files changed, 6 insertions(+), 16 deletions(-)
+> -
+> -diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
+> -index 6e7a098..e2b605a 100644
+> ---- a/gtk/gtk-play.c
+> -+++ b/gtk/gtk-play.c
+> -@@ -34,6 +34,7 @@ typedef struct
+> -   GtkWidget *info_bar;
+> -   GtkWidget *volume_button;
+> -   gulong seekbar_value_changed_signal_id;
+> -+  gboolean playing;
+> - } GtkPlay;
+> -
+> - /* Compat stubs */
+> -@@ -118,12 +119,13 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
+> - {
+> -   GtkWidget *image;
+> -
+> --  if (gst_player_is_playing (play->player)) {
+> -+  if (play->playing) {
+> -     gst_player_pause (play->player);
+> -     image =
+> -         gtk_image_new_from_icon_name ("media-playback-start",
+> -         GTK_ICON_SIZE_BUTTON);
+> -     gtk_button_set_image (GTK_BUTTON (play->play_pause_button), image);
+> -+    play->playing = FALSE;
+> -   } else {
+> -     gchar *title;
+> -
+> -@@ -136,6 +138,7 @@ play_pause_clicked_cb (GtkButton * button, GtkPlay * play)
+> -     title = gst_player_get_uri (play->player);
+> -     set_title (play, title);
+> -     g_free (title);
+> -+    play->playing = TRUE;
+> -   }
+> - }
+> -
+> -@@ -335,7 +338,7 @@ video_dimensions_changed_cb (GstPlayer * unused, gint width, gint height,
+> - static void
+> - eos_cb (GstPlayer * unused, GtkPlay * play)
+> - {
+> --  if (gst_player_is_playing (play->player)) {
+> -+  if (play->playing) {
+> -     GList *next = NULL;
+> -     gchar *uri;
+> -
+> -@@ -452,6 +455,7 @@ main (gint argc, gchar ** argv)
+> -   }
+> -
+> -   play.player = gst_player_new ();
+> -+  play.playing = TRUE;
+> -
+> -   g_object_set (play.player, "dispatch-to-main-context", TRUE, NULL);
+> -
+> -diff --git a/lib/gst/player/gstplayer.c b/lib/gst/player/gstplayer.c
+> -index 069b284..78e7ba1 100644
+> ---- a/lib/gst/player/gstplayer.c
+> -+++ b/lib/gst/player/gstplayer.c
+> -@@ -1422,18 +1422,6 @@ gst_player_set_uri (GstPlayer * self, const gchar * val)
+> -   g_object_set (self, "uri", val, NULL);
+> - }
+> -
+> --gboolean
+> --gst_player_is_playing (GstPlayer * self)
+> --{
+> --  gboolean val;
+> --
+> --  g_return_val_if_fail (GST_IS_PLAYER (self), FALSE);
+> --
+> --  g_object_get (self, "is-playing", &val, NULL);
+> --
+> --  return val;
+> --}
+> --
+> - GstClockTime
+> - gst_player_get_position (GstPlayer * self)
+> - {
+> -diff --git a/lib/gst/player/gstplayer.h b/lib/gst/player/gstplayer.h
+> -index 6933dd7..35fb5bb 100644
+> ---- a/lib/gst/player/gstplayer.h
+> -+++ b/lib/gst/player/gstplayer.h
+> -@@ -93,8 +93,6 @@ gchar *      gst_player_get_uri                       (GstPlayer    * player);
+> - void         gst_player_set_uri                       (GstPlayer    * player,
+> -                                                        const gchar  * uri);
+> -
+> --gboolean     gst_player_is_playing                    (GstPlayer    * player);
+> --
+> - GstClockTime gst_player_get_position                  (GstPlayer    * player);
+> - GstClockTime gst_player_get_duration                  (GstPlayer    * player);
+> -
+> ---
+> -2.1.4
+> -
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch b/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+> deleted file mode 100644
+> index 7bf1b03..0000000
+> --- a/meta/recipes-multimedia/gstreamer/gst-player/filechooser.patch
+> +++ /dev/null
+> @@ -1,54 +0,0 @@
+> -Upstream-Status: Submitted
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 43d4b19ab611d844156e26c4840cc54ddb73ae03 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Thu, 26 Feb 2015 17:17:05 +0000
+> -Subject: [PATCH] gtk-play: show a file chooser if no URIs were passed
+> -
+> ----
+> - gtk/gtk-play.c |   28 ++++++++++++++++++++++++++--
+> - 1 file changed, 26 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
+> -index f015077..9766a72 100644
+> ---- a/gtk/gtk-play.c
+> -+++ b/gtk/gtk-play.c
+> -@@ -319,8 +319,32 @@ main (gint argc, gchar ** argv)
+> -   // FIXME: Add support for playlists and stuff
+> -   /* Parse the list of the file names we have to play. */
+> -   if (!file_names) {
+> --    g_print ("Usage: %s FILE(s)|URI(s)\n", APP_NAME);
+> --    return 1;
+> -+    GtkWidget *chooser;
+> -+    int res;
+> -+
+> -+    chooser = gtk_file_chooser_dialog_new ("Select files to play", NULL,
+> -+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
+> -+                                          "_Cancel", GTK_RESPONSE_CANCEL,
+> -+                                          "_Open", GTK_RESPONSE_ACCEPT,
+> -+                                          NULL);
+> -+    g_object_set (chooser,
+> -+                  "local-only", FALSE,
+> -+                  "select-multiple", TRUE,
+> -+                  NULL);
+> -+
+> -+    res = gtk_dialog_run (GTK_DIALOG (chooser));
+> -+    if (res == GTK_RESPONSE_ACCEPT) {
+> -+      GSList *l;
+> -+
+> -+      l = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (chooser));
+> -+      while (l) {
+> -+        play.uris = g_list_append (play.uris, l->data);
+> -+        l = g_slist_delete_link (l, l);
+> -+      }
+> -+    } else {
+> -+      return 0;
+> -+    }
+> -+    gtk_widget_destroy (chooser);
+> -   } else {
+> -     guint i;
+> -
+> ---
+> -1.7.10.4
+> -
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I will send it that way, however, I am thinking from bisecting purpose =
-at meta level.
-
---Apple-Mail=_A8A853FA-7E38-4A66-A596-AA1438DE45D6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Jun 3, 2015, at 11:56 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D"">Upgrading the Wayland =
-protocol is independent from upgrading Weston. &nbsp;libinput can be =
-upgraded independently of Weston.&nbsp; They have an implied ordering =
-(wayland before weston, libinput before weston) but they're not single =
-unit.</div><br =
-class=3D"Apple-interchange-newline"></div></blockquote></div><br =
-class=3D""><div class=3D"">I will send it that way, however, I am =
-thinking from bisecting purpose at meta level.&nbsp;</div></body></html>=
-
---Apple-Mail=_A8A853FA-7E38-4A66-A596-AA1438DE45D6--
-
---Apple-Mail=_76989FBC-8825-45C7-952C-13AEBB4E3D7E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVvWtAACgkQuwUzVZGdMxRp/ACfcJpinLbvdpW7EJu+ItwDypro
-RFkAn2aP5dNXK67QNXMhFDzlTcVmQ4sR
-=+ik9
------END PGP SIGNATURE-----
-
---Apple-Mail=_76989FBC-8825-45C7-952C-13AEBB4E3D7E--
