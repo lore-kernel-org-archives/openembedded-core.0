@@ -1,31 +1,27 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B0D757EB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C0B460024
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jun 2015 21:45:21 +0000 (UTC)
-Received: by oihb142 with SMTP id b142so136309853oih.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jun 2015 14:45:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=3VpFe2lYHRrvmqqPNczn0ZkGxGrRxcADzwS2NkljM7A=;
-	b=EGFJpfaSk3noEU79e4+lV+KopknJIel0VmAUidqP1m6hMVkPIyerDYPbI/6KXBhOhA
-	T4yhPdESrKBngUWzfuZFNvU7aUXnRjDIuJHpARiT3E+F5iS4B7IOSwKiM/nQd51AKV+g
-	bF7eqDO/bkzKmVEuZwob/6Vd/1IN8vZdORiEIM+vQDw/mmJhP5++51zUlaEvadZCS/jt
-	OnStgzTXcGU7MJqdGOYvg1brglQGfGjkThWzH1uagNZTZRd9iEuaSf0XENDyMi46Akas
-	PcKXP9/R7bhaUPZ3Mx/4/2xR++fKlFt2Wk7/iw5sOYkx+vRWLdX+KJWdmg5pAsOkn9dC
-	SHew==
+	Wed,  3 Jun 2015 00:25:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t530PXVh019167
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Jun 2015 17:25:33 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 2 Jun 2015 17:25:33 -0700
+Message-ID: <556E497B.40200@windriver.com>
+Date: Wed, 3 Jun 2015 08:25:31 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.202.73.73 with SMTP id w70mr23440971oia.102.1433281522564;
-	Tue, 02 Jun 2015 14:45:22 -0700 (PDT)
-Received: by 10.182.197.161 with HTTP; Tue, 2 Jun 2015 14:45:22 -0700 (PDT)
-Date: Tue, 2 Jun 2015 14:45:22 -0700
-Message-ID: <CAOLEWZUq-ig-fVZgdgd7P15U-jCKaG0FnJM9zYVgPYvxqXDmyw@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Soren Brinkmann <soren.brinkmann@xilinx.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: open source conference in Honduras needs Yocto Project/Openembedded/OpenHardware speaker
+References: <1432592959-11553-1-git-send-email-soren.brinkmann@xilinx.com>
+In-Reply-To: <1432592959-11553-1-git-send-email-soren.brinkmann@xilinx.com>
+Subject: Re: [PATCH v2] dosfstools: Add recipe for v3.0.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,21 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jun 2015 21:45:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Jun 2015 00:25:33 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-There seems to be plenty of room (only 2 or 3 speakers signed up so
-far) and they'd love to have an "official" LF (or just embedded linux)
-speaker.  I've been invited to speak, and they can cover the normal
-fees/lodging/food for speakers (just not the travel costs, so I'm
-still working things out with my wife...)
 
-http://ecsl2015.softwarelibre.ca/
+Hello,
 
-I guess I was hoping Linux Foundation (or member companies) had enough
-support to maybe send an openembedded developer to speak as an
-outreach sort of thing.
+Why not remove the old one dosfstools_2.11.bb, please ?
 
-Steve Arnold
-aka nerdboy/mr_science
+// Robert
+
+On 05/26/2015 06:29 AM, Soren Brinkmann wrote:
+> Add a recipe for building the latest (as of today) version of
+> dosfstools.
+>
+> Signed-off-by: Soren Brinkmann <soren.brinkmann@xilinx.com>
+> ---
+> v2:
+>   - add recipe for 3.0.28 additionally to the 2.11 one
+> ---
+>   meta/recipes-devtools/dosfstools/dosfstools.inc    |  8 ++++++++
+>   .../recipes-devtools/dosfstools/dosfstools_2.11.bb |  7 +++----
+>   .../dosfstools/dosfstools_3.0.28.bb                | 22 ++++++++++++++++++++++
+>   3 files changed, 33 insertions(+), 4 deletions(-)
+>   create mode 100644 meta/recipes-devtools/dosfstools/dosfstools.inc
+>   create mode 100644 meta/recipes-devtools/dosfstools/dosfstools_3.0.28.bb
+>
+> diff --git a/meta/recipes-devtools/dosfstools/dosfstools.inc b/meta/recipes-devtools/dosfstools/dosfstools.inc
+> new file mode 100644
+> index 000000000000..d2e672df1f48
+> --- /dev/null
+> +++ b/meta/recipes-devtools/dosfstools/dosfstools.inc
+> @@ -0,0 +1,8 @@
+> +# dosfstools OE build file
+> +# Copyright (C) 2015, Sören Brinkmann <soeren.brinkmann@gmail>  All Rights Reserved
+> +# Released under the MIT license (see packages/COPYING)
+> +
+> +SUMMARY = "DOS FAT Filesystem Utilities"
+> +SECTION = "base"
+> +
+> +BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+> index d1c24b874845..d237cc9b9eac 100644
+> --- a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+> +++ b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+> @@ -1,10 +1,11 @@
+>   # dosfstools OE build file
+>   # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+>   # Released under the MIT license (see packages/COPYING)
+> -SUMMARY = "DOS FAT Filesystem Utilities"
+> +
+> +require dosfstools.inc
+> +
+>   HOMEPAGE = "http://daniel-baumann.ch/software/dosfstools/"
+>
+> -SECTION = "base"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://mkdosfs/COPYING;md5=cbe67f08d6883bff587f615f0cc81aa8"
+>   PR = "r5"
+> @@ -31,5 +32,3 @@ do_install () {
+>   	oe_runmake "PREFIX=${D}" "SBINDIR=${D}${base_sbindir}" \
+>   		   "MANDIR=${D}${mandir}/man8" install
+>   }
+> -
+> -BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-devtools/dosfstools/dosfstools_3.0.28.bb b/meta/recipes-devtools/dosfstools/dosfstools_3.0.28.bb
+> new file mode 100644
+> index 000000000000..3a746498a013
+> --- /dev/null
+> +++ b/meta/recipes-devtools/dosfstools/dosfstools_3.0.28.bb
+> @@ -0,0 +1,22 @@
+> +# dosfstools OE build file
+> +# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+> +# Copyright (C) 2015, Sören Brinkmann <soeren.brinkmann@gmail>  All Rights Reserved
+> +# Released under the MIT license (see packages/COPYING)
+> +
+> +require dosfstools.inc
+> +
+> +HOMEPAGE = "https://github.com/dosfstools/dosfstools"
+> +
+> +LICENSE = "GPLv3"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> +
+> +SRC_URI = "https://github.com/dosfstools/dosfstools/releases/download/v3.0.28/dosfstools-3.0.28.tar.xz"
+> +SRC_URI[md5sum] = "6a047a6c65186b9ebb1853709adb36db"
+> +SRC_URI[sha256sum] = "ee95913044ecf2719b63ea11212917649709a6e53209a72d622135aaa8517ee2"
+> +
+> +FILES_${PN} = "${base_sbindir}"
+> +FILES_${PN}-doc = "${mandir} ${docdir}"
+> +
+> +do_install () {
+> +	oe_runmake "PREFIX=${D}${prefix}" "SBINDIR=${D}${base_sbindir}" install
+> +}
+>
 
