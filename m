@@ -1,41 +1,22 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 567 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 03 Jun 2015 09:51:54 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id CCFDA60024
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 63E4C734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 09:51:54 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3m1ldc1CnBz3hj3K
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 11:42:28 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221])
-	by mail.mnet-online.de (Postfix) with ESMTP id 3m1ldc0DDPzvjDd
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 11:42:27 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id B49C24540854
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 11:42:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id RfVOvZ2SkDI9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 11:42:21 +0200 (CEST)
-Received: from [192.168.178.20] (papero.fritz.box [192.168.178.20])
-	by babic.homelinux.org (Postfix) with ESMTP id 84B784540155
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 11:42:21 +0200 (CEST)
-Message-ID: <556ECBFD.5020203@denx.de>
-Date: Wed, 03 Jun 2015 11:42:21 +0200
-From: Stefano Babic <sbabic@denx.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
+	Wed,  3 Jun 2015 11:17:16 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Jun 2015 04:17:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,546,1427785200"; d="scan'208";a="719962726"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
+	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com)
+	([10.252.2.204])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2015 04:17:10 -0700
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: ICU not working on powerpc (ppce500v2)
+Date: Wed,  3 Jun 2015 14:17:09 +0300
+Message-Id: <1433330229-1020-1-git-send-email-tanu.kaskinen@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] alsa-plugins: enable alsa-plugins-pulseaudio-conf conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,83 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jun 2015 09:51:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Jun 2015 11:17:20 -0000
 
-Hi,
+If pulseaudio isn't enabled, the alsa-plugins-pulseaudio-conf package
+is unnecessary. This change fixes these warnings, when pulseaudio
+isn't enabled:
 
-I get an issue with icu (54.1, I am testing with Yocto-fido) on powepc
-(I am testing with a p2020rdb from Freescale). Running icuinfo on target
-I get:
+WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
+libasound-module-conf-pulse, but it isn't a build dependency?
+[build-deps]
+WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
+libasound-module-ctl-pulse, but it isn't a build dependency?
+[build-deps]
+WARNING: QA Issue: alsa-plugins-pulseaudio-conf rdepends on
+libasound-module-pcm-pulse, but it isn't a build dependency?
+[build-deps]
 
- <icuSystemParams type="icu4c">
-    <param name="copyright"> Copyright (C) 2014, International Business
-Machines Corporation and others. All Rights Reserved. </param>
-    <param name="product">icu4c</param>
-    <param name="product.full">International Components for Unicode for
-C/C++</param>
-    <param name="version">54.1</param>
-    <param name="version.unicode">7.0</param>
-    <param name="platform.number">4000</param>
-    <param name="platform.type">Linux</param>
-    <param name="locale.default">en_US_POSIX</param>
-    <param name="locale.default.bcp47">en-US-u-va-posix</param>
-    <param name="converter.default">US-ASCII</param>
-    <param name="icudata.name">icudt54b</param>
-    <param name="icudata.path"></param>
-  <!-- n="cldr.version" ERROR: U_MISSING_RESOURCE_ERROR -->
-  <!-- n="tz.version" ERROR: U_MISSING_RESOURCE_ERROR -->
-    <param name="tz.default">Universal</param>
-    <param name="cpu.bits">32</param>
-    <param name="cpu.big_endian">1</param>
-    <param name="os.wchar_width">4</param>
-    <param name="os.charset_family">0</param>
-    <param name="os.host">powerpc-unknown-linux-gnuspe</param>
-    <param name="build.build">x86_64-pc-linux-gnu</param>
-    <param name="build.cc">powerpc-linux-gnuspe-gcc -m32 -mcpu=8548
--mabi=spe -mspe -mfloat-gprs=double
---sysroot=/opt/work/sbabic/eldk/p2020rdb/tmp/sysroots/generic-powerpc-e500v2</param>
-    <param name="build.cxx">powerpc-linux-gnuspe-g++ -m32 -mcpu=8548
--mabi=spe -mspe -mfloat-gprs=double
---sysroot=/opt/work/sbabic/eldk/p2020rdb/tmp/sysroots/generic-powerpc-e500v2</param>
-    <param name="uconfig.internal_digitlist">1</param>
-    <param name="uconfig.have_parseallinput">1</param>
-    <param name="uconfig.format_fastpaths_49">1</param>
- </icuSystemParams>
+Reported-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+---
+ meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-ICU Initialization returned: U_INVALID_FORMAT_ERROR
-Plugin file is: /usr/lib/icu/icuplugins54.txt
-
-cldr.version and tz.version report errors and even simple tests do not
-work. If I copy all .res files (icu54 directory) and then I set ICU_DATA
-to that directory, it works - that means there should be an issue by
-generating libicudata with PowerPc, or at least with e500v2.
-
-I did exactly the same tests with an ARM platform (i.MX6), everything
-works as expected. I suspect some issue due to endianess, but checking
-the header in the libicudata it looks correct ( at least the first bytes).
-
-I saw :
-
-commit f5205c568cb0d29059c4d8c2dc200e435787f5d8
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Sat Feb 15 22:04:05 2014 +0000
-
-    icu: Disable the default LDFLAGSICUDT for target compile
-
-
-and, as it looks like ARM related, I have already tried to revert it,
-without any success. Does anyone have a hint ?
-
-Best regards,
-Stefano Babic
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+index 80f0446..5b18d92 100644
+--- a/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
++++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+@@ -38,7 +38,7 @@ PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio
+ PACKAGECONFIG[samplerate] = "--enable-samplerate,--disable-samplerate,libsamplerate0"
+ PACKAGECONFIG[speex] = "--with-speex=lib,--with-speex=no,speex"
+ 
+-PACKAGES += "alsa-plugins-pulseaudio-conf"
++PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'alsa-plugins-pulseaudio-conf', '', d)}"
+ 
+ PACKAGES_DYNAMIC = "^libasound-module-.*"
+ 
 -- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+1.9.3
+
 
