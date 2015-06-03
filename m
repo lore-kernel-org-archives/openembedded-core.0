@@ -1,36 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C6A246AC36
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 29491601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jun 2015 18:08:26 +0000 (UTC)
-Received: by iesa3 with SMTP id a3so19325664ies.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jun 2015 11:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=G8H/0IIAao4zSZwoHb+mwJqjQFWg7g9VHSXzGxhiXI8=;
-	b=c/7r7eYgwzzrcUIpfcQVJOVwr0eESFwimN/xLu7O7UeFDzlMXL3We2zST5o/F58yKh
-	5J1i76Q3ZJJ7nU3pemciBNCnNAqYeUMwNoefP7EG+yaYclMYhzfixvYYlDJQXcNWzfJ3
-	2sddj8hmgIDONyllnKxQRLqT+W7jsH2dG43UrFKYZ5iChqbqRNrfTo4VEHEZ2A8IKPK3
-	rx2KMJV74DyrW/56ZAzsDjd5hHr5YqFPxTE1jDjEwRjEEiqPUQinR5L1l67/QjWX031y
-	LwUPMkuUNkawH0oX0A3dEhiM2ARUheWZUyW1tX+tn4igAQ/keHIkUxaJyOR2SuV6ziA5
-	UTeQ==
-X-Received: by 10.43.17.135 with SMTP id qc7mr41720924icb.14.1433354907865;
-	Wed, 03 Jun 2015 11:08:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.3.166 with HTTP; Wed, 3 Jun 2015 11:07:57 -0700 (PDT)
-In-Reply-To: <CAJTo0LanFDJR+AteOHRQ5hNd0T9bMNAa+Z4b9xfZe2kdP+28aA@mail.gmail.com>
-References: <cover.1433349512.git.raj.khem@gmail.com>
-	<0d3de82d935f6408e5c04ff980a2b3fd4a9e4ac3.1433349512.git.raj.khem@gmail.com>
-	<CAJTo0LanFDJR+AteOHRQ5hNd0T9bMNAa+Z4b9xfZe2kdP+28aA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Jun 2015 11:07:57 -0700
-Message-ID: <CAMKF1spaRQoh1_uEFOOFN9fOwAwEdRXC8pqusSvzfVpPs9hU_A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] wayland/weston/libinput: Upgrade to 1.6.0 -> 1.8.0
+	Wed,  3 Jun 2015 18:08:55 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 03 Jun 2015 11:08:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,548,1427785200"; d="scan'208";a="581512552"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
+	by orsmga003.jf.intel.com with ESMTP; 03 Jun 2015 11:08:56 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	jurobystricky@hotmail.com
+Date: Wed,  3 Jun 2015 11:07:22 -0700
+Message-Id: <1433354849-16843-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/7] Support for VirtualBox VDI image format.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +28,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jun 2015 18:08:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Jun 2015 18:08:56 -0000
 
-On Wed, Jun 3, 2015 at 10:09 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 3 June 2015 at 17:41, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> Use git for repo for SRC_URI
->>
->> copyright year changed for weston compositor.c
->>
->> - * Copyright =C2=A9 2012 Collabora, Ltd.
->> + * Copyright =C2=A9 2012-2014 Collabora, Ltd.
->>
->> libinput license changes are
->> - COPYING: note that having linux/input.h in the tree does not make
->> libinput GPL
->> - Updated to 2015 where appropriate, added where missing.
->> - filter: add Simon's copyright
->>   This code was largely lifted from the X server in
->>   bb25b2ad297891430606c367bfabc but didn't take the copyright messages
->>   that applied to that code.
->>
->> upgrade libinput to > 0.8.0 (0.16.0) which is needed for 1.7.0+ wayland
->> For x86 emulators use fbdev backend
->>
->> Change-Id: I49c12853699a3a764d86869ec4d43b10ecda3379
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
->
-> Please split this into three patches.
+This series of patches implements support for VirtualBox VDI images.
+Instead of a new VDI only class a new class image-vm.bbclass
+was created. This class replaces the previously existing image-vmdk
+class and now supports both VM image formats: VMDK and VDI.
 
-They are interdependent thats why they are together. Splitting wont
-get us anything moreover it will break git bisect
+Generally, VMDK and VDI treatment is mostly identical. Both images are
+created by qemu from hdddirect image. However, VDI images need UUID to
+boot, so qemu has to be built with UUID support.
 
->
-> Ross
+Both VDI and VMDK images can be built simultaneously, as demonstrated
+by the recipe core-image-minimal-vms.bb
+
+
+[YOCTO #7374]
+
+
+Juro Bystricky (7):
+  image: Support for VDI
+  qemu: Add support for UUID
+  documentation.conf: Document do_vmimg
+  sanity.bbclass: Prevent 'vdi' and 'live' to be built together
+  boot-direct.bbclass: Add support for VDI images
+  build-appliance-image: do_vmdkimg replaced by do_vmimg
+  core-image-minimal-vms: new recipe to build images for VM
+
+ meta/classes/boot-directdisk.bbclass               |  4 +--
+ meta/classes/image-vm.bbclass                      | 38 ++++++++++++++++++++++
+ meta/classes/image-vmdk.bbclass                    | 35 --------------------
+ meta/classes/image.bbclass                         |  6 ++--
+ meta/classes/image_types.bbclass                   |  5 +--
+ meta/classes/sanity.bbclass                        |  5 +++
+ meta/conf/documentation.conf                       |  2 +-
+ meta/lib/oe/image.py                               |  4 +--
+ .../images/build-appliance-image_12.0.1.bb         |  2 +-
+ meta/recipes-core/images/core-image-minimal-vms.bb | 12 +++++++
+ meta/recipes-devtools/qemu/qemu.inc                |  2 +-
+ 11 files changed, 68 insertions(+), 47 deletions(-)
+ create mode 100644 meta/classes/image-vm.bbclass
+ delete mode 100644 meta/classes/image-vmdk.bbclass
+ create mode 100644 meta/recipes-core/images/core-image-minimal-vms.bb
+
+-- 
+1.9.1
+
 
