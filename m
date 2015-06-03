@@ -1,23 +1,23 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BA8734B8
+	by mail.openembedded.org (Postfix) with ESMTP id DC2EE601DF
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  3 Jun 2015 18:08:56 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jun 2015 11:08:57 -0700
+	by orsmga102.jf.intel.com with ESMTP; 03 Jun 2015 11:08:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,548,1427785200"; d="scan'208";a="581512566"
+X-IronPort-AV: E=Sophos;i="5.13,548,1427785200"; d="scan'208";a="581512576"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga003.jf.intel.com with ESMTP; 03 Jun 2015 11:08:58 -0700
+	by orsmga003.jf.intel.com with ESMTP; 03 Jun 2015 11:08:59 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	jurobystricky@hotmail.com
-Date: Wed,  3 Jun 2015 11:07:24 -0700
-Message-Id: <1433354849-16843-3-git-send-email-juro.bystricky@intel.com>
+Date: Wed,  3 Jun 2015 11:07:25 -0700
+Message-Id: <1433354849-16843-4-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1433354849-16843-1-git-send-email-juro.bystricky@intel.com>
 References: <1433354849-16843-1-git-send-email-juro.bystricky@intel.com>
-Subject: [PATCH 2/7] qemu: Add support for UUID
+Subject: [PATCH 3/7] documentation.conf: Document do_vmimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +32,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Jun 2015 18:08:56 -0000
 
-Native qemu is used to to create VMDK and VDI images.
-VDI images need support for UUID, otherwise the resulting
-image will not boot.
+Changes due to new combined support for both vmdk and vdi files.
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ meta/conf/documentation.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 4274b25..ca94fb2 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -90,7 +90,7 @@ PACKAGECONFIG ??= " \
- 	fdt sdl alsa \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen', '', d)} \
- 	"
--PACKAGECONFIG_class-native ??= "fdt alsa"
-+PACKAGECONFIG_class-native ??= "fdt alsa uuid"
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
- NATIVEDEPS = ""
- NATIVEDEPS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxext-native', '',d)}"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 3a918e8..bd34c99 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -57,7 +57,7 @@ do_testsdk[doc] = "Installs an SDK and performs runtime tests on the tools insta
+ do_uboot_mkimage[doc] = "Creates a uImage file from the kernel for the U-Boot bootloader"
+ do_unpack[doc] = "Unpacks the source code into a working directory"
+ do_validate_branches[doc] = "Ensures that the source/meta branches are on the locations specified by their SRCREV values for a linux-yocto style kernel"
+-do_vmdkimg[doc] = "Creates a .vmdk image for use with VMware and compatible virtual machine hosts"
++do_vmimg[doc] = "Creates an image for use with VMware or VirtualBox compatible virtual machine hosts (based on IMAGE_FSTYPES either .vmdk or .vdi)"
+ 
+ # DESCRIPTIONS FOR VARIABLES #
+ 
 -- 
 1.9.1
 
